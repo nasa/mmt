@@ -1,9 +1,9 @@
 class WelcomeController < ApplicationController
   include ProviderHoldings
 
-  skip_before_filter :is_logged_in, :setup_query
+  skip_before_action :is_logged_in, :setup_query
 
-  before_filter :redirect_if_logged_in
+  before_action :redirect_if_logged_in
 
   # Skip all filters for status
   skip_filter *_process_action_callbacks.map(&:filter), only: [:status]

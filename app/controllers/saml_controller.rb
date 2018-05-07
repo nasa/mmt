@@ -63,7 +63,7 @@ class SamlController < UsersController
       # session[:email] = attributes[:email]
       # TODO need to verify and set what other session info is needed
 
-      redirect_from_urs
+      redirect_after_login
     else
       @errors = @response.errors
 

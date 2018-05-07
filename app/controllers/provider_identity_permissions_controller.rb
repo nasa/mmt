@@ -1,7 +1,7 @@
 class ProviderIdentityPermissionsController < ManageCmrController
   include PermissionManagement
 
-  before_filter :redirect_unless_current_provider_acl_admin, only: [:index, :edit, :update]
+  before_action :redirect_unless_current_provider_acl_admin, only: [:index, :edit, :update]
 
   add_breadcrumb 'Provider Object Permissions', :provider_identity_permissions_path
 

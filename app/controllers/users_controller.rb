@@ -2,15 +2,19 @@
 class UsersController < ApplicationController
   include ProviderContextRedirector
 
-  skip_before_filter :is_logged_in, except: [:set_provider, :refresh_providers]
-  skip_before_filter :setup_query
-  skip_before_filter :provider_set?
+  skip_before_action :is_logged_in, except: [:set_provider, :refresh_providers]
+  skip_before_action :setup_query
+  skip_before_action :provider_set?
 
   def login
     session[:last_point] = request.referrer
     session[:last_point] = params[:next_point] if params[:next_point]
 
-    redirect_to cmr_client.urs_login_path
+    if urs_login_required?
+      redirect_to cmr_client.urs_login_path
+    else
+      redirect_to root_url
+    end
   end
 
   def logout
@@ -22,8 +26,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def provider_context
-  end
+  def provider_context; end
 
   def set_provider
     # Clear the currently set provider context token incase the call to create

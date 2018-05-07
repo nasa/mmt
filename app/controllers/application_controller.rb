@@ -7,12 +7,23 @@ class ApplicationController < ActionController::Base
 
   before_action :is_logged_in
   before_action :setup_query
-  before_action :refresh_urs_if_needed, except: [:logout, :refresh_token]
+  before_action :refresh_urs_if_needed, except: [:logout, :refresh_token] # URS login
   before_action :provider_set?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   protected
+
+  # Seconds ahead of the token expiration that the server should
+  # attempt to refresh the token
+  SERVER_EXPIRATION_OFFSET_S = 60
+  # For testing, token expires after 10 seconds
+  # SERVER_EXPIRATION_OFFSET_S = 3590
+
+  def urs_login_required?
+    ENV['urs_login_required'] == 'true'
+  end
+  helper_method :urs_login_required?
 
   # By default Pundit calls the current_user method during authorization
   # but for our calls to the CMR ACL we need user information as well as
@@ -20,39 +31,6 @@ class ApplicationController < ActionController::Base
   # retrieve the authenticated user but also to their token
   def pundit_user
     UserContext.new(current_user, token)
-  end
-
-  def groups_enabled?
-    redirect_to manage_collections_path unless Rails.configuration.groups_enabled
-  end
-
-  def bulk_updates_enabled?
-    redirect_to manage_collections_path unless Rails.configuration.bulk_updates_enabled
-  end
-
-  def umm_s_enabled?
-    redirect_to manage_collections_path unless Rails.configuration.umm_s_enabled
-  end
-
-  def setup_query
-    @query ||= {}
-    providers_response = cmr_client.get_providers
-    @provider_ids ||= if providers_response.success?
-                        providers_response.body.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
-                      else
-                        Rails.logger.error("Error retrieving providers in `setup_query`: #{providers_response.inspect}")
-                        []
-                      end
-  end
-
-  def redirect_from_urs
-    return_to = session[:return_to]
-    session[:return_to] = nil
-
-    last_point = session[:last_point]
-    session[:last_point] = nil
-
-    redirect_to return_to || last_point || manage_collections_path
   end
 
   def cmr_client
@@ -65,23 +43,15 @@ class ApplicationController < ActionController::Base
   end
   helper_method :echo_client
 
-  def edsc_map_path
-    service_configs = Rails.configuration.services
-    edsc_root = service_configs['earthdata'][Rails.configuration.cmr_env]['edsc_root']
-    "#{edsc_root}/search/map"
-  end
-  helper_method :edsc_map_path
-
-  def store_oauth_token(json = {})
-    session[:access_token] = json['access_token']
-    session[:refresh_token] = json['refresh_token']
-    session[:expires_in] = json['expires_in']
-    session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
-    session[:endpoint] = json['endpoint']
-  end
-
-  def authenticated_urs_uid
-    session[:urs_uid]
+  def setup_query
+    @query ||= {}
+    providers_response = cmr_client.get_providers
+    @provider_ids ||= if providers_response.success?
+                        providers_response.body.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
+                      else
+                        Rails.logger.error("Error retrieving providers in `setup_query`: #{providers_response.inspect}")
+                        []
+                      end
   end
 
   def current_user
@@ -99,7 +69,18 @@ class ApplicationController < ActionController::Base
   end
   helper_method :available_provider?
 
+  def provider_set?
+    if logged_in? && current_user.provider_id.nil?
+      redirect_to provider_context_path
+    end
+  end
+
   def store_profile(profile = {})
+    # URS login
+
+    # TODO remove this comment with Launchpad feature toggle ticket
+    # this method should be able to be used for both urs and launchpad login as we should
+    # be receiving the same user information from URS (but from different calls)
     uid = session['endpoint'].split('/').last if session['endpoint']
 
     session[:name] = profile['first_name'].nil? ? uid : "#{profile['first_name']} #{profile['last_name']}"
@@ -122,11 +103,66 @@ class ApplicationController < ActionController::Base
     return if current_user.echo_id.nil?
   end
 
+  def store_oauth_token(json = {})
+    # URS login
+    session[:access_token] = json['access_token']
+    session[:refresh_token] = json['refresh_token']
+    session[:expires_in] = json['expires_in']
+    session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
+    session[:endpoint] = json['endpoint']
+  end
+
+  def logged_in?
+    if urs_login_required?
+      is_user_logged_in = session[:access_token].present? &&
+                          session[:refresh_token].present? &&
+                          session[:expires_in].present? &&
+                          session[:logged_in_at].present?
+
+      store_oauth_token unless is_user_logged_in # clear session time and token values if user is not logged in
+      is_user_logged_in
+    end
+
+  end
+
+  def is_logged_in
+    if !urs_login_required? # && !launchpad_login_required?
+      # TODO this should only happen if URS login AND Launchpad login are both turned off (which should not happen)
+
+      redirect_to root_url, flash: { error: "An error has occurred with our login system. Please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
+    end
+
+    if urs_login_required?
+      Rails.logger.info("Access Token: #{token}") if Rails.env.development?
+      session[:return_to] = request.fullpath
+
+      return true if logged_in?
+      redirect_to login_path
+    end
+  end
+  helper_method :is_logged_in
+
+  def logged_in_at
+    session[:logged_in_at].nil? ? 0 : session[:logged_in_at]
+  end
+
+  def expires_in
+    (logged_in_at + session[:expires_in]) - Time.now.to_i
+  end
+
+  def server_session_expires_in
+    logged_in? ? (expires_in - SERVER_EXPIRATION_OFFSET_S).to_i : 0
+  end
+
   def refresh_urs_if_needed
-    refresh_urs_token if logged_in? && server_session_expires_in < 0
+    # URS login
+    if urs_login_required?
+      refresh_urs_token if logged_in? && server_session_expires_in < 0
+    end
   end
 
   def refresh_urs_token
+    # URS login
     response = cmr_client.refresh_token(session[:refresh_token])
     return nil unless response.success?
 
@@ -142,27 +178,12 @@ class ApplicationController < ActionController::Base
     json
   end
 
-  def provider_set?
-    if logged_in? && current_user.provider_id.nil?
-      redirect_to provider_context_path
+  def token
+    if urs_login_required?
+      session[:access_token]
     end
   end
-
-  def set_provider_context_token
-    session[:echo_provider_token] = echo_client.get_provider_context_token(token_with_client_id, behalfOfProvider: current_user.provider_id).parsed_body
-  end
-
-  def token
-    session[:access_token]
-  end
   helper_method :token
-
-  def echo_provider_token
-    set_provider_context_token if session[:echo_provider_token].nil?
-
-    session[:echo_provider_token]
-  end
-  helper_method :echo_provider_token
 
   def token_with_client_id
     if Rails.env.development? && params[:controller] == 'collections' && params[:action] == 'show'
@@ -178,172 +199,39 @@ class ApplicationController < ActionController::Base
   end
   helper_method :token_with_client_id
 
-  def logged_in?
-    is_user_logged_in = session[:access_token].present? &&
-                        session[:refresh_token].present? &&
-                        session[:expires_in].present? &&
-                        session[:logged_in_at].present?
+  def echo_provider_token
+    set_provider_context_token if session[:echo_provider_token].nil?
 
-    store_oauth_token unless is_user_logged_in
-    is_user_logged_in
+    session[:echo_provider_token]
   end
+  helper_method :echo_provider_token
 
-  def is_logged_in
-    Rails.logger.info("Access Token: #{session[:access_token]}") if Rails.env.development?
-    session[:return_to] = request.fullpath
+  def redirect_after_login
+    return_to = session[:return_to]
+    session[:return_to] = nil
 
-    return true if logged_in?
-    redirect_to login_path
-  end
-  helper_method :is_logged_in
+    last_point = session[:last_point]
+    session[:last_point] = nil
 
-  def logged_in_at
-    session[:logged_in_at].nil? ? 0 : session[:logged_in_at]
-  end
-
-  def expires_in
-    (logged_in_at + session[:expires_in]) - Time.now.to_i
-  end
-
-  # Seconds ahead of the token expiration that the server should
-  # attempt to refresh the token
-  SERVER_EXPIRATION_OFFSET_S = 60
-  # For testing, token expires after 10 seconds
-  # SERVER_EXPIRATION_OFFSET_S = 3590
-
-  def server_session_expires_in
-    logged_in? ? (expires_in - SERVER_EXPIRATION_OFFSET_S).to_i : 0
-  end
-
-  URI_REGEX = %r{^(?:[A-Za-z][A-Za-z0-9+\-.]*:(?:\/\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\.[A-Za-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\?(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?(?:\#(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?|(?:\/\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\.[A-Za-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*)(?::[0-9]*)?(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|\/(?:(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?|(?:[A-Za-z0-9\-._~!$&'()*+,;=@]|%[0-9A-Fa-f]{2})+(?:\/(?:[A-Za-z0-9\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*|)(?:\?(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?(?:\#(?:[A-Za-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9A-Fa-f]{2})*)?)$}
-
-  DATE_TIME_REGEX = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{2,3}([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/
-
-  def generate_ingest_errors(response)
-    errors = response.errors
-    request_id = response.cmr_request_header
-
-    if errors.empty?
-      [{
-        page: nil,
-        field: nil,
-        error: 'An unknown error caused publishing to fail.',
-        request_id: request_id
-      }]
-    else
-      errors.map do |error|
-        path = error['path'].nil? ? [nil] : Array.wrap(error['path'])
-        error = error['errors'].nil? ? error : error['errors'].first
-
-        # only show the feedback module link if the error is 500
-        request_id = nil unless response.status == 500
-        {
-          field: path.last,
-          top_field: path.first,
-          page: get_page(path),
-          error: error,
-          request_id: request_id
-        }
-      end
-    end
-  end
-
-  ACQUISITION_INFORMATION_FIELDS = %w(
-    Platforms
-    Projects
-  )
-  COLLECTION_INFORMATION_FIELDS = %w(
-    ShortName
-    Version
-    VersionDescription
-    EntryTitle
-    Abstract
-    Purpose
-    DataLanguage
-  )
-  COLLECTION_CITATIONS_FIELDS = %w(
-    CollectionCitations
-    DOI
-  )
-  DATA_IDENTIFICATION_FIELDS = %w(
-    DataDates
-    CollectionDataType
-    ProcessingLevel
-    CollectionProgress
-    Quality
-    UseConstraints
-    AccessConstraints
-    MetadataAssociations
-    PublicationReferences
-  )
-  DESCRIPTIVE_KEYWORDS_FIELDS = %w(
-    ISOTopicCategories
-    ScienceKeywords
-    AncillaryKeywords
-    AdditionalAttributes
-  )
-  RELATED_URL_FIELDS = %w(
-    RelatedUrls
-  )
-  METADATA_INFORMATION_FIELDS = %w(
-    MetadataLanguage
-    MetadataDates
-  )
-  DATA_CENTERS_FIELDS = %w(
-    DataCenters
-  )
-  DATA_CONTACTS_FIELDS = %w(
-    DataContacts
-  )
-  SPATIAL_INFORMATION_FIELDS = %w(
-    SpatialExtent
-    TilingIdentificationSystem
-    SpatialInformation
-    LocationKeywords
-  )
-  TEMPORAL_INFORMATION_FIELDS = %w(
-    TemporalExtents
-    TemporalKeywords
-    PaleoTemporalCoverages
-  )
-
-  def get_page(fields)
-    # for path in generate_ingest_errors
-    return nil if fields.nil?
-    # for field in generate_show_errors
-    if ACQUISITION_INFORMATION_FIELDS.include? fields.first
-      'acquisition_information'
-    elsif COLLECTION_INFORMATION_FIELDS.include? fields.first
-      'collection_information'
-    elsif COLLECTION_CITATIONS_FIELDS.include? fields.first
-      'collection_citations'
-    elsif DATA_IDENTIFICATION_FIELDS.include? fields.first
-      'data_identification'
-    elsif DESCRIPTIVE_KEYWORDS_FIELDS.include? fields.first
-      'descriptive_keywords'
-    elsif RELATED_URL_FIELDS.include? fields.first
-      'related_urls'
-    elsif METADATA_INFORMATION_FIELDS.include? fields.first
-      'metadata_information'
-    elsif fields.include?('ContactPersons' || 'ContactGroups') # DATA_CONTACTS
-      'data_contacts'
-    elsif DATA_CENTERS_FIELDS.include? fields.first
-      'data_centers'
-    elsif SPATIAL_INFORMATION_FIELDS.include? fields.first
-      'spatial_information'
-    elsif TEMPORAL_INFORMATION_FIELDS.include? fields.first
-      'temporal_information'
-    end
+    redirect_to return_to || last_point || manage_collections_path
   end
 
   private
 
-  # Custom error messaging for Pundit
-  def user_not_authorized(exception)
-    policy_name = exception.policy.class.to_s.underscore
+  def groups_enabled?
+    redirect_to manage_collections_path unless Rails.configuration.groups_enabled
+  end
 
-    flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
-    redirect_to(request.referrer || manage_collections_path)
+  def bulk_updates_enabled?
+    redirect_to manage_collections_path unless Rails.configuration.bulk_updates_enabled
+  end
+
+  def umm_s_enabled?
+    redirect_to manage_collections_path unless Rails.configuration.umm_s_enabled
+  end
+
+  def authenticated_urs_uid
+    session[:urs_uid]
   end
 
   def get_user_info
@@ -351,5 +239,17 @@ class ApplicationController < ActionController::Base
     user[:name] = session[:name]
     user[:email] = session[:email_address]
     user
+  end
+
+  def set_provider_context_token
+    session[:echo_provider_token] = echo_client.get_provider_context_token(token_with_client_id, behalfOfProvider: current_user.provider_id).parsed_body
+  end
+
+  # Custom error messaging for Pundit
+  def user_not_authorized(exception)
+    policy_name = exception.policy.class.to_s.underscore
+
+    flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
+    redirect_to(request.referrer || manage_collections_path)
   end
 end

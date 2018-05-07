@@ -1,8 +1,9 @@
 class OauthTokensController < ApplicationController
-  skip_before_filter :is_logged_in
-  skip_before_filter :setup_query
+  skip_before_action :is_logged_in
+  skip_before_action :setup_query
 
   def urs_callback
+    # URS login
     if params[:code]
       # Ask CMR for an access token
       response = cmr_client.get_oauth_tokens(params[:code])
@@ -14,6 +15,7 @@ class OauthTokensController < ApplicationController
 
         # Retreive profile details for the provided token
         profile_response = cmr_client.get_profile(response.body['endpoint'], response.body['access_token'])
+
         profile = if profile_response.success?
                     profile_response.body
                   else
@@ -34,6 +36,6 @@ class OauthTokensController < ApplicationController
     end
 
     # Redirects the user to an appropriate location
-    redirect_from_urs
+    redirect_after_login
   end
 end
