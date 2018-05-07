@@ -1,7 +1,9 @@
 
-## Configure environment to run MMT over HTTPS locally, to be able to authenticate with Launchpad
+## Configure environment to run MMT over HTTPS locally, to be able to authenticate with Launchpad ##
 
-When running MMT with Launchpad Authentication, MMT should be configured to run at https://mmt.localtest.earthdata.nasa.gov. The url will need to be configured to redirect to `localhost:4000`:
+### Nginx ###
+
+When running MMT with Launchpad Authentication, MMT should be configured to run at `https://mmt.localtest.earthdata.nasa.gov`. The url will need to be configured to redirect to `localhost:3000`:
 
   1. Modify `/etc/hosts`
     Append 'mmt.localtest.earthdata.nasa.gov' to the 127.0.0.1 localhost line
@@ -19,6 +21,7 @@ When running MMT with Launchpad Authentication, MMT should be configured to run 
         sudo nano mmt.localtest.earthdata.nasa.gov.conf
 
       Paste the following into the configuration file:
+     
       ```
       [ req ]
       default_bits        = 2048
@@ -59,19 +62,18 @@ When running MMT with Launchpad Authentication, MMT should be configured to run 
 
       [ alternate_names ]
       DNS.1   = mmt.localtest.earthdata.nasa.gov
-      DNS.2   = localhost:4000
+      DNS.2   = localhost:3000
       ```
 
     b. Create the self signed Certificate
 
-      openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /usr/local/etc/nginx/mmt.localtest.earthdata.nasa.gov.key -out /usr/local/etc/nginx/mmt.localtest.earthdata.nasa.gov.crt
+    `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /usr/local/etc/nginx/mmt.localtest.earthdata.nasa.gov.key -out /usr/local/etc/nginx/mmt.localtest.earthdata.nasa.gov.crt`
 
     when prompted with questions for the certificate, leave them blank so information from the configuration file will be used by default
 
     c. Copy the Certificate Key Pair to the nginx folder
 
         sudo cp mmt.localtest.earthdata.nasa.gov.crt /usr/local/etc/nginx/mmt.localtest.earthdata.nasa.gov.crt
-
         sudo cp mmt.localtest.earthdata.nasa.gov.key /usr/local/etc/nginx/mmt.localtest.earthdata.nasa.gov.key
 
   4. Add the certificate to Mac OSX Keychain
@@ -106,7 +108,7 @@ When running MMT with Launchpad Authentication, MMT should be configured to run 
         root html;
         index index.html index.htm;
 
-        proxy_pass http://mmt.localtest.earthdata.nasa.gov:4000;
+        proxy_pass http://mmt.localtest.earthdata.nasa.gov:3000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -122,15 +124,75 @@ When running MMT with Launchpad Authentication, MMT should be configured to run 
 
   7. Run the rails server on the appropriate port:
 
-      rails s -p 4000
+      rails s -p 3000
 
 And if you need to stop the server from running, hit `Ctrl + C` and the server will shutdown.
 
-You should be able to visit MMT at http://localhost:4000 which will redirect you to Launchpad for authentication and back to the https url you added
+You should be able to visit MMT at http://localhost:3000 which will redirect you to Launchpad for authentication and back to the https url you added
+
+----
+
+### Apache ###
+
+Setting up under Apache is much the same as under Nginx. The examples below use the paths as found under a standard Mac system. The primary reason to use Apache is that it already comes with the Mac, less to install. Changes as needed.  First create HTTPS certs as described in the Nginx section or in any way you can. Put these files in `/private/etc/apache2/ssl/` as shown in the `httpd-ssl.conf` setting below.
+
+#### Files ####
+
+The following files will need to be changed: /etc/hosts, /etc/apache2/httpd.conf, /etc/apache2/extra/httpd-ssl.conf, /etc/apache2/extra/httpd-vhosts.conf
+
+##### /etc/hosts #####
+
+Add an alias of localhost to the host file. This will enable you to enter the URL in the browser.
+
+    127.0.0.1       localhost       mmt.localtest.earthdata.nasa.gov
+    
+Note, on some operating systems, you should make this change while *not* on a VPN. This file is sometimes swapped out meaning your changes will be lost.
+
+##### /etc/apache2/httpd.conf #####
+
+Enable HTTPS and mod_proxy for forwarding to rails. The config file should contain the following lines:
+	
+    ...
+    LoadModule proxy_module libexec/apache2/mod_proxy.so
+    LoadModule proxy_http_module libexec/apache2/mod_proxy_http.s
+    LoadModule ssl_module libexec/apache2/mod_ssl.so
+    ServerName mmt.localtest.earthdata.nasa.gov
+    Include /private/etc/apache2/extra/httpd-vhosts.conf
+    Include /private/etc/apache2/extra/httpd-ssl.conf
+    ...
+
+##### /etc/apache2/extra/httpd-ssl.conf #####
+
+Configure HTTPS by making sure the file has the following settings in the default Virtual Host block. This setting defines the default mappings, and may be the only one you need if your not hosting multiple sites on the same development server.
+
+    <VirtualHost _default_:443>
+		...
+		ServerName mmt.localtest.earthdata.nasa.gov:443
+		SSLEngine on
+		SSLCertificateFile "/private/etc/apache2/ssl/mmt.localtest.earthdata.nasa.gov.crt"
+		SSLCertificateKeyFile "/private/etc/apache2/ssl/mmt.localtest.earthdata.nasa.gov.key"
+		ProxyPass / http://127.0.0.1:3000	
+		...
+	</VirtualHost>
+
+##### /etc/apache2/extra/httpd-vhosts.conf #####
+Add an entry to the vhost file for the site and use ProxyPass to send the request to rails.
+
+    <VirtualHost *:443>
+		ServerName mmt.localtest.earthdata.nasa.gov
+
+		SSLEngine on
+		SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
+		SSLCertificateFile /etc/apache2/ssl/mmt.localtest.earthdata.nasa.gov.crt
+		SSLCertificateKeyFile /etc/apache2/ssl/mmt.localtest.earthdata.nasa.gov.key
+
+		ProxyPass / http://127.0.0.1:3000/
+		ProxyPassReverse / http://mmt.localtest.earthdata.nasa.gov/
+	</VirtualHost>
 
 
-##### References for these instructions:
-[Earthdata Status App Readme instructions | https://git.earthdata.nasa.gov/projects/DOWN/repos/downtime-monitor/browse]
-[Earthdata EDP SAML instructions | https://wiki.earthdata.nasa.gov/display/EDDEV/Test+EDP+SAML+locally]
-https://deliciousbrains.com/https-locally-without-browser-privacy-errors/
-https://www.humankode.com/ssl/create-a-selfsigned-certificate-for-nginx-in-5-minutes
+##### References for these instructions #####
+* [Earthdata Status App Readme instructions | https://git.earthdata.nasa.gov/projects/DOWN/repos/downtime-monitor/browse]
+* [Earthdata EDP SAML instructions | https://wiki.earthdata.nasa.gov/display/EDDEV/Test+EDP+SAML+locally]
+* https://deliciousbrains.com/https-locally-without-browser-privacy-errors/
+* https://www.humankode.com/ssl/create-a-selfsigned-certificate-for-nginx-in-5-minutes
