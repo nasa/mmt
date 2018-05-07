@@ -10,5 +10,9 @@
     setupScienceKeywords(<%= raw @science_keywords.to_json %>, { field_prefix: '<%= resource_name %>/draft' });
   <% end %>
 
-  var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
+  <% if controller_name == 'service_drafts' %>
+    var urlContentTypeMap = <%= raw DraftsHelper::UMMSURLContentTypeMap.to_json %>;
+  <% else %>
+    var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
+  <% end %>
 </script>
