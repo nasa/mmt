@@ -1,7 +1,7 @@
 class SystemIdentityPermissionsController < ManageCmrController
   include PermissionManagement
 
-  before_filter :redirect_unless_system_acl_admin, only: [:index, :edit, :update]
+  before_action :redirect_unless_system_acl_admin, only: [:index, :edit, :update]
 
   add_breadcrumb 'System Object Permissions', :system_identity_permissions_path
 

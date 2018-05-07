@@ -2,7 +2,7 @@
 class BulkUpdatesController < ManageCollectionsController
   include BulkUpdates
   include ControlledKeywords
-  before_filter :bulk_updates_enabled?
+  before_action :bulk_updates_enabled?
 
   add_breadcrumb 'Bulk Updates', :bulk_updates_path
 

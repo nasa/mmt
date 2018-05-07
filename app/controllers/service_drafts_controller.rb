@@ -1,7 +1,7 @@
 # :nodoc:
 class ServiceDraftsController < BaseDraftsController
   include ControlledKeywords
-  before_filter :umm_s_enabled?
+  before_action :umm_s_enabled?
 
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
   before_action :set_schema, only: [:show, :new, :edit, :update, :create]

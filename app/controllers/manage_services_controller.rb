@@ -1,6 +1,6 @@
 # :nodoc:
 class ManageServicesController < ManageMetadataController
-  before_filter :umm_s_enabled?
+  before_action :umm_s_enabled?
 
   def show
     # If you change this number you must also change it in the corresponding test file - features/manage_metadata/open_drafts_spec.rb.

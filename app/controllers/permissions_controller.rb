@@ -3,7 +3,7 @@ class PermissionsController < ManageCmrController
   include PermissionManagement
   include GroupsHelper
 
-  before_filter :groups_for_permissions, only: [:new, :edit, :update, :create]
+  before_action :groups_for_permissions, only: [:new, :edit, :update, :create]
 
   add_breadcrumb 'Collection Permissions', :permissions_path
 

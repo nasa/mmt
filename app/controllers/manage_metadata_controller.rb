@@ -2,6 +2,31 @@
 class ManageMetadataController < ApplicationController
   include ManageMetadataHelper
 
+  protected
+
+  # helper methods used by published record controller methods ensuring a user
+  # has the appropriate provider context set
+  def set_record_action
+    @record_action =  case
+                      when request.original_url.include?('edit')
+                        'edit'
+                      when request.original_url.include?('delete')
+                        'delete'
+                      when request.original_url.include?('clone')
+                        'clone'
+                      when request.original_url.include?('revert')
+                        'revert'
+                      end
+  end
+
+  def set_user_permissions
+    @user_permissions = if available_provider?(@provider_id)
+                          'wrong_provider'
+                        else
+                          'none'
+                        end
+  end
+
   def set_variable
     @concept_id = params[:variable_id] || params[:id]
     @revision_id = params[:revision_id]
@@ -108,26 +133,61 @@ class ManageMetadataController < ApplicationController
     end
   end
 
-  # helper methods used by published record controller methods ensuring a user
-  # has the appropriate provider context set
-  def set_record_action
-    @record_action =  case
-                      when request.original_url.include?('edit')
-                        'edit'
-                      when request.original_url.include?('delete')
-                        'delete'
-                      when request.original_url.include?('clone')
-                        'clone'
-                      when request.original_url.include?('revert')
-                        'revert'
-                      end
+  def generate_ingest_errors(response)
+    errors = response.errors
+    request_id = response.cmr_request_header
+
+    if errors.empty?
+      [{
+        page: nil,
+        field: nil,
+        error: 'An unknown error caused publishing to fail.',
+        request_id: request_id
+      }]
+    else
+      errors.map do |error|
+        path = error['path'].nil? ? [nil] : Array.wrap(error['path'])
+        error = error['errors'].nil? ? error : error['errors'].first
+
+        # only show the feedback module link if the error is 500
+        request_id = nil unless response.status == 500
+        {
+          field: path.last,
+          top_field: path.first,
+          page: get_page(path),
+          error: error,
+          request_id: request_id
+        }
+      end
+    end
   end
 
-  def set_user_permissions
-    @user_permissions = if available_provider?(@provider_id)
-                          'wrong_provider'
-                        else
-                          'none'
-                        end
+  def get_page(fields)
+    # for path in generate_ingest_errors
+    return nil if fields.nil?
+    # for field in generate_show_errors
+    if ACQUISITION_INFORMATION_FIELDS.include? fields.first
+      'acquisition_information'
+    elsif COLLECTION_INFORMATION_FIELDS.include? fields.first
+      'collection_information'
+    elsif COLLECTION_CITATIONS_FIELDS.include? fields.first
+      'collection_citations'
+    elsif DATA_IDENTIFICATION_FIELDS.include? fields.first
+      'data_identification'
+    elsif DESCRIPTIVE_KEYWORDS_FIELDS.include? fields.first
+      'descriptive_keywords'
+    elsif RELATED_URL_FIELDS.include? fields.first
+      'related_urls'
+    elsif METADATA_INFORMATION_FIELDS.include? fields.first
+      'metadata_information'
+    elsif fields.include?('ContactPersons' || 'ContactGroups') # DATA_CONTACTS
+      'data_contacts'
+    elsif DATA_CENTERS_FIELDS.include? fields.first
+      'data_centers'
+    elsif SPATIAL_INFORMATION_FIELDS.include? fields.first
+      'spatial_information'
+    elsif TEMPORAL_INFORMATION_FIELDS.include? fields.first
+      'temporal_information'
+    end
   end
 end
