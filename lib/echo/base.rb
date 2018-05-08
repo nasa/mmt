@@ -14,6 +14,8 @@ module Echo
         conn.use FaradayMiddleware::FollowRedirects
         conn.use :instrumentation
 
+        conn.options[:timeout] = 300
+
         conn.adapter Faraday.default_adapter
       end
     end
@@ -25,7 +27,6 @@ module Echo
       response = connection.post do |req|
         req.headers['Content-Type'] = 'text/xml'
         req.body = body
-        req.options.timeout = 300
       end
 
       echo_response = Echo::Response.new(response)

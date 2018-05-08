@@ -46,8 +46,6 @@ module Cmr
           req.headers[header] = value
         end
         req.body = body unless body.blank?
-
-        req.options.timeout = 300
       end
       client_response = Cmr::Response.new(faraday_response)
 
@@ -87,6 +85,8 @@ module Cmr
         conn.response :json, content_type: /\bjson$/
         # conn.response :xml, content_type: /\bxml$/
         conn.response :errors, content_type: /\bhtml$/
+
+        conn.options[:timeout] = 300
 
         conn.adapter Faraday.default_adapter
       end
