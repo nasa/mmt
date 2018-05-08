@@ -128,6 +128,7 @@ class ApplicationController < ActionController::Base
   def is_logged_in
     if !urs_login_required? # && !launchpad_login_required?
       # TODO this should only happen if URS login AND Launchpad login are both turned off (which should not happen)
+      Rails.logger.error('An error has occured. Both URS and Launchpad feature toggle environment variables seem to have been turned off. Please check urs_login_required and launchpad_login_required')
 
       redirect_to root_url, flash: { error: "An error has occurred with our login system. Please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
     end

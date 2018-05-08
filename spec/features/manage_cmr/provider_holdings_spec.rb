@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Manage CMR provider holdings', reset_provider: true, js: true do
+describe 'Manage CMR provider holdings', js: true do
   before do
     login
   end
