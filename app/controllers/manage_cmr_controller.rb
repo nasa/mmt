@@ -8,7 +8,7 @@ class ManageCmrController < ApplicationController
   before_filter :groups_enabled?
 
   # These are json respones for ajax calls that user wouldnt get to without being logged in.
-  skip_before_filter :is_logged_in, only: [
+  skip_before_action :ensure_authenticated, only: [
     :provider_collections,
     :service_implementations_with_datasets,
     :datasets_for_service_implementation

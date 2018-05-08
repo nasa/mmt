@@ -5,9 +5,10 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
 
-  before_action :is_logged_in
+  # verify authentication for Launchpad
+  before_action :ensure_authenticated, except:[:is_logged_in, :require_launchpad_authorization]
+
   before_action :setup_query
-  before_action :refresh_urs_if_needed, except: [:logout, :refresh_token]
   before_action :provider_set?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -45,16 +46,6 @@ class ApplicationController < ActionController::Base
                       end
   end
 
-  def redirect_from_urs
-    return_to = session[:return_to]
-    session[:return_to] = nil
-
-    last_point = session[:last_point]
-    session[:last_point] = nil
-
-    redirect_to return_to || last_point || manage_collections_path
-  end
-
   def cmr_client
     @cmr_client ||= Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
   end
@@ -71,14 +62,6 @@ class ApplicationController < ActionController::Base
     "#{edsc_root}/search/map"
   end
   helper_method :edsc_map_path
-
-  def store_oauth_token(json = {})
-    session[:access_token] = json['access_token']
-    session[:refresh_token] = json['refresh_token']
-    session[:expires_in] = json['expires_in']
-    session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
-    session[:endpoint] = json['endpoint']
-  end
 
   def authenticated_urs_uid
     session[:urs_uid]
@@ -99,6 +82,29 @@ class ApplicationController < ActionController::Base
   end
   helper_method :available_provider?
 
+  def redirect_from_urs
+    return_to = session[:return_to]
+    session[:return_to] = nil
+
+    last_point = session[:last_point]
+    session[:last_point] = nil
+
+    redirect_to return_to || last_point || manage_collections_path
+  end
+
+  def capture_intended_path
+    # session[:last_point] = request.referrer
+    session[:return_to] = request.fullpath
+  end
+
+  # def store_oauth_token(json = {})
+  #   session[:access_token] = json['access_token']
+  #   session[:refresh_token] = json['refresh_token']
+  #   session[:expires_in] = json['expires_in']
+  #   session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
+  #   session[:endpoint] = json['endpoint']
+  # end
+
   def store_profile(profile = {})
     uid = session['endpoint'].split('/').last if session['endpoint']
 
@@ -106,7 +112,16 @@ class ApplicationController < ActionController::Base
     session[:urs_uid] = profile['uid'] || uid
     session[:email_address] = profile['email_address']
 
+    # TODO this is temporarily for tests - to add an auid to show the user has
+    # authenticated via Launchpad. we are providing the auid in our login helper
+    session[:auid] = profile['auid'] if Rails.env.test? && profile['auid']
+    session[:sbxsession_cookie] = profile['sbxsession_cookie'] if Rails.env.test? && profile['sbxsession_cookie']
+
     return if profile == {}
+
+    # TODO temporarily avoid making this call because the CMR token service call is blocked
+    # and if there is an error it will happen while returning from Launchpad
+    return if session[:auid] && session[:sbxsession_cookie]
 
     # Store ECHO ID
     if current_user.echo_id.nil?
@@ -120,6 +135,36 @@ class ApplicationController < ActionController::Base
 
     # With no echo_id we cannot request providers for the user, no sense in continuing
     return if current_user.echo_id.nil?
+  end
+
+  def store_urs_information(profile)
+    # for Launchpad auth - after getting auid, we are grabbing URS information with it
+    session[:name] = "#{profile['first_name']} #{profile['last_name']}"
+    session[:urs_uid] = profile['uid']
+    session[:email_address] = profile['email_address']
+  end
+
+  def log_session_properties
+    output = <<-LOGTHIS
+
+    #####*****#####
+    session
+    urs_uid: #{session[:urs_uid]}
+    name: #{session[:name]}
+    email_address: #{session[:email_address]}
+    expires_in: #{session[:expires_in]}
+    launchpad_expires_in #{session[:launchpad_expires_in]}
+    logged_in_at: #{session[:logged_in_at]}
+    launchpad_login_time #{session[:launchpad_login_time]}
+    endpoint: #{session[:endpoint]}
+    last_point: #{session[:last_point]}
+    return_to: #{session[:return_to]}
+    auid: #{session[:auid]}
+    email_launchpad: #{session[:email_launchpad]}
+    sbxsession_cookie: #{session[:sbxsession_cookie]}
+    #####*****#####
+    LOGTHIS
+    Rails.logger.info output
   end
 
   def refresh_urs_if_needed
@@ -143,7 +188,8 @@ class ApplicationController < ActionController::Base
   end
 
   def provider_set?
-    if logged_in? && current_user.provider_id.nil?
+    # if logged_in? && current_user.provider_id.nil?
+    if launchpad_authorized? && current_user.provider_id.nil?
       redirect_to provider_context_path
     end
   end
@@ -153,7 +199,9 @@ class ApplicationController < ActionController::Base
   end
 
   def token
-    session[:access_token]
+    # TODO: for CMR calls for the launchpad prototype we only need to use the launchpad token
+    session[:sbxsession_cookie]
+    # session[:access_token]
   end
   helper_method :token
 
@@ -173,10 +221,43 @@ class ApplicationController < ActionController::Base
       config = services['earthdata'][Rails.configuration.cmr_env]
       client_id = services['urs'][Rails.env.to_s][config['urs_root']]
 
-      "#{token}:#{client_id}"
+      # TODO: for CMR calls for the launchpad prototype we only need to use the launchpad token
+      session[:sbxsession_cookie]
+      # "#{token}:#{client_id}"
     end
   end
   helper_method :token_with_client_id
+
+  def ensure_authenticated
+    puts 'in ensure_authenticated'
+    # originally wanted to combine both is_logged_in and require_launchpad_authorization in a way that won't cause double render issues
+    # but it was cleaner to just have Launchpad login
+    capture_intended_path
+
+    redirect_to sso_url if !launchpad_authorized? || launchpad_session_expired?
+  end
+
+  def launchpad_authorized?
+    session[:auid].present? &&
+      session[:sbxsession_cookie].present? &&
+      session[:urs_uid].present? &&
+      session[:launchpad_login_time].present? &&
+      session[:launchpad_expires_in].present?
+  end
+  helper_method :launchpad_authorized?
+
+  def launchpad_session_expired?
+    # expires_in < 0
+    login_time = session[:launchpad_login_time] ||= 0
+    expiration_time = session[:launchpad_expires_in] ||= 0
+    login_time + expiration_time - Time.now.to_i < 0
+  end
+
+  # def require_launchpad_authorization
+  #   # login requirement for Launchpad SAML
+  #   # capture_intended_path unless launchpad_authorized?
+  #   redirect_to sso_url if !launchpad_authorized? || launchpad_session_expired?
+  # end
 
   def logged_in?
     is_user_logged_in = session[:access_token].present? &&
@@ -190,10 +271,9 @@ class ApplicationController < ActionController::Base
 
   def is_logged_in
     Rails.logger.info("Access Token: #{session[:access_token]}") if Rails.env.development?
-    session[:return_to] = request.fullpath
-
-    return true if logged_in?
-    redirect_to login_path
+    # session[:return_to] = request.fullpath
+    capture_intended_path
+    redirect_to login_path unless logged_in?
   end
   helper_method :is_logged_in
 

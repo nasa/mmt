@@ -10,7 +10,7 @@
     <div class="col-6 header-tools">
       <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
       <% if controller_name.include? 'welcome'%>
-        <%= link_to 'Earthdata Login', login_path, class: 'eui-btn--blue' %>
+        <%= link_to 'Login via Launchpad', login_path, class: 'eui-btn--blue' %>
       <% else %>
         <%= render partial: 'shared/user_info_dropdown', locals: { hide_provider_context: hide_search } %>
         <% unless hide_search %>
@@ -33,7 +33,7 @@
 
 <% unless hide_search %>
   <div id="provider-context">
-    <% if is_logged_in && current_user.available_providers %>
+    <% if launchpad_authorized? && current_user.available_providers %>
       <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
         <%= render partial: 'shared/provider_context', locals: { provider_context_page: false } %>
     <% end %>

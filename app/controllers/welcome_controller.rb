@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
   include ProviderHoldings
 
-  skip_before_filter :is_logged_in, :setup_query
+  skip_before_action :ensure_authenticated, :setup_query
 
   before_filter :redirect_if_logged_in
 
@@ -30,6 +30,7 @@ class WelcomeController < ApplicationController
   protected
 
   def redirect_if_logged_in
-    return redirect_to manage_collections_path if logged_in?
+    # return redirect_to manage_collections_path if logged_in?
+    return redirect_to manage_collections_path if launchpad_authorized?
   end
 end

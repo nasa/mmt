@@ -1,5 +1,5 @@
 <section id="user-info" role="navigation">
-  <% if is_logged_in %>
+  <% if launchpad_authorized? %>
   <!-- User Info Dropdown Menu -->
   <div id="login-info" class="login-info-dropdown">
     <% unless hide_provider_context %>
@@ -19,7 +19,7 @@
     <!-- Display provider context badge -->
     <a href="#provider-context" id="provider-badge-link" class="display-modal">
       <div class="provider-context">
-        <% if is_logged_in && current_user.provider_id %>
+        <% if launchpad_authorized? && current_user.provider_id %>
           <span class="eui-badge--sm daac"><%= current_user.provider_id %></span>
         <% end %>
       </div>

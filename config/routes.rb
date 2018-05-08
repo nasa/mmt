@@ -139,6 +139,9 @@ Rails.application.routes.draw do
   post 'saml/acs', to: 'saml#acs', as: :acs
   get 'saml/metadata', to: 'saml#metadata', as: :saml_metadata
   get 'saml/logout', to: 'saml#logout', as: :saml_logout
+  # test keep alive endpoint
+  get 'saml/test_keep_alive', to: 'saml#test_keep_alive', as: :test_keep_alive
+  get 'saml/test_launchpad_healthcheck', to: 'saml#test_launchpad_healthcheck', as: :test_launchpad_healthcheck
 
   post 'convert' => 'conversions#convert'
 

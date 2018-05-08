@@ -32,7 +32,11 @@ module Helpers
             'study_area'    => 'Other',
             'user_type'     => 'Public User',
             'affiliation'   => 'OTHER',
-            'organization'  => 'Testing'
+            'organization'  => 'Testing',
+            'auid'          => 'adminuser',
+            'sbxsession_cookie' => 'access_token_admin',
+            'launchpad_login_time' => '2000000000',
+            'launchpad_expires_in' => '1800'
           }
 
           current_user_body = {
@@ -73,7 +77,11 @@ module Helpers
             'study_area'    => 'Other',
             'user_type'     => 'Public User',
             'affiliation'   => 'OTHER',
-            'organization'  => 'Testing'
+            'organization'  => 'Testing',
+            'auid'          => 'testuser',
+            'sbxsession_cookie' => 'access_token',
+            'launchpad_login_time' => '2000000000',
+            'launchpad_expires_in' => '1800'
           }
 
           current_user_body = {
