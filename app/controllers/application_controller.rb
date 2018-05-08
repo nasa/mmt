@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   # SERVER_EXPIRATION_OFFSET_S = 3590
 
   def urs_login_required?
-    ENV['urs_login_required'] == 'true'
+    ENV['urs_login_required'] != 'false'
   end
   helper_method :urs_login_required?
 
