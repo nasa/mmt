@@ -9,11 +9,11 @@ describe 'Valid Service Related URL Preview', reset_provider: true do
 
   context 'When examing the Related URL section' do
     it 'displays the stored values correctly within the preview' do
-      within '.umm-preview.related_url' do
+      within '.umm-preview.related_urls' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-        within '#service_related_url_preview' do
-          expect(page).to have_css('h5', text: 'Related Url')
+        within '#service_related_urls_preview' do
+          expect(page).to have_css('h5', text: 'Related URLs')
 
           within '.card-header' do
             expect(page).to have_content('DistributionURL')

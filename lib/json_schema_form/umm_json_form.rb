@@ -90,6 +90,10 @@ class UmmJsonForm < JsonFile
     input['draft'] = input['draft'].to_camel_keys
     Rails.logger.debug "After CamelKeys: #{input.inspect}"
 
+    # Convert RelatedUrls to RelatedURLs for the top level field
+    input['draft'] = fix_related_urls(input['draft'])
+    Rails.logger.debug "After fix_related_urls: #{input.inspect}"
+
     # Convert fields that have specific types to their appropriate format
     convert_values_by_type(input['draft'], input['draft'])
     Rails.logger.debug "After Type Conversions: #{input.inspect}"
@@ -307,5 +311,15 @@ class UmmJsonForm < JsonFile
     bad_keys = invalid_keys(ignore_required_fields: ignore_required_fields).map { |bad_key| bad_key.split('/').first }.uniq
 
     bad_keys.include?(key)
+  end
+
+  # In UMM-S 1.1, there is a top level field
+  # RelatedURLs, but within ContactInformationType
+  # there is the field RelatedUrls. We can't handle
+  # both automatically, so we need this method to
+  # fix the top level field to be RelatedURLs
+  def fix_related_urls(draft)
+    draft['RelatedURLs'] = draft.delete('RelatedUrls') if draft.key? 'RelatedUrls'
+    draft
   end
 end

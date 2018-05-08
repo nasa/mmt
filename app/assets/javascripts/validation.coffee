@@ -23,7 +23,7 @@ $(document).ready ->
       json = JSON.parse(json.serializeJSON())
       if isUmmSForm()
         json = json.ServiceDraft?.Draft or {}
-        fixRelatedURL(json)
+        fixRelatedURLs(json)
       else if isUmmVarForm()
         json = json.VariableDraft?.Draft or {}
 
@@ -35,10 +35,10 @@ $(document).ready ->
 
     return json
 
-  fixRelatedURL = (json) ->
-    if json?.RelatedUrl?
-      json.RelatedURL = json.RelatedUrl
-      delete json.RelatedUrl
+  fixRelatedURLs = (json) ->
+    if json?.RelatedUrls?
+      json.RelatedURLs = json.RelatedUrls
+      delete json.RelatedUrls
 
   # Nested non-array fields don't display validation errors because there is no form field for the top level field
   # Adding an empty object into the json changes the validation to display errors on the missing subfields
@@ -46,7 +46,7 @@ $(document).ready ->
     if isMetadataForm()
       json?.ProcessingLevel = {} unless json?.ProcessingLevel?
     else if isUmmSForm()
-      json?.RelatedURL = {} unless json?.RelatedURL?
+      json?.RelatedURLs = [] unless json?.RelatedURLs?
 
 
   fixNumbers = (json) ->

@@ -107,10 +107,6 @@
           "description": "This is the long name of the service organization.",
            "$ref": "#/definitions/LongNameType"
         },
-        "Uuid": {
-          "description": "Uuid of the service organization.",
-          "$ref": "umm-cmn-json-schema.json#/definitions/UuidType"
-        },
         "ContactGroups": {
           "description": "This is the contact groups of the service organization.",
           "type": "array",
@@ -314,7 +310,7 @@
           "description": "The quality lineage of the service.",
           "type": "string",
           "minLength": 1,
-          "maxLength": 100
+          "maxLength": 4000
         }
       },
       "required": ["QualityFlag"]
@@ -328,13 +324,13 @@
       "description": "Information about any constraints for accessing the service, software, or tool.",
       "type": "string",
       "minLength": 1,
-      "maxLength": 1024
+      "maxLength": 4000
     },
     "UseConstraintsType": {
       "description": "Information on how the item (service, software, or tool) may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness.",
       "type": "string",
       "minLength": 1,
-      "maxLength": 1024
+      "maxLength": 20000
     },
     "AncillaryKeywordsType": {
       "description": "Words or phrases to further describe the service, software, or tool.",
@@ -481,11 +477,11 @@
           "type": "number"
         },
         "MinY": {
-          "description": "The minimum x ordinate of the bounding box.",
+          "description": "The minimum y ordinate of the bounding box.",
           "type": "number"
         },
         "MaxX": {
-          "description": "The maximum y ordinate of the bounding box.",
+          "description": "The maximum x ordinate of the bounding box.",
           "type": "number"
         },
         "MaxY": {
@@ -498,9 +494,9 @@
     "CoverageSpatialExtentType": {
       "type": "object",
       "properties": {
-        "Type": {
-          "description": "Type of the spatial extent.",
-          "$ref": "#/definitions/CoverageTypeEnum"
+        "CoverageSpatialExtentTypeType": {
+          "description": "Type of the spatial extent for the coverage available from the service..",
+          "$ref": "#/definitions/CoverageSpatialExtentTypeEnum"
         },
         "Uuid": {
           "description": "Uuid of the spatial extent.",
@@ -539,6 +535,10 @@
     "CoverageTemporalExtentType": {
       "type": "object",
       "properties": {
+        "CoverageTemporalExtentTypeType": {
+          "description": "The type of the temporal extent for the coverage available from the service.",
+          "$ref": "#/definitions/CoverageTemporalExtentTypeEnum"
+        },
         "CoverageTimePoints": {
           "description": "Points in time representing the temporal extent of the layer or coverage.",
           "type": "array",
@@ -576,10 +576,15 @@
         }
       }
     },
-    "CoverageTypeEnum": {
-      "description": "This element is used to identify the coverage type, either: point, linestring, bounding box or polygon.",
+    "CoverageSpatialExtentTypeEnum": {
+      "description": "This element is used to identify the coverage spatial type, either: point, linestring, bounding box or polygon.",
       "type": "string",
       "enum": ["SPATIAL_POINT", "SPATIAL_LINE_STRING", "BOUNDING_BOX", "SPATIAL_POLYGON"]
+    },
+    "CoverageTemporalExtentTypeEnum": {
+      "description": "This element is used to identify the coverage temporal type, either: time stamp, time series, or time average.",
+      "type": "string",
+      "enum": ["TIME_STAMP", "TIME_SERIES", "TIME_AVERAGE"]
     },
     "CoverageType": {
       "type": "object",
@@ -591,10 +596,6 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 80
-        },
-        "Type": {
-          "description": "The type of the coverage available from the service.",
-          "$ref": "#/definitions/CoverageTypeEnum"
         },
         "CoverageSpatialExtent": {
           "description": "The spatial extent of the coverage available from the service. These are coordinate pairs which describe either the point, line string, or polygon representing the spatial extent. The bounding box is described by the west, south, east and north ordinates",
@@ -645,7 +646,7 @@
         "description": "The name of the service, software, or tool.",
         "type": "string",
         "minLength": 1,
-        "maxLength": 20
+        "maxLength": 85
       },
       "LongName": {
         "description": "The long name of the service, software, or tool.",
@@ -669,9 +670,13 @@
         "minLength": 1,
         "maxLength": 1024
       },
-      "RelatedURL": {
+      "RelatedURLs": {
         "description": "This element contains important information about the universal resource locator (URL) for the service.",
-        "$ref": "umm-cmn-json-schema.json#/definitions/RelatedUrlType"
+        "type": "array",
+        "items": {
+            "$ref": "umm-cmn-json-schema.json#/definitions/RelatedUrlType"
+        },
+        "minItems": 1
       },
       "OnlineAccessURLPatternMatch": {
         "description": "A field needed for pattern matching in OPeNDAP services",
@@ -737,19 +742,11 @@
       },
       "AccessConstraints": {
         "description": "Information about any constraints for accessing the service, software, or tool.",
-        "type": "array",
-        "items": {
-            "$ref": "#/definitions/AccessConstraintsType"
-        },
-      "minItems": 0
+         "$ref": "#/definitions/AccessConstraintsType"
       },
       "UseConstraints": {
         "description": "Information on how the item (service, software, or tool) may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness.",
-        "type": "array",
-        "items": {
-            "$ref": "#/definitions/UseConstraintsType"
-        },
-        "minItems": 0
+        "$ref": "#/definitions/UseConstraintsType"
       },
       "AncillaryKeywords": {
         "description": "Words or phrases to further describe the service, software, or tool.",
@@ -774,7 +771,7 @@
       "Type",
       "Version",
       "Description",
-      "RelatedURL",
+      "RelatedURLs",
       "ServiceKeywords",
       "ServiceOrganizations"
     ]

@@ -11,7 +11,7 @@ describe 'Coverage Form', reset_provider: true, js: true do
     before do
       fill_in 'Name', with: 'Coverage Name'
 
-      select 'SPATIAL_POINT', from: 'Type'
+      select 'SPATIAL_POINT', from: 'Coverage Spatial Extent Type Type'
       fill_in 'service_draft_draft_coverage_coverage_spatial_extent_uuid', with: '13f5e348-ffad-4ef9-9600-12ad74f60f77'
       within '.multiple.spatial-points' do
         fill_in 'Latitude', with: '0'
@@ -27,6 +27,8 @@ describe 'Coverage Form', reset_provider: true, js: true do
       fill_in 'Spatial Resolution', with: '50'
       fill_in 'Spatial Resolution Unit', with: 'KM'
 
+      select 'TIME_STAMP', from: 'Coverage Temporal Extent Type Type'
+      fill_in 'service_draft_draft_coverage_coverage_temporal_extent_uuid', with: '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40'
       within '.multiple.coverage-time-points' do
         fill_in 'Time Format', with: 'format 1'
         fill_in 'Time Value', with: 'value 1'
@@ -39,7 +41,6 @@ describe 'Coverage Form', reset_provider: true, js: true do
           fill_in 'Description', with: 'description 2'
         end
       end
-      fill_in 'service_draft_draft_coverage_coverage_temporal_extent_uuid', with: '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40'
 
       fill_in 'Temporal Resolution', with: '7'
       fill_in 'Temporal Resolution Unit', with: 'days'
@@ -60,7 +61,7 @@ describe 'Coverage Form', reset_provider: true, js: true do
 
     context 'when adding spatial line strings' do
       before do
-        select 'SPATIAL_LINE_STRING', from: 'Type'
+        select 'SPATIAL_LINE_STRING', from: 'Coverage Spatial Extent Type Type'
 
         within '.multiple.spatial-line-strings' do
           within '.multiple-item-0' do
@@ -102,7 +103,7 @@ describe 'Coverage Form', reset_provider: true, js: true do
 
     context 'when adding a spatial bounding box' do
       before do
-        select 'BOUNDING_BOX', from: 'Type'
+        select 'BOUNDING_BOX', from: 'Coverage Spatial Extent Type Type'
 
         fill_in 'Min X', with: '-5'
         fill_in 'Max X', with: '5'
@@ -125,7 +126,7 @@ describe 'Coverage Form', reset_provider: true, js: true do
 
     context 'when adding spatial polygons' do
       before do
-        select 'SPATIAL_POLYGON', from: 'Type'
+        select 'SPATIAL_POLYGON', from: 'Coverage Spatial Extent Type Type'
 
         within '.multiple.spatial-polygons' do
           within '.multiple-item-0' do
