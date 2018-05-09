@@ -128,8 +128,10 @@ class SamlController < UsersController
     # get request to https://apps.launchpad-sbx.nasa.gov/icam/api/sm/v1/keepalive
     # log request and response
     # render json if request was successful or not
-    response = cmr_client.get_keep_alive
+    response = cmr_client.get_keep_alive(token)
     Rails.logger.info "launchpad integration keep alive endpoint response: #{response.inspect}"
+
+    session[:sbxsession_cookie] = response.headers.fetch('set-cookie', '').split('SBXSESSION=').last
 
     render json: "tested launchpad keep alive. response susccessful? #{response.success?}"
   end
