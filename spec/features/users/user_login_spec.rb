@@ -57,4 +57,24 @@ describe 'User login' do
       expect(page.get_rack_session_key('access_token')).to eql('new_access_token')
     end
   end
+
+  context 'when both Earthdata Login and Launchpad Login requirements are turned off', js: true do
+    before do
+      allow_any_instance_of(ApplicationController).to receive(:urs_login_required?).and_return(false)
+
+      real_login
+    end
+
+    it 'redirects the user back to the logged out page with the appropriate error message' do
+      expect(page).to have_content('ABOUT THE METADATA MANAGEMENT TOOL')
+      expect(page).to have_content('ABOUT THE CMR')
+
+      expect(page).to have_no_link('Earthdata Login', href: login_path)
+
+      within '.eui-banner--danger' do
+        expect(page).to have_content('An error has occurred with our login system. Please contact Earthdata Support.')
+        expect(page).to have_link('Earthdata Support', href: 'mailto:support@earthdata.nasa.gov')
+      end
+    end
+  end
 end
