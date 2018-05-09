@@ -111,7 +111,7 @@ class SamlController < UsersController
   # end
 
   def get_url_base
-    Figaro.env.SAML_SP_ISSUER_BASE
+    ENV['SAML_SP_ISSUER_BASE']
   end
 
   def get_authn_context

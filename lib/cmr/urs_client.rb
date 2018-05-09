@@ -36,15 +36,6 @@ module Cmr
       response
     end
 
-    # TODO find a more appropriate place to put this method
-    def get_keep_alive
-      get('https://apps.launchpad-sbx.nasa.gov/icam/api/sm/v1/keepalive', {}, 'Origin' => Figaro.env.SAML_SP_ISSUER_BASE) # get(url, params = {}, headers = {})
-    end
-
-    def get_launchpad_healthcheck
-      get('https://apps.launchpad-sbx.nasa.gov/healthcheck')
-    end
-
     protected
 
     def get_client_token
