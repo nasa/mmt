@@ -14,6 +14,7 @@ module Echo
         conn.use FaradayMiddleware::FollowRedirects
         conn.use :instrumentation
 
+        # Set timeout to 300s to match nginx timeout
         conn.options[:timeout] = 300
 
         conn.adapter Faraday.default_adapter

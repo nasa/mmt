@@ -86,8 +86,6 @@ module Cmr
         # conn.response :xml, content_type: /\bxml$/
         conn.response :errors, content_type: /\bhtml$/
 
-        conn.options[:timeout] = 300
-
         conn.adapter Faraday.default_adapter
       end
     end
