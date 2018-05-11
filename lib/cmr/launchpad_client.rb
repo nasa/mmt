@@ -2,7 +2,7 @@ module Cmr
   class LaunchpadClient < BaseClient
     def get_keep_alive(token)
       # get(url, params = {}, headers = {})
-      get('/icam/api/sm/v1/keepalive', {}, 'Origin' => ENV['SAML_SP_ISSUER_BASE'], 'cookie' => "SBXSESSION=#{token}")
+      get('/icam/api/sm/v1/keepalive', {}, 'Origin' => ENV['SAML_SP_ISSUER_BASE'], 'cookie' => "#{Rails.configuration.launchpad_token_name}=#{token}")
     end
 
     def get_launchpad_healthcheck

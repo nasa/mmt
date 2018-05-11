@@ -45,6 +45,9 @@ module Mmt
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.1'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.0'
 
+    config.launchpad_token_name = 'SBXSESSION'
+    config.launchpad_token_name = 'SMSESSION' if ENV['launchpad_prod'] == 'true'
+
     def load_version
       version_file = "#{config.root}/version.txt"
       if File.exist?(version_file)

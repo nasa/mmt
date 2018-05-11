@@ -60,9 +60,9 @@ class SamlController < UsersController
       # Rails.logger.info "MMT-1286 Launchpad SAML logging. request.headers['HTTP_COOKIE'] #{http_cookie}"
 
       # using request.cookies didn't seem to produce a token that could be validated via token service (when copied from Splunk), so using request.headers which does
-      sbxsession_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?('SBXSESSION=') }.first
+      sbxsession_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?("#{Rails.configuration.launchpad_token_name}=") }.first
 
-      sbxsession_cookie.sub!('SBXSESSION=', '')
+      sbxsession_cookie.sub!("#{Rails.configuration.launchpad_token_name}=", '')
       session[:sbxsession_cookie] = sbxsession_cookie
       # Rails.logger.info "MMT-1286 Launchpad SAML logging. sbxsession_cookie #{sbxsession_cookie}"
 
@@ -131,7 +131,7 @@ class SamlController < UsersController
     response = cmr_client.get_keep_alive(token)
     Rails.logger.info "launchpad integration keep alive endpoint response: #{response.inspect}"
 
-    session[:sbxsession_cookie] = response.headers.fetch('set-cookie', '').split('SBXSESSION=').last
+    session[:sbxsession_cookie] = response.headers.fetch('set-cookie', '').split("#{Rails.configuration.launchpad_token_name}=").last
 
     render json: "tested launchpad keep alive. response susccessful? #{response.success?}"
   end
