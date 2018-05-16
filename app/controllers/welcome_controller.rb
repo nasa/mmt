@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
   include ProviderHoldings
-
+  # TODO make sure we have the right before actions here
   skip_before_action :is_logged_in, :setup_query
 
   before_action :redirect_if_logged_in

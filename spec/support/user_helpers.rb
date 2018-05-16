@@ -14,6 +14,7 @@ module Helpers
         return mock_login(admin: admin, providers: providers, provider: provider) unless real_login
 
         # Mock calls to URS and login Test User
+        # TODO make sure attributes we need for users are here
         if admin
           token_body = {
             'access_token'  => 'access_token_admin',
@@ -126,6 +127,7 @@ module Helpers
     end
 
     def mock_login(admin: false, providers:, provider:)
+      # TODO make sure attributes we need for users are here
       uid = admin ? 'adminuser' : 'testuser'
       token = admin ? 'access_token_admin' : 'access_token'
       user = User.from_urs_uid(uid)

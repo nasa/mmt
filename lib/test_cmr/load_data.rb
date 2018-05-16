@@ -66,6 +66,7 @@ module Cmr
     end
 
     def setup_cmr
+      # TODO do these tokens need to change when we change to Launchpad login? Do we need to ask CMR about it?
       # Create user 'admin' that has token ABC-1
       resp = connection.post do |req|
         req.url('http://localhost:3008/tokens')

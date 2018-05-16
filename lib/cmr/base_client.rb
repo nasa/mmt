@@ -28,7 +28,14 @@ module Cmr
 
         token.present? ? { 'Echo-Token' => mock_token } : {}
       else
-        token.present? ? { 'Echo-Token' => "#{token}:#{@client_id}" } : {}
+        return {} unless token.present?
+
+        if ENV['urs_login_required'] != 'false'
+          # passing the URS token to CMR requires the client id also
+          { 'Echo-Token' => "#{token}:#{@client_id}" }
+        else
+          { 'Echo-Token' => token }
+        end
       end
     end
 
@@ -36,7 +43,7 @@ module Cmr
       Rails.logger.info "#{self.class} Request #{method} #{url} - Body: #{body} - Time: #{Time.now.to_s(:log_time)}"
 
       faraday_response = connection.send(method, url, params) do |req|
-        unless self.class == UrsClient
+        unless self.class == UrsClient || self.class == LaunchpadClient
           req.headers['Content-Type'] = 'application/json' unless method == :get
           req.headers['Client-Id'] = CLIENT_ID
           req.headers['Echo-ClientId'] = CLIENT_ID unless self.class == CmrClient
@@ -46,6 +53,7 @@ module Cmr
           req.headers[header] = value
         end
         req.body = body unless body.blank?
+        Rails.logger.info "request: #{req.inspect}"
       end
       client_response = Cmr::Response.new(faraday_response)
 

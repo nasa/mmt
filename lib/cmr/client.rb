@@ -12,6 +12,9 @@ module Cmr
       clients << CmrClient.new(@config['cmr_root'], urs_client_id)
       clients << EchoClient.new(@config['echo_root'], urs_client_id)
       clients << UrsClient.new(@config['urs_root'], urs_client_id)
+      launchpad_root = 'launchpad_sbx_root'
+      launchpad_root = 'launchpad_root' if ENV['launchpad_prod'] == 'true'
+      clients << LaunchpadClient.new(@config[launchpad_root], urs_client_id)
       @clients = clients
     end
 
