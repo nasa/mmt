@@ -54,6 +54,7 @@ gem 'kaminari'
 gem 'momentjs-rails' # js lib for dates
 gem 'pundit'
 
+gem 'activerecord-session_store'
 gem 'ruby-saml', '>= 1.7.0'
 
 gem 'libxml-to-hash', git: 'https://github.com/johannesthoma/libxml-to-hash'
