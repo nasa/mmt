@@ -4,7 +4,7 @@ The Metadata Management Tool is a web application to assist users in managing me
 ## Getting Started
 
 ### Requirements
- - Ruby 2.2.2
+ - Ruby 2.5.1
 
 ### Setup
 Clone the Metadata Management Tool Git project:
@@ -33,18 +33,20 @@ Next, create your database by running the standard rails command:
 And then to migrate the database schema, run the standard rails command:
 
     rake db:migrate
-    
+
 Finally, create an `application.yml` file in your `/config/` directory. The contents of this file will be supplied by an MMT developer
 
 ### Usage
 
 *_Note: Before running this step, make sure you are **Running a local copy of CMR** as outlined below_
 
+*_Note: With Launchpad Integration, you will need to set up MMT to run locally with HTTPS. Please see `/doc/local_https_setup.md` for options and instructions_
+
 To start the project, just type the default rails command:
 
     rails s
 
-And if you need to stop the server from running, hit `Ctrl + C` and the server will shutdown.
+If you need to stop the server from running, hit `Ctrl + C` and the server will shutdown.
 
 ### Running a local copy of CMR
 In order to use a local copy of the CMR you will need to download the latest file, set an environment variable, and run a rake task to set required permissions and ingest some data.

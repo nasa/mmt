@@ -2,8 +2,6 @@ module Helpers
   # :nodoc:
   module ControllerHelpers
     def sign_in(as: nil, token: 'access_token')
-      # TODO make sure this method has the right methods mocked for tests
-      # TODO make sure to remove method mocks if they are completely removed
       allow(controller).to receive(:logged_in?).and_return(true)
 
       # Anything greater than 0 will do the trick

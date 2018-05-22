@@ -1,5 +1,3 @@
-# MMT-272, MMT-717
-
 require 'rails_helper'
 
 describe 'Provider context', reset_provider: true, js: true do
@@ -55,7 +53,7 @@ describe 'Provider context', reset_provider: true, js: true do
             click_on 'profile-link'
             click_on 'Logout'
 
-            expect(page).to have_content('Earthdata Login')
+            expect(page).to have_content('Login')
 
             real_login(providers: nil)
           end
@@ -231,7 +229,7 @@ describe 'Provider context', reset_provider: true, js: true do
         click_on 'profile-link'
         click_on 'Logout'
 
-        expect(page).to have_content('Earthdata Login')
+        expect(page).to have_content('Login')
       end
 
       context 'when a user loses their active provider' do

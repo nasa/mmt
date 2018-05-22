@@ -1,9 +1,7 @@
 # Modified from https://github.com/onelogin/ruby-saml-example/blob/master/app/models/account.rb
 
-# TODO should we rename this?
 class Account < ActiveRecord::Base
-  def self.get_saml_settings(url_base = 'https://mmt.test', authn_context = "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport")
-    # url_base ||= 'http://localhost:3000'
+  def self.get_saml_settings(url_base = ENV['SAML_SP_ISSUER_BASE'], authn_context = "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport")
 
     settings = OneLogin::RubySaml::Settings.new
 

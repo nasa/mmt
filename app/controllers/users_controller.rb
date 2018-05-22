@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
   def logout
     reset_session
-    # TODO - can we send a launchpad/saml logout request? how to do?
+
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { render json: nil, status: :ok }
@@ -105,7 +105,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def set_urs_profile_from_auid
+  def get_urs_profile_from_auid
     # We are assuming the user has their urs id and auid associated in URS
     # TODO MMT-1432 will implement directing a user to URS to sign in and associate their urs_uid and auid the first time, if those ids are not associated
 
@@ -120,7 +120,6 @@ class UsersController < ApplicationController
                     {}
                   end
 
-    # store_urs_information(urs_profile)
-    store_profile(urs_profile)
+    urs_profile
   end
 end

@@ -53,7 +53,6 @@ module Cmr
           req.headers[header] = value
         end
         req.body = body unless body.blank?
-        Rails.logger.info "request: #{req.inspect}"
       end
       client_response = Cmr::Response.new(faraday_response)
 

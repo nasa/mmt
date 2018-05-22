@@ -1,5 +1,7 @@
 # :nodoc:
 class OauthTokensController < UsersController
+  skip_before_action :refresh_launchpad_if_needed, :refresh_urs_if_needed
+
   def urs_callback
     # URS login
     # store user information after a successful login and return from URS

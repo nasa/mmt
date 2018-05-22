@@ -10,11 +10,10 @@
     <div class="col-6 header-tools">
       <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
       <% if controller_name.include? 'welcome'%>
-        <% if launchpad_login_required? %>
-          <!-- TODO check with alicia about button name -->
-          <%= link_to 'Login via Launchpad', login_path, class: 'eui-btn--blue' %>
-        <% elsif urs_login_required? %>
-          <%= link_to 'Earthdata Login', login_path, class: 'eui-btn--blue' %>
+        <%= link_to 'Login', login_path, class: 'eui-btn--blue' %>
+
+        <% if launchpad_login_required? && Rails.env.test? %>
+          <%= button_to 'Launchpad Test Login', acs_path, method: :post, params: { SAMLResponse: ENV['launchpad_saml_response'] }  %>
         <% end %>
       <% else %>
         <%= render partial: 'shared/user_info_dropdown', locals: { hide_provider_context: hide_search } %>

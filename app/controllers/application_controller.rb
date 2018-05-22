@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
   before_action :provider_set?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-  rescue_from ActionDispatch::Cookies::CookieOverflow, with: :catch_cookie_overflow
 
   protected
 
@@ -28,7 +27,6 @@ class ApplicationController < ActionController::Base
   helper_method :urs_login_required?
 
   def launchpad_login_required?
-    # TODO default this also? `!= 'false'`
     ENV['launchpad_login_required'] == 'true'
   end
   helper_method :launchpad_login_required?
@@ -86,11 +84,7 @@ class ApplicationController < ActionController::Base
   def store_profile(profile = {})
     # store URS profile information
 
-    # URS login (&& Launchpad?)
-
-    # TODO remove this comment with Launchpad feature toggle ticket
-    # this method should be able to be used for both urs and launchpad login as we should
-    # be receiving the same user information from URS (but from different calls)
+    # URS login && Launchpad login
     uid = session['endpoint'].split('/').last if session['endpoint']
 
     session[:name] = profile['first_name'].nil? ? uid : "#{profile['first_name']} #{profile['last_name']}"
@@ -127,7 +121,6 @@ class ApplicationController < ActionController::Base
   end
 
   def store_session_data(json = {})
-    # TODO is this actually necessary?
     # Launchpad login
     session[:launchpad_cookie] = json['launchpad_cookie']
     session[:auid] = json['auid']
@@ -137,12 +130,10 @@ class ApplicationController < ActionController::Base
   end
 
   def logged_in?
-    ensure_one_login_method or return
-
     if launchpad_login_required?
-      # TODO are these the right vars?
       is_user_logged_in = session[:launchpad_cookie].present? &&
                           session[:auid].present? &&
+                          session[:urs_uid].present? &&
                           session[:expires_in].present? &&
                           session[:logged_in_at].present?
 
@@ -162,7 +153,6 @@ class ApplicationController < ActionController::Base
   def is_logged_in
     ensure_one_login_method or return
 
-    log_session_properties
     session[:return_to] = request.fullpath
 
     if launchpad_login_required?
@@ -216,8 +206,7 @@ class ApplicationController < ActionController::Base
     # Launchpad login
     if launchpad_login_required?
       if logged_in? && server_session_expires_in < 0
-        # TODO until the keep alive is fully implemented (MMT-1432) we should just
-        # ask the user to login with launchpad again
+        # TODO until the keep alive is fully implemented (MMT-1432) we should just ask the user to login with launchpad again
         redirect_to sso_url
       end
     end
@@ -261,29 +250,6 @@ class ApplicationController < ActionController::Base
     session[:last_point] = nil
 
     redirect_to return_to || last_point || manage_collections_path
-  end
-
-  def log_session_properties
-    output = <<-LOGTHIS
-
-    #####*****#####
-    session
-    urs_uid: #{session[:urs_uid]}
-    name: #{session[:name]}
-    email_address: #{session[:email_address]}
-    expires_in: #{session[:expires_in]}
-    launchpad_expires_in #{session[:launchpad_expires_in]}
-    logged_in_at: #{session[:logged_in_at]}
-    launchpad_login_time #{session[:launchpad_login_time]}
-    endpoint: #{session[:endpoint]}
-    last_point: #{session[:last_point]}
-    return_to: #{session[:return_to]}
-    auid: #{session[:auid]}
-    email_launchpad: #{session[:email_launchpad]}
-    launchpad_cookie: #{session[:launchpad_cookie]}
-    #####*****#####
-    LOGTHIS
-    Rails.logger.info output
   end
 
   private
@@ -339,12 +305,5 @@ class ApplicationController < ActionController::Base
 
   def launchpad_cookie_name
     Rails.configuration.launchpad_cookie_name
-  end
-
-  def catch_cookie_overflow
-    Rails.logger.error 'experiencing Cookie Overflow'
-    reset_session
-
-    redirect_to logout_path
   end
 end
