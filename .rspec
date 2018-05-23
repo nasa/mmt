@@ -1,3 +1,4 @@
 --order random
 --format documentation
 --color
+--exclude-pattern "spec/features/{b*,c*,d*,e*,g*,h*,manage*,order*,p*,s*,var*,w*}/**/*_spec.rb"

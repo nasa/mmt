@@ -114,7 +114,6 @@ class UsersController < ApplicationController
     urs_profile = if urs_profile_response.success?
                     urs_profile_response.body
                   else
-                    # TODO - test for this???
                     Rails.logger.error "Error retrieving URS profile with auid: #{session[:auid]}"
                     flash[:error] = 'You do not have your URS ID associated with your NAMS AUID'
                     {}

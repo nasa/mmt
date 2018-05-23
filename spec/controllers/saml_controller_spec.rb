@@ -13,22 +13,20 @@ describe SamlController do
 
   describe 'POST #acs' do
     context 'when launchpad returns a user with a valid SAMLResponse' do
-      it 'redirects to the manage_collections_path' do
-        mock_valid_acs_responses
+      context 'when mocking methods in acs' do
+        it 'redirects to the manage_collections_path' do
+          mock_valid_acs_responses
 
-        post :acs, SAMLResponse: ENV['launchpad_saml_response']
+          post :acs, SAMLResponse: ENV['launchpad_saml_response']
 
-        expect(response).to redirect_to(manage_collections_path)
+          expect(response).to redirect_to(manage_collections_path)
+        end
       end
     end
 
     context 'when a user returns from launchpad with an invalid SAMLResponse' do
-      before do
-
-      end
-
-      it 'raises an ArgumentError' do
-        expect { post :acs, SAMLResponse: 'xxxxx' }.to raise_error
+      it 'raises a ValidationError' do
+        expect { post :acs, SAMLResponse: 'xxxxx' }.to raise_error(OneLogin::RubySaml::ValidationError)
       end
     end
   end

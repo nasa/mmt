@@ -584,6 +584,8 @@ module Cmr
         # also deleted. CMR then needs to re-index, which is asyncronous
         response = connection.delete do |req|
           req.headers['Echo-token'] = 'mock-echo-system-token'
+          # CMR made a change to prevent providers that have any collections from being deleted
+          # this header allows us to delete providers with collections for our tests
           req.headers['force-full-provider-delete'] = 'true'
           req.url("http://localhost:3002/providers/#{provider_id}")
         end

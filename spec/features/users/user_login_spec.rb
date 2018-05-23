@@ -81,7 +81,6 @@ describe 'User login' do
       end
 
       it 'redirects the user to the landing page' do
-        puts 'ln 96'
         expect(page).to have_content('About the Metadata Management Tool')
       end
 

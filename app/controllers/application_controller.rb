@@ -206,7 +206,7 @@ class ApplicationController < ActionController::Base
     # Launchpad login
     if launchpad_login_required?
       if logged_in? && server_session_expires_in < 0
-        # TODO until the keep alive is fully implemented (MMT-1432) we should just ask the user to login with launchpad again
+        # TODO until the keep alive is fully implemented (MMT-1297) we should just ask the user to login with launchpad again
         redirect_to sso_url
       end
     end
