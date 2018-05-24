@@ -1,13 +1,14 @@
 <div class="row sub-fields">
   <!-- TilingIdentificationSystemName -->
-  <%= mmt_text_field(
+  <%= mmt_select(
     name: 'tiling_identification_system_name',
     title: 'Tiling Identification System Name',
     prefix: name_prefix,
     value: tiling_identification_system['TilingIdentificationSystemName'],
+    options: DraftsHelper::TilingIdentificationSystemNameOptions,
     validate: true,
     required: true
-   ) %>
+  ) %>
 
   <!-- Coordinate1 -->
   <%= mmt_label(

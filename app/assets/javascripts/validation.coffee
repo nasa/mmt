@@ -143,7 +143,11 @@ $(document).ready ->
         else
           "#{field} should have one type completed"
       when 'invalidPicklist' then "#{field} #{error.message}"
+      when 'enum' then "#{field} value [#{$('#' + error.id + ' option:selected').text()}] does not match a valid selection option"
       when 'anyOf' then "#{error.message}"
+      # UseConstraintsType is the only place a 'not' validation is used
+      # so this is a very specific message
+      when 'not' then 'License Url and License Text cannot be used together'
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
@@ -258,6 +262,9 @@ $(document).ready ->
       id = "service_draft_draft_#{path}"
     else if isUmmVarForm()
       id = "variable_draft_draft_#{path}"
+    # remove last index from id for Roles errors
+    if /roles_0$/.test(id)
+      id = id.slice(0, id.length - 2)
     error.id = id
     error.element = $("##{id}")
     labelFor = id.replace(/\d+$/, "")
@@ -285,7 +292,7 @@ $(document).ready ->
             errors.push newError
 
   validatePicklistValues = (errors) ->
-    $('select > option:disabled:selected, select > optgroup > option:disabled:selected').each ->
+    $('select.mmt-fake-enum > option:disabled:selected, select.mmt-fake-enum > optgroup > option:disabled:selected').each ->
       id = $(this).parents('select').attr('id')
       visitedFields.push id
 
@@ -296,23 +303,6 @@ $(document).ready ->
           '/MetadataLanguage'
         when /data_language/.test id
           '/DataLanguage'
-        when /collection_progress/.test id
-          '/CollectionProgress'
-        when /related_urls_(\d*)_url_content_type/.test id
-          [_, index] = id.match /related_urls_(\d*)_url_content_type/
-          "/RelatedUrls/#{index}/URLContentType"
-        when /related_urls_(\d*)_get_service_mime_type/.test id
-          [_, index] = id.match /related_urls_(\d*)_get_service_mime_type/
-          "/RelatedUrls/#{index}/GetService/MimeType"
-        when /related_urls_(\d*)_get_service_protocol/.test id
-          [_, index] = id.match /related_urls_(\d*)_get_service_protocol/
-          "/RelatedUrls/#{index}/GetService/Protocol"
-        when /related_urls_(\d*)_get_data_format/.test id
-          [_, index] = id.match /related_urls_(\d*)_get_data_format/
-          "/RelatedUrls/#{index}/GetData/Format"
-        when /related_urls_(\d*)_get_data_unit/.test id
-          [_, index] = id.match /related_urls_(\d*)_get_data_unit/
-          "/RelatedUrls/#{index}/GetData/Unit"
         when /draft_platforms_(\d*)_short_name/.test id
           [_, index] = id.match /platforms_(\d*)_short_name/
           "/Platforms/#{index}/ShortName"
@@ -322,25 +312,11 @@ $(document).ready ->
         when /draft_platforms_(\d*)_instruments_(\d*)_composed_of_(\d*)_short_name/.test id
           [_, index, index2, index3] = id.match /platforms_(\d*)_instruments_(\d*)_composed_of_(\d*)_short_name/
           "/Platforms/#{index}/Instruments/#{index2}/ComposedOf/#{index3}/ShortName"
-        when /organizations_(\d*)_party_organization_name_short_name/.test id
-          [_, index] = id.match /organizations_(\d*)_party_organization_name_short_name/
-          "/Organizations/#{index}/Party/OrganizationName/ShortName"
         when /temporal_keywords/.test id
           '/TemporalKeywords'
-        when /related_urls_(\d*)_file_size_unit/.test id
-          [_, index] = id.match /related_urls_(\d*)_file_size_unit/
-          "/RelatedUrls/#{index}/FileSize/Unit"
-        when /spatial_extent_granule_spatial_representation/.test id
-          '/SpatialExtent/GranuleSpatialRepresentation'
-        when /data_centers_\d*_roles/.test id
-          [_, index] = id.match /data_centers_(\d*)_roles/
-          "/DataCenters/#{index}/Roles"
         when /data_centers_\d*_short_name/.test id
           [_, index] = id.match /data_centers_(\d*)_short_name/
           "/DataCenters/#{index}/ShortName"
-        when /data_centers_\d*_contact_information_contact_mechanisms_\d*_type/.test id
-          [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_contact_mechanisms_(\d*)_type/
-          "DataCenters/#{index1}/ContactInformation/ContactMechanisms/#{index2}/Type"
         when /data_centers_\d*_contact_information_addresses_\d*_country/.test id
           [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_addresses_(\d*)_country/
           "/DataCenters/#{index1}/ContactInformation/Addresses/#{index2}/Country"
@@ -353,30 +329,6 @@ $(document).ready ->
         when /data_contacts_\d*_contact_group_data_center_short_name/.test id
           [_, index] = id.match /data_contacts_(\d*)_contact_group_data_center_short_name/
           "/DataContacts/#{index}/ContactGroupDataCenter/ShortName"
-        when /data_contacts_\d*_contact_person_data_center_contact_person_roles/.test id
-          [_, index] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_roles/
-          "/DataContacts/#{index}/ContactPersonDataCenter/ContactPerson/Roles"
-        when /data_contacts_\d*_contact_group_data_center_contact_group_roles/.test id
-          [_, index] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_roles/
-          "/DataContacts/#{index}/ContactGroupDataCenter/ContactGroup/Roles"
-        when /data_contacts_\d*_contact_person_roles/.test id
-          [_, index] = id.match /data_contacts_(\d*)_contact_person_roles/
-          "/DataContacts/#{index}/ContactPerson/Roles"
-        when /data_contacts_\d*_contact_group_roles/.test id
-          [_, index] = id.match /data_contacts_(\d*)_contact_group_roles/
-          "/DataContacts/#{index}/ContactGroup/Roles"
-        when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_contact_mechanisms_\d*_type/.test id
-          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_contact_mechanisms_(\d*)_type/
-          "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/ContactMechanisms/#{index2}/Type"
-        when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_contact_mechanisms_\d*_type/.test id
-          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_contact_mechanisms_(\d*)_type/
-          "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/ContactMechanisms/#{index2}/Type"
-        when /data_contacts_\d*_contact_person_contact_information_contact_mechanisms_\d*_type/.test id
-          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_contact_mechanisms_(\d*)_type/
-          "/DataContacts/#{index1}/ContactPerson/ContactInformation/ContactMechanisms/#{index2}/Type"
-        when /data_contacts_\d*_contact_group_contact_information_contact_mechanisms_\d*_type/.test id
-          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_contact_mechanisms_(\d*)_type/
-          "/DataContacts/#{index1}/ContactGroup/ContactInformation/ContactMechanisms/#{index2}/Type"
         when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_addresses_\d*_country/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_addresses_(\d*)_country/
           "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/Addresses/#{index2}/Country"
@@ -444,7 +396,16 @@ $(document).ready ->
   validatePage = (opts) ->
     $('.validation-error').remove()
     $('.summary-errors').remove()
+
+    # Remove the disabled attribute from fields before we read data in
+    # This allows invalid picklist options to be read in so the correct
+    # error message is displayed
+    disabledFields = $(':disabled').removeAttr('disabled')
+
     json = getPageJson()
+
+    # put the disabled attribute back in
+    disabledFields.attr('disabled', true)
 
     ajv = Ajv
       allErrors: true,

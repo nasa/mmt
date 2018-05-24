@@ -11,6 +11,16 @@
       required: true
     ) %>
 
+    <%= mmt_select(
+      name: 'mime_type',
+      title: 'Mime Type',
+      prefix: name_prefix,
+      value: get_data['MimeType'],
+      options: DraftsHelper::MimeTypeOptions,
+      help: 'definitions/GetDataType/properties/MimeType',
+      validate: true
+    ) %>
+
     <%= mmt_text_field(
       name: 'size',
       title: 'Size',

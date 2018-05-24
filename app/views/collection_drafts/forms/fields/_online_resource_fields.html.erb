@@ -6,8 +6,7 @@
     prefix: name_prefix,
     value: online_resource['Name'],
     help: 'definitions/OnlineResourceType/properties/Name',
-    validate: true,
-    required: true
+    validate: true
    ) %>
 
   <!-- Linkage -->
@@ -28,8 +27,7 @@
     prefix: name_prefix,
     value: online_resource['Description'],
     help: 'definitions/OnlineResourceType/properties/Description',
-    validate: true,
-    required: true
+    validate: true
   ) %>
 
   <!-- Protocol -->
@@ -39,8 +37,7 @@
     prefix: name_prefix,
     value: online_resource['Protocol'],
     help: 'definitions/OnlineResourceType/properties/Protocol',
-    validate: true,
-    required: false
+    validate: true
   ) %>
 
   <!-- ApplicationProfile -->
@@ -50,8 +47,7 @@
     prefix: name_prefix,
     value: online_resource['ApplicationProfile'],
     help: 'definitions/OnlineResourceType/properties/ApplicationProfile',
-    validate: true,
-    required: false
+    validate: true
   ) %>
 
   <!-- Function -->
@@ -61,7 +57,16 @@
     prefix: name_prefix,
     value: online_resource['Function'],
     help: 'definitions/OnlineResourceType/properties/Function',
-    validate: true,
-    required: false
+    validate: true
+  ) %>
+
+  <%= mmt_select(
+    name: 'mime_type',
+    title: 'Mime Type',
+    prefix: name_prefix,
+    value: online_resource['MimeType'],
+    options: DraftsHelper::MimeTypeOptions,
+    help: 'definitions/OnlineResourceType/properties/MimeType',
+    validate: true
   ) %>
 </div>

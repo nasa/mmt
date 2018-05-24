@@ -1,6 +1,16 @@
 <div class="row sub-fields">
   <div class="col-6">
     <%= mmt_select(
+      name: 'format',
+      title: 'Format',
+      prefix: name_prefix,
+      value: get_service['Format'],
+      options: DraftsHelper::GetDataTypeFormatOptions,
+      help: 'definitions/GetServiceType/properties/Format',
+      validate: true
+    ) %>
+
+    <%= mmt_select(
       name: 'mime_type',
       title: 'Mime Type',
       prefix: name_prefix,

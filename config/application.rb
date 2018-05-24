@@ -41,7 +41,7 @@ module Mmt
 
     config.services = YAML.load_file(Rails.root.join('config/services.yml'))
 
-    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.9'
+    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.10'
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.1'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.1'
 

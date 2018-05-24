@@ -47,13 +47,13 @@ FactoryGirl.define do
           'Description' => 'test 1 PC Description',
           'Value'       => 'test 1 PC Value',
           'Unit'        => 'test 1 PC Unit',
-          'DataType'    => 'test 1 PC DataType'
+          'DataType'    => 'STRING'
         }, {
           'Name'        => 'test 2 PC Name',
           'Description' => 'test 2 PC Description',
           'Value'       => 'test 2 PC Value',
           'Unit'        => 'test 2 PC Unit',
-          'DataType'    => 'test 2 PC DataType'
+          'DataType'    => 'STRING'
         }],
         'Instruments' => [{
           'ShortName' => 'ATM',
@@ -63,13 +63,13 @@ FactoryGirl.define do
             'Description' => 'test 1 PI Description',
             'Value'       => 'test 1 PI Value',
             'Unit'        => 'test 1 PI Unit',
-            'DataType'    => 'test 1 PI DataType'
+            'DataType'    => 'STRING'
           }, {
             'Name'        => 'test 2 PI Name',
             'Description' => 'test 2 PI Description',
             'Value'       => 'test 2 PI Value',
             'Unit'        => 'test 2 PI Unit',
-            'DataType'    => 'test 2 PI DataType'
+            'DataType'    => 'STRING'
           }],
           'Technique'       => 'test 1 PI Technique',
           'NumberOfInstruments' => 234,
@@ -82,13 +82,13 @@ FactoryGirl.define do
               'Description' => 'test 1 PS Description',
               'Value'       => 'test 1 PS Value',
               'Unit'        => 'test 1 PS Unit',
-              'DataType'    => 'test 1 PS DataType'
+              'DataType'    => 'STRING'
             }, {
               'Name'        => 'test 2 PS Name',
               'Description' => 'test 2 PS Description',
               'Value'       => 'test 2 PS Value',
               'Unit'        => 'test 2 PS Unit',
-              'DataType'    => 'test 2 PS DataType'
+              'DataType'    => 'STRING'
             }]
           }, {
             'ShortName' => 'SMAP L-BAND RADIOMETER',
@@ -99,13 +99,13 @@ FactoryGirl.define do
               'Description' => 'test 1b PS Description',
               'Value'       => 'test 1b PS Value',
               'Unit'        => 'test 1b PS Unit',
-              'DataType'    => 'test 1b PS DataType'
+              'DataType'    => 'STRING'
             }, {
               'Name'        => 'test 2b PS Name',
               'Description' => 'test 2b PS Description',
               'Value'       => 'test 2b PS Value',
               'Unit'        => 'test 2b PS Unit',
-              'DataType'    => 'test 2b PS DataType'
+              'DataType'    => 'STRING'
             }]
           }],
           'OperationalModes' => ['test 1a Op', 'test 1b Op']
@@ -117,13 +117,13 @@ FactoryGirl.define do
             'Description' => 'test 1d PI Description',
             'Value'       => 'test 1d PI Value',
             'Unit'        => 'test 1d PI Unit',
-            'DataType'    => 'test 1d PI DataType'
+            'DataType'    => 'STRING'
           }, {
             'Name'        => 'test 2d PI Name',
             'Description' => 'test 2d PI Description',
             'Value'       => 'test 2d PI Value',
             'Unit'        => 'test 2d PI Unit',
-            'DataType'    => 'test 2d PI DataType'
+            'DataType'    => 'STRING'
           }],
           'Technique'       => 'test 1d PI Technique',
           'NumberOfInstruments' => 345,
@@ -136,13 +136,13 @@ FactoryGirl.define do
               'Description' => 'test 1d PS Description',
               'Value'       => 'test 1d PS Value',
               'Unit'        => 'test 1d PS Unit',
-              'DataType'    => 'test 1d PS DataType'
+              'DataType'    => 'STRING'
             }, {
               'Name'        => 'test 2d PS Name',
               'Description' => 'test 2d PS Description',
               'Value'       => 'test 2d PS Value',
               'Unit'        => 'test 2d PS Unit',
-              'DataType'    => 'test 2d PS DataType'
+              'DataType'    => 'STRING'
             }]
           }, {
             'ShortName' => 'SMAP L-BAND RADIOMETER',
@@ -153,13 +153,13 @@ FactoryGirl.define do
               'Description' => 'test 1db PS Description',
               'Value'       => 'test 1db PS Value',
               'Unit'        => 'test 1db PS Unit',
-              'DataType'    => 'test 1db PS DataType'
+              'DataType'    => 'STRING'
             }, {
               'Name'        => 'test 2db PS Name',
               'Description' => 'test 2db PS Description',
               'Value'       => 'test 2db PS Value',
               'Unit'        => 'test 2db PS Unit',
-              'DataType'    => 'test 2db PS DataType'
+              'DataType'    => 'STRING'
             }]
           }],
           'OperationalModes' => ['test 1da Op', 'test 1db Op']
@@ -173,13 +173,13 @@ FactoryGirl.define do
           'Description' => 'test a1 PC Description',
           'Value'       => 'test a1 PC Value',
           'Unit'        => 'test a1 PC Unit',
-          'DataType'    => 'test a1 PC DataType'
+          'DataType'    => 'STRING'
         }, {
           'Name'        => 'test a2 PC Name',
           'Description' => 'test a2 PC Description',
           'Value'       => 'test a2 PC Value',
           'Unit'        => 'test a2 PC Unit',
-          'DataType'    => 'test a2 PC DataType'
+          'DataType'    => 'STRING'
         }],
         'Instruments' => [{
           'ShortName' => 'ADS',
@@ -189,13 +189,13 @@ FactoryGirl.define do
             'Description' => 'test a1 PI Description',
             'Value'       => 'test a1 PI Value',
             'Unit'        => 'test a1 PI Unit',
-            'DataType'    => 'test a1 PI DataType'
+            'DataType'    => 'STRING'
           }, {
             'Name'        => 'test a2 PI Name',
             'Description' => 'test a2 PI Description',
             'Value'       => 'test a2 PI Value',
             'Unit'        => 'test a2 PI Unit',
-            'DataType'    => 'test a2 PI DataType'
+            'DataType'    => 'STRING'
           }],
           'Technique'       => 'test a1 PI Technique',
           'NumberOfInstruments' => 456,
@@ -208,13 +208,13 @@ FactoryGirl.define do
               'Description' => 'test a1 PS Description',
               'Value'       => 'test a1 PS Value',
               'Unit'        => 'test a1 PS Unit',
-              'DataType'    => 'test a1 PS DataType'
+              'DataType'    => 'STRING'
             }, {
               'Name'        => 'test a2 PS Name',
               'Description' => 'test a2 PS Description',
               'Value'       => 'test a2 PS Value',
               'Unit'        => 'test a2 PS Unit',
-              'DataType'    => 'test a2 PS DataType'
+              'DataType'    => 'STRING'
             }]
           }, {
             'ShortName' => 'SMAP L-BAND RADIOMETER',
@@ -225,13 +225,13 @@ FactoryGirl.define do
               'Description' => 'test a1b PS Description',
               'Value'       => 'test a1b PS Value',
               'Unit'        => 'test a1b PS Unit',
-              'DataType'    => 'test a1b PS DataType'
+              'DataType'    => 'STRING'
             }, {
               'Name'        => 'test a2b PS Name',
               'Description' => 'test a2b PS Description',
               'Value'       => 'test a2b PS Value',
               'Unit'        => 'test a2b PS Unit',
-              'DataType'    => 'test a2b PS DataType'
+              'DataType'    => 'STRING'
             }]
           }],
           'OperationalModes' => ['test a1a Op', 'test a1b Op']
@@ -243,13 +243,13 @@ FactoryGirl.define do
             'Description' => 'test a1d PI Description',
             'Value'       => 'test a1d PI Value',
             'Unit'        => 'test a1d PI Unit',
-            'DataType'    => 'test a1d PI DataType'
+            'DataType'    => 'STRING'
           }, {
             'Name'        => 'test a2d PI Name',
             'Description' => 'test a2d PI Description',
             'Value'       => 'test a2d PI Value',
             'Unit'        => 'test a2d PI Unit',
-            'DataType'    => 'test a2d PI DataType'
+            'DataType'    => 'STRING'
           }],
           'Technique'       => 'test a1d PI Technique',
           'NumberOfInstruments' => 567,
@@ -262,13 +262,13 @@ FactoryGirl.define do
               'Description' => 'test a1d PS Description',
               'Value'       => 'test a1d PS Value',
               'Unit'        => 'test a1d PS Unit',
-              'DataType'    => 'test a1d PS DataType'
+              'DataType'    => 'STRING'
             }, {
               'Name'        => 'test a2d PS Name',
               'Description' => 'test a2d PS Description',
               'Value'       => 'test a2d PS Value',
               'Unit'        => 'test a2d PS Unit',
-              'DataType'    => 'test a2d PS DataType'
+              'DataType'    => 'STRING'
             }]
           }, {
             'ShortName' => 'SMAP L-BAND RADIOMETER',
@@ -279,13 +279,13 @@ FactoryGirl.define do
               'Description' => 'test a1db PS Description',
               'Value'       => 'test a1db PS Value',
               'Unit'        => 'test a1db PS Unit',
-              'DataType'    => 'test a1db PS DataType'
+              'DataType'    => 'STRING'
             }, {
               'Name'        => 'test a2db PS Name',
               'Description' => 'test a2db PS Description',
               'Value'       => 'test a2db PS Value',
               'Unit'        => 'test a2db PS Unit',
-              'DataType'    => 'test a2db PS DataType'
+              'DataType'    => 'STRING'
             }]
           }],
           'OperationalModes' => ['test a1da Op', 'test a1db Op']
@@ -567,9 +567,16 @@ FactoryGirl.define do
         'DOI'       => 'Citation DOI',
         'Authority' => 'Citation DOI Authority'
       },
-      'CollectionProgress' => 'IN WORK',
+      'CollectionProgress' => 'ACTIVE',
       'Quality'            => 'Metadata quality summary',
-      'UseConstraints'     => 'These are some use constraints',
+      'UseConstraints'     => {
+        'Description' => {
+          'Description' => 'These are some use constraints'
+        },
+        'LicenseUrl' => {
+          'Linkage' => 'http://example.com'
+        }
+      },
       'AccessConstraints' => {
         'Value'       => 42,
         'Description' => 'Access constraint description'
@@ -654,13 +661,13 @@ FactoryGirl.define do
         'Type' => 'GET DATA',
         'Subtype' => 'EARTHDATA SEARCH',
         'URL' => 'https://search.earthdata.nasa.gov/',
-        'GetService' => {
+        'GetData' => {
+          'Format' => 'ascii',
           'MimeType' => 'Not provided',
-          'Protocol' => 'HTTPS',
-          'FullName' => 'Earthdata Search',
-          'DataID' => 'data_id',
-          'DataType' => 'data type',
-          'URI' => ['uri']
+          'Size' => 42,
+          'Unit' => 'KB',
+          'Fees' => '0',
+          'Checksum' => 'sdfgfgksghafgsdvbasf'
         }
       }, {
         'Description' => 'Related URL 3 Description',
@@ -668,12 +675,14 @@ FactoryGirl.define do
         'Type' => 'GET SERVICE',
         'Subtype' => 'DIF',
         'URL' => 'https://example.com/',
-        'GetData' => {
+        'GetService' => {
           'Format' => 'ascii',
-          'Size' => 42,
-          'Unit' => 'KB',
-          'Fees' => '0',
-          'Checksum' => 'sdfgfgksghafgsdvbasf'
+          'MimeType' => 'Not provided',
+          'Protocol' => 'HTTPS',
+          'FullName' => 'Earthdata Search',
+          'DataID' => 'data_id',
+          'DataType' => 'data type',
+          'URI' => ['uri']
         }
       }],
       'MetadataLanguage' => 'eng',
@@ -713,7 +722,7 @@ FactoryGirl.define do
         'GranuleSpatialRepresentation' => 'CARTESIAN'
       },
       'TilingIdentificationSystems' => [{
-        'TilingIdentificationSystemName' => 'System name',
+        'TilingIdentificationSystemName' => 'MISR',
         'Coordinate1' => {
           'MinimumValue' => -50, 'MaximumValue' => 50
         },
@@ -721,7 +730,7 @@ FactoryGirl.define do
           'MinimumValue' => -30, 'MaximumValue' => 30
         }
       }, {
-        'TilingIdentificationSystemName' => 'System name 1',
+        'TilingIdentificationSystemName' => 'MODIS Tile EASE',
         'Coordinate1' => {
           'MinimumValue' => -25, 'MaximumValue' => 25
         },
@@ -733,15 +742,22 @@ FactoryGirl.define do
         'SpatialCoverageType' => 'BOTH',
         'HorizontalCoordinateSystem' => {
           'GeodeticModel' => {
-            'HorizontalDatumName' => 'Datum name', 'EllipsoidName' => 'Ellipsoid name', 'SemiMajorAxis' => 3.0, 'DenominatorOfFlatteningRatio' => 4.0
+            'HorizontalDatumName' => 'Datum name',
+            'EllipsoidName' => 'Ellipsoid name',
+            'SemiMajorAxis' => 3.0,
+            'DenominatorOfFlatteningRatio' => 4.0
           }
         },
         'VerticalCoordinateSystem' => {
           'AltitudeSystemDefinition' => {
-            'DatumName' => 'Datum', 'DistanceUnits' => 'Distance Units', 'EncodingMethod' => 'Encoding', 'Resolutions' => [1.0, 2.0, 3.0]
+            'DatumName' => 'Datum',
+            'DistanceUnits' => 'HectoPascals',
+            'Resolutions' => [1.0, 2.0, 3.0]
           },
           'DepthSystemDefinition' => {
-            'DatumName' => 'Datum 2', 'DistanceUnits' => 'Distance Units 2', 'EncodingMethod' => 'Encoding 2', 'Resolutions' => [12.0, 22.0, 32.0]
+            'DatumName' => 'Datum 2',
+            'DistanceUnits' => 'Fathoms',
+            'Resolutions' => [12.0, 22.0, 32.0]
           }
         }
       },
@@ -753,12 +769,10 @@ FactoryGirl.define do
         'Type' => 'ATLANTIC OCEAN'
       }],
       'TemporalExtents' => [{
-        'TemporalRangeType'  => 'SingleDateTime',
         'PrecisionOfSeconds' => 1,
         'EndsAtPresentFlag'  => false,
         'SingleDateTimes'    => ['2015-07-01T00:00:00Z', '2015-12-25T00:00:00Z']
       }, {
-        'TemporalRangeType'  => 'RangeDateTime',
         'PrecisionOfSeconds' => 10,
         'EndsAtPresentFlag'  => false,
         'RangeDateTimes' => [{
@@ -769,7 +783,6 @@ FactoryGirl.define do
           'EndingDateTime'    => '2015-08-01T00:00:00Z'
         }]
       }, {
-        'TemporalRangeType'  => 'PeriodicDateTime',
         'PrecisionOfSeconds' => 30,
         'EndsAtPresentFlag'  => false,
         'PeriodicDateTimes' => [{

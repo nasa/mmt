@@ -1,15 +1,16 @@
 <div class="row sub-fields">
   <!-- Type -->
   <div class="col-6">
-    <%= mmt_text_field(
+    <%= mmt_select(
       name: 'type',
       title: 'Type',
       prefix: name_prefix,
       value: vertical_spatial_domain['Type'],
+      options: DraftsHelper::VerticalSpatialDomainTypeOptions,
       help: 'definitions/VerticalSpatialDomainType/properties/Type',
       validate: true,
       required: true
-     ) %>
+    ) %>
   </div>
 
 
