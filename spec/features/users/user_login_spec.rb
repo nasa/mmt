@@ -12,9 +12,7 @@ describe 'User login' do
       within 'h2.current' do
         expect(page).to have_content('Manage Collections')
       end
-    end
 
-    it 'does not display public holdings' do
       expect(page).to have_no_css('table#public-holdings')
     end
 
@@ -68,9 +66,6 @@ describe 'User login' do
       within 'h2.current' do
         expect(page).to have_content('Manage Collections')
       end
-    end
-
-    it 'does not display public holdings' do
       expect(page).to have_no_css('table#public-holdings')
     end
 

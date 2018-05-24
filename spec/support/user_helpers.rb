@@ -186,6 +186,8 @@ module Helpers
 
       # page.driver.browser.post('/saml/acs', SAMLResponse: ENV['launchpad_saml_response'])
       visit root_path
+      # this button sends a post request (which Capybara cannot do) to SAML#acs,
+      # the return endpoint after a successful Launchpad authentication.
       click_on 'Launchpad Test Login'
     end
 

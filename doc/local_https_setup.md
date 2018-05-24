@@ -2,6 +2,7 @@
 ## Configure environment to run MMT over HTTPS locally, to be able to authenticate with Launchpad ##
 
 ### Nginx ###
+#### MMT Servers use Nginx, so this is the preferred method ####
 
 When running MMT with Launchpad Authentication, MMT should be configured to run at `https://mmt.localtest.earthdata.nasa.gov`. The url will need to be configured to redirect to `localhost:3000`:
 
