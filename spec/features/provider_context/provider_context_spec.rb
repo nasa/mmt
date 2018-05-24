@@ -20,6 +20,7 @@ describe 'Provider context', reset_provider: true, js: true do
     end
 
     context 'when a user logs in for the first time' do
+      # this should be removed with MMT-1446
       # it 'saves the users echo_id' do
       #   expect(User.first.echo_id).to eq('user-echo-token')
       # end

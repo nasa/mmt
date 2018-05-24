@@ -150,7 +150,6 @@ module Helpers
       user.save
 
       allow_any_instance_of(ApplicationController).to receive(:is_logged_in).and_return(true)
-      # allow_any_instance_of(ApplicationController).to receive(:logged_in?).and_return(true)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(token)
     end

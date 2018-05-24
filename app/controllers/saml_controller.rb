@@ -58,6 +58,7 @@ class SamlController < UsersController
       session[:logged_in_at] = Time.now.to_i
 
       # for now, this requires that the user already has their auid and urs_uid associated in URS
+      # MMT-1432 will allow them to make the association
       urs_profile = get_urs_profile_from_auid
 
       # Stores additional information in the session pertaining to the user

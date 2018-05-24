@@ -105,7 +105,7 @@ describe 'User login' do
       real_login(method: 'urs')
     end
 
-    it 'redirects the user back to the logged out page with the appropriate error message' do
+    it 'redirects the user back to the logged out page displaying an error message and no login button' do
       expect(page).to have_content('ABOUT THE METADATA MANAGEMENT TOOL')
       expect(page).to have_content('ABOUT THE CMR')
 
@@ -113,6 +113,8 @@ describe 'User login' do
         expect(page).to have_content('An error has occurred with our login system. Please contact Earthdata Support.')
         expect(page).to have_link('Earthdata Support', href: 'mailto:support@earthdata.nasa.gov')
       end
+
+      expect(page).to have_no_link('Login', href: login_path)
     end
   end
 
@@ -123,16 +125,16 @@ describe 'User login' do
       real_login(method: 'urs')
     end
 
-    it 'redirects the user back to the logged out page with the appropriate error message' do
+    it 'redirects the user back to the logged out page displaying an error message and no login button' do
       expect(page).to have_content('ABOUT THE METADATA MANAGEMENT TOOL')
       expect(page).to have_content('ABOUT THE CMR')
-
-      expect(page).to have_link('Login', href: login_path)
 
       within '.eui-banner--danger' do
         expect(page).to have_content('An error has occurred with our login system. Please contact Earthdata Support.')
         expect(page).to have_link('Earthdata Support', href: 'mailto:support@earthdata.nasa.gov')
       end
+
+      expect(page).to have_no_link('Login', href: login_path)
     end
   end
 end

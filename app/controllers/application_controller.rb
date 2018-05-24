@@ -155,11 +155,7 @@ class ApplicationController < ActionController::Base
 
     session[:return_to] = request.fullpath
 
-    if launchpad_login_required?
-      Rails.logger.info("Launchpad #{launchpad_cookie_name} Cookie: #{token}") if Rails.env.development?
-    elsif urs_login_required?
-      Rails.logger.info("Access Token: #{token}") if Rails.env.development?
-    end
+    Rails.logger.info("#{launchpad_login_required? ? 'Launchpad' : 'URS'} token: #{token}") if Rails.env.development?
 
     return true if logged_in?
     redirect_to login_path
@@ -290,18 +286,27 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_one_login_method
-    if (urs_login_required? && launchpad_login_required?) || (!urs_login_required? && !launchpad_login_required?)
+    if both_login_methods_on?
       # Unless specifically directed otherwise, we should have one login method:
       # if both URS and Launchpad login requirements are turned OFF, users will not be authenticated and cannot access a token/cookie
       # if both URS and Launchpad login requirements are turned ON, users will be required to login to two separate systems
       # neither of these situations should allow usage to continue
       Rails.logger.error('An error has occured. Both URS and Launchpad login feature toggles are in the same state. Please check the configuration variables urs_login_required and launchpad_login_required for this environment.')
 
-      redirect_to root_url, flash: { error: "An error has occurred with our login system. Please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." } and return
+      # clear session information so user is not logged in
+      store_oauth_token
+      store_session_data
+
+      redirect_to root_url and return
     end
 
     true
   end
+
+  def both_login_methods_on?
+    (urs_login_required? && launchpad_login_required?) || (!urs_login_required? && !launchpad_login_required?)
+  end
+  helper_method :both_login_methods_on?
 
   def launchpad_cookie_name
     Rails.configuration.launchpad_cookie_name
