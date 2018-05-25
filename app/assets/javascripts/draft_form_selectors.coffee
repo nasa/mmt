@@ -301,6 +301,5 @@ $(document).ready ->
       when 'Available'
         $parent.find('.doi-fields.available').show()
       when 'NotAvailable'
-        # TODO autoselect Not Applicable because it is the only option for MissingReason
         $parent.find('.doi-fields.not-available').show()
         $parent.find('.doi-fields.not-available select').val('Not Applicable')

@@ -6,8 +6,7 @@
       prefix: name_prefix,
       value: get_service['Format'],
       options: DraftsHelper::GetDataTypeFormatOptions,
-      help: 'definitions/GetServiceType/properties/Format',
-      validate: true
+      help: 'definitions/GetServiceType/properties/Format'
     ) %>
 
     <%= mmt_select(
@@ -17,7 +16,6 @@
       value: get_service['MimeType'],
       options: DraftsHelper::MimeTypeOptions,
       help: 'definitions/GetServiceType/properties/MimeType',
-      validate: true,
       required: true
     ) %>
 
@@ -28,7 +26,6 @@
       value: get_service['Protocol'],
       options: DraftsHelper::ProtocolOptions,
       help: 'definitions/GetServiceType/properties/Protocol',
-      validate: true,
       required: true
     ) %>
 

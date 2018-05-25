@@ -58,7 +58,7 @@ class UmmC19To110 < ActiveRecord::Migration
       # Upcase the name and see if it matches the enum
       geographic_coordinate_units = draft.fetch('SpatialInformation', {}).fetch('HorizontalCoordinateSystem', {}).fetch('GeographicCoordinateSystem', {}).delete('GeographicCoordinateUnits')
       unless geographic_coordinate_units.nil?
-        new_unit = nil
+        new_unit = geographic_coordinate_units
         ['Decimal Degrees', 'Kilometers', 'Meters'].each do |unit|
           if unit.upcase == geographic_coordinate_units.upcase
             new_unit = unit
@@ -72,7 +72,7 @@ class UmmC19To110 < ActiveRecord::Migration
       # Altitude DistanceUnits
       altitude_distance_units = draft.fetch('SpatialInformation', {}).fetch('VerticalCoordinateSystem', {}).fetch('AltitudeSystemDefinition', {}).delete('DistanceUnits')
       unless altitude_distance_units.nil?
-        new_unit = nil
+        new_unit = altitude_distance_units
         %w[HectoPascals Kilometers Millibars].each do |unit|
           new_unit = unit if unit.upcase == altitude_distance_units.upcase
         end
@@ -83,7 +83,7 @@ class UmmC19To110 < ActiveRecord::Migration
       # Depth DistanceUnits
       depth_distance_units = draft.fetch('SpatialInformation', {}).fetch('VerticalCoordinateSystem', {}).fetch('DepthSystemDefinition', {}).delete('DistanceUnits')
       unless depth_distance_units.nil?
-        new_unit = nil
+        new_unit = depth_distance_units
         %w[Fathoms Feet HectoPascals Meters Millibars].each do |unit|
           new_unit = unit if unit.upcase == depth_distance_units.upcase
         end
@@ -99,15 +99,14 @@ class UmmC19To110 < ActiveRecord::Migration
       # This behavior will eventually generate errors"
 
       # I don't think we should completely delete the VerticalSpatialDomain, we can just remove the Type field, schema validation will point out the missing field
-      # TODO look at invalid picklists instead of deleting the field
       if draft.key? 'SpatialExtent'
         spatial_extent = draft['SpatialExtent']
 
         if spatial_extent.key? 'VerticalSpatialDomains'
           Array.wrap(spatial_extent['VerticalSpatialDomains']).each do |domain|
-            new_type = nil
+            new_type = domain['Type']
             ['Atmosphere Layer', 'Maximum Altitude', 'Maximum Depth', 'Minimum Altitude', 'Minimum Depth'].each do |type|
-              new_type = type if type.upcase == domain['Type'].upcase
+              new_type = type if type.upcase == new_type.upcase
             end
 
             domain['Type'] = new_type unless new_type.nil?

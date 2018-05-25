@@ -292,6 +292,10 @@ $(document).ready ->
             errors.push newError
 
   validatePicklistValues = (errors) ->
+    # the mmt-fake-enum class is added to the select fields that don't have enum
+    # values in the UMM Schema. Those 'real' enums can generate the errors messages
+    # we need to display through schema validation. 'Fake' enums need this method to
+    # generate errors
     $('select.mmt-fake-enum > option:disabled:selected, select.mmt-fake-enum > optgroup > option:disabled:selected').each ->
       id = $(this).parents('select').attr('id')
       visitedFields.push id

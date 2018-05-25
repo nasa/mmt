@@ -59,7 +59,6 @@ module FormHelper
     # default values when not multi-select
     is_multi_select = false
     prompt = "Select #{options[:title]}"
-    prompt = nil if options[:no_prompt]
     size = nil
 
     is_multi_select = true if options[:multiple]
