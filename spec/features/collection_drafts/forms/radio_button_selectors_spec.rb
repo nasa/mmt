@@ -82,7 +82,7 @@ describe 'Radio button form selectors', js: true do
           fill_in 'Denominator Of Flattening Ratio', with: '4.0'
 
           choose 'Geographic'
-          fill_in 'Geographic Coordinate Units', with: 'Coordinate units'
+          select 'Meters', from: 'Geographic Coordinate Units'
           fill_in 'Latitude Resolution', with: '42.0'
           fill_in 'Longitude Resolution', with: '43.0'
 
@@ -158,7 +158,7 @@ describe 'Radio button form selectors', js: true do
     context 'when switching between options after filling in form data' do
       before do
         choose 'Geographic'
-        fill_in 'Geographic Coordinate Units', with: 'Coordinate units'
+        select 'Meters', from: 'Geographic Coordinate Units'
         fill_in 'Latitude Resolution', with: '42.0'
         fill_in 'Longitude Resolution', with: '43.0'
 

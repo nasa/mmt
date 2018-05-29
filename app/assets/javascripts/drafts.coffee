@@ -94,6 +94,13 @@ $(document).ready ->
     else
       firstElement = $(newDiv).find('select, input, textarea').not('.simple-multiple-field').first()
 
+    # if the first element doesn't have a name attribute,
+    # like TemporalRangeType (UMM-C 1.10)
+    # then the nameIndex is incorrectly calculated,
+    # so trying using the last element instead
+    unless $(firstElement).attr('name')?
+      firstElement = $(newDiv).find('select, input, textarea').not('.simple-multiple-field').last()
+
     nameIndex = $(firstElement).attr('name').lastIndexOf("#{type}][#{multipleIndex}]")
     idIndex = $(firstElement).attr('id').lastIndexOf("#{type}_#{multipleIndex}")
 

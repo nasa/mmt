@@ -100,7 +100,7 @@ describe 'Number fields', js: true do
         expect(page).to have_content('Drafts')
       end
 
-      draft_metadata = { 'TemporalExtents' => [{ 'TemporalRangeType' => 'SingleDateTime', 'PrecisionOfSeconds' => 'abcd', 'EndsAtPresentFlag' => false, 'SingleDateTimes' => ['2015-07-01T00:00:00Z'] }] }
+      draft_metadata = { 'TemporalExtents' => [{ 'PrecisionOfSeconds' => 'abcd', 'EndsAtPresentFlag' => false, 'SingleDateTimes' => ['2015-07-01T00:00:00Z'] }] }
       expect(Draft.last.draft).to eq(draft_metadata)
     end
 

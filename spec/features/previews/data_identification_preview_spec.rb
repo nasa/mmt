@@ -49,7 +49,7 @@ describe 'Data identification preview' do
             expect(page).to have_content('Metadata quality summary')
           end
 
-          expect(page).to have_content('Collection Progress In Work')
+          expect(page).to have_content('Collection Progress Active')
 
           expect(page).to have_content('These are some use constraints')
 

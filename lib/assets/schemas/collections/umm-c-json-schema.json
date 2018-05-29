@@ -1,6 +1,45 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
+    "UseConstraintsDescriptionType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This sub-element either contains a license summary or free-text description that details the permitted use or limitation of this collection.",
+      "properties": {
+        "Description": {
+          "description": "This sub-element either contains a license summary or free-text description that details the permitted use or limitation of this collection.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      }
+    },
+    "UseConstraintsType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.",
+      "properties": {
+        "Description": {
+          "$ref": "#/definitions/UseConstraintsDescriptionType"
+        },
+        "LicenseUrl": {
+          "description": "This element holds the URL and associated information to access the License on the web. If this element is used the LicenseText element cannot be used.",
+          "$ref": "umm-cmn-json-schema.json#/definitions/OnlineResourceType"
+        },
+        "LicenseText": {
+          "description": "This element holds the actual license text. If this element is used the LicenseUrl element cannot be used.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20000
+        }
+      },
+      "anyOf": [
+          {"required": ["Description"]},
+          {"required": ["LicenseUrl"]},
+          {"required": ["LicenseText"]}
+      ],
+      "not": {"required": ["LicenseUrl", "LicenseText"]}
+    },
     "DirectoryNameType": {
       "type": "object",
       "additionalProperties": false,
@@ -112,17 +151,27 @@
       "additionalProperties": false,
       "properties": {
         "AltitudeSystemDefinition": {
-          "$ref": "#/definitions/VerticalSystemDefinitionType"
+          "$ref": "#/definitions/AltitudeSystemDefinitionType"
         },
         "DepthSystemDefinition": {
-          "$ref": "#/definitions/VerticalSystemDefinitionType"
+          "$ref": "#/definitions/DepthSystemDefinitionType"
         }
       }
     },
-    "VerticalSystemDefinitionType": {
+    "AltitudeDistanceUnitsEnum": {
+      "description": "The units in which altitude measurements are recorded.",
+      "type": "string",
+      "enum": ["HectoPascals", "Kilometers", "Millibars"]
+    },
+    "DepthDistanceUnitsEnum": {
+      "description": "The units in which depth measurements are recorded.",
+      "type": "string",
+      "enum": ["Fathoms", "Feet", "HectoPascals", "Meters", "Millibars"]
+    },
+    "AltitudeSystemDefinitionType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "The reference frame or system from which altitude or depths are measured. The term 'altitude' is used instead of the common term 'elevation' to conform to the terminology in Federal Information Processing Standards 70-1 and 173. The information contains the datum name, distance units and encoding method, which provide the definition for the system.",
+      "description": "The reference frame or system from which altitude is measured. The term 'altitude' is used instead of the common term 'elevation' to conform to the terminology in Federal Information Processing Standards 70-1 and 173. The information contains the datum name, distance units and encoding method, which provide the definition for the system.",
       "properties": {
         "DatumName": {
           "description": "The identification given to the level surface taken as the surface of reference from which measurements are compared.",
@@ -132,15 +181,32 @@
         },
         "DistanceUnits": {
           "description": "The units in which measurements are recorded.",
+          "$ref": "#/definitions/AltitudeDistanceUnitsEnum"
+        },
+        "Resolutions": {
+          "description": "The minimum distance possible between two adjacent values, expressed in distance units of measure for the collection.",
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 0
+        }
+      }
+    },
+    "DepthSystemDefinitionType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The reference frame or system from which depth is measured. The information contains the datum name, distance units and encoding method, which provide the definition for the system.",
+      "properties": {
+        "DatumName": {
+          "description": "The identification given to the level surface taken as the surface of reference from which measurements are compared.",
           "type": "string",
           "minLength": 1,
           "maxLength": 80
         },
-        "EncodingMethod": {
-          "description": "The means used to encode measurements.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 2048
+        "DistanceUnits": {
+          "description": "The units in which measurements are recorded.",
+          "$ref": "#/definitions/DepthDistanceUnitsEnum"
         },
         "Resolutions": {
           "description": "The minimum distance possible between two adjacent values, expressed in distance units of measure for the collection.",
@@ -212,15 +278,18 @@
         }
       }
     },
+    "GeographicCoordinateUnitsEnum": {
+      "description": "Units of measure used for the geodetic latitude and longitude resolution values (e.g., decimal degrees).",
+      "type": "string",
+      "enum": ["Decimal Degrees", "Kilometers", "Meters"]
+    },
     "GeographicCoordinateSystemType": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "GeographicCoordinateUnits": {
           "description": "Units of measure used for the geodetic latitude and longitude resolution values (e.g., decimal degrees).",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
+          "$ref": "#/definitions/GeographicCoordinateUnitsEnum"
         },
         "LatitudeResolution": {
           "description": "The minimum difference between two adjacent latitude values in the Geographic Coordinate System,  expressed in Geographic Coordinate Units of measure, expressed as a two-digit decimal number, e.g., 0.01",
@@ -254,6 +323,11 @@
       "description": "This element is used to identify the collection as a Science Quality Collection or as a non-science-quality collection such as a Near Real Time collection. If a collection does not contain this field, it will be assumed to be of science-quality.",
       "type": "string",
       "enum": ["SCIENCE_QUALITY", "NEAR_REAL_TIME", "OTHER"]
+    },
+    "CollectionProgressEnum": {
+      "description": "This element describes the production status of the data set. There are four choices for Data Providers: PLANNED refers to data sets to be collected in the future and are thus unavailable at the present time. For Example: The Hydro spacecraft has not been launched, but information on planned data sets may be available. ACTIVE refers to data sets currently in production or data that is continuously being collected or updated. For Example: data from the AIRS instrument on Aqua is being collected continuously. COMPLETE refers to data sets in which no updates or further data collection will be made. For Example: Nimbus-7 SMMR data collection has been completed. NOT APPLICABLE refers to data sets in which a collection progress is not applicable such as a calibration collection. There is a fifth value of NOT PROVIDED that should not be used by a data provider. It is currently being used as a value when a correct translation cannot be done with the current valid values, or when the value is not provided by the data provider.",
+      "type": "string",
+      "enum": ["ACTIVE", "PLANNED", "COMPLETE", "NOT APPLICABLE", "NOT PROVIDED"]
     },
     "LocationKeywordType": {
       "description": "This element defines a mapping to the GCMD KMS hierarchical location list. It replaces SpatialKeywords. Each tier must have data in the tier above it.",
@@ -317,7 +391,7 @@
       "$ref": "umm-cmn-json-schema.json#/definitions/EntryTitleType"
     },
     "DOI": {
-        "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of http://dx.doi.org/ should be used.",
+        "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. While this element is not required, NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections.",
         "$ref": "umm-cmn-json-schema.json#/definitions/DoiType"
     },
     "Abstract": {
@@ -379,11 +453,8 @@
       "minItems": 0
     },
     "CollectionProgress": {
-      "description": "Describes the production status of the data set. There are three choices: PLANNED refers to data sets to be collected in the future and are thus unavailable at the present time. For Example: The Hydro spacecraft has not been launched, but information on planned data sets may be available. IN WORK refers to data sets currently in production or data that is continuously being collected or updated. For Example: data from the AIRS instrument on Aqua is being collected continuously. COMPLETE refers to data sets in which no updates or further data collection will be made. For Example: Nimbus-7 SMMR data collection has been completed.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 80,
-      "pattern": "[\\w]{1,79}"
+      "description": "This element describes the production status of the data set. There are four choices for Data Providers: PLANNED refers to data sets to be collected in the future and are thus unavailable at the present time. For Example: The Hydro spacecraft has not been launched, but information on planned data sets may be available. ACTIVE refers to data sets currently in production or data that is continuously being collected or updated. For Example: data from the AIRS instrument on Aqua is being collected continuously. COMPLETE refers to data sets in which no updates or further data collection will be made. For Example: Nimbus-7 SMMR data collection has been completed. NOT APPLICABLE refers to data sets in which a collection progress is not applicable such as a calibration collection. There is a fifth value of NOT PROVIDED that should not be used by a data provider. It is currently being used as a value when a correct translation cannot be done with the current valid values, or when the value is not provided by the data provider.",
+      "$ref": "#/definitions/CollectionProgressEnum"
     },
     "Quality": {
       "description": "Free text description of the quality of the collection data.  Description may include: 1) succinct description of the quality of data in the collection; 2) Any quality assurance procedures followed in producing the data in the collection; 3) indicators of collection quality or quality flags - both validated or invalidated; 4) recognized or potential problems with quality; 5) established quality control mechanisms; and 6) established quantitative quality measurements.",
@@ -391,7 +462,7 @@
     },
     "UseConstraints": {
       "description": "Designed to protect privacy and/or intellectual property by allowing the author to specify how the collection may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness. Note: Use Constraints describe how the item may be used once access has been granted; and is distinct from Access Constraints, which refers to any constraints in accessing the item.",
-      "$ref": "umm-cmn-json-schema.json#/definitions/UseConstraintsType"
+      "$ref": "#/definitions/UseConstraintsType"
     },
     "AccessConstraints": {
       "description": "Allows the author to constrain access to the collection. This includes any special restrictions, legal prerequisites, limitations and/or warnings on obtaining collection data. Some words that may be used in this element's value include: Public, In-house, Limited, None. The value field is used for special ACL rules (Access Control Lists (http://en.wikipedia.org/wiki/Access_control_list)). For example it can be used to hide metadata when it isn't ready for public consumption.",

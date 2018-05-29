@@ -68,14 +68,14 @@ describe 'Acquisition information form', js: true do
               expect(page).to have_field('Description', with: 'Characteristics description')
               expect(page).to have_field('Value', with: 'Characteristics value')
               expect(page).to have_field('Unit', with: 'unit')
-              expect(page).to have_field('Data Type', with: 'Characteristics data type')
+              expect(page).to have_field('Data Type', with: 'STRING')
             end
             within '.multiple-item-1' do
               expect(page).to have_field('Name', with: 'Characteristics name 1')
               expect(page).to have_field('Description', with: 'Characteristics description 1')
               expect(page).to have_field('Value', with: 'Characteristics value 1')
               expect(page).to have_field('Unit', with: 'unit 1')
-              expect(page).to have_field('Data Type', with: 'Characteristics data type 1')
+              expect(page).to have_field('Data Type', with: 'STRING')
             end
           end
         end
@@ -94,14 +94,14 @@ describe 'Acquisition information form', js: true do
               expect(page).to have_field('Description', with: 'Characteristics description')
               expect(page).to have_field('Value', with: 'Characteristics value')
               expect(page).to have_field('Unit', with: 'unit')
-              expect(page).to have_field('Data Type', with: 'Characteristics data type')
+              expect(page).to have_field('Data Type', with: 'STRING')
             end
             within '.multiple-item-1' do
               expect(page).to have_field('Name', with: 'Characteristics name 1')
               expect(page).to have_field('Description', with: 'Characteristics description 1')
               expect(page).to have_field('Value', with: 'Characteristics value 1')
               expect(page).to have_field('Unit', with: 'unit 1')
-              expect(page).to have_field('Data Type', with: 'Characteristics data type 1')
+              expect(page).to have_field('Data Type', with: 'STRING')
             end
           end
           # Instrument Child
@@ -116,14 +116,14 @@ describe 'Acquisition information form', js: true do
                 expect(page).to have_field('Description', with: 'Characteristics description')
                 expect(page).to have_field('Value', with: 'Characteristics value')
                 expect(page).to have_field('Unit', with: 'unit')
-                expect(page).to have_field('Data Type', with: 'Characteristics data type')
+                expect(page).to have_field('Data Type', with: 'STRING')
               end
               within '.multiple-item-1' do
                 expect(page).to have_field('Name', with: 'Characteristics name 1')
                 expect(page).to have_field('Description', with: 'Characteristics description 1')
                 expect(page).to have_field('Value', with: 'Characteristics value 1')
                 expect(page).to have_field('Unit', with: 'unit 1')
-                expect(page).to have_field('Data Type', with: 'Characteristics data type 1')
+                expect(page).to have_field('Data Type', with: 'STRING')
               end
             end
 
@@ -155,14 +155,14 @@ describe 'Acquisition information form', js: true do
               expect(page).to have_field('Description', with: 'Characteristics description')
               expect(page).to have_field('Value', with: 'Characteristics value')
               expect(page).to have_field('Unit', with: 'unit')
-              expect(page).to have_field('Data Type', with: 'Characteristics data type')
+              expect(page).to have_field('Data Type', with: 'STRING')
             end
             within '.multiple-item-1' do
               expect(page).to have_field('Name', with: 'Characteristics name 1')
               expect(page).to have_field('Description', with: 'Characteristics description 1')
               expect(page).to have_field('Value', with: 'Characteristics value 1')
               expect(page).to have_field('Unit', with: 'unit 1')
-              expect(page).to have_field('Data Type', with: 'Characteristics data type 1')
+              expect(page).to have_field('Data Type', with: 'STRING')
             end
           end
           # Instrument Child
@@ -177,14 +177,14 @@ describe 'Acquisition information form', js: true do
                 expect(page).to have_field('Description', with: 'Characteristics description')
                 expect(page).to have_field('Value', with: 'Characteristics value')
                 expect(page).to have_field('Unit', with: 'unit')
-                expect(page).to have_field('Data Type', with: 'Characteristics data type')
+                expect(page).to have_field('Data Type', with: 'STRING')
               end
               within '.multiple-item-1' do
                 expect(page).to have_field('Name', with: 'Characteristics name 1')
                 expect(page).to have_field('Description', with: 'Characteristics description 1')
                 expect(page).to have_field('Value', with: 'Characteristics value 1')
                 expect(page).to have_field('Unit', with: 'unit 1')
-                expect(page).to have_field('Data Type', with: 'Characteristics data type 1')
+                expect(page).to have_field('Data Type', with: 'STRING')
               end
             end
 

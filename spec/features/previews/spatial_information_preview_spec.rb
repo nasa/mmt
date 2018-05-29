@@ -31,10 +31,10 @@ describe 'Spatial information preview' do
 
         within '.tiling-identification-systems-table' do
           within all('tr')[1] do
-            expect(page).to have_content('System name -50 50 -30 30')
+            expect(page).to have_content('MISR -50 50 -30 30')
           end
           within all('tr')[2] do
-            expect(page).to have_content('System name 1 -25 25 -15 15')
+            expect(page).to have_content('MODIS Tile EASE -25 25 -15 15')
           end
         end
 
@@ -49,10 +49,10 @@ describe 'Spatial information preview' do
             expect(page).to have_content('Datum name Ellipsoid name 3.0	4.0')
           end
           within all('tr')[3] do
-            expect(page).to have_content('Vert. Datum Name Distance Units Encoding Method	Resolutions')
+            expect(page).to have_content('Vert. Datum Name Distance Units	Resolutions')
           end
           within all('tr')[4] do
-            expect(page).to have_content('Datum	Distance Units Encoding [1.0, 2.0, 3.0]')
+            expect(page).to have_content('Datum	HectoPascals [1.0, 2.0, 3.0]')
           end
         end
 

@@ -308,7 +308,7 @@ def all_required_fields
     'ShortName' => '12345',
     'Version' => '1',
     'EntryTitle' => 'Required Fields Only Draft',
-    'CollectionProgress' => 'IN WORK',
+    'CollectionProgress' => 'ACTIVE',
     'DataCenters' => [{
       'Roles' => ['DISTRIBUTOR'],
       'ShortName' => 'AARHUS-HYDRO',
@@ -327,7 +327,6 @@ def all_required_fields
       'GranuleSpatialRepresentation' => 'CARTESIAN'
     },
     'TemporalExtents' => [{
-      'TemporalRangeType' => 'SingleDateTime',
       'PrecisionOfSeconds' => 1,
       'EndsAtPresentFlag' => false,
       'SingleDateTimes' => ['2015-07-01T00:00:00Z', '2015-12-25T00:00:00Z']

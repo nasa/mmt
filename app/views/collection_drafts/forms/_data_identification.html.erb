@@ -79,7 +79,8 @@
               value: processing_level['Id'],
               options: DraftsHelper::ProcessingLevelIdOptions,
               help: 'definitions/ProcessingLevelType/properties/Id',
-              always_required: true
+              always_required: true,
+              classes: 'mmt-fake-enum'
             ) %>
           </div>
           <div class="col-6">
@@ -173,14 +174,11 @@
     <!-- Use Constraints -->
     <div class="row">
       <div class="col-12">
-        <%= mmt_text_area(
-          name: 'use_constraints',
-          title: 'Use Constraints',
-          prefix: 'draft_',
-          value: draft.draft['UseConstraints'],
-          help: 'properties/UseConstraints',
-          validate: true
-         ) %>
+        <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'use_constraints',
+            values: draft.draft['UseConstraints'] || {},
+            name_prefix: 'draft_|use_constraints|_',
+            multiple: false } %>
       </div>
     </div>
   </div>

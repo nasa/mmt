@@ -2,7 +2,7 @@
   <!-- AltitudeSystemDefinition -->
   <label>Altitude System Definition</label>
   <%= render partial: 'collection_drafts/forms/type', locals: {
-      type: 'vertical_system_definition',
+      type: 'altitude_system_definition',
       values: vertical_coordinate_system['AltitudeSystemDefinition'] || {},
       name_prefix: "#{name_prefix}|altitude_system_definition|_",
       multiple: false,
@@ -12,10 +12,9 @@
   <!-- DepthSystemDefinition -->
   <label>Depth System Definition</label>
   <%= render partial: 'collection_drafts/forms/type', locals: {
-      type: 'vertical_system_definition',
+      type: 'depth_system_definition',
       values: vertical_coordinate_system['DepthSystemDefinition'] || {},
       name_prefix: "#{name_prefix}|depth_system_definition|_",
       multiple: false,
       options: {} } %>
-
 </div>

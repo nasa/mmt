@@ -31,9 +31,16 @@ describe 'Data identification form', js: true do
         fill_in 'Description', with: 'Level 1 Description'
       end
 
-      select 'In work', from: 'Collection Progress'
+      select 'Active', from: 'Collection Progress'
       fill_in 'Quality', with: 'Metadata quality summary'
-      fill_in 'Use Constraints', with: 'These are some use constraints'
+
+      # Use Constraints
+      within '.use-constraints' do
+        within '.use-constraints-description > .sub-fields' do
+          fill_in 'Description', with: 'These are some use constraints'
+        end
+        fill_in 'License Text', with: 'sample license text'
+      end
 
       # Access Constraints
       within '.access-constraints' do
@@ -79,9 +86,14 @@ describe 'Data identification form', js: true do
         expect(page).to have_field('Description', with: 'Level 1 Description')
       end
 
-      expect(page).to have_field('Collection Progress', with: 'IN WORK')
+      expect(page).to have_field('Collection Progress', with: 'ACTIVE')
       expect(page).to have_field('Quality', with: 'Metadata quality summary')
-      expect(page).to have_field('Use Constraints', with: 'These are some use constraints')
+
+      # Use Constraints
+      within '.use-constraints' do
+        expect(page).to have_field('Description', with: 'These are some use constraints')
+        expect(page).to have_field('License Text', with: 'sample license text')
+      end
 
       # Access constraints
       within '.row.access-constraints' do

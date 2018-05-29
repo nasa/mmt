@@ -22,7 +22,6 @@
         value: related_url['URLContentType'],
         options: url_content_type_options,
         help: 'definitions/RelatedUrlType/properties/URLContentType',
-        validate: true,
         required_level: options[:required_level],
         required: true,
         classes: 'related-url-content-type-select'
@@ -35,7 +34,6 @@
         value: related_url['Type'],
         options: DraftsHelper::URLTypeOptions,
         help: 'definitions/RelatedUrlType/properties/Type',
-        validate: true,
         required_level: options[:required_level],
         required: true,
         classes: 'related-url-type-select'
@@ -48,7 +46,6 @@
         value: related_url['Subtype'],
         options: DraftsHelper::URLSubtypeOptions,
         help: 'definitions/RelatedUrlType/properties/Subtype',
-        validate: true,
         required_level: options[:required_level],
         classes: 'related-url-subtype-select'
       ) %>

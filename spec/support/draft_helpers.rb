@@ -382,6 +382,9 @@ module Helpers
       within '.multiple.publication-references' do
         fill_in 'draft_publication_references_0_title', with: 'Publication reference title' # Title
         fill_in 'Publisher', with: 'Publication reference publisher'
+
+        script = '$("#draft_publication_references_0_doi_Available").click();'
+        page.execute_script script
         fill_in 'DOI', with: 'Publication reference DOI'
         fill_in 'Authority', with: 'Publication reference authority'
         fill_in 'Author', with: 'Publication reference author'
@@ -435,7 +438,7 @@ module Helpers
         fill_in 'Description', with: 'Characteristics description'
         fill_in 'Value', with: 'Characteristics value'
         fill_in 'Unit', with: 'unit'
-        fill_in 'Data Type', with: 'Characteristics data type'
+        select 'String', from: 'Data Type'
 
         click_on 'Add another Characteristic'
         within '.multiple-item-1' do
@@ -443,7 +446,7 @@ module Helpers
           fill_in 'Description', with: 'Characteristics description 1'
           fill_in 'Value', with: 'Characteristics value 1'
           fill_in 'Unit', with: 'unit 1'
-          fill_in 'Data Type', with: 'Characteristics data type 1'
+          select 'String', from: 'Data Type'
         end
       end
     end

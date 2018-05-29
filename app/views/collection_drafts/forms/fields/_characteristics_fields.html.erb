@@ -49,15 +49,15 @@
     </div>
     <div class="col-4">
       <!-- Data Type [r] -->
-      <%= mmt_text_area(
+      <%= mmt_select(
         name: 'data_type',
         title: 'Data Type',
         prefix: name_prefix,
         value: characteristics['DataType'],
+        options: DraftsHelper::DataTypeOptions,
         help: 'definitions/CharacteristicType/properties/DataType',
-        validate: true,
         required: true
-       ) %>
+      ) %>
     </div>
   </div>
 </div>

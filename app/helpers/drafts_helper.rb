@@ -1,13 +1,20 @@
 module DraftsHelper
+  AltitudeDistanceUnitsOptions = [
+    ['HectoPascals'],
+    ['Kilometers'],
+    ['Millibars']
+  ]
   CollectionDataTypeOptions = [
     ['Science Quality', 'SCIENCE_QUALITY'],
     ['Near Real Time', 'NEAR_REAL_TIME'],
     ['Other', 'OTHER']
   ]
   CollectionProgressOptions = [
+    ['Active', 'ACTIVE'],
     ['Planned', 'PLANNED'],
-    ['In work', 'IN WORK'],
-    ['Complete', 'COMPLETE']
+    ['Complete', 'COMPLETE'],
+    ['Not Applicable', 'NOT APPLICABLE'],
+    ['Not Provided', 'NOT PROVIDED']
   ]
   CoordinateSystemOptions = [
     ['Cartesian', 'CARTESIAN'],
@@ -60,6 +67,13 @@ module DraftsHelper
     ['Time String', 'TIME_STRING'],
     ['Date Time String', 'DATETIME_STRING']
   ]
+  DepthDistanceUnitsOptions = [
+    ['Fathoms'],
+    ['Feet'],
+    ['HectoPascals'],
+    ['Meters'],
+    ['Millibars']
+  ]
   DurationOptions = [
     ['Day', 'DAY'],
     ['Month', 'MONTH'],
@@ -77,6 +91,11 @@ module DraftsHelper
     ['GB'],
     ['TB'],
     ['PB']
+  ]
+  GeographicCoordinateUnitsOptions = [
+    ['Decimal Degrees'],
+    ['Kilometers'],
+    ['Meters']
   ]
   GetDataTypeFormatOptions = [
     ['ascii'],
@@ -182,6 +201,16 @@ module DraftsHelper
     ['Orbital', 'ORBITAL'],
     ['Horizontal and Vertical', 'HORIZONTAL_VERTICAL'],
     ['Orbital and Vertical', 'ORBITAL_VERTICAL']
+  ]
+  TilingIdentificationSystemNameOptions = [
+    ['CALIPSO'],
+    ['MISR'],
+    ['MODIS Tile EASE'],
+    ['MODIS Tile SIN'],
+    ['WELD Alaska Tile'],
+    ['WELD CONUS Tile'],
+    ['WRS-1'],
+    ['WRS-2']
   ]
   url_content_type_map = {
     'CollectionURL' => {
@@ -432,6 +461,13 @@ module DraftsHelper
     ['Science Data Product Validation', 'SCIENCE DATA PRODUCT VALIDATION'],
     ['User Feedback', 'USER FEEDBACK'],
     ["User's Guide", "USER'S GUIDE"]
+  ]
+  VerticalSpatialDomainTypeOptions = [
+    ['Atmosphere Layer'],
+    ['Maximum Altitude'],
+    ['Maximum Depth'],
+    ['Minimum Altitude'],
+    ['Minimum Depth']
   ]
 
   SINGLE_FIELDSET_FORMS = %w(

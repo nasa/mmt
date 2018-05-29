@@ -7,8 +7,16 @@
       value: get_data['Format'],
       options: DraftsHelper::GetDataTypeFormatOptions,
       help: 'definitions/GetDataType/properties/Format',
-      validate: true,
       required: true
+    ) %>
+
+    <%= mmt_select(
+      name: 'mime_type',
+      title: 'Mime Type',
+      prefix: name_prefix,
+      value: get_data['MimeType'],
+      options: DraftsHelper::MimeTypeOptions,
+      help: 'definitions/GetDataType/properties/MimeType'
     ) %>
 
     <%= mmt_text_field(
@@ -29,7 +37,6 @@
       value: get_data['Unit'],
       options: DraftsHelper::FileSizeUnitTypeOptions,
       help: 'definitions/GetDataType/properties/Unit',
-      validate: true,
       required: true
     ) %>
 

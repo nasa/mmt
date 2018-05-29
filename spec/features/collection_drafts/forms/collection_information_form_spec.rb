@@ -19,8 +19,10 @@ describe 'Collection Information form', js: true do
       fill_in 'Version', with: 'v2'
       fill_in 'Version Description', with: 'v2 description'
       fill_in 'Entry Title', with: 'Draft Title'
-      fill_in 'DOI', with: 'Citation DOI'
-      fill_in 'Authority', with: 'Citation DOI Authority'
+      script = '$("#draft_doi_NotAvailable").click();'
+      page.execute_script script
+      select 'Not Applicable', from: 'Missing Reason'
+      fill_in 'Explanation', with: 'No DOI here'
       fill_in 'Abstract', with: 'This is a long description of the collection'
       fill_in 'Purpose', with: 'This is the purpose field'
       select 'English', from: 'Data Language'
@@ -28,7 +30,6 @@ describe 'Collection Information form', js: true do
       within '.nav-top' do
         click_on 'Save'
       end
-      # output_schema_validation Draft.first.draft
     end
 
     it 'displays a confirmation message' do
@@ -40,6 +41,8 @@ describe 'Collection Information form', js: true do
       expect(page).to have_field('Version', with: 'v2')
       expect(page).to have_field('Version Description', with: 'v2 description')
       expect(page).to have_field('Entry Title', with: 'Draft Title')
+      expect(page).to have_field('Missing Reason', with: 'Not Applicable')
+      expect(page).to have_field('Explanation', with: 'No DOI here')
       expect(page).to have_field('Abstract', with: 'This is a long description of the collection')
       expect(page).to have_field('Purpose', with: 'This is the purpose field')
       expect(page).to have_field('Data Language', with: 'eng')

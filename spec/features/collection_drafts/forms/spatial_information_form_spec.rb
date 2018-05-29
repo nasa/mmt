@@ -29,7 +29,7 @@ describe 'Spatial information form', js: true do
 
         # Tiling Identification System
         within '.multiple.tiling-identification-systems' do
-          fill_in 'Tiling Identification System Name', with: 'System name'
+          select 'MODIS Tile SIN', from: 'Tiling Identification System Name'
           within first('.tiling-coordinate') do
             fill_in 'Minimum Value', with: '-50.0'
             fill_in 'Maximum Value', with: '50.0'
@@ -41,7 +41,7 @@ describe 'Spatial information form', js: true do
           click_on 'Add another Tiling Identification System'
 
           within '.multiple-item-1' do
-            fill_in 'Tiling Identification System Name', with: 'System name 1'
+            select 'MODIS Tile EASE', from: 'Tiling Identification System Name'
             within first('.tiling-coordinate') do
               fill_in 'Minimum Value', with: '-25.0'
               fill_in 'Maximum Value', with: '25.0'
@@ -61,7 +61,7 @@ describe 'Spatial information form', js: true do
         fill_in 'Denominator Of Flattening Ratio', with: '4.0'
 
         find('.coordinate-system-picker.geographic').click
-        fill_in 'Geographic Coordinate Units', with: 'Coordinate units'
+        select 'Meters', from: 'Geographic Coordinate Units'
         fill_in 'Latitude Resolution', with: '42.0'
         fill_in 'Longitude Resolution', with: '43.0'
 
@@ -103,7 +103,7 @@ describe 'Spatial information form', js: true do
         # Tiling Identification System
         within '.multiple.tiling-identification-systems' do
           within '.multiple-item-0' do
-            expect(page).to have_field('Tiling Identification System Name', with: 'System name')
+            expect(page).to have_field('Tiling Identification System Name', with: 'MODIS Tile SIN')
             within first('.tiling-coordinate') do
               expect(page).to have_field('Minimum Value', with: '-50.0')
               expect(page).to have_field('Maximum Value', with: '50.0')
@@ -114,7 +114,7 @@ describe 'Spatial information form', js: true do
             end
           end
           within '.multiple-item-1' do
-            expect(page).to have_field('Tiling Identification System Name', with: 'System name 1')
+            expect(page).to have_field('Tiling Identification System Name', with: 'MODIS Tile EASE')
             within first('.tiling-coordinate') do
               expect(page).to have_field('Minimum Value', with: '-25.0')
               expect(page).to have_field('Maximum Value', with: '25.0')
@@ -136,7 +136,7 @@ describe 'Spatial information form', js: true do
         expect(page).to have_field('Semi Major Axis', with: '3.0')
         expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
         expect(page).to have_checked_field('Geographic Coordinate System')
-        expect(page).to have_field('Geographic Coordinate Units', with: 'Coordinate units')
+        expect(page).to have_field('Geographic Coordinate Units', with: 'Meters')
         expect(page).to have_field('Latitude Resolution', with: '42.0')
         expect(page).to have_field('Longitude Resolution', with: '43.0')
 
@@ -377,11 +377,11 @@ describe 'Spatial information form', js: true do
       # Spatial Extent
       select 'Vertical', from: 'Spatial Coverage Type'
       within '.multiple.vertical-spatial-domains' do
-        fill_in 'Type', with: 'domain type'
+        select 'Maximum Altitude', from: 'Type'
         fill_in 'Value', with: 'domain value'
         click_on 'Add another Vertical Spatial Domain'
         within '.multiple-item-1' do
-          fill_in 'Type', with: 'domain type 1'
+          select 'Maximum Depth', from: 'Type'
           fill_in 'Value', with: 'domain value 1'
         end
       end
@@ -389,10 +389,9 @@ describe 'Spatial information form', js: true do
 
       # Spatial Representation Information
       choose 'draft_spatial_information_spatial_coverage_type_VERTICAL'
-      within first('.vertical-system-definition') do
+      within '.altitude-system-definition' do
         fill_in 'Datum Name', with: 'datum name'
-        fill_in 'Distance Units', with: 'miles'
-        fill_in 'Encoding Method', with: 'encoding method'
+        select 'Kilometers', from: 'Distance Units'
         within '.multiple.resolutions' do
           within '.multiple-item-0' do
             find('.resolution').set '3.0'
@@ -403,10 +402,9 @@ describe 'Spatial information form', js: true do
           end
         end
       end
-      within all('.vertical-system-definition').last do
+      within '.depth-system-definition' do
         fill_in 'Datum Name', with: 'datum name 1'
-        fill_in 'Distance Units', with: 'miles'
-        fill_in 'Encoding Method', with: 'encoding method 1'
+        select 'Meters', from: 'Distance Units'
         within '.multiple.resolutions' do
           within '.multiple-item-0' do
             find('.resolution').set '5.0'
@@ -435,9 +433,9 @@ describe 'Spatial information form', js: true do
         expect(page).to have_field('Spatial Coverage Type', with: 'VERTICAL')
 
         within '.multiple.vertical-spatial-domains' do
-          expect(page).to have_field('Type', with: 'domain type')
+          expect(page).to have_field('Type', with: 'Maximum Altitude')
           expect(page).to have_field('Value', with: 'domain value')
-          expect(page).to have_field('Type', with: 'domain type 1')
+          expect(page).to have_field('Type', with: 'Maximum Depth')
           expect(page).to have_field('Value', with: 'domain value 1')
         end
         expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
@@ -447,17 +445,15 @@ describe 'Spatial information form', js: true do
       expect(page).to have_no_checked_field('Horizontal')
       expect(page).to have_checked_field('Vertical')
       expect(page).to have_no_checked_field('Both')
-      within first('.vertical-system-definition') do
+      within '.altitude-system-definition' do
         expect(page).to have_field('Datum Name', with: 'datum name')
-        expect(page).to have_field('Distance Units', with: 'miles')
-        expect(page).to have_field('Encoding Method', with: 'encoding method')
+        expect(page).to have_field('Distance Units', with: 'Kilometers')
         expect(page).to have_selector('input.resolution[value="3.0"]')
         expect(page).to have_selector('input.resolution[value="4.0"]')
       end
-      within all('.vertical-system-definition').last do
+      within '.depth-system-definition' do
         expect(page).to have_field('Datum Name', with: 'datum name 1')
-        expect(page).to have_field('Distance Units', with: 'miles')
-        expect(page).to have_field('Encoding Method', with: 'encoding method 1')
+        expect(page).to have_field('Distance Units', with: 'Meters')
         expect(page).to have_selector('input.resolution[value="5.0"]')
         expect(page).to have_selector('input.resolution[value="6.0"]')
       end
@@ -492,10 +488,9 @@ describe 'Spatial information form', js: true do
       fill_in 'Geo Reference Information', with: 'reference information'
       fill_in 'Description', with: 'local description'
 
-      within first('.vertical-system-definition') do
+      within '.altitude-system-definition' do
         fill_in 'Datum Name', with: 'datum name'
-        fill_in 'Distance Units', with: 'miles'
-        fill_in 'Encoding Method', with: 'encoding method'
+        select 'Kilometers', from: 'Distance Units'
         within '.multiple.resolutions' do
           within '.multiple-item-0' do
             find('.resolution').set '3.0'
@@ -506,10 +501,9 @@ describe 'Spatial information form', js: true do
           end
         end
       end
-      within all('.vertical-system-definition').last do
+      within '.depth-system-definition' do
         fill_in 'Datum Name', with: 'datum name 1'
-        fill_in 'Distance Units', with: 'miles'
-        fill_in 'Encoding Method', with: 'encoding method 1'
+        select 'Meters', from: 'Distance Units'
         within '.multiple.resolutions' do
           within '.multiple-item-0' do
             find('.resolution').set '5.0'
@@ -558,17 +552,15 @@ describe 'Spatial information form', js: true do
       expect(page).to have_field('Geo Reference Information', with: 'reference information')
       expect(page).to have_field('Description', with: 'local description')
 
-      within first('.vertical-system-definition') do
+      within '.altitude-system-definition' do
         expect(page).to have_field('Datum Name', with: 'datum name')
-        expect(page).to have_field('Distance Units', with: 'miles')
-        expect(page).to have_field('Encoding Method', with: 'encoding method')
+        expect(page).to have_field('Distance Units', with: 'Kilometers')
         expect(page).to have_selector('input.resolution[value="3.0"]')
         expect(page).to have_selector('input.resolution[value="4.0"]')
       end
-      within all('.vertical-system-definition').last do
+      within '.depth-system-definition' do
         expect(page).to have_field('Datum Name', with: 'datum name 1')
-        expect(page).to have_field('Distance Units', with: 'miles')
-        expect(page).to have_field('Encoding Method', with: 'encoding method 1')
+        expect(page).to have_field('Distance Units', with: 'Meters')
         expect(page).to have_selector('input.resolution[value="5.0"]')
         expect(page).to have_selector('input.resolution[value="6.0"]')
       end
@@ -593,11 +585,11 @@ describe 'Spatial information form', js: true do
       end
       # Vertical
       within '.multiple.vertical-spatial-domains' do
-        fill_in 'Type', with: 'domain type'
+        select 'Maximum Altitude', from: 'Type'
         fill_in 'Value', with: 'domain value'
         click_on 'Add another Vertical Spatial Domain'
         within '.multiple-item-1' do
-          fill_in 'Type', with: 'domain type 1'
+          select 'Maximum Depth', from: 'Type'
           fill_in 'Value', with: 'domain value 1'
         end
       end
@@ -636,9 +628,9 @@ describe 'Spatial information form', js: true do
         end
 
         within '.multiple.vertical-spatial-domains' do
-          expect(page).to have_field('Type', with: 'domain type')
+          expect(page).to have_field('Type', with: 'Maximum Altitude')
           expect(page).to have_field('Value', with: 'domain value')
-          expect(page).to have_field('Type', with: 'domain type 1')
+          expect(page).to have_field('Type', with: 'Maximum Depth')
           expect(page).to have_field('Value', with: 'domain value 1')
         end
 
@@ -665,11 +657,11 @@ describe 'Spatial information form', js: true do
       fill_in 'Start Circular Latitude', with: '5'
       # Vertical
       within '.multiple.vertical-spatial-domains' do
-        fill_in 'Type', with: 'domain type'
+        select 'Maximum Altitude', from: 'Type'
         fill_in 'Value', with: 'domain value'
         click_on 'Add another Vertical Spatial Domain'
         within '.multiple-item-1' do
-          fill_in 'Type', with: 'domain type 1'
+          select 'Maximum Depth', from: 'Type'
           fill_in 'Value', with: 'domain value 1'
         end
       end
@@ -699,9 +691,9 @@ describe 'Spatial information form', js: true do
         expect(page).to have_field('Start Circular Latitude', with: '5.0')
 
         within '.multiple.vertical-spatial-domains' do
-          expect(page).to have_field('Type', with: 'domain type')
+          expect(page).to have_field('Type', with: 'Maximum Altitude')
           expect(page).to have_field('Value', with: 'domain value')
-          expect(page).to have_field('Type', with: 'domain type 1')
+          expect(page).to have_field('Type', with: 'Maximum Depth')
           expect(page).to have_field('Value', with: 'domain value 1')
         end
 

@@ -23,7 +23,7 @@ $(document).ready ->
         $(coordinateSystemType).siblings('.local-coordinate-system-fields').show()
 
     # Clear all fields
-    $.each $(coordinateSystemType).siblings('.geographic-coordinate-system-fields, .local-coordinate-system-fields').find('input'), (index, field) ->
+    $.each $(coordinateSystemType).siblings('.geographic-coordinate-system-fields, .local-coordinate-system-fields').find('input, select'), (index, field) ->
       $(field).val ''
 
     # Toggle checkboxes
@@ -34,8 +34,15 @@ $(document).ready ->
   $('.temporal-range-type-select').change ->
     $parent = $(this).parents('.temporal-range-type-group')
     $parent.siblings('.temporal-range-type').hide()
+
     # Clear all fields
     $parent.siblings('.temporal-range-type').find('input, select').val ''
+
+    # Clear temporal-range-type-select radio buttons
+    # that aren't the one just selected
+    $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
+
+    # show the selected fields
     switch $(this).val()
       when 'SingleDateTime'
         $parent.siblings('.temporal-range-type.single-date-time').show()
@@ -276,3 +283,23 @@ $(document).ready ->
     handleCoverageSpatialTypeSelect($(this))
 
   handleCoverageSpatialTypeSelect($('.coverage-spatial-type-select'))
+
+  # Handle DOI Available selector
+  $('.doi-available-select').change ->
+    $parent = $(this).parents('.doi-group')
+    $parent.find('.doi-fields').hide()
+
+    # Clear all fields
+    $parent.find('.doi-fields').find('input, select, textarea').val ''
+
+    # Clear doi-available-select radio buttons
+    # that aren't the one just selected
+    $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
+
+    # show the selected fields
+    switch $(this).val()
+      when 'Available'
+        $parent.find('.doi-fields.available').show()
+      when 'NotAvailable'
+        $parent.find('.doi-fields.not-available').show()
+        $parent.find('.doi-fields.not-available select').val('Not Applicable')
