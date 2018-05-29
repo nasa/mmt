@@ -298,7 +298,7 @@ $(document).ready ->
     # generate errors
     $('select.mmt-fake-enum > option:disabled:selected, select.mmt-fake-enum > optgroup > option:disabled:selected').each ->
       id = $(this).parents('select').attr('id')
-      visitedFields.push id
+      visitField(id)
 
       dataPath = switch
         when /processing_level_id/.test id
@@ -455,7 +455,7 @@ $(document).ready ->
     if opts.showConfirm
       # 'visit' any invalid fields so they don't forget about their error
       for error in inlineErrors
-        visitedFields.push error.id unless visitedFields.indexOf(error.id) != -1
+        visitField(error.id)
 
     valid = summaryErrors.length == 0
 
@@ -467,6 +467,14 @@ $(document).ready ->
     valid
 
   visitedFields = []
+  visitField = (field_id) ->
+    # If anything in UseConstraints shows up, 'visit' draft_use_constraints
+    # so the 'not' validation will show up before clicking
+    # submit (which 'visits' everything)
+    if field_id.indexOf('draft_use_constraints') == 0
+      visitedFields.push 'draft_use_constraints' unless visitedFields.indexOf('draft_use_constraints') != -1
+
+    visitedFields.push field_id unless visitedFields.indexOf(field_id) != -1
 
   validateFromFormChange = ->
     validatePage
@@ -491,22 +499,20 @@ $(document).ready ->
         else
           this.value
     .each (index, element) ->
-      visitedFields.push $(element).attr('id')
+      visitField($(element).attr('id'))
 
     validateFromFormChange()
 
   # // set up validation call
   $('.metadata-form, .umm-form').on 'blur', '.validate', ->
-    id = $(this).attr('id')
-    visitedFields.push id unless visitedFields.indexOf(id) != -1
+    visitField($(this).attr('id'))
     # if the field is a datepicker, and the datepicker is still open, don't validate yet
     return if $(this).attr('type') == 'datetime' and $('.datepicker:visible').length > 0
     validateFromFormChange()
 
   # 'blur' functionality for select2 fields
   $('.metadata-form .select2-select, .umm-form .select2-select').on 'select2:open', (event) ->
-    id = $(this).attr('id')
-    visitedFields.push id unless visitedFields.indexOf(id) != -1
+    visitField($(this).attr('id'))
 
   $('.metadata-form, .umm-form').on 'click', '.remove', ->
     validateFromFormChange()
