@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :is_logged_in
   before_action :setup_query
   before_action :refresh_urs_if_needed, except: [:logout, :refresh_token] # URS login
+  before_action :refresh_launchpad_if_needed, except: [:logout] # Launchpad login
   before_action :provider_set?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -25,13 +26,10 @@ class ApplicationController < ActionController::Base
   end
   helper_method :urs_login_required?
 
-  # By default Pundit calls the current_user method during authorization
-  # but for our calls to the CMR ACL we need user information as well as
-  # the users valid token. This provides our policies with the ability to
-  # retrieve the authenticated user but also to their token
-  def pundit_user
-    UserContext.new(current_user, token)
+  def launchpad_login_required?
+    ENV['launchpad_login_required'] == 'true'
   end
+  helper_method :launchpad_login_required?
 
   def cmr_client
     @cmr_client ||= Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
@@ -59,6 +57,14 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  # By default Pundit calls the current_user method during authorization
+  # but for our calls to the CMR ACL we need user information as well as
+  # the users valid token. This provides our policies with the ability to
+  # retrieve the authenticated user and also their token
+  def pundit_user
+    UserContext.new(current_user, token)
+  end
+
   def current_provider?(provider)
     current_user.provider_id == provider
   end
@@ -76,11 +82,9 @@ class ApplicationController < ActionController::Base
   end
 
   def store_profile(profile = {})
-    # URS login
+    # store URS profile information
 
-    # TODO remove this comment with Launchpad feature toggle ticket
-    # this method should be able to be used for both urs and launchpad login as we should
-    # be receiving the same user information from URS (but from different calls)
+    # URS login && Launchpad login
     uid = session['endpoint'].split('/').last if session['endpoint']
 
     session[:name] = profile['first_name'].nil? ? uid : "#{profile['first_name']} #{profile['last_name']}"
@@ -89,18 +93,22 @@ class ApplicationController < ActionController::Base
 
     return if profile == {}
 
+    # Echo Id is not being used, so this should be removed as part of MMT-1446
+    # Also, CMR can't get a user's Echo Id from their launchpad token
     # Store ECHO ID
-    if current_user.echo_id.nil?
-      response = cmr_client.get_current_user(token)
-      if response.success?
-        echo_user = response.body
-
-        current_user.update(echo_id: echo_user.fetch('user', {}).fetch('id'))
-      end
-    end
-
-    # With no echo_id we cannot request providers for the user, no sense in continuing
-    return if current_user.echo_id.nil?
+    # if current_user.echo_id.nil?
+    #   puts "echo id is nil"
+    #   response = cmr_client.get_current_user(token)
+    #   if response.success?
+    #     Rails.logger.info "echo user response in store_profile: #{response.inspect}"
+    #     echo_user = response.body
+    #
+    #     current_user.update(echo_id: echo_user.fetch('user', {}).fetch('id'))
+    #   end
+    # end
+    #
+    # # With no echo_id we cannot request providers for the user, no sense in continuing
+    # return if current_user.echo_id.nil?
   end
 
   def store_oauth_token(json = {})
@@ -112,34 +120,45 @@ class ApplicationController < ActionController::Base
     session[:endpoint] = json['endpoint']
   end
 
+  def store_session_data(json = {})
+    # Launchpad login
+    session[:launchpad_cookie] = json['launchpad_cookie']
+    session[:auid] = json['auid']
+    session[:launchpad_email] = json['launchpad_email']
+    session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
+    session[:expires_in] = json.empty? ? 900 : json['expires_in'] # 15 min - Launchpad default time
+  end
+
   def logged_in?
-    if urs_login_required?
+    if launchpad_login_required?
+      is_user_logged_in = session[:launchpad_cookie].present? &&
+                          session[:auid].present? &&
+                          session[:urs_uid].present? &&
+                          session[:expires_in].present? &&
+                          session[:logged_in_at].present?
+
+      store_session_data unless is_user_logged_in # clear session token and info if user is not logged in
+    elsif urs_login_required?
       is_user_logged_in = session[:access_token].present? &&
                           session[:refresh_token].present? &&
                           session[:expires_in].present? &&
                           session[:logged_in_at].present?
 
       store_oauth_token unless is_user_logged_in # clear session time and token values if user is not logged in
-      is_user_logged_in
     end
 
+    is_user_logged_in
   end
 
   def is_logged_in
-    if !urs_login_required? # && !launchpad_login_required?
-      # TODO this should only happen if URS login AND Launchpad login are both turned off (which should not happen)
-      Rails.logger.error('An error has occured. Both URS and Launchpad feature toggle environment variables seem to have been turned off. Please check urs_login_required and launchpad_login_required')
+    ensure_one_login_method or return
 
-      redirect_to root_url, flash: { error: "An error has occurred with our login system. Please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
-    end
+    session[:return_to] = request.fullpath
 
-    if urs_login_required?
-      Rails.logger.info("Access Token: #{token}") if Rails.env.development?
-      session[:return_to] = request.fullpath
+    Rails.logger.info("#{launchpad_login_required? ? 'Launchpad' : 'URS'} token: #{token}") if Rails.env.development?
 
-      return true if logged_in?
-      redirect_to login_path
-    end
+    return true if logged_in?
+    redirect_to login_path
   end
   helper_method :is_logged_in
 
@@ -179,8 +198,20 @@ class ApplicationController < ActionController::Base
     json
   end
 
+  def refresh_launchpad_if_needed
+    # Launchpad login
+    if launchpad_login_required?
+      if logged_in? && server_session_expires_in < 0
+        # TODO until the keep alive is fully implemented (MMT-1297) we should just ask the user to login with launchpad again
+        redirect_to sso_url
+      end
+    end
+  end
+
   def token
-    if urs_login_required?
+    if launchpad_login_required?
+      session[:launchpad_cookie]
+    elsif urs_login_required?
       session[:access_token]
     end
   end
@@ -252,5 +283,32 @@ class ApplicationController < ActionController::Base
 
     flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
     redirect_to(request.referrer || manage_collections_path)
+  end
+
+  def ensure_one_login_method
+    if both_login_methods_on?
+      # Unless specifically directed otherwise, we should have one login method:
+      # if both URS and Launchpad login requirements are turned OFF, users will not be authenticated and cannot access a token/cookie
+      # if both URS and Launchpad login requirements are turned ON, users will be required to login to two separate systems
+      # neither of these situations should allow usage to continue
+      Rails.logger.error('An error has occured. Both URS and Launchpad login feature toggles are in the same state. Please check the configuration variables urs_login_required and launchpad_login_required for this environment.')
+
+      # clear session information so user is not logged in
+      store_oauth_token
+      store_session_data
+
+      redirect_to root_url and return
+    end
+
+    true
+  end
+
+  def both_login_methods_on?
+    (urs_login_required? && launchpad_login_required?) || (!urs_login_required? && !launchpad_login_required?)
+  end
+  helper_method :both_login_methods_on?
+
+  def launchpad_cookie_name
+    Rails.configuration.launchpad_cookie_name
   end
 end

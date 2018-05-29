@@ -1,11 +1,66 @@
 module Helpers
   module UserHelpers
+    def require_launchpad_login
+      set_required_login_method(launchpad_required: true, urs_required: false)
+    end
+
+    def require_urs_login
+      set_required_login_method(launchpad_required: false, urs_required: true)
+    end
+
+    def set_required_login_method(launchpad_required:, urs_required:)
+      allow_any_instance_of(ApplicationController).to receive(:launchpad_login_required?).and_return(launchpad_required)
+      allow_any_instance_of(ApplicationController).to receive(:urs_login_required?).and_return(urs_required)
+    end
+
+    def profile_body(admin: false)
+      body = {
+        'uid'           => 'testuser',
+        'first_name'    => 'Test',
+        'last_name'     => 'User',
+        'email_address' => 'testuser@example.com',
+        'country'       => 'United States',
+        'study_area'    => 'Other',
+        'user_type'     => 'Public User',
+        'affiliation'   => 'OTHER',
+        'organization'  => 'Testing'
+      }
+
+      body.merge({
+        'uid'           => 'adminuser',
+        'first_name'    => 'Admin',
+        'last_name'     => 'User',
+        'email_address' => 'adminuser@example.com'
+      }) if admin
+
+      body
+    end
+
+    def token_body(admin: false, expiring: false)
+      body = {
+        'access_token'  => 'access_token',
+        'token_type'    => 'Bearer',
+        'expires_in'    => 3600,
+        'refresh_token' => 'refresh_token',
+        'endpoint'      => '/api/users/testuser'
+      }
+
+      body['access_token'] = 'new_access_token' if expiring
+      body['access_token'] = 'access_token_admin' if admin
+
+      body
+    end
+
     def login_admin(provider: 'MMT_2', providers: 'MMT_2')
       login(admin: true, provider: provider, providers: providers)
     end
 
-    def real_login(provider: 'MMT_2', providers: 'MMT_2')
-      login(real_login: true, provider: provider, providers: providers)
+    def real_login(provider: 'MMT_2', providers: 'MMT_2', method: 'env')
+      if method == 'env' && ENV['launchpad_login_required'] || method == 'launchpad'
+        real_launchpad_login(providers: providers)
+      else
+        login(real_login: true, provider: provider, providers: providers)
+      end
     end
 
     def login(real_login: false, admin: false, providers: 'MMT_2', provider: 'MMT_2')
@@ -15,26 +70,6 @@ module Helpers
 
         # Mock calls to URS and login Test User
         if admin
-          token_body = {
-            'access_token'  => 'access_token_admin',
-            'token_type'    => 'Bearer',
-            'expires_in'    => 3600,
-            'refresh_token' => 'refresh_token',
-            'endpoint'      => '/api/users/adminuser'
-          }
-
-          profile_body = {
-            'uid'           => 'adminuser',
-            'first_name'    => 'Admin',
-            'last_name'     => 'User',
-            'email_address' => 'adminuser@example.com',
-            'country'       => 'United States',
-            'study_area'    => 'Other',
-            'user_type'     => 'Public User',
-            'affiliation'   => 'OTHER',
-            'organization'  => 'Testing'
-          }
-
           current_user_body = {
             'user' => {
               'addresses' => [{
@@ -56,26 +91,6 @@ module Helpers
             }
           }
         else
-          token_body = {
-            'access_token'  => 'access_token',
-            'token_type'    => 'Bearer',
-            'expires_in'    => 3600,
-            'refresh_token' => 'refresh_token',
-            'endpoint'      => '/api/users/testuser'
-          }
-
-          profile_body = {
-            'uid'           => 'testuser',
-            'first_name'    => 'Test',
-            'last_name'     => 'User',
-            'email_address' => 'testuser@example.com',
-            'country'       => 'United States',
-            'study_area'    => 'Other',
-            'user_type'     => 'Public User',
-            'affiliation'   => 'OTHER',
-            'organization'  => 'Testing'
-          }
-
           current_user_body = {
             'user' => {
               'addresses' => [{
@@ -98,23 +113,23 @@ module Helpers
           }
         end
 
-        profile_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: profile_body))
+        profile_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: profile_body(admin: admin)))
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_profile).and_return(profile_response)
 
-        token_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: token_body))
+        token_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: token_body(admin: admin)))
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_oauth_tokens).and_return(token_response)
 
         current_user_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: current_user_body))
         allow_any_instance_of(Cmr::EchoClient).to receive(:get_current_user).and_return(current_user_response)
 
         # Use the provided user or lookup a previously created user by URS UID
-        user = User.find_or_create_by(urs_uid: profile_body['uid'])
+        user = User.find_or_create_by(urs_uid: profile_body(admin: admin)['uid'])
 
         # Set the ECHO ID for the user
         user.update(echo_id: current_user_body['user']['id'])
 
         # This is a setter on the User model, because we're only supplying it
-        # provider it will assign provider_id for us.
+        # providers it will assign provider_id for us.
         if Array.wrap(providers).any?
           user.providers = Array.wrap(providers)
           user.save
@@ -139,16 +154,45 @@ module Helpers
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(token)
     end
 
-    def visit_with_expiring_token(path)
-      # Mock calls to URS and login Test User
-      token_body = {
-        'access_token'  => 'new_access_token',
-        'token_type'    => 'Bearer',
-        'expires_in'    => 3600,
-        'refresh_token' => 'refresh_token',
-        'endpoint'      => '/api/users/testuser'
+    def mock_valid_acs_responses(admin: false)
+      # We can't actually use a valid SAMLResponse from Launchpad because they are
+      # time sensitive, so we need to mock that it is valid and provides the data we need
+      allow_any_instance_of(OneLogin::RubySaml::Response).to receive(:is_valid?).and_return(true)
+      allow_any_instance_of(SamlController).to receive(:pull_launchpad_cookie).and_return(token_body(admin: admin)['access_token'])
+
+      nams_attributes = {
+        auid: 'test_user',
+        email: 'testuser@example.com'
       }
-      token_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: token_body))
+      allow_any_instance_of(OneLogin::RubySaml::Response).to receive(:attributes).and_return(nams_attributes)
+
+      # UrsClient get_urs_uid_from_nams_auid
+      profile_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: profile_body(admin: admin)))
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_urs_uid_from_nams_auid).and_return(profile_response)
+    end
+
+    def real_launchpad_login(admin: false, providers: 'MMT_2')
+      mock_valid_acs_responses(admin: admin)
+
+      # Use the provided user or lookup a previously created user by URS UID
+      user = User.find_or_create_by(urs_uid: profile_body(admin: admin)['uid'])
+
+      # This is a setter on the User model, because we're only supplying it
+      # providers it will assign provider_id for us.
+      if Array.wrap(providers).any?
+        user.providers = Array.wrap(providers)
+        user.save
+      end
+
+      # page.driver.browser.post('/saml/acs', SAMLResponse: ENV['launchpad_saml_response'])
+      visit root_path
+      # this button sends a post request (which Capybara cannot do) to SAML#acs,
+      # the return endpoint after a successful Launchpad authentication.
+      click_on 'Launchpad Test Login'
+    end
+
+    def visit_with_expiring_token(path)
+      token_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: token_body(expiring: true)))
       allow_any_instance_of(Cmr::UrsClient).to receive(:refresh_token).and_return(token_response)
 
       # Tell the test that the token is expired

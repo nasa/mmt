@@ -1,20 +1,59 @@
-<!-- DOI -->
-<%= mmt_text_area(
-  name: 'doi',
-  title: 'DOI',
-  prefix: name_prefix,
-  value: doi['DOI'],
-  help: 'definitions/DoiType/properties/DOI',
-  validate: true,
-  required: true
- ) %>
+<!-- doi available? -->
+<div class="doi-group">
+  <% doi_available = doi.nil? ? true : !doi['DOI'].nil? %>
 
-<!-- Authority -->
-<%= mmt_text_field(
-  name: 'authority',
-  title: 'Authority',
-  prefix: name_prefix,
-  value: doi['Authority'],
-  help: 'definitions/DoiType/properties/Authority',
-  validate: true
- ) %>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}"), 'Available', doi_available == true, class: 'doi-available-select', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>Available">DOI Available</label>
+  </p>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}"), 'NotAvailable', doi_available == false, class: 'doi-available-select', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>NotAvailable">DOI Not Available</label>
+  </p>
+
+  <div class="doi-fields available" style="<%= 'display: none;' unless doi_available == true %>">
+    <!-- DOI -->
+    <%= mmt_text_area(
+      name: 'doi',
+      title: 'DOI',
+      prefix: name_prefix,
+      value: doi['DOI'],
+      help: 'definitions/DoiType/oneOf/0/properties/DOI',
+      validate: true,
+      required: true
+    ) %>
+
+    <!-- Authority -->
+    <%= mmt_text_field(
+      name: 'authority',
+      title: 'Authority',
+      prefix: name_prefix,
+      value: doi['Authority'],
+      help: 'definitions/DoiType/oneOf/0/properties/Authority',
+      validate: true
+    ) %>
+  </div>
+
+  <div class="doi-fields not-available" style="<%= 'display: none;' unless doi_available == false %>">
+    <!-- MissingReason ("Not Applicable" is only choice) -->
+    <%= mmt_select(
+      name: 'missing_reason',
+      title: 'Missing Reason',
+      prefix: name_prefix,
+      value: doi['MissingReason'],
+      options: [['Not Applicable']],
+      help: 'definitions/DoiType/oneOf/1/properties/MissingReason',
+      required: true
+    ) %>
+
+    <!-- Explanation -->
+    <%= mmt_text_area(
+      name: 'explanation',
+      title: 'Explanation',
+      prefix: name_prefix,
+      value: doi['Explanation'],
+      help: 'definitions/DoiType/oneOf/1/properties/Explanation',
+      validate: true,
+    ) %>
+  </div>
+</div>

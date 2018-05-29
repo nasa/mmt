@@ -548,4 +548,58 @@ describe 'Data validation for a form', js: true do
       end
     end
   end
+
+  context 'when there is a not constraint' do
+    before do
+      within 'section.metadata' do
+        click_on 'Data Identification'
+      end
+      open_accordions
+
+      within '.use-constraints' do
+        within '.use-constraints-description > .sub-fields' do
+          fill_in 'Description', with: 'These are some use constraints'
+        end
+        fill_in 'Linkage', with: 'http://example.com'
+        fill_in 'License Text', with: 'sample license text'
+      end
+    end
+
+    it 'displays the not validation error' do
+      within '.summary-errors' do
+        expect(page).to have_content('License Url and License Text cannot be used together')
+      end
+      within '#use-constraints' do
+        expect(page).to have_content('License Url and License Text cannot be used together')
+      end
+    end
+
+    context 'when submitting the form' do
+      before do
+        within '.nav-top' do
+          click_on 'Save'
+        end
+        click_on 'No'
+      end
+
+      it 'displays the not validation error' do
+        within '.summary-errors' do
+          expect(page).to have_content('License Url and License Text cannot be used together')
+        end
+        within '#use-constraints' do
+          expect(page).to have_content('License Url and License Text cannot be used together')
+        end
+      end
+
+      context 'when satisfying the constraint' do
+        before do
+          fill_in 'License Text', with: ''
+        end
+
+        it 'removes the errors' do
+          expect(page).to have_no_content('License Url and License Text cannot be used together')
+        end
+      end
+    end
+  end
 end

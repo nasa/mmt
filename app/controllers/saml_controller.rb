@@ -1,11 +1,8 @@
 class SamlController < UsersController
-  # skip urs login requirements application controller
-  skip_before_action :is_logged_in
-  skip_before_action :setup_query
-  skip_before_action :refresh_urs_if_needed, except: [:logout, :refresh_token]
-  skip_before_action :provider_set?
+  # need to skip this for the endpoint Launchpad sends back authentication to
+  skip_before_action :verify_authenticity_token, only: :acs
 
-  # skip_before_action :require_launchpad_authorization
+  skip_before_action :refresh_launchpad_if_needed, :refresh_urs_if_needed
 
   def index
     @attrs = {}
@@ -33,14 +30,14 @@ class SamlController < UsersController
     if settings.nil?
       @errors = ['No SP/IDP settings found.']
 
-      logger.info "Settings error. Errors: #{response.errors}"
+      Rails.logger.info "Launchpad SAML Settings error. Errors: #{response.errors}"
 
-      render action: :failure
+      redirect_to root_url, flash: { error: "An error has occurred with our login system. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
+    else
+      request = OneLogin::RubySaml::Authrequest.new
+
+      redirect_to request.create(settings)
     end
-
-    request = OneLogin::RubySaml::Authrequest.new
-
-    redirect_to request.create(settings)
   end
 
   # Assertion Consumer Service
@@ -50,27 +47,36 @@ class SamlController < UsersController
     @response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
 
     if @response.is_valid?
-      # TODO params[:SAMLResponse] _should be_ what CMR wants us to pass as a token
-      # However, currently this is causing a ActionDispatch::Cookies::CookieOverflow
-      # problem. We may want to use https://github.com/rails/activerecord-session_store
-      # to store and pass it
-      # TODO since the SAML library is able to decrypt SAMLResponse to data we can use,
-      # can it also re-encrypt it?
-      # session[:launchpad_response_string] = params[:SAMLResponse]
+      session[:launchpad_cookie] = pull_launchpad_cookie
 
       attributes = @response.attributes
       session[:auid] = attributes[:auid]
-      # session[:email] = attributes[:email]
-      # TODO need to verify and set what other session info is needed
+      session[:launchpad_email] = attributes[:email]
+      # session expiration time to require the user to authenticate with Launchpad again
+      # it should be set to 15 min, the default Launchpad session time
+      session[:expires_in] = 900
+      session[:logged_in_at] = Time.now.to_i
+
+      # for now, this requires that the user already has their auid and urs_uid associated in URS
+      # MMT-1432 will allow them to make the association
+      urs_profile = get_urs_profile_from_auid
+
+      # Stores additional information in the session pertaining to the user
+      store_profile(urs_profile)
+
+      # Updates the user's available providers
+      current_user.set_available_providers(token)
+
+      # Refresh (force retrieve) the list of all providers
+      cmr_client.get_providers(true)
 
       redirect_after_login
     else
       @errors = @response.errors
 
-      Rails.logger.error "Response invalid. Errors: #{@response.errors}"
+      Rails.logger.error "Launchpad SAML Response invalid. Errors: #{@response.errors}"
 
-      # Status App runs `raise ForbiddenError.new`, but this is what the NASA github example does
-      render :failure
+      redirect_to root_url, flash: { error: "An error has occurred with our login system. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
     end
   end
 
@@ -80,10 +86,6 @@ class SamlController < UsersController
     meta = OneLogin::RubySaml::Metadata.new
 
     render xml: meta.generate(settings, true)
-  end
-
-  def logout
-    reset_session
   end
 
   # def sp_logout_request
@@ -96,7 +98,7 @@ class SamlController < UsersController
   # end
 
   def get_url_base
-    Figaro.env.SAML_SP_ISSUER_BASE
+    ENV['SAML_SP_ISSUER_BASE']
   end
 
   def get_authn_context
@@ -107,5 +109,21 @@ class SamlController < UsersController
     elsif 40 <= session[:auth_level]
       "urn:oasis:names:tc:SAML:2.0:ac:classes:SmartcardPKI"
     end
+  end
+
+  private
+
+  def pull_launchpad_cookie
+    # CMR needs our Launchpad Cookie to be passed to authenticate, which is in the request header from Launchpad
+
+    http_cookie = request.headers['HTTP_COOKIE']
+    # Rails.logger.info "MMT-1286 Launchpad SAML logging. request.cookies #{request.cookies}"
+    # Rails.logger.info "MMT-1286 Launchpad SAML logging. request.headers['HTTP_COOKIE'] #{http_cookie}"
+
+    # using request.cookies didn't seem to produce a token that could be validated via token service (when copied from Splunk), so using request.headers which does
+    # TODO test using request.cookies now that we can pass the token (in SIT) without trying to copy it from Splunk
+    launchpad_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?("#{launchpad_cookie_name}=") }.first
+
+    launchpad_cookie.sub!("#{launchpad_cookie_name}=", '')
   end
 end

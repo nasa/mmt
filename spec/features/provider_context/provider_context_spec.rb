@@ -1,5 +1,3 @@
-# MMT-272, MMT-717
-
 require 'rails_helper'
 
 describe 'Provider context', reset_provider: true, js: true do
@@ -22,9 +20,10 @@ describe 'Provider context', reset_provider: true, js: true do
     end
 
     context 'when a user logs in for the first time' do
-      it 'saves the users echo_id' do
-        expect(User.first.echo_id).to eq('user-echo-token')
-      end
+      # this should be removed with MMT-1446
+      # it 'saves the users echo_id' do
+      #   expect(User.first.echo_id).to eq('user-echo-token')
+      # end
 
       it 'saves the users available providers' do
         expect(User.first.available_providers).to eq(%w(MMT_1 MMT_2))
@@ -55,7 +54,7 @@ describe 'Provider context', reset_provider: true, js: true do
             click_on 'profile-link'
             click_on 'Logout'
 
-            expect(page).to have_content('Earthdata Login')
+            expect(page).to have_content('Login')
 
             real_login(providers: nil)
           end
@@ -231,7 +230,7 @@ describe 'Provider context', reset_provider: true, js: true do
         click_on 'profile-link'
         click_on 'Logout'
 
-        expect(page).to have_content('Earthdata Login')
+        expect(page).to have_content('Login')
       end
 
       context 'when a user loses their active provider' do

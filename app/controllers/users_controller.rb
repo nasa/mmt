@@ -10,7 +10,11 @@ class UsersController < ApplicationController
     session[:last_point] = request.referrer
     session[:last_point] = params[:next_point] if params[:next_point]
 
-    if urs_login_required?
+    ensure_one_login_method or return
+
+    if launchpad_login_required?
+      redirect_to sso_url
+    elsif urs_login_required?
       redirect_to cmr_client.urs_login_path
     else
       redirect_to root_url
@@ -99,5 +103,22 @@ class UsersController < ApplicationController
     else
       []
     end
+  end
+
+  def get_urs_profile_from_auid
+    # We are assuming the user has their urs id and auid associated in URS
+    # TODO MMT-1432 will implement directing a user to URS to sign in and associate their urs_uid and auid the first time, if those ids are not associated
+
+    urs_profile_response = cmr_client.get_urs_uid_from_nams_auid(session[:auid])
+
+    urs_profile = if urs_profile_response.success?
+                    urs_profile_response.body
+                  else
+                    Rails.logger.error "Error retrieving URS profile with auid: #{session[:auid]}"
+                    flash[:error] = 'You do not have your URS ID associated with your NAMS AUID'
+                    {}
+                  end
+
+    urs_profile
   end
 end

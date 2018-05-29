@@ -54,6 +54,7 @@ gem 'kaminari'
 gem 'momentjs-rails' # js lib for dates
 gem 'pundit'
 
+gem 'activerecord-session_store'
 gem 'ruby-saml', '>= 1.7.0'
 
 gem 'libxml-to-hash', git: 'https://github.com/johannesthoma/libxml-to-hash'
@@ -62,7 +63,7 @@ gem 'multi_xml'
 # collections metadata preview
 # run this command to work from a local copy of the gem's repo
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', branch: 'master'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', branch: 'master', ref: '487bb40'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

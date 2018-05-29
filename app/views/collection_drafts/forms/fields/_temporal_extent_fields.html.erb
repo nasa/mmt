@@ -1,22 +1,22 @@
 <div class="row sub-fields">
-  <!-- TemporalRangeType -->
-  <% temporal_range_type = temporal_extent['TemporalRangeType'] || "" %>
+  <!-- TemporalRangeType (not an actual field) -->
+  <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
+  <% single_checked = !temporal_extent['SingleDateTimes'].nil? %>
+  <% range_checked = !temporal_extent['RangeDateTimes'].nil? %>
+  <% periodic_checked = !temporal_extent['PeriodicDateTimes'].nil? %>
+
   <%= mmt_label(
     name: 'temporal_range_type',
     title: 'Temporal Range Type',
     prefix: name_prefix,
     always_required: true
   ) %>
-  <%= mmt_help_icon(
-    title: 'Temporal Range Type',
-    help: 'definitions/TemporalExtentType/properties/TemporalRangeType'
-  ) %>
   <div class="temporal-range-type-group">
-    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'SingleDateTime', temporal_range_type == 'SingleDateTime', class: 'temporal-range-type-select validate', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_SingleDateTime">Single</label></p>
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'SingleDateTime', single_checked, class: 'temporal-range-type-select validate', name: nil, data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_SingleDateTime">Single</label></p>
 
-    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'RangeDateTime', temporal_range_type == 'RangeDateTime', class: 'temporal-range-type-select validate', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_RangeDateTime">Range</label></p>
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'RangeDateTime', range_checked, class: 'temporal-range-type-select validate', name: nil, data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_RangeDateTime">Range</label></p>
 
-    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'PeriodicDateTime', temporal_range_type == 'PeriodicDateTime', class: 'temporal-range-type-select validate', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_PeriodicDateTime">Periodic</label></p>
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|temporal_range_type|"), 'PeriodicDateTime', periodic_checked, class: 'temporal-range-type-select validate', name: nil, data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>temporal_range_type_PeriodicDateTime">Periodic</label></p>
   </div>
 
   <!-- PrecisionOfSeconds -->
@@ -46,7 +46,7 @@
   <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|ends_at_present_flag|"), 'false', ends_at_present_flag.to_s == 'false', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>ends_at_present_flag_false">False</label></p>
 
   <!-- RangeDateTimes -->
-  <div class="temporal-range-type range-date-time" style="<%= 'display: none;' unless temporal_range_type == 'RangeDateTime' %>">
+  <div class="temporal-range-type range-date-time" style="<%= 'display: none;' unless range_checked %>">
     <%= mmt_label(
       name: 'range_date_times',
       title: 'Range Date Times',
@@ -65,7 +65,7 @@
         options: options.clone } %>
   </div>
 
-  <div class="temporal-range-type single-date-time" style="<%= 'display: none;' unless temporal_range_type == 'SingleDateTime' %>">
+  <div class="temporal-range-type single-date-time" style="<%= 'display: none;' unless single_checked %>">
     <% date_times = temporal_extent['SingleDateTimes'] || [nil] # [nil] creates at least one date_time field %>
     <div class="multiple simple-multiple single-date-times">
       <%= mmt_label(
@@ -94,7 +94,7 @@
   </div>
 
   <!-- PeriodicDateTimes -->
-  <div class="temporal-range-type periodic-date-time" style="<%= 'display: none;' unless temporal_range_type == 'PeriodicDateTime' %>">
+  <div class="temporal-range-type periodic-date-time" style="<%= 'display: none;' unless periodic_checked %>">
     <%= mmt_label(
       name: 'periodic_date_times',
       title: 'Periodic Date Time',
@@ -112,5 +112,4 @@
         multiple: true,
         options: options.clone } %>
   </div>
-
 </div>

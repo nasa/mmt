@@ -67,7 +67,7 @@
     ) %>
     <%= mmt_help_icon(
       title: 'DOI',
-      help: 'definitions/DoiType'
+      help: 'properties/DOI'
     ) %>
     <div class="row sub-fields">
       <%= render partial: 'collection_drafts/forms/type', locals: {
@@ -119,7 +119,8 @@
           prefix: 'draft_',
           value: draft.draft['DataLanguage'],
           options: @language_codes,
-          help: 'properties/DataLanguage'
+          help: 'properties/DataLanguage',
+          classes: 'mmt-fake-enum'
         ) %>
       </div>
     </div>

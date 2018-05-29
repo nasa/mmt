@@ -4,36 +4,25 @@
     name: 'datum_name',
     title: 'Datum Name',
     prefix: name_prefix,
-    value: vertical_system_definition['DatumName'],
-    help: 'definitions/VerticalSystemDefinitionType/properties/DatumName',
+    value: depth_system_definition['DatumName'],
+    help: 'definitions/DepthSystemDefinitionType/properties/DatumName',
     validate: true
-   ) %>
+  ) %>
 
 
   <!-- DistanceUnits -->
-  <%= mmt_text_field(
+  <%= mmt_select(
     name: 'distance_units',
     title: 'Distance Units',
     prefix: name_prefix,
-    value: vertical_system_definition['DistanceUnits'],
-    help: 'definitions/VerticalSystemDefinitionType/properties/DistanceUnits',
-    validate: true
-   ) %>
-
-
-  <!-- EncodingMethod -->
-  <%= mmt_text_area(
-    name: 'encoding_method',
-    title: 'Encoding Method',
-    prefix: name_prefix,
-    value: vertical_system_definition['EncodingMethod'],
-    help: 'definitions/VerticalSystemDefinitionType/properties/EncodingMethod',
-    validate: true
-   ) %>
+    value: depth_system_definition['DistanceUnits'],
+    options: DraftsHelper::DepthDistanceUnitsOptions,
+    help: 'definitions/DepthSystemDefinitionType/properties/DistanceUnits'
+  ) %>
 
 
   <!-- Resolutions -->
-  <% resolutions = vertical_system_definition['Resolutions'] || [nil] %>
+  <% resolutions = depth_system_definition['Resolutions'] || [nil] %>
   <div class="multiple simple-multiple resolutions">
     <%= mmt_label(
       name: 'resolutions_',
@@ -42,7 +31,7 @@
     ) %>
     <%= mmt_help_icon(
       title: 'Resolutions',
-      help: 'definitions/VerticalSystemDefinitionType/properties/Resolutions'
+      help: 'definitions/DepthSystemDefinitionType/properties/Resolutions'
     ) %>
 
   <% resolutions.each_with_index do |resolution, index| %>

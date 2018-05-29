@@ -29,6 +29,13 @@ module Cmr
       get('/api/users', { search: query }, 'Authorization' => "Bearer #{client_token}")
     end
 
+    def get_urs_uid_from_nams_auid(auid)
+      client_token = get_client_token
+      response = get("/api/users/user_by_nams_auid/#{auid}", {}, 'Authorization' => "Bearer #{client_token}")
+      # Rails.logger.info "urs uid from auid response: #{response.inspect}"
+      response
+    end
+
     protected
 
     def get_client_token

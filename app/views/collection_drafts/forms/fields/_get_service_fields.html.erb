@@ -1,13 +1,21 @@
 <div class="row sub-fields">
   <div class="col-6">
     <%= mmt_select(
+      name: 'format',
+      title: 'Format',
+      prefix: name_prefix,
+      value: get_service['Format'],
+      options: DraftsHelper::GetDataTypeFormatOptions,
+      help: 'definitions/GetServiceType/properties/Format'
+    ) %>
+
+    <%= mmt_select(
       name: 'mime_type',
       title: 'Mime Type',
       prefix: name_prefix,
       value: get_service['MimeType'],
       options: DraftsHelper::MimeTypeOptions,
       help: 'definitions/GetServiceType/properties/MimeType',
-      validate: true,
       required: true
     ) %>
 
@@ -18,7 +26,6 @@
       value: get_service['Protocol'],
       options: DraftsHelper::ProtocolOptions,
       help: 'definitions/GetServiceType/properties/Protocol',
-      validate: true,
       required: true
     ) %>
 

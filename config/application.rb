@@ -41,9 +41,14 @@ module Mmt
 
     config.services = YAML.load_file(Rails.root.join('config/services.yml'))
 
-    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.9'
+    # Versions of UMM for the different metadata types MMT is on
+    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.10'
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.1'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.1'
+
+    # Launchpad Session Cookie name
+    config.launchpad_cookie_name = 'SBXSESSION'
+    config.launchpad_cookie_name = 'SMSESSION' if ENV['launchpad_prod'] == 'true'
 
     def load_version
       version_file = "#{config.root}/version.txt"

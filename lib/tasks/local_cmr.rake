@@ -13,6 +13,8 @@ namespace :cmr do
   task load: [:reset] do
     cmr = Cmr::Local.new
     cmr.load_data
+
+    puts "Local CMR downloaded on: #{File.ctime('cmr/cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar')}"
   end
 
   desc 'Start local CMR'

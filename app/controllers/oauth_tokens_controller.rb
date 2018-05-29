@@ -1,9 +1,10 @@
-class OauthTokensController < ApplicationController
-  skip_before_action :is_logged_in
-  skip_before_action :setup_query
+# :nodoc:
+class OauthTokensController < UsersController
+  skip_before_action :refresh_launchpad_if_needed, :refresh_urs_if_needed
 
   def urs_callback
     # URS login
+    # store user information after a successful login and return from URS
     if params[:code]
       # Ask CMR for an access token
       response = cmr_client.get_oauth_tokens(params[:code])
