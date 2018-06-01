@@ -126,7 +126,7 @@ class ApplicationController < ActionController::Base
     session[:auid] = json['auid']
     session[:launchpad_email] = json['launchpad_email']
     session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
-    session[:expires_in] = json.empty? ? 900 : json['expires_in'] # 15 min - Launchpad default time
+    session[:expires_in] = json.fetch('expires_in', 900) # 15 min - Launchpad default time
   end
 
   def logged_in?
@@ -202,9 +202,24 @@ class ApplicationController < ActionController::Base
     # Launchpad login
     if launchpad_login_required?
       if logged_in? && server_session_expires_in < 0
-        # TODO until the keep alive is fully implemented (MMT-1297) we should just ask the user to login with launchpad again
-        redirect_to sso_url
+        result = refresh_launchpad
+
+        redirect_to sso_url if result[:error]
       end
+    end
+  end
+
+  def refresh_launchpad
+    response = cmr_client.keep_alive(token)
+    Rails.logger.info "launchpad integration keep alive endpoint response: #{response.inspect}" if Rails.env.development?
+    if response.success?
+      session[:launchpad_cookie] = response.headers.fetch('set-cookie', '').split("#{launchpad_cookie_name}=").last
+      session[:expires_in] = 900
+      session[:logged_in_at] = Time.now.to_i
+
+      { success: Time.now }
+    else
+      { error: 'could not keep alive', time: Time.now }
     end
   end
 

@@ -1,0 +1,4 @@
+<script>
+  // Set the remaining session time for keep alive
+  var remainingSessionTime = <%= ((session[:logged_in_at] + session[:expires_in]) - Time.now.to_i) * 1000 %>;
+</script>

@@ -56,5 +56,7 @@
   <% end %>
 
   <%= javascript_include_tag "netinsight_2.3/ntpagetag" unless Rails.env.test? || Rails.env.development? %>
+
+  <%= render 'layouts/set_remaining_session_time' %>
 </body>
 </html>
