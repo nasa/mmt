@@ -140,6 +140,8 @@ Rails.application.routes.draw do
   get 'saml/metadata', to: 'saml#metadata', as: :saml_metadata
   get 'saml/logout', to: 'saml#logout', as: :saml_logout
 
+  get 'keep_alive', to: 'launchpad#keep_alive'
+
   post 'convert' => 'conversions#convert'
 
   post 'set_provider' => 'users#set_provider', as: 'set_provider'
