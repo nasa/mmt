@@ -1,6 +1,7 @@
 $(document).ready ->
-  # Don't do any of this on the welcome page
-  unless $('main.welcome').length > 0
+  # Only do the keep alive if launchpad is enabled and the user isn't on
+  # the welcome page
+  if launchpadEnabled && !$('main.welcome').length > 0
     fullSessionLength = 840000 # 14 minutes (in milliseconds)
     sessionLength = fullSessionLength
     lastActiveTime = Date.now()
@@ -10,7 +11,6 @@ $(document).ready ->
 
     # Update the lastActiveTime
     setLastActiveTime = ->
-      console.log 'setting last active'
       lastActiveTime = Date.now()
 
     # Was the user active within the last minute of a given session length?
@@ -20,7 +20,6 @@ $(document).ready ->
 
     # Call the keep alive endpoint
     keepAlive = ->
-      console.log 'keep me alive!'
       # if the user has been active within the sessionLength
       # or the sessionLength + 15/30/45 minutes (active within an hour)
       # call the keep alive endpoint
@@ -28,11 +27,8 @@ $(document).ready ->
       activeWithinLastSessionLength(2 * fullSessionLength) or
       activeWithinLastSessionLength(3 * fullSessionLength) or
       activeWithinLastSessionLength(4 * fullSessionLength)
-        console.log 'call endpoint!'
         # if the keep alive was successful, update lastActiveTime
         $.get '/keep_alive', (data) ->
-          console.log 'success'
-          console.log data
           if data.success?
             # reset the sessionLength to the full length
             setSessionLength(fullSessionLength)
