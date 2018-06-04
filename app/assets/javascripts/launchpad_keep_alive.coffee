@@ -5,15 +5,18 @@ $(document).ready ->
     fullSessionLength = 840000 # 14 minutes (in milliseconds)
     sessionLength = fullSessionLength
     lastActiveTime = Date.now()
+    # sessionStart is the beginning of the session in which the user was last active
+    sessionStart = Date.now()
 
     # Update the lastActiveTime
     setLastActiveTime = ->
       lastActiveTime = Date.now() unless Date.now() - lastActiveTime > 3600000
 
-    # Was the user active within the last minute of a given session length?
+    # Was the user active during the session?
     activeWithinLastSessionLength = (length) ->
-      activeAgo = Date.now() - lastActiveTime
-      activeAgo < length and activeAgo > length - 70000
+      # were they active during the session length,
+      # and is the current time within the last ~minute of the session length
+      activeAgo < length and Date.now() - sessionStart > length - 70000
 
     # Call the keep alive endpoint
     keepAlive = ->
@@ -26,10 +29,13 @@ $(document).ready ->
       activeWithinLastSessionLength(sessionLength + (3 * fullSessionLength))
         # if the keep alive was successful, update lastActiveTime
         $.get '/keep_alive', (data) ->
-          # helpful for debugging
-          # console.log data
+          if data.success?
+            # reset the sessionStart time
+            sessionStart = Date.now()
+            # the user was active and got a new session, so sessionLength needs to be reset to a full session
+            sessionLength = fullSessionLength
 
-    # Update the lastActiveTime unless the keep alive window has passed
+    # Update the lastActiveTime
     $(window).mousemove ->
       setLastActiveTime()
     $(window).click ->
@@ -37,8 +43,7 @@ $(document).ready ->
     $(window).keyup ->
       setLastActiveTime()
 
-    # call keepAlive every sessionLength
-    # setInterval(keepAlive, sessionLength)
+    # call keepAlive every minute
     setInterval(keepAlive, 60000)
 
     # if the user changes pages in the middle of the session window
