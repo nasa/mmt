@@ -16,6 +16,7 @@ $(document).ready ->
     activeWithinLastSessionLength = (length) ->
       # were they active during the session length,
       # and is the current time within the last ~minute of the session length
+      activeAgo = Date.now() - lastActiveTime
       activeAgo < length and Date.now() - sessionStart > length - 70000
 
     # Call the keep alive endpoint
