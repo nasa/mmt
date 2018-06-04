@@ -6,12 +6,9 @@ $(document).ready ->
     sessionLength = fullSessionLength
     lastActiveTime = Date.now()
 
-    setSessionLength = (remainingTime) ->
-      sessionLength = remainingTime
-
     # Update the lastActiveTime
     setLastActiveTime = ->
-      lastActiveTime = Date.now()
+      lastActiveTime = Date.now() unless Date.now() - lastActiveTime > 3600000
 
     # Was the user active within the last minute of a given session length?
     activeWithinLastSessionLength = (length) ->
@@ -24,18 +21,21 @@ $(document).ready ->
       # or the sessionLength + 15/30/45 minutes (active within an hour)
       # call the keep alive endpoint
       if activeWithinLastSessionLength(sessionLength) or
-      activeWithinLastSessionLength(2 * fullSessionLength) or
-      activeWithinLastSessionLength(3 * fullSessionLength) or
-      activeWithinLastSessionLength(4 * fullSessionLength)
+      activeWithinLastSessionLength(sessionLength + fullSessionLength) or
+      activeWithinLastSessionLength(sessionLength + (2 * fullSessionLength)) or
+      activeWithinLastSessionLength(sessionLength + (3 * fullSessionLength))
         # if the keep alive was successful, update lastActiveTime
         $.get '/keep_alive', (data) ->
-          if data.success?
-            # reset the sessionLength to the full length
-            setSessionLength(fullSessionLength)
+          # helpful for debugging
+          # console.log data
 
     # Update the lastActiveTime unless the keep alive window has passed
     $(window).mousemove ->
-      setLastActiveTime() unless (Date.now() - lastActiveTime) > (810000 * 3)
+      setLastActiveTime()
+    $(window).click ->
+      setLastActiveTime()
+    $(window).keyup ->
+      setLastActiveTime()
 
     # call keepAlive every sessionLength
     # setInterval(keepAlive, sessionLength)
@@ -44,4 +44,4 @@ $(document).ready ->
     # if the user changes pages in the middle of the session window
     # the keep alive timer will need to be shortened to ensure
     # the keep alive call is successful
-    setSessionLength(if remainingSessionTime > sessionLength then sessionLength else remainingSessionTime)
+    sessionLength = if remainingSessionTime > sessionLength then sessionLength else remainingSessionTime
