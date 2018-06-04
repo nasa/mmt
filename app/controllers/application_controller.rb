@@ -210,6 +210,8 @@ class ApplicationController < ActionController::Base
   end
 
   def refresh_launchpad
+    return { error: 'session older than 8 hours' } if Time.now.to_i - session[:original_logged_in_at] > 28_800
+
     response = cmr_client.keep_alive(token)
     Rails.logger.info "launchpad integration keep alive endpoint response: #{response.inspect}" if Rails.env.development?
     if response.success?

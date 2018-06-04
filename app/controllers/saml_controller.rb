@@ -56,6 +56,7 @@ class SamlController < UsersController
       # it should be set to 15 min, the default Launchpad session time
       session[:expires_in] = 900
       session[:logged_in_at] = Time.now.to_i
+      session[:original_logged_in_at] = Time.now.to_i
 
       # for now, this requires that the user already has their auid and urs_uid associated in URS
       # MMT-1432 will allow them to make the association
