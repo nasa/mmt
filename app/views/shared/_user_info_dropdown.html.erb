@@ -1,4 +1,4 @@
-<% if is_logged_in %>
+<% if logged_in? %>
   <section id="user-info" role="navigation">
     <!-- User Info Dropdown Menu -->
     <div id="login-info" class="login-info-dropdown">
@@ -17,13 +17,13 @@
         </p>
       </a>
       <!-- Display provider context badge -->
-      <a href="#provider-context" id="provider-badge-link" class="display-modal">
-        <div class="provider-context">
-          <% if is_logged_in && current_user.provider_id %>
+      <% if logged_in? && current_user.provider_id %>
+        <a href="#provider-context" id="provider-badge-link" class="display-modal">
+          <div class="provider-context">
             <span class="eui-badge--sm daac"><%= current_user.provider_id %></span>
-          <% end %>
-        </div>
-      </a>
+          </div>
+        </a>
+      <% end %>
       <!-- End provider context badge -->
   </section>
 <% end %>

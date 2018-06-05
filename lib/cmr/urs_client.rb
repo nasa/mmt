@@ -1,10 +1,14 @@
 module Cmr
   class UrsClient < BaseClient
-    def urs_login_path(callback_url = ENV['urs_callback_url'])
+    def urs_login_path(callback_url: ENV['urs_login_callback_url'], associate: false)
+      callback_url = ENV['urs_association_callback_url'] if associate
+
       "#{@root}/oauth/authorize?client_id=#{@client_id}&redirect_uri=#{callback_url}&response_type=code"
     end
 
-    def get_oauth_tokens(auth_code, callback_url = ENV['urs_callback_url'])
+    def get_oauth_tokens(auth_code:, callback_url: ENV['urs_login_callback_url'], associate: false)
+      callback_url = ENV['urs_association_callback_url'] if associate
+
       post("/oauth/token?grant_type=authorization_code&code=#{auth_code}&redirect_uri=#{callback_url}", {})
     end
 
@@ -33,6 +37,12 @@ module Cmr
       client_token = get_client_token
       response = get("/api/users/user_by_nams_auid/#{auid}", {}, 'Authorization' => "Bearer #{client_token}")
       # Rails.logger.info "urs uid from auid response: #{response.inspect}"
+      response
+    end
+
+    def associate_urs_uid_and_auid(urs_uid, auid)
+      client_token = get_client_token
+      response = post("/api/users/#{urs_uid}/add_nams_auid", "nams_auid=#{auid}", 'Authorization' => "Bearer #{client_token}")
       response
     end
 

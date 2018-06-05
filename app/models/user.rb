@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   end
 
   def set_available_providers(token = nil)
+    # check CMR for providers the user has access to
+
     cmr_client = Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
 
     permission_options = {
@@ -25,6 +27,9 @@ class User < ActiveRecord::Base
       page_size: 2000,
       page_num: 1
     }
+    # we are asking which providers the user has the PROVIDER_CONTEXT ACL for
+    # because we are using the user's token, they also need to have READ permissions
+    # for the Provider Object ACL for those providers in order get that information back from CMR
     permissions_response = cmr_client.get_permissions(permission_options, token)
 
     providers = []
@@ -43,7 +48,7 @@ class User < ActiveRecord::Base
 
     if Rails.env.development?
       # set some default providers for development
-      providers = %w(MMT_1 MMT_2 LARC SEDAC)
+      providers = %w[MMT_1 MMT_2 LARC SEDAC]
     end
     self.providers = providers
 
