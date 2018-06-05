@@ -44,12 +44,12 @@ class SamlController < UsersController
   def acs
     settings = Account.get_saml_settings(get_url_base, get_authn_context)
 
-    @response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
+    saml_response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
 
-    if @response.is_valid?
+    if saml_response.is_valid?
       session[:launchpad_cookie] = pull_launchpad_cookie
 
-      attributes = @response.attributes
+      attributes = saml_response.attributes
       session[:auid] = attributes[:auid]
       session[:launchpad_email] = attributes[:email]
       # session expiration time to require the user to authenticate with Launchpad again
@@ -58,24 +58,15 @@ class SamlController < UsersController
       session[:logged_in_at] = Time.now.to_i
       session[:original_logged_in_at] = Time.now.to_i
 
-      # for now, this requires that the user already has their auid and urs_uid associated in URS
-      # MMT-1432 will allow them to make the association
-      urs_profile = get_urs_profile_from_auid
+      # get the user's associated URS profile, if they don't have an associated
+      # account, return to allow the redirect to prompt them to link accounts
+      urs_profile = get_urs_profile_from_auid || return
 
-      # Stores additional information in the session pertaining to the user
-      store_profile(urs_profile)
-
-      # Updates the user's available providers
-      current_user.set_available_providers(token)
-
-      # Refresh (force retrieve) the list of all providers
-      cmr_client.get_providers(true)
-
-      redirect_after_login
+      finish_successful_login(urs_profile)
     else
-      @errors = @response.errors
+      @errors = saml_response.errors
 
-      Rails.logger.error "Launchpad SAML Response invalid. Errors: #{@response.errors}"
+      Rails.logger.error "Launchpad SAML Response invalid. Errors: #{saml_response.errors}"
 
       redirect_to root_url, flash: { error: "An error has occurred with our login system. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
     end

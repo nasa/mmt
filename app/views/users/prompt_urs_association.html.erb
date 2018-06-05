@@ -1,0 +1,14 @@
+<div class="urs-association">
+  <div class="row row-content">
+    <div class="content">
+      <section>
+        <fieldset>
+          <h2>Redirecting to URS</h2>
+          <p>It appears you do not have a URS account linked with your Launchpad account. MMT and CMR permissions (ACLs) are based on your URS account. Please click the button below to log in to the URS account you listed on your NAMS request and would like to associate with your Launchpad account.</p>
+
+          <%= link_to 'Earthdata Login', cmr_client.urs_login_path(associate: true), class: 'eui-btn--blue' %>
+        </fieldset>
+      </section>
+    </div>
+  </div>
+</div>

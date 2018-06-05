@@ -131,7 +131,11 @@ Rails.application.routes.draw do
 
   get 'login' => 'users#login', as: 'login'
   get 'logout' => 'users#logout'
-  get 'urs_callback' => 'oauth_tokens#urs_callback'
+  get 'prompt_urs_association' => 'users#prompt_urs_association'
+  get 'confirm_urs_association' => 'users#confirm_urs_association'
+  post 'associate_urs_and_launchpad_ids' => 'users#associate_urs_and_launchpad_ids'
+  get 'urs_login_callback' => 'oauth_tokens#urs_login_callback'
+  get 'urs_association_callback' => 'oauth_tokens#urs_association_callback'
   get 'provider_context' => 'users#provider_context', as: 'provider_context'
 
   # SAML login
