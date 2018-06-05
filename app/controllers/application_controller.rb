@@ -159,7 +159,7 @@ class ApplicationController < ActionController::Base
   end
 
   def logged_in_at
-    session[:logged_in_at].nil? ? 0 : session[:logged_in_at]
+    session[:logged_in_at] || 0
   end
 
   def expires_in

@@ -1,15 +1,17 @@
 require 'rails_helper'
 
-describe 'User Access', js: true do
+describe 'User Access' do
   context 'when Earthdata Login is required' do
-    context 'when a logged out user tries to view an access restricted page' do
-      before do
-        require_urs_login
+    before do
+      require_urs_login
+    end
 
+    context 'when a logged out user tries to view an access restricted page', js: true do
+      before do
         visit search_path
       end
 
-      it 'redirects them to URS for login' do
+      it 'redirects them to URS to login' do
         expect(page).to have_content('EARTHDATA LOGIN')
       end
     end
@@ -22,8 +24,7 @@ describe 'User Access', js: true do
       end
 
       after do
-        click_on 'profile-link'
-        click_on 'Logout'
+        visit logout_path
       end
 
       it 'displays the page' do
@@ -39,14 +40,15 @@ describe 'User Access', js: true do
 
     context 'when a logged in user tries to view an access restricted page' do
       before do
+        require_launchpad_login
+
         login
 
         visit search_path
       end
 
       after do
-        click_on 'profile-link'
-        click_on 'Logout'
+        visit logout_path
       end
 
       it 'displays the page' do
