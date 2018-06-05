@@ -108,12 +108,11 @@ class SamlController < UsersController
   def pull_launchpad_cookie
     # CMR needs our Launchpad Cookie to be passed to authenticate, which is in the request header from Launchpad
 
+    # request.cookies and request.headers['HTTP_COOKIE'] both have the launchpad cookie
+    # however, when copying from Splunk, the request.cookies version did not work against
+    # the token service, and visually looks different from the version in request.headers
+    # which works
     http_cookie = request.headers['HTTP_COOKIE']
-    # Rails.logger.info "MMT-1286 Launchpad SAML logging. request.cookies #{request.cookies}"
-    # Rails.logger.info "MMT-1286 Launchpad SAML logging. request.headers['HTTP_COOKIE'] #{http_cookie}"
-
-    # using request.cookies didn't seem to produce a token that could be validated via token service (when copied from Splunk), so using request.headers which does
-    # TODO test using request.cookies now that we can pass the token (in SIT) without trying to copy it from Splunk
     launchpad_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?("#{launchpad_cookie_name}=") }.first
 
     launchpad_cookie.sub!("#{launchpad_cookie_name}=", '')

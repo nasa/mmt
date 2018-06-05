@@ -149,7 +149,7 @@ class UsersController < ApplicationController
     else
       Rails.logger.info "User with auid #{session[:auid]} does not have an associated URS account. Prompting user to associate accounts. Response: #{urs_profile_response.inspect}"
 
-      redirect_to prompt_urs_association_path
+      redirect_to prompt_urs_association_path and return
     end
   end
 end
