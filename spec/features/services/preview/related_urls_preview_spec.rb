@@ -13,8 +13,6 @@ describe 'Valid Service Related URL Preview', reset_provider: true do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#service_related_urls_preview' do
-          expect(page).to have_css('h5', text: 'Related URLs')
-
           within '.card-header' do
             expect(page).to have_content('DistributionURL')
           end
