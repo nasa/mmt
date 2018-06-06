@@ -24,7 +24,7 @@ class OauthTokensController < UsersController
     else
       Rails.logger.error("URS OAuth error in urs_association_callback: #{oauth_response.body}")
 
-      redirect_to root_url, flash: { error: "An error occurred with your Earthdata Login attempt. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+      redirect_to root_url, flash: { error: "#{oauth_response.error_message(i18n: I18n.t('controllers.oauth_tokens.urs_association_callback.flash.error'))}.\nPlease try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
     end
   end
 
@@ -53,7 +53,7 @@ class OauthTokensController < UsersController
     else
       Rails.logger.error("URS OAuth error in urs_login_callback: #{oauth_response.body}")
 
-      redirect_to root_url, flash: { error: "An error occurred with your Earthdata Login attempt. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+      redirect_to root_url, flash: { error: "#{oauth_response.error_message(i18n: I18n.t('controllers.oauth_tokens.urs_login_callback.flash.error'))}.\nPlease try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
     end
   end
 end
