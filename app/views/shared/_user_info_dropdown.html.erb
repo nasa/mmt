@@ -17,7 +17,7 @@
         </p>
       </a>
       <!-- Display provider context badge -->
-      <% if logged_in? && current_user.provider_id %>
+      <% if current_user.provider_id %>
         <a href="#provider-context" id="provider-badge-link" class="display-modal">
           <div class="provider-context">
             <span class="eui-badge--sm daac"><%= current_user.provider_id %></span>

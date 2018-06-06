@@ -139,10 +139,11 @@ describe 'User login' do
             click_on 'Confirm Association'
           end
 
-          it 'logs the user in and redirects the user to the manage collections page' do
+          it 'logs the user in and redirects the user to the manage collections page with a confirmation message' do
             within 'h2.current' do
               expect(page).to have_content('Manage Collections')
             end
+            expect(page).to have_content('Your URS and Launchpad accounts were successfully associated!')
           end
         end
       end
