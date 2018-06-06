@@ -3,10 +3,15 @@ $(document).ready ->
   # the welcome page
   if launchpadEnabled && !$('main.welcome').length > 0
     fullSessionLength = 840000 # 14 minutes (in milliseconds)
-    sessionLength = fullSessionLength
     lastActiveTime = Date.now()
+
     # sessionStart is the beginning of the session in which the user was last active
     sessionStart = Date.now()
+
+    # if the user changes pages in the middle of the session window
+    # the keep alive timer will need to be shortened to ensure
+    # the keep alive call is successful
+    sessionLength = if remainingSessionTime > sessionLength then sessionLength else remainingSessionTime
 
     # Update the lastActiveTime
     setLastActiveTime = ->
@@ -46,8 +51,3 @@ $(document).ready ->
 
     # call keepAlive every minute
     setInterval(keepAlive, 60000)
-
-    # if the user changes pages in the middle of the session window
-    # the keep alive timer will need to be shortened to ensure
-    # the keep alive call is successful
-    sessionLength = if remainingSessionTime > sessionLength then sessionLength else remainingSessionTime
