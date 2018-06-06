@@ -11,7 +11,7 @@ $(document).ready ->
     # if the user changes pages in the middle of the session window
     # the keep alive timer will need to be shortened to ensure
     # the keep alive call is successful
-    sessionLength = if remainingSessionTime > sessionLength then sessionLength else remainingSessionTime
+    sessionLength = if remainingSessionTime > fullSessionLength then fullSessionLength else remainingSessionTime
 
     # Update the lastActiveTime
     setLastActiveTime = ->
