@@ -135,7 +135,8 @@ class ApplicationController < ActionController::Base
                           session[:auid].present? &&
                           session[:urs_uid].present? &&
                           session[:expires_in].present? &&
-                          session[:logged_in_at].present?
+                          session[:logged_in_at].present? &&
+                          session[:original_logged_in_at].present?
 
       store_session_data unless is_user_logged_in # clear session token and info if user is not logged in
     elsif urs_login_required?
