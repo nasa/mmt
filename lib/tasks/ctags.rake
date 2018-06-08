@@ -3,7 +3,7 @@
 # @author thomas.a.cherry
 namespace :ctags do
   desc "generate ctags from ruby files to make vim more fun"
-  	task :ctags do
-  		sh 'ctags -R --languages=ruby --exclude=.git --exclude=log .'
-	end
+  task :ctags do
+ 	sh 'ctags -R --languages=ruby --exclude=.git --exclude=log .'
+  end
 end
