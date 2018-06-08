@@ -147,5 +147,3 @@ $(document).ready ->
     # select all of the items in the "to" list before submitting
     $('#new-order-option-assignment-form').submit ->
       $('#collectionsChooser_toList option').prop('selected', true)
-   
-  $(document).tooltip()
