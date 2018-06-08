@@ -53,6 +53,7 @@ gem 'json-schema'
 gem 'kaminari'
 gem 'momentjs-rails' # js lib for dates
 gem 'pundit'
+gem 'jquery-ui-rails'	# for $(document).tooltip()
 
 gem 'activerecord-session_store'
 gem 'ruby-saml', '>= 1.7.0'
