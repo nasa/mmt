@@ -31,5 +31,5 @@
 //= require jquery.webui-popover/jquery.webui-popover.min
 //= require redactor/redactor.min
 //= require jquery-textcounter/textcounter.min
-
+//= require jquery-ui/widgets/tooltip
 //= require_tree .
