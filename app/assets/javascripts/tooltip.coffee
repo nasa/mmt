@@ -5,4 +5,8 @@
 # the DOM attaching the new UI to any tag with a defined tooltip.
 #
 
-$(document).ready -> $(document).tooltip()
+$(document).ready ->
+  if $("#bulk-updates-form").length < 1
+    # dont show the tooltips on the bulk update forms as it just looks weird
+    # and messes up the tests
+    $(document).tooltip()
