@@ -208,10 +208,29 @@ class ApplicationController < ActionController::Base
   def refresh_launchpad
     return { error: 'session older than 8 hours' } if Time.now.to_i - session[:original_logged_in_at] > 28_800
 
+    # If we are in development and the user is not on the VPN, this call will
+    # not be able to connect to the keep_alive endpoint and will raise an error.
+    # So we should fake a successful response from the keep alive endpoint.
+    # If this method needs to behave as if in any other environment for development
+    # purposes, comment out this entire begin rescue statement
+    begin
+      response = cmr_client.keep_alive(token)
+    rescue
+      if Rails.env.development?
+        Rails.logger.info "keeping keep_alive alive in development. response: #{response.inspect}"
+        session[:expires_in] = 900
+        session[:logged_in_at] = Time.now.to_i
+        return { success: Time.now }
+      end
+    end
+
     response = cmr_client.keep_alive(token)
+
     Rails.logger.info "launchpad integration keep alive endpoint response: #{response.inspect}" if Rails.env.development?
+
     if response.success?
-      session[:launchpad_cookie] = response.headers.fetch('set-cookie', '').split("#{launchpad_cookie_name}=").last
+      session[:launchpad_cookie] = response.headers.fetch('set-cookie', '').split("#{launchpad_cookie_name}=").last.split(';').first
+
       session[:expires_in] = 900
       session[:logged_in_at] = Time.now.to_i
 
