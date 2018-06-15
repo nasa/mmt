@@ -26,12 +26,14 @@ module Helpers
         'organization'  => 'Testing'
       }
 
-      body.merge({
-        'uid'           => 'adminuser',
-        'first_name'    => 'Admin',
-        'last_name'     => 'User',
-        'email_address' => 'adminuser@example.com'
-      }) if admin
+      if admin
+        body.merge({
+          'uid'           => 'adminuser',
+          'first_name'    => 'Admin',
+          'last_name'     => 'User',
+          'email_address' => 'adminuser@example.com'
+        })
+      end
 
       body
     end
@@ -55,15 +57,15 @@ module Helpers
       login(admin: true, provider: provider, providers: providers)
     end
 
-    def real_login(provider: 'MMT_2', providers: 'MMT_2', method: 'env')
+    def real_login(provider: 'MMT_2', providers: 'MMT_2', method: 'env', associated: true, making_association: false)
       if method == 'env' && ENV['launchpad_login_required'] || method == 'launchpad'
-        real_launchpad_login(providers: providers)
+        real_launchpad_login(providers: providers, associated: associated)
       else
-        login(real_login: true, provider: provider, providers: providers)
+        login(real_login: true, provider: provider, providers: providers, making_association: making_association)
       end
     end
 
-    def login(real_login: false, admin: false, providers: 'MMT_2', provider: 'MMT_2')
+    def login(real_login: false, admin: false, providers: 'MMT_2', provider: 'MMT_2', making_association: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#login' do
 
         return mock_login(admin: admin, providers: providers, provider: provider) unless real_login
@@ -135,8 +137,13 @@ module Helpers
           user.save
         end
 
-        # after the user authenticates with URS
-        visit '/urs_callback?code=auth_code_here'
+        if making_association
+          # after the user authenticates with URS to associate their URS account with their Launchpad account
+          visit '/urs_association_callback?code=auth_code_here'
+        else
+          # after the user authenticates with URS when URS login is required
+          visit '/urs_login_callback?code=auth_code_here'
+        end
       end
     end
 
@@ -149,30 +156,34 @@ module Helpers
       user.update(echo_id: 'user-echo-token')
       user.save
 
-      allow_any_instance_of(ApplicationController).to receive(:is_logged_in).and_return(true)
+      allow_any_instance_of(ApplicationController).to receive(:ensure_user_is_logged_in).and_return(true)
+      allow_any_instance_of(ApplicationController).to receive(:logged_in?).and_return(true)
+      allow_any_instance_of(ApplicationController).to receive(:server_session_expires_in).and_return(1)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(token)
     end
 
-    def mock_valid_acs_responses(admin: false)
+    def mock_valid_acs_responses(admin: false, associated: true)
       # We can't actually use a valid SAMLResponse from Launchpad because they are
       # time sensitive, so we need to mock that it is valid and provides the data we need
       allow_any_instance_of(OneLogin::RubySaml::Response).to receive(:is_valid?).and_return(true)
       allow_any_instance_of(SamlController).to receive(:pull_launchpad_cookie).and_return(token_body(admin: admin)['access_token'])
 
       nams_attributes = {
-        auid: 'test_user',
+        auid: 'testuser',
         email: 'testuser@example.com'
       }
       allow_any_instance_of(OneLogin::RubySaml::Response).to receive(:attributes).and_return(nams_attributes)
 
-      # UrsClient get_urs_uid_from_nams_auid
-      profile_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: profile_body(admin: admin)))
-      allow_any_instance_of(Cmr::UrsClient).to receive(:get_urs_uid_from_nams_auid).and_return(profile_response)
+      if associated
+        # UrsClient get_urs_uid_from_nams_auid
+        profile_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: profile_body(admin: admin)))
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_urs_uid_from_nams_auid).and_return(profile_response)
+      end
     end
 
-    def real_launchpad_login(admin: false, providers: 'MMT_2')
-      mock_valid_acs_responses(admin: admin)
+    def real_launchpad_login(admin: false, providers: 'MMT_2', associated: true)
+      mock_valid_acs_responses(admin: admin, associated: associated)
 
       # Use the provided user or lookup a previously created user by URS UID
       user = User.find_or_create_by(urs_uid: profile_body(admin: admin)['uid'])

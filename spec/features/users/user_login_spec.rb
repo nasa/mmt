@@ -56,37 +56,94 @@ describe 'User login' do
   end
 
   context 'when logging in with Launchpad' do
-    before do
-      require_launchpad_login
-
-      real_login(method: 'launchpad')
-    end
-
-    it 'redirects the user to the manage collections page' do
-      within 'h2.current' do
-        expect(page).to have_content('Manage Collections')
-      end
-      expect(page).to have_no_css('table#public-holdings')
-    end
-
-    context 'when logging out' do
+    context 'when the user already has an associated URS account' do
       before do
-        visit collection_drafts_path
-        click_on 'Logout'
+        require_launchpad_login
+
+        real_login(method: 'launchpad')
       end
 
-      it 'redirects the user to the landing page' do
-        expect(page).to have_content('About the Metadata Management Tool')
+      it 'redirects the user to the manage collections page' do
+        within 'h2.current' do
+          expect(page).to have_content('Manage Collections')
+        end
+        expect(page).to have_no_css('table#public-holdings')
       end
 
-      context 'when the user logs back in' do
+      context 'when logging out' do
         before do
-          real_login(method: 'launchpad')
+          visit collection_drafts_path
+          click_on 'Logout'
         end
 
-        it 'displays the manage collections page' do
-          within 'h2.current' do
-            expect(page).to have_content('Manage Collections')
+        it 'redirects the user to the landing page' do
+          expect(page).to have_content('About the Metadata Management Tool')
+        end
+
+        context 'when the user logs back in' do
+          before do
+            real_login(method: 'launchpad')
+          end
+
+          it 'displays the manage collections page' do
+            within 'h2.current' do
+              expect(page).to have_content('Manage Collections')
+            end
+          end
+        end
+      end
+    end
+
+    context 'when the user does not have an associated URS account' do
+      before do
+        require_launchpad_login
+      end
+
+      context 'when the user successfully logs in with launchpad' do
+        before do
+          no_linked_account_response = Cmr::Response.new(Faraday::Response.new(status: 404, body: '{"error": "NAMS auid testuser is not associated with a EDL profile"}'))
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_urs_uid_from_nams_auid).and_return(no_linked_account_response)
+
+          real_login(method: 'launchpad', associated: false)
+        end
+
+        it 'prompts the user to log into URS to link their accounts' do
+          expect(page).to have_content('Redirecting to URS')
+          expect(page).to have_content('It appears you do not have a URS account linked with your Launchpad account.')
+          expect(page).to have_content('Please click the button below to log in to the URS account you listed on your NAMS request and would like to associate with your Launchpad account.')
+          expect(page).to have_link('Earthdata Login')
+        end
+
+      end
+
+      context 'when the user returns from logging into URS after prompted to associate an account' do
+        before do
+          real_login(method: 'launchpad')
+
+          real_login(method: 'urs', making_association: true)
+        end
+
+        it 'asks the user to confirm the accounts to be linked' do
+          expect(page).to have_content('Confirm URS and Launchpad account association')
+          expect(page).to have_content('Please confirm that you want to link this URS account with your Launchpad account.')
+          expect(page).to have_content('Launchpad username: testuser')
+          expect(page).to have_content('URS username: testuser')
+          expect(page).to have_button('Confirm Association')
+        end
+
+        context 'when confirming the account association' do
+          before do
+            linking_accounts_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: '{"msg": "NAMS Id added successfully"}'))
+            allow_any_instance_of(Cmr::UrsClient).to receive(:associate_urs_uid_and_auid).and_return(linking_accounts_response)
+
+            click_on 'Confirm Association'
+          end
+
+          it 'logs the user in and redirects the user to the manage collections page with a confirmation message' do
+            within 'h2.current' do
+              expect(page).to have_content('Manage Collections')
+            end
+            expect(page).to have_content('Your URS and Launchpad accounts were successfully associated!')
           end
         end
       end

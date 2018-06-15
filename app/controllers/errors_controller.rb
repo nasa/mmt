@@ -1,7 +1,7 @@
 # :nodoc:
 class ErrorsController < ApplicationController
 
-  skip_before_action :is_logged_in
+  skip_before_action :ensure_user_is_logged_in
   skip_before_action :setup_query
   skip_before_action :refresh_urs_if_needed, except: [:logout, :refresh_token]
   skip_before_action :provider_set?

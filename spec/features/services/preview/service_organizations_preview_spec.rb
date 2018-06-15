@@ -13,8 +13,6 @@ describe 'Valid Service Service Organizations Preview', reset_provider: true do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#service_service_organizations_preview' do
-          expect(page).to have_css('h5', text: 'Service Organizations')
-
           within '.service-organizations-cards' do
             within all('li.card')[0] do
               within '.card-header' do

@@ -152,6 +152,18 @@ en:
       destroy:
         flash:
           error: 'Group was not deleted successfully'
+    users:
+      associate_urs_and_launchpad_ids:
+        flash:
+          success: 'Your URS and Launchpad accounts were successfully associated!'
+          error: 'An error occurred trying to associate your URS and Launchpad accounts'
+    oauth_tokens:
+      urs_association_callback:
+        flash:
+          error: 'An error occurred with your Earthdata Login attempt'
+      urs_login_callback:
+        flash:
+          error: 'An error occurred with your Earthdata Login attempt'
   views:
     pagination:
       first: "First"

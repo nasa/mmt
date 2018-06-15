@@ -13,8 +13,6 @@ describe 'Valid Service Service Keywords Preview', reset_provider: true do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#service_service_keywords_preview' do
-          expect(page).to have_css('h5', text: 'Service Keywords')
-
           keyword_parts = page.all('ul.arrow-tag-group-list').first.all('li.arrow-tag-group-item')
           expect(keyword_parts[0]).to have_content('EARTH SCIENCE SERVICES')
           expect(keyword_parts[1]).to have_content('DATA ANALYSIS AND VISUALIZATION')

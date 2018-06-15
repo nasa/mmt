@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
 
-  before_action :is_logged_in
+  before_action :ensure_user_is_logged_in
   before_action :setup_query
   before_action :refresh_urs_if_needed, except: [:logout, :refresh_token] # URS login
   before_action :refresh_launchpad_if_needed, except: [:logout] # Launchpad login
@@ -82,7 +82,7 @@ class ApplicationController < ActionController::Base
   end
 
   def store_profile(profile = {})
-    # store URS profile information
+    # store URS profile information in the session
 
     # URS login && Launchpad login
     uid = session['endpoint'].split('/').last if session['endpoint']
@@ -90,8 +90,6 @@ class ApplicationController < ActionController::Base
     session[:name] = profile['first_name'].nil? ? uid : "#{profile['first_name']} #{profile['last_name']}"
     session[:urs_uid] = profile['uid'] || uid
     session[:email_address] = profile['email_address']
-
-    return if profile == {}
 
     # Echo Id is not being used, so this should be removed as part of MMT-1446
     # Also, CMR can't get a user's Echo Id from their launchpad token
@@ -126,7 +124,7 @@ class ApplicationController < ActionController::Base
     session[:auid] = json['auid']
     session[:launchpad_email] = json['launchpad_email']
     session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
-    session[:expires_in] = json.empty? ? 900 : json['expires_in'] # 15 min - Launchpad default time
+    session[:expires_in] = json.fetch('expires_in', 900) # 15 min - Launchpad default time
   end
 
   def logged_in?
@@ -135,35 +133,33 @@ class ApplicationController < ActionController::Base
                           session[:auid].present? &&
                           session[:urs_uid].present? &&
                           session[:expires_in].present? &&
-                          session[:logged_in_at].present?
-
-      store_session_data unless is_user_logged_in # clear session token and info if user is not logged in
+                          session[:logged_in_at].present? &&
+                          session[:original_logged_in_at].present?
     elsif urs_login_required?
       is_user_logged_in = session[:access_token].present? &&
                           session[:refresh_token].present? &&
                           session[:expires_in].present? &&
                           session[:logged_in_at].present?
-
-      store_oauth_token unless is_user_logged_in # clear session time and token values if user is not logged in
     end
 
     is_user_logged_in
   end
+  helper_method :logged_in?
 
-  def is_logged_in
-    ensure_one_login_method or return
+  def ensure_user_is_logged_in
+    ensure_one_login_method || return
 
     session[:return_to] = request.fullpath
 
     Rails.logger.info("#{launchpad_login_required? ? 'Launchpad' : 'URS'} token: #{token}") if Rails.env.development?
 
     return true if logged_in?
+    clear_session_and_token_data # if user is not logged in, clear related session data
     redirect_to login_path
   end
-  helper_method :is_logged_in
 
   def logged_in_at
-    session[:logged_in_at].nil? ? 0 : session[:logged_in_at]
+    session[:logged_in_at] || 0
   end
 
   def expires_in
@@ -202,9 +198,45 @@ class ApplicationController < ActionController::Base
     # Launchpad login
     if launchpad_login_required?
       if logged_in? && server_session_expires_in < 0
-        # TODO until the keep alive is fully implemented (MMT-1297) we should just ask the user to login with launchpad again
-        redirect_to sso_url
+        result = refresh_launchpad
+
+        redirect_to sso_url if result[:error]
       end
+    end
+  end
+
+  def refresh_launchpad
+    return { error: 'session older than 8 hours' } if Time.now.to_i - session[:original_logged_in_at] > 28_800
+
+    # If we are in development and the user is not on the VPN, this call will
+    # not be able to connect to the keep_alive endpoint and will raise an error.
+    # So we should fake a successful response from the keep alive endpoint.
+    # If this method needs to behave as if in any other environment for development
+    # purposes, comment out this entire begin rescue statement
+    begin
+      response = cmr_client.keep_alive(token)
+    rescue
+      if Rails.env.development?
+        Rails.logger.info "keeping keep_alive alive in development. response: #{response.inspect}"
+        session[:expires_in] = 900
+        session[:logged_in_at] = Time.now.to_i
+        return { success: Time.now }
+      end
+    end
+
+    response = cmr_client.keep_alive(token)
+
+    Rails.logger.info "launchpad integration keep alive endpoint response: #{response.inspect}" if Rails.env.development?
+
+    if response.success?
+      session[:launchpad_cookie] = response.headers.fetch('set-cookie', '').split("#{launchpad_cookie_name}=").last.split(';').first
+
+      session[:expires_in] = 900
+      session[:logged_in_at] = Time.now.to_i
+
+      { success: Time.now }
+    else
+      { error: 'could not keep alive', time: Time.now }
     end
   end
 
@@ -285,6 +317,20 @@ class ApplicationController < ActionController::Base
     redirect_to(request.referrer || manage_collections_path)
   end
 
+  def clear_session_and_token_data
+    # Launchpad login only data
+    session[:launchpad_cookie] = nil
+    session[:auid] = nil
+    session[:launchpad_email] = nil
+    # URS login only data
+    session[:access_token] = nil
+    session[:refresh_token] = nil
+    session[:endpoint] = nil
+    # Both logins data
+    session[:logged_in_at] = nil
+    session[:expires_in] = nil
+  end
+
   def ensure_one_login_method
     if both_login_methods_on?
       # Unless specifically directed otherwise, we should have one login method:
@@ -294,8 +340,7 @@ class ApplicationController < ActionController::Base
       Rails.logger.error('An error has occured. Both URS and Launchpad login feature toggles are in the same state. Please check the configuration variables urs_login_required and launchpad_login_required for this environment.')
 
       # clear session information so user is not logged in
-      store_oauth_token
-      store_session_data
+      clear_session_and_token_data
 
       redirect_to root_url and return
     end

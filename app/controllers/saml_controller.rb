@@ -44,37 +44,29 @@ class SamlController < UsersController
   def acs
     settings = Account.get_saml_settings(get_url_base, get_authn_context)
 
-    @response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
+    saml_response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
 
-    if @response.is_valid?
+    if saml_response.is_valid?
       session[:launchpad_cookie] = pull_launchpad_cookie
 
-      attributes = @response.attributes
+      attributes = saml_response.attributes
       session[:auid] = attributes[:auid]
       session[:launchpad_email] = attributes[:email]
       # session expiration time to require the user to authenticate with Launchpad again
       # it should be set to 15 min, the default Launchpad session time
       session[:expires_in] = 900
       session[:logged_in_at] = Time.now.to_i
+      session[:original_logged_in_at] = Time.now.to_i
 
-      # for now, this requires that the user already has their auid and urs_uid associated in URS
-      # MMT-1432 will allow them to make the association
-      urs_profile = get_urs_profile_from_auid
+      # get the user's associated URS profile, if they don't have an associated
+      # account, return to allow the redirect to prompt them to link accounts
+      urs_profile = get_urs_profile_from_auid || return
 
-      # Stores additional information in the session pertaining to the user
-      store_profile(urs_profile)
-
-      # Updates the user's available providers
-      current_user.set_available_providers(token)
-
-      # Refresh (force retrieve) the list of all providers
-      cmr_client.get_providers(true)
-
-      redirect_after_login
+      finish_successful_login(urs_profile)
     else
-      @errors = @response.errors
+      @errors = saml_response.errors
 
-      Rails.logger.error "Launchpad SAML Response invalid. Errors: #{@response.errors}"
+      Rails.logger.error "Launchpad SAML Response invalid. Errors: #{saml_response.errors}"
 
       redirect_to root_url, flash: { error: "An error has occurred with our login system. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
     end
@@ -116,12 +108,11 @@ class SamlController < UsersController
   def pull_launchpad_cookie
     # CMR needs our Launchpad Cookie to be passed to authenticate, which is in the request header from Launchpad
 
+    # request.cookies and request.headers['HTTP_COOKIE'] both have the launchpad cookie
+    # however, when copying from Splunk, the request.cookies version did not work against
+    # the token service, and visually looks different from the version in request.headers
+    # which works
     http_cookie = request.headers['HTTP_COOKIE']
-    # Rails.logger.info "MMT-1286 Launchpad SAML logging. request.cookies #{request.cookies}"
-    # Rails.logger.info "MMT-1286 Launchpad SAML logging. request.headers['HTTP_COOKIE'] #{http_cookie}"
-
-    # using request.cookies didn't seem to produce a token that could be validated via token service (when copied from Splunk), so using request.headers which does
-    # TODO test using request.cookies now that we can pass the token (in SIT) without trying to copy it from Splunk
     launchpad_cookie = http_cookie.split('; ').select { |cookie| cookie.start_with?("#{launchpad_cookie_name}=") }.first
 
     launchpad_cookie.sub!("#{launchpad_cookie_name}=", '')

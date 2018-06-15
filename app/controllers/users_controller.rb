@@ -2,7 +2,7 @@
 class UsersController < ApplicationController
   include ProviderContextRedirector
 
-  skip_before_action :is_logged_in, except: [:set_provider, :refresh_providers]
+  skip_before_action :ensure_user_is_logged_in, except: [:set_provider, :refresh_providers]
   skip_before_action :setup_query
   skip_before_action :provider_set?
 
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     session[:last_point] = request.referrer
     session[:last_point] = params[:next_point] if params[:next_point]
 
-    ensure_one_login_method or return
+    ensure_one_login_method || return
 
     if launchpad_login_required?
       redirect_to sso_url
@@ -83,7 +83,44 @@ class UsersController < ApplicationController
     end
   end
 
+  def prompt_urs_association; end
+
+  def confirm_urs_association
+    @profile = params[:profile]
+    @auid = session[:auid]
+  end
+
+  def associate_urs_and_launchpad_ids
+    profile = params[:profile]
+    auid = session[:auid]
+
+    association_response = cmr_client.associate_urs_uid_and_auid(profile[:uid], auid)
+    if association_response.success?
+      flash[:success] = I18n.t('controllers.users.associate_urs_and_launchpad_ids.flash.success')
+
+      finish_successful_login(profile)
+    else
+      Rails.logger.error "Error trying to associate a user's URS urs_uid (#{profile[:uid]}) and Launchpad auid (#{auid}): #{association_response.inspect}"
+
+      redirect_to root_url, flash: { error: "#{association_response.error_message(i18n: I18n.t('controllers.users.associate_urs_and_launchpad_ids.flash.error'))}.\nPlease try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+    end
+  end
+
   private
+
+  def finish_successful_login(profile)
+    # Stores additional information in the session pertaining to the user
+    store_profile(profile)
+
+    # Updates the user's available providers
+    current_user.set_available_providers(token)
+
+    # Refresh (force retrieve) the list of all providers
+    cmr_client.get_providers(true)
+
+    # Redirects the user to an appropriate location
+    redirect_after_login
+  end
 
   def get_cached_providers
     # retrieve the cached list of all providers
@@ -106,19 +143,13 @@ class UsersController < ApplicationController
   end
 
   def get_urs_profile_from_auid
-    # We are assuming the user has their urs id and auid associated in URS
-    # TODO MMT-1432 will implement directing a user to URS to sign in and associate their urs_uid and auid the first time, if those ids are not associated
-
     urs_profile_response = cmr_client.get_urs_uid_from_nams_auid(session[:auid])
+    if urs_profile_response.success?
+      urs_profile_response.body
+    else
+      Rails.logger.info "User with auid #{session[:auid]} does not have an associated URS account. Prompting user to associate accounts. Response: #{urs_profile_response.inspect}"
 
-    urs_profile = if urs_profile_response.success?
-                    urs_profile_response.body
-                  else
-                    Rails.logger.error "Error retrieving URS profile with auid: #{session[:auid]}"
-                    flash[:error] = 'You do not have your URS ID associated with your NAMS AUID'
-                    {}
-                  end
-
-    urs_profile
+      redirect_to prompt_urs_association_path and return
+    end
   end
 end

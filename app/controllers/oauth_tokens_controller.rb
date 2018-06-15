@@ -2,41 +2,58 @@
 class OauthTokensController < UsersController
   skip_before_action :refresh_launchpad_if_needed, :refresh_urs_if_needed
 
-  def urs_callback
+  def urs_association_callback
+    # Associating a user's URS urs_uid with their Launchpad auid after a successful
+    # login to URS
+
+    # Ask URS for an access token
+    oauth_response = cmr_client.get_oauth_tokens(auth_code: params[:code], associate: true)
+
+    # If the request was successful continue logging in
+    if oauth_response.success?
+      # Retreive URS profile details for the provided token
+      profile_response = cmr_client.get_profile(oauth_response.body['endpoint'], oauth_response.body['access_token'])
+
+      profile = if profile_response.success?
+                   profile_response.body
+                 else
+                   {}
+                 end
+
+      redirect_to confirm_urs_association_path(profile: profile)
+    else
+      Rails.logger.error("URS OAuth error in urs_association_callback: #{oauth_response.body}")
+
+      redirect_to root_url, flash: { error: "#{oauth_response.error_message(i18n: I18n.t('controllers.oauth_tokens.urs_association_callback.flash.error'))}.\nPlease try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+    end
+  end
+
+  def urs_login_callback
     # URS login
     # store user information after a successful login and return from URS
-    if params[:code]
-      # Ask CMR for an access token
-      response = cmr_client.get_oauth_tokens(params[:code])
 
-      # If the request was successful continue logging in
-      if response.success?
-        # Adds token response to session variables
-        store_oauth_token(response.body)
+    # Ask URS for an access token
+    oauth_response = cmr_client.get_oauth_tokens(auth_code: params[:code])
 
-        # Retreive profile details for the provided token
-        profile_response = cmr_client.get_profile(response.body['endpoint'], response.body['access_token'])
+    # If the request was successful continue logging in
+    if oauth_response.success?
+      # Adds token response to session variables
+      store_oauth_token(oauth_response.body)
 
-        profile = if profile_response.success?
-                    profile_response.body
-                  else
-                    {}
-                  end
+      # Retreive URS profile details for the provided token
+      profile_response = cmr_client.get_profile(oauth_response.body['endpoint'], oauth_response.body['access_token'])
 
-        # Stores additional information in the session pertaining to the user
-        store_profile(profile)
+      profile = if profile_response.success?
+                  profile_response.body
+                else
+                  {}
+                end
 
-        # Updates the user's available providers
-        current_user.set_available_providers(token)
+      finish_successful_login(profile)
+    else
+      Rails.logger.error("URS OAuth error in urs_login_callback: #{oauth_response.body}")
 
-        # Refresh (force retrieve) the list of all providers
-        cmr_client.get_providers(true)
-      else
-        Rails.logger.error("OAuth error: #{response.body}")
-      end
+      redirect_to root_url, flash: { error: "#{oauth_response.error_message(i18n: I18n.t('controllers.oauth_tokens.urs_login_callback.flash.error'))}.\nPlease try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
     end
-
-    # Redirects the user to an appropriate location
-    redirect_after_login
   end
 end
