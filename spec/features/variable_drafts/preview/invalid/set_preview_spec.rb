@@ -45,28 +45,29 @@ describe 'Invalid Variable Draft Set Preview' do
         expect(page).to have_css('.umm-preview-field-container', count: 5)
 
         within '#variable_draft_draft_sets_preview' do
-          expect(page).to have_css('h5', text: 'Sets')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'variable_draft_draft_sets'))
-
           expect(page).to have_css('h6', text: 'Set 1')
 
           within '#variable_draft_draft_sets_0_name_preview' do
             expect(page).to have_css('h5', text: 'Name')
+            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'variable_draft_draft_sets_0_name'))
             expect(page).to have_css('p', text: 'No value for Name provided.')
           end
 
           within '#variable_draft_draft_sets_0_type_preview' do
             expect(page).to have_css('h5', text: 'Type')
+            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'variable_draft_draft_sets_0_type'))
             expect(page).to have_css('p', text: 'No value for Type provided.')
           end
 
           within '#variable_draft_draft_sets_0_size_preview' do
             expect(page).to have_css('h5', text: 'Size')
+            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'variable_draft_draft_sets_0_size'))
             expect(page).to have_css('p', text: 'string')
           end
 
           within '#variable_draft_draft_sets_0_index_preview' do
             expect(page).to have_css('h5', text: 'Index')
+            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'variable_draft_draft_sets_0_index'))
             expect(page).to have_css('p', text: 'string')
           end
         end

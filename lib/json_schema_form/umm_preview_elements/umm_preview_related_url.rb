@@ -3,13 +3,17 @@
 # :nodoc:
 class UmmPreviewRelatedURL < UmmPreviewElement
   def render
-    content_tag(:ul, class: 'related-url-card cards') do
-      Array.wrap(data).each_with_index do |related_url, index|
-        concat(content_tag(:li, class: 'card') do
-          concat render_card_header(related_url)
-          concat render_card_body(related_url, index)
-        end)
-      end
+    capture do
+      render_preview_link_to_draft_form unless draft_id.nil?
+
+      concat(content_tag(:ul, class: 'related-url-card cards') do
+        Array.wrap(element_value).each_with_index do |related_url, index|
+          concat(content_tag(:li, class: 'card') do
+            concat render_card_header(related_url)
+            concat render_card_body(related_url, index)
+          end)
+        end
+      end)
     end
   end
 

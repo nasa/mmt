@@ -45,18 +45,17 @@ describe 'Invalid Variable Draft Dimensions Preview' do
         expect(page).to have_css('.umm-preview-field-container', count: 3)
 
         within '#variable_draft_draft_dimensions_preview' do
-          expect(page).to have_css('h5', text: 'Dimensions')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'dimensions', anchor: 'variable_draft_draft_dimensions'))
-
           expect(page).to have_css('h6', text: 'Dimension 1')
 
           within '#variable_draft_draft_dimensions_0_name_preview' do
             expect(page).to have_css('h5', text: 'Name')
+            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'dimensions', anchor: 'variable_draft_draft_dimensions_0_name'))
             expect(page).to have_css('p', text: 'No value for Name provided.')
           end
 
           within '#variable_draft_draft_dimensions_0_size_preview' do
             expect(page).to have_css('h5', text: 'Size')
+            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'dimensions', anchor: 'variable_draft_draft_dimensions_0_size'))
             expect(page).to have_css('p', text: 'string')
           end
         end

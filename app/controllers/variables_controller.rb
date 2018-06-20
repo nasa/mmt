@@ -6,6 +6,7 @@ class VariablesController < ManageVariablesController
   before_action :set_schema, only: [:show, :edit, :clone, :destroy]
   before_action :set_form, only: [:show, :edit, :clone, :destroy]
   before_action :ensure_correct_variable_provider, only: [:edit, :clone, :destroy]
+  before_action :set_preview, only: [:show]
 
   add_breadcrumb 'Variables' # there is no variables index action, so not providing a link
 
@@ -127,12 +128,22 @@ class VariablesController < ManageVariablesController
     @json_form = UmmJsonForm.new('variables', 'umm-var-form.json', @schema, @variable, field_prefix: 'variable_draft/draft')
   end
 
+  def set_preview
+    @preview = UmmPreview.new(
+      schema_type: 'variable',
+      preview_filename: 'umm-var-preview.json',
+      data: @variable
+    )
+  end
+
   def ensure_correct_variable_provider
     return if current_provider?(@provider_id)
 
     set_record_action
 
     set_user_permissions
+
+    set_preview
 
     render :show
   end

@@ -39,7 +39,6 @@ describe 'Empty Variable Draft Dimensions Preview' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#variable_draft_draft_dimensions_preview' do
-          expect(page).to have_css('h5', text: 'Dimensions')
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'dimensions', anchor: 'variable_draft_draft_dimensions'))
 
           expect(page).to have_css('p', text: 'No value for Dimensions provided.')

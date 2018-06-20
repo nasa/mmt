@@ -39,7 +39,6 @@ describe 'Empty Variable Draft Fill Value Preview' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#variable_draft_draft_fill_values_preview' do
-          expect(page).to have_css('h5', text: 'Fill Values')
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'fill_values', anchor: 'variable_draft_draft_fill_values'))
 
           expect(page).to have_css('p', text: 'No value for Fill Values provided.')

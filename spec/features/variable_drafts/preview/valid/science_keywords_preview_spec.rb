@@ -39,7 +39,6 @@ describe 'Valid Variable Draft Science Keywords Preview' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#variable_draft_draft_science_keywords_preview' do
-          expect(page).to have_css('h5', text: 'Science Keywords')
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'science_keywords', anchor: 'variable_draft_draft_science_keywords'))
 
           keyword_parts = page.all('ul.arrow-tag-group-list').first.all('li.arrow-tag-group-item')

@@ -47,21 +47,21 @@ describe 'Invalid Variable Draft Fill Value Preview' do
         expect(page).to have_css('h6', text: 'Fill Value 1')
 
         within '#variable_draft_draft_fill_values_preview' do
-          expect(page).to have_css('h5', text: 'Fill Values')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'fill_values', anchor: 'variable_draft_draft_fill_values'))
-
           within '#variable_draft_draft_fill_values_0_value_preview' do
             expect(page).to have_css('h5', text: 'Value')
+            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'fill_values', anchor: 'variable_draft_draft_fill_values_0_value'))
             expect(page).to have_css('p', text: 'string')
           end
 
           within '#variable_draft_draft_fill_values_0_type_preview' do
             expect(page).to have_css('h5', text: 'Type')
+            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'fill_values', anchor: 'variable_draft_draft_fill_values_0_type'))
             expect(page).to have_css('p', text: 'No value for Type provided.')
           end
 
           within '#variable_draft_draft_fill_values_0_description_preview' do
             expect(page).to have_css('h5', text: 'Description')
+            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'fill_values', anchor: 'variable_draft_draft_fill_values_0_description'))
             expect(page).to have_css('p', text: 'No value for Description provided.')
           end
         end

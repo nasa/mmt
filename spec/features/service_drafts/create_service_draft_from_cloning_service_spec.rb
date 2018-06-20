@@ -26,11 +26,11 @@ describe 'Creating a service draft from cloning a service', reset_provider: true
     end
 
     it 'removes the Name and Long Name from the metadata' do
-      within '#service_draft_name_preview' do
+      within '#service_draft_draft_name_preview' do
         expect(page).to have_css('p', text: 'No value for Name provided.')
       end
 
-      within '#service_draft_long_name_preview' do
+      within '#service_draft_draft_long_name_preview' do
         expect(page).to have_css('p', text: 'No value for Long Name provided.')
       end
     end

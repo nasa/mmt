@@ -36,7 +36,7 @@ describe 'Valid Variable Draft Variable Characteristics Preview' do
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.variable_characteristics' do
-        expect(page).to have_css('.umm-preview-field-container', count: 11)
+        expect(page).to have_css('.umm-preview-field-container', count: 12)
 
         within '#variable_draft_draft_characteristics_standard_name_preview' do
           expect(page).to have_css('h5', text: 'Standard Name')
