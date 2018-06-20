@@ -40,20 +40,6 @@ class UmmKeywordPicker < UmmFormElement
     end
   end
 
-  def render_preview
-    capture do
-      element_value.each do |keyword|
-        concat(content_tag(:ul, class: 'arrow-tag-group-list') do
-          self.class::KEYWORD_LEVELS.each do |level|
-            unless keyword[level].blank?
-              concat content_tag(:li, keyword[level], itemprop: 'keyword', class: 'arrow-tag-group-item')
-            end
-          end
-        end)
-      end
-    end
-  end
-
   def render_keyword_picker
     content_tag(:div, class: 'eui-nested-item-picker') do
       concat(content_tag(:ul, class: 'eui-item-path') do

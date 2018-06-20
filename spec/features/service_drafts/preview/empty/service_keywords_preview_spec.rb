@@ -34,8 +34,8 @@ describe 'Empty Service Draft Service Keywords Preview' do
     within '.umm-preview.service_keywords' do
       expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-      within '#service_draft_service_keywords_preview' do
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_keywords', anchor: 'service_draft_service_keywords'))
+      within '#service_draft_draft_service_keywords_preview' do
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_keywords', anchor: 'service_draft_draft_service_keywords'))
 
         expect(page).to have_css('p', text: 'No value for Service Keywords provided.')
       end

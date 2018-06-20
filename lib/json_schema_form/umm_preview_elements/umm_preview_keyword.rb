@@ -1,4 +1,4 @@
-# Renders a keyword string
+# Renders a controlled keyword stylized display
 
 # :nodoc:
 class UmmPreviewKeyword < UmmPreviewElement
@@ -6,7 +6,9 @@ class UmmPreviewKeyword < UmmPreviewElement
 
   def render
     capture do
-      data.each do |keyword|
+      render_preview_link_to_draft_form unless draft_id.nil?
+
+      element_value.each do |keyword|
         concat(content_tag(:ul, class: 'arrow-tag-group-list') do
           self.class::KEYWORD_LEVELS.each do |level|
             unless keyword[level].blank?

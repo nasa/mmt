@@ -20,26 +20,6 @@ class UmmMultiItems < UmmFormElement
     parsed_json.fetch('typeOverride', form_title)
   end
 
-  def render_preview
-    capture do
-      indexes = options.fetch('indexes', [])
-
-      values = Array.wrap(element_value)
-      values = [{}] if values.empty?
-      values.each_with_index do |value, index|
-        concat(content_tag(:fieldset) do
-          concat content_tag(:h6, "#{title.singularize} #{index + 1}")
-
-          form_fragment['items'].each do |property|
-            UmmFormSection.new(form_section_json: property, json_form: json_form, schema: schema, options: options.merge('indexes' => indexes + [index]), key: full_key, field_value: value).children.each do |child|
-              concat child.render_preview
-            end
-          end
-        end)
-      end
-    end
-  end
-
   def class_name
     if form_fragment['multiType'] == 'RelatedURLs'
       'related-urls'

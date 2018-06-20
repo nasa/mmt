@@ -3,13 +3,18 @@
 # :nodoc:
 class UmmPreviewServiceOrganizations < UmmPreviewElement
   def render
-    content_tag(:ul, class: 'service-organizations-cards cards') do
-      Array.wrap(data).each_with_index do |service_organization, index|
-        concat(content_tag(:li, class: 'card') do
-          concat render_card_header(service_organization, index)
-          concat render_card_body(service_organization)
-        end)
-      end
+    capture do
+      render_preview_link_to_draft_form unless draft_id.nil?
+      
+      concat(content_tag(:ul, class: 'service-organizations-cards cards') do
+        # Array.wrap(data).each_with_index do |service_organization, index|
+        Array.wrap(element_value).each_with_index do |service_organization, index|
+          concat(content_tag(:li, class: 'card') do
+            concat render_card_header(service_organization, index)
+            concat render_card_body(service_organization)
+          end)
+        end
+      end)
     end
   end
 

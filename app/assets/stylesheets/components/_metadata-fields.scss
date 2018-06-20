@@ -51,6 +51,13 @@
 }
 
 .preview {
+  /*
+  not sure how, but this gets translated into:
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%;
+  */
   @include span-columns(8);
   padding-top: 0 !important;
 

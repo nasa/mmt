@@ -34,8 +34,8 @@ describe 'Empty Service Draft Service Organizations Preview' do
     within '.umm-preview.service_organizations' do
       expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-      within '#service_draft_service_organizations_preview' do
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_organizations', anchor: 'service_draft_service_organizations'))
+      within '#service_draft_draft_service_organizations_preview' do
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_organizations', anchor: 'service_draft_draft_service_organizations'))
 
         expect(page).to have_css('p', text: 'No value for Service Organizations provided.')
       end

@@ -41,8 +41,8 @@ describe 'Invalid Service Draft Related URL Preview' do
     within '.umm-preview.related_urls' do
       expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-      within '#service_draft_related_urls_preview' do
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'related_urls', anchor: 'service_draft_related_urls'))
+      within '#service_draft_draft_related_urls_preview' do
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'related_urls', anchor: 'service_draft_draft_related_urls'))
 
         within '.card-header' do
           expect(page).to have_content('DistributionURL')

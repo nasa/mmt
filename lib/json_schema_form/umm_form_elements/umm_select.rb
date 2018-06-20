@@ -19,8 +19,4 @@ class UmmSelect < UmmFormElement
   def ui_options
     options_for_select(schema_fragment.fetch('enum', []).sort, element_value)
   end
-
-  def render_preview
-    content_tag(:p, element_value)
-  end
 end

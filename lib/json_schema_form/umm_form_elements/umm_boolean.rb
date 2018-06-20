@@ -15,10 +15,6 @@ class UmmBoolean < UmmFormElement
     end
   end
 
-  def render_preview
-    content_tag(:p, element_value.to_s.upcase)
-  end
-
   def element_properties(element)
     properties = super(element)
 

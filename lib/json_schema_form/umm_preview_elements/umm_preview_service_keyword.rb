@@ -1,4 +1,4 @@
-# Provides the correct keyword levels to render a science keyword string
+# Provides the correct keyword levels to render a service keyword string
 
 # :nodoc:
 class UmmPreviewServiceKeyword < UmmPreviewKeyword

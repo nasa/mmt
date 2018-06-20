@@ -38,37 +38,37 @@ describe 'Empty Service Draft Service Information Preview' do
     within '.umm-preview.service_information' do
       expect(page).to have_css('.umm-preview-field-container', count: 5)
 
-      within '#service_draft_name_preview' do
+      within '#service_draft_draft_name_preview' do
         expect(page).to have_css('h5', text: 'Name')
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_name'))
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_name'))
 
         expect(page).to have_css('p', text: 'No value for Name provided.')
       end
 
-      within '#service_draft_long_name_preview' do
+      within '#service_draft_draft_long_name_preview' do
         expect(page).to have_css('h5', text: 'Long Name')
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_long_name'))
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_long_name'))
 
         expect(page).to have_css('p', text: 'No value for Long Name provided.')
       end
 
-      within '#service_draft_type_preview' do
+      within '#service_draft_draft_type_preview' do
         expect(page).to have_css('h5', text: 'Type')
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_type'))
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_type'))
 
         expect(page).to have_css('p', text: 'No value for Type provided.')
       end
 
-      within '#service_draft_version_preview' do
+      within '#service_draft_draft_version_preview' do
         expect(page).to have_css('h5', text: 'Version')
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_version'))
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_version'))
 
         expect(page).to have_css('p', text: 'No value for Version provided.')
       end
 
-      within '#service_draft_description_preview' do
+      within '#service_draft_draft_description_preview' do
         expect(page).to have_css('h5', text: 'Description')
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_description'))
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_description'))
 
         expect(page).to have_css('p', text: 'No value for Description provided.')
       end

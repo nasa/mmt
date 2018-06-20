@@ -39,7 +39,6 @@ describe 'Empty Variable Draft Science Keywords Preview' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#variable_draft_draft_science_keywords_preview' do
-          expect(page).to have_css('h5', text: 'Science Keywords')
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'science_keywords', anchor: 'variable_draft_draft_science_keywords'))
 
           expect(page).to have_css('p', text: 'No value for Science Keywords provided.')
