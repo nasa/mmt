@@ -1,6 +1,9 @@
 <% content_for :header_title do %>
   <h2><%= display_entry_id(get_resource.draft, resource_name) %></h2>
   <p class="subtitle"><%= display_collection_entry_title(get_resource.draft) %></p>
+  <% if get_resource.draft['CollectionDataType'] == 'NEAR_REAL_TIME' %>
+    <span class="eui-badge nrt">NRT</span>
+  <% end %>
 <% end %>
 
 <% unless current_provider?(get_resource.provider_id) %>

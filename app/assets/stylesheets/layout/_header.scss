@@ -30,11 +30,6 @@ header.mmt-header {
     }
   }
 
-  .subtitle {
-    margin: 0;
-    font-size: 0.9em;
-  }
-
   .subnav {
     display: inline-block;
     margin: 1em 1em 0 0;
@@ -161,6 +156,17 @@ header.mmt-header {
     position: relative;
     background-color: $ocean-blue;
   }
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.9em;
+  display: inline-block;
+}
+
+.collection-basics .nrt {
+  background: #189c54;
+  font-size: 0.8em;
 }
 
 .login-info-dropdown {
