@@ -1,14 +1,14 @@
 # :nodoc:
 class UmmPreviewField < UmmPreviewForm
   # schema_type:  published_resource_name (service/variable)
-  # form_json:    json from a 'form' field in the preview json
+  # preview_json: json from a 'form' field in the preview json
   # data:         full metadata of the record
   # key:          'key' of the current field object
   # options:      used mostly to pass the indexes option
   # full_key:     describes path through the metadata to get to what field describes
   # form_id:      metadata form the field is on
-  def initialize(schema_type:, form_json:, data:, key: '', draft_id: nil, options: {}, form_id:)
-    super(schema_type: schema_type, form_json: form_json, data: data, key: key, draft_id: draft_id, options: options)
+  def initialize(schema_type:, preview_json:, data:, key: '', draft_id: nil, options: {}, form_id:)
+    super(schema_type: schema_type, preview_json: preview_json, data: data, key: key, draft_id: draft_id, options: options)
 
     @form_id = form_id
   end
@@ -19,8 +19,8 @@ class UmmPreviewField < UmmPreviewForm
       # adding a h5 tag for the field title and link placement
       concat(content_tag(:h5) do
 
-        if form_json['hideFieldTitle']
-          # form_json specifies to hide the field title
+        if preview_json['hideFieldTitle']
+          # preview_json specifies to hide the field title
           if !draft_id.nil? && element_value.blank?
             # it is a draft and no value for the element, so add the link to
             # the draft form
@@ -28,7 +28,7 @@ class UmmPreviewField < UmmPreviewForm
           end
         else
           # do not hide the field title
-          concat field_title(form_json)
+          concat field_title(preview_json)
 
           unless draft_id.nil?
             # it is a draft, so add the link to the draft form
@@ -41,11 +41,11 @@ class UmmPreviewField < UmmPreviewForm
         # the element has a value
 
         # default the type to UmmPreviewText
-        type = form_json.fetch('type', 'UmmPreviewText')
+        type = preview_json.fetch('type', 'UmmPreviewText')
 
-        concat type.constantize.new(schema_type: schema_type, form_json: form_json, data: data, form_id: form_id, key: full_key, draft_id: draft_id, options: options).render
+        concat type.constantize.new(schema_type: schema_type, preview_json: preview_json, data: data, form_id: form_id, key: full_key, draft_id: draft_id, options: options).render
       else
-        concat content_tag(:p, "No value for #{field_title(form_json)} provided.", class: 'empty-section')
+        concat content_tag(:p, "No value for #{field_title(preview_json)} provided.", class: 'empty-section')
       end
     end
   end
