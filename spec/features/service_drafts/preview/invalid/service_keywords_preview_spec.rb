@@ -35,7 +35,6 @@ describe 'Invalid Service Draft Service Keywords Preview' do
       expect(page).to have_css('.umm-preview-field-container', count: 1)
 
       within '#service_draft_service_keywords_preview' do
-        expect(page).to have_css('h5', text: 'Service Keywords')
         expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_keywords', anchor: 'service_draft_service_keywords'))
 
         keyword_parts = page.all('ul.arrow-tag-group-list').first.all('li.arrow-tag-group-item')

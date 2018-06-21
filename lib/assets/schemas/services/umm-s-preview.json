@@ -28,7 +28,8 @@
         {
           "key": "RelatedURLs",
           "title": "Related URLs",
-          "type": "UmmPreviewRelatedURL"
+          "type": "UmmPreviewRelatedURL",
+          "hideFieldTitle": true
         }
       ]
     },
@@ -38,7 +39,8 @@
       "fields": [
         {
           "key": "ServiceKeywords",
-          "type": "UmmPreviewServiceKeyword"
+          "type": "UmmPreviewServiceKeyword",
+          "hideFieldTitle": true
         }
       ]
     },
@@ -48,7 +50,8 @@
       "fields": [
         {
           "key": "ServiceOrganizations",
-          "type": "UmmPreviewServiceOrganizations"
+          "type": "UmmPreviewServiceOrganizations",
+          "hideFieldTitle": true
         }
       ]
     }
