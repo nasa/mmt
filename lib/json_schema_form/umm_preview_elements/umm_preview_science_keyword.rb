@@ -11,8 +11,4 @@ class UmmPreviewScienceKeyword < UmmPreviewKeyword
     VariableLevel3
     DetailedVariable
   ).freeze
-
-  # def initialize(data)
-  #   super(data)
-  # end
 end

@@ -59,7 +59,7 @@
         }, {
           "key": "Offset"
         }, {
-          "key": "ValidRanges/index_id", // don't need title because titleize is fine
+          "key": "ValidRanges/index_id",
           "type": "UmmPreviewMultiItems",
           "fields": [
             {

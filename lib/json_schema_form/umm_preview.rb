@@ -16,7 +16,7 @@ class UmmPreview < JsonFile
     super(schema_type.pluralize, preview_filename)
 
     # loop through the preview json file and create a new UmmPreviewForm for each form
-    @forms = parsed_json.fetch('forms', []).map { |form_json| UmmPreviewForm.new(schema_type: schema_type, form_json: form_json, data: data, draft_id: draft_id) }
-    @sidebars = parsed_json.fetch('sidebars', []).map { |form_json| UmmPreviewForm.new(schema_type: schema_type, form_json: form_json, data: data, draft_id: draft_id) }
+    @forms = parsed_json.fetch('forms', []).map { |preview_json| UmmPreviewForm.new(schema_type: schema_type, preview_json: preview_json, data: data, draft_id: draft_id) }
+    @sidebars = parsed_json.fetch('sidebars', []).map { |preview_json| UmmPreviewForm.new(schema_type: schema_type, preview_json: preview_json, data: data, draft_id: draft_id) }
   end
 end

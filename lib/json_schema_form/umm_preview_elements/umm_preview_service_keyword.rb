@@ -8,8 +8,4 @@ class UmmPreviewServiceKeyword < UmmPreviewKeyword
     ServiceTerm
     ServiceSpecificTerm
   ).freeze
-
-  def initialize(data)
-    super(data)
-  end
 end
