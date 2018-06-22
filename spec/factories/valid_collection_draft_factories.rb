@@ -6,6 +6,7 @@ FactoryGirl.define do
       draft_short_name nil
       draft_entry_title nil
       version nil
+      collection_data_type nil
     end
 
     native_id 'full_collection_draft_id'
@@ -531,7 +532,7 @@ FactoryGirl.define do
           }]
         }
       }],
-      'CollectionDataType' => 'SCIENCE_QUALITY',
+      'CollectionDataType' => collection_data_type || 'SCIENCE_QUALITY',
       'ProcessingLevel' => {
         'Id'                         => '1A',
         'ProcessingLevelDescription' => 'Level 1 Description'

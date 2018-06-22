@@ -34,4 +34,10 @@ module CollectionsHelper
     link_to(download_link_title, download_collection_xml_path(concept_id, download_format, revision_id),
             id: download_format)
   end
+
+  def nrt_badge(metadata)
+    if metadata['CollectionDataType'] == 'NEAR_REAL_TIME'
+      content_tag :span, 'NRT', class: 'eui-badge nrt'
+    end
+  end
 end
