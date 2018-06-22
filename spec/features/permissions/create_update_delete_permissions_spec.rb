@@ -188,10 +188,15 @@ describe 'Collection Permissions', reset_provider: true, js: true do
             within '#collectionsChooser' do
               # selecting each individually as it seems more robust.
               select(@entry_id_1, from: 'Available Collections')
+              page.find('.from-container').native.send_keys :escape # press esc to hide tool tip, it blocks button
               find('button[title=add]').click
+              
               select(@entry_id_2, from: 'Available Collections')
+              page.find('.from-container').native.send_keys :escape # press esc to hide tool tip, it blocks button
               find('button[title=add]').click
+              
               select(@entry_id_3, from: 'Available Collections')
+              page.find('.from-container').native.send_keys :escape # press esc to hide tool tip, it blocks button
               find('button[title=add]').click
             end
 
