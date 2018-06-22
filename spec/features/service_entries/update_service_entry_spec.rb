@@ -90,8 +90,11 @@ describe 'Updating a Service Entry', reset_provider: true do
 
           # Remove and add back the second option
           select "lorem_223 | ipsum", from: 'tag_guids_fromList'
+          page.find('body').native.send_keys :escape
+
           find('button[title=remove]').click
           select "lorem_223 | ipsum", from: 'tag_guids_toList'
+          #page.find('body').native.send_keys :escape
           find('button[title=add]').click
         end
 
