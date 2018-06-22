@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.10'
 
 # deployment support
-gem 'sprockets', '~> 2.8'
+gem 'sprockets', '~> 2.12'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
