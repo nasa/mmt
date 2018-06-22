@@ -16,10 +16,6 @@ $tophat2-height-small: 40px;
 
 // tophat2 has the height increase when screen isn't wide enough. This copies that behavior
 @media screen and (max-width: 800px) {
-  .th-wrapper{
-    height: $tophat2-height-small;
-  }
-
   .wrapper{
     margin-top: ($tophat2-height-small * -1);
   }
