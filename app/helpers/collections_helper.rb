@@ -37,7 +37,7 @@ module CollectionsHelper
 
   def nrt_badge(metadata)
     if metadata['CollectionDataType'] == 'NEAR_REAL_TIME'
-      content_tag :span, 'NRT', class: 'eui-badge nrt'
+      content_tag(:span, 'NRT', class: 'eui-badge nrt')
     end
   end
 end
