@@ -31,7 +31,7 @@ describe 'Collection drafts breadcrumbs and header' do
       visit collection_draft_path(@draft)
     end
 
-    it 'displays the short name within in breadcrumbs' do
+    it 'displays the short name within breadcrumbs' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Collection Drafts')
         expect(page).to have_content(@draft.draft['ShortName'])

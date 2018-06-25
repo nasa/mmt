@@ -1,7 +1,7 @@
 <% content_for :header_title do %>
   <h2><%= display_entry_id(@collection, 'collections') %></h2>
   <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
-  <%= nrt_badge @collection %>
+  <%= nrt_badge(@collection) %>
 <% end %>
 
 <% if @user_permissions == 'none' %>
