@@ -31,6 +31,5 @@
 //= require jquery.webui-popover/jquery.webui-popover.min
 //= require redactor/redactor.min
 //= require jquery-textcounter/textcounter.min
-//= require tophat_space.coffee
 
 //= require_tree .
