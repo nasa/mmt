@@ -6,7 +6,7 @@
 #
 
 $(document).ready ->
-  if $("#bulk-updates-form").length < 1
+  unless $("#bulk-updates-form").length > 1
     # dont show the tooltips on the bulk update forms as it just looks weird
     # and messes up the tests
     $(document).tooltip()
