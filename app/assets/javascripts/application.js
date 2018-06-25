@@ -32,6 +32,5 @@
 //= require redactor/redactor.min
 //= require jquery-textcounter/textcounter.min
 //= require jquery-ui/widgets/tooltip
-//= require tophat_space.coffee
 
 //= require_tree .
