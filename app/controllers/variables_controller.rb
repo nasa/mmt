@@ -83,6 +83,8 @@ class VariablesController < ManageVariablesController
       Rails.logger.error("Delete Variable Error: #{delete_response.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to delete Variable #{@concept_id} with native_id #{@native_id} in provider #{@provider_id} but encountered an error.")
 
+      set_preview
+
       flash[:error] = delete_response.error_message(i18n: I18n.t('controllers.variables.destroy.flash.error'))
       render :show
     end
