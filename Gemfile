@@ -60,6 +60,8 @@ gem 'ruby-saml', '>= 1.7.0'
 gem 'libxml-to-hash', git: 'https://github.com/johannesthoma/libxml-to-hash'
 gem 'multi_xml'
 
+gem 'whenever', require: false
+
 # collections metadata preview
 # run this command to work from a local copy of the gem's repo
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
