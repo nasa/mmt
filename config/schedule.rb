@@ -19,6 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 
+set :output, 'log/session_cleanup_cron.log'
+
 every 1.day do
   rake "db:sessions:trim"
 end
