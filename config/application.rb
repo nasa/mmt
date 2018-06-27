@@ -46,6 +46,8 @@ module Mmt
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.1'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.1'
 
+    config.middleware.insert_after "Rails::Rack::Logger", "MiddlewareHealthcheck"
+
     # Launchpad Session Cookie name
     config.launchpad_cookie_name = 'SBXSESSION'
     config.launchpad_cookie_name = 'SMSESSION' if ENV['launchpad_prod'] == 'true'

@@ -24,7 +24,24 @@ class WelcomeController < ApplicationController
 
   # Small, light weight check if the app is running
   def status
-    render text: true
+    #if launchpad_login_required?
+    launchpad_healthy =  cmr_client.launchpad_healthcheck.body == 'OK'.freeze
+    Rails.logger.info "#{cmr_client.launchpad_healthcheck}"
+    #ActiveRecord::Base.remove_connection
+    begin
+      db_healthy = ActiveRecord::Migrator.current_version != 0 if defined?(ActiveRecord)
+    rescue StandardError => e
+      Rails.logger.info "Database error: #{e}"
+      db_healthy = false
+    end
+    #Rails.logger.info "launchpad healthcheck response #{{database: db_healthy, launchpad: launchpad_healthy}}"
+    # If launchpad is disabled then we will not report a 500 error if launchpad still fails
+    if (!launchpad_login_required? || launchpad_healthy) && db_healthy
+      render json: {database: db_healthy, launchpad: launchpad_healthy}
+    else
+      render json: {database: db_healthy, launchpad: launchpad_healthy}, status: :service_unavailable
+    end
+    #ActiveRecord::Base.establish_connection
   end
 
   protected
