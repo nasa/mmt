@@ -151,9 +151,6 @@ Rails.application.routes.draw do
   post 'set_provider' => 'users#set_provider', as: 'set_provider'
   get 'refresh_providers' => 'users#refresh_providers', as: 'refresh_user_providers'
 
-  # Small, light weight check if the app is running
-  get 'status' => 'welcome#status'
-
   # Temporary routes for Permission pages
   get 'index-permissions' => 'pages#index-permissions', as: 'index-permissions'
   get 'new-permissions' => 'pages#new-permissions', as: 'new-permissions'
