@@ -195,7 +195,6 @@ module Helpers
         user.save
       end
 
-      # page.driver.browser.post('/saml/acs', SAMLResponse: ENV['launchpad_saml_response'])
       visit root_path
       # this button sends a post request (which Capybara cannot do) to SAML#acs,
       # the return endpoint after a successful Launchpad authentication.
@@ -214,13 +213,18 @@ module Helpers
 
     def add_provider_context_permission(provider_ids)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#add_provider_context_permission' do
+
+        sys_admin_group_concept = group_concept_from_name('Administrators_2', 'access_token_admin')
+
         Array.wrap(provider_ids).each do |provider_id|
+          provider_group_concept = group_concept_from_name("#{provider_id} Admin Group", 'access_token_admin')
+
           permission_params = {
             group_permissions: [{
-              group_id: 'guidMMTUser',
+              group_id: provider_group_concept,
               permissions: ['read']
             }, {
-              group_id: 'guidMMTAdmin',
+              group_id: sys_admin_group_concept,
               permissions: ['read']
             }],
             provider_identity: {
@@ -229,7 +233,7 @@ module Helpers
             }
           }
 
-          cmr_client.add_group_permissions(permission_params, 'access_token')
+          cmr_client.add_group_permissions(permission_params, 'access_token_admin')
         end
 
         wait_for_cmr

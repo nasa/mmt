@@ -1,4 +1,3 @@
-# MMT-507, 508, 152, 153, 170, 171, 509, 512
 # tests for create, show, edit, update, delete
 
 require 'rails_helper'
@@ -39,7 +38,12 @@ describe 'Collection Permissions', reset_provider: true, js: true do
         check('Include Undefined')
       end
 
-      uncheck('Granules')
+      check('Granules')
+      within '#granule-access-constraints-container' do
+        fill_in('Minimum Value', with: 1.1)
+        fill_in('Maximum Value', with: 8.8)
+        check('Include Undefined')
+      end
 
       within '#permission-form-groups-table' do
         select('All Guest Users', from: 'Search')
@@ -63,7 +67,8 @@ describe 'Collection Permissions', reset_provider: true, js: true do
       end
 
       within '#granule-constraint-summary' do
-        expect(page).to have_content('This permission does not grant access to granules.')
+        expect(page).to have_content('between 1.1 and 8.8')
+        expect(page).to have_content('(or are undefined)')
       end
 
       within '#permission-groups-table' do
@@ -91,14 +96,20 @@ describe 'Collection Permissions', reset_provider: true, js: true do
           'name': 'Collection Permission to Edit 01',
           'provider_id': 'MMT_2',
           'granule_applicable': false,
-          'collection_applicable': true,
-          'collection_identifier': {
-            'access_value': {
-              'min_value': 5.0,
-              'max_value': 25.0,
-              'include_undefined_value': true
-            }
-          }
+          'collection_applicable': true
+
+          # the collection identifier is temporarily being left out because it caused an issue with CMRs handling of access constraints. This will be added back with ticket MMT-1516 after CMR-5039 is resolved
+          # TODO add back the collection identifier and make sure this test passes
+          # also make sure we have tests for access constraint values to see if
+          # collections are visible or not
+
+          # 'collection_identifier': {
+          #   'access_value': {
+          #     'min_value': 5.0,
+          #     'max_value': 55.0,
+          #     'include_undefined_value': true
+          #   }
+          # }
         }
       }
 
@@ -148,7 +159,6 @@ describe 'Collection Permissions', reset_provider: true, js: true do
           within '#granule-access-constraints-container' do
             fill_in('Minimum Value', with: 1.1)
             fill_in('Maximum Value', with: 8.8)
-            check('Include Undefined')
           end
 
           select('Group 2', from: 'Search and Order')
@@ -167,7 +177,6 @@ describe 'Collection Permissions', reset_provider: true, js: true do
 
           within '#granule-constraint-summary' do
             expect(page).to have_content('between 1.1 and 8.8')
-            expect(page).to have_content('(or are undefined)')
           end
 
           within '#permission-groups-table' do

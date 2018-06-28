@@ -1,5 +1,7 @@
 # require 'rake'
-
+# TODO need to make sure we are getting the right groups in a non-hardcoded way
+# with MMT-1517 for refactoring the local cmr setup
+# the commented out tasks will need those group concept ids or to have the groups changed
 namespace :acls do
   namespace :users do
     desc 'Add a provided username to CMR'
@@ -14,12 +16,14 @@ namespace :acls do
       print_result(cmr_client.add_group_members(args.group_concept_id, [args.username], get_acls_token))
     end
 
-    desc 'Add a user to the User Group'
+    # this should be changed to the 'MMT Admin Group'
+    desc 'Add a user to the User Group' # guidMMTUser
     task :mmt_users, [:username] => :environment do |_task, args|
       print_result(cmr_client.add_group_members('AG1200000005-CMR', [args.username], get_acls_token(admin: true)), "Added #{args.username} to MMT Users")
     end
 
-    desc 'Add a user to the Admin Group'
+    # we don't need to add the user to this group, we should just add them to Administrators_2 below
+    desc 'Add a user to the Admin Group' # guidMMTAdmin
     task :admins, [:username] => :environment do |_task, args|
       print_result(cmr_client.add_group_members('AG1200000004-CMR', [args.username, 'typical'], get_acls_token(admin: true)), "Added #{args.username} to MMT Admins")
     end

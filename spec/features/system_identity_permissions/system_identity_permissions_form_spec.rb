@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'System Identity Permissions pages and form' do
   # concept_id for Administrators_2 group created on cmr setup
-  let(:concept_id) { 'AG1200000001-CMR' }
+  let(:concept_id) { group_concept_from_name('Administrators_2', 'access_token_admin') }
 
   context 'when logging in as a regular user' do
     before do
@@ -41,8 +41,6 @@ describe 'System Identity Permissions pages and form' do
             # these are the bootstrapped CMR Administrators group, and the system groups we create on cmr setup
             expect(page).to have_content('Administrators')
             expect(page).to have_content('Administrators_2')
-            expect(page).to have_content('MMT Admins')
-            expect(page).to have_content('MMT Users')
           end
         end
       end

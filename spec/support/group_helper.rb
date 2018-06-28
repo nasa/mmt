@@ -45,10 +45,6 @@ module Helpers
       Faker::Lorem.sentence
     end
 
-    def group_concept_from_path
-      current_path.sub('/groups/', '')
-    end
-
     def add_group_permissions(permission_params)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_group_permissions' do
         response = cmr_client.add_group_permissions(permission_params, 'access_token')

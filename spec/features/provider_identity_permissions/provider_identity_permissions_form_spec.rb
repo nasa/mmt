@@ -29,8 +29,7 @@ describe 'Provider Identity Permissions pages and form', reset_provider: true do
         # these are the bootstrapped CMR Administrators group, and the system groups we create on cmr setup
         expect(page).to have_content('Administrators')
         expect(page).to have_content('Administrators_2')
-        expect(page).to have_content('MMT Admins')
-        expect(page).to have_content('MMT Users')
+        expect(page).to have_content('MMT_2 Admin Group')
       end
     end
   end

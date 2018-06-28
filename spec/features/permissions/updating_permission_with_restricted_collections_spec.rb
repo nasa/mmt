@@ -16,6 +16,11 @@ describe 'Updating Collection Permissions when collections are not accessible by
   let(:restricted_entry_id_2) { 'AE_SI12_3' }
 
   before :all do
+    # grab the concept ids of these collections. some are restricted, so we need the admin token
+    concept_visible_to_all = collection_concept_from_keyword('NISE_4', 'access_token_admin')
+    restricted_concept_1 = collection_concept_from_keyword('MYD29E1D_5', 'access_token_admin')
+    restricted_concept_2 = collection_concept_from_keyword('AE_SI12_3', 'access_token_admin')
+
     @group_name = "Test Group NSIDC_ECS #{rand(100)}"
     @group = create_group(
       name: @group_name,
@@ -38,9 +43,9 @@ describe 'Updating Collection Permissions when collections are not accessible by
         "granule_applicable": true,
         "collection_identifier": {
           "concept_ids": [
-            "C1200000068-NSIDC_ECS",
-            "C1200000069-NSIDC_ECS",
-            "C1200000070-NSIDC_ECS"
+            restricted_concept_1,
+            restricted_concept_2,
+            concept_visible_to_all
           ]
         }
       }
@@ -64,8 +69,8 @@ describe 'Updating Collection Permissions when collections are not accessible by
         "granule_applicable": false,
         "collection_identifier": {
           "concept_ids": [
-            "C1200000068-NSIDC_ECS",
-            "C1200000070-NSIDC_ECS"
+            restricted_concept_1,
+            restricted_concept_2
           ]
         }
       }
