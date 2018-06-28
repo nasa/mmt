@@ -8,7 +8,7 @@ describe 'Viewing a collection', js: true do
 
   let(:short_name_with_granules)  { 'MIRCCMF' }
   let(:entry_title_with_granules) { 'MISR FIRSTLOOK radiometric camera-by-camera Cloud Mask V001' }
-  concept_id_with_granules = 'C1200000044-LARC'
+  let(:concept_id_with_granules) { collection_concept_from_keyword('MIRCCMF') }
 
   before :all do
     @ingest_response, @concept_response = publish_collection_draft(revision_count: 3)

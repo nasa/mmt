@@ -29,6 +29,10 @@ describe 'Collection Permissions Index page', reset_provider: true do
 
     context 'when there are no permissions' do
       before do
+        empty = '{"hits": 0, "took": 7, "items": []}'
+        empty_response = cmr_success_response(empty)
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_permissions).and_return(empty_response)
+
         visit permissions_path
       end
 
@@ -37,30 +41,22 @@ describe 'Collection Permissions Index page', reset_provider: true do
           expect(page).to have_content('No permissions found.')
         end
       end
+    end
 
-      context 'when there are permissions' do
-        before do
-          add_associated_permissions_to_group(group_id: group1_id, name: 'Testing Collection Permission Index Regular 01', permissions: %w(read))
-          add_associated_permissions_to_group(group_id: group2_id, name: 'Testing Collection Permission Index Regular 02', permissions: %w(read order))
-          add_associated_permissions_to_group(group_id: group3_id, name: 'Testing Collection Permission Index Regular 03', permissions: %w(read order))
+    context 'when there are permissions' do
+      before do
+        add_associated_permissions_to_group(group_id: group1_id, name: 'Testing Collection Permission Index Regular 01', permissions: %w(read))
+        add_associated_permissions_to_group(group_id: group2_id, name: 'Testing Collection Permission Index Regular 02', permissions: %w(read order))
+        add_associated_permissions_to_group(group_id: group3_id, name: 'Testing Collection Permission Index Regular 03', permissions: %w(read order))
 
-          visit permissions_path
-        end
+        visit permissions_path
+      end
 
-        it 'displays the table of collection permissions' do
-          within '#custom-permissions-table' do
-            within 'tbody > tr:nth-child(1)' do
-              expect(page).to have_content('Testing Collection Permission Index Regular 01')
-            end
-
-            within 'tbody > tr:nth-child(2)' do
-              expect(page).to have_content('Testing Collection Permission Index Regular 02')
-            end
-
-            within 'tbody > tr:nth-child(3)' do
-              expect(page).to have_content('Testing Collection Permission Index Regular 03')
-            end
-          end
+      it 'displays the table of collection permissions' do
+        within '#custom-permissions-table' do
+          expect(page).to have_content('Testing Collection Permission Index Regular 01')
+          expect(page).to have_content('Testing Collection Permission Index Regular 02')
+          expect(page).to have_content('Testing Collection Permission Index Regular 03')
         end
       end
     end
