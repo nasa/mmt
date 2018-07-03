@@ -53,17 +53,16 @@ describe useful conventions not outlined by Rails; they touch on the most
 important pieces of code and do not attempt to describe every directory.
   
   * `app`
-    * `concerns` -
-    * `policies` -
-    * `services` -
+    * `concerns` - helper methods, but not view helpers, we may move things around in this directory, so ask
+    * `policies` - See Pundit Gem
+    * `services` - "ogre_client" for dealing with shapefile to get GEOJSON data
   * `cmr/` - CMR runtime for running locally
   * `lib/`
-    * `cmr`
-    * `echo`
+    * `cmr` - client for dealing with the CMR client
+    * `echo` - client dealing with the ECHO client
     * `json_schema_form`
-    * `pundit`
     * `test_cmr`
-  * `vendor/assets` - third party libraries
+  * `vendor/assets` - other third party libraries
     
 # Testing #
 
