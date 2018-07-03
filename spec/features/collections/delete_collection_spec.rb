@@ -74,6 +74,30 @@ describe 'Delete collection', js: true do
     end
   end
 
+  context 'when switching provider context while deleting' do
+    let(:short_name) { 'MIRCCMF' }
+    before do
+      # Set the user's provider to be MMT_2
+      login(provider: 'MMT_2', providers: %w(MMT_2 LARC))
+      visit manage_collections_path
+
+      fill_in 'keyword', with: short_name
+      click_on 'Search Collections'
+
+      click_on short_name
+    end
+
+    context 'when clicking the delete link' do
+      before do
+        click_on 'Delete Collection Record'
+      end
+
+      it 'does not allow the user to delete the collection' do
+        expect(page).to have_content('This collection cannot be deleted using the MMT because it has associated granules.  Use the CMR API to delete the collection and its granules.')
+      end
+    end
+  end
+
   context 'when viewing a published collection with a non url encoded native id' do
     before do
       ingest_response, _concept_response = publish_collection_draft(native_id: 'not & url, encoded / native id')
