@@ -50,7 +50,7 @@ describe 'Delete collection', js: true do
     let(:short_name) { 'MIRCCMF' }
     before do
       # Set the users provider to be LARC, in order to see collection with granules
-      login(provider: 'LARC', providers: %w(MMT_2 LARC))
+      login(provider: 'LARC', providers: %w[MMT_2 LARC])
       visit manage_collections_path
 
       fill_in 'keyword', with: short_name
@@ -78,7 +78,7 @@ describe 'Delete collection', js: true do
     let(:short_name) { 'MIRCCMF' }
     before do
       # Set the user's provider to be MMT_2
-      login(provider: 'MMT_2', providers: %w(MMT_2 LARC))
+      login(provider: 'MMT_2', providers: %w[MMT_2 LARC])
       visit manage_collections_path
 
       fill_in 'keyword', with: short_name
