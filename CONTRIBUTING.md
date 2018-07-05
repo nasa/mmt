@@ -24,7 +24,6 @@ existing conventions without compelling reasons.
 This includes:
 
 * [Rubocop](https://github.com/rubocop-hq/ruby-style-guide)
-  * this includes 2 spaces for a soft tab.
 * [Coffee script](https://github.com/polarmobile/coffeescript-style-guide)
 
 ## Test, and Don't Break Tests ##
@@ -38,16 +37,6 @@ MMT uses PhantomJS which allows us to run our Capybara tests on a headless
 WebKit browser. Before you're able to run tests locally you'll need to install
 it. The easiest way to accomplish this would be to use Homebrew or a similar
 packager manager. See [README.md](README.md) for details on how to install.
-
-## Keep Tests Fast ##
-
-Our full test suite runs in about 45 minutes, which if anything is higher than
-ideal. We prefer testing at the integration level and ensure the test suite
-remains fast by mocking external service calls and avoiding unnececessary page
-loads in our specs.
-
-Please test thoroughly, but follow this pattern to ensure that new tests do not
-adversely affect the overall performance of the test suite.
 
 # Code structure
 
@@ -65,13 +54,14 @@ important pieces of code and do not attempt to describe every directory.
     * `echo` - client dealing with the ECHO client
     * `json_schema_form`
     * `test_cmr`
-  * `vendor/assets` - other third party libraries
     
 # Testing #
 
-Fast and consistent tests are critical. The full suite should run in under 45
-minutes and faster is better. Please ensure tests run quickly and pass
-consistently regardless of execution order.
+Fast and consistent tests are critical. The full suite is quite long and take at
+least 45 minutes. Please ensure new tests run quickly and pass consistently
+regardless of execution order so as to not extend the total time any longer then
+necessary. Any suggestions for improving the total testing execution time is
+welcome.
 
 The entire suite of MMT tests, including unit, functional, and integration
 tests, may be run using the `rspec` command.
