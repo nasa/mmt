@@ -45,7 +45,6 @@ describe useful conventions not outlined by Rails; they touch on the most
 important pieces of code and do not attempt to describe every directory.
   
   * `app`
-    * `concerns` - helper methods, but not view helpers, we may move things around in this directory, so ask
     * `policies` - See Pundit Gem
     * `services` - "ogre_client" for dealing with shapefile to get GEOJSON data
   * `cmr/` - CMR runtime for running locally
