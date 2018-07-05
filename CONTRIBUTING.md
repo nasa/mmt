@@ -18,11 +18,14 @@ For general tips on open source contributions, see
 
 ## Be Consistent ##
 
-Please ensure that source code, file structure, and visual design
-do not break existing conventions without compelling reasons.
+Please ensure that source code, file structure, and visual design do not break
+existing conventions without compelling reasons.
 
-For Ruby, we follow [Rubocop](https://github.com/rubocop-hq/ruby-style-guide)
-which includes 2 spaces for a soft tab.
+This includes:
+
+* [Rubocop](https://github.com/rubocop-hq/ruby-style-guide)
+  * this includes 2 spaces for a soft tab.
+* [Coffee script](https://github.com/polarmobile/coffeescript-style-guide)
 
 ## Test, and Don't Break Tests ##
 
