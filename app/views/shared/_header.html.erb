@@ -10,8 +10,13 @@
     <div class="col-6 header-tools">
       <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
       <% if controller_name.include? 'welcome'%>
-        <% unless both_login_methods_on? %>
-          <%= link_to 'Login', login_path, class: 'eui-btn--blue' %>
+        <% if both_login_methods_on? %>
+          <%= link_to 'Login with Launchpad', login_path(login_method: 'launchpad'), class: 'eui-btn--blue' %>
+          <%= link_to 'Login with URS', login_path(login_method: 'urs'), class: 'eui-btn--blue' %>
+        <% elsif launchpad_login_required? %>
+          <%= link_to 'Login with Launchpad', login_path(login_method: 'launchpad'), class: 'eui-btn--blue' %>
+        <% elsif urs_login_required? %>
+          <%= link_to 'Login with URS', login_path(login_method: 'urs'), class: 'eui-btn--blue' %>
         <% end %>
 
         <% if launchpad_login_required? && Rails.env.test? %>

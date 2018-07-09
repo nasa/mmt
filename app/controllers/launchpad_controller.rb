@@ -2,7 +2,10 @@ class LaunchpadController < UsersController
   skip_before_action :refresh_launchpad_if_needed
 
   def keep_alive
-    render json: refresh_launchpad
+    response = refresh_launchpad
+    response_status = response[:success] ? :ok : :unauthorized
+
+    render json: response, status: response_status
   end
 
   def test_launchpad_healthcheck

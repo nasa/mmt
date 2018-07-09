@@ -10,14 +10,20 @@ class UsersController < ApplicationController
     session[:last_point] = request.referrer
     session[:last_point] = params[:next_point] if params[:next_point]
 
-    ensure_one_login_method || return
+    ensure_at_least_one_login_method || return
 
-    if launchpad_login_required?
+    if both_login_methods_on?
+      if params[:login_method] == 'launchpad'
+        redirect_to sso_url
+      elsif params[:login_method] == 'urs'
+        redirect_to cmr_client.urs_login_path
+      else
+        redirect_to root_url
+      end
+    elsif launchpad_login_required?
       redirect_to sso_url
     elsif urs_login_required?
       redirect_to cmr_client.urs_login_path
-    else
-      redirect_to root_url
     end
   end
 
