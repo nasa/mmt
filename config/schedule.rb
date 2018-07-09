@@ -19,8 +19,12 @@
 
 # Learn more: http://github.com/javan/whenever
 
+ruby_path = File.expand_path('..', %x(which ruby))
+
+env :PATH, "#{ruby_path}:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
+
 set :output, 'log/session_cleanup_cron.log'
 
 every 1.day do
-  rake 'db:sessions:trim'
+  rake 'sessions_cleanup_cron:cleanup'
 end
