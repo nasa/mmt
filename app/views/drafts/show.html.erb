@@ -74,16 +74,27 @@
 
     <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
 
-    <div class="content">
-      <% if resource_name == 'service_draft' %>
-        <% @preview.forms.each do |form| %>
-          <%= form.render %>
-        <% end %>
+    <div class="row content">
+      <% if @preview.sidebars.blank? %>
+        <!-- No sidebar -->
+        <section class="umm-preview">
+          <% @preview.forms.each do |form| %>
+            <%= form.render %>
+          <% end %>
+        </section>
       <% else %>
-        <%# MMT-1173 will update variable drafts to use new previews  %>
-        <% @json_form.forms.each do |form| %>
-          <%= form.render_preview %>
-        <% end %>
+        <!-- With sidebar -->
+        <section class="preview">
+          <% @preview.forms.each do |form| %>
+            <%= form.render %>
+          <% end %>
+        </section>
+
+        <aside class="umm-preview-sidebar">
+          <% @preview.sidebars.each do |sidebar| %>
+            <%= sidebar.render_sidebar %>
+          <% end %>
+        </aside>
       <% end %>
     </div>
   </div>

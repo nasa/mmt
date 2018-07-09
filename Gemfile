@@ -53,12 +53,15 @@ gem 'json-schema'
 gem 'kaminari'
 gem 'momentjs-rails' # js lib for dates
 gem 'pundit'
+gem 'jquery-ui-rails'	# for $(document).tooltip()
 
 gem 'activerecord-session_store'
 gem 'ruby-saml', '>= 1.7.0'
 
 gem 'libxml-to-hash', git: 'https://github.com/johannesthoma/libxml-to-hash'
 gem 'multi_xml'
+
+gem 'whenever', require: false
 
 # collections metadata preview
 # run this command to work from a local copy of the gem's repo

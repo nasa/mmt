@@ -17,12 +17,4 @@ class UmmMultiSelect < UmmSelect
   def element_properties(element)
     super(element).merge(multiple: true)
   end
-
-  def render_preview
-    content_tag(:ul) do
-      element_value.each do |value|
-        concat content_tag(:li, value)
-      end
-    end
-  end
 end

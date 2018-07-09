@@ -13,25 +13,6 @@ class UmmSetMultiItem < UmmMultiItem
     Array.new(number_of_items)
   end
 
-  def render_preview
-    capture do
-      values = Array.wrap(element_value)
-      values = [] if values.empty?
-      values += Array.new(number_of_items)
-      values[0..2].each_with_index do |_value, index|
-        concat(content_tag(:fieldset) do
-          concat content_tag(:h6, "#{parsed_json['key'].titleize.singularize} #{index + 1}")
-
-          form_fragment['items'].each do |property|
-            UmmFormSection.new(form_section_json: property, json_form: json_form, schema: schema, options: { 'index' => index }).children.each do |child|
-              concat child.render_preview
-            end
-          end
-        end)
-      end
-    end
-  end
-
   def render_markup
     content_tag(:div, class: "multiple simple-multiple #{form_class}") do
       indexes = options.fetch('indexes', [])

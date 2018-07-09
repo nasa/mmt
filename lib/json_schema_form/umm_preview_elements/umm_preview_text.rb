@@ -3,6 +3,6 @@
 # :nodoc:
 class UmmPreviewText < UmmPreviewElement
   def render
-    content_tag(:p, data)
+    content_tag(:p, element_value)
   end
 end

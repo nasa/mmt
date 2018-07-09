@@ -39,7 +39,6 @@ describe 'Empty Variable Draft Set Preview' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#variable_draft_draft_sets_preview' do
-          expect(page).to have_css('h5', text: 'Sets')
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'variable_draft_draft_sets'))
 
           expect(page).to have_css('p', text: 'No value for Sets provided.')

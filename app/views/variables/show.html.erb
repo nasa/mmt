@@ -106,10 +106,18 @@
       </p>
     </section>
 
-    <div class="content">
-      <% @json_form.forms.each do |form| %>
-        <%= form.render_preview %>
-      <% end %>
+    <div class="row content">
+      <section class="preview">
+        <% @preview.forms.each do |form| %>
+          <%= form.render %>
+        <% end %>
+      </section>
+
+      <aside class="umm-preview-sidebar">
+        <% @preview.sidebars.each do |sidebar| %>
+          <%= sidebar.render_sidebar %>
+        <% end %>
+      </aside>
     </div>
   </div>
 <% end %>

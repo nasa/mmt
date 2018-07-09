@@ -87,40 +87,6 @@ class UmmForm < JsonObj
     end
   end
 
-  def render_preview
-    content_tag(:section, class: "umm-preview #{parsed_json['id']}") do
-      render_preview_accordion
-    end
-  end
-
-  def render_preview_accordion
-    content_tag(:div, class: "preview-#{umm_type} eui-accordion") do
-      concat render_preview_accordion_header
-      concat render_preview_accordion_body
-    end
-  end
-
-  def render_preview_accordion_header
-    content_tag(:div, class: 'eui-accordion__header') do
-      concat(content_tag(:h4, class: 'eui-accordion__title') do
-        title
-      end)
-
-      concat(content_tag(:div, class: 'eui-accordion__icon') do
-        concat content_tag(:i, nil, class: 'eui-icon eui-fa-chevron-circle-down')
-        concat content_tag(:span, "Toggle #{title}", class: 'eui-sr-only')
-      end)
-    end
-  end
-
-  def render_preview_accordion_body
-    content_tag(:div, class: 'eui-accordion__body') do
-      children.each do |child_element|
-        concat child_element.render_preview
-      end
-    end
-  end
-
   # Return the form that appears before this one
   def previous_form
     json_form.previous_form(parsed_json['id'])
@@ -324,13 +290,7 @@ end
 
 # :nodoc:
 class UmmFormSection < UmmForm
-  def render_preview
-    capture do
-      children.each do |child_element|
-        concat child_element.render_preview
-      end
-    end
-  end
+
 end
 
 # :nodoc:
@@ -349,14 +309,6 @@ class UmmFormFieldSet < UmmForm
       # Continue rendering fields that appear in this section
       children.each do |child_element|
         concat child_element.render_markup
-      end
-    end
-  end
-
-  def render_preview
-    capture do
-      children.each do |child_element|
-        concat child_element.render_preview
       end
     end
   end
@@ -388,14 +340,6 @@ class UmmFormAccordion < UmmForm
       # Continue rendering fields that appear in this section
       children.each do |child_element|
         concat child_element.render_markup
-      end
-    end
-  end
-
-  def render_preview
-    capture do
-      children.each do |child_element|
-        concat child_element.render_preview
       end
     end
   end
@@ -542,32 +486,6 @@ class UmmFormElement < UmmForm
       end
 
       concat form_element.render_markup
-    end
-  end
-
-  # Renders a user friendly version of the value(s) stored within this element
-  def render_preview
-    content_tag(:div, class: 'umm-preview-field-container', id: "#{idify_property_name}_preview") do
-      # Determine the class to use fo rendering this element
-      element_class = form_fragment.fetch('type', 'UmmTextField')
-      form_element = element_class.constantize.new(form_section_json: form_fragment, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
-
-      concat(content_tag(:h5) do
-        concat title
-
-        if options[:draft_id]
-          concat(link_to("/#{resource_name.pluralize}/#{options[:draft_id]}/edit/#{options[:form_id]}##{idify_property_name}", class: 'hash-link') do
-            concat content_tag(:i, nil, class: 'fa fa-edit')
-            concat content_tag(:span, "Edit #{title}", class: 'is-invisible')
-          end)
-        end
-      end)
-
-      if form_element.value?
-        concat form_element.render_preview
-      else
-        concat content_tag(:p, "No value for #{title} provided.", class: 'empty-section')
-      end
     end
   end
 end

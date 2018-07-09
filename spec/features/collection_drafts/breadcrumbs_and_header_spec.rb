@@ -31,7 +31,7 @@ describe 'Collection drafts breadcrumbs and header' do
       visit collection_draft_path(@draft)
     end
 
-    it 'displays the short name' do
+    it 'displays the short name within breadcrumbs' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Collection Drafts')
         expect(page).to have_content(@draft.draft['ShortName'])
@@ -41,6 +41,28 @@ describe 'Collection drafts breadcrumbs and header' do
     it 'has "Manage Collections" as the underlined current header link' do
       within 'main header' do
         expect(page).to have_css('h2.current', text: 'Manage Collections')
+      end
+    end
+
+    it 'displays the title information' do
+      within 'main header' do
+        expect(page).to have_content("#{@draft.draft['ShortName']}_#{@draft.draft['Version']}")
+        expect(page).to have_content(@draft.draft['EntryTitle'])
+      end
+    end
+  end
+
+  context 'When viewing a collection draft with NEAR_REAL_TIME' do
+    before do
+      @draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
+      @draft.draft['CollectionDataType'] = 'NEAR_REAL_TIME'
+      @draft.save
+      visit collection_draft_path(@draft)
+    end
+
+    it 'displays the NRT badge' do
+      within 'main header' do
+        expect(page).to have_css('span.eui-badge.nrt', text: 'NRT')
       end
     end
   end

@@ -28,12 +28,12 @@ describe 'Viewing a variable' do
           expect(page).to have_content(variable_name)
         end
 
-        within '#variable_draft_draft_name_preview' do
+        within '#variable_name_preview' do
           expect(page).to have_css('h5', text: 'Name')
           expect(page).to have_css('p', text: variable_name)
         end
 
-        within '#variable_draft_draft_long_name_preview' do
+        within '#variable_long_name_preview' do
           expect(page).to have_css('h5', text: 'Long Name')
           expect(page).to have_css('p', text: long_name)
         end
@@ -51,12 +51,12 @@ describe 'Viewing a variable' do
           expect(page).to have_content('<Blank Name>')
         end
 
-        within '#variable_draft_draft_name_preview' do
+        within '#variable_name_preview' do
           expect(page).to have_css('h5', text: 'Name')
           expect(page).to have_css('p', text: 'No value for Name provided')
         end
 
-        within '#variable_draft_draft_long_name_preview' do
+        within '#variable_long_name_preview' do
           expect(page).to have_css('h5', text: 'Long Name')
           expect(page).to have_css('p', text: 'No value for Long Name provided')
         end
@@ -90,12 +90,12 @@ describe 'Viewing a variable' do
             expect(page).to have_content(variable_name)
           end
 
-          within '#variable_draft_draft_name_preview' do
+          within '#variable_name_preview' do
             expect(page).to have_css('h5', text: 'Name')
             expect(page).to have_css('p', text: variable_name)
           end
 
-          within '#variable_draft_draft_long_name_preview' do
+          within '#variable_long_name_preview' do
             expect(page).to have_css('h5', text: 'Long Name')
             expect(page).to have_css('p', text: long_name)
           end

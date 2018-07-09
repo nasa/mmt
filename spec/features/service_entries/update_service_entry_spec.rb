@@ -89,8 +89,11 @@ describe 'Updating a Service Entry', reset_provider: true do
           find('button[title=add]').click
 
           # Remove and add back the second option
+          # also, press esc after select to hide tool tip, it blocks button
           select "lorem_223 | ipsum", from: 'tag_guids_fromList'
+          page.find('body').native.send_keys :escape
           find('button[title=remove]').click
+
           select "lorem_223 | ipsum", from: 'tag_guids_toList'
           find('button[title=add]').click
         end

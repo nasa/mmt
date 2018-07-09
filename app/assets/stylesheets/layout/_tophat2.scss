@@ -1,0 +1,26 @@
+/* ===================================================== *\
+   Tophat2
+\* =====================================================*/
+$tophat2-height: 32px;
+$tophat2-height-small: 40px;
+
+// sets the top margin to the negative value of tophat2's height to accomodate extra space
+.wrapper {
+  margin-top: ($tophat2-height * -1);
+}
+
+// refers to a div that creates the extra space where tophat2 would go
+#tophat2-space {
+  height: $tophat2-height;
+}
+
+// tophat2 has the height increase when screen isn't wide enough. This copies that behavior
+@media screen and (max-width: 800px) {
+  .wrapper{
+    margin-top: ($tophat2-height-small * -1);
+  }
+
+  #tophat2-space {
+    height: $tophat2-height-small;
+  }
+}

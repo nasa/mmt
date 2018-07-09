@@ -11,7 +11,12 @@
   }
 }
 
-.geographic-coverage {
+/*
+This styling is used for the sidebar with geographic info in Collections preview
+as well as the sidebar in Variables preview
+*/
+
+.geographic-coverage, .umm-preview-sidebar {
   @include span-columns(4);
   background: $light-blue;
   padding: 0;
@@ -35,6 +40,14 @@
       content: "";
       margin: 0;
       padding-bottom: 10.3125em;
+    }
+  }
+
+  .umm-preview-field-container {
+    width: 100%;
+
+    .hash-link {
+      margin-left: -35px;
     }
   }
 }
