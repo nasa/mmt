@@ -47,6 +47,9 @@ class SamlController < UsersController
     saml_response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
 
     if saml_response.is_valid?
+      # set the login method
+      session[:login_method] = 'launchpad'
+
       session[:launchpad_cookie] = pull_launchpad_cookie
 
       attributes = saml_response.attributes

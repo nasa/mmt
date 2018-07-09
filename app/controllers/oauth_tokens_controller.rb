@@ -15,10 +15,10 @@ class OauthTokensController < UsersController
       profile_response = cmr_client.get_profile(oauth_response.body['endpoint'], oauth_response.body['access_token'])
 
       profile = if profile_response.success?
-                   profile_response.body
-                 else
-                   {}
-                 end
+                  profile_response.body
+                else
+                  {}
+                end
 
       redirect_to confirm_urs_association_path(profile: profile)
     else
@@ -37,6 +37,9 @@ class OauthTokensController < UsersController
 
     # If the request was successful continue logging in
     if oauth_response.success?
+      # set the login method
+      session[:login_method] = 'urs'
+
       # Adds token response to session variables
       store_oauth_token(oauth_response.body)
 

@@ -21,6 +21,25 @@ class ApplicationController < ActionController::Base
   # For testing, token expires after 10 seconds
   # SERVER_EXPIRATION_OFFSET_S = 3590
 
+  # session keys we use for Launchpad login
+  LAUNCHPAD_SESSION_KEYS = %i[
+    auid
+    expires_in
+    launchpad_cookie
+    logged_in_at
+    original_logged_in_at
+    urs_uid
+  ].freeze
+
+  # session keys we use for URS login
+  URS_SESSION_KEYS = %i[
+    access_token
+    endpoint
+    expires_in
+    logged_in_at
+    refresh_token
+  ].freeze
+
   def urs_login_required?
     ENV['urs_login_required'] != 'false'
   end
@@ -85,7 +104,7 @@ class ApplicationController < ActionController::Base
     # store URS profile information in the session
 
     # URS login && Launchpad login
-    uid = session['endpoint'].split('/').last if session['endpoint']
+    uid = session[:endpoint].split('/').last if session[:endpoint]
 
     session[:name] = profile['first_name'].nil? ? uid : "#{profile['first_name']} #{profile['last_name']}"
     session[:urs_uid] = profile['uid'] || uid
@@ -109,37 +128,28 @@ class ApplicationController < ActionController::Base
     # return if current_user.echo_id.nil?
   end
 
-  def store_oauth_token(json = {})
+  def store_oauth_token(oauth_response)
     # URS login
-    session[:access_token] = json['access_token']
-    session[:refresh_token] = json['refresh_token']
-    session[:expires_in] = json['expires_in']
-    session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
-    session[:endpoint] = json['endpoint']
-  end
-
-  def store_session_data(json = {})
-    # Launchpad login
-    session[:launchpad_cookie] = json['launchpad_cookie']
-    session[:auid] = json['auid']
-    session[:launchpad_email] = json['launchpad_email']
-    session[:logged_in_at] = json.empty? ? nil : Time.now.to_i
-    session[:expires_in] = json.fetch('expires_in', 900) # 15 min - Launchpad default time
+    session[:access_token] = oauth_response['access_token']
+    session[:endpoint] = oauth_response['endpoint']
+    session[:expires_in] = oauth_response['expires_in']
+    session[:logged_in_at] = Time.now.to_i
+    session[:refresh_token] = oauth_response['refresh_token']
+    # URS_SESSION_KEYS.each do |session_key|
+    #   if session_key == :logged_in_at
+    #     session[session_key] = Time.now.to_i
+    #   else
+    #     session[session_key] = oauth_response[session_key.to_s]
+    #   end
+    # end
   end
 
   def logged_in?
-    if launchpad_login_required?
-      is_user_logged_in = session[:launchpad_cookie].present? &&
-                          session[:auid].present? &&
-                          session[:urs_uid].present? &&
-                          session[:expires_in].present? &&
-                          session[:logged_in_at].present? &&
-                          session[:original_logged_in_at].present?
-    elsif urs_login_required?
-      is_user_logged_in = session[:access_token].present? &&
-                          session[:refresh_token].present? &&
-                          session[:expires_in].present? &&
-                          session[:logged_in_at].present?
+    if launchpad_login_required? && session[:login_method] == 'launchpad'
+      is_user_logged_in = LAUNCHPAD_SESSION_KEYS.all? { |session_key| session[session_key].present? }
+    elsif urs_login_required? && session[:login_method] == 'urs'
+      is_user_logged_in = URS_SESSION_KEYS.all? { |session_key| session[session_key].present? }
+      end
     end
 
     is_user_logged_in
@@ -147,15 +157,23 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?
 
   def ensure_user_is_logged_in
-    ensure_one_login_method || return
+    ensure_at_least_one_login_method || return
 
     session[:return_to] = request.fullpath
 
-    Rails.logger.info("#{launchpad_login_required? ? 'Launchpad' : 'URS'} token: #{token}") if Rails.env.development?
+    Rails.logger.info("#{session[:login_method] == 'launchpad' ? 'Launchpad' : 'URS'} token: #{token}") if Rails.env.development?
 
     return true if logged_in?
-    clear_session_and_token_data # if user is not logged in, clear related session data
-    redirect_to login_path
+
+    # user is not logged in, clear related session data
+    clear_session_and_token_data
+
+    if both_login_methods_on?
+      # user needs to choose which login method they want to use
+      redirect_to root_url
+    else
+      redirect_to login_path
+    end
   end
 
   def logged_in_at
@@ -172,7 +190,7 @@ class ApplicationController < ActionController::Base
 
   def refresh_urs_if_needed
     # URS login
-    if urs_login_required?
+    if urs_login_required? && session[:login_method] == 'urs'
       refresh_urs_token if logged_in? && server_session_expires_in < 0
     end
   end
@@ -196,11 +214,11 @@ class ApplicationController < ActionController::Base
 
   def refresh_launchpad_if_needed
     # Launchpad login
-    if launchpad_login_required?
+    if launchpad_login_required? && session[:login_method] == 'launchpad'
       if logged_in? && server_session_expires_in < 0
-        result = refresh_launchpad
+        response = refresh_launchpad
 
-        redirect_to sso_url if result[:error]
+        redirect_to sso_url unless response[:success]
       end
     end
   end
@@ -209,18 +227,24 @@ class ApplicationController < ActionController::Base
     return { error: 'session older than 8 hours' } if Time.now.to_i - session[:original_logged_in_at] > 28_800
 
     # If we are in development and the user is not on the VPN, this call will
-    # not be able to connect to the keep_alive endpoint and will raise an error.
-    # So we should fake a successful response from the keep alive endpoint.
-    # If this method needs to behave as if in any other environment for development
-    # purposes, comment out this entire begin rescue statement
-    begin
-      response = cmr_client.keep_alive(token)
-    rescue
-      if Rails.env.development?
-        Rails.logger.info "keeping keep_alive alive in development. response: #{response.inspect}"
+    # not be able to connect to the keep_alive endpoint, and will timeout or
+    # raise an error. So we should fake a successful response from the keep
+    # alive endpoint. If this method needs to behave as if in any other
+    # environment for development purposes, comment out this entire if and
+    # begin rescue statement
+    if Rails.env.development?
+      begin
+        puts "making req in development rescue"
+        Rails.logger.info caller[0]
+
+        Timeout::timeout(30) { response = cmr_client.keep_alive(token) }
+      rescue => e
+        Rails.logger.info "keeping keep_alive alive in development. response: #{response.body}, error: #{e.inspect}"
+
         session[:expires_in] = 900
         session[:logged_in_at] = Time.now.to_i
-        return { success: Time.now }
+
+        return { success: Time.now.to_s }
       end
     end
 
@@ -234,16 +258,16 @@ class ApplicationController < ActionController::Base
       session[:expires_in] = 900
       session[:logged_in_at] = Time.now.to_i
 
-      { success: Time.now }
+      { success: Time.now.to_s }
     else
-      { error: 'could not keep alive', time: Time.now }
+      { error: 'could not keep alive', time: Time.now.to_s }
     end
   end
 
   def token
-    if launchpad_login_required?
+    if session[:login_method] == 'launchpad'
       session[:launchpad_cookie]
-    elsif urs_login_required?
+    elsif session[:login_method] == 'urs'
       session[:access_token]
     end
   end
@@ -318,26 +342,18 @@ class ApplicationController < ActionController::Base
   end
 
   def clear_session_and_token_data
-    # Launchpad login only data
-    session[:launchpad_cookie] = nil
-    session[:auid] = nil
-    session[:launchpad_email] = nil
-    # URS login only data
-    session[:access_token] = nil
-    session[:refresh_token] = nil
-    session[:endpoint] = nil
-    # Both logins data
-    session[:logged_in_at] = nil
-    session[:expires_in] = nil
+    all_session_keys = LAUNCHPAD_SESSION_KEYS | URS_SESSION_KEYS
+    # additional token and login keys
+    all_session_keys += %i[echo_provider_token login_method]
+
+    all_session_keys.each { |session_key| session[session_key] = nil }
   end
 
-  def ensure_one_login_method
-    if both_login_methods_on?
-      # Unless specifically directed otherwise, we should have one login method:
-      # if both URS and Launchpad login requirements are turned OFF, users will not be authenticated and cannot access a token/cookie
-      # if both URS and Launchpad login requirements are turned ON, users will be required to login to two separate systems
-      # neither of these situations should allow usage to continue
-      Rails.logger.error('An error has occured. Both URS and Launchpad login feature toggles are in the same state. Please check the configuration variables urs_login_required and launchpad_login_required for this environment.')
+  def ensure_at_least_one_login_method
+    if both_login_methods_off?
+      # if both URS and Launchpad login requirements are turned OFF, users cannot
+      # be authenticated and cannot access a token or launchpad cookie
+      Rails.logger.error('An error has occured. Both URS and Launchpad login feature toggles are OFF. Please check the configuration of environment variables urs_login_required and launchpad_login_required.')
 
       # clear session information so user is not logged in
       clear_session_and_token_data
@@ -348,8 +364,13 @@ class ApplicationController < ActionController::Base
     true
   end
 
+  def both_login_methods_off?
+    !urs_login_required? && !launchpad_login_required?
+  end
+  helper_method :both_login_methods_off?
+
   def both_login_methods_on?
-    (urs_login_required? && launchpad_login_required?) || (!urs_login_required? && !launchpad_login_required?)
+    urs_login_required? && launchpad_login_required?
   end
   helper_method :both_login_methods_on?
 
