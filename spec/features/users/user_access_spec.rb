@@ -56,4 +56,45 @@ describe 'User Access' do
       end
     end
   end
+
+  context 'when both URS and Launchpad login methods are available' do
+    context 'when a logged out user tries to view an access restricted page' do
+      before do
+        require_launchpad_and_urs_login
+
+        visit search_path
+      end
+
+      after do
+        visit logout_path
+      end
+
+      it 'redirects the user to the landing page' do
+        expect(page).to have_content('About the Metadata Management Tool')
+      end
+
+      it 'displays both login options' do
+        expect(page).to have_link('Login with Launchpad', href: login_path(login_method: 'launchpad'))
+        expect(page).to have_link('Login with URS', href: login_path(login_method: 'urs'))
+      end
+    end
+
+    context 'when a logged in user tries to view an access restricted page' do
+      before do
+        require_launchpad_and_urs_login
+
+        login
+
+        visit search_path
+      end
+
+      after do
+        visit logout_path
+      end
+
+      it 'displays the page' do
+        expect(page).to have_content('Search Results')
+      end
+    end
+  end
 end
