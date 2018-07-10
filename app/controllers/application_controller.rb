@@ -149,7 +149,6 @@ class ApplicationController < ActionController::Base
       is_user_logged_in = LAUNCHPAD_SESSION_KEYS.all? { |session_key| session[session_key].present? }
     elsif urs_login_required? && session[:login_method] == 'urs'
       is_user_logged_in = URS_SESSION_KEYS.all? { |session_key| session[session_key].present? }
-      end
     end
 
     is_user_logged_in

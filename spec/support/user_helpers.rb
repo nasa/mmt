@@ -1,11 +1,19 @@
 module Helpers
   module UserHelpers
+    def require_launchpad_and_urs_login
+      set_required_login_method(launchpad_required: true, urs_required: true)
+    end
+
     def require_launchpad_login
       set_required_login_method(launchpad_required: true, urs_required: false)
     end
 
     def require_urs_login
       set_required_login_method(launchpad_required: false, urs_required: true)
+    end
+
+    def require_no_login_methods
+      set_required_login_method(launchpad_required: false, urs_required: false)
     end
 
     def set_required_login_method(launchpad_required:, urs_required:)

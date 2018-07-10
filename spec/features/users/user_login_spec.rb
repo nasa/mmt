@@ -13,7 +13,7 @@ describe 'User login' do
         expect(page).to have_content('Manage Collections')
       end
 
-      expect(page).to have_no_css('table#public-holdings')
+      expect(page).to have_no_content('About the Metadata Management Tool')
     end
 
     context 'when logging out' do
@@ -35,6 +35,8 @@ describe 'User login' do
           within 'h2.current' do
             expect(page).to have_content('Manage Collections')
           end
+
+          expect(page).to have_no_content('About the Metadata Management Tool')
         end
       end
     end
@@ -67,7 +69,8 @@ describe 'User login' do
         within 'h2.current' do
           expect(page).to have_content('Manage Collections')
         end
-        expect(page).to have_no_css('table#public-holdings')
+
+        expect(page).to have_no_content('About the Metadata Management Tool')
       end
 
       context 'when logging out' do
@@ -89,6 +92,8 @@ describe 'User login' do
             within 'h2.current' do
               expect(page).to have_content('Manage Collections')
             end
+            
+            expect(page).to have_no_content('About the Metadata Management Tool')
           end
         end
       end
@@ -143,6 +148,7 @@ describe 'User login' do
             within 'h2.current' do
               expect(page).to have_content('Manage Collections')
             end
+
             expect(page).to have_content('Your URS and Launchpad accounts were successfully associated!')
           end
         end
@@ -150,9 +156,10 @@ describe 'User login' do
     end
   end
 
-  context 'when both Earthdata Login and Launchpad Login requirements are turned off', js: true do
+  context 'when both URS and Launchpad Login requirements are turned off', js: true do
     before do
-      set_required_login_method(launchpad_required: false, urs_required: false)
+      # set_required_login_method(launchpad_required: false, urs_required: false)
+      require_no_login_methods
 
       real_login(method: 'urs')
     end
@@ -170,23 +177,49 @@ describe 'User login' do
     end
   end
 
-  context 'when both Earthdata Login and Launchpad Login requirements are turned on', js: true do
+  context 'when both URS and Launchpad Login requirements are turned on', js: true do
     before do
-      set_required_login_method(launchpad_required: true, urs_required: true)
+      # set_required_login_method(launchpad_required: true, urs_required: true)
+      require_launchpad_and_urs_login
 
-      real_login(method: 'urs')
+      visit '/'
     end
 
-    it 'redirects the user back to the logged out page displaying an error message and no login button' do
+    it 'displays the landing page' do
       expect(page).to have_content('ABOUT THE METADATA MANAGEMENT TOOL')
-      expect(page).to have_content('ABOUT THE CMR')
+    end
 
-      within '.eui-banner--danger' do
-        expect(page).to have_content('An error has occurred with our login system. Please contact Earthdata Support.')
-        expect(page).to have_link('Earthdata Support', href: 'mailto:support@earthdata.nasa.gov')
+    it 'displays both login options' do
+      expect(page).to have_link('Login with Launchpad', href: login_path(login_method: 'launchpad'))
+      expect(page).to have_link('Login with URS', href: login_path(login_method: 'urs'))
+    end
+
+    context 'when logging in with URS' do
+      before do
+        real_login(method: 'urs')
       end
 
-      expect(page).to have_no_link('Login', href: login_path)
+      it 'redirects the user to the manage collections page' do
+        within 'h2.current' do
+          expect(page).to have_content('MANAGE COLLECTIONS')
+        end
+
+        expect(page).to have_no_content('ABOUT THE METADATA MANAGEMENT TOOL')
+      end
+    end
+
+    context 'when logging in with Launchpad' do
+      before do
+        real_login(method: 'launchpad')
+      end
+
+      it 'redirects the user to the manage collections page' do
+        within 'h2.current' do
+          expect(page).to have_content('MANAGE COLLECTIONS')
+        end
+
+        expect(page).to have_no_content('ABOUT THE METADATA MANAGEMENT TOOL')
+      end
     end
   end
 end
