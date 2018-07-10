@@ -96,7 +96,7 @@ class ProviderOrdersController < ManageCmrController
         catalog_items << catalog_item
       end
 
-      order['catalog_items'] = catalog_items.sort { |a, b| a['item_guid'] <=> b['item_guid'] }
+      order['catalog_items'] = catalog_items.sort_by { |a| a['item_guid'] }
       order['status_messages'] = provider_order.fetch('StatusMessage', '').split("\n").map { |m| m.split(' : ') }
 
       order
