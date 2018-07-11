@@ -135,13 +135,6 @@ class ApplicationController < ActionController::Base
     session[:expires_in] = oauth_response['expires_in']
     session[:logged_in_at] = Time.now.to_i
     session[:refresh_token] = oauth_response['refresh_token']
-    # URS_SESSION_KEYS.each do |session_key|
-    #   if session_key == :logged_in_at
-    #     session[session_key] = Time.now.to_i
-    #   else
-    #     session[session_key] = oauth_response[session_key.to_s]
-    #   end
-    # end
   end
 
   def logged_in?
