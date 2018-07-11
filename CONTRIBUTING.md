@@ -10,7 +10,7 @@ To allow us to incorporate your changes, please use the following process:
 4. Submit a pull request to open a discussion about your proposed changes.
 5. The maintainers will talk with you about it and decide to merge or request additional changes.
 
-Below are specific guidelines for contributing to Earthdata Search.
+Below are specific guidelines for contributing to the Metadata Management Tool.
 For general tips on open source contributions, see
 [Contributing to Open Source on GitHub](https://guides.github.com/activities/contributing-to-open-source/).
 
@@ -43,7 +43,7 @@ packager manager. See [README.md](README.md) for details on how to install.
 Our code generally follows Ruby on Rails conventions. The descriptions below
 describe useful conventions not outlined by Rails; they touch on the most
 important pieces of code and do not attempt to describe every directory.
-  
+
   * `app`
     * `policies` - See Pundit Gem
     * `services` - "ogre_client" for dealing with shapefile to get GEOJSON data
@@ -53,7 +53,7 @@ important pieces of code and do not attempt to describe every directory.
     * `echo` - client dealing with the ECHO client
     * `json_schema_form`
     * `test_cmr`
-    
+
 # Testing #
 
 Fast and consistent tests are critical. The full suite is quite long and take at
@@ -74,7 +74,7 @@ accepted.
 
 # License #
 
-Earthdata Search is licensed under an Apache 2.0 license as described in
+Metadata Management Tool is licensed under an Apache 2.0 license as described in
 the LICENSE file at the root of the project:
 
 > Copyright © 2007-2014 United States Government as represented by the Administrator of the National Aeronautics and Space Administration. All Rights Reserved.
