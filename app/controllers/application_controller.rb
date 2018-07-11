@@ -233,12 +233,9 @@ class ApplicationController < ActionController::Base
     # begin rescue statement
     if Rails.env.development?
       begin
-        puts "making req in development rescue"
-        Rails.logger.info caller[0]
-
         Timeout::timeout(30) { response = cmr_client.keep_alive(token) }
       rescue => e
-        Rails.logger.info "keeping keep_alive alive in development. response: #{response.body}, error: #{e.inspect}"
+        Rails.logger.info "keeping keep_alive alive in development. response: #{response.body}; error: #{e.inspect}"
 
         session[:expires_in] = 900
         session[:logged_in_at] = Time.now.to_i

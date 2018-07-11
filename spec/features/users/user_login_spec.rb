@@ -92,7 +92,7 @@ describe 'User login' do
             within 'h2.current' do
               expect(page).to have_content('Manage Collections')
             end
-            
+
             expect(page).to have_no_content('About the Metadata Management Tool')
           end
         end
@@ -158,7 +158,6 @@ describe 'User login' do
 
   context 'when both URS and Launchpad Login requirements are turned off', js: true do
     before do
-      # set_required_login_method(launchpad_required: false, urs_required: false)
       require_no_login_methods
 
       real_login(method: 'urs')
@@ -179,7 +178,6 @@ describe 'User login' do
 
   context 'when both URS and Launchpad Login requirements are turned on', js: true do
     before do
-      # set_required_login_method(launchpad_required: true, urs_required: true)
       require_launchpad_and_urs_login
 
       visit '/'
