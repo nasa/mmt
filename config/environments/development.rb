@@ -41,6 +41,9 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  # default host for url helpers
+  Rails.application.routes.default_url_options[:host] = 'https://mmt.localtest.earthdata.nasa.gov'
+
   # Feature Toggle for groups
   config.groups_enabled = true
 
