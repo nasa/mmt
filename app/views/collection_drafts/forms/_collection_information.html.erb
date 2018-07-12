@@ -25,7 +25,8 @@
           value: draft.draft['Version'],
           help: 'properties/Version',
           validate: true,
-          always_required: true
+          always_required: true,
+          help_url: 'Version'
          ) %>
       </div>
     </div>
@@ -39,7 +40,8 @@
           prefix: 'draft_',
           value: draft.draft['VersionDescription'],
           help: 'properties/VersionDescription',
-          validate: true
+          validate: true,
+          help_url: 'Version+Description'
          ) %>
       </div>
     </div>
@@ -54,7 +56,8 @@
           value: draft.draft['EntryTitle'],
           help: 'properties/EntryTitle',
           validate: true,
-          always_required: true
+          always_required: true,
+          help_url: 'Entry+Title'
          ) %>
       </div>
     </div>
@@ -67,7 +70,8 @@
     ) %>
     <%= mmt_help_icon(
       title: 'DOI',
-      help: 'properties/DOI'
+      help: 'properties/DOI',
+      help_url: 'DOI'
     ) %>
     <div class="row sub-fields">
       <%= render partial: 'collection_drafts/forms/type', locals: {
@@ -89,7 +93,8 @@
           value: draft.draft['Abstract'],
           help: 'properties/Abstract',
           validate: true,
-          always_required: true
+          always_required: true,
+          help_url: 'Abstract'
          ) %>
       </div>
     </div>
