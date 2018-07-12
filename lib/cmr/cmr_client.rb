@@ -141,21 +141,6 @@ module Cmr
       get(url, {}, headers.merge(token_header(token)))
     end
 
-    # This method will be replaced by the work from CMR-2053, including granule counts in umm-json searches
-    def get_granule_count(collection_id, token)
-      url = if Rails.env.development? || Rails.env.test?
-              'http://localhost:3003/collections.json'
-            else
-              '/search/collections.json'
-            end
-      options = {
-        concept_id: collection_id,
-        include_granule_counts: true
-      }
-
-      get(url, options, token_header(token))
-    end
-
     def get_controlled_keywords(type)
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/keywords/#{type}"
