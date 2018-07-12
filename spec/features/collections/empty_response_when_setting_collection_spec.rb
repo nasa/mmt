@@ -51,39 +51,6 @@ describe 'Viewing a collection', js: true do
   end
 
   context 'when the concepts endpoint works properly but the search endpoints do not' do
-    context 'when the search endpoint used to retrieve granule count is successful but empty' do
-      let(:empty_granule_count_response) do
-        {
-          "feed": {
-            "updated": '2017-08-21T15:17:57.565Z',
-            "id": 'http://localhost:3003/collections.json?concept_id=C1200000015-SEDAC&include_granule_counts=true&pretty=true',
-            "title": 'ECHO dataset metadata',
-            "entry": []
-          }
-        }.to_json
-      end
-
-      before do
-        granule_response = cmr_success_response(empty_granule_count_response)
-        allow_any_instance_of(Cmr::CmrClient).to receive(:get_granule_count).and_return(granule_response)
-
-        visit collection_path(concept_id_with_granules)
-      end
-
-      it 'displays the collection show page' do
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Collections')
-          expect(page).to have_content(short_name_with_granules)
-        end
-
-        expect(page).to have_content(entry_title_with_granules)
-      end
-
-      it 'does not show any granules' do
-        expect(page).to have_content('Granules (0)')
-      end
-    end
-
     context 'when the search endpoint used to retrieve revisions is successful but empty' do
       let(:empty_revisions_search_response) do
         {

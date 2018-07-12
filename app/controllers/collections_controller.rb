@@ -101,8 +101,6 @@ class CollectionsController < ManageCollectionsController
     @concept_id = params[:id]
     @revision_id = params[:revision_id]
 
-    set_num_granules(@concept_id)
-
     @revisions = get_revisions(@concept_id, @revision_id)
 
     latest = @revisions.first
@@ -112,6 +110,7 @@ class CollectionsController < ManageCollectionsController
       meta = latest.fetch('meta', {})
       @native_id = meta['native-id']
       @provider_id = meta['provider-id']
+      @num_granules = meta['granule-count']
 
       @old_revision = !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s ? true : false
 
@@ -142,7 +141,7 @@ class CollectionsController < ManageCollectionsController
     # try again because CMR might be a little slow to index if it is a newly published revision
     attempts = 0
     while attempts < 20
-      revisions_response = cmr_client.get_collections_by_post({ concept_id: concept_id, all_revisions: true }, token)
+      revisions_response = cmr_client.get_collections_by_post({ concept_id: concept_id, all_revisions: true, include_granule_counts: true }, token)
       revisions = if revisions_response.success?
                     revisions_response.body.fetch('items', [])
                   else
@@ -158,18 +157,6 @@ class CollectionsController < ManageCollectionsController
     end
 
     revisions
-  end
-
-  def set_num_granules(concept_id)
-    # Get granule count, will be replaced once CMR-2053 is complete
-    granule_response = cmr_client.get_granule_count(concept_id, token)
-
-    @num_granules = if granule_response.success?
-                      result = granule_response.body.fetch('feed', {}).fetch('entry', []).first
-                      result.blank? ? 0 : result.fetch('granule_count', 0)
-                    else
-                      0
-                    end
   end
 
   def set_collection_error_data
