@@ -10,24 +10,25 @@ class MiddlewareHealthcheck
       # checks the database health
       begin
         db_healthy = ActiveRecord::Migrator.current_version != 0
-      rescue StandardError
+      rescue StandardError => e
         db_healthy = false
+        Rails.logger.info "Database error: #{e}"
       end
 
       # checks the health of launchpad
       cmr_client = Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
-      launchpad_healthy = true
       begin
-        timeout(2) { launchpad_healthy = cmr_client.launchpad_healthcheck.body == 'OK'.freeze }
+        launchpad_healthy = Timeout.timeout(10) { cmr_client.launchpad_healthcheck.body == 'OK'.freeze }
       rescue Timeout::Error
         launchpad_healthy = false
       end
       response[2] = ["{\"database\": #{db_healthy}, \"launchpad\": #{launchpad_healthy}}"]
 
       # If launchpad is disabled then we will not report a 503 error if launchpad still fails
-      if (ENV['launchpad_login_required'] != 'true' || launchpad_healthy) && db_healthy
+      if db_healthy && (ENV['launchpad_login_required'] != 'true' || launchpad_healthy)
         response[0] = 200
       end
+      Rails.logger.info "The Status page returned a #{response[0]} Response"
       response
     else
       @app.call(env)
