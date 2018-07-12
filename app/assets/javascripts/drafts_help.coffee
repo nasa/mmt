@@ -31,7 +31,7 @@ $(document).ready ->
 
     helpUrl = $(element.target).data('helpUrl')
     $helpUrlElement = $('#help-modal .help-url')
-    if helpUrl.length > 0
+    if helpUrl?.length > 0
       $helpUrlElement.attr('href', "https://wiki.earthdata.nasa.gov/display/CMR/#{helpUrl}")
       $helpUrlElement.show()
     else
