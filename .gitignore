@@ -50,3 +50,6 @@ coffeelint.json
 
 # Ignore log file
 nohup.out
+
+#RubyMine file
+.idea

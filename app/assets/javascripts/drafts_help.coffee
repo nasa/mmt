@@ -29,6 +29,14 @@ $(document).ready ->
     if !format? and !minItems? and !minLength? and !maxLength? and !pattern?
       $(validations).parent().hide()
 
+    helpUrl = $(element.target).data('helpUrl')
+    $helpUrlElement = $('#help-modal .help-url')
+    if helpUrl?.length > 0
+      $helpUrlElement.attr('href', "https://wiki.earthdata.nasa.gov/display/CMR/#{helpUrl}")
+      $helpUrlElement.show()
+    else
+      $helpUrlElement.hide()
+
   fixTitle = (title) ->
     typeInTitle = ['Type', 'CollectionDataType', 'DataType', 'MimeType'
       'SpatialCoverageType', 'TemporalRangeType', 'URLContentType',
