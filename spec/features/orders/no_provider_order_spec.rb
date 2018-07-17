@@ -35,7 +35,7 @@ describe 'Viewing Provider Orders that do not exist' do
     end
   end
 
-  context "when viewing a provider order and the soap response is invalid" do
+  context "when viewing a provider order and the soap response does not contain a faultstring" do
     before do
       VCR.use_cassette('echo_soap/order_management_service/provider_orders/no_order', record: :none) do
         visit provider_order_path(order_guid)
@@ -48,7 +48,7 @@ describe 'Viewing Provider Orders that do not exist' do
     end
   end
 
-  context "when editing a provider order and the soap response is invalid" do
+  context "when editing a provider order and the soap response does not contain a faultstring" do
     before do
       VCR.use_cassette('echo_soap/order_management_service/provider_orders/no_order', record: :none) do
         visit edit_provider_order_path(order_guid)

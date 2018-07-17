@@ -37,7 +37,11 @@ http_interactions:
       - Close
     body:
       encoding: UTF-8
-      string: Something really bad happened to the server
+      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><SOAP-ENV:Fault><detail><ns4:ItemNotFoundFault
+        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns4:ErrorCode>OrderNotFound</ns4:ErrorCode><ns4:OpsMessage
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><ns4:SystemMessage>Could
+        not find order with guid [not_a_real_order].</ns4:SystemMessage><ns4:Timestamp>2018-07-10T19:06:02.870Z</ns4:Timestamp><ns4:ErrorInstanceId>AFE0881C-142B-BFE1-62EB-988F1D74DF04</ns4:ErrorInstanceId><ns4:Arguments><ns4:Argument><ns4:Name>OrderGuid</ns4:Name><ns4:Value>not_a_real_order</ns4:Value></ns4:Argument></ns4:Arguments></ns4:ItemNotFoundFault></detail></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
     http_version: 
   recorded_at: Tue, 10 Jul 2018 19:05:55 GMT
 recorded_with: VCR 4.0.0
