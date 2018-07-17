@@ -11,8 +11,8 @@ class MiddlewareHealthcheck
       begin
         db_healthy = ActiveRecord::Migrator.current_version != 0
       rescue StandardError => e
+        Rails.logger.error "Database error: #{e}"
         db_healthy = false
-        Rails.logger.info "Database error: #{e}"
       end
 
       # checks the health of launchpad
@@ -20,6 +20,7 @@ class MiddlewareHealthcheck
       begin
         launchpad_healthy = Timeout.timeout(10) { cmr_client.launchpad_healthcheck.body == 'OK'.freeze }
       rescue Timeout::Error
+        Rails.logger.error "Launchpad error: #{e}"
         launchpad_healthy = false
       end
       response[2] = ["{\"database\": #{db_healthy}, \"launchpad\": #{launchpad_healthy}}"]
@@ -28,7 +29,7 @@ class MiddlewareHealthcheck
       if db_healthy && (ENV['launchpad_login_required'] != 'true' || launchpad_healthy)
         response[0] = 200
       end
-      Rails.logger.info "The Status page returned a #{response[0]} Response"
+      Rails.logger.info "The Status page returned a #{response[0]} Response:#{response.inspect}"
       response
     else
       @app.call(env)
