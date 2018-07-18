@@ -43,7 +43,7 @@ module Echo
     end
 
     def error_message
-      parsed_body.fetch('faultstring')
+      parsed_body.fetch('faultstring', nil)
     end
 
     def error_code
