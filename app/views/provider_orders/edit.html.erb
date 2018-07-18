@@ -3,11 +3,13 @@
     <h2>Manage Orders Items</h2>
 
     <% if @provider_order['error'] %>
-      <div>
-        There has been an error processing your request. Please refer to the ID
-        <strong>"<%= "#{request.uuid}" %>"</strong> when contacting
-        <a href="mailto:support@earthdata.nasa.gov">Earthdata Operations</a> and report with the following details:
-         <pre><%= @provider_order['error'] %></pre>
+      <div class="eui-banner--info">
+        <p class="eui-banner__message">
+          There has been an error processing your request. Please refer to the ID
+          <strong>"<%= "#{request.uuid}" %>"</strong> when contacting
+          <a href="mailto:support@earthdata.nasa.gov">Earthdata Operations</a> and report with the following details:
+          <pre><%= @provider_order['error'] %></pre>
+        </p>
       </div>
     <% else %>
       <%= form_tag(provider_order_path, method: :delete, id: "cancel-provider-order-form") do %>

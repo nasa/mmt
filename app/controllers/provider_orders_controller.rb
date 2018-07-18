@@ -101,7 +101,8 @@ class ProviderOrdersController < ManageCmrController
 
       order
     else
-      { 'error' => order_response.error_message || "Could not load a provider order due to an unspecified error." }
+      error_message = order_response.error_message || 'Could not load a provider order due to an unspecified error.'
+      { 'error' => error_message }
     end
   end
 end

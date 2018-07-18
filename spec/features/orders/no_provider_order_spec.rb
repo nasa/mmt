@@ -19,7 +19,9 @@ describe 'Viewing Provider Orders that do not exist' do
     end
 
     it 'displays an error message about not existing' do
-      expect(page).to have_content("Could not find order with guid [#{order_guid}]")
+      within '.eui-banner--info' do
+        expect(page).to have_content("Could not find order with guid [#{order_guid}]")
+      end
     end
   end
 
@@ -31,7 +33,9 @@ describe 'Viewing Provider Orders that do not exist' do
     end
 
     it 'displays an error message about not existing' do
-      expect(page).to have_content("Could not find order with guid [#{order_guid}]")
+      within '.eui-banner--info' do
+        expect(page).to have_content("Could not find order with guid [#{order_guid}]")
+      end
     end
   end
 
@@ -42,9 +46,10 @@ describe 'Viewing Provider Orders that do not exist' do
       end
     end
 
-    it 'displays an error message about not getting a valid soap response' do
-      expect(page).to have_content(order_guid.to_s)
-      expect(page).to have_content('Could not load a provider order due to an unspecified error.')
+    it 'displays the default error message' do
+      within '.eui-banner--info' do
+        expect(page).to have_content('Could not load a provider order due to an unspecified error.')
+      end
     end
   end
 
@@ -55,9 +60,10 @@ describe 'Viewing Provider Orders that do not exist' do
       end
     end
 
-    it 'displays an error message about not getting a valid soap response' do
-      expect(page).to have_content(order_guid.to_s)
-      expect(page).to have_content('Could not load a provider order due to an unspecified error.')
+    it 'displays the default error message' do
+      within '.eui-banner--info' do
+        expect(page).to have_content('Could not load a provider order due to an unspecified error.')
+      end
     end
   end
 end
