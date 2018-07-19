@@ -3,7 +3,7 @@ class GroupsController < ManageCmrController
   include GroupsHelper
   include GroupEndpoints
   include PermissionManagement
-
+  include Cmr
   skip_before_action :ensure_user_is_logged_in, :setup_query, :refresh_urs_if_needed, only: [:urs_search]
 
   add_breadcrumb 'Groups', :groups_path
@@ -155,15 +155,17 @@ class GroupsController < ManageCmrController
   end
 
   def invite
-    user = params['invite']
-    manager = {}
-    manager['name'] = session[:name]
-    manager['email'] = session[:email_address]
-    manager['provider'] = current_user.provider_id
+    @valid_email = cmr_client.urs_email_exist? params['invite']['email']
+    unless @valid_email
+      user = params['invite']
+      manager = {}
+      manager['name'] = session[:name]
+      manager['email'] = session[:email_address]
+      manager['provider'] = current_user.provider_id
 
-    invite = UserInvite.new_invite(user, manager)
-    invite.send_invite
-
+      invite = UserInvite.new_invite(user, manager)
+      invite.send_invite
+    end
     respond_to do |format|
       format.js
     end

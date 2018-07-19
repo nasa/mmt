@@ -16,7 +16,7 @@ select2JSONSorter = (a, b) ->
 
 setCurrentGroupMembers = ->
   $.each $('.urs_autocomplete'), ->
-    selectedUsers = $.map $(this).find('option'), (option) -> 
+    selectedUsers = $.map $(this).find('option'), (option) ->
       $(option).val()
 
     $(this).val(selectedUsers).trigger('change')
@@ -72,6 +72,7 @@ $(document).ready ->
 
     $('#invite-user-button').on 'click', (e) ->
       $('.invite-success').addClass('is-invisible')
+      $('.invite-fail').addClass('is-invisible')
 
       firstName = $('#invite_first_name').val()
       lastName = $('#invite_last_name').val()

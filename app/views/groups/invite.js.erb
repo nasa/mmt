@@ -1,5 +1,12 @@
-// Display confirmation
-$('.invite-success').removeClass('is-invisible');
+var valid_email = <%= @valid_email %>
+
+// display either success or failure
+if (valid_email) {
+  $('.invite-fail').removeClass('is-invisible');
+}
+else {
+  $('.invite-success').removeClass('is-invisible');
+}
 
 // Clear input fields
 $('#invite_first_name').val('');
