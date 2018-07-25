@@ -35,7 +35,7 @@
     <%= select_tag 'group[members]', options_for_select(@members), id: 'group_members', class: 'urs_autocomplete', multiple: true %>
   </div>
 
-  <%= link_to 'Member not listed?', '#invite-user-modal', class: 'eui-btn--link display-modal display-invite-user-modal' %>
+  <%= link_to 'Member not listed?', '#invite-user-modal', class: 'eui-btn--link display-modal display-invite-user-modal is-invisible' %>
 </fieldset>
 
 <fieldset>
