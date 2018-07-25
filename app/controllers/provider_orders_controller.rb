@@ -54,49 +54,55 @@ class ProviderOrdersController < ManageCmrController
   private
 
   def generate_provider_order(guid)
-    order_info = echo_client.get_orders(echo_provider_token, guid).parsed_body.fetch('Item', {})
-    provider_order = order_info.fetch('ProviderOrders', {}).fetch('Item', {})
+    order_response = echo_client.get_orders(echo_provider_token, guid)
+    if order_response.success?
+      order_info = order_response.parsed_body.fetch('Item', {})
+      provider_order = order_info.fetch('ProviderOrders', {}).fetch('Item', {})
 
-    order = {}
+      order = {}
 
-    order['guid'] = order_info['Guid']
+      order['guid'] = order_info['Guid']
 
-    provider_guid = provider_order.fetch('Guid', {}).fetch('ProviderGuid', nil)
-    provider = get_provider_by_guid(provider_guid)
-    order['provider_guid'] = provider['Guid']
-    order['provider_id'] = provider['Name']
+      provider_guid = provider_order.fetch('Guid', {}).fetch('ProviderGuid', nil)
+      provider = get_provider_by_guid(provider_guid)
+      order['provider_guid'] = provider['Guid']
+      order['provider_id'] = provider['Name']
 
-    order['tracking_id'] = provider_order['ProviderTrackingId']
-    order['provider_order_state'] = provider_order['State']
-    order['closed_date'] = provider_order['ClosedDate']
+      order['tracking_id'] = provider_order['ProviderTrackingId']
+      order['provider_order_state'] = provider_order['State']
+      order['closed_date'] = provider_order['ClosedDate']
 
-    provider_order_guid = provider_order['Guid']
-    name_guids = echo_client.get_order_item_names_by_provider_order(echo_provider_token, provider_order_guid).parsed_body.fetch('Item', {})
+      provider_order_guid = provider_order['Guid']
+      name_guids = echo_client.get_order_item_names_by_provider_order(echo_provider_token, provider_order_guid).parsed_body.fetch('Item', {})
 
-    item_guids = Array.wrap(name_guids).map { |name_guid| name_guid.fetch('Guid', '') }
+      item_guids = Array.wrap(name_guids).map { |name_guid| name_guid.fetch('Guid', '') }
 
-    items = echo_client.get_order_items(echo_provider_token, item_guids).parsed_body.fetch('Item', {})
+      items = echo_client.get_order_items(echo_provider_token, item_guids).parsed_body.fetch('Item', {})
 
-    catalog_items = []
-    Array.wrap(items).each do |order_item|
-      order_item_detail = order_item.fetch('OrderItemDetail', {})
+      catalog_items = []
+      Array.wrap(items).each do |order_item|
+        order_item_detail = order_item.fetch('OrderItemDetail', {})
 
-      catalog_item = {}
-      catalog_item['item_guid'] = order_item.fetch('ItemGuid', '')
-      catalog_item['status'] = order_item_detail.fetch('State', '')
-      catalog_item['data_granule_id'] = order_item_detail.fetch('GranuleUR', '')
-      catalog_item['local_granule_id'] = order_item_detail.fetch('ProducerGranuleId', '')
-      option_selection = order_item.fetch('OptionSelection', {})
-      catalog_item['option_selection'] = {}
-      catalog_item['option_selection']['name'] = option_selection.fetch('Name', '')
-      catalog_item['option_selection']['content'] = option_selection.fetch('Content', '')
+        catalog_item = {}
+        catalog_item['item_guid'] = order_item.fetch('ItemGuid', '')
+        catalog_item['status'] = order_item_detail.fetch('State', '')
+        catalog_item['data_granule_id'] = order_item_detail.fetch('GranuleUR', '')
+        catalog_item['local_granule_id'] = order_item_detail.fetch('ProducerGranuleId', '')
+        option_selection = order_item.fetch('OptionSelection', {})
+        catalog_item['option_selection'] = {}
+        catalog_item['option_selection']['name'] = option_selection.fetch('Name', '')
+        catalog_item['option_selection']['content'] = option_selection.fetch('Content', '')
 
-      catalog_items << catalog_item
+        catalog_items << catalog_item
+      end
+
+      order['catalog_items'] = catalog_items.sort_by { |a| a['item_guid'] }
+      order['status_messages'] = provider_order.fetch('StatusMessage', '').split("\n").map { |m| m.split(' : ') }
+
+      order
+    else
+      error_message = order_response.error_message || 'Could not load a provider order due to an unspecified error.'
+      { 'error' => error_message }
     end
-
-    order['catalog_items'] = catalog_items.sort { |a, b| a['item_guid'] <=> b['item_guid'] }
-    order['status_messages'] = provider_order.fetch('StatusMessage', '').split("\n").map { |m| m.split(' : ') }
-
-    order
   end
 end

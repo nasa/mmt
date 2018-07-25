@@ -5,6 +5,7 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
   before :all do
     @group_name = random_group_name
     @group = create_group(name: @group_name, admin: false)
+    admin_2_group_concept = group_concept_from_name('Administrators_2', 'access_token_admin')
 
     wait_for_cmr
 
@@ -14,10 +15,10 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
         group_id: @group['concept_id'],
         permissions: %w(read order)
       }, {
-        group_id: 'AG1200000000-CMR', # Administrators
+        group_id: 'AG1200000000-CMR', # default CMR Administrators group
         permissions: %w(read order)
       }, {
-        group_id: 'AG1200000001-CMR', # Administrators_2
+        group_id: admin_2_group_concept, # Administrators_2
         permissions: ['read']
       }],
       catalog_item_identity: {

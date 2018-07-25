@@ -279,7 +279,8 @@
   // 55
   "collection": "https://cmr.earthdata.nasa.gov/search/concepts/C184437554-NSIDC_ECS/75",
   "ingest_count": 1,
-  "granule": null
+  "granule": null,
+  "test_case": " NSIDC_ECS restricted collection"
 }, {
   // 56
   "collection": "https://cmr.earthdata.nasa.gov/search/concepts/C115003861-NSIDC_ECS/76",

@@ -24,6 +24,10 @@ as well as the sidebar in Variables preview
   border-bottom-right-radius: 5px;
   border: 1px solid darken($light-blue, 8%);
 
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+
   section {
     padding: 0 1em;
   }

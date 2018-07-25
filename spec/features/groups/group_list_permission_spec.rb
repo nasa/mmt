@@ -14,12 +14,12 @@ describe 'Group list permissions', reset_provider: true do
       provider_id: @provider_id
     )
 
-    delete_group_name = 'Test Group For New Invites 2'
+    @delete_group_name = 'Test Group For New Invites 2'
     delete_group_description = 'Group to invite users to'
     @provider_id = 'MMT_2'
 
     @delete_group = create_group(
-      name: delete_group_name,
+      name: @delete_group_name,
       description: delete_group_description,
       provider_id: @provider_id
     )
@@ -27,7 +27,7 @@ describe 'Group list permissions', reset_provider: true do
 
   context 'when viewing the groups list' do
     before do
-      login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
+      login(provider: 'MMT_1', providers: %w[MMT_1 MMT_2])
     end
 
     context 'when the groups provider is in the users available providers', js: true do
@@ -36,7 +36,7 @@ describe 'Group list permissions', reset_provider: true do
           visit groups_path
 
           within '.groups-table' do
-            within 'tbody > tr:nth-child(1)' do
+            within('tr', text: @edit_group_name) do
               click_on 'Edit'
             end
           end
@@ -68,7 +68,7 @@ describe 'Group list permissions', reset_provider: true do
           visit groups_path
 
           within '.groups-table' do
-            within 'tbody > tr:nth-child(2)' do
+            within('tr', text: @delete_group_name) do
               click_on 'Delete'
             end
           end

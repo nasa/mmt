@@ -10,73 +10,66 @@ describe 'Groups list page', reset_provider: true do
       context 'when viewing the groups page' do
         context 'when there are no groups' do
           before do
+            empty = '{"hits": 0, "took": 7, "items": []}'
+            empty_response = cmr_success_response(empty)
+            allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).and_return(empty_response)
+
             visit groups_path
           end
 
           it 'does not show any groups' do
             expect(page).to have_content('No groups found.')
           end
+        end
 
-          context 'when there are groups under the pagination limit' do
-            before :all do
-              # TODO: We could mock this response as we're only testing that they list properly
-              # Create a few groups to list
-              create_group(
-                name: 'Group 1',
-                description: 'test group',
-                provider_id: 'MMT_2'
-              )
+        context 'when there are provider groups under the pagination limit' do
+          before do
+            visit groups_path
+          end
 
-              create_group(
-                name: 'Group 2',
-                description: 'test group 2',
-                provider_id: 'MMT_2',
-                members: %w(abcd)
-              )
+          it 'displays a list of groups' do
+            # groups created on our local cmr setup
+            within '.groups-table' do
+              expect(page).to have_content('LARC Admin Group Test group for provider LARC 2')
+              expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1 2')
+              expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2 2')
+              expect(page).to have_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS 2')
             end
+          end
 
+          it 'does not display system level and admin access only provider groups' do
+            within '.groups-table' do
+              expect(page).to have_no_content('Administrators_2 The group of users that manages the CMR. CMR 2')
+              expect(page).to have_no_content('SEDAC Admin Group Test group for provider SEDAC 2')
+            end
+          end
+
+          context 'when logging out and logging in as admin user' do
             before do
-              wait_for_cmr
+              visit logout_path
 
-              visit groups_path
+              login_admin
             end
 
-            it 'displays a list of groups' do
-              within '.groups-table' do
-                within all('tr')[1] do
-                  expect(page).to have_content('Group 1 test group MMT_2 0')
-                end
-                within all('tr')[2] do
-                  expect(page).to have_content('Group 2 test group 2 MMT_2 1')
-                end
-              end
-
-              within '.groups-table' do
-                expect(page).to have_no_content('Administrators_2 The group of users that manages the CMR. CMR 2')
-              end
-            end
-
-            context 'when logging out and logging in as admin user' do
+            context 'when visiting the group page again' do
               before do
-                visit logout_path
-
-                login_admin
+                visit groups_path
               end
 
-              context 'when visiting the group page again' do
-                before do
-                  visit groups_path
-                end
+              it 'displays the provider and system level groups' do
+                within '.groups-table' do
+                  # Provider level groups
+                  expect(page).to have_content('LARC Admin Group Test group for provider LARC 2')
+                  expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1 2')
+                  expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2 2')
+                  expect(page).to have_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS 2')
 
-                it 'displays the provider and system level groups' do
-                  within '.groups-table' do
-                    # Provider level groups
-                    expect(page).to have_content('Group 1 test group MMT_2 0')
-                    expect(page).to have_content('Group 2 test group 2 MMT_2 1')
+                  # Provider group with only admin users
+                  expect(page).to have_content('SEDAC Admin Group Test group for provider SEDAC 2')
 
-                    # System level groups
-                    expect(page).to have_content('Administrators_2 SYS The group of users that manages the CMR. CMR 2')
-                  end
+                  # System level groups
+                  expect(page).to have_content('Administrators SYS CMR')
+                  expect(page).to have_content('Administrators_2 SYS The group of users that manages the CMR. CMR 2')
                 end
               end
             end
@@ -150,7 +143,7 @@ describe 'Groups list page', reset_provider: true do
         visit groups_path
       end
 
-      it 'displays the system level groups' do
+      it 'displays the system level and admin access only provider groups' do
         # intermittent error, Rspec ExpectationNotMetError
         # added logging comments to verify users and system level groups setup in cmr
         # using #syncrhonize, as used in draft_deletion_spec, ln 25
@@ -158,7 +151,7 @@ describe 'Groups list page', reset_provider: true do
         page.document.synchronize do
           within '.groups-table' do
             expect(page).to have_content('Administrators_2 SYS The group of users that manages the CMR. CMR 2')
-            expect(page).to have_content('SEDAC Test Group Test group for provider SEDAC 0')
+            expect(page).to have_content('SEDAC Admin Group Test group for provider SEDAC 2')
           end
         end
       end
