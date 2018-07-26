@@ -3,7 +3,6 @@ class BaseManageController < ManageMetadataController
   include ManageMetadataHelper
 
   def show
-    Rails.logger.info ">>>>>>>>>>>>>>>>>>>>>> #{params[:not_authorized_request_params]}"
     if params[:not_authorized_request_params]
       @record_action = 'manage-collection-associations' if params.fetch(:not_authorized_request_params, {})['controller'] == 'collection_associations'
 
