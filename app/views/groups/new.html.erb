@@ -12,6 +12,6 @@
       <%= render 'form' %>
     <% end %>
 
-    <%# = render 'invite_form' #%>
+    <%= render 'invite_form' if invite_user_enabled? %>
   </section>
 </div>
