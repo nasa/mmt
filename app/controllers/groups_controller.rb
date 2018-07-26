@@ -3,7 +3,7 @@ class GroupsController < ManageCmrController
   include GroupsHelper
   include GroupEndpoints
   include PermissionManagement
-  include Cmr
+
   skip_before_action :ensure_user_is_logged_in, :setup_query, :refresh_urs_if_needed, only: [:urs_search]
 
   add_breadcrumb 'Groups', :groups_path
