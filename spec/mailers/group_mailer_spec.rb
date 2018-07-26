@@ -19,9 +19,7 @@ describe GroupMailer do
 
     it 'assigns @invite' do
       expect(mail.html_part.body.encoded).to match("#{invite.user_first_name}, #{invite.manager_name} from #{invite.provider}")
-      expect(mail.html_part.body.encoded).to match("http://localhost:3000/accept_invite/#{invite.token}")
       expect(mail.text_part.body.encoded).to match("#{invite.user_first_name}, #{invite.manager_name} from #{invite.provider}")
-      expect(mail.text_part.body.encoded).to match("http://localhost:3000/accept_invite/#{invite.token}")
     end
   end
 
