@@ -45,10 +45,10 @@ class ApplicationController < ActionController::Base
   end
   helper_method :urs_login_required?
 
-  def invite_user_enabled?
-    ENV['invite_user_enabled'] == 'true'
+  def invite_users_enabled?
+    Rails.configuration.invite_users_enabled
   end
-  helper_method :invite_user_enabled?
+  helper_method :invite_users_enabled?
 
   def launchpad_login_required?
     ENV['launchpad_login_required'] == 'true'

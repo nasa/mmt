@@ -56,6 +56,9 @@ Rails.application.configure do
   # Feature Toggle for bulk updates
   config.bulk_updates_enabled = true
 
+  # Feature Toggle for invite uses
+  config.invite_users_enabled = false
+
   # Feature Toggle for UMM-S
   config.umm_s_enabled = true
 
