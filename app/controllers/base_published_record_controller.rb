@@ -1,6 +1,8 @@
 # :nodoc:
-class BaseManageController < ManageMetadataController
+class BasePublishedRecordController < ManageMetadataController
   include ManageMetadataHelper
+
+  before_action :add_top_level_breadcrumbs
 
   def show
     if params[:not_authorized_request_params]
@@ -21,14 +23,14 @@ class BaseManageController < ManageMetadataController
     else
       Rails.logger.info("User #{current_user.urs_uid} attempted to edit #{resource_name.classify} #{@concept_id} in provider #{current_user.provider_id} but a #{resource_name.classify} Draft was not created to edit because there was no native_id (#{@native_id}) found.")
       # if we cannot locate the native_id for the Variable, we should discontinue editing
-      redirect_to send("#{resource}_path", @concept_id, revision_id: @revision_id), flash: { error: I18n.t("controllers.#{pluralized_name}.edit.flash.native_id_error") }
+      redirect_to send("#{resource}_path", @concept_id, revision_id: @revision_id), flash: { error: I18n.t("controllers.#{plural_resource_name}.edit.flash.native_id_error") }
     end
   end
 
   def clone
     draft = resource_class.send("create_from_#{resource_name}", get_resource, current_user, nil)
-    Rails.logger.info("Audit Log: Cloned #{capitalized_name} Draft for #{draft.short_name} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
-    flash[:notice] = view_context.link_to I18n.t("controllers.#{pluralized_name}.clone.flash.notice"), send("edit_#{resource_name}_draft_path", draft, "#{resource_name}_information", anchor: "#{resource_name}_draft_draft_name")
+    Rails.logger.info("Audit Log: Cloned #{capitalized_resource_name} Draft for #{draft.short_name} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
+    flash[:notice] = view_context.link_to I18n.t("controllers.#{plural_resource_name}.clone.flash.notice"), send("edit_#{resource_name}_draft_path", draft, "#{resource_name}_information", anchor: "#{resource_name}_draft_draft_name")
     redirect_to send("#{resource_name}_draft_path", draft)
   end
 
@@ -39,7 +41,7 @@ class BaseManageController < ManageMetadataController
 
     if ingested_response.success?
       # get information for publication email notification before draft is deleted
-      Rails.logger.info("Audit Log: #{capitalized_name} Draft #{draft.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
+      Rails.logger.info("Audit Log: #{capitalized_resource_name} Draft #{draft.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
       short_name = draft.short_name
 
       # Delete draft
@@ -51,14 +53,14 @@ class BaseManageController < ManageMetadataController
       # instantiate and deliver notification email
       DraftMailer.send("#{resource_name}_draft_published_notification", get_user_info, concept_id, revision_id, short_name).deliver_now
 
-      redirect_to send("#{resource_name}_path", concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.#{pluralized_name}.create.flash.success") }
+      redirect_to send("#{resource_name}_path", concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.#{plural_resource_name}.create.flash.success") }
     else
       # Log error message
-      Rails.logger.error("Ingest #{capitalized_name} Metadata Error: #{ingested_response.inspect}")
+      Rails.logger.error("Ingest #{capitalized_resource_name} Metadata Error: #{ingested_response.inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest #{resource_name} draft #{draft.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
       @ingest_errors = generate_ingest_errors(ingested_response)
-      redirect_to send("#{resource_name}_draft_path", draft), flash: { error: I18n.t("controllers.#{pluralized_name}.create.flash.error") }
+      redirect_to send("#{resource_name}_draft_path", draft), flash: { error: I18n.t("controllers.#{plural_resource_name}.create.flash.error") }
     end
   end
 
@@ -66,23 +68,23 @@ class BaseManageController < ManageMetadataController
     delete_response = cmr_client.send("delete_#{resource_name}", @provider_id, @native_id, token)
 
     if delete_response.success?
-      flash[:success] = I18n.t("controllers.#{pluralized_name}.destroy.flash.success")
-      Rails.logger.info("Audit Log: #{capitalized_name} #{@concept_id} with native_id #{@native_id} was deleted for #{@provider_id} by #{session[:urs_uid]}")
+      flash[:success] = I18n.t("controllers.#{plural_resource_name}.destroy.flash.success")
+      Rails.logger.info("Audit Log: #{capitalized_resource_name} #{@concept_id} with native_id #{@native_id} was deleted for #{@provider_id} by #{session[:urs_uid]}")
 
       redirect_to send("#{resource_name}_revisions_path", id: delete_response.body['concept-id'], revision_id: delete_response.body['revision-id'])
     else
-      Rails.logger.error("Delete #{capitalized_name} Error: #{delete_response.inspect}")
-      Rails.logger.info("User #{current_user.urs_uid} attempted to delete #{capitalized_name} #{@concept_id} with native_id #{@native_id} in provider #{@provider_id} but encountered an error.")
+      Rails.logger.error("Delete #{capitalized_resource_name} Error: #{delete_response.inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to delete #{capitalized_resource_name} #{@concept_id} with native_id #{@native_id} in provider #{@provider_id} but encountered an error.")
 
       set_preview
 
-      flash[:error] = delete_response.error_message(i18n: I18n.t("controllers.#{pluralized_name}.destroy.flash.error"))
+      flash[:error] = delete_response.error_message(i18n: I18n.t("controllers.#{plural_resource_name}.destroy.flash.error"))
       render :show
     end
   end
 
   def revisions
-    add_breadcrumb breadcrumb_name(get_resource, pluralized_name), send("#{resource_name}_path", @concept_id)
+    add_breadcrumb breadcrumb_name(get_resource, plural_resource_name), send("#{resource_name}_path", @concept_id)
     add_breadcrumb 'Revision History', send("#{resource_name}_revisions_path", @concept_id)
   end
 
@@ -93,21 +95,58 @@ class BaseManageController < ManageMetadataController
     ingested_response = cmr_client.send("ingest_#{resource_name}", get_resource.to_json, @provider_id, @native_id, token)
 
     if ingested_response.success?
-      flash[:success] = I18n.t("controllers.#{pluralized_name}.revert.flash.success")
-      Rails.logger.info("Audit Log: #{capitalized_name} Revision for record #{@concept_id} with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
+      flash[:success] = I18n.t("controllers.#{plural_resource_name}.revert.flash.success")
+      Rails.logger.info("Audit Log: #{capitalized_resource_name} Revision for record #{@concept_id} with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
       redirect_to send("#{resource_name}_revisions_path", revision_id: latest_revision_id.to_i + 1)
     else
-      Rails.logger.error("Ingest (Revert) #{capitalized_name} Error: #{ingested_response.inspect}")
-      Rails.logger.info("User #{current_user.urs_uid} attempted to revert #{capitalized_name} #{@concept_id} by ingesting a previous revision in provider #{current_user.provider_id} but encountered an error.")
+      Rails.logger.error("Ingest (Revert) #{capitalized_resource_name} Error: #{ingested_response.inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to revert #{capitalized_resource_name} #{@concept_id} by ingesting a previous revision in provider #{current_user.provider_id} but encountered an error.")
 
       @errors = generate_ingest_errors(ingested_response)
-      flash[:error] = ingested_response.error_message(i18n: I18n.t("controllers.#{pluralized_name}.revert.flash.error"))
+      flash[:error] = ingested_response.error_message(i18n: I18n.t("controllers.#{plural_resource_name}.revert.flash.error"))
       render action: 'revisions'
     end
   end
 
   def download_json
     send_data get_resource.to_json, type: 'application/json; charset=utf-8', disposition: "attachment; filename=#{@concept_id}.json"
+  end
+
+  private
+
+  def ensure_correct_provider
+    return if current_provider?(@provider_id)
+
+    set_record_action
+
+    set_user_permissions
+
+    set_preview
+
+    render :show
+  end
+
+  def resource_schema; end
+
+  def add_top_level_breadcrumbs
+    add_breadcrumb capitalized_resource_name.pluralize
+  end
+
+  def set_schema
+    @schema = UmmJsonSchema.new(plural_resource_name, "umm-#{resource_schema}-json-schema.json")
+    @schema.fetch_references(@schema.parsed_json)
+  end
+
+  def set_form
+    @json_form = UmmJsonForm.new(plural_resource_name, "umm-#{resource_schema}-form.json", @schema, get_resource, field_prefix: "#{resource_name}_draft/draft")
+  end
+
+  def set_preview
+    @preview = UmmPreview.new(
+      schema_type: resource_name,
+      preview_filename: "umm-#{resource_schema}-preview.json",
+      data: get_resource
+    )
   end
 
   # Returns the resource from the created instance variable
@@ -126,14 +165,14 @@ class BaseManageController < ManageMetadataController
   # The singular name for the resource class based on the controller
   # @return [String]
   def resource_name
-    @resource_name ||= controller_name.singularize
+    @resource_name ||= plural_resource_name.singularize
   end
 
-  def pluralized_name
-    @pluralized_name ||= controller_name
+  def plural_resource_name
+    @plural_resource_name ||= controller_name
   end
 
-  def capitalized_name
+  def capitalized_resource_name
     resource_name.capitalize
   end
 end
