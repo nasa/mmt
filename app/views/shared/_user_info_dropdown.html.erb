@@ -3,11 +3,11 @@
     <!-- User Info Dropdown Menu -->
     <div id="login-info" class="login-info-dropdown">
       <% unless hide_provider_context %>
-        <%= link_to 'Change Provider', '#provider-context', class: 'display-modal', id: 'change-context' %>
+        <%= link_to 'Change Provider', '#provider-context', class: 'display-modal dropdown-item', id: 'change-context' %>
       <% end %>
       <!--a href="#">Account Settings</a-->
-      <%= link_to "User's Guide", "https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide", target: '_blank' %>
-      <%= link_to 'Logout', logout_path %>
+      <%= link_to "User's Guide", "https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide", class: 'dropdown-item', target: '_blank' %>
+      <%= link_to 'Logout', logout_path, class: 'dropdown-item' %>
     </div>
     <!-- End User Info Dropdown Menu -->
       <a id="profile-link" href="#">
