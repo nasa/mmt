@@ -7,14 +7,23 @@ class ServicesController < BasePublishedRecordController
   before_action :ensure_correct_provider, only: [:edit, :clone, :destroy]
   before_action :set_preview, only: [:show]
 
-  # https://stackoverflow.com/questions/34735540/action-defined-in-applicationcontroller-can-not-be-found
+  # If clone is not defined like this performing the clone action leads to a `action not found error`
+  # we looked into this but couldn't find a way around this without having clone call super
   def clone
     super
   end
 
   private
 
-  def resource_schema
-    's'
+  def resource_schema_file
+    'umm-s-json-schema.json'
+  end
+
+  def resource_form_file
+    'umm-s-form.json'
+  end
+
+  def resource_preview_schema
+    'umm-s-preview.json'
   end
 end

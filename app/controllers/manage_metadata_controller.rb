@@ -106,7 +106,7 @@ class ManageMetadataController < ApplicationController
     @service = if service_concept_response.success?
                   service_concept_response.body
                 else
-                  Rails.logger.error("Error retrieving concept for Variable #{@concept_id} in `set_service`: #{service_concept_response.inspect}")
+                  Rails.logger.error("Error retrieving concept for Service #{@concept_id} in `set_service`: #{service_concept_response.inspect}")
                   {}
                 end
 
