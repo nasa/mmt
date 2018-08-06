@@ -28,6 +28,17 @@ class CollectionDraft < Draft
       DRAFT_FORMS[index + delta] || DRAFT_FORMS.first
     end
 
+    def create_from_template(template, user)
+      draft = CollectionDraft.new do |d|
+        d.draft = template.draft
+        d.entry_title = template.entry_title
+        d.user = user
+        d.provider_id = template.provider_id
+      end
+      draft.save
+      draft
+    end
+
     def create_from_collection(collection, user, native_id)
       new_entry_title = (collection['EntryTitle'].blank?) ? nil : collection['EntryTitle']
 

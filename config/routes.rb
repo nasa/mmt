@@ -100,14 +100,24 @@ Rails.application.routes.draw do
       get 'edit', path: 'edit(/:form)'
     end
   end
+
   resources :collection_drafts, controller: 'collection_drafts', draft_type: 'CollectionDraft', as: 'collection_drafts' do
     member do
       get 'edit', path: 'edit(/:form)'
       get 'download'
       post 'publish'
+      post 'create_template'
     end
   end
   get 'subregion_options' => 'collection_drafts#subregion_options'
+
+  resources :templates, controller: 'templates' do
+    member do
+      get 'create_draft'
+    end
+  end
+  get '/templates/list/:type' => 'templates#list', as: 'template_list'
+  # get '/templates/:id/create_draft' => 'templates#create_draft', as: 'template_create_draft'
 
   get 'welcome/index'
   # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's
