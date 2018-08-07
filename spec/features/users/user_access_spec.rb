@@ -75,7 +75,7 @@ describe 'User Access' do
 
       it 'displays both login options' do
         expect(page).to have_link('Login with Launchpad', href: login_path(login_method: 'launchpad'))
-        expect(page).to have_link('Login with URS', href: login_path(login_method: 'urs'))
+        expect(page).to have_link('Login with Earthdata Login', href: login_path(login_method: 'urs'))
       end
     end
 
