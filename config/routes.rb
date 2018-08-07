@@ -111,13 +111,12 @@ Rails.application.routes.draw do
   end
   get 'subregion_options' => 'collection_drafts#subregion_options'
 
-  resources :templates, controller: 'templates' do
+  resources :collection_templates, controller: 'collection_templates', template_type: 'CollectionTemplate', as: 'collection_templates' do
     member do
       get 'create_draft'
     end
   end
-  get '/templates/list/:type' => 'templates#list', as: 'template_list'
-  # get '/templates/:id/create_draft' => 'templates#create_draft', as: 'template_create_draft'
+  get '/collection_templates/list/' => 'templates#list', as: 'template_list'
 
   get 'welcome/index'
   # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's

@@ -1,0 +1,2 @@
+class CollectionTemplatePolicy < TemplatePolicy
+end

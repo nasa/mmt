@@ -122,7 +122,7 @@ class CollectionDraftsController < BaseDraftsController
 
   def create_template
     authorize get_resource
-    template = Template.create_collection_template(get_resource, current_user, params[:title])
+    template = CollectionTemplate.create_template(get_resource, current_user, params[:title])
     Rails.logger.info("Audit Log: Collection Template #{template.display_title} was created by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
     redirect_to '/manage_collections'
   end
