@@ -344,6 +344,7 @@ class ApplicationController < ActionController::Base
   end
 
   def log_all_session_keys
+    return if Rails.env.test?
     all_session_keys = LAUNCHPAD_SESSION_KEYS | URS_SESSION_KEYS
     # additional token and login keys
     all_session_keys += %i[echo_provider_token login_method]
@@ -355,7 +356,7 @@ class ApplicationController < ActionController::Base
         end
       end
 
-    Rails.logger.debug ">>>>> logging session keys"
+    Rails.logger.debug '>>>>> logging session keys'
     Rails.logger.debug all_session_keys_log.join("\n")
   end
 
