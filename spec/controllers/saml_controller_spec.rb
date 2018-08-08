@@ -7,7 +7,7 @@ describe SamlController do
     end
 
     it 'redirects the user to launchpad for authentication' do
-      expect(response.redirect_url).to start_with('https://auth.launchpad-sbx.nasa.gov/affwebservices/public/saml2sso')
+      expect(response.redirect_url).to start_with('https://auth.launchpad.nasa.gov/affwebservices/public/saml2sso')
     end
   end
 
