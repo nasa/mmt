@@ -115,15 +115,15 @@ class UsersController < ApplicationController
   private
 
   def finish_successful_login(profile)
-    Rails.logger.debug ">>>>> running store_profile"
+    Rails.logger.debug '>>>>> running store_profile'
     # Stores additional information in the session pertaining to the user
     store_profile(profile)
     log_all_session_keys
-    Rails.logger.debug ">>>>> running set_available_providers"
+    Rails.logger.debug '>>>>> running set_available_providers'
     # Updates the user's available providers
     current_user.set_available_providers(token)
     log_all_session_keys
-    Rails.logger.debug ">>>>> running get_providers"
+    Rails.logger.debug '>>>>> running get_providers'
     # Refresh (force retrieve) the list of all providers
     cmr_client.get_providers(true)
     log_all_session_keys
