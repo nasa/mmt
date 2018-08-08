@@ -1,0 +1,45 @@
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> <%= plural_resource_name.titleize %></h2>
+
+    <% if get_resources.any? %>
+      <p><%= page_entries_info get_resources, entry_name: resource_name.titleize %></p>
+    <% end %>
+
+    <table id="open_drafts">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Actions</th>
+          <th>Last Modified</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      <% if get_resources.blank? %>
+        <tr>
+          <td colspan="4">
+            No <%= current_user.provider_id %> Templates found
+          </td>
+        </tr>
+      <% else %>
+        <% get_resources.each do |template| %>
+          <tr class='<%= cycle("alt", "") %>'>
+            <td>
+              <%= link_to template.display_title, send("create_draft_#{resource_name}_path", template) %>
+            </td>
+            <td>
+              Delete
+            </td>
+            <td>
+              <%= template.updated_at.to_s(:date) %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+
+    <%= paginate get_resources %>
+  </section>
+</div>
