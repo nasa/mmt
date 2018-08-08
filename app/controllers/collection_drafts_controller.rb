@@ -124,7 +124,7 @@ class CollectionDraftsController < BaseDraftsController
     authorize get_resource
     template = CollectionTemplate.create_template(get_resource, current_user, params[:template][:title])
     Rails.logger.info("Audit Log: Collection Template #{template.display_title} was created by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
-    redirect_to '/manage_collections'
+    redirect_to collection_templates_path
   end
 
   def publish

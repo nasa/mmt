@@ -116,7 +116,6 @@ Rails.application.routes.draw do
       get 'create_draft'
     end
   end
-  get '/collection_templates/list/' => 'templates#list', as: 'template_list'
 
   get 'welcome/index'
   # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's

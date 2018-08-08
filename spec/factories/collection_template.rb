@@ -1,7 +1,7 @@
 require 'faker'
 
 FactoryGirl.define do
-  factory :full_collection_template, class: Template do
+  factory :full_collection_template, class: CollectionTemplate do
     transient do
       draft_short_name nil
       draft_entry_title nil
