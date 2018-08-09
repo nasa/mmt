@@ -97,7 +97,7 @@ To insert a sample draft with every field completed:
 
 ### OpenSSL Issue
 
-*If you have a similar error from `rake cmr:start_and_load` below:
+* If you have a similar error from `rake cmr:start_and_load` below:
 
     Faraday::Error::ConnectionFailed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
 
@@ -142,7 +142,7 @@ You can view/download the latest UMM JSON-Schema here, https://git.earthdata.nas
 ## Local Testing
 
 #### JavaScript
-MMT uses PhantomJS which allows us to run our Capybara tests on a headless WebKit browser. Before you're able to run tests locally you'll need to install it. The easiest way to accomplish this would be to use [Homebrew](http://brew.sh/) or a similar packager manager. If you're using Homebrew, run the following the command:
+MMT uses [PhantomJS](http://phantomjs.org) which allows us to run our Capybara tests on a headless WebKit browser. Before you're able to run tests locally you'll need to install it. The easiest way to accomplish this would be to use [Homebrew](http://brew.sh/) or a similar packager manager. If you're using Homebrew, run the following the command:
 
     brew install phantomjs
 
