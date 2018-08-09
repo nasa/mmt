@@ -3,12 +3,14 @@
     <section class="eui-callout-box col-left">
       <h3 class="eui-callout-box__title">Create Collection Record</h3>
       <div class="eui-callout-box__list">
-        <%= link_to 'Create New Record', new_collection_draft_path, class: 'eui-btn--blue submit' %>
         <div class="question-group">
+          <%= link_to 'Create New Record', new_collection_draft_path, class: 'eui-btn--blue submit' %>
         </div>
-        <%= link_to 'Create From Template', collection_templates_path, class: 'eui-btn--blue submit' %>
-        <div class="question-group">
-        </div>
+        <% if Rails.configuration.templates_enabled %>
+          <div class="question-group">
+            <%= link_to 'Create From Template', collection_templates_path, class: 'eui-btn--blue submit' %>
+          </div>
+        <% end %>
         <div class="question-group">
           <div class="row">
             <p><strong>OR</strong> use the <a id="search-focus" href="#">search</a> in the top right corner to find a published variables to clone or edit.</p>

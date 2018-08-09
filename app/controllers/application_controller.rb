@@ -307,6 +307,10 @@ class ApplicationController < ActionController::Base
     redirect_to manage_collections_path unless Rails.configuration.umm_s_enabled
   end
 
+  def templates_enabled?
+    redirect_to manage_collections_path unless Rails.configuration.templates_enabled
+  end
+
   def authenticated_urs_uid
     session[:urs_uid]
   end

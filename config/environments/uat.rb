@@ -90,6 +90,9 @@ Rails.application.configure do
   # Feature Toggle for UMM-S
   config.umm_s_enabled = true
 
+  # Feature Toggle for templates
+  config.templates_enabled = false
+
   config.cmr_env = 'uat'
   config.echo_env = 'uat'
   config.analytics_id = 'UA-62340125-5'

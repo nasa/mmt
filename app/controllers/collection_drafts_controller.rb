@@ -4,6 +4,7 @@ class CollectionDraftsController < BaseDraftsController
   include ControlledKeywords
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish, :create_template]
   before_action :load_umm_schema, only: [:new, :edit, :show]
+  before_action :templates_enabled?, only: [:create_template]
 
   def new
     set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
