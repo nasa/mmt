@@ -169,10 +169,6 @@ header.mmt-header {
   font-size: 0.8em;
 }
 
-.dropdown-item {
-  white-space: nowrap;
-}
-
 .login-info-dropdown {
   width: 115px;
   text-align: left;
@@ -190,6 +186,9 @@ header.mmt-header {
     &:hover {
       color: lighten($dolphin-grey, 30%);
     }
+
+    white-space: nowrap;
+    display: block;
   }
 }
 
