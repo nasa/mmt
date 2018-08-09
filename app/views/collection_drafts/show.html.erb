@@ -37,7 +37,8 @@
       <% else %>
         <%= link_to 'Publish Collection Draft', publish_collection_draft_path(get_resource), method: :post, class: 'eui-btn--blue spinner' %>
       <% end %>
-      <%= link_to 'Save As Template', '#save-as-template-modal', class: 'eui-btn--blue display-modal' if Rails.configuration.templates_enabled %>
+      <%= link_to 'Save As Template', '#save-as-template-modal', class: 'display-modal' if Rails.configuration.templates_enabled %>
+      <%= '|' if Rails.configuration.templates_enabled %>
       <div id="save-as-template-modal", class="eui-modal-content">
         <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
         <%= form_tag(create_template_collection_draft_path(get_resource), method: :post) do %>
