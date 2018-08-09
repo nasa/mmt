@@ -54,7 +54,7 @@ Rails.application.configure do
   config.umm_s_enabled = true
 
   # Feature Toggle for templates
-  config.templates_enabled = false
+  config.templates_enabled = true
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
