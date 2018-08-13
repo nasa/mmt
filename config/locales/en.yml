@@ -155,8 +155,8 @@ en:
     users:
       associate_urs_and_launchpad_ids:
         flash:
-          success: 'Your URS and Launchpad accounts were successfully associated!'
-          error: 'An error occurred trying to associate your URS and Launchpad accounts'
+          success: 'Your Earthdata Login and Launchpad accounts were successfully associated!'
+          error: 'An error occurred trying to associate your Earthdata Login and Launchpad accounts'
     oauth_tokens:
       urs_association_callback:
         flash:
