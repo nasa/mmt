@@ -58,7 +58,7 @@ describe 'User login' do
   end
 
   context 'when logging in with Launchpad' do
-    context 'when the user already has an associated URS account' do
+    context 'when the user already has an associated Earthdata Login account' do
       before do
         require_launchpad_login
 
@@ -99,7 +99,7 @@ describe 'User login' do
       end
     end
 
-    context 'when the user does not have an associated URS account' do
+    context 'when the user does not have an associated Earthdata Login account' do
       before do
         require_launchpad_login
       end
@@ -112,16 +112,16 @@ describe 'User login' do
           real_login(method: 'launchpad', associated: false)
         end
 
-        it 'prompts the user to log into URS to link their accounts' do
-          expect(page).to have_content('Redirecting to URS')
-          expect(page).to have_content('It appears you do not have a URS account linked with your Launchpad account.')
-          expect(page).to have_content('Please click the button below to log in to the URS account you listed on your NAMS request and would like to associate with your Launchpad account.')
+        it 'prompts the user to log into Earthdata Login to link their accounts' do
+          expect(page).to have_content('Redirecting to Earthdata Login')
+          expect(page).to have_content('It appears you do not have a Earthdata Login account linked with your Launchpad account.')
+          expect(page).to have_content('Please click the button below to log in to the Earthdata Login account you listed on your NAMS request and would like to associate with your Launchpad account.')
           expect(page).to have_link('Earthdata Login')
         end
 
       end
 
-      context 'when the user returns from logging into URS after prompted to associate an account' do
+      context 'when the user returns from logging into Earthdata Login after prompted to associate an account' do
         before do
           real_login(method: 'launchpad')
 
@@ -129,10 +129,10 @@ describe 'User login' do
         end
 
         it 'asks the user to confirm the accounts to be linked' do
-          expect(page).to have_content('Confirm URS and Launchpad account association')
-          expect(page).to have_content('Please confirm that you want to link this URS account with your Launchpad account.')
+          expect(page).to have_content('Confirm Earthdata Login and Launchpad account association')
+          expect(page).to have_content('Please confirm that you want to link this Earthdata Login account with your Launchpad account.')
           expect(page).to have_content('Launchpad username: testuser')
-          expect(page).to have_content('URS username: testuser')
+          expect(page).to have_content('Earthdata Login username: testuser')
           expect(page).to have_button('Confirm Association')
         end
 
@@ -149,14 +149,14 @@ describe 'User login' do
               expect(page).to have_content('Manage Collections')
             end
 
-            expect(page).to have_content('Your URS and Launchpad accounts were successfully associated!')
+            expect(page).to have_content('Your Earthdata Login and Launchpad accounts were successfully associated!')
           end
         end
       end
     end
   end
 
-  context 'when both URS and Launchpad Login requirements are turned off', js: true do
+  context 'when both Earthdata Login and Launchpad Login requirements are turned off', js: true do
     before do
       require_no_login_methods
 
@@ -176,7 +176,7 @@ describe 'User login' do
     end
   end
 
-  context 'when both URS and Launchpad Login requirements are turned on', js: true do
+  context 'when both Earthdata Login and Launchpad Login requirements are turned on', js: true do
     before do
       require_launchpad_and_urs_login
 
@@ -189,10 +189,10 @@ describe 'User login' do
 
     it 'displays both login options' do
       expect(page).to have_link('Login with Launchpad', href: login_path(login_method: 'launchpad'))
-      expect(page).to have_link('Login with Earthdata Login', href: login_path(login_method: 'urs'))
+      expect(page).to have_link('Login with Earthdata Login', href: login_path(login_method: 'urs))
     end
 
-    context 'when logging in with URS' do
+    context 'when logging in with Earthdata Login' do
       before do
         real_login(method: 'urs')
       end
