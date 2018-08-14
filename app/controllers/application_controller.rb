@@ -344,12 +344,12 @@ class ApplicationController < ActionController::Base
   end
 
   def log_all_session_keys
-    return if Rails.env.test?
+    return if Rails.env.test? || session[:login_method] == 'urs'
     all_session_keys = LAUNCHPAD_SESSION_KEYS | URS_SESSION_KEYS
     # additional token and login keys
     all_session_keys += %i[echo_provider_token login_method]
       all_session_keys_log = all_session_keys.map do |key|
-        if key == :launchpad_cookie
+        if key == :launchpad_cookie && !session[key].blank?
           "#{key}: rounded length: #{session[key].length.round(-2)};;; snippet: #{session[key].truncate(50)}"
         else
           "#{key}: #{session[key]}"
