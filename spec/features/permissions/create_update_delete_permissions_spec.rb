@@ -96,25 +96,18 @@ describe 'Collection Permissions', reset_provider: true, js: true do
           'name': 'Collection Permission to Edit 01',
           'provider_id': 'MMT_2',
           'granule_applicable': false,
-          'collection_applicable': true
-
-          # the collection identifier is temporarily being left out because it caused an issue with CMRs handling of access constraints. This will be added back with ticket MMT-1516 after CMR-5039 is resolved
-          # TODO add back the collection identifier and make sure this test passes
-          # also make sure we have tests for access constraint values to see if
-          # collections are visible or not
-
-          # 'collection_identifier': {
-          #   'access_value': {
-          #     'min_value': 5.0,
-          #     'max_value': 55.0,
-          #     'include_undefined_value': true
-          #   }
-          # }
+          'collection_applicable': true,
+          'collection_identifier': {
+            'access_value': {
+              'min_value': 5.0,
+              'max_value': 55.0,
+              'include_undefined_value': true
+            }
+          }
         }
       }
 
       @collection_permission_for_edit = cmr_client.add_group_permissions(previous_collection_permission, 'access_token').body
-
       # while we can use stubbed groups for collection permissions, it seems
       # that we need to have ingested collections to create a collection
       # permission if it has selected collections
@@ -198,13 +191,13 @@ describe 'Collection Permissions', reset_provider: true, js: true do
               # selecting each individually as it seems more robust.
               # also, press esc after select to hide tool tip, it blocks button
               select(@entry_id_1, from: 'Available Collections')
-              page.find('.from-container').native.send_keys :escape 
+              page.find('.from-container').native.send_keys :escape
               find('button[title=add]').click
-              
+
               select(@entry_id_2, from: 'Available Collections')
               page.find('.from-container').native.send_keys :escape
               find('button[title=add]').click
-              
+
               select(@entry_id_3, from: 'Available Collections')
               page.find('.from-container').native.send_keys :escape
               find('button[title=add]').click
