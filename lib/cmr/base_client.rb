@@ -30,8 +30,9 @@ module Cmr
       else
         return {} unless token.present?
 
-        if ENV['urs_login_required'] != 'false'
-          # passing the URS token to CMR requires the client id also
+        if token.length <= 100
+          # URS token max length is 100
+          # passing the URS token to CMR requires the client id
           { 'Echo-Token' => "#{token}:#{@client_id}" }
         else
           { 'Echo-Token' => token }
