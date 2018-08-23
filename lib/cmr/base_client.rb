@@ -30,8 +30,7 @@ module Cmr
       else
         return {} unless token.present?
 
-        if token.length <= 100
-          # URS token max length is 100
+        if is_urs_token?(token)
           # passing the URS token to CMR requires the client id
           { 'Echo-Token' => "#{token}:#{@client_id}" }
         else
@@ -106,6 +105,13 @@ module Cmr
 
     def encode_if_needed(url_fragment)
       valid_uri?(url_fragment) ? url_fragment : URI.encode(url_fragment)
+    end
+
+    private
+
+    def is_urs_token?(token)
+      # URS token max length is 100, Launchpad token is much longer
+      token.length <= 100 ? true : false
     end
   end
 end
