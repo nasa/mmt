@@ -11,13 +11,13 @@ class BasePublishedRecordController < ManageMetadataController
       set_user_permissions
     end
 
-    @draft = resource_class.where(provider_id: @provider_id, native_id: @native_id).first
+    @draft = draft_resource_class.where(provider_id: @provider_id, native_id: @native_id).first
     add_breadcrumb breadcrumb_name(get_resource, resource_name), send("#{resource_name}_path", params[:id])
   end
 
   def edit
     if @native_id
-      draft = resource_class.send("create_from_#{resource_name}", get_resource, current_user, @native_id)
+      draft = draft_resource_class.send("create_from_#{resource_name}", get_resource, current_user, @native_id)
       Rails.logger.info("Audit Log: #{resource_name.classify} Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
       redirect_to send("#{resource_name}_draft_path", draft), flash: { success: I18n.t("controllers.draft.#{resource_name}_drafts.create.flash.success") }
     else
@@ -28,14 +28,14 @@ class BasePublishedRecordController < ManageMetadataController
   end
 
   def clone
-    draft = resource_class.send("create_from_#{resource_name}", get_resource, current_user, nil)
+    draft = draft_resource_class.send("create_from_#{resource_name}", get_resource, current_user, nil)
     Rails.logger.info("Audit Log: Cloned #{capitalized_resource_name} Draft for #{draft.short_name} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
     flash[:notice] = view_context.link_to I18n.t("controllers.#{plural_resource_name}.clone.flash.notice"), send("edit_#{resource_name}_draft_path", draft, "#{resource_name}_information", anchor: "#{resource_name}_draft_draft_name")
     redirect_to send("#{resource_name}_draft_path", draft)
   end
 
   def create
-    draft = resource_class.find(params[:id])
+    draft = draft_resource_class.find(params[:id])
 
     ingested_response = cmr_client.send("ingest_#{resource_name}", draft.draft.to_json, draft.provider_id, draft.native_id, token)
 
@@ -165,10 +165,6 @@ class BasePublishedRecordController < ManageMetadataController
     )
   end
 
-  def published_resource_class
-    @published_resource_class ||= resource_name.classify.pluralize.constantize
-  end
-
   # Returns the resource from the created instance variable
   # @return [Object]
   def get_resource
@@ -176,11 +172,10 @@ class BasePublishedRecordController < ManageMetadataController
   end
   helper_method :get_resource
 
-  # The resource class based on the controller
-  # @return [Class]
-  def resource_class
-    # TODO does this need to have draft?
-    @resource_class ||= "#{resource_name}_draft".classify.constantize
+  # The plural name for the resource class based on the controller
+  # @return [String]
+  def plural_resource_name
+    @plural_resource_name ||= controller_name
   end
 
   # The singular name for the resource class based on the controller
@@ -189,20 +184,41 @@ class BasePublishedRecordController < ManageMetadataController
     @resource_name ||= plural_resource_name.singularize
   end
 
+  # The resource class based on the controller
+  # @return [Class]
+  def resource_class
+    # TODO does this need to have draft?
+    @resource_class ||= resource_name.classify.constantize
+  end
+
+  # The resource class based on the controller. Slightly redundant for published resources, but may be helpful for methods shared with drafts
+  # @return [Class]
+  def published_resource_class
+    @published_resource_class ||= resource_name.classify.pluralize.constantize
+  end
+
+  # The draft resource class associated with this resource
+  # @return [Class]
+  def draft_resource_class
+    # TODO does this need to have draft?
+    @draft_resource_class ||= "#{resource_name}_draft".classify.constantize
+  end
+
+  # The singular name for the resource class based on the controller
+  # @return [String]
   # this is slightly redundant for published resources, but is useful for methods shared with drafts to ensure reference to the published resource
   def published_resource_name
     @published_resource_name ||= plural_resource_name.singularize
   end
 
-  def plural_resource_name
-    @plural_resource_name ||= controller_name
-  end
-
+  # The plural name for the resource class based on the controller
+  # @return [String]
   # this is slightly redundant for published resources, but is useful for methods shared with drafts to ensure reference to the published resource
   def plural_published_resource_name
     @plural_published_resource_name ||= controller_name
   end
 
+  # @return [String]
   def capitalized_resource_name
     resource_name.capitalize
   end

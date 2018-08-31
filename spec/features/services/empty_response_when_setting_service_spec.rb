@@ -41,6 +41,7 @@ describe 'Viewing a service' do
     end
 
     context 'when visiting the show page of a non-existent service' do
+      # This test should be revisited with MMT-1559. MMT-1557 made a change that if a concept cannot be retrieved to compare UMM Versions, editing is not allowed so we are only showing a page notifying the user the version cannot be confirmed
       before do
         visit service_path('fake-concept-id')
       end
@@ -50,15 +51,26 @@ describe 'Viewing a service' do
           expect(page).to have_content('Services')
           expect(page).to have_content('<Blank Name>')
         end
+        #
+        # within '#service_name_preview' do
+        #   expect(page).to have_css('h5', text: 'Name')
+        #   expect(page).to have_css('p', text: 'No value for Name provided')
+        # end
+        #
+        # within '#service_long_name_preview' do
+        #   expect(page).to have_css('h5', text: 'Long Name')
+        #   expect(page).to have_css('p', text: 'No value for Long Name provided')
+        # end
+      end
 
-        within '#service_name_preview' do
-          expect(page).to have_css('h5', text: 'Name')
-          expect(page).to have_css('p', text: 'No value for Name provided')
+      it 'notifies the user the UMM version cannot be verified' do
+        within '.eui-banner--warn' do
+          expect(page).to have_content('We cannot confirm the UMM version of this service')
         end
 
-        within '#service_long_name_preview' do
-          expect(page).to have_css('h5', text: 'Long Name')
-          expect(page).to have_css('p', text: 'No value for Long Name provided')
+        within '.no-access' do
+          expect(page).to have_content('Unconfirmed UMM Version')
+          expect(page).to have_content('It appears we currently cannot confirm the UMM version of this service. In order to prevent unintentional data loss, editing this service is currently unavailable. Please try again or contact Earthdata Support')
         end
       end
     end
