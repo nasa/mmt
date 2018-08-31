@@ -27,7 +27,35 @@
   </div>
 <% end %>
 
-<% unless @user_permissions == 'none' %>
+<% if @unsupported_version %>
+  <%# with MMT-1559 see if this can be refactored into a partial %>
+  <div class="eui-banner--warn">
+    <p class="eui-banner__message">
+      <%= "This #{@published_resource_name} has been published to the CMR at a higher UMM version than what MMT currently supports. In order to prevent unintentional data loss, editing this #{@published_resource_name} is currently unavailable." %>
+    </p>
+    <p>
+      <%= "Cloning this #{@published_resource_name} to create a new draft record may result is loss of data." %>
+    </p>
+  </div>
+<% end %>
+
+<% if @unconfirmed_version %>
+  <%# with MMT-1559 see if this can be refactored into a partial %>
+  <div class="eui-banner--warn">
+    <p class="eui-banner__message">
+      <%= "We cannot confirm the UMM version of this #{@published_resource_name}." %>
+    </p>
+  </div>
+  <div class="no-access">
+    <h3 class="access-title">Unconfirmed UMM Version</h3>
+    <p class="access-message">
+      <%= "It appears we currently cannot confirm the UMM version of this #{@published_resource_name}. In order to prevent unintentional data loss, editing this #{@published_resource_name} is currently unavailable." %>
+      Please try again or contact <%= mail_to('support@earthdata.nasa.gov', 'Earthdata Support') %>
+    </p>
+  </div>
+<% end %>
+
+<% if @user_permissions != 'none' && !@unconfirmed_version %>
   <% if @old_revision %>
     <div class="eui-banner--info">
       <p class="eui-banner__message">
@@ -36,7 +64,7 @@
     </div>
   <% end %>
 
-  <% if @draft %>
+  <% if @draft && !@unsupported_version %>
     <div class="eui-banner--warn">
       <p class="eui-banner__message">
         <% if current_provider?(@provider_id) %>
@@ -51,10 +79,14 @@
   <div class="row row-content">
     <section class="action">
       <p>
-        <% if current_provider?(@provider_id) %>
+        <% if @unsupported_version %>
+          <%= link_to 'Edit Variable Record', '#', class: 'disabled bar-after' %>
+        <% else %>
+          <% if current_provider?(@provider_id) %>
           <%= link_to 'Edit Variable Record', edit_variable_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
-        <% elsif available_provider?(@provider_id) %>
+          <% elsif available_provider?(@provider_id) %>
           <%= link_to 'Edit Variable Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'edit-variable' } %>
+          <% end %>
         <% end %>
 
         <% if current_provider?(@provider_id) %>

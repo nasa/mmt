@@ -123,6 +123,18 @@ class BasePublishedRecordController < ManageMetadataController
 
     set_preview
 
+    compare_resource_umm_version
+
+    render :show
+  end
+
+  def ensure_supported_version
+    compare_resource_umm_version
+
+    return if params[:action] == 'show' || !@unsupported_version
+
+    set_preview
+
     render :show
   end
 
@@ -167,6 +179,7 @@ class BasePublishedRecordController < ManageMetadataController
   # The resource class based on the controller
   # @return [Class]
   def resource_class
+    # TODO does this need to have draft?
     @resource_class ||= "#{resource_name}_draft".classify.constantize
   end
 
@@ -176,8 +189,18 @@ class BasePublishedRecordController < ManageMetadataController
     @resource_name ||= plural_resource_name.singularize
   end
 
+  # this is slightly redundant for published resources, but is useful for methods shared with drafts to ensure reference to the published resource
+  def published_resource_name
+    @published_resource_name ||= plural_resource_name.singularize
+  end
+
   def plural_resource_name
     @plural_resource_name ||= controller_name
+  end
+
+  # this is slightly redundant for published resources, but is useful for methods shared with drafts to ensure reference to the published resource
+  def plural_published_resource_name
+    @plural_published_resource_name ||= controller_name
   end
 
   def capitalized_resource_name

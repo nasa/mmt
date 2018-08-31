@@ -2,14 +2,10 @@
 class VariablesController < BasePublishedRecordController
   include ManageMetadataHelper
 
-  JSON_SCHEMA = 'umm-var-json-schema.json'.freeze
-  FORM_SCHEMA = 'umm-var-form.json'.freeze
-  PREVIEW_SCHEMA = 'umm-var-preview.json'.freeze
-  private_constant :JSON_SCHEMA, :FORM_SCHEMA, :PREVIEW_SCHEMA
-
   before_action :set_variable, only: [:show, :edit, :clone, :destroy, :revisions, :revert, :download_json]
   before_action :set_schema, only: [:show, :edit, :clone, :destroy]
   before_action :set_form, only: [:show, :edit, :clone, :destroy]
+  before_action :ensure_supported_version, only: [:show, :edit]
   before_action :ensure_correct_provider, only: [:edit, :clone, :destroy]
   before_action :set_preview, only: [:show]
 

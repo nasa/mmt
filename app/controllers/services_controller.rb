@@ -4,6 +4,7 @@ class ServicesController < BasePublishedRecordController
 
   before_action :set_service, only: [:show, :edit, :clone, :destroy, :revisions, :revert, :download_json]
   before_action :set_schema, only: [:show, :edit, :clone, :destroy]
+  before_action :ensure_supported_version, only: [:show, :edit]
   before_action :ensure_correct_provider, only: [:edit, :clone, :destroy]
   before_action :set_preview, only: [:show]
 
