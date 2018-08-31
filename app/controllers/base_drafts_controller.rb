@@ -220,4 +220,28 @@ class BaseDraftsController < DraftsController
       redirect_to send("manage_#{plural_published_resource_name}_path")
     end
   end
+
+  def get_published_record_by_provider_and_native_id(provider:, native_id:)
+    search_query = { 'native_id' => native_id, 'provider' => provider }
+
+    search_response = cmr_client.send("get_#{plural_published_resource_name}", search_query, token)
+
+    if search_response.success?
+      return nil if search_response.body.fetch('hits', 0).zero?
+
+      search_response.body.fetch('items', [{}]).first.fetch('meta', {}).fetch('concept-id', nil)
+    else
+      Rails.logger.error("Error searching for #{plural_published_resource_name} by #{search_query} in `get_published_record_by_provider_and_native_id`: #{search_response.inspect}")
+
+      @unconfirmed_version = true
+    end
+  end
+
+  def ensure_published_record_supported_version
+    concept_id = get_published_record_by_provider_and_native_id(provider: get_resource.provider_id, native_id: get_resource.native_id)
+
+    return if concept_id.nil? || @unconfirmed_version
+
+    compare_resource_umm_version(concept_id)
+  end
 end

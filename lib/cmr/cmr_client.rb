@@ -243,7 +243,7 @@ module Cmr
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
-    def ingest_variable(metadata, provider_id, native_id, token)
+    def ingest_variable(metadata, provider_id, native_id, token, headers_override = nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
@@ -256,10 +256,12 @@ module Cmr
         'Content-Type' =>  "application/#{Rails.configuration.umm_var_version}; charset=utf-8"
       }
 
+      headers.merge!(headers_override) if headers_override
+
       put(url, metadata, headers.merge(token_header(token)))
     end
 
-    def ingest_service(metadata, provider_id, native_id, token)
+    def ingest_service(metadata, provider_id, native_id, token, headers_override = nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/services/#{encode_if_needed(native_id)}"
@@ -271,6 +273,8 @@ module Cmr
         'Accept' => 'application/json',
         'Content-Type' =>  "application/#{Rails.configuration.umm_s_version}; charset=utf-8"
       }
+
+      headers.merge!(headers_override) if headers_override
 
       put(url, metadata, headers.merge(token_header(token)))
     end

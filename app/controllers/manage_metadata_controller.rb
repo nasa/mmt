@@ -42,6 +42,41 @@ class ManageMetadataController < ApplicationController
                         end
   end
 
+  def parse_umm_version_number(umm_version_string)
+    umm_version_string.split('version=').last.split(';').first.to_f
+  end
+
+  def get_latest_record_version(concept_id)
+    latest_record_response = cmr_client.get_concept(concept_id, token, {})
+
+    if latest_record_response.error?
+      Rails.logger.error("Error retrieving concept for #{published_resource_name} #{concept_id} in `get_latest_record_version`: #{latest_record_response.inspect}")
+
+      @unconfirmed_version = true
+    else
+      parse_umm_version_number(latest_record_response.headers['content-type'])
+    end
+  end
+
+  def compare_resource_umm_version(concept_id = nil)
+    resource_id = "#{published_resource_name}_id".to_sym
+
+    concept_id ||= (params[resource_id] || params[:id])
+
+    record_version = get_latest_record_version(concept_id)
+    return if @unconfirmed_version
+
+    config_resource_version = case published_resource_name
+                              when 'service'
+                                'umm_s_version'
+                              when 'variable'
+                                'umm_var_version'
+                              end
+    mmt_resource_version = parse_umm_version_number(Rails.configuration.send(config_resource_version))
+
+    @unsupported_version = true if record_version > mmt_resource_version
+  end
+
   def set_variable
     @concept_id = params[:variable_id] || params[:id]
     @revision_id = params[:revision_id]
@@ -104,11 +139,11 @@ class ManageMetadataController < ApplicationController
     service_concept_response = cmr_client.get_concept(@concept_id, token, headers, @revision_id)
 
     @service = if service_concept_response.success?
-                  service_concept_response.body
-                else
-                  Rails.logger.error("Error retrieving concept for Service #{@concept_id} in `set_service`: #{service_concept_response.inspect}")
-                  {}
-                end
+                 service_concept_response.body
+               else
+                 Rails.logger.error("Error retrieving concept for Service #{@concept_id} in `set_service`: #{service_concept_response.inspect}")
+                 {}
+               end
 
     set_service_information
   end

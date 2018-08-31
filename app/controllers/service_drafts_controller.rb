@@ -4,6 +4,7 @@ class ServiceDraftsController < BaseDraftsController
   before_action :umm_s_enabled?
 
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_published_record_supported_version, only: [:show, :edit]
   before_action :set_schema, only: [:show, :new, :edit, :update, :create]
   before_action :set_form, only: [:show, :edit, :update]
   before_action :set_current_form, only: [:edit]

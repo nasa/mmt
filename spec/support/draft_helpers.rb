@@ -121,6 +121,45 @@ module Helpers
       end
     end
 
+    # Publish a variable draft at umm_var_version 1.2
+    def publish_variable_v1_2_draft(provider_id: 'MMT_2', native_id: nil, include_new_draft: false)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_v1_2_draft' do
+        user = User.where(urs_uid: 'testuser').first
+
+        # Default draft attributes
+        draft_attributes = {
+          user: user,
+          provider_id: provider_id,
+          native_id: native_id || Faker::Crypto.md5
+        }
+
+        draft = build(:v1_2_variable_draft, draft_attributes)
+
+        headers_override = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.2; charset=utf-8' }
+
+        ingest_response = cmr_client.ingest_variable(draft.draft.to_json, draft.provider_id, draft.native_id, 'token', headers_override)
+
+        wait_for_cmr
+
+        raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+
+        # If the test needs an unpublished draft as well, we'll create it and return it here
+        if include_new_draft
+          # Retrieve the concept from CMR so that we can create a new draft, if test requires it
+          concept_id = ingest_response.body['concept-id']
+          # we still need to use the version MMT currently supports
+          content_type = "application/#{Rails.configuration.umm_var_version}; charset=utf-8"
+
+          concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type })
+
+          # Create a new draft (same as editing a collection)
+          VariableDraft.create_from_variable(concept_response.body, user, draft_attributes[:native_id])
+        end
+
+        ingest_response.body
+      end
+    end
+
     # Publish a service draft
     def publish_service_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_service_draft' do
@@ -170,6 +209,45 @@ module Helpers
         end
 
         [ingest_response.body, concept_response]
+      end
+    end
+
+    # Publish a service draft at umm_var_version 1.2
+    def publish_service_v1_2_draft(provider_id: 'MMT_2', native_id: nil, include_new_draft: false)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_service_v1_2_draft' do
+        user = User.where(urs_uid: 'testuser').first
+
+        # Default draft attributes
+        draft_attributes = {
+          user: user,
+          provider_id: provider_id,
+          native_id: native_id || Faker::Crypto.md5
+        }
+
+        draft = build(:v1_2_service_draft, draft_attributes)
+
+        headers_override = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.2; charset=utf-8' }
+
+        ingest_response = cmr_client.ingest_service(draft.draft.to_json, draft.provider_id, draft.native_id, 'token', headers_override)
+
+        wait_for_cmr
+
+        raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+
+        # If the test needs an unpublished draft as well, we'll create it and return it here
+        if include_new_draft
+          # Retrieve the concept from CMR so that we can create a new draft, if test requires it
+          concept_id = ingest_response.body['concept-id']
+          # we still need to use the version MMT currently supports
+          content_type = "application/#{Rails.configuration.umm_s_version}; charset=utf-8"
+
+          concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type })
+
+          # Create a new draft (same as editing a collection)
+          ServiceDraft.create_from_service(concept_response.body, user, draft_attributes[:native_id])
+        end
+
+        ingest_response.body
       end
     end
 
