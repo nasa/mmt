@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Variable Drafts associated with published records at UMM Version higher than MMT supports', reset_provider: true do
   before do
     login

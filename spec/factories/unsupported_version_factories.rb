@@ -1,8 +1,5 @@
 FactoryGirl.define do
   factory :v1_2_variable_draft, class: VariableDraft do
-    # transient do
-    #
-    # end
 
     native_id 'variable_v1_2_native_id'
     provider_id 'MMT_2'
