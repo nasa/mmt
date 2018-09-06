@@ -255,4 +255,26 @@ describe 'Collection Permissions', reset_provider: true, js: true do
       expect(page).to have_no_content('Testing Delete Collection Permission 01')
     end
   end
+
+  context 'when deleting a collection permission without proper permission' do
+    before do
+      allow_any_instance_of(Cmr::CmrClient).to receive(:delete_permission).and_return(cmr_fail_response)
+
+      @collection_permission_to_delete_with_failure = add_associated_permissions_to_group(group_id: group3_id, name: 'Testing Delete Collection Permission 02')
+
+      visit permission_path(@collection_permission_to_delete_with_failure['concept_id'])
+
+      click_on 'Delete'
+      click_on 'Yes'
+
+      wait_for_cmr
+    end
+
+    it 'not successfully deletes the collection permission' do
+      #save_screenshot('/usr/local/server/cmr/cmr-git/mmt/tmp/capybara/screenshot_name.png')
+      expect(page).to have_content("You don't have the appropriate permissions to destroy this permission.")
+      expect(page).to have_content("Access Denied")
+    end
+  end
+
 end

@@ -127,7 +127,6 @@ class PermissionsController < ManageCmrController
 
   def destroy
     response = cmr_client.delete_permission(params[:id], token)
-
     if response.success?
       flash[:success] = 'Collection Permission was successfully deleted.'
       Rails.logger.info("#{current_user.urs_uid} DELETED catalog item ACL for #{current_user.provider_id}. #{response.body}")
@@ -135,6 +134,7 @@ class PermissionsController < ManageCmrController
     else
       Rails.logger.error("Permission Deletion Error: #{response.inspect}")
       flash[:error] = response.error_message
+      @permission = {}
       render :show
     end
   end
