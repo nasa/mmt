@@ -273,8 +273,9 @@ describe 'Collection Permissions', reset_provider: true, js: true do
 
     it 'not successfully deletes the collection permission' do
       #save_screenshot('/usr/local/server/cmr/cmr-git/mmt/tmp/capybara/screenshot_name.png')
-      expect(page).to have_content("You don't have the appropriate permissions to destroy this permission.")
-      expect(page).to have_content("Access Denied")
+      #expect(page).to have_content("You don't have the appropriate permissions to destroy this permission.")
+      #expect(page).to have_content("Access Denied")
+      expect(page).to have_content("Test file error message")
     end
   end
 

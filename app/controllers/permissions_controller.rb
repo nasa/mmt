@@ -135,6 +135,19 @@ class PermissionsController < ManageCmrController
       Rails.logger.error("Permission Deletion Error: #{response.inspect}")
       flash[:error] = response.error_message
       @permission = {}
+      @permission_concept_id = params[:id]
+
+      permission_response = cmr_client.get_permission(@permission_concept_id, token)
+
+      if permission_response.success?
+        @permission = permission_response.body
+
+        hydrate_groups(@permission)
+
+        add_breadcrumb @permission.fetch('catalog_item_identity', {})['name'], permission_path(@permission_concept_id)
+      else
+        Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
+      end
       render :show
     end
   end
