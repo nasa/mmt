@@ -276,6 +276,9 @@ describe 'Collection Permissions', reset_provider: true, js: true do
       #expect(page).to have_content("You don't have the appropriate permissions to destroy this permission.")
       #expect(page).to have_content("Access Denied")
       expect(page).to have_content("Test file error message")
+      expect(page).to have_content("Groups")
+      expect(page).to have_content("Search")
+      expect(page).to have_content("Order")
     end
   end
 
