@@ -33,20 +33,7 @@ class PermissionsController < ManageCmrController
   end
 
   def show
-    @permission = {}
-    @permission_concept_id = params[:id]
-
-    permission_response = cmr_client.get_permission(@permission_concept_id, token)
-
-    if permission_response.success?
-      @permission = permission_response.body
-
-      hydrate_groups(@permission)
-
-      add_breadcrumb @permission.fetch('catalog_item_identity', {})['name'], permission_path(@permission_concept_id)
-    else
-      Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
-    end
+    set_collection_permission
   end
 
   def new
@@ -134,25 +121,29 @@ class PermissionsController < ManageCmrController
     else
       Rails.logger.error("Permission Deletion Error: #{response.inspect}")
       flash[:error] = response.error_message
-      @permission = {}
-      @permission_concept_id = params[:id]
-
-      permission_response = cmr_client.get_permission(@permission_concept_id, token)
-
-      if permission_response.success?
-        @permission = permission_response.body
-
-        hydrate_groups(@permission)
-
-        add_breadcrumb @permission.fetch('catalog_item_identity', {})['name'], permission_path(@permission_concept_id)
-      else
-        Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
-      end
+      set_collection_permission
       render :show
     end
   end
 
   private
+
+  def set_collection_permission
+    @permission = {}
+    @permission_concept_id = params[:id]
+
+    permission_response = cmr_client.get_permission(@permission_concept_id, token)
+
+    if permission_response.success?
+      @permission = permission_response.body
+
+      hydrate_groups(@permission)
+
+      add_breadcrumb @permission.fetch('catalog_item_identity', {})['name'], permission_path(@permission_concept_id)
+    else
+      Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
+    end
+  end
 
   # Iterates through the groups associated with the provided collection
   # and hydrates the `group` key with the group details and `is_hidden`
