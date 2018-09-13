@@ -54,10 +54,19 @@ module Cmr
         end
         req.body = body unless body.blank?
       end
+
       client_response = Cmr::Response.new(faraday_response)
 
       begin
-        Rails.logger.info "#{self.class} Response #{method} #{url} result : Headers: #{client_response.headers} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_s(:log_time)}"
+        client_response_headers_for_logs = client_response.headers.dup
+
+        if url.include?('keepalive')
+          set_cookie_to_log = client_response_headers_for_logs.fetch('set-cookie', '')
+
+          client_response_headers_for_logs['set-cookie'] = "rounded length: #{set_cookie_to_log.length.round(-2)};;; snippet: #{set_cookie_to_log.truncate(60)}"
+        end
+
+        Rails.logger.info "#{self.class} Response #{method} #{url} result : Headers: #{client_response_headers_for_logs} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_s(:log_time)}"
       rescue => e
         Rails.logger.error "#{self.class} Error: #{e}"
       end
