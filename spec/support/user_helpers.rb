@@ -21,6 +21,10 @@ module Helpers
       allow_any_instance_of(ApplicationController).to receive(:urs_login_required?).and_return(urs_required)
     end
 
+    def make_launchpad_button_hidden(hide)
+      allow_any_instance_of(ApplicationController).to receive(:hide_launchpad_button?).and_return(hide)
+    end
+
     def profile_body(admin: false)
       body = {
         'uid'           => 'testuser',

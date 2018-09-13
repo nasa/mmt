@@ -55,6 +55,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :launchpad_login_required?
 
+  def hide_launchpad_button?
+    ENV['hide_launchpad_button'] != 'false'
+  end
+  helper_method :hide_launchpad_button?
+
   def cmr_client
     @cmr_client ||= Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
   end

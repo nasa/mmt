@@ -131,6 +131,7 @@ Rails.application.routes.draw do
 
   get 'login' => 'users#login', as: 'login'
   get 'logout' => 'users#logout'
+  get 'launchpad' => 'users#login', defaults: { login_method: 'launchpad' }
   get 'prompt_urs_association' => 'users#prompt_urs_association'
   get 'confirm_urs_association' => 'users#confirm_urs_association'
   post 'associate_urs_and_launchpad_ids' => 'users#associate_urs_and_launchpad_ids'

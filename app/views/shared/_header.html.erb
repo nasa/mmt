@@ -12,7 +12,9 @@
       <% if controller_name.include? 'welcome'%>
         <% if both_login_methods_on? %>
           <%= link_to 'Login with Earthdata Login', login_path(login_method: 'urs'), class: 'eui-btn--blue' %>
-          <%= link_to 'Login with Launchpad', login_path(login_method: 'launchpad'), class: 'eui-btn--blue' %>
+          <% unless hide_launchpad_button? %>
+            <%= link_to 'Login with Launchpad', login_path(login_method: 'launchpad'), class: 'eui-btn--blue' %>
+          <% end %>
         <% elsif launchpad_login_required? %>
           <%= link_to 'Login with Launchpad', login_path(login_method: 'launchpad'), class: 'eui-btn--blue' %>
         <% elsif urs_login_required? %>
