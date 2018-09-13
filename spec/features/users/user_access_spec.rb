@@ -60,6 +60,7 @@ describe 'User Access' do
   context 'when both URS and Launchpad login methods are available' do
     context 'when a logged out user tries to view an access restricted page' do
       before do
+        make_launchpad_button_hidden(false)
         require_launchpad_and_urs_login
 
         visit search_path
