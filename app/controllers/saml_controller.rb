@@ -44,7 +44,7 @@ class SamlController < UsersController
   def acs
     settings = Account.get_saml_settings(get_url_base, get_authn_context)
 
-    saml_response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
+    saml_response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings, allowed_clock_drift: 2.seconds)
 
     if saml_response.is_valid?
       # set the login method

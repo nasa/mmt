@@ -355,7 +355,7 @@ class ApplicationController < ActionController::Base
     all_session_keys += %i[echo_provider_token login_method]
       all_session_keys_log = all_session_keys.map do |key|
         if key == :launchpad_cookie && !session[key].blank?
-          "#{key}: rounded length: #{session[key].length.round(-2)};;; snippet: #{session[key].truncate(50)}"
+          "#{key}: length: #{session[key].length.round(-2)}; snippet: #{session[key].truncate(50)}"
         else
           "#{key}: #{session[key]}"
         end
