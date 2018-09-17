@@ -25,6 +25,10 @@ module Helpers
       Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(response_body)))
     end
 
+    def cmr_fail_response(response_body)
+      Cmr::Response.new(Faraday::Response.new(status: 400, body: JSON.parse(response_body), response_headers: {}))
+    end
+
     def create_provider(provider_name)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::CmrHelper#create_provider' do
         cmr_conn = Faraday.new
