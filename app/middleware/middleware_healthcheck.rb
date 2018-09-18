@@ -19,8 +19,8 @@ class MiddlewareHealthcheck
       cmr_client = Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
       begin
         launchpad_healthy = Timeout.timeout(10) { cmr_client.launchpad_healthcheck.body == 'OK'.freeze }
-      rescue Timeout::Error
-        Rails.logger.error "Launchpad error: #{e}"
+      rescue StandardError => e
+        Rails.logger.error "Launchpad healthcheck error: #{e}"
         launchpad_healthy = false
       end
       response[2] = ["{\"database\": #{db_healthy}, \"launchpad\": #{launchpad_healthy}}"]
