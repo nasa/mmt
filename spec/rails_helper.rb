@@ -26,7 +26,7 @@ require 'rails/tasks'
 # Specs flagged with `js: true` will use Capybara's JS driver. Set
 # that JS driver to :poltergeist
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, timeout: 1.minute)
+  Capybara::Poltergeist::Driver.new(app, timeout: 1.minute, phantomjs_options: ['--ssl-protocol=TLSv1.2'])
 end
 Capybara.javascript_driver = :poltergeist
 
