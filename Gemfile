@@ -66,7 +66,9 @@ gem 'whenever', require: false
 # collections metadata preview
 # run this command to work from a local copy of the gem's repo
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', branch: 'master', ref: '64ae79b9895'
+# make sure to delete the local config when done making changes to merge into master
+# bundle config --delete local.cmr_metadata_preview
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '64ae79b9895'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
