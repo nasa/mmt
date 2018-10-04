@@ -2,6 +2,9 @@
 class CollectionAssociationsController < CmrSearchController
   include ChooserEndpoints
 
+  RESULTS_PER_PAGE = 25
+  CMR_MAX_PAGE_SIZE = 2000
+
   before_action :set_resource
   before_action :add_high_level_breadcrumbs
   before_action :ensure_correct_provider, only: [:index, :new]
@@ -10,9 +13,20 @@ class CollectionAssociationsController < CmrSearchController
     # Default the page to 1
     page = params.fetch('page', 1)
 
-    association_list = cmr_client.get_collections_by_post({ "#{lower_resource_name}_concept_id" => resource_id }, token).body.fetch('items')
+    search_params = {
+      "#{lower_resource_name}_concept_id": resource_id,
+      page_size: RESULTS_PER_PAGE,
+      page_num: page
+    }
 
-    @associations = Kaminari.paginate_array(association_list, total_count: association_list.count).page(page).per(RESULTS_PER_PAGE)
+    association_response = cmr_client.get_collections_by_post(search_params, token)
+
+    if association_response.success?
+      association_count = association_response.body['hits']
+      association_results = association_response.body['items']
+    end
+
+    @associations = Kaminari.paginate_array(association_results, total_count: association_count).page(page).per(RESULTS_PER_PAGE)
   end
 
   def new
@@ -20,13 +34,7 @@ class CollectionAssociationsController < CmrSearchController
 
     super
 
-    association_response = cmr_client.get_collections_by_post({ "#{lower_resource_name}_concept_id" => resource_id }, token)
-
-    @previously_associated_collections = if association_response.success?
-                                           association_response.body
-                                           .fetch('items', [])
-                                           .map { |collection| collection['meta']['concept-id'] }
-                                         end
+    @previously_associated_collections = get_all_collection_associations
   end
 
   def create
@@ -63,6 +71,42 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   private
+
+  def get_all_collection_associations
+
+    page_num_var = 1
+    incomplete = true
+    associated_collections = []
+
+    while incomplete
+      search_params = {
+        "#{lower_resource_name}_concept_id": resource_id,
+        page_size: CMR_MAX_PAGE_SIZE,
+        page_num: page_num_var
+      }
+
+      association_response = cmr_client.get_collections_by_post(search_params, token)
+
+      partial_associated_collections = if association_response.success?
+                                              association_response.body
+                                                .fetch('items', [])
+                                                .map { |collection| collection['meta']['concept-id'] }
+                                       end
+
+      if partial_associated_collections.any?
+        associated_collections = associated_collections + partial_associated_collections
+        page_num_var = page_num_var + 1
+      end
+
+      if CMR_MAX_PAGE_SIZE > partial_associated_collections.length
+        incomplete = false
+      end
+
+    end
+
+    associated_collections
+
+  end
 
   def set_resource
     if params[:variable_id]
