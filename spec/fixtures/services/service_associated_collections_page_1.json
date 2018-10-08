@@ -1,0 +1,655 @@
+{
+  "hits" : 26,
+  "took" : 5,
+  "items" : [ {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000081-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:07Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "AMSR-E/Aqua 5-Day L3 Global Snow Water Equivalent EASE-Grids V001",
+      "entry-id" : "AE_5DSno_1",
+      "short-name" : "AE_5DSno",
+      "version-id" : "1"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection48",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000080-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:07Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/dif10+xml"
+    },
+    "umm" : {
+      "entry-title" : "DIF10_datasét1",
+      "entry-id" : "dif10_datasetéñ1_001",
+      "short-name" : "dif10_datasetéñ1",
+      "version-id" : "001"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection25",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000056-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:05Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Aerosol Climatology Product V001",
+      "entry-id" : "MIANACP_1",
+      "short-name" : "MIANACP",
+      "version-id" : "1"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection26",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000057-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:05Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Ancillary Geographic Product V001",
+      "entry-id" : "MIANCAGP_1",
+      "short-name" : "MIANCAGP",
+      "version-id" : "1"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection27",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000058-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:05Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Ancillary Radiometric Product V002",
+      "entry-id" : "MIANCARP_2",
+      "short-name" : "MIANCARP",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection28",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000059-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:05Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Browse data V005",
+      "entry-id" : "MISBR_5",
+      "short-name" : "MISBR",
+      "version-id" : "5"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection29",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000060-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-02T12:38:56Z",
+      "user-id" : "typical",
+      "deleted" : false,
+      "revision-id" : 3,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR FIRSTLOOK radiometric camera-by-camera Cloud Mask V001",
+      "entry-id" : "MIRCCMF_1",
+      "short-name" : "MIRCCMF",
+      "version-id" : "1"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection30",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000062-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:05Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Geometric Parameters subset for the INTEX-B region V002",
+      "entry-id" : "IXBMIGEO_2",
+      "short-name" : "IXBMIGEO",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection31",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000063-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:05Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Geometric Parameters subset for the SAMUM region V002",
+      "entry-id" : "SAMMIGEO_2",
+      "short-name" : "SAMMIGEO",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection32",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000064-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Geometric Parameters V002",
+      "entry-id" : "MIB2GEOP_002",
+      "short-name" : "MIB2GEOP",
+      "version-id" : "002"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection34",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000066-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR L1B2 Ellipsoid Product subset for the SAMUM region V003",
+      "entry-id" : "SAMMIB2E_3",
+      "short-name" : "SAMMIB2E",
+      "version-id" : "3"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection35",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000067-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR L1B2 Terrain Product subset for the INTEX-B region V003",
+      "entry-id" : "IXBMIB2T_3",
+      "short-name" : "IXBMIB2T",
+      "version-id" : "3"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection36",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000068-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR L1B2 Terrain Product subset for the SAMUM region V003",
+      "entry-id" : "SAMMIB2T_3",
+      "short-name" : "SAMMIB2T",
+      "version-id" : "3"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection37",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000069-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR L2 Aerosol Product subset for the SAMUM region V002",
+      "entry-id" : "SAMMI2AE_2",
+      "short-name" : "SAMMI2AE",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection39",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000071-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR L2 Surface Product subset for the SAMUM region V002",
+      "entry-id" : "SAMMI2LS_2",
+      "short-name" : "SAMMI2LS",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection41",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000073-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR L2 TOA/Cloud Stereo Product subset for the SAMUM region V002",
+      "entry-id" : "SAMMI2ST_2",
+      "short-name" : "SAMMI2ST",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection42",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000074-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Level 1A Calibration Data V002",
+      "entry-id" : "MI1AC_2",
+      "short-name" : "MI1AC",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection43",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000075-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:07Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Level 1A CCD Science data, all cameras V002",
+      "entry-id" : "MIL1A_2",
+      "short-name" : "MIL1A",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection44",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000076-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:07Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Level 1A Engineering Data file Type 1 V002",
+      "entry-id" : "MI1AENG1_2",
+      "short-name" : "MI1AENG1",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection45",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000077-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:07Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Level 1A Navigation Data V002",
+      "entry-id" : "MI1ANAV_2",
+      "short-name" : "MI1ANAV",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection46",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000078-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:07Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Level 1B1 Local Mode Radiance Data V002",
+      "entry-id" : "MIB1LM_2",
+      "short-name" : "MIB1LM",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection47",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000079-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:07Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Level 1B1 Radiance Data V002",
+      "entry-id" : "MI1B1_2",
+      "short-name" : "MI1B1",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection38",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000070-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Level 1B2 Terrain Data V003",
+      "entry-id" : "MI1B2T_3",
+      "short-name" : "MI1B2T",
+      "version-id" : "3"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection33",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000065-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Level 2 Surface parameters V002",
+      "entry-id" : "MIL2ASLS_2",
+      "short-name" : "MIL2ASLS",
+      "version-id" : "2"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection40",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000072-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR radiometric camera-by-camera Cloud Mask V004",
+      "entry-id" : "MIRCCM_4",
+      "short-name" : "MIRCCM",
+      "version-id" : "4"
+    }
+  } ]
+}
