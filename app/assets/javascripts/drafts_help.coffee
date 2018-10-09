@@ -40,7 +40,8 @@ $(document).ready ->
   fixTitle = (title) ->
     typeInTitle = ['Type', 'CollectionDataType', 'DataType', 'MimeType'
       'SpatialCoverageType', 'TemporalRangeType', 'URLContentType',
-      'ServiceType']
+      'ServiceType', 'DataResourceSpatialType', 'DataResourceTemporalType']
+    # TODO make sure appropriate titles (and whatever else for help) are added or removed
 
     title = title.replace( /Type$/, '' ) unless title in typeInTitle
 
