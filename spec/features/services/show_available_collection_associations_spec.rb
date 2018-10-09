@@ -25,7 +25,6 @@ describe 'Show Available Service Collection Associations', js: true, reset_provi
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).with(provider_page_2_options, 'access_token').and_return(provider_collections_page_2_response)
 
       # mock for all collections associated to this service
-      collection_associations_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/services/service_associated_collections.json'))))
       collection_associations_options = {page_size: 2000, page_num: 1, service_concept_id: @service_ingest_response['concept-id']}
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).with(collection_associations_options, 'access_token').and_return(collection_associations_response)
 
