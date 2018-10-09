@@ -257,32 +257,36 @@ $(document).ready ->
   # UMM-S Forms
   ###
 
+  # TODO need to change to DataResource
   handleCoverageSpatialTypeSelect = (element) ->
-    $parent = $(element).parents('.coverage-spatial-type-group')
+    $parent = $(element).parents('.data-resource-spatial-extent-group')
 
-    $parent.find('.coverage-spatial-type').hide()
+    $parent.find('.data-resource-spatial-extent').hide()
 
     switch $(element).val()
       when 'SPATIAL_POINT'
-        $parent.find('.coverage-spatial-type.spatial-points').show()
+        $parent.find('.data-resource-spatial-extent.spatial-points').show()
       when 'SPATIAL_LINE_STRING'
-        $parent.find('.coverage-spatial-type.spatial-line-strings').show()
+        $parent.find('.data-resource-spatial-extent.spatial-line-strings').show()
       when 'BOUNDING_BOX'
-        $parent.find('.coverage-spatial-type.spatial-bounding-box').show()
+        $parent.find('.data-resource-spatial-extent.spatial-bounding-box').show()
+      when 'GENERAL_GRID'
+        $parent.find('.data-resource-spatial-extent.general-grid').show()
       when 'SPATIAL_POLYGON'
-        $parent.find('.coverage-spatial-type.spatial-polygons').show()
+        $parent.find('.data-resource-spatial-extent.spatial-polygons').show()
 
     # Clear all hidden fields
-    $parent.find('.coverage-spatial-type:hidden').find('input, select').not('input[type="radio"]').val ''
+    $parent.find('.data-resource-spatial-extent:hidden').find('input, select').not('input[type="radio"]').val ''
 
     # Clear radio buttons
-    $parent.find('.coverage-spatial-type:hidden').find('input[type="radio"]').prop 'checked', false
+    $parent.find('.data-resource-spatial-extent:hidden').find('input[type="radio"]').prop 'checked', false
 
   # Handle SpatialCoverageType selector
-  $('.coverage-spatial-type-select').change ->
+  # TODO make data resource
+  $('.data-resource-spatial-type-select').change ->
     handleCoverageSpatialTypeSelect($(this))
 
-  handleCoverageSpatialTypeSelect($('.coverage-spatial-type-select'))
+  handleCoverageSpatialTypeSelect($('.data-resource-spatial-type-select'))
 
   # Handle DOI Available selector
   $('.doi-available-select').change ->

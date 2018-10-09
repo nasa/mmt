@@ -149,8 +149,9 @@
               "$ref": "#/definitions/RelatedURLProperties"
             }
           ]
-        },
-        {
+        }
+        /*,
+         {
           "type": "accordion",
           "help": "OnlineAccessURLPatternMatch",
           "title": "Online Access URL Pattern Match",
@@ -174,6 +175,7 @@
             }
           ]
         }
+        */
       ]
     },
     {
@@ -447,15 +449,73 @@
                 },
                 {
                   "type": "section",
+                  "items": [{"key": "/VariableAggregationSupportedMethods", "field": true, "type": "UmmMultiSelect"}]
+                }
+                ,
+                /* {
+                  "type": "section",
                   "items": [{"key": "/SupportedProjections", "field": true, "type": "UmmMultiSelect"}]
-                },
+                } */
+                {
+                  // SupportedInputProjections
+                  "type": "UmmMultiItems",
+                  "label": "Supported Input Projections",
+                  "multiType": "SupportedInputProjections",
+                  "key": "/SupportedInputProjections/items/properties/index_id",
+                  "items": [
+                    /* {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [{"key": "/ProjectionName", "field": true, "type": "UmmSelect"}]
+                        }
+                      ]
+                    } */
+                    {
+                      "$ref": "#/definitions/SupportedProjection"
+                    }
+                  ]
+                }
+                ,
+                {
+                  // SupportedOutputProjections
+                  "type": "UmmMultiItems",
+                  "label": "Supported Output Projections",
+                  "multiType": "SupportedOutputProjections",
+                  "key": "/SupportedOutputProjections/items/properties/index_id",
+                  "items": [
+                    {
+                      "$ref": "#/definitions/SupportedProjection"
+                    }
+                  ]
+                }
+                ,
                 {
                   "type": "section",
                   "items": [{"key": "/InterpolationTypes", "field": true, "type": "UmmMultiSelect"}]
-                },
-                {
+                }
+                ,
+                /* {
                   "type": "section",
                   "items": [{"key": "/SupportedFormats", "field": true, "type": "UmmMultiSelect"}]
+                } */
+                {
+                  // SupportedInputFormats
+                  "type": "section",
+                  "items": [{"key": "/SupportedInputFormats", "field": true, "type": "UmmMultiSelect"}]
+                }
+                ,
+                {
+                  // SupportedOutputFormats
+                  "type": "section",
+                  "items": [{"key": "/SupportedOutputFormats", "field": true, "type": "UmmMultiSelect"}]
+                }
+                ,
+                {
+                  "type": "section",
+                  "items": [{"key": "/MaxGranules", "field": true}]
                 }
               ]
             }
@@ -464,10 +524,287 @@
       ]
     },
     {
+      "id": "operation_metadata",
+      "title": "Operation Metadata",
+      "items": [
+        { // Operation Metadata is a multi item
+          "type": "open_accordion",
+          "title": "Operation Metadata",
+          "help": "OperationMetadata",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "label": "Operation Metadata",
+              "multiType": "OperationMetadata",
+              "key": "OperationMetadata/items/properties/index_id",
+              "noLabel": true,
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/OperationName", "field": true, "type": "UmmSelect"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/OperationDescription", "field": true, "type": "UmmTextarea"}]
+                    }
+                  ]
+                },
+                {
+                  /* DistributedComputingPlatform
+                  */
+                  "type": "section",
+                  "items": [{"key": "/DistributedComputingPlatform", "field": true, "type": "UmmMultiSelect"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/InvocationName", "field": true}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "label": "Connect Point",
+                  "key": "/ConnectPoint/properties",
+                  // help icon/modal works without the help key/value pair
+                  /* "help": "ConnectPoint", // TODO this help not working */
+                  // data-help-path not picking up entire path, but items nested under this (i.e. ResourceName) does have it
+                  "htmlClass": "row sub-fields connect-point",
+                  "items": [
+                    {
+                      "type": "section",
+                      /* "htmlClass": "space-top", */
+                      "items": [{"key": "/ResourceName", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ResourceLinkage", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ResourceDescription", "field": true, "type": "UmmTextarea"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "label": "Operation Chained Metadata",
+                  "key": "/OperationChainedMetadata/properties",
+                  // help icon/modal works without the help key/value pair
+                  /* "help": "OperationChainedMetadata", // TODO help not working */
+                  "htmlClass": "row sub-fields operation-chained-metadata",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/OperationChainName", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/OperationChainDescription", "field": true, "type": "UmmTextarea"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "label": "Coupled Resource",
+                  "key": "/CoupledResource/properties",
+                  /* "help": "CoupledResource", */
+                  "htmlClass": "row sub-fields coupled-resource",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ScopedName", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/DataResourceDOI", "field": true}]
+                    },
+                    {
+                    /* Data Resource, aka Coverage */
+                      "type": "section",
+                      "label": "Data Resource",
+                      "key": "/DataResource/properties",
+                      "htmlClass": "row sub-fields data-resource",
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/DataResourceIdentifier", "field": true}]
+                            }
+                            ,
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/DataResourceSourceType", "field": true, "type": "UmmSelect"}]
+                            }
+                          ]
+                        },
+                        /* should we have a label or sub section for spatial? */
+                        {
+                          "type": "section",
+                          "htmlClass": "row sub-fields data-resource-spatial-extent-group",
+                          "label": "Data Resource Spatial Extent",
+                          "noHelp": true,
+                          /* "key": "/DataResourceSpatialExtent/properties", */
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "row",
+                              "items": [
+                                {
+                                  "type": "section",
+                                  "htmlClass": "row",
+                                  "items": [{"key": "/DataResourceSpatialType", "field": true, "type": "UmmSelect", "htmlClass": "data-resource-spatial-type-select"}]
+
+                                }
+                              ]
+                            },
+                            {
+                              "$ref": "#/definitions/DataResourceSpatialExtent"
+                            }
+
+                          ]
+                        }
+                        ,
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/SpatialResolution", "field": true}]
+                              /* number */
+                            },
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/SpatialResolutionUnit", "field": true, "type": "UmmSelect"}]
+                              /* seems to have no problem with enum not defined in a separate type */
+                            }
+                          ]
+                        }
+                        ,
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [{"key": "/DataResourceTemporalType", "field": true, "type": "UmmSelect"}]
+                            }
+                          ]
+                        }
+                        ,
+                        {
+                          "$ref": "#/definitions/DataResourceTemporalExtent"
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/TemporalResolution", "field": true}]
+                              /* number */
+                            },
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/TemporalResolutionUnit", "field": true, "type": "UmmSelect"}]
+                              /* seems to have no problem with enum not defined in a separate type */
+                            }
+                          ]
+                        }
+
+                          /*
+                          x DataResourceSpatialExtent,
+                          x DataResourceSpatialType
+                          x SpatialResolution
+                          x SpatialResolutionUnit
+                          DataResourceTemporalExtent
+                          x DataResourceTemporalType
+                          TemporalResolution
+                          TemporalResolutionUnit
+                          RelativePath
+                          */
+                        ,
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [{"key": "/RelativePath", "field": true}]
+                            }
+
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/CouplingType", "field": true, "type": "UmmSelect"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "label": "Parameters",
+                  "key": "/Parameters/properties",
+                  // help icon/modal works without the help key/value pair
+                  "htmlClass": "row sub-fields parameters",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ParameterName", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ParameterDirection", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ParameterOptionality", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ParameterRepeatability", "field": true}]
+                    }
+                  ]
+                }
+
+
+
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    /* {
       "id": "coverage",
       "title": "Coverage",
       "items": [
-        /* Coverage */
+        // Coverage
         {
           "type": "open_accordion",
           "help": "Coverage",
@@ -536,9 +873,83 @@
           ]
         }
       ]
-    }
+    } */
   ],
   "definitions": {
+    "SupportedProjection": {
+      "type": "section",
+      /* "key": "" */
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row", //subfields?
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "/ProjectionName", "field": true, "type": "UmmSelect"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionLatitudeOfCenter", "field": true}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionLongitudeOfCenter", "field": true}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionFalseEasting", "field": true}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionFalseNorthing", "field": true}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "/ProjectionAuthority", "field": true, "type": "UmmSelect"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionUnit", "field": true, "type": "UmmSelect"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionDatumName", "field": true, "type": "UmmSelect"}]
+            }
+          ]
+        }
+      ]
+    },
     "ContactGroups": {
       "items": [
         {
@@ -556,14 +967,14 @@
               "type": "section",
               "items": [{"key": "/GroupName"}]
             },
-            {
+            /* {
               "type": "section",
               "items": [{"key": "/Uuid"}]
             },
             {
               "type": "section",
               "items": [{"key": "/NonServiceOrganizationAffiliation", "type": "UmmTextarea"}]
-            },
+            }, */
             {
               "$ref": "#/definitions/ContactInformation"
             }
@@ -604,14 +1015,14 @@
                 }
               ]
             },
-            {
+            /* {
               "type": "section",
               "items": [{"key": "/Uuid"}]
             },
             {
               "type": "section",
               "items": [{"key": "/NonServiceOrganizationAffiliation", "type": "UmmTextarea"}]
-            },
+            }, */
             {
               "$ref": "#/definitions/ContactInformation"
             }
@@ -623,7 +1034,7 @@
       "type": "section",
       "label": "Contact Information",
       "key": "/ContactInformation/properties",
-      "help": "ContactInformation",
+      "help": "ContactInformation", // TODO this help might not be working
       "htmlClass": "row sub-fields contact-information",
       "items": [
         {
@@ -748,7 +1159,85 @@
         }
       ]
     },
-    "CoverageSpatialExtent": {
+    "DataResourceSpatialExtent": {
+      "type": "section",
+      "htmlClass": "row sub-fields",
+      /* "noHelp": true, */
+      // TODO: try and make sure this hideUnlessValues works properly
+      /* "hideUnlessValues": "DataResourceSpatialExtent", */
+      "label": "Data Resource Spatial Extent",
+      "key": "/DataResourceSpatialExtent/properties",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row data-resource-spatial-extent spatial-points",
+          "hideUnlessValues": "SpatialPoints",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "multiType": "SpatialPoints",
+              "label": "Spatial Points",
+              "key": "/SpatialPoints/items/properties/index_id",
+              "items": [
+                {
+                  "$ref": "#/definitions/Coordinates"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row data-resource-spatial-extent spatial-line-strings",
+          "hideUnlessValues": "SpatialLineStrings",
+          "items": [
+            {
+              "$ref": "#/definitions/LineString"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row data-resource-spatial-extent spatial-bounding-box",
+          "hideUnlessValues": "SpatialBoundingBox",
+          "items": [
+            {
+              "$ref": "#/definitions/SpatialBoundingBox"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row data-resource-spatial-extent general-grid",
+          "hideUnlessValues": "GeneralGrid",
+          "items": [
+            {
+              "$ref": "#/definitions/GeneralGrid"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row data-resource-spatial-extent spatial-polygons",
+          "hideUnlessValues": "SpatialPolygons",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "multiType": "SpatialPolygons",
+              "typeOverride": "Point",
+              "label": "Spatial Polygons",
+              "key": "/SpatialPolygons/items/properties/index_id",
+              "items": [
+                {
+                  "$ref": "#/definitions/Coordinates"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    /* "CoverageSpatialExtent": {
       "type": "section",
       "htmlClass": "row sub-fields coverage-spatial-type-group",
       "label": "Coverage Spatial Extent",
@@ -804,7 +1293,7 @@
           "hideUnlessValues": "SpatialBoundingBox",
           "items": [
             {
-              "$ref": "#/definitions/BBox"
+              "$ref": "#/definitions/SpatialBoundingBox"
             }
           ]
         },
@@ -828,8 +1317,60 @@
           ]
         }
       ]
-    },
-    "CoverageTemporalExtent": {
+    } */
+    ,
+    "DataResourceTemporalExtent": {
+      "type": "section",
+      "htmlClass": "row sub-fields",
+      "label": "Data Resource Temporal Extent",
+      "key": "/DataResourceTemporalExtent/properties",
+      "items": [
+        /* {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/DataResourceTemporalExtentTypeType", "field": true, "htmlClass": "coverage-temporal-type-select", "type": "UmmSelect"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/Uuid", "field": true}]
+            }
+          ]
+        }, */
+        {
+          "type": "UmmMultiItems",
+          "label": "Data Resource Time Points",
+          "multiType": "DataResourceTimePoints",
+          "key": "/DataResourceTimePoints/items/properties/index_id",
+          "noLabel": true,
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/TimeFormat", "field": true}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "/TimeValue", "field": true}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "/Description", "field": true}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    /* "CoverageTemporalExtent": {
       "type": "section",
       "htmlClass": "row sub-fields",
       "label": "Coverage Temporal Extent",
@@ -879,7 +1420,8 @@
           ]
         }
       ]
-    },
+    } */
+    ,
     "Coordinates": {
       "type": "section",
       "htmlClass": "row",
@@ -931,7 +1473,57 @@
         }
       ]
     },
-    "BBox": {
+    "SpatialBoundingBox": {
+      "type": "section",
+      "key": "/SpatialBoundingBox/properties",
+      "htmlClass": "sub-fields",
+      "label": "Bounding Box",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "/CRSIdentifier", "field": true, "type": "UmmSelect", "label": "CRS Identifier"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/WestBoundingCoordinate", "field": true}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/EastBoundingCoordinate", "field": true}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/SouthBoundingCoordinate", "field": true}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/NorthBoundingCoordinate", "field": true}]
+            }
+          ]
+        }
+      ]
+    }
+    /* "BBox": {
       "type": "section",
       "key": "/SpatialBoundingBox/properties",
       "htmlClass": "sub-fields",
@@ -967,6 +1559,122 @@
               "htmlClass": "col-6",
               "items": [{"key": "/MaxY", "field": true}]
             }
+          ]
+        }
+      ]
+    }  */
+    ,
+    "GeneralGrid": {
+      "type": "section",
+      "key": "/GeneralGrid/properties",
+      "htmlClass": "sub-fields",
+      "label": "General Grid",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "/CRSIdentifier", "field": true, "type": "UmmSelect", "label": "CRS Identifier"}]
+            }
+          ]
+        },
+        // need the section and row first?
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "multiType": "Axes",
+              "label": "Axes",
+              "key": "/Axis/items/properties/index_id",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row", // sub-fields; other classes?
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/AxisLabel", "field": true}]
+                      // error message comes out Axis LabelAxis Label
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/GridResolution", "field": true}]
+                      // number
+                    }
+                  ]
+                }
+                ,
+                {
+                  // Extent
+                  "type": "section",
+                  "key": "/Extent/properties",
+                  "htmlClass": "sub-fields",
+                  "label": "Extent",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [{"key": "/ExtentLabel", "field": true}]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "/LowerBound", "field": true}]
+                          // number
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "/UpperBound", "field": true}]
+                          // number
+                          // error text comes out Upper BoundUpper Bound (does verify that it has to be a number)
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [{"key": "/UOMLabel", "field": true}]
+                        }
+                      ]
+                    }
+                    /* {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [{"key": "/", "field": true}]
+                        }
+                      ]
+                    } */
+                  ]
+                }
+              ]
+            }
+
           ]
         }
       ]
