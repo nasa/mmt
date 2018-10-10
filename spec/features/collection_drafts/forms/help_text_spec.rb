@@ -111,5 +111,19 @@ describe 'Draft form help text', js: true do
         expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Version')
       end
     end
+
+    context 'when clicking on the help icon with a help link' do
+      before do
+        within '.metadata' do
+          click_on 'Acquisition Information'
+        end
+
+        click_on 'Help modal for Platforms'
+      end
+
+      it 'displays the help link in the modal' do
+        expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Platform')
+      end
+    end
   end
 end
