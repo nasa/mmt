@@ -26,12 +26,11 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
 
       visit service_collection_associations_path(@service_ingest_response['concept-id'])
     end
-    # it 'lists the first page of collection associations' do
-    #   within 'collection-associations' do
-    #     expect(page).to have_selector('tbody tr', count: 25)
-    #     # cmr controls the order so we should not test specific groups
-    #   end
-    # end
+    it 'lists the first page of collection associations' do
+      within '#collection-associations' do
+        expect(page).to have_selector('tbody tr', count: 25)
+      end
+    end
     it 'displays the pagination information for page 1' do
       expect(page).to have_content('Showing Collection Associations 1 - 25 of 26')
       within '.eui-pagination' do
@@ -45,14 +44,13 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
       before do
         click_link '2'
       end
-    #
-    #   it 'lists the second page of collection associations' do
-    #     within 'collection-associations' do
-    #       expect(page).to have_selector('tbody tr', count: 1)
-    #       # cmr controls the order so we should not test specific groups
-    #     end
-    #   end
-    #
+
+      it 'lists the second page of collection associations' do
+        within '#collection-associations' do
+          expect(page).to have_selector('tbody tr', count: 1)
+        end
+      end
+
       it 'displays the pagination information for page 2' do
         expect(page).to have_content('Showing Collection Associations 26 - 26 of 26')
         within '.eui-pagination' do
