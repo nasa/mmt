@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://apps.launchpad.nasa.gov/healthcheck
+    uri: https://apps.launchpad-sbx.nasa.gov/healthcheck
     body:
       encoding: US-ASCII
       string: ''
