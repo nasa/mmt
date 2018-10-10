@@ -571,18 +571,46 @@
       "version-id" : "2"
     }
   }, {
+      "meta": {
+        "has-variables": false,
+        "native-id": "collection47",
+        "provider-id": "MMT_2",
+        "concept-type": "collection",
+        "granule-count": 0,
+        "concept-id": "C1200000079-MMT_2",
+        "has-spatial-subsetting": true,
+        "associations": {
+          "services": [
+            "S1200002089-MMT_2"
+          ]
+        },
+        "revision-date": "2018-10-01T20:34:07Z",
+        "user-id": "ECHO_SYS",
+        "deleted": false,
+        "revision-id": 1,
+        "has-transforms": true,
+        "has-formats": true,
+        "format": "application/echo10+xml"
+      },
+      "umm": {
+        "entry-title": "MISR Level 1B1 Radiance Data V002",
+        "entry-id": "MI1B1_2",
+        "short-name": "MI1B1",
+        "version-id": "2"
+      }
+    }, {
     "meta" : {
       "has-variables" : false,
-      "native-id" : "collection47",
+      "native-id" : "collection38",
       "provider-id" : "MMT_2",
       "concept-type" : "collection",
       "granule-count" : 0,
-      "concept-id" : "C1200000079-MMT_2",
+      "concept-id" : "C1200000080-MMT_2",
       "has-spatial-subsetting" : true,
       "associations" : {
         "services" : [ "S1200002089-MMT_2" ]
       },
-      "revision-date" : "2018-10-01T20:34:07Z",
+      "revision-date" : "2018-10-01T20:34:06Z",
       "user-id" : "ECHO_SYS",
       "deleted" : false,
       "revision-id" : 1,
@@ -591,9 +619,90 @@
       "format" : "application/echo10+xml"
     },
     "umm" : {
-      "entry-title" : "MISR Level 1B1 Radiance Data V002",
-      "entry-id" : "MI1B1_2",
-      "short-name" : "MI1B1",
+      "entry-title" : "MISR Level 1B2 Terrain Data V003",
+      "entry-id" : "MI1B2T_3",
+      "short-name" : "MI1B2T",
+      "version-id" : "3"
+    }
+  },
+    {
+      "meta": {
+        "has-variables": false,
+        "native-id": "collection33",
+        "provider-id": "MMT_2",
+        "concept-type": "collection",
+        "granule-count": 0,
+        "concept-id": "C1200000081-MMT_2",
+        "has-spatial-subsetting": true,
+        "associations": {
+          "services": [
+            "S1200002089-MMT_2"
+          ]
+        },
+        "revision-date": "2018-10-01T20:34:06Z",
+        "user-id": "ECHO_SYS",
+        "deleted": false,
+        "revision-id": 1,
+        "has-transforms": true,
+        "has-formats": true,
+        "format": "application/echo10+xml"
+      },
+      "umm": {
+        "entry-title": "MISR Level 2 Surface parameters V002",
+        "entry-id": "MIL2ASLS_2",
+        "short-name": "MIL2ASLS",
+        "version-id": "2"
+      }
+    }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection38",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000082-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Level 1B2 Terrain Data V003",
+      "entry-id" : "MI1B2T_3",
+      "short-name" : "MI1B2T",
+      "version-id" : "3"
+    }
+  }, {
+    "meta" : {
+      "has-variables" : false,
+      "native-id" : "collection33",
+      "provider-id" : "MMT_2",
+      "concept-type" : "collection",
+      "granule-count" : 0,
+      "concept-id" : "C1200000083-MMT_2",
+      "has-spatial-subsetting" : true,
+      "associations" : {
+        "services" : [ "S1200002089-MMT_2" ]
+      },
+      "revision-date" : "2018-10-01T20:34:06Z",
+      "user-id" : "ECHO_SYS",
+      "deleted" : false,
+      "revision-id" : 1,
+      "has-transforms" : true,
+      "has-formats" : true,
+      "format" : "application/echo10+xml"
+    },
+    "umm" : {
+      "entry-title" : "MISR Level 2 Surface parameters V002",
+      "entry-id" : "MIL2ASLS_2",
+      "short-name" : "MIL2ASLS",
       "version-id" : "2"
     }
   } ]

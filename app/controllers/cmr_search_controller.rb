@@ -1,6 +1,6 @@
 # :nodoc:
 class CmrSearchController < ManageMetadataController
-  RESULTS_PER_PAGE = 25
+  RESULTS_PER_PAGE = 500
 
   def new
     cmr_params = {
