@@ -87,7 +87,7 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
       end
       it 'displays the existing collection assiciations' do
         expect(page).to have_content('Disabled rows')
-        expect(page).to have_selector('tbody tr', count: 28)
+        expect(page).to have_selector('tbody tr', count: 27)
       end
     end
 
