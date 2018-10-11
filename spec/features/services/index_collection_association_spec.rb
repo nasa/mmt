@@ -76,6 +76,21 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
       end
     end
 
+    context 'when new collection association' do
+      before do
+        visit new_service_collection_association_path(@service_concept_id)
+        within '#collection-search' do
+          select 'Entry Title', from: 'Search Field'
+          find(:css, "input[id$='query_text']").set('*')
+          click_button 'Submit'
+        end
+      end
+      it 'displays the existing collection assiciations' do
+        expect(page).to have_content('Disabled rows')
+        expect(page).to have_selector('tbody tr', count: 28)
+      end
+    end
+
   end
 
 end
