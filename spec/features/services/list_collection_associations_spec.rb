@@ -1,43 +1,41 @@
 require 'rails_helper'
 
 describe 'Show Existing Service Collection Associations', js: true, reset_provider: true do
+
+  native_id = Faker::Crypto.md5
+
   before do
-    login(provider: 'MMT_2', providers: %w[MMT_1 MMT_2 LARC])
+    login(provider: 'LARC', providers: %w[MMT_2 LARC])
+  end
+
+  before :all do
+    # publish the service to test
+    @service_ingest_response, _concept_response = publish_service_draft(provider_id: 'LARC', native_id: native_id)
+
+    # get all provider collections
+    @provider_collections = get_collections_by_provider('LARC')
+    #puts 'provider collections: ' + @provider_collections.to_s
+
+    # gets number of collections to be assigned to the service
+    @service_collections = @provider_collections[0..25]
+    #puts 'service collections: ' + @service_collections.to_s
+
+    # assign 26 collections to the service
+    cmr_client.add_collection_assocations_to_service(@service_ingest_response['concept-id'], @service_collections, 'access_token')
+  end
+
+  after :all do
+    cmr_client.delete_service('LARC', native_id, 'access_token')
   end
 
   context 'when there are paginated collection associations' do
     before do
-      # publish a service
-      @provider_id = 'LARC'
-      @native_id = Faker::Crypto.md5
-      @service_ingest_response, _concept_response = publish_service_draft(provider_id: @provider_id, native_id: @native_id)
-      @service_concept_id = @service_ingest_response['concept-id']
-
-      # gets all provider collections
-      @provider_collections = get_collections_by_provider(@provider_id)
-      #puts 'provider collections: ' + @provider_collections.to_s
-      # gets number of collections to be assigned to the service
-      if @provider_collections.length >= 27
-        @service_collections = @provider_collections[0..25]
-      else
-        @service_collections = @provider_collections
-      end
-      #puts 'service collections: ' + @service_collections.to_s
-
-      cmr_client.add_collection_assocations_to_service(@service_concept_id, @service_collections, 'access_token')
-
       visit manage_services_path
       click_on 'profile-link'
       click_on 'Change Provider'
       select 'LARC', from: 'select_provider'
 
-      wait_for_cmr
-
-      visit service_collection_associations_path(@service_concept_id)
-    end
-
-    after do
-      cleanup_service_and_collection_associations(@provider_id, @service_concept_id, @native_id, @service_collections)
+      visit service_collection_associations_path(@service_ingest_response['concept-id'])
     end
 
     it 'lists the first page of collection associations' do
@@ -78,7 +76,8 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
 
     context 'when new collection association' do
       before do
-        visit new_service_collection_association_path(@service_concept_id)
+        visit new_service_collection_association_path(@service_ingest_response['concept-id'])
+
         within '#collection-search' do
           select 'Entry Title', from: 'Search Field'
           find(:css, "input[id$='query_text']").set('*')
@@ -89,9 +88,8 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
         expect(page).to have_content('Disabled rows')
         expect(page).to have_selector('tbody tr', count: 27)
         expect(page).to have_selector('#selected_collections_', count: 1)
+        expect(page).to have_selector('tbody tr.disabled', count: 26)
       end
     end
-
   end
-
 end
