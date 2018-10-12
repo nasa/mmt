@@ -114,32 +114,17 @@ describe 'Draft form help text', js: true do
 
     context 'when clicking on the help icon with a help link' do
       before do
-        within '.metadata' do
-          click_on 'Acquisition Information'
+        within '#data-contacts .meta-info' do
+          click_link 'Data Contacts', match: :first
         end
 
-        click_on 'Help modal for Platforms'
+        select 'Data Center Contact Group', from: 'Data Contact Type'
+        click_on 'Help modal for Data Center Contact Group'
       end
 
       it 'displays the help link in the modal' do
-        expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Platform')
+        expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Data+Center+-+Contact+Group')
       end
     end
-
-    # context 'when clicking on the help icon with a help link' do
-    #   before do
-    #     within "li #data-contacts" do
-    #       click_on 'Data Contacts'
-    #     end
-    #     within '.data-contact-type-select-parent' do
-    #       click_on 'Data Center Contact Group'
-    #     end
-    #     click_on 'Help modal for Data Center Contact Group'
-    #   end
-    #
-    #   it 'displays the help link in the modal' do
-    #     expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Data+Center+-+Contact+Group')
-    #   end
-    # end
   end
 end
