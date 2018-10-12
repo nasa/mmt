@@ -94,8 +94,8 @@ class CollectionAssociationsController < CmrSearchController
                                        end
 
       if partial_associated_collections.any?
-        associated_collections = associated_collections + partial_associated_collections
-        page_num_var = page_num_var + 1
+        associated_collections += partial_associated_collections
+        page_num_var += 1
       end
 
       if CMR_MAX_PAGE_SIZE > partial_associated_collections.length
