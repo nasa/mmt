@@ -22,6 +22,8 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
 
     # assign 26 collections to the service
     cmr_client.add_collection_assocations_to_service(@service_ingest_response['concept-id'], @service_collections, 'access_token')
+
+    wait_for_cmr
   end
 
   after :all do
@@ -30,27 +32,20 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
 
   context 'when there are paginated collection associations' do
     before do
-      visit manage_services_path
-      click_on 'profile-link'
-      click_on 'Change Provider'
-      select 'LARC', from: 'select_provider'
-
       visit service_collection_associations_path(@service_ingest_response['concept-id'])
+      click_on 'refresh the page'
     end
 
     it 'lists the first page of collection associations' do
+      expect(page).to have_content('Showing Collection Associations 1 - 25 of 26')
       within '#collection-associations' do
         expect(page).to have_selector('tbody tr', count: 25)
       end
-    end
-
-    it 'displays the pagination information for page 1' do
-      expect(page).to have_content('Showing Collection Associations 1 - 25 of 26')
       within '.eui-pagination' do
         # first, 1, 2, next, last
         expect(page).to have_selector('li', count: 5)
+        expect(page).to have_css('.active-page', text: '1')
       end
-      expect(page).to have_css('.active-page', text: '1')
     end
 
     context 'when clicking to the second page' do
@@ -59,19 +54,17 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
       end
 
       it 'lists the second page of collection associations' do
+        expect(page).to have_content('Showing Collection Associations 26 - 26 of 26')
         within '#collection-associations' do
           expect(page).to have_selector('tbody tr', count: 1)
         end
-      end
-
-      it 'displays the pagination information for page 2' do
-        expect(page).to have_content('Showing Collection Associations 26 - 26 of 26')
         within '.eui-pagination' do
           # first, previous, 1, 2, last
           expect(page).to have_selector('li', count: 5)
+          expect(page).to have_css('.active-page', text: '2')
         end
-        expect(page).to have_css('.active-page', text: '2')
       end
+
     end
 
     context 'when new collection association' do
@@ -84,6 +77,7 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
           click_button 'Submit'
         end
       end
+
       it 'displays the existing collection assiciations' do
         expect(page).to have_content('Disabled rows')
         expect(page).to have_selector('tbody tr', count: 27)
