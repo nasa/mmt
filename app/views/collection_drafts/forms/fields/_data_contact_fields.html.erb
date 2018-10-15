@@ -20,7 +20,11 @@
     title: 'Data Center Contact Person',
     prefix: name_prefix
     ) %>
-
+    <%= mmt_help_icon(
+          title: 'Data Center Contact Person',
+          help: 'properties/ContactPersons',
+          help_url: 'Data+Center+-+Contact+Person'
+        ) %>
     <%= render partial: 'collection_drafts/forms/type', locals: {
       type: 'data_center_contact_person',
       title: 'Data Center Contact Person',
@@ -45,6 +49,11 @@
     title: 'Data Center Contact Group',
     prefix: name_prefix
     ) %>
+    <%= mmt_help_icon(
+          title: 'Data Center Contact Group',
+          help: 'properties/ContactGroups',
+          help_url: 'Data+Center+-+Contact+Group'
+        ) %>
 
     <%= render partial: 'collection_drafts/forms/type', locals: {
       type: 'data_center_contact_group',
