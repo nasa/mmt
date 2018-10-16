@@ -61,7 +61,7 @@ class UmmForm < JsonObj
 
   # Override default inspect for a more concise representation of the object
   def inspect
-    "#<UmmForm title: \"#{title}\" description: \"#{description}\">"
+    "#<UmmForm title: \"#{title || parsed_json['label']}\" description: \"#{description}\">"
   end
 
   # Return this form element for display within a form

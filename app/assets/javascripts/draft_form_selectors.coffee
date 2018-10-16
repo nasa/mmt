@@ -257,12 +257,17 @@ $(document).ready ->
   # UMM-S Forms
   ###
 
-  # TODO need to change to DataResource
   handleCoverageSpatialTypeSelect = (element) ->
-    $parent = $(element).parents('.data-resource-spatial-extent-group')
+    $parent = $(element).parents('.data-resource-spatial-group')
 
+    # hide the spatial extent forms
     $parent.find('.data-resource-spatial-extent').hide()
 
+    # if no type is selected, we should hide the extent group that contains a duplicate label
+    $extentGroup = $parent.find('.data-resource-spatial-extent-group')
+    if $(element).val() == '' then $extentGroup.hide() else $extentGroup.show()
+
+    # show the form selected
     switch $(element).val()
       when 'SPATIAL_POINT'
         $parent.find('.data-resource-spatial-extent.spatial-points').show()
@@ -276,13 +281,9 @@ $(document).ready ->
         $parent.find('.data-resource-spatial-extent.spatial-polygons').show()
 
     # Clear all hidden fields
-    $parent.find('.data-resource-spatial-extent:hidden').find('input, select').not('input[type="radio"]').val ''
-
-    # Clear radio buttons
-    $parent.find('.data-resource-spatial-extent:hidden').find('input[type="radio"]').prop 'checked', false
+    $parent.find('.data-resource-spatial-extent:hidden').find('input, select').val ''
 
   # Handle SpatialCoverageType selector
-  # TODO make data resource
   $('.data-resource-spatial-type-select').change ->
     handleCoverageSpatialTypeSelect($(this))
 

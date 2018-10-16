@@ -15,6 +15,9 @@ class Hash
     related_url
     online_access_url_pattern_match
     online_access_url_pattern_substitution
+    crs_identifier
+    uom_label
+    data_resource_doi
   )
 
   def camelize(snake_word, first_upper = true)
@@ -29,6 +32,9 @@ class Hash
       return 'RelatedURL' if snake_word == 'related_url'
       return 'OnlineAccessURLPatternMatch' if snake_word == 'online_access_url_pattern_match'
       return 'OnlineAccessURLPatternSubstitution' if snake_word == 'online_access_url_pattern_substitution'
+      return 'CRSIdentifier' if snake_word == 'crs_identifier'
+      return 'UOMLabel' if snake_word == 'uom_label'
+      return 'DataResourceDOI' if snake_word == 'data_resource_doi'
       return snake_word.upcase
     end
 
