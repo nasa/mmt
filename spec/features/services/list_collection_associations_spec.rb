@@ -14,11 +14,9 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
 
     # get all provider collections
     @provider_collections = get_collections_by_provider('LARC')
-    #puts 'provider collections: ' + @provider_collections.to_s
 
     # gets number of collections to be assigned to the service
     @service_collections = @provider_collections[0..25]
-    #puts 'service collections: ' + @service_collections.to_s
 
     # assign 26 collections to the service
     cmr_client.add_collection_assocations_to_service(@service_ingest_response['concept-id'], @service_collections, 'access_token')
