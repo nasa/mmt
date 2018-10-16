@@ -86,7 +86,7 @@ class UmmJsonForm < JsonFile
     input['draft'] = convert_to_arrays(input.fetch('draft', {}))
     Rails.logger.debug "After Converting Arrays: #{input.inspect}"
 
-    # Convert ruby style form element names (example_string) to UMM preferred PascalCase
+    # Convert ruby style form element names (example_string) to UMM preferred PascalCase (ExampleString) using the Awrence gem
     input['draft'] = input['draft'].to_camel_keys
     Rails.logger.debug "After CamelKeys: #{input.inspect}"
 

@@ -55,6 +55,9 @@ $(document).ready ->
       when 'DataID' then 'Data ID'
       when 'StateProvince' then 'State / Province'
       when 'StreetAddresses' then 'Street Address'
+      when 'DataResourceDOI' then 'Data Resource DOI'
+      when 'CRSIdentifier' then 'CRS Identifier'
+      when 'UOMLabel' then 'UOM Label'
       else title.replace( /([A-Z])/g, " $1" )
 
     newTitle
