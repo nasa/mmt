@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe 'Coverage Form Navigation', js: true do
+describe 'Operation Metadata Form Navigation', js: true do
   before do
     login
   end
@@ -8,25 +6,29 @@ describe 'Coverage Form Navigation', js: true do
   context 'When viewing the form with no stored values' do
     before do
       draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_service_draft_path(draft, 'coverage')
+      visit edit_service_draft_path(draft, 'operation_metadata')
     end
 
     it 'displays the correct prompt value for all select elements' do
       within '.umm-form' do
-        expect(page).to have_select('service_draft_draft_coverage_coverage_spatial_extent_coverage_spatial_extent_type_type', selected: 'Select a Coverage Spatial Extent Type Type')
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_operation_name', selected: 'Select a Operation Name')
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_type', selected: 'Select a Data Resource Spatial Type')
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_temporal_type', selected: 'Select a Data Resource Temporal Type')
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_coupled_resource_data_resource_temporal_resolution_unit', selected: 'Select a Temporal Resolution Unit')
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_coupled_resource_coupling_type', selected: 'Select a Coupling Type')
       end
     end
 
     it 'displays the correct title and description' do
       within '.umm-form' do
-        expect(page).to have_content('Coverage')
+        expect(page).to have_content('Operation Metadata')
       end
     end
 
     it 'displays the form title in the breadcrumbs' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Service Drafts')
-        expect(page).to have_content('Coverage')
+        expect(page).to have_content('Operation Metadata')
       end
     end
 
@@ -36,11 +38,11 @@ describe 'Coverage Form Navigation', js: true do
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
       within '.nav-top' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('coverage')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('operation_metadata')
       end
 
       within '.nav-bottom' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('coverage')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('operation_metadata')
       end
     end
 
@@ -142,11 +144,11 @@ describe 'Coverage Form Navigation', js: true do
     let(:draft) { create(:full_service_draft, user: User.where(urs_uid: 'testuser').first) }
 
     before do
-      visit edit_service_draft_path(draft, 'coverage')
+      visit edit_service_draft_path(draft, 'operation_metadata')
     end
 
     context 'when viewing the form' do
-      include_examples 'Coverage Form with Spatial Points'
+      include_examples 'Operation Metadata Form with General Grid'
     end
 
     context 'When clicking `Save` without making any changes' do
@@ -167,24 +169,24 @@ describe 'Coverage Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Coverage')
+          expect(page).to have_content('Operation Metadata')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Coverage')
+          expect(page).to have_content('Operation Metadata')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('coverage')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('operation_metadata')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('coverage')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('operation_metadata')
         end
       end
 
       context 'when viewing the form' do
-        include_examples 'Coverage Form with Spatial Points'
+        include_examples 'Operation Metadata Form with General Grid'
       end
     end
   end

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service Drafts Forms Field Validations', js: true do
   let(:draft) { create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first) }
 
@@ -159,23 +157,22 @@ describe 'Service Drafts Forms Field Validations', js: true do
 
   context 'number fields' do
     before do
-      visit edit_service_draft_path(draft, 'coverage')
+      visit edit_service_draft_path(draft, 'operation_metadata')
     end
 
     context 'when entering text into a number field' do
       before do
-        select 'BOUNDING_BOX', from: 'Coverage Spatial Extent Type Type'
-        fill_in 'Min X', with: 'abcd'
+        fill_in 'Spatial Resolution', with: 'abcd'
       end
 
       it 'displays validation error messages' do
         expect(page).to have_css('.eui-banner--danger', count: 2)
 
         within '.summary-errors' do
-          expect(page).to have_content('Min X must be of type number')
+          expect(page).to have_content('Spatial Resolution must be of type number')
         end
 
-        expect(page).to have_css('#service_draft_draft_coverage_coverage_spatial_extent_spatial_bounding_box_min_x_error', text: 'Min X must be of type number')
+        expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_spatial_resolution_error', text: 'Spatial Resolution must be of type number')
       end
 
       context 'when saving the form' do
@@ -196,10 +193,10 @@ describe 'Service Drafts Forms Field Validations', js: true do
 
           it 'displays validation error messages for fields with data' do
             within '.summary-errors' do
-              expect(page).to have_content('Min X must be of type number')
+              expect(page).to have_content('Spatial Resolution must be of type number')
             end
 
-            expect(page).to have_css('#service_draft_draft_coverage_coverage_spatial_extent_spatial_bounding_box_min_x_error', text: 'Min X must be of type number')
+            expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_spatial_resolution_error', text: 'Spatial Resolution must be of type number')
           end
         end
       end

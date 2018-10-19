@@ -87,6 +87,9 @@ $(document).ready ->
     # than the rest of the forms. If we see instrument_children
     # here we really want to increment the composed_of index
     type = 'composed_of' if type == 'instrument_children'
+    # we need type to be axis because individual fieldsets and fields use that,
+    # but the topMultiple label and class gets pluralized into axes
+    type = 'axis' if type == 'axes'
 
     # Find the index that needs to be incremented
     if simple
