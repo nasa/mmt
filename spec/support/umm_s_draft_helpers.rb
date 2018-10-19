@@ -5,8 +5,6 @@ module Helpers
         select 'TECHNICAL CONTACT', from: 'Roles'
         select 'SCIENCE CONTACT', from: 'Roles'
         fill_in 'Group Name', with: 'Group 1'
-        fill_in 'Uuid', with: 'b1837851-91b3-4aa9-8e89-f805fae629c9'
-        fill_in'Non Service Organization Affiliation', with: 'NonServiceOrganizationAffiliation Group 1'
         add_service_contact_information
 
         click_on 'Add another Contact Group'
@@ -23,8 +21,6 @@ module Helpers
         fill_in 'First Name', with: 'First'
         fill_in 'Middle Name', with: 'Middle'
         fill_in 'Last Name', with: 'Last'
-        fill_in 'Uuid', with: '39092bbc-97ec-41c3-ab85-e3e8cacf429a'
-        fill_in 'Non Service Organization Affiliation', with: 'NonServiceOrganizationAffiliation Person 1'
         add_service_contact_information
 
         click_on 'Add another Contact Person'

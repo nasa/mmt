@@ -600,7 +600,7 @@
           "minLength": 1,
           "maxLength": 1024
         },
-        "DataResource": { // Coverage
+        "DataResource": {
           "description": "This element contains the data identification and scope for the resource(s) coupled to this service.",
           "$ref": "#/definitions/DataResourceType"
         },
@@ -610,7 +610,7 @@
         }
       }
     },
-    "DataResourceType": { // Coverage
+    "DataResourceType": {
       "type": "object",
       "additionalProperties": false,
       "description": "The DataResource class describes the layers, feature types or coverages available from the service.",
@@ -1049,7 +1049,7 @@
       },
       "OperationMetadata": {
         "description": "This class describes the signature of the operational metadata provided by the service.",
-        "type": "array", // !!!!!
+        "type": "array",
         "items": {
             "$ref": "#/definitions/OperationMetadataType"
                 },

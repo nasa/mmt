@@ -24,9 +24,6 @@ describe 'Related URLs Form', js: true do
       click_on 'Add another Uri'
       fill_in 'service_draft_draft_related_urls_0_get_service_uri_1', with: 'Test URI 2'
 
-      fill_in 'Online Access Url Pattern Match', with: 'Online Access URL Pattern Match'
-      fill_in 'Online Access Url Pattern Substitution', with: 'Online Access URL Pattern Substitution'
-
       within '.nav-top' do
         click_on 'Save'
       end

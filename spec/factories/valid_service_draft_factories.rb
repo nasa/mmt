@@ -20,7 +20,7 @@ FactoryGirl.define do
 
     draft {{
       'Name': draft_short_name || "#{Faker::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(90)}",
-      'LongName': draft_entry_title || "#{Faker::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')}_#{Faker::Number.number(120)}",
+      'LongName': draft_entry_title || "#{Faker::HitchhikersGuideToTheGalaxy.quote.truncate(1000, omission: '')}_#{Faker::Number.number(1000)}",
       'Type': 'INVALID',
       'Version': '1.12345678987654321012345',
       'Description': 1030.times { 's' },
@@ -66,38 +66,9 @@ FactoryGirl.define do
         # conditionally requires 'QualityFlag'
         'Traceability': 'some quality metric'
       },
-      'Coverage': {
-        'CoverageSpatialExtent': {
-          'Uuid': '!@#$%%^&*',# bad uuid pattern
-          'SpatialPolygons': [
-            # requires 3 points
-            {
-              'Latitude': 42.137551,
-              'Longitude': 50.343391
-            },
-            {
-              'Latitude': 44.054954,
-              'Longitude': 33.333144
-            }
-          ],
-          'SpatialLineStrings': [
-            {
-              # requires start and end
-              'StartPoint': {
-                'Latitude': 42.137551,
-                'Longitude': 50.343391
-              }
-            }
-          ],
-          'SpatialBoundingBox': {
-            # requires 4 points
-            'MinX': 33.333144,
-            'MinY': 42.137551
-          }
-        },
-        'CoverageTemporalExtent': {
-          'Uuid': '!@#$%^^&*()',# bad uuid pattern
-        }
+      'OperationMetadata': {
+        'OperationName': 'BadOperationMetadataName',
+        'DistributedComputingPlatform': ['BADCOMPUTINGPLATFORM']
       },
       'ServiceOptions': {
         'SubsetTypes': ['BadType']
@@ -154,8 +125,6 @@ FactoryGirl.define do
           }
         }
       ],
-      'OnlineAccessURLPatternMatch': 'Online Access URL Pattern Match',
-      'OnlineAccessURLPatternSubstitution': 'Online Access URL Pattern Substitution',
       'ServiceQuality': {
         'QualityFlag': 'Reviewed',
         'Traceability': 'traceability',
@@ -191,8 +160,6 @@ FactoryGirl.define do
             {
               'Roles': ['SCIENCE CONTACT', 'TECHNICAL CONTACT'],
               'GroupName': 'Group 1',
-              'Uuid': 'b1837851-91b3-4aa9-8e89-f805fae629c9',
-              'NonServiceOrganizationAffiliation': 'NonServiceOrganizationAffiliation Group 1',
               'ContactInformation': {
                 'ServiceHours': '9-6, M-F',
                 'ContactInstruction': 'Email only',
@@ -271,8 +238,6 @@ FactoryGirl.define do
               'FirstName': 'First',
               'MiddleName': 'Middle',
               'LastName': 'Last',
-              'Uuid': '39092bbc-97ec-41c3-ab85-e3e8cacf429a',
-              'NonServiceOrganizationAffiliation': 'NonServiceOrganizationAffiliation Person 1',
               'ContactInformation': {
                 'ServiceHours': '9-6, M-F',
                 'ContactInstruction': 'Email only',
@@ -417,8 +382,6 @@ FactoryGirl.define do
         {
           'Roles': ['SCIENCE CONTACT', 'TECHNICAL CONTACT'],
           'GroupName': 'Group 1',
-          'Uuid': 'b1837851-91b3-4aa9-8e89-f805fae629c9',
-          'NonServiceOrganizationAffiliation': 'NonServiceOrganizationAffiliation Group 1',
           'ContactInformation': {
             'ServiceHours': '9-6, M-F',
             'ContactInstruction': 'Email only',
@@ -497,8 +460,6 @@ FactoryGirl.define do
           'FirstName': 'First',
           'MiddleName': 'Middle',
           'LastName': 'Last',
-          'Uuid': '39092bbc-97ec-41c3-ab85-e3e8cacf429a',
-          'NonServiceOrganizationAffiliation': 'NonServiceOrganizationAffiliation Person 1',
           'ContactInformation': {
             'ServiceHours': '9-6, M-F',
             'ContactInstruction': 'Email only',
@@ -596,49 +557,139 @@ FactoryGirl.define do
           ]
         }
       ],
-      'Coverage': {
-        'Name': 'Coverage Name',
-        'CoverageSpatialExtent': {
-          'CoverageSpatialExtentTypeType': 'SPATIAL_POINT',
-          'Uuid': '13f5e348-ffad-4ef9-9600-12ad74f60f77',
-          'SpatialPoints': [
+      'OperationMetadata': [
+        {
+          'OperationName': 'DescribeCoverage',
+          'OperationDescription': 'The DescribeCoverage operation description...',
+          'DistributedComputingPlatform': ['WEBSERVICES', 'XML'],
+          'InvocationName': 'SOME DAAC WCS Server',
+          'ConnectPoint': {
+            'ResourceName': '1286_2',
+            'ResourceLinkage': 'https://webmap.some.gov/cgi-bin/mapserv?coverage=1286_2&request=DescribeCoverage&service=WCS&version=1.0.0',
+            'ResourceDescription': 'Vegetation classes mapped to LIDAR-derived canopy structure classes in 30-meter, Great Smoky Mountains National Park, 2011'
+          },
+          'OperationChainedMetadata': {
+            'OperationChainName': 'Some Op Chain for Smoky Mountains',
+            'OperationChainDescription': 'Some Op Chain description for Smoky Mountains 30-meter 2011'
+          },
+          'CoupledResource': {
+            'ScopedName': '1286_2',
+            'DataResourceDOI': 'https://doi.org/10.3334/SOMEDAAC/1286',
+            'DataResource': {
+              'DataResourceIdentifier': 'GreatSmokyMountainsNationalPark',
+              'DataResourceSourceType': 'Map',
+              'DataResourceSpatialType': 'GENERAL_GRID',
+              'DataResourceSpatialExtent': {
+                'GeneralGrid': {
+                  'CRSIdentifier': '26917',
+                  'Axis': [
+                    {
+                      'AxisLabel': 'x',
+                      'GridResolution': 30.0,
+                      'Extent':
+                        {
+                          'ExtentLabel': 'axis 1 extent label',
+                          'LowerBound': 0.0,
+                          'UpperBound': 2918.0,
+                          'UOMLabel': 'Meters'
+                        }
+                    },
+                    {
+                      'AxisLabel': 'y',
+                      'GridResolution': 30.0,
+                      'Extent':
+                        {
+                          'ExtentLabel': 'axis 2 extent label',
+                          'LowerBound': 0.0,
+                          'UpperBound': 1340.0,
+                          'UOMLabel': 'Meters'
+                        }
+                    }
+                  ]
+                }
+              },
+              'SpatialResolution': 30.0,
+              'SpatialResolutionUnit': 'Meters',
+              'DataResourceTemporalType': 'TIME_STAMP',
+              'DataResourceTemporalExtent': {
+                'DataResourceTimePoints': [
+                  {
+                    'TimeFormat': '%Y%M%D',
+                    'TimeValue': '2009-01-08',
+                    'Description': 'Time stamp of the granule within the collection'
+                  },
+                  {
+                    'TimeFormat': '%Y',
+                    'TimeValue': '2011',
+                    'Description': 'Time stamp of the layer'
+                  }
+                ]
+              },
+              'TemporalResolution': 1.0,
+              'TemporalResolutionUnit': 'YEAR',
+              'RelativePath': '/cgi-bin/mapserv?coverage=1286_2&request=DescribeCoverage&service=WCS&version=1.0.0'
+            },
+            'CouplingType': 'MIXED'
+          },
+          'Parameters': [
             {
-              'Latitude': 0.0,
-              'Longitude': 0.0
+              'ParameterName': 'parameter 1',
+              'ParameterDescription': 'parameter 1 description',
+              'ParameterDirection': 'abc direction',
+              'ParameterOptionality': 'optional',
+              'ParameterRepeatability': 'some'
             },
             {
-              'Latitude': 50.0,
-              'Longitude': 50.0
+              'ParameterName': 'parameter 2',
+              'ParameterDescription': 'parameter 2 description',
+              'ParameterDirection': 'xyz direction',
+              'ParameterOptionality': 'optional',
+              'ParameterRepeatability': 'some'
             }
           ]
-        },
-        'SpatialResolution': '50',
-        'SpatialResolutionUnit': 'KM',
-        'CoverageTemporalExtent': {
-          'CoverageTemporalExtentTypeType': 'TIME_STAMP',
-          'Uuid': '17abd5ea-fd95-4801-a9e4-0ccd2f7acf40',
-          'CoverageTimePoints': [
-            {
-              'TimeFormat': 'format 1',
-              'TimeValue': 'value 1',
-              'Description': 'description 1'
-            },
-            {
-              'TimeFormat': 'format 2',
-              'TimeValue': 'value 2',
-              'Description': 'description 2'
-            }
-          ]
-        },
-        'TemporalResolution': '7',
-        'TemporalResolutionUnit': 'days',
-        'RelativePath': 'relative path'
-      },
+        }
+      ],
       'ServiceOptions': {
         'SubsetTypes': ['Spatial'],
-        'SupportedProjections': ['Geographic'],
+        'VariableAggregationSupportedMethods': ['ANOMOLY'],
+        'SupportedInputProjections': [
+          {
+            'ProjectionName': 'Geographic',
+            'ProjectionLatitudeOfCenter': 10.0,
+            'ProjectionLongitudeOfCenter': 10.0,
+            'ProjectionFalseEasting': 10.0,
+            'ProjectionFalseNorthing': 10.0,
+            'ProjectionAuthority': '4326',
+            'ProjectionUnit': 'Degrees',
+            'ProjectionDatumName': 'World Geodetic System (WGS) 1984'
+          }
+        ],
+        'SupportedOutputProjections': [
+          {
+            'ProjectionName': 'Geographic',
+            'ProjectionLatitudeOfCenter': 10.0,
+            'ProjectionLongitudeOfCenter': 10.0,
+            'ProjectionFalseEasting': 10.0,
+            'ProjectionFalseNorthing': 10.0,
+            'ProjectionAuthority': '4326',
+            'ProjectionUnit': 'Degrees',
+            'ProjectionDatumName': 'World Geodetic System (WGS) 1984'
+          },
+          {
+            'ProjectionName': 'NAD83 / UTM zone 17N',
+            'ProjectionLatitudeOfCenter': 10.0,
+            'ProjectionLongitudeOfCenter': 10.0,
+            'ProjectionFalseEasting': 10.0,
+            'ProjectionFalseNorthing': 10.0,
+            'ProjectionAuthority': '26917',
+            'ProjectionUnit': 'Meters',
+            'ProjectionDatumName': 'North American Datum (NAD) 1983'
+          }
+        ],
         'InterpolationTypes': ['Bicubic Interpolation', 'Bilinear Interpolation'],
-        'SupportedFormats': ['HDF-EOS4', 'HDF-EOS5']
+        'SupportedInputFormats': ['HDF-EOS2', 'HDF-EOS5'],
+        'SupportedOutputFormats': ['HDF-EOS2', 'HDF-EOS5'],
+        'MaxGranules': 50.0
       }
     }}
   end

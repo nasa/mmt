@@ -4,8 +4,6 @@ def contact_groups_assertions
   within '.multiple.contact-groups > .multiple-item-0' do
     expect(page).to have_select('Roles', selected: ['TECHNICAL CONTACT', 'SCIENCE CONTACT'])
     expect(page).to have_field('Group Name', with: 'Group 1')
-    expect(page).to have_field('Uuid', with: 'b1837851-91b3-4aa9-8e89-f805fae629c9')
-    expect(page).to have_field('Non Service Organization Affiliation', with: 'NonServiceOrganizationAffiliation Group 1')
 
     contact_information_assertions
   end
@@ -21,8 +19,6 @@ def contact_persons_assertions
     expect(page).to have_field('First Name', with: 'First')
     expect(page).to have_field('Middle Name', with: 'Middle')
     expect(page).to have_field('Last Name', with: 'Last')
-    expect(page).to have_field('Uuid', with: '39092bbc-97ec-41c3-ab85-e3e8cacf429a')
-    expect(page).to have_field('Non Service Organization Affiliation', with: 'NonServiceOrganizationAffiliation Person 1')
 
     contact_information_assertions
   end
