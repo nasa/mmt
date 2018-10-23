@@ -21,7 +21,7 @@
                 {
                   "type": "section",
                   "htmlClass": "col-7",
-                  "items": [{"key": "Definition", "field": true}]
+                  "items": [{"key": "Alias", "field": true, "type": "UmmTextarea"}]
                 }
               ]
             },
@@ -31,7 +31,7 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "LongName", "field": true, "type": "UmmTextarea"}]
+                  "items": [{"key": "LongName", "field": true}]
                 }
               ]
             },
@@ -41,17 +41,43 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "col-4",
+                  "items": [{"key": "Definition", "field": true, "type": "UmmTextarea"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row space-top",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
                   "items": [{"key": "VariableType", "field": true, "type": "UmmSelect"}]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "col-4",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "VariableSubType", "field": true, "type": "UmmSelect"}]
+                }
+//                {
+//                  "type": "section",
+//                  "htmlClass": "col-4",
+//                  "items": [{"key": "DataType", "field": true, "type": "UmmSelect"}]
+//                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row space-top",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
                   "items": [{"key": "Units", "field": true}]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "col-4",
+                  "htmlClass": "col-6",
                   "items": [{"key": "DataType", "field": true, "type": "UmmSelect"}]
                 }
               ]
@@ -98,6 +124,58 @@
                           "items": [{"key": "/Max", "field": true}]
                         }
                       ]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "row sub-fields",
+                      "items": [
+                        {
+                          "type": "UmmMultiItem",
+                          "key": "/CodeSystemIdentifierMeaning/items",
+                          "label": "Code System Identifier Meaning",
+                          "htmlClass": "row space-top",
+                          "field": true,
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "col-9 code-system-identifier-meaning",
+                              "items": [
+                                {
+                                  "key": "/index_id",
+                                  "noLabel": true //Remove this -> the label is 'index' can we change the label?
+                                  //"htmlClass": "code-system-identifier-meaning"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "row sub-fields",
+                      "items": [
+                        {
+                          "type": "UmmMultiItem",
+                          "key": "/CodeSystemIdentifierValue/items",
+                          "label": "Code System Identifier Value",
+                          "htmlClass": "row space-top",
+                          "field": true,
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "col-9 code-system-identifier-value",
+                              "items": [
+                                {
+                                  "key": "/index_id",
+                                  "noLabel": true //Remove this -> the label is 'index' can we change the label?
+                                  //"htmlClass": "code-system-identifier-value"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -136,7 +214,7 @@
                     {
                       "type": "section",
                       "htmlClass": "col-6",
-                      "items": [{"key": "/Type", "field": true}]
+                      "items": [{"key": "/Type", "field": true, "type": "UmmSelect"}]
                     }
                   ]
                 },
@@ -184,6 +262,17 @@
                       "items": [{"key": "/Size", "field": true}]
                     }
                   ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      //"htmlClass": "col-8",
+                      "items": [{"key": "/Type", "field": true, "type": "UmmSelect"}]
+                    }
+                  ]
                 }
               ]
             }
@@ -204,101 +293,343 @@
           "items": [
             {
               "type": "section",
-              "htmlClass": "row",
+              "label": "Index Ranges",
+              "key": "/IndexRanges/properties",
+//              "help": "IndexRanges",
+              "htmlClass": "row sub-fields index-ranges",
               "items": [
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "/StandardName", "field": true}]
+                  "items": [
+                    {
+                      "type": "UmmMultiItem",
+                      "key": "/LatRange/items",
+                      "label": "Lat Range",
+                      "htmlClass": "row space-top",
+                      "field": true,
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "col-9",
+                          "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "lat-range"}] //  half-width
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "UmmMultiItem",
+                      "key": "/LonRange/items",
+                      "label": "Lon Range",
+                      "htmlClass": "row space-top",
+                      "field": true,
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "col-9",
+                          "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "lon-range"}] //  half-width
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             },
             {
               "type": "section",
               "htmlClass": "row",
+              "items": [{"key": "/GroupPath", "field": true, "type": "UmmTextarea"}]
+            }
+//            {
+//              "type": "section",
+//              "htmlClass": "row",
+//              "items": [
+//                {
+//                  "type": "section",
+//                  "htmlClass": "row",
+//                  "items": [{"key": "/StandardName", "field": true}]
+//                }
+//              ]
+//            },
+//            {
+//              "type": "section",
+//              "htmlClass": "row",
+//              "items": [
+//                {
+//                  "type": "section",
+//                  "htmlClass": "row",
+//                  "items": [{"key": "/Reference", "field": true}]
+//                }
+//              ]
+//            },
+//            {
+//              "type": "section",
+//              "htmlClass": "row",
+//              "items": [
+//                {
+//                  "type": "section",
+//                  "htmlClass": "col-6",
+//                  "items": [{"key": "/Coordinates", "field": true}]
+//                },
+//                {
+//                  "type": "section",
+//                  "htmlClass": "col-6",
+//                  "items": [{"key": "/GridMapping", "field": true}]
+//                }
+//              ]
+//            },
+//            {
+//              "type": "section",
+//              "htmlClass": "row",
+//              "items": [
+//                {
+//                  "type": "section",
+//                  "htmlClass": "col-6",
+//                  "items": [{"key": "/Size", "field": true}]
+//                },
+//                {
+//                  "type": "section",
+//                  "htmlClass": "col-6",
+//                  "items": [{"key": "/SizeUnits", "field": true}]
+//                }
+//              ]
+//            },
+//            {
+//              "type": "section",
+//              "htmlClass": "row",
+//              "items": [
+//                {
+//                  "type": "section",
+//                  "htmlClass": "col-6",
+//                  "items": [{"key": "/Bounds", "field": true}]
+//                },
+//                {
+//                  "type": "section",
+//                  "htmlClass": "col-6",
+//                  "items": [{"key": "/ChunkSize", "field": true}]
+//                }
+//              ]
+//            },
+//            {
+//              "type": "section",
+//              "htmlClass": "row",
+//              "items": [
+//                {
+//                  "type": "section",
+//                  "items": [{"key": "/Structure", "field": true, "type": "UmmTextarea"}]
+//                }
+//              ]
+//            },
+//            {
+//              "type": "section",
+//              "htmlClass": "row",
+//              "items": [
+//                {
+//                  "type": "section",
+//                  "items": [{"key": "/MeasurementConditions", "field": true, "type": "UmmTextarea"}]
+//                }
+//              ]
+//            },
+//            {
+//              "type": "section",
+//              "htmlClass": "row",
+//              "items": [
+//                {
+//                  "type": "section",
+//                  "items": [{"key": "/ReportingConditions", "field": true, "type": "UmmTextarea"}]
+//                }
+//              ]
+//            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "size_estimation",
+      "title": "Size Estimation",
+      "description_key": "SizeEstimation",
+      "items": [
+        {
+          "type": "open_accordion",
+          "title": "Size Estimation",
+          "key": "SizeEstimation/properties",
+          //"noHelp": true,
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  //"htmlClass": "col-6",
+                  "items": [{"key": "/AverageSizeOfGranulesSampled", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/AvgCompressionRateASCII", "field": true}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "/AvgCompressionRateNetCDF4", "field": true}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "measurement_identifiers",
+      "title": "Measurement Identifiers",
+      "description_key": "MeasurementIdentifiers",
+      "items": [
+        {
+          "type": "open_accordion",
+          "title": "Measurement Identifiers",
+          "help": "MeasurementIdentifiers/properties",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "multiType": "MeasurementIdentifiers",
+              "key": "MeasurementIdentifiers/items/properties/index_id",
+              "noLabel": true,
+              "items": [
+                {
+                  "type": "section",
+                  "label": "Measurement Name",
+                  "htmlClass": "row sub-fields",
+                  "key": "/MeasurementName/properties",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "row space-top",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [
+                            {
+                              "key": "/MeasurementObject",
+                              "field": true
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [
+                            {
+                              "key": "/MeasurementQuantity",
+                              "field": true
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [
+                        {
+                          "key": "/MeasurementSource",
+                          "field": true,
+                          "type": "UmmSelect"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sampling_identifiers",
+      "title": "Sampling Identifiers",
+      "description_key": "SamplingIdentifiers",
+      "items": [
+        {
+          "type": "open_accordion",
+          "title": "Sampling Identifiers",
+          "help": "SamplingIdentifiers/properties",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "multiType": "SamplingIdentifiers",
+              "key": "SamplingIdentifiers/items/properties/index_id",
+              "noLabel": true,
               "items": [
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "/Reference", "field": true}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/Coordinates", "field": true}]
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [
+                        {
+                          "key": "/SamplingMethod",
+                          "field": true,
+                          "type": "UmmTextarea"
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/GridMapping", "field": true}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/Size", "field": true}]
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [
+                        {
+                          "key": "/MeasurementConditions",
+                          "field": true,
+                          "type": "UmmTextarea"
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/SizeUnits", "field": true}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/Bounds", "field": true}]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/ChunkSize", "field": true}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "items": [{"key": "/Structure", "field": true, "type": "UmmTextarea"}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "items": [{"key": "/MeasurementConditions", "field": true, "type": "UmmTextarea"}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "items": [{"key": "/ReportingConditions", "field": true, "type": "UmmTextarea"}]
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [
+                        {
+                          "key": "/ReportingConditions",
+                          "field": true,
+                          "type": "UmmTextarea"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }

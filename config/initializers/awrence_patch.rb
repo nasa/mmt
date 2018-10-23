@@ -18,6 +18,8 @@ class Hash
     crs_identifier
     uom_label
     data_resource_doi
+    avg_compression_rate_ascii
+    avg_compression_rate_net_cdf4
   )
 
   def camelize(snake_word, first_upper = true)
@@ -35,6 +37,8 @@ class Hash
       return 'CRSIdentifier' if snake_word == 'crs_identifier'
       return 'UOMLabel' if snake_word == 'uom_label'
       return 'DataResourceDOI' if snake_word == 'data_resource_doi'
+      return 'AvgCompressionRateASCII' if snake_word == 'avg_compression_rate_ascii'
+      return 'AvgCompressionRateNetCDF4' if snake_word == 'avg_compression_rate_net_cdf4'
       return snake_word.upcase
     end
 
