@@ -222,4 +222,64 @@ describe 'Service Drafts Forms Field Validations', js: true do
       end
     end
   end
+
+  context 'fields that break snake_case and CamelCase conversions' do
+    before do
+      visit edit_service_draft_path(draft, 'operation_metadata')
+    end
+
+    context 'when entering when only filling out some fields that will require other fields' do
+      before do
+        select 'GENERAL_GRID', from: 'Data Resource Spatial Type'
+
+        within '.multiple.axes' do
+          fill_in 'Upper Bound', with: '20'
+        end
+      end
+
+      context 'when saving the form but not confirming' do
+        before do
+          within '.nav-top' do
+            click_on 'Save'
+          end
+
+          click_on 'No'
+        end
+
+        it 'displays validation error messages including fields with names that break conversion' do
+          within '.summary-errors' do
+            expect(page).to have_content('CRS Identifier is required')
+            expect(page).to have_content('Axis Label is required')
+            expect(page).to have_content('Lower Bound is required')
+            expect(page).to have_content('UOM Label is required')
+          end
+
+          expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_extent_general_grid_crs_identifier_error', text: 'CRS Identifier is required')
+          expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_extent_general_grid_axis_0_axis_label_error', text: 'Axis Label is required')
+          expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_extent_general_grid_axis_0_extent_lower_bound_error', text: 'Lower Bound is required')
+          expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_extent_general_grid_axis_0_extent_uom_label_error', text: 'UOM Label is required')
+        end
+
+        context 'when filling out the required data' do
+          before do
+            within '.data-resource-spatial-extent.general-grid' do
+              select '26917', from: 'CRS Identifier'
+
+              within '.multiple.axes' do
+                fill_in 'Axis Label', with: 'x'
+                fill_in 'Lower Bound', with: '0.0'
+                fill_in 'Upper Bound', with: '2918.0'
+                fill_in 'UOM Label', with: 'Meters'
+              end
+            end
+          end
+
+          it 'does not display validation error messages' do
+            expect(page).to have_no_css('.eui-banner--danger')
+          end
+        end
+      end
+
+    end
+  end
 end
