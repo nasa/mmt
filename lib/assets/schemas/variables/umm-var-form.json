@@ -133,19 +133,14 @@
                           "type": "UmmMultiItem",
                           "key": "/CodeSystemIdentifierMeaning/items",
                           "label": "Code System Identifier Meaning",
+                          "multiType": "CodeSystemIdentifierMeaning",
                           "htmlClass": "row space-top",
                           "field": true,
                           "items": [
                             {
                               "type": "section",
-                              "htmlClass": "col-9 code-system-identifier-meaning",
-                              "items": [
-                                {
-                                  "key": "/index_id",
-                                  "noLabel": true //Remove this -> the label is 'index' can we change the label?
-                                  //"htmlClass": "code-system-identifier-meaning"
-                                }
-                              ]
+                              "htmlClass": "col-9",
+                              "items": [{"key": "/index_id", "noLabel": true}]
                             }
                           ]
                         }
@@ -159,19 +154,14 @@
                           "type": "UmmMultiItem",
                           "key": "/CodeSystemIdentifierValue/items",
                           "label": "Code System Identifier Value",
+                          "multiType": "CodeSystemIdentifierValue",
                           "htmlClass": "row space-top",
                           "field": true,
                           "items": [
                             {
                               "type": "section",
-                              "htmlClass": "col-9 code-system-identifier-value",
-                              "items": [
-                                {
-                                  "key": "/index_id",
-                                  "noLabel": true //Remove this -> the label is 'index' can we change the label?
-                                  //"htmlClass": "code-system-identifier-value"
-                                }
-                              ]
+                              "htmlClass": "col-9",
+                              "items": [{"key": "/index_id", "noLabel": true}]
                             }
                           ]
                         }
@@ -295,18 +285,18 @@
               "type": "section",
               "label": "Index Ranges",
               "key": "/IndexRanges/properties",
-//              "help": "IndexRanges",
               "htmlClass": "row sub-fields index-ranges",
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  //"htmlClass": "row",
                   "items": [
                     {
                       "type": "UmmMultiItem",
                       "key": "/LatRange/items",
+                      "multiType": "LatRange",
                       "label": "Lat Range",
-                      "htmlClass": "row space-top",
+                      //"htmlClass": "row space-top",//these classes don't show up in html
                       "field": true,
                       "items": [
                         {
@@ -320,13 +310,14 @@
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  //"htmlClass": "row",
                   "items": [
                     {
                       "type": "UmmMultiItem",
                       "key": "/LonRange/items",
+                      "multiType": "LonRange",
                       "label": "Lon Range",
-                      "htmlClass": "row space-top",
+                      //"htmlClass": "row space-top",
                       "field": true,
                       "items": [
                         {
@@ -478,12 +469,12 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/AvgCompressionRateASCII", "field": true}]
+                  "items": [{"key": "/AvgCompressionRateASCII", "field": true, "label": "Avg Compression Rate ASCII"}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "items": [{"key": "/AvgCompressionRateNetCDF4", "field": true}]
+                  "items": [{"key": "/AvgCompressionRateNetCDF4", "field": true, "label": "Avg Compression Rate NetCDF4"}]
                 }
               ]
             }
@@ -499,10 +490,11 @@
         {
           "type": "open_accordion",
           "title": "Measurement Identifiers",
-          "help": "MeasurementIdentifiers/properties",
+          "help": "MeasurementIdentifiers",
           "items": [
             {
               "type": "UmmMultiItems",
+              "label": "Measurement Identifiers",
               "multiType": "MeasurementIdentifiers",
               "key": "MeasurementIdentifiers/items/properties/index_id",
               "noLabel": true,
@@ -519,12 +511,7 @@
                       "items": [
                         {
                           "type": "section",
-                          "items": [
-                            {
-                              "key": "/MeasurementObject",
-                              "field": true
-                            }
-                          ]
+                          "items": [{"key": "/MeasurementObject", "field": true}]
                         }
                       ]
                     },
@@ -534,12 +521,7 @@
                       "items": [
                         {
                           "type": "section",
-                          "items": [
-                            {
-                              "key": "/MeasurementQuantity",
-                              "field": true
-                            }
-                          ]
+                          "items": [{"key": "/MeasurementQuantity", "field": true}]
                         }
                       ]
                     }
@@ -551,13 +533,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [
-                        {
-                          "key": "/MeasurementSource",
-                          "field": true,
-                          "type": "UmmSelect"
-                        }
-                      ]
+                      "items": [{"key": "/MeasurementSource", "field": true, "type": "UmmSelect"}]
                     }
                   ]
                 }
@@ -567,76 +543,58 @@
         }
       ]
     },
-    {
-      "id": "sampling_identifiers",
-      "title": "Sampling Identifiers",
-      "description_key": "SamplingIdentifiers",
-      "items": [
-        {
-          "type": "open_accordion",
-          "title": "Sampling Identifiers",
-          "help": "SamplingIdentifiers/properties",
-          "items": [
-            {
-              "type": "UmmMultiItems",
-              "multiType": "SamplingIdentifiers",
-              "key": "SamplingIdentifiers/items/properties/index_id",
-              "noLabel": true,
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [
-                        {
-                          "key": "/SamplingMethod",
-                          "field": true,
-                          "type": "UmmTextarea"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [
-                        {
-                          "key": "/MeasurementConditions",
-                          "field": true,
-                          "type": "UmmTextarea"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [
-                        {
-                          "key": "/ReportingConditions",
-                          "field": true,
-                          "type": "UmmTextarea"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
+//    {
+//      "id": "sampling_identifiers",
+//      "title": "Sampling Identifiers",
+//      "description_key": "SamplingIdentifiers",
+//      "items": [
+//        {
+//          "type": "open_accordion",
+//          "title": "Sampling Identifiers",
+//          "help": "SamplingIdentifiers/properties",
+//          "items": [
+//            {
+//              "type": "UmmMultiItems",
+//              "multiType": "SamplingIdentifiers",
+//              "key": "SamplingIdentifiers/items/properties/index_id",
+//              "noLabel": true,
+//              "items": [
+//                {
+//                  "type": "section",
+//                  "htmlClass": "row",
+//                  "items": [
+//                    {
+//                      "type": "section",
+//                      "items": [{"key": "/SamplingMethod", "field": true, "type": "UmmTextarea"}]
+//                    }
+//                  ]
+//                },
+//                {
+//                  "type": "section",
+//                  "htmlClass": "row",
+//                  "items": [
+//                    {
+//                      "type": "section",
+//                      "items": [{"key": "/MeasurementConditions", "field": true, "type": "UmmTextarea"}]
+//                    }
+//                  ]
+//                },
+//                {
+//                  "type": "section",
+//                  "htmlClass": "row",
+//                  "items": [
+//                    {
+//                      "type": "section",
+//                      "items": [{"key": "/ReportingConditions", "field": true, "type": "UmmTextarea"}]
+//                    }
+//                  ]
+//                }
+//              ]
+//            }
+//          ]
+//        }
+//      ]
+//    },
     {
       "id": "science_keywords",
       "title": "Science Keywords",

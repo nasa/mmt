@@ -10,28 +10,9 @@
           "type": "UmmPreviewNestedField",
           "fields": [
             {
-              "key": "/StandardName"
-            }, {
-              "key": "/Reference"
-            }, {
-              "key": "/Coordinates"
-            }, {
-              "key": "/GridMapping"
-            }, {
-              "key": "/Size"
-            }, {
-              "key": "/SizeUnits"
-            }, {
-              "key": "/Bounds"
-            }, {
-              "key": "/ChunkSize"
-            }, {
-              "key": "/Structure"
-            }, {
-              "key": "/MeasurementConditions"
-            }, {
-              "key": "/ReportingConditions"
+              "key": "/GroupPath"
             }
+            // Add two new arrays LatRange and LonRange
           ]
         }
       ]
@@ -45,11 +26,15 @@
         {
           "key": "Name"
         }, {
-          "key": "Definition"
+          "key": "Alias"
         }, {
           "key": "LongName"
         }, {
+          "key": "Definition"
+        }, {
           "key": "VariableType"
+        }, {
+          "key": "VariableSubType"
         }, {
           "key": "Units"
         }, {
@@ -64,9 +49,12 @@
           "fields": [
             {
               "key": "/Min"
-            }, {
+            },
+            {
               "key": "/Max"
             }
+//          Add new two arrays CodeSystemIdentifierMeaning and CodeSystemIdentifierValue
+
           ]
         }
       ]
@@ -102,10 +90,69 @@
               "key": "/Name"
             }, {
               "key": "/Size"
+            }, {
+              "key": "/Type"
             }
           ]
         }
       ]
+    }, {
+      "id": "size_estimation",
+      //"key": "SizeEstimation",
+      "title": "Size Estimation",
+      "fields": [
+        //{
+//          "key": "SizeEstimation",//To check
+//          "hideFieldTitle": true,
+//          "fields": [
+            {
+              "key": "SizeEstimation/AverageSizeOfGranulesSampled"
+            }, {
+              "key": "SizeEstimation/AvgCompressionRateASCII"
+            }, {
+              "key": "SizeEstimation/AvgCompressionRateNetCDF4"
+            }
+          //]
+        //}
+      ]
+    }, {
+      "id": "measurement_identifiers",
+      "title": "Measurement Identifiers",
+      "fields": [
+        {
+          "key": "MeasurementIdentifiers/index_id",//To check
+          "type": "UmmPreviewMultiItems",
+          "hideFieldTitle": true,
+          "fields": [
+            {
+              "key": "/MeasurementName/properties/MeasurementObject"
+            }, {
+              "key": "/MeasurementName/properties/MeasurementQuantity"
+            }, {
+              "key": "/MeasurementSource"
+            }
+          ]
+        }
+      ]
+//    }, {
+//      "id": "sampling_identifiers",
+//      "title": "Sampling Identifiers",
+//      "fields": [
+//        {
+//          "key": "SamplingIdentifiers/index_id",//To check
+//          "type": "UmmPreviewMultiItems",
+//          "hideFieldTitle": true,
+//          "fields": [
+//            {
+//              "key": "/SamplingMethod"
+//            }, {
+//              "key": "/MeasurementConditions"
+//            }, {
+//              "key": "/ReportingConditions"
+//            }
+//          ]
+//        }
+//      ]
     }, {
       "id": "science_keywords",
       "title": "Science Keywords",
