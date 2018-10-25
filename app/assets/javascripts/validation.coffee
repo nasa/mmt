@@ -23,7 +23,7 @@ $(document).ready ->
       json = JSON.parse(json.serializeJSON())
       if isUmmSForm()
         json = json.ServiceDraft?.Draft or {}
-        fixRelatedURLs(json)
+        fixServicesKeys(json)
       else if isUmmVarForm()
         json = json.VariableDraft?.Draft or {}
 
@@ -35,10 +35,41 @@ $(document).ready ->
 
     return json
 
-  fixRelatedURLs = (json) ->
-    if json?.RelatedUrls?
-      json.RelatedURLs = json.RelatedUrls
-      delete json.RelatedUrls
+  # fix keys from the serialized page json that don't match the schema
+  fixServicesKeys = (json) ->
+    if isUmmSForm()
+      # fix RelatedUrls to RelatedURLs
+      if json?.RelatedUrls?
+        json.RelatedURLs = json.RelatedUrls
+        delete json.RelatedUrls
+      # Operation Metadata has DataResourceDOI, CRSIdentifier, and UOMLabel
+      # that need to be fixed
+      if json?.OperationMetadata?
+        for opData, i in json.OperationMetadata
+          if opData?.CoupledResource?
+            cResource = opData.CoupledResource
+
+            if cResource.DataResourceDoi?
+              cResource.DataResourceDOI = cResource.DataResourceDoi
+              delete cResource.DataResourceDoi
+
+            if cResource.DataResource?.DataResourceSpatialExtent?
+              spExtent = cResource.DataResource.DataResourceSpatialExtent
+
+              if spExtent.SpatialBoundingBox?.CrsIdentifier?
+                spExtent.SpatialBoundingBox.CRSIdentifier = spExtent.SpatialBoundingBox.CrsIdentifier
+                delete spExtent.SpatialBoundingBox.CrsIdentifier
+
+              if spExtent.GeneralGrid?
+                if spExtent.GeneralGrid.CrsIdentifier?
+                  spExtent.GeneralGrid.CRSIdentifier = spExtent.GeneralGrid.CrsIdentifier
+                  delete spExtent.GeneralGrid.CrsIdentifier
+                if spExtent.GeneralGrid.Axis?
+                  for ax in spExtent.GeneralGrid.Axis
+                    if ax.Extent?.UomLabel?
+                      ax.Extent.UOMLabel = ax.Extent.UomLabel
+                      delete ax.Extent.UomLabel
+
 
   # Nested non-array fields don't display validation errors because there is no form field for the top level field
   # Adding an empty object into the json changes the validation to display errors on the missing subfields
@@ -254,6 +285,8 @@ $(document).ready ->
     path = path.replace(/i_s_b_n/g, 'isbn')
     path = path.replace(/i_s_o_topic_categories/g, 'iso_topic_categories')
     path = path.replace(/data_i_d/g, 'data_id')
+    path = path.replace(/c_r_s_identifier/g, 'crs_identifier')
+    path = path.replace(/u_o_m_label/g, 'uom_label')
     error.path = path
 
     if isMetadataForm()
