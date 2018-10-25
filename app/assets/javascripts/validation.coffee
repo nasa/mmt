@@ -26,6 +26,7 @@ $(document).ready ->
         fixServicesKeys(json)
       else if isUmmVarForm()
         json = json.VariableDraft?.Draft or {}
+        fixAvgCompressionRates(json)
 
     json = {} unless json?
 
@@ -70,6 +71,20 @@ $(document).ready ->
                       ax.Extent.UOMLabel = ax.Extent.UomLabel
                       delete ax.Extent.UomLabel
 
+  # This fixes RelatedURLs in the page json
+  fixRelatedURLs = (json) ->
+    if json?.RelatedUrls?
+      json.RelatedURLs = json.RelatedUrls
+      delete json.RelatedUrls
+
+  # This fixes AvgCompressionRateASCII and AvgCompressionRateNetCDF4 in the page json
+  fixAvgCompressionRates = (json) ->
+    if json?.SizeEstimation?.AvgCompressionRateAscii?
+      json.SizeEstimation.AvgCompressionRateASCII = json.SizeEstimation.AvgCompressionRateAscii
+      delete json.SizeEstimation.AvgCompressionRateAscii
+    if json?.SizeEstimation?.AvgCompressionRateNetCdf4?
+      json.SizeEstimation.AvgCompressionRateNetCDF4 = json.SizeEstimation.AvgCompressionRateNetCdf4
+      delete json.SizeEstimation.AvgCompressionRateNetCdf4
 
   # Nested non-array fields don't display validation errors because there is no form field for the top level field
   # Adding an empty object into the json changes the validation to display errors on the missing subfields
@@ -95,6 +110,10 @@ $(document).ready ->
       value = json
       while match = re.exec name
         newPath = humps.pascalize(match[1])
+        if isUmmForm()
+          newPath = 'AvgCompressionRateASCII' if newPath == 'AvgCompressionRateAscii'
+          newPath = 'AvgCompressionRateNetCDF4' if newPath == 'AvgCompressionRateNetCdf4'
+
         unless newPath == 'Draft'
           value = value[newPath]
           path.push newPath
@@ -287,6 +306,8 @@ $(document).ready ->
     path = path.replace(/data_i_d/g, 'data_id')
     path = path.replace(/c_r_s_identifier/g, 'crs_identifier')
     path = path.replace(/u_o_m_label/g, 'uom_label')
+    path = path.replace(/a_s_c_i_i/g, 'ascii')
+    path = path.replace(/c_d_f_4/g, 'cdf4')
     error.path = path
 
     if isMetadataForm()
@@ -300,7 +321,12 @@ $(document).ready ->
       id = id.slice(0, id.length - 2)
     error.id = id
     error.element = $("##{id}")
-    labelFor = id.replace(/\d+$/, "")
+
+    if !id?.endsWith('cdf4')
+      labelFor = id.replace(/(_)?\d+$/, "")
+    else
+      labelFor = id
+
     error.title = $("label[for='#{labelFor}']").text()
     error
 
