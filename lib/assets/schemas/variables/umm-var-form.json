@@ -543,58 +543,59 @@
         }
       ]
     },
-//    {
-//      "id": "sampling_identifiers",
-//      "title": "Sampling Identifiers",
-//      "description_key": "SamplingIdentifiers",
-//      "items": [
-//        {
-//          "type": "open_accordion",
-//          "title": "Sampling Identifiers",
-//          "help": "SamplingIdentifiers/properties",
-//          "items": [
-//            {
-//              "type": "UmmMultiItems",
-//              "multiType": "SamplingIdentifiers",
-//              "key": "SamplingIdentifiers/items/properties/index_id",
-//              "noLabel": true,
-//              "items": [
-//                {
-//                  "type": "section",
-//                  "htmlClass": "row",
-//                  "items": [
-//                    {
-//                      "type": "section",
-//                      "items": [{"key": "/SamplingMethod", "field": true, "type": "UmmTextarea"}]
-//                    }
-//                  ]
-//                },
-//                {
-//                  "type": "section",
-//                  "htmlClass": "row",
-//                  "items": [
-//                    {
-//                      "type": "section",
-//                      "items": [{"key": "/MeasurementConditions", "field": true, "type": "UmmTextarea"}]
-//                    }
-//                  ]
-//                },
-//                {
-//                  "type": "section",
-//                  "htmlClass": "row",
-//                  "items": [
-//                    {
-//                      "type": "section",
-//                      "items": [{"key": "/ReportingConditions", "field": true, "type": "UmmTextarea"}]
-//                    }
-//                  ]
-//                }
-//              ]
-//            }
-//          ]
-//        }
-//      ]
-//    },
+    {
+      "id": "sampling_identifiers",
+      "title": "Sampling Identifiers",
+      /* "description_key": "SamplingIdentifiers", */
+      "items": [
+        {
+          "type": "open_accordion",
+          "title": "Sampling Identifiers",
+          /* "help": "SamplingIdentifiers/properties", */
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "label": "Sampling Identifiers",
+              "multiType": "SamplingIdentifiers",
+              "key": "SamplingIdentifiers/items/properties/index_id",
+              "noLabel": true,
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/SamplingMethod", "field": true, "type": "UmmTextarea"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/MeasurementConditions", "field": true, "type": "UmmTextarea"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ReportingConditions", "field": true, "type": "UmmTextarea"}]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     {
       "id": "science_keywords",
       "title": "Science Keywords",
