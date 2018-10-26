@@ -61,24 +61,29 @@ FactoryGirl.define do
 
     draft {{
       'Name': draft_short_name || "#{Faker::Space.galaxy}_#{Faker::Number.number(6)}",
+      'Alias': "#{Faker::Space.galaxy} Alias",
       'LongName': draft_entry_title || "#{Faker::Space.nebula} #{Faker::Space.star_cluster} #{Faker::Number.number(6)}",
       'Definition': 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)',
       'Units': 'Npptv',
       'DataType': 'float',
       'Dimensions': [
         {
-          'Name': 'Sampling time and depth',
-          'Size': 3000
+          'Name': 'LatDim',
+          'Size': 36,
+          'Type': 'LATITUDE_DIMENSION'
         },
         {
           'Name': 'Lizard Herp Doc Pop',
-          'Size': 2020
+          'Size': 2020,
+          'Type': 'LONGITUDE_DIMENSION'
         }
       ],
       'ValidRanges': [
         {
           'Min': -417,
-          'Max': 8836
+          'Max': 8836,
+          'CodeSystemIdentifierMeaning': 'Code System Identifier Meaning',
+          'CodeSystemIdentifierValue': 'Code System Identifier Value'
         }
       ],
       'Scale': 1.0,
@@ -96,6 +101,7 @@ FactoryGirl.define do
         }
       ],
       'VariableType': 'SCIENCE_VARIABLE',
+      "VariableSubType": "SCIENCE_SCALAR",
       'Sets': [
         {
           'Name': 'Science',
@@ -110,19 +116,38 @@ FactoryGirl.define do
           'Index': 2
         }
       ],
-      'Characteristics': {
-        'StandardName': 'Tortor Ultricies Nibh Adipiscing',
-        'Reference': 'https://developer.earthdata.nasa.gov/',
-        'Coordinates': '38.8059922,-77.0435327',
-        'GridMapping': 'Mercator',
-        'Size': 10.0,
-        'SizeUnits': 'nm',
-        'Bounds': 'UpperLeftPointMtrs = -180.0, 89.5; LowerRightMtrs = 177.5, -89.5',
-        'ChunkSize': 100.0,
-        'Structure': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        'MeasurementConditions': 'Nulla vitae elit libero, a pharetra augue.',
-        'ReportingConditions': 'Cras justo odio, dapibus ac facilisis in, egestas eget quam.'
+      "Characteristics": {
+        "GroupPath": "/Data_Fields/",
+        "IndexRanges":
+          {
+            "LatRange": [
+              -90.0,
+              90.0
+            ],
+            "LonRange": [
+              -180.0,
+              180.0
+            ]
+          }
       },
+      "SizeEstimation": {
+        "AverageSizeOfGranulesSampled": 3009960,
+        "AverageCompressionRateASCII": 4.0,
+        "AverageCompressionRateNetCDF4": 0.132
+      },
+      "MeasurementIdentifiers": [
+        {
+          "MeasurementObject": "Standard Pressure",
+          "MeasurementQuantity": "At Top Of Atmosphere"
+        }
+      ],
+      "SamplingIdentifiers": [
+        {
+          "SamplingMethod": "Satellite overpass",
+          "MeasurementConditions": "Measured at top of atmosphere (specifically at the top of the mesosphere, i.e. the mesopause).",
+          "ReportingConditions": "At 50 km from the surface, pressure is 1MB and temperature is -130 degrees F."
+        }
+      ],
       'ScienceKeywords': draft_science_keywords || [
         {
           'Category': 'EARTH SCIENCE',

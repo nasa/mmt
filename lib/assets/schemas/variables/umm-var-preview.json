@@ -7,27 +7,10 @@
         {
           "key": "Characteristics",
           "hideFieldTitle": true,
-          "type": "UmmPreviewNestedField",
+          "type": "UmmPreviewMultiItems",
           "fields": [
             {
               "key": "/GroupPath"
-            }, {
-              "key": "/IndexRanges",
-              "fields": [
-                {
-                  "key": "/LatRange",
-                  "type": "UmmPreviewMultiItems",
-                  "fields": [
-                    {
-                      "key": "/index_id"
-                    }
-                  ]
-                },
-                {
-                  "key": "/LonRange/index_id",
-                  "type": "UmmPreviewMultiItems"
-                }
-              ]
             }
             // Add two new arrays LatRange and LonRange
           ]
