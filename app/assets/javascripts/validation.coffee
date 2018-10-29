@@ -322,7 +322,7 @@ $(document).ready ->
     error.id = id
     error.element = $("##{id}")
 
-    if (define?(id) && !id.endsWith('cdf4'))
+    if define?(id) && !id.endsWith('cdf4')
       labelFor = id.replace(/(_)?\d+$/, "")
     else
       labelFor = id
