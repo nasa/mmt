@@ -82,8 +82,14 @@ FactoryGirl.define do
         {
           'Min': -417,
           'Max': 8836,
-          'CodeSystemIdentifierMeaning': 'Code System Identifier Meaning',
-          'CodeSystemIdentifierValue': 'Code System Identifier Value'
+          'CodeSystemIdentifierMeaning': ['Code System Identifier Meaning 1','Code System Identifier Meaning 2'],
+          'CodeSystemIdentifierValue': ['Code System Identifier Value 1','Code System Identifier Value 2','Code System Identifier Value 3']
+        },
+        {
+          'Min': 0.0,
+          'Max': 1.0,
+          'CodeSystemIdentifierMeaning': ['Code System Identifier Meaning 1','Code System Identifier Meaning 2', 'Code System Identifier Meaning 3'],
+          'CodeSystemIdentifierValue': ['Code System Identifier Value 1','Code System Identifier Value 2']
         }
       ],
       'Scale': 1.0,
@@ -139,6 +145,14 @@ FactoryGirl.define do
         {
           "MeasurementObject": "Standard Pressure",
           "MeasurementQuantity": "At Top Of Atmosphere"
+        },
+        {
+          "MeasurementObject": "Entropy",
+          "MeasurementQuantity": "At Top Of Atmosphere"
+        },
+        {
+          "MeasurementObject": "Standard Temperature",
+          "MeasurementQuantity": "At Top Of Atmosphere"
         }
       ],
       "SamplingIdentifiers": [
@@ -146,6 +160,11 @@ FactoryGirl.define do
           "SamplingMethod": "Satellite overpass",
           "MeasurementConditions": "Measured at top of atmosphere (specifically at the top of the mesosphere, i.e. the mesopause).",
           "ReportingConditions": "At 50 km from the surface, pressure is 1MB and temperature is -130 degrees F."
+        },
+        {
+          "SamplingMethod": "Satellite overpass 1",
+          "MeasurementConditions": "Measured at bottom of atmosphere",
+          "ReportingConditions": "At 1 km from the surface, pressure is 1MB and temperature is 32 degrees F."
         }
       ],
       'ScienceKeywords': draft_science_keywords || [

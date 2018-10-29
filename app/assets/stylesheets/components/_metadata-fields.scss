@@ -58,6 +58,13 @@
     padding-left: 0;
     list-style: none;
   }
+
+  & .preview {
+    // we want the top level preview class to have the appropriate width adjustment, but don't need all
+    // nested elements with preview class to be further narrowed
+    // TODO: check this did not break services and collections previews
+    @include span-columns(12);
+  }
 }
 
 // Compass Coordinates
