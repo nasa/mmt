@@ -46,8 +46,9 @@ class UmmPreviewForm < UmmPreview
 
   def replace_indexes(untreated_path)
     # when we have index_id in the key (for UmmPreviewMultiItems), replace the index_id with the actual index
+    # for UmmPreviewMultiItem, we need to keep the last index_id, so we pass in the option to keep it
     path = untreated_path.split('/')
-    path.pop if path.last == 'index_id'
+    path.pop if path.last == 'index_id' && !options['last_index_required']
     if options['indexes'] && path.index('index_id')
       Array.wrap(options['indexes']).each do |index|
         path[path.index('index_id')] = index

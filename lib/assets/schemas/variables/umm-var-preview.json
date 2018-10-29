@@ -7,12 +7,25 @@
         {
           "key": "Characteristics",
           "hideFieldTitle": true,
-          "type": "UmmPreviewMultiItems",
+          "type": "UmmPreviewNestedField",
           "fields": [
+            {
+              "type": "UmmPreviewNestedField",
+              "key": "/IndexRanges",
+              "fields": [
+                {
+                  "type": "UmmPreviewMultiItem",
+                  "key": "/LatRange/index_id"
+                },
+                {
+                  "type": "UmmPreviewMultiItem",
+                  "key": "/LonRange/index_id"
+                }
+              ]
+            },
             {
               "key": "/GroupPath"
             }
-            // Add two new arrays LatRange and LonRange
           ]
         }
       ]
@@ -52,9 +65,15 @@
             },
             {
               "key": "/Max"
+            },
+            {
+              "type": "UmmPreviewMultiItem",
+              "key": "/CodeSystemIdentifierMeaning/index_id"
+            },
+            {
+              "type": "UmmPreviewMultiItem",
+              "key": "/CodeSystemIdentifierValue/index_id"
             }
-//          Add new two arrays CodeSystemIdentifierMeaning and CodeSystemIdentifierValue
-
           ]
         }
       ]
@@ -103,8 +122,10 @@
         {
           "key": "SizeEstimation/AverageSizeOfGranulesSampled"
         }, {
+          "title": "Avg Compression Rate ASCII",
           "key": "SizeEstimation/AvgCompressionRateASCII"
         }, {
+          "title": "Avg Compression Rate NetCDF4",
           "key": "SizeEstimation/AvgCompressionRateNetCDF4"
         }
       ]
@@ -113,7 +134,7 @@
       "title": "Measurement Identifiers",
       "fields": [
         {
-          "key": "MeasurementIdentifiers/index_id",//To check
+          "key": "MeasurementIdentifiers/index_id",
           "type": "UmmPreviewMultiItems",
           "hideFieldTitle": true,
           "fields": [
@@ -132,7 +153,7 @@
       "title": "Sampling Identifiers",
       "fields": [
         {
-          "key": "SamplingIdentifiers/index_id",//To check
+          "key": "SamplingIdentifiers/index_id",
           "type": "UmmPreviewMultiItems",
           "hideFieldTitle": true,
           "fields": [
