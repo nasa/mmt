@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Variable Drafts Forms Field Validations', js: true do
   before do
     login
@@ -161,6 +159,37 @@ describe 'Variable Drafts Forms Field Validations', js: true do
         end
       end
     end
+
+    context 'when only filling out some of the required subfields of a required field' do
+      before do
+        visit edit_variable_draft_path(@draft, 'dimensions')
+
+        fill_in 'Name', with: 'dim name'
+
+        within '.nav-top' do
+          click_on 'Done'
+        end
+        click_on 'No'
+      end
+
+      it 'displays validation errors' do
+        expect(page).to have_content('Size is required')
+        expect(page).to have_content('Type is required')
+      end
+
+      context 'when viewing the show page' do
+        before do
+          within '.nav-top' do
+            click_on 'Done'
+          end
+          click_on 'Yes'
+        end
+
+        it 'displays an invalid progress circle' do
+          expect(page).to have_css('i.icon-red.dimensions')
+        end
+      end
+    end
   end
 
   context 'number fields' do
@@ -215,6 +244,58 @@ describe 'Variable Drafts Forms Field Validations', js: true do
             expect(page).to have_css('#variable_draft_draft_valid_ranges_0_max_error', text: 'Max must be of type number')
             expect(page).to have_css('#variable_draft_draft_scale_error', text: 'Scale must be of type number')
             expect(page).to have_css('#variable_draft_draft_offset_error', text: 'Offset must be of type number')
+          end
+        end
+      end
+    end
+  end
+
+  context 'number fields' do
+    before do
+      visit edit_variable_draft_path(@draft, 'size_estimation')
+    end
+
+    context 'when entering text into a number field' do
+      before do
+        fill_in 'Average Size Of Granules Sampled', with: 'abcd'
+        fill_in 'Avg Compression Rate ASCII', with: 'abcd'
+        fill_in 'Avg Compression Rate NetCDF4', with: 'abcd'
+      end
+
+      it 'displays validation error messages' do
+        expect(page).to have_css('.eui-banner--danger', count: 4)
+
+        within '.summary-errors' do
+          expect(page).to have_content('Average Size Of Granules Sampled must be of type number')
+          expect(page).to have_content('Avg Compression Rate ASCII must be of type number')
+          expect(page).to have_content('Avg Compression Rate NetCDF4 must be of type number')
+        end
+
+        expect(page).to have_css('#variable_draft_draft_size_estimation_average_size_of_granules_sampled_error', text: 'Average Size Of Granules Sampled must be of type number')
+        expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_ascii_error', text: 'Avg Compression Rate ASCII must be of type number')
+        expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_net_cdf4_error', text: 'Avg Compression Rate NetCDF4 must be of type number')
+      end
+
+      context 'when saving the form' do
+        before do
+          within '.nav-top' do
+            click_on 'Save'
+          end
+        end
+
+        it 'displays a modal with a prompt about saving invalid data' do
+          expect(page).to have_content('This page has invalid data. Are you sure you want to save it and proceed?')
+        end
+
+        context 'when returning to the form with invalid data' do
+          before do
+            click_on 'Yes'
+          end
+
+          it 'displays validation error messages for fields with data' do
+            expect(page).to have_css('#variable_draft_draft_size_estimation_average_size_of_granules_sampled_error', text: 'Average Size Of Granules Sampled must be of type number')
+            expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_ascii_error', text: 'Avg Compression Rate ASCII must be of type number')
+            expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_net_cdf4_error', text: 'Avg Compression Rate NetCDF4 must be of type number')
           end
         end
       end

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Empty Variable Draft Dimensions Preview' do
   before do
     login

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Variable Drafts Forms Help Icons', js: true do
   before do
     login

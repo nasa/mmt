@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Empty Variable Draft Set Preview' do
   before do
     login

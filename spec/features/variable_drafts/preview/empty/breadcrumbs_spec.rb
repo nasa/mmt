@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Variable drafts empty breadcrumbs' do
   before do
     login

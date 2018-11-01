@@ -1,7 +1,7 @@
-describe 'Valid Variable Draft Variable Characteristics Preview' do
+describe 'Invalid Variable Draft Variable Characteristics Preview' do
   before do
     login
-    @draft = create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first)
+    @draft = create(:invalid_variable_draft, user: User.where(urs_uid: 'testuser').first)
     visit variable_draft_path(@draft)
   end
 
@@ -15,7 +15,7 @@ describe 'Valid Variable Draft Variable Characteristics Preview' do
     it 'displays the corrent status icon' do
       within '#variable_characteristics-progress' do
         within '.status' do
-          expect(page).to have_content('Variable Characteristics is valid')
+          expect(page).to have_content('Variable Characteristics is incomplete')
         end
       end
     end
@@ -26,9 +26,9 @@ describe 'Valid Variable Draft Variable Characteristics Preview' do
       end
     end
 
-    it 'displays the correct progress indicators for non required fields' do
+    it 'displays the correct progress indicators for invalid fields' do
       within '#variable_characteristics-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.characteristics')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.characteristics')
       end
     end
 
@@ -40,7 +40,7 @@ describe 'Valid Variable Draft Variable Characteristics Preview' do
           expect(page).to have_css('h5', text: 'Lat Range')
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_index_ranges_lat_range'))
           expect(page).to have_css('h6', text: 'Lat Range 1')
-          expect(page).to have_css('p', text: '-90.0')
+          expect(page).to have_css('p', text: 'abc')
           expect(page).to have_css('h6', text: 'Lat Range 2')
           expect(page).to have_css('p', text: '90.0')
         end
@@ -57,9 +57,8 @@ describe 'Valid Variable Draft Variable Characteristics Preview' do
         within '#variable_draft_draft_characteristics_group_path_preview' do
           expect(page).to have_css('h5', text: 'Group Path')
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_group_path'))
-          expect(page).to have_css('p', text: '/Data_Fields/')
+          expect(page).to have_css('p', text: 'No value for Group Path provided.')
         end
-
       end
     end
   end

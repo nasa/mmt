@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Valid Variable Draft Set Preview' do
   before do
     login

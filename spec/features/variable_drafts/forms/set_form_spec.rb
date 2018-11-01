@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Set Form', js: true do
   before do
     login

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Valid Variable Draft Fill Value Preview' do
   before do
     login
@@ -50,7 +48,7 @@ describe 'Valid Variable Draft Fill Value Preview' do
           within '#variable_draft_draft_fill_values_0_type_preview' do
             expect(page).to have_css('h5', text: 'Type')
             expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'fill_values', anchor: 'variable_draft_draft_fill_values_0_type'))
-            expect(page).to have_css('p', text: 'Science')
+            expect(page).to have_css('p', text: 'SCIENCE_FILLVALUE')
           end
 
           within '#variable_draft_draft_fill_values_0_description_preview' do
@@ -70,7 +68,7 @@ describe 'Valid Variable Draft Fill Value Preview' do
           within '#variable_draft_draft_fill_values_1_type_preview' do
             expect(page).to have_css('h5', text: 'Type')
             expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'fill_values', anchor: 'variable_draft_draft_fill_values_1_type'))
-            expect(page).to have_css('p', text: 'Fiction')
+            expect(page).to have_css('p', text: 'ANCILLARY_FILLVALUE')
           end
 
           within '#variable_draft_draft_fill_values_1_description_preview' do

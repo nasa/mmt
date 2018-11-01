@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Fill Values Form', js: true do
   before do
     login
@@ -213,11 +211,11 @@ describe 'Fill Values Form', js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_fill_values_0_type', with: 'Science')
+      expect(page).to have_select('variable_draft_draft_fill_values_0_type', selected: 'SCIENCE_FILLVALUE')
       expect(page).to have_field('variable_draft_draft_fill_values_0_value', with: '-9999.0')
       expect(page).to have_field('variable_draft_draft_fill_values_0_description', with: 'Pellentesque Bibendum Commodo Fringilla Nullam')
 
-      expect(page).to have_field('variable_draft_draft_fill_values_1_type', with: 'Fiction')
+      expect(page).to have_select('variable_draft_draft_fill_values_1_type', selected: 'ANCILLARY_FILLVALUE')
       expect(page).to have_field('variable_draft_draft_fill_values_1_value', with: '111.0')
       expect(page).to have_field('variable_draft_draft_fill_values_1_description', with: 'Pellentesque Nullam Ullamcorper Magna')
     end

@@ -59,11 +59,6 @@
                   "htmlClass": "col-6",
                   "items": [{"key": "VariableSubType", "field": true, "type": "UmmSelect"}]
                 }
-//                {
-//                  "type": "section",
-//                  "htmlClass": "col-4",
-//                  "items": [{"key": "DataType", "field": true, "type": "UmmSelect"}]
-//                }
               ]
             },
             {
@@ -546,7 +541,7 @@
     {
       "id": "sampling_identifiers",
       "title": "Sampling Identifiers",
-      /* "description_key": "SamplingIdentifiers", */
+      "description_key": "SamplingIdentifiers",
       "items": [
         {
           "type": "open_accordion",

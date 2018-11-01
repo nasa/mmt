@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Variable Draft form navigation' do
   let(:form_titles) { ['Variable Information', 'Fill Values', 'Dimensions', 'Variable Characteristics', 'Science Keywords', 'Sets'] }
 

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Publishing variable draft records' do
   context 'when publishing a variable draft record' do
     before do

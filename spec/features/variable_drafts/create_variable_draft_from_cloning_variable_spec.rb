@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Creating a variable draft from cloning a variable', js: true do
   before :all do
     @ingest_response, _concept_response = publish_variable_draft
