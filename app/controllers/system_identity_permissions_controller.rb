@@ -26,7 +26,7 @@ class SystemIdentityPermissionsController < ManageCmrController
     group_list = if groups_response.success?
                    groups_response.body.fetch('items', [])
                  else
-                   Rails.logger.error("Get Cmr Groups Error: #{groups_response.inspect}")
+                   Rails.logger.error("Get Cmr Groups for System Identity Permissions Error: #{groups_response.inspect}")
                    flash[:error] = groups_response.error_message
                    []
                  end
@@ -49,7 +49,7 @@ class SystemIdentityPermissionsController < ManageCmrController
       add_breadcrumb @group.fetch('name', 'No Name'), group_path(@group_id)
       add_breadcrumb 'Edit', provider_identity_permissions_path(@group_id)
     else
-      Rails.logger.error("Retrieve Group Error: #{group_response.inspect}")
+      Rails.logger.error("Retrieve Group to Edit System Identity Permissions Error: #{group_response.inspect}")
       flash[:error] = group_response.error_message
     end
   end

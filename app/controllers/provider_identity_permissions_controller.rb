@@ -50,7 +50,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
       add_breadcrumb @group.fetch('name', 'No Name'), group_path(@group_id)
       add_breadcrumb 'Edit', provider_identity_permissions_path(@group_id)
     else
-      Rails.logger.error("Retrieve Group Error: #{group_response.inspect}")
+      Rails.logger.error("Retrieve Group to Edit Provider Identity Permissions Error: #{group_response.inspect}")
       flash[:error] = group_response.error_message
     end
   end

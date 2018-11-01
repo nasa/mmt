@@ -29,6 +29,7 @@ class OrderPoliciesController < ManageCmrController
 
     if upsert_response.error?
       @policy.deep_stringify_keys!
+      Rails.logger.error("Create Order Policies Error: #{upsert_response.inspect}")
       flash[:error] = upsert_response.error_message
       render :new
     else
@@ -42,6 +43,7 @@ class OrderPoliciesController < ManageCmrController
 
     if upsert_response.error?
       @policy.deep_stringify_keys!
+      Rails.logger.error("Update Order Policies Error: #{upsert_response.inspect}")
       flash[:error] = upsert_response.error_message
       render :edit
     else
@@ -53,6 +55,7 @@ class OrderPoliciesController < ManageCmrController
     response = echo_client.remove_provider_policies(token_with_client_id, current_provider_guid)
 
     if response.error?
+      Rails.logger.error("Delete Order Policies Error: #{response.inspect}")
       flash[:error] = response.error_message
     else
       flash[:success] = 'Order Policies successfully removed'

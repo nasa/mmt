@@ -52,7 +52,7 @@ class PermissionsController < ManageCmrController
 
       redirect_to permission_path(response.body['concept_id']), flash: { success: 'Collection Permission was successfully created.' }
     else
-      Rails.logger.error("Collection Permission Creation Error: #{response.inspect}")
+      Rails.logger.error("Create Collection Permission Error: #{response.inspect}")
 
       # Look up the error code. If we have a friendly version, use it. Otherwise,
       # just use the error message as it comes back from the CMR.
@@ -99,7 +99,7 @@ class PermissionsController < ManageCmrController
     else
       hydrate_groups(@permission)
 
-      Rails.logger.error("Collection Permission Update Error: #{update_response.inspect}")
+      Rails.logger.error("Update Collection Permission Error: #{update_response.inspect}")
       permission_update_error = update_response.error_message
 
       if permission_update_error == 'Permission to update ACL is denied'
@@ -119,7 +119,7 @@ class PermissionsController < ManageCmrController
       Rails.logger.info("#{current_user.urs_uid} DELETED catalog item ACL for #{current_user.provider_id}. #{response.body}")
       redirect_to permissions_path
     else
-      Rails.logger.error("Permission Deletion Error: #{response.inspect}")
+      Rails.logger.error("Delete Collection Permission Error: #{response.inspect}")
       flash[:error] = response.error_message
       set_collection_permission
       render :show

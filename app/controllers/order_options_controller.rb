@@ -93,6 +93,7 @@ class OrderOptionsController < ManageCmrController
     # the user tries to rename it something that already exists.
     unless soap_xml_response.success?
       if soap_xml_response.error_code != 'OptionDefAlreadyDeprecated'
+        Rails.logger.error("Deprecate Order Options to Update Error: #{soap_xml_response.inspect}")
         flash[:error] = soap_xml_response.error_message
         render :edit and return
       end

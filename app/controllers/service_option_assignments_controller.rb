@@ -28,6 +28,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
     if response.success?
       redirect_to service_option_assignments_path, flash: { success: 'Service Option Assignments successfully created' }
     else
+      Rails.logger.error("Create Service Option Assignments Error: #{response.inspect}")
       flash[:error] = response.error_message
 
       set_service_entries
@@ -56,6 +57,8 @@ class ServiceOptionAssignmentsController < ManageCmrController
       assignment_collections = if collection_ids.any? && assignment_collections_response.success?
                                  assignment_collections_response.body['items'] || []
                                else
+                                 Rails.logger.error("Retrieve Collections to Update Service Option Assignments Error: #{assignment_collections_response}") if assignment_collections_response.error?
+
                                  []
                                end
 
@@ -64,6 +67,8 @@ class ServiceOptionAssignmentsController < ManageCmrController
       assignment_service_entries = if service_entry_guids.any? && assignment_service_entries_response.success?
                                      Array.wrap(assignment_service_entries_response.parsed_body(parser: 'libxml')['Item'])
                                    else
+                                     Rails.logger.error("Retrieve Service Entries to Update Service Option Assignments Error: #{assignment_service_entries_response}") if assignment_service_entries_response.error?
+
                                      []
                                    end
 
@@ -72,6 +77,8 @@ class ServiceOptionAssignmentsController < ManageCmrController
       assignment_service_options = if service_option_guids.any? && assignment_service_options_response.success?
                                      Array.wrap(assignment_service_options_response.parsed_body(parser: 'libxml')['Item'])
                                    else
+                                     Rails.logger.error("Retrieve Service Options to Update Service Option Assignments Error: #{assignment_service_options_response}") if assignment_service_options_response.error?
+
                                      []
                                    end
 
@@ -106,13 +113,15 @@ class ServiceOptionAssignmentsController < ManageCmrController
         end
 
         # Merge fully qualified objects in with the association object guids and
-        # push th record to the instance variable
+        # push the record to the instance variable
         @assignments << {
           'CatalogItem'   => collection,
           'ServiceEntry'  => service_entry,
           'ServiceOption' => service_option
         }.merge(association)
       end
+    else
+      Rails.logger.error("Retrieve Service Options Assignments to Update Error: #{assignments_response.inspect}")
     end
 
     render action: :edit
@@ -126,6 +135,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
     if response.success?
       redirect_to service_option_assignments_path, flash: { success: 'Successfully deleted the selected service option assignments.' }
     else
+      Rails.logger.error("Delete Service Option Assignments Error: #{response.inspect}")
       redirect_to service_option_assignments_path, flash: { error: response.error_message }
     end
   end
@@ -150,6 +160,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
                          # Retreive the service options and sort by name, ignoring case
                          Array.wrap(service_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }.map { |option| [option['Name'], option['Guid']] }
                        else
+                         Rails.logger.error("Retrieve Service Options Error: #{service_option_response.inspect}")
                          []
                        end
   end
