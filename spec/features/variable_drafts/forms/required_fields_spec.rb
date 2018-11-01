@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Conditionally required fields', js: true do
   before do
     login

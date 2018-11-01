@@ -1,4 +1,4 @@
-describe 'Science Keywords Form', js: true do
+describe 'Size Estimation Form', js: true do
   before do
     login
   end
@@ -6,35 +6,16 @@ describe 'Science Keywords Form', js: true do
   context 'When viewing the form with no stored values' do
     before do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_variable_draft_path(draft, 'science_keywords')
+      visit edit_variable_draft_path(draft, 'size_estimation')
     end
 
     it 'displays the correct title and description' do
-      within '.umm-form' do
-        expect(page).to have_content('Science Keywords')
-        expect(page).to have_content('Controlled Science Keywords describing the measurements/variables.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).')
-      end
+      expect(page).to have_content('Size Estimation')
+      expect(page).to have_content('The elements of this section apply to variable size estimation.')
     end
 
-    it 'displays the form title in the breadcrumbs' do
-      within '.eui-breadcrumbs' do
-        expect(page).to have_content('Variable Drafts')
-        expect(page).to have_content('Science Keywords')
-      end
-    end
-
-    it 'has 0 required fields' do
-      expect(page).to have_no_selector('label.eui-required-o')
-    end
-
-    it 'displays the nested item picker' do
-      expect(page).to have_css('div.eui-nested-item-picker')
-    end
-
-    it 'does not list any selected science keywords' do
-      within '.selected-science-keywords ul' do
-        expect(page).to have_no_css('li')
-      end
+    it 'has no required fields' do
+      expect(page).not_to have_selector('label.eui-required-o')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -49,21 +30,16 @@ describe 'Science Keywords Form', js: true do
           expect(page).to have_content('Variable Draft Updated Successfully!')
         end
 
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Sampling Identifiers')
-        end
-
         within '.umm-form' do
-          expect(page).to have_content('Sampling Identifiers')
+          expect(page).to have_content('Variable Characteristics')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
         end
       end
     end
@@ -71,7 +47,7 @@ describe 'Science Keywords Form', js: true do
     context 'When clicking `Next` without making any changes' do
       before do
         within '.nav-top' do
-          click_on 'Next'
+          click_button 'Next'
         end
       end
 
@@ -80,21 +56,42 @@ describe 'Science Keywords Form', js: true do
           expect(page).to have_content('Variable Draft Updated Successfully!')
         end
 
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Sets')
-        end
-
         within '.umm-form' do
-          expect(page).to have_content('Sets')
+          expect(page).to have_content('Measurement Identifiers')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
+        end
+      end
+    end
+
+    context 'When clicking `Save` without making any changes' do
+      before do
+        within '.nav-top' do
+          click_button 'Save'
+        end
+      end
+
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+        end
+
+        within '.umm-form' do
+          expect(page).to have_content('Size Estimation')
+        end
+
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
+        end
+
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
         end
       end
     end
@@ -133,7 +130,7 @@ describe 'Science Keywords Form', js: true do
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Sets', from: 'Save & Jump To:'
+          select 'Measurement Identifiers', from: 'Save & Jump To:'
         end
       end
 
@@ -144,42 +141,37 @@ describe 'Science Keywords Form', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Measurement Identifiers')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Set')
+          expect(page).to have_content('Measurement Identifiers')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
         end
       end
     end
   end
 
-  context 'When viewing the form with 2 stored values' do
+  context 'When viewing the form with stored values' do
     let(:draft) {
       create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first)
     }
 
     before do
-      visit edit_variable_draft_path(draft, 'science_keywords')
+      visit edit_variable_draft_path(draft, 'size_estimation')
     end
 
-    it 'displays 2 selected science keywords' do
-      expect(page).to have_css('.selected-science-keywords ul > li', count: 2)
-    end
-
-    it 'displays the correct selected science keyword values' do
-      within '.selected-science-keywords' do
-        expect(page).to have_content('EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS')
-        expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE')
-      end
+    it 'displays the correct values in the form' do
+      expect(page).to have_field('variable_draft_draft_size_estimation_average_size_of_granules_sampled', with: '3009960')
+      expect(page).to have_field('variable_draft_draft_size_estimation_avg_compression_rate_ascii', with: '4.0')
+      expect(page).to have_field('variable_draft_draft_size_estimation_avg_compression_rate_net_cdf4', with: '0.132')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -194,21 +186,16 @@ describe 'Science Keywords Form', js: true do
           expect(page).to have_content('Variable Draft Updated Successfully!')
         end
 
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Sampling Identifiers')
-        end
-
         within '.umm-form' do
-          expect(page).to have_content('Sampling Identifiers')
+          expect(page).to have_content('Variable Characteristics')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
         end
       end
     end
@@ -216,7 +203,7 @@ describe 'Science Keywords Form', js: true do
     context 'When clicking `Next` without making any changes' do
       before do
         within '.nav-top' do
-          click_on 'Next'
+          click_button 'Next'
         end
       end
 
@@ -225,21 +212,16 @@ describe 'Science Keywords Form', js: true do
           expect(page).to have_content('Variable Draft Updated Successfully!')
         end
 
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Sets')
-        end
-
         within '.umm-form' do
-          expect(page).to have_content('Sets')
+          expect(page).to have_content('Measurement Identifiers')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
         end
       end
     end
@@ -255,34 +237,28 @@ describe 'Science Keywords Form', js: true do
         expect(draft.draft).to eq(Draft.last.draft)
       end
 
-      it 'saves the draft and reloads the form' do
+      it 'saves the draft and loads the next form' do
         within '.eui-banner--success' do
           expect(page).to have_content('Variable Draft Updated Successfully!')
         end
 
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Science Keywords')
-        end
-
         within '.umm-form' do
-          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Size Estimation')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
         end
       end
 
-      it 'displays the correct selected science keyword values' do
-        within '.selected-science-keywords' do
-          expect(page).to have_content('EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS')
-          expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE')
-        end
+      it 'displays the correct values in the form' do
+        expect(page).to have_field('variable_draft_draft_size_estimation_average_size_of_granules_sampled', with: '3009960')
+        expect(page).to have_field('variable_draft_draft_size_estimation_avg_compression_rate_ascii', with: '4.0')
+        expect(page).to have_field('variable_draft_draft_size_estimation_avg_compression_rate_net_cdf4', with: '0.132')
       end
     end
   end

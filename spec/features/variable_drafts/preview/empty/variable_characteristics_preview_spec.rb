@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Empty Variable Draft Variable Characteristics Preview' do
   before do
     login

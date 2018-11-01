@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Empty Variable Draft Science Keywords Preview' do
   before do
     login
@@ -17,20 +15,14 @@ describe 'Empty Variable Draft Science Keywords Preview' do
     it 'displays the corrent status icon' do
       within '#science_keywords-progress' do
         within '.status' do
-          expect(page).to have_content('Science Keywords is incomplete')
+          expect(page).to have_content('Science Keywords is valid')
         end
-      end
-    end
-
-    it 'displays the correct progress indicators for required fields' do
-      within '#science_keywords-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.science-keywords')
       end
     end
 
     it 'displays no progress indicators for non required fields' do
       within '#science_keywords-progress .progress-indicators' do
-        expect(page).to have_no_css('.eui-icon.eui-fa-circle.icon-grey')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.science-keywords')
       end
     end
 

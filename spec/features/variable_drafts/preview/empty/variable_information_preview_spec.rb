@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Empty Variable Draft Variable Information Preview' do
   before do
     login
@@ -25,8 +23,8 @@ describe 'Empty Variable Draft Variable Information Preview' do
     it 'displays the correct progress indicators for required fields' do
       within '#variable_information-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-required-o.icon-green.name')
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.definition')
         expect(page).to have_css('.eui-icon.eui-required-o.icon-green.long-name')
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.definition')
         expect(page).to have_css('.eui-icon.eui-required-o.icon-green.data-type')
         expect(page).to have_css('.eui-icon.eui-required-o.icon-green.scale')
         expect(page).to have_css('.eui-icon.eui-required-o.icon-green.offset')
@@ -35,7 +33,9 @@ describe 'Empty Variable Draft Variable Information Preview' do
 
     it 'displays the correct progress indicators for non required fields' do
       within '#variable_information-progress .progress-indicators' do
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.alias')
         expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable-type')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable-sub-type')
         expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.units')
         expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.valid-ranges')
       end
@@ -43,7 +43,7 @@ describe 'Empty Variable Draft Variable Information Preview' do
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.variable_information' do
-        expect(page).to have_css('.umm-preview-field-container', count: 9)
+        expect(page).to have_css('.umm-preview-field-container', count: 11)
 
         within '#variable_draft_draft_name_preview' do
           expect(page).to have_css('h5', text: 'Name')
@@ -52,11 +52,11 @@ describe 'Empty Variable Draft Variable Information Preview' do
           expect(page).to have_css('p', text: 'No value for Name provided.')
         end
 
-        within '#variable_draft_draft_definition_preview' do
-          expect(page).to have_css('h5', text: 'Definition')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_definition'))
+        within '#variable_draft_draft_alias_preview' do
+          expect(page).to have_css('h5', text: 'Alias')
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_alias'))
 
-          expect(page).to have_css('p', text: 'No value for Definition provided.')
+          expect(page).to have_css('p', text: 'No value for Alias provided.')
         end
 
         within '#variable_draft_draft_long_name_preview' do
@@ -64,6 +64,13 @@ describe 'Empty Variable Draft Variable Information Preview' do
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_long_name'))
 
           expect(page).to have_css('p', text: 'No value for Long Name provided.')
+        end
+
+        within '#variable_draft_draft_definition_preview' do
+          expect(page).to have_css('h5', text: 'Definition')
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_definition'))
+
+          expect(page).to have_css('p', text: 'No value for Definition provided.')
         end
 
         within '#variable_draft_draft_variable_type_preview' do

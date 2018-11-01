@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Valid Variable Draft Science Keywords Preview' do
   before do
     login
@@ -22,15 +20,9 @@ describe 'Valid Variable Draft Science Keywords Preview' do
       end
     end
 
-    it 'displays the correct progress indicators for required fields' do
+    it 'displays the correct progress indicators for non required fields' do
       within '#science_keywords-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required.icon-green.science-keywords')
-      end
-    end
-
-    it 'displays no progress indicators for non required fields' do
-      within '#science_keywords-progress .progress-indicators' do
-        expect(page).to have_no_css('.eui-icon.eui-fa-circle.icon-grey')
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.science-keywords')
       end
     end
 

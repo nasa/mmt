@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Invalid Variable Draft Fill Value Preview' do
   before do
     login

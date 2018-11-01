@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Variable draft permissions' do
   let(:name)      { 'Draft Title' }
   let(:long_name) { 'Tropical Forest Observation Record' }
