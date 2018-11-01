@@ -2,6 +2,7 @@ module ProviderIdentityPermissionsHelper
   AUDIT_REPORT_PERMISSIONS = %w(read)
   AUTHENTICATOR_DEFINITION_PERMISSIONS = %w(create delete)
   CATALOG_ITEM_ACL_PERMISSIONS = %w(create read update delete)
+  DASHBOARD_DAAC_CURATOR_PERMISSIONS = %w(create read update delete)
   DATA_QUALITY_SUMMARY_ASSIGNMENT_PERMISSIONS = %w(create delete)
   DATA_QUALITY_SUMMARY_DEFINITION_PERMISSIONS = %w(create update delete)
   DATASET_INFORMATION_PERMISSIONS = %w(read)
@@ -29,6 +30,7 @@ module ProviderIdentityPermissionsHelper
     ['Audit Reports', 'AUDIT_REPORT'],
     ['Authenticator Definitions', 'AUTHENTICATOR_DEFINITION'],
     ['Catalog Item ACLs', 'CATALOG_ITEM_ACL'],
+    ['CMR Dashboard DAAC Curator', 'DASHBOARD_DAAC_CURATOR'],
     ['Data Quality Summary Assignments', 'DATA_QUALITY_SUMMARY_ASSIGNMENT'],
     ['Data Quality Summary Definitions', 'DATA_QUALITY_SUMMARY_DEFINITION'],
     ['Dataset Information', 'DATASET_INFORMATION'],

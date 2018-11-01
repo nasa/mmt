@@ -1,6 +1,8 @@
 module SystemIdentityPermissionsHelper
   ANY_ACL_PERMISSIONS = %w(create read update delete)
   ARCHIVE_RECORD_PERMISSIONS = %w(delete)
+  DASHBOARD_ADMIN_PERMISSIONS =  %w(create read update delete)
+  DASHBOARD_ARC_CURATOR_PERMISSIONS = %w(create read update delete)
   ERROR_MESSAGE_PERMISSIONS = %w(update)
   EVENT_NOTIFICATION_PERMISSIONS = %w(delete)
   EXTENDED_SERVICE_ACTIVATION_PERMISSIONS = %w(create)
@@ -26,6 +28,8 @@ module SystemIdentityPermissionsHelper
   SYSTEM_TARGETS = [
     ['Any ACL', 'ANY_ACL'],
     ['Archive Records', 'ARCHIVE_RECORD'],
+    ['CMR Dashboard Admin', 'DASHBOARD_ADMIN'],
+    ['CMR Dashboard ARC Curator', 'DASHBOARD_ARC_CURATOR'],
     ['Error Messages', 'ERROR_MESSAGE'],
     ['Event Notifications', 'EVENT_NOTIFICATION'],
     ['Extended Service Activation', 'EXTENDED_SERVICE_ACTIVATION'],

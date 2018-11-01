@@ -53,3 +53,6 @@ nohup.out
 
 #RubyMine file
 .idea
+
+#backup files
+*~
