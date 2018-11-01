@@ -55,6 +55,7 @@ class ServiceEntriesController < ManageCmrController
     response = echo_client.create_service_entry(echo_provider_token, @service_entry)
 
     if response.error?
+      Rails.logger.error("Create Service Entry Error: #{response.inspect}")
       flash[:error] = response.error_message
 
       render :new
@@ -73,6 +74,7 @@ class ServiceEntriesController < ManageCmrController
     response = echo_client.update_service_entry(echo_provider_token, @service_entry)
 
     if response.error?
+      Rails.logger.error("Update Service Entry Error: #{response.inspect}")
       flash[:error] = response.error_message
 
       render :edit
@@ -87,6 +89,7 @@ class ServiceEntriesController < ManageCmrController
     response = echo_client.remove_service_entry(echo_provider_token, params[:id])
 
     if response.error?
+      Rails.logger.error("Delete Service Entry Error: #{response.inspect}")
       flash[:error] = response.error_message
     else
       flash[:success] = 'Service Entry successfully deleted'

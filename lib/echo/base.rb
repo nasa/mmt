@@ -32,6 +32,9 @@ module Echo
 
       echo_response = Echo::Response.new(response)
       begin
+
+        Rails.logger.error "SOAP Response Error: #{echo_response.body.inspect}" if echo_response.error?
+
         Rails.logger.info "SOAP Response: #{url} result : Headers: #{echo_response.headers} - Body Size (bytes): #{echo_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(echo_response.body.to_s)} - Status: #{echo_response.status} - Time: #{Time.now.to_s(:log_time)}"
       rescue => e
         Rails.logger.error "SOAP Error: #{e}"
