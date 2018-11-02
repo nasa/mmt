@@ -331,106 +331,6 @@
               "htmlClass": "row",
               "items": [{"key": "/GroupPath", "field": true, "type": "UmmTextarea"}]
             }
-//            {
-//              "type": "section",
-//              "htmlClass": "row",
-//              "items": [
-//                {
-//                  "type": "section",
-//                  "htmlClass": "row",
-//                  "items": [{"key": "/StandardName", "field": true}]
-//                }
-//              ]
-//            },
-//            {
-//              "type": "section",
-//              "htmlClass": "row",
-//              "items": [
-//                {
-//                  "type": "section",
-//                  "htmlClass": "row",
-//                  "items": [{"key": "/Reference", "field": true}]
-//                }
-//              ]
-//            },
-//            {
-//              "type": "section",
-//              "htmlClass": "row",
-//              "items": [
-//                {
-//                  "type": "section",
-//                  "htmlClass": "col-6",
-//                  "items": [{"key": "/Coordinates", "field": true}]
-//                },
-//                {
-//                  "type": "section",
-//                  "htmlClass": "col-6",
-//                  "items": [{"key": "/GridMapping", "field": true}]
-//                }
-//              ]
-//            },
-//            {
-//              "type": "section",
-//              "htmlClass": "row",
-//              "items": [
-//                {
-//                  "type": "section",
-//                  "htmlClass": "col-6",
-//                  "items": [{"key": "/Size", "field": true}]
-//                },
-//                {
-//                  "type": "section",
-//                  "htmlClass": "col-6",
-//                  "items": [{"key": "/SizeUnits", "field": true}]
-//                }
-//              ]
-//            },
-//            {
-//              "type": "section",
-//              "htmlClass": "row",
-//              "items": [
-//                {
-//                  "type": "section",
-//                  "htmlClass": "col-6",
-//                  "items": [{"key": "/Bounds", "field": true}]
-//                },
-//                {
-//                  "type": "section",
-//                  "htmlClass": "col-6",
-//                  "items": [{"key": "/ChunkSize", "field": true}]
-//                }
-//              ]
-//            },
-//            {
-//              "type": "section",
-//              "htmlClass": "row",
-//              "items": [
-//                {
-//                  "type": "section",
-//                  "items": [{"key": "/Structure", "field": true, "type": "UmmTextarea"}]
-//                }
-//              ]
-//            },
-//            {
-//              "type": "section",
-//              "htmlClass": "row",
-//              "items": [
-//                {
-//                  "type": "section",
-//                  "items": [{"key": "/MeasurementConditions", "field": true, "type": "UmmTextarea"}]
-//                }
-//              ]
-//            },
-//            {
-//              "type": "section",
-//              "htmlClass": "row",
-//              "items": [
-//                {
-//                  "type": "section",
-//                  "items": [{"key": "/ReportingConditions", "field": true, "type": "UmmTextarea"}]
-//                }
-//              ]
-//            }
           ]
         }
       ]
@@ -444,7 +344,6 @@
           "type": "open_accordion",
           "title": "Size Estimation",
           "key": "SizeEstimation/properties",
-          //"noHelp": true,
           "items": [
             {
               "type": "section",
@@ -452,7 +351,6 @@
               "items": [
                 {
                   "type": "section",
-                  //"htmlClass": "col-6",
                   "items": [{"key": "/AverageSizeOfGranulesSampled", "field": true}]
                 }
               ]
@@ -546,7 +444,6 @@
         {
           "type": "open_accordion",
           "title": "Sampling Identifiers",
-          /* "help": "SamplingIdentifiers/properties", */
           "items": [
             {
               "type": "UmmMultiItems",
