@@ -963,6 +963,7 @@
                   "type": "UmmSetMultiItem",
                   "numberItems": 3,
                   "key": "/StreetAddresses",
+                  "multiType": "StreetAddresses",
                   "field": true,
                   "items": [
                     {
