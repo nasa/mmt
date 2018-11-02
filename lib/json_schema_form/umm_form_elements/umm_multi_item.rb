@@ -17,12 +17,10 @@ class UmmMultiItem < UmmFormElement
   end
 
   def form_title
-    #last_key.titleize.singularize
     form_fragment.fetch('multiType', '').titleize.singularize
   end
 
   def form_class
-    #last_key.underscore.dasherize
     form_fragment.fetch('multiType', '').underscore.dasherize
   end
 

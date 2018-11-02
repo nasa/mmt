@@ -1,4 +1,8 @@
-describe 'Variable Drafts associated with published records at UMM Version higher than MMT supports', reset_provider: true do
+# This test is for cases where CMR supports a UMM-S version that is higher than
+# MMT supports. If there are no higher versions, this test cannot be run and
+# may need to stay commented out, and reinstated when there are higher versions.
+
+#describe 'Variable Drafts associated with published records at UMM Version higher than MMT supports', reset_provider: true do
   # before do
   #   login
   # end
@@ -61,4 +65,4 @@ describe 'Variable Drafts associated with published records at UMM Version highe
   #     end
   #   end
   # end
-end
+#end
