@@ -71,12 +71,6 @@ $(document).ready ->
                       ax.Extent.UOMLabel = ax.Extent.UomLabel
                       delete ax.Extent.UomLabel
 
-  # This fixes RelatedURLs in the page json
-  fixRelatedURLs = (json) ->
-    if json?.RelatedUrls?
-      json.RelatedURLs = json.RelatedUrls
-      delete json.RelatedUrls
-
   # This fixes AvgCompressionRateASCII and AvgCompressionRateNetCDF4 in the page json
   fixAvgCompressionRates = (json) ->
     if json?.SizeEstimation?.AvgCompressionRateAscii?
