@@ -250,7 +250,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
     end
   end
 
-  context 'number fields' do
+  context 'number fields with names that break text transformation conventions' do
     before do
       visit edit_variable_draft_path(@draft, 'size_estimation')
     end
@@ -302,7 +302,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
     end
   end
 
-  context 'multiple fields' do
+  context 'multiple fieldsets' do
     before do
       visit edit_variable_draft_path(@draft, 'dimensions')
     end
@@ -321,4 +321,25 @@ describe 'Variable Drafts Forms Field Validations', js: true do
       end
     end
   end
+
+  context 'multiple simple fields' do
+    before do
+      visit edit_variable_draft_path(@draft, 'variable_characteristics')
+    end
+
+    context 'when adding a new set of multiple fields' do
+      before do
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_0', with: 'string'
+        click_on 'Add another Lat Range'
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_1', with: 'string'
+        click_on 'Add another Lat Range'
+      end
+
+      it 'displays validation error messages' do
+        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lat_range_0_error', text: 'Lat Range must be of type number')
+        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lat_range_1_error', text: 'Lat Range must be of type number')
+      end
+    end
+  end
+
 end
