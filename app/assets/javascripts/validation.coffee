@@ -316,12 +316,17 @@ $(document).ready ->
     error.id = id
     error.element = $("##{id}")
 
-    if define?(id) && !id.endsWith('cdf4')
-      labelFor = id.replace(/(_)?\d+$/, "")
-    else
+    if id.indexOf('cdf4') >= 0
       labelFor = id
+    else
+      labelFor = id.replace(/(_)?\d+$/, "")
 
     error.title = $("label[for='#{labelFor}']").text()
+
+    if error.title.length == 0 && error.element.closest('.multiple').hasClass('simple-multiple')
+      # some Multi Item fields (arrays of simple values) in UMM-C drafts have one label tied to the first field
+      error.title = $("label[for='#{labelFor}_0']").text()
+
     error
 
   validateParameterRanges = (errors) ->
