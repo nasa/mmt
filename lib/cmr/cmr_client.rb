@@ -477,7 +477,7 @@ module Cmr
       response
     end
 
-    def update_permission(request_object, concept_id, token)
+    def update_permission(request_object, concept_id, token, revision_id = nil)
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3011/acls/#{concept_id}"
             else
@@ -485,6 +485,7 @@ module Cmr
             end
 
       headers = { 'Content-Type' => 'application/json' }
+      headers['Cmr-Revision-Id'] = revision_id if revision_id
 
       put(url, request_object.to_json, headers.merge(token_header(token)))
     end

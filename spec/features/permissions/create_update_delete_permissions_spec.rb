@@ -1,7 +1,5 @@
 # tests for create, show, edit, update, delete
 
-require 'rails_helper'
-
 describe 'Collection Permissions', reset_provider: true, js: true do
   let(:group1_id) { 'AG1200000069-MMT_2' }
   let(:group2_id) { 'AG1200000070-MMT_2' }
@@ -228,6 +226,53 @@ describe 'Collection Permissions', reset_provider: true, js: true do
         end
       end
     end
+
+    context 'when updating a collection permission with invalid revision' do
+      before do
+        collection_permission_to_upload = {
+          group_permissions: [ {
+            permissions: [ 'read', 'order' ],
+            user_type: 'registered'
+          } ],
+          catalog_item_identity: {
+            name: 'Invalid Revision Test',
+            provider_id: 'MMT_2',
+            granule_applicable: false,
+            collection_applicable: true,
+            collection_identifier: {
+              access_value: {
+                min_value: 10.0,
+                max_value: 10.0
+              },
+              entry_titles: [ ],
+              concept_ids: [ ]
+            }
+          }
+        }
+        @collection_permission_for_invalid_revision = cmr_client.add_group_permissions(collection_permission_to_upload, 'access_token').body
+
+        collection_permission_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/invalid_revision_response.json'))
+        options = {'page_size'        => 25,
+                   'id'               => @collection_permission_for_invalid_revision['concept_id'],
+                   'include_full_acl' => true}
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_permissions).with(options, 'access_token').and_return(collection_permission_response)
+
+        visit edit_permission_path(@collection_permission_for_invalid_revision['concept_id'])
+
+        click_on 'Submit'
+
+      end
+
+      after do
+        cmr_client.delete_permission(@collection_permission_for_invalid_revision['concept_id'], 'access_token')
+      end
+
+      it 'not successfully updates the collection permission' do
+        expect(page).to have_content("Expected revision-id of [2] got [1] for [#{@collection_permission_for_invalid_revision['concept_id']}]")
+      end
+
+    end
+
   end
 
   context 'when deleting a collection permission' do
