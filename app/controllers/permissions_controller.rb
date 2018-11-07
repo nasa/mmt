@@ -77,7 +77,23 @@ class PermissionsController < ManageCmrController
       add_breadcrumb @permission.fetch('catalog_item_identity', {})['name'], permission_path(@permission_concept_id)
       add_breadcrumb 'Edit', edit_permission_path(@permission_concept_id)
 
-      hydrate_groups(@permission)
+      # Searching for permission to get revision_id
+      @opts = {
+        'page_size'        => RESULTS_PER_PAGE,
+        'id'               => @permission_concept_id,
+        'include_full_acl' => true
+      }
+
+      permission_search_response = cmr_client.get_permissions(@opts, token)
+      permission_found = permission_search_response.body.fetch("hits", 0) > 0
+
+      if permission_search_response.success? && permission_found
+        @revision_id = permission_search_response.body.fetch('items', [{}]).fetch(0, {})['revision_id']
+
+        hydrate_groups(@permission)
+      else
+        @unconfirmed_revision_id = true
+      end
     else
       Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
     end
@@ -87,10 +103,12 @@ class PermissionsController < ManageCmrController
     @permission = {}
     @permission_concept_id = params[:id]
     permission_provider = params[:permission_provider]
+    @revision_id = params[:revision_id]
+    new_revision_id = "#{@revision_id.to_i + 1}"
 
     @permission = construct_request_object(permission_provider)
 
-    update_response = cmr_client.update_permission(@permission, @permission_concept_id, token)
+    update_response = cmr_client.update_permission(@permission, @permission_concept_id, token, new_revision_id)
 
     if update_response.success?
       Rails.logger.info("#{current_user.urs_uid} UPDATED catalog item ACL (Collection Permission) for #{permission_provider}. #{response.body}")
