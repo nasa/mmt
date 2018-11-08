@@ -104,11 +104,11 @@ class PermissionsController < ManageCmrController
     @permission_concept_id = params[:id]
     permission_provider = params[:permission_provider]
     @revision_id = params[:revision_id]
-    new_revision_id = "#{@revision_id.to_i + 1}"
+    next_revision_id = "#{@revision_id.to_i + 1}"
 
     @permission = construct_request_object(permission_provider)
 
-    update_response = cmr_client.update_permission(@permission, @permission_concept_id, token, new_revision_id)
+    update_response = cmr_client.update_permission(@permission, @permission_concept_id, token, next_revision_id)
 
     if update_response.success?
       Rails.logger.info("#{current_user.urs_uid} UPDATED catalog item ACL (Collection Permission) for #{permission_provider}. #{response.body}")
