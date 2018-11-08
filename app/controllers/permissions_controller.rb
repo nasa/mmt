@@ -85,9 +85,8 @@ class PermissionsController < ManageCmrController
       }
 
       permission_search_response = cmr_client.get_permissions(@opts, token)
-      permission_found = permission_search_response.body.fetch("hits", 0) > 0
 
-      if permission_search_response.success? && permission_found
+      if permission_search_response.success?
         @revision_id = permission_search_response.body.fetch('items', [{}]).fetch(0, {})['revision_id']
 
         hydrate_groups(@permission)
