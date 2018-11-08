@@ -34,7 +34,7 @@ class CollectionsController < ManageCollectionsController
       Rails.logger.info("Audit Log: Collection with native_id #{@native_id} was deleted for #{provider_id} by #{session[:urs_uid]}")
       redirect_to collection_revisions_path(id: delete_response.body['concept-id'], revision_id: delete_response.body['revision-id'])
     else
-      Rails.logger.error("Delete Collection Error: #{delete_response.inspect}")
+      Rails.logger.error("Delete Collection Error: #{delete_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to delete Collection #{@concept_id} with native_id #{@native_id} in provider #{provider_id} but encountered an error.")
 
       flash[:error] = delete_response.error_message(i18n: I18n.t('controllers.collections.destroy.flash.error'))

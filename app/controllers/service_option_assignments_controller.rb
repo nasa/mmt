@@ -57,7 +57,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
       assignment_collections = if collection_ids.any? && assignment_collections_response.success?
                                  assignment_collections_response.body['items'] || []
                                else
-                                 Rails.logger.error("Retrieve Collections to Update Service Option Assignments Error: #{assignment_collections_response}") if assignment_collections_response.error?
+                                 Rails.logger.error("Retrieve Collections to Update Service Option Assignments Error: #{assignment_collections_response.clean_inspect}") if assignment_collections_response.error?
 
                                  []
                                end
@@ -67,7 +67,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
       assignment_service_entries = if service_entry_guids.any? && assignment_service_entries_response.success?
                                      Array.wrap(assignment_service_entries_response.parsed_body(parser: 'libxml')['Item'])
                                    else
-                                     Rails.logger.error("Retrieve Service Entries to Update Service Option Assignments Error: #{assignment_service_entries_response}") if assignment_service_entries_response.error?
+                                     Rails.logger.error("Retrieve Service Entries to Update Service Option Assignments Error: #{assignment_service_entries_response.inspect}") if assignment_service_entries_response.error?
 
                                      []
                                    end
@@ -77,7 +77,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
       assignment_service_options = if service_option_guids.any? && assignment_service_options_response.success?
                                      Array.wrap(assignment_service_options_response.parsed_body(parser: 'libxml')['Item'])
                                    else
-                                     Rails.logger.error("Retrieve Service Options to Update Service Option Assignments Error: #{assignment_service_options_response}") if assignment_service_options_response.error?
+                                     Rails.logger.error("Retrieve Service Options to Update Service Option Assignments Error: #{assignment_service_options_response.inspect}") if assignment_service_options_response.error?
 
                                      []
                                    end

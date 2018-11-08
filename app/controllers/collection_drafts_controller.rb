@@ -147,7 +147,7 @@ class CollectionDraftsController < BaseDraftsController
       redirect_to collection_path(concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success") }
     else
       # Log error message
-      Rails.logger.error("Ingest Collection Metadata Error: #{ingested_response.inspect}")
+      Rails.logger.error("Ingest Collection Metadata Error: #{ingested_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest collection draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
       @ingest_errors = generate_ingest_errors(ingested_response)

@@ -50,7 +50,7 @@ class ManageMetadataController < ApplicationController
     latest_record_response = cmr_client.get_concept(concept_id, token, {})
 
     if latest_record_response.error?
-      Rails.logger.error("Error retrieving concept for #{published_resource_name} #{concept_id} in `get_latest_record_version`: #{latest_record_response.inspect}")
+      Rails.logger.error("Error retrieving concept for #{published_resource_name} #{concept_id} in `get_latest_record_version`: #{latest_record_response.clean_inspect}")
 
       @unconfirmed_version = true
     else
@@ -88,7 +88,7 @@ class ManageMetadataController < ApplicationController
     @variable = if variable_concept_response.success?
                   variable_concept_response.body
                 else
-                  Rails.logger.error("Error retrieving concept for Variable #{@concept_id} in `set_variable`: #{variable_concept_response.inspect}")
+                  Rails.logger.error("Error retrieving concept for Variable #{@concept_id} in `set_variable`: #{variable_concept_response.clean_inspect}")
                   {}
                 end
 
@@ -122,7 +122,7 @@ class ManageMetadataController < ApplicationController
     end
 
     if latest.blank?
-      Rails.logger.error("Error searching for Variable #{@concept_id} in `set_variable_information`: #{variables_search_response.inspect}")
+      Rails.logger.error("Error searching for Variable #{@concept_id} in `set_variable_information`: #{variables_search_response.clean_inspect}")
     else
       @provider_id = meta['provider-id']
       @native_id = meta['native-id']
@@ -141,7 +141,7 @@ class ManageMetadataController < ApplicationController
     @service = if service_concept_response.success?
                  service_concept_response.body
                else
-                 Rails.logger.error("Error retrieving concept for Service #{@concept_id} in `set_service`: #{service_concept_response.inspect}")
+                 Rails.logger.error("Error retrieving concept for Service #{@concept_id} in `set_service`: #{service_concept_response.clean_inspect}")
                  {}
                end
 
@@ -175,7 +175,7 @@ class ManageMetadataController < ApplicationController
     end
 
     if latest.blank?
-      Rails.logger.error("Error searching for Service #{@concept_id} in `set_service_information`: #{services_search_response.inspect}")
+      Rails.logger.error("Error searching for Service #{@concept_id} in `set_service_information`: #{services_search_response.clean_inspect}")
     else
       @provider_id = meta['provider-id']
       @native_id = meta['native-id']

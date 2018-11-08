@@ -86,7 +86,7 @@ class ManageCmrController < ApplicationController
     else
       log_target = target
       log_target = "#{current_user.provider_id} #{target}" if type == 'provider'
-      Rails.logger.error("Check User Permission for #{log_target} Response Error for #{current_user.urs_uid}: #{user_permission_response.inspect}")
+      Rails.logger.error("Check User Permission for #{log_target} Response Error for #{current_user.urs_uid}: #{user_permission_response.clean_inspect}")
       flash[:error] = user_permission_response.error_message
     end
 

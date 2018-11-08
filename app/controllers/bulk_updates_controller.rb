@@ -30,7 +30,7 @@ class BulkUpdatesController < ManageCollectionsController
       hydrate_task(@task)
       hydrate_collections(@task)
     else
-      Rails.logger.error("Error retrieving Bulk Update Task: #{bulk_update_status_response.inspect}")
+      Rails.logger.error("Error retrieving Bulk Update Task: #{bulk_update_status_response.clean_inspect}")
     end
   end
 
@@ -69,7 +69,7 @@ class BulkUpdatesController < ManageCollectionsController
     if bulk_update_response.success?
       redirect_to bulk_update_path(bulk_update_response.body['task-id']), flash: { success: I18n.t('controllers.bulk_updates.create.flash.success') }
     else
-      Rails.logger.error("Error creating Bulk Update: #{bulk_update_response.inspect}")
+      Rails.logger.error("Error creating Bulk Update: #{bulk_update_response.clean_inspect}")
       flash[:error] = bulk_update_response.error_message(i18n: I18n.t('controllers.bulk_updates.create.flash.error'))
 
       params[:selected_collections] = params.delete(:concept_ids)
