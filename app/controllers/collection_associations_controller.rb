@@ -46,7 +46,7 @@ class CollectionAssociationsController < CmrSearchController
     if association_response.success?
       redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id), flash: { success: I18n.t('controllers.collection_associations.create.flash.success') }
     else
-      Rails.logger.error("Collection Associations Error: #{association_response.inspect}")
+      Rails.logger.error("Collection Associations Error: #{association_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to create Collection Associations for #{resource_name} #{resource_id} with Collections #{params[:selected_collections]} in provider #{current_user.provider_id} but encountered an error.")
 
       flash[:error] = association_response.error_message(i18n: I18n.t('controllers.collection_associations.create.flash.error'))
@@ -63,7 +63,7 @@ class CollectionAssociationsController < CmrSearchController
     if association_response.success?
       redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id), flash: { success: I18n.t('controllers.collection_associations.destroy.flash.success') }
     else
-      Rails.logger.error("Collection Associations Error: #{association_response.inspect}")
+      Rails.logger.error("Collection Associations Error: #{association_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to delete Collection Associations for #{resource_name} #{resource_id} with Collections #{params[:selected_collections]} in provider #{current_user.provider_id} but encountered an error.")
 
       redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id), flash: { error: association_response.error_message(i18n: I18n.t('controllers.collection_associations.destroy.flash.error')) }

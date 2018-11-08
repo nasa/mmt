@@ -56,7 +56,7 @@ class BasePublishedRecordController < ManageMetadataController
       redirect_to send("#{resource_name}_path", concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.#{plural_resource_name}.create.flash.success") }
     else
       # Log error message
-      Rails.logger.error("Ingest #{capitalized_resource_name} Metadata Error: #{ingested_response.inspect}")
+      Rails.logger.error("Ingest #{capitalized_resource_name} Metadata Error: #{ingested_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest #{resource_name} draft #{draft.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
       @ingest_errors = generate_ingest_errors(ingested_response)
@@ -73,7 +73,7 @@ class BasePublishedRecordController < ManageMetadataController
 
       redirect_to send("#{resource_name}_revisions_path", id: delete_response.body['concept-id'], revision_id: delete_response.body['revision-id'])
     else
-      Rails.logger.error("Delete #{capitalized_resource_name} Error: #{delete_response.inspect}")
+      Rails.logger.error("Delete #{capitalized_resource_name} Error: #{delete_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to delete #{capitalized_resource_name} #{@concept_id} with native_id #{@native_id} in provider #{@provider_id} but encountered an error.")
 
       set_preview
@@ -99,7 +99,7 @@ class BasePublishedRecordController < ManageMetadataController
       Rails.logger.info("Audit Log: #{capitalized_resource_name} Revision for record #{@concept_id} with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
       redirect_to send("#{resource_name}_revisions_path", revision_id: latest_revision_id.to_i + 1)
     else
-      Rails.logger.error("Ingest (Revert) #{capitalized_resource_name} Error: #{ingested_response.inspect}")
+      Rails.logger.error("Ingest (Revert) #{capitalized_resource_name} Error: #{ingested_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to revert #{capitalized_resource_name} #{@concept_id} by ingesting a previous revision in provider #{current_user.provider_id} but encountered an error.")
 
       @errors = generate_ingest_errors(ingested_response)

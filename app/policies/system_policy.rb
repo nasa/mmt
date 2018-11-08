@@ -47,7 +47,7 @@ class SystemPolicy < ApplicationPolicy
       # Return the permission, default to an empty array
       permission_body[target] || []
     else
-      Rails.logger.error("Error retrieving System #{target} permission for #{user.user.urs_uid}: #{@user_permission_response.inspect}")
+      Rails.logger.error("Error retrieving System #{target} permission for #{user.user.urs_uid}: #{@user_permission_response.clean_inspect}")
 
       # Default response (no permissions)
       []

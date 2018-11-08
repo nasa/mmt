@@ -8,7 +8,7 @@ module BulkUpdates
     bulk_updates = if bulk_updates_list_response.success?
                      bulk_updates_list_response.body.fetch('tasks', [])
                    else
-                     Rails.logger.error("Error retrieving Bulk Updates Jobs List: #{bulk_updates_list_response.inspect}")
+                     Rails.logger.error("Error retrieving Bulk Updates Jobs List: #{bulk_updates_list_response.clean_inspect}")
                      []
                    end
 

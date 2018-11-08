@@ -634,7 +634,7 @@ module Cmr
             puts "Loaded #{added} collections#{data['test_case']}"
             set_concept_if_nsidc_test_case(data, response)
           else
-            puts "Error ingesting a collection: #{response.inspect}"
+            puts "Error ingesting a collection: #{response.clean_inspect}"
           end
         end
       end

@@ -73,5 +73,18 @@ module Cmr
     def cmr_request_header
       headers.fetch('cmr-request-id', '')
     end
+
+    def clean_inspect
+      if faraday_response.env.fetch(:request_headers, {})['Echo-Token']
+        clean_response = faraday_response.deep_dup
+
+        echo_token_snippet = clean_response.env[:request_headers].delete('Echo-Token').split(':').map { |token_part| token_part.truncate(token_part.length / 4 + 3) }.join(':')
+        clean_response.env[:request_headers]['Echo-Token-snippet'] = echo_token_snippet
+
+        clean_response.inspect
+      else
+        faraday_response.inspect
+      end
+    end
   end
 end

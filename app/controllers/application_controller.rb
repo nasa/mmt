@@ -76,7 +76,7 @@ class ApplicationController < ActionController::Base
     @provider_ids ||= if providers_response.success?
                         providers_response.body.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
                       else
-                        Rails.logger.error("Error retrieving providers in `setup_query`: #{providers_response.inspect}")
+                        Rails.logger.error("Error retrieving providers in `setup_query`: #{providers_response.clean_inspect}")
                         []
                       end
   end

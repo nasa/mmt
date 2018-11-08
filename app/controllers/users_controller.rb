@@ -106,7 +106,7 @@ class UsersController < ApplicationController
 
       finish_successful_login(profile)
     else
-      Rails.logger.error "Error trying to associate a user's URS urs_uid (#{profile[:uid]}) and Launchpad auid (#{auid}): #{association_response.inspect}"
+      Rails.logger.error "Error trying to associate a user's URS urs_uid (#{profile[:uid]}) and Launchpad auid (#{auid}): #{association_response.clean_inspect}"
 
       redirect_to root_url, flash: { error: "#{association_response.error_message(i18n: I18n.t('controllers.users.associate_urs_and_launchpad_ids.flash.error'))}.\nPlease try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
     end
@@ -156,7 +156,7 @@ class UsersController < ApplicationController
     if urs_profile_response.success?
       urs_profile_response.body
     else
-      Rails.logger.info "User with auid #{session[:auid]} does not have an associated URS account. Prompting user to associate accounts. Response: #{urs_profile_response.inspect}"
+      Rails.logger.info "User with auid #{session[:auid]} does not have an associated URS account. Prompting user to associate accounts. Response: #{urs_profile_response.clean_inspect}"
 
       redirect_to prompt_urs_association_path and return
     end

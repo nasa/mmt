@@ -21,7 +21,7 @@ module PermissionManagement
     if permissions_response.success?
       permissions_list = permissions_response.body['items']
     else
-      Rails.logger.error("Get #{type.titleize} Identity Permissions Error: #{permissions_response.inspect}")
+      Rails.logger.error("Get #{type.titleize} Identity Permissions Error: #{permissions_response.clean_inspect}")
       flash[:error] = permissions_response.error_message
     end
 
@@ -165,7 +165,7 @@ module PermissionManagement
       Rails.logger.info("#{identity_type.titleize} for target #{log_target} successfully updated by #{current_user}")
       successes << log_target
     else
-      Rails.logger.error("Update #{identity_type.titleize} for target #{log_target} error: #{update_permission_response.inspect}")
+      Rails.logger.error("Update #{identity_type.titleize} for target #{log_target} error: #{update_permission_response.clean_inspect}")
       fails << log_target
     end
   end
@@ -214,7 +214,7 @@ module PermissionManagement
         Rails.logger.info("Create #{identity_type.titleize} ACL for #{log_target} successfully created by #{current_user.urs_uid}")
         successes << target
       else
-        Rails.logger.error("Create #{identity_type.titleize} ACL for #{log_target} error: #{new_perm_response.inspect}")
+        Rails.logger.error("Create #{identity_type.titleize} ACL for #{log_target} error: #{new_perm_response.clean_inspect}")
         fails << target
       end
     end
@@ -256,7 +256,7 @@ module PermissionManagement
         Rails.logger.info("#{identity_type.titleize} Identity ACL for #{log_target} successfully deleted by #{current_user.urs_uid}")
         successes << target
       else
-        Rails.logger.error("Delete #{identity_type.titleize} Identity ACL for #{log_target} error: #{delete_response.inspect}")
+        Rails.logger.error("Delete #{identity_type.titleize} Identity ACL for #{log_target} error: #{delete_response.clean_inspect}")
         fails << target
       end
     end

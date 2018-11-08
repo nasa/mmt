@@ -11,7 +11,7 @@ class LaunchpadController < UsersController
   def test_launchpad_healthcheck
     # healthcheck is a basic HTML page that returns http 200 and text OK if server is up and accessible
     response = cmr_client.launchpad_healthcheck
-    Rails.logger.info "launchpad healthcheck response #{response.inspect}"
+    Rails.logger.info "launchpad healthcheck response #{response.clean_inspect}"
 
     render json: "tested launchpad healthcheck. response: #{response.body}"
   end

@@ -231,7 +231,7 @@ class BaseDraftsController < DraftsController
 
       search_response.body.fetch('items', [{}]).first.fetch('meta', {}).fetch('concept-id', nil)
     else
-      Rails.logger.error("Error searching for #{plural_published_resource_name} by #{search_query} in `get_published_record_by_provider_and_native_id`: #{search_response.inspect}")
+      Rails.logger.error("Error searching for #{plural_published_resource_name} by #{search_query} in `get_published_record_by_provider_and_native_id`: #{search_response.clean_inspect}")
 
       @unconfirmed_version = true
     end

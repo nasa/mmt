@@ -52,7 +52,7 @@ class PermissionsController < ManageCmrController
 
       redirect_to permission_path(response.body['concept_id']), flash: { success: 'Collection Permission was successfully created.' }
     else
-      Rails.logger.error("Create Collection Permission Error: #{response.inspect}")
+      Rails.logger.error("Create Collection Permission Error: #{response.clean_inspect}")
 
       # Look up the error code. If we have a friendly version, use it. Otherwise,
       # just use the error message as it comes back from the CMR.
@@ -79,7 +79,7 @@ class PermissionsController < ManageCmrController
 
       hydrate_groups(@permission)
     else
-      Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
+      Rails.logger.error("Error retrieving a permission: #{permission_response.clean_inspect}")
     end
   end
 
@@ -99,7 +99,7 @@ class PermissionsController < ManageCmrController
     else
       hydrate_groups(@permission)
 
-      Rails.logger.error("Update Collection Permission Error: #{update_response.inspect}")
+      Rails.logger.error("Update Collection Permission Error: #{update_response.clean_inspect}")
       permission_update_error = update_response.error_message
 
       if permission_update_error == 'Permission to update ACL is denied'
@@ -119,7 +119,7 @@ class PermissionsController < ManageCmrController
       Rails.logger.info("#{current_user.urs_uid} DELETED catalog item ACL for #{current_user.provider_id}. #{response.body}")
       redirect_to permissions_path
     else
-      Rails.logger.error("Delete Collection Permission Error: #{response.inspect}")
+      Rails.logger.error("Delete Collection Permission Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
       set_collection_permission
       render :show
@@ -141,7 +141,7 @@ class PermissionsController < ManageCmrController
 
       add_breadcrumb @permission.fetch('catalog_item_identity', {})['name'], permission_path(@permission_concept_id)
     else
-      Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
+      Rails.logger.error("Error retrieving a permission: #{permission_response.clean_inspect}")
     end
   end
 
