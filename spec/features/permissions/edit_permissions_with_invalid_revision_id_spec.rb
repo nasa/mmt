@@ -4,9 +4,9 @@ describe 'Edit collection permissions', reset_provider: true, js: true do
   before :all do
     collection_permission_to_upload = {
       group_permissions: [ {
-                             permissions: [ 'read', 'order' ],
-                             user_type: 'registered'
-                           } ],
+        permissions: [ 'read', 'order' ],
+        user_type: 'registered'
+      } ],
       catalog_item_identity: {
         name: 'Invalid Revision Test',
         provider_id: 'MMT_2',
