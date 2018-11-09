@@ -12,29 +12,37 @@ module Helpers
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_collection_draft' do
         user = User.where(urs_uid: 'testuser').first
 
+        #
+        # Set attributes to create a draft
+        #
+        # Default draft attributes
+        draft_attributes = {
+          user: user,
+          provider_id: provider_id,
+          native_id: native_id || Faker::Crypto.md5
+        }
+
+        # Conditional additions to the draft attributes
+        draft_attributes[:draft_short_name] = short_name unless short_name.nil?
+        draft_attributes[:draft_entry_title] = entry_title unless entry_title.nil?
+        draft_attributes[:version] = version unless version.nil?
+        draft_attributes[:collection_data_type] = collection_data_type unless collection_data_type.nil?
+
+        # Create a new draft with the provided attributes
+        # NOTE: We don't save the draft object, there is no reason to hit the database
+        # here knowing that we're going to delete it as soon as it's published anyway
+        draft = build(:full_collection_draft, draft_attributes)
+
+        # Adds metadata dates (this method saves the object)
+        draft.add_metadata_dates(date: modified_date, save_record: false) unless modified_date.nil?
+
+        #
+        # ingest the draft, the specified number of times
+        #
         # Only return the most recent concept
         ingest_response = nil
+
         revision_count.times do
-          # Default draft attributes
-          draft_attributes = {
-            user: user,
-            provider_id: provider_id,
-            native_id: native_id || Faker::Crypto.md5
-          }
-
-          # Conditional additions to the draft attributes
-          draft_attributes[:draft_short_name] = short_name unless short_name.nil?
-          draft_attributes[:draft_entry_title] = entry_title unless entry_title.nil?
-          draft_attributes[:version] = version unless version.nil?
-          draft_attributes[:collection_data_type] = collection_data_type unless collection_data_type.nil?
-
-          # Create a new draft with the provided attributes
-          # NOTE: We don't save the draft object, there is no reason to hit the database
-          # here knowing that we're going to delete it as soon as it's published anyway
-          draft = build(:full_collection_draft, draft_attributes)
-
-          # Adds metadata dates (this method saves the object)
-          draft.add_metadata_dates(date: modified_date, save_record: false) unless modified_date.nil?
 
           ingest_response = cmr_client.ingest_collection(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
 
@@ -74,7 +82,9 @@ module Helpers
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do
         user = User.where(urs_uid: 'testuser').first
 
-        ingest_response = nil
+        #
+        # Set attributes to create a draft
+        #
         # Default draft attributes
         draft_attributes = {
           user: user,
@@ -82,19 +92,25 @@ module Helpers
           native_id: native_id || Faker::Crypto.md5
         }
 
+        # Conditional additions to the draft attribute
+        draft_attributes[:draft_short_name] = name unless name.blank?
+        draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
+        draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
+
+        # Create a new draft with the provided attributes
+        # NOTE: We don't save the draft object, there is no reason to hit the database
+        # here knowing that we're going to delete it as soon as it's published anyway
+        draft = build(:full_variable_draft, draft_attributes)
+
+        #
+        # ingest the draft, the specified number of times
+        #
+        # Only return the most recent concept
+        ingest_response = nil
+
         revision_count.times do |i|
-          # Conditional additions to the draft attribute
-          draft_attributes[:draft_short_name] = name unless name.blank?
-          draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
-          draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
-
           # number the revision long names if the option is specified
-          draft_attributes[:draft_entry_title] += " -- revision 0#{i + 1}" if number_revision_long_names
-
-          # Create a new draft with the provided attributes
-          # NOTE: We don't save the draft object, there is no reason to hit the database
-          # here knowing that we're going to delete it as soon as it's published anyway
-          draft = build(:full_variable_draft, draft_attributes)
+          draft.draft['LongName'] = "#{draft_attributes[:draft_entry_title]} -- revision 0#{i + 1}" if number_revision_long_names
 
           ingest_response = cmr_client.ingest_variable(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
         end
@@ -165,7 +181,9 @@ module Helpers
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_service_draft' do
         user = User.where(urs_uid: 'testuser').first
 
-        ingest_response = nil
+        #
+        # Set attributes to create a draft
+        #
         # Default draft attributes
         draft_attributes = {
           user: user,
@@ -173,19 +191,24 @@ module Helpers
           native_id: native_id || Faker::Crypto.md5
         }
 
+        # Conditional additions to the draft attribute
+        draft_attributes[:draft_short_name] = name unless name.blank?
+        draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
+        draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
+        # Create a new draft with the provided attributes
+        # NOTE: We don't save the draft object, there is no reason to hit the database
+        # here knowing that we're going to delete it as soon as it's published anyway
+        draft = build(:full_service_draft, draft_attributes)
+
+        #
+        # ingest the draft, the specified number of times
+        #
+        # Only return the most recent concept
+        ingest_response = nil
+
         revision_count.times do |i|
-          # Conditional additions to the draft attribute
-          draft_attributes[:draft_short_name] = name unless name.blank?
-          draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
-          draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
-
           # number the revision long names if the option is specified
-          draft_attributes[:draft_entry_title] += " -- revision 0#{i + 1}" if number_revision_long_names
-
-          # Create a new draft with the provided attributes
-          # NOTE: We don't save the draft object, there is no reason to hit the database
-          # here knowing that we're going to delete it as soon as it's published anyway
-          draft = build(:full_service_draft, draft_attributes)
+          draft.draft['LongName'] = "#{draft_attributes[:draft_entry_title]} -- revision 0#{i + 1}" if number_revision_long_names
 
           ingest_response = cmr_client.ingest_service(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
         end
