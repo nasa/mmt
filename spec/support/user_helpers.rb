@@ -213,14 +213,21 @@ module Helpers
       click_on 'Launchpad Test Login'
     end
 
-    def visit_with_expiring_token(path)
+    def make_token_expiring
       token_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: token_body(expiring: true)))
       allow_any_instance_of(Cmr::UrsClient).to receive(:refresh_token).and_return(token_response)
 
       # Tell the test that the token is expired
       allow_any_instance_of(ApplicationController).to receive(:server_session_expires_in).and_return(-5)
+    end
 
-      visit path
+    def make_token_refresh_fail
+      refresh_response_body = '{"error": "invalid_grant", "error_description": "Refresh token is invalid."}'
+      refresh_response = cmr_fail_response(refresh_response_body, 401)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:refresh_token).and_return(refresh_response)
+
+      # Tell the test that the token is expired
+      allow_any_instance_of(ApplicationController).to receive(:server_session_expires_in).and_return(-5)
     end
 
     def add_provider_context_permission(provider_ids)

@@ -115,18 +115,28 @@ class UsersController < ApplicationController
   private
 
   def finish_successful_login(profile)
+    # there is additional logging for Launchpad and URS
+    # once Launchpad has been live and stable in production for a while
+    # the Launchpad logging (`log_all_session_keys`) can be removed with MMT-1615
+    # once the URS refresh token issue has been diagnosed or resolved,
+    # the URS logging (`log_urs_session_keys`) can be removed with MMT-1616
     Rails.logger.debug '>>>>> running store_profile'
     # Stores additional information in the session pertaining to the user
     store_profile(profile)
+    Rails.logger.debug "Successful URS Login by user #{authenticated_urs_uid}" if session[:login_method] == 'urs'
+    log_urs_session_keys
     log_all_session_keys
+
     Rails.logger.debug '>>>>> running set_available_providers'
     # Updates the user's available providers
     current_user.set_available_providers(token)
     log_all_session_keys
+
     Rails.logger.debug '>>>>> running get_providers'
     # Refresh (force retrieve) the list of all providers
     cmr_client.get_providers(true)
     log_all_session_keys
+
     # Redirects the user to an appropriate location
     redirect_after_login
   end

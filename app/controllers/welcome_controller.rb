@@ -2,6 +2,7 @@ class WelcomeController < ApplicationController
   include ProviderHoldings
 
   skip_before_action :ensure_user_is_logged_in, :setup_query
+  skip_before_action :refresh_launchpad_if_needed, only: [:index]
 
   before_action :redirect_if_logged_in
 
@@ -25,6 +26,6 @@ class WelcomeController < ApplicationController
   protected
 
   def redirect_if_logged_in
-    return redirect_to manage_collections_path if logged_in?
+    return redirect_to manage_collections_path if logged_in? && server_session_expires_in > 0
   end
 end

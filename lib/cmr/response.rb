@@ -2,6 +2,8 @@ module Cmr
   # Wraps a Faraday::Response object with helper methods and methods specific to
   # interpreting ECHO responses
   class Response
+    include Cmr::Util
+
     def initialize(faradayResponse)
       @response = faradayResponse
     end
@@ -78,7 +80,10 @@ module Cmr
       if faraday_response.env.fetch(:request_headers, {})['Echo-Token']
         clean_response = faraday_response.deep_dup
 
-        echo_token_snippet = clean_response.env[:request_headers].delete('Echo-Token').split(':').map { |token_part| token_part.truncate(token_part.length / 4 + 3) }.join(':')
+        echo_token = clean_response.env[:request_headers].delete('Echo-Token')
+
+        echo_token_snippet = truncate_token(echo_token)
+
         clean_response.env[:request_headers]['Echo-Token-snippet'] = echo_token_snippet
 
         clean_response.inspect
