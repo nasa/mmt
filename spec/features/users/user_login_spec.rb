@@ -43,7 +43,8 @@ describe 'User login' do
 
     context 'when the user token is expiring' do
       before do
-        visit_with_expiring_token('/manage_collections')
+        make_token_expiring
+        visit manage_collections_path
       end
 
       it 'allows access to the manage collections' do
@@ -53,6 +54,17 @@ describe 'User login' do
 
       it 'refreshes the user token' do
         expect(page.get_rack_session_key('access_token')).to eql('new_access_token')
+      end
+    end
+
+    context 'when the user token is expiring and refreshing the token fails', js: true do
+      before do
+        make_token_refresh_fail
+        visit manage_collections_path
+      end
+
+      it 'redirects them to URS to login' do
+        expect(page).to have_content('EARTHDATA LOGIN')
       end
     end
   end

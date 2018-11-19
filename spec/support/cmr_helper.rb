@@ -25,8 +25,9 @@ module Helpers
       Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(response_body)))
     end
 
-    def cmr_fail_response(response_body)
-      Cmr::Response.new(Faraday::Response.new(status: 400, body: JSON.parse(response_body), response_headers: {}))
+    def cmr_fail_response(response_body, status = nil)
+      status = status.nil? ? 400 : status
+      Cmr::Response.new(Faraday::Response.new(status: status, body: JSON.parse(response_body), response_headers: {}))
     end
 
     def create_provider(provider_name)

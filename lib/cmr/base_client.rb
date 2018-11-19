@@ -5,7 +5,9 @@ module Cmr
                               events: Cmr::ClientMiddleware::EventMiddleware)
   class BaseClient
     # include Cmr::QueryTransformations
-    CLIENT_ID = 'MMT'
+    include Cmr::Util
+
+    CLIENT_ID = 'MMT'.freeze
 
     def connection
       @connection ||= build_connection
@@ -18,8 +20,8 @@ module Cmr
 
     protected
 
-    # ABC-1: Admin
-    # ABC-2: Typical
+    # Token "ABC-1" is created on local cmr start up for Admin user
+    # Token "ABC-2" is created on local cmr start up for Typical user
     def token_header(token, use_real = false)
       if (Rails.env.development? || Rails.env.test?) && !use_real
         mock_token = 'ABC-2'
@@ -106,23 +108,6 @@ module Cmr
 
         conn.adapter Faraday.default_adapter
       end
-    end
-
-    def valid_uri?(uri)
-      !!URI.parse(uri)
-    rescue URI::InvalidURIError
-      false
-    end
-
-    def encode_if_needed(url_fragment)
-      valid_uri?(url_fragment) ? url_fragment : URI.encode(url_fragment)
-    end
-
-    private
-
-    def is_urs_token?(token)
-      # URS token max length is 100, Launchpad token is much longer
-      token.length <= 100 ? true : false
     end
   end
 end

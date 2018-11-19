@@ -79,12 +79,12 @@ describe 'Groups list page', reset_provider: true do
         context 'when there are paginated groups' do
           before do
             # mock for group list page 1
-            groups_page_1_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/groups/groups_index_page_1.json'))))
+            groups_page_1_response = cmr_success_response(File.read('spec/fixtures/groups/groups_index_page_1.json'))
             page_1_options = { page_size: 25, page_num: 1 }
             allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).with(page_1_options, 'access_token').and_return(groups_page_1_response)
 
             # mock for group list page 2
-            groups_page_2_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/groups/groups_index_page_2.json'))))
+            groups_page_2_response = cmr_success_response(File.read('spec/fixtures/groups/groups_index_page_2.json'))
             page_2_options = { page_size: 25, page_num: 2 }
             allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).with(page_2_options, 'access_token').and_return(groups_page_2_response)
 

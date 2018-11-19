@@ -7,8 +7,8 @@ class ApplicationController < ActionController::Base
 
   before_action :ensure_user_is_logged_in
   before_action :setup_query
-  before_action :refresh_urs_if_needed, except: [:logout, :refresh_token] # URS login
-  before_action :refresh_launchpad_if_needed, except: [:logout] # Launchpad login
+  before_action :refresh_urs_if_needed, except: [:login, :logout, :refresh_token] # URS login
+  before_action :refresh_launchpad_if_needed, except: [:login, :logout] # Launchpad login
   before_action :provider_set?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -199,19 +199,31 @@ class ApplicationController < ActionController::Base
 
   def refresh_urs_token
     # URS login
-    response = cmr_client.refresh_token(session[:refresh_token])
-    return nil unless response.success?
+    refresh_response = cmr_client.refresh_token(session[:refresh_token])
 
-    json = response.body
-    store_oauth_token(json)
+    if refresh_response.success?
+      json = refresh_response.body
+      store_oauth_token(json)
 
-    if json.nil? && !request.xhr?
-      session[:last_point] = request.fullpath
+      if json.nil? && !request.xhr?
+        session[:last_point] = request.fullpath
 
-      redirect_to cmr_client.urs_login_path
+        redirect_to login_path(login_method: 'urs')
+      end
+
+      Rails.logger.debug "Successful URS Refresh Token call for user #{authenticated_urs_uid}"
+      # this additional logging was added to diagnose if there is an issue
+      # with refreshing a token via URS. it should be removed after the
+      # problem is resolved, with MMT-1616
+      log_urs_session_keys
+
+      json
+    else
+      Rails.logger.error("URS Refresh Token Error for user #{authenticated_urs_uid}: #{refresh_response.inspect}")
+      log_urs_session_keys
+
+      redirect_to login_path(login_method: 'urs')
     end
-
-    json
   end
 
   def refresh_launchpad_if_needed
@@ -259,7 +271,7 @@ class ApplicationController < ActionController::Base
 
       { success: Time.now.to_s }
     else
-      { error: 'could not keep alive', time: Time.now.to_s }
+      { error: 'Keep Alive call failed', time: Time.now.to_s }
     end
   end
 
@@ -349,6 +361,9 @@ class ApplicationController < ActionController::Base
   end
 
   def log_all_session_keys
+    # this is additional logging just for Launchpad
+    # it can be removed once Launchpad has been live and stable in
+    # production for a while, with MMT-1615
     return if Rails.env.test? || session[:login_method] == 'urs'
     all_session_keys = LAUNCHPAD_SESSION_KEYS | URS_SESSION_KEYS
     # additional token and login keys
@@ -363,6 +378,20 @@ class ApplicationController < ActionController::Base
 
     Rails.logger.debug '>>>>> logging session keys'
     Rails.logger.debug all_session_keys_log.join("\n")
+  end
+
+  def log_urs_session_keys
+    # this is additional logging to diagnose potential issues with refreshing a
+    # URS token, it should be removed with MMT-1616
+    return if Rails.env.test? || session[:login_method] == 'launchpad'
+    urs_logging = <<-LOG
+      Logging URS keys
+      User: #{authenticated_urs_uid}
+      URS access token snippet: #{cmr_client.truncate_token(token)}
+      URS refresh token snippet: #{cmr_client.truncate_token(session[:refresh_token])}
+    LOG
+
+    Rails.logger.debug urs_logging
   end
 
   def ensure_at_least_one_login_method
