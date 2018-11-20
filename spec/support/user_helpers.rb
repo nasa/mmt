@@ -83,64 +83,14 @@ module Helpers
         return mock_login(admin: admin, providers: providers, provider: provider) unless real_login
 
         # Mock calls to URS and login Test User
-        if admin
-          current_user_body = {
-            'user' => {
-              'addresses' => [{
-                'country'   => 'United States',
-                'id'        => 'admin-user-guid',
-                'us_format' => false
-              }],
-              'creation_date'      => '2016-05-05T18:58:54Z',
-              'email'              => 'admin@example.com',
-              'first_name'         => 'Admin',
-              'id'                 => 'user-echo-token',
-              'last_name'          => 'User',
-              'opt_in'             => false,
-              'primary_study_area' => 'UNSPECIFIED',
-              'user_domain'        => 'OTHER',
-              'user_region'        => 'USA',
-              'user_type'          => 'UNSPECIFIED',
-              'username'           => 'adminuser'
-            }
-          }
-        else
-          current_user_body = {
-            'user' => {
-              'addresses' => [{
-                'country'   => 'United States',
-                'id'        => 'test-user-guid',
-                'us_format' => false
-              }],
-              'creation_date'      => '2016-05-05T18:58:54Z',
-              'email'              => 'test@example.com',
-              'first_name'         => 'Test',
-              'id'                 => 'user-echo-token',
-              'last_name'          => 'User',
-              'opt_in'             => false,
-              'primary_study_area' => 'UNSPECIFIED',
-              'user_domain'        => 'OTHER',
-              'user_region'        => 'USA',
-              'user_type'          => 'UNSPECIFIED',
-              'username'           => 'testuser'
-            }
-          }
-        end
-
         profile_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: profile_body(admin: admin)))
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_profile).and_return(profile_response)
 
         token_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: token_body(admin: admin)))
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_oauth_tokens).and_return(token_response)
 
-        current_user_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: current_user_body))
-        allow_any_instance_of(Cmr::EchoClient).to receive(:get_current_user).and_return(current_user_response)
-
         # Use the provided user or lookup a previously created user by URS UID
         user = User.find_or_create_by(urs_uid: profile_body(admin: admin)['uid'])
-
-        # Set the ECHO ID for the user
-        user.update(echo_id: current_user_body['user']['id'])
 
         # This is a setter on the User model, because we're only supplying it
         # providers it will assign provider_id for us.
@@ -165,7 +115,6 @@ module Helpers
       user = User.from_urs_uid(uid)
       user.provider_id = provider
       user.providers = Array.wrap(providers)
-      user.update(echo_id: 'user-echo-token')
       user.save
 
       allow_any_instance_of(ApplicationController).to receive(:ensure_user_is_logged_in).and_return(true)

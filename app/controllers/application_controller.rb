@@ -119,23 +119,6 @@ class ApplicationController < ActionController::Base
     session[:name] = profile['first_name'].nil? ? uid : "#{profile['first_name']} #{profile['last_name']}"
     session[:urs_uid] = profile['uid'] || uid
     session[:email_address] = profile['email_address']
-
-    # Echo Id is not being used, so this should be removed as part of MMT-1446
-    # Also, CMR can't get a user's Echo Id from their launchpad token
-    # Store ECHO ID
-    # if current_user.echo_id.nil?
-    #   puts "echo id is nil"
-    #   response = cmr_client.get_current_user(token)
-    #   if response.success?
-    #     Rails.logger.info "echo user response in store_profile: #{response.inspect}"
-    #     echo_user = response.body
-    #
-    #     current_user.update(echo_id: echo_user.fetch('user', {}).fetch('id'))
-    #   end
-    # end
-    #
-    # # With no echo_id we cannot request providers for the user, no sense in continuing
-    # return if current_user.echo_id.nil?
   end
 
   def store_oauth_token(oauth_response)
