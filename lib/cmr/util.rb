@@ -30,14 +30,4 @@ module Cmr
       end
     end
   end
-
-  def valid_uri?(uri)
-    !!URI.parse(uri)
-  rescue URI::InvalidURIError
-    false
-  end
-
-  def encode_if_needed(url_fragment)
-    valid_uri?(url_fragment) ? url_fragment : URI.encode(url_fragment)
-  end
 end

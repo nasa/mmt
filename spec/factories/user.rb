@@ -28,9 +28,5 @@ FactoryGirl.define do
     trait :multiple_providers do
       available_providers %w(MMT_1 MMT_2 LARC SEDAC)
     end
-
-    trait :with_echo_id do
-      echo_id { Faker::Crypto.md5 }
-    end
   end
 end
