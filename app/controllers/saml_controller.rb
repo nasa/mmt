@@ -97,6 +97,25 @@ class SamlController < UsersController
   # def idp_logout_request
   # end
 
+  def delete_session
+    session[:auid] = nil
+    session[:launchpad_email] = nil
+    session[:launchpad_cookie] = nil
+    session[:expires_in] = nil
+    session[:logged_in_at] = nil
+    session[:original_logged_in_at] = nil
+  end
+
+  def logout
+    clear_session_and_token_data
+    delete_session
+    if Rails.env.development? || Rails.env.test?
+      redirect_to('https://auth.launchpad-sbx.nasa.gov/unauth/logout.aspx')
+    else
+      redirect_to('https://auth.launchpad.nasa.gov/unauth/logout.aspx')
+    end
+  end
+
   def get_url_base
     ENV['SAML_SP_ISSUER_BASE']
   end

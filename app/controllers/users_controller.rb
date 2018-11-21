@@ -28,11 +28,14 @@ class UsersController < ApplicationController
   end
 
   def logout
-    reset_session
-
-    respond_to do |format|
-      format.html { redirect_to root_url }
-      format.json { render json: nil, status: :ok }
+    if session[:login_method] = 'launchpad'
+      redirect_to saml_logout_url
+    else
+      reset_session
+      respond_to do |format|
+        format.html { redirect_to root_url }
+        format.json { render json: nil, status: :ok }
+      end
     end
   end
 
