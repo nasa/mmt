@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   end
 
   def logout
-    if session[:login_method] = 'launchpad'
+    if session[:login_method] == 'launchpad'
       redirect_to saml_logout_url
     else
       reset_session
