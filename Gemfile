@@ -7,10 +7,9 @@ gem 'rails', '~>4.2.11'
 gem 'sprockets', '~> 2.12'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
 gem 'bourbon'
 gem 'neat'
-
+gem 'sass-rails', '~> 5.0'
 
 # Use Autoprefixer for prefixing styles
 gem 'autoprefixer-rails'
@@ -49,11 +48,11 @@ gem 'factory_girl_rails'
 gem 'faker'
 gem 'figaro'
 gem 'font-awesome-rails'
+gem 'jquery-ui-rails'	# for $(document).tooltip()
 gem 'json-schema'
 gem 'kaminari'
 gem 'momentjs-rails' # js lib for dates
 gem 'pundit'
-gem 'jquery-ui-rails'	# for $(document).tooltip()
 
 gem 'activerecord-session_store'
 gem 'ruby-saml', '>= 1.7.0'
@@ -98,11 +97,12 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
+  gem 'chromedriver-helper'
   gem 'fuubar'
   gem 'launchy'
-  gem 'poltergeist'
   gem 'rack_session_access'
   gem 'rspec_junit_formatter'
+  gem 'selenium-webdriver'
   gem 'simplecov', require: false
 end
 
