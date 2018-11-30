@@ -32,7 +32,7 @@ describe 'Inviting users', reset_provider: true, js: true do
 
         click_on 'invite-user-button'
 
-        wait_for_ajax
+        wait_for_jQuery
 
         token
       end
@@ -110,7 +110,7 @@ describe 'Inviting users', reset_provider: true, js: true do
           click_on 'invite-user-button'
         end
 
-        wait_for_ajax
+        wait_for_jQuery
 
         token
       end

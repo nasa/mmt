@@ -54,7 +54,7 @@ describe 'Creating a Service Entry', reset_provider: true, js: true do
       it 'displays the service entry form' do
         expect(page).to have_content('New MMT_2 Service Entry')
 
-        wait_for_ajax
+        wait_for_jQuery
         
         # Check that all 6 results appear on the page
         expect(page).to have_selector('#tag_guids_fromList option', count: 6)

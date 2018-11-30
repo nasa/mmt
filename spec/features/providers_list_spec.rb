@@ -46,7 +46,7 @@ describe 'Providers list' do
           before do
             click_on 'provider-badge-link'
             click_on 'Refresh your available providers'
-            wait_for_ajax
+            wait_for_jQuery
             click_on 'Close'
           end
 

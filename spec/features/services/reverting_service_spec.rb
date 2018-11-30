@@ -29,7 +29,7 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
         click_on 'Revert to this Revision'
         click_on 'Yes'
 
-        wait_for_ajax
+        wait_for_jQuery
         wait_for_cmr
       end
 
@@ -79,7 +79,7 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
           context 'when clicking Yes' do
             before do
               find('.not-current-provider-link').click
-              wait_for_ajax
+              wait_for_jQuery
             end
 
             it 'reverts the service to the correct revision and displays the correct revision information and switches provider context' do
@@ -111,7 +111,7 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
         click_on 'Revert to this Revision', match: :first
         click_on 'Yes'
 
-        wait_for_ajax
+        wait_for_jQuery
         wait_for_cmr
       end
 
@@ -130,7 +130,7 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
       click_on 'Delete Service Record'
       click_on 'Yes'
 
-      wait_for_ajax
+      wait_for_jQuery
       wait_for_cmr
     end
 
@@ -143,7 +143,7 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
         click_on 'Reinstate'
         click_on 'Yes'
 
-        wait_for_ajax
+        wait_for_jQuery
         wait_for_cmr
       end
 

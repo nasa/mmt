@@ -26,7 +26,7 @@ describe 'Deleting a Service Option Assignment', reset_provider: true, js: true 
 
     visit service_option_assignments_path
 
-    wait_for_ajax
+    wait_for_jQuery
 
     within '#service_entries_fromList' do
       # Deimos

@@ -60,7 +60,7 @@ describe 'Collection draft permissions' do
         before do
           click_on 'You need to change your current provider to show this draft'
 
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         it 'switches the provider context' do
@@ -130,7 +130,7 @@ describe 'Collection draft permissions' do
         before do
           click_on 'You need to change your current provider to edit this draft'
 
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         it 'switches the provider context' do

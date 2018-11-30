@@ -11,7 +11,7 @@ describe 'Deleting Order Option Assignments' do
 
     visit order_option_assignments_path
 
-    wait_for_ajax
+    wait_for_jQuery
 
     within '#collectionsChooser' do
       select('lorem_223 | ipsum', from: 'Available Collections')

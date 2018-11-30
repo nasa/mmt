@@ -1,7 +1,3 @@
-# MMT-269
-
-require 'rails_helper'
-
 include DraftsHelper
 
 describe 'Collection Draft form navigation', js: true do
@@ -49,7 +45,7 @@ describe 'Collection Draft form navigation', js: true do
         end
 
         select next_form, from: 'next-section-top'
-        wait_for_ajax
+        wait_for_jQuery
       end
 
       # Note - randomization causes test result order to not agree with DRAFT_FORMS order.

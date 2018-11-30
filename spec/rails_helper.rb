@@ -89,6 +89,8 @@ RSpec.configure do |config|
     puts "Rails Version: #{Rails.version}"
   end
 
+  Capybara.default_max_wait_time = (ENV['CAPYBARA_WAIT_TIME'] || 15).to_i
+
   # Lines below taken from http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
   config.use_transactional_fixtures = false
   config.before(:suite) do

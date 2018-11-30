@@ -735,12 +735,16 @@ module Helpers
       script = "$('.dz-hidden-input').attr('id', 'shapefile').attr('style', '');"
       page.execute_script(script)
 
-      begin
-        attach_file('shapefile', Rails.root.join(path))
-        wait_for_ajax
-      rescue Capybara::Poltergeist::ObsoleteNode
-        nil
-      end
+      # begin
+      #   attach_file('shapefile', Rails.root.join(path))
+      #   wait_for_ajax
+      # rescue Capybara::Poltergeist::ObsoleteNode
+      #   nil
+      # end
+
+      # TODO not sure what to rescure here
+      attach_file('shapefile', Rails.root.join(path))
+      wait_for_jQuery
     end
 
     def add_science_keywords
