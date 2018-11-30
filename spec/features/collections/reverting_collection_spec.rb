@@ -27,7 +27,7 @@ describe 'Reverting to previous collections', js: true do
         click_on 'Revert to this Revision'
         click_on 'Yes'
 
-        wait_for_ajax
+        wait_for_jQuery
         wait_for_cmr
       end
 
@@ -53,7 +53,7 @@ describe 'Reverting to previous collections', js: true do
         click_on 'Revert to this Revision'
         click_on 'Yes'
 
-        wait_for_ajax
+        wait_for_jQuery
         wait_for_cmr
       end
 
@@ -72,7 +72,7 @@ describe 'Reverting to previous collections', js: true do
       click_on 'Delete Collection Record'
       click_on 'Yes'
 
-      wait_for_ajax
+      wait_for_jQuery
       wait_for_cmr
     end
 
@@ -85,7 +85,7 @@ describe 'Reverting to previous collections', js: true do
         click_on 'Reinstate'
         click_on 'Yes'
 
-        wait_for_ajax
+        wait_for_jQuery
         wait_for_cmr
       end
 
@@ -123,7 +123,7 @@ describe 'Reverting to previous collections', js: true do
         click_on 'Revert to this Revision', match: :first
         find('.not-current-provider-link').click
 
-        wait_for_ajax
+        wait_for_jQuery
         wait_for_cmr
 
         expect(page).to have_content('Revision Created Successfully!')
@@ -140,7 +140,7 @@ describe 'Reverting to previous collections', js: true do
         click_on 'Revert to this Revision', match: :first
         find('.not-current-provider-link').click
 
-        wait_for_ajax
+        wait_for_jQuery
       end
     end
   end

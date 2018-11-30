@@ -50,7 +50,7 @@ describe 'Group list permissions', reset_provider: true do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context' do
@@ -82,7 +82,7 @@ describe 'Group list permissions', reset_provider: true do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context and deletes the record' do

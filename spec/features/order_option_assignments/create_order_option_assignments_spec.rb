@@ -11,7 +11,7 @@ describe 'Viewing and Creating Order Option Assignments' do
 
     visit order_option_assignments_path
 
-    wait_for_ajax
+    wait_for_jQuery
   end
 
   context 'When trying to display option assignments without selecting any collections', js: true do

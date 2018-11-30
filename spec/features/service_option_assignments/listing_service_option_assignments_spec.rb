@@ -15,7 +15,7 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true do
 
       visit service_option_assignments_path
 
-      wait_for_ajax
+      wait_for_jQuery
     end
 
     it 'displays the service option assignments form' do

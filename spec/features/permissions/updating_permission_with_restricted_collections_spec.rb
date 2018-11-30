@@ -96,7 +96,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
       before do
         visit edit_permission_path(@collection_permission_all_restricted['concept_id'])
 
-        wait_for_ajax
+        wait_for_jQuery
       end
 
       it 'displays the collection permission edit form with 0 of 2 selected collections' do
@@ -158,7 +158,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
       before do
         visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
 
-        wait_for_ajax
+        wait_for_jQuery
       end
 
       it 'displays the collection permission with 1 of 3 selected collection' do
@@ -220,7 +220,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
       before do
         visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
 
-        wait_for_ajax
+        wait_for_jQuery
       end
 
       it 'displays the collection permission with 3 of 3 selected collection' do

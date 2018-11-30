@@ -56,7 +56,7 @@ describe 'Service draft permissions' do
         before do
           click_on 'You need to change your current provider to show this Service Draft'
 
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         it 'switches the provider context' do
@@ -126,7 +126,7 @@ describe 'Service draft permissions' do
         before do
           click_on 'You need to change your current provider to edit this Service Draft'
 
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         it 'switches the provider context' do

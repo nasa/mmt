@@ -57,7 +57,7 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
       context 'when clicking the link to change providers' do
         before do
           click_on 'Click here to change your provider.'
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         it 'changes providers and displays the permission' do
@@ -112,7 +112,7 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
       context 'when clicking the link to change providers' do
         before do
           click_on 'Click here to change your provider.'
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         it 'changes providers and displays the permission' do
