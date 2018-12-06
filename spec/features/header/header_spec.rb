@@ -14,6 +14,24 @@ describe 'Header' do
       it 'has "Manage Collections" as the underlined current header link' do
         within 'main header' do
           expect(page).to have_css('h2.current', text: 'Manage Collections')
+          within 'h2.current' do
+            expect(page).to have_css('span.eui-badge--sm', count: 1)
+          end
+        end
+      end
+    end
+
+    context 'from the Manage Services page' do
+      before do
+        visit manage_services_path
+      end
+
+      it 'has "Manage Services" as the underlined current header link' do
+        within 'main header' do
+          expect(page).to have_css('h2.current', text: 'Manage Services')
+          within 'h2.current' do
+            expect(page).to have_css('span.eui-badge--sm', count: 1)
+          end
         end
       end
     end
@@ -26,6 +44,9 @@ describe 'Header' do
       it 'has "Manage Variables" as the underlined current header link' do
         within 'main header' do
           expect(page).to have_css('h2.current', text: 'Manage Variables')
+          within 'h2.current' do
+            expect(page).to have_css('span.eui-badge--sm', count: 1)
+          end
         end
       end
     end
