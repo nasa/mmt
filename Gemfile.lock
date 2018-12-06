@@ -352,7 +352,7 @@ DEPENDENCIES
   poltergeist
   pundit
   rack_session_access
-  rails (~> 4.2.10)
+  rails (~> 4.2.11)
   rspec-rails
   rspec_junit_formatter
   rubocop
