@@ -14,9 +14,13 @@ describe 'Header' do
       it 'has "Manage Collections" as the underlined current header link' do
         within 'main header' do
           expect(page).to have_css('h2.current', text: 'Manage Collections')
-          within 'h2.current' do
-            expect(page).to have_css('span.eui-badge--sm', count: 1)
-          end
+        end
+      end
+
+      it 'has version label' do
+        within 'main header h2.current' do
+          expect(page).to have_css('span.eui-badge--sm.umm-version-label')
+          expect(page).to have_content('1.10')
         end
       end
     end
@@ -29,9 +33,13 @@ describe 'Header' do
       it 'has "Manage Services" as the underlined current header link' do
         within 'main header' do
           expect(page).to have_css('h2.current', text: 'Manage Services')
-          within 'h2.current' do
-            expect(page).to have_css('span.eui-badge--sm', count: 1)
-          end
+        end
+      end
+
+      it 'has version label' do
+        within 'main header h2.current' do
+          expect(page).to have_css('span.eui-badge--sm.umm-version-label')
+          expect(page).to have_content('1.2')
         end
       end
     end
@@ -44,9 +52,13 @@ describe 'Header' do
       it 'has "Manage Variables" as the underlined current header link' do
         within 'main header' do
           expect(page).to have_css('h2.current', text: 'Manage Variables')
-          within 'h2.current' do
-            expect(page).to have_css('span.eui-badge--sm', count: 1)
-          end
+        end
+      end
+
+      it 'has version label' do
+        within 'main header h2.current' do
+          expect(page).to have_css('span.eui-badge--sm.umm-version-label')
+          expect(page).to have_content('1.3')
         end
       end
     end
