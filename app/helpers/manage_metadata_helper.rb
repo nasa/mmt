@@ -42,4 +42,10 @@ module ManageMetadataHelper
     edsc_root = service_configs['earthdata'][Rails.configuration.cmr_env]['edsc_root']
     "#{edsc_root}/search/map"
   end
+
+  def display_version(mime_type)
+    index = mime_type.index('version=')
+    version = mime_type[(index + 8)..-1]
+    version
+  end
 end
