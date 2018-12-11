@@ -1,8 +1,21 @@
-require 'rails_helper'
-
 describe 'Header' do
   before do
     login
+  end
+
+  before :all do
+    @origin_c_config = Rails.configuration.umm_c_version
+    Rails.configuration.umm_c_version = "vnd.nasa.cmr.umm+json; version=1.23"
+    @origin_s_config = Rails.configuration.umm_s_version
+    Rails.configuration.umm_s_version = "vnd.nasa.cmr.umm+json; version=2.23"
+    @origin_var_config = Rails.configuration.umm_var_version
+    Rails.configuration.umm_var_version = "vnd.nasa.cmr.umm+json; version=1.90"
+  end
+
+  after :all do
+    Rails.configuration.umm_c_version = @origin_c_config
+    Rails.configuration.umm_s_version = @origin_s_config
+    Rails.configuration.umm_var_version = @origin_var_config
   end
 
   context 'when viewing the header' do
@@ -20,7 +33,7 @@ describe 'Header' do
       it 'has version label' do
         within 'main header h2.current' do
           expect(page).to have_css('span.eui-badge--sm.umm-version-label')
-          expect(page).to have_content('1.10')
+          expect(page).to have_content('v1.23')
         end
       end
     end
@@ -39,7 +52,7 @@ describe 'Header' do
       it 'has version label' do
         within 'main header h2.current' do
           expect(page).to have_css('span.eui-badge--sm.umm-version-label')
-          expect(page).to have_content('1.2')
+          expect(page).to have_content('v2.23')
         end
       end
     end
@@ -58,7 +71,7 @@ describe 'Header' do
       it 'has version label' do
         within 'main header h2.current' do
           expect(page).to have_css('span.eui-badge--sm.umm-version-label')
-          expect(page).to have_content('1.3')
+          expect(page).to have_content('v1.90')
         end
       end
     end

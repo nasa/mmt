@@ -45,7 +45,6 @@ module ManageMetadataHelper
 
   def display_version(mime_type)
     index = mime_type.index('version=')
-    version = mime_type[(index + 8)..-1]
-    version
+    'v' + mime_type[(index + 8)..-1]
   end
 end
