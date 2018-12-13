@@ -2,18 +2,18 @@
   <div class="content">
     <h2 class="<%= 'current' if current_manage_title == 'manage_collections' %>">
       <%= link_to 'Manage Collections', manage_collections_path %>
-      <sup><span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_c_version)}" %></span></sup>
+      <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_c_version)}" %></span>
     </h2>
 
     <h2 class="<%= 'current' if current_manage_title == 'manage_variables' %>">
       <%= link_to 'Manage Variables', manage_variables_path %>
-      <sup><span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_var_version)}" %></span></sup>
+      <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_var_version)}" %></span>
     </h2>
 
     <% if Rails.configuration.umm_s_enabled %>
       <h2 class="<%= 'current' if current_manage_title == 'manage_services' %>">
         <%= link_to 'Manage Services', manage_services_path %>
-        <sup><span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_s_version)}" %></span></sup>
+        <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_s_version)}" %></span>
       </h2>
     <% end %>
 
