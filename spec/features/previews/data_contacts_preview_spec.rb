@@ -26,7 +26,7 @@ describe 'Data Contacts preview' do
         within '.data-contacts-cards' do
           within all('li.card')[0] do
             within '.card-header' do
-              expect(page).to have_content('First Name')
+              expect(page).to have_content('First Name Last Name')
               expect(page).to have_content('Multiple Roles Science Contact Technical Contact')
             end
             within all('.card-body')[0] do
@@ -96,7 +96,7 @@ describe 'Data Contacts preview' do
           end
           within all('li.card')[2] do
             within '.card-header' do
-              expect(page).to have_content('First Name 3')
+              expect(page).to have_content('First Name 3 Last Name 3')
               expect(page).to have_content('Multiple Roles Investigator Metadata Author')
             end
             within all('.card-body')[0] do
