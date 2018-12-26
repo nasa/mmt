@@ -1,0 +1,30 @@
+{
+  "hits": 1,
+  "took": 12,
+  "items": [
+    {
+      "meta": {
+        "has-variables": false,
+        "native-id": "collection0",
+        "provider-id": "SEDAC",
+        "concept-type": "collection",
+        "granule-count": 2345,
+        "concept-id": "C1200000031-SEDAC",
+        "has-spatial-subsetting": false,
+        "revision-date": "2018-12-17T17:51:33Z",
+        "user-id": "ECHO_SYS",
+        "deleted": false,
+        "revision-id": 1,
+        "has-transforms": false,
+        "has-formats": false,
+        "format": "application/dif10+xml"
+      },
+      "umm": {
+        "entry-title": "2000 Pilot Environmental Sustainability Index (ESI)",
+        "entry-id": "CIESIN_SEDAC_ESI_2000_2000.00",
+        "short-name": "CIESIN_SEDAC_ESI_2000",
+        "version-id": "2000.00"
+      }
+    }
+  ]
+}
