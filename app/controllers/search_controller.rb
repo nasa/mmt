@@ -33,6 +33,7 @@ class SearchController < ManageMetadataController
   def get_search_results(query)
     errors = []
 
+    query['include_granule_counts'] = true
     query['keyword'] = query['keyword'].strip.gsub(/\s+/, '* ')
     query['keyword'] += '*' unless query['keyword'].last == '*'
 
