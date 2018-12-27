@@ -57,8 +57,11 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
+  # https://github.com/ankane/secure_rails against host header injection
+  config.action_controller.default_url_options = {host: 'https://mmt.sit.earthdata.nasa.gov'}
+  
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.action_controller.asset_host = 'http://assets.example.com'
+  config.action_controller.asset_host = 'https://mmt.sit.earthdata.nasa.gov'
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
