@@ -33,13 +33,13 @@ class SearchController < ManageMetadataController
   def get_search_results(query)
     errors = []
 
-    query['include_granule_counts'] = true
     query['keyword'] = query['keyword'].strip.gsub(/\s+/, '* ')
     query['keyword'] += '*' unless query['keyword'].last == '*'
 
     search_response =
       case @record_type
       when 'collections'
+        query['include_granule_counts'] = true
         cmr_client.get_collections_by_post(query, token)
       when 'variables'
         cmr_client.get_variables(query, token)
