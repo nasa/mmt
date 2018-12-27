@@ -4,9 +4,10 @@ require 'rails_helper'
 
 describe 'Searching published collections', js: true, reset_provider: true do
   short_name = "Search Test Collection Short Name #{Faker::Number.number(6)}"
-  entry_title = '2008 Long Description for Search Test Collection'
-  version = '2008'
+  entry_title = '2118 Long Description for Search Test Collection'
+  version = '2118'
   provider = 'MMT_2'
+  granule_count = '0'
 
   before :all do
     @ingest_response, @concept_response = publish_collection_draft(short_name: short_name, entry_title: entry_title, version: version)
@@ -27,12 +28,15 @@ describe 'Searching published collections', js: true, reset_provider: true do
       expect(page).to have_collection_search_query(1, "Keyword: #{@ingest_response['concept-id']}")
     end
 
-    it 'displays expected Short Name, Entry Title, Provider, Version, and Last Modified values' do
+    it 'displays expected Short Name, Entry Title, Provider, Version, Last Modified and Granule Count values' do
       expect(page).to have_content(short_name)
       expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
+      within '#search-results tbody tr:nth-child(1) td:nth-child(6)' do
+        expect(page).to have_content(granule_count)
+      end
     end
   end
 
@@ -46,12 +50,15 @@ describe 'Searching published collections', js: true, reset_provider: true do
       expect(page).to have_collection_search_query(1, "Keyword: #{short_name}")
     end
 
-    it 'displays expected Short Name, Entry Title Provider, Version, and Last Modified values' do
+    it 'displays expected Short Name, Entry Title Provider, Version, Last Modified and Granule Count values' do
       expect(page).to have_content(short_name)
       expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
+      within '#search-results tbody tr:nth-child(1) td:nth-child(6)' do
+        expect(page).to have_content(granule_count)
+      end
     end
   end
 
@@ -65,12 +72,15 @@ describe 'Searching published collections', js: true, reset_provider: true do
       expect(page).to have_collection_search_query(1, "Keyword: #{entry_title}")
     end
 
-    it 'displays expected Short Name, Entry Title, Provider, Version, and Last Modified values' do
+    it 'displays expected Short Name, Entry Title, Provider, Version, Last Modified and Granule Count values' do
       expect(page).to have_content(short_name)
       expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
+      within '#search-results tbody tr:nth-child(1) td:nth-child(6)' do
+        expect(page).to have_content(granule_count)
+      end
     end
   end
 
@@ -84,12 +94,15 @@ describe 'Searching published collections', js: true, reset_provider: true do
       expect(page).to have_collection_search_query(1, "Keyword: #{entry_title[0..17]}")
     end
 
-    it 'displays expected Short Name, Entry Title, Provider, Version, and Last Modified values' do
+    it 'displays expected Short Name, Entry Title, Provider, Version, Last Modified and Granule Count values' do
       expect(page).to have_content(short_name)
       expect(page).to have_content(version)
       expect(page).to have_content(entry_title)
       expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
+      within '#search-results tbody tr:nth-child(1) td:nth-child(6)' do
+        expect(page).to have_content(granule_count)
+      end
     end
   end
 
@@ -110,6 +123,23 @@ describe 'Searching published collections', js: true, reset_provider: true do
       expect(page).to have_content('MISR FIRSTLOOK radiometric camera-by-camera Cloud Mask V001')
       expect(page).to have_content('LARC')
       # expect(page).to have_content(today_string)
+    end
+  end
+
+  context 'when performing a collection search by short name which has granule count' do
+    before do
+      fill_in 'keyword', with: 'MIRCCMF'
+      click_on 'Search Collections'
+    end
+
+    it 'displays list with column granule count' do
+      within '#search-results thead' do
+        expect(page).to have_content('Granule Count')
+      end
+
+      within '#search-results tbody tr:nth-child(1) td:nth-child(6)' do
+        expect(page).to have_content('1')
+      end
     end
   end
 
