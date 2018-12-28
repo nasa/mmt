@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe 'Searching published collections', js: true, reset_provider: true do
   short_name = "Search Test Collection Short Name #{Faker::Number.number(6)}"
-  entry_title = '2118 Long Description for Search Test Collection'
-  version = '2118'
+  entry_title = '2008 Long Description for Search Test Collection'
+  version = '2008'
   provider = 'MMT_2'
   granule_count = '0'
 
