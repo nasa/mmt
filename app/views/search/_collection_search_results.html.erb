@@ -9,8 +9,8 @@
       <th class="w10">Version</th>
       <th class="w40"><%= sort_by_link('Entry Title', 'entry_title', query, record_type) %></th>
       <th class="w15"><%= sort_by_link('Provider', 'provider_id', query, record_type) %></th>
-      <th class="w15"><%= sort_by_link('Last Modified', 'revision_date', query, record_type) %></th>
       <th class="w15">Granule Count</th>
+      <th class="w15"><%= sort_by_link('Last Modified', 'revision_date', query, record_type) %></th>
     </tr>
   </thead>
   <tbody>
@@ -46,10 +46,10 @@
             <%= collection.fetch('meta', {})['provider-id'] %>
           </td>
           <td>
-            <%= display_last_modified(collection) %>
+            <%= collection.fetch('meta', {})['granule-count'] %>
           </td>
           <td>
-            <%= collection.fetch('meta', {})['granule-count'] %>
+            <%= display_last_modified(collection) %>
           </td>
         </tr>
       <% end %>
