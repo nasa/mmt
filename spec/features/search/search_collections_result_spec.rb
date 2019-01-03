@@ -34,7 +34,7 @@ describe 'Searching published collections', js: true, reset_provider: true do
       expect(page).to have_content(entry_title)
       expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
-      within '#search-results tbody tr:nth-child(1) td:nth-child(6)' do
+      within '#search-results tbody tr:nth-child(1) td:nth-child(5)' do
         expect(page).to have_content(granule_count)
       end
     end
@@ -56,7 +56,7 @@ describe 'Searching published collections', js: true, reset_provider: true do
       expect(page).to have_content(entry_title)
       expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
-      within '#search-results tbody tr:nth-child(1) td:nth-child(6)' do
+      within '#search-results tbody tr:nth-child(1) td:nth-child(5)' do
         expect(page).to have_content(granule_count)
       end
     end
@@ -78,7 +78,7 @@ describe 'Searching published collections', js: true, reset_provider: true do
       expect(page).to have_content(entry_title)
       expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
-      within '#search-results tbody tr:nth-child(1) td:nth-child(6)' do
+      within '#search-results tbody tr:nth-child(1) td:nth-child(5)' do
         expect(page).to have_content(granule_count)
       end
     end
@@ -100,7 +100,7 @@ describe 'Searching published collections', js: true, reset_provider: true do
       expect(page).to have_content(entry_title)
       expect(page).to have_content(provider)
       expect(page).to have_content(today_string)
-      within '#search-results tbody tr:nth-child(1) td:nth-child(6)' do
+      within '#search-results tbody tr:nth-child(1) td:nth-child(5)' do
         expect(page).to have_content(granule_count)
       end
     end
@@ -137,7 +137,7 @@ describe 'Searching published collections', js: true, reset_provider: true do
         expect(page).to have_content('Granule Count')
       end
 
-      within '#search-results tbody tr:nth-child(1) td:nth-child(6)' do
+      within '#search-results tbody tr:nth-child(1) td:nth-child(5)' do
         expect(page).to have_content('1')
       end
     end
