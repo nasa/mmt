@@ -13,8 +13,8 @@ Rails.application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  # Next two properties should be uncommented if your testing X-Forward-Host protection
   # https://github.com/ankane/secure_rails against host header injection
+  # Next two properties should be uncommented if your testing X-Forward-Host protection
   # config.action_controller.default_url_options = {host: 'mmt.localtest.earthdata.nasa.gov', port: '3000'}
   # config.action_controller.asset_host = 'http://mmt.localtest.earthdata.nasa.gov:3000'
 
