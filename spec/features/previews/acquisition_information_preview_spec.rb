@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Acquisition information preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
@@ -50,10 +48,16 @@ describe 'Acquisition information preview' do
 
         within '.projects-table' do
           within all('tr')[1] do
-            expect(page).to have_content('test 1 ShortName test 1a Campaign test 1b Campaign 2015-07-01 to 2015-12-25')
+            expect(page).to have_content('test 1 ShortName')
+            expect(page).to have_content('test 1a Campaign')
+            expect(page).to have_content('test 1b Campaign')
+            expect(page).to have_content('2015-07-01 to 2015-12-25')
           end
           within all('tr')[2] do
-            expect(page).to have_content('test 2 ShortName test 2a Campaign test 2b Campaign 2015-07-01 to 2015-12-25')
+            expect(page).to have_content('test 2 ShortName')
+            expect(page).to have_content('test 2a Campaign')
+            expect(page).to have_content('test 2b Campaign')
+            expect(page).to have_content('2015-07-01 to 2015-12-25')
           end
         end
       end

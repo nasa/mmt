@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe BulkUpdatesSearchesController, reset_provider: true do
   describe 'GET #new' do
     before :all do

@@ -1,7 +1,3 @@
-# MMT-592
-
-require 'rails_helper'
-
 describe 'Creating Order Options' do
   let(:option_name)        { 'Test Order Option ABC-1' }
   let(:option_description) { 'Test Order Option Definition Description' }

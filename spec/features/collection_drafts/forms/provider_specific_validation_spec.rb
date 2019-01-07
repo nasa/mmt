@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Provider specific validation', js: true do
   context 'when viewing the forms as a provider with specific validation rules' do
     before do
@@ -18,6 +16,8 @@ describe 'Provider specific validation', js: true do
         fill_in 'Version', with: 'v2.000'
         expect(page).to have_content 'Version must match the provided pattern'
         expect(page).to have_content 'Version is too long'
+
+        find('#draft_version_description').click
 
         click_on 'Help modal for Version'
         expect(page).to have_content 'Must not contain the letter V'

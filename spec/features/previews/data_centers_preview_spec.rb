@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Data Centers preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
@@ -59,7 +57,9 @@ describe 'Data Centers preview' do
           within all('li.card')[1] do
             within '.card-header' do
               expect(page).to have_content('ESA/ED')
-              expect(page).to have_content('Multiple Roles ORIGINATOR DISTRIBUTOR')
+              expect(page).to have_content('Multiple Roles')
+              expect(page).to have_content('ORIGINATOR')
+              expect(page).to have_content('DISTRIBUTOR')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do

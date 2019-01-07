@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Number fields', js: true do
   before do
     login
@@ -40,10 +38,7 @@ describe 'Number fields', js: true do
     it 'saves the original string into the database' do
       draft_metadata = { 'SpatialExtent' => { 'SpatialCoverageType' => 'HORIZONTAL', 'HorizontalSpatialDomain' => { 'Geometry' => { 'CoordinateSystem' => 'CARTESIAN', 'BoundingRectangles' => [{ 'NorthBoundingCoordinate' => '1a', 'WestBoundingCoordinate' => 'abcd', 'EastBoundingCoordinate' => 15.0, 'SouthBoundingCoordinate' => 30.0 }] } }, 'GranuleSpatialRepresentation' => 'CARTESIAN' } }
 
-      # intermittent failure, Rspec MultipleExceptionError
-      # can't use #synchronize because MultipleExceptionError doesn't inherit from ElementNotFound
-      # Capybara has deprecated #wait_until so need to find a matcher or comparator that will wait and/or reload on timeout
-      # example list of methods that wait (and that don't) http://tech.simplybusiness.co.uk/2015/02/25/flaky-tests-and-capybara-best-practices/
+      # using a Capybara find method that waits to locate an element, to prevent an intermittent failure
       find('#spatial-information a[title="Spatial Extent - Invalid"]')
       expect(Draft.last.draft).to eq(draft_metadata)
     end
@@ -82,8 +77,8 @@ describe 'Number fields', js: true do
 
       within '.multiple.temporal-extents' do
         choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
-        fill_in 'Precision Of Seconds', with: 'abcd'
         choose 'draft_temporal_extents_0_ends_at_present_flag_false'
+        fill_in 'Precision Of Seconds', with: 'abcd'
         fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-07-01T00:00:00Z'
       end
 
@@ -100,7 +95,7 @@ describe 'Number fields', js: true do
         expect(page).to have_content('Drafts')
       end
 
-      draft_metadata = { 'TemporalExtents' => [{ 'PrecisionOfSeconds' => 'abcd', 'EndsAtPresentFlag' => false, 'SingleDateTimes' => ['2015-07-01T00:00:00Z'] }] }
+      draft_metadata = { 'TemporalExtents' => [{ 'EndsAtPresentFlag' => false, 'PrecisionOfSeconds' => 'abcd', 'SingleDateTimes' => ['2015-07-01T00:00:00Z'] }] }
       expect(Draft.last.draft).to eq(draft_metadata)
     end
 

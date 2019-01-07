@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Viewing the Bulk Updates Index Page' do
   before do
     login

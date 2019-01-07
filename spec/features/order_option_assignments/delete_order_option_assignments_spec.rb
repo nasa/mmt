@@ -1,7 +1,3 @@
-# MMT-597
-
-require 'rails_helper'
-
 describe 'Deleting Order Option Assignments' do
   before do
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
@@ -67,7 +63,7 @@ describe 'Deleting Order Option Assignments' do
       end
 
       it 'Displays a success message and navigates to the Option Assignment Search page.' do
-        expect(page).to have_content('Deleted 1 order option assignment successfully. ')
+        expect(page).to have_content('Deleted 1 order option assignment successfully.')
         expect(page).to have_content('MMT_2 Order Option Assignments')
       end
     end

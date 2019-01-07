@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Searching collections to bulk update', reset_provider: true do
   before(:all) do
     # Create a few collections with unique attributes that we can search for

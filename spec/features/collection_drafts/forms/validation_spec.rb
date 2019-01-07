@@ -1,7 +1,3 @@
-# MMT-103, MMT-55
-
-require 'rails_helper'
-
 # R = Required fied
 # NR = Not Required field
 
@@ -64,7 +60,7 @@ bad_lat_values = [
   { value: '-100', error: 'Latitude is too low' }
 ]
 
-describe 'Data validation for a form', js: true do
+describe 'Data validation for a collection draft form', js: true do
   before do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)

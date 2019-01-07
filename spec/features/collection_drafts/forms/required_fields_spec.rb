@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Conditionally required fields', js: true do
   before do
     login
@@ -39,6 +37,8 @@ describe 'Conditionally required fields', js: true do
       context 'when filling in a form field that causes fields to become required' do
         before do
           fill_in 'Description', with: 'Testing'
+
+          find('#draft_related_urls_0_url_content_type').click
         end
 
         it 'displays the required icons' do
