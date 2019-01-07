@@ -1,6 +1,3 @@
-# Search bar and dropdown menu
-require 'rails_helper'
-
 describe 'Search bar and dropdown behavior', js: true do
   let(:short_name)  { 'MIRCCMF' }
   let(:entry_title) { 'MISR FIRSTLOOK radiometric camera-by-camera Cloud Mask V001' }

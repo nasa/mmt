@@ -1,32 +1,34 @@
-require 'rails_helper'
-
 describe 'Data Centers form' do
   context 'when creating a Data Center', js: true do
     before do
       login
       draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
-      visit collection_draft_path(draft)
+      visit edit_collection_draft_path(draft, form: 'data_centers')
     end
 
     context 'when submitting the form' do
       before do
-        within '#data-centers .meta-info' do
-          click_link 'Data Centers', match: :first
-        end
 
         within '.multiple.data-centers' do
           select 'Distributor', from: 'Role'
           select 'Processor', from: 'Role'
 
           add_data_center('AARHUS-HYDRO')
-          add_contact_information('data_center', false, 'Data Center')
+          add_contact_information(type: 'data_center', single: false, button_type: 'Data Center')
 
-          click_on 'Add another Data Center'
-          within '.multiple-item.eui-accordion.multiple-item-1' do
-            select 'Originator', from: 'Role'
-            add_data_center('ESA/ED')
-            add_contact_information('data_center', false, 'Data Center')
-          end
+        end
+
+        # for some reason `click_on 'Add another Data Center'` stopped working
+        # with switch to headless chrome, as well as all the other find and click
+        # methods even though previous 'Add another _' buttons work in this test.
+        # Using jQuery allowed the button to be clicked
+        button_script = "$('.add-another-data-center').click();"
+        page.execute_script(button_script)
+
+        within '#draft_data_centers_1' do
+          select 'Originator', from: 'Role'
+          add_data_center('ESA/ED')
+          add_contact_information(type: 'data_center', single: false, button_type: 'Data Center')
         end
 
         within '.nav-top' do

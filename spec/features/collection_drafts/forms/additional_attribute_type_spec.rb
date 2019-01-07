@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Additional Attribute data type', js: true do
   context 'when viewing the descriptive keywords form' do
     before do

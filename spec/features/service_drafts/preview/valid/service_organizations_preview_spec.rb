@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Valid Service Draft Service Organizations Preview' do
   let(:service_draft) { create(:full_service_draft, user: User.where(urs_uid: 'testuser').first) }
 
@@ -41,7 +39,9 @@ describe 'Valid Service Draft Service Organizations Preview' do
           within all('li.card')[0] do
             within '.card-header' do
               expect(page).to have_content('AARHUS-HYDRO')
-              expect(page).to have_content('Multiple RolesDEVELOPERPUBLISHER')
+              expect(page).to have_content('Multiple Roles')
+              expect(page).to have_content('DEVELOPER')
+              expect(page).to have_content('PUBLISHER')
             end
             within all('.card-body')[0] do
               within '.card-body-details' do

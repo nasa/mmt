@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
   before do
     login
@@ -32,7 +30,7 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
             fill_in 'Group Name', with: 'NDC Group Name'
             fill_in 'Non Data Center Affiliation', with: 'Big Name Research Lab'
 
-            add_contact_information('data_contact', false, 'Non Data Center Contact Group')
+            add_contact_information(type: 'data_contact', single: false, button_type: 'Non Data Center Contact Group')
           end
 
           within '.nav-top' do
@@ -119,7 +117,7 @@ describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
             add_person
             fill_in 'Non Data Center Affiliation', with: 'Big Name Research Lab'
 
-            add_contact_information('data_contact', false, 'Non Data Center Contact Person')
+            add_contact_information(type: 'data_contact', single: false, button_type: 'Non Data Center Contact Person')
           end
 
           within '.nav-top' do

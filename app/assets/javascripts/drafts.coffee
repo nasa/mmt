@@ -1,5 +1,6 @@
 $(document).ready ->
   $('.metadata-form .multiple, .umm-form .multiple').on 'click', '.add-new', (e) ->
+
     $('.select2-select').select2('destroy')
 
     simple = $(this).hasClass('new-simple')

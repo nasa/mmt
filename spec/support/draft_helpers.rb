@@ -278,16 +278,20 @@ module Helpers
     # Also try again if there are no accordions on the page (page hasn't loaded yet)
     # http://stackoverflow.com/a/28174679
     def open_accordions
-      Timeout.timeout(Capybara.default_max_wait_time) do
-        loop do
-          do_open_accordions
-          return if accordions_open?
-          # puts 'sleeping'
-          # sleep 2
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#open_accordions' do
+        Timeout.timeout(Capybara.default_max_wait_time) do
+          loop do
+            puts "doing open accordions"
+            do_open_accordions
+            return if accordions_open?
+            # puts 'sleeping'
+            # sleep 2
+          end
         end
+      rescue Timeout::Error
+        puts "timout on open accordions"
+        raise 'Failed to open the accordions on the page'
       end
-    rescue Timeout::Error
-      raise 'Failed to open the accordions on the page'
     end
 
     def do_open_accordions
@@ -302,6 +306,8 @@ module Helpers
 
       # are active jQuery requests finished?
       expect(page.evaluate_script('jQuery.active').zero?).to be true
+      # TODO: execute_script does not return a result. is there a way to
+      # change this to use that?
     rescue
       false
     end
@@ -317,13 +323,16 @@ module Helpers
       fill_in 'Last Name', with: 'Last Name'
     end
 
-    def add_contact_information(type = nil, single = nil, button_type = nil)
-      within '.contact-information' do
-        fill_in 'Service Hours', with: '9-5, M-F'
-        fill_in 'Contact Instructions', with: 'Email only'
-        add_contact_mechanisms
-        add_addresses
-        add_related_urls(type, button_type)
+    # def add_contact_information(type = nil, single = nil, button_type = nil)
+    def add_contact_information(type: nil, single: nil, button_type: nil)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_contact_information' do
+        within '.contact-information' do
+          fill_in 'Service Hours', with: '9-5, M-F'
+          fill_in 'Contact Instructions', with: 'Email only'
+          add_contact_mechanisms
+          add_addresses
+          add_related_urls(type: type, button_type: button_type)
+        end
       end
     end
 
@@ -366,66 +375,93 @@ module Helpers
     end
 
     def add_addresses
-      within '.multiple.addresses' do
-        fill_in 'Street Address - Line 1', with: '300 E Street Southwest'
-        fill_in 'Street Address - Line 2', with: 'Room 203'
-        fill_in 'Street Address - Line 3', with: 'Address line 3'
-        select 'United States', from: 'Country'
-        fill_in 'City', with: 'Washington'
-        select 'District of Columbia', from: 'State / Province'
-        fill_in 'Postal Code', with: '20546'
-        click_on 'Add another Address'
-        within '.multiple-item.eui-accordion.multiple-item-1' do
-          fill_in 'Street Address - Line 1', with: '8800 Greenbelt Road'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_addresses' do
+        within '.multiple.addresses' do
+          fill_in 'Street Address - Line 1', with: '300 E Street Southwest'
+          fill_in 'Street Address - Line 2', with: 'Room 203'
+          fill_in 'Street Address - Line 3', with: 'Address line 3'
           select 'United States', from: 'Country'
-          fill_in 'City', with: 'Greenbelt'
-          select 'Maryland', from: 'State / Province'
-          fill_in 'Postal Code', with: '20771'
+          fill_in 'City', with: 'Washington'
+          select 'District of Columbia', from: 'State / Province'
+          fill_in 'Postal Code', with: '20546'
+          click_on 'Add another Address'
+          within '.multiple-item.eui-accordion.multiple-item-1' do
+            fill_in 'Street Address - Line 1', with: '8800 Greenbelt Road'
+            select 'United States', from: 'Country'
+            fill_in 'City', with: 'Greenbelt'
+            select 'Maryland', from: 'State / Province'
+            fill_in 'Postal Code', with: '20771'
+          end
         end
       end
     end
 
-    def add_related_urls(type = nil, button_type = nil)
-      within '.multiple.related-urls' do
-        if type == 'data_contact'
-          fill_in 'Description', with: 'Example Description'
-          select 'Data Contact URL', from: 'URL Content Type'
-          select 'Home Page', from: 'Type'
-          fill_in 'URL', with: 'http://example.com'
-        elsif type == 'data_center'
-          fill_in 'Description', with: 'Example Description'
-          select 'Data Center URL', from: 'URL Content Type'
-          select 'Home Page', from: 'Type'
-          fill_in 'URL', with: 'http://example.com'
-        else
-          fill_in 'Description', with: 'Example Description'
-          select 'Collection URL', from: 'URL Content Type'
-          select 'Data Set Landing Page', from: 'Type'
-          fill_in 'URL', with: 'http://example.com'
+    def add_related_urls(type: nil, button_type: nil)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_related_urls' do
+        within '.multiple.related-urls' do
+          puts 'adding related urls'
+          if type == 'data_contact'
+            fill_in 'Description', with: 'Example Description'
+            select 'Data Contact URL', from: 'URL Content Type'
+            select 'Home Page', from: 'Type'
 
-          button_title = 'Related URL'
-          button_title = 'Distribution URL' if type == 'distribution_form'
-          button_type += ' ' unless button_type.nil?
-          # Add another RelatedUrl
-          click_on "Add another #{button_type}#{button_title}"
+            # this method seems to be very slow, so use a shorter wait time
+            # using_wait_time(3) do
+            #   # only try to fill in the URL field if it is not readonly - if the data center short name did not have one to populate the field
+            #   if page.has_no_field?('URL', readonly: true)
+            #     puts 'entering "example.com" when URL not readonly'
+            #     fill_in 'URL', with: 'http://example.com'
+            #   end
+            # end
+            fill_related_url_if_not_readonly
+          elsif type == 'data_center'
+            fill_in 'Description', with: 'Example Description'
+            select 'Data Center URL', from: 'URL Content Type'
+            select 'Home Page', from: 'Type'
+            # fill_in 'URL', with: 'http://example.com'
+            fill_related_url_if_not_readonly
+          else
+            fill_in 'Description', with: 'Example Description'
+            select 'Collection URL', from: 'URL Content Type'
+            select 'Data Set Landing Page', from: 'Type'
+            fill_in 'URL', with: 'http://example.com'
 
-          within '.multiple-item.eui-accordion.multiple-item-1' do
-            fill_in 'Description', with: 'Example Description 2'
-            select 'Distribution URL', from: 'URL Content Type'
-            select 'Get Service', from: 'Type'
-            select 'DIF', from: 'Subtype'
-            fill_in 'URL', with: 'https://example.com/'
+            button_title = 'Related URL'
+            button_title = 'Distribution URL' if type == 'distribution_form'
+            button_type += ' ' unless button_type.nil?
+            # Add another RelatedUrl
+            puts 'clicking to add another related url'
+            click_on "Add another #{button_type}#{button_title}"
 
-            # Get Service fields
-            select 'Not provided', from: 'Mime Type'
-            select 'HTTPS', from: 'Protocol'
-            fill_in 'Full Name', with: 'Service name'
-            fill_in 'Data ID', with: 'data id'
-            fill_in 'Data Type', with: 'data type'
-            fill_in 'URI', with: 'uri1'
-            click_on 'Add another URI'
-            all('input.uri').last.set('uri2')
+            within '.multiple-item.eui-accordion.multiple-item-1' do
+              fill_in 'Description', with: 'Example Description 2'
+              select 'Distribution URL', from: 'URL Content Type'
+              select 'Get Service', from: 'Type'
+              select 'DIF', from: 'Subtype'
+              fill_in 'URL', with: 'https://example.com/'
+
+              # Get Service fields
+              select 'Not provided', from: 'Mime Type'
+              select 'HTTPS', from: 'Protocol'
+              fill_in 'Full Name', with: 'Service name'
+              fill_in 'Data ID', with: 'data id'
+              fill_in 'Data Type', with: 'data type'
+              fill_in 'URI', with: 'uri1'
+              click_on 'Add another URI'
+              all('input.uri').last.set('uri2')
+            end
           end
+        end
+      end
+    end
+
+    def fill_related_url_if_not_readonly
+      # this method seems to be very slow, so use a shorter wait time
+      using_wait_time(2) do
+        # only try to fill in the URL field if it is not readonly - if the data center short name did not have one to populate the field
+        if page.has_no_field?('URL', readonly: true)
+          # puts 'entering "example.com" when URL not readonly'
+          fill_in 'URL', with: 'http://example.com'
         end
       end
     end
@@ -518,18 +554,20 @@ module Helpers
     end
 
     def add_platforms
-      within '.multiple.platforms' do
-        all('.select2-container .select2-selection').first.click
-        find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'A340-600').click
-
-        add_characteristics
-        add_instruments
-
-        click_on 'Add another Platform'
-        within '.multiple-item-1' do
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_platforms' do
+        within '.multiple.platforms' do
           all('.select2-container .select2-selection').first.click
-          find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'DIADEM-1D').click
-          add_instruments('1')
+          find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'A340-600').click
+
+          add_characteristics
+          add_instruments
+
+          click_on 'Add another Platform'
+          within '.multiple-item-1' do
+            all('.select2-container .select2-selection').first.click
+            find(:xpath, '//body').find('.select2-dropdown ul.select2-results__options--nested li.select2-results__option', text: 'DIADEM-1D').click
+            add_instruments('1')
+          end
         end
       end
     end

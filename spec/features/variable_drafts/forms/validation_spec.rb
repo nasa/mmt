@@ -260,6 +260,8 @@ describe 'Variable Drafts Forms Field Validations', js: true do
         fill_in 'Average Size Of Granules Sampled', with: 'abcd'
         fill_in 'Avg Compression Rate ASCII', with: 'abcd'
         fill_in 'Avg Compression Rate NetCDF4', with: 'abcd'
+
+        find('#variable_draft_draft_size_estimation_average_size_of_granules_sampled').click
       end
 
       it 'displays validation error messages' do
@@ -331,8 +333,9 @@ describe 'Variable Drafts Forms Field Validations', js: true do
       before do
         fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_0', with: 'string'
         click_on 'Add another Lat Range'
+        click_button 'Add another Lat Range'
         fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_1', with: 'string'
-        click_on 'Add another Lat Range'
+        click_button 'Add another Lat Range'
       end
 
       it 'displays validation error messages' do

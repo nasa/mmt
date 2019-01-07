@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe BulkUpdatesController, reset_provider: true do
   describe 'GET #index' do
     context 'When bulk updates are enabled' do

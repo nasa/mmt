@@ -1,7 +1,3 @@
-# MMT-32
-
-require 'rails_helper'
-
 describe 'Progress circles', js: true do
   context 'when viewing the preview page of an empty draft' do
     before do
@@ -30,7 +26,7 @@ describe 'Progress circles', js: true do
         end
 
         within '.nav-top' do
-          find('a.cancel').trigger('click')
+          find('a.cancel').click
           # sleep 0.1
         end
       end

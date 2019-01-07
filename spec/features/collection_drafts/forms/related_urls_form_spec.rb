@@ -1,7 +1,3 @@
-# MMT-292, MMT-299
-
-require 'rails_helper'
-
 describe 'Related URLs information form', js: true do
   before do
     login

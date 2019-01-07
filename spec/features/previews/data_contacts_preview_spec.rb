@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Data Contacts preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do

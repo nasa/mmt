@@ -163,6 +163,8 @@ describe 'Service Drafts Forms Field Validations', js: true do
     context 'when entering text into a number field' do
       before do
         fill_in 'Spatial Resolution', with: 'abcd'
+
+        find('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_temporal_extent_data_resource_time_points_0_time_format').click
       end
 
       it 'displays validation error messages' do
@@ -270,6 +272,8 @@ describe 'Service Drafts Forms Field Validations', js: true do
                 fill_in 'Lower Bound', with: '0.0'
                 fill_in 'Upper Bound', with: '2918.0'
                 fill_in 'UOM Label', with: 'Meters'
+
+                find('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_extent_general_grid_axis_0_extent_upper_bound').click
               end
             end
           end

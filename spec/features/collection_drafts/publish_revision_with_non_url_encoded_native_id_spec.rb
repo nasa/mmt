@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Publishing revision of collection with non url encoded native id' do
   context 'when finding a published collection with a non url encoded native id' do
     before do
@@ -36,7 +34,7 @@ describe 'Publishing revision of collection with non url encoded native id' do
           #   # TODO: Rewrite this so that it doesnt depend on previous tests
           #   # TODO this is not the ideal way to do this, but the entire form will be changed by the next ticket
           #   within "#draft_data_centers_#{n} > .eui-accordion__header" do
-          #     find('.remove').trigger(:click)
+          #     find('.remove').click
           #   end
           # end
 

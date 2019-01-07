@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Conditionally required fields', js: true do
   before do
     login
@@ -31,6 +29,8 @@ describe 'Conditionally required fields', js: true do
       context 'when filling in a form field that causes fields to become required' do
         before do
           fill_in 'Traceability', with: 'testing'
+
+          find('#service_draft_draft_service_quality_lineage').click
         end
 
         it 'displays the required icons' do

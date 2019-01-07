@@ -31,16 +31,25 @@ Capybara.register_driver :headless_chrome do |app|
   client.read_timeout = 60
   client.open_timeout = 60
 
+  # http://technopragmatica.blogspot.com/2017/10/switching-to-headless-chrome-for-rails_31.html
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    # This makes javascript console logs available, but doesn't cause them to appear in real time
+    # to display javascript logs in the rspec output, add `puts page.driver.browser.manage.logs.get(:browser)`
+    # in the desired test location
+    loggingPrefs: { browser: 'ALL', client: 'ALL', driver: 'ALL', server: 'ALL' }
+  )
+
   # disable-gpu option is temporarily necessary, possibly only for Windows
   # https://developers.google.com/web/updates/2017/04/headless-chrome#cli
   # no-sandbox was necessary for another application's Docker container for CI/CD
   # https://about.gitlab.com/2017/12/19/moving-to-headless-chrome/
   # https://developers.google.com/web/updates/2017/04/headless-chrome#faq
   options = Selenium::WebDriver::Chrome::Options.new(
-    args: %w[headless disable-gpu no-sandbox]
+    args: %w[headless disable-gpu no-sandbox --window-size=1440,900]
+    # args: %w[headless disable-gpu no-sandbox --window-size=1920,1080]
   )
 
-  Capybara::Selenium::Driver.new(app, browser: :chrome, http_client: client, options: options)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, http_client: client, desired_capabilities: capabilities, options: options)
 end
 
 # setting up regular chrome driver, so it can be used if desired to see the

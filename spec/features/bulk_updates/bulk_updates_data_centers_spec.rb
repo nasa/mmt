@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Bulk updating Data Centers' do
   before :all do
     @find_and_remove_ingest_response, @find_and_remove_concept_response = publish_collection_draft
@@ -37,9 +35,12 @@ describe 'Bulk updating Data Centers' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content("Name #{bulk_update_name}")
-      expect(page).to have_content('Field to Update Data Centers')
-      expect(page).to have_content('Update Type Find And Remove')
+      expect(page).to have_content('Name')
+      expect(page).to have_content(bulk_update_name)
+      expect(page).to have_content('Field to Update')
+      expect(page).to have_content('Data Centers')
+      expect(page).to have_content('Update Type')
+      expect(page).to have_content('Find And Remove')
       within '.find-values-preview' do
         expect(page).to have_content('Short Name: ESA/ED')
       end
@@ -66,9 +67,12 @@ describe 'Bulk updating Data Centers' do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
-          expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Data Centers')
-          expect(page).to have_content('Update Type Find And Remove')
+          expect(page).to have_content('Status')
+          expect(page).to have_content('Complete')
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Data Centers')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Remove')
         end
 
         within '.find-values-preview' do
@@ -136,9 +140,12 @@ describe 'Bulk updating Data Centers' do
         it 'displays the preview information', bulk_update_step_1: true, bulk_update_step_2: true do
           expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-          expect(page).to have_content("Name #{bulk_update_name}")
-          expect(page).to have_content('Field to Update Data Centers')
-          expect(page).to have_content('Update Type Find And Update')
+          expect(page).to have_content('Name')
+          expect(page).to have_content(bulk_update_name)
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Data Centers')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Update')
           # Find Values to Update
           within '.find-values-preview' do
             expect(page).to have_content('Short Name: AARHUS-HYDRO')
@@ -175,9 +182,12 @@ describe 'Bulk updating Data Centers' do
             expect(page).to have_css('h2', text: bulk_update_name)
 
             within '.eui-info-box' do
-              expect(page).to have_content('Status Complete')
-              expect(page).to have_content('Field to Update Data Centers')
-              expect(page).to have_content('Update Type Find And Update')
+              expect(page).to have_content('Status')
+              expect(page).to have_content('Complete')
+              expect(page).to have_content('Field to Update')
+              expect(page).to have_content('Data Centers')
+              expect(page).to have_content('Update Type')
+              expect(page).to have_content('Find And Update')
             end
 
             within '.find-values-preview' do
@@ -260,9 +270,12 @@ describe 'Bulk updating Data Centers' do
         it 'displays the preview information', bulk_update_step_1: true, bulk_update_step_2: true do
           expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-          expect(page).to have_content("Name #{bulk_update_name}")
-          expect(page).to have_content('Field to Update Data Centers')
-          expect(page).to have_content('Update Type Find And Update')
+          expect(page).to have_content('Name')
+          expect(page).to have_content(bulk_update_name)
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Data Centers')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Update')
           # Find Values to Update
           within '.find-values-preview' do
             expect(page).to have_content('Short Name: ESA/ED')
@@ -271,7 +284,7 @@ describe 'Bulk updating Data Centers' do
           # New Values
           within '.new-values-preview' do
             expect(page).to have_content('Short Name: AARHUS-HYDRO')
-            expect(page).to have_content('Long Name: Hydrogeophysics Group, Aarhus University ')
+            expect(page).to have_content('Long Name: Hydrogeophysics Group, Aarhus University')
             expect(page).to have_content('Related Url Content Type:')
             expect(page).to have_content('Related Url Type:')
             expect(page).to have_content('Related URL:')
@@ -298,9 +311,12 @@ describe 'Bulk updating Data Centers' do
           it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true, bulk_update_step_3: true do
             expect(page).to have_css('h2', text: bulk_update_name)
             within '.eui-info-box' do
-              expect(page).to have_content('Status Complete')
-              expect(page).to have_content('Field to Update Data Centers')
-              expect(page).to have_content('Update Type Find And Update')
+              expect(page).to have_content('Status')
+              expect(page).to have_content('Complete')
+              expect(page).to have_content('Field to Update')
+              expect(page).to have_content('Data Centers')
+              expect(page).to have_content('Update Type')
+              expect(page).to have_content('Find And Update')
             end
 
             within '.find-values-preview' do
@@ -311,7 +327,7 @@ describe 'Bulk updating Data Centers' do
             within '.new-values-preview' do
               expect(page).to have_content('New Value')
               expect(page).to have_content('Short Name: AARHUS-HYDRO')
-              expect(page).to have_content('Long Name: Hydrogeophysics Group, Aarhus University ')
+              expect(page).to have_content('Long Name: Hydrogeophysics Group, Aarhus University')
               expect(page).to have_content('Related Url Content Type:')
               expect(page).to have_content('Related Url Type:')
               expect(page).to have_content('Related URL:')
@@ -331,7 +347,7 @@ describe 'Bulk updating Data Centers' do
                 expect(page).to have_no_content('ESA/ED')
 
                 expect(page).to have_content('AARHUS-HYDRO', count: 2)
-                expect(page).to have_content('Hydrogeophysics Group, Aarhus University ', count: 2)
+                expect(page).to have_content('Hydrogeophysics Group, Aarhus University', count: 2)
 
                 expect(page).to have_no_content('Home Page')
                 expect(page).to have_no_link(title: 'DataCenterURL')

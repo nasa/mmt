@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Bulk updating Science Keywords' do
   before :all do
     @find_and_remove_ingest_response, @find_and_remove_concept_response = publish_collection_draft
@@ -40,11 +38,17 @@ describe 'Bulk updating Science Keywords' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content("Name #{bulk_update_name}")
-      expect(page).to have_content('Field to Update Science Keywords')
-      expect(page).to have_content('Update Type Find And Remove')
+      expect(page).to have_content('Name')
+      expect(page).to have_content(bulk_update_name)
+      expect(page).to have_content('Field to Update')
+      expect(page).to have_content('Science Keywords')
+      expect(page).to have_content('Update Type')
+      expect(page).to have_content('Find And Remove')
       within '.find-values-preview' do
-        expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUESURFACE TEMPERATURE')
+        expect(page).to have_content('CATEGORY: ANY VALUE')
+        expect(page).to have_content('TOPIC: ANY VALUE')
+        expect(page).to have_content('TERM: ANY VALUE')
+        expect(page).to have_content('SURFACE TEMPERATURE')
       end
 
       within '.bulk-update-preview-table' do
@@ -69,9 +73,12 @@ describe 'Bulk updating Science Keywords' do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
-          expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Science Keywords')
-          expect(page).to have_content('Update Type Find And Remove')
+          expect(page).to have_content('Status')
+          expect(page).to have_content('Complete')
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Remove')
         end
 
         within '.find-values-preview' do
@@ -90,7 +97,9 @@ describe 'Bulk updating Science Keywords' do
 
         it 'no longer has the removed keyword' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('EARTHSCIENCEATMOSPHEREATMOSPHERIC TEMPERATURESURFACE TEMPERATURE')
+            expect(page).to have_no_content('ATMOSPHERE')
+            expect(page).to have_no_content('ATMOSPHERIC TEMPERATURE')
+            expect(page).to have_no_content('SURFACE TEMPERATURE')
           end
         end
       end
@@ -124,11 +133,17 @@ describe 'Bulk updating Science Keywords' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content("Name #{bulk_update_name}")
-      expect(page).to have_content('Field to Update Science Keywords')
-      expect(page).to have_content('Update Type Add To Existing')
+      expect(page).to have_content('Name')
+      expect(page).to have_content(bulk_update_name)
+      expect(page).to have_content('Field to Update')
+      expect(page).to have_content('Science Keywords')
+      expect(page).to have_content('Update Type')
+      expect(page).to have_content('Add To Existing')
+
       within '.new-values-preview' do
-        expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
+        expect(page).to have_content('EARTH SCIENCE')
+        expect(page).to have_content('ATMOSPHERE')
+        expect(page).to have_content('AEROSOLS')
       end
 
       within '.bulk-update-preview-table' do
@@ -153,14 +168,19 @@ describe 'Bulk updating Science Keywords' do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
-          expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Science Keywords')
-          expect(page).to have_content('Update Type Add To Existing')
+          expect(page).to have_content('Status')
+          expect(page).to have_content('Complete')
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Add To Existing')
         end
 
         within '.new-values-preview' do
           expect(page).to have_content('Value to Add')
-          expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
+          expect(page).to have_content('EARTH SCIENCE')
+          expect(page).to have_content('ATMOSPHERE')
+          expect(page).to have_content('AEROSOLS')
         end
 
         # we can't test the time accurately, but we can check the date
@@ -174,7 +194,9 @@ describe 'Bulk updating Science Keywords' do
 
         it 'displays the new keyword' do
           within '.science-keywords-preview' do
-            expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS')
+            expect(page).to have_content('EARTH SCIENCE')
+            expect(page).to have_content('ATMOSPHERE')
+            expect(page).to have_content('AEROSOLS')
           end
         end
       end
@@ -212,17 +234,25 @@ describe 'Bulk updating Science Keywords' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content("Name #{bulk_update_name}")
-      expect(page).to have_content('Field to Update Science Keywords')
-      expect(page).to have_content('Update Type Find And Replace')
+      expect(page).to have_content('Name')
+      expect(page).to have_content(bulk_update_name)
+      expect(page).to have_content('Field to Update')
+      expect(page).to have_content('Science Keywords')
+      expect(page).to have_content('Update Type')
+      expect(page).to have_content('Find And Replace')
       # Find Values to Replace
       within '.find-values-preview' do
-        expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUESURFACE TEMPERATURE')
+        expect(page).to have_content('CATEGORY: ANY VALUE')
+        expect(page).to have_content('TOPIC: ANY VALUE')
+        expect(page).to have_content('TERM: ANY VALUE')
+        expect(page).to have_content('SURFACE TEMPERATURE')
       end
 
       # New Values
       within '.new-values-preview' do
-        expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
+        expect(page).to have_content('EARTH SCIENCE')
+        expect(page).to have_content('ATMOSPHERE')
+        expect(page).to have_content('AEROSOLS')
       end
 
       within '.bulk-update-preview-table' do
@@ -247,9 +277,12 @@ describe 'Bulk updating Science Keywords' do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
-          expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Science Keywords')
-          expect(page).to have_content('Update Type Find And Replace')
+          expect(page).to have_content('Status')
+          expect(page).to have_content('Complete')
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Replace')
         end
 
         within '.find-values-preview' do
@@ -259,7 +292,9 @@ describe 'Bulk updating Science Keywords' do
 
         within '.new-values-preview' do
           expect(page).to have_content('New Value')
-          expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
+          expect(page).to have_content('EARTH SCIENCE')
+          expect(page).to have_content('ATMOSPHERE')
+          expect(page).to have_content('AEROSOLS')
         end
 
         # we can't test the time accurately, but we can check the date
@@ -273,9 +308,17 @@ describe 'Bulk updating Science Keywords' do
 
         it 'displays the new keyword' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE')
-            expect(page).to have_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS')
-            expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS')
+            expect(page).to have_no_content('ATMOSPHERIC TEMPERATURE')
+            expect(page).to have_no_content('SURFACE TEMPERATURE')
+
+            expect(page).to have_content('EARTH SCIENCE')
+
+            expect(page).to have_content('SOLID EARTH')
+            expect(page).to have_content('ROCKS/MINERALS/CRYSTALS')
+            expect(page).to have_content('SEDIMENTARY ROCKS')
+
+            expect(page).to have_content('ATMOSPHERE')
+            expect(page).to have_content('AEROSOLS')
           end
         end
       end
@@ -310,13 +353,18 @@ describe 'Bulk updating Science Keywords' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content("Name #{bulk_update_name}")
-      expect(page).to have_content('Field to Update Science Keywords')
-      expect(page).to have_content('Update Type Clear All And Replace')
+      expect(page).to have_content('Name')
+      expect(page).to have_content(bulk_update_name)
+      expect(page).to have_content('Field to Update')
+      expect(page).to have_content('Science Keywords')
+      expect(page).to have_content('Update Type')
+      expect(page).to have_content('Clear All And Replace')
 
       # New Values
       within '.new-values-preview' do
-        expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
+        expect(page).to have_content('EARTH SCIENCE')
+        expect(page).to have_content('ATMOSPHERE')
+        expect(page).to have_content('AEROSOLS')
       end
 
       within '.bulk-update-preview-table' do
@@ -341,14 +389,19 @@ describe 'Bulk updating Science Keywords' do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
-          expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Science Keywords')
-          expect(page).to have_content('Update Type Clear All And Replace')
+          expect(page).to have_content('Status')
+          expect(page).to have_content('Complete')
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Clear All And Replace')
         end
 
         within '.new-values-preview' do
           expect(page).to have_content('New Value')
-          expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
+          expect(page).to have_content('EARTH SCIENCE')
+          expect(page).to have_content('ATMOSPHERE')
+          expect(page).to have_content('AEROSOLS')
         end
 
         # we can't test the time accurately, but we can check the date
@@ -362,9 +415,16 @@ describe 'Bulk updating Science Keywords' do
 
         it 'displays the updated keywords' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE')
-            expect(page).to have_no_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS')
-            expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS')
+            expect(page).to have_no_content('ATMOSPHERIC TEMPERATURE')
+            expect(page).to have_no_content('SURFACE TEMPERATURE')
+
+            expect(page).to have_no_content('SOLID EARTH')
+            expect(page).to have_no_content('ROCKS/MINERALS/CRYSTALS')
+            expect(page).to have_no_content('SEDIMENTARY ROCKS')
+
+            expect(page).to have_content('EARTH SCIENCE')
+            expect(page).to have_content('ATMOSPHERE')
+            expect(page).to have_content('AEROSOLS')
           end
         end
       end

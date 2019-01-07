@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Draft form accordions', js: true do
   before do
     login

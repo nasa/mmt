@@ -12,7 +12,7 @@ describe 'Science Keywords Form', js: true do
     it 'displays the correct title and description' do
       within '.umm-form' do
         expect(page).to have_content('Science Keywords')
-        expect(page).to have_content('Controlled Science Keywords describing the measurements/variables.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).')
+        expect(page).to have_content('Controlled Science Keywords describing the measurements/variables. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).')
       end
     end
 
@@ -32,7 +32,7 @@ describe 'Science Keywords Form', js: true do
     end
 
     it 'does not list any selected science keywords' do
-      within '.selected-science-keywords ul' do
+      within '.selected-science-keywords ul', visible: :any do
         expect(page).to have_no_css('li')
       end
     end

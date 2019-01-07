@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Data Contacts form filling in Data Center Contacts' do
   before do
     login
@@ -8,7 +6,11 @@ describe 'Data Contacts form filling in Data Center Contacts' do
   context 'when creating Data Center Contacts', js: true do
     context 'when the Data Center has already been added to the draft' do
       let(:data_center_short_name) { 'AARHUS-HYDRO' }
-      let(:data_center_long_name)  { 'Hydrogeophysics Group, Aarhus University ' } # controlled keywords source has extra space at the end
+
+      # controlled keywords source has an extra trailing space at the end. however,
+      # Selenium/Headless Chrome will either not render or not read the extra space
+      let(:data_center_long_name) { 'Hydrogeophysics Group, Aarhus University ' }
+      let(:data_center_long_name_without_space) { 'Hydrogeophysics Group, Aarhus University' }
 
       before do
         draft = create(:collection_draft_all_required_fields, user: User.where(urs_uid: 'testuser').first)
@@ -18,7 +20,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
       it 'displays the Data Center on the preview page' do
         within '.data-centers-cards' do
           expect(page).to have_content(data_center_short_name)
-          expect(page).to have_content(data_center_long_name)
+          expect(page).to have_content(data_center_long_name_without_space)
         end
       end
 
@@ -42,7 +44,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             select 'Technical Contact', from: 'Role'
             add_person
 
-            add_contact_information('data_contact', false, 'Data Center Contact Person')
+            add_contact_information(type: 'data_contact', single: false, button_type: 'Data Center Contact Person')
           end
 
           context 'when clicking Save to submit the form' do
@@ -131,7 +133,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             it 'still displays the Data Center on the preview page' do
               within '.data-centers-cards' do
                 expect(page).to have_content(data_center_short_name)
-                expect(page).to have_content(data_center_long_name)
+                expect(page).to have_content(data_center_long_name_without_space)
               end
             end
 
@@ -171,7 +173,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             select 'User Services', from: 'Role'
             fill_in 'Group Name', with: 'DC Contact Group Name'
 
-            add_contact_information('data_contact', false, 'Data Center Contact Group')
+            add_contact_information(type: 'data_contact', single: false, button_type: 'Data Center Contact Group')
           end
 
           context 'when clicking Save to submit the form' do
@@ -255,7 +257,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             it 'still displays the Data Center on the preview page' do
               within '.data-centers-cards' do
                 expect(page).to have_content(data_center_short_name)
-                expect(page).to have_content(data_center_long_name)
+                expect(page).to have_content(data_center_long_name_without_space)
               end
             end
 
@@ -307,8 +309,8 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             select 'Investigator', from: 'Role'
             select 'Technical Contact', from: 'Role'
             add_person
-
-            add_contact_information('data_contact', false, 'Data Center Contact Person')
+            save_screenshot
+            add_contact_information(type: 'data_contact', single: false, button_type: 'Data Center Contact Person')
           end
 
           context 'when clicking Save to submit the form' do
@@ -435,7 +437,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             select 'User Services', from: 'Role'
             fill_in 'Group Name', with: 'DC Contact Group Name'
 
-            add_contact_information('data_contact', false, 'Data Center Contact Group')
+            add_contact_information(type: 'data_contact', single: false, button_type: 'Data Center Contact Group')
           end
 
           context 'when clicking Save to submit the form' do

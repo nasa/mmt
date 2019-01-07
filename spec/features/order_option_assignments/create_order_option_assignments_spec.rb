@@ -1,7 +1,3 @@
-# MMT-596 / MMT-599
-
-require 'rails_helper'
-
 describe 'Viewing and Creating Order Option Assignments' do
   before do
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
@@ -253,7 +249,7 @@ describe 'Viewing and Creating Order Option Assignments' do
     end
 
     it 'Displays a success message' do
-      expect(page).to have_content('1 Order Option assignment created successfully. ')
+      expect(page).to have_content('1 Order Option assignment created successfully.')
     end
   end
 

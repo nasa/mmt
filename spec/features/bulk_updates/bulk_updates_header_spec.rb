@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Bulk Updates headers' do
   before do
     login

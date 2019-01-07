@@ -41,7 +41,7 @@ describe 'Remove item link behavior', js: true do
         before do
           within '.multiple.data-centers > .multiple-item-0' do
             within '.multiple.contact-mechanisms' do
-              find('a.remove', match: :first).trigger(:click)
+              find('a.remove', match: :first).click
             end
           end
         end
