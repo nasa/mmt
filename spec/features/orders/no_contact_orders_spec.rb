@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Searching Orders' do
   context 'when viewing the track orders page' do
     before do
@@ -26,7 +24,7 @@ describe 'Searching Orders' do
           expect(page).to have_selector('tr', count: 1)
 
           # There is nothing for 'Contact Name'
-          expect(page).to have_content('(guest)	View Provider Order')
+          expect(page).to have_content('(guest) View Provider Order', normalize_ws: true)
         end
       end
     end
@@ -42,7 +40,7 @@ describe 'Searching Orders' do
 
       it 'displays the guest order correctly' do
         # No contact information is visible
-        expect(page).to have_content('Contact Information Role:	Name:	Organization:	Address:')
+        expect(page).to have_content('Contact Information Role: Name: Organization: Address:', normalize_ws: true)
       end
     end
   end

@@ -475,6 +475,7 @@ module DraftsHelper
     collection_citations
     data_centers
     data_contacts
+    related_urls
   )
 
   def construct_keyword_string(hash_obj, str)

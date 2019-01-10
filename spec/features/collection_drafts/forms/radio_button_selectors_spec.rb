@@ -1,8 +1,6 @@
 # Radio buttons are used when oneOf validations are used in the schema.
-# The radio button is used to select which form should be shown
-# By default, none of the sub-forms should be shown
-
-require 'rails_helper'
+# Radio buttons are used to select which form should be shown - by default, none
+# of the sub-forms should be shown
 
 describe 'Radio button form selectors', js: true do
   before do
@@ -240,7 +238,7 @@ describe 'Radio button form selectors', js: true do
       before do
         choose 'Single'
 
-        fill_in 'draft_temporal_extents_0_single_date_times_0', with: ''
+        find('#draft_temporal_extents_0_single_date_times_0').click
         # click Today to close datepicker
         find('th.today').click
 

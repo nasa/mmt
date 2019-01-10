@@ -18,7 +18,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       date:
       - Wed, 11 Jan 2017 00:03:00 GMT
@@ -1466,6 +1466,6 @@ http_interactions:
                 &lt;/range&gt;
               &lt;/ui&gt;
             &lt;/form&gt;</ns3:Form><ns3:Description>test</ns3:Description><ns3:SortKey>AAA</ns3:SortKey><ns3:LastUpdate>2017-01-09T17:50:26.758Z</ns3:LastUpdate></ns3:Item></ns2:result></ns2:GetCatalogItemOptionDefinitions2Response></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    http_version: 
+    http_version:
   recorded_at: Wed, 11 Jan 2017 00:03:00 GMT
 recorded_with: VCR 3.0.1

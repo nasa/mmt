@@ -119,8 +119,7 @@ describe 'Search bar and dropdown behavior', js: true do
         context 'when pressing enter to submit a collections search with short_name' do
           before do
             fill_in 'keyword', with: short_name
-            element = find('input#keyword')
-            element.native.send_key(:Enter)
+            find('input#keyword').send_keys(:enter)
           end
 
           it 'performs the search' do
@@ -254,8 +253,7 @@ describe 'Search bar and dropdown behavior', js: true do
         context 'when pressing enter to submit a variables search with variable name' do
           before do
             fill_in 'keyword', with: variable_name
-            element = find('input#keyword')
-            element.native.send_key(:Enter)
+            find('input#keyword').send_keys(:enter)
           end
 
           it 'performs the search' do

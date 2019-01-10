@@ -1,6 +1,3 @@
-# MMT-595
-require 'rails_helper'
-
 describe 'Deprecating Order Options' do
   context 'when viewing the index page', js: true do
     before do
@@ -10,11 +7,36 @@ describe 'Deprecating Order Options' do
       end
     end
 
-    it 'lists available order options with \'Deprecate\' links.' do
-      page.all('.order-options-table tr') do |tr|
-        within tr do
-          expect(tr).to have_link 'Deprecate'
-        end
+    it "lists available order options with 'Deprecate' links." do
+      within '.order-options-table tbody tr:nth-child(1)' do
+        expect(page).to have_no_link('Deprecate')
+      end
+      within '.order-options-table tbody tr:nth-child(2)' do
+        expect(page).to have_no_link('Deprecate')
+      end
+      within '.order-options-table tbody tr:nth-child(3)' do
+        expect(page).to have_link('Deprecate')
+      end
+      within '.order-options-table tbody tr:nth-child(4)' do
+        expect(page).to have_no_link('Deprecate')
+      end
+      within '.order-options-table tbody tr:nth-child(5)' do
+        expect(page).to have_no_link('Deprecate')
+      end
+      within '.order-options-table tbody tr:nth-child(6)' do
+        expect(page).to have_no_link('Deprecate')
+      end
+      within '.order-options-table tbody tr:nth-child(7)' do
+        expect(page).to have_link('Deprecate')
+      end
+      within '.order-options-table tbody tr:nth-child(8)' do
+        expect(page).to have_link('Deprecate')
+      end
+      within '.order-options-table tbody tr:nth-child(9)' do
+        expect(page).to have_link('Deprecate')
+      end
+      within '.order-options-table tbody tr:nth-child(10)' do
+        expect(page).to have_link('Deprecate')
       end
     end
 
@@ -24,6 +46,7 @@ describe 'Deprecating Order Options' do
           click_on 'Deprecate'
         end
       end
+
       it 'Asks for confirmation before deprecating' do
         cell_text = find('.order-options-table tbody tr:nth-child(3) td:first-child').text
         expect(page).to have_selector('#deprecate-option-modal-2', visible: true)
@@ -48,7 +71,7 @@ describe 'Deprecating Order Options' do
         end
       end
 
-      it 'Hides the dialog after clicking \'No\'.' do
+      it "Hides the dialog after clicking 'No'." do
         expect(page).to have_selector('#deprecate-option-modal-2', visible: false)
       end
     end
