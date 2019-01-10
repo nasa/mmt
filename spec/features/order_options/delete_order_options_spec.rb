@@ -1,7 +1,3 @@
-# MMT-598
-
-require 'rails_helper'
-
 describe 'Deleting Order Options' do
   context 'when viewing the index page' do
     before do
@@ -12,12 +8,12 @@ describe 'Deleting Order Options' do
       end
     end
 
-    it 'lists available order options with \'Delete\' links.' do
-        page.all('.order-options-table tr') do |tr|
-          within tr do
-            expect(tr).to have_link 'Delete'
-          end
+    it "lists available order options with 'Delete' links." do
+      (1..25).each do |i|
+        within ".order-options-table tbody tr:nth-child(#{i})" do
+          expect(page).to have_link 'Delete'
         end
+      end
     end
 
     context 'When clicking on a Delete link, it asks for confirmation before deleting.' do

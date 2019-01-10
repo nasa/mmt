@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe ManageCollectionsController do
   describe 'GET #show' do
     before do

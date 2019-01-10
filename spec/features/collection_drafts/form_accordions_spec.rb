@@ -1,19 +1,18 @@
 describe 'Draft form accordions', js: true do
   before do
     login
-    draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
-    visit collection_draft_path(draft)
+    @draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
   end
 
   context 'when clicking on the header' do
     before do
-      click_on 'Related URLs', match: :first
+      visit edit_collection_draft_path(@draft, form: 'acquisition_information')
 
-      # Open the RelatedUrl fieldset accordion
+      # Open the Platforms fieldset accordion
       all('fieldset.eui-accordion > div.eui-accordion__header').first.click
 
-      # Collapse the Related Url 1 accordion
-      find('.multiple.related-urls > .multiple-item-0 > .eui-accordion__header').click
+      # Collapse the Platform 1 accordion
+      find('.multiple.platforms > .multiple-item-0 > .eui-accordion__header').click
     end
 
     it 'collapses the accordion' do
@@ -21,13 +20,13 @@ describe 'Draft form accordions', js: true do
     end
 
     it 'hides the fields' do
-      expect(page).to have_no_field('Description')
+      expect(page).to have_no_field('Long Name')
     end
 
     context 'when clicking on the header again' do
       before do
-        # Open the Related Url 1 accordion
-        find('.multiple.related-urls > .multiple-item-0.is-closed > .eui-accordion__header').click
+        # Open the Platform 1 accordion
+        find('.multiple.platforms > .multiple-item-0.is-closed > .eui-accordion__header').click
       end
 
       it 'opens the accordion' do
@@ -35,16 +34,14 @@ describe 'Draft form accordions', js: true do
       end
 
       it 'shows the fields' do
-        expect(page).to have_field('Description')
+        expect(page).to have_field('Long Name')
       end
     end
   end
 
   context 'when viewing a form with only one accordion' do
     before do
-      within '.metadata' do
-        click_on 'Data Centers', match: :first
-      end
+      visit edit_collection_draft_path(@draft, form: 'data_centers')
     end
 
     it 'shows the accordion open by default' do
@@ -69,7 +66,7 @@ describe 'Draft form accordions', js: true do
 
   context 'when clicking a help icon within the accordion header' do
     before do
-      click_on 'Metadata Information'
+      visit edit_collection_draft_path(@draft, form: 'metadata_information')
       click_on 'Help modal for Metadata Language'
     end
 
@@ -87,7 +84,7 @@ describe 'Draft form accordions', js: true do
 
   context 'when clicking the Expand All link' do
     before do
-      click_on 'Metadata Information'
+      visit edit_collection_draft_path(@draft, form: 'metadata_information')
       click_on 'Expand All'
     end
 
@@ -125,7 +122,7 @@ describe 'Draft form accordions', js: true do
 
   context 'when expanding all accordions manually' do
     before do
-      click_on 'Metadata Information'
+      visit edit_collection_draft_path(@draft, form: 'metadata_information')
 
       within '#metadata-language.eui-accordion' do
         find('.eui-accordion__header').click
@@ -146,9 +143,9 @@ describe 'Draft form accordions', js: true do
 
   context 'when collapsing all accordions manually' do
     before do
-      click_on 'Related URLs', match: :first
+      visit edit_collection_draft_path(@draft, form: 'acquisition_information')
 
-      within '#related-urls.eui-accordion' do
+      within '#platforms.eui-accordion' do
         all('.eui-accordion__header').first.click
       end
     end
