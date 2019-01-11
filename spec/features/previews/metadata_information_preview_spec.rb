@@ -28,13 +28,13 @@ describe 'Metadata information preview' do
         within '.metadata-information-preview' do
           expect(page).to have_content('Metadata Dates')
           within '.metadata-dates-table' do
-            expect(page).to have_content('Creation 2010-12-25T00:00:00Z')
-            expect(page).to have_content('Last Revision	2010-12-30T00:00:00Z')
+            expect(page).to have_content('Creation 2010-12-25T00:00:00Z', normalize_ws: true)
+            expect(page).to have_content('Last Revision 2010-12-30T00:00:00Z', normalize_ws: true)
           end
 
           within '.directory-names-table' do
-            expect(page).to have_content('Short Directory 1	Long Directory 1')
-            expect(page).to have_content('Short Directory 2	Long Directory 2')
+            expect(page).to have_content('Short Directory 1 Long Directory 1', normalize_ws: true)
+            expect(page).to have_content('Short Directory 2 Long Directory 2', normalize_ws: true)
           end
 
           expect(page).to have_content('Language')

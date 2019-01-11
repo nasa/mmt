@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Close Provider Order Items' do
   let(:order_guid) { 'test_order_guid' }
 
@@ -34,7 +32,7 @@ describe 'Close Provider Order Items' do
         end
 
         it 'closes the order item' do
-          expect(page).to have_content('G1000005028-DEV07	CLOSED')
+          expect(page).to have_content('G1000005028-DEV07 CLOSED')
         end
       end
     end
@@ -63,10 +61,10 @@ describe 'Close Provider Order Items' do
         end
 
         it 'closes all order items and the order' do
-          expect(page).to have_content('G1000005024-DEV07	CLOSED')
-          expect(page).to have_content('G1000005028-DEV07	CLOSED')
-          expect(page).to have_content('G1000005034-DEV07	CLOSED')
-          expect(page).to have_content('Provider Order State:	CLOSED')
+          expect(page).to have_content('G1000005024-DEV07 CLOSED')
+          expect(page).to have_content('G1000005028-DEV07 CLOSED')
+          expect(page).to have_content('G1000005034-DEV07 CLOSED')
+          expect(page).to have_content('Provider Order State: CLOSED')
         end
       end
     end
