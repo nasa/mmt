@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Data identification preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
@@ -12,7 +10,7 @@ describe 'Data identification preview' do
       it 'does not display metadata' do
         within 'ul.data-identification-preview' do
           expect(page).to have_no_content('Data Dates')
-          expect(page).to have_content('This collection\'s processing level has not been specified.')
+          expect(page).to have_content("This collection's processing level has not been specified.")
           expect(page).to have_no_content('Use Constraints')
           expect(page).to have_no_content('Access Constraints')
           expect(page).to have_no_content('Metadata Associations')
@@ -33,15 +31,15 @@ describe 'Data identification preview' do
         within '.data-identification-preview' do
           within '.data-dates-table' do
             within all('tr')[0] do
-              expect(page).to have_content('Creation 2015-07-01T00:00:00Z')
+              expect(page).to have_content('Creation 2015-07-01T00:00:00Z', normalize_ws: true)
             end
             within all('tr')[1] do
-              expect(page).to have_content('Last Revision	2015-07-05T00:00:00Z')
+              expect(page).to have_content('Last Revision 2015-07-05T00:00:00Z', normalize_ws: true)
             end
           end
 
           within '.processing-level' do
-            expect(page).to have_content('Level 1A')
+            expect(page).to have_content('1A')
             expect(page).to have_content('Level 1 Description')
           end
 
@@ -49,7 +47,8 @@ describe 'Data identification preview' do
             expect(page).to have_content('Metadata quality summary')
           end
 
-          expect(page).to have_content('Collection Progress Active')
+          expect(page).to have_content('Collection Progress')
+          expect(page).to have_content('Active')
 
           expect(page).to have_content('These are some use constraints')
 
@@ -58,10 +57,10 @@ describe 'Data identification preview' do
 
           within '.metadata-associations-table' do
             within all('tr')[1] do
-              expect(page).to have_content('Science Associated 12345 Metadata association description 23')
+              expect(page).to have_content('Science Associated 12345 Metadata association description 23', normalize_ws: true)
             end
             within all('tr')[2] do
-              expect(page).to have_content('Larger Citation Works	123abc	')
+              expect(page).to have_content('Larger Citation Works 123abc', normalize_ws: true)
             end
           end
 

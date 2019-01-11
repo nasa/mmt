@@ -11,7 +11,7 @@ describe 'Related URLs information form', js: true do
         click_on 'Related URLs', match: :first
       end
 
-      click_on 'Expand All'
+      open_accordions
 
       # Complete RelatedUrl fields
       add_related_urls
@@ -20,7 +20,7 @@ describe 'Related URLs information form', js: true do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      click_on 'Expand All'
+      open_accordions
     end
 
     it 'displays a confirmation message' do

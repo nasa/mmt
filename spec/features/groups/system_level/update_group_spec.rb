@@ -1,6 +1,3 @@
-# MMT-561
-require 'rails_helper'
-
 describe 'Updating System Level Groups', js: true do
   context 'when editing a system level group as an admin' do
     before :all do
@@ -43,11 +40,7 @@ describe 'Updating System Level Groups', js: true do
 
     it 'has the approprate fields disabled' do
       expect(page).to have_field('Name', readonly: true)
-
-      # clicking checkbox should not change anything
-      uncheck 'System Level Group?'
-
-      expect(page).to have_checked_field('System Level Group?')
+      expect(page).to have_checked_field('System Level Group?', readonly: true)
     end
 
     context 'when updating the system level group' do

@@ -67,7 +67,7 @@ describe 'Delete collection', js: true do
       end
 
       it 'does not allow the user to delete the collection' do
-        expect(page).to have_content('This collection cannot be deleted using the MMT because it has associated granules.  Use the CMR API to delete the collection and its granules.')
+        expect(page).to have_content('This collection cannot be deleted using the MMT because it has associated granules. Use the CMR API to delete the collection and its granules.')
       end
     end
   end
@@ -91,7 +91,7 @@ describe 'Delete collection', js: true do
       end
 
       it 'does not allow the user to delete the collection' do
-        expect(page).to have_content('This collection cannot be deleted using the MMT because it has associated granules.  Use the CMR API to delete the collection and its granules.')
+        expect(page).to have_content('This collection cannot be deleted using the MMT because it has associated granules. Use the CMR API to delete the collection and its granules.')
       end
     end
   end

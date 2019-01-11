@@ -309,7 +309,6 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             select 'Investigator', from: 'Role'
             select 'Technical Contact', from: 'Role'
             add_person
-            save_screenshot
             add_contact_information(type: 'data_contact', single: false, button_type: 'Data Center Contact Person')
           end
 

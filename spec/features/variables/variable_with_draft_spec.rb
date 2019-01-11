@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Variable with draft' do
   modal_text = 'requires you change your provider context to MMT_2'
 
@@ -30,7 +28,8 @@ describe 'Variable with draft' do
             expect(page).to have_content(@concept_response.body['Name'])
           end
 
-          expect(page).to have_content("#{@concept_response.body['Name']} #{@concept_response.body['LongName']}")
+          expect(page).to have_content("#{@concept_response.body['Name']}")
+          expect(page).to have_content("#{@concept_response.body['LongName']}")
         end
       end
     end
@@ -74,7 +73,8 @@ describe 'Variable with draft' do
               expect(page).to have_content(@concept_response.body['Name'])
             end
 
-            expect(page).to have_content("#{@concept_response.body['Name']} #{@concept_response.body['LongName']}")
+            expect(page).to have_content("#{@concept_response.body['Name']}")
+            expect(page).to have_content("#{@concept_response.body['LongName']}")
           end
         end
       end
