@@ -1,8 +1,8 @@
 module Helpers
   module AjaxHelpers
-    # TODO: need to figure out if there is another way of doing this
+    # TODO: need to figure out if there is another way of doing wait_for_ajax,
+    # it fails after switching to Selenium/Headless Chrome
     # currently just changed all wait_for_ajax calls to use wait_for_jQuery
-
     # def wait_for_ajax
     #   still_working = true
     #   while still_working
@@ -11,7 +11,6 @@ module Helpers
     #     end
     #   end
     # end
-
     # EDSC does:
     # def wait_for_xhr
     # ActiveSupport::Notifications.instrument "edsc.performance.wait_for_xhr" do
@@ -28,7 +27,7 @@ module Helpers
     end
 
     def finished_all_jQuery_requests?
-      puts "checking jQuery requests. no active calls? #{page.evaluate_script('jQuery.active').zero?}"
+      # puts "checking jQuery requests. no active calls? #{page.evaluate_script('jQuery.active').zero?}"
       page.evaluate_script('jQuery.active').zero?
     end
   end

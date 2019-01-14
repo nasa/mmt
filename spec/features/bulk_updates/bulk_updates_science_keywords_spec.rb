@@ -44,11 +44,9 @@ describe 'Bulk updating Science Keywords' do
       expect(page).to have_content('Science Keywords')
       expect(page).to have_content('Update Type')
       expect(page).to have_content('Find And Remove')
+
       within '.find-values-preview' do
-        expect(page).to have_content('CATEGORY: ANY VALUE')
-        expect(page).to have_content('TOPIC: ANY VALUE')
-        expect(page).to have_content('TERM: ANY VALUE')
-        expect(page).to have_content('SURFACE TEMPERATURE')
+        expect(page).to have_content('CATEGORY: ANY VALUE TOPIC: ANY VALUE TERM: ANY VALUE SURFACE TEMPERATURE', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -97,9 +95,7 @@ describe 'Bulk updating Science Keywords' do
 
         it 'no longer has the removed keyword' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('ATMOSPHERE')
-            expect(page).to have_no_content('ATMOSPHERIC TEMPERATURE')
-            expect(page).to have_no_content('SURFACE TEMPERATURE')
+            expect(page).to have_no_content('ATMOSPHERE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE', normalize_ws: true)
           end
         end
       end
@@ -141,9 +137,7 @@ describe 'Bulk updating Science Keywords' do
       expect(page).to have_content('Add To Existing')
 
       within '.new-values-preview' do
-        expect(page).to have_content('EARTH SCIENCE')
-        expect(page).to have_content('ATMOSPHERE')
-        expect(page).to have_content('AEROSOLS')
+        expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -178,9 +172,7 @@ describe 'Bulk updating Science Keywords' do
 
         within '.new-values-preview' do
           expect(page).to have_content('Value to Add')
-          expect(page).to have_content('EARTH SCIENCE')
-          expect(page).to have_content('ATMOSPHERE')
-          expect(page).to have_content('AEROSOLS')
+          expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
         end
 
         # we can't test the time accurately, but we can check the date
@@ -194,9 +186,7 @@ describe 'Bulk updating Science Keywords' do
 
         it 'displays the new keyword' do
           within '.science-keywords-preview' do
-            expect(page).to have_content('EARTH SCIENCE')
-            expect(page).to have_content('ATMOSPHERE')
-            expect(page).to have_content('AEROSOLS')
+            expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
           end
         end
       end
@@ -242,17 +232,12 @@ describe 'Bulk updating Science Keywords' do
       expect(page).to have_content('Find And Replace')
       # Find Values to Replace
       within '.find-values-preview' do
-        expect(page).to have_content('CATEGORY: ANY VALUE')
-        expect(page).to have_content('TOPIC: ANY VALUE')
-        expect(page).to have_content('TERM: ANY VALUE')
-        expect(page).to have_content('SURFACE TEMPERATURE')
+        expect(page).to have_content('CATEGORY: ANY VALUE TOPIC: ANY VALUE TERM: ANY VALUE SURFACE TEMPERATURE', normalize_ws: true)
       end
 
       # New Values
       within '.new-values-preview' do
-        expect(page).to have_content('EARTH SCIENCE')
-        expect(page).to have_content('ATMOSPHERE')
-        expect(page).to have_content('AEROSOLS')
+        expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -292,9 +277,7 @@ describe 'Bulk updating Science Keywords' do
 
         within '.new-values-preview' do
           expect(page).to have_content('New Value')
-          expect(page).to have_content('EARTH SCIENCE')
-          expect(page).to have_content('ATMOSPHERE')
-          expect(page).to have_content('AEROSOLS')
+          expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
         end
 
         # we can't test the time accurately, but we can check the date
@@ -308,17 +291,10 @@ describe 'Bulk updating Science Keywords' do
 
         it 'displays the new keyword' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('ATMOSPHERIC TEMPERATURE')
-            expect(page).to have_no_content('SURFACE TEMPERATURE')
+            expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE', normalize_ws: true)
+            expect(page).to have_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS', normalize_ws: true)
 
-            expect(page).to have_content('EARTH SCIENCE')
-
-            expect(page).to have_content('SOLID EARTH')
-            expect(page).to have_content('ROCKS/MINERALS/CRYSTALS')
-            expect(page).to have_content('SEDIMENTARY ROCKS')
-
-            expect(page).to have_content('ATMOSPHERE')
-            expect(page).to have_content('AEROSOLS')
+            expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
           end
         end
       end
@@ -362,9 +338,7 @@ describe 'Bulk updating Science Keywords' do
 
       # New Values
       within '.new-values-preview' do
-        expect(page).to have_content('EARTH SCIENCE')
-        expect(page).to have_content('ATMOSPHERE')
-        expect(page).to have_content('AEROSOLS')
+        expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -399,9 +373,7 @@ describe 'Bulk updating Science Keywords' do
 
         within '.new-values-preview' do
           expect(page).to have_content('New Value')
-          expect(page).to have_content('EARTH SCIENCE')
-          expect(page).to have_content('ATMOSPHERE')
-          expect(page).to have_content('AEROSOLS')
+          expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
         end
 
         # we can't test the time accurately, but we can check the date
@@ -415,16 +387,10 @@ describe 'Bulk updating Science Keywords' do
 
         it 'displays the updated keywords' do
           within '.science-keywords-preview' do
-            expect(page).to have_no_content('ATMOSPHERIC TEMPERATURE')
-            expect(page).to have_no_content('SURFACE TEMPERATURE')
+            expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE', normalize_ws: true)
+            expect(page).to have_no_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS', normalize_ws: true)
 
-            expect(page).to have_no_content('SOLID EARTH')
-            expect(page).to have_no_content('ROCKS/MINERALS/CRYSTALS')
-            expect(page).to have_no_content('SEDIMENTARY ROCKS')
-
-            expect(page).to have_content('EARTH SCIENCE')
-            expect(page).to have_content('ATMOSPHERE')
-            expect(page).to have_content('AEROSOLS')
+            expect(page).to have_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
           end
         end
       end

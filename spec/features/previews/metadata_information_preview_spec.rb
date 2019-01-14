@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Metadata information preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do

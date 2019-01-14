@@ -23,22 +23,22 @@ describe 'Spatial information preview' do
       it 'displays the metadata' do
         within '.spatial-extent-table' do
           within all('tr')[1] do
-            expect(page).to have_content('HORIZONTAL Zone ID CARTESIAN CARTESIAN')
+            expect(page).to have_content('HORIZONTAL Zone ID CARTESIAN CARTESIAN', normalize_ws: true)
           end
         end
 
         within '.tiling-identification-systems-table' do
           within all('tr')[1] do
-            expect(page).to have_content('MISR -50 50 -30 30')
+            expect(page).to have_content('MISR -50 50 -30 30', normalize_ws: true)
           end
           within all('tr')[2] do
-            expect(page).to have_content('MODIS Tile EASE -25 25 -15 15')
+            expect(page).to have_content('MODIS Tile EASE -25 25 -15 15', normalize_ws: true)
           end
         end
 
         within '.spatial-information-table' do
           within all('tr')[0] do
-            expect(page).to have_content('Spatial Coverage Type: Vertical & Horizontal', normalize_ws: true)
+            expect(page).to have_content('Spatial Coverage Type: Vertical & Horizontal')
           end
           within all('tr')[1] do
             expect(page).to have_content('Hor. Datum Name Ellipsoid Name Semi Major Axis Flattening Ratio Denominator', normalize_ws: true)
