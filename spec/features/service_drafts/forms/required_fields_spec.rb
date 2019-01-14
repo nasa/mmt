@@ -30,7 +30,7 @@ describe 'Conditionally required fields', js: true do
         before do
           fill_in 'Traceability', with: 'testing'
 
-          find('#service_draft_draft_service_quality_lineage').click
+          find('body').click
         end
 
         it 'displays the required icons' do

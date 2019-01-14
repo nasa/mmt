@@ -28,8 +28,7 @@ describe 'Conditionally required fields', js: true do
       context 'when filling in a form field that causes fields to become required' do
         before do
           fill_in 'Description', with: 'testing'
-
-          find('#variable_draft_draft_fill_values_0_value').click
+          find('body').click
         end
 
         it 'displays the required icons' do

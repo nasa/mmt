@@ -5,15 +5,12 @@ describe 'Conditionally required fields', js: true do
 
   context 'when viewing an empty form' do
     before do
-      draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
-      visit collection_draft_path(draft)
+      @draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
     end
 
     context 'when viewing a form with always required fields' do
       before do
-        within '.metadata' do
-          click_on 'Collection Information', match: :first
-        end
+        visit edit_collection_draft_path(@draft, form: 'collection_information')
       end
 
       it 'displays the required icons' do
@@ -23,10 +20,7 @@ describe 'Conditionally required fields', js: true do
 
     context 'when viewing a form with conditionally required fields' do
       before do
-        within '.metadata' do
-          click_on 'Related URLs', match: :first
-        end
-
+        visit edit_collection_draft_path(@draft, form: 'related_urls')
         open_accordions
       end
 
@@ -38,7 +32,7 @@ describe 'Conditionally required fields', js: true do
         before do
           fill_in 'Description', with: 'Testing'
 
-          find('#draft_related_urls_0_url_content_type').click
+          find('body').click
         end
 
         it 'displays the required icons' do
@@ -60,15 +54,12 @@ describe 'Conditionally required fields', js: true do
 
   context 'when viewing a form with data' do
     before do
-      draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
-      visit collection_draft_path(draft)
+      @draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
     end
 
     context 'when viewing a form with always required fields' do
       before do
-        within '.metadata' do
-          click_on 'Collection Information', match: :first
-        end
+        visit edit_collection_draft_path(@draft, form: 'collection_information')
       end
 
       it 'displays the required icons' do
@@ -78,9 +69,7 @@ describe 'Conditionally required fields', js: true do
 
     context 'when viewing a form with conditionally required fields' do
       before do
-        within '.metadata' do
-          click_on 'Related URLs', match: :first
-        end
+        visit edit_collection_draft_path(@draft, form: 'related_urls')
         open_accordions
       end
 
