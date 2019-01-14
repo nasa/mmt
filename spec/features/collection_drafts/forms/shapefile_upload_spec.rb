@@ -1,16 +1,10 @@
-# MMT-35
-
-require 'rails_helper'
-
 describe 'Shapefile upload', js: true do
   before do
     login
-    draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
-    visit collection_draft_path(draft)
 
-    within '.metadata' do
-      click_on 'Spatial Information', match: :first
-    end
+    draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
+
+    visit edit_collection_draft_path(draft, form: 'spatial_information')
 
     open_accordions
 
@@ -19,14 +13,24 @@ describe 'Shapefile upload', js: true do
 
   context 'when uploading a shapefile containing a single feature' do
     before do
-      VCR.use_cassette('shapefiles/simple') do
-        upload_shapefile('doc/example-data/shapefiles/simple.geojson')
-      end
+      VCR.use_cassette('shapefile_uploads/single', record: :none) do
+        data_path = 'doc/example-data/shapefiles/simple.geojson'
+        # Set ID for tests and remove styles that hide the input
+        script = "$('.dz-hidden-input').attr('id', 'shapefile').attr('style', '');"
+        page.execute_script(script)
 
-      open_accordions
+        attach_file('shapefile', Rails.root.join(data_path))
+
+        wait_for_jQuery
+
+        # uploaded icon appears after the upload has happened, and we only want
+        # to open_accordions after
+        expect(page).to have_css('.dz-file-preview.dz-complete')
+        open_accordions
+      end
     end
 
-    it 'populates the form fields with the shapefile values' do
+    it 'populates the form fields with the simple shapefile values' do
       within '.multiple.g-polygons > .multiple-item-0' do
         within '.boundary .multiple.points' do
           expect(page).to have_field('Longitude', with: '100')
@@ -54,20 +58,24 @@ describe 'Shapefile upload', js: true do
 
   context 'when uploading a complex shapefile' do
     before do
-      VCR.use_cassette('shapefiles/complex') do
-        upload_shapefile('doc/example-data/shapefiles/complex.geojson')
-      end
+      VCR.use_cassette('shapefile_uploads/complex', record: :none) do
+        data_path = 'doc/example-data/shapefiles/complex.geojson'
+        # Set ID for tests and remove styles that hide the input
+        script = "$('.dz-hidden-input').attr('id', 'shapefile').attr('style', '');"
+        page.execute_script(script)
 
-      open_accordions
+        attach_file('shapefile', Rails.root.join(data_path))
+
+        wait_for_jQuery
+
+        # uploaded icon appears after the upload has happened, and we only want
+        # to open_accordions after
+        expect(page).to have_css('.dz-file-preview.dz-complete')
+        open_accordions
+      end
     end
 
-    it 'populates the form fields with the shapefile values' do
-      # We only take the last geometry type in the shape file
-      # within first('.multiple.points') do
-      #   expect(page).to have_field('Longitude', with: '102')
-      #   expect(page).to have_field('Latitude', with: '0.5')
-      # end
-
+    it 'populates the form fields with the complex shapefile values' do
       within '.multiple.g-polygons > .multiple-item-0' do
         within '.boundary .multiple.points' do
           expect(page).to have_field('Longitude', with: '100')

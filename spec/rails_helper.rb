@@ -126,8 +126,8 @@ RSpec.configure do |config|
 
   # Catch all requests, specific examples are still caught using their specific cassettes
   config.around(:each) do |spec|
-    VCR.use_cassette('global', record: :once) do
-      VCR.use_cassette('echo_soap/provider_names') do
+    VCR.use_cassette('global', record: :none) do
+      VCR.use_cassette('echo_soap/provider_names', record: :none) do
         spec.run
       end
     end

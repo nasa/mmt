@@ -281,33 +281,29 @@ module Helpers
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#open_accordions' do
         Timeout.timeout(Capybara.default_max_wait_time) do
           loop do
-            puts "doing open accordions"
+            puts 'doing open accordions'
             do_open_accordions
             return if accordions_open?
-            # puts 'sleeping'
-            # sleep 2
           end
         end
       rescue Timeout::Error
-        puts "timout on open accordions"
-        raise 'Failed to open the accordions on the page'
+        raise 'Timeout: Failed to open the accordions on the page'
       end
     end
 
     def do_open_accordions
       script = "$('.eui-accordion.is-closed').removeClass('is-closed');"
-      page.execute_script script
+      page.execute_script(script)
     end
 
     def accordions_open?
       # Are there accordions on the page, and are they open?
       expect(page).to have_css('.eui-accordion')
       expect(page).to have_no_css('.eui-accordion.is-closed')
+      # puts 'past accordion expectations, before jQuery expectation'
 
       # are active jQuery requests finished?
       expect(page.evaluate_script('jQuery.active').zero?).to be true
-      # TODO: execute_script does not return a result. is there a way to
-      # change this to use that?
     rescue
       false
     end
@@ -323,7 +319,6 @@ module Helpers
       fill_in 'Last Name', with: 'Last Name'
     end
 
-    # def add_contact_information(type = nil, single = nil, button_type = nil)
     def add_contact_information(type: nil, single: nil, button_type: nil)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_contact_information' do
         within '.contact-information' do
@@ -405,20 +400,12 @@ module Helpers
             select 'Data Contact URL', from: 'URL Content Type'
             select 'Home Page', from: 'Type'
 
-            # this method seems to be very slow, so use a shorter wait time
-            # using_wait_time(3) do
-            #   # only try to fill in the URL field if it is not readonly - if the data center short name did not have one to populate the field
-            #   if page.has_no_field?('URL', readonly: true)
-            #     puts 'entering "example.com" when URL not readonly'
-            #     fill_in 'URL', with: 'http://example.com'
-            #   end
-            # end
             fill_related_url_if_not_readonly
           elsif type == 'data_center'
             fill_in 'Description', with: 'Example Description'
             select 'Data Center URL', from: 'URL Content Type'
             select 'Home Page', from: 'Type'
-            # fill_in 'URL', with: 'http://example.com'
+
             fill_related_url_if_not_readonly
           else
             fill_in 'Description', with: 'Example Description'
@@ -457,7 +444,7 @@ module Helpers
 
     def fill_related_url_if_not_readonly
       # this method seems to be very slow, so use a shorter wait time
-      using_wait_time(2) do
+      using_wait_time(1) do
         # only try to fill in the URL field if it is not readonly - if the data center short name did not have one to populate the field
         if page.has_no_field?('URL', readonly: true)
           # puts 'entering "example.com" when URL not readonly'
@@ -766,23 +753,6 @@ module Helpers
           end
         end
       end
-    end
-
-    def upload_shapefile(path)
-      # Set ID for tests and remove styles that hide the input
-      script = "$('.dz-hidden-input').attr('id', 'shapefile').attr('style', '');"
-      page.execute_script(script)
-
-      # begin
-      #   attach_file('shapefile', Rails.root.join(path))
-      #   wait_for_ajax
-      # rescue Capybara::Poltergeist::ObsoleteNode
-      #   nil
-      # end
-
-      # TODO not sure what to rescure here
-      attach_file('shapefile', Rails.root.join(path))
-      wait_for_jQuery
     end
 
     def add_science_keywords

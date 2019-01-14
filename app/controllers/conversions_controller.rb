@@ -11,7 +11,7 @@ class ConversionsController < ApplicationController
   # should configure the production webserver to directly proxy their service, or deploy our
   # own Ogre instance.
   def convert
-    Rails.logger.info request.headers["Content-Type"]
+    Rails.logger.info "converting shapefile #{request.headers["Content-Type"]}"
 
     # Define local_path method required by Faraday
     upload = params[:upload]
