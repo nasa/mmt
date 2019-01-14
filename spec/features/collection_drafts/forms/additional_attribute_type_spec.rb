@@ -55,8 +55,7 @@ describe 'Additional Attribute data type', js: true do
         select 'Integer', from: 'Data Type'
         fill_in 'Parameter Range Begin', with: '5'
         fill_in 'Parameter Range End', with: '5'
-
-        find('#draft_additional_attributes_0_measurement_resolution').click
+        find('body').click
       end
 
       it 'displays an error' do

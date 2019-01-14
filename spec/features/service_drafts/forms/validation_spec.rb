@@ -164,7 +164,7 @@ describe 'Service Drafts Forms Field Validations', js: true do
       before do
         fill_in 'Spatial Resolution', with: 'abcd'
 
-        find('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_temporal_extent_data_resource_time_points_0_time_format').click
+        find('body').click
       end
 
       it 'displays validation error messages' do
@@ -283,7 +283,6 @@ describe 'Service Drafts Forms Field Validations', js: true do
           end
         end
       end
-
     end
   end
 end

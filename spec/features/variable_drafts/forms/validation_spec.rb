@@ -119,7 +119,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
         before do
           fill_in 'Name', with: 'Test Var Short Name'
           fill_in 'Long Name', with: 'Test Var Long Long Name'
-          find('#variable_draft_draft_units').click
+          find('body').click
         end
 
         it 'does not display validation error messages' do
@@ -203,8 +203,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
         fill_in 'Max', with: 'abcd'
         fill_in 'Scale', with: 'abcd'
         fill_in 'Offset', with: 'abcd'
-
-        find('#variable_draft_draft_units').click
+        find('body').click
       end
 
       it 'displays validation error messages' do
@@ -260,8 +259,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
         fill_in 'Average Size Of Granules Sampled', with: 'abcd'
         fill_in 'Avg Compression Rate ASCII', with: 'abcd'
         fill_in 'Avg Compression Rate NetCDF4', with: 'abcd'
-
-        find('#variable_draft_draft_size_estimation_average_size_of_granules_sampled').click
+        find('body').click
       end
 
       it 'displays validation error messages' do
