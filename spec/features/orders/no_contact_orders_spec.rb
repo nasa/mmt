@@ -40,7 +40,8 @@ describe 'Searching Orders' do
 
       it 'displays the guest order correctly' do
         # No contact information is visible
-        expect(page).to have_content('Contact Information Role: Name: Organization: Address:', normalize_ws: true)
+        expect(page).to have_content('Contact Information')
+        expect(page).to have_content('Role: Name: Organization: Address: Phone: Email: ', normalize_ws: true)
       end
     end
   end

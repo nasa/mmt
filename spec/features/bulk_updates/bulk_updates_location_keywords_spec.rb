@@ -42,9 +42,9 @@ describe 'Bulk updating Location Keywords' do
       expect(page).to have_content('Location Keywords')
       expect(page).to have_content('Update Type')
       expect(page).to have_content('Find And Remove')
+
       within '.find-values-preview' do
-        expect(page).to have_content('CATEGORY: ANY VALUE')
-        expect(page).to have_content('ARCTIC')
+        expect(page).to have_content('CATEGORY: ANY VALUE ARCTIC', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -134,11 +134,9 @@ describe 'Bulk updating Location Keywords' do
       expect(page).to have_content('Location Keywords')
       expect(page).to have_content('Update Type')
       expect(page).to have_content('Add To Existing')
+
       within '.new-values-preview' do
-        expect(page).to have_content('OCEAN')
-        expect(page).to have_content('ATLANTIC OCEAN')
-        expect(page).to have_content('NORTH ATLANTIC OCEAN')
-        expect(page).to have_content('BALTIC SEA')
+        expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -173,10 +171,7 @@ describe 'Bulk updating Location Keywords' do
 
         within '.new-values-preview' do
           expect(page).to have_content('Value to Add')
-          expect(page).to have_content('OCEAN')
-          expect(page).to have_content('ATLANTIC OCEAN')
-          expect(page).to have_content('NORTH ATLANTIC OCEAN')
-          expect(page).to have_content('BALTIC SEA')
+          expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
         end
 
         # we can't test the time accurately, but we can check the date
@@ -190,10 +185,7 @@ describe 'Bulk updating Location Keywords' do
 
         it 'displays the new keyword' do
           within '.location-keyword-preview' do
-            expect(page).to have_content('OCEAN')
-            expect(page).to have_content('ATLANTIC OCEAN')
-            expect(page).to have_content('NORTH ATLANTIC OCEAN')
-            expect(page).to have_content('BALTIC SEA')
+            expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
           end
         end
       end
@@ -243,10 +235,7 @@ describe 'Bulk updating Location Keywords' do
 
       # New Values
       within '.new-values-preview' do
-        expect(page).to have_content('OCEAN')
-        expect(page).to have_content('ATLANTIC OCEAN')
-        expect(page).to have_content('NORTH ATLANTIC OCEAN')
-        expect(page).to have_content('BALTIC SEA')
+        expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -286,10 +275,7 @@ describe 'Bulk updating Location Keywords' do
 
         within '.new-values-preview' do
           expect(page).to have_content('New Value')
-          expect(page).to have_content('OCEAN')
-          expect(page).to have_content('ATLANTIC OCEAN')
-          expect(page).to have_content('NORTH ATLANTIC OCEAN')
-          expect(page).to have_content('BALTIC SEA')
+          expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
         end
 
         # we can't test the time accurately, but we can check the date
@@ -303,10 +289,7 @@ describe 'Bulk updating Location Keywords' do
 
         it 'displays the new keyword' do
           within '.location-keyword-preview' do
-            expect(page).to have_content('OCEAN')
-            expect(page).to have_content('ATLANTIC OCEAN')
-            expect(page).to have_content('NORTH ATLANTIC OCEAN')
-            expect(page).to have_content('BALTIC SEA')
+            expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
           end
         end
       end
@@ -350,9 +333,7 @@ describe 'Bulk updating Location Keywords' do
 
       # New Values
       within '.new-values-preview' do
-        expect(page).to have_content('CONTINENT')
-        expect(page).to have_content('AFRICA')
-        expect(page).to have_content('CENTRAL AFRICA')
+        expect(page).to have_content('CONTINENT AFRICA CENTRAL AFRICA', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -387,9 +368,7 @@ describe 'Bulk updating Location Keywords' do
 
         within '.new-values-preview' do
           expect(page).to have_content('New Value')
-          expect(page).to have_content('CONTINENT')
-          expect(page).to have_content('AFRICA')
-          expect(page).to have_content('CENTRAL AFRICA')
+          expect(page).to have_content('CONTINENT AFRICA CENTRAL AFRICA', normalize_ws: true)
         end
 
         # we can't test the time accurately, but we can check the date
@@ -403,15 +382,10 @@ describe 'Bulk updating Location Keywords' do
 
         it 'displays the updated keywords' do
           within '.location-keyword-preview' do
-            expect(page).to have_no_content('GEOGRAPHIC REGION')
-            expect(page).to have_no_content('ARCTIC')
+            expect(page).to have_no_content('GEOGRAPHIC REGION ARCTIC', normalize_ws: true)
+            expect(page).to have_no_content('OCEAN ATLANTIC OCEAN', normalize_ws: true)
 
-            expect(page).to have_no_content('OCEAN')
-            expect(page).to have_no_content('ATLANTIC OCEAN')
-
-            expect(page).to have_content('CONTINENT')
-            expect(page).to have_content('AFRICA')
-            expect(page).to have_content('CENTRAL AFRICA')
+            expect(page).to have_content('CONTINENT AFRICA CENTRAL AFRICA', normalize_ws: true)
           end
         end
       end

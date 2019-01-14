@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Descriptive keywords preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
@@ -25,10 +23,10 @@ describe 'Descriptive keywords preview' do
       it 'displays the metadata' do
         within 'ul.science-keywords-preview li.science-keywords' do
           within all('ul.arrow-tag-group-list')[0] do
-            expect(page).to have_content('EARTH SCIENCE ATMOSPHERE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE MAXIMUM/MINIMUM TEMPERATURE 24 HOUR MAXIMUM TEMPERATURE')
+            expect(page).to have_content('EARTH SCIENCE ATMOSPHERE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE MAXIMUM/MINIMUM TEMPERATURE 24 HOUR MAXIMUM TEMPERATURE', normalize_ws: true)
           end
           within all('ul.arrow-tag-group-list')[1] do
-            expect(page).to have_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES LUMINESCENCE')
+            expect(page).to have_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES LUMINESCENCE', normalize_ws: true)
           end
         end
 
@@ -54,11 +52,7 @@ describe 'Descriptive keywords preview' do
             within '.card-body' do
               expect(page).to have_content('Description')
               within '.card-table tbody' do
-                expect(page).to have_content('Measurement Resolution')
-                expect(page).to have_content('1')
-                expect(page).to have_content('5')
-                expect(page).to have_content('Parameter Units Of Measure')
-                expect(page).to have_content('Parameter Value Accuracy')
+                expect(page).to have_content('Measurement Resolution 1 5 Parameter Units Of Measure Parameter Value Accuracy', normalize_ws: true)
               end
               expect(page).to have_content('Value Accuracy Explanation')
             end
