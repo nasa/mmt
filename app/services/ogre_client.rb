@@ -15,7 +15,7 @@ class OgreClient
 
   private
 
-  def self.post(url, params={})
+  def self.post(url, params = {})
     connection.post(url, params)
   end
 

@@ -7,6 +7,7 @@ VCR.configure do |c|
   c.ignore_localhost = true
   c.default_cassette_options = { allow_playback_repeats: true }
   c.after_http_request do |request, response|
+    Rails.logger.info 'VCR logging:'
     begin
       Rails.logger.debug("Response #{request.method} #{request.uri} result : Headers: #{response.headers} - Body Size (bytes): #{response.body.to_s.bytesize} Status: #{response.status}")
     rescue => e
