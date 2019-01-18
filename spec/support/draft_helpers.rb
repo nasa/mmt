@@ -281,7 +281,7 @@ module Helpers
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#open_accordions' do
         Timeout.timeout(Capybara.default_max_wait_time) do
           loop do
-            puts 'doing open accordions'
+            # puts 'doing open accordions'
             do_open_accordions
             return if accordions_open?
           end
@@ -309,14 +309,18 @@ module Helpers
     end
 
     def add_data_center(value)
-      find('.select2-container .select2-selection').click
-      find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: value).click
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_data_center' do
+        find('.select2-container .select2-selection').click
+        find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: value).click
+      end
     end
 
     def add_person
-      fill_in 'First Name', with: 'First Name'
-      fill_in 'Middle Name', with: 'Middle Name'
-      fill_in 'Last Name', with: 'Last Name'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_person' do
+        fill_in 'First Name', with: 'First Name'
+        fill_in 'Middle Name', with: 'Middle Name'
+        fill_in 'Last Name', with: 'Last Name'
+      end
     end
 
     def add_contact_information(type: nil, single: nil, button_type: nil)
@@ -332,39 +336,45 @@ module Helpers
     end
 
     def add_dates
-      within '.multiple.dates' do
-        select 'Creation', from: 'Type'
-        fill_in 'Date', with: '2015-07-01T00:00:00Z'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_dates' do
+        within '.multiple.dates' do
+          select 'Creation', from: 'Type'
+          fill_in 'Date', with: '2015-07-01T00:00:00Z'
 
-        click_on 'Add another Date'
-        within '.multiple-item-1' do
-          select 'Future Review', from: 'Type'
-          fill_in 'Date', with: '2015-07-02T00:00:00Z'
+          click_on 'Add another Date'
+          within '.multiple-item-1' do
+            select 'Future Review', from: 'Type'
+            fill_in 'Date', with: '2015-07-02T00:00:00Z'
+          end
         end
       end
     end
 
     def add_metadata_dates
-      within '.multiple.dates' do
-        select 'Future Review', from: 'Type'
-        fill_in 'Date', with: '2015-07-01T00:00:00Z'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_metadata_dates' do
+        within '.multiple.dates' do
+          select 'Future Review', from: 'Type'
+          fill_in 'Date', with: '2015-07-01T00:00:00Z'
 
-        click_on 'Add another Date'
-        within '.multiple-item-1' do
-          select 'Planned Deletion', from: 'Type'
-          fill_in 'Date', with: '2015-07-02T00:00:00Z'
+          click_on 'Add another Date'
+          within '.multiple-item-1' do
+            select 'Planned Deletion', from: 'Type'
+            fill_in 'Date', with: '2015-07-02T00:00:00Z'
+          end
         end
       end
     end
 
     def add_contact_mechanisms
-      within '.multiple.contact-mechanisms' do
-        select 'Email', from: 'Type'
-        fill_in 'Value', with: 'example@example.com'
-        click_on 'Add another Contact Mechanism'
-        within '.multiple-item-1' do
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_contact_information' do
+        within '.multiple.contact-mechanisms' do
           select 'Email', from: 'Type'
-          fill_in 'Value', with: 'example2@example.com'
+          fill_in 'Value', with: 'example@example.com'
+          click_on 'Add another Contact Mechanism'
+          within '.multiple-item-1' do
+            select 'Email', from: 'Type'
+            fill_in 'Value', with: 'example2@example.com'
+          end
         end
       end
     end
@@ -443,99 +453,107 @@ module Helpers
     end
 
     def fill_related_url_if_not_readonly
-      # this method seems to be very slow, so use a shorter wait time
-      using_wait_time(1) do
-        # only try to fill in the URL field if it is not readonly - if the data center short name did not have one to populate the field
-        if page.has_no_field?('URL', readonly: true)
-          # puts 'entering "example.com" when URL not readonly'
-          fill_in 'URL', with: 'http://example.com'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#fill_related_url_if_not_readonly' do
+        # this method seems to be very slow, so use a shorter wait time
+        using_wait_time(1) do
+          # only try to fill in the URL field if it is not readonly - if the data center short name did not have one to populate the field
+          if page.has_no_field?('URL', readonly: true)
+            # puts 'entering "example.com" when URL not readonly'
+            fill_in 'URL', with: 'http://example.com'
+          end
         end
       end
     end
 
     def add_collection_citations
-      within '.multiple.collection-citations' do
-        fill_in 'Version', with: 'v1'
-        fill_in 'draft_collection_citations_0_title', with: 'Citation title' # Title
-        fill_in 'Creator', with: 'Citation creator'
-        fill_in 'Editor', with: 'Citation editor'
-        fill_in 'Series Name', with: 'Citation series name'
-        fill_in 'Release Date', with: '2015-07-01T00:00:00Z'
-        fill_in 'Release Place', with: 'Citation release place'
-        fill_in 'Publisher', with: 'Citation publisher'
-        fill_in 'Issue Identification', with: 'Citation issue identification'
-        fill_in 'Data Presentation Form', with: 'Citation data presentation form'
-        fill_in 'Other Citation Details', with: 'Citation other details'
-        within '.online-resource' do
-          fill_in 'Name', with: 'Online Resource Name'
-          fill_in 'Linkage', with: 'http://www.example.com'
-          fill_in 'Description', with: 'Online Resource Description'
-          fill_in 'Protocol', with: 'http'
-          fill_in 'Application Profile', with: 'website'
-          fill_in 'Function', with: 'information'
-        end
-
-        click_on 'Add another Collection Citation'
-        within '.multiple-item-1' do
-          fill_in 'Version', with: 'v2'
-          fill_in 'draft_collection_citations_1_title', with: 'Citation title 1' # Title
-          fill_in 'Creator', with: 'Citation creator 1'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_collection_citations' do
+        within '.multiple.collection-citations' do
+          fill_in 'Version', with: 'v1'
+          fill_in 'draft_collection_citations_0_title', with: 'Citation title' # Title
+          fill_in 'Creator', with: 'Citation creator'
+          fill_in 'Editor', with: 'Citation editor'
+          fill_in 'Series Name', with: 'Citation series name'
+          fill_in 'Release Date', with: '2015-07-01T00:00:00Z'
+          fill_in 'Release Place', with: 'Citation release place'
+          fill_in 'Publisher', with: 'Citation publisher'
+          fill_in 'Issue Identification', with: 'Citation issue identification'
+          fill_in 'Data Presentation Form', with: 'Citation data presentation form'
+          fill_in 'Other Citation Details', with: 'Citation other details'
           within '.online-resource' do
-            fill_in 'Name', with: 'Online Resource Name 1'
-            fill_in 'Linkage', with: 'http://www.example.com/1'
-            fill_in 'Description', with: 'Online Resource Description 1'
+            fill_in 'Name', with: 'Online Resource Name'
+            fill_in 'Linkage', with: 'http://www.example.com'
+            fill_in 'Description', with: 'Online Resource Description'
+            fill_in 'Protocol', with: 'http'
+            fill_in 'Application Profile', with: 'website'
+            fill_in 'Function', with: 'information'
+          end
+
+          click_on 'Add another Collection Citation'
+          within '.multiple-item-1' do
+            fill_in 'Version', with: 'v2'
+            fill_in 'draft_collection_citations_1_title', with: 'Citation title 1' # Title
+            fill_in 'Creator', with: 'Citation creator 1'
+            within '.online-resource' do
+              fill_in 'Name', with: 'Online Resource Name 1'
+              fill_in 'Linkage', with: 'http://www.example.com/1'
+              fill_in 'Description', with: 'Online Resource Description 1'
+            end
           end
         end
       end
     end
 
     def add_metadata_association
-      within '.multiple.metadata-associations' do
-        select 'Science Associated', from: 'Type'
-        fill_in 'Entry Id', with: '12345'
-        fill_in 'Description', with: 'Metadata association description'
-        fill_in 'Version', with: '23'
-        click_on 'Add another Metadata Association'
-        within '.multiple-item-1' do
-          select 'Larger Citation Works', from: 'Type'
-          fill_in 'Entry Id', with: '123abc'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_metadata_association' do
+        within '.multiple.metadata-associations' do
+          select 'Science Associated', from: 'Type'
+          fill_in 'Entry Id', with: '12345'
+          fill_in 'Description', with: 'Metadata association description'
+          fill_in 'Version', with: '23'
+          click_on 'Add another Metadata Association'
+          within '.multiple-item-1' do
+            select 'Larger Citation Works', from: 'Type'
+            fill_in 'Entry Id', with: '123abc'
+          end
         end
       end
     end
 
     def add_publication_reference
-      within '.multiple.publication-references' do
-        fill_in 'draft_publication_references_0_title', with: 'Publication reference title' # Title
-        fill_in 'Publisher', with: 'Publication reference publisher'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_publication_reference' do
+        within '.multiple.publication-references' do
+          fill_in 'draft_publication_references_0_title', with: 'Publication reference title' # Title
+          fill_in 'Publisher', with: 'Publication reference publisher'
 
-        script = '$("#draft_publication_references_0_doi_Available").click();'
-        page.execute_script script
-        fill_in 'DOI', with: 'Publication reference DOI'
-        fill_in 'Authority', with: 'Publication reference authority'
-        fill_in 'Author', with: 'Publication reference author'
-        fill_in 'Publication Date', with: '2015-07-01T00:00:00Z'
-        fill_in 'Series', with: 'Publication reference series'
-        fill_in 'Edition', with: 'Publication reference edition'
-        fill_in 'Volume', with: 'Publication reference volume'
-        fill_in 'Issue', with: 'Publication reference issue'
-        fill_in 'Report Number', with: 'Publication reference report number'
-        fill_in 'Publication Place', with: 'Publication reference publication place'
-        fill_in 'Pages', with: 'Publication reference pages'
-        fill_in 'ISBN', with: '1234567890123'
-        fill_in 'Other Reference Details', with: 'Publication reference details'
-        within '.online-resource' do
-          fill_in 'Name', with: 'Online Resource Name'
-          fill_in 'Linkage', with: 'http://www.example.com'
-          fill_in 'Description', with: 'Online Resource Description'
-          fill_in 'Protocol', with: 'http'
-          fill_in 'Application Profile', with: 'website'
-          fill_in 'Function', with: 'information'
-        end
+          script = '$("#draft_publication_references_0_doi_Available").click();'
+          page.execute_script script
+          fill_in 'DOI', with: 'Publication reference DOI'
+          fill_in 'Authority', with: 'Publication reference authority'
+          fill_in 'Author', with: 'Publication reference author'
+          fill_in 'Publication Date', with: '2015-07-01T00:00:00Z'
+          fill_in 'Series', with: 'Publication reference series'
+          fill_in 'Edition', with: 'Publication reference edition'
+          fill_in 'Volume', with: 'Publication reference volume'
+          fill_in 'Issue', with: 'Publication reference issue'
+          fill_in 'Report Number', with: 'Publication reference report number'
+          fill_in 'Publication Place', with: 'Publication reference publication place'
+          fill_in 'Pages', with: 'Publication reference pages'
+          fill_in 'ISBN', with: '1234567890123'
+          fill_in 'Other Reference Details', with: 'Publication reference details'
+          within '.online-resource' do
+            fill_in 'Name', with: 'Online Resource Name'
+            fill_in 'Linkage', with: 'http://www.example.com'
+            fill_in 'Description', with: 'Online Resource Description'
+            fill_in 'Protocol', with: 'http'
+            fill_in 'Application Profile', with: 'website'
+            fill_in 'Function', with: 'information'
+          end
 
-        click_on 'Add another Publication Reference'
-        within '.multiple-item-1' do
-          fill_in 'draft_publication_references_1_title', with: 'Publication reference title 1' # Title
-          fill_in 'ISBN', with: '9876543210987'
+          click_on 'Add another Publication Reference'
+          within '.multiple-item-1' do
+            fill_in 'draft_publication_references_1_title', with: 'Publication reference title 1' # Title
+            fill_in 'ISBN', with: '9876543210987'
+          end
         end
       end
     end
@@ -560,166 +578,178 @@ module Helpers
     end
 
     def add_characteristics
-      within first('.multiple.characteristics') do
-        fill_in 'Name', with: 'Characteristics name'
-        fill_in 'Description', with: 'Characteristics description'
-        fill_in 'Value', with: 'Characteristics value'
-        fill_in 'Unit', with: 'unit'
-        select 'String', from: 'Data Type'
-
-        click_on 'Add another Characteristic'
-        within '.multiple-item-1' do
-          fill_in 'Name', with: 'Characteristics name 1'
-          fill_in 'Description', with: 'Characteristics description 1'
-          fill_in 'Value', with: 'Characteristics value 1'
-          fill_in 'Unit', with: 'unit 1'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_characteristics' do
+        within first('.multiple.characteristics') do
+          fill_in 'Name', with: 'Characteristics name'
+          fill_in 'Description', with: 'Characteristics description'
+          fill_in 'Value', with: 'Characteristics value'
+          fill_in 'Unit', with: 'unit'
           select 'String', from: 'Data Type'
+
+          click_on 'Add another Characteristic'
+          within '.multiple-item-1' do
+            fill_in 'Name', with: 'Characteristics name 1'
+            fill_in 'Description', with: 'Characteristics description 1'
+            fill_in 'Value', with: 'Characteristics value 1'
+            fill_in 'Unit', with: 'unit 1'
+            select 'String', from: 'Data Type'
+          end
         end
       end
     end
 
     def add_instruments(platform = '0')
-      within '.multiple.instruments' do
-        all('.select2-container .select2-selection').first.click
-        find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ATM').click
-        fill_in "draft_platforms_#{platform}_instruments_0_technique", with: 'Instrument technique'
-        fill_in 'Number Of Instruments', with: 2468
-        within '.multiple.operational-modes' do
-          within '.multiple-item-0' do
-            find('.operational-mode').set 'Instrument mode 1'
-            click_on 'Add another Operational Mode'
-          end
-          within '.multiple-item-1' do
-            find('.operational-mode').set 'Instrument mode 2'
-          end
-        end
-
-        add_characteristics
-        add_instrument_children(platform)
-
-        click_on 'Add another Instrument'
-        within '.multiple-item-1' do
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_instruments' do
+        within '.multiple.instruments' do
           all('.select2-container .select2-selection').first.click
-          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'LVIS').click
+          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ATM').click
+          fill_in "draft_platforms_#{platform}_instruments_0_technique", with: 'Instrument technique'
+          fill_in 'Number Of Instruments', with: 2468
+          within '.multiple.operational-modes' do
+            within '.multiple-item-0' do
+              find('.operational-mode').set 'Instrument mode 1'
+              click_on 'Add another Operational Mode'
+            end
+            within '.multiple-item-1' do
+              find('.operational-mode').set 'Instrument mode 2'
+            end
+          end
+
+          add_characteristics
+          add_instrument_children(platform)
+
+          click_on 'Add another Instrument'
+          within '.multiple-item-1' do
+            all('.select2-container .select2-selection').first.click
+            find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'LVIS').click
+          end
         end
       end
     end
 
     def add_instrument_children(platform)
-      within '.multiple.instrument-children' do
-        find('.select2-container .select2-selection').click
-        find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ADS').click
-
-        fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_technique", with: 'Instrument Child technique'
-        add_characteristics
-
-        click_on 'Add another Instrument Child'
-        within '.multiple-item-1' do
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_instrument_children' do
+        within '.multiple.instrument-children' do
           find('.select2-container .select2-selection').click
-          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'SMAP L-BAND RADIOMETER').click
+          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'ADS').click
+
+          fill_in "draft_platforms_#{platform}_instruments_0_composed_of_0_technique", with: 'Instrument Child technique'
+          add_characteristics
+
+          click_on 'Add another Instrument Child'
+          within '.multiple-item-1' do
+            find('.select2-container .select2-selection').click
+            find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'SMAP L-BAND RADIOMETER').click
+          end
         end
       end
     end
 
     def add_points
-      script = '$(".geometry-picker.points").click();'
-      page.execute_script script
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_points' do
+        script = '$(".geometry-picker.points").click();'
+        page.execute_script script
 
-      within first('.multiple.points') do
-        fill_in 'Longitude', with: '-77.047878'
-        fill_in 'Latitude', with: '38.805407'
-        click_on 'Add another Point'
-        within '.multiple-item-1' do
-          fill_in 'Longitude', with: '-76.9284587'
-          fill_in 'Latitude', with: '38.968602'
+        within first('.multiple.points') do
+          fill_in 'Longitude', with: '-77.047878'
+          fill_in 'Latitude', with: '38.805407'
+          click_on 'Add another Point'
+          within '.multiple-item-1' do
+            fill_in 'Longitude', with: '-76.9284587'
+            fill_in 'Latitude', with: '38.968602'
+          end
         end
       end
     end
 
     def add_bounding_rectangles
-      script = '$(".geometry-picker.bounding-rectangles").click();'
-      page.execute_script script
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_bounding_rectangles' do
+        script = '$(".geometry-picker.bounding-rectangles").click();'
+        page.execute_script script
 
-      within first('.multiple.bounding-rectangles') do
-        fill_in 'West', with: '-180.0'
-        fill_in 'North', with: '90.0'
-        fill_in 'East', with: '180.0'
-        fill_in 'South', with: '-90.0'
-        click_on 'Add another Bounding Rectangle'
-        within '.multiple-item-1' do
-          fill_in 'West', with: '-96.9284587'
-          fill_in 'North', with: '58.968602'
-          fill_in 'East', with: '-56.9284587'
-          fill_in 'South', with: '18.968602'
+        within first('.multiple.bounding-rectangles') do
+          fill_in 'West', with: '-180.0'
+          fill_in 'North', with: '90.0'
+          fill_in 'East', with: '180.0'
+          fill_in 'South', with: '-90.0'
+          click_on 'Add another Bounding Rectangle'
+          within '.multiple-item-1' do
+            fill_in 'West', with: '-96.9284587'
+            fill_in 'North', with: '58.968602'
+            fill_in 'East', with: '-56.9284587'
+            fill_in 'South', with: '18.968602'
+          end
         end
       end
     end
 
     def add_g_polygons
-      script = '$(".geometry-picker.g-polygons").click();'
-      page.execute_script script
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_g_polygons' do
+        script = '$(".geometry-picker.g-polygons").click();'
+        page.execute_script script
 
-      within first('.multiple.g-polygons') do
-        within '.boundary .multiple.points' do
-          fill_in 'Longitude', with: '10.0'
-          fill_in 'Latitude', with: '10.0'
-          click_on 'Add another Point'
-          within '.multiple-item-1' do
-            fill_in 'Longitude', with: '-10.0'
-            fill_in 'Latitude', with: '10.0'
-          end
-          click_on 'Add another Point'
-          within '.multiple-item-2' do
-            fill_in 'Longitude', with: '-10.0'
-            fill_in 'Latitude', with: '-10.0'
-          end
-          click_on 'Add another Point'
-          within '.multiple-item-3' do
-            fill_in 'Longitude', with: '10.0'
-            fill_in 'Latitude', with: '-10.0'
-          end
-        end
-        within '.exclusive-zone' do
-          within '.multiple.boundaries' do
-            fill_in 'Longitude', with: '5.0'
-            fill_in 'Latitude', with: '5.0'
-            click_on 'Add another Point'
-            within '.multiple-item-1' do
-              fill_in 'Longitude', with: '-5.0'
-              fill_in 'Latitude', with: '5.0'
-            end
-            click_on 'Add another Point'
-            within '.multiple-item-2' do
-              fill_in 'Longitude', with: '-5.0'
-              fill_in 'Latitude', with: '-5.0'
-            end
-            click_on 'Add another Point'
-            within '.multiple-item-3' do
-              fill_in 'Longitude', with: '5.0'
-              fill_in 'Latitude', with: '-5.0'
-            end
-          end
-        end
-
-        click_on 'Add another G Polygon'
-        within all('.multiple-item-1').last do
+        within first('.multiple.g-polygons') do
           within '.boundary .multiple.points' do
-            fill_in 'Longitude', with: '38.98828125'
-            fill_in 'Latitude', with: '-77.044921875'
+            fill_in 'Longitude', with: '10.0'
+            fill_in 'Latitude', with: '10.0'
             click_on 'Add another Point'
             within '.multiple-item-1' do
-              fill_in 'Longitude', with: '38.935546875'
-              fill_in 'Latitude', with: '-77.1240234375'
+              fill_in 'Longitude', with: '-10.0'
+              fill_in 'Latitude', with: '10.0'
             end
             click_on 'Add another Point'
             within '.multiple-item-2' do
-              fill_in 'Longitude', with: '38.81689453125'
-              fill_in 'Latitude', with: '-77.02734375'
+              fill_in 'Longitude', with: '-10.0'
+              fill_in 'Latitude', with: '-10.0'
             end
             click_on 'Add another Point'
             within '.multiple-item-3' do
-              fill_in 'Longitude', with: '38.900390625'
-              fill_in 'Latitude', with: '-76.9130859375'
+              fill_in 'Longitude', with: '10.0'
+              fill_in 'Latitude', with: '-10.0'
+            end
+          end
+          within '.exclusive-zone' do
+            within '.multiple.boundaries' do
+              fill_in 'Longitude', with: '5.0'
+              fill_in 'Latitude', with: '5.0'
+              click_on 'Add another Point'
+              within '.multiple-item-1' do
+                fill_in 'Longitude', with: '-5.0'
+                fill_in 'Latitude', with: '5.0'
+              end
+              click_on 'Add another Point'
+              within '.multiple-item-2' do
+                fill_in 'Longitude', with: '-5.0'
+                fill_in 'Latitude', with: '-5.0'
+              end
+              click_on 'Add another Point'
+              within '.multiple-item-3' do
+                fill_in 'Longitude', with: '5.0'
+                fill_in 'Latitude', with: '-5.0'
+              end
+            end
+          end
+
+          click_on 'Add another G Polygon'
+          within all('.multiple-item-1').last do
+            within '.boundary .multiple.points' do
+              fill_in 'Longitude', with: '38.98828125'
+              fill_in 'Latitude', with: '-77.044921875'
+              click_on 'Add another Point'
+              within '.multiple-item-1' do
+                fill_in 'Longitude', with: '38.935546875'
+                fill_in 'Latitude', with: '-77.1240234375'
+              end
+              click_on 'Add another Point'
+              within '.multiple-item-2' do
+                fill_in 'Longitude', with: '38.81689453125'
+                fill_in 'Latitude', with: '-77.02734375'
+              end
+              click_on 'Add another Point'
+              within '.multiple-item-3' do
+                fill_in 'Longitude', with: '38.900390625'
+                fill_in 'Latitude', with: '-76.9130859375'
+              end
             end
           end
         end
@@ -727,28 +757,30 @@ module Helpers
     end
 
     def add_lines
-      script = '$(".geometry-picker.lines").click();'
-      page.execute_script script
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_lines' do
+        script = '$(".geometry-picker.lines").click();'
+        page.execute_script script
 
-      within first('.multiple.lines') do
-        within '.multiple.points' do
-          fill_in 'Longitude', with: '24.0'
-          fill_in 'Latitude', with: '24.0'
-          click_on 'Add another Point'
-          within '.multiple-item-1' do
-            fill_in 'Longitude', with: '26.0'
-            fill_in 'Latitude', with: '26.0'
-          end
-        end
-        click_on 'Add another Line'
-        within all('.multiple-item-1').last do
+        within first('.multiple.lines') do
           within '.multiple.points' do
             fill_in 'Longitude', with: '24.0'
-            fill_in 'Latitude', with: '26.0'
+            fill_in 'Latitude', with: '24.0'
             click_on 'Add another Point'
             within '.multiple-item-1' do
               fill_in 'Longitude', with: '26.0'
-              fill_in 'Latitude', with: '24.0'
+              fill_in 'Latitude', with: '26.0'
+            end
+          end
+          click_on 'Add another Line'
+          within all('.multiple-item-1').last do
+            within '.multiple.points' do
+              fill_in 'Longitude', with: '24.0'
+              fill_in 'Latitude', with: '26.0'
+              click_on 'Add another Point'
+              within '.multiple-item-1' do
+                fill_in 'Longitude', with: '26.0'
+                fill_in 'Latitude', with: '24.0'
+              end
             end
           end
         end
@@ -756,49 +788,57 @@ module Helpers
     end
 
     def add_science_keywords
-      choose_keyword 'EARTH SCIENCE'
-      choose_keyword 'ATMOSPHERE'
-      choose_keyword 'ATMOSPHERIC TEMPERATURE'
-      choose_keyword 'SURFACE TEMPERATURE'
-      choose_keyword 'MAXIMUM/MINIMUM TEMPERATURE'
-      choose_keyword '24 HOUR MAXIMUM TEMPERATURE'
-      click_on 'Add Keyword'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_science_keywords' do
+        choose_keyword 'EARTH SCIENCE'
+        choose_keyword 'ATMOSPHERE'
+        choose_keyword 'ATMOSPHERIC TEMPERATURE'
+        choose_keyword 'SURFACE TEMPERATURE'
+        choose_keyword 'MAXIMUM/MINIMUM TEMPERATURE'
+        choose_keyword '24 HOUR MAXIMUM TEMPERATURE'
+        click_on 'Add Keyword'
 
-      choose_keyword 'EARTH SCIENCE'
-      choose_keyword 'SOLID EARTH'
-      choose_keyword 'ROCKS/MINERALS/CRYSTALS'
-      choose_keyword 'SEDIMENTARY ROCKS'
-      choose_keyword 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES'
-      choose_keyword 'LUMINESCENCE'
-      click_on 'Add Keyword'
+        choose_keyword 'EARTH SCIENCE'
+        choose_keyword 'SOLID EARTH'
+        choose_keyword 'ROCKS/MINERALS/CRYSTALS'
+        choose_keyword 'SEDIMENTARY ROCKS'
+        choose_keyword 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES'
+        choose_keyword 'LUMINESCENCE'
+        click_on 'Add Keyword'
+      end
     end
 
 
     def add_science_keywords_suggestion
-      choose_keyword 'EARTH SCIENCE'
-      choose_keyword 'ATMOSPHERE'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_science_keywords_suggestion' do
+        choose_keyword 'EARTH SCIENCE'
+        choose_keyword 'ATMOSPHERE'
 
-      find('#science-keyword-search').set('angstrom')
-      find('#science-keyword-search').click
-      find('.tt-open').click
+        find('#science-keyword-search').set('angstrom')
+        find('#science-keyword-search').click
+        find('.tt-open').click
+      end
     end
 
 
     def add_location_keywords
-      choose_keyword 'GEOGRAPHIC REGION'
-      choose_keyword 'ARCTIC'
-      click_on 'Add Keyword'
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_location_keywords' do
+        choose_keyword 'GEOGRAPHIC REGION'
+        choose_keyword 'ARCTIC'
+        click_on 'Add Keyword'
 
-      choose_keyword 'OCEAN'
-      choose_keyword 'ATLANTIC OCEAN'
-      choose_keyword 'NORTH ATLANTIC OCEAN'
-      choose_keyword 'BALTIC SEA'
-      click_on 'Add Keyword'
+        choose_keyword 'OCEAN'
+        choose_keyword 'ATLANTIC OCEAN'
+        choose_keyword 'NORTH ATLANTIC OCEAN'
+        choose_keyword 'BALTIC SEA'
+        click_on 'Add Keyword'
+      end
     end
 
     def choose_keyword(text)
-      script = "$('.eui-item-list-pane li.item:contains(#{text}) > a').click()"
-      page.execute_script(script)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#choose_keyword' do
+        script = "$('.eui-item-list-pane li.item:contains(#{text}) > a').click()"
+        page.execute_script(script)
+      end
     end
   end
 end
