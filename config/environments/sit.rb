@@ -58,8 +58,8 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # https://github.com/ankane/secure_rails against host header injection
-  config.action_controller.default_url_options = {host: 'https://mmt.sit.earthdata.nasa.gov'}
-  
+  config.action_controller.default_url_options = { host: 'https://mmt.sit.earthdata.nasa.gov' }
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   config.action_controller.asset_host = 'https://mmt.sit.earthdata.nasa.gov'
 
@@ -95,6 +95,9 @@ Rails.application.configure do
 
   # Feature Toggle for UMM-S
   config.umm_s_enabled = true
+
+  # Feature Toggle for UMM-Var Generation
+  config.uvg_enabled = true
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'

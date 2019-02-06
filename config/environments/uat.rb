@@ -59,10 +59,10 @@ Rails.application.configure do
 
   # https://github.com/ankane/secure_rails against host header injection
   config.action_controller.default_url_options = {host: 'https://mmt.uat.earthdata.nasa.gov'}
-  
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   config.action_controller.asset_host = 'https://mmt.uat.earthdata.nasa.gov'
-  
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
@@ -95,6 +95,9 @@ Rails.application.configure do
 
   # Feature Toggle for UMM-S
   config.umm_s_enabled = true
+
+  # Feature Toggle for UMM-Var Generation
+  config.uvg_enabled = false
 
   config.cmr_env = 'uat'
   config.echo_env = 'uat'

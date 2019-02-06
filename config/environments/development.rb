@@ -61,6 +61,9 @@ Rails.application.configure do
   # Feature Toggle for UMM-S
   config.umm_s_enabled = true
 
+  # Feature Toggle for UMM-Var Generation
+  config.uvg_enabled = true
+
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
