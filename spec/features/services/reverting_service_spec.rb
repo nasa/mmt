@@ -116,7 +116,7 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
       end
 
       it 'displays an error message' do
-        expect(page).to have_content('object instance has properties which are not allowed by the schema: ["BadField"]')
+        expect(page).to have_content('extraneous key [BadField] is not permitted')
       end
     end
   end
