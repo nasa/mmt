@@ -40,5 +40,18 @@
         </div>
       </div>
     </section>
+
+    <% if Rails.configuration.uvg_enabled %>
+      <section class="eui-callout-box col-left">
+        <h3 class="eui-callout-box__title">UMM Variable Generation</h3>
+        <div class="eui-callout-box__list bulk-update-callout">
+          <div class="question-group">
+            <div class="row">
+              <%= link_to 'Initiate Variable Generation', new_variable_generation_processes_search_path, class: 'eui-btn--blue space-top' %>
+            </div>
+          </div>
+        </div>
+      </section>
+    <% end %>
   </article>
 </main>
