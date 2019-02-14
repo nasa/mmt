@@ -1,0 +1,9 @@
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Variable Generation Process Collection Search</h2>
+
+    <%= render partial: 'cmr_search/shared/search_form', locals: { submit_path: new_variable_generation_processes_search_path } %>
+
+    <%= render partial: 'search_results', locals: { collections: @collections, submit_path: variable_generation_processes_path, submit_text: 'Generate Variables' } %>
+  </section>
+</div>

@@ -65,6 +65,14 @@ Rails.application.routes.draw do
   get '/collections/:id/clone' => 'collections#clone', as: 'clone_collection'
   get '/collections/:id/download_xml/:format(/:revision_id)' => 'collections#download_xml', as: 'download_collection_xml'
 
+  resource :variable_generation_processes_search, only: [:new]
+
+  resources :variable_generation_processes, only: [:create] do
+    # member do
+    #   match 'show', to: :show, via: [:get, :post]
+    # end
+  end
+
   resources :variables, only: [:show, :create, :edit, :destroy] do
     resources :collection_associations, only: [:index, :new, :create] do
       collection do

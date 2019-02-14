@@ -6,7 +6,7 @@ module ManageMetadataHelper
       "manage_#{resource_type}"
     elsif controller.lookup_context.prefixes.include?('manage_cmr')
       'manage_cmr'
-    elsif controller.lookup_context.prefixes.include?('manage_variables') || controller.lookup_context.prefixes.include?('variables') || controller.lookup_context.prefixes.include?('variable_drafts') || (controller.lookup_context.prefixes.include?('collection_associations') && params[:variable_id])
+    elsif controller.lookup_context.prefixes.include?('manage_variables') || controller.lookup_context.prefixes.include?('variables') || controller.lookup_context.prefixes.include?('variable_drafts') || (controller.lookup_context.prefixes.include?('collection_associations') && params[:variable_id]) || controller.lookup_context.prefixes.include?('variable_generation_processes_searches') || controller.lookup_context.prefixes.include?('variable_generation_processes')
       'manage_variables'
     elsif controller.lookup_context.prefixes.include?('manage_services') || controller.lookup_context.prefixes.include?('services') || controller.lookup_context.prefixes.include?('service_drafts') || (controller.lookup_context.prefixes.include?('collection_associations') && params[:service_id])
       'manage_services'

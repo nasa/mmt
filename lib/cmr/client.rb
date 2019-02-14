@@ -15,6 +15,7 @@ module Cmr
       launchpad_root = 'launchpad_sbx_root'
       launchpad_root = 'launchpad_root' if ENV['launchpad_production'] == 'true'
       clients << LaunchpadClient.new(@config[launchpad_root], urs_client_id)
+      clients << UvgClient.new(@config['uvg_root'], urs_client_id)
       @clients = clients
     end
 
