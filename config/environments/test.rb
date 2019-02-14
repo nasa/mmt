@@ -69,4 +69,6 @@ Rails.application.configure do
   config.middleware.use RackSessionAccess::Middleware
 
   config.colorize_logging = false
+
+  config.tag_manager_id = 'GTM-TESTTEST'
 end
