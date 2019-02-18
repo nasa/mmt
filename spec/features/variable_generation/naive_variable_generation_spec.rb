@@ -6,7 +6,9 @@ describe 'Naive Variable Generation', reset_provider: true do
   before do
     login
 
-    visit new_variable_generation_processes_search_path
+    visit manage_variables_path
+
+    click_on 'Initiate Variable Generation'
   end
 
   context 'when submitting a request for naive variable generation' do
@@ -27,8 +29,6 @@ describe 'Naive Variable Generation', reset_provider: true do
     context 'when choosing a collection and submitting to generate variables', js: true do
       before do
         within '#collection-search-results' do
-          puts "concept_id: #{@naive_uvg_col_ingest_response['concept-id']}"
-          puts "trying to choose: #selected_collection_#{@naive_uvg_col_ingest_response['concept-id']}"
           choose "selected_collection_#{@naive_uvg_col_ingest_response['concept-id']}"
         end
 
