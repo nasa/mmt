@@ -64,5 +64,4 @@ Rails.application.configure do
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
-
 end
