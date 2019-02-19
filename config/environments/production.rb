@@ -104,4 +104,7 @@ Rails.application.configure do
   config.urs_register_url = 'https://urs.earthdata.nasa.gov/users/new'
 
   config.colorize_logging = false
+
+  # Google Tag Manager ID for EOSDIS usage stats
+  config.tag_manager_id = 'GTM-WNP7MLF'
 end
