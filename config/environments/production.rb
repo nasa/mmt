@@ -101,7 +101,6 @@ Rails.application.configure do
   config.cmr_env = 'ops'
   config.echo_env = 'ops'
   config.analytics_id = 'UA-62340125-5'
-  config.tag_manager_id = 'GTM-WNP7MLF'
   config.urs_register_url = 'https://urs.earthdata.nasa.gov/users/new'
 
   config.colorize_logging = false

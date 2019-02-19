@@ -71,5 +71,9 @@ module Mmt
 
     # Log request UUID so we can track requests across threaded log messages
     config.log_tags = [:uuid]
+
+    #  Google Tag Manager ID for EOSDIS usage stats
+    config.tag_manager_id = 'GTM-WNP7MLF'
+
   end
 end
