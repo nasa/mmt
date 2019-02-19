@@ -65,5 +65,4 @@ Rails.application.configure do
   config.echo_env = 'sit'
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
 
-  config.tag_manager_id = 'GTM-WNP7MLF'
 end
