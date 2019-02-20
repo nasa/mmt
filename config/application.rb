@@ -71,5 +71,6 @@ module Mmt
 
     # Log request UUID so we can track requests across threaded log messages
     config.log_tags = [:uuid]
+
   end
 end

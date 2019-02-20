@@ -13,9 +13,12 @@
   <%= csrf_meta_tag %>
 
   <%= render partial: 'shared/assets' %>
+  <%= render partial: 'shared/google_tag_manager_head' %>
 </head>
 
 <body class="dashboard">
+   <%= render partial: 'shared/google_tag_manager_body' %>
+
   <div class="th-wrapper">
     <header id="earthdata-tophat2" />
   </div>
