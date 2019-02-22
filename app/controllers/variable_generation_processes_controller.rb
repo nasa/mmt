@@ -14,6 +14,7 @@ class VariableGenerationProcessesController < ManageVariablesController
       full_response = response.body
       @variables = full_response.fetch('variables', [])
       @collection_id = full_response.fetch('collection_concept_id', 'not found')
+      @statistics = full_response.fetch('statistics', {})
 
       flash.now[:success] = "#{@variables.count} UMM Variables generated from collection #{@collection_id}"
       render :show

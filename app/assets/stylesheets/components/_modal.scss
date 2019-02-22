@@ -18,7 +18,8 @@
 #provider-context,
 #help-modal,
 #download-xml-modal,
-#progress-legend {
+#progress-legend,
+#variable-preview-modal {
   border-radius: 5px;
   -webkit-border-radius: 5px;
   background-color: $white;
@@ -60,4 +61,16 @@
 
 #download-xml-modal {
   width: 700px;
+}
+
+#variable-preview-modal {
+  width: 750px;
+  height: 70%;
+
+  .variable-modal-body {
+    height: inherit;
+    width: -webkit-fill-available;
+    overflow: scroll;
+    background: lighten($light-grey, 3%)
+  }
 }
