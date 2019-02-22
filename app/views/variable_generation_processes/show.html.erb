@@ -1,10 +1,59 @@
 <div class="row row-content">
   <section>
-    <h2>UMM Variable Generation</h2>
+    <h2>Variable Generation for <%= current_user.provider_id %></h2>
 
     <div class="row">
-      <h4>Naive Variables</h4>
-      <p><%= @variables %></p>
+      <h4>Statistics</h4>
+      <div class="eui-info-box">
+        <div class="col-4 align-c">
+          <strong>Long Names:</strong> <%= long_names_stats(@statistics) %>
+        </div>
+        <div class="col-4 align-c">
+          <strong>Definitions:</strong> <%= definitions_stats(@statistics) %>
+        </div>
+        <div class="col-4 align-c">
+          <strong>Science Keywords:</strong> <%= keywords_stats(@statistics) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <h4>Naive Variables generated for collection <%= @collection_id %></h4>
+
+      <table id="variable-generation-results">
+        <thead>
+          <tr>
+            <th><%= link_to "Name <i class='fa fa-sort'></i>".html_safe, '#', title: "Sort by Name" %></th>
+            <th><%= link_to "Long Name <i class='fa fa-sort'></i>".html_safe, '#', title: "Sort by Long Name" %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% if @variables.blank? %>
+            <tr>
+              <td colspan=2>No variables generated.</td>
+            </tr>
+          <% else %>
+            <% @variables.each do |variable| %>
+              <tr class='<%= cycle("alt", "") %>'>
+                <td>
+                  <%= link_to variable.fetch('Name', nil), '#variable-preview-modal', class: 'display-modal variable-preview-modal-link', data: { 'variable': variable.to_json } %>
+                </td>
+                <td>
+                  <%= variable.fetch('LongName', nil) %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </section>
 </div>
+
+<%= render 'variable_preview_modal' %>
+
+<%= javascript_tag do %>
+  <!-- Pass in all variables -->
+  window.generatedVariables = <%= raw @variables.to_json %>;
+<% end %>
