@@ -1,14 +1,38 @@
 # :nodoc:
 module ManageMetadataHelper
+  # lists of controllers to make checking which resource_type and current title easier
+  # we only need to add controllers that don't inherit from manage_variables or
+  # manage_services
+  VARIABLE_CONTROLLERS = %w[
+    manage_variables
+    variables
+    variable_drafts
+    variable_generation_processes_searches
+  ]
+  # variable_generation_processes
+
+  SERVICES_CONTROLLERS = %w[
+    manage_services
+    services
+    service_drafts
+  ]
+
+  def is_variable_controller?
+    (VARIABLE_CONTROLLERS & controller.lookup_context.prefixes).any? || (controller.lookup_context.prefixes.include?('collection_associations') && params[:variable_id])
+  end
+
+  def is_services_controller?
+    (SERVICES_CONTROLLERS & controller.lookup_context.prefixes).any? || (controller.lookup_context.prefixes.include?('collection_associations') && params[:service_id])
+  end
 
   def current_manage_title
     if controller.lookup_context.prefixes.include?('search')
       "manage_#{resource_type}"
     elsif controller.lookup_context.prefixes.include?('manage_cmr')
       'manage_cmr'
-    elsif controller.lookup_context.prefixes.include?('manage_variables') || controller.lookup_context.prefixes.include?('variables') || controller.lookup_context.prefixes.include?('variable_drafts') || (controller.lookup_context.prefixes.include?('collection_associations') && params[:variable_id]) || controller.lookup_context.prefixes.include?('variable_generation_processes_searches') || controller.lookup_context.prefixes.include?('variable_generation_processes')
+    elsif is_variable_controller?
       'manage_variables'
-    elsif controller.lookup_context.prefixes.include?('manage_services') || controller.lookup_context.prefixes.include?('services') || controller.lookup_context.prefixes.include?('service_drafts') || (controller.lookup_context.prefixes.include?('collection_associations') && params[:service_id])
+    elsif is_services_controller?
       'manage_services'
     else
       # default, including collection drafts and everything under manage collections
@@ -21,9 +45,9 @@ module ManageMetadataHelper
     case
     when controller_name.starts_with?('search')
       params[:record_type]
-    when controller_name.include?('variable') || controller.lookup_context.prefixes.include?('manage_variables') || controller.lookup_context.prefixes.include?('collection_associations')
+    when is_variable_controller?
       'variables'
-    when controller_name.include?('service') || controller.lookup_context.prefixes.include?('manage_services')
+    when is_services_controller?
       'services'
     else
       # default
