@@ -20,11 +20,13 @@
     <div class="row">
       <h4>Naive Variables generated for collection <%= @collection_id %></h4>
 
-      <table id="variable-generation-results">
+      <p class="uvg-pagination-header"><%= display_single_page_info %></p>
+
+      <table id="uvg-results-table">
         <thead>
           <tr>
-            <th><%= link_to "Name <i class='fa fa-sort'></i>".html_safe, '#', title: "Sort by Name" %></th>
-            <th><%= link_to "Long Name <i class='fa fa-sort'></i>".html_safe, '#', title: "Sort by Long Name" %></th>
+            <th>Name</th>
+            <th>Long Name</th>
           </tr>
         </thead>
 
@@ -33,7 +35,7 @@
             <tr>
               <td colspan=2>No variables generated.</td>
             </tr>
-          <% else %>
+          <% elsif @variables.count <= 25 %>
             <% @variables.each do |variable| %>
               <tr class='<%= cycle("alt", "") %>'>
                 <td>
@@ -45,8 +47,11 @@
               </tr>
             <% end %>
           <% end %>
+          <%# if there are over 25 variables, pagination will take over and render them %>
         </tbody>
       </table>
+
+      <div id="uvg-pagination"></div>
     </div>
   </section>
 </div>
