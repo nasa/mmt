@@ -356,18 +356,34 @@
               ]
             },
             {
-              "type": "section",
-              "htmlClass": "row",
+              "type": "open_accordion",
+              "title": "Average Compression Information",
               "items": [
                 {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/AvgCompressionRateASCII", "field": true, "label": "Avg Compression Rate ASCII"}]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/AvgCompressionRateNetCDF4", "field": true, "label": "Avg Compression Rate NetCDF4"}]
+                  "type": "UmmMultiItems",
+                  "help": "AverageCompressionInformation",
+                  "label": "Average Compression Information",
+                  "multiType": "AverageCompressionInformation",
+                  "key": "AverageCompressionInformation/items/properties/index_id",
+                  "noLabel": true,
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "/Rate", "field": true}]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "/Format", "field": true, "type": "UmmSelect"}]
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
