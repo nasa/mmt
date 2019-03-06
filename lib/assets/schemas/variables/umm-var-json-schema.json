@@ -396,6 +396,14 @@
           "$ref": "#/definitions/SetType"
         },
         "minItems": 1
+      },
+      "AverageCompressionInformation": {
+        "description": "This element is a list of 1 or more average compression rate(s) as a ratio for the granule in the specified format. The size estimation service takes this information so that it can calculate the approximate downloadable size for the variable.",
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/AverageCompressionInformationType"
+        },
+        "minItems": 1
       }
     },
     "required": [
