@@ -356,16 +356,15 @@
               ]
             },
             {
-              "type": "open_accordion",
-              "title": "Average Compression Information",
+              "type": "section",
+              "htmlClass": "row space-top",
               "items": [
                 {
                   "type": "UmmMultiItems",
                   "help": "AverageCompressionInformation",
-                  "label": "Average Compression Information",
+                  "label": "Average Compression Informations",
                   "multiType": "AverageCompressionInformation",
-                  "key": "AverageCompressionInformation/items/properties/index_id",
-                  "noLabel": true,
+                  "key": "/AverageCompressionInformation/items/properties/index_id",
                   "items": [
                     {
                       "type": "section",
