@@ -358,10 +358,10 @@
             {
               "type": "section",
               "htmlClass": "row space-top",
+              "help": "AverageCompressionInformation",
               "items": [
                 {
                   "type": "UmmMultiItems",
-                  "help": "AverageCompressionInformation",
                   "label": "Average Compression Informations",
                   "multiType": "AverageCompressionInformation",
                   "key": "/AverageCompressionInformation/items/properties/index_id",
