@@ -122,11 +122,16 @@
         {
           "key": "SizeEstimation/AverageSizeOfGranulesSampled"
         }, {
-          "title": "Avg Compression Rate ASCII",
-          "key": "SizeEstimation/AvgCompressionRateASCII"
-        }, {
-          "title": "Avg Compression Rate NetCDF4",
-          "key": "SizeEstimation/AvgCompressionRateNetCDF4"
+          "key": "SizeEstimation/AverageCompressionInformation/index_id",
+          "type": "UmmPreviewMultiItems",
+          "hideFieldTitle": true,
+          "fields": [
+            {
+              "key": "/Rate"
+            }, {
+              "key": "/Format"
+            }
+          ]
         }
       ]
     }, {
