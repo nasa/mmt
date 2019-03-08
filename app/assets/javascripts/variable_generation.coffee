@@ -29,7 +29,6 @@ $(document).ready ->
 
       row.append(nameCell)
       row.append(longNameCell)
-      # debugger
       results += '<tr>' + row.html() + '</tr>'
 
     results

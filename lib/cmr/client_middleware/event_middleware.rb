@@ -34,7 +34,7 @@ module Cmr
 
       def parse_response?(env)
         body = env[:body]
-        body.is_a?(Array) && body[0] && body[0]['calendar_event']
+        body.is_a?(Array) && body[0] && body[0].is_a?(Hash) && body[0]['calendar_event']
       end
     end
   end

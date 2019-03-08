@@ -98,6 +98,9 @@ When running MMT with Launchpad Authentication, MMT should be configured to run 
     ssl_certificate_key /usr/local/etc/nginx/mmt.localtest.earthdata.nasa.gov.key;
 
     server {
+      # increase limit for UVG requests and to match deployed environments
+			client_max_body_size 20M;
+      
       listen 443 ssl;
       server_name mmt.localtest.earthdata.nasa.gov;
       ssl on;

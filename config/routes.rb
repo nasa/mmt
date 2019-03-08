@@ -67,10 +67,10 @@ Rails.application.routes.draw do
 
   resource :variable_generation_processes_search, only: [:new]
 
-  resources :variable_generation_processes, only: [:create] do
-    # member do
-    #   match 'show', to: :show, via: [:get, :post]
-    # end
+  resource :variable_generation_process, only: [:create, :edit, :update] do
+    member do
+      match 'edit', action: :edit, via: [:put]
+    end
   end
 
   resources :variables, only: [:show, :create, :edit, :destroy] do
