@@ -1,4 +1,4 @@
-describe 'Naive Variable Generation', reset_provider: true do
+describe 'Naive Variable Generation' do
   before :all do
     @naive_uvg_col_ingest_response, @naive_uvg_col_concept_response = publish_collection_draft
   end

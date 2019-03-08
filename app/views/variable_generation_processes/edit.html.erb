@@ -4,8 +4,7 @@
 
     <fieldset>
       <h4>Augmentation</h4>
-      <!-- figure out a box -->
-      <%= form_tag(variable_generation_process_path, method: :put, class: 'something') %>
+      <%= form_tag(variable_generation_process_path, method: :put) %>
 
       <!-- These are currently radio buttons, but eventually should be changed
         to be checkboxes, so the user can choose all the augmentations they want
@@ -42,7 +41,6 @@
         <%= hidden_field_tag 'variables_json', @variables_string %>
 
         <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'submit-for-augmentation' %>
-      <%# end %>
     </fieldset>
   </section>
 
