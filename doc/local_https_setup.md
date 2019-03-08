@@ -94,13 +94,19 @@ When running MMT with Launchpad Authentication, MMT should be configured to run 
   Add the following to the nginx.conf file (`/usr/local/etc/nginx/nginx.conf`):
 
     ```
+    proxy_connect_timeout       600;
+    proxy_send_timeout          600;
+    proxy_read_timeout          600;
+    send_timeout                600;
+
+
     ssl_certificate /usr/local/etc/nginx/mmt.localtest.earthdata.nasa.gov.crt;
     ssl_certificate_key /usr/local/etc/nginx/mmt.localtest.earthdata.nasa.gov.key;
 
     server {
       # increase limit for UVG requests and to match deployed environments
 			client_max_body_size 20M;
-      
+
       listen 443 ssl;
       server_name mmt.localtest.earthdata.nasa.gov;
       ssl on;
