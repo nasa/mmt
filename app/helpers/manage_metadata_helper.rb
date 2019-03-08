@@ -9,7 +9,6 @@ module ManageMetadataHelper
     variable_drafts
     variable_generation_processes_searches
   ]
-  # variable_generation_processes
 
   SERVICES_CONTROLLERS = %w[
     manage_services

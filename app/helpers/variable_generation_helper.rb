@@ -1,10 +1,8 @@
 module VariableGenerationHelper
   def self.define_stats_method(name)
     define_method("#{name}_stats") do |statistics|
-      divisor = statistics.fetch('count', 0)
-      value = divisor.zero? ? 0 : (statistics.fetch(name, 0).to_f / divisor)
-
-      "#{(value * 100).round}% (#{statistics.fetch(name, 0)} of #{statistics.fetch('count', 0)})"
+      
+      "#{statistics.fetch(name, 0)}% of #{statistics.fetch('count', 0)}"
     end
   end
 
@@ -16,5 +14,16 @@ module VariableGenerationHelper
     if @variables.count > 0 && @variables.count <= 25
       "Showing <b>all #{@variables.count}</b> Generated Variables".html_safe
     end
+  end
+
+  def display_variables_title(operation, collection_id)
+    operators = operation.split('_')
+    operation_type = operators.shift
+
+    title = if operation_type == 'augment'
+              "Variables Augmented with #{operators.join(' ').titleize} for collection #{collection_id}"
+            else
+              "Naive Variables Generated for collection #{collection_id}"
+            end
   end
 end
