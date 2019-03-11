@@ -154,6 +154,18 @@ describe 'Draft form help text', js: true do
       end
     end
 
+    context 'when clicking on the help icon with a help link in Spatial Information' do
+      before do
+        first('#spatial-information > div.meta-info > a').click
+
+        click_on 'Help modal for Tiling Identification Systems'
+      end
+
+      it 'displays the help link in the modal' do
+        expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Tiling+Identification+System')
+      end
+    end
+
     context 'when clicking on the help icon with a help link in Data Contacts' do
       before do
         within '#data-contacts .meta-info' do
