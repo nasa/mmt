@@ -256,24 +256,21 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
     context 'when entering text into a number field' do
       before do
-        fill_in 'Average Size Of Granules Sampled', with: 'abcd'
-        fill_in 'Avg Compression Rate ASCII', with: 'abcd'
-        fill_in 'Avg Compression Rate NetCDF4', with: 'abcd'
+        fill_in 'variable_draft_draft_size_estimation_average_size_of_granules_sampled', with: 'abcd'
+        fill_in 'variable_draft_draft_size_estimation_average_compression_information_0_rate', with: 'abcd'
         find('body').click
       end
 
       it 'displays validation error messages' do
-        expect(page).to have_css('.eui-banner--danger', count: 4)
+        expect(page).to have_css('.eui-banner--danger', count: 3)
 
         within '.summary-errors' do
           expect(page).to have_content('Average Size Of Granules Sampled must be of type number')
-          expect(page).to have_content('Avg Compression Rate ASCII must be of type number')
-          expect(page).to have_content('Avg Compression Rate NetCDF4 must be of type number')
+          expect(page).to have_content('Rate must be of type number')
         end
 
         expect(page).to have_css('#variable_draft_draft_size_estimation_average_size_of_granules_sampled_error', text: 'Average Size Of Granules Sampled must be of type number')
-        expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_ascii_error', text: 'Avg Compression Rate ASCII must be of type number')
-        expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_net_cdf4_error', text: 'Avg Compression Rate NetCDF4 must be of type number')
+        expect(page).to have_css('#variable_draft_draft_size_estimation_average_compression_information_0_rate_error', text: 'Rate must be of type number')
       end
 
       context 'when saving the form' do
@@ -294,8 +291,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
           it 'displays validation error messages for fields with data' do
             expect(page).to have_css('#variable_draft_draft_size_estimation_average_size_of_granules_sampled_error', text: 'Average Size Of Granules Sampled must be of type number')
-            expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_ascii_error', text: 'Avg Compression Rate ASCII must be of type number')
-            expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_net_cdf4_error', text: 'Avg Compression Rate NetCDF4 must be of type number')
+            expect(page).to have_css('#variable_draft_draft_size_estimation_average_compression_information_0_rate_error', text: 'Rate must be of type number')
           end
         end
       end

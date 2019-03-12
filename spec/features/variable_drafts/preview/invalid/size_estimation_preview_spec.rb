@@ -12,11 +12,9 @@ describe 'Invalid Variable Size Estimation Preview' do
       end
     end
 
-    it 'displays the corrent status icon' do
-      within '#size_estimation-progress' do
-        within '.status' do
-          expect(page).to have_content('Size Estimation is incomplete')
-        end
+    it 'displays the correct status icon' do
+      within '#size_estimation-progress > div.status' do
+        expect(page).to have_css('.eui-icon.icon-green.eui-fa-circle-o')
       end
     end
 
@@ -40,7 +38,7 @@ describe 'Invalid Variable Size Estimation Preview' do
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.size_estimation' do
-        expect(page).to have_css('.umm-preview-field-container', count: 3)
+        expect(page).to have_css('.umm-preview-field-container', count: 6)
 
         within '#variable_draft_draft_size_estimation_average_size_of_granules_sampled_preview' do
           expect(page).to have_css('h5', text: 'Average Size Of Granules Sampled')
@@ -48,17 +46,30 @@ describe 'Invalid Variable Size Estimation Preview' do
           expect(page).to have_css('p', text: 'string')
         end
 
-        within '#variable_draft_draft_size_estimation_avg_compression_rate_ascii_preview' do
-          expect(page).to have_css('h5', text: 'Avg Compression Rate ASCII')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'size_estimation', anchor: 'variable_draft_draft_size_estimation_avg_compression_rate_ascii'))
+        within '#variable_draft_draft_size_estimation_average_compression_information_0_rate_preview' do
+          expect(page).to have_css('h5', text: 'Rate')
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'size_estimation', anchor: 'variable_draft_draft_size_estimation_average_compression_information_0_rate'))
           expect(page).to have_css('p', text: 'string')
         end
 
-        within '#variable_draft_draft_size_estimation_avg_compression_rate_net_cdf4_preview' do
-          expect(page).to have_css('h5', text: 'Avg Compression Rate NetCDF4')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'size_estimation', anchor: 'variable_draft_draft_size_estimation_avg_compression_rate_net_cdf4'))
+        within '#variable_draft_draft_size_estimation_average_compression_information_0_format_preview' do
+          expect(page).to have_css('h5', text: 'Format')
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'size_estimation', anchor: 'variable_draft_draft_size_estimation_average_compression_information_0_format'))
+          expect(page).to have_css('p', text: 'ASCII')
+        end
+
+        within '#variable_draft_draft_size_estimation_average_compression_information_1_rate_preview' do
+          expect(page).to have_css('h5', text: 'Rate')
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'size_estimation', anchor: 'variable_draft_draft_size_estimation_average_compression_information_1_rate'))
           expect(page).to have_css('p', text: '15')
         end
+
+        within '#variable_draft_draft_size_estimation_average_compression_information_1_format_preview' do
+          expect(page).to have_css('h5', text: 'Format')
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'size_estimation', anchor: 'variable_draft_draft_size_estimation_average_compression_information_1_format'))
+          expect(page).to have_css('p', text: 'NetCDF-4')
+        end
+
       end
     end
   end
