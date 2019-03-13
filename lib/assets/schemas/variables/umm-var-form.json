@@ -362,7 +362,7 @@
               "items": [
                 {
                   "type": "UmmMultiItems",
-                  "label": "Average Compression Informations",
+                  "label": "Average Compression Information",
                   "multiType": "AverageCompressionInformation",
                   "key": "/AverageCompressionInformation/items/properties/index_id",
                   "items": [
