@@ -88,6 +88,11 @@ $(document).ready ->
     else if isUmmSForm()
       json?.RelatedURLs = [] unless json?.RelatedURLs?
 
+  fixArrayFields = (error) ->
+    if error.id=='variable_draft_draft_characteristics_index_ranges_lat_range'
+      error.id = 'variable_draft_draft_characteristics_index_ranges_lat_range_0'
+    if error.id=='variable_draft_draft_characteristics_index_ranges_lon_range'
+      error.id = 'variable_draft_draft_characteristics_index_ranges_lon_range_0'
 
   fixNumbers = (json) ->
     if isMetadataForm()
@@ -194,7 +199,10 @@ $(document).ready ->
       when 'not' then 'License Url and License Text cannot be used together'
 
   getFieldType = (element) ->
-    classes = $(element).attr('class').split(/\s+/)
+    classes = 'mmt-unknown'
+    # This is a workaround for validation of arrays like LatRange and LongRange which has no class and id in the page
+    if !$(element).attr('class') == null
+      classes = $(element).attr('class').split(/\s+/)
     if classes.indexOf('mmt-number') != -1 or $(element).attr('number') == 'true'
       type = 'number'
     if classes.indexOf('mmt-integer') != -1 or $(element).attr('integer') == 'true'
@@ -497,6 +505,8 @@ $(document).ready ->
     for error, index in errors
       if error = getErrorDetails error
         # does the error id match the visitedFields
+        if isUmmVarForm()
+          fixArrayFields(error)
         visited = visitedFields.filter (e) ->
           return e == error.id
         .length > 0
