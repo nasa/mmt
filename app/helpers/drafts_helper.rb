@@ -220,10 +220,6 @@ module DraftsHelper
           'text' => 'Data Set Landing Page',
           'subtypes' => []
         },
-        'DOI' => {
-          'text' => 'DOI',
-          'subtypes' => []
-        },
         'EXTENDED METADATA' => {
           'text' => 'Extended Metadata',
           'subtypes' => []
@@ -244,28 +240,31 @@ module DraftsHelper
         'VIEW RELATED INFORMATION' => {
           'text' => 'View Related Information',
           'subtypes' => [
-            ['Algorithm Theoretical Basis Document', 'ALGORITHM THEORETICAL BASIS DOCUMENT'],
-            ['Calibration Data Documentation', 'CALIBRATION DATA DOCUMENTATION'],
+            ['Algorithm Documentation', 'ALGORITHM DOCUMENTATION'],
+            ['Algorithm Theoretical Basis Document (ATBD)', 'ALGORITHM THEORETICAL BASIS DOCUMENT (ATBD)'],
+            ['Anomalies', 'ANOMALIES'],
             ['Case Study', 'CASE STUDY'],
+            ['Data Citation Policy', 'DATA CITATION POLICY'],
             ['Data Quality', 'DATA QUALITY'],
-            ['Data Usage', 'DATA USAGE'],
+            ['Data Recipe', 'DATA RECIPE'],
             ['Deliverables Checklist', 'DELIVERABLES CHECKLIST'],
             ['General Documentation', 'GENERAL DOCUMENTATION'],
             ['How To', 'HOW-TO'],
+            ['Important Notice', 'IMPORTANT NOTICE'],
+            ['Instrument/Sensor Calibration Documentation', 'INSTRUMENT/SENSOR CALIBRATION DOCUMENTATION'],
+            ['Micro Article', 'MICRO ARTICLE'],
             ['PI Documentation', 'PI DOCUMENTATION'],
             ['Processing History', 'PROCESSING HISTORY'],
-            ['Production Version History', 'PRODUCTION VERSION HISTORY'],
+            ['Product History', 'PRODUCT HISTORY'],
             ['Product Quality Assessment', 'PRODUCT QUALITY ASSESSMENT'],
             ['Product Usage', 'PRODUCT USAGE'],
-            ['Product History', 'PRODUCT HISTORY'],
+            ['Production History', 'PRODUCTION HISTORY'],
             ['Publications', 'PUBLICATIONS'],
-            ['Radiometric And Geometric Calibration Methods', 'RADIOMETRIC AND GEOMETRIC CALIBRATION METHODS'],
             ['Read Me', 'READ-ME'],
-            ['Recipe', 'RECIPE'],
             ['Requirements And Design', 'REQUIREMENTS AND DESIGN'],
             ['Science Data Product Software Documentation', 'SCIENCE DATA PRODUCT SOFTWARE DOCUMENTATION'],
             ['Science Data Product Validation', 'SCIENCE DATA PRODUCT VALIDATION'],
-            ['User Feedback', 'USER FEEDBACK'],
+            ['User Feedback Page', 'USER FEEDBACK PAGE'],
             ["User's Guide", "USER'S GUIDE"]
           ]
         }
@@ -292,52 +291,58 @@ module DraftsHelper
     'DistributionURL' => {
       'text' => 'Distribution URL',
       'types' => {
+        'DOWNLOAD SOFTWARE' => {
+          'text' => 'Download Software',
+          'subtypes' => [
+            ['Mobile App', 'MOBILE APP']
+          ]
+        },
         'GET DATA' => {
           'text' => 'Get Data',
           'subtypes' => [
+            ['APPEEARS', 'APPEEARS'],
+            ['Data Collection Bundle', 'DATA COLLECTION BUNDLE'],
+            ['Data Tree', 'DATA TREE'],
             ['Datacast URL', 'DATACAST URL'],
+            ['Direct Download', 'DIRECT DOWNLOAD'],
             ['Earthdata Search', 'EARTHDATA SEARCH'],
-            ['ECHO', 'ECHO'],
-            ['EDG', 'EDG'],
             ['EOSDIS Data Pool', 'EOSDIS DATA POOL'],
-            ['GDS', 'GDS'],
             ['GIOVANNI', 'GIOVANNI'],
-            ['KML', 'KML'],
             ['LAADS', 'LAADS'],
             ['LANCE', 'LANCE'],
-            ['LAS', 'LAS'],
             ['Mirador', 'MIRADOR'],
             ['MODAPS', 'MODAPS'],
             ['NOAA Class', 'NOAA CLASS'],
-            ['On Line Archive', 'ON-LINE ARCHIVE'],
-            ['Reverb', 'REVERB']
+            ['NOMADS', 'NOMADS'],
+            ['PORTAL', 'PORTAL'],
+            ['USGS Earth Explorer', 'USGS EARTH EXPLORER'],
+            ['VERTEX', 'VERTEX'],
+            ['Virtual Collection', 'VIRTUAL COLLECTION']
           ]
         },
-        'GET SERVICE' => {
-          'text' => 'Get Service',
+        'GOTO WEB TOOL' => {
+          'text' => 'Goto Web Tool',
           'subtypes' => [
-            ['Access Map Viewer', 'ACCESS MAP VIEWER'],
-            ['Access Mobile App', 'ACCESS MOBILE APP'],
-            ['Access Web Service', 'ACCESS WEB SERVICE'],
-            ['DIF', 'DIF'],
+            ['Live Access Server (LAS)', 'LIVE ACCESS SERVER (LAS)'],
+            ['Map Viewer', 'MAP VIEWER'],
+            ['Simple Subset Wizard (SSW)', 'SIMPLE SUBSET WIZARD (SSW)'],
+            ['Subsetter', 'SUBSETTER']
+          ]
+        },
+        'USE SERVICE API' => {
+          'text' => 'Use Service API',
+          'subtypes' => [
+            ['Grads Data Server (GDS)', 'GRADS DATA SERVER (GDS)'],
             ['Map Service', 'MAP SERVICE'],
-            ['NOMADS', 'NOMADS'],
             ['OPeNDAP Data', 'OPENDAP DATA'],
-            ['OPeNDAP Data (Dods)', 'OPENDAP DATA (DODS)'],
-            ['OPeNDAP Directory (Dods)', 'OPENDAP DIRECTORY (DODS)'],
             ['Open Search', 'OpenSearch'],
-            ['SERF', 'SERF'],
-            ['Software Package', 'SOFTWARE PACKAGE'],
-            ['SSW', 'SSW'],
-            ['Subsetter', 'SUBSETTER'],
-            ['Thredds Catalog', 'THREDDS CATALOG'],
+            ['Service Chaining', 'SERVICE CHAINING'],
+            ['Tabular Data Stream (TDS)', 'TABULAR DATA STREAM (TDS)'],
             ['Thredds Data', 'THREDDS DATA'],
-            ['Thredds Directory', 'THREDDS DIRECTORY'],
             ['Web Coverage Service (WCS)', 'WEB COVERAGE SERVICE (WCS)'],
             ['Web Feature Service (WFS)', 'WEB FEATURE SERVICE (WFS)'],
-            ['Web Map For Time Series', 'WEB MAP FOR TIME SERIES'],
             ['Web Map Service (WMS)', 'WEB MAP SERVICE (WMS)'],
-            ['Workflow (Service Chain)', 'WORKFLOW (SERVICE CHAIN)']
+            ['Web Map Tile Service (WMTS)', 'WEB MAP TILE SERVICE (WMTS)']
           ]
         }
       }
@@ -348,9 +353,9 @@ module DraftsHelper
         'GET RELATED VISUALIZATION' => {
           'text' => 'Get Related Visualization',
           'subtypes' => [
-            ['GIBS', 'GIBS'],
             ['GIOVANNI', 'GIOVANNI'],
-            ['MAP', 'MAP']
+            ['MAP', 'MAP'],
+            ['WORLDVIEW', 'WORLDVIEW']
           ]
         }
       }
