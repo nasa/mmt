@@ -1,5 +1,4 @@
 $(document).ready ->
-
   isMetadataForm = ->
     $('.metadata-form').length > 0
 
@@ -87,12 +86,6 @@ $(document).ready ->
       json?.ProcessingLevel = {} unless json?.ProcessingLevel?
     else if isUmmSForm()
       json?.RelatedURLs = [] unless json?.RelatedURLs?
-
-  fixArrayFields = (error) ->
-    if error.id=='variable_draft_draft_characteristics_index_ranges_lat_range'
-      error.id = 'variable_draft_draft_characteristics_index_ranges_lat_range_0'
-    if error.id=='variable_draft_draft_characteristics_index_ranges_lon_range'
-      error.id = 'variable_draft_draft_characteristics_index_ranges_lon_range_0'
 
   fixNumbers = (json) ->
     if isMetadataForm()
@@ -199,10 +192,7 @@ $(document).ready ->
       when 'not' then 'License Url and License Text cannot be used together'
 
   getFieldType = (element) ->
-    classes = 'mmt-unknown'
-    # This is a workaround for validation of arrays like LatRange and LongRange which has no class and id in the page
-    if !$(element).attr('class') == null
-      classes = $(element).attr('class').split(/\s+/)
+    classes = $(element).attr('class').split(/\s+/)
     if classes.indexOf('mmt-number') != -1 or $(element).attr('number') == 'true'
       type = 'number'
     if classes.indexOf('mmt-integer') != -1 or $(element).attr('integer') == 'true'
@@ -357,6 +347,13 @@ $(document).ready ->
               params: {}
             errors.push newError
 
+  validateLatLonRanges = (errors) ->
+    if $("[id^=variable_draft_draft_characteristics_index_ranges_lat_range_]").length > 0
+      visitField('variable_draft_draft_characteristics_index_ranges_lat_range')
+    if $("[id^='variable_draft_draft_characteristics_index_ranges_lon_range_]").length > 0
+      visitField('variable_draft_draft_characteristics_index_ranges_lon_range')
+    errors
+
   validatePicklistValues = (errors) ->
     # the mmt-fake-enum class is added to the select fields that don't have enum
     # values in the UMM Schema. Those 'real' enums can generate the errors messages
@@ -497,6 +494,7 @@ $(document).ready ->
 
     validateParameterRanges(errors)
     errors = validatePicklistValues(errors)
+    errors = validateLatLonRanges(errors)
 
     inlineErrors = []
     summaryErrors = []
@@ -505,8 +503,6 @@ $(document).ready ->
     for error, index in errors
       if error = getErrorDetails error
         # does the error id match the visitedFields
-        if isUmmVarForm()
-          fixArrayFields(error)
         visited = visitedFields.filter (e) ->
           return e == error.id
         .length > 0
