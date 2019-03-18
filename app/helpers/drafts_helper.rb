@@ -296,7 +296,7 @@ module DraftsHelper
           'text' => 'Get Data',
           'subtypes' => [
             ['Datacast URL', 'DATACAST URL'],
-            ['Earthdata Search', 'Earthdata Search'],
+            ['Earthdata Search', 'EARTHDATA SEARCH'],
             ['ECHO', 'ECHO'],
             ['EDG', 'EDG'],
             ['EOSDIS Data Pool', 'EOSDIS DATA POOL'],
