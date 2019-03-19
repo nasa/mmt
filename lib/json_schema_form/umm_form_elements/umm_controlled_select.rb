@@ -39,9 +39,9 @@ class UmmControlledSelect < UmmSelect
     when 'related_url_content_type'
       options_for_select(DraftsHelper::URLContentTypeOptions, element_value)
     when 'related_url_type'
-      options_for_select(DraftsHelper::URLTypeOptions, element_value)
+      options_for_select(DraftsHelper::UMMSURLTypeOptions, element_value)
     when 'related_url_subtype'
-      options_for_select(DraftsHelper::URLSubtypeOptions, element_value)
+      options_for_select(DraftsHelper::UMMSURLSubtypeOptions, element_value)
     end
   end
 
