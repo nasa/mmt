@@ -347,12 +347,14 @@ $(document).ready ->
               params: {}
             errors.push newError
 
-  validateLatLonRanges = (errors) ->
-    if $("[id^=variable_draft_draft_characteristics_index_ranges_lat_range_]").length > 0
-      visitField('variable_draft_draft_characteristics_index_ranges_lat_range')
-    if $("[id^='variable_draft_draft_characteristics_index_ranges_lon_range_]").length > 0
-      visitField('variable_draft_draft_characteristics_index_ranges_lon_range')
-    errors
+  validateLatLonRanges = ->
+    latRegex = /^variable_draft_draft_characteristics_index_ranges_lat_range_/i
+    lonRegex = /^variable_draft_draft_characteristics_index_ranges_lon_range_/i
+    for field in visitedFields
+      if field.match latRegex
+        visitField('variable_draft_draft_characteristics_index_ranges_lat_range')
+      if field.match lonRegex
+        visitField('variable_draft_draft_characteristics_index_ranges_lon_range')
 
   validatePicklistValues = (errors) ->
     # the mmt-fake-enum class is added to the select fields that don't have enum
@@ -494,7 +496,7 @@ $(document).ready ->
 
     validateParameterRanges(errors)
     errors = validatePicklistValues(errors)
-    errors = validateLatLonRanges(errors)
+    validateLatLonRanges
 
     inlineErrors = []
     summaryErrors = []
