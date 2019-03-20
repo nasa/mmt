@@ -535,7 +535,7 @@ module DraftsHelper
   URLContentTypeDataContactOptions = [
     ['Data Contact URL', 'DataContactURL']
   ]
-  URLTypeOptions = [
+  UMMCURLTypeOptions = [
     ['Data Set Landing Page', 'DATA SET LANDING PAGE'],
     ['Download Software', 'DOWNLOAD SOFTWARE'],
     ['Extended Metadata', 'EXTENDED METADATA'],
@@ -563,7 +563,7 @@ module DraftsHelper
   URLTypeDataCenterOptions = [
     ['Home Page', 'HOME PAGE']
   ]
-  URLSubtypeOptions = [
+  UMMCURLSubtypeOptions = [
     ['Mobile App', 'MOBILE APP'],
     ['APPEEARS', 'APPEEARS'],
     ['Data Collection Bundle', 'DATA COLLECTION BUNDLE'],

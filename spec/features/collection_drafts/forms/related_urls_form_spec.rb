@@ -41,6 +41,12 @@ describe 'Related URLs information form', js: true do
         expect(page).to have_field('Type', with: 'GET DATA')
         expect(page).to have_field('Subtype', with: 'DIRECT DOWNLOAD')
         expect(page).to have_field('URL', with: 'https://example.com/')
+
+        expect(page).to have_field('Format', with: 'ascii')
+        expect(page).to have_field('Size', with: '42.0')
+        expect(page).to have_field('Unit', with: 'KB')
+        expect(page).to have_field('Fees', with: '0')
+        expect(page).to have_field('Checksum', with: 'testchecksum123')
       end
     end
   end

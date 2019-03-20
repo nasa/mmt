@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Related URLs preview', js: true do
+describe 'Related URLs preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
       before do
@@ -39,7 +39,6 @@ describe 'Related URLs preview', js: true do
               expect(page).to have_content('Distribution URL')
             end
             within '.card-body' do
-              save_screenshot
               expect(page).to have_content('Related URL 2 Description')
               expect(page).to have_link('https://search.earthdata.nasa.gov/', href: 'https://search.earthdata.nasa.gov/')
               expect(page).to have_content('Get Data Earthdata Search')
@@ -52,7 +51,7 @@ describe 'Related URLs preview', js: true do
             within '.card-body' do
               expect(page).to have_content('Related URL 3 Description')
               expect(page).to have_link('https://example.com/', href: 'https://example.com/')
-              expect(page).to have_content('Get Data DIRECT DOWNLOAD')
+              expect(page).to have_content('Get Data Direct Download')
             end
           end
         end
