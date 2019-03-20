@@ -358,6 +358,26 @@ describe 'Variable Drafts Forms Field Validations', js: true do
         expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lon_range_error', text: 'Lon Range has too few items')
       end
     end
+
+    context 'when adding two new fields' do
+      before do
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_0', with: '1'
+        click_on 'Add another Lat Range'
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_1', with: '2'
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_0', with: '1'
+        click_on 'Add another Lon Range'
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_1', with: '2'
+        within '.nav-top' do
+          click_on 'Save'
+        end
+      end
+
+      it 'does not display validation error messages' do
+        expect(page).to have_no_css('#variable_draft_draft_characteristics_index_ranges_lat_range_error', text: 'Lat Range has too few items')
+        expect(page).to have_no_css('#variable_draft_draft_characteristics_index_ranges_lon_range_error', text: 'Lon Range has too few items')
+      end
+    end
+
   end
 
 end
