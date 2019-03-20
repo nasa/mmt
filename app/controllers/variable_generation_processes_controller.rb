@@ -9,6 +9,7 @@ class VariableGenerationProcessesController < ManageVariablesController
     uvg_parameters = { payload: payload }
 
     response = cmr_client.uvg_generate_stub(uvg_parameters)
+    # response = cmr_client.uvg_generate(uvg_parameters)
 
     if response.success?
       full_response = response.body
@@ -45,6 +46,7 @@ class VariableGenerationProcessesController < ManageVariablesController
 
     @operation = "augment_#{augmentation_type}"
     response = cmr_client.send("uvg_#{@operation}_stub", uvg_parameters)
+    # response = cmr_client.send("uvg_#{@operation}", uvg_parameters)
 
     if response.success?
       full_response = response.body
@@ -55,7 +57,7 @@ class VariableGenerationProcessesController < ManageVariablesController
       flash.now[:success] = "#{@variables.count} UMM Variables Augmented with #{augmentation_type} from collection #{@collection_id} augmented with #{augmentation_type}"
       render :show
     else
-      Rails.logger.error "User #{current_user.urs_uid} encountered an error with an UMM Variable Generation (UVG) Augmentation for #{params[:augmentation_type]} request: #{response.body.inspect}"
+      Rails.logger.error "User #{current_user.urs_uid} encountered an error with an UMM Variable Generation (UVG) Augmentation for #{params[:augmentation_type]} response: #{response.body.inspect}"
 
       @variables = JSON.parse(params[:variables_json])
       @variables_string = params[:variables_json]
@@ -64,5 +66,73 @@ class VariableGenerationProcessesController < ManageVariablesController
       flash.now[:error] = response.error_message
       render :edit
     end
+  end
+
+  def save_variable_drafts
+
+    @collection_id = params[:collection_id]
+    generated_variables = JSON.parse(params[:variables_json])
+    num_generated_vars = generated_variables.count
+
+    import_result, drafts_saved = import_variable_drafts(generated_variables)
+
+    if drafts_saved
+      Rails.logger.info "User #{current_user.urs_uid} successfully saved #{generated_variables.count} UMM Variable Generation (UVG) variable records generated from collection #{@collection_id} as Variable Drafts!"
+
+      redirect_to manage_variables_path, flash: { success: "#{num_generated_vars} variable records generated from collection #{@collection_id} saved as Variable Drafts!" }
+    else
+      Rails.logger.error "User #{current_user.urs_uid} encountered an error trying to save #{num_generated_vars} UMM Variable Generation (UVG) generated variables. import_result: #{import_result}"
+
+      @variables = generated_variables
+      @statistics = JSON.parse(params[:statistics])
+
+      flash.now[:error] = "#{num_generated_vars} generated variable records failed to save as Drafts"
+      render :show
+    end
+  end
+
+  private
+
+  def import_variable_drafts(generated_variables)
+    first_generated_var = generated_variables.shift
+
+    mass_import_result = nil
+
+    # transaction will return true if it is successful
+    drafts_saved = VariableDraft.transaction do
+                     first_var = create_single_variable_draft(first_generated_var)
+                     Rails.logger.info "created first variable in transaction:  #{first_var.inspect}"
+                     id_to_start = first_var.id + 1
+
+                     mass_import_result = import_remaining_variable_drafts(generated_variables, id_to_start)
+                     Rails.logger.info "need to save this somehow. mass_import_result: #{mass_import_result.inspect}"
+                   end
+
+    [mass_import_result, drafts_saved]
+  end
+
+  def create_single_variable_draft(generated_var)
+    VariableDraft.create(
+      user_id: current_user.id,
+      draft: generated_var,
+      provider_id: current_user.provider_id
+    )
+  end
+
+  def import_remaining_variable_drafts(generated_variables, starting_id)
+    variable_drafts = []
+
+    generated_variables.each_with_index do |generated_var, index|
+      variable_drafts << VariableDraft.new(
+                           user_id: current_user.id,
+                           provider_id: current_user.provider_id,
+                           draft: generated_var,
+                           entry_title: generated_var['LongName'],
+                           short_name: generated_var['Name'],
+                           native_id: "mmt_variable_#{starting_id + index}"
+                         )
+    end
+
+    VariableDraft.import variable_drafts
   end
 end

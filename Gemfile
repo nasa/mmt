@@ -54,6 +54,8 @@ gem 'kaminari'
 gem 'momentjs-rails' # js lib for dates
 gem 'pundit'
 
+gem 'activerecord-import' # bulk insertion of data
+
 gem 'activerecord-session_store'
 gem 'ruby-saml', '>= 1.7.0'
 

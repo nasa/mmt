@@ -70,6 +70,7 @@ Rails.application.routes.draw do
   resource :variable_generation_process, only: [:create, :edit, :update] do
     member do
       match 'edit', action: :edit, via: [:put]
+      match 'save_variable_drafts', action: :save_variable_drafts, via: [:post]
     end
   end
 

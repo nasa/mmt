@@ -51,6 +51,9 @@ module Cmr
           req.headers['Echo-ClientId'] = CLIENT_ID unless self.class == CmrClient
         end
 
+        # TODO: temporary to figure out UVG timeout issue
+        req.options[:timeout] = 120 if self.class == UvgClient
+
         headers.each do |header, value|
           req.headers[header] = value
         end
