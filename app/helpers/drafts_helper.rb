@@ -444,7 +444,7 @@ module DraftsHelper
         'GET DATA' => {
           'text' => 'Get Data',
           'subtypes' => [
-            ['APPEEARS', 'APPEEARS'],
+            ['AppEEARS', 'APPEEARS'],
             ['Data Collection Bundle', 'DATA COLLECTION BUNDLE'],
             ['Data Tree', 'DATA TREE'],
             ['Datacast URL', 'DATACAST URL'],
@@ -464,7 +464,7 @@ module DraftsHelper
             ['PORTAL', 'PORTAL'],
             ['Subscribe', 'Subscribe'],
             ['USGS Earth Explorer', 'USGS EARTH EXPLORER'],
-            ['VERTEX', 'VERTEX'],
+            ['Vertex', 'VERTEX'],
             ['Virtual Collection', 'VIRTUAL COLLECTION']
           ]
         },
@@ -480,7 +480,7 @@ module DraftsHelper
         'USE SERVICE API' => {
           'text' => 'Use Service API',
           'subtypes' => [
-            ['Grads Data Server (GDS)', 'GRADS DATA SERVER (GDS)'],
+            ['GrADS Data Server (GDS)', 'GRADS DATA SERVER (GDS)'],
             ['Map Service', 'MAP SERVICE'],
             ['OPeNDAP Data', 'OPENDAP DATA'],
             ['Open Search', 'OpenSearch'],
@@ -503,7 +503,7 @@ module DraftsHelper
           'subtypes' => [
             ['GIOVANNI', 'GIOVANNI'],
             ['MAP', 'MAP'],
-            ['WORLDVIEW', 'WORLDVIEW']
+            ['Worldview', 'WORLDVIEW']
           ]
         }
       }
@@ -567,7 +567,7 @@ module DraftsHelper
     ['Algorithm Documentation', 'ALGORITHM DOCUMENTATION'],
     ['Algorithm Theoretical Basis Document (ATBD)', 'ALGORITHM THEORETICAL BASIS DOCUMENT (ATBD)'],
     ['Anomalies', 'ANOMALIES'],
-    ['APPEEARS', 'APPEEARS'],
+    ['AppEEARS', 'APPEEARS'],
     ['Case Study', 'CASE STUDY'],
     ['Data Citation Policy', 'DATA CITATION POLICY'],
     ['Data Collection Bundle', 'DATA COLLECTION BUNDLE'],
@@ -582,7 +582,7 @@ module DraftsHelper
     ['General Documentation', 'GENERAL DOCUMENTATION'],
     ['Giovanni', 'GIOVANNI'],
     ['GoLIVE Portal', 'GoLIVE Portal'],
-    ['Grads Data Server (GDS)', 'GRADS DATA SERVER (GDS)'],
+    ['GrADS Data Server (GDS)', 'GRADS DATA SERVER (GDS)'],
     ['How To', 'HOW-TO'],
     ['IceBridge Portal', 'IceBridge Portal'],
     ['Important Notice', 'IMPORTANT NOTICE'],
@@ -622,13 +622,13 @@ module DraftsHelper
     ['Threads Data', 'THREADS DATA'],
     ['User Feedback Page', 'USER FEEDBACK PAGE'],
     ['USGS Earth Explorer', 'USGS EARTH EXPLORER'],
-    ['VERTEX', 'VERTEX'],
+    ['Vertex', 'VERTEX'],
     ['Virtual Collection', 'VIRTUAL COLLECTION'],
     ['Web Coverage Service (WCS)', 'WEB COVERAGE SERVICE (WCS)'],
     ['Web Feature Service (WFS)', 'WEB FEATURE SERVICE (WFS)'],
     ['Web Map Service (WMS)', 'WEB MAP SERVICE (WMS)'],
     ['Web Map Tile Service (WMTS)', 'WEB MAP TILE SERVICE (WMTS)'],
-    ['WORLDVIEW', 'WORLDVIEW'],
+    ['Worldview', 'WORLDVIEW'],
     ["User's Guide", "USER'S GUIDE"]
   ]
   UMMSURLSubtypeOptions = [
