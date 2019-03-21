@@ -97,7 +97,7 @@ Rails.application.configure do
   config.umm_s_enabled = true
 
   # Feature Toggle for UMM-Var Generation
-  config.uvg_enabled = true
+  config.uvg_enabled = false
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
