@@ -362,10 +362,12 @@ describe 'Variable Drafts Forms Field Validations', js: true do
     context 'when adding two new fields' do
       before do
         fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_0', with: '1'
-        click_on 'Add another Lat Range'
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_1', with: '2'
         fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_0', with: '1'
-        click_on 'Add another Lon Range'
+        button_script_lat = "$('button:contains(\"Add another Lat Range\")').click();"
+        page.execute_script(button_script_lat)
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_1', with: '2'
+        button_script_lon = "$('button:contains(\"Add another Lon Range\")').click();"
+        page.execute_script(button_script_lon)
         fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_1', with: '2'
         within '.nav-top' do
           click_on 'Save'
