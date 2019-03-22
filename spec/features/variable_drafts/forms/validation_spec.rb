@@ -256,24 +256,21 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
     context 'when entering text into a number field' do
       before do
-        fill_in 'Average Size Of Granules Sampled', with: 'abcd'
-        fill_in 'Avg Compression Rate ASCII', with: 'abcd'
-        fill_in 'Avg Compression Rate NetCDF4', with: 'abcd'
+        fill_in 'variable_draft_draft_size_estimation_average_size_of_granules_sampled', with: 'abcd'
+        fill_in 'variable_draft_draft_size_estimation_average_compression_information_0_rate', with: 'abcd'
         find('body').click
       end
 
       it 'displays validation error messages' do
-        expect(page).to have_css('.eui-banner--danger', count: 4)
+        expect(page).to have_css('.eui-banner--danger', count: 3)
 
         within '.summary-errors' do
           expect(page).to have_content('Average Size Of Granules Sampled must be of type number')
-          expect(page).to have_content('Avg Compression Rate ASCII must be of type number')
-          expect(page).to have_content('Avg Compression Rate NetCDF4 must be of type number')
+          expect(page).to have_content('Rate must be of type number')
         end
 
         expect(page).to have_css('#variable_draft_draft_size_estimation_average_size_of_granules_sampled_error', text: 'Average Size Of Granules Sampled must be of type number')
-        expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_ascii_error', text: 'Avg Compression Rate ASCII must be of type number')
-        expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_net_cdf4_error', text: 'Avg Compression Rate NetCDF4 must be of type number')
+        expect(page).to have_css('#variable_draft_draft_size_estimation_average_compression_information_0_rate_error', text: 'Rate must be of type number')
       end
 
       context 'when saving the form' do
@@ -294,8 +291,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
           it 'displays validation error messages for fields with data' do
             expect(page).to have_css('#variable_draft_draft_size_estimation_average_size_of_granules_sampled_error', text: 'Average Size Of Granules Sampled must be of type number')
-            expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_ascii_error', text: 'Avg Compression Rate ASCII must be of type number')
-            expect(page).to have_css('#variable_draft_draft_size_estimation_avg_compression_rate_net_cdf4_error', text: 'Avg Compression Rate NetCDF4 must be of type number')
+            expect(page).to have_css('#variable_draft_draft_size_estimation_average_compression_information_0_rate_error', text: 'Rate must be of type number')
           end
         end
       end
@@ -341,6 +337,52 @@ describe 'Variable Drafts Forms Field Validations', js: true do
         expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lat_range_1_error', text: 'Lat Range must be of type number')
       end
     end
+  end
+
+  context 'multiple simple fields' do
+    before do
+      visit edit_variable_draft_path(@draft, 'variable_characteristics')
+    end
+
+    context 'when adding one new field' do
+      before do
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_0', with: '1'
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_0', with: '1'
+        within '.nav-top' do
+          click_on 'Save'
+        end
+      end
+
+      it 'displays validation error messages' do
+        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lat_range_error', text: 'Lat Range has too few items')
+        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lon_range_error', text: 'Lon Range has too few items')
+      end
+    end
+
+    context 'when adding two new fields' do
+      before do
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_0', with: '1'
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_0', with: '1'
+        # for some reason `click_on 'Add another Lat Range'` needs to be executed twice
+        # in this test (same for 'Add another Lon Range'). To avoid calling twice click_on,
+        # using jQuery allowed the buttons to be clicked
+        button_script_lat = "$('button:contains(\"Add another Lat Range\")').click();"
+        page.execute_script(button_script_lat)
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_1', with: '2'
+        button_script_lon = "$('button:contains(\"Add another Lon Range\")').click();"
+        page.execute_script(button_script_lon)
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_1', with: '2'
+        within '.nav-top' do
+          click_on 'Save'
+        end
+      end
+
+      it 'does not display validation error messages' do
+        expect(page).to have_no_css('#variable_draft_draft_characteristics_index_ranges_lat_range_error', text: 'Lat Range has too few items')
+        expect(page).to have_no_css('#variable_draft_draft_characteristics_index_ranges_lon_range_error', text: 'Lon Range has too few items')
+      end
+    end
+
   end
 
 end

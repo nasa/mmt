@@ -1,5 +1,4 @@
 $(document).ready ->
-
   isMetadataForm = ->
     $('.metadata-form').length > 0
 
@@ -87,7 +86,6 @@ $(document).ready ->
       json?.ProcessingLevel = {} unless json?.ProcessingLevel?
     else if isUmmSForm()
       json?.RelatedURLs = [] unless json?.RelatedURLs?
-
 
   fixNumbers = (json) ->
     if isMetadataForm()
@@ -533,6 +531,14 @@ $(document).ready ->
       visitedFields.push 'draft_use_constraints' unless visitedFields.indexOf('draft_use_constraints') != -1
 
     visitedFields.push field_id unless visitedFields.indexOf(field_id) != -1
+
+    if field_id.match /^variable_draft_draft_characteristics_index_ranges_lat_range_/i
+      latRangeParentId = 'variable_draft_draft_characteristics_index_ranges_lat_range'
+      visitedFields.push latRangeParentId unless visitedFields.indexOf(latRangeParentId) != -1
+
+    if field_id.match /^variable_draft_draft_characteristics_index_ranges_lon_range_/i
+      lonRangeParentId = 'variable_draft_draft_characteristics_index_ranges_lon_range'
+      visitedFields.push lonRangeParentId unless visitedFields.indexOf(lonRangeParentId) != -1
 
   validateFromFormChange = ->
     validatePage
