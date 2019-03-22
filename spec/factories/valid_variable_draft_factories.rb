@@ -3,7 +3,7 @@ FactoryGirl.define do
     provider_id 'MMT_2'
     draft_type 'VariableDraft'
 
-    draft { {} }
+    draft {{}}
 
     short_name nil
     entry_title nil
@@ -51,11 +51,20 @@ FactoryGirl.define do
             ]
           }
       },
-      'SizeEstimation': {
-        'AverageSizeOfGranulesSampled': 'string',
-        'AvgCompressionRateASCII': 'string',
-        'AvgCompressionRateNetCDF4': 15
-      }
+      "SizeEstimation":
+        {
+          "AverageSizeOfGranulesSampled": 'string',
+          "AverageCompressionInformation": [
+            {
+              "Rate": 'string',
+              "Format": "ASCII"
+            },
+            {
+              "Rate": 15,
+              "Format": "NetCDF-4"
+            }
+          ]
+        }
     }}
 
     short_name nil
@@ -96,14 +105,14 @@ FactoryGirl.define do
         {
           'Min': -417,
           'Max': 8836,
-          'CodeSystemIdentifierMeaning': ['Code System Identifier Meaning 1','Code System Identifier Meaning 2'],
-          'CodeSystemIdentifierValue': ['Code System Identifier Value 1','Code System Identifier Value 2','Code System Identifier Value 3']
+          'CodeSystemIdentifierMeaning': ['Code System Identifier Meaning 1', 'Code System Identifier Meaning 2'],
+          'CodeSystemIdentifierValue': ['Code System Identifier Value 1', 'Code System Identifier Value 2', 'Code System Identifier Value 3']
         },
         {
           'Min': 0.0,
           'Max': 1.0,
-          'CodeSystemIdentifierMeaning': ['Code System Identifier Meaning 1','Code System Identifier Meaning 2', 'Code System Identifier Meaning 3'],
-          'CodeSystemIdentifierValue': ['Code System Identifier Value 1','Code System Identifier Value 2']
+          'CodeSystemIdentifierMeaning': ['Code System Identifier Meaning 1', 'Code System Identifier Meaning 2', 'Code System Identifier Meaning 3'],
+          'CodeSystemIdentifierValue': ['Code System Identifier Value 1', 'Code System Identifier Value 2']
         }
       ],
       'Scale': 1.0,
@@ -150,11 +159,20 @@ FactoryGirl.define do
             ]
           }
       },
-      "SizeEstimation": {
-        "AverageSizeOfGranulesSampled": 3009960,
-        "AvgCompressionRateASCII": 4.0,
-        "AvgCompressionRateNetCDF4": 0.132
-      },
+      "SizeEstimation":
+        {
+          "AverageSizeOfGranulesSampled": 3009960,
+          "AverageCompressionInformation": [
+            {
+              "Rate": 4.0,
+              "Format": "ASCII"
+            },
+            {
+              "Rate": 0.132,
+              "Format": "NetCDF-4"
+            }
+          ]
+        },
       "MeasurementIdentifiers": [
         {
           "MeasurementSource": "BODC",

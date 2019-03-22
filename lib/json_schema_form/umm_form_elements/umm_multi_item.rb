@@ -25,7 +25,7 @@ class UmmMultiItem < UmmFormElement
   end
 
   def render_markup
-    content_tag(:div, class: "multiple simple-multiple #{form_class}") do
+    content_tag(:div, class: "multiple simple-multiple #{form_class}", id: idify_property_name) do
       indexes = options.fetch('indexes', [])
 
       values = Array.wrap(element_value)

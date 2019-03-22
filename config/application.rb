@@ -42,8 +42,9 @@ module Mmt
     config.services = YAML.load_file(Rails.root.join('config/services.yml'))
 
     # Versions of UMM for the different metadata types MMT is on
+
     config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.12'
-    config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.3'
+    config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.4'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.2'
 
     config.middleware.insert_after "Rails::Rack::Logger", "MiddlewareHealthcheck"
