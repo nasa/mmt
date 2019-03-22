@@ -1,6 +1,7 @@
 # :nodoc:
 class VariableGenerationProcessesController < ManageVariablesController
-  before_action :uvg_enabled?
+  before_action :uvg_enabled?, :log_before_timestamp
+  after_action :log_after_timestamp
 
   def create
     payload = {}
@@ -77,7 +78,7 @@ class VariableGenerationProcessesController < ManageVariablesController
     import_result, drafts_saved = import_variable_drafts(generated_variables)
 
     if drafts_saved
-      Rails.logger.info "User #{current_user.urs_uid} successfully saved #{generated_variables.count} UMM Variable Generation (UVG) variable records generated from collection #{@collection_id} as Variable Drafts!"
+      Rails.logger.info "User #{current_user.urs_uid} successfully saved #{num_generated_vars} UMM Variable Generation (UVG) variable records generated from collection #{@collection_id} as Variable Drafts!"
 
       redirect_to manage_variables_path, flash: { success: "#{num_generated_vars} variable records generated from collection #{@collection_id} saved as Variable Drafts!" }
     else
@@ -94,6 +95,7 @@ class VariableGenerationProcessesController < ManageVariablesController
   private
 
   def import_variable_drafts(generated_variables)
+    total_record_count = generated_variables.count
     first_generated_var = generated_variables.shift
 
     mass_import_result = nil
@@ -101,11 +103,11 @@ class VariableGenerationProcessesController < ManageVariablesController
     # transaction will return true if it is successful
     drafts_saved = VariableDraft.transaction do
                      first_var = create_single_variable_draft(first_generated_var)
-                     Rails.logger.info "created first variable in transaction:  #{first_var.inspect}"
+                     Rails.logger.info "User #{current_user.urs_uid} is saving #{total_record_count} Variable Drafts from UMM Variable Generation (UVG) records generated from collection #{@collection_id}. The first variable draft was saved in the transaction: #{first_var.inspect}"
                      id_to_start = first_var.id + 1
 
                      mass_import_result = import_remaining_variable_drafts(generated_variables, id_to_start)
-                     Rails.logger.info "need to save this somehow. mass_import_result: #{mass_import_result.inspect}"
+                     Rails.logger.info "User #{current_user.urs_uid} is saving #{total_record_count} Variable Drafts from UMM Variable Generation (UVG) records generated from collection #{@collection_id} and saved the rest of the variable drafts. result: #{mass_import_result.inspect}"
                    end
 
     [mass_import_result, drafts_saved]
@@ -134,5 +136,17 @@ class VariableGenerationProcessesController < ManageVariablesController
     end
 
     VariableDraft.import variable_drafts
+  end
+
+  def log_before_timestamp
+    log_timestamp('Before starting')
+  end
+
+  def log_after_timestamp
+    log_timestamp('After running')
+  end
+
+  def log_timestamp(starting_phrase)
+    Rails.logger.debug "#{starting_phrase} running #{params[:controller].classify}##{params[:action]} at #{Time.now.to_i} by user #{current_user.urs_uid}"
   end
 end

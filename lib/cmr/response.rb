@@ -9,7 +9,7 @@ module Cmr
     end
 
     def error?
-      status >= 400 || (body.is_a?(Hash) && body['errors'] && !body['errors'].blank?)
+      status >= 400 || (body.is_a?(Hash) && !body['errors'].blank?)
     end
 
     def success?
