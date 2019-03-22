@@ -74,7 +74,7 @@ describe 'Conditionally required fields', js: true do
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.eui-required-o', count: 17)
+        expect(page).to have_css('label.eui-required-o', count: 12)
       end
     end
   end

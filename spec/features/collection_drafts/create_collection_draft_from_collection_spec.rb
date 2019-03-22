@@ -1,7 +1,4 @@
 # MMT-26
-
-require 'rails_helper'
-
 describe 'Create new draft from collection' do
   # short_name = '12345'
   # entry_title = 'Draft Title'

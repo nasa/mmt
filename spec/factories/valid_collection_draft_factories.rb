@@ -660,7 +660,7 @@ FactoryGirl.define do
         'Description' => 'Related URL 2 Description',
         'URLContentType' => 'DistributionURL',
         'Type' => 'GET DATA',
-        'Subtype' => 'EARTHDATA SEARCH',
+        'Subtype' => 'Earthdata Search',
         'URL' => 'https://search.earthdata.nasa.gov/',
         'GetData' => {
           'Format' => 'ascii',
@@ -673,8 +673,8 @@ FactoryGirl.define do
       }, {
         'Description' => 'Related URL 3 Description',
         'URLContentType' => 'DistributionURL',
-        'Type' => 'GET SERVICE',
-        'Subtype' => 'DIF',
+        'Type' => 'GET DATA',
+        'Subtype' => 'DIRECT DOWNLOAD',
         'URL' => 'https://example.com/',
         'GetService' => {
           'Format' => 'ascii',

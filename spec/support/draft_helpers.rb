@@ -433,19 +433,16 @@ module Helpers
             within '.multiple-item.eui-accordion.multiple-item-1' do
               fill_in 'Description', with: 'Example Description 2'
               select 'Distribution URL', from: 'URL Content Type'
-              select 'Get Service', from: 'Type'
-              select 'DIF', from: 'Subtype'
+              select 'Get Data', from: 'Type'
+              select 'Direct Download', from: 'Subtype'
               fill_in 'URL', with: 'https://example.com/'
 
-              # Get Service fields
-              select 'Not provided', from: 'Mime Type'
-              select 'HTTPS', from: 'Protocol'
-              fill_in 'Full Name', with: 'Service name'
-              fill_in 'Data ID', with: 'data id'
-              fill_in 'Data Type', with: 'data type'
-              fill_in 'URI', with: 'uri1'
-              click_on 'Add another URI'
-              all('input.uri').last.set('uri2')
+              # Get Data fields
+              select 'ascii', from: 'Format'
+              fill_in 'Size', with: '42.0'
+              select 'KB', from: 'Unit'
+              fill_in 'Fees', with: '0'
+              fill_in 'Checksum', with: 'testchecksum123'
             end
           end
         end
