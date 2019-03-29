@@ -11,6 +11,7 @@ class CollectionDraft < Draft
     data_contacts
     collection_citations
     metadata_information
+    archive_and_distribution_information
   )
 
   def display_entry_title

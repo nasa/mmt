@@ -1,0 +1,104 @@
+<div class="row sub-fields">
+  <div class="col-6">
+    <!-- Format -->
+    <%= mmt_text_field(
+          name: 'format',
+          title: 'Format',
+          prefix: name_prefix,
+          value: file_archive_information['Format'],
+          help: 'definitions/FileArchiveInformationType/anyOf/0/properties/Format',
+          validate: true
+        ) %>
+  </div>
+
+  <div class="col-6">
+    <!-- Format Type - Select 'Native', 'Supported'  -->
+    <%= mmt_select(
+          name: 'format_type',
+          title: 'Format Type',
+          prefix: name_prefix,
+          value: file_archive_information['FormatType'],
+          options: DraftsHelper::ArchiveDistributionFormatTypeOptions,
+          help: 'definitions/FileArchiveInformationType/anyOf/0/properties/FormatType',
+          required: false
+        ) %>
+  </div>
+</div>
+<div class="row sub-fields">
+  <div class="col-6">
+    <!-- Average File Size -->
+    <%= mmt_number(
+          name: 'average_file_size',
+          title: 'Average File Size',
+          prefix: name_prefix,
+          value: file_archive_information['AverageFileSize'],
+          help: 'definitions/FileArchiveInformationType/anyOf/0/properties/AverageFileSize',
+          validate: true
+        ) %>
+  </div>
+
+  <div class="col-6">
+    <!-- Average File Size Unit - Select 'KB', 'MB', 'GB', 'TB', 'PB', 'NA'  -->
+    <%= mmt_select(
+          name: 'average_file_size_unit',
+          title: 'Average File Size Unit',
+          prefix: name_prefix,
+          value: file_archive_information['AverageFileSizeUnit'],
+          options: DraftsHelper::ArchiveDistributionUnitOptions,
+          help: 'definitions/FileArchiveInformationType/anyOf/0/properties/AverageFileSizeUnit',
+          required: false
+        ) %>
+  </div>
+</div>
+<div class="row sub-fields">
+  <div class="col-6">
+    <!-- Total Collection File Size -->
+    <%= mmt_number(
+          name: 'total_collection_file_size',
+          title: 'Total Collection File Size',
+          prefix: name_prefix,
+          value: file_archive_information['TotalCollectionFileSize'],
+          help: 'definitions/FileArchiveInformationType/anyOf/0/properties/TotalCollectionFileSize',
+          validate: true
+        ) %>
+  </div>
+
+  <div class="col-6">
+    <!-- Total Collection File Size Unit - Select 'KB', 'MB', 'GB', 'TB', 'PB', 'NA'  -->
+    <%= mmt_select(
+          name: 'total_collection_file_size_unit',
+          title: 'Total Collection File Size Unit',
+          prefix: name_prefix,
+          value: file_archive_information['TotalCollectionFileSizeUnit'],
+          options: DraftsHelper::ArchiveDistributionUnitOptions,
+          help: 'definitions/FileArchiveInformationType/anyOf/0/properties/TotalCollectionFileSizeUnit',
+          required: false
+        ) %>
+  </div>
+</div>
+<!-- Total Collection File Size Begin Date -->
+<div class="row sub-fields">
+  <div class="col-12">
+    <%= mmt_datetime(
+          name: 'total_collection_file_size_begin_date',
+          title: 'Total Collection File Size Begin Date',
+          prefix: name_prefix,
+          value: file_archive_information['TotalCollectionFileSizeBeginDate'],
+          help: 'definitions/FileArchiveInformationType/anyOf/1/properties/TotalCollectionFileSizeBeginDate',
+          validate: true
+        ) %>
+  </div>
+</div>
+<!-- Description -->
+<div class="row sub-fields">
+  <div class="col-12">
+    <%= mmt_text_area(
+          name: 'description',
+          title: 'Description',
+          prefix: name_prefix,
+          value: file_archive_information['Description'],
+          help: 'definitions/FileArchiveInformationType/anyOf/0/properties/Description',
+          validate: true
+        ) %>
+  </div>
+</div>

@@ -238,6 +238,8 @@ class ManageMetadataController < ApplicationController
       'spatial_information'
     elsif TEMPORAL_INFORMATION_FIELDS.include? fields.first
       'temporal_information'
+    elsif ARCHIVE_AND_DISTRIBUTION_INFORMATION_FIELDS.include? fields.first
+      'archive_and_distribution_information'
     end
   end
 
@@ -250,6 +252,10 @@ class ManageMetadataController < ApplicationController
   ACQUISITION_INFORMATION_FIELDS = %w(
     Platforms
     Projects
+  )
+  ARCHIVE_AND_DISTRIBUTION_INFORMATION_FIELDS = %w(
+    FileArchiveInformation
+    FileDistributionInformation
   )
   COLLECTION_INFORMATION_FIELDS = %w(
     ShortName

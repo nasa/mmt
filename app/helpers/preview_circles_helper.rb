@@ -165,6 +165,16 @@ module PreviewCirclesHelper
         required: false,
         anchor: 'projects'
       }
+    },
+    'archive_and_distribution_information' => {
+      'FileArchiveInformation' => {
+        required: true,
+        anchor: 'file-archive-information'
+      },
+      'FileDistributionInformation' => {
+        required: true,
+        anchor: 'file-distribution-information'
+      }
     }
   }
 
