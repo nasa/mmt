@@ -50,43 +50,55 @@
         ) %>
   </div>
 </div>
-<div class="row sub-fields">
-  <div class="col-6">
-    <!-- Total Collection File Size -->
-    <%= mmt_number(
-          name: 'total_collection_file_size',
-          title: 'Total Collection File Size',
-          prefix: name_prefix,
-          value: file_archive_information['TotalCollectionFileSize'],
-          help: 'definitions/FileArchiveInformationType/anyOf/0/properties/TotalCollectionFileSize',
-          validate: true
-        ) %>
-  </div>
+<div class="total-collection-file-size-group sub-fields">
+  <% size_on = file_archive_information.nil? ? true : !file_archive_information['TotalCollectionFileSize'].nil? %>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}"), 'SizeOn', size_on == true, class: 'total-collection-file-size-select', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>SizeOn">Size</label>
+  </p>
+  <p class="radio-group">
+    <%= radio_button_tag(name_to_param("#{name_prefix}"), 'NotSizeOn', size_on == false, class: 'total-collection-file-size-select', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+    <label for="<%= remove_pipes(name_prefix) %>NotSizeOn">Date</label>
+  </p>
 
-  <div class="col-6">
-    <!-- Total Collection File Size Unit - Select 'KB', 'MB', 'GB', 'TB', 'PB', 'NA'  -->
-    <%= mmt_select(
-          name: 'total_collection_file_size_unit',
-          title: 'Total Collection File Size Unit',
-          prefix: name_prefix,
-          value: file_archive_information['TotalCollectionFileSizeUnit'],
-          options: DraftsHelper::ArchiveDistributionUnitOptions,
-          help: 'definitions/FileArchiveInformationType/anyOf/0/properties/TotalCollectionFileSizeUnit',
-          required: false
-        ) %>
+  <div class="row sub-fields total-collection-file-size-fields size-on" style="<%= 'display: none;' unless size_on == true %>">
+    <div class="col-6">
+      <!-- Total Collection File Size -->
+      <%= mmt_number(
+            name: 'total_collection_file_size',
+            title: 'Total Collection File Size',
+            prefix: name_prefix,
+            value: file_archive_information['TotalCollectionFileSize'],
+            help: 'definitions/FileArchiveInformationType/anyOf/0/properties/TotalCollectionFileSize',
+            validate: true
+          ) %>
+    </div>
+
+    <div class="col-6">
+      <!-- Total Collection File Size Unit - Select 'KB', 'MB', 'GB', 'TB', 'PB', 'NA'  -->
+      <%= mmt_select(
+            name: 'total_collection_file_size_unit',
+            title: 'Total Collection File Size Unit',
+            prefix: name_prefix,
+            value: file_archive_information['TotalCollectionFileSizeUnit'],
+            options: DraftsHelper::ArchiveDistributionUnitOptions,
+            help: 'definitions/FileArchiveInformationType/anyOf/0/properties/TotalCollectionFileSizeUnit',
+            required: false
+          ) %>
+    </div>
   </div>
-</div>
-<!-- Total Collection File Size Begin Date -->
-<div class="row sub-fields">
-  <div class="col-12">
-    <%= mmt_datetime(
-          name: 'total_collection_file_size_begin_date',
-          title: 'Total Collection File Size Begin Date',
-          prefix: name_prefix,
-          value: file_archive_information['TotalCollectionFileSizeBeginDate'],
-          help: 'definitions/FileArchiveInformationType/anyOf/1/properties/TotalCollectionFileSizeBeginDate',
-          validate: true
-        ) %>
+  <!-- Total Collection File Size Begin Date -->
+  <div class="row sub-fields total-collection-file-size-fields not-size-on" style="<%= 'display: none;' unless size_on == false %>">
+    <div class="col-12">
+      <%= mmt_datetime(
+            name: 'total_collection_file_size_begin_date',
+            title: 'Total Collection File Size Begin Date',
+            prefix: name_prefix,
+            value: file_archive_information['TotalCollectionFileSizeBeginDate'],
+            help: 'definitions/FileArchiveInformationType/anyOf/1/properties/TotalCollectionFileSizeBeginDate',
+            validate: true
+          ) %>
+    </div>
   </div>
 </div>
 <!-- Description -->
