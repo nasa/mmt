@@ -286,4 +286,10 @@
   "collection": "https://cmr.earthdata.nasa.gov/search/concepts/C115003861-NSIDC_ECS/76",
   "ingest_count": 1,
   "granule": null
+}, {
+  // 57
+  "collection": "https://cmr.earthdata.nasa.gov/search/concepts/C1282378522-PODAAC/5",
+  "ingest_count": 1,
+  "granule": "https://cmr.earthdata.nasa.gov:443/search/concepts/G1331856692-PODAAC",
+  "test_case": " UVG collection with granule with OPeNDAP url"
 }]

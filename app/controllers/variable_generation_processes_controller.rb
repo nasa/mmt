@@ -9,8 +9,12 @@ class VariableGenerationProcessesController < ManageVariablesController
     payload[:provider] = current_user.provider_id
     uvg_parameters = { payload: payload }
 
-    response = cmr_client.uvg_generate_stub(uvg_parameters)
-    # response = cmr_client.uvg_generate(uvg_parameters)
+    # response = cmr_client.uvg_generate_stub(uvg_parameters)
+    response = cmr_client.uvg_generate(uvg_parameters, token)
+
+    # temporarily logging all responses
+    # TODO: remove when UVG functionality is stable
+    Rails.logger.debug "UVG Generate response: #{response.inspect}"
 
     if response.success?
       full_response = response.body
