@@ -317,14 +317,14 @@ $(document).ready ->
     # Clear all fields
     $parent.find('.total-collection-file-size-fields').find('input, select, textarea').val ''
 
-    # Clear doi-available-select radio buttons
+    # Clear collection file size radio buttons
     # that aren't the one just selected
     $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
 
     # show the selected fields
     switch $(this).val()
-      when 'SizeOn'
-        $parent.find('.total-collection-file-size-fields.size-on').show()
-      when 'NotSizeOn'
-        $parent.find('.total-collection-file-size-fields.not-size-on').show()
-        $parent.find('.total-collection-file-size-fields.not-size-on select').val('Not Applicable')
+      when 'BySize'
+        $parent.find('.total-collection-file-size-fields.by-size').show()
+      when 'ByDate'
+        $parent.find('.total-collection-file-size-fields.by-date').show()
+        $parent.find('.total-collection-file-size-fields.by-date select').val('Not Applicable')
