@@ -52,7 +52,8 @@
   </div>
 </div>
 <div class="total-collection-file-size-group sub-fields">
-  <% by_size = file_archive_information.nil? ? true : !file_archive_information['TotalCollectionFileSize'].nil? %>
+  <% by_size = !file_archive_information['TotalCollectionFileSize'].blank? ||
+    (file_archive_information['TotalCollectionFileSize'].blank? && file_archive_information['TotalCollectionFileSizeBeginDate'].blank?)%>
   <p class="radio-group">
     <%= radio_button_tag(name_to_param("#{name_prefix}"), 'BySize', by_size == true, class: 'total-collection-file-size-select', name: nil, data: { level: remove_pipes(name_prefix) }) %>
     <label for="<%= remove_pipes(name_prefix) %>BySize">Enter Total Collection File Size</label>
