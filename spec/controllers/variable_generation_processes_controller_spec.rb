@@ -1,10 +1,12 @@
 describe VariableGenerationProcessesController, reset_provider: true do
   describe 'POST #create' do
     context 'when variable generation is enabled' do
+      before do
+        sign_in
+      end
+
       context 'when correct data is being sent' do
         before do
-          sign_in
-
           response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'small_stubbed_naive_response.json')
           success_response_body = File.read(response_path)
           uvg_generate_response = cmr_success_response(success_response_body)

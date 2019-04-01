@@ -45,14 +45,14 @@ module Cmr
     # Not stubbed endpoints
     ########
 
-    def uvg_generate(params)
+    def uvg_generate(params, token)
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:4000/generate'
             else
               '/generate'
             end
 
-      post(url, params.to_json)
+      post(url, params.to_json, token_header(token))
     end
 
     def uvg_augment_definitions(params)
@@ -75,14 +75,15 @@ module Cmr
       post(url, params.to_json)
     end
 
-    def uvg_augment_estimates(params)
-      url = if Rails.env.development? || Rails.env.test?
-              'http://localhost:4000/augment/estimates'
-            else
-              '/augment/estimates'
-            end
-
-      post(url, params.to_json)
-    end
+    # not yet available
+    # def uvg_augment_estimates(params)
+    #   url = if Rails.env.development? || Rails.env.test?
+    #           'http://localhost:4000/augment/estimates'
+    #         else
+    #           '/augment/estimates'
+    #         end
+    #
+    #   post(url, params.to_json)
+    # end
   end
 end
