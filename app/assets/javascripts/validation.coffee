@@ -190,6 +190,7 @@ $(document).ready ->
       # UseConstraintsType is the only place a 'not' validation is used
       # so this is a very specific message
       when 'not' then 'License Url and License Text cannot be used together'
+      when 'dependencies' then error.message
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
@@ -453,6 +454,15 @@ $(document).ready ->
 
     errors
 
+  addIfNotAlready = (errorArray, newError) ->
+    exist = false
+    for error in errorArray
+      if error.id == newError.id && error.keyword == newError.keyword
+        exist = true
+    if !exist && $("##{newError.id}").length > 0
+      errorArray.push newError
+    errorArray
+
   validatePage = (opts) ->
     $('.validation-error').remove()
     $('.summary-errors').remove()
@@ -501,8 +511,15 @@ $(document).ready ->
 
         if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1
           # don't duplicate errors
-          inlineErrors.push error if $("##{error.id}").length > 0
-          summaryErrors.push error if $("##{error.id}").length > 0
+          # Because ArchiveAndDistributionInformation has 'anyOf' child elements,
+          # error from the schema validator can be duplicated, so add an error to
+          # the error arrays only if not already exist
+          if error.id.match /^draft_archive_and_distribution_information_/i
+            addIfNotAlready(inlineErrors, error)
+            addIfNotAlready(summaryErrors, error)
+          else
+            inlineErrors.push error if $("##{error.id}").length > 0
+            summaryErrors.push error if $("##{error.id}").length > 0
 
     if inlineErrors.length > 0 and opts.showInline
       displayInlineErrors inlineErrors

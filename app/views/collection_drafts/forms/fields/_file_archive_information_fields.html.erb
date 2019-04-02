@@ -21,7 +21,7 @@
           value: file_archive_information['FormatType'],
           options: DraftsHelper::ArchiveDistributionFormatTypeOptions,
           help: 'definitions/FileArchiveInformationType/anyOf/0/properties/FormatType',
-          required: false
+          required: true
         ) %>
   </div>
 </div>
@@ -34,7 +34,8 @@
           prefix: name_prefix,
           value: file_archive_information['AverageFileSize'],
           help: 'definitions/FileArchiveInformationType/anyOf/0/properties/AverageFileSize',
-          validate: true
+          validate: true,
+          classes: 'mmt-number'
         ) %>
   </div>
 
@@ -47,7 +48,7 @@
           value: file_archive_information['AverageFileSizeUnit'],
           options: DraftsHelper::ArchiveDistributionUnitOptions,
           help: 'definitions/FileArchiveInformationType/anyOf/0/properties/AverageFileSizeUnit',
-          required: false
+          required: true
         ) %>
   </div>
 </div>
@@ -72,7 +73,8 @@
             prefix: name_prefix,
             value: file_archive_information['TotalCollectionFileSize'],
             help: 'definitions/FileArchiveInformationType/anyOf/0/properties/TotalCollectionFileSize',
-            validate: true
+            validate: true,
+            classes: 'mmt-number'
           ) %>
     </div>
 
@@ -85,7 +87,7 @@
             value: file_archive_information['TotalCollectionFileSizeUnit'],
             options: DraftsHelper::ArchiveDistributionUnitOptions,
             help: 'definitions/FileArchiveInformationType/anyOf/0/properties/TotalCollectionFileSizeUnit',
-            required: false
+            required: true
           ) %>
     </div>
   </div>
