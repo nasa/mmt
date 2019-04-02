@@ -75,7 +75,7 @@
 <div class="row sub-fields">
   <div class="col-6">
     <!-- Average File Size -->
-    <%= mmt_number(
+    <%= mmt_text_field(
           name: 'average_file_size',
           title: 'Average File Size',
           prefix: name_prefix,
@@ -114,7 +114,7 @@
   <div class="row sub-fields total-collection-file-size-fields by-size" style="<%= 'display: none;' unless by_size == true %>">
     <div class="col-6">
       <!-- Total Collection File Size -->
-      <%= mmt_number(
+      <%= mmt_text_field(
             name: 'total_collection_file_size',
             title: 'Total Collection File Size',
             prefix: name_prefix,
