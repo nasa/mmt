@@ -44,10 +44,14 @@ module Cmr
       @errors ||= if body_is_html?
                     Rails.logger.error "CMR Error Response Body is a HTML document: #{body}"
                     ['There was an error with the operation you were trying to perform. There may be an issue with one of the services we depend on. Please contact your provider administrator or the CMR OPS team.']
-                  elsif body['errors']
-                    Array.wrap(body['errors'])
-                  elsif body['error']
-                    Array.wrap(body['error'])
+                  elsif body.is_a?(Hash)
+                    if body['errors']
+                      Array.wrap(body['errors'])
+                    elsif body['error']
+                      Array.wrap(body['error'])
+                    end
+                  elsif body.is_a?(String)
+                    [body]
                   else
                     []
                   end
