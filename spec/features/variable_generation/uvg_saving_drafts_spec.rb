@@ -27,7 +27,7 @@ describe 'Saving UVG generated variables as Variable Drafts', js: true do
       response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'full_stubbed_naive_response.json')
       success_response_body = File.read(response_path)
       uvg_generate_response = cmr_success_response(success_response_body)
-      allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate_stub).and_return(uvg_generate_response)
+      allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate).and_return(uvg_generate_response)
 
       click_on 'Generate Variables'
     end

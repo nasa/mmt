@@ -245,7 +245,7 @@ describe 'Collection Permissions', reset_provider: true, js: true do
 
   context 'when deleting a collection permission without proper permission' do
     before do
-      failed_delete_acl_response = cmr_fail_response(File.read('spec/fixtures/collection_permissions/failed_delete_acl_response.json'))
+      failed_delete_acl_response = cmr_fail_response(JSON.parse(File.read('spec/fixtures/collection_permissions/failed_delete_acl_response.json')))
       allow_any_instance_of(Cmr::CmrClient).to receive(:delete_permission).and_return(failed_delete_acl_response)
 
       @collection_permission_to_delete_with_failure = add_associated_permissions_to_group(group_id: group3_id, name: 'Testing Delete Collection Permission 02')

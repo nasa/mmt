@@ -177,7 +177,7 @@ module Helpers
 
     def make_token_refresh_fail
       refresh_response_body = '{"error": "invalid_grant", "error_description": "Refresh token is invalid."}'
-      refresh_response = cmr_fail_response(refresh_response_body, 401)
+      refresh_response = cmr_fail_response(JSON.parse(refresh_response_body), 401)
       allow_any_instance_of(Cmr::UrsClient).to receive(:refresh_token).and_return(refresh_response)
 
       # Tell the test that the token is expired
