@@ -1,6 +1,3 @@
-# MMT-557
-require 'rails_helper'
-
 describe 'Viewing Collections with other native formats', js: true do
   context 'when viewing a dif10 record that has a Data Center with Archiver role' do
     let(:short_name) { 'AIRG2SSD' }
@@ -16,7 +13,7 @@ describe 'Viewing Collections with other native formats', js: true do
 
     it 'displays the collection and data center with correct role' do
       expect(page).to have_content(short_name)
-      expect(page).to have_content('AIRS/Aqua L2G Precipitation Estimate (AIRS+AMSU) V006 (AIRG2SSD) at GES DISC')
+      expect(page).to have_content('AIRS/Aqua L2G Precipitation Estimate (AIRS-only) V006 (AIRG2SSD) at GES DISC')
 
       within '.data-centers-cards' do
         within all('li.card')[0] do
