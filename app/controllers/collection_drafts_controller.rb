@@ -216,9 +216,13 @@ class CollectionDraftsController < BaseDraftsController
 
       field = fields.split('/')
       top_field = field[0] || required_field
-
+      parent_field = ''
+      if top_field == 'ArchiveAndDistributionInformation'
+        parent_field = field[1]
+      end
       {
         field: required_field,
+        parent_field: parent_field,
         top_field: top_field,
         page: get_page(field),
         error: 'is required'
