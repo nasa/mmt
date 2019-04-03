@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Show Existing Service Collection Associations', js: true, reset_provider: true do
 
   native_id = Faker::Crypto.md5
@@ -78,8 +76,8 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
 
       it 'displays the existing collection assiciations' do
         expect(page).to have_content('Disabled rows')
-        expect(page).to have_selector('tbody tr', count: 27)
-        expect(page).to have_selector('#selected_collections_', count: 1)
+        expect(page).to have_selector('tbody tr', count: 28)
+        expect(page).to have_selector('#selected_collections_', count: 2)
         expect(page).to have_selector('tbody tr.disabled', count: 26)
       end
     end
