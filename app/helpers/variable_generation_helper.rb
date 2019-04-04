@@ -6,9 +6,13 @@ module VariableGenerationHelper
     end
   end
 
+  # generate
   define_stats_method 'long_names'
   define_stats_method 'definitions'
-  define_stats_method 'science_keywords'
+
+  # augment keywords
+  define_stats_method 'keywords_changed_umm'
+  define_stats_method 'keywords_changed_gcmd'
 
   def display_single_page_info
     if @variables.count > 0 && @variables.count <= 25

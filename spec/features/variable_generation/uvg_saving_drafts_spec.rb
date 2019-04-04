@@ -39,9 +39,8 @@ describe 'Saving UVG generated variables as Variable Drafts', js: true do
       expect(page).to have_content('Statistics')
 
       within '.eui-info-box' do
-        expect(page).to have_content('Long Names: 0% of 777')
-        expect(page).to have_content('Definitions: 100% of 777')
-        expect(page).to have_content('Science Keywords: 96% of 777')
+        expect(page).to have_content('Long Names found: 0.0% of 777')
+        expect(page).to have_content('Definitions found: 100.0% of 777')
       end
 
       within '.uvg-pagination-header' do
@@ -59,9 +58,15 @@ describe 'Saving UVG generated variables as Variable Drafts', js: true do
           click_on 'Save Variable Drafts'
         end
 
-        it 'saves the correct number of drafts with the correct information' do
+        it 'displays the Manage Variables page with the correct message' do
           expect(page).to have_content('777 variable records generated from collection C1238517344-GES_DISC saved as Variable Drafts!')
 
+          expect(page).to have_content('Create Variable Record')
+          expect(page).to have_content('MMT_2 Variable Drafts')
+          expect(page).to have_content('UMM Variable Generation')
+        end
+
+        it 'saves the correct number of drafts with the correct information' do
           expect(VariableDraft.all.count).to eq(777)
 
           last_draft = VariableDraft.last
@@ -72,9 +77,43 @@ describe 'Saving UVG generated variables as Variable Drafts', js: true do
         end
       end
 
-      # TODO: is there a way to create a failure?
-      # context 'when the drafts are not successfully saved' do
-      # end
+      context 'when the drafts are not successfully saved' do
+        before do
+          allow_any_instance_of(VariableDraft).to receive(:save).and_return(false)
+
+          click_on 'Save Variable Drafts'
+        end
+
+        it 'displays the variable generation results page' do
+          expect(page).to have_content('Variable Generation for MMT_2')
+          expect(page).to have_content('Naive Variables Generated for collection C1238517344-GES_DISC')
+
+          expect(page).to have_content('Statistics')
+
+          within '.eui-info-box' do
+            expect(page).to have_content('Long Names found: 0.0% of 777')
+            expect(page).to have_content('Definitions found: 100.0% of 777')
+          end
+
+          within '.uvg-pagination-header' do
+            expect(page).to have_content('Showing Generated Variables 1 - 25 of 777')
+          end
+
+          within '#uvg-results-table tbody' do
+            expect(page).to have_css('tr', count: 25)
+          end
+        end
+
+        it 'displays the appropriate error message' do
+          within '.eui-banner--danger' do
+            expect(page).to have_content('777 generated variable records failed to save as Drafts')
+          end
+        end
+
+        it 'does not save any drafts' do
+          expect(VariableDraft.all.count).to eq(0)
+        end
+      end
     end
 
     context 'when choosing to Augment with Science Keywords' do
@@ -82,10 +121,10 @@ describe 'Saving UVG generated variables as Variable Drafts', js: true do
         click_on 'Select Augmentation'
 
         # stubbing the naive endpoint until it is live and we can determine if we should use VCR
-        response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'full_stubbed_naive_response.json')
+        response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'full_stubbed_augment_keywords_response.json')
         success_response_body = File.read(response_path)
         uvg_augment_keywords_response = cmr_success_response(success_response_body)
-        allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_augment_keywords_stub).and_return(uvg_augment_keywords_response)
+        allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_augment_keywords).and_return(uvg_augment_keywords_response)
 
         choose 'augmentation_type_keywords'
 
@@ -96,9 +135,8 @@ describe 'Saving UVG generated variables as Variable Drafts', js: true do
         expect(page).to have_content('Statistics')
 
         within '.eui-info-box' do
-          expect(page).to have_content('Long Names: 0% of 777')
-          expect(page).to have_content('Definitions: 100% of 777')
-          expect(page).to have_content('Science Keywords: 96% of 777')
+          expect(page).to have_content('Keywords derived from UMM: 12.48% of 777')
+          expect(page).to have_content('Keywords derived from GCMD: 74.77% of 777')
         end
 
         expect(page).to have_content('Variable Generation for MMT_2')
