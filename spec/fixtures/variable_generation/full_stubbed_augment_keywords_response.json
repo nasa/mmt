@@ -2,8 +2,8 @@
   "collection_concept_id": "C1238517344-GES_DISC",
   "provider": "GES_DISC",
   "statistics": {
-    "long_names": 0.0,
-    "definitions": 100.0,
+    "keywords_changed_umm": 12.48,
+    "keywords_changed_gcmd": 74.77,
     "count": 777
   },
   "errors": [],

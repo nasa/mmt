@@ -2,11 +2,11 @@
   "collection_concept_id": "C1238517344-GES_DISC",
   "provider": "GES_DISC",
   "statistics": {
-    "long_names": 2,
-    "definitions": 9,
-    "science_keywords": 13,
+    "long_names": 12.5,
+    "definitions":56.25,
     "count": 16
   },
+  "errors": [],
   "variables": [
     {
       "Name": "TotalCounts_A",
