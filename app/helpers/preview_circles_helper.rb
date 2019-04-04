@@ -275,7 +275,6 @@ module PreviewCirclesHelper
     page_errors = errors.select { |error| error[:page] == nil && error[:error] != nil }
     error_fields = page_errors.map { |error| error[:field] }
     error_fields += page_errors.map { |error| error[:parent_field]}
-    puts 'error_fields = ' + error_fields.inspect
     if field_exist
       if error_fields.include?(field)
         field_valid = false
