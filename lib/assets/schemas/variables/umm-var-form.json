@@ -570,6 +570,25 @@
           ]
         }
       ]
+    },
+    {
+      "id": "acquisition_source_name",
+      "title": "Acquisition Source Name",
+      "description_key": "AcquisitionSourceName",
+      "items": [
+        {
+          "type": "open_accordion",
+          "title": "Acquisition Source Name",
+          "items": [
+            {
+              "key": "AcquisitionSourceName",
+              "field": true,
+              "type": "UmmControlledSelect",
+              "controlledKeyword": "instruments"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

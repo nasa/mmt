@@ -65,6 +65,8 @@ FactoryGirl.define do
             }
           ]
         }
+    # ,
+    #   "AcquisitionSourceName": 'string'
     }}
 
     short_name nil
@@ -219,7 +221,10 @@ FactoryGirl.define do
           'Topic': 'ATMOSPHERE',
           'Term': 'ATMOSPHERIC TEMPERATURE'
         }
-      ]
-    }}
+      ],
+      "AcquisitionSourceName": 'ATM'
+    }
+  }
+
   end
 end

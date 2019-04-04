@@ -80,19 +80,19 @@ describe 'Set Form', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Variable Information')
+          expect(page).to have_content('Acquisition Source Name')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Variable Information')
+          expect(page).to have_content('Acquisition Source Name')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_source_name')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_source_name')
         end
       end
     end
@@ -230,11 +230,11 @@ describe 'Set Form', js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_source_name')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_source_name')
         end
       end
     end
@@ -330,11 +330,11 @@ describe 'Set Form', js: true do
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_source_name')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_source_name')
         end
       end
     end
