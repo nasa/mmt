@@ -6,7 +6,7 @@ describe 'Archive And Distribution Information form', js: true do
     visit collection_draft_path(draft)
   end
 
-  context 'when submitting the form' do
+  context 'When viewing the form with stored values' do
     before do
       within '.metadata' do
         click_on 'Archive And Distribution Information'
@@ -34,6 +34,9 @@ describe 'Archive And Distribution Information form', js: true do
         within first('.multiple-item-1') do
           expect(page).to have_field('Format', with: 'kml')
           expect(page).to have_field('Format Type', with: 'Native')
+          expect(page).to have_field('Average File Size', with: '10')
+          expect(page).to have_field('Average File Size Unit', with: 'MB')
+          expect(page).to have_field('Total Collection File Size Begin Date', with: '2015-07-01T00:00:00Z')
         end
       end
 
@@ -41,12 +44,53 @@ describe 'Archive And Distribution Information form', js: true do
         within first('.multiple-item-0') do
           expect(page).to have_field('Format', with: 'binary')
           expect(page).to have_field('Format Type', with: 'Supported')
+          expect(page).to have_field('draft_archive_and_distribution_information_file_distribution_information_0_media_0', with: 'disc')
+          expect(page).to have_field('draft_archive_and_distribution_information_file_distribution_information_0_media_1', with: 'file')
           expect(page).to have_field('Average File Size', with: '1')
           expect(page).to have_field('Average File Size Unit', with: 'MB')
           expect(page).to have_field('Description', with: 'A file distribution information description')
           expect(page).to have_field('Fees', with: 'File archive information fees')
         end
       end
+    end
+  end
+
+  context 'When filling the form with valid values' do
+    before do
+      within '.metadata' do
+        click_on 'Archive And Distribution Information'
+      end
+      click_on 'Expand All'
+      within '.multiple.file-archive-informations' do
+        fill_in 'Format', with: 'jpeg'
+        select 'Native', from: 'Format Type'
+      end
+      within '.nav-top' do
+        click_on 'Save'
+      end
+    end
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Collection Draft Updated Successfully!')
+    end
+  end
+
+  context 'When filling the form with invalid values' do
+    before do
+      within '.metadata' do
+        click_on 'Archive And Distribution Information'
+      end
+      click_on 'Expand All'
+      within '.multiple.file-archive-informations' do
+        fill_in 'Average File Size', with: 'abc'
+        fill_in 'Total Collection File Size', with: 'def'
+      end
+      within '.nav-top' do
+        click_on 'Save'
+      end
+    end
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Average File Size must be of type number')
+      expect(page).to have_content('Total Collection File Size must be of type number')
     end
   end
 end
