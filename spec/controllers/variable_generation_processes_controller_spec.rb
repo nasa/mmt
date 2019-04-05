@@ -63,7 +63,7 @@ describe VariableGenerationProcessesController, reset_provider: true do
           response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'small_stubbed_naive_response.json')
           success_response_body = File.read(response_path)
           uvg_augment_response = cmr_success_response(success_response_body)
-          allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_augment_keywords_stub).and_return(uvg_augment_response)
+          allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_augment_keywords).and_return(uvg_augment_response)
 
           put :update,
               collection_id: 'C1238517344-GES_DISC',
@@ -85,7 +85,7 @@ describe VariableGenerationProcessesController, reset_provider: true do
           response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'no_payload_response.txt')
           error_response_body = File.read(response_path)
           uvg_generate_error_response = cmr_fail_response(error_response_body)
-          allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_augment_keywords_stub).and_return(uvg_generate_error_response)
+          allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_augment_keywords).and_return(uvg_generate_error_response)
 
           put :update,
               collection_concept_id: 'C1238517344-GES_DISC',
@@ -95,7 +95,6 @@ describe VariableGenerationProcessesController, reset_provider: true do
         end
 
         it 'renders the edit page' do
-          puts "response: #{response.class} \n #{pp response}"
           expect(response).to render_template(:edit)
         end
       end
