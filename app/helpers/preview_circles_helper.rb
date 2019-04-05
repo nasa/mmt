@@ -259,8 +259,7 @@ module PreviewCirclesHelper
     distribution_exist = metadata.key?('ArchiveAndDistributionInformation') && !metadata['ArchiveAndDistributionInformation']['FileDistributionInformation'].blank?
     valid = true
     if !metadata.empty? && errors
-      page_errors = errors.select { |error| error[:page] == nil && error[:error] != nil }
-      error_fields = page_errors.map { |error| error[:top_field] }
+      error_fields = errors.map { |error| error[:top_field] }
       if error_fields.include?('ArchiveAndDistributionInformation')
         valid = false
       end
@@ -272,9 +271,8 @@ module PreviewCirclesHelper
     metadata = draft.draft
     field_exist = metadata.key?('ArchiveAndDistributionInformation') && !metadata['ArchiveAndDistributionInformation'][field].blank?
     field_valid = true
-    page_errors = errors.select { |error| error[:page] == nil && error[:error] != nil }
-    error_fields = page_errors.map { |error| error[:field] }
-    error_fields += page_errors.map { |error| error[:parent_field]}
+    error_fields = errors.map { |error| error[:field] }
+    error_fields += errors.map { |error| error[:parent_field]}
     if field_exist
       if error_fields.include?(field)
         field_valid = false
