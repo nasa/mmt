@@ -65,8 +65,6 @@ FactoryGirl.define do
             }
           ]
         }
-    # ,
-    #   "AcquisitionSourceName": 'string'
     }}
 
     short_name nil
