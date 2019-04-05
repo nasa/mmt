@@ -278,7 +278,7 @@ $(document).ready ->
 
     # Hide individual required errors from an anyOf constraint
     # So we don't fill the form with errors that don't make sense to the user
-    if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1
+    if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1 && !(error.dataPath.indexOf('ArchiveAndDistributionInformation') > -1 && error.params['missingProperty'] == 'Format')
       error = null
       return
 
