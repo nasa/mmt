@@ -133,4 +133,22 @@ describe 'Archive And Distribution Information form', js: true do
       end
     end
   end
+
+  context 'When filling the form without dependent values' do
+    before do
+      within '.metadata' do
+        click_on 'Archive And Distribution Information'
+      end
+      click_on 'Expand All'
+      within '.multiple.file-distribution-informations' do
+        fill_in 'Total Collection File Size', with: '15'
+      end
+      within '.nav-top' do
+        click_on 'Save'
+      end
+    end
+    it 'displays a confirmation message' do
+      expect(page).to have_content('should have property TotalCollectionFileSizeUnit when property TotalCollectionFileSize is present')
+    end
+  end
 end
