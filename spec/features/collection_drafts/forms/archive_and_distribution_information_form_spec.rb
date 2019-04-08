@@ -93,4 +93,22 @@ describe 'Archive And Distribution Information form', js: true do
       expect(page).to have_content('Total Collection File Size must be of type number')
     end
   end
+
+  context 'when filling the form without required field' do
+    before do
+      within '.metadata' do
+        click_on 'Archive And Distribution Information'
+      end
+      click_on 'Expand All'
+      within '.multiple.file-archive-informations' do
+        select 'Native', from: 'Format Type'
+      end
+      within '.nav-top' do
+        click_on 'Done'
+      end
+    end
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Format is required')
+    end
+  end
 end
