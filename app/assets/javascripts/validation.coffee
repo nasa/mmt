@@ -190,6 +190,8 @@ $(document).ready ->
       # UseConstraintsType is the only place a 'not' validation is used
       # so this is a very specific message
       when 'not' then 'License Url and License Text cannot be used together'
+      # Needed in case of Average File Size is set but no Average File Size Unit was selected
+      # Also in case of Total Collection File Size and Total Collection File Size Unit
       when 'dependencies' then error.message
 
   getFieldType = (element) ->
@@ -278,6 +280,8 @@ $(document).ready ->
 
     # Hide individual required errors from an anyOf constraint
     # So we don't fill the form with errors that don't make sense to the user
+    # Except ArchiveAndDistributionInformation has 'anyOf' constraint to the child element FileArchiveInformation and
+    # FileDistributionInformation which have required field 'Format'
     if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1 && !(error.dataPath.indexOf('ArchiveAndDistributionInformation') > -1 && error.params['missingProperty'] == 'Format')
       error = null
       return

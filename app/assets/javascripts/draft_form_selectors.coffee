@@ -309,7 +309,7 @@ $(document).ready ->
         $parent.find('.doi-fields.not-available').show()
         $parent.find('.doi-fields.not-available select').val('Not Applicable')
 
-  # Handle Total Collection File Size Selector
+  # Handle Total Collection File Size Selector (in Archive and Distribution Information)
   $('.total-collection-file-size-select').change ->
     $parent = $(this).parents('.total-collection-file-size-group')
     $parent.find('.total-collection-file-size-fields').hide()

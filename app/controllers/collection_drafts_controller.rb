@@ -213,9 +213,9 @@ class CollectionDraftsController < BaseDraftsController
 
     if string.include? 'did not contain a required property'
       required_field = string.match(/contain a required property of '(.*)'/).captures.first
-
       field = fields.split('/')
       top_field = field[0] || required_field
+      # For ArchiveAndDistributionInformation parent_field is needed to distinguish FileArchiveInformation or FileDistributionInformation
       parent_field = ''
       if top_field == 'ArchiveAndDistributionInformation'
         parent_field = field[1]
