@@ -111,4 +111,26 @@ describe 'Archive And Distribution Information form', js: true do
       expect(page).to have_content('Format is required')
     end
   end
+
+  context 'when filling the form without required field then go to progress page' do
+    before do
+      within '.metadata' do
+        click_on 'Archive And Distribution Information'
+      end
+      click_on 'Expand All'
+      within '.multiple.file-archive-informations' do
+        select 'Native', from: 'Format Type'
+      end
+      within '.nav-top' do
+        click_on 'Done'
+      end
+      # Accept modal
+      click_on 'Yes'
+    end
+    it 'fills in the correct circle in red' do
+      within '#archive-and-distribution-information a[title="File Archive Information - Invalid"]' do
+        expect(page).to have_css('.eui-fa-minus-circle.icon-red')
+      end
+    end
+  end
 end
