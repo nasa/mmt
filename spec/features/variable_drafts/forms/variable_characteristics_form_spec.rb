@@ -173,7 +173,7 @@ describe 'Characteristics Form', js: true do
       expect(page).to have_field('variable_draft_draft_characteristics_index_ranges_lat_range_1', with: '90.0')
       expect(page).to have_field('variable_draft_draft_characteristics_index_ranges_lon_range_0', with: '-180.0')
       expect(page).to have_field('variable_draft_draft_characteristics_index_ranges_lon_range_1', with: '180.0')
-
+      expect(page).to have_field('variable_draft_draft_characteristics_group_path', with: '/Data_Fields/')
     end
 
     context 'When clicking `Previous` without making any changes' do
