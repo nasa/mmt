@@ -1,5 +1,139 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "UMM-Var",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "Name": {
+      "description": "The name of a variable.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "Alias": {
+      "description": "The alias for the name of a variable.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "LongName": {
+      "description": "The expanded or long name related to the variable Name.",
+      "$ref": "#/definitions/LongNameType"
+    },
+    "Definition": {
+      "description": "The definition of the variable.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "Units": {
+      "description": "The units associated with a variable.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 100
+    },
+    "DataType": {
+      "description": "Specify data type of a variable. These types can be either: uint8, uint16, etc.",
+      "$ref": "#/definitions/DataTypeEnum"
+    },
+    "Dimensions": {
+      "description": "A variable consists of one or more dimensions. An example of a dimension name is 'XDim'. An example of a dimension size is '1200'. Variables are rarely one dimensional.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/DimensionType"
+      },
+      "minItems": 1
+    },
+    "ValidRanges": {
+      "description": "Valid ranges of variable data values.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ValidRangeType"
+      },
+      "minItems": 0
+    },
+    "Scale": {
+      "description": "The scale is the numerical factor by which all values in the stored data field are multiplied in order to obtain the original values. May be used together with Offset. An example of a scale factor is '0.002'",
+      "type": "number"
+    },
+    "Offset": {
+      "description": "The offset is the value which is either added to or subtracted from all values in the stored data field in order to obtain the original values. May be used together with Scale. An example of an offset is '0.49'.",
+      "type": "number"
+    },
+    "FillValues": {
+      "description": "The fill value of the variable in the data file. It is generally a value which falls outside the valid range. For example, if the valid range is '0, 360', the fill value may be '-1'. The fill value type is data provider-defined. For example, 'Out of Valid Range'.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FillValueType"
+      },
+      "minItems": 0
+    },
+    "VariableType": {
+      "description": "Specify basic type of a variable. These types can be either: SCIENCE_VARIABLE, QUALITY_VARIABLE, ANCILLARY_VARIABLE, OTHER.",
+      "$ref": "#/definitions/VariableTypeEnum"
+    },
+    "VariableSubType": {
+      "description": "Specifies the sub type of a variable. These types can be either: SCIENCE_SCALAR, SCIENCE_VECTOR, SCIENCE_ARRAY, SCIENCE_EVENTFLAG, OTHER.",
+      "$ref": "#/definitions/VariableSubTypeEnum"
+    },
+    "Characteristics": {
+      "description": "The characteristics of a variable.  The elements of this section apply to a Variable.",
+      "$ref": "#/definitions/CharacteristicsType"
+    },
+    "SizeEstimation": {
+      "description": "The size estimation information of a variable.",
+      "$ref": "#/definitions/SizeEstimationType"
+    },
+    "MeasurementIdentifiers": {
+      "description": "The measurement information of a variable.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/MeasurementIdentifierType"
+      },
+      "minItems": 0
+    },
+    "SamplingIdentifiers": {
+      "description": "The sampling information of a variable.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SamplingIdentifierType"
+      },
+      "minItems": 0
+    },
+    "ScienceKeywords": {
+      "description": "Controlled Science Keywords describing the measurements/variables. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ScienceKeywordType"
+      },
+      "minItems": 0
+    },
+    "Sets": {
+      "description": "The set information of a variable. The variable is grouped within a set. The set is defined by the name, type, size and index. For example, Name: 'Data_Fields', Type: 'General', Size: '15', Index: '7' for the case of the variable named 'LST_Day_1km'.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SetType"
+      },
+      "minItems": 1
+    },
+    "AcquisitionSourceName": {
+      "description": "The acquisition source name such as an instrument short name or simulation name to which the variable belongs. The acquisition source name is used to help determine uniqueness along with Name, Units, and Dimensions in the metadata content for each variable metadata record. For more information please see https://wiki.earthdata.nasa.gov/display/DUTRAIN/UMM-VAR+uniqueness",
+      "$ref": "#/definitions/AcquisitionSourceNameType"
+    }
+  },
+  "required": [
+    "Name",
+    "LongName",
+    "Definition",
+    "DataType",
+    "Dimensions",
+    "Sets",
+    "Scale",
+    "Offset",
+    "AcquisitionSourceName"
+  ],
+
+
   "definitions": {
     "CharacteristicsType": {
       "type": "object",
@@ -279,133 +413,55 @@
       "description": "This element is used to further classify the variable as a Science Scalar, Science Vector, Science Array, Science Event Flag. If a variable does not contain this field, it will be assumed to be a science vector.",
       "type": "string",
       "enum": ["SCIENCE_SCALAR", "SCIENCE_VECTOR", "SCIENCE_ARRAY", "SCIENCE_EVENTFLAG", "OTHER"]
-    }
-  },
-    "title": "UMM-Var",
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-      "Name": {
-        "description": "The name of a variable.",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 100
-      },
-      "Alias": {
-        "description": "The alias for the name of a variable.",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 1024
-      },
-      "LongName": {
-        "description": "The expanded or long name related to the variable Name.",
-        "$ref": "umm-cmn-json-schema.json#/definitions/LongNameType"
-      },
-      "Definition": {
-        "description": "The definition of the variable.",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 1024
-      },
-      "Units": {
-        "description": "The units associated with a variable.",
-        "type": "string",
-        "minLength": 0,
-        "maxLength": 100
-      },
-      "DataType": {
-        "description": "Specify data type of a variable. These types can be either: uint8, uint16, etc.",
-        "$ref": "#/definitions/DataTypeEnum"
-      },
-      "Dimensions": {
-        "description": "A variable consists of one or more dimensions. An example of a dimension name is 'XDim'. An example of a dimension size is '1200'. Variables are rarely one dimensional.",
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/DimensionType"
-        },
-        "minItems": 1
-      },
-      "ValidRanges": {
-        "description": "Valid ranges of variable data values.",
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/ValidRangeType"
-        },
-        "minItems": 0
-      },
-      "Scale": {
-        "description": "The scale is the numerical factor by which all values in the stored data field are multiplied in order to obtain the original values. May be used together with Offset. An example of a scale factor is '0.002'",
-        "type": "number"
-      },
-      "Offset": {
-        "description": "The offset is the value which is either added to or subtracted from all values in the stored data field in order to obtain the original values. May be used together with Scale. An example of an offset is '0.49'.",
-        "type": "number"
-      },
-      "FillValues": {
-        "description": "The fill value of the variable in the data file. It is generally a value which falls outside the valid range. For example, if the valid range is '0, 360', the fill value may be '-1'. The fill value type is data provider-defined. For example, 'Out of Valid Range'.",
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/FillValueType"
-        },
-        "minItems": 0
-      },
-      "VariableType": {
-        "description": "Specify basic type of a variable. These types can be either: SCIENCE_VARIABLE, QUALITY_VARIABLE, ANCILLARY_VARIABLE, OTHER.",
-        "$ref": "#/definitions/VariableTypeEnum"
-      },
-      "VariableSubType": {
-        "description": "Specifies the sub type of a variable. These types can be either: SCIENCE_SCALAR, SCIENCE_VECTOR, SCIENCE_ARRAY, SCIENCE_EVENTFLAG, OTHER.",
-        "$ref": "#/definitions/VariableSubTypeEnum"
-      },
-      "Characteristics": {
-        "description": "The characteristics of a variable.  The elements of this section apply to a Variable.",
-        "$ref": "#/definitions/CharacteristicsType"
-      },
-      "SizeEstimation": {
-        "description": "The size estimation information of a variable.",
-        "$ref": "#/definitions/SizeEstimationType"
-      },
-      "MeasurementIdentifiers": {
-        "description": "The measurement information of a variable.",
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/MeasurementIdentifierType"
-        },
-        "minItems": 0
-      },
-      "SamplingIdentifiers": {
-        "description": "The sampling information of a variable.",
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/SamplingIdentifierType"
-        },
-        "minItems": 0
-      },
-      "ScienceKeywords": {
-        "description": "Controlled Science Keywords describing the measurements/variables.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).",
-        "type": "array",
-        "items": {
-            "$ref": "umm-cmn-json-schema.json#/definitions/ScienceKeywordType"
-        },
-      "minItems": 0
-      },
-      "Sets": {
-        "description": "The set information of a variable. The variable is grouped within a set. The set is defined by the name, type, size and index. For example, Name: 'Data_Fields', Type: 'General', Size: '15', Index: '7' for the case of the variable named 'LST_Day_1km'.",
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/SetType"
-        },
-        "minItems": 1
-      }
     },
-    "required": [
-      "Name",
-      "LongName",
-      "Definition",
-      "DataType",
-      "Dimensions",
-      "Sets",
-      "Scale",
-      "Offset"
-    ]
+    "AcquisitionSourceNameType": {
+      "description": "The unique short name of the Instrument, Simulation, or other acquisition source. This type matches the InstrumentShortNameType that is found in UMM-C.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "[\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=,][\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=, ]{1,79}"
+    },
+    "ScienceKeywordType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Enables specification of Earth science keywords related to the collection.  The Earth Science keywords are chosen from a controlled keyword hierarchy maintained in the Keyword Management System (KMS). The valid values can be found at the KMS website: https://gcmdservices.gsfc.nasa.gov/kms/concepts/concept_scheme/sciencekeywords?format=csv.",
+      "properties": {
+        "Category": {
+          "$ref": "#/definitions/KeywordStringType"
+        },
+        "Topic": {
+          "$ref": "#/definitions/KeywordStringType"
+        },
+        "Term": {
+          "$ref": "#/definitions/KeywordStringType"
+        },
+        "VariableLevel1": {
+          "$ref": "#/definitions/KeywordStringType"
+        },
+        "VariableLevel2": {
+          "$ref": "#/definitions/KeywordStringType"
+        },
+        "VariableLevel3": {
+          "$ref": "#/definitions/KeywordStringType"
+        },
+        "DetailedVariable": {
+          "$ref": "#/definitions/KeywordStringType"
+        }
+      },
+      "required": ["Category", "Topic", "Term"]
+    },
+    "LongNameType": {
+      "description": "The expanded or long name related to the variable name main element.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "KeywordStringType": {
+      "description": "The keyword string type for science keywords. The pattern below helps to minimize the types of characters allowed in the keywords to help users minimize keyword issues.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "[\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=,][\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=, ]{1,79}"
+    }
+  }
 }

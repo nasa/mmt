@@ -29,8 +29,8 @@ describe 'Variable Information Form', js: true do
       end
     end
 
-    it 'has 6 required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 6)
+    it 'has 7 required fields' do
+      expect(page).to have_selector('label.eui-required-o', count: 7)
     end
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
@@ -194,6 +194,7 @@ describe 'Variable Information Form', js: true do
       expect(page).to have_field('variable_draft_draft_variable_sub_type', with: 'SCIENCE_SCALAR')
       expect(page).to have_field('variable_draft_draft_units', with: 'Npptv')
       expect(page).to have_field('variable_draft_draft_data_type', with: 'float')
+      expect(page).to have_field('variable_draft_draft_acquisition_source_name', with: 'ATM')
       expect(page).to have_field('variable_draft_draft_valid_ranges_0_min', with: '-417')
       expect(page).to have_field('variable_draft_draft_valid_ranges_0_max', with: '8836')
       expect(page).to have_field('variable_draft_draft_valid_ranges_0_code_system_identifier_meaning_0', with: 'Code System Identifier Meaning 1')
@@ -317,6 +318,7 @@ describe 'Variable Information Form', js: true do
         expect(page).to have_field('variable_draft_draft_variable_sub_type', with: 'SCIENCE_SCALAR')
         expect(page).to have_field('variable_draft_draft_units', with: 'Npptv')
         expect(page).to have_field('variable_draft_draft_data_type', with: 'float')
+        expect(page).to have_field('variable_draft_draft_acquisition_source_name', with: 'ATM')
         expect(page).to have_field('variable_draft_draft_valid_ranges_0_min', with: '-417')
         expect(page).to have_field('variable_draft_draft_valid_ranges_0_max', with: '8836')
         expect(page).to have_field('variable_draft_draft_valid_ranges_0_code_system_identifier_meaning_0', with: 'Code System Identifier Meaning 1')

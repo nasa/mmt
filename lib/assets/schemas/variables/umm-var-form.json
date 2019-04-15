@@ -93,6 +93,20 @@
                 }
               ]
             },
+
+            {
+              "type": "section",
+              "htmlClass": "row space-top",
+              "items": [
+                    {
+                      "key": "AcquisitionSourceName",
+                      "field": true,
+                      "type": "UmmControlledSelect",
+                      "controlledKeyword": "instruments"
+                    }
+                  ]
+                },
+
             {
               "type": "section",
               "htmlClass": "row space-top",
