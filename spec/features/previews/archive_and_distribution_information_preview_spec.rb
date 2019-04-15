@@ -7,6 +7,7 @@ describe 'Archive And Distribution Information preview' do
         visit collection_draft_path(draft)
       end
       it 'does not display metadata' do
+        expect(page).to have_content('There is no archive and distribution information for this collection.')
         expect(page).to have_no_css('.file-archive-information-cards')
         expect(page).to have_no_css('.file-distribution-information-cards')
       end
