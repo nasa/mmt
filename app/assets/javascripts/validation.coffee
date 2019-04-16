@@ -190,9 +190,11 @@ $(document).ready ->
       # UseConstraintsType is the only place a 'not' validation is used
       # so this is a very specific message
       when 'not' then 'License Url and License Text cannot be used together'
-      # Needed in case of Average File Size is set but no Average File Size Unit was selected
-      # Also in case of Total Collection File Size and Total Collection File Size Unit
-      when 'dependencies' then error.message
+      # In case of Average File Size is set but no Average File Size Unit was selected
+      # and also in case of Total Collection File Size and Total Collection File Size Unit,
+      # we only want this simple message instead of the raw message:
+#     # 'should have property TotalCollectionFileSizeUnit when property TotalCollectionFileSize is present'
+      when 'dependencies' then "#{field} is required"
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)

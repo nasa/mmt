@@ -141,6 +141,7 @@ describe 'Archive And Distribution Information form', js: true do
       end
       click_on 'Expand All'
       within '.multiple.file-distribution-informations' do
+        fill_in 'Average File Size', with: '15'
         fill_in 'Total Collection File Size', with: '15'
       end
       within '.nav-top' do
@@ -148,7 +149,8 @@ describe 'Archive And Distribution Information form', js: true do
       end
     end
     it 'displays a confirmation message' do
-      expect(page).to have_content('should have property TotalCollectionFileSizeUnit when property TotalCollectionFileSize is present')
+      expect(page).to have_content('Average File Size Unit is required')
+      expect(page).to have_content('Total Collection File Size Unit is required')
     end
   end
 end
