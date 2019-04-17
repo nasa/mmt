@@ -49,7 +49,7 @@ describe 'Invalid Variable Draft Variable Information Preview' do
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.variable_information' do
-        expect(page).to have_css('.umm-preview-field-container', count: 15)
+        expect(page).to have_css('.umm-preview-field-container', count: 16)
 
         within '#variable_draft_draft_name_preview' do
           expect(page).to have_css('h5', text: 'Name')
@@ -119,6 +119,12 @@ describe 'Invalid Variable Draft Variable Information Preview' do
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_offset'))
 
           expect(page).to have_css('p', text: 'string')
+        end
+
+        within '#variable_draft_draft_acquisition_source_name_preview' do
+          expect(page).to have_css('h5', text: 'Acquisition Source Name')
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_acquisition_source_name'))
+          expect(page).to have_css('p', text: 'No value for Acquisition Source Name provided.')
         end
 
         within '#variable_draft_draft_valid_ranges_preview' do
