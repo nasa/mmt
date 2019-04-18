@@ -26,7 +26,6 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -36,7 +35,6 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
       "Sets": [
         {
           "Name": "TotalCounts_A",
@@ -77,7 +75,6 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -87,7 +84,6 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
       "Sets": [
         {
           "Name": "SurfPres_Forecast_A",
@@ -128,7 +124,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -138,7 +134,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "SurfPres_Forecast_A_ct",
@@ -179,7 +175,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -189,7 +185,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "SurfPres_Forecast_A_sdev",
@@ -230,7 +226,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -240,7 +236,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "SurfPres_Forecast_A_min",
@@ -281,7 +277,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -291,7 +287,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "SurfPres_Forecast_A_max",
@@ -332,7 +328,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -342,7 +338,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "SurfSkinTemp_A",
@@ -383,7 +379,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -393,7 +389,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "SurfSkinTemp_A_ct",
@@ -434,7 +430,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -444,7 +440,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "SurfSkinTemp_A_sdev",
@@ -485,7 +481,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -495,7 +491,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "SurfSkinTemp_A_min",
@@ -536,7 +532,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -546,7 +542,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "SurfSkinTemp_A_max",
@@ -587,7 +583,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -597,7 +593,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "SurfSkinTemp_A_err",
@@ -643,7 +639,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -653,7 +649,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "EmisIR_A",
@@ -699,7 +695,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -709,7 +705,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "EmisIR_A_ct",
@@ -755,7 +751,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -765,7 +761,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "EmisIR_A_sdev",
@@ -811,7 +807,7 @@
           "Type": "LONGITUDE_DIMENSION"
         }
       ],
-      "ValidRanges": [],
+
       "Scale": 1.0,
       "Offset": 0.0,
       "FillValues": [
@@ -821,7 +817,7 @@
         }
       ],
       "VariableType": "SCIENCE_VARIABLE",
-      "ScienceKeywords": [],
+
       "Sets": [
         {
           "Name": "O3_VMR_D_max",

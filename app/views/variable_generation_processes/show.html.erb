@@ -4,17 +4,7 @@
 
     <div class="row">
       <h4>Statistics</h4>
-      <div class="eui-info-box">
-        <div class="col-4 align-c">
-          <strong>Long Names:</strong> <%= long_names_stats(@statistics) %>
-        </div>
-        <div class="col-4 align-c">
-          <strong>Definitions:</strong> <%= definitions_stats(@statistics) %>
-        </div>
-        <div class="col-4 align-c">
-          <strong>Science Keywords:</strong> <%= science_keywords_stats(@statistics) %>
-        </div>
-      </div>
+      <%= render "#{@operation}_statistics" %>
     </div>
 
     <div class="row">
@@ -61,6 +51,7 @@
             <%= hidden_field_tag 'variables_json', @variables.to_json %>
             <%= hidden_field_tag 'collection_id', @collection_id %>
             <%= hidden_field_tag 'statistics', @statistics.to_json %>
+            <%= hidden_field_tag 'operation', @operation %>
             <%= submit_tag 'Save Variable Drafts', class: 'eui-btn--blue', id: 'submit-save-uvg-drafts' %>
           <% end %>
 

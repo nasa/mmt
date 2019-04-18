@@ -39,7 +39,7 @@ describe 'Naive Variable Generation' do
           response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'zero_stubbed_naive_response.json')
           success_response_body = File.read(response_path)
           uvg_generate_response = cmr_success_response(success_response_body)
-          allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate_stub).and_return(uvg_generate_response)
+          allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate).and_return(uvg_generate_response)
 
           click_on 'Generate Variables'
         end
@@ -53,9 +53,8 @@ describe 'Naive Variable Generation' do
           expect(page).to have_content('Statistics')
 
           within '.eui-info-box' do
-            expect(page).to have_content('Long Names: 0% of 0')
-            expect(page).to have_content('Definitions: 0% of 0')
-            expect(page).to have_content('Science Keywords: 0% of 0')
+            expect(page).to have_content('Long Names found: 0.0% of 0')
+            expect(page).to have_content('Definitions found: 0.0% of 0')
           end
         end
 
@@ -77,7 +76,7 @@ describe 'Naive Variable Generation' do
           response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'small_stubbed_naive_response.json')
           success_response_body = File.read(response_path)
           uvg_generate_response = cmr_success_response(success_response_body)
-          allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate_stub).and_return(uvg_generate_response)
+          allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate).and_return(uvg_generate_response)
 
           click_on 'Generate Variables'
         end
@@ -91,9 +90,8 @@ describe 'Naive Variable Generation' do
           expect(page).to have_content('Statistics')
 
           within '.eui-info-box' do
-            expect(page).to have_content('Long Names: 2% of 16')
-            expect(page).to have_content('Definitions: 9% of 16')
-            expect(page).to have_content('Science Keywords: 13% of 16')
+            expect(page).to have_content('Long Names found: 12.5% of 16')
+            expect(page).to have_content('Definitions found: 56.25% of 16')
           end
         end
 
@@ -133,7 +131,7 @@ describe 'Naive Variable Generation' do
           response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'full_stubbed_naive_response.json')
           success_response_body = File.read(response_path)
           uvg_generate_response = cmr_success_response(success_response_body)
-          allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate_stub).and_return(uvg_generate_response)
+          allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate).and_return(uvg_generate_response)
 
           click_on 'Generate Variables'
         end
@@ -147,9 +145,8 @@ describe 'Naive Variable Generation' do
           expect(page).to have_content('Statistics')
 
           within '.eui-info-box' do
-            expect(page).to have_content('Long Names: 0% of 777')
-            expect(page).to have_content('Definitions: 100% of 777')
-            expect(page).to have_content('Science Keywords: 96% of 777')
+            expect(page).to have_content('Long Names found: 0.0% of 777')
+            expect(page).to have_content('Definitions found: 100.0% of 777')
           end
         end
 

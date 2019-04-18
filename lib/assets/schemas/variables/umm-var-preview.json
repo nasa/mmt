@@ -57,6 +57,9 @@
         }, {
           "key": "Offset"
         }, {
+          "key": "AcquisitionSourceName"
+        },
+        {
           "key": "ValidRanges/index_id",
           "type": "UmmPreviewMultiItems",
           "fields": [
@@ -204,5 +207,6 @@
         }
       ]
     }
+
   ]
 }

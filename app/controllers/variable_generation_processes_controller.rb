@@ -9,8 +9,12 @@ class VariableGenerationProcessesController < ManageVariablesController
     payload[:provider] = current_user.provider_id
     uvg_parameters = { payload: payload }
 
-    response = cmr_client.uvg_generate_stub(uvg_parameters)
-    # response = cmr_client.uvg_generate(uvg_parameters)
+    # response = cmr_client.uvg_generate_stub(uvg_parameters)
+    response = cmr_client.uvg_generate(uvg_parameters, token)
+
+    # temporarily logging all responses
+    # TODO: remove when UVG functionality is stable
+    Rails.logger.debug "UVG Generate response: #{response.inspect}"
 
     if response.success?
       full_response = response.body
@@ -46,8 +50,12 @@ class VariableGenerationProcessesController < ManageVariablesController
     uvg_parameters = { payload: payload }
 
     @operation = "augment_#{augmentation_type}"
-    response = cmr_client.send("uvg_#{@operation}_stub", uvg_parameters)
-    # response = cmr_client.send("uvg_#{@operation}", uvg_parameters)
+    # response = cmr_client.send("uvg_#{@operation}_stub", uvg_parameters)
+    response = cmr_client.send("uvg_#{@operation}", uvg_parameters, token)
+
+    # temporarily logging all responses
+    # TODO: remove when UVG functionality is stable
+    Rails.logger.debug "UVG Augment #{augmentation_type.titleize} response: #{response.inspect}"
 
     if response.success?
       full_response = response.body
@@ -77,7 +85,9 @@ class VariableGenerationProcessesController < ManageVariablesController
 
     import_result, drafts_saved = import_variable_drafts(generated_variables)
 
-    if drafts_saved
+    # TODO: import_result may work slightly differently in SIT. once we are
+    # able to test there we should verify that no other checks on `import_result` are needed
+    if drafts_saved && import_result.failed_instances.blank? && import_result.num_inserts > 0
       Rails.logger.info "User #{current_user.urs_uid} successfully saved #{num_generated_vars} UMM Variable Generation (UVG) variable records generated from collection #{@collection_id} as Variable Drafts!"
 
       redirect_to manage_variables_path, flash: { success: "#{num_generated_vars} variable records generated from collection #{@collection_id} saved as Variable Drafts!" }
@@ -85,6 +95,7 @@ class VariableGenerationProcessesController < ManageVariablesController
       Rails.logger.error "User #{current_user.urs_uid} encountered an error trying to save #{num_generated_vars} UMM Variable Generation (UVG) generated variables. import_result: #{import_result}"
 
       @variables = generated_variables
+      @operation = params[:operation]
       @statistics = JSON.parse(params[:statistics])
 
       flash.now[:error] = "#{num_generated_vars} generated variable records failed to save as Drafts"
@@ -96,7 +107,9 @@ class VariableGenerationProcessesController < ManageVariablesController
 
   def import_variable_drafts(generated_variables)
     total_record_count = generated_variables.count
-    first_generated_var = generated_variables.shift
+    # in case of failure, we need to preserve the original variables
+    vars_to_save = generated_variables.dup
+    first_generated_var = vars_to_save.shift
 
     mass_import_result = nil
 
@@ -104,9 +117,11 @@ class VariableGenerationProcessesController < ManageVariablesController
     drafts_saved = VariableDraft.transaction do
                      first_var = create_single_variable_draft(first_generated_var)
                      Rails.logger.info "User #{current_user.urs_uid} is saving #{total_record_count} Variable Drafts from UMM Variable Generation (UVG) records generated from collection #{@collection_id}. The first variable draft was saved in the transaction: #{first_var.inspect}"
-                     id_to_start = first_var.id + 1
 
-                     mass_import_result = import_remaining_variable_drafts(generated_variables, id_to_start)
+                     return if first_var.id.nil?
+
+                     id_to_start = first_var.id + 1
+                     mass_import_result = import_remaining_variable_drafts(vars_to_save, id_to_start)
                      Rails.logger.info "User #{current_user.urs_uid} is saving #{total_record_count} Variable Drafts from UMM Variable Generation (UVG) records generated from collection #{@collection_id} and saved the rest of the variable drafts. result: #{mass_import_result.inspect}"
                    end
 

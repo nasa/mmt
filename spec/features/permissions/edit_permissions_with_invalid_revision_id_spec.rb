@@ -28,7 +28,7 @@ describe 'Edit collection permissions', reset_provider: true, js: true do
   context 'with invalid revision id' do
     before do
       login
-      collection_permission_response = cmr_fail_response(File.read('spec/fixtures/collection_permissions/invalid_permission_response.json'))
+      collection_permission_response = cmr_fail_response(JSON.parse(File.read('spec/fixtures/collection_permissions/invalid_permission_response.json')))
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_permissions).and_return(collection_permission_response)
 
       visit edit_permission_path(@collection_permission_for_invalid_revision['concept_id'])

@@ -37,6 +37,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
               expect(page).to have_content('Data Type is required')
               expect(page).to have_content('Scale is required')
               expect(page).to have_content('Offset is required')
+              expect(page).to have_content('Acquisition Source Name is required')
             end
           end
 
@@ -59,6 +60,10 @@ describe 'Variable Drafts Forms Field Validations', js: true do
             within '#variable_draft_draft_offset_error' do
               expect(page).to have_content('Offset is required')
             end
+            within '#variable_draft_draft_acquisition_source_name_error' do
+              expect(page).to have_content('Acquisition Source Name is required')
+            end
+
           end
         end
       end
@@ -72,6 +77,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
           select 'byte', from: 'Data Type'
           fill_in 'Scale', with: '2'
           fill_in 'Offset', with: '5'
+          select 'ATM', from: 'Acquisition Source Name'
 
           within '.nav-top' do
             click_on 'Save'
@@ -89,6 +95,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
           expect(page).to have_field('Long Name', with: 'Test Var Long Long Name')
           expect(page).to have_field('Scale', with: '2.0')
           expect(page).to have_field('Offset', with: '5.0')
+          expect(page).to have_field('Acquisition Source Name', with: 'ATM')
         end
       end
     end
@@ -112,6 +119,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
           expect(page).to have_css('#variable_draft_draft_name_error', text: 'Name is required')
           expect(page).to have_css('#variable_draft_draft_long_name_error', text: 'Long Name is required')
+
         end
       end
 

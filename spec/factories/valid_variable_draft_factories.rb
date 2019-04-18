@@ -219,7 +219,10 @@ FactoryGirl.define do
           'Topic': 'ATMOSPHERE',
           'Term': 'ATMOSPHERIC TEMPERATURE'
         }
-      ]
-    }}
+      ],
+      "AcquisitionSourceName": 'ATM'
+    }
+  }
+
   end
 end

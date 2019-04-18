@@ -28,7 +28,7 @@ describe 'UVG Augmentation requests', js: true do
         response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'full_stubbed_naive_response.json')
         success_response_body = File.read(response_path)
         uvg_generate_response = cmr_success_response(success_response_body)
-        allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate_stub).and_return(uvg_generate_response)
+        allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate).and_return(uvg_generate_response)
 
         click_on 'Generate Variables'
       end
@@ -40,9 +40,8 @@ describe 'UVG Augmentation requests', js: true do
         expect(page).to have_content('Statistics')
 
         within '.eui-info-box' do
-          expect(page).to have_content('Long Names: 0% of 777')
-          expect(page).to have_content('Definitions: 100% of 777')
-          expect(page).to have_content('Science Keywords: 96% of 777')
+          expect(page).to have_content('Long Names found: 0.0% of 777')
+          expect(page).to have_content('Definitions found: 100.0% of 777')
         end
 
         within '.uvg-pagination-header' do
@@ -69,10 +68,10 @@ describe 'UVG Augmentation requests', js: true do
         context 'when submitting to Augment with Science Keywords' do
           before do
             # stubbing the naive endpoint until it is live and we can determine if we should use VCR
-            response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'full_stubbed_naive_response.json')
+            response_path = File.join(Rails.root, 'spec', 'fixtures', 'variable_generation', 'full_stubbed_augment_keywords_response.json')
             success_response_body = File.read(response_path)
             uvg_augment_keywords_response = cmr_success_response(success_response_body)
-            allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_augment_keywords_stub).and_return(uvg_augment_keywords_response)
+            allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_augment_keywords).and_return(uvg_augment_keywords_response)
 
             # select augment with science keywords
             choose 'augmentation_type_keywords'
@@ -84,9 +83,8 @@ describe 'UVG Augmentation requests', js: true do
             expect(page).to have_content('Statistics')
 
             within '.eui-info-box' do
-              expect(page).to have_content('Long Names: 0% of 777')
-              expect(page).to have_content('Definitions: 100% of 777')
-              expect(page).to have_content('Science Keywords: 96% of 777')
+              expect(page).to have_content('Keywords derived from UMM: 12.48% of 777')
+              expect(page).to have_content('Keywords derived from GCMD: 74.77% of 777')
             end
           end
 
