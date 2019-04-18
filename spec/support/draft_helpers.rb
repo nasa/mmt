@@ -837,5 +837,48 @@ module Helpers
         page.execute_script(script)
       end
     end
+
+    def add_archive_and_distribution_information
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_archive_and_distribution_information' do
+        within '.multiple.file-archive-informations' do
+          fill_in 'Format', with: 'jpeg'
+          select 'Native', from: 'Format Type'
+          fill_in 'Average File Size', with: '2'
+          select 'MB', from: 'Average File Size Unit'
+          fill_in 'Total Collection File Size', with: '15'
+          select 'GB', from: 'Total Collection File Size Unit'
+          fill_in 'Description', with: 'A file archive information description'
+
+          click_on 'Add another File Archive Information'
+          within first('.multiple-item-1') do
+            fill_in 'Format', with: 'kml'
+            select 'Native', from: 'Format Type'
+            fill_in 'Average File Size', with: '10'
+            select 'MB', from: 'Average File Size Unit'
+            script = '$("#draft_archive_and_distribution_information_file_archive_information_1_ByDate").click();'
+            page.execute_script script
+            fill_in 'Total Collection File Size Begin Date', with: '2015-07-01T00:00:00Z'
+          end
+        end
+        within '.multiple.file-distribution-informations' do
+          fill_in 'Format', with: 'binary'
+          select 'Supported', from: 'Format Type'
+          within '.multiple.simple-multiple.media' do
+            within '.multiple-item-0' do
+              find('.media').set 'disc'
+              click_on 'Add another Media'
+            end
+            within '.multiple-item-1' do
+              find('.media').set 'file'
+            end
+          end
+          fill_in 'Average File Size', with: '1'
+          select 'MB', from: 'Average File Size Unit'
+          fill_in 'Description', with: 'A file distribution information description'
+          fill_in 'Fees', with: 'File archive information fees'
+        end
+
+      end
+    end
   end
 end

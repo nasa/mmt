@@ -190,6 +190,11 @@ $(document).ready ->
       # UseConstraintsType is the only place a 'not' validation is used
       # so this is a very specific message
       when 'not' then 'License Url and License Text cannot be used together'
+      # In case of Average File Size is set but no Average File Size Unit was selected
+      # and also in case of Total Collection File Size and Total Collection File Size Unit,
+      # we only want this simple message instead of the raw message:
+#     # 'should have property TotalCollectionFileSizeUnit when property TotalCollectionFileSize is present'
+      when 'dependencies' then "#{field} is required"
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
@@ -277,7 +282,9 @@ $(document).ready ->
 
     # Hide individual required errors from an anyOf constraint
     # So we don't fill the form with errors that don't make sense to the user
-    if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1
+    # Except ArchiveAndDistributionInformation has 'anyOf' constraint to the child element FileArchiveInformation and
+    # FileDistributionInformation which have required field 'Format'
+    if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1 && !(error.dataPath.indexOf('ArchiveAndDistributionInformation') > -1 && error.params['missingProperty'] == 'Format')
       error = null
       return
 
@@ -453,6 +460,15 @@ $(document).ready ->
 
     errors
 
+  addIfNotAlready = (errorArray, newError) ->
+    exist = false
+    for error in errorArray
+      if error.id == newError.id && error.keyword == newError.keyword
+        exist = true
+    if !exist && $("##{newError.id}").length > 0
+      errorArray.push newError
+    errorArray
+
   validatePage = (opts) ->
     $('.validation-error').remove()
     $('.summary-errors').remove()
@@ -501,8 +517,15 @@ $(document).ready ->
 
         if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1
           # don't duplicate errors
-          inlineErrors.push error if $("##{error.id}").length > 0
-          summaryErrors.push error if $("##{error.id}").length > 0
+          # Because ArchiveAndDistributionInformation has 'anyOf' child elements,
+          # error from the schema validator can be duplicated, so add an error to
+          # the error arrays only if not already exist
+          if error.id.match /^draft_archive_and_distribution_information_/i
+            addIfNotAlready(inlineErrors, error)
+            addIfNotAlready(summaryErrors, error)
+          else
+            inlineErrors.push error if $("##{error.id}").length > 0
+            summaryErrors.push error if $("##{error.id}").length > 0
 
     if inlineErrors.length > 0 and opts.showInline
       displayInlineErrors inlineErrors

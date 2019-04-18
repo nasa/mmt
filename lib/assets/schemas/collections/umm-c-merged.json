@@ -1938,6 +1938,248 @@
         }
       },
       "required": ["Category"]
+    },
+    "ArchiveDistributionFormatTypeEnum": {
+      "description": "Defines the possible values of wether or not the Archive or Distribution file format is a native or supported format.",
+      "type": "string",
+      "enum": ["Native", "Supported"]
+    },
+    "ArchiveDistributionUnitEnum": {
+      "description": "Defines the possible values for the archive and distribution size units.",
+      "type": "string",
+      "enum": ["KB", "MB", "GB", "TB", "PB", "NA"]
+    },
+    "DistributionMediaType": {
+      "description": "This element defines the media by which the end user can obtain the distributable item. Examples of media include: CD-ROM, 9 track tape, diskettes, hard drives, online, transparencies, hardcopy, etc.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "FileArchiveInformationType": {
+      "description": "This element defines a single archive artifact which a data provider would like to inform an end user that it exists.",
+      "anyOf": [{
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Format": {
+            "description": "This element defines a single format for an archival artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "FormatType": {
+            "description": "Allows the provider to state whether the archivable item's format is its native format or another supported format.",
+            "$ref": "#/definitions/ArchiveDistributionFormatTypeEnum"
+          },
+          "AverageFileSize": {
+            "description": "An approximate average size of the archivable item. This gives an end user an idea of the magnitude for each archivable file if more than 1 exists.",
+            "type": "number"
+          },
+          "AverageFileSizeUnit": {
+            "description": "Unit of measure for the average file size.",
+            "$ref": "#/definitions/ArchiveDistributionUnitEnum"
+          },
+          "TotalCollectionFileSize": {
+            "description": "An approximate total size of all of the archivable items within a collection. This gives an end user an idea of the magnitude for all of archivable files combined.",
+            "type": "number"
+          },
+          "TotalCollectionFileSizeUnit": {
+            "description": "Unit of measure for the total collection file size.",
+            "$ref": "#/definitions/ArchiveDistributionUnitEnum"
+          },
+          "Description": {
+            "description": "Provides the data provider a way to convey more information about the archivable item.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          }
+        },
+        "required": ["Format"],
+        "dependencies": {
+          "AverageFileSize": ["AverageFileSizeUnit"],
+          "TotalCollectionFileSize": ["TotalCollectionFileSizeUnit"]
+        }
+      }, {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Format": {
+            "description": "This element defines a single format for an archival artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "FormatType": {
+            "description": "Allows the provider to state whether the archivable item's format is its native format or another supported format.",
+            "$ref": "#/definitions/ArchiveDistributionFormatTypeEnum"
+          },
+          "AverageFileSize": {
+            "description": "An approximate average size of the archivable item. This gives an end user an idea of the magnitude for each archivable file if more than 1 exists.",
+            "type": "number"
+          },
+          "AverageFileSizeUnit": {
+            "description": "Unit of measure for the average file size.",
+            "$ref": "#/definitions/ArchiveDistributionUnitEnum"
+          },
+          "TotalCollectionFileSizeBeginDate": {
+            "description": "The date of which this collection started to collect data.  This date is used by users to be able to calculate the current total collection file size. The date needs to be in the yyyy-MM-ddTHH:mm:ssZ format; for example: 2018-01-01T10:00:00Z.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Provides the data provider a way to convey more information about the archivable item.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          }
+        },
+        "required": ["Format"],
+        "dependencies": {
+          "AverageFileSize": ["AverageFileSizeUnit"],
+          "TotalCollectionFileSizeBeginDate": ["AverageFileSize"]
+        }
+      }]
+    },
+    "FileDistributionInformationType": {
+      "description": "This element defines a single artifact that is distributed by the data provider. This element only includes the distributable artifacts that can be obtained by the user without the user having to invoke a service. These should be documented in the UMM-S specification.",
+      "anyOf": [{
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Format": {
+            "description": "This element defines a single format for a distributable artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "FormatType": {
+            "description": "Allows the provider to state whether the distributable item's format is its native format or another supported format.",
+            "$ref": "#/definitions/ArchiveDistributionFormatTypeEnum"
+          },
+          "Media": {
+            "description": "This element defines the media by which the end user can obtain the distributable item. Each media type is listed separately. Examples of media include: CD-ROM, 9 track tape, diskettes, hard drives, online, transparencies, hardcopy, etc.",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/DistributionMediaType"
+            },
+            "minItems": 1
+          },
+          "AverageFileSize": {
+            "description": "An approximate average size of the distributable item. This gives an end user an idea of the magnitude for each distributable file if more than 1 exists.",
+            "type": "number"
+          },
+          "AverageFileSizeUnit": {
+            "description": "Unit of measure for the average file size.",
+            "$ref": "#/definitions/ArchiveDistributionUnitEnum"
+          },
+          "TotalCollectionFileSize": {
+            "description": "An approximate total size of all of the distributable items within a collection. This gives an end user an idea of the magnitude for all of distributable files combined.",
+            "type": "number"
+          },
+          "TotalCollectionFileSizeUnit": {
+            "description": "Unit of measure for the total collection file size.",
+            "$ref": "#/definitions/ArchiveDistributionUnitEnum"
+          },
+          "Description": {
+            "description": "Provides the data provider a way to convey more information about the distributable item.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "Fees": {
+            "description": "Conveys the price one has to pay to obtain the distributable item.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          }
+        },
+        "required": ["Format"],
+        "dependencies": {
+          "AverageFileSize": ["AverageFileSizeUnit"],
+          "TotalCollectionFileSize": ["TotalCollectionFileSizeUnit"]
+        }
+      }, {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Format": {
+            "description": "This element defines a single format for a distributable artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "FormatType": {
+            "description": "Allows the provider to state whether the distributable item's format is its native format or another supported format.",
+            "$ref": "#/definitions/ArchiveDistributionFormatTypeEnum"
+          },
+          "Media": {
+            "description": "This element defines the media by which the end user can obtain the distributable item. Each media type is listed separately. Examples of media include: CD-ROM, 9 track tape, diskettes, hard drives, online, transparencies, hardcopy, etc.",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/DistributionMediaType"
+            },
+            "minItems": 1
+          },
+          "AverageFileSize": {
+            "description": "An approximate average size of the distributable item. This gives an end user an idea of the magnitude for each distributable file if more than 1 exists.",
+            "type": "number"
+          },
+          "AverageFileSizeUnit": {
+            "description": "Unit of measure for the average file size.",
+            "$ref": "#/definitions/ArchiveDistributionUnitEnum"
+          },
+          "TotalCollectionFileSizeBeginDate": {
+            "description": "The date of which this collection started to collect data.  This date is used by users to be able to calculate the current total collection file size. The date needs to be in the yyyy-MM-ddTHH:mm:ssZ format; for example: 2018-01-01T10:00:00Z.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Provides the data provider a way to convey more information about the distributable item.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "Fees": {
+            "description": "Conveys the price one has to pay to obtain the distributable item.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          }
+        },
+        "required": ["Format"],
+        "dependencies": {
+          "AverageFileSize": ["AverageFileSizeUnit"],
+          "TotalCollectionFileSizeBeginDate": ["AverageFileSize"]
+        }
+      }]
+    },
+    "ArchiveAndDistributionInformationType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This element and all of its sub elements exist for display purposes. It allows a data provider to provide archive and distribution information up front to an end user, to help them decide if they can use the product.",
+      "properties": {
+        "FileArchiveInformation": {
+          "description": "This element defines a single archive artifact which a data provider would like to inform an end user that it exists.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FileArchiveInformationType"
+          },
+          "minItems": 1
+        },
+        "FileDistributionInformation": {
+          "description": "This element defines a single artifact that is distributed by the data provider. This element only includes the distributable artifacts that can be obtained by the user without the user having to invoke a service. These should be documented in the UMM-S specification.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FileDistributionInformationType"
+          },
+          "minItems": 1
+        }
+      },
+      "anyOf": [{
+        "required": ["FileArchiveInformation"]
+      }, {
+        "required": ["FileDistributionInformation"]
+      }]
     }
   },
   "title": "UMM-C",
@@ -2046,13 +2288,9 @@
       "description": "Allows the author to constrain access to the collection. This includes any special restrictions, legal prerequisites, limitations and/or warnings on obtaining collection data. Some words that may be used in this element's value include: Public, In-house, Limited, None. The value field is used for special ACL rules (Access Control Lists (http://en.wikipedia.org/wiki/Access_control_list)). For example it can be used to hide metadata when it isn't ready for public consumption.",
       "$ref": "#/definitions/AccessConstraintsType"
     },
-    "Distributions": {
-      "description": "Describes media options, size, data format, and fees involved in distributing the data from this collection.",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/DistributionType"
-      },
-      "minItems": 0
+    "ArchiveAndDistributionInformation": {
+      "description": "This element and all of its sub elements exist for display purposes. It allows a data provider to provide archive and distribution information up front to an end user, to help them decide if they can use the product.",
+      "$ref": "#/definitions/ArchiveAndDistributionInformationType"
     },
     "PublicationReferences": {
       "description": "Describes key bibliographic citations pertaining to the collection.",

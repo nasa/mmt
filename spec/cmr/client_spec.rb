@@ -60,7 +60,7 @@ describe Cmr::Client do
 
         # for testing logs, we need to put the expectation before the message is logged
         # the first error logging happens in base_client, with just the response body
-        expect(Rails.logger).to receive(:error).with("Cmr::CmrClient Response Error: \"{\\\"errors\\\":[\\\"Token [bad-bad-bad-token-bad-bad-bad-token:somethingsomethingso] does not exist\\\"]}\"")
+        expect(Rails.logger).to receive(:error).with("Cmr::CmrClient Response Error: \"{\\\"errors\\\":[\\\"Token does not exist\\\"]}\"")
 
         response = cmr_client.get_collections({ 'short_name' => 'term' }, 'bad-bad-bad-token-bad-bad-bad-token:somethingsomethingso')
       end

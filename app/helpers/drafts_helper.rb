@@ -4,6 +4,18 @@ module DraftsHelper
     ['Kilometers'],
     ['Millibars']
   ]
+  ArchiveDistributionFormatTypeOptions = [
+    ['Native'],
+    ['Supported']
+  ]
+  ArchiveDistributionUnitOptions = [
+    ['KB'],
+    ['MB'],
+    ['GB'],
+    ['TB'],
+    ['PB'],
+    ['NA']
+  ]
   CollectionDataTypeOptions = [
     ['Science Quality', 'SCIENCE_QUALITY'],
     ['Near Real Time', 'NEAR_REAL_TIME'],

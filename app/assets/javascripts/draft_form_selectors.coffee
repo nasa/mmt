@@ -308,3 +308,23 @@ $(document).ready ->
       when 'NotAvailable'
         $parent.find('.doi-fields.not-available').show()
         $parent.find('.doi-fields.not-available select').val('Not Applicable')
+
+  # Handle Total Collection File Size Selector (in Archive and Distribution Information)
+  $('.total-collection-file-size-select').change ->
+    $parent = $(this).parents('.total-collection-file-size-group')
+    $parent.find('.total-collection-file-size-fields').hide()
+
+    # Clear all fields
+    $parent.find('.total-collection-file-size-fields').find('input, select, textarea').val ''
+
+    # Clear collection file size radio buttons
+    # that aren't the one just selected
+    $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
+
+    # show the selected fields
+    switch $(this).val()
+      when 'BySize'
+        $parent.find('.total-collection-file-size-fields.by-size').show()
+      when 'ByDate'
+        $parent.find('.total-collection-file-size-fields.by-date').show()
+        $parent.find('.total-collection-file-size-fields.by-date select').val('Not Applicable')
