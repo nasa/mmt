@@ -278,11 +278,28 @@ module PreviewCirclesHelper
         field_valid = false
       end
     end
+    other_field = 'FileDistributionInformation'
+    other_field = 'FileArchiveInformation' unless field == 'FileArchiveInformation'
     if field_exist
       circle = invalid_circle(field, draft, form_name, options[:anchor]) unless field_valid
     else
-      circle = empty_circle(field, draft, form_name, options[:anchor], options[:required])
+      required = !archive_and_distribution_sub_field_exist_and_valid(other_field, draft, errors)
+      circle = empty_circle(field, draft, form_name, options[:anchor], required)
     end
     circle
+  end
+
+  def archive_and_distribution_sub_field_exist_and_valid(field, draft, errors)
+    metadata = draft.draft
+    field_exist = metadata.key?('ArchiveAndDistributionInformation') && !metadata['ArchiveAndDistributionInformation'][field].blank?
+    field_valid = true
+    error_fields = errors.map { |error| error[:field] }
+    error_fields += errors.map { |error| error[:parent_field]}
+    if field_exist
+      if error_fields.include?(field)
+        field_valid = false
+      end
+    end
+    field_exist && field_valid
   end
 end
