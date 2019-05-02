@@ -31,6 +31,7 @@ test_results
 /vagrant/.vagrant
 
 /config/database.yml
+/config/secrets.yml
 .jhw-cache
 /cmr/*
 coverage

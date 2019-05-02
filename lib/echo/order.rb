@@ -54,7 +54,7 @@ module Echo
         '(guest)'
       else
         # refactor to a new class in the future if/when it is needed
-        user = @client.get_user_names(@token, owner_guid).parsed_body
+        user = cached_owner
 
         user.fetch('Item', {}).fetch('Name', '')
       end
@@ -89,6 +89,12 @@ module Echo
     end
 
     private
+
+    def cached_owner
+      Rails.cache.fetch("owners.#{owner_guid}", expires_in: 15.minutes) do
+        @client.get_user_names(@token, owner_guid).parsed_body
+      end
+    end
 
     def format_date(date, default: nil)
       DateTime.parse(date).to_s(:echo_format)
