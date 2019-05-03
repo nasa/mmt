@@ -23,15 +23,13 @@ class ProviderOrdersController < ManageCmrController
 
       method = params['cancel'] == 'Yes' ? 'cancelled' : 'closed'
 
+      Rails.logger.info "Starting #{method} Provider Order request sent at Time #{Time.now.to_i}"
       result = if method == 'cancelled'
-                 Rails.logger.info "Starting accept_provider_order_cancellation request sent at Time #{Time.now.to_i}"
                  echo_client.accept_provider_order_cancellation(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
-                 Rails.logger.info "Response from accept_provider_order_cancellation request received at Time #{Time.now.to_i}"
                else
-                 Rails.logger.info "Starting close_provider_order request sent at Time #{Time.now.to_i}"
                  echo_client.close_provider_order(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
-                 Rails.logger.info "Response from close_provider_order request received at Time #{Time.now.to_i}"
                end
+      Rails.logger.info "Response from #{method} Provider Order request received at Time #{Time.now.to_i}"
 
       if result.success?
         Rails.logger.info "#{method.capitalize} Provider Order(s) Success!"
