@@ -12,6 +12,8 @@
         </div>
       </fieldset>
 
+      <%= hidden_field_tag 'previous_request_uuid', "#{request.uuid}" %>
+
       <fieldset>
         <%= button_tag 'Submit', class: 'eui-btn--blue' %>
       </fieldset>

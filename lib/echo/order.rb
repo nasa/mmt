@@ -5,12 +5,16 @@ module Echo
       @token = echo_provider_token
 
       if response.nil?
+        Rails.logger.info "Starting individual get_orders request sent at Time #{Time.now.to_i} with guid #{guid}"
         order_response = @client.get_orders(@token, guid)
+        Rails.logger.info "Response from individual get_orders request received at Time #{Time.now.to_i}"
+
         if order_response.success?
+          Rails.logger.info 'Retrieving individual Order Success!'
           @order = order_response.parsed_body.fetch('Item', {})
         else
           @order = {}
-          Rails.logger.error "Error retrieving order: #{order_response.error_message}"
+          Rails.logger.error "Retrieving individual Order Error: #{order_response.error_message}"
         end
       else
         @order = response
