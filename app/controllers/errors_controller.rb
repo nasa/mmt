@@ -9,10 +9,20 @@ class ErrorsController < ApplicationController
   layout 'error'
 
   def not_found
+    Rails.logger.error "User #{current_user_id} encountered a 404 not found error"
+
     render(status: 404)
   end
 
   def internal_server_error
-    render(status: 500)
+    logger.tagged("#{current_user_id}") do
+      Rails.logger.error "User #{current_user_id} encountered an error at Time #{Time.now.to_i} with request method #{request.request_method} to path #{request.original_fullpath}"
+
+      render(status: 500)
+    end
+  end
+
+  def current_user_id
+    current_user.urs_uid || '(user not logged in)'
   end
 end
