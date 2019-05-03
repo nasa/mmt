@@ -99,7 +99,7 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
-  gem 'chromedriver-helper'
+  gem 'webdrivers'
   gem 'fuubar'
   gem 'launchy'
   gem 'rack_session_access'
