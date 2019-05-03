@@ -62,8 +62,6 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    archive-zip (0.11.0)
-      io-like (~> 0.3.0)
     arel (6.0.4)
     ast (2.4.0)
     autoprefixer-rails (6.3.1)
@@ -99,9 +97,6 @@ GEM
       activesupport (>= 3.0.0)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
-    chromedriver-helper (2.1.0)
-      archive-zip (~> 0.10)
-      nokogiri (~> 1.8)
     chronic (0.10.2)
     coderay (1.1.2)
     coffee-rails (4.1.1)
@@ -145,7 +140,6 @@ GEM
     hike (1.2.3)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
-    io-like (0.3.0)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -314,6 +308,10 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    webdrivers (3.8.0)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (~> 3.0)
     whenever (0.10.0)
       chronic (>= 0.6.3)
     xpath (3.2.0)
@@ -337,7 +335,6 @@ DEPENDENCIES
   capybara
   capybara-screenshot
   carmen
-  chromedriver-helper
   cmr_metadata_preview!
   coffee-rails (~> 4.1.0)
   database_cleaner
@@ -378,6 +375,7 @@ DEPENDENCIES
   unicorn
   vcr
   web-console (~> 2.0)
+  webdrivers
   whenever
 
 BUNDLED WITH
