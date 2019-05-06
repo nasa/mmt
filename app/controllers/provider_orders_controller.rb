@@ -5,12 +5,16 @@ class ProviderOrdersController < ManageCmrController
   def show
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       @provider_order = generate_provider_order(params['id'])
+
+      render :show
     end
   end
 
   def edit
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       @provider_order = generate_provider_order(params['id'])
+
+      render :edit
     end
   end
 
