@@ -23,6 +23,6 @@ class ErrorsController < ApplicationController
   end
 
   def current_user_id
-    current_user.urs_uid || '(user not logged in)'
+    current_user ? current_user.urs_uid : '(user not logged in)'
   end
 end
