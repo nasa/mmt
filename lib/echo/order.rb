@@ -88,7 +88,10 @@ module Echo
 
     def cached_owner
       Rails.cache.fetch("owners.#{owner_guid}", expires_in: 15.minutes) do
-        @client.get_user_names(@token, owner_guid).parsed_body
+        Rails.logger.info "Cache-miss - Starting get_user_names request sent at Time #{Time.now.to_i} with owner_guid #{owner_guid}"
+        result = @client.get_user_names(@token, owner_guid).parsed_body
+        Rails.logger.info "Response from get_user_names request received at Time #{Time.now.to_i}"
+        result
       end
     end
 
