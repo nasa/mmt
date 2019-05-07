@@ -41,7 +41,7 @@ class OrdersController < ManageCmrController
     # Order Guid takes precedence over filters, if an order_guid is present
     # search for that rather than using the filters
     if params['order_guid'].present?
-      Rail.logger.info "User #{current_user.urs_uid} is starting a Track Orders search by order_guid #{params['order_guid']}"
+      Rails.logger.info "User #{current_user.urs_uid} is starting a Track Orders search by order_guid #{params['order_guid']}"
       params['order_guid']
     else
       # Search for orders based on the provided filters
