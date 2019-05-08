@@ -56,7 +56,7 @@
   <%= render 'shared/footer' %>
 
   <% unless Rails.env.test? %>
-    <script src="https://cdn.earthdata.nasa.gov/tophat2/tophat2.js"
+    <script src="<%=Rails.configuration.tophat_url%>"
             id="earthdata-tophat-script"
             data-show-fbm="true"
             data-show-status="true"
