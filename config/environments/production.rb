@@ -104,6 +104,8 @@ Rails.application.configure do
   config.analytics_id = 'UA-62340125-5'
   config.urs_register_url = 'https://urs.earthdata.nasa.gov/users/new'
 
+  config.tophat_url = 'https://cdn.earthdata.nasa.gov/tophat2/tophat2.js'
+
   config.colorize_logging = false
 
   # Google Tag Manager ID for EOSDIS usage stats
