@@ -69,8 +69,6 @@ Rails.application.configure do
   config.echo_env = 'sit'
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
 
-  config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
-
   config.middleware.use RackSessionAccess::Middleware
 
   # config.colorize_logging = false
