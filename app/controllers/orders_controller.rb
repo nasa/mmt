@@ -21,21 +21,48 @@ class OrdersController < ManageCmrController
   end
 
   def search
-    logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
-      @orders = Echo::Orders.new(client: echo_client, echo_provider_token: echo_provider_token, guids: determine_order_guids).orders
+    Timeout.timeout(Rails.configuration.orders_timeout) do
+      logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
+        request_start = Time.new
+        start = Time.new
+        guids = determine_order_guids
+        Rails.logger.info("Elapsed time to retrieve guids for #{guids.count} orders=#{Time.new - start}")
+        start = Time.new
+        @orders = Echo::Orders.new(client: echo_client, echo_provider_token: echo_provider_token, guids: guids).orders
+        Rails.logger.info("Elapsed time to retrieve detailed order infos #{guids.count} orders=#{Time.new - start}")
 
-      # if user_id param is supplied and we're not searching by guid, filter orders by given user_id
-      if params['order_guid'].blank? && params['user_id'].present?
-        @orders.select! { |order| order.owner == params['user_id'] }
+        precache_owner_guids
+
+        # if user_id param is supplied and we're not searching by guid, filter orders by given user_id
+        if params['order_guid'].blank? && params['user_id'].present?
+          @orders.select! {|order| order.owner == params['user_id']}
+        end
+
+        @orders.sort_by!(&:created_date)
+        render :search
+        Rails.logger.info("Elapsed time to search #{guids.count} orders=#{Time.new - request_start}")
       end
-
-      @orders.sort_by!(&:created_date)
-
-      render :search
     end
+  rescue Timeout::Error
+    flash[:alert] = 'The order request timed out retrieving results.  Perhaps limit your criteria to a smaller time frame.'
+    render :index
   end
 
   private
+
+  def precache_owner_guids
+    owner_guids = []
+    @orders.each do |order|
+      owner_guids << order.owner_guid
+    end
+    owner_guids = owner_guids.uniq
+    Rails.logger.info("Precaching #{owner_guids.count} owner guids")
+    result = @echo_client.get_user_names(echo_provider_token, owner_guids).parsed_body
+    result['Item'].each do |item|
+      owner_guid = item['Guid']
+      Rails.cache.write("owners.#{owner_guid}", item)
+    end
+  end
 
   def determine_order_guids
     # Order Guid takes precedence over filters, if an order_guid is present

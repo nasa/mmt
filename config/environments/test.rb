@@ -72,4 +72,8 @@ Rails.application.configure do
   config.middleware.use RackSessionAccess::Middleware
 
   # config.colorize_logging = false
+
+  # Timeout in seconds for searching orders before flashing timeout message.
+  config.orders_timeout = 290
+
 end

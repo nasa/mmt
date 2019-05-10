@@ -69,4 +69,8 @@ Rails.application.configure do
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
 
   config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
+
+  # Timeout in seconds for searching orders before flashing timeout message.
+  config.orders_timeout = 290
+
 end
