@@ -54,5 +54,14 @@ module Echo
         end
       end
     end
+
+    def timeout=(value)
+      connection.options[:timeout] = value
+    end
+
+    def timeout
+      return connection.options[:timeout]
+    end
+
   end
 end
