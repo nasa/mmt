@@ -73,12 +73,6 @@ class ProviderOrdersController < ManageCmrController
         echo_client.resubmit_order(echo_provider_token, params[:id])
       end
 
-      if time_left <= 0
-        flash[:alert] = 'The order request timed out resubmitting order.'
-        render :index
-        return
-      end
-
       if response.error?
         Rails.logger.error "Resubmit Provider Order Error: #{response.inspect}"
         flash[:error] = response.error_message

@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
   before_action :refresh_urs_if_needed, except: [:login, :logout, :refresh_token] # URS login
   before_action :refresh_launchpad_if_needed, except: [:login, :logout] # Launchpad login
   before_action :provider_set?
+  after_action :cleanup_request
+
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -66,8 +68,12 @@ class ApplicationController < ActionController::Base
   helper_method :cmr_client
 
   def echo_client
-    @echo_client ||= Echo::Client.client_for_environment(Rails.configuration.echo_env, Rails.configuration.services)
+    Rails.cache.fetch("echo-client-#{request.uuid}", expires_in: 300.seconds) do
+      Rails.logger.info("requesting echo-client, cache miss for request #{request.uuid}")
+      Echo::Client.client_for_environment(Rails.configuration.echo_env, Rails.configuration.services)
+    end
   end
+
   helper_method :echo_client
 
   def setup_query
@@ -408,5 +414,10 @@ class ApplicationController < ActionController::Base
 
   def launchpad_cookie_name
     Rails.configuration.launchpad_cookie_name
+  end
+
+  def cleanup_request
+    Rails.logger.info("Cleaning up #{request.uuid}")
+    Rails.cache.delete("echo-client-#{request.uuid}")
   end
 end

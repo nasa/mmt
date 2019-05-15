@@ -24,6 +24,7 @@ class OrdersController < ManageCmrController
   end
 
   def search
+    Rails.logger.info("starting request - #{request.uuid} timeout=#{echo_client.timeout}")
     @timeout_duration = echo_client.timeout - 30
     @request_start = Time.new
 
@@ -66,8 +67,8 @@ class OrdersController < ManageCmrController
       return if owner_guids.count.zero?
       owner_guids = owner_guids.uniq
       Rails.logger.info("Precaching #{owner_guids.count} owner guids")
-      @echo_client.timeout = time_left
-      result = @echo_client.get_user_names(echo_provider_token, owner_guids).parsed_body
+      echo_client.timeout = time_left
+      result = echo_client.get_user_names(echo_provider_token, owner_guids).parsed_body
 
       Array.wrap(result['Item']).each do |item|
         owner_guid = item['Guid']

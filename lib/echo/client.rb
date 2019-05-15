@@ -52,6 +52,12 @@ module Echo
       end
     end
 
+    def timeout=(value)
+      @services.each do |service|
+        service.timeout = value
+      end
+    end
+
     def respond_to?(method_name, include_private = false)
       @services.any? { |c| c.respond_to?(method_name, include_private) } || super
     end
