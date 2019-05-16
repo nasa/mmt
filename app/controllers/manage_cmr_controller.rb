@@ -125,6 +125,23 @@ class ManageCmrController < ApplicationController
     redirect_to manage_cmr_path unless @user_is_current_provider_acl_admin || @user_is_system_acl_admin
   end
 
+  #
+  # The 3 helper methods below are used for tracking time spent issuing faraday requests for orders.
+  # Used to setup an initial budget of time allowed to complete requests
+  #
+  # echo_client.timeout as of 5/16/19 is 300 seconds (nginx timeout value), subtracting 30 seconds for any
+  # potential processing, the rest of the remaining time will be used for faraday requests.
+  def init_time_tracking_variables
+    @timeout_duration = echo_client.timeout - 30
+    @request_start = Time.new
+  end
+
+
+  # returns the time remaining for the request to complete for orders, used as a timeout value for faraday connections.
+  def time_left
+    return @timeout_duration - (Time.new - @request_start)
+  end
+
   # cleans up any echo clients created.
   def cleanup_request
     Rails.logger.info("Cleaning up #{request.uuid}")

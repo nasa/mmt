@@ -1,6 +1,6 @@
 # :nodoc:
 class ProviderOrdersController < ManageCmrController
-  include ApplicationHelper
+  include LogTimeSpentHelper
   add_breadcrumb 'Track Orders', :orders_path
 
   def show
@@ -36,7 +36,7 @@ class ProviderOrdersController < ManageCmrController
 
       method = params['cancel'] == 'Yes' ? 'cancelled' : 'closed'
 
-      result = time "Provider Order request" do
+      result = log_time_spent "Provider Order request" do
         if method == 'cancelled'
           echo_client.accept_provider_order_cancellation(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
         else
@@ -64,7 +64,7 @@ class ProviderOrdersController < ManageCmrController
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       authorize :provider_order
 
-      response = time "resubmit_order request" do
+      response = log_time_spent "resubmit_order request" do
         echo_client.timeout = @timeout_duration
         echo_client.resubmit_order(echo_provider_token, params[:id])
       end
@@ -91,7 +91,7 @@ class ProviderOrdersController < ManageCmrController
   private
 
   def generate_provider_order(guid)
-    order_response = time "individual get_orders request in generate_provider_order with #{guid}" do
+    order_response = log_time_spent "individual get_orders request in generate_provider_order with #{guid}" do
       echo_client.timeout = time_left
       echo_client.get_orders(echo_provider_token, guid)
     end
@@ -151,19 +151,4 @@ class ProviderOrdersController < ManageCmrController
       { 'error' => error_message }
     end
   end
-
-  # sets up initial values to track time spent issuing faraday requests.
-  # initial budget of time allowed to complete request is 270 seconds (300-30 see below)
-  # echo_client.timeout as of 5/16/19 is 300 seconds, subtracting 30 seconds for any potential processing,
-  # the rest of the remaining time will be used for faraday requests.
-  def init_time_tracking_variables
-    @timeout_duration = echo_client.timeout - 30
-    @request_start = Time.new
-  end
-
-  # returns the time remaining for the request to complete, used as a timeout value for faraday connections.
-  def time_left
-    return @timeout_duration - (Time.new - @request_start)
-  end
-
 end

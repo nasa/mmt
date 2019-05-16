@@ -9,7 +9,7 @@ require 'prime'
 describe 'Time Helper' do
   context '#executes_block' do
     let(:x) do
-      helper.time 'compute the first 5 prime elements' do
+      helper.log_time_spent 'compute the first 5 prime elements' do
         Prime.first(5)
       end
     end

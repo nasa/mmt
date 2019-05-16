@@ -22,15 +22,4 @@ module ApplicationHelper
 
     content_tag :th, 'Actions', colspan: (actions.count if actions.count > 1)
   end
-
-  # Simple method to time a block and log its elapsed time in logs
-  def time(name, &block)
-    start = Time.new
-    Rails.logger.info("Starting #{name}")
-    return_value = block.call
-    stop = Time.new
-    Rails.logger.info("Finished #{name} - elapsed time is #{stop-start} secs.")
-    return_value
-  end
-
 end

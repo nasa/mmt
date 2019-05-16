@@ -1,6 +1,6 @@
 # :nodoc:
 class OrdersController < ManageCmrController
-  include ApplicationHelper
+  include LogTimeSpentHelper
   add_breadcrumb 'Track Orders', :orders_path
 
   def index
@@ -13,25 +13,29 @@ class OrdersController < ManageCmrController
 
   def show
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
+      init_time_tracking_variables
+      echo_client.timeout = time_left
       @order = Echo::Order.new(client: echo_client, echo_provider_token: echo_provider_token, guid: params['id'])
       add_breadcrumb @order.guid, order_path(@order.guid)
       render :show
     end
+  rescue Faraday::Error::TimeoutError
+    flash.now[:alert] = 'The order request timed out retrieving results.  Limit your search criteria and try again.'
+    render :index
   end
 
   def search
-    Rails.logger.info("starting request - #{request.uuid} timeout=#{echo_client.timeout}")
-    init_time_tracking_variables
-    guids = determine_order_guids
-
-    time "search #{guids.class == Array ? guids.count : 1} orders" do
-      logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
-        time 'time to retrieve details infos' do
+    logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
+      Rails.logger.info("starting request - #{request.uuid} timeout=#{echo_client.timeout}")
+      init_time_tracking_variables
+      guids = determine_order_guids
+      log_time_spent "search #{guids.class == Array ? guids.count : 1} orders" do
+        log_time_spent 'time to retrieve details infos' do
           echo_client.timeout = time_left
           @orders = Echo::Orders.new(client: echo_client, echo_provider_token: echo_provider_token, guids: guids).orders
         end
 
-        time 'time to precache owner guids' do
+        log_time_spent 'time to precache owner guids' do
           precache_owner_guids
         end
 
@@ -43,7 +47,6 @@ class OrdersController < ManageCmrController
         @orders.sort_by!(&:created_date)
         render :search
       end
-
     end
   rescue Faraday::Error::TimeoutError
     flash.now[:alert] = 'The order request timed out retrieving results.  Limit your search criteria and try again.'
@@ -52,25 +55,10 @@ class OrdersController < ManageCmrController
 
   private
 
-  # sets up initial values to track time spent issuing faraday requests.
-  # initial budget of time allowed to complete request is 270 seconds (300-30 see below)
-  # echo_client.timeout as of 5/16/19 is 300 seconds, subtracting 30 seconds for any potential processing,
-  # the rest of the remaining time will be used for faraday requests.
-  def init_time_tracking_variables
-    @timeout_duration = echo_client.timeout - 30
-    @request_start = Time.new
-  end
-
-
-  # returns the time remaining for the request to complete, used as a timeout value for faraday connections.
-  def time_left
-    return @timeout_duration - (Time.new - @request_start)
-  end
-
   # this speeds things up dramatically by collecting all the owner guids and performing 1 query to grab ALL the
   # user info details, it will then cache them and this cache is used further down in the processing.
   def precache_owner_guids
-    time "time to retreive guids" do
+    log_time_spent "time to retreive guids" do
       owner_guids = []
       @orders.each do |order|
         next if order.owner_guid.nil?
@@ -92,7 +80,7 @@ class OrdersController < ManageCmrController
   def determine_order_guids
     # Order Guid takes precedence over filters, if an order_guid is present
     # search for that rather than using the filters
-    time 'determine_order_guids' do
+    log_time_spent 'determine_order_guids' do
       if params['order_guid'].present?
         Rails.logger.info "User #{current_user.urs_uid} is starting a Track Orders search by order_guid #{params['order_guid']}"
         params['order_guid']
@@ -105,7 +93,7 @@ class OrdersController < ManageCmrController
           'to_date' => params['to_date']
         }
 
-        time "User #{current_user.urs_uid} is starting a Track Orders search by filters #{payload.inspect} with a get_provider_order_guids_by_state_date_and_provider" do
+        log_time_spent "User #{current_user.urs_uid} is starting a Track Orders search by filters #{payload.inspect} with a get_provider_order_guids_by_state_date_and_provider" do
           # Request orders from ECHO
           echo_client.timeout = time_left
           order_search_result = echo_client.get_provider_order_guids_by_state_date_and_provider(echo_provider_token, payload)
