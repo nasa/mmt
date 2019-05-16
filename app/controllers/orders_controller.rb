@@ -19,15 +19,9 @@ class OrdersController < ManageCmrController
     end
   end
 
-  def time_left
-    return @timeout_duration - (Time.new - @request_start)
-  end
-
   def search
     Rails.logger.info("starting request - #{request.uuid} timeout=#{echo_client.timeout}")
-    @timeout_duration = echo_client.timeout - 30
-    @request_start = Time.new
-
+    init_time_tracking_variables
     guids = determine_order_guids
 
     time "search #{guids.class == Array ? guids.count : 1} orders" do
@@ -49,6 +43,7 @@ class OrdersController < ManageCmrController
         @orders.sort_by!(&:created_date)
         render :search
       end
+
     end
   rescue Faraday::Error::TimeoutError
     flash[:alert] = 'The order request timed out retrieving results.  Perhaps limit your criteria to a smaller time frame.'
@@ -57,6 +52,22 @@ class OrdersController < ManageCmrController
 
   private
 
+  # sets up initial values to track time spent issuing faraday requests.
+  # echo_client.timeout as of 5/16/19 is 300 seconds, subtracting 30 seconds for any potential processing,
+  # the rest of the remaining time will be used for faraday requests.
+  def init_time_tracking_variables
+    @timeout_duration = echo_client.timeout - 30
+    @request_start = Time.new
+  end
+
+
+  # returns the time remaining for the request to complete, used as a timeout value for faraday connections.
+  def time_left
+    return @timeout_duration - (Time.new - @request_start)
+  end
+
+  # this speeds things up dramatically by collecting all the owner guids and performing 1 query to grab ALL the
+  # user info details, it will then cache them and this cache is used further down in the processing.
   def precache_owner_guids
     time "time to retreive guids" do
       owner_guids = []

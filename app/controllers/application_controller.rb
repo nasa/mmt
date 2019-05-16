@@ -10,8 +10,6 @@ class ApplicationController < ActionController::Base
   before_action :refresh_urs_if_needed, except: [:login, :logout, :refresh_token] # URS login
   before_action :refresh_launchpad_if_needed, except: [:login, :logout] # Launchpad login
   before_action :provider_set?
-  after_action :cleanup_request
-
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -67,6 +65,8 @@ class ApplicationController < ActionController::Base
   end
   helper_method :cmr_client
 
+  # echo_client have request-specific state (namely timeout duration left for request), so need to serve
+  # these objects out per http request.
   def echo_client
     Rails.cache.fetch("echo-client-#{request.uuid}", expires_in: 300.seconds) do
       Rails.logger.info("requesting echo-client, cache miss for request #{request.uuid}")
@@ -416,8 +416,4 @@ class ApplicationController < ActionController::Base
     Rails.configuration.launchpad_cookie_name
   end
 
-  def cleanup_request
-    Rails.logger.info("Cleaning up #{request.uuid}")
-    Rails.cache.delete("echo-client-#{request.uuid}")
-  end
 end

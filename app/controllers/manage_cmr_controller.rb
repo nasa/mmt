@@ -6,6 +6,7 @@ class ManageCmrController < ApplicationController
   before_action :check_if_system_acl_administrator, only: :show
   before_action :check_if_current_provider_acl_administrator, only: :show
   before_action :groups_enabled?
+  after_action :cleanup_request
 
   # These are json respones for ajax calls that user wouldnt get to without being logged in.
   skip_before_action :ensure_user_is_logged_in, only: [
@@ -123,4 +124,11 @@ class ManageCmrController < ApplicationController
     check_if_system_acl_administrator
     redirect_to manage_cmr_path unless @user_is_current_provider_acl_admin || @user_is_system_acl_admin
   end
+
+  # cleans up any echo clients created.
+  def cleanup_request
+    Rails.logger.info("Cleaning up #{request.uuid}")
+    Rails.cache.delete("echo-client-#{request.uuid}")
+  end
+
 end

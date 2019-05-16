@@ -52,6 +52,9 @@ module Echo
       end
     end
 
+    # when setting the timeout to the echo_client, it needs to tell each service
+    # the new timeout value to use for faraday connections, as the echo_client
+    # delegates the operations to these services.
     def timeout=(value)
       @services.each do |service|
         service.timeout = value

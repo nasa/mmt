@@ -59,12 +59,14 @@ module Echo
       end
     end
 
+    # sets the timeout used for faraday connections
     def timeout=(value)
       Rails.logger.info("Setting #{self.class} timeout to #{value}")
       value = 1 if (value <= 0) # not sure how faraday reacts to timeout values of <= 0
       connection.options[:timeout] = value
     end
 
+    # returns the timeouts used by faraday connections
     def timeout
       return connection.options[:timeout]
     end

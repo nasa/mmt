@@ -110,8 +110,4 @@ Rails.application.configure do
 
   # Google Tag Manager ID for EOSDIS usage stats
   config.tag_manager_id = 'GTM-WNP7MLF'
-
-  # Timeout in seconds for searching orders before flashing timeout message.
-  config.orders_timeout = 290
-
 end

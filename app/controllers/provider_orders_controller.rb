@@ -4,8 +4,7 @@ class ProviderOrdersController < ManageCmrController
   add_breadcrumb 'Track Orders', :orders_path
 
   def show
-    @timeout_duration = echo_client.timeout - 30
-    @request_start = Time.new
+    init_time_tracking_variables
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       @provider_order = generate_provider_order(params['id'])
       render :show
@@ -16,8 +15,7 @@ class ProviderOrdersController < ManageCmrController
   end
 
   def edit
-    @timeout_duration = echo_client.timeout - 30
-    @request_start = Time.new
+    init_time_tracking_variables
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       @provider_order = generate_provider_order(params['id'])
 
@@ -29,8 +27,7 @@ class ProviderOrdersController < ManageCmrController
   end
 
   def destroy
-    @timeout_duration = echo_client.timeout - 30
-    @request_start = Time.new
+    init_time_tracking_variables
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       order_guid = params['order_guid']
       provider_tracking_id = params['provider_tracking_id']
@@ -63,8 +60,7 @@ class ProviderOrdersController < ManageCmrController
   end
 
   def resubmit
-    @timeout_duration = echo_client.timeout - 30
-    @request_start = Time.new
+    init_time_tracking_variables
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       authorize :provider_order
 
@@ -156,6 +152,15 @@ class ProviderOrdersController < ManageCmrController
     end
   end
 
+  # sets up initial values to track time spent issuing faraday requests.
+  # echo_client.timeout as of 5/16/19 is 300 seconds, subtracting 30 seconds for any potential processing,
+  # the rest of the remaining time will be used for faraday requests.
+  def init_time_tracking_variables
+    @timeout_duration = echo_client.timeout - 30
+    @request_start = Time.new
+  end
+
+  # returns the time remaining for the request to complete, used as a timeout value for faraday connections.
   def time_left
     return @timeout_duration - (Time.new - @request_start)
   end
