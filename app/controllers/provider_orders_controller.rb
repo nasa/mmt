@@ -10,7 +10,7 @@ class ProviderOrdersController < ManageCmrController
       render :show
     end
   rescue Faraday::Error::TimeoutError
-    flash[:alert] = 'The order request timed out showing the order.'
+    flash.now[:alert] = 'The order request timed out showing the order.'
     render :index
   end
 
@@ -22,7 +22,7 @@ class ProviderOrdersController < ManageCmrController
       render :edit
     end
   rescue Faraday::Error::TimeoutError
-    flash[:alert] = 'The order request timed out editing the order.'
+    flash.now[:alert] = 'The order request timed out editing the order.'
     render :index
   end
 
@@ -55,7 +55,7 @@ class ProviderOrdersController < ManageCmrController
       redirect_to provider_order_path(params['order_guid'])
     end
   rescue Faraday::Error::TimeoutError
-    flash[:alert] = 'The order request timed out deleting the order.'
+    flash.now[:alert] = 'The order request timed out deleting the order.'
     render :index
   end
 
@@ -84,7 +84,7 @@ class ProviderOrdersController < ManageCmrController
       end
     end
   rescue Faraday::Error::TimeoutError
-    flash[:alert] = 'The order request timed out resubmitting order.'
+    flash.now[:alert] = 'The order request timed out resubmitting order.'
     render :index
   end
 
@@ -153,6 +153,7 @@ class ProviderOrdersController < ManageCmrController
   end
 
   # sets up initial values to track time spent issuing faraday requests.
+  # initial budget of time allowed to complete request is 270 seconds (300-30 see below)
   # echo_client.timeout as of 5/16/19 is 300 seconds, subtracting 30 seconds for any potential processing,
   # the rest of the remaining time will be used for faraday requests.
   def init_time_tracking_variables

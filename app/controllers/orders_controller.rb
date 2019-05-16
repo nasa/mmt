@@ -46,13 +46,14 @@ class OrdersController < ManageCmrController
 
     end
   rescue Faraday::Error::TimeoutError
-    flash[:alert] = 'The order request timed out retrieving results.  Perhaps limit your criteria to a smaller time frame.'
+    flash.now[:alert] = 'The order request timed out retrieving results.  Limit your search criteria and try again.'
     render :index
   end
 
   private
 
   # sets up initial values to track time spent issuing faraday requests.
+  # initial budget of time allowed to complete request is 270 seconds (300-30 see below)
   # echo_client.timeout as of 5/16/19 is 300 seconds, subtracting 30 seconds for any potential processing,
   # the rest of the remaining time will be used for faraday requests.
   def init_time_tracking_variables
