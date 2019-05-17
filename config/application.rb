@@ -56,6 +56,9 @@ module Mmt
     config.launchpad_metadata_url = 'https://auth.launchpad-sbx.nasa.gov/unauth/metadata/launchpad-sbx.idp.xml'
     config.launchpad_metadata_url = 'https://auth.launchpad.nasa.gov/unauth/metadata/launchpad.idp.xml' if ENV['launchpad_production'] == 'true'
 
+    # Caches user information in orders for the specified period of time
+    config.orders_user_cache_expiration = 15.minutes
+
     def load_version
       version_file = "#{config.root}/version.txt"
       if File.exist?(version_file)

@@ -110,4 +110,5 @@ Rails.application.configure do
 
   # Google Tag Manager ID for EOSDIS usage stats
   config.tag_manager_id = 'GTM-WNP7MLF'
+
 end

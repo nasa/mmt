@@ -65,9 +65,15 @@ class ApplicationController < ActionController::Base
   end
   helper_method :cmr_client
 
+  # echo_client have request-specific state (namely timeout duration left for request), so need to serve
+  # these objects out per http request.
   def echo_client
-    @echo_client ||= Echo::Client.client_for_environment(Rails.configuration.echo_env, Rails.configuration.services)
+    Rails.cache.fetch("echo-client-#{request.uuid}", expires_in: 300.seconds) do
+      Rails.logger.info("requesting echo-client, cache miss for request #{request.uuid}")
+      Echo::Client.client_for_environment(Rails.configuration.echo_env, Rails.configuration.services)
+    end
   end
+
   helper_method :echo_client
 
   def setup_query
@@ -409,4 +415,5 @@ class ApplicationController < ActionController::Base
   def launchpad_cookie_name
     Rails.configuration.launchpad_cookie_name
   end
+
 end
