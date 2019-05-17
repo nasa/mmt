@@ -4,6 +4,8 @@ class CollectionsController < ManageCollectionsController
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
+  layout 'collection_preview', only: [:show]
+
   add_breadcrumb 'Collections' # there is no collections index action, so not providing a link
 
   def show
