@@ -10,8 +10,8 @@ class ProviderOrdersController < ManageCmrController
       render :show
     end
   rescue Faraday::Error::TimeoutError
-    flash.now[:alert] = 'The order request timed out showing the order.'
-    render :index
+    flash[:alert] = 'The order request timed out showing the order.'
+    redirect_to orders_path
   end
 
   def edit
@@ -22,8 +22,8 @@ class ProviderOrdersController < ManageCmrController
       render :edit
     end
   rescue Faraday::Error::TimeoutError
-    flash.now[:alert] = 'The order request timed out editing the order.'
-    render :index
+    flash[:alert] = 'The order request timed out editing the order.'
+    redirect_to orders_path
   end
 
   def destroy
@@ -55,8 +55,8 @@ class ProviderOrdersController < ManageCmrController
       redirect_to provider_order_path(params['order_guid'])
     end
   rescue Faraday::Error::TimeoutError
-    flash.now[:alert] = 'The order request timed out deleting the order.'
-    render :index
+    flash[:alert] = 'The order request timed out deleting the order.'
+    redirect_to orders_path
   end
 
   def resubmit
@@ -84,8 +84,8 @@ class ProviderOrdersController < ManageCmrController
       end
     end
   rescue Faraday::Error::TimeoutError
-    flash.now[:alert] = 'The order request timed out resubmitting order.'
-    render :index
+    flash[:alert] = 'The order request timed out resubmitting order.'
+    redirect_to orders_path
   end
 
   private
