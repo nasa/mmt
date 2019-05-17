@@ -6,7 +6,7 @@ require 'prime'
 # sometimes it is also necessary to return something.   this test
 # just provides code coverage of this helper method and ensures the
 # expected return value.
-describe 'Time Helper' do
+describe 'Time Spent Helper' do
   context '#executes_block' do
     let(:x) do
       helper.log_time_spent 'compute the first 5 prime elements' do

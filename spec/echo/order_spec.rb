@@ -138,6 +138,15 @@ describe Echo::Order do
       expect(order.client_identity).to eq('client_identity_here')
     end
 
+    it 'echo_client delegates have assigned timeouts' do
+      echo_client.timeout = 50
+      sum = 0
+      echo_client.services.each do |service|
+        sum = sum + service.timeout
+      end
+      expect(sum).to eq(echo_client.services.count*50)
+    end
+
     context 'parses the contact address' do
       # Contact address has 2 phone numbers, bug reported in MMT-1281
       subject { order.contact_address }

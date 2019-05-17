@@ -1,6 +1,7 @@
 module Echo
   # :nodoc:
   class Client
+    attr_reader :services
     def initialize(url, services_configs)
       @base_url = url
 
