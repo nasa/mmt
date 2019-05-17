@@ -127,3 +127,71 @@ ul.sub-field {
     width: 100%;
   }
 }
+
+
+/* ===================================================== *\
+   Collection Preview
+\* ===================================================== */
+// specific to collection previews, with change to display wider view and tab organized content
+
+// .collection-preview {
+//
+// }
+
+#collection-general-overview {
+
+  .collection-title {
+    h1 {
+      float: left;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      margin-top: 0;
+      min-width: 900px;
+    }
+  }
+
+  .collection-dataset-logo {
+    .zzz-item {
+      float: left;
+      width: 60px;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  .collection-short-name {
+    color: #8c8c8c;
+    float: left;
+    margin-top: -10px;
+    width: 80%;
+    min-width: 208px;
+
+    .zzz-label {
+      float: left;
+      line-height: inherit;
+      margin: 0;
+      padding-right: 10px;
+    }
+    .zzz-item {
+      float: left;
+    }
+  }
+
+  .collection-title {
+
+  }
+
+  .collection-abstract {
+    clear: left;
+  }
+}
+
+#data-center-logo {
+  background: none;
+  border: none;
+  float: left;
+  margin-bottom: 10px;
+  padding: 0;
+}
