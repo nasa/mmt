@@ -69,7 +69,7 @@ gem 'whenever', require: false
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
 # make sure to delete the local config when done making changes to merge into master
 # bundle config --delete local.cmr_metadata_preview
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '60ce4a953fd'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', branch: 'MMT-1795'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -99,13 +99,13 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
-  gem 'webdrivers'
   gem 'fuubar'
   gem 'launchy'
   gem 'rack_session_access'
   gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
+  gem 'webdrivers'
 end
 
 group :production do
