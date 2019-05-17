@@ -1,5 +1,6 @@
 <header class="mmt-header" role="eui-banner">
-  <div class="content">
+  <!-- <div class="content"> -->
+  <div class="<%= defined?(wide) && wide ? 'wide-content' : 'content' %>">
     <div class="col-6">
       <div class="eui-masthead-logo eui-application-logo" id="masthead-logo">
         <%= link_to root_path do %>
@@ -26,11 +27,15 @@
           <%= button_to 'Launchpad Test Login', acs_path, method: :post, params: { SAMLResponse: ENV['launchpad_saml_response'] }  %>
         <% end %>
       <% else %>
-        <%= render partial: 'shared/user_info_dropdown', locals: { hide_provider_context: hide_search } %>
+        <div class="row">
+          <%= render partial: 'shared/user_info_dropdown', locals: { hide_provider_context: hide_search } %>
+        </div>
         <% unless hide_search %>
-          <section id="search">
-            <%= render 'shared/search_form' %>
-          </section>
+          <div class="row">
+            <section id="search">
+              <%= render 'shared/search_form' %>
+            </section>
+          </div>
         <% end %>
       <% end %>
     </div>
