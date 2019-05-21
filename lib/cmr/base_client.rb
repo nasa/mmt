@@ -8,6 +8,7 @@ module Cmr
     include Cmr::Util
 
     CLIENT_ID = 'MMT'.freeze
+    NGINX_TIMEOUT = 300
 
     def connection
       @connection ||= build_connection
@@ -16,6 +17,17 @@ module Cmr
     def initialize(root, client_id)
       @root = root
       @client_id = client_id
+    end
+
+    # sets the timeout used for faraday connections
+    def timeout=(value)
+      value = 1 if (value <= 0) # not sure how faraday reacts to timeout values of <= 0
+      connection.options[:timeout] = value
+    end
+
+    # returns the timeouts used by faraday connections
+    def timeout
+      return connection.options[:timeout]
     end
 
     protected
@@ -50,9 +62,6 @@ module Cmr
           req.headers['Client-Id'] = CLIENT_ID
           req.headers['Echo-ClientId'] = CLIENT_ID unless self.class == CmrClient
         end
-
-        # TODO: temporary to figure out UVG timeout issue
-        req.options[:timeout] = 120 if self.class == UvgClient
 
         headers.each do |header, value|
           req.headers[header] = value
@@ -109,8 +118,13 @@ module Cmr
         # conn.response :xml, content_type: /\bxml$/
         conn.response :errors, content_type: /\bhtml$/
 
+        # Set timeout to 300s to match nginx timeout
+        conn.options[:timeout] = NGINX_TIMEOUT - 10
+
         conn.adapter Faraday.default_adapter
       end
     end
+
+
   end
 end

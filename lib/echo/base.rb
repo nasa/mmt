@@ -17,7 +17,7 @@ module Echo
         conn.use :instrumentation
 
         # Set timeout to 300s to match nginx timeout
-        conn.options[:timeout] = NGINX_TIMEOUT
+        conn.options[:timeout] = NGINX_TIMEOUT - 10
 
         conn.adapter Faraday.default_adapter
       end
