@@ -413,7 +413,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
         within '.nav-top' do
           click_on 'Save'
-        endq
+        end
       end
 
       it 'does display validation error messages' do
