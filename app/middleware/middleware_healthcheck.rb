@@ -18,7 +18,6 @@ class MiddlewareHealthcheck
 
         # checks the health of launchpad
         cmr_client = Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
-
         cmr_client.timeout = 10
         begin
           launchpad_healthy = cmr_client.launchpad_healthcheck.body == 'OK'.freeze

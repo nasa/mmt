@@ -27,7 +27,7 @@ module Cmr
 
     # returns the timeouts used by faraday connections
     def timeout
-      return connection.options[:timeout]
+      connection.options[:timeout]
     end
 
     protected
