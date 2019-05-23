@@ -132,7 +132,7 @@ class ManageCmrController < ApplicationController
   # echo_client.timeout as of 5/16/19 is 300 seconds (nginx timeout value), subtracting 30 seconds for any
   # potential processing, the rest of the remaining time will be used for faraday requests.
   def init_time_tracking_variables
-    @timeout_duration = echo_client.timeout - 30
+    @timeout_duration = Echo::Base::NGINX_TIMEOUT - 30
     @request_start = Time.new
   end
 
