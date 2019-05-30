@@ -1,9 +1,3 @@
-<% content_for :header_title do %>
-  <h2><%= display_entry_id(@collection, 'collections') %></h2>
-  <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
-  <%= nrt_badge(@collection) %>
-<% end %>
-
 <% if @user_permissions == 'none' %>
   <div class="eui-banner--danger">
     <p class="eui-banner__message">
@@ -69,10 +63,8 @@
             <% if current_provider?(@provider_id) %>
               <%= link_to 'Clone Collection Record', clone_collection_path, class: 'eui-btn--link' %>
             <% elsif available_provider?(@provider_id) %>
-              <%= link_to 'Clone Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link', data: { provider: @provider_id, record_action: 'clone-collection' } %>
+              <%= link_to 'Clone Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'clone-collection' } %>
             <% end %>
-
-            <%= link_to 'Download XML', '#download-xml-modal', class: 'display-modal download-xml eui-btn--link bar-after bar-before' %>
 
             <% if current_provider?(@provider_id) %>
               <%= link_to 'Delete Collection Record', "#delete-record-modal", class: 'display-modal delete-collection eui-btn--link' %>
@@ -121,7 +113,7 @@
         </div>
       </section>
 
-      <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, editable: false, edsc_url: nil, concept_id: nil, additional_information: nil } %>
+      <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, is_mmt: true, editable: false, edsc_url: nil, concept_id: nil, additional_information: nil } %>
     <% end %>
   </div>
 <% end %>
