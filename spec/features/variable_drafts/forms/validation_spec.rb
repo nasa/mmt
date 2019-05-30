@@ -407,6 +407,37 @@ describe 'Variable Drafts Forms Field Validations', js: true do
       end
     end
 
+    context 'when adding three new fields' do
+      before do
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_0', with: '1'
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_0', with: '1'
+        # for some reason `click_on 'Add another Lat Range'` needs to be executed twice
+        # in this test (same for 'Add another Lon Range'). To avoid calling twice click_on,
+        # using jQuery allowed the buttons to be clicked
+        button_script_lat = "$('button:contains(\"Add another Lat Range\")').click();"
+        page.execute_script(button_script_lat)
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_1', with: '2'
+        button_script_lat = "$('button:contains(\"Add another Lat Range\")').click();"
+        page.execute_script(button_script_lat)
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_2', with: '3'
+        button_script_lon = "$('button:contains(\"Add another Lon Range\")').click();"
+        page.execute_script(button_script_lon)
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_1', with: '2'
+        button_script_lon = "$('button:contains(\"Add another Lon Range\")').click();"
+        page.execute_script(button_script_lon)
+        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_2', with: '3'
+
+        within '.nav-top' do
+          click_on 'Save'
+        end
+      end
+
+      it 'does display validation error messages' do
+        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lat_range_error', text: 'Lat Range has too many items')
+        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lon_range_error', text: 'Lon Range has too many items')
+      end
+    end
+
   end
 
 end

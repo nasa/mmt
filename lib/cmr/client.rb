@@ -31,5 +31,17 @@ module Cmr
     def respond_to?(method_name, include_private = false)
       @clients.any? {|c| c.respond_to?(method_name, include_private)} || super
     end
+
+    # when setting the timeout to the cmr client, it needs to tell each service
+    # the new timeout value to use for faraday connections, as the cmr client
+    # delegates the operations to these services.
+    def timeout=(value)
+      @clients.each do |client|
+        client.timeout = value
+      end
+    end
+
+
+
   end
 end
