@@ -1,4 +1,32 @@
+
 # Functions used for drawing on the preview page's map image
+
+# Do a simple transformation to map lat/lon onto y/x of map image
+convertLatLonToImageXY = (lat, lon, mapWidth, mapHeight) ->
+  y = ((-1 * lat) + 90) * (mapHeight / 180.0)
+  x = (180 + lon) * (mapWidth / 360.0)
+  [x, y]
+
+convertRectanglesForImage = (rectangles, mapWidth, mapHeight) ->
+  convertedRectangles = []
+
+  for rectangle in rectangles
+    [x1, y1] = convertLatLonToImageXY(rectangle.north_bounding_coordinate, rectangle.west_bounding_coordinate, mapWidth, mapHeight)
+    [x2, y2] = convertLatLonToImageXY(rectangle.south_bounding_coordinate, rectangle.east_bounding_coordinate, mapWidth, mapHeight)
+
+    minX = Math.min(x1, x2)
+    maxX = Math.max(x1, x2)
+    minY = Math.min(y1, y2)
+    maxY = Math.max(y1, y2)
+
+    if rectangle.WestBoundingCoordinate > rectangle.EastBoundingCoordinate
+      antiMeridian = convertLatLonToImageXY(0, 180, mapWidth, mapHeight)
+      convertedRectangles.push {minX: minX, minY: minY, maxX: antiMeridian, maxY: maxY}
+      convertedRectangles.push {minX: 0, minY: minY, maxX: minX, maxY: maxY}
+    else
+      convertedRectangles.push {minX, minY, maxX, maxY}
+
+  convertedRectangles
 
 drawPoint = (x, y, dotSize, highlightColor) ->
   pointStyle = "position:absolute;"
@@ -31,20 +59,25 @@ previewSpatial = {}
   $('.preview-spatial').remove()
 
   mapPosition = $('#preview-map').offset()
+  mapWidth = $('#preview-map').width()
+  mapHeight = $('#preview-map').height()
   mapX1 = mapPosition.left
   mapY1 = mapPosition.top
   highlightColor = 'rgba(250,0,0,0.25)'
 
   for point in previewSpatialHash.point_coordinate_array
     dotSize = 5
-    drawPoint point.x + mapX1, point.y + mapY1, dotSize, highlightColor
+    [pointX, pointY] = convertLatLonToImageXY(point.Latitude, point.Longitude, mapWidth, mapHeight)
+    drawPoint(pointX + mapX1, pointY + mapY1, dotSize, highlightColor)
 
-  for rectangle in previewSpatialHash.rectangle_coordinate_array
-    minX = rectangle.min_x + mapX1
-    minY = rectangle.min_y + mapY1
-    maxX = rectangle.max_x + mapX1
-    maxY = rectangle.max_y + mapY1
+  rectanglesToDraw = convertRectanglesForImage(previewSpatialHash.rectangle_coordinate_array, mapWidth, mapHeight)
+  for rectangle in rectanglesToDraw
+    minX = rectangle.minX + mapX1
+    minY = rectangle.minY + mapY1
+    maxX = rectangle.maxX + mapX1
+    maxY = rectangle.maxY + mapY1
     drawRectangle minX, minY, maxX, maxY, highlightColor
+
 
 # on window resize, redraw the spatial preview
 $(window).resize ->
@@ -55,3 +88,19 @@ $(window).resize ->
 # http://stackoverflow.com/questions/544993/official-way-to-ask-jquery-wait-for-all-images-to-load-before-executing-somethin
 $(window).on 'load', ->
   drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
+
+$(document).ready ->
+
+  # Show More / Show Less for Science Keywords in the Preview Gem Overview Tab Table
+  $('.science-keywords-more-toggle').on 'click', (e) ->
+    e.preventDefault()
+
+    $('.science-keywords-more-item, .science-keywords-less-toggle').removeClass('is-invisible')
+    $(this).addClass('is-invisible')
+
+  $('.science-keywords-less-toggle').on 'click', (e) ->
+    e.preventDefault()
+
+    $('.science-keywords-more-item').addClass('is-invisible')
+    $('.science-keywords-more-toggle').removeClass('is-invisible')
+    $(this).addClass('is-invisible')
