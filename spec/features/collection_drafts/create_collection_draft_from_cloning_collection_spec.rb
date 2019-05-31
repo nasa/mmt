@@ -1,7 +1,3 @@
-# MMT-45
-
-require 'rails_helper'
-
 describe 'Create new collection draft from cloning a collection', js: true do
   # short_name = '12345'
   # entry_title = 'Draft Title'
@@ -16,8 +12,6 @@ describe 'Create new collection draft from cloning a collection', js: true do
       visit collection_path(@ingest_response['concept-id'])
 
       click_on 'Clone Collection Record'
-
-      # open_accordions
     end
 
     # it 'creates a new draft' do
@@ -38,18 +32,18 @@ describe 'Create new collection draft from cloning a collection', js: true do
         expect(page).to have_content('Collection Drafts')
       end
 
-      expect(page).to have_content("#{@concept_response.body['EntryTitle']} - Cloned")
+      expect(page).to have_content('Metadata Preview')
     end
 
     it 'appends " - Cloned" to the metadata' do
-      within '.collection-basics' do
+      within '#collection-general-overview' do
         expect(page).to have_content("#{@concept_response.body['EntryTitle']} - Cloned")
       end
     end
 
     it 'removes Short Name from the metadata' do
-      within '.collection-information-preview' do
-        expect(page).to have_no_content('Short Name')
+      within '.collection-short-name' do
+        expect(page).to have_content('<Blank Short Name>')
       end
     end
 
