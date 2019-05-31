@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Collections breadcrumbs and header' do
   before do
     login
@@ -22,13 +20,6 @@ describe 'Collections breadcrumbs and header' do
         expect(page).to have_css('h2.current', text: 'Manage Collections')
       end
     end
-
-    it 'displays the title information' do
-      within 'main header' do
-        expect(page).to have_content("#{@concept_response.body['ShortName']}_#{@concept_response.body['Version']}")
-        expect(page).to have_content(@concept_response.body['EntryTitle'])
-      end
-    end
   end
 
   context 'When viewing a collection draft with NEAR_REAL_TIME' do
@@ -37,10 +28,11 @@ describe 'Collections breadcrumbs and header' do
       visit collection_path(ingest_response['concept-id'])
     end
 
-    it 'displays the NRT badge' do
-      within 'main header' do
-        expect(page).to have_css('span.eui-badge.nrt', text: 'NRT')
-      end
-    end
+    # it 'displays the NRT badge' do
+      # TODO: NRT needs to be with general overview entry title
+      # within 'main header' do
+      #   expect(page).to have_css('span.eui-badge.nrt', text: 'NRT')
+      # end
+    # end
   end
 end
