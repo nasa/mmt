@@ -7,6 +7,7 @@ $(document).ready ->
     helpPath = $(element.target).data('helpPath').split('/')
     title = fixTitle(helpPath[helpPath.length - 1])
     minItems = getMinItems(helpPath)
+    maxItems = getMaxItems(helpPath)
     minLength = getMinLength(helpPath)
     maxLength = getMaxLength(helpPath)
     pattern = getPattern(helpPath)
@@ -22,6 +23,7 @@ $(document).ready ->
     validations = $('#help-modal .validations')
     $(validations).parent().show()
     $("<li>Minimum Items: #{minItems}</li>").appendTo(validations) if minItems?
+    $("<li>Maximum Items: #{maxItems}</li>").appendTo(validations) if maxItems?
     $("<li>Format: #{format}</li>").appendTo(validations) if format?
     $("<li>Minimum Length: #{minLength}</li>").appendTo(validations) if minLength?
     $("<li>Maximum Length: #{maxLength}</li>").appendTo(validations) if maxLength?
@@ -82,6 +84,16 @@ $(document).ready ->
       minItems = getMinItems(ref)
 
     minItems
+
+  getMaxItems = (path) ->
+    schema = getSchemaProperties(path)
+    maxItems = if schema.maxItems? then schema.maxItems else null
+    if !maxItems? and schema['$ref']?
+      ref = schema['$ref'].split('/')
+      ref.shift()
+      maxItems = getMaxItems(ref)
+
+    maxItems
 
   getMinLength = (path) ->
     schema = getSchemaProperties(path)

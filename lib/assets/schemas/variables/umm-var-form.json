@@ -298,20 +298,19 @@
               "items": [
                 {
                   "type": "section",
-                  //"htmlClass": "row",
+                  "htmlClass": "row",
                   "items": [
                     {
-                      "type": "UmmMultiItem",
+                      "type": "UmmSetMultiItem",
                       "key": "/LatRange/items",
                       "multiType": "LatRange",
                       "label": "Lat Range",
-                      //"htmlClass": "row space-top",//these classes don't show up in html
                       "field": true,
+                      "numberItems": 2,
                       "items": [
                         {
                           "type": "section",
-                          "htmlClass": "col-9",
-                          "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "lat-range"}] //  half-width
+                          "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "lat-range"}]
                         }
                       ]
                     }
@@ -319,20 +318,19 @@
                 },
                 {
                   "type": "section",
-                  //"htmlClass": "row",
+                  "htmlClass": "row",
                   "items": [
                     {
-                      "type": "UmmMultiItem",
+                      "type": "UmmSetMultiItem",
                       "key": "/LonRange/items",
                       "multiType": "LonRange",
                       "label": "Lon Range",
-                      //"htmlClass": "row space-top",
                       "field": true,
+                      "numberItems": 2,
                       "items": [
                         {
                           "type": "section",
-                          "htmlClass": "col-9",
-                          "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "lon-range"}] //  half-width
+                          "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "lon-range"}]
                         }
                       ]
                     }
