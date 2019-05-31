@@ -90,12 +90,12 @@ describe 'Bulk updating Platforms' do
         end
 
         it 'does not display the removed platform' do
-          within '.platform-cards' do
+          within '.collection-overview-table' do
             expect(page).to have_content('A340-600')
-            expect(page).to have_content('Aircraft')
+            # expect(page).to have_content('Aircraft')
 
             expect(page).to have_no_content('SMAP')
-            expect(page).to have_no_content('Earth Observation Satellites')
+            # expect(page).to have_no_content('Earth Observation Satellites')
           end
         end
       end
