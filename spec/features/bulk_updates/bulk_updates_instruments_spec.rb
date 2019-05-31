@@ -86,7 +86,7 @@ describe 'Bulk Updating Instruments' do
         end
 
         it 'does not display the removed instrument' do
-          within '.platform-cards' do
+          within '.collection-overview-table' do
             expect(page).to have_no_content('LVIS')
 
             expect(page).to have_content('ADS')
@@ -195,14 +195,12 @@ describe 'Bulk Updating Instruments' do
         end
 
         it 'displays instrument changes' do
-          within '.platform-cards' do
+          within '.collection-overview-table' do
             expect(page).to have_no_content('ADS')
 
             expect(page).to have_content('LVIS')
             expect(page).to have_content('SMAP L-BAND RADIOMETER')
-            # We updated to a value that was already used, so want to make sure
-            # it is now there twice.
-            expect(page).to have_content('ATM', count: 2)
+            expect(page).to have_content('ATM')
           end
         end
       end

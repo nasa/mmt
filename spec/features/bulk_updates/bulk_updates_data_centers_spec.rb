@@ -84,17 +84,17 @@ describe 'Bulk updating Data Centers' do
         expect(page).to have_content(today_string)
       end
 
-      context 'when viewing the collection' do
-        before do
-          visit collection_path(@find_and_remove_ingest_response['concept-id'])
-        end
-
-        it 'no longer has the removed data center' do
-          within '.data-centers-cards' do
-            expect(page).to have_no_content('ESA/ED')
-          end
-        end
-      end
+      # context 'when viewing the collection' do
+      #   before do
+      #     visit collection_path(@find_and_remove_ingest_response['concept-id'])
+      #   end
+      #
+      #   it 'no longer has the removed data center' do
+      #     within '.data-centers-cards' do
+      #       expect(page).to have_no_content('ESA/ED')
+      #     end
+      #   end
+      # end
     end
   end
 
@@ -208,21 +208,21 @@ describe 'Bulk updating Data Centers' do
             expect(page).to have_content(today_string)
           end
 
-          context 'when viewing the collection' do
-            before do
-              visit collection_path(@find_and_update_ingest_response_1['concept-id'])
-            end
-
-            it 'displays the updated data center' do
-              within '.data-centers-cards' do
-                expect(page).to have_no_content('AARHUS-HYDRO')
-
-                expect(page).to have_content('OR-STATE/EOARC')
-                expect(page).to have_content('Eastern Oregon Agriculture Research Center, Oregon State University')
-                # for some reason, cannot test for the 'invisible' url, because it is on '.card-body'[3], even though this can be tested for collection drafts preview
-              end
-            end
-          end
+          # context 'when viewing the collection' do
+          #   before do
+          #     visit collection_path(@find_and_update_ingest_response_1['concept-id'])
+          #   end
+          #
+          #   it 'displays the updated data center' do
+          #     within '.data-centers-cards' do
+          #       expect(page).to have_no_content('AARHUS-HYDRO')
+          #
+          #       expect(page).to have_content('OR-STATE/EOARC')
+          #       expect(page).to have_content('Eastern Oregon Agriculture Research Center, Oregon State University')
+          #       # for some reason, cannot test for the 'invisible' url, because it is on '.card-body'[3], even though this can be tested for collection drafts preview
+          #     end
+          #   end
+          # end
         end
       end
     end
@@ -337,23 +337,23 @@ describe 'Bulk updating Data Centers' do
             expect(page).to have_content(today_string)
           end
 
-          context 'when viewing the collection' do
-            before do
-              visit collection_path(@find_and_update_ingest_response_2['concept-id'])
-            end
-
-            it 'displays the updated data center' do
-              within '.data-centers-cards' do
-                expect(page).to have_no_content('ESA/ED')
-
-                expect(page).to have_content('AARHUS-HYDRO', count: 2)
-                expect(page).to have_content('Hydrogeophysics Group, Aarhus University', count: 2)
-
-                expect(page).to have_no_content('Home Page')
-                expect(page).to have_no_link(title: 'DataCenterURL')
-              end
-            end
-          end
+          # context 'when viewing the collection' do
+          #   before do
+          #     visit collection_path(@find_and_update_ingest_response_2['concept-id'])
+          #   end
+          #
+          #   it 'displays the updated data center' do
+          #     within '.data-centers-cards' do
+          #       expect(page).to have_no_content('ESA/ED')
+          #
+          #       expect(page).to have_content('AARHUS-HYDRO', count: 2)
+          #       expect(page).to have_content('Hydrogeophysics Group, Aarhus University', count: 2)
+          #
+          #       expect(page).to have_no_content('Home Page')
+          #       expect(page).to have_no_link(title: 'DataCenterURL')
+          #     end
+          #   end
+          # end
         end
       end
     end
