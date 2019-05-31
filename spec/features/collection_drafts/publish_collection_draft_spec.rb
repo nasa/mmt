@@ -13,7 +13,6 @@ describe 'Publishing collection draft records', js: true do
       draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
       visit collection_draft_path(draft)
       click_on 'Publish'
-      open_accordions
     end
 
     # after do
@@ -114,7 +113,6 @@ describe 'Publishing collection draft records', js: true do
       draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url, encoded / native id', draft_short_name: 'test short name')
       visit collection_draft_path(draft)
       click_on 'Publish'
-      open_accordions
     end
 
     it 'displays a confirmation message' do
