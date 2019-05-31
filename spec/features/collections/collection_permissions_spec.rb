@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Collections permissions', js: true do
   modal_text = 'requires you change your provider context to MMT_2'
 
