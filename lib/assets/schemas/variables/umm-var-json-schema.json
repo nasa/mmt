@@ -155,7 +155,7 @@
     "IndexRangesType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "The index ranges consist of a LatRange and an LonRange.",
+      "description": "The index ranges consist of a LatRange and a LonRange.",
       "properties": {
         "LatRange": {
           "description": "The LatRange consists of an index range for latitude.",
