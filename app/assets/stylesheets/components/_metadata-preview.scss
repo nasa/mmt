@@ -217,12 +217,13 @@ ul.sub-field {
   .tab-label {
     background: #e5e5e5;
     border: 1px solid #c9dce7;
+    border-radius: 10px;
     color: #7f7f7f;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     margin-right: 5px;
-    padding: 12px 15px;
+    padding: 7px 26px;
     transition: background 0.1s, color 0.1s;
     width: 100%;
   }
@@ -258,6 +259,23 @@ ul.sub-field {
     border: 1px solid #c9dce7;
     display: none;
     padding: 20px 30px 30px;
+
+    ul {
+      list-style: none;
+    }
+
+    .list-item-label {
+      font-weight: bold;
+    }
+
+    .url-list-item-description {
+      color: #95a5a6;
+      font-size: 90%;
+    }
+
+    .panel-title {
+      font-weight: bold;
+    }
   }
 
   .hidden-input:checked + .tab-label + .tab-panel {
