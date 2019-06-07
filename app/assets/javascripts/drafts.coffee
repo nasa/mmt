@@ -338,3 +338,13 @@ $(document).ready ->
     if event.keyCode == 13
       event.preventDefault()
       false
+
+  # Necessary to prevent submission of auto-completed hidden fields.
+  $('.metadata-form, .umm-form').on 'submit', (event) ->
+      # Within the content forms on drafts pages...
+      $('.metadata-form, .umm-form')
+        # Find children tags which have display: none;, but are not eui-accordion__body and
+        # have not been intentionally hidden with type='hidden'
+        .find(':not("[type=\'hidden\']"):not(".eui-accordion__body")[style$="display: none;"]')
+        # Find input children that have not been intentionally hidden with type='hidden'
+        .find(':not("[type=\'hidden\']")input').val("")
