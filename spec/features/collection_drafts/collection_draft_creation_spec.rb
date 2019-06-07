@@ -54,6 +54,18 @@ describe 'Collection Draft creation', js: true do
             expect(page).to have_content('123')
           end
         end
+
+        #TODO: Isolate this test case.
+        context 'when accessing the json view of a collection draft' do
+          before do
+            visit json_collection_draft_path(CollectionDraft.first, :format => 'json')
+
+          end
+
+          it 'returns the json' do
+            expect(page).to have_content('123')
+          end
+        end
       end
     end
 
