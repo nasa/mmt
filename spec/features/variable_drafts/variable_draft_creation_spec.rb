@@ -35,6 +35,16 @@ describe 'Variable Draft creation' do
       it 'displays a confirmation message' do
         expect(page).to have_content('Variable Draft Created Successfully!')
       end
+
+      context 'when accessing a variable draft\'s json' do
+        before do
+          visit variable_draft_path(VariableDraft.first, format: 'json')
+        end
+
+        it 'displays json' do
+          expect(page).to have_content('test var draft')
+        end
+      end
     end
   end
 end

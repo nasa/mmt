@@ -37,6 +37,16 @@ describe 'Service Draft creation' do
       it 'displays a confirmation message' do
         expect(page).to have_content('Service Draft Created Successfully!')
       end
+
+      context 'when accessing a service draft\'s json' do
+        before do
+          visit service_draft_path(ServiceDraft.first, format: 'json')
+        end
+
+        it 'displays json' do
+          expect(page).to have_content('test service draft')
+        end
+      end
     end
   end
 end

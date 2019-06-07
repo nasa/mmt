@@ -54,6 +54,16 @@ describe 'Collection Draft creation', js: true do
             expect(page).to have_content('123')
           end
         end
+
+        context 'when accessing a collection draft\'s json' do
+          before do
+            visit collection_draft_path(CollectionDraft.first, format: 'json')
+          end
+
+          it 'returns the json' do
+            expect(page).to have_content('123')
+          end
+        end
       end
     end
 
