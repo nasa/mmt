@@ -104,3 +104,17 @@ $(document).ready ->
     $('.science-keywords-more-item').addClass('is-invisible')
     $('.science-keywords-more-toggle').removeClass('is-invisible')
     $(this).addClass('is-invisible')
+
+  $('.tab-label').on 'click', (e) ->
+    $('.tab-label').removeClass('active')
+    $currentTab = $(this)
+    $currentTab.addClass('active')
+    panelId = $currentTab.attr('for')
+    $('.tab-panel').addClass('is-invisible')
+    $('#' + panelId).removeClass('is-invisible')
+
+    # is-invisible class is not working for the spatial box
+    if panelId == 'overview-panel'
+      $('.preview-spatial').removeClass('is-invisible')
+    else
+      $('.preview-spatial').addClass('is-invisible')
