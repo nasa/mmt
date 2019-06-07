@@ -25,6 +25,10 @@ class DraftPolicy < ApplicationPolicy
     user.user.provider_id == target.provider_id
   end
 
+  def show_json?
+    show?
+  end
+
   # :nodoc
   class Scope < Scope
     def resolve
