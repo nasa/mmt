@@ -24,17 +24,18 @@ convertRectanglesForImage = (rectangles, mapWidth, mapHeight) ->
       convertedRectangles.push {minX: minX, minY: minY, maxX: antiMeridian, maxY: maxY}
       convertedRectangles.push {minX: 0, minY: minY, maxX: minX, maxY: maxY}
     else
-      convertedRectangles.push {minX, minY, maxX, maxY}
+      convertedRectangles.push {minX: minX, minY: minY, maxX: maxX, maxY: maxY}
 
   convertedRectangles
 
 drawPoint = (x, y, dotSize, highlightColor) ->
   pointStyle = "position:absolute;"
-  pointStyle += "width:#{dotSize}px;"
-  pointStyle += "height:#{dotSize}px;"
-  pointStyle += "top:#{y}px;"
-  pointStyle += "left:#{x}px;"
-  pointStyle += "background:#{highlightColor}"
+  # Use this form because some setup (dev laptop) is having issue compiling javascript by Uglifier
+  pointStyle += "width:" + dotSize + "px;"
+  pointStyle += "height:" + dotSize + "px;"
+  pointStyle += "top:" + y + "px;"
+  pointStyle += "left:" + x + "px;"
+  pointStyle += "background:" + highlightColor
   $('<div />',
     class: 'preview-spatial',
     style: pointStyle).appendTo($('body')
@@ -42,11 +43,12 @@ drawPoint = (x, y, dotSize, highlightColor) ->
 
 drawRectangle = (minX, minY, maxX, maxY, highlightColor) ->
   rectangleStyle = "position:absolute;"
-  rectangleStyle += "width:#{maxX - minX}px;"
-  rectangleStyle += "height:#{maxY - minY}px;"
-  rectangleStyle += "top:#{minY}px;"
-  rectangleStyle += "left:#{minX}px;"
-  rectangleStyle += "background:#{highlightColor}"
+  # Use this form because some setup (dev laptop) is having issue compiling javascript by Uglifier
+  rectangleStyle += "width:" + (maxX - minX) + "px;"
+  rectangleStyle += "height:" + (maxY - minY) + "px;"
+  rectangleStyle += "top:" + minY + "px;"
+  rectangleStyle += "left:" + minX + "px;"
+  rectangleStyle += "background:" + highlightColor
   $('<div />',
     class: 'preview-spatial',
     style: rectangleStyle).appendTo($('body')
@@ -115,6 +117,6 @@ $(document).ready ->
 
     # is-invisible class is not working for the spatial box
     if panelId == 'overview-panel'
-      $('.preview-spatial').removeClass('is-invisible')
+      drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
     else
-      $('.preview-spatial').addClass('is-invisible')
+      $('.preview-spatial').remove()

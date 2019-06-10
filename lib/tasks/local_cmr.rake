@@ -117,6 +117,7 @@ namespace :cmr do
       begin
         puts "\nCompiling CoffeeScript..."
 
+        # list of scripts used for preview gem
         required_js_assets = %w(cards preview)
 
         files_to_compile = []
