@@ -2,7 +2,7 @@
 class BaseDraftsController < DraftsController
   before_action :add_top_level_breadcrumbs
   before_action :set_forms, only: :new
-  before_action :set_resource, only: [:show, :edit, :update, :destroy, :show_json]
+  before_action :set_resource, only: [:show, :edit, :update, :destroy]
 
   def index
     resources = policy_scope(resource_class).order('updated_at DESC').page(params[:page]).per(RESULTS_PER_PAGE)
