@@ -202,92 +202,6 @@ ul.sub-field {
   padding: 0;
 }
 
-//.collection-tabs {
-//  display: flex;
-//  flex-wrap: wrap;
-//  max-width: 100%;
-//  // background: #efefef;
-//  // box-shadow: 0 48px 80px -32px rgba(0,0,0,0.3);
-//
-//  .hidden-input {
-//    position: absolute;
-//    opacity: 0;
-//  }
-//
-//  .tab-label {
-//    background: #e5e5e5;
-//    border: 1px solid #c9dce7;
-//    border-radius: 10px;
-//    color: #7f7f7f;
-//    cursor: pointer;
-//    font-size: 16px;
-//    font-weight: bold;
-//    margin-right: 5px;
-//    padding: 7px 26px;
-//    transition: background 0.1s, color 0.1s;
-//    width: 100%;
-//  }
-//
-//  .tab-label:hover {
-//    background: #d8d8d8;
-//  }
-//
-//  .hidden-input:focus + .tab-label {
-//    box-shadow: inset 0px 0px 0px 3px #2aa1c0;
-//    z-index: 1;
-//  }
-//
-//  .hidden-input:checked + .tab-label {
-//    background: #fff;
-//    color: #000;
-//    border: 1px solid #c9dce7;
-//    border-bottom: 2px solid #fff;
-//  }
-//
-//  @media (min-width: 600px) {
-//    .tab-label {
-//      width: auto;
-//    }
-//
-//    .tab-panel {
-//      order: 99;
-//    }
-//  }
-//
-//  .tab-panel {
-//    background: #fff;
-//    border: 1px solid #c9dce7;
-//    display: none;
-//    padding: 20px 30px 30px;
-//
-//    ul {
-//      list-style: none;
-//    }
-//
-//    .list-item-label {
-//      font-weight: bold;
-//    }
-//
-//    .url-list-item-description {
-//      color: #95a5a6;
-//      font-size: 90%;
-//    }
-//
-//    .panel-title {
-//      font-weight: bold;
-//    }
-//  }
-//
-//  .hidden-input:checked + .tab-label + .tab-panel {
-//    display: block;
-//    min-width: 100%
-//  }
-//
-//  img {
-//    padding: 0;
-//  }
-//}
-
 #collection-preview-tabs {
   .collection-tabs-container {
     border-bottom: 1px solid #c9dce7;
@@ -335,17 +249,31 @@ ul.sub-field {
     border-style: solid;
     border-color: #c9dce7;
 
-    .tab-panel {
-      background: #fff;
-      // border: 1px solid #c9dce7;
-      // display: none;
-      padding: 20px 30px 30px;
-    }
-
     img {
       padding: 0;
     }
 
+    .tab-panel {
+      background: #fff;
+      padding: 20px 30px 30px;
+
+      ul {
+        list-style: none;
+      }
+
+      .list-item-label {
+        font-weight: bold;
+      }
+
+      .url-list-item-description {
+        color: #95a5a6;
+        font-size: 90%;
+      }
+
+      .panel-title {
+        font-weight: bold;
+      }
+    }
 
   }
 }
