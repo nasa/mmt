@@ -55,10 +55,10 @@ describe 'Collection Draft creation', js: true do
           end
         end
 
-        #TODO: Isolate this test case.
+        #TODO: Isolate this test case elsewhere.
         context 'when accessing the json view of a collection draft' do
           before do
-            visit json_collection_draft_path(CollectionDraft.first, :format => 'json')
+            visit collection_draft_path(CollectionDraft.first, :format => 'json')
 
           end
 

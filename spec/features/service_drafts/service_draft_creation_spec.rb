@@ -38,10 +38,10 @@ describe 'Service Draft creation' do
         expect(page).to have_content('Service Draft Created Successfully!')
       end
 
-      #TODO: Isolate this test case.
+      #TODO: Isolate this test case elsewhere.
       context 'when accessing service draft json' do
         before do
-          visit json_service_draft_path(ServiceDraft.first, :format => 'json')
+          visit service_draft_path(ServiceDraft.first, :format => 'json')
         end
 
         it 'displays json' do

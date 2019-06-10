@@ -36,10 +36,10 @@ describe 'Variable Draft creation' do
         expect(page).to have_content('Variable Draft Created Successfully!')
       end
 
-      #TODO: Isolate this test case.
+      #TODO: Isolate this test case elsewhere.
       context 'when accessing draft json' do
         before do
-          visit json_variable_draft_path(VariableDraft.first, :format => 'json')
+          visit variable_draft_path(VariableDraft.first, :format => 'json')
         end
 
         it 'displays json' do

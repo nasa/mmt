@@ -21,19 +21,6 @@ class BaseDraftsController < DraftsController
     add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
   end
 
-  #Method to provide programmatic access to _draft JSON.
-  def show_json
-    set_resource
-    if params[:not_authorized_request_params]
-      @not_authorized_request = params[:not_authorized_request_params]
-    else
-      authorize get_resource
-    end
-
-    render plain: JSON.pretty_generate(get_resource.draft)
-  end
-
-
   def new
     set_resource(resource_class.new(provider_id: current_user.provider_id, user: current_user, draft: {}))
 

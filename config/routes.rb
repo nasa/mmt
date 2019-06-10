@@ -98,22 +98,18 @@ Rails.application.routes.draw do
   get '/services/:id/clone' => 'services#clone', as: 'clone_service'
   get '/services/:id/download_json(/:revision_id)' => 'services#download_json', as: 'download_json_service'
 
-  get '/variable_drafts/:id.:format' => 'variable_drafts#show_json', as: 'json_variable_draft', :constraints => {:format => "json"}
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
       get 'edit', path: 'edit(/:form)'
     end
   end
 
-  get '/service_drafts/:id.:format' => 'service_drafts#show_json', as: 'json_service_draft', :constraints => {:format => "json"}
   resources :service_drafts, controller: 'service_drafts', draft_type: 'ServiceDraft' do
     member do
       get 'edit', path: 'edit(/:form)'
     end
   end
 
-
-  get '/collection_drafts/:id.:format' => 'collection_drafts#show_json', as: 'json_collection_draft', :constraints => {:format => "json"}
   resources :collection_drafts, controller: 'collection_drafts', draft_type: 'CollectionDraft', as: 'collection_drafts' do
     member do
       get 'edit', path: 'edit(/:form)'
