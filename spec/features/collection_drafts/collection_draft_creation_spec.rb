@@ -59,7 +59,6 @@ describe 'Collection Draft creation', js: true do
         context 'when accessing a collection draft\'sß json' do
           before do
             visit collection_draft_path(CollectionDraft.first, :format => 'json')
-
           end
 
           it 'returns the json' do
