@@ -32,8 +32,6 @@ describe 'Metadata information preview' do
         save_screenshot
         within '.collection-general-overview' do
           expect(page).to have_content('Metadata Preview')
-          expect(page).to have_content('293768_The Mystique')
-          expect(page).to have_content('292317_Principal Security Engineer')
           expect(page).to have_content('This is a long description of the collection')
         end
       end

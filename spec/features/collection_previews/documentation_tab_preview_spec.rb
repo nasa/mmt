@@ -9,7 +9,7 @@ describe 'Documentation Tab preview' do
       end
 
       it 'does not display metadata' do
-        expect(page).to have_content('Documentation is not available for this collection.')
+        expect(page).to have_content('Documentation information is not available for this collection.')
       end
 
     end

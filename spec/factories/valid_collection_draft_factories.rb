@@ -3,8 +3,8 @@ require 'faker'
 FactoryGirl.define do
   factory :full_collection_draft, class: CollectionDraft do
     transient do
-      draft_short_name '293768_The Mystique'
-      draft_entry_title '292317_Principal Security Engineer'
+      draft_short_name nil
+      draft_entry_title nil
       version nil
       collection_data_type nil
     end
