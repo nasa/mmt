@@ -37,7 +37,7 @@ describe 'Variable Draft creation' do
       end
 
       #TODO: Isolate this test case elsewhere.
-      context 'when accessing draft json' do
+      context 'when accessing a variable draft\'s json' do
         before do
           visit variable_draft_path(VariableDraft.first, :format => 'json')
         end

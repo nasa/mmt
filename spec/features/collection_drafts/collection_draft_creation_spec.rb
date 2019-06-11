@@ -56,7 +56,7 @@ describe 'Collection Draft creation', js: true do
         end
 
         #TODO: Isolate this test case elsewhere.
-        context 'when accessing the json view of a collection draft' do
+        context 'when accessing a collection draft\'sß json' do
           before do
             visit collection_draft_path(CollectionDraft.first, :format => 'json')
 
