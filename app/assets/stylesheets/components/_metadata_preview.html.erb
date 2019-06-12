@@ -1,0 +1,72 @@
+<% editable = false unless editable %>
+<% is_mmt = false unless is_mmt %>
+<div class="row collection wide-content" itemscope itemtype="http://schema.org/Dataset">
+  <div class="wide-content-inside">
+    <meta itemprop="name" content ="<%= display_entry_title(metadata) %>"/>
+    <meta itemprop="alternateName" content ="<%= display_entry_id(metadata, 'collection') %>"/>
+    <meta itemprop="version" content="<%= metadata['Version']%>"/>
+    <section class="collection-preview">
+      <section id="collection-general-overview" class="collection-general-overview">
+        <% if editable %>
+          <h2 class="draft-preview-label">Metadata Preview</h2>
+        <% end %>
+        
+        <div class="collection-dataset-logo">
+          <div class="zzz-item">
+            <img alt="Data center logo" id="data-center-logo" src="https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/meatball_hover_2x.png">
+          </div>
+        </div>
+
+        <div class="collection-short-name">
+          <div class="zzz-label">Short Name: </div>
+          <div class="zzz-item"><%= display_short_name(metadata) %></div>
+        </div>
+
+        <div class="collection-title">
+          <div class="zzz-item">
+            <h1><%= display_entry_title(metadata) %></h1>
+          </div>
+          <div class="title-nrt-badge"><%= nrt_badge(metadata) %></div>
+        </div>
+
+        <div class="collection-abstract">
+          <div class="zzz-item">
+            <p itemprop='description'><%= metadata['Abstract'] %></p>
+          </div>
+        </div>
+      </section>
+    </section>
+    
+
+    <section id="collection-preview-tabs">
+      <div class="collection-tabs-container">
+<!--        <input name="tabs" type="radio" checked="checked" class="hidden-input"/>-->
+        <label for="collection-tab-1" class="tab-label">Overview</label>
+
+<!--        <input name="tabs" type="radio" class="hidden-input"/>-->
+        <label for="collection-tab-2" class="tab-label">Download Data</label>
+
+<!--        <input name="tabs" type="radio" class="hidden-input"/>-->
+        <label for="collection-tab-3" class="tab-label">Citing These Data</label>
+
+<!--        <input name="tabs" type="radio" class="hidden-input"/>-->
+        <label for="collection-tab-4" class="tab-label">Documentation</label>
+
+      </div>
+      <div class="collection-panels-container">
+        <div class="tab-panel" id="collection-tab-1">
+          <%= render partial: 'cmr_metadata_preview/overview_tab', locals: { metadata: metadata, is_mmt: is_mmt, editable: editable, edsc_url: edsc_url, concept_id: concept_id, additional_information: additional_information } %>
+        </div>
+        <div class="tab-panel is-invisible" id="collection-tab-2">
+          <%= render partial: 'cmr_metadata_preview/download_data_tab', locals: { metadata: metadata, is_mmt: is_mmt, editable: editable, edsc_url: edsc_url, concept_id: concept_id, additional_information: additional_information } %>
+        </div>
+        <div class="tab-panel is-invisible" id="collection-tab-3">
+          <%= render partial: 'cmr_metadata_preview/citing_these_data_tab', locals: { metadata: metadata, is_mmt: is_mmt, editable: editable, edsc_url: edsc_url, concept_id: concept_id, additional_information: additional_information } %>
+        </div>
+        <div class="tab-panel is-invisible" id="collection-tab-4">
+          <%= render partial: 'cmr_metadata_preview/documentation_tab', locals: { metadata: metadata, is_mmt: is_mmt, editable: editable, edsc_url: edsc_url, concept_id: concept_id, additional_information: additional_information } %>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
