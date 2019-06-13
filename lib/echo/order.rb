@@ -47,13 +47,13 @@ module Echo
 
     def contact_name
       if !contact_address.name.blank? && !owner_guid.blank?
-        "#{contact_address.name} (#{owner})"
+        "#{contact_address.name} #{owner}"
       elsif contact_address.name.blank?
         owner
       elsif owner_guid.blank?
         contact_address.name
       else
-        '(guest)'
+        'guest'
       end
     end
 
@@ -63,7 +63,7 @@ module Echo
 
     def owner
       if owner_guid.blank?
-        '(guest)'
+        'guest'
       else
         # refactor to a new class in the future if/when it is needed
         user = cached_owner

@@ -26,7 +26,7 @@ describe 'Searching Orders' do
           expect(page).to have_selector('tr', count: 1)
 
           # There is nothing for 'Contact Name'
-          expect(page).to have_content("(guest) #{guest_order_guid}", normalize_ws: true)
+          expect(page).to have_content("guest #{guest_order_guid}", normalize_ws: true)
         end
       end
     end

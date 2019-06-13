@@ -38,7 +38,7 @@ describe 'Searching Orders' do
       end
 
       it 'displays the guest order correctly' do
-        expect(page).to have_content('Owner: (guest)')
+        expect(page).to have_content('Owner: guest')
       end
     end
   end
