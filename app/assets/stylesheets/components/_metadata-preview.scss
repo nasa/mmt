@@ -298,3 +298,17 @@ ul.sub-field {
     border-bottom: 0;
   }
 }
+
+@media print {
+  .tab-panel.is-invisible {
+    position: inherit;
+    top: inherit;
+    left: inherit;
+    width: inherit;
+    height: inherit;
+    overflow: inherit;
+  }
+  .preview-spatial,div.collection-tabs-container label,#preview-map {
+    display: none;
+  }
+}
