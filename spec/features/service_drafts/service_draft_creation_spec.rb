@@ -47,6 +47,19 @@ describe 'Service Draft creation' do
           expect(page).to have_content('test service draft')
         end
       end
+
+      context 'when filling in hidden fields' do
+        before do
+          visit service_draft_path(ServiceDraft.first)
+          click_on 'Service Contacts'
+
+          page.execute_script("$('service_draft_draft_contact_persons_0_contact_information_related_urls_0_get_service_full_name').val('Hidden Full Name')")
+        end
+
+        it 'does not save the hidden fields' do
+          expect(page).not_to have_content('Hidden Full Name')
+        end
+      end
     end
   end
 end
