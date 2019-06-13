@@ -36,7 +36,7 @@ $(document).ready ->
       'catalog_items[]':
         required: 'You must select at least 1 catalog item.'
       'status_message':
-        required: 'Status message is required.' 
+        required: 'Status message is required.'
 
   $('#cancel-provider-order-form').on 'keyup keypress', (e) ->
     keyCode = e.keyCode || e.which
@@ -48,3 +48,7 @@ $(document).ready ->
       e.preventDefault()
 
       return false
+
+  if $('#order-tracking-search-results').length > 0
+    $('#order-tracking-search-results').tablesorter
+      widgets: ['zebra', 'filter']

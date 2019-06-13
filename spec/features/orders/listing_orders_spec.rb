@@ -95,6 +95,91 @@ describe 'Searching Orders' do
           end
         end
       end
+
+      context 'when clicking on the "Created" column', js: true do
+        before do
+          find('#order-tracking-search-results thead th:nth-child(2)').click
+        end
+
+        it 'it sorts the table by Created date in ascending order' do
+          within '#order-tracking-search-results tbody' do
+            within 'tr:first-child' do
+              # State
+              expect(page).to have_link('SUBMITTED_WITH_EXCEPTIONS', href: '/orders/order_guid_1')
+              # Contact
+              expect(page).to have_link('Test UserOne test_user_1', href: 'mailto:testuser1@example.com')
+              # View Provider Order (by GUID)
+              expect(page).to have_link('order_guid_1', href: '/provider_orders/order_guid_1')
+              # Tracking ID
+              expect(page).to have_content('1234567890')
+            end
+
+            within 'tr:last-child' do
+              # State
+              expect(page).to have_link('SUBMITTED_WITH_EXCEPTIONS', href: '/orders/order_guid_2')
+              # Contact
+              expect(page).to have_link('Test UserTwo user_2', href: 'mailto:testuser2@example.com')
+              # View Provider Order (by GUID)
+              expect(page).to have_link('order_guid_2', href: '/provider_orders/order_guid_2')
+              # Tracking ID
+              expect(page).to have_content('0987654321')
+            end
+          end
+        end
+
+        context 'when clicking on the "Created" column again' do
+          before do
+            find('#order-tracking-search-results thead th:nth-child(2)').click
+          end
+
+          it 'it sorts the table by Created date in descending order' do
+            within '#order-tracking-search-results tbody' do
+              within 'tr:last-child' do
+                # State
+                expect(page).to have_link('SUBMITTED_WITH_EXCEPTIONS', href: '/orders/order_guid_1')
+                # Contact
+                expect(page).to have_link('Test UserOne test_user_1', href: 'mailto:testuser1@example.com')
+                # View Provider Order (by GUID)
+                expect(page).to have_link('order_guid_1', href: '/provider_orders/order_guid_1')
+                # Tracking ID
+                expect(page).to have_content('1234567890')
+              end
+
+              within 'tr:first-child' do
+                # State
+                expect(page).to have_link('SUBMITTED_WITH_EXCEPTIONS', href: '/orders/order_guid_2')
+                # Contact
+                expect(page).to have_link('Test UserTwo user_2', href: 'mailto:testuser2@example.com')
+                # View Provider Order (by GUID)
+                expect(page).to have_link('order_guid_2', href: '/provider_orders/order_guid_2')
+                # Tracking ID
+                expect(page).to have_content('0987654321')
+              end
+            end
+          end
+        end
+      end
+
+      context 'when filtering by the "Contact" column', js: true do
+        before do
+          find('#order-tracking-search-results thead tr.tablesorter-filter-row td:nth-child(5) input').fill_in with: 'UserTwo'
+        end
+
+        it 'filters the results' do
+          within '#order-tracking-search-results tbody' do
+            expect(page).to have_selector('tr', count: 1)
+
+            # State
+            expect(page).to have_link('SUBMITTED_WITH_EXCEPTIONS', href: '/orders/order_guid_2')
+            # Contact
+            expect(page).to have_link('Test UserTwo user_2', href: 'mailto:testuser2@example.com')
+            # View Provider Order (by GUID)
+            expect(page).to have_link('order_guid_2', href: '/provider_orders/order_guid_2')
+            # Tracking ID
+            expect(page).to have_content('0987654321')
+          end
+        end
+      end
     end
 
     context 'when searching by user id' do
