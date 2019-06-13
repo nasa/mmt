@@ -115,7 +115,6 @@ $(document).ready ->
     $('.tab-panel').addClass('is-invisible')
     $('#' + panelId).removeClass('is-invisible')
 
-    # is-invisible class is not working for the spatial box
     if panelId == 'overview-panel'
       drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
     else

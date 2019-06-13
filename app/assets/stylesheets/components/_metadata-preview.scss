@@ -208,14 +208,10 @@ ul.sub-field {
     box-sizing: border-box;
     display: flex;
     flex-wrap: nowrap;
-    // flex-flow: row, nowrap;
     justify-content: flex-start;
-    // margin-bottom: -1px;
     width: 100%;
-    // max-width: 100%;
 
     .tab-label {
-      // background: #e5e5e5;
       background: linear-gradient(to bottom,#fdfdfe 0%,#eff1f4 100%);
       border: 1px solid #c9dce7;
       color: #7f7f7f;
@@ -225,14 +221,10 @@ ul.sub-field {
       margin-right: 5px;
       padding: 12px 15px;
       transition: background 0.1s, color 0.1s;
-      // width: 100%;
     }
 
     .tab-label:hover {
       background: #d8d8d8;
-      //background: linear-gradient(to bottom,#eff1f4 0%,#ffffff 71%);
-      //border-bottom: 2px solid #fff;
-      //margin-bottom: -1px;
     }
 
     .tab-label.active {
@@ -244,7 +236,6 @@ ul.sub-field {
 
   .collection-panels-container {
     width: 100%;
-    // border: 0 1px 1px 1px solid #c9dce7;
     border-width: 0 1px 1px 1px;
     border-style: solid;
     border-color: #c9dce7;
