@@ -72,7 +72,8 @@ class OrdersController < ManageCmrController
 
       Array.wrap(result['Item']).each do |item|
         owner_guid = item['Guid']
-        Rails.cache.write("owners.#{owner_guid}", item, expires_in: Rails.configuration.orders_user_cache_expiration)
+        user = { 'Item' => item }
+        Rails.cache.write("owners.#{owner_guid}", user, expires_in: Rails.configuration.orders_user_cache_expiration)
       end
     end
   end

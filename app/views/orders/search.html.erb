@@ -9,9 +9,9 @@
           <th>Created</th>
           <th>Submitted</th>
           <th>Updated</th>
-          <th>Owner</th>
-          <th>Contact Name</th>
-          <th></th>
+          <th>Contact</th>
+          <th>View Provider Order (by GUID)</th>
+          <th>Tracking ID</th>
         </tr>
       </thead>
       <tbody>
@@ -23,12 +23,12 @@
           <% @orders.each_with_index do |order| %>
             <tr>
               <td><%= link_to order.state, order_path(order.guid) %></td>
-              <td><%= order.created_date %></td>
-              <td><%= order.submitted_date %></td>
-              <td><%= order.updated_date %></td>
-              <td><%= order.owner %></td>
-              <td><%= order.contact_address.name %></td>
-              <td><%= link_to 'View Provider Order', provider_order_path(order.guid) %></td>
+              <td><%= DateTime.parse(order.created_date).to_s %></td>
+              <td><%= DateTime.parse(order.submitted_date).to_s %></td>
+              <td><%= DateTime.parse(order.updated_date).to_s %></td>
+              <td><%= mail_to order.contact_address.email, order.contact_name %></td>
+              <td><%= link_to order.guid, provider_order_path(order.guid) %></td>
+              <td><%= order.tracking_id %></td>
             </tr>
           <% end %>
         <% end %>

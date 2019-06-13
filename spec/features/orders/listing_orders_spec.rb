@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Searching Orders' do
   context 'when viewing the track orders page' do
     before do
@@ -42,8 +40,14 @@ describe 'Searching Orders' do
           expect(page).to have_selector('tr', count: 1)
 
           within 'tr:first-child' do
-            expect(page).to have_link('View Provider Order', href: '/provider_orders/order_guid')
+            # State
             expect(page).to have_link('CLOSED', href: '/orders/order_guid')
+            # Contact
+            expect(page).to have_link('User One (user_1)', href: 'mailto:user@example.com')
+            # View Provider Order (by GUID)
+            expect(page).to have_link('order_guid', href: '/provider_orders/order_guid')
+            # Tracking ID
+            expect(page).to have_content('0600030377')
           end
         end
       end
@@ -69,13 +73,25 @@ describe 'Searching Orders' do
           expect(page).to have_selector('tr', count: 2)
 
           within 'tr:first-child' do
-            expect(page).to have_link('View Provider Order', href: '/provider_orders/order_guid_1')
+            # State
             expect(page).to have_link('SUBMITTED_WITH_EXCEPTIONS', href: '/orders/order_guid_1')
+            # Contact
+            expect(page).to have_link('Test UserOne (test_user_1)', href: 'mailto:testuser1@example.com')
+            # View Provider Order (by GUID)
+            expect(page).to have_link('order_guid_1', href: '/provider_orders/order_guid_1')
+            # Tracking ID
+            expect(page).to have_content('1234567890')
           end
 
           within 'tr:last-child' do
-            expect(page).to have_link('View Provider Order', href: '/provider_orders/order_guid_2')
+            # State
             expect(page).to have_link('SUBMITTED_WITH_EXCEPTIONS', href: '/orders/order_guid_2')
+            # Contact
+            expect(page).to have_link('Test UserTwo (user_2)', href: 'mailto:testuser2@example.com')
+            # View Provider Order (by GUID)
+            expect(page).to have_link('order_guid_2', href: '/provider_orders/order_guid_2')
+            # Tracking ID
+            expect(page).to have_content('0987654321')
           end
         end
       end

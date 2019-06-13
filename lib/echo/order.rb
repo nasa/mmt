@@ -45,6 +45,18 @@ module Echo
       format_date(@order['LastUpdateDate'], default: 'Never Updated')
     end
 
+    def contact_name
+      if !contact_address.name.blank? && !owner_guid.blank?
+        "#{contact_address.name} (#{owner})"
+      elsif contact_address.name.blank?
+        owner
+      elsif owner_guid.blank?
+        contact_address.name
+      else
+        '(guest)'
+      end
+    end
+
     def owner_guid
       @order['OwnerGuid']
     end
@@ -74,6 +86,10 @@ module Echo
 
     def client_identity
       @order['ClientIdentity']
+    end
+
+    def tracking_id
+      @order.fetch('ProviderOrders', {}).fetch('Item', {})['ProviderTrackingId']
     end
 
     def contact_address

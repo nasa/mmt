@@ -7,6 +7,8 @@ describe 'Searching Orders' do
     end
 
     context 'when results include orders with no contact information' do
+      let(:guest_order_guid) { 'order-guid-one' }
+
       before do
         select 'Creation date', from: 'date_type'
         fill_in 'From', with: '2017-04-07T00:00:00'
@@ -24,7 +26,7 @@ describe 'Searching Orders' do
           expect(page).to have_selector('tr', count: 1)
 
           # There is nothing for 'Contact Name'
-          expect(page).to have_content('(guest) View Provider Order', normalize_ws: true)
+          expect(page).to have_content("(guest) #{guest_order_guid}", normalize_ws: true)
         end
       end
     end
