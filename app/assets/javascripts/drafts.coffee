@@ -338,3 +338,7 @@ $(document).ready ->
     if event.keyCode == 13
       event.preventDefault()
       false
+
+  # Necessary to prevent submission of auto-completed hidden fields.
+  $('.metadata-form, .umm-form').on 'submit', (event) ->
+      $('.metadata-form, .umm-form').find('[style$="display: none;"]').find('input').val("")

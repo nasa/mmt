@@ -36,7 +36,9 @@
       value: get_service['FullName'],
       help: 'definitions/GetServiceType/properties/FullName',
       validate: true,
-      required: true
+      required: true,
+      # Sometimes solves the problem of autocompleting hidden fields.
+      autocomplete: 'off'
     ) %>
 
     <%= mmt_text_field(

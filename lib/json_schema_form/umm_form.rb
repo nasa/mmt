@@ -431,11 +431,12 @@ class UmmFormElement < UmmForm
 
   def element_properties(element)
     readonly = parsed_json['readonly'].nil? ? {} : { readonly: true }
-
+    autocomplete = parsed_json['autocomplete'].nil? ? {} : { autocomplete: "off" }
     {
       class: element_classes(element),
       data: element_data
     }
+      .deep_merge(autocomplete)
       .deep_merge(readonly)
       .deep_merge(validation_properties(element))
   end
