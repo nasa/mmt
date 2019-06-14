@@ -44,7 +44,6 @@ class OrdersController < ManageCmrController
           @orders.select! {|order| order.owner == params['user_id']}
         end
 
-        @orders.sort_by!(&:created_date)
         render :search
       end
     end

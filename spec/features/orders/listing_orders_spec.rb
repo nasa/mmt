@@ -96,12 +96,12 @@ describe 'Searching Orders' do
         end
       end
 
-      context 'when clicking on the "Created" column', js: true do
+      context 'when clicking on the "Submitted" column', js: true do
         before do
-          find('#order-tracking-search-results thead th:nth-child(2)').click
+          find('#order-tracking-search-results thead th:nth-child(3)').click
         end
 
-        it 'it sorts the table by Created date in ascending order' do
+        it 'it sorts the table by Submitted date in ascending order' do
           within '#order-tracking-search-results tbody' do
             within 'tr:first-child' do
               # State
@@ -127,12 +127,12 @@ describe 'Searching Orders' do
           end
         end
 
-        context 'when clicking on the "Created" column again' do
+        context 'when clicking on the "Submitted" column again' do
           before do
-            find('#order-tracking-search-results thead th:nth-child(2)').click
+            find('#order-tracking-search-results thead th:nth-child(3)').click
           end
 
-          it 'it sorts the table by Created date in descending order' do
+          it 'it sorts the table by Submitted date in descending order' do
             within '#order-tracking-search-results tbody' do
               within 'tr:last-child' do
                 # State
