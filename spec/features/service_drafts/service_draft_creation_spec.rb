@@ -54,6 +54,12 @@ describe 'Service Draft creation' do
           click_on 'Service Contacts'
 
           page.execute_script("$('service_draft_draft_contact_persons_0_contact_information_related_urls_0_get_service_full_name').val('Hidden Full Name')")
+
+          within '.nav-top' do
+            click_on 'Done'
+          end
+
+          visit service_draft_path(ServiceDraft.first, :format => 'json')
         end
 
         it 'does not save the hidden fields' do
