@@ -51,4 +51,5 @@ $(document).ready ->
 
   if $('#order-tracking-search-results').length > 0
     $('#order-tracking-search-results').tablesorter
+      sortList: [[1,0]]
       widgets: ['zebra', 'filter']
