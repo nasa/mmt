@@ -164,6 +164,10 @@ en:
       urs_login_callback:
         flash:
           error: 'An error occurred with your Earthdata Login attempt'
+    orders:
+      search:
+        flash:
+          error: "Error response returned from CMR: %{error}  <br>"
   views:
     pagination:
       first: "First"
