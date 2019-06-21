@@ -20,7 +20,7 @@ class OrdersController < ManageCmrController
       render :show
     end
   rescue Faraday::Error::TimeoutError
-    flash.now[:alert] = 'The order request timed out retrieving results.  Limit your search criteria and try again.'
+    flash.now[:alert] = "The order request #{request.uuid} timed out retrieving results.  Limit your search criteria and try again or contact Earthdata Support."
     render :index
   end
 
@@ -48,7 +48,7 @@ class OrdersController < ManageCmrController
       end
     end
   rescue Faraday::Error::TimeoutError
-    flash.now[:alert] = 'The order request timed out retrieving results.  Limit your search criteria and try again.'
+    flash.now[:alert] = "The order request #{request.uuid} timed out retrieving results.  Limit your search criteria and try again or contact Earthdata Support."
     render :index
   end
 
