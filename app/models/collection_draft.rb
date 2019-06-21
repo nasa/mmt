@@ -302,13 +302,18 @@ class CollectionDraft < Draft
     return json_params unless json_params.keys == ['DataContacts']
 
     data_contacts_params = compact_blank(json_params)
-    return {} if data_contacts_params.nil?
 
     contact_persons = []
     contact_groups = []
     param_data_centers = []
     new_params = {}
     draft_data_centers = self.draft['DataCenters'] || []
+    draft_data_centers.each do |data_center|
+      data_center['ContactPersons'] = []
+      data_center['ContactGroups'] = []
+    end
+    new_params['DataCenters'] = draft_data_centers
+    return new_params if data_contacts_params.nil?
 
     Array.wrap(data_contacts_params['DataContacts']).each do |data_contact|
       if data_contact['DataContactType'] == 'NonDataCenterContactPerson'
