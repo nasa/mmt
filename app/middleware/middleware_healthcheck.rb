@@ -4,8 +4,8 @@ class MiddlewareHealthcheck
   end
 
   def call(env)
-    Rails.logger.tagged "middleware health check" do
-      if env['PATH_INFO'.freeze] == '/status'.freeze
+    if env['PATH_INFO'.freeze] == '/status'.freeze
+      Rails.logger.tagged "middleware health check" do
         response = [503, {'Content-Type' => 'application/json'}]
 
         # checks the database health
@@ -39,9 +39,9 @@ class MiddlewareHealthcheck
         end
         Rails.logger.info "The Status page returned a #{response[0]} Response:#{response.inspect}"
         response
-      else
-        @app.call(env)
       end
+    else
+      @app.call(env)
     end
   end
 end
