@@ -11,7 +11,7 @@ describe 'Overview Tab preview' do
 
       it 'does not display metadata' do
         within '.collection-overview-table' do
-          expect(page).to have_css('td', text: 'Not Provided', count: 8)
+          expect(page).to have_css('td', text: 'n/a', count: 8)
         end
       end
 
@@ -22,7 +22,7 @@ describe 'Overview Tab preview' do
           expect(page).to have_content('Data Format(s):')
           expect(page).to have_content('Temporal Extent:')
           expect(page).to have_content('Platform(s):')
-          expect(page).to have_content('Data Contributor(s):')
+          expect(page).to have_content('Data Center(s):')
           expect(page).to have_content('Instrument(s):')
           expect(page).to have_content('Version:')
 
@@ -45,7 +45,7 @@ describe 'Overview Tab preview' do
           expect(page).to have_content('Data Format(s):')
           expect(page).to have_content('Temporal Extent:')
           expect(page).to have_content('Platform(s):')
-          expect(page).to have_content('Data Contributor(s):')
+          expect(page).to have_content('Data Center(s):')
           expect(page).to have_content('Instrument(s):')
           expect(page).to have_content('Version:')
 
@@ -72,8 +72,8 @@ describe 'Overview Tab preview' do
           expect(page).to have_content('Distribution: tiff')
 
           # Temporal Extent
-          expect(page).to have_content('Single Date Times: 2015-07-01, 2015-12-25', normalize_ws: true)
-          expect(page).to have_content('Range Date Times: 2014-07-01 to 2014-08-01, 2015-07-01 to 2015-08-01', normalize_ws: true)
+          expect(page).to have_content('2015-07-01, 2015-12-25', normalize_ws: true)
+          expect(page).to have_content('2014-07-01 to 2014-08-01, 2015-07-01 to 2015-08-01', normalize_ws: true)
           expect(page).to have_content('Periodic Ranges: 2015-07-01 to 2015-08-01, 2016-07-01 to 2016-08-01', normalize_ws: true)
 
           # Platform(s)
