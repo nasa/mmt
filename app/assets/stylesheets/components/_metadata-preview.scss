@@ -122,7 +122,7 @@ ul.sub-field {
   }
 }
 
-.location-keyword-preview, .science-keywords-preview, .service-keywords-preview {
+.location-keywords-preview, .science-keywords-preview, .service-keywords-preview {
   ul.arrow-tag-group-list {
     width: 100%;
   }
@@ -149,7 +149,7 @@ ul.sub-field {
 
     h1 {
       float: left;
-      font-size: 1.8em;
+      font-size: 1.9em;
       margin-bottom: 20px;
       margin-top: 0;
     }
@@ -216,7 +216,7 @@ ul.sub-field {
       border: 1px solid #c9dce7;
       color: #7f7f7f;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: bold;
       margin-right: 5px;
       padding: 12px 15px;
@@ -311,4 +311,31 @@ ul.sub-field {
   .preview-spatial,div.collection-tabs-container label,#preview-map {
     display: none;
   }
+}
+
+#additional-information-panel {
+
+  .dc-title-container {
+    margin: 15px 0;
+
+    h6.no-margin {
+      margin: 0;
+    }
+  }
+
+  .dc-title {
+    h5 {
+      display: inline-block;
+      margin: 0;
+    }
+
+    h5 {
+      padding-right: 15px
+    }
+  }
+
+  .dc-contact-info {
+    margin-bottom: 15px;
+  }
+
 }
