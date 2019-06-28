@@ -1,5 +1,5 @@
 
-# Functions used for drawing on the preview page's map image
+# Functions used for drawing on the collection preview page's map image
 
 # Do a simple transformation to map lat/lon onto y/x of map image
 convertLatLonToImageXY = (lat, lon, mapWidth, mapHeight) ->
@@ -30,12 +30,11 @@ convertRectanglesForImage = (rectangles, mapWidth, mapHeight) ->
 
 drawPoint = (x, y, dotSize, highlightColor) ->
   pointStyle = "position:absolute;"
-  # Use this form because some setup (dev laptop) is having issue compiling javascript by Uglifier
-  pointStyle += "width:" + dotSize + "px;"
-  pointStyle += "height:" + dotSize + "px;"
-  pointStyle += "top:" + y + "px;"
-  pointStyle += "left:" + x + "px;"
-  pointStyle += "background:" + highlightColor
+  pointStyle += "width: #{dotSize}px;"
+  pointStyle += "height: #{dotSize}px;"
+  pointStyle += "top: #{y}px;"
+  pointStyle += "left: #{x}px;"
+  pointStyle += "background: #{highlightColor}"
   $('<div />',
     class: 'preview-spatial',
     style: pointStyle).appendTo($('body')
@@ -43,12 +42,11 @@ drawPoint = (x, y, dotSize, highlightColor) ->
 
 drawRectangle = (minX, minY, maxX, maxY, highlightColor) ->
   rectangleStyle = "position:absolute;"
-  # Use this form because some setup (dev laptop) is having issue compiling javascript by Uglifier
-  rectangleStyle += "width:" + (maxX - minX) + "px;"
-  rectangleStyle += "height:" + (maxY - minY) + "px;"
-  rectangleStyle += "top:" + minY + "px;"
-  rectangleStyle += "left:" + minX + "px;"
-  rectangleStyle += "background:" + highlightColor
+  rectangleStyle += "width: #{(maxX - minX)}px;"
+  rectangleStyle += "height: #{(maxY - minY)}px;"
+  rectangleStyle += "top: #{minY}px;"
+  rectangleStyle += "left: #{minX}px;"
+  rectangleStyle += "background: #{highlightColor}"
   $('<div />',
     class: 'preview-spatial',
     style: rectangleStyle).appendTo($('body')
@@ -94,26 +92,29 @@ $(window).on 'load', ->
 $(document).ready ->
 
   # Show More / Show Less for Science Keywords in the Preview Gem Overview Tab Table
-  $('.science-keywords-more-toggle').on 'click', (e) ->
+  $('.arrow-keywords-more-toggle').on 'click', (e) ->
     e.preventDefault()
+    $arrowPreviewParent = $(this).closest('.arrow-keywords-preview')
 
-    $('.science-keywords-more-item, .science-keywords-less-toggle').removeClass('is-invisible')
-    $(this).addClass('is-invisible')
+    $arrowPreviewParent.find('.arrow-keywords-more-item, .arrow-keywords-less-toggle').removeClass('is-hidden')
+    $(this).addClass('is-hidden')
 
-  $('.science-keywords-less-toggle').on 'click', (e) ->
+  $('.arrow-keywords-less-toggle').on 'click', (e) ->
     e.preventDefault()
+    $arrowPreviewParent = $(this).closest('.arrow-keywords-preview')
 
-    $('.science-keywords-more-item').addClass('is-invisible')
-    $('.science-keywords-more-toggle').removeClass('is-invisible')
-    $(this).addClass('is-invisible')
+    $arrowPreviewParent.find('.arrow-keywords-more-item').addClass('is-hidden')
+    $arrowPreviewParent.find('.arrow-keywords-more-toggle').removeClass('is-hidden')
+    $(this).addClass('is-hidden')
 
+  # handle collection preview gem tab switching
   $('.tab-label').on 'click', (e) ->
     $('.tab-label').removeClass('active')
     $currentTab = $(this)
     $currentTab.addClass('active')
     panelId = $currentTab.attr('for')
-    $('.tab-panel').addClass('is-invisible')
-    $('#' + panelId).removeClass('is-invisible')
+    $('.tab-panel').addClass('is-hidden')
+    $('#' + panelId).removeClass('is-hidden')
 
     if panelId == 'overview-panel'
       drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
