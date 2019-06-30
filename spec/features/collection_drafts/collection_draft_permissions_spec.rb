@@ -42,7 +42,7 @@ describe 'Collection draft permissions' do
         expect(page).to have_no_content('Data Format(s):')
         expect(page).to have_no_content('Temporal Extent:')
         expect(page).to have_no_content('Platform(s):')
-        expect(page).to have_no_content('Data Contributor(s):')
+        expect(page).to have_no_content('Data Center(s):')
         expect(page).to have_no_content('Instrument(s):')
         expect(page).to have_no_content('Version:')
       end
@@ -90,7 +90,7 @@ describe 'Collection draft permissions' do
             expect(page).to have_content('Data Format(s):')
             expect(page).to have_content('Temporal Extent:')
             expect(page).to have_content('Platform(s):')
-            expect(page).to have_content('Data Contributor(s):')
+            expect(page).to have_content('Data Center(s):')
             expect(page).to have_content('Instrument(s):')
             expect(page).to have_content('Version:')
           end
@@ -124,7 +124,7 @@ describe 'Collection draft permissions' do
         expect(page).to have_no_content('Data Format(s):')
         expect(page).to have_no_content('Temporal Extent:')
         expect(page).to have_no_content('Platform(s):')
-        expect(page).to have_no_content('Data Contributor(s):')
+        expect(page).to have_no_content('Data Center(s):')
         expect(page).to have_no_content('Instrument(s):')
         expect(page).to have_no_content('Version:')
       end

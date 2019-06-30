@@ -16,7 +16,7 @@ describe 'Viewing Collections with other native formats', js: true do
       expect(page).to have_content('AIRS/Aqua L2G Precipitation Estimate (AIRS-only) V006 (AIRG2SSD) at GES DISC')
 
       within '.collection-overview-table' do
-        expect(page).to have_content('Data Contributor(s): NASA/GSFC/SED/ESD/GCDC/GESDISC')
+        expect(page).to have_content('Data Center(s): NASA/GSFC/SED/ESD/GCDC/GESDISC')
       end
       # within '.data-centers-cards' do
       #   within all('li.card')[0] do
