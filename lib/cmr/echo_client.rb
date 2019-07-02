@@ -1,19 +1,19 @@
 module Cmr
   class EchoClient < BaseClient
     def get_echo_provider_holdings(provider_id)
-      get("/echo-rest/providers/#{provider_id}.json")
+      get("/legacy-services/rest/providers/#{provider_id}.json")
     end
 
     def get_current_user(token)
-      get('/echo-rest/users/current.json', {}, token_header(token, true))
+      get('/legacy-services/rest/users/current.json', {}, token_header(token, true))
     end
 
     def get_all_providers
-      get('/echo-rest/providers.json')
+      get('/legacy-services/rest/providers.json')
     end
 
     def create_order_option(order_option, token)
-      url = '/echo-rest/option_definitions'
+      url = '/legacy-services/rest/option_definitions'
       content_type = { 'Content-Type' => 'application/json' }
       body = { 'option_definition' => order_option }
       echo_security_token = { 'Echo-Token' => token }
@@ -21,22 +21,22 @@ module Cmr
     end
 
     def get_order_option(id, token)
-      url = "/echo-rest/option_definitions/#{id}"
+      url = "/legacy-services/rest/option_definitions/#{id}"
       get(url, {}, { 'Echo-Token' => token })
     end
 
     def delete_order_option(id, token)
-      url = "/echo-rest/option_definitions/#{id}"
+      url = "/legacy-services/rest/option_definitions/#{id}"
       delete(url, nil, nil, { 'Echo-Token' => token })
     end
 
     def get_order_option_assignments(options, token)
-      url = '/echo-rest/catalog_item_option_assignments.json'
+      url = '/legacy-services/rest/catalog_item_option_assignments.json'
       get(url, options, { 'Echo-Token' => token })
     end
 
     def add_order_option_assignments(id, order_option, token)
-      url = "/echo-rest/catalog_item_option_assignments"
+      url = "/legacy-services/rest/catalog_item_option_assignments"
       content_type = { 'Content-Type' => 'application/json' }
       body = {
           'catalog_item_option_assignment' => {
@@ -49,7 +49,7 @@ module Cmr
     end
 
     def delete_order_option_assignments(option_assignment_guid, token)
-      url = "/echo-rest/catalog_item_option_assignments/#{option_assignment_guid}"
+      url = "/legacy-services/rest/catalog_item_option_assignments/#{option_assignment_guid}"
       delete(url, nil, nil, { 'Echo-Token' => token })
     end
   end

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/ProviderServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ProviderServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -47,7 +47,7 @@ http_interactions:
   recorded_at: Fri, 03 Mar 2017 21:15:01 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/ProviderServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ProviderServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -92,7 +92,7 @@ http_interactions:
   recorded_at: Fri, 03 Mar 2017 21:15:02 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/ProviderServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ProviderServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -137,7 +137,7 @@ http_interactions:
   recorded_at: Fri, 03 Mar 2017 21:15:04 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/ProviderServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ProviderServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -182,7 +182,7 @@ http_interactions:
   recorded_at: Fri, 03 Mar 2017 21:15:05 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/ProviderServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ProviderServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"

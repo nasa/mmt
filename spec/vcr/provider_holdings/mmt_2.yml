@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/providers/MMT_2.json
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/providers/MMT_2.json
     body:
       encoding: US-ASCII
       string: ''

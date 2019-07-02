@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/catalog_item_option_assignments
     body:
       encoding: UTF-8
       string: '{"catalog_item_option_assignment":{"catalog_item_id":"C1200056652-MMT_2","option_definition_id":"4D5A696D-9DF2-7033-A02A-0A638098B35D","filter_xpath":"foo"}}'
@@ -23,7 +23,7 @@ http_interactions:
       message: 
     headers:
       location:
-      - https://testbed.echo.nasa.gov/legacy-services/rest/catalog_item_option_assignments/0324ADDA-8ED6-D891-51B6-54E34C8E3BBE
+      - https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/catalog_item_option_assignments/0324ADDA-8ED6-D891-51B6-54E34C8E3BBE
       content-type:
       - application/xml; charset=utf-8
       cache-control:

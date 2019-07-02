@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/ProviderServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ProviderServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -45,7 +45,7 @@ http_interactions:
   recorded_at: Thu, 09 Jun 2016 15:05:22 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/DataManagementServicePortImpl
     body:
       encoding: UTF-8
       string: '<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -86,7 +86,7 @@ http_interactions:
   recorded_at: Thu, 09 Jun 2016 15:05:22 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/DataManagementServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"

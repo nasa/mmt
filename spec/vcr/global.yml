@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/calendar_events.json?severity=ALERT
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/calendar_events.json?severity=ALERT
     body:
       encoding: US-ASCII
       string: ''
@@ -64,7 +64,7 @@ http_interactions:
   recorded_at: Tue, 18 Aug 2015 16:03:05 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/AuthenticationServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/AuthenticationServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
