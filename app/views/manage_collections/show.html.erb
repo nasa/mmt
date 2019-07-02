@@ -8,8 +8,9 @@
             <%= link_to 'Create New Record', new_collection_draft_path, class: 'eui-btn--blue submit' %>
           </div>
         <% if Rails.configuration.templates_enabled %>
+          <br>
           <div class="row">
-            <%= link_to 'Create From Template', collection_templates_path, class: 'submit' %>
+            <%= link_to 'Create From Template', collection_templates_path, class: 'eui-btn--blue submit' %>
           </div>
         <% end %>
         </div>

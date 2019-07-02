@@ -3,9 +3,9 @@ class CollectionTemplate < Template
     def create_template(draft, user, name)
       template = CollectionTemplate.new do |temp|
         temp.draft = draft.draft
-        temp.entry_title = draft.entry_title
         temp.user = user
-        temp.title = name
+        temp.entry_title = draft.entry_title
+        temp.template_name = name
         temp.provider_id = user.provider_id
       end
       template.save

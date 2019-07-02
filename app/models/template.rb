@@ -4,7 +4,7 @@ class Template < ActiveRecord::Base
   self.inheritance_column = :template_type
 
   def display_title
-    title || '<Untitled Template>'
+    template_name || '<Untitled Template>'
   end
 
   class << self

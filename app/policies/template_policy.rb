@@ -4,6 +4,10 @@ class TemplatePolicy < ApplicationPolicy
     user.user.provider_id == target.provider_id
   end
 
+  def destroy?
+    user.user.provider_id == target.provider_id
+  end
+
   # :nodoc
   class Scope < Scope
     def resolve

@@ -65,6 +65,11 @@ en:
           flash:
             success: 'Collection Draft Published Successfully!'
             error: 'Collection Draft was not published successfully'
+      collection_templates:
+        destroy:
+          flash:
+            success: 'Collection Draft Deleted Successfully!'
+            error: 'Collection Draft was not deleted successfully'
     collections:
       destroy:
         flash:
