@@ -10,27 +10,21 @@
           "type": "UmmPreviewNestedField",
           "fields": [
             {
-              "key": "/StandardName"
-            }, {
-              "key": "/Reference"
-            }, {
-              "key": "/Coordinates"
-            }, {
-              "key": "/GridMapping"
-            }, {
-              "key": "/Size"
-            }, {
-              "key": "/SizeUnits"
-            }, {
-              "key": "/Bounds"
-            }, {
-              "key": "/ChunkSize"
-            }, {
-              "key": "/Structure"
-            }, {
-              "key": "/MeasurementConditions"
-            }, {
-              "key": "/ReportingConditions"
+              "type": "UmmPreviewNestedField",
+              "key": "/IndexRanges",
+              "fields": [
+                {
+                  "type": "UmmPreviewMultiItem",
+                  "key": "/LatRange/index_id"
+                },
+                {
+                  "type": "UmmPreviewMultiItem",
+                  "key": "/LonRange/index_id"
+                }
+              ]
+            },
+            {
+              "key": "/GroupPath"
             }
           ]
         }
@@ -45,11 +39,15 @@
         {
           "key": "Name"
         }, {
-          "key": "Definition"
+          "key": "Alias"
         }, {
           "key": "LongName"
         }, {
+          "key": "Definition"
+        }, {
           "key": "VariableType"
+        }, {
+          "key": "VariableSubType"
         }, {
           "key": "Units"
         }, {
@@ -59,13 +57,25 @@
         }, {
           "key": "Offset"
         }, {
+          "key": "AcquisitionSourceName"
+        },
+        {
           "key": "ValidRanges/index_id",
           "type": "UmmPreviewMultiItems",
           "fields": [
             {
               "key": "/Min"
-            }, {
+            },
+            {
               "key": "/Max"
+            },
+            {
+              "type": "UmmPreviewMultiItem",
+              "key": "/CodeSystemIdentifierMeaning/index_id"
+            },
+            {
+              "type": "UmmPreviewMultiItem",
+              "key": "/CodeSystemIdentifierValue/index_id"
             }
           ]
         }
@@ -102,6 +112,65 @@
               "key": "/Name"
             }, {
               "key": "/Size"
+            }, {
+              "key": "/Type"
+            }
+          ]
+        }
+      ]
+    }, {
+      "id": "size_estimation",
+      "title": "Size Estimation",
+      "fields": [
+        {
+          "key": "SizeEstimation/AverageSizeOfGranulesSampled"
+        }, {
+          "key": "SizeEstimation/AverageCompressionInformation/index_id",
+          "type": "UmmPreviewMultiItems",
+          "hideFieldTitle": true,
+          "fields": [
+            {
+              "key": "/Rate"
+            }, {
+              "key": "/Format"
+            }
+          ]
+        }
+      ]
+    }, {
+      "id": "measurement_identifiers",
+      "title": "Measurement Identifiers",
+      "fields": [
+        {
+          "key": "MeasurementIdentifiers/index_id",
+          "type": "UmmPreviewMultiItems",
+          "hideFieldTitle": true,
+          "fields": [
+            {
+              "key": "/MeasurementName/MeasurementObject"
+            }, {
+              "key": "/MeasurementName/MeasurementQuantity"
+            }, {
+              "key": "/MeasurementSource"
+            }
+          ]
+        }
+      ]
+    }, {
+      "id": "sampling_identifiers",
+      "title": "Sampling Identifiers",
+      "fields": [
+        {
+          "key": "SamplingIdentifiers/index_id",
+          "type": "UmmPreviewMultiItems",
+          "hideFieldTitle": true,
+          "fields": [
+            {
+              "key": "/SamplingMethod"
+            }, {
+              "key": "/MeasurementConditions"
+            }, {
+              "key": "/ReportingConditions"
             }
           ]
         }
@@ -138,5 +207,6 @@
         }
       ]
     }
+
   ]
 }

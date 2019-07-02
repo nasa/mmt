@@ -124,7 +124,19 @@ describe 'Updating Order Options' do
 
       it 'Displays a success message and shows the updated Order Option' do
         expect(page).to have_content('Order Option was successfully updated')
-        expect(page).to have_content(echo_form_update)
+
+        # use parts of the ECHO form xml, because spaces and newlines may be read differently by Selenium
+        expect(page).to have_content('xmlns="http://echo.nasa.gov/v9/echoforms')
+        expect(page).to have_content('prov:options xmlns:prov="http://myorganization.gov/orderoptions"')
+        expect(page).to have_content('constraints')
+        expect(page).to have_content('pattern')
+        expect(page).to have_content('range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"')
+
+        # updated parts of the form
+        expect(page).to have_content('<prov:filename>data_update.txt</prov:filename>')
+        expect(page).to have_content('<prov:filesize>20</prov:filesize>')
+        expect(page).to have_content('pattern')
+
         expect(page).to have_content('1001 - UPDATE')
         expect(page).to have_content('Scope: PROVIDER ')
         expect(page).to have_content('Deprecated: false')

@@ -7,8 +7,8 @@ class ApplicationController < ActionController::Base
 
   before_action :ensure_user_is_logged_in
   before_action :setup_query
-  before_action :refresh_urs_if_needed, except: [:logout, :refresh_token] # URS login
-  before_action :refresh_launchpad_if_needed, except: [:logout] # Launchpad login
+  before_action :refresh_urs_if_needed, except: [:login, :logout, :refresh_token] # URS login
+  before_action :refresh_launchpad_if_needed, except: [:login, :logout] # Launchpad login
   before_action :provider_set?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -45,19 +45,35 @@ class ApplicationController < ActionController::Base
   end
   helper_method :urs_login_required?
 
+  def invite_users_enabled?
+    Rails.configuration.invite_users_enabled
+  end
+  helper_method :invite_users_enabled?
+
   def launchpad_login_required?
     ENV['launchpad_login_required'] == 'true'
   end
   helper_method :launchpad_login_required?
+
+  def hide_launchpad_button?
+    ENV['hide_launchpad_button'] != 'false'
+  end
+  helper_method :hide_launchpad_button?
 
   def cmr_client
     @cmr_client ||= Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
   end
   helper_method :cmr_client
 
+  # echo_client have request-specific state (namely timeout duration left for request), so need to serve
+  # these objects out per http request.
   def echo_client
-    @echo_client ||= Echo::Client.client_for_environment(Rails.configuration.echo_env, Rails.configuration.services)
+    Rails.cache.fetch("echo-client-#{request.uuid}", expires_in: 300.seconds) do
+      Rails.logger.info("requesting echo-client, cache miss for request #{request.uuid}")
+      Echo::Client.client_for_environment(Rails.configuration.echo_env, Rails.configuration.services)
+    end
   end
+
   helper_method :echo_client
 
   def setup_query
@@ -66,7 +82,7 @@ class ApplicationController < ActionController::Base
     @provider_ids ||= if providers_response.success?
                         providers_response.body.map { |provider| [provider['short-name'], provider['provider-id']] }.sort
                       else
-                        Rails.logger.error("Error retrieving providers in `setup_query`: #{providers_response.inspect}")
+                        Rails.logger.error("Error retrieving providers in `setup_query`: #{providers_response.clean_inspect}")
                         []
                       end
   end
@@ -109,23 +125,6 @@ class ApplicationController < ActionController::Base
     session[:name] = profile['first_name'].nil? ? uid : "#{profile['first_name']} #{profile['last_name']}"
     session[:urs_uid] = profile['uid'] || uid
     session[:email_address] = profile['email_address']
-
-    # Echo Id is not being used, so this should be removed as part of MMT-1446
-    # Also, CMR can't get a user's Echo Id from their launchpad token
-    # Store ECHO ID
-    # if current_user.echo_id.nil?
-    #   puts "echo id is nil"
-    #   response = cmr_client.get_current_user(token)
-    #   if response.success?
-    #     Rails.logger.info "echo user response in store_profile: #{response.inspect}"
-    #     echo_user = response.body
-    #
-    #     current_user.update(echo_id: echo_user.fetch('user', {}).fetch('id'))
-    #   end
-    # end
-    #
-    # # With no echo_id we cannot request providers for the user, no sense in continuing
-    # return if current_user.echo_id.nil?
   end
 
   def store_oauth_token(oauth_response)
@@ -189,19 +188,31 @@ class ApplicationController < ActionController::Base
 
   def refresh_urs_token
     # URS login
-    response = cmr_client.refresh_token(session[:refresh_token])
-    return nil unless response.success?
+    refresh_response = cmr_client.refresh_token(session[:refresh_token])
 
-    json = response.body
-    store_oauth_token(json)
+    if refresh_response.success?
+      json = refresh_response.body
+      store_oauth_token(json)
 
-    if json.nil? && !request.xhr?
-      session[:last_point] = request.fullpath
+      if json.nil? && !request.xhr?
+        session[:last_point] = request.fullpath
 
-      redirect_to cmr_client.urs_login_path
+        redirect_to login_path(login_method: 'urs')
+      end
+
+      Rails.logger.debug "Successful URS Refresh Token call for user #{authenticated_urs_uid}"
+      # this additional logging was added to diagnose if there is an issue
+      # with refreshing a token via URS. it should be removed after the
+      # problem is resolved, with MMT-1616
+      log_urs_session_keys
+
+      json
+    else
+      Rails.logger.error("URS Refresh Token Error for user #{authenticated_urs_uid}: #{refresh_response.inspect}")
+      log_urs_session_keys
+
+      redirect_to login_path(login_method: 'urs')
     end
-
-    json
   end
 
   def refresh_launchpad_if_needed
@@ -249,7 +260,7 @@ class ApplicationController < ActionController::Base
 
       { success: Time.now.to_s }
     else
-      { error: 'could not keep alive', time: Time.now.to_s }
+      { error: 'Keep Alive call failed', time: Time.now.to_s }
     end
   end
 
@@ -307,6 +318,10 @@ class ApplicationController < ActionController::Base
     redirect_to manage_collections_path unless Rails.configuration.umm_s_enabled
   end
 
+  def uvg_enabled?
+    redirect_to manage_variables_path unless Rails.configuration.uvg_enabled
+  end
+
   def templates_enabled?
     redirect_to manage_collections_path unless Rails.configuration.templates_enabled
   end
@@ -342,6 +357,40 @@ class ApplicationController < ActionController::Base
     all_session_keys.each { |session_key| session[session_key] = nil }
   end
 
+  def log_all_session_keys
+    # this is additional logging just for Launchpad
+    # it can be removed once Launchpad has been live and stable in
+    # production for a while, with MMT-1615
+    return if Rails.env.test? || session[:login_method] == 'urs'
+    all_session_keys = LAUNCHPAD_SESSION_KEYS | URS_SESSION_KEYS
+    # additional token and login keys
+    all_session_keys += %i[echo_provider_token login_method]
+      all_session_keys_log = all_session_keys.map do |key|
+        if key == :launchpad_cookie && !session[key].blank?
+          "#{key}: length: #{session[key].length.round(-2)}; snippet: #{session[key].truncate(50)}"
+        else
+          "#{key}: #{session[key]}"
+        end
+      end
+
+    Rails.logger.debug '>>>>> logging session keys'
+    Rails.logger.debug all_session_keys_log.join("\n")
+  end
+
+  def log_urs_session_keys
+    # this is additional logging to diagnose potential issues with refreshing a
+    # URS token, it should be removed with MMT-1616
+    return if Rails.env.test? || session[:login_method] == 'launchpad'
+    urs_logging = <<-LOG
+      Logging URS keys
+      User: #{authenticated_urs_uid}
+      URS access token snippet: #{cmr_client.truncate_token(token)}
+      URS refresh token snippet: #{cmr_client.truncate_token(session[:refresh_token])}
+    LOG
+
+    Rails.logger.debug urs_logging
+  end
+
   def ensure_at_least_one_login_method
     if both_login_methods_off?
       # if both URS and Launchpad login requirements are turned OFF, users cannot
@@ -370,4 +419,5 @@ class ApplicationController < ActionController::Base
   def launchpad_cookie_name
     Rails.configuration.launchpad_cookie_name
   end
+
 end

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
   before :all do
     @ingest_response, @concept_response = publish_collection_draft
@@ -79,9 +77,12 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         it 'displays the preview with the previously entered data and new name' do
           expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-          expect(page).to have_content("Name #{new_bulk_update_name}")
-          expect(page).to have_content('Field to Update Platforms')
-          expect(page).to have_content('Update Type Find And Update')
+          expect(page).to have_content('Name')
+          expect(page).to have_content(new_bulk_update_name)
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Platforms')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Update')
 
           # Find Values to Update
           within '.find-values-preview' do
@@ -164,9 +165,12 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         it 'displays the preview with the previously entered data and new name' do
           expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-          expect(page).to have_content("Name #{new_bulk_update_name}")
-          expect(page).to have_content('Field to Update Instruments')
-          expect(page).to have_content('Update Type Find And Update')
+          expect(page).to have_content('Name')
+          expect(page).to have_content(new_bulk_update_name)
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Instruments')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Update')
 
           # Find Values to Update
           within '.find-values-preview' do
@@ -253,9 +257,12 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         it 'displays the preview with the previously entered data and new name' do
           expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-          expect(page).to have_content("Name #{new_bulk_update_name}")
-          expect(page).to have_content('Field to Update Data Centers')
-          expect(page).to have_content('Update Type Find And Update')
+          expect(page).to have_content('Name')
+          expect(page).to have_content(new_bulk_update_name)
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Data Centers')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Update')
           # Find Values to Update
           within '.find-values-preview' do
             expect(page).to have_content('Short Name: AARHUS-HYDRO')
@@ -349,9 +356,12 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         it 'displays the preview with the previously entered data and new name' do
           expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-          expect(page).to have_content("Name #{new_bulk_update_name}")
-          expect(page).to have_content('Field to Update Location Keywords')
-          expect(page).to have_content('Update Type Find And Replace')
+          expect(page).to have_content('Name')
+          expect(page).to have_content(new_bulk_update_name)
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Location Keywords')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Replace')
 
           # Find Values to Replace
           within '.find-values-preview' do
@@ -360,7 +370,10 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
 
           # New Values
           within '.new-values-preview' do
-            expect(page).to have_content('OCEANATLANTIC OCEANNORTH ATLANTIC OCEANBALTIC SEA')
+            expect(page).to have_content('OCEAN')
+            expect(page).to have_content('ATLANTIC OCEAN')
+            expect(page).to have_content('NORTH ATLANTIC OCEAN')
+            expect(page).to have_content('BALTIC SEA')
           end
 
           within '.bulk-update-preview-table' do
@@ -440,20 +453,28 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         it 'displays the preview with the previously entered data and new name' do
           expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-          expect(page).to have_content("Name #{new_bulk_update_name}")
-          expect(page).to have_content('Field to Update Science Keywords')
-          expect(page).to have_content('Update Type Find And Replace')
+          expect(page).to have_content('Name')
+          expect(page).to have_content(new_bulk_update_name)
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Replace')
 
           # Find Values to Replace
           within '.find-values-preview' do
             expect(page).to have_content('Find Values to Replace')
-            expect(page).to have_content('CATEGORY: ANY VALUETOPIC: ANY VALUETERM: ANY VALUESURFACE TEMPERATURE')
+            expect(page).to have_content('CATEGORY: ANY VALUE')
+            expect(page).to have_content('TOPIC: ANY VALUE')
+            expect(page).to have_content('TERM: ANY VALUE')
+            expect(page).to have_content('SURFACE TEMPERATURE')
           end
 
           # New Values
           within '.new-values-preview' do
             expect(page).to have_content('New Value')
-            expect(page).to have_content('EARTH SCIENCEATMOSPHEREAEROSOLS')
+            expect(page).to have_content('EARTH SCIENCE')
+            expect(page).to have_content('ATMOSPHERE')
+            expect(page).to have_content('AEROSOLS')
           end
 
           within '.bulk-update-preview-table' do

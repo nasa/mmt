@@ -165,6 +165,16 @@ module PreviewCirclesHelper
         required: false,
         anchor: 'projects'
       }
+    },
+    'archive_and_distribution_information' => {
+      'FileArchiveInformation' => {
+        required: true,
+        anchor: 'file-archive-information'
+      },
+      'FileDistributionInformation' => {
+        required: true,
+        anchor: 'file-distribution-information'
+      }
     }
   }
 
@@ -179,6 +189,8 @@ module PreviewCirclesHelper
       FORM_FIELDS[form_name].each do |field, options|
         if field == 'DataContacts'
           valid = false unless error_fields.blank?
+        elsif form_name == 'archive_and_distribution_information'
+          valid = archive_and_distribution_valid_check(metadata, errors)
         elsif metadata[field].nil?
           valid = false if options[:required]
         elsif error_fields.include?(field)
@@ -202,6 +214,8 @@ module PreviewCirclesHelper
 
       if field == 'DataContacts'
         circle = data_contacts_circle(field, draft, form_name, options, circle, error_fields)
+      elsif form_name == 'archive_and_distribution_information'
+        circle = archive_and_distribution_circle(field, draft, form_name, options, circle, errors)
       elsif draft.draft[field].nil?
         circle = empty_circle(field, draft, form_name, options[:anchor], options[:required])
       elsif error_fields.include?(field)
@@ -238,5 +252,54 @@ module PreviewCirclesHelper
       circle = invalid_circle(field, draft, form_name, options[:anchor])
     end
     circle
+  end
+
+  def archive_and_distribution_valid_check(metadata, errors)
+    archive_exist = metadata.key?('ArchiveAndDistributionInformation') && !metadata['ArchiveAndDistributionInformation']['FileArchiveInformation'].blank?
+    distribution_exist = metadata.key?('ArchiveAndDistributionInformation') && !metadata['ArchiveAndDistributionInformation']['FileDistributionInformation'].blank?
+    valid = true
+    if !metadata.empty? && errors
+      error_fields = errors.map { |error| error[:top_field] }
+      if error_fields.include?('ArchiveAndDistributionInformation')
+        valid = false
+      end
+    end
+    (archive_exist || distribution_exist) && valid
+  end
+
+  def archive_and_distribution_circle(field, draft, form_name, options, circle, errors)
+    metadata = draft.draft
+    field_exist = metadata.key?('ArchiveAndDistributionInformation') && !metadata['ArchiveAndDistributionInformation'][field].blank?
+    field_valid = true
+    error_fields = errors.map { |error| error[:field] }
+    error_fields += errors.map { |error| error[:parent_field]}
+    if field_exist
+      if error_fields.include?(field)
+        field_valid = false
+      end
+    end
+    other_field = 'FileDistributionInformation'
+    other_field = 'FileArchiveInformation' unless field == 'FileArchiveInformation'
+    if field_exist
+      circle = invalid_circle(field, draft, form_name, options[:anchor]) unless field_valid
+    else
+      required = !archive_and_distribution_sub_field_exist_and_valid(other_field, draft, errors)
+      circle = empty_circle(field, draft, form_name, options[:anchor], required)
+    end
+    circle
+  end
+
+  def archive_and_distribution_sub_field_exist_and_valid(field, draft, errors)
+    metadata = draft.draft
+    field_exist = metadata.key?('ArchiveAndDistributionInformation') && !metadata['ArchiveAndDistributionInformation'][field].blank?
+    field_valid = true
+    error_fields = errors.map { |error| error[:field] }
+    error_fields += errors.map { |error| error[:parent_field]}
+    if field_exist
+      if error_fields.include?(field)
+        field_valid = false
+      end
+    end
+    field_exist && field_valid
   end
 end

@@ -1,5 +1,6 @@
 $(document).ready ->
   $('.metadata-form .multiple, .umm-form .multiple').on 'click', '.add-new', (e) ->
+
     $('.select2-select').select2('destroy')
 
     simple = $(this).hasClass('new-simple')
@@ -87,6 +88,13 @@ $(document).ready ->
     # than the rest of the forms. If we see instrument_children
     # here we really want to increment the composed_of index
     type = 'composed_of' if type == 'instrument_children'
+    # we need type to be axis because individual fieldsets and fields use that,
+    # but the topMultiple label and class gets pluralized into axes
+    type = 'axis' if type == 'axes'
+    # File Archive Information and File Distribution Information got plural, so
+    # here is the need to remove the 's'
+    type = 'file_archive_information' if type == 'file_archive_informations'
+    type = 'file_distribution_information' if type == 'file_distribution_informations'
 
     # Find the index that needs to be incremented
     if simple

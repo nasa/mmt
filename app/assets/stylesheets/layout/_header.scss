@@ -186,6 +186,9 @@ header.mmt-header {
     &:hover {
       color: lighten($dolphin-grey, 30%);
     }
+
+    white-space: nowrap;
+    display: block;
   }
 }
 

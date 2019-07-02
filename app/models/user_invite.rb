@@ -21,7 +21,7 @@ class UserInvite < ActiveRecord::Base
         add_members_response = cmr_client.add_group_members(group_id, [urs_uid], access_token)
         added = add_members_response.success?
         unless added
-          Rails.logger.error("Add Members to Group Error: #{add_members_response.inspect}")
+          Rails.logger.error("Add Members to Group Error: #{add_members_response.clean_inspect}")
         end
       end
 

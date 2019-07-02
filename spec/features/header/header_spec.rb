@@ -1,8 +1,21 @@
-require 'rails_helper'
-
 describe 'Header' do
   before do
     login
+  end
+
+  before :all do
+    @origin_c_config = Rails.configuration.umm_c_version
+    Rails.configuration.umm_c_version = "vnd.nasa.cmr.umm+json; version=1.23"
+    @origin_s_config = Rails.configuration.umm_s_version
+    Rails.configuration.umm_s_version = "vnd.nasa.cmr.umm+json; version=2.23"
+    @origin_var_config = Rails.configuration.umm_var_version
+    Rails.configuration.umm_var_version = "vnd.nasa.cmr.umm+json; version=1.90"
+  end
+
+  after :all do
+    Rails.configuration.umm_c_version = @origin_c_config
+    Rails.configuration.umm_s_version = @origin_s_config
+    Rails.configuration.umm_var_version = @origin_var_config
   end
 
   context 'when viewing the header' do
@@ -16,6 +29,32 @@ describe 'Header' do
           expect(page).to have_css('h2.current', text: 'Manage Collections')
         end
       end
+
+      it 'has version label' do
+        within 'main header h2.current' do
+          expect(page).to have_css('span.eui-badge--sm.umm-version-label')
+          expect(page).to have_content('v1.23')
+        end
+      end
+    end
+
+    context 'from the Manage Services page' do
+      before do
+        visit manage_services_path
+      end
+
+      it 'has "Manage Services" as the underlined current header link' do
+        within 'main header' do
+          expect(page).to have_css('h2.current', text: 'Manage Services')
+        end
+      end
+
+      it 'has version label' do
+        within 'main header h2.current' do
+          expect(page).to have_css('span.eui-badge--sm.umm-version-label')
+          expect(page).to have_content('v2.23')
+        end
+      end
     end
 
     context 'from the Manage Variables page' do
@@ -26,6 +65,13 @@ describe 'Header' do
       it 'has "Manage Variables" as the underlined current header link' do
         within 'main header' do
           expect(page).to have_css('h2.current', text: 'Manage Variables')
+        end
+      end
+
+      it 'has version label' do
+        within 'main header h2.current' do
+          expect(page).to have_css('span.eui-badge--sm.umm-version-label')
+          expect(page).to have_content('v1.90')
         end
       end
     end

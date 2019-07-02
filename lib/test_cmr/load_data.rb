@@ -618,15 +618,6 @@ module Cmr
             req.headers['Echo-token'] = 'mock-echo-system-token'
             req.body = data['metadata']
 
-            # Ingest a granules if available
-            if data['granule']
-              response = connection.put do |granule_req|
-                granule_req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
-                granule_req.headers['Content-Type'] = 'application/echo10+xml'
-                granule_req.headers['Echo-token'] = 'mock-echo-system-token'
-                granule_req.body = data['granule']
-              end
-            end
           end
 
           if response.success?
@@ -635,6 +626,22 @@ module Cmr
             set_concept_if_nsidc_test_case(data, response)
           else
             puts "Error ingesting a collection: #{response.inspect}"
+          end
+
+          # Ingest a granules if available
+          if data['granule']
+            granule_response = connection.put do |granule_req|
+              granule_req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
+              granule_req.headers['Content-Type'] = 'application/echo10+xml'
+              granule_req.headers['Echo-token'] = 'mock-echo-system-token'
+              granule_req.body = data['granule']
+            end
+
+            if granule_response.success?
+              puts "Loaded a granule"
+            else
+              puts "Failed to load a granule: #{response.inspect}"
+            end
           end
         end
       end

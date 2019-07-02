@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Dimensions Form', js: true do
   before do
     login
@@ -28,8 +26,8 @@ describe 'Dimensions Form', js: true do
       expect(page).to have_selector(:link_or_button, 'Add another Dimension')
     end
 
-    it 'has 2 required labels' do
-      expect(page).to have_selector('label.eui-required-o', count: 2)
+    it 'has 3 required labels' do
+      expect(page).to have_selector('label.eui-required-o', count: 3)
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -212,11 +210,13 @@ describe 'Dimensions Form', js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_dimensions_0_name', with: 'Sampling time and depth')
-      expect(page).to have_field('variable_draft_draft_dimensions_0_size', with: '3000')
+      expect(page).to have_field('variable_draft_draft_dimensions_0_name', with: 'LatDim')
+      expect(page).to have_field('variable_draft_draft_dimensions_0_size', with: '36')
+      expect(page).to have_field('variable_draft_draft_dimensions_0_type', with: 'LATITUDE_DIMENSION')
 
       expect(page).to have_field('variable_draft_draft_dimensions_1_name', with: 'Lizard Herp Doc Pop')
       expect(page).to have_field('variable_draft_draft_dimensions_1_size', with: '2020')
+      expect(page).to have_field('variable_draft_draft_dimensions_1_type', with: 'LONGITUDE_DIMENSION')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -316,11 +316,13 @@ describe 'Dimensions Form', js: true do
       end
 
       it 'displays the correct values in the form' do
-        expect(page).to have_field('variable_draft_draft_dimensions_0_name', with: 'Sampling time and depth')
-        expect(page).to have_field('variable_draft_draft_dimensions_0_size', with: '3000')
+        expect(page).to have_field('variable_draft_draft_dimensions_0_name', with: 'LatDim')
+        expect(page).to have_field('variable_draft_draft_dimensions_0_size', with: '36')
+        expect(page).to have_field('variable_draft_draft_dimensions_0_type', with: 'LATITUDE_DIMENSION')
 
         expect(page).to have_field('variable_draft_draft_dimensions_1_name', with: 'Lizard Herp Doc Pop')
         expect(page).to have_field('variable_draft_draft_dimensions_1_size', with: '2020')
+        expect(page).to have_field('variable_draft_draft_dimensions_1_type', with: 'LONGITUDE_DIMENSION')
       end
     end
   end

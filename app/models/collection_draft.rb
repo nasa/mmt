@@ -11,6 +11,7 @@ class CollectionDraft < Draft
     data_contacts
     collection_citations
     metadata_information
+    archive_and_distribution_information
   )
 
   def display_entry_title
@@ -156,6 +157,8 @@ class CollectionDraft < Draft
     number_of_orbits
     start_circular_latitude
     distribution_size
+    average_file_size
+    total_collection_file_size
   )
   BOOLEAN_KEYS = %w(
     ends_at_present_flag

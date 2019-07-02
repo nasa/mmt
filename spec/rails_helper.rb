@@ -15,7 +15,7 @@ require 'rspec/rails'
 
 # require "capybara/rails"
 # require 'capybara/rspec'
-require 'capybara/poltergeist'
+require 'selenium/webdriver'
 require 'rack_session_access/capybara'
 require 'capybara-screenshot/rspec'
 require 'database_cleaner'
@@ -23,12 +23,55 @@ require 'database_cleaner'
 require 'rake'
 require 'rails/tasks'
 
-# Specs flagged with `js: true` will use Capybara's JS driver. Set
-# that JS driver to :poltergeist
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, timeout: 1.minute)
+# Specs flagged with `js: true` will use Capybara's JS driver.
+Capybara.register_driver :headless_chrome do |app|
+  # set timeout to 60s http://www.testrisk.com/2016/05/change-default-timeout-and-wait-time-of.html
+  # need to use read_timeout and open_timeout https://github.com/SeleniumHQ/selenium/blob/master/rb/lib/selenium/webdriver/remote/http/default.rb
+  client = Selenium::WebDriver::Remote::Http::Default.new
+  client.read_timeout = 60
+  client.open_timeout = 60
+
+  # http://technopragmatica.blogspot.com/2017/10/switching-to-headless-chrome-for-rails_31.html
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    # This makes javascript console logs available, but doesn't cause them to appear in real time
+    # to display javascript logs in the rspec output, add `puts page.driver.browser.manage.logs.get(:browser)`
+    # in the desired test location
+    loggingPrefs: { browser: 'ALL', client: 'ALL', driver: 'ALL', server: 'ALL' }
+  )
+
+  # disable-gpu option is temporarily necessary, possibly only for Windows
+  # https://developers.google.com/web/updates/2017/04/headless-chrome#cli
+  # no-sandbox was necessary for another application's Docker container for CI/CD
+  # https://about.gitlab.com/2017/12/19/moving-to-headless-chrome/
+  # https://developers.google.com/web/updates/2017/04/headless-chrome#faq
+  options = Selenium::WebDriver::Chrome::Options.new(
+    args: %w[headless disable-gpu no-sandbox --window-size=1440,900 --enable-features=NetworkService,NetworkServiceInProcess]
+    # args: %w[headless disable-gpu no-sandbox --window-size=1920,1080]
+  )
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, http_client: client, desired_capabilities: capabilities, options: options)
 end
-Capybara.javascript_driver = :poltergeist
+
+# setting up regular chrome driver, so it can be used if desired to see the
+# browser running the tests
+# https://robots.thoughtbot.com/headless-feature-specs-with-chrome
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
+end
+
+# setting headless_chrome as default driver, can be changed to run not headless
+Capybara.javascript_driver = :headless_chrome
+
+# because we are calling the driver a different name than the standard :selenium
+# we need to register it with capybara screenshot
+# https://github.com/mattheworiordan/capybara-screenshot/issues/211
+Capybara::Screenshot.register_driver(:headless_chrome) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
+
+# until we update to Rails 5+, we won't need to use puma, but need to specify a different server
+# https://github.com/two-pack/redmine_auto_assign_group/issues/2, https://github.com/rspec/rspec-rails/issues/1882
+Capybara.server = :webrick
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -54,6 +97,8 @@ RSpec.configure do |config|
     puts "Ruby Version:  #{`ruby --version`}"
     puts "Rails Version: #{Rails.version}"
   end
+
+  Capybara.default_max_wait_time = (ENV['CAPYBARA_WAIT_TIME'] || 15).to_i
 
   # Lines below taken from http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
   config.use_transactional_fixtures = false
@@ -81,8 +126,8 @@ RSpec.configure do |config|
 
   # Catch all requests, specific examples are still caught using their specific cassettes
   config.around(:each) do |spec|
-    VCR.use_cassette('global', record: :once) do
-      VCR.use_cassette('echo_soap/provider_names') do
+    VCR.use_cassette('global', record: :none) do
+      VCR.use_cassette('echo_soap/provider_names', record: :none) do
         spec.run
       end
     end

@@ -1,7 +1,3 @@
-# MMT-292, MMT-299
-
-require 'rails_helper'
-
 describe 'Related URLs information form', js: true do
   before do
     login
@@ -15,7 +11,7 @@ describe 'Related URLs information form', js: true do
         click_on 'Related URLs', match: :first
       end
 
-      click_on 'Expand All'
+      open_accordions
 
       # Complete RelatedUrl fields
       add_related_urls
@@ -24,7 +20,7 @@ describe 'Related URLs information form', js: true do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
-      click_on 'Expand All'
+      open_accordions
     end
 
     it 'displays a confirmation message' do
@@ -42,17 +38,15 @@ describe 'Related URLs information form', js: true do
       within '.multiple.related-urls> .multiple-item-1' do
         expect(page).to have_field('Description', with: 'Example Description 2')
         expect(page).to have_field('URL Content Type', with: 'DistributionURL')
-        expect(page).to have_field('Type', with: 'GET SERVICE')
-        expect(page).to have_field('Subtype', with: 'DIF')
+        expect(page).to have_field('Type', with: 'GET DATA')
+        expect(page).to have_field('Subtype', with: 'DIRECT DOWNLOAD')
         expect(page).to have_field('URL', with: 'https://example.com/')
 
-        expect(page).to have_field('Mime Type', with: 'Not provided')
-        expect(page).to have_field('Protocol', with: 'HTTPS')
-        expect(page).to have_field('Full Name', with: 'Service name')
-        expect(page).to have_field('Data ID', with: 'data id')
-        expect(page).to have_field('Data Type', with: 'data type')
-        expect(page).to have_selector('input.uri[value="uri1"]')
-        expect(page).to have_selector('input.uri[value="uri2"]')
+        expect(page).to have_field('Format', with: 'ascii')
+        expect(page).to have_field('Size', with: '42.0')
+        expect(page).to have_field('Unit', with: 'KB')
+        expect(page).to have_field('Fees', with: '0')
+        expect(page).to have_field('Checksum', with: 'testchecksum123')
       end
     end
   end

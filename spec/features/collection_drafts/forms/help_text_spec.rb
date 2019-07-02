@@ -98,7 +98,7 @@ describe 'Draft form help text', js: true do
       end
     end
 
-    context 'when clicking on the help icon with a help link' do
+    context 'when clicking on the help icon with a help link in Collection Information' do
       before do
         within '.metadata' do
           click_on 'Collection Information'
@@ -109,6 +109,75 @@ describe 'Draft form help text', js: true do
 
       it 'displays the help link in the modal' do
         expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Version')
+      end
+    end
+
+    context 'when clicking on the help icon with a help link in Data Identification' do
+      before do
+        within '.metadata' do
+          click_on 'Data Identification'
+        end
+
+        click_on 'Help modal for Data Dates'
+      end
+
+      it 'displays the help link in the modal' do
+        expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Data+Dates')
+      end
+    end
+
+    context 'when clicking on the help icon with a help link in Descriptive Keywords' do
+      before do
+        within '.metadata' do
+          click_on 'Descriptive Keywords'
+        end
+
+        click_on 'Help modal for Ancillary Keywords'
+      end
+
+      it 'displays the help link in the modal' do
+        expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Ancillary+Keywords')
+      end
+    end
+
+    context 'when clicking on the help icon with a help link in Metadata Information' do
+      before do
+        within '.metadata' do
+          click_on 'Metadata Information'
+        end
+
+        click_on 'Help modal for Metadata Language'
+      end
+
+      it 'displays the help link in the modal' do
+        expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Language')
+      end
+    end
+
+    context 'when clicking on the help icon with a help link in Spatial Information' do
+      before do
+        first('#spatial-information > div.meta-info > a').click
+
+        click_on 'Help modal for Tiling Identification Systems'
+      end
+
+      it 'displays the help link in the modal' do
+        expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Tiling+Identification+System')
+      end
+    end
+
+    context 'when clicking on the help icon with a help link in Data Contacts' do
+      before do
+        within '#data-contacts .meta-info' do
+          click_link 'Data Contacts', match: :first
+        end
+
+        select 'Data Center Contact Group', from: 'Data Contact Type'
+        click_on 'Help modal for Data Center Contact Group'
+      end
+
+      it 'displays the help link in the modal' do
+        expect(page).to have_link('View More Information', href: 'https://wiki.earthdata.nasa.gov/display/CMR/Data+Center+-+Contact+Group')
       end
     end
   end

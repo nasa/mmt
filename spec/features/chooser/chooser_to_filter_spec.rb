@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Chooser To Filter', js: true do
   before do
     collections_response = cmr_success_response(File.read('spec/fixtures/cmr_search.json'))
@@ -52,7 +50,8 @@ describe 'Chooser To Filter', js: true do
 
       it 'hides values that do not match the search text' do
         within '#catalog_item_guid_toList' do
-          expect(page).to have_css('option', count: 2)
+          # Selenium is picking up the '.is-hidden' element(s) for some reason, so we need to specify not having the class
+          expect(page).to have_css('option:not(.is-hidden)', count: 2)
         end
       end
 
@@ -77,7 +76,8 @@ describe 'Chooser To Filter', js: true do
 
         it 'displays the new collection in the TO list' do
           within '#catalog_item_guid_toList' do
-            expect(page).to have_css('option', count: 3)
+            # Selenium is picking up the '.is-hidden' element(s) for some reason, so we need to specify not having the class
+            expect(page).to have_css('option:not(.is-hidden)', count: 3)
           end
         end
 
@@ -103,7 +103,8 @@ describe 'Chooser To Filter', js: true do
 
         it 'does not display the new collection in the TO list' do
           within '#catalog_item_guid_toList' do
-            expect(page).to have_css('option', count: 2)
+            # Selenium is picking up the '.is-hidden' element(s) for some reason, so we need to specify not having the class
+            expect(page).to have_css('option:not(.is-hidden)', count: 2)
           end
         end
 

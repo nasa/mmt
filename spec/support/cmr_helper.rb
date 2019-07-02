@@ -25,6 +25,12 @@ module Helpers
       Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(response_body)))
     end
 
+    def cmr_fail_response(response_body, status = nil)
+      status = status.nil? ? 400 : status
+      # failure response bodies are not necessarily JSON, so they should be parsed when passed in
+      Cmr::Response.new(Faraday::Response.new(status: status, body: response_body, response_headers: {}))
+    end
+
     def create_provider(provider_name)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::CmrHelper#create_provider' do
         cmr_conn = Faraday.new

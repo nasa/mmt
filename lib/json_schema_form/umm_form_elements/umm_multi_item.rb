@@ -17,15 +17,15 @@ class UmmMultiItem < UmmFormElement
   end
 
   def form_title
-    last_key.titleize.singularize
+    form_fragment.fetch('multiType', '').titleize.singularize
   end
 
   def form_class
-    last_key.underscore.dasherize
+    form_fragment.fetch('multiType', '').underscore.dasherize
   end
 
   def render_markup
-    content_tag(:div, class: "multiple simple-multiple #{form_class}") do
+    content_tag(:div, class: "multiple simple-multiple #{form_class}", id: idify_property_name) do
       indexes = options.fetch('indexes', [])
 
       values = Array.wrap(element_value)

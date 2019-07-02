@@ -1,7 +1,3 @@
-# MMT-35
-
-require 'rails_helper'
-
 describe 'Preview on Map link', js: true do
   base_link = 'https://search.sit.earthdata.nasa.gov/search/map'
   point_link = 'https://search.sit.earthdata.nasa.gov/search/map?sp=-77.123%2C38.789'
@@ -11,11 +7,7 @@ describe 'Preview on Map link', js: true do
   before do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
-    visit collection_draft_path(draft)
-
-    within '.metadata' do
-      click_on 'Spatial Information', match: :first
-    end
+    visit edit_collection_draft_path(draft, form: 'spatial_information')
 
     open_accordions
 
@@ -31,6 +23,7 @@ describe 'Preview on Map link', js: true do
         fill_in 'Latitude', with: '38.789'
         fill_in 'Longitude', with: '-77.123'
       end
+      find('body').click
     end
 
     it 'generates a link to Earthdata Search' do
@@ -54,14 +47,10 @@ describe 'Preview on Map link', js: true do
       context 'when saving and reloading the page' do
         before do
           within '.nav-top' do
-            click_on 'Done'
+            click_on 'Save'
           end
           # Accept
           click_on 'Yes'
-
-          within '.metadata' do
-            click_on 'Spatial Information', match: :first
-          end
 
           open_accordions
         end
@@ -84,10 +73,11 @@ describe 'Preview on Map link', js: true do
         fill_in 'East', with: '-45.3'
         fill_in 'South', with: '-45.2'
       end
+      find('body').click
     end
 
     it 'generates a link to Earthdata Search' do
-      expect(page).to have_link('Preview on Map', rectangle_link)
+      expect(page).to have_link('Preview on Map', href: rectangle_link)
     end
 
     context 'when clicking "Add another Rectangle"' do
@@ -107,14 +97,10 @@ describe 'Preview on Map link', js: true do
       context 'when saving and reloading the page' do
         before do
           within '.nav-top' do
-            click_on 'Done'
+            click_on 'Save'
           end
           # Accept
           click_on 'Yes'
-
-          within '.metadata' do
-            click_on 'Spatial Information', match: :first
-          end
 
           open_accordions
         end
@@ -141,18 +127,22 @@ describe 'Preview on Map link', js: true do
           fill_in 'Longitude', with: '10.2'
         end
 
-        click_on 'Add another Point'
+        # `click_on 'Add another Point'` does not work on the 2nd or 3rd time
+        # for some reason, so invoking the click directly
+        script = '$(".add-another-point").click();'
+        page.execute_script(script)
         within '.multiple-item-2' do
           fill_in 'Latitude', with: '10.3'
           fill_in 'Longitude', with: '20.3'
         end
 
-        click_on 'Add another Point'
+        page.execute_script(script)
         within '.multiple-item-3' do
           fill_in 'Latitude', with: '0.1'
           fill_in 'Longitude', with: '0.1'
         end
       end
+      find('body').click
     end
 
     it 'generates a link to Earthdata Search' do
@@ -176,14 +166,10 @@ describe 'Preview on Map link', js: true do
       context 'when saving and reloading the page' do
         before do
           within '.nav-top' do
-            click_on 'Done'
+            click_on 'Save'
           end
           # Accept
           click_on 'Yes'
-
-          within '.metadata' do
-            click_on 'Spatial Information', match: :first
-          end
 
           open_accordions
         end

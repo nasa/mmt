@@ -32,9 +32,8 @@ class JsonObj
     '#<JsonObj>'
   end
 
-  # UMM-S 1.1 instroducted RelatedURLs top level
-  # field, this method is used to create the correct
-  # underscored version of that name
+  # UMM-S 1.1 introducted RelatedURLs as a top level field, this method is
+  # used to create the correct underscored version of that name
   def underscore_fix_for_related_urls(key)
     if key == 'RelatedURLs'
       'related_urls'

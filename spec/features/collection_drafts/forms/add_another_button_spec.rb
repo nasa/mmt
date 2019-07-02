@@ -24,7 +24,7 @@ describe 'Add another button behavior', js: true do
 
     context 'when clicking the add another button' do
       before do
-        find('button', text: 'Add another Related URL').trigger('click')
+        find('button', text: 'Add another Related URL').click
       end
 
       it 'increments the header index' do
@@ -37,7 +37,7 @@ describe 'Add another button behavior', js: true do
 
       context 'when clicking the add another button again' do
         before do
-          find('button', text: 'Add another Related URL').trigger('click')
+          find('button', text: 'Add another Related URL').click
         end
 
         it 'increments the header index again' do

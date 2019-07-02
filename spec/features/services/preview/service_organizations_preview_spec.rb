@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Valid Service Service Organizations Preview', reset_provider: true do
   before do
     login
@@ -17,7 +15,9 @@ describe 'Valid Service Service Organizations Preview', reset_provider: true do
             within all('li.card')[0] do
               within '.card-header' do
                 expect(page).to have_content('AARHUS-HYDRO')
-                expect(page).to have_content('Multiple RolesDEVELOPERPUBLISHER')
+                expect(page).to have_content('Multiple Roles')
+                expect(page).to have_content('DEVELOPER')
+                expect(page).to have_content('PUBLISHER')
               end
               within all('.card-body')[0] do
                 within '.card-body-details' do

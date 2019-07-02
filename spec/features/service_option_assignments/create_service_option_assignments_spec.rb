@@ -57,7 +57,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
       before do
         visit service_option_assignments_path
 
-        wait_for_ajax
+        wait_for_jQuery
       end
 
       it 'does not display a create button' do
@@ -85,7 +85,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
       before do
         visit service_option_assignments_path
 
-        wait_for_ajax
+        wait_for_jQuery
       end
 
       it 'displays a create button' do
@@ -103,7 +103,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
       it 'displays the service option assignment form' do
         expect(page).to have_content('New MMT_2 Service Option Assignments')
 
-        wait_for_ajax
+        wait_for_jQuery
 
         expect(page).to have_field('Service Implementation')
         expect(page).to have_field('Service Option')
@@ -140,7 +140,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
             # Makes an ajax call to update the Chooser
             select 'Polaris', from: 'service_entry_guid'
 
-            wait_for_ajax
+            wait_for_jQuery
 
             select 'Mollis Vehicula', from: 'service_option_definition_guid'
 

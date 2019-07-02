@@ -1,4 +1,5 @@
-# render elements that may have multiple values
+# render elements that may have multiple objects with different keys
+# [{key1: value1, key2: value2}, {key1: value1, key2: value2}, ...]
 
 # :nodoc:
 class UmmPreviewMultiItems < UmmPreviewElement

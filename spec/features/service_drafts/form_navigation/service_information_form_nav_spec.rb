@@ -60,19 +60,19 @@ describe 'Service Information Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Coverage')
+          expect(page).to have_content('Operation Metadata')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Coverage')
+          expect(page).to have_content('Operation Metadata')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('coverage')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('operation_metadata')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('coverage')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('operation_metadata')
         end
       end
     end

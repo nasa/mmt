@@ -42,9 +42,9 @@ module Mmt
     config.services = YAML.load_file(Rails.root.join('config/services.yml'))
 
     # Versions of UMM for the different metadata types MMT is on
-    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.10'
-    config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.1'
-    config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.1'
+    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.13'
+    config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.5'
+    config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.2'
 
     config.middleware.insert_after "Rails::Rack::Logger", "MiddlewareHealthcheck"
 
@@ -55,6 +55,9 @@ module Mmt
     # Launchpad Metadata
     config.launchpad_metadata_url = 'https://auth.launchpad-sbx.nasa.gov/unauth/metadata/launchpad-sbx.idp.xml'
     config.launchpad_metadata_url = 'https://auth.launchpad.nasa.gov/unauth/metadata/launchpad.idp.xml' if ENV['launchpad_production'] == 'true'
+
+    # Caches user information in orders for the specified period of time
+    config.orders_user_cache_expiration = 15.minutes
 
     def load_version
       version_file = "#{config.root}/version.txt"
@@ -71,5 +74,6 @@ module Mmt
 
     # Log request UUID so we can track requests across threaded log messages
     config.log_tags = [:uuid]
+
   end
 end

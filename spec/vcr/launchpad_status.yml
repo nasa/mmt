@@ -12,7 +12,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       server:
       - Apache-Coyote/1.1
@@ -29,6 +29,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: OK
-    http_version: 
+    http_version:
   recorded_at: Thu, 28 Jun 2018 14:27:23 GMT
 recorded_with: VCR 4.0.0

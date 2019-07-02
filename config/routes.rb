@@ -65,6 +65,15 @@ Rails.application.routes.draw do
   get '/collections/:id/clone' => 'collections#clone', as: 'clone_collection'
   get '/collections/:id/download_xml/:format(/:revision_id)' => 'collections#download_xml', as: 'download_collection_xml'
 
+  resource :variable_generation_processes_search, only: [:new]
+
+  resource :variable_generation_process, only: [:create, :update] do
+    member do
+      match 'edit', action: :edit, via: [:put]
+      match 'save_variable_drafts', action: :save_variable_drafts, via: [:post]
+    end
+  end
+
   resources :variables, only: [:show, :create, :edit, :destroy] do
     resources :collection_associations, only: [:index, :new, :create] do
       collection do
@@ -139,6 +148,7 @@ Rails.application.routes.draw do
 
   get 'login' => 'users#login', as: 'login'
   get 'logout' => 'users#logout'
+  get 'launchpad' => 'users#login', defaults: { login_method: 'launchpad' }
   get 'prompt_urs_association' => 'users#prompt_urs_association'
   get 'confirm_urs_association' => 'users#confirm_urs_association'
   post 'associate_urs_and_launchpad_ids' => 'users#associate_urs_and_launchpad_ids'

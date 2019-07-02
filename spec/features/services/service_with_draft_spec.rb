@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service with draft', reset_provider: true do
   modal_text = 'requires you change your provider context to MMT_2'
 
@@ -30,7 +28,8 @@ describe 'Service with draft', reset_provider: true do
             expect(page).to have_content("#{@concept_response.body['Name']}_#{@concept_response.body['Version']}")
           end
 
-          expect(page).to have_content("#{@concept_response.body['Name']}_#{@concept_response.body['Version']} #{@concept_response.body['LongName']}")
+          expect(page).to have_content("#{@concept_response.body['Name']}_#{@concept_response.body['Version']}")
+          expect(page).to have_content("#{@concept_response.body['LongName']}")
         end
       end
     end
@@ -61,7 +60,7 @@ describe 'Service with draft', reset_provider: true do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context' do
@@ -74,7 +73,8 @@ describe 'Service with draft', reset_provider: true do
               expect(page).to have_content(@concept_response.body['Name'])
             end
 
-            expect(page).to have_content("#{@concept_response.body['Name']}_#{@concept_response.body['Version']} #{@concept_response.body['LongName']}")
+            expect(page).to have_content("#{@concept_response.body['Name']}_#{@concept_response.body['Version']}")
+            expect(page).to have_content("#{@concept_response.body['LongName']}")
           end
         end
       end

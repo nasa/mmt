@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Error pages' do
   before do
     allow_any_instance_of(ActionDispatch::Request).to receive(:uuid).and_return(1234567890)
@@ -21,7 +19,8 @@ describe 'Error pages' do
       end
 
       it 'displays the approriate 404 page' do
-        expect(page).to have_content('404 Resource Not Found')
+        expect(page).to have_content('404')
+        expect(page).to have_content('Resource Not Found')
         expect(page).to have_content('Sorry! The page you were looking for does not exist.')
       end
 
@@ -36,7 +35,8 @@ describe 'Error pages' do
       end
 
       it 'displays the approriate 404 error page' do
-        expect(page).to have_content('404 Resource Not Found')
+        expect(page).to have_content('404')
+        expect(page).to have_content('Resource Not Found')
         expect(page).to have_content('Sorry! The page you were looking for does not exist.')
       end
 
@@ -69,7 +69,8 @@ describe 'Error pages' do
       end
 
       it 'displays the appropriate 500 error page' do
-        expect(page).to have_content('500 Internal Server Error')
+        expect(page).to have_content('500')
+        expect(page).to have_content('Internal Server Error')
         expect(page).to have_content("We're sorry, but something went wrong.")
       end
 
@@ -84,7 +85,8 @@ describe 'Error pages' do
       end
 
       it 'displays the appropriate 500 error page' do
-        expect(page).to have_content('500 Internal Server Error')
+        expect(page).to have_content('500')
+        expect(page).to have_content('Internal Server Error')
         expect(page).to have_content("We're sorry, but something went wrong.")
       end
 

@@ -32,5 +32,6 @@
 //= require redactor/redactor.min
 //= require jquery-textcounter/textcounter.min
 //= require jquery-ui/widgets/tooltip
+//= require jquery-pagination-2.1.4/pagination.min
 
 //= require_tree .

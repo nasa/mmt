@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Valid Variable Set Preview', reset_provider: true do
   before do
     login

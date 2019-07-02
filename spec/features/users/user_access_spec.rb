@@ -60,6 +60,7 @@ describe 'User Access' do
   context 'when both URS and Launchpad login methods are available' do
     context 'when a logged out user tries to view an access restricted page' do
       before do
+        make_launchpad_button_hidden(false)
         require_launchpad_and_urs_login
 
         visit search_path
@@ -75,7 +76,7 @@ describe 'User Access' do
 
       it 'displays both login options' do
         expect(page).to have_link('Login with Launchpad', href: login_path(login_method: 'launchpad'))
-        expect(page).to have_link('Login with URS', href: login_path(login_method: 'urs'))
+        expect(page).to have_link('Login with Earthdata Login', href: login_path(login_method: 'urs'))
       end
     end
 

@@ -19,7 +19,7 @@ describe 'Groups Associated Permissions', reset_provider: true do
     end
 
     it 'displays the associated permissions' do
-      expect(page).to have_content 'Associated Permissions Test Permission'
+      expect(page).to have_content 'Associated Permissions'
 
       expect(page).to have_content 'Test Permission 1'
       expect(page).to have_content 'Test Permission 2'

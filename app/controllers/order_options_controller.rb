@@ -13,6 +13,7 @@ class OrderOptionsController < ManageCmrController
                           # Retreive the order options and sort by name, ignoring case
                           Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
                         else
+                          Rails.logger.error("Retrieve Order Options List Error: #{order_options_response.inspect}")
                           []
                         end
 
@@ -39,7 +40,7 @@ class OrderOptionsController < ManageCmrController
       flash[:success] = 'Order Option was successfully created.'
       redirect_to order_option_path(order_option_id)
     else
-      Rails.logger.error("Create Order Option Error: #{response.inspect}")
+      Rails.logger.error("Create Order Option Error: #{response.clean_inspect}")
       flash.now[:error] = response.parsed_body['errors']['error']
       render :new
     end
@@ -56,7 +57,7 @@ class OrderOptionsController < ManageCmrController
 
       add_breadcrumb @order_option.fetch('name', nil), order_option_path(order_option_id)
     else
-      Rails.logger.error("Get Order Option Definition Error: #{response.inspect}")
+      Rails.logger.error("Get Order Option Definition Error: #{response.clean_inspect}")
       flash[:error] = response.parsed_body['errors']['error']
       redirect_to order_options_path
     end
@@ -71,7 +72,7 @@ class OrderOptionsController < ManageCmrController
       add_breadcrumb @order_option.fetch('name', nil), order_option_path(@order_option_id)
       add_breadcrumb 'Edit', edit_order_option_path(@order_option_id)
     else
-      Rails.logger.error("Get Order Option Definition Error: #{response.inspect}")
+      Rails.logger.error("Get Order Option Definition Error: #{response.clean_inspect}")
       flash[:error] = response.parsed_body['errors']['error']
       redirect_to order_options_path
     end
@@ -93,6 +94,7 @@ class OrderOptionsController < ManageCmrController
     # the user tries to rename it something that already exists.
     unless soap_xml_response.success?
       if soap_xml_response.error_code != 'OptionDefAlreadyDeprecated'
+        Rails.logger.error("Deprecate Order Options to Update Error: #{soap_xml_response.inspect}")
         flash[:error] = soap_xml_response.error_message
         render :edit and return
       end
@@ -106,7 +108,7 @@ class OrderOptionsController < ManageCmrController
       flash[:success] = 'Order Option was successfully updated.'
       redirect_to order_option_path(order_option_id)
     else
-      Rails.logger.error("Update Order Option Error: #{response.inspect}")
+      Rails.logger.error("Update Order Option Error: #{response.clean_inspect}")
       flash[:error] = response.parsed_body['errors']['error']
       render :edit
     end
@@ -118,7 +120,7 @@ class OrderOptionsController < ManageCmrController
       flash[:success] = 'Order Option was successfully deleted.'
       redirect_to order_options_path
     else
-      Rails.logger.error("Delete Order Option Error: #{response.inspect}")
+      Rails.logger.error("Delete Order Option Error: #{response.clean_inspect}")
       flash[:error] = response.parsed_body['errors']['error']
       redirect_to order_options_path
     end

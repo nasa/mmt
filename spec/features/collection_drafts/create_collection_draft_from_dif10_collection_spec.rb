@@ -1,12 +1,8 @@
-# MMT-548
-
-require 'rails_helper'
-
 describe 'Create and edit a draft from a Dif 10 collection with location keywords', js: true do
   short_name = 'SWDB_L310'
 
   before do
-    login(provider: 'LARC', providers: %w(MMT_2 LARC))
+    login(provider: 'LARC', providers: %w[MMT_2 LARC])
     visit manage_collections_path
   end
 
@@ -22,7 +18,7 @@ describe 'Create and edit a draft from a Dif 10 collection with location keyword
     it 'imports the location keywords' do
       # test for location keywords on preview page
       within '.location-keyword-preview' do
-        expect(page).to have_content('GEOGRAPHIC REGION GLOBAL')
+        expect(page).to have_content('GEOGRAPHIC REGION GLOBAL', normalize_ws: true)
       end
     end
 
@@ -45,9 +41,9 @@ describe 'Create and edit a draft from a Dif 10 collection with location keyword
 
       it 'displays all the location keywords in the metadata preview' do
         within '.location-keyword-preview' do
-          expect(page).to have_content('GEOGRAPHIC REGION GLOBAL')
-          expect(page).to have_content('GEOGRAPHIC REGION ARCTIC')
-          expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA')
+          expect(page).to have_content('GEOGRAPHIC REGION GLOBAL', normalize_ws: true)
+          expect(page).to have_content('GEOGRAPHIC REGION ARCTIC', normalize_ws: true)
+          expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
         end
       end
     end

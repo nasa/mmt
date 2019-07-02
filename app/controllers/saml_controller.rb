@@ -44,7 +44,7 @@ class SamlController < UsersController
   def acs
     settings = Account.get_saml_settings(get_url_base, get_authn_context)
 
-    saml_response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings)
+    saml_response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: settings, allowed_clock_drift: 2.seconds)
 
     if saml_response.is_valid?
       # set the login method
@@ -61,9 +61,14 @@ class SamlController < UsersController
       session[:logged_in_at] = Time.now.to_i
       session[:original_logged_in_at] = Time.now.to_i
 
+      Rails.logger.debug "!!!!!!! Returned from Launchpad, in saml#acs and saml_response is valid"
+      log_all_session_keys
+
       # get the user's associated URS profile, if they don't have an associated
       # account, return to allow the redirect to prompt them to link accounts
       urs_profile = get_urs_profile_from_auid || return
+      Rails.logger.debug "!!!!!!! Got URS profile"
+      log_all_session_keys
 
       finish_successful_login(urs_profile)
     else

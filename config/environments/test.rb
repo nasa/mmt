@@ -56,8 +56,14 @@ Rails.application.configure do
   # Feature Toggle for bulk updates
   config.bulk_updates_enabled = true
 
+  # Feature Toggle for invite uses
+  config.invite_users_enabled = false
+
   # Feature Toggle for UMM-S
   config.umm_s_enabled = true
+
+  # Feature Toggle for UMM-Var Generation
+  config.uvg_enabled = true
 
   # Feature Toggle for templates
   config.templates_enabled = true
@@ -68,5 +74,5 @@ Rails.application.configure do
 
   config.middleware.use RackSessionAccess::Middleware
 
-  config.colorize_logging = false
+  # config.colorize_logging = false
 end

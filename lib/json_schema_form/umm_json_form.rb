@@ -86,7 +86,7 @@ class UmmJsonForm < JsonFile
     input['draft'] = convert_to_arrays(input.fetch('draft', {}))
     Rails.logger.debug "After Converting Arrays: #{input.inspect}"
 
-    # Convert ruby style form element names (example_string) to UMM preferred PascalCase
+    # Convert ruby style form element names (example_string) to UMM preferred PascalCase (ExampleString) using the Awrence gem
     input['draft'] = input['draft'].to_camel_keys
     Rails.logger.debug "After CamelKeys: #{input.inspect}"
 
@@ -183,6 +183,10 @@ class UmmJsonForm < JsonFile
           # Keep diggin'
           new_element = element[index]
           convert_values_by_type(input, new_element, "#{new_key}/#{index}") if new_element.is_a?(Hash)
+          # We assume that arrays should only be a list of objects which require keys or a list of simple values
+          # If we get to this point, we are looking at values of the array.
+          element_path_as_array.map! { |value| UmmUtilities.convert_to_integer(value) }
+          element_path_as_array.reduce(input) { |a, e| a[e] }[index] = convert_key_to_type(new_element, schema.element_type(new_key))
         end
       else
         # Pull out the key's leaf, we'll use it set the value below

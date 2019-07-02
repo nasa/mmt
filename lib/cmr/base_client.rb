@@ -5,7 +5,10 @@ module Cmr
                               events: Cmr::ClientMiddleware::EventMiddleware)
   class BaseClient
     # include Cmr::QueryTransformations
-    CLIENT_ID = 'MMT'
+    include Cmr::Util
+
+    CLIENT_ID = 'MMT'.freeze
+    NGINX_TIMEOUT = 300
 
     def connection
       @connection ||= build_connection
@@ -16,10 +19,21 @@ module Cmr
       @client_id = client_id
     end
 
+    # sets the timeout used for faraday connections
+    def timeout=(value)
+      value = 1 if (value <= 0) # not sure how faraday reacts to timeout values of <= 0
+      connection.options[:timeout] = value
+    end
+
+    # returns the timeouts used by faraday connections
+    def timeout
+      connection.options[:timeout]
+    end
+
     protected
 
-    # ABC-1: Admin
-    # ABC-2: Typical
+    # Token "ABC-1" is created on local cmr start up for Admin user
+    # Token "ABC-2" is created on local cmr start up for Typical user
     def token_header(token, use_real = false)
       if (Rails.env.development? || Rails.env.test?) && !use_real
         mock_token = 'ABC-2'
@@ -30,8 +44,8 @@ module Cmr
       else
         return {} unless token.present?
 
-        if ENV['urs_login_required'] != 'false'
-          # passing the URS token to CMR requires the client id also
+        if is_urs_token?(token)
+          # passing the URS token to CMR requires the client id
           { 'Echo-Token' => "#{token}:#{@client_id}" }
         else
           { 'Echo-Token' => token }
@@ -54,10 +68,21 @@ module Cmr
         end
         req.body = body unless body.blank?
       end
+
       client_response = Cmr::Response.new(faraday_response)
 
       begin
-        Rails.logger.info "#{self.class} Response #{method} #{url} result : Headers: #{client_response.headers} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_s(:log_time)}"
+        client_response_headers_for_logs = client_response.headers.dup
+
+        if url.include?('keepalive')
+          set_cookie_to_log = client_response_headers_for_logs.fetch('set-cookie', '')
+
+          client_response_headers_for_logs['set-cookie'] = "length: #{set_cookie_to_log.length.round(-2)}; snippet: #{set_cookie_to_log.truncate(60)}"
+        end
+
+        Rails.logger.error "#{self.class} Response Error: #{client_response.body.inspect}" if client_response.error?
+
+        Rails.logger.info "#{self.class} Response #{method} #{url} result : Headers: #{client_response_headers_for_logs} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_s(:log_time)}"
       rescue => e
         Rails.logger.error "#{self.class} Error: #{e}"
       end
@@ -93,18 +118,13 @@ module Cmr
         # conn.response :xml, content_type: /\bxml$/
         conn.response :errors, content_type: /\bhtml$/
 
+        # Set timeout to 300s to match nginx timeout
+        conn.options[:timeout] = NGINX_TIMEOUT - 10
+
         conn.adapter Faraday.default_adapter
       end
     end
 
-    def valid_uri?(uri)
-      !!URI.parse(uri)
-    rescue URI::InvalidURIError
-      false
-    end
 
-    def encode_if_needed(url_fragment)
-      valid_uri?(url_fragment) ? url_fragment : URI.encode(url_fragment)
-    end
   end
 end

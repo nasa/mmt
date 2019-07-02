@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Invalid Variable Draft Dimensions Preview' do
   before do
     login
@@ -42,7 +40,7 @@ describe 'Invalid Variable Draft Dimensions Preview' do
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.dimensions' do
-        expect(page).to have_css('.umm-preview-field-container', count: 3)
+        expect(page).to have_css('.umm-preview-field-container', count: 4)
 
         within '#variable_draft_draft_dimensions_preview' do
           expect(page).to have_css('h6', text: 'Dimension 1')
@@ -57,6 +55,12 @@ describe 'Invalid Variable Draft Dimensions Preview' do
             expect(page).to have_css('h5', text: 'Size')
             expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'dimensions', anchor: 'variable_draft_draft_dimensions_0_size'))
             expect(page).to have_css('p', text: 'string')
+          end
+
+          within '#variable_draft_draft_dimensions_0_type_preview' do
+            expect(page).to have_css('h5', text: 'Type')
+            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'dimensions', anchor: 'variable_draft_draft_dimensions_0_type'))
+            expect(page).to have_css('p', text: 'No value for Type provided.')
           end
         end
       end

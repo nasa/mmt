@@ -1,5 +1,4 @@
 $(document).ready ->
-
   isMetadataForm = ->
     $('.metadata-form').length > 0
 
@@ -23,9 +22,10 @@ $(document).ready ->
       json = JSON.parse(json.serializeJSON())
       if isUmmSForm()
         json = json.ServiceDraft?.Draft or {}
-        fixRelatedURLs(json)
+        fixServicesKeys(json)
       else if isUmmVarForm()
         json = json.VariableDraft?.Draft or {}
+        fixAvgCompressionRates(json)
 
     json = {} unless json?
 
@@ -35,10 +35,49 @@ $(document).ready ->
 
     return json
 
-  fixRelatedURLs = (json) ->
-    if json?.RelatedUrls?
-      json.RelatedURLs = json.RelatedUrls
-      delete json.RelatedUrls
+  # fix keys from the serialized page json that don't match the schema
+  fixServicesKeys = (json) ->
+    if isUmmSForm()
+      # fix RelatedUrls to RelatedURLs
+      if json?.RelatedUrls?
+        json.RelatedURLs = json.RelatedUrls
+        delete json.RelatedUrls
+      # Operation Metadata has DataResourceDOI, CRSIdentifier, and UOMLabel
+      # that need to be fixed
+      if json?.OperationMetadata?
+        for opData, i in json.OperationMetadata
+          if opData?.CoupledResource?
+            cResource = opData.CoupledResource
+
+            if cResource.DataResourceDoi?
+              cResource.DataResourceDOI = cResource.DataResourceDoi
+              delete cResource.DataResourceDoi
+
+            if cResource.DataResource?.DataResourceSpatialExtent?
+              spExtent = cResource.DataResource.DataResourceSpatialExtent
+
+              if spExtent.SpatialBoundingBox?.CrsIdentifier?
+                spExtent.SpatialBoundingBox.CRSIdentifier = spExtent.SpatialBoundingBox.CrsIdentifier
+                delete spExtent.SpatialBoundingBox.CrsIdentifier
+
+              if spExtent.GeneralGrid?
+                if spExtent.GeneralGrid.CrsIdentifier?
+                  spExtent.GeneralGrid.CRSIdentifier = spExtent.GeneralGrid.CrsIdentifier
+                  delete spExtent.GeneralGrid.CrsIdentifier
+                if spExtent.GeneralGrid.Axis?
+                  for ax in spExtent.GeneralGrid.Axis
+                    if ax.Extent?.UomLabel?
+                      ax.Extent.UOMLabel = ax.Extent.UomLabel
+                      delete ax.Extent.UomLabel
+
+  # This fixes AvgCompressionRateASCII and AvgCompressionRateNetCDF4 in the page json
+  fixAvgCompressionRates = (json) ->
+    if json?.SizeEstimation?.AvgCompressionRateAscii?
+      json.SizeEstimation.AvgCompressionRateASCII = json.SizeEstimation.AvgCompressionRateAscii
+      delete json.SizeEstimation.AvgCompressionRateAscii
+    if json?.SizeEstimation?.AvgCompressionRateNetCdf4?
+      json.SizeEstimation.AvgCompressionRateNetCDF4 = json.SizeEstimation.AvgCompressionRateNetCdf4
+      delete json.SizeEstimation.AvgCompressionRateNetCdf4
 
   # Nested non-array fields don't display validation errors because there is no form field for the top level field
   # Adding an empty object into the json changes the validation to display errors on the missing subfields
@@ -47,7 +86,6 @@ $(document).ready ->
       json?.ProcessingLevel = {} unless json?.ProcessingLevel?
     else if isUmmSForm()
       json?.RelatedURLs = [] unless json?.RelatedURLs?
-
 
   fixNumbers = (json) ->
     if isMetadataForm()
@@ -64,6 +102,10 @@ $(document).ready ->
       value = json
       while match = re.exec name
         newPath = humps.pascalize(match[1])
+        if isUmmForm()
+          newPath = 'AvgCompressionRateASCII' if newPath == 'AvgCompressionRateAscii'
+          newPath = 'AvgCompressionRateNetCDF4' if newPath == 'AvgCompressionRateNetCdf4'
+
         unless newPath == 'Draft'
           value = value[newPath]
           path.push newPath
@@ -148,6 +190,11 @@ $(document).ready ->
       # UseConstraintsType is the only place a 'not' validation is used
       # so this is a very specific message
       when 'not' then 'License Url and License Text cannot be used together'
+      # In case of Average File Size is set but no Average File Size Unit was selected
+      # and also in case of Total Collection File Size and Total Collection File Size Unit,
+      # we only want this simple message instead of the raw message:
+#     # 'should have property TotalCollectionFileSizeUnit when property TotalCollectionFileSize is present'
+      when 'dependencies' then "#{field} is required"
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
@@ -235,7 +282,9 @@ $(document).ready ->
 
     # Hide individual required errors from an anyOf constraint
     # So we don't fill the form with errors that don't make sense to the user
-    if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1
+    # Except ArchiveAndDistributionInformation has 'anyOf' constraint to the child element FileArchiveInformation and
+    # FileDistributionInformation which have required field 'Format'
+    if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1 && !(error.dataPath.indexOf('ArchiveAndDistributionInformation') > -1 && error.params['missingProperty'] == 'Format')
       error = null
       return
 
@@ -254,6 +303,10 @@ $(document).ready ->
     path = path.replace(/i_s_b_n/g, 'isbn')
     path = path.replace(/i_s_o_topic_categories/g, 'iso_topic_categories')
     path = path.replace(/data_i_d/g, 'data_id')
+    path = path.replace(/c_r_s_identifier/g, 'crs_identifier')
+    path = path.replace(/u_o_m_label/g, 'uom_label')
+    path = path.replace(/a_s_c_i_i/g, 'ascii')
+    path = path.replace(/c_d_f_4/g, 'cdf4')
     error.path = path
 
     if isMetadataForm()
@@ -267,8 +320,18 @@ $(document).ready ->
       id = id.slice(0, id.length - 2)
     error.id = id
     error.element = $("##{id}")
-    labelFor = id.replace(/\d+$/, "")
+
+    if id.indexOf('cdf4') >= 0
+      labelFor = id
+    else
+      labelFor = id.replace(/(_)?\d+$/, "")
+
     error.title = $("label[for='#{labelFor}']").text()
+
+    if error.title.length == 0 && error.element.closest('.multiple').hasClass('simple-multiple')
+      # some Multi Item fields (arrays of simple values) in UMM-C drafts have one label tied to the first field
+      error.title = $("label[for='#{labelFor}_0']").text()
+
     error
 
   validateParameterRanges = (errors) ->
@@ -397,6 +460,15 @@ $(document).ready ->
 
     errors
 
+  addIfNotAlready = (errorArray, newError) ->
+    exist = false
+    for error in errorArray
+      if error.id == newError.id && error.keyword == newError.keyword
+        exist = true
+    if !exist && $("##{newError.id}").length > 0
+      errorArray.push newError
+    errorArray
+
   validatePage = (opts) ->
     $('.validation-error').remove()
     $('.summary-errors').remove()
@@ -445,8 +517,15 @@ $(document).ready ->
 
         if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1
           # don't duplicate errors
-          inlineErrors.push error if $("##{error.id}").length > 0
-          summaryErrors.push error if $("##{error.id}").length > 0
+          # Because ArchiveAndDistributionInformation has 'anyOf' child elements,
+          # error from the schema validator can be duplicated, so add an error to
+          # the error arrays only if not already exist
+          if error.id.match /^draft_archive_and_distribution_information_/i
+            addIfNotAlready(inlineErrors, error)
+            addIfNotAlready(summaryErrors, error)
+          else
+            inlineErrors.push error if $("##{error.id}").length > 0
+            summaryErrors.push error if $("##{error.id}").length > 0
 
     if inlineErrors.length > 0 and opts.showInline
       displayInlineErrors inlineErrors
@@ -475,6 +554,14 @@ $(document).ready ->
       visitedFields.push 'draft_use_constraints' unless visitedFields.indexOf('draft_use_constraints') != -1
 
     visitedFields.push field_id unless visitedFields.indexOf(field_id) != -1
+
+    if field_id.match /^variable_draft_draft_characteristics_index_ranges_lat_range_/i
+      latRangeParentId = 'variable_draft_draft_characteristics_index_ranges_lat_range'
+      visitedFields.push latRangeParentId unless visitedFields.indexOf(latRangeParentId) != -1
+
+    if field_id.match /^variable_draft_draft_characteristics_index_ranges_lon_range_/i
+      lonRangeParentId = 'variable_draft_draft_characteristics_index_ranges_lon_range'
+      visitedFields.push lonRangeParentId unless visitedFields.indexOf(lonRangeParentId) != -1
 
   validateFromFormChange = ->
     validatePage

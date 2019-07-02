@@ -50,7 +50,6 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         # click outside the text field to trigger validation
         all('label[for="update_field"]').first.click
 
-        wait_for_ajax
         wait_for_jQuery
       end
 
@@ -64,7 +63,6 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         fill_in 'bulk_update_name', with: used_bulk_update_name
         click_on 'Preview'
 
-        wait_for_ajax
         wait_for_jQuery
       end
 

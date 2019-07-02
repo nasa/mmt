@@ -14,11 +14,27 @@
           },
           "minItems": 0
         },
-        "SupportedProjections": {
-          "description": "This element is used to identify the list of supported projections types.",
+        "VariableAggregationSupportedMethods": {
+          "description": "This element is used to identify the list of supported methods of variable aggregation.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ProjectionTypeEnum"
+            "$ref": "#/definitions/VariableAggregationTypeEnum"
+          },
+          "minItems": 0
+        },
+        "SupportedInputProjections": {
+          "description": "This element is used to identify the list of supported input projections types.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SupportedProjectionType"
+          },
+          "minItems": 0
+        },
+        "SupportedOutputProjections": {
+          "description": "This element is used to identify the list of supported output projections types.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SupportedProjectionType"
           },
           "minItems": 0
         },
@@ -30,13 +46,67 @@
           },
           "minItems": 0
         },
-        "SupportedFormats": {
-          "description": "This project element describes the list of names of the formats supported by the service.",
+        "SupportedInputFormats": {
+          "description": "The project element describes the list of input format names supported by the service.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/FormatTypeEnum"
+            "$ref": "#/definitions/SupportedFormatTypeEnum"
           },
           "minItems": 0
+        },
+        "SupportedOutputFormats": {
+          "description": "The project element describes the list of output format names supported by the service.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SupportedFormatTypeEnum"
+          },
+          "minItems": 0
+        },
+        "MaxGranules": {
+          "description": "This field indicates the maximum number of granules which this service can download with one request.",
+          "type": "number"
+        }
+      }
+    },
+    "SupportedProjectionType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This element is used to identify the input projection type of the variable.",
+      "properties": {
+        "ProjectionName": {
+          "description": "This element is used to identify the list of supported projection types.",
+          "type": "string",
+          "enum": ["Geographic", "Military Grid Reference", "MODIS Sinusoidal System", "Sinusoidal", "World Mollweide", "Mercator", "Space Oblique Mercator", "Transverse Mercator", "Universal Transverse Mercator", "UTM Northern Hemisphere", "UTM Southern Hemisphere", "State Plane Coordinates", "Albers Equal-Area Conic",  "Lambert Conic Conformal", "Lambert Equal Area", "Lambert Azimuthal Equal Area", "Cylindrical", "Cylindrical Equal Area", "Polar Stereographic", "EASE-Grid", "EASE-Grid 2.0", "WGS 84 / UPS North (N,E)", "WGS84 - World Geodetic System 1984", "NSIDC EASE-Grid North", "NSIDC EASE-Grid Global", "NSIDC Sea Ice Polar Stereographic North", "WGS 84 / NSIDC Sea Ice Polar Stereographic North", "NSIDC EASE Grid North and South (Lambert EA)", "WGS 84 / North Pole LAEA Bering Sea", "WGS 84 / North Pole LAEA Alaska", "WGS 84 / North Pole LAEA Canada", "WGS 84 / North Pole LAEA Atlantic", "WGS 84 / North Pole LAEA Europe", "WGS 84 / North Pole LAEA Russia", "WGS 84 / NSIDC EASE-Grid North", "WGS 84 / NSIDC EASE-Grid Global", "WGS 84 / UTM zone 24N", "Spherical Mercator", "WGS 84 / Pseudo-Mercator -- Spherical Mercator, Google Maps, OpenStreetMap, Bing, ArcGIS, ESRI", "Google Maps Global Mercator -- Spherical Mercator", "WGS 84 / Antarctic Polar Stereographic", "NSIDC EASE-Grid South", "NSIDC Sea Ice Polar Stereographic South", "WGS 84 / NSIDC EASE-Grid South", "WGS 84 / NSIDC Sea Ice Polar Stereographic South", "WGS 84 / UPS South (N,E)", "NSIDC EASE Grid Global", "EASE Grid 2.0 N. Polar", "Plate Carree", "WELD Albers Equal Area", "Canadian Albers Equal Area Conic", "NAD83 / UTM zone 17N"]
+        },
+        "ProjectionLatitudeOfCenter": {
+          "description": "This element is used to identify the origin of the x-coordinates at the center of the projection.",
+          "type": "number"
+        },
+        "ProjectionLongitudeOfCenter": {
+          "description": "This element is used to identify the origin of the y-coordinates at the center of the projection.",
+          "type": "number"
+        },
+        "ProjectionFalseEasting": {
+          "description": "This element is used to identify the linear value applied to the origin of the y-coordinates. False easting and northing values are usually applied to ensure that all the x and y values are positive.",
+          "type": "number"
+        },
+        "ProjectionFalseNorthing": {
+          "description": "This element is used to identify the linear value applied to the origin of the x-coordinates. False easting and northing values are usually applied to ensure that all the x and y values are positive.",
+          "type": "number"
+        },
+        "ProjectionAuthority": {
+          "description": "This element is used to identify the authority, expressed as the EPSG code, for the list of supported input projection types",
+          "$ref": "#/definitions/CRSIdentifierTypeEnum"
+        },
+        "ProjectionUnit": {
+          "description": "This element is used to identify the projection unit of measurement.",
+          "type": "string",
+          "enum": ["Meters", "Degrees"]
+        },
+        "ProjectionDatumName": {
+          "description": "This element is used to identify the projection datum name.",
+          "type": "string",
+          "enum": ["North American Datum (NAD) 1927", "North American Datum (NAD) 1983", "World Geodetic System (WGS) 1984"]
         }
       }
     },
@@ -45,20 +115,20 @@
       "type": "string",
       "enum": ["Spatial", "Temporal", "Variable"]
     },
-    "ProjectionTypeEnum": {
-      "description": "This element is used to identify the projection type of the variable.",
+    "VariableAggregationTypeEnum": {
+      "description": "This element is used to identify the list of supported methods of variable aggregation.",
       "type": "string",
-      "enum": ["Geographic", "Sinusoidal", "Mercator", "Transverse Mercator", "Universal Transverse Mercator",  "UTM Northern Hemisphere", "UTM Southern Hemisphere", "State Plane Coordinates", "Albers Equal-Area Conic",  "Lambert Conic Conformal", "Lambert Azimuthal Equal Area", "Cylindrical Equal Area", "Polar Stereographic", "EASE-Grid", "EASE-Grid 2.0", "WGS 84 / UPS North (N,E)", "WGS84 - World Geodetic System 1984", "NSIDC EASE-Grid North", "NSIDC EASE-Grid Global", "NSIDC Sea Ice Polar Stereographic North", "WGS 84 / NSIDC Sea Ice Polar Stereographic North", "WGS 84 / North Pole LAEA Bering Sea", "WGS 84 / North Pole LAEA Alaska", "WGS 84 / North Pole LAEA Canada", "WGS 84 / North Pole LAEA Atlantic", "WGS 84 / North Pole LAEA Europe", "WGS 84 / North Pole LAEA Russia", "WGS 84 / NSIDC EASE-Grid North", "WGS 84 / NSIDC EASE-Grid Global", "WGS 84 / UTM zone 24N", "WGS 84 / Pseudo-Mercator -- Spherical Mercator, Google Maps, OpenStreetMap, Bing, ArcGIS, ESRI", "Google Maps Global Mercator -- Spherical Mercator", "WGS 84 / Antarctic Polar Stereographic", "NSIDC EASE-Grid South", "NSIDC Sea Ice Polar Stereographic South", "WGS 84 / NSIDC EASE-Grid South", "WGS 84 / NSIDC Sea Ice Polar Stereographic South", "WGS 84 / UPS South (N,E)"]
+      "enum": ["AVG", "COUNT", "SUM", "MIN", "MAX", "VAR", "ANOMOLY"]
     },
     "InterpolationTypeEnum": {
       "description": "This element is used to identify the interpolation type of the variable.",
       "type": "string",
       "enum": ["Bilinear Interpolation", "Bicubic Interpolation", "Distance-weighted average resampling", "Nearest Neighbor"]
     },
-    "FormatTypeEnum": {
+    "SupportedFormatTypeEnum": {
      "description": "This element contains a list of file formats supported by the service.",
      "type": "string",
-     "enum": ["HDF4", "HDF5", "HDF-EOS4", "HDF-EOS5", "netCDF-3", "netCDF-4", "Binary", "ASCII", "PNG", "JPEG", "GeoTIFF", "image/png", "image/tiff", "image/gif", "image/png; mode=24bit", "image/jpeg", "image/vnd.wap.wbmp"]
+     "enum": ["HDF4", "HDF5", "HDF-EOS", "HDF-EOS2", "HDF-EOS5", "NETCDF-3", "NETCDF-4", "GEOTIFF", "GEOTIFFINT16", "GEOTIFFFLOAT32", "XML", "ASCII", "BINARY", "ICARTT", "PNG", "JPEG", "GIF", "TIFF", "XLSX", "JSON", "CSV", "KML", "PNG24", "BMP"]
     },
     "ServiceKeywordType": {
       "type": "object",
@@ -140,16 +210,6 @@
           },
           "minItems": 1
         },
-        "Uuid": {
-          "description": "Uuid of the service contact.",
-          "$ref": "umm-cmn-json-schema.json#/definitions/UuidType"
-        },
-        "NonServiceOrganizationAffiliation": {
-          "description": "This is the contact person or group that is not affiliated with the service organizations.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 1024
-        },
         "ContactInformation": {
           "description": "This is the contact information of the service contact.",
           "$ref": "#/definitions/ContactInformationType"
@@ -173,16 +233,6 @@
             "$ref": "#/definitions/ServiceOrganizationRoleEnum"
           },
           "minItems": 1
-        },
-        "Uuid": {
-          "description": "Uuid of the data contact.",
-          "$ref": "umm-cmn-json-schema.json#/definitions/UuidType"
-        },
-        "NonServiceOrganizationAffiliation": {
-          "description": "This is the contact person or group that is not affiliated with the service organization.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 1024
         },
         "ContactInformation": {
           "description": "This is the contact information of the service contact.",
@@ -289,7 +339,7 @@
     "ServiceTypeEnum": {
       "description": "This element is used to identify the type of the service.",
       "type": "string",
-      "enum": ["OPeNDAP", "THREDDS", "WEB SERVICES", "WCS", "WMS", "SOFTWARE PACKAGE", "TOOL", "WEB PORTAL", "International Web Portal", "MODEL", "NOT PROVIDED"]
+      "enum": ["OPeNDAP", "THREDDS", "WEB SERVICES", "ESI", "ECHO ORDERS", "WCS", "WMS", "SOFTWARE PACKAGE", "TOOL", "WEB PORTAL", "International Web Portal", "MODEL", "NOT PROVIDED"]
     },
     "ServiceQualityType": {
       "type": "object",
@@ -435,6 +485,228 @@
         }
       }
     },
+    "OperationMetadataType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This class describes the signature of the operational metadata provided by the service.",
+      "properties": {
+        "OperationName": {
+          "description": "This element contains the name of the operation(s) made possible via this service.",
+          "type": "string",
+          "enum": ["GetCapabilities", "DescribeCoverage", "GetCoverage", "GetMap", "GetLegendGraphic", "GetFeatureInfo", "DescribeFeatureType", "GetPropertyValue", "GetFeature", "GetFeatureWithLock", "LockFeature", "Transaction", "CreateStoredQuery", "DropStoredQuery", "ListStoredQueries", "DescribeStoredQueries", "SPATIAL_SUBSETTING", "TEMPORAL_SUBSETTING", "VARIABLE_SUBSETTING", "VARIABLE_AGGREGATION" ]
+        },
+        "DistributedComputingPlatform": {
+          "description": "This element contains the distributed computing platform (protocol) for the operation(s) made possible via this service.",
+           "type": "array",
+           "items": {
+             "$ref": "#/definitions/DistributedComputingPlatformTypeEnum"
+           },
+           "minItems": 1
+        },
+        "OperationDescription": {
+          "description": "This element contains the description of the operation(s) made possible via this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "InvocationName": {
+          "description": "This element contains the name of the invocation of the operation(s) made possible via this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "ConnectPoint": {
+          "description": "This element contains the URL of the invocation of the operation(s) made possible via this service.",
+          "$ref": "#/definitions/ConnectPointType"
+        },
+        "OperationChainedMetadata": {
+          "description": "This element contains the name of the chained operation(s) made possible via this service.",
+          "$ref": "#/definitions/OperationChainedMetadataType"
+        },
+        "CoupledResource": {
+          "description": "This element contains important information about the resource(s) coupled to this service.",
+          "$ref": "#/definitions/CoupledResourceType"
+        },
+        "Parameters": {
+          "description": "This element contains important information about the parameter associated with the resource(s) coupled to this service.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterType"
+          },
+          "minItems": 0
+        }
+      }
+    },
+    "ConnectPointType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This element contains the URL of the invocation of the operation(s) made possible via this service.",
+      "properties": {
+        "ResourceName": {
+          "description": "This element contains the name of the resource(s) coupled to this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "ResourceLinkage": {
+          "description": "This element contains the URL of the resource(s) coupled to this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "ResourceDescription": {
+          "description": "This element contains the description of the resource(s) coupled to this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      },
+      "required": ["ResourceLinkage"]
+    },
+    "OperationChainedMetadataType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This element contains the name of the chained operation(s) made possible via this service.",
+      "properties": {
+        "OperationChainName": {
+          "description": "TThis element contains the name of the operation chain made possible via this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "OperationChainDescription": {
+          "description": "This element contains the description of the operation chain made possible via this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      },
+      "required": ["OperationChainName"]
+    },
+    "CoupledResourceType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This element contains the name of the chained operation(s) made possible via this service.",
+      "properties": {
+        "ScopedName": {
+          "description": "This element contains the name of the resource(s) coupled to this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "DataResourceDOI": {
+          "description": "This element contains the DOI for the resource(s) coupled to this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "DataResource": {
+          "description": "This element contains the data identification and scope for the resource(s) coupled to this service.",
+          "$ref": "#/definitions/DataResourceType"
+        },
+        "CouplingType": {
+          "description": "This element contains the coupling type for the resource(s) coupled to this service.",
+          "$ref": "#/definitions/CouplingTypeEnum"
+        }
+      }
+    },
+    "DataResourceType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The DataResource class describes the layers, feature types or coverages available from the service.",
+      "properties": {
+        "DataResourceIdentifier": {
+          "description": "The identifier of the layer, feature type or coverage available from the service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "DataResourceSourceType": {
+          "description": "The resource type of the layer, feature type or coverage available from the service.",
+          "type": "string",
+          "enum": ["Map", "Variable", "Granule", "Collection", "Virtual"]
+          /* seems to be a problem with the enum not  defined  in a separate type */
+        },
+        "DataResourceSpatialExtent": {
+          "description": "The spatial extent of the coverage available from the service. These are coordinate pairs which describe either the point, line string, or polygon representing the spatial extent. The bounding box is described by the west, south, east and north ordinates",
+          "$ref": "#/definitions/DataResourceSpatialExtentType"
+        },
+        "DataResourceSpatialType": {
+          "description": "The spatial extent of the layer, feature type or coverage available from the service.",
+          "$ref": "#/definitions/DataResourceSpatialTypeEnum"
+        },
+        "SpatialResolution": {
+          "description": "The spatial resolution of the layer, feature type or coverage available from the service.",
+          "type": "number"
+        },
+        "SpatialResolutionUnit": {
+          "description": "The unit of the spatial resolution of the layer, feature type or coverage available from the service.",
+          "type": "string",
+          "enum": ["Meters", "KM", "Degrees", "Degrees_North", "Degrees_East"]
+        },
+        "DataResourceTemporalExtent": {
+          "description": "The temporal extent of the layer, feature type or coverage available from the service.",
+          "$ref": "#/definitions/DataResourceTemporalExtentType"
+        },
+        "DataResourceTemporalType": {
+          "description": "The temporal extent of the layer, feature type or coverage available from the service.",
+          "$ref": "#/definitions/DataResourceTemporalTypeEnum"
+        },
+        "TemporalResolution": {
+          "description": "TThe temporal resolution of the layer, feature type or coverage available from the service.",
+          "type": "number"
+        },
+        "TemporalResolutionUnit": {
+          "description": "The unit of the temporal resolution of the layer, feature type or coverage available from the service.",
+          "type": "string",
+          "enum": ["DAY", "TWICE_PER_DAY", "WEEK", "MONTH", "YEAR"]
+        },
+        "RelativePath": {
+          "description": "Path relative to the root URL for the layer, feature type or coverage service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      }
+    },
+    "ParameterType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This element contains important information about the parameter associated with the resource(s) coupled to this service.",
+      "properties": {
+        "ParameterName": {
+          "description": "This element contains the name of the parameter associated with the resource(s) coupled to this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "ParameterDirection": {
+          "description": "This element contains the direction of the parameter associated with the resource(s) coupled to this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "ParameterDescription": {
+          "description": "This element contains the description of the parameter associated with the resource(s) coupled to this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "ParameterOptionality": {
+          "description": "This element contains the optionality of the parameter associated with the resource(s) coupled to this service",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "ParameterRepeatability": {
+          "description": "This element contains the repeatability of the parameter associated with the resource(s) coupled to this service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      },
+      "required": ["ParameterName", "ParameterDescription", "ParameterDirection", "ParameterOptionality", "ParameterRepeatability"]
+    },
     "CoordinatesType": {
       "type": "object",
       "additionalProperties": false,
@@ -467,89 +739,151 @@
       },
       "required": ["StartPoint", "EndPoint"]
     },
-    "BBoxType": {
+    "SpatialBoundingBoxType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "The bounding box consists of min x, min y, max y and max y ordinates.",
+      "description": "The bounding box consists of west bounding, south bounding, east bounding and north bounding cordinates amd the CRS identifier.",
       "properties": {
-        "MinX": {
-          "description": "The minimum x ordinate of the bounding box.",
+        "CRSIdentifier": {
+          "description": "The CRS identifier of the bounding box.",
+          "$ref": "#/definitions/CRSIdentifierTypeEnum"
+        },
+        "WestBoundingCoordinate": {
+          "description": "The west bounding coordinate of the bounding box.",
           "type": "number"
         },
-        "MinY": {
-          "description": "The minimum y ordinate of the bounding box.",
+        "SouthBoundingCoordinate": {
+          "description": "The south bounding coordinate of the bounding box.",
           "type": "number"
         },
-        "MaxX": {
-          "description": "The maximum x ordinate of the bounding box.",
+        "EastBoundingCoordinate": {
+          "description": "The east bounding coordinate of the bounding box.",
           "type": "number"
         },
-        "MaxY": {
-          "description": "The maximum y ordinate of the bounding box.",
+        "NorthBoundingCoordinate": {
+          "description": "The north bounding coordinate of the bounding box.",
           "type": "number"
         }
       },
-      "required": ["MinX", "MinY", "MaxX", "MaxY"]
+      "required": ["CRSIdentifier", "WestBoundingCoordinate", "SouthBoundingCoordinate", "EastBoundingCoordinate", "NorthBoundingCoordinate"]
     },
-    "CoverageSpatialExtentType": {
+    "GeneralGridType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The general grid consists of a CRS Identifier and an Axis.",
+      "properties": {
+        "CRSIdentifier": {
+          "description": "The CRS identifier (srsName) of the general grid.",
+          "$ref": "#/definitions/CRSIdentifierTypeEnum"
+        },
+        "Axis": {
+          "description": "The grid axis identifiers, all distinct within a grid.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AxisType"
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["CRSIdentifier", "Axis"]
+    },
+    "AxisType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The axis consisists of an extent and grid information.",
+      "properties": {
+        "AxisLabel": {
+          "description": "The axis label of the general grid.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "GridResolution": {
+          "description": "The resolution of the general grid.",
+          "type": "number"
+        },
+        "Extent": {
+          "description": "The extent of the general grid.",
+          "$ref": "#/definitions/ExtentType"
+        }
+      },
+      "required": ["AxisLabel", "Extent"]
+    },
+    "ExtentType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The extent consists of .",
+      "properties": {
+        "ExtentLabel": {
+          "description": "The label of the extent.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "LowerBound": {
+          "description": "The lowest value along this grid axis.",
+          "type": "number"
+        },
+        "UpperBound": {
+          "description": "The highest value along this grid axis.",
+          "type": "number"
+        },
+        "UOMLabel": {
+          "description": "The unit of measure in which values along this axis are expressed.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      },
+      "required": ["LowerBound", "UpperBound", "UOMLabel"]
+    },
+    "DataResourceSpatialExtentType": {
       "type": "object",
       "properties": {
-        "CoverageSpatialExtentTypeType": {
-          "description": "Type of the spatial extent for the coverage available from the service..",
-          "$ref": "#/definitions/CoverageSpatialExtentTypeEnum"
-        },
-        "Uuid": {
-          "description": "Uuid of the spatial extent.",
-          "$ref": "umm-cmn-json-schema.json#/definitions/UuidType"
-        },
         "SpatialPoints": {
-          "description": "The spatial extent of the layer or coverage described by a point.",
+          "description": "The spatial extent of the layer, feature type or coverage described by a point.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/CoordinatesType"
           },
-          "minItems": 1
+          "minItems": 0
         },
         "SpatialLineStrings": {
-          "description": "The spatial extent of the layer or coverage described by a line string.",
+          "description": "The spatial extent of the layer, feature type or coverage described by a line string.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/LineStringType"
           },
-          "minItems": 1
+          "minItems": 0
         },
         "SpatialBoundingBox": {
-          "description": "The spatial extent of the layer or coverage described by a bounding box.",
-          "$ref": "#/definitions/BBoxType"
+          "description": "The spatial extent of the layer, feature type or coverage described by a bounding box.",
+          "$ref": "#/definitions/SpatialBoundingBoxType"
+        },
+        "GeneralGrid": {
+          "description": "The spatial extent of the layer, feature type or coverage described by a general grid.",
+          "$ref": "#/definitions/GeneralGridType"
         },
         "SpatialPolygons": {
-          "description": "The spatial extent of the layer or coverage described by a polygon.",
+          "description": "The spatial extent of the layer, feature type or coverage described by a polygon.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/CoordinatesType"
           },
-          "minItems": 3
+          "minItems": 0
         }
       }
     },
-    "CoverageTemporalExtentType": {
+    "DataResourceTemporalExtentType": {
       "type": "object",
       "properties": {
-        "CoverageTemporalExtentTypeType": {
-          "description": "The type of the temporal extent for the coverage available from the service.",
-          "$ref": "#/definitions/CoverageTemporalExtentTypeEnum"
-        },
-        "CoverageTimePoints": {
+        "DataResourceTimePoints": {
           "description": "Points in time representing the temporal extent of the layer or coverage.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/TimePointsType"
           },
           "minItems": 1
-        },
-        "Uuid": {
-          "description": "Uuid of the temporal extent.",
-          "$ref": "umm-cmn-json-schema.json#/definitions/UuidType"
         }
       }
     },
@@ -576,66 +910,31 @@
         }
       }
     },
-    "CoverageSpatialExtentTypeEnum": {
-      "description": "This element is used to identify the coverage spatial type, either: point, linestring, bounding box or polygon.",
+
+    "DataResourceSpatialTypeEnum": {
+      "description": "The spatial extent of the layer, feature type or coverage available from the service. These are coordinate pairs which describe either the point, line string, boundingbox, general grid, or polygon representing the spatial extent.",
       "type": "string",
-      "enum": ["SPATIAL_POINT", "SPATIAL_LINE_STRING", "BOUNDING_BOX", "SPATIAL_POLYGON"]
+      "enum": ["SPATIAL_POINT", "SPATIAL_LINE_STRING", "BOUNDING_BOX", "SPATIAL_POLYGON", "GENERAL_GRID"]
     },
-    "CoverageTemporalExtentTypeEnum": {
-      "description": "This element is used to identify the coverage temporal type, either: time stamp, time series, or time average.",
+    "CRSIdentifierTypeEnum": {
+      "description": "The CRS Identifier of the spatial extent, expressed as the EPSG code.",
       "type": "string",
-      "enum": ["TIME_STAMP", "TIME_SERIES", "TIME_AVERAGE"]
+      "enum": ["4326", "3395", "3785", "9807", "2000.63", "2163", "3408", "3410", "6931", "6933", "3411", "9822", "54003", "54004", "54008", "54009", "26917", "900913"]
     },
-    "CoverageType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "This element describes coverage information.",
-      "properties": {
-        "Name": {
-          "description": "The name of the coverage available from the service.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "CoverageSpatialExtent": {
-          "description": "The spatial extent of the coverage available from the service. These are coordinate pairs which describe either the point, line string, or polygon representing the spatial extent. The bounding box is described by the west, south, east and north ordinates",
-          "$ref": "#/definitions/CoverageSpatialExtentType"
-        },
-        "SpatialResolution": {
-          "description": "The spatial resolution of the coverage available from the service.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "SpatialResolutionUnit": {
-          "description": "The unit of the spatial resolution of the coverage available from the service.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "CoverageTemporalExtent": {
-          "description": "The temporal extent of the coverage available from the service.",
-          "$ref": "#/definitions/CoverageTemporalExtentType"
-        },
-        "TemporalResolution": {
-          "description": "The temporal resolution of the coverage available from the service.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "TemporalResolutionUnit": {
-          "description": "The unit of the temporal resolution of the coverage available from the service.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "RelativePath": {
-          "description": "Path relative to the root universal resource locator for the coverage.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 1000
-        }
-      }
+    "DataResourceTemporalTypeEnum": {
+      "description": "The temporal extent of the layer, feature type or coverage available from the service.",
+      "type": "string",
+      "enum": ["TIME_STAMP", "TIME_RANGE", "TIME_SERIES", "TIME_AVERAGE"]
+    },
+    "CouplingTypeEnum": {
+      "description": "This element contains the coupling type for the resource(s) coupled to this service. Examples are: 'LOOSE' - this is where a variety of data sources (which are not specified precisely) are used to generate the resource, 'MIXED' - this is where a combination of well-cited data sources are used to generate the resource, 'TIGHT - this is where a single well-cited data source is used to generate the resource.",
+      "type": "string",
+      "enum": ["LOOSE", "MIXED", "TIGHT"]
+    },
+    "DistributedComputingPlatformTypeEnum": {
+      "description": "This element contains the distributed computing platform (protocol) for the operation(s) made possible via this service.",
+      "type": "string",
+      "enum": ["XML", "CORBA", "JAVA", "COM", "SQL", "SOAP", "Z3950", "HTTP", "HTTPS", "FTP", "WEBSERVICES"]
     }
   },
     "title": "UMM-S",
@@ -652,7 +951,7 @@
         "description": "The long name of the service, software, or tool.",
         "type": "string",
         "minLength": 1,
-        "maxLength": 120
+        "maxLength": 1024
       },
       "Type": {
         "description": "The type of the service, software, or tool.",
@@ -677,18 +976,6 @@
             "$ref": "umm-cmn-json-schema.json#/definitions/RelatedUrlType"
         },
         "minItems": 1
-      },
-      "OnlineAccessURLPatternMatch": {
-        "description": "A field needed for pattern matching in OPeNDAP services",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 1024
-      },
-      "OnlineAccessURLPatternSubstitution": {
-        "description": "A field needed for pattern substitution in OPeNDAP services",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 1024
       },
       "ScienceKeywords": {
         "description": "Allows for the specification of Earth Science keywords that are representative of the service, software, or tool being described. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).",
@@ -760,9 +1047,13 @@
         "description": "This element contains important information about the Unique Resource Locator for the service.",
         "$ref": "#/definitions/ServiceOptionsType"
       },
-      "Coverage": {
-        "description": "This element contains important information about the coverage for the service.",
-        "$ref": "#/definitions/CoverageType"
+      "OperationMetadata": {
+        "description": "This class describes the signature of the operational metadata provided by the service.",
+        "type": "array",
+        "items": {
+            "$ref": "#/definitions/OperationMetadataType"
+                },
+        "minItems": 0
       }
     },
     "required": [

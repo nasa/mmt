@@ -32,7 +32,7 @@ describe 'Viewing Order Policies', js: true do
         it 'displays the new order policies form' do
           expect(page).to have_content('New MMT_2 Order Policies')
 
-          wait_for_ajax
+          wait_for_jQuery
           
           # Check that all 6 results appear on the page
           expect(page).to have_selector('#collections_supporting_duplicate_order_items_fromList option', count: 6)
@@ -186,7 +186,7 @@ describe 'Viewing Order Policies', js: true do
                 end
 
                 click_on 'Test Endpoint Connection'
-                wait_for_ajax
+                wait_for_jQuery
               end
 
               it 'should display a message that the endpoint test was successful' do
@@ -227,7 +227,7 @@ describe 'Viewing Order Policies', js: true do
                 end
 
                 click_on 'Test Endpoint Connection'
-                wait_for_ajax
+                wait_for_jQuery
               end
 
               it 'should display a message that the endpoint test was unsuccessful' do

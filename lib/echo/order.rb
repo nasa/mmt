@@ -5,12 +5,16 @@ module Echo
       @token = echo_provider_token
 
       if response.nil?
+        Rails.logger.info "Starting individual get_orders request sent at Time #{Time.now.to_i} with guid #{guid}"
         order_response = @client.get_orders(@token, guid)
+        Rails.logger.info "Response from individual get_orders request received at Time #{Time.now.to_i}"
+
         if order_response.success?
+          Rails.logger.info 'Retrieving individual Order Success!'
           @order = order_response.parsed_body.fetch('Item', {})
         else
           @order = {}
-          Rails.logger.error "Error retrieving order: #{order_response.error_message}"
+          Rails.logger.error "Retrieving individual Order Error: #{order_response.error_message}"
         end
       else
         @order = response
@@ -41,16 +45,28 @@ module Echo
       format_date(@order['LastUpdateDate'], default: 'Never Updated')
     end
 
+    def contact_name
+      if !contact_address.name.blank? && !owner_guid.blank?
+        "#{contact_address.name} #{owner}"
+      elsif contact_address.name.blank?
+        owner
+      elsif owner_guid.blank?
+        contact_address.name
+      else
+        'guest'
+      end
+    end
+
     def owner_guid
       @order['OwnerGuid']
     end
 
     def owner
       if owner_guid.blank?
-        '(guest)'
+        'guest'
       else
         # refactor to a new class in the future if/when it is needed
-        user = @client.get_user_names(@token, owner_guid).parsed_body
+        user = cached_owner
 
         user.fetch('Item', {}).fetch('Name', '')
       end
@@ -72,6 +88,10 @@ module Echo
       @order['ClientIdentity']
     end
 
+    def tracking_id
+      @order.fetch('ProviderOrders', {}).fetch('Item', {})['ProviderTrackingId']
+    end
+
     def contact_address
       ContactInformation.new(@order.fetch('ContactAddress', {}))
     end
@@ -85,6 +105,15 @@ module Echo
     end
 
     private
+
+    def cached_owner
+      Rails.cache.fetch("owners.#{owner_guid}", expires_in: Rails.configuration.orders_user_cache_expiration ) do
+        Rails.logger.info "Cache-miss - Starting get_user_names request sent at Time #{Time.now.to_i} with owner_guid #{owner_guid}"
+        result = @client.get_user_names(@token, owner_guid).parsed_body
+        Rails.logger.info "Response from get_user_names request received at Time #{Time.now.to_i}"
+        result
+      end
+    end
 
     def format_date(date, default: nil)
       DateTime.parse(date).to_s(:echo_format)

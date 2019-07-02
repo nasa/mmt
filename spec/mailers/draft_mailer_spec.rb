@@ -25,8 +25,8 @@ describe DraftMailer do
 
       it 'renders the new record published notice including short name + version' do
         expect(mail.html_part.body).to have_content("#{short_name}_#{version} Published")
-        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully published to the CMR.")
-        expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully published to the CMR.")
+        expect(mail.html_part.body).to have_content("#{user[:name]}, Your collection metadata record #{short_name}_#{version} has been successfully published to the CMR.", normalize_ws: true)
+        expect(mail.text_part.body).to have_content("#{user[:name]}, Your collection metadata record #{short_name}_#{version} has been successfully published to the CMR.", normalize_ws: true)
       end
 
       it 'renders the concept id' do
@@ -62,8 +62,8 @@ describe DraftMailer do
 
       it 'renders the record updated notice including short name + version' do
         expect(mail.html_part.body).to have_content("#{short_name}_#{version} Updated")
-        expect(mail.html_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully updated.")
-        expect(mail.text_part.body).to have_content("#{user[:name]},\nYour collection metadata record #{short_name}_#{version} has been successfully updated.")
+        expect(mail.html_part.body).to have_content("#{user[:name]}, Your collection metadata record #{short_name}_#{version} has been successfully updated.", normalize_ws: true)
+        expect(mail.text_part.body).to have_content("#{user[:name]}, Your collection metadata record #{short_name}_#{version} has been successfully updated.", normalize_ws: true)
       end
 
       it 'renders the concept id' do

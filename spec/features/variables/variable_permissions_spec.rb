@@ -39,7 +39,7 @@ describe 'Variables permissions', js: true do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context' do
@@ -65,7 +65,7 @@ describe 'Variables permissions', js: true do
         context 'when clicking Yes' do
           before do
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context' do
@@ -91,7 +91,7 @@ describe 'Variables permissions', js: true do
         context 'when clicking Yes' do
           before do
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context' do
@@ -161,7 +161,7 @@ describe 'Variables permissions', js: true do
             click_on 'Delete Variable Record'
 
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context' do
@@ -189,7 +189,7 @@ describe 'Variables permissions', js: true do
           context 'when clicking the warning banner link' do
             before do
               click_link('You need to change your current provider to edit this variable')
-              wait_for_ajax
+              wait_for_jQuery
             end
 
             it 'switches the provider context' do
@@ -217,7 +217,7 @@ describe 'Variables permissions', js: true do
           context 'when clicking the warning banner link' do
             before do
               click_link('You need to change your current provider to clone this variable')
-              wait_for_ajax
+              wait_for_jQuery
             end
 
             it 'switches the provider context' do
@@ -245,7 +245,7 @@ describe 'Variables permissions', js: true do
           context 'when clicking the warning banner link' do
             before do
               click_link('You need to change your current provider to manage collection associations for this variable')
-              wait_for_ajax
+              wait_for_jQuery
             end
 
             it 'switches the provider context' do

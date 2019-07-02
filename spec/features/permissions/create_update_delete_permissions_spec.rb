@@ -1,7 +1,5 @@
 # tests for create, show, edit, update, delete
 
-require 'rails_helper'
-
 describe 'Collection Permissions', reset_provider: true, js: true do
   let(:group1_id) { 'AG1200000069-MMT_2' }
   let(:group2_id) { 'AG1200000070-MMT_2' }
@@ -96,25 +94,18 @@ describe 'Collection Permissions', reset_provider: true, js: true do
           'name': 'Collection Permission to Edit 01',
           'provider_id': 'MMT_2',
           'granule_applicable': false,
-          'collection_applicable': true
-
-          # the collection identifier is temporarily being left out because it caused an issue with CMRs handling of access constraints. This will be added back with ticket MMT-1516 after CMR-5039 is resolved
-          # TODO add back the collection identifier and make sure this test passes
-          # also make sure we have tests for access constraint values to see if
-          # collections are visible or not
-
-          # 'collection_identifier': {
-          #   'access_value': {
-          #     'min_value': 5.0,
-          #     'max_value': 55.0,
-          #     'include_undefined_value': true
-          #   }
-          # }
+          'collection_applicable': true,
+          'collection_identifier': {
+            'access_value': {
+              'min_value': 5.0,
+              'max_value': 55.0,
+              'include_undefined_value': true
+            }
+          }
         }
       }
 
       @collection_permission_for_edit = cmr_client.add_group_permissions(previous_collection_permission, 'access_token').body
-
       # while we can use stubbed groups for collection permissions, it seems
       # that we need to have ingested collections to create a collection
       # permission if it has selected collections
@@ -196,17 +187,13 @@ describe 'Collection Permissions', reset_provider: true, js: true do
             # choose the collections
             within '#collectionsChooser' do
               # selecting each individually as it seems more robust.
-              # also, press esc after select to hide tool tip, it blocks button
               select(@entry_id_1, from: 'Available Collections')
-              page.find('.from-container').native.send_keys :escape 
               find('button[title=add]').click
-              
+
               select(@entry_id_2, from: 'Available Collections')
-              page.find('.from-container').native.send_keys :escape
               find('button[title=add]').click
-              
+
               select(@entry_id_3, from: 'Available Collections')
-              page.find('.from-container').native.send_keys :escape
               find('button[title=add]').click
             end
 
@@ -255,4 +242,28 @@ describe 'Collection Permissions', reset_provider: true, js: true do
       expect(page).to have_no_content('Testing Delete Collection Permission 01')
     end
   end
+
+  context 'when deleting a collection permission without proper permission' do
+    before do
+      failed_delete_acl_response = cmr_fail_response(JSON.parse(File.read('spec/fixtures/collection_permissions/failed_delete_acl_response.json')))
+      allow_any_instance_of(Cmr::CmrClient).to receive(:delete_permission).and_return(failed_delete_acl_response)
+
+      @collection_permission_to_delete_with_failure = add_associated_permissions_to_group(group_id: group3_id, name: 'Testing Delete Collection Permission 02')
+
+      visit permission_path(@collection_permission_to_delete_with_failure['concept_id'])
+
+      click_on 'Delete'
+      click_on 'Yes'
+
+      wait_for_cmr
+    end
+
+    it 'not successfully deletes the collection permission' do
+      expect(page).to have_content("Permission to delete ACL is denied")
+      expect(page).to have_content("Groups")
+      expect(page).to have_content("Search")
+      expect(page).to have_content("Order")
+    end
+  end
+
 end

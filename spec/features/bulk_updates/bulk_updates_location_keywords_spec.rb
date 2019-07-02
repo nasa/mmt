@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Bulk updating Location Keywords' do
   before :all do
     @find_and_remove_ingest_response, @find_and_remove_concept_response = publish_collection_draft
@@ -38,11 +36,15 @@ describe 'Bulk updating Location Keywords' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content("Name #{bulk_update_name}")
-      expect(page).to have_content('Field to Update Location Keywords')
-      expect(page).to have_content('Update Type Find And Remove')
+      expect(page).to have_content('Name')
+      expect(page).to have_content(bulk_update_name)
+      expect(page).to have_content('Field to Update')
+      expect(page).to have_content('Location Keywords')
+      expect(page).to have_content('Update Type')
+      expect(page).to have_content('Find And Remove')
+
       within '.find-values-preview' do
-        expect(page).to have_content('CATEGORY: ANY VALUEARCTIC')
+        expect(page).to have_content('CATEGORY: ANY VALUE ARCTIC', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -67,9 +69,12 @@ describe 'Bulk updating Location Keywords' do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
-          expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Location Keywords')
-          expect(page).to have_content('Update Type Find And Remove')
+          expect(page).to have_content('Status')
+          expect(page).to have_content('Complete')
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Location Keywords')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Remove')
         end
 
         within '.find-values-preview' do
@@ -123,11 +128,15 @@ describe 'Bulk updating Location Keywords' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content("Name #{bulk_update_name}")
-      expect(page).to have_content('Field to Update Location Keywords')
-      expect(page).to have_content('Update Type Add To Existing')
+      expect(page).to have_content('Name')
+      expect(page).to have_content(bulk_update_name)
+      expect(page).to have_content('Field to Update')
+      expect(page).to have_content('Location Keywords')
+      expect(page).to have_content('Update Type')
+      expect(page).to have_content('Add To Existing')
+
       within '.new-values-preview' do
-        expect(page).to have_content('OCEANATLANTIC OCEANNORTH ATLANTIC OCEANBALTIC SEA')
+        expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -152,14 +161,17 @@ describe 'Bulk updating Location Keywords' do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
-          expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Location Keywords')
-          expect(page).to have_content('Update Type Add To Existing')
+          expect(page).to have_content('Status')
+          expect(page).to have_content('Complete')
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Location Keywords')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Add To Existing')
         end
 
         within '.new-values-preview' do
           expect(page).to have_content('Value to Add')
-          expect(page).to have_content('OCEANATLANTIC OCEANNORTH ATLANTIC OCEANBALTIC SEA')
+          expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
         end
 
         # we can't test the time accurately, but we can check the date
@@ -173,7 +185,7 @@ describe 'Bulk updating Location Keywords' do
 
         it 'displays the new keyword' do
           within '.location-keyword-preview' do
-            expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA')
+            expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
           end
         end
       end
@@ -210,9 +222,12 @@ describe 'Bulk updating Location Keywords' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content("Name #{bulk_update_name}")
-      expect(page).to have_content('Field to Update Location Keywords')
-      expect(page).to have_content('Update Type Find And Replace')
+      expect(page).to have_content('Name')
+      expect(page).to have_content(bulk_update_name)
+      expect(page).to have_content('Field to Update')
+      expect(page).to have_content('Location Keywords')
+      expect(page).to have_content('Update Type')
+      expect(page).to have_content('Find And Replace')
       # Find Values to Replace
       within '.find-values-preview' do
         expect(page).to have_content('OCEAN')
@@ -220,7 +235,7 @@ describe 'Bulk updating Location Keywords' do
 
       # New Values
       within '.new-values-preview' do
-        expect(page).to have_content('OCEANATLANTIC OCEANNORTH ATLANTIC OCEANBALTIC SEA')
+        expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -245,9 +260,12 @@ describe 'Bulk updating Location Keywords' do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
-          expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Location Keywords')
-          expect(page).to have_content('Update Type Find And Replace')
+          expect(page).to have_content('Status')
+          expect(page).to have_content('Complete')
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Location Keywords')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Replace')
         end
 
         within '.find-values-preview' do
@@ -257,7 +275,7 @@ describe 'Bulk updating Location Keywords' do
 
         within '.new-values-preview' do
           expect(page).to have_content('New Value')
-          expect(page).to have_content('OCEANATLANTIC OCEANNORTH ATLANTIC OCEANBALTIC SEA')
+          expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
         end
 
         # we can't test the time accurately, but we can check the date
@@ -271,7 +289,7 @@ describe 'Bulk updating Location Keywords' do
 
         it 'displays the new keyword' do
           within '.location-keyword-preview' do
-            expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA')
+            expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
           end
         end
       end
@@ -306,13 +324,16 @@ describe 'Bulk updating Location Keywords' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content("Name #{bulk_update_name}")
-      expect(page).to have_content('Field to Update Location Keywords')
-      expect(page).to have_content('Update Type Clear All And Replace')
+      expect(page).to have_content('Name')
+      expect(page).to have_content(bulk_update_name)
+      expect(page).to have_content('Field to Update')
+      expect(page).to have_content('Location Keywords')
+      expect(page).to have_content('Update Type')
+      expect(page).to have_content('Clear All And Replace')
 
       # New Values
       within '.new-values-preview' do
-        expect(page).to have_content('CONTINENTAFRICACENTRAL AFRICA')
+        expect(page).to have_content('CONTINENT AFRICA CENTRAL AFRICA', normalize_ws: true)
       end
 
       within '.bulk-update-preview-table' do
@@ -337,14 +358,17 @@ describe 'Bulk updating Location Keywords' do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
-          expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Location Keywords')
-          expect(page).to have_content('Update Type Clear All And Replace')
+          expect(page).to have_content('Status')
+          expect(page).to have_content('Complete')
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Location Keywords')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Clear All And Replace')
         end
 
         within '.new-values-preview' do
           expect(page).to have_content('New Value')
-          expect(page).to have_content('CONTINENTAFRICACENTRAL AFRICA')
+          expect(page).to have_content('CONTINENT AFRICA CENTRAL AFRICA', normalize_ws: true)
         end
 
         # we can't test the time accurately, but we can check the date
@@ -358,9 +382,10 @@ describe 'Bulk updating Location Keywords' do
 
         it 'displays the updated keywords' do
           within '.location-keyword-preview' do
-            expect(page).to have_no_content('GEOGRAPHIC REGION ARCTIC')
-            expect(page).to have_no_content('OCEAN ATLANTIC OCEAN')
-            expect(page).to have_content('CONTINENT AFRICA CENTRAL AFRICA')
+            expect(page).to have_no_content('GEOGRAPHIC REGION ARCTIC', normalize_ws: true)
+            expect(page).to have_no_content('OCEAN ATLANTIC OCEAN', normalize_ws: true)
+
+            expect(page).to have_content('CONTINENT AFRICA CENTRAL AFRICA', normalize_ws: true)
           end
         end
       end

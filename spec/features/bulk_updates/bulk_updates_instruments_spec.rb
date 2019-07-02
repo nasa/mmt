@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Bulk Updating Instruments' do
   before :all do
     @find_and_remove_ingest_response, @find_and_remove_concept_response = publish_collection_draft
@@ -36,9 +34,12 @@ describe 'Bulk Updating Instruments' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content("Name #{bulk_update_name}")
-      expect(page).to have_content('Field to Update Instruments')
-      expect(page).to have_content('Update Type Find And Remove')
+      expect(page).to have_content('Name')
+      expect(page).to have_content(bulk_update_name)
+      expect(page).to have_content('Field to Update')
+      expect(page).to have_content('Instruments')
+      expect(page).to have_content('Update Type')
+      expect(page).to have_content('Find And Remove')
       within '.find-values-preview' do
         expect(page).to have_content('Short Name: LVIS')
       end
@@ -65,9 +66,12 @@ describe 'Bulk Updating Instruments' do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
-          expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Instruments')
-          expect(page).to have_content('Update Type Find And Remove')
+          expect(page).to have_content('Status')
+          expect(page).to have_content('Complete')
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Instruments')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Remove')
         end
 
         within '.find-values-preview' do
@@ -125,9 +129,12 @@ describe 'Bulk Updating Instruments' do
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
-      expect(page).to have_content("Name #{bulk_update_name}")
-      expect(page).to have_content('Field to Update Instruments')
-      expect(page).to have_content('Update Type Find And Update')
+      expect(page).to have_content('Name')
+      expect(page).to have_content(bulk_update_name)
+      expect(page).to have_content('Field to Update')
+      expect(page).to have_content('Instruments')
+      expect(page).to have_content('Update Type')
+      expect(page).to have_content('Find And Update')
 
       # Find Values to Update
       within '.find-values-preview' do
@@ -162,9 +169,12 @@ describe 'Bulk Updating Instruments' do
         expect(page).to have_css('h2', text: bulk_update_name)
 
         within '.eui-info-box' do
-          expect(page).to have_content('Status Complete')
-          expect(page).to have_content('Field to Update Instruments')
-          expect(page).to have_content('Update Type Find And Update')
+          expect(page).to have_content('Status')
+          expect(page).to have_content('Complete')
+          expect(page).to have_content('Field to Update')
+          expect(page).to have_content('Instruments')
+          expect(page).to have_content('Update Type')
+          expect(page).to have_content('Find And Update')
         end
 
         within '.find-values-preview' do

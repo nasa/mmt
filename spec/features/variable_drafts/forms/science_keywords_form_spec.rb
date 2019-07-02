@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Science Keywords Form', js: true do
   before do
     login
@@ -14,7 +12,7 @@ describe 'Science Keywords Form', js: true do
     it 'displays the correct title and description' do
       within '.umm-form' do
         expect(page).to have_content('Science Keywords')
-        expect(page).to have_content('Controlled Science Keywords describing the measurements/variables.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).')
+        expect(page).to have_content('Controlled Science Keywords describing the measurements/variables. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).')
       end
     end
 
@@ -25,8 +23,8 @@ describe 'Science Keywords Form', js: true do
       end
     end
 
-    it 'has 1 required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 1)
+    it 'has 0 required fields' do
+      expect(page).to have_no_selector('label.eui-required-o')
     end
 
     it 'displays the nested item picker' do
@@ -34,7 +32,7 @@ describe 'Science Keywords Form', js: true do
     end
 
     it 'does not list any selected science keywords' do
-      within '.selected-science-keywords ul' do
+      within '.selected-science-keywords ul', visible: :any do
         expect(page).to have_no_css('li')
       end
     end
@@ -46,58 +44,26 @@ describe 'Science Keywords Form', js: true do
         end
       end
 
-      it 'displays a modal with a prompt about saving invalid data' do
-        expect(page).to have_content('This page has invalid data. Are you sure you want to save it and proceed?')
-      end
-
-      context 'when choosing not to proceed' do
-        before do
-          within '#invalid-draft-modal' do
-            click_on 'No'
-          end
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
         end
 
-        it 'displays the correct error messages at the top of the page' do
-          within '.summary-errors' do
-            expect(page).to have_content('Science Keywords is required')
-          end
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Sampling Identifiers')
         end
 
-        it 'displays the correct error messages under the form elements' do
-          within '#variable_draft_draft_science_keywords_error' do
-            expect(page).to have_content('Science Keywords is required')
-          end
-        end
-      end
-
-      context 'When choosing to proceed' do
-        before do
-          within '#invalid-draft-modal' do
-            click_on 'Yes'
-          end
+        within '.umm-form' do
+          expect(page).to have_content('Sampling Identifiers')
         end
 
-        it 'saves the draft and loads the previous form' do
-          within '.eui-banner--success' do
-            expect(page).to have_content('Variable Draft Updated Successfully!')
-          end
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
+        end
 
-          within '.eui-breadcrumbs' do
-            expect(page).to have_content('Variable Drafts')
-            expect(page).to have_content('Variable Characteristics')
-          end
-
-          within '.umm-form' do
-            expect(page).to have_content('Variable Characteristics')
-          end
-
-          within '.nav-top' do
-            expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
-          end
-
-          within '.nav-bottom' do
-            expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
-          end
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
         end
       end
     end
@@ -109,121 +75,26 @@ describe 'Science Keywords Form', js: true do
         end
       end
 
-      it 'displays a modal with a prompt about saving invalid data' do
-        expect(page).to have_content('This page has invalid data. Are you sure you want to save it and proceed?')
-      end
-
-      context 'when choosing not to proceed' do
-        before do
-          within '#invalid-draft-modal' do
-            click_on 'No'
-          end
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
         end
 
-        it 'displays the correct error messages at the top of the page' do
-          within '.summary-errors' do
-            expect(page).to have_content('Science Keywords is required')
-          end
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Sets')
         end
 
-        it 'displays the correct error messages under the form elements' do
-          within '#variable_draft_draft_science_keywords_error' do
-            expect(page).to have_content('Science Keywords is required')
-          end
+        within '.umm-form' do
+          expect(page).to have_content('Sets')
         end
-      end
 
-      context 'When choosing to proceed' do
-        before do
-          within '#invalid-draft-modal' do
-            click_on 'Yes'
-          end
-
-          it 'saves the draft and loads the next form' do
-            within '.eui-banner--success' do
-              expect(page).to have_content('Variable Draft Updated Successfully!')
-            end
-
-            within '.eui-breadcrumbs' do
-              expect(page).to have_content('Variable Drafts')
-              expect(page).to have_content('Sets')
-            end
-
-            within '.umm-form' do
-              expect(page).to have_content('Sets')
-            end
-
-            within '.nav-top' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
-            end
-
-            within '.nav-bottom' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
-            end
-          end
-        end
-      end
-    end
-
-    context 'When clicking `Save` without making any changes' do
-      before do
         within '.nav-top' do
-          click_button 'Save'
-        end
-      end
-
-      it 'displays a modal with a prompt about saving invalid data' do
-        expect(page).to have_content('This page has invalid data. Are you sure you want to save it and proceed?')
-      end
-
-      context 'when choosing not to proceed' do
-        before do
-          within '#invalid-draft-modal' do
-            click_on 'No'
-          end
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
 
-        it 'displays the correct error messages at the top of the page' do
-          within '.summary-errors' do
-            expect(page).to have_content('Science Keywords is required')
-          end
-        end
-
-        it 'displays the correct error messages under the form elements' do
-          within '#variable_draft_draft_science_keywords_error' do
-            expect(page).to have_content('Science Keywords is required')
-          end
-        end
-      end
-
-      context 'When choosing to proceed' do
-        before do
-          within '#invalid-draft-modal' do
-            click_on 'Yes'
-          end
-
-          it 'saves the draft and reloads the form' do
-            within '.eui-banner--success' do
-              expect(page).to have_content('Variable Draft Updated Successfully!')
-            end
-
-            within '.eui-breadcrumbs' do
-              expect(page).to have_content('Variable Drafts')
-              expect(page).to have_content('Science Keywords')
-            end
-
-            within '.umm-form' do
-              expect(page).to have_content('Science Keywords')
-            end
-
-            within '.nav-top' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
-            end
-
-            within '.nav-bottom' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
-            end
-          end
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -235,58 +106,26 @@ describe 'Science Keywords Form', js: true do
         end
       end
 
-      it 'displays a modal with a prompt about saving invalid data' do
-        expect(page).to have_content('This page has invalid data. Are you sure you want to save it and proceed?')
-      end
-
-      context 'when choosing not to proceed' do
-        before do
-          within '#invalid-draft-modal' do
-            click_on 'No'
-          end
+      it 'saves the draft and loads the previous form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
         end
 
-        it 'displays the correct error messages at the top of the page' do
-          within '.summary-errors' do
-            expect(page).to have_content('Science Keywords is required')
-          end
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Variable Characteristics')
         end
 
-        it 'displays the correct error messages under the form elements' do
-          within '#variable_draft_draft_science_keywords_error' do
-            expect(page).to have_content('Science Keywords is required')
-          end
+        within '.umm-form' do
+          expect(page).to have_content('Variable Characteristics')
         end
-      end
 
-      context 'When choosing to proceed' do
-        before do
-          within '#invalid-draft-modal' do
-            click_on 'Yes'
-          end
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+        end
 
-          it 'saves the draft and loads the previous form' do
-            within '.eui-banner--success' do
-              expect(page).to have_content('Variable Draft Updated Successfully!')
-            end
-
-            within '.eui-breadcrumbs' do
-              expect(page).to have_content('Variable Drafts')
-              expect(page).to have_content('Variable Characteristics')
-            end
-
-            within '.umm-form' do
-              expect(page).to have_content('Variable Characteristics')
-            end
-
-            within '.nav-top' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
-            end
-
-            within '.nav-bottom' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
-            end
-          end
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
         end
       end
     end
@@ -298,58 +137,26 @@ describe 'Science Keywords Form', js: true do
         end
       end
 
-      it 'displays a modal with a prompt about saving invalid data' do
-        expect(page).to have_content('This page has invalid data. Are you sure you want to save it and proceed?')
-      end
-
-      context 'when choosing not to proceed' do
-        before do
-          within '#invalid-draft-modal' do
-            click_on 'No'
-          end
+      it 'saves the draft and loads the next form' do
+        within '.eui-banner--success' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
         end
 
-        it 'displays the correct error messages at the top of the page' do
-          within '.summary-errors' do
-            expect(page).to have_content('Science Keywords is required')
-          end
+        within '.eui-breadcrumbs' do
+          expect(page).to have_content('Variable Drafts')
+          expect(page).to have_content('Set')
         end
 
-        it 'displays the correct error messages under the form elements' do
-          within '#variable_draft_draft_science_keywords_error' do
-            expect(page).to have_content('Science Keywords is required')
-          end
+        within '.umm-form' do
+          expect(page).to have_content('Set')
         end
-      end
 
-      context 'When choosing to proceed' do
-        before do
-          within '#invalid-draft-modal' do
-            click_on 'Yes'
-          end
+        within '.nav-top' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
+        end
 
-          it 'saves the draft and loads the next form' do
-            within '.eui-banner--success' do
-              expect(page).to have_content('Variable Draft Updated Successfully!')
-            end
-
-            within '.eui-breadcrumbs' do
-              expect(page).to have_content('Variable Drafts')
-              expect(page).to have_content('Set')
-            end
-
-            within '.umm-form' do
-              expect(page).to have_content('Set')
-            end
-
-            within '.nav-top' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
-            end
-
-            within '.nav-bottom' do
-              expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
-            end
-          end
+        within '.nav-bottom' do
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sets')
         end
       end
     end
@@ -389,19 +196,19 @@ describe 'Science Keywords Form', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Variable Characteristics')
+          expect(page).to have_content('Sampling Identifiers')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Variable Characteristics')
+          expect(page).to have_content('Sampling Identifiers')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
         end
       end
     end

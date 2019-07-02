@@ -20,11 +20,6 @@ describe 'Provider context', reset_provider: true, js: true do
     end
 
     context 'when a user logs in for the first time' do
-      # this should be removed with MMT-1446
-      # it 'saves the users echo_id' do
-      #   expect(User.first.echo_id).to eq('user-echo-token')
-      # end
-
       it 'saves the users available providers' do
         expect(User.first.available_providers).to eq(%w(MMT_1 MMT_2))
       end
@@ -36,7 +31,7 @@ describe 'Provider context', reset_provider: true, js: true do
       context 'when the user selects a provider context' do
         before do
           select 'MMT_1', from: 'select_provider'
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         it 'saves the users provider' do
@@ -84,13 +79,12 @@ describe 'Provider context', reset_provider: true, js: true do
     context 'when a user changes their provider context' do
       before do
         select 'MMT_1', from: 'select_provider'
+        wait_for_jQuery
 
-        wait_for_ajax
         click_on 'profile-link'
         click_on 'Change Provider'
         select 'MMT_2', from: 'select_provider'
-
-        wait_for_ajax
+        wait_for_jQuery
       end
 
       it 'saves the new provider context' do
@@ -119,7 +113,7 @@ describe 'Provider context', reset_provider: true, js: true do
           end
 
           select 'MMT_1', from: 'select_provider'
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         it 'redirects to the orders index page when switching provider context' do
@@ -139,7 +133,7 @@ describe 'Provider context', reset_provider: true, js: true do
           end
 
           select 'MMT_1', from: 'select_provider'
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         it 'redirects to the permissions index page when switching provider context' do
@@ -182,7 +176,7 @@ describe 'Provider context', reset_provider: true, js: true do
         click_on 'Change Provider'
         add_provider_context_permission('MMT_1')
         click_on 'Refresh your available providers'
-        wait_for_ajax
+        wait_for_jQuery
       end
 
       it 'prompts the user to select their provider context' do
@@ -212,7 +206,7 @@ describe 'Provider context', reset_provider: true, js: true do
       visit '/'
 
       select 'MMT_2', from: 'select_provider'
-      wait_for_ajax
+      wait_for_jQuery
       expect(page).to have_content('Create Collection Record')
     end
 
@@ -281,7 +275,7 @@ describe 'Provider context', reset_provider: true, js: true do
           delete_provider_context_permission('MMT_2')
           click_on 'provider-badge-link'
           click_on 'Refresh your available providers'
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         after do
@@ -302,7 +296,7 @@ describe 'Provider context', reset_provider: true, js: true do
           delete_provider_context_permission('NSIDC_ECS')
           click_on 'provider-badge-link'
           click_on 'Refresh your available providers'
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         after do

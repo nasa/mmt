@@ -660,7 +660,7 @@ FactoryGirl.define do
         'Description' => 'Related URL 2 Description',
         'URLContentType' => 'DistributionURL',
         'Type' => 'GET DATA',
-        'Subtype' => 'EARTHDATA SEARCH',
+        'Subtype' => 'Earthdata Search',
         'URL' => 'https://search.earthdata.nasa.gov/',
         'GetData' => {
           'Format' => 'ascii',
@@ -673,8 +673,8 @@ FactoryGirl.define do
       }, {
         'Description' => 'Related URL 3 Description',
         'URLContentType' => 'DistributionURL',
-        'Type' => 'GET SERVICE',
-        'Subtype' => 'DIF',
+        'Type' => 'GET DATA',
+        'Subtype' => 'DIRECT DOWNLOAD',
         'URL' => 'https://example.com/',
         'GetService' => {
           'Format' => 'ascii',
@@ -826,7 +826,44 @@ FactoryGirl.define do
           'Eon' => 'test 3 Eon text 1'
         }]
       }],
-      'ISOTopicCategories' => %w[farming climatologyMeteorologyAtmosphere health]
+      'ISOTopicCategories' => %w[farming climatologyMeteorologyAtmosphere health],
+      'ArchiveAndDistributionInformation' => {
+        'FileArchiveInformation' => [
+          {
+            'Format' => 'kml',
+            'FormatType' => 'Native',
+            'AverageFileSize' => 2,
+            'AverageFileSizeUnit' => 'MB',
+            'TotalCollectionFileSize' => 25,
+            'TotalCollectionFileSizeUnit' => 'GB',
+            'Description' => 'A file archive information description'
+          },
+          {
+            'Format' => 'jpeg',
+            'FormatType' => 'Supported',
+            'AverageFileSize' => 3,
+            'AverageFileSizeUnit' => 'MB',
+            'TotalCollectionFileSize' => 99,
+            'TotalCollectionFileSizeUnit' => 'TB',
+            'Description' => 'Another file archive information description'
+          }
+        ],
+        'FileDistributionInformation' => [
+          {
+            'Format' => 'tiff',
+            'FormatType' => 'Native',
+            'Media' => [
+              'disc', 'file', 'online'
+            ],
+            'AverageFileSize' => 2,
+            'AverageFileSizeUnit' => 'KB',
+            'TotalCollectionFileSize' => 10,
+            'TotalCollectionFileSizeUnit' => 'TB',
+            'Description' => 'File distribution information description',
+            'Fees' => '$2,900'
+          }
+        ]
+      }
     }}
   end
 end

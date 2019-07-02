@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Bulk Updates callout box on the Manage Collections page' do
   draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_collections_controller
 

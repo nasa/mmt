@@ -33,20 +33,7 @@ class PermissionsController < ManageCmrController
   end
 
   def show
-    @permission = {}
-    @permission_concept_id = params[:id]
-
-    permission_response = cmr_client.get_permission(@permission_concept_id, token)
-
-    if permission_response.success?
-      @permission = permission_response.body
-
-      hydrate_groups(@permission)
-
-      add_breadcrumb @permission.fetch('catalog_item_identity', {})['name'], permission_path(@permission_concept_id)
-    else
-      Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
-    end
+    set_collection_permission
   end
 
   def new
@@ -65,7 +52,7 @@ class PermissionsController < ManageCmrController
 
       redirect_to permission_path(response.body['concept_id']), flash: { success: 'Collection Permission was successfully created.' }
     else
-      Rails.logger.error("Collection Permission Creation Error: #{response.inspect}")
+      Rails.logger.error("Create Collection Permission Error: #{response.clean_inspect}")
 
       # Look up the error code. If we have a friendly version, use it. Otherwise,
       # just use the error message as it comes back from the CMR.
@@ -90,9 +77,25 @@ class PermissionsController < ManageCmrController
       add_breadcrumb @permission.fetch('catalog_item_identity', {})['name'], permission_path(@permission_concept_id)
       add_breadcrumb 'Edit', edit_permission_path(@permission_concept_id)
 
-      hydrate_groups(@permission)
+      # Searching for permission to get revision_id
+      @opts = {
+        'page_size'        => RESULTS_PER_PAGE,
+        'id'               => @permission_concept_id,
+        'include_full_acl' => true
+      }
+
+      permission_search_response = cmr_client.get_permissions(@opts, token)
+      permission_found = permission_search_response.body.fetch('hits', 0) > 0
+
+      if permission_search_response.success? && permission_found
+        @revision_id = permission_search_response.body.fetch('items', [{}]).fetch(0, {})['revision_id']
+
+        hydrate_groups(@permission)
+      else
+        @unconfirmed_revision_id = true
+      end
     else
-      Rails.logger.error("Error retrieving a permission: #{permission_response.inspect}")
+      Rails.logger.error("Error retrieving a permission: #{permission_response.clean_inspect}")
     end
   end
 
@@ -100,10 +103,12 @@ class PermissionsController < ManageCmrController
     @permission = {}
     @permission_concept_id = params[:id]
     permission_provider = params[:permission_provider]
+    @revision_id = params[:revision_id]
+    next_revision_id = "#{@revision_id.to_i + 1}"
 
     @permission = construct_request_object(permission_provider)
 
-    update_response = cmr_client.update_permission(@permission, @permission_concept_id, token)
+    update_response = cmr_client.update_permission(@permission, @permission_concept_id, token, next_revision_id)
 
     if update_response.success?
       Rails.logger.info("#{current_user.urs_uid} UPDATED catalog item ACL (Collection Permission) for #{permission_provider}. #{response.body}")
@@ -112,7 +117,7 @@ class PermissionsController < ManageCmrController
     else
       hydrate_groups(@permission)
 
-      Rails.logger.error("Collection Permission Update Error: #{update_response.inspect}")
+      Rails.logger.error("Update Collection Permission Error: #{update_response.clean_inspect}")
       permission_update_error = update_response.error_message
 
       if permission_update_error == 'Permission to update ACL is denied'
@@ -127,19 +132,36 @@ class PermissionsController < ManageCmrController
 
   def destroy
     response = cmr_client.delete_permission(params[:id], token)
-
     if response.success?
       flash[:success] = 'Collection Permission was successfully deleted.'
       Rails.logger.info("#{current_user.urs_uid} DELETED catalog item ACL for #{current_user.provider_id}. #{response.body}")
       redirect_to permissions_path
     else
-      Rails.logger.error("Permission Deletion Error: #{response.inspect}")
+      Rails.logger.error("Delete Collection Permission Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
+      set_collection_permission
       render :show
     end
   end
 
   private
+
+  def set_collection_permission
+    @permission = {}
+    @permission_concept_id = params[:id]
+
+    permission_response = cmr_client.get_permission(@permission_concept_id, token)
+
+    if permission_response.success?
+      @permission = permission_response.body
+
+      hydrate_groups(@permission)
+
+      add_breadcrumb @permission.fetch('catalog_item_identity', {})['name'], permission_path(@permission_concept_id)
+    else
+      Rails.logger.error("Error retrieving a permission: #{permission_response.clean_inspect}")
+    end
+  end
 
   # Iterates through the groups associated with the provided collection
   # and hydrates the `group` key with the group details and `is_hidden`

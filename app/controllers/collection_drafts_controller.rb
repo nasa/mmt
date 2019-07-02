@@ -155,8 +155,8 @@ class CollectionDraftsController < BaseDraftsController
       redirect_to collection_path(concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success") }
     else
       # Log error message
-      Rails.logger.error("Ingest Metadata Error: #{ingested_response.inspect}")
-      Rails.logger.info("User #{current_user.urs_uid} attempted to ingest draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
+      Rails.logger.error("Ingest Collection Metadata Error: #{ingested_response.clean_inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to ingest collection draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
       @ingest_errors = generate_ingest_errors(ingested_response)
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error")
@@ -221,12 +221,16 @@ class CollectionDraftsController < BaseDraftsController
 
     if string.include? 'did not contain a required property'
       required_field = string.match(/contain a required property of '(.*)'/).captures.first
-
       field = fields.split('/')
       top_field = field[0] || required_field
-
+      # For ArchiveAndDistributionInformation parent_field is needed to distinguish FileArchiveInformation or FileDistributionInformation
+      parent_field = ''
+      if top_field == 'ArchiveAndDistributionInformation'
+        parent_field = field[1]
+      end
       {
         field: required_field,
+        parent_field: parent_field,
         top_field: top_field,
         page: get_page(field),
         error: 'is required'

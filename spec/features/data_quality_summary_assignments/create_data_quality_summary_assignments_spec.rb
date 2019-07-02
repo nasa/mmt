@@ -18,7 +18,7 @@ describe 'Creating a Data Quality Summary Assignment', js: true do
     it 'displays the data quality summary assignment form' do
       expect(page).to have_content('New MMT_2 Data Quality Summary Assignments')
 
-      wait_for_ajax
+      wait_for_jQuery
 
       # Check that all 6 results appear on the page
       expect(page).to have_selector('#catalog_item_guid_fromList option', count: 6)

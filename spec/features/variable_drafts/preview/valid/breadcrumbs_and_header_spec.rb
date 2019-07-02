@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Variable drafts valid breadcrumbs and header' do
   before do
     login

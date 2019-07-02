@@ -13,6 +13,11 @@ Rails.application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
+  # https://github.com/ankane/secure_rails against host header injection
+  # Next two properties should be uncommented if your testing X-Forward-Host protection
+  # config.action_controller.default_url_options = {host: 'mmt.localtest.earthdata.nasa.gov', port: '3000'}
+  # config.action_controller.asset_host = 'http://mmt.localtest.earthdata.nasa.gov:3000'
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: 'localhost', port: '3000' }
@@ -50,8 +55,14 @@ Rails.application.configure do
   # Feature Toggle for bulk updates
   config.bulk_updates_enabled = true
 
+  # Feature Toggle for invite uses
+  config.invite_users_enabled = false
+
   # Feature Toggle for UMM-S
   config.umm_s_enabled = true
+
+  # Feature Toggle for UMM-Var Generation
+  config.uvg_enabled = true
 
   # Feature Toggle for templates
   config.templates_enabled = true
@@ -59,4 +70,6 @@ Rails.application.configure do
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
+
+  config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
 end

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Related URLs preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
@@ -51,7 +49,7 @@ describe 'Related URLs preview' do
             within '.card-body' do
               expect(page).to have_content('Related URL 3 Description')
               expect(page).to have_link('https://example.com/', href: 'https://example.com/')
-              expect(page).to have_content('Get Service DIF')
+              expect(page).to have_content('Get Data Direct Download')
             end
           end
         end

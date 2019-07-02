@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Conditionally required fields', js: true do
   before do
     login
@@ -14,7 +12,7 @@ describe 'Conditionally required fields', js: true do
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.eui-required-o', count: 6)
+        expect(page).to have_css('label.eui-required-o', count: 7)
       end
     end
 
@@ -30,6 +28,7 @@ describe 'Conditionally required fields', js: true do
       context 'when filling in a form field that causes fields to become required' do
         before do
           fill_in 'Description', with: 'testing'
+          find('body').click
         end
 
         it 'displays the required icons' do
@@ -58,7 +57,7 @@ describe 'Conditionally required fields', js: true do
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.eui-required-o', count: 6)
+        expect(page).to have_css('label.eui-required-o', count: 7)
       end
     end
 

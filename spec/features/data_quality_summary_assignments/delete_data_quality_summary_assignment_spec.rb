@@ -9,7 +9,7 @@ describe 'Deleting a Data Quality Summary Assignment', js: true do
 
     visit data_quality_summary_assignments_path
 
-    wait_for_ajax
+    wait_for_jQuery
 
     within '#catalog_item_guid_fromList' do
       # Mark's Test

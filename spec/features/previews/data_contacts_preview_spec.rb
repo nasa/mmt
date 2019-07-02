@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Data Contacts preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
@@ -26,8 +24,8 @@ describe 'Data Contacts preview' do
         within '.data-contacts-cards' do
           within all('li.card')[0] do
             within '.card-header' do
-              expect(page).to have_content('First Name')
-              expect(page).to have_content('Multiple Roles Science Contact Technical Contact')
+              expect(page).to have_content('First Name Last Name')
+              expect(page).to have_content('Multiple Roles Science Contact Technical Contact', normalize_ws: true)
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
@@ -62,7 +60,7 @@ describe 'Data Contacts preview' do
           within all('li.card')[1] do
             within '.card-header' do
               expect(page).to have_content('Group Name')
-              expect(page).to have_content('Multiple Roles User Services Science Software Development')
+              expect(page).to have_content('Multiple Roles User Services Science Software Development', normalize_ws: true)
             end
             within all('.card-body')[0] do
               within '.card-body-details' do
@@ -96,8 +94,8 @@ describe 'Data Contacts preview' do
           end
           within all('li.card')[2] do
             within '.card-header' do
-              expect(page).to have_content('First Name 3')
-              expect(page).to have_content('Multiple Roles Investigator Metadata Author')
+              expect(page).to have_content('First Name 3 Last Name 3')
+              expect(page).to have_content('Multiple Roles Investigator Metadata Author', normalize_ws: true)
             end
             within all('.card-body')[0] do
               within '.card-body-details' do

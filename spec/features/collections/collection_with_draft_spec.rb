@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Collection with draft' do
   modal_text = 'requires you change your provider context to MMT_2'
 
@@ -30,7 +28,8 @@ describe 'Collection with draft' do
             expect(page).to have_content("#{@concept_response.body['ShortName']}_1")
           end
 
-          expect(page).to have_content("#{@concept_response.body['ShortName']}_1 #{@concept_response.body['EntryTitle']}")
+          expect(page).to have_content("#{@concept_response.body['ShortName']}_1")
+          expect(page).to have_content("#{@concept_response.body['EntryTitle']}")
         end
       end
     end
@@ -61,7 +60,7 @@ describe 'Collection with draft' do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context' do
@@ -74,7 +73,8 @@ describe 'Collection with draft' do
               expect(page).to have_content("#{@concept_response.body['ShortName']}_1")
             end
 
-            expect(page).to have_content("#{@concept_response.body['ShortName']}_1 #{@concept_response.body['EntryTitle']}")
+            expect(page).to have_content("#{@concept_response.body['ShortName']}_1")
+            expect(page).to have_content("#{@concept_response.body['EntryTitle']}")
           end
         end
       end

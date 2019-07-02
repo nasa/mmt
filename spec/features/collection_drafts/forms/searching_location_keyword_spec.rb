@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Searching location keywords', js: true do
   context 'when searching for location keywords' do
     before do

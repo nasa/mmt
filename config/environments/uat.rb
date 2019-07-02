@@ -57,8 +57,11 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
+  # https://github.com/ankane/secure_rails against host header injection
+  config.action_controller.default_url_options = {host: 'https://mmt.uat.earthdata.nasa.gov'}
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.action_controller.asset_host = 'http://assets.example.com'
+  config.action_controller.asset_host = 'https://mmt.uat.earthdata.nasa.gov'
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -87,8 +90,14 @@ Rails.application.configure do
   # Feature Toggle for bulk updates
   config.bulk_updates_enabled = true
 
+  # Feature Toggle for invite uses
+  config.invite_users_enabled = false
+
   # Feature Toggle for UMM-S
   config.umm_s_enabled = true
+
+  # Feature Toggle for UMM-Var Generation
+  config.uvg_enabled = false
 
   # Feature Toggle for templates
   config.templates_enabled = false
@@ -98,5 +107,10 @@ Rails.application.configure do
   config.analytics_id = 'UA-62340125-5'
   config.urs_register_url = 'https://uat.urs.earthdata.nasa.gov/users/new'
 
+  config.tophat_url = 'https://cdn.uat.earthdata.nasa.gov/tophat2/tophat2.js'
+
   config.colorize_logging = false
+
+  # Google Tag Manager ID for EOSDIS usage stats
+  config.tag_manager_id = 'GTM-WNP7MLF'
 end

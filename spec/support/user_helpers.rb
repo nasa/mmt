@@ -21,6 +21,10 @@ module Helpers
       allow_any_instance_of(ApplicationController).to receive(:urs_login_required?).and_return(urs_required)
     end
 
+    def make_launchpad_button_hidden(hide)
+      allow_any_instance_of(ApplicationController).to receive(:hide_launchpad_button?).and_return(hide)
+    end
+
     def profile_body(admin: false)
       body = {
         'uid'           => 'testuser',
@@ -79,64 +83,14 @@ module Helpers
         return mock_login(admin: admin, providers: providers, provider: provider) unless real_login
 
         # Mock calls to URS and login Test User
-        if admin
-          current_user_body = {
-            'user' => {
-              'addresses' => [{
-                'country'   => 'United States',
-                'id'        => 'admin-user-guid',
-                'us_format' => false
-              }],
-              'creation_date'      => '2016-05-05T18:58:54Z',
-              'email'              => 'admin@example.com',
-              'first_name'         => 'Admin',
-              'id'                 => 'user-echo-token',
-              'last_name'          => 'User',
-              'opt_in'             => false,
-              'primary_study_area' => 'UNSPECIFIED',
-              'user_domain'        => 'OTHER',
-              'user_region'        => 'USA',
-              'user_type'          => 'UNSPECIFIED',
-              'username'           => 'adminuser'
-            }
-          }
-        else
-          current_user_body = {
-            'user' => {
-              'addresses' => [{
-                'country'   => 'United States',
-                'id'        => 'test-user-guid',
-                'us_format' => false
-              }],
-              'creation_date'      => '2016-05-05T18:58:54Z',
-              'email'              => 'test@example.com',
-              'first_name'         => 'Test',
-              'id'                 => 'user-echo-token',
-              'last_name'          => 'User',
-              'opt_in'             => false,
-              'primary_study_area' => 'UNSPECIFIED',
-              'user_domain'        => 'OTHER',
-              'user_region'        => 'USA',
-              'user_type'          => 'UNSPECIFIED',
-              'username'           => 'testuser'
-            }
-          }
-        end
-
         profile_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: profile_body(admin: admin)))
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_profile).and_return(profile_response)
 
         token_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: token_body(admin: admin)))
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_oauth_tokens).and_return(token_response)
 
-        current_user_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: current_user_body))
-        allow_any_instance_of(Cmr::EchoClient).to receive(:get_current_user).and_return(current_user_response)
-
         # Use the provided user or lookup a previously created user by URS UID
         user = User.find_or_create_by(urs_uid: profile_body(admin: admin)['uid'])
-
-        # Set the ECHO ID for the user
-        user.update(echo_id: current_user_body['user']['id'])
 
         # This is a setter on the User model, because we're only supplying it
         # providers it will assign provider_id for us.
@@ -156,67 +110,78 @@ module Helpers
     end
 
     def mock_login(admin: false, providers:, provider:)
-      uid = admin ? 'adminuser' : 'testuser'
-      token = admin ? 'access_token_admin' : 'access_token'
-      user = User.from_urs_uid(uid)
-      user.provider_id = provider
-      user.providers = Array.wrap(providers)
-      user.update(echo_id: 'user-echo-token')
-      user.save
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#mock_login' do
+        uid = admin ? 'adminuser' : 'testuser'
+        token = admin ? 'access_token_admin' : 'access_token'
+        user = User.from_urs_uid(uid)
+        user.provider_id = provider
+        user.providers = Array.wrap(providers)
+        user.save
 
-      allow_any_instance_of(ApplicationController).to receive(:ensure_user_is_logged_in).and_return(true)
-      allow_any_instance_of(ApplicationController).to receive(:logged_in?).and_return(true)
-      allow_any_instance_of(ApplicationController).to receive(:server_session_expires_in).and_return(1)
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
-      allow_any_instance_of(ApplicationController).to receive(:token).and_return(token)
+        allow_any_instance_of(ApplicationController).to receive(:ensure_user_is_logged_in).and_return(true)
+        allow_any_instance_of(ApplicationController).to receive(:logged_in?).and_return(true)
+        allow_any_instance_of(ApplicationController).to receive(:server_session_expires_in).and_return(1)
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(token)
+      end
     end
 
     def mock_valid_acs_responses(admin: false, associated: true)
-      # We can't actually use a valid SAMLResponse from Launchpad because they are
-      # time sensitive, so we need to mock that it is valid and provides the data we need
-      allow_any_instance_of(OneLogin::RubySaml::Response).to receive(:is_valid?).and_return(true)
-      allow_any_instance_of(SamlController).to receive(:pull_launchpad_cookie).and_return(token_body(admin: admin)['access_token'])
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#mock_valid_acs_responses' do
+        # We can't actually use a valid SAMLResponse from Launchpad because they are
+        # time sensitive, so we need to mock that it is valid and provides the data we need
+        allow_any_instance_of(OneLogin::RubySaml::Response).to receive(:is_valid?).and_return(true)
+        allow_any_instance_of(SamlController).to receive(:pull_launchpad_cookie).and_return(token_body(admin: admin)['access_token'])
 
-      nams_attributes = {
-        auid: 'testuser',
-        email: 'testuser@example.com'
-      }
-      allow_any_instance_of(OneLogin::RubySaml::Response).to receive(:attributes).and_return(nams_attributes)
+        nams_attributes = {
+          auid: 'testuser',
+          email: 'testuser@example.com'
+        }
+        allow_any_instance_of(OneLogin::RubySaml::Response).to receive(:attributes).and_return(nams_attributes)
 
-      if associated
-        # UrsClient get_urs_uid_from_nams_auid
-        profile_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: profile_body(admin: admin)))
-        allow_any_instance_of(Cmr::UrsClient).to receive(:get_urs_uid_from_nams_auid).and_return(profile_response)
+        if associated
+          # UrsClient get_urs_uid_from_nams_auid
+          profile_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: profile_body(admin: admin)))
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_urs_uid_from_nams_auid).and_return(profile_response)
+        end
       end
     end
 
     def real_launchpad_login(admin: false, providers: 'MMT_2', associated: true)
       mock_valid_acs_responses(admin: admin, associated: associated)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#mock_login' do
+        # Use the provided user or lookup a previously created user by URS UID
+        user = User.find_or_create_by(urs_uid: profile_body(admin: admin)['uid'])
 
-      # Use the provided user or lookup a previously created user by URS UID
-      user = User.find_or_create_by(urs_uid: profile_body(admin: admin)['uid'])
+        # This is a setter on the User model, because we're only supplying it
+        # providers it will assign provider_id for us.
+        if Array.wrap(providers).any?
+          user.providers = Array.wrap(providers)
+          user.save
+        end
 
-      # This is a setter on the User model, because we're only supplying it
-      # providers it will assign provider_id for us.
-      if Array.wrap(providers).any?
-        user.providers = Array.wrap(providers)
-        user.save
+        visit root_path
+        # this button sends a post request (which Capybara cannot do) to SAML#acs,
+        # the return endpoint after a successful Launchpad authentication.
+        click_on 'Launchpad Test Login'
       end
-
-      visit root_path
-      # this button sends a post request (which Capybara cannot do) to SAML#acs,
-      # the return endpoint after a successful Launchpad authentication.
-      click_on 'Launchpad Test Login'
     end
 
-    def visit_with_expiring_token(path)
+    def make_token_expiring
       token_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: token_body(expiring: true)))
       allow_any_instance_of(Cmr::UrsClient).to receive(:refresh_token).and_return(token_response)
 
       # Tell the test that the token is expired
       allow_any_instance_of(ApplicationController).to receive(:server_session_expires_in).and_return(-5)
+    end
 
-      visit path
+    def make_token_refresh_fail
+      refresh_response_body = '{"error": "invalid_grant", "error_description": "Refresh token is invalid."}'
+      refresh_response = cmr_fail_response(JSON.parse(refresh_response_body), 401)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:refresh_token).and_return(refresh_response)
+
+      # Tell the test that the token is expired
+      allow_any_instance_of(ApplicationController).to receive(:server_session_expires_in).and_return(-5)
     end
 
     def add_provider_context_permission(provider_ids)

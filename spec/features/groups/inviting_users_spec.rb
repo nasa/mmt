@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe 'Inviting users', reset_provider: true, js: true do
   let(:token) { UserInvite.first.token }
+  before { skip('feature currently disabled') unless Rails.configuration.invite_users_enabled }
 
   before do
     ActionMailer::Base.deliveries.clear
@@ -31,7 +32,7 @@ describe 'Inviting users', reset_provider: true, js: true do
 
         click_on 'invite-user-button'
 
-        wait_for_ajax
+        wait_for_jQuery
 
         token
       end
@@ -109,7 +110,7 @@ describe 'Inviting users', reset_provider: true, js: true do
           click_on 'invite-user-button'
         end
 
-        wait_for_ajax
+        wait_for_jQuery
 
         token
       end

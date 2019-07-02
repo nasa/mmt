@@ -106,7 +106,7 @@ class UsersController < ApplicationController
 
       finish_successful_login(profile)
     else
-      Rails.logger.error "Error trying to associate a user's URS urs_uid (#{profile[:uid]}) and Launchpad auid (#{auid}): #{association_response.inspect}"
+      Rails.logger.error "Error trying to associate a user's URS urs_uid (#{profile[:uid]}) and Launchpad auid (#{auid}): #{association_response.clean_inspect}"
 
       redirect_to root_url, flash: { error: "#{association_response.error_message(i18n: I18n.t('controllers.users.associate_urs_and_launchpad_ids.flash.error'))}.\nPlease try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
     end
@@ -115,14 +115,27 @@ class UsersController < ApplicationController
   private
 
   def finish_successful_login(profile)
+    # there is additional logging for Launchpad and URS
+    # once Launchpad has been live and stable in production for a while
+    # the Launchpad logging (`log_all_session_keys`) can be removed with MMT-1615
+    # once the URS refresh token issue has been diagnosed or resolved,
+    # the URS logging (`log_urs_session_keys`) can be removed with MMT-1616
+    Rails.logger.debug '>>>>> running store_profile'
     # Stores additional information in the session pertaining to the user
     store_profile(profile)
+    Rails.logger.debug "Successful URS Login by user #{authenticated_urs_uid}" if session[:login_method] == 'urs'
+    log_urs_session_keys
+    log_all_session_keys
 
+    Rails.logger.debug '>>>>> running set_available_providers'
     # Updates the user's available providers
     current_user.set_available_providers(token)
+    log_all_session_keys
 
+    Rails.logger.debug '>>>>> running get_providers'
     # Refresh (force retrieve) the list of all providers
     cmr_client.get_providers(true)
+    log_all_session_keys
 
     # Redirects the user to an appropriate location
     redirect_after_login
@@ -153,7 +166,7 @@ class UsersController < ApplicationController
     if urs_profile_response.success?
       urs_profile_response.body
     else
-      Rails.logger.info "User with auid #{session[:auid]} does not have an associated URS account. Prompting user to associate accounts. Response: #{urs_profile_response.inspect}"
+      Rails.logger.info "User with auid #{session[:auid]} does not have an associated URS account. Prompting user to associate accounts. Response: #{urs_profile_response.clean_inspect}"
 
       redirect_to prompt_urs_association_path and return
     end

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Additional Attribute data type', js: true do
   context 'when viewing the descriptive keywords form' do
     before do
@@ -57,6 +55,7 @@ describe 'Additional Attribute data type', js: true do
         select 'Integer', from: 'Data Type'
         fill_in 'Parameter Range Begin', with: '5'
         fill_in 'Parameter Range End', with: '5'
+        find('body').click
       end
 
       it 'displays an error' do

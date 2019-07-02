@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Permissions Permissions', js: true, reset_provider: true do
   let(:permission_name) { "Testing Collection Permission #{Faker::Number.number(5)}" }
   let(:collection_permission) do
@@ -36,9 +34,10 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
       end
 
       it 'displays the correct message' do
-        expect(page).to have_content('You don\'t have the appropriate permissions to show this permission.')
+        expect(page).to have_content("You don't have the appropriate permissions to show this permission.")
         expect(page).to have_content('Access Denied')
-        expect(page).to have_content('It appears you do not have access to show this content. If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.')
+        expect(page).to have_content('It appears you do not have access to show this content.')
+        expect(page).to have_content('If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.')
       end
     end
 
@@ -51,13 +50,14 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
       it 'displays the correct message' do
         expect(page).to have_content('You need to change your current provider to show this permission. Click here to change your provider.')
         expect(page).to have_content('Not Current Provider')
-        expect(page).to have_content('It appears you need to change your current provider to access to this content. Please check the message above to access this content.')
+        expect(page).to have_content('It appears you need to change your current provider to access to this content.')
+        expect(page).to have_content('Please check the message above to access this content.')
       end
 
       context 'when clicking the link to change providers' do
         before do
           click_on 'Click here to change your provider.'
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         it 'changes providers and displays the permission' do
@@ -91,9 +91,10 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
       end
 
       it 'displays the correct message' do
-        expect(page).to have_content('You don\'t have the appropriate permissions to edit this permission.')
+        expect(page).to have_content("You don't have the appropriate permissions to edit this permission.")
         expect(page).to have_content('Access Denied')
-        expect(page).to have_content('It appears you do not have access to edit this content. If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.')
+        expect(page).to have_content('It appears you do not have access to edit this content.')
+        expect(page).to have_content('If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.')
       end
     end
 
@@ -106,13 +107,14 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
       it 'displays the correct message' do
         expect(page).to have_content('You need to change your current provider to edit this permission. Click here to change your provider.')
         expect(page).to have_content('Not Current Provider')
-        expect(page).to have_content('It appears you need to change your current provider to access to this content. Please check the message above to access this content.')
+        expect(page).to have_content('It appears you need to change your current provider to access to this content.')
+        expect(page).to have_content('Please check the message above to access this content.')
       end
 
       context 'when clicking the link to change providers' do
         before do
           click_on 'Click here to change your provider.'
-          wait_for_ajax
+          wait_for_jQuery
         end
 
         it 'changes providers and displays the permission' do

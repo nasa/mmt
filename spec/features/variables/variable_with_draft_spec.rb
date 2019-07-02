@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Variable with draft' do
   modal_text = 'requires you change your provider context to MMT_2'
 
@@ -30,7 +28,8 @@ describe 'Variable with draft' do
             expect(page).to have_content(@concept_response.body['Name'])
           end
 
-          expect(page).to have_content("#{@concept_response.body['Name']} #{@concept_response.body['LongName']}")
+          expect(page).to have_content("#{@concept_response.body['Name']}")
+          expect(page).to have_content("#{@concept_response.body['LongName']}")
         end
       end
     end
@@ -61,7 +60,7 @@ describe 'Variable with draft' do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context' do
@@ -74,7 +73,8 @@ describe 'Variable with draft' do
               expect(page).to have_content(@concept_response.body['Name'])
             end
 
-            expect(page).to have_content("#{@concept_response.body['Name']} #{@concept_response.body['LongName']}")
+            expect(page).to have_content("#{@concept_response.body['Name']}")
+            expect(page).to have_content("#{@concept_response.body['LongName']}")
           end
         end
       end

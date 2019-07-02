@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Options Form', js: true do
   before do
     login
@@ -9,12 +7,55 @@ describe 'Options Form', js: true do
 
   context 'when submitting the form' do
     before do
-      select('Spatial', from: 'Subset Types')
-      select('Geographic', from: 'Supported Projections')
-      select('Bilinear Interpolation', from: 'Interpolation Types')
-      select('Bicubic Interpolation', from: 'Interpolation Types')
-      select('HDF-EOS4', from: 'Supported Formats')
-      select('HDF-EOS5', from: 'Supported Formats')
+      select 'Spatial', from: 'Subset Types'
+      select 'ANOMOLY', from: 'Variable Aggregation Supported Methods'
+
+      within '.supported-input-projections .multiple-item-0' do
+        select 'Geographic', from: 'Projection Name'
+        fill_in 'Projection Latitude Of Center', with: 10
+        fill_in 'Projection Longitude Of Center', with: 10
+        fill_in 'Projection False Easting', with: 10
+        fill_in 'Projection False Northing', with: 10
+        select '4326', from: 'Projection Authority'
+        select 'Degrees', from: 'Projection Unit'
+        select 'World Geodetic System (WGS) 1984', from: 'Projection Datum Name'
+      end
+
+      within '.multiple.supported-output-projections' do
+        within '.multiple-item-0' do
+          select 'Geographic', from: 'Projection Name'
+          fill_in 'Projection Latitude Of Center', with: 10
+          fill_in 'Projection Longitude Of Center', with: 10
+          fill_in 'Projection False Easting', with: 10
+          fill_in 'Projection False Northing', with: 10
+          select '4326', from: 'Projection Authority'
+          select 'Degrees', from: 'Projection Unit'
+          select 'World Geodetic System (WGS) 1984', from: 'Projection Datum Name'
+        end
+
+        click_on 'Add another Supported Output Projection'
+
+        within '.multiple-item-1' do
+          select 'NAD83 / UTM zone 17N', from: 'Projection Name'
+          fill_in 'Projection Latitude Of Center', with: 10
+          fill_in 'Projection Longitude Of Center', with: 10
+          fill_in 'Projection False Easting', with: 10
+          fill_in 'Projection False Northing', with: 10
+          select '26917', from: 'Projection Authority'
+          select 'Meters', from: 'Projection Unit'
+          select 'North American Datum (NAD) 1983', from: 'Projection Datum Name'
+        end
+      end
+
+      select 'Bilinear Interpolation', from: 'Interpolation Types'
+      select 'Bicubic Interpolation', from: 'Interpolation Types'
+
+      select 'HDF-EOS2', from: 'Supported Input Formats'
+      select 'HDF-EOS5', from: 'Supported Input Formats'
+      select 'HDF-EOS2', from: 'Supported Output Formats'
+      select 'HDF-EOS5', from: 'Supported Output Formats'
+
+      fill_in 'Max Granules', with: 50
 
       within '.nav-top' do
         click_on 'Save'

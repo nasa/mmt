@@ -1,7 +1,3 @@
-# MMT-87, MMT-88, MMT-21
-
-require 'rails_helper'
-
 describe 'Revision list', js: true do
   context 'when viewing a published collection' do
     before do

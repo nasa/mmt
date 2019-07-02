@@ -1,7 +1,3 @@
-# MMT-103, MMT-55
-
-require 'rails_helper'
-
 # R = Required fied
 # NR = Not Required field
 
@@ -64,32 +60,32 @@ bad_lat_values = [
   { value: '-100', error: 'Latitude is too low' }
 ]
 
-describe 'Data validation for a form', js: true do
+describe 'Data validation for a collection draft form', js: true do
   before do
     login
-    draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
-    visit collection_draft_path(draft)
+    @draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
   end
 
   context 'when the form is empty' do
     before do
-      within 'section.metadata' do
-        click_on 'Collection Information'
-      end
+      visit edit_collection_draft_path(@draft, form: 'collection_information')
     end
 
     it 'simple mandatory string field validation works' do
-      fill_in 'Short Name', with: empty_string
+      find('#draft_short_name').click
+      find('body').click
       expect(page).to have_content('Short Name is required')
 
       good_string_values.each do |test|
         fill_in 'Short Name', with: test
+        find('body').click
         puts "#{test}" if debug
         expect(page).to have_no_selector(validation_error)
       end
 
       bad_string_values.each do |test|
         fill_in 'Short Name', with: test[:value]
+        find('body').click
         puts "String: #{test[:value]}: #{test[:error]}" if debug
         expect(page).to have_content(test[:error])
       end
@@ -112,9 +108,7 @@ describe 'Data validation for a form', js: true do
 
   context 'when conditionally required fields are present' do
     before do
-      within 'section.metadata' do
-        click_on 'Data Identification'
-      end
+      visit edit_collection_draft_path(@draft, form: 'data_identification')
 
       open_accordions
     end
@@ -125,25 +119,30 @@ describe 'Data validation for a form', js: true do
 
         fill_in 'Value', with: '42'
       end
+
       within '.nav-top' do
         click_on 'Done'
       end
       # Reject
       click_on 'No'
+
       within '.access-constraints' do
         expect(page).to have_content('Description is required')
         expect(page).to have_selector(validation_error)
 
         fill_in 'Description', with: 'description'
+        find('#draft_access_constraints_value').click
         expect(page).to have_no_selector(validation_error)
 
         fill_in 'Description', with: empty_string
       end
+
       within '.nav-top' do
         click_on 'Done'
       end
       # Reject
       click_on 'No'
+
       within '.access-constraints' do
         expect(page).to have_content('Description is required')
         expect(page).to have_selector(validation_error)
@@ -153,9 +152,7 @@ describe 'Data validation for a form', js: true do
 
   context 'when there is a floating point field' do
     before do
-      within 'section.metadata' do
-        click_on 'Related URLs', match: :first
-      end
+      visit edit_collection_draft_path(@draft, form: 'related_urls')
 
       open_accordions
     end
@@ -168,6 +165,7 @@ describe 'Data validation for a form', js: true do
           good_number_values.each do |test|
             fill_in 'Size', with: test
             puts "Number: #{test}" if debug
+            find('#draft_related_urls_0_get_data_fees').click
             within all('.col-6').first do
               expect(page).to have_no_selector(validation_error)
             end
@@ -175,6 +173,7 @@ describe 'Data validation for a form', js: true do
 
           bad_number_values.each do |test|
             fill_in 'Size', with: test[:value]
+            find('#draft_related_urls_0_get_data_fees').click
             puts "Number: #{test[:value]}: #{test[:error]}" if debug
             expect(page).to have_content(test[:error])
           end
@@ -185,9 +184,7 @@ describe 'Data validation for a form', js: true do
 
   context 'when there are integer and date fields' do
     before do
-      within 'section.metadata' do
-        click_on 'Temporal Information'
-      end
+      visit edit_collection_draft_path(@draft, form: 'temporal_information')
 
       open_accordions
     end
@@ -195,15 +192,18 @@ describe 'Data validation for a form', js: true do
     it 'simple integer field validation works' do
       choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
       fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-10-27T00:00:00Z'
+      find('body').click
 
       good_integer_values.each do |test|
         fill_in 'Precision Of Seconds', with: test
+        find('body').click
         puts "Integer: #{test}" if debug
         expect(page).to have_no_selector(validation_error)
       end
 
       bad_integer_values.each do |test|
         fill_in 'Precision Of Seconds', with: test[:value]
+        find('body').click
         puts "Integer: #{test[:value]}: #{test[:error]}" if debug
         expect(page).to have_content(test[:error])
       end
@@ -214,6 +214,7 @@ describe 'Data validation for a form', js: true do
 
       good_date_values.each do |test|
         fill_in 'Beginning Date Time', with: test
+        find('#draft_temporal_extents_0_precision_of_seconds').click
         puts "Date: #{test}" if debug
         expect(page).to have_no_selector(validation_error)
       end
@@ -230,9 +231,7 @@ describe 'Data validation for a form', js: true do
 
   context 'when there are Lat Lon type fields' do
     before do
-      within 'section.metadata' do
-        click_on 'Spatial Information', match: :first
-      end
+      visit edit_collection_draft_path(@draft, form: 'spatial_information')
 
       open_accordions
     end
@@ -240,7 +239,7 @@ describe 'Data validation for a form', js: true do
     it 'simple Latitude field validation works' do
       select 'Horizontal', from: 'Spatial Coverage Type'
       script = '$(".geometry-picker.points").click();'
-      page.execute_script script
+      page.execute_script(script)
 
       within '.spatial-extent' do
         within '.geometry' do
@@ -248,6 +247,7 @@ describe 'Data validation for a form', js: true do
             good_lat_values.each do |test|
               fill_in 'Longitude', with: '0'
               fill_in 'Latitude', with: test
+              find('label[for=draft_spatial_extent_horizontal_spatial_domain_geometry_points_0_longitude]').click
               puts "Latitude #{test}" if debug
               expect(page).to have_no_selector(validation_error)
             end
@@ -255,6 +255,7 @@ describe 'Data validation for a form', js: true do
             bad_lat_values.each do |test|
               fill_in 'Longitude', with: '0'
               fill_in 'Latitude', with: test[:value]
+              find('label[for=draft_spatial_extent_horizontal_spatial_domain_geometry_points_0_longitude]').click
               puts "Latitude #{test[:value]}: #{test[:error]}" if debug
               expect(page).to have_content(test[:error])
             end
@@ -267,9 +268,7 @@ describe 'Data validation for a form', js: true do
   # Now for more complex testing
   context 'when there is a oneOf constraint' do
     before do
-      within 'section.metadata' do
-        click_on 'Temporal Information'
-      end
+      visit edit_collection_draft_path(@draft, form: 'temporal_information')
 
       open_accordions
     end
@@ -301,9 +300,7 @@ describe 'Data validation for a form', js: true do
 
   context 'when there is a anyOf constraint' do
     before do
-      within 'section.metadata' do
-        click_on 'Spatial Information', match: :first
-      end
+      visit edit_collection_draft_path(@draft, form: 'spatial_information')
 
       open_accordions
 
@@ -352,9 +349,7 @@ describe 'Data validation for a form', js: true do
 
   context 'when there is a minItems constraint' do
     before do
-      within 'section.metadata' do
-        click_on 'Spatial Information', match: :first
-      end
+      visit edit_collection_draft_path(@draft, form: 'spatial_information')
 
       open_accordions
     end
@@ -380,7 +375,6 @@ describe 'Data validation for a form', js: true do
       within '.nav-top' do
         click_on 'Done'
       end
-
       # Reject
       click_on 'No'
 
@@ -444,9 +438,7 @@ describe 'Data validation for a form', js: true do
   # Test validation of an arry of simple objects
   context 'when there is an array of simple objects' do
     before do
-      within 'section.metadata' do
-        click_on 'Acquisition Information'
-      end
+      visit edit_collection_draft_path(@draft, form: 'acquisition_information')
 
       open_accordions
 
@@ -462,7 +454,8 @@ describe 'Data validation for a form', js: true do
 
     it 'validation of a single object in an array of simple objects does work' do
       fill_in 'draft_platforms_0_instruments_0_operational_modes_0', with: 'this is a really long string that is too long'
-      expect(page).to have_content('OperationalModes is too long')
+      find('body').click
+      expect(page).to have_content('Operational Modes is too long')
 
       within '.nav-top' do
         click_on 'Done'
@@ -470,9 +463,10 @@ describe 'Data validation for a form', js: true do
       # Reject
       click_on 'No'
 
-      expect(page).to have_content('OperationalModes is too long')
+      expect(page).to have_content('Operational Modes is too long')
       fill_in 'draft_platforms_0_instruments_0_operational_modes_0', with: 'Short string'
-      expect(page).to have_no_content('OperationalModes is too long')
+      find('body').click
+      expect(page).to have_no_content('Operational Modes is too long')
       expect(page).to have_no_selector(validation_error)
 
       within '.nav-top' do
@@ -486,7 +480,8 @@ describe 'Data validation for a form', js: true do
       fill_in 'draft_platforms_0_instruments_0_operational_modes_0', with: 'Short string'
       click_on 'Add another Operational Mode'
       fill_in 'draft_platforms_0_instruments_0_operational_modes_1', with: 'this is a really long string that is too long'
-      expect(page).to have_content('OperationalModes is too long')
+      find('body').click
+      expect(page).to have_content('Operational Modes is too long')
 
       within '.nav-top' do
         click_on 'Done'
@@ -494,8 +489,9 @@ describe 'Data validation for a form', js: true do
       # Reject
       click_on 'No'
 
-      expect(page).to have_content('OperationalModes is too long')
+      expect(page).to have_content('Operational Modes is too long')
       fill_in 'draft_platforms_0_instruments_0_operational_modes_1', with: 'Short string'
+      find('body').click
       expect(page).to have_no_selector(validation_error)
 
       within '.nav-top' do
@@ -508,9 +504,7 @@ describe 'Data validation for a form', js: true do
 
   context 'when there are errors on the same field within an array of fields' do
     before do
-      within 'section.metadata' do
-        click_on 'Spatial Information', match: :first
-      end
+      visit edit_collection_draft_path(@draft, form: 'spatial_information')
 
       open_accordions
 
@@ -522,16 +516,17 @@ describe 'Data validation for a form', js: true do
 
       within '#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_0' do
         fill_in 'North', with: 'asdf'
-        fill_in 'West', with: ''
-        fill_in 'East', with: ''
-        fill_in 'South', with: ''
+        find('#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_0_west_bounding_coordinate').click
+        find('#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_0_east_bounding_coordinate').click
+        find('#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_0_south_bounding_coordinate').click
       end
       within '#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_1' do
-        fill_in 'North', with: ''
+        find('#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_1_north_bounding_coordinate').click
         fill_in 'West', with: '0'
-        fill_in 'East', with: ''
-        fill_in 'South', with: ''
+        find('#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_1_east_bounding_coordinate').click
+        find('#draft_spatial_extent_horizontal_spatial_domain_geometry_bounding_rectangles_1_south_bounding_coordinate').click
       end
+      find('body').click
     end
 
     it 'displays the errors correctly' do
@@ -551,9 +546,8 @@ describe 'Data validation for a form', js: true do
 
   context 'when there is a not constraint' do
     before do
-      within 'section.metadata' do
-        click_on 'Data Identification'
-      end
+      visit edit_collection_draft_path(@draft, form: 'data_identification')
+
       open_accordions
 
       within '.use-constraints' do
@@ -563,6 +557,8 @@ describe 'Data validation for a form', js: true do
         fill_in 'Linkage', with: 'http://example.com'
         fill_in 'License Text', with: 'sample license text'
       end
+
+      find('body').click
     end
 
     it 'displays the not validation error' do

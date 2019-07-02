@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Saving Data Contacts and Data Centers', js: true do
   before do
     login
@@ -14,7 +12,7 @@ describe 'Saving Data Contacts and Data Centers', js: true do
     it 'has the Data Center on the preview page' do
       within '.data-centers-cards' do
         expect(page).to have_content('AARHUS-HYDRO')
-        expect(page).to have_content('Hydrogeophysics Group, Aarhus University ')
+        expect(page).to have_content('Hydrogeophysics Group, Aarhus University')
       end
     end
 
@@ -49,7 +47,7 @@ describe 'Saving Data Contacts and Data Centers', js: true do
       it 'still displays the Data Center on the preview page' do
         within '.data-centers-cards' do
           expect(page).to have_content('AARHUS-HYDRO')
-          expect(page).to have_content('Hydrogeophysics Group, Aarhus University ')
+          expect(page).to have_content('Hydrogeophysics Group, Aarhus University')
         end
       end
 
@@ -75,7 +73,7 @@ describe 'Saving Data Contacts and Data Centers', js: true do
         it 'displays both Data Centers on the preview page' do
           within '.data-centers-cards' do
             expect(page).to have_content('AARHUS-HYDRO')
-            expect(page).to have_content('Hydrogeophysics Group, Aarhus University ')
+            expect(page).to have_content('Hydrogeophysics Group, Aarhus University')
 
             expect(page).to have_content('ESA/ED')
             expect(page).to have_content('Educational Office, Ecological Society of America')

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service Drafts Forms Field Validations', js: true do
   let(:draft) { create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first) }
 
@@ -159,23 +157,24 @@ describe 'Service Drafts Forms Field Validations', js: true do
 
   context 'number fields' do
     before do
-      visit edit_service_draft_path(draft, 'coverage')
+      visit edit_service_draft_path(draft, 'operation_metadata')
     end
 
     context 'when entering text into a number field' do
       before do
-        select 'BOUNDING_BOX', from: 'Coverage Spatial Extent Type Type'
-        fill_in 'Min X', with: 'abcd'
+        fill_in 'Spatial Resolution', with: 'abcd'
+
+        find('body').click
       end
 
       it 'displays validation error messages' do
         expect(page).to have_css('.eui-banner--danger', count: 2)
 
         within '.summary-errors' do
-          expect(page).to have_content('Min X must be of type number')
+          expect(page).to have_content('Spatial Resolution must be of type number')
         end
 
-        expect(page).to have_css('#service_draft_draft_coverage_coverage_spatial_extent_spatial_bounding_box_min_x_error', text: 'Min X must be of type number')
+        expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_spatial_resolution_error', text: 'Spatial Resolution must be of type number')
       end
 
       context 'when saving the form' do
@@ -196,10 +195,10 @@ describe 'Service Drafts Forms Field Validations', js: true do
 
           it 'displays validation error messages for fields with data' do
             within '.summary-errors' do
-              expect(page).to have_content('Min X must be of type number')
+              expect(page).to have_content('Spatial Resolution must be of type number')
             end
 
-            expect(page).to have_css('#service_draft_draft_coverage_coverage_spatial_extent_spatial_bounding_box_min_x_error', text: 'Min X must be of type number')
+            expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_spatial_resolution_error', text: 'Spatial Resolution must be of type number')
           end
         end
       end
@@ -222,6 +221,67 @@ describe 'Service Drafts Forms Field Validations', js: true do
       it 'does not show validation errors for the new fields' do
         expect(page).to have_no_css('.summary-errors')
         expect(page).to have_no_content('Short Name is required')
+      end
+    end
+  end
+
+  context 'fields that break snake_case and CamelCase conversions' do
+    before do
+      visit edit_service_draft_path(draft, 'operation_metadata')
+    end
+
+    context 'when entering when only filling out some fields that will require other fields' do
+      before do
+        select 'GENERAL_GRID', from: 'Data Resource Spatial Type'
+
+        within '.multiple.axes' do
+          fill_in 'Upper Bound', with: '20'
+        end
+      end
+
+      context 'when saving the form but not confirming' do
+        before do
+          within '.nav-top' do
+            click_on 'Save'
+          end
+
+          click_on 'No'
+        end
+
+        it 'displays validation error messages including fields with names that break conversion' do
+          within '.summary-errors' do
+            expect(page).to have_content('CRS Identifier is required')
+            expect(page).to have_content('Axis Label is required')
+            expect(page).to have_content('Lower Bound is required')
+            expect(page).to have_content('UOM Label is required')
+          end
+
+          expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_extent_general_grid_crs_identifier_error', text: 'CRS Identifier is required')
+          expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_extent_general_grid_axis_0_axis_label_error', text: 'Axis Label is required')
+          expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_extent_general_grid_axis_0_extent_lower_bound_error', text: 'Lower Bound is required')
+          expect(page).to have_css('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_extent_general_grid_axis_0_extent_uom_label_error', text: 'UOM Label is required')
+        end
+
+        context 'when filling out the required data' do
+          before do
+            within '.data-resource-spatial-extent.general-grid' do
+              select '26917', from: 'CRS Identifier'
+
+              within '.multiple.axes' do
+                fill_in 'Axis Label', with: 'x'
+                fill_in 'Lower Bound', with: '0.0'
+                fill_in 'Upper Bound', with: '2918.0'
+                fill_in 'UOM Label', with: 'Meters'
+
+                find('#service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_extent_general_grid_axis_0_extent_upper_bound').click
+              end
+            end
+          end
+
+          it 'does not display validation error messages' do
+            expect(page).to have_no_css('.eui-banner--danger')
+          end
+        end
       end
     end
   end

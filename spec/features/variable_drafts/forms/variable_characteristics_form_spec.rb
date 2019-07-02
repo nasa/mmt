@@ -1,6 +1,3 @@
-
-require 'rails_helper'
-
 describe 'Characteristics Form', js: true do
   before do
     login
@@ -60,15 +57,15 @@ describe 'Characteristics Form', js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Size Estimation')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
         end
       end
     end
@@ -133,7 +130,7 @@ describe 'Characteristics Form', js: true do
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Science Keywords', from: 'Save & Jump To:'
+          select 'Size Estimation', from: 'Save & Jump To:'
         end
       end
 
@@ -144,19 +141,19 @@ describe 'Characteristics Form', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Size Estimation')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Size Estimation')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
         end
       end
     end
@@ -172,17 +169,11 @@ describe 'Characteristics Form', js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_characteristics_standard_name', with: 'Tortor Ultricies Nibh Adipiscing')
-      expect(page).to have_field('variable_draft_draft_characteristics_reference', with: 'https://developer.earthdata.nasa.gov/')
-      expect(page).to have_field('variable_draft_draft_characteristics_coordinates', with: '38.8059922,-77.0435327')
-      expect(page).to have_field('variable_draft_draft_characteristics_grid_mapping', with: 'Mercator')
-      expect(page).to have_field('variable_draft_draft_characteristics_size', with: '10.0')
-      expect(page).to have_field('variable_draft_draft_characteristics_size_units', with: 'nm')
-      expect(page).to have_field('variable_draft_draft_characteristics_bounds', with: 'UpperLeftPointMtrs = -180.0, 89.5; LowerRightMtrs = 177.5, -89.5')
-      expect(page).to have_field('variable_draft_draft_characteristics_chunk_size', with: '100.0')
-      expect(page).to have_field('variable_draft_draft_characteristics_structure', with: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
-      expect(page).to have_field('variable_draft_draft_characteristics_measurement_conditions', with: 'Nulla vitae elit libero, a pharetra augue.')
-      expect(page).to have_field('variable_draft_draft_characteristics_reporting_conditions', with: 'Cras justo odio, dapibus ac facilisis in, egestas eget quam.')
+      expect(page).to have_field('variable_draft_draft_characteristics_index_ranges_lat_range_0', with: '-90.0')
+      expect(page).to have_field('variable_draft_draft_characteristics_index_ranges_lat_range_1', with: '90.0')
+      expect(page).to have_field('variable_draft_draft_characteristics_index_ranges_lon_range_0', with: '-180.0')
+      expect(page).to have_field('variable_draft_draft_characteristics_index_ranges_lon_range_1', with: '180.0')
+      expect(page).to have_field('variable_draft_draft_characteristics_group_path', with: '/Data_Fields/')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -224,15 +215,15 @@ describe 'Characteristics Form', js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Science Keywords')
+          expect(page).to have_content('Size Estimation')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
         end
       end
     end
@@ -267,17 +258,11 @@ describe 'Characteristics Form', js: true do
       end
 
       it 'displays the correct values in the form' do
-        expect(page).to have_field('variable_draft_draft_characteristics_standard_name', with: 'Tortor Ultricies Nibh Adipiscing')
-        expect(page).to have_field('variable_draft_draft_characteristics_reference', with: 'https://developer.earthdata.nasa.gov/')
-        expect(page).to have_field('variable_draft_draft_characteristics_coordinates', with: '38.8059922,-77.0435327')
-        expect(page).to have_field('variable_draft_draft_characteristics_grid_mapping', with: 'Mercator')
-        expect(page).to have_field('variable_draft_draft_characteristics_size', with: '10.0')
-        expect(page).to have_field('variable_draft_draft_characteristics_size_units', with: 'nm')
-        expect(page).to have_field('variable_draft_draft_characteristics_bounds', with: 'UpperLeftPointMtrs = -180.0, 89.5; LowerRightMtrs = 177.5, -89.5')
-        expect(page).to have_field('variable_draft_draft_characteristics_chunk_size', with: '100.0')
-        expect(page).to have_field('variable_draft_draft_characteristics_structure', with: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
-        expect(page).to have_field('variable_draft_draft_characteristics_measurement_conditions', with: 'Nulla vitae elit libero, a pharetra augue.')
-        expect(page).to have_field('variable_draft_draft_characteristics_reporting_conditions', with: 'Cras justo odio, dapibus ac facilisis in, egestas eget quam.')
+        expect(page).to have_field('variable_draft_draft_characteristics_index_ranges_lat_range_0', with: '-90.0')
+        expect(page).to have_field('variable_draft_draft_characteristics_index_ranges_lat_range_1', with: '90.0')
+        expect(page).to have_field('variable_draft_draft_characteristics_index_ranges_lon_range_0', with: '-180.0')
+        expect(page).to have_field('variable_draft_draft_characteristics_index_ranges_lon_range_1', with: '180.0')
+        expect(page).to have_field('variable_draft_draft_characteristics_group_path', with: '/Data_Fields/')
       end
     end
   end

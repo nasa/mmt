@@ -5,6 +5,7 @@
       "title": "Service Information",
       "items": [
         {
+          /* Service Information */
           "type": "open_accordion",
           "title": "Service Information",
           "noHelp": true,
@@ -65,6 +66,7 @@
       "expandable": true,
       "items": [
         {
+          /* Service Identification */
           "type": "accordion",
           "help": "ServiceQuality",
           "title": "Service Quality",
@@ -134,8 +136,9 @@
       "title": "Related URLs",
       "expandable": true,
       "items": [
+        /* Related URLs */
         {
-          "type": "accordion",
+          "type": "open_accordion",
           "help": "RelatedURLs",
           "title": "Related URLs",
           "items": [
@@ -147,30 +150,6 @@
               "noLabel": true,
               "typeOverride": "Related URL",
               "$ref": "#/definitions/RelatedURLProperties"
-            }
-          ]
-        },
-        {
-          "type": "accordion",
-          "help": "OnlineAccessURLPatternMatch",
-          "title": "Online Access URL Pattern Match",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [{"key": "OnlineAccessURLPatternMatch", "type": "UmmTextarea", "field": true}]
-            }
-          ]
-        },
-        {
-          "type": "accordion",
-          "help": "OnlineAccessURLPatternSubstitution",
-          "title": "Online Access URL Pattern Substitution",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [{"key": "OnlineAccessURLPatternSubstitution", "type": "UmmTextarea", "field": true}]
             }
           ]
         }
@@ -211,8 +190,8 @@
       "title": "Science and Ancillary Keywords",
       "expandable": true,
       "items": [
-        /* ScienceKeywords */
         {
+          /* ScienceKeywords */
           "type": "accordion",
           "help": "ScienceKeywords",
           "title": "Science Keywords",
@@ -249,6 +228,7 @@
                   "type": "UmmMultiItem",
                   "key": "AncillaryKeywords",
                   "field": true,
+                  "multiType": "AncillaryKeywords",
                   "items": [
                     {
                       "type": "section",
@@ -388,8 +368,8 @@
       "title": "Service Contacts",
       "expandable": true,
       "items": [
-        /* ContactGroups */
         {
+          /* ContactGroups */
           "type": "accordion",
           "help": "ContactGroups",
           "title": "Contact Groups",
@@ -406,8 +386,8 @@
             }
           ]
         },
-        /* ContactPersons */
         {
+          /* ContactPersons */
           "type": "accordion",
           "help": "ContactPersons",
           "title": "Contact Persons",
@@ -447,7 +427,29 @@
                 },
                 {
                   "type": "section",
-                  "items": [{"key": "/SupportedProjections", "field": true, "type": "UmmMultiSelect"}]
+                  "items": [{"key": "/VariableAggregationSupportedMethods", "field": true, "type": "UmmMultiSelect"}]
+                },
+                {
+                  "type": "UmmMultiItems",
+                  "label": "Supported Input Projections",
+                  "multiType": "SupportedInputProjections",
+                  "key": "/SupportedInputProjections/items/properties/index_id",
+                  "items": [
+                    {
+                      "$ref": "#/definitions/SupportedProjection"
+                    }
+                  ]
+                },
+                {
+                  "type": "UmmMultiItems",
+                  "label": "Supported Output Projections",
+                  "multiType": "SupportedOutputProjections",
+                  "key": "/SupportedOutputProjections/items/properties/index_id",
+                  "items": [
+                    {
+                      "$ref": "#/definitions/SupportedProjection"
+                    }
+                  ]
                 },
                 {
                   "type": "section",
@@ -455,7 +457,15 @@
                 },
                 {
                   "type": "section",
-                  "items": [{"key": "/SupportedFormats", "field": true, "type": "UmmMultiSelect"}]
+                  "items": [{"key": "/SupportedInputFormats", "field": true, "type": "UmmMultiSelect"}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "/SupportedOutputFormats", "field": true, "type": "UmmMultiSelect"}]
+                },
+                {
+                  "type": "section",
+                  "items": [{"key": "/MaxGranules", "field": true}]
                 }
               ]
             }
@@ -464,72 +474,256 @@
       ]
     },
     {
-      "id": "coverage",
-      "title": "Coverage",
+      "id": "operation_metadata",
+      "title": "Operation Metadata",
       "items": [
-        /* Coverage */
+        /* Operation Metadata */
         {
           "type": "open_accordion",
-          "help": "Coverage",
-          "title": "Coverage",
-          "key": "Coverage/properties",
+          "title": "Operation Metadata",
+          "help": "OperationMetadata",
           "items": [
             {
-              "type": "section",
-              "htmlClass": "row",
+              "type": "UmmMultiItems",
+              "label": "Operation Metadata",
+              "multiType": "OperationMetadata",
+              "key": "OperationMetadata/items/properties/index_id",
+              "noLabel": true,
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/Name", "field": true}]
-                }
-              ]
-            },
-            {
-              "$ref": "#/definitions/CoverageSpatialExtent"
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/SpatialResolution", "field": true}]
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/OperationName", "field": true, "type": "UmmSelect"}]
+                    }
+                  ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/SpatialResolutionUnit", "field": true}]
-                }
-              ]
-            },
-            {
-              "$ref": "#/definitions/CoverageTemporalExtent"
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/TemporalResolution", "field": true}]
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/OperationDescription", "field": true, "type": "UmmTextarea"}]
+                    }
+                  ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/TemporalResolutionUnit", "field": true}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
+                  "items": [{"key": "/DistributedComputingPlatform", "field": true, "type": "UmmMultiSelect"}]
+                },
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "/RelativePath", "field": true, "type": "UmmTextarea"}]
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/InvocationName", "field": true}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "label": "Connect Point",
+                  "key": "/ConnectPoint/properties",
+                  "htmlClass": "row sub-fields connect-point",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ResourceName", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ResourceLinkage", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ResourceDescription", "field": true, "type": "UmmTextarea"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "label": "Operation Chained Metadata",
+                  "key": "/OperationChainedMetadata/properties",
+                  "htmlClass": "row sub-fields operation-chained-metadata",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/OperationChainName", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/OperationChainDescription", "field": true, "type": "UmmTextarea"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "label": "Coupled Resource",
+                  "key": "/CoupledResource/properties",
+                  "htmlClass": "row sub-fields coupled-resource space-bot",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/ScopedName", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/DataResourceDOI", "field": true, "label": "Data Resource DOI"}]
+                    },
+                    {
+                      "type": "section",
+                      "label": "Data Resource",
+                      "key": "/DataResource/properties",
+                      "htmlClass": "row sub-fields data-resource",
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/DataResourceIdentifier", "field": true}]
+                            }
+                            ,
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/DataResourceSourceType", "field": true, "type": "UmmSelect"}]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "row sub-fields data-resource-spatial-group space-bot",
+                          "label": "Data Resource Spatial Extent",
+                          "noHelp": true,
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "row",
+                              "items": [
+                                {
+                                  "type": "section",
+                                  "htmlClass": "row",
+                                  "items": [{"key": "/DataResourceSpatialType", "field": true, "type": "UmmSelect", "htmlClass": "data-resource-spatial-type-select"}]
+
+                                }
+                              ]
+                            },
+                            {
+                              "$ref": "#/definitions/DataResourceSpatialExtent"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/SpatialResolution", "field": true}]
+                            },
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/SpatialResolutionUnit", "field": true, "type": "UmmSelect"}]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [{"key": "/DataResourceTemporalType", "field": true, "type": "UmmSelect"}]
+                            }
+                          ]
+                        },
+                        {
+                          "$ref": "#/definitions/DataResourceTemporalExtent"
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/TemporalResolution", "field": true}]
+                            },
+                            {
+                              "type": "section",
+                              "htmlClass": "col-6",
+                              "items": [{"key": "/TemporalResolutionUnit", "field": true, "type": "UmmSelect"}]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [{"key": "/RelativePath", "field": true}]
+                            }
+
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "items": [{"key": "/CouplingType", "field": true, "type": "UmmSelect"}]
+                    }
+                  ]
+                }
+                ,
+                {
+                  "type": "section",
+                  "items": [
+
+                    {
+                      "type": "UmmMultiItems",
+                      "multiType": "Parameters",
+                      "label": "Parameters",
+                      "key": "/Parameters/items/properties/index_id",
+                      "htmlClass": "row sub-fields space-top parameters",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [{"key": "/ParameterName", "field": true}]
+                            },
+                            {
+                              "type": "section",
+                              "items": [{"key": "/ParameterDescription", "field": true}]
+                            },
+                            {
+                              "type": "section",
+                              "items": [{"key": "/ParameterDirection", "field": true}]
+                            },
+                            {
+                              "type": "section",
+                              "items": [{"key": "/ParameterOptionality", "field": true}]
+                            },
+                            {
+                              "type": "section",
+                              "items": [{"key": "/ParameterRepeatability", "field": true}]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -539,6 +733,79 @@
     }
   ],
   "definitions": {
+    "SupportedProjection": {
+      "type": "section",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "/ProjectionName", "field": true, "type": "UmmSelect"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionLatitudeOfCenter", "field": true}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionLongitudeOfCenter", "field": true}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionFalseEasting", "field": true}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionFalseNorthing", "field": true}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "/ProjectionAuthority", "field": true, "type": "UmmSelect"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionUnit", "field": true, "type": "UmmSelect"}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/ProjectionDatumName", "field": true, "type": "UmmSelect"}]
+            }
+          ]
+        }
+      ]
+    },
     "ContactGroups": {
       "items": [
         {
@@ -555,14 +822,6 @@
             {
               "type": "section",
               "items": [{"key": "/GroupName"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/Uuid"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/NonServiceOrganizationAffiliation", "type": "UmmTextarea"}]
             },
             {
               "$ref": "#/definitions/ContactInformation"
@@ -605,14 +864,6 @@
               ]
             },
             {
-              "type": "section",
-              "items": [{"key": "/Uuid"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/NonServiceOrganizationAffiliation", "type": "UmmTextarea"}]
-            },
-            {
               "$ref": "#/definitions/ContactInformation"
             }
           ]
@@ -623,7 +874,6 @@
       "type": "section",
       "label": "Contact Information",
       "key": "/ContactInformation/properties",
-      "help": "ContactInformation",
       "htmlClass": "row sub-fields contact-information",
       "items": [
         {
@@ -713,6 +963,7 @@
                   "type": "UmmSetMultiItem",
                   "numberItems": 3,
                   "key": "/StreetAddresses",
+                  "multiType": "StreetAddresses",
                   "field": true,
                   "items": [
                     {
@@ -748,31 +999,16 @@
         }
       ]
     },
-    "CoverageSpatialExtent": {
+    "DataResourceSpatialExtent": {
       "type": "section",
-      "htmlClass": "row sub-fields coverage-spatial-type-group",
-      "label": "Coverage Spatial Extent",
-      "key": "/CoverageSpatialExtent/properties",
+      "htmlClass": "row sub-fields data-resource-spatial-extent-group",
+      "hideUnlessValues": "DataResourceSpatialType",
+      "label": "Data Resource Spatial Extent",
+      "key": "/DataResourceSpatialExtent/properties",
       "items": [
         {
           "type": "section",
-          "htmlClass": "row",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "/CoverageSpatialExtentTypeType", "field": true, "htmlClass": "coverage-spatial-type-select", "type": "UmmSelect"}]
-            },
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "/Uuid", "field": true}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row coverage-spatial-type spatial-points",
+          "htmlClass": "row data-resource-spatial-extent spatial-points",
           "hideUnlessValues": "SpatialPoints",
           "items": [
             {
@@ -790,7 +1026,7 @@
         },
         {
           "type": "section",
-          "htmlClass": "row coverage-spatial-type spatial-line-strings",
+          "htmlClass": "row data-resource-spatial-extent spatial-line-strings",
           "hideUnlessValues": "SpatialLineStrings",
           "items": [
             {
@@ -800,17 +1036,27 @@
         },
         {
           "type": "section",
-          "htmlClass": "row coverage-spatial-type spatial-bounding-box",
+          "htmlClass": "row data-resource-spatial-extent spatial-bounding-box",
           "hideUnlessValues": "SpatialBoundingBox",
           "items": [
             {
-              "$ref": "#/definitions/BBox"
+              "$ref": "#/definitions/SpatialBoundingBox"
             }
           ]
         },
         {
           "type": "section",
-          "htmlClass": "row coverage-spatial-type spatial-polygons",
+          "htmlClass": "row data-resource-spatial-extent general-grid",
+          "hideUnlessValues": "GeneralGrid",
+          "items": [
+            {
+              "$ref": "#/definitions/GeneralGrid"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row data-resource-spatial-extent spatial-polygons",
           "hideUnlessValues": "SpatialPolygons",
           "items": [
             {
@@ -829,33 +1075,17 @@
         }
       ]
     },
-    "CoverageTemporalExtent": {
+    "DataResourceTemporalExtent": {
       "type": "section",
       "htmlClass": "row sub-fields",
-      "label": "Coverage Temporal Extent",
-      "key": "/CoverageTemporalExtent/properties",
+      "label": "Data Resource Temporal Extent",
+      "key": "/DataResourceTemporalExtent/properties",
       "items": [
         {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "/CoverageTemporalExtentTypeType", "field": true, "htmlClass": "coverage-temporal-type-select", "type": "UmmSelect"}]
-            },
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "/Uuid", "field": true}]
-            }
-          ]
-        },
-        {
           "type": "UmmMultiItems",
-          "label": "Coverage Time Points",
-          "multiType": "CoverageTimePoints",
-          "key": "/CoverageTimePoints/items/properties/index_id",
+          "label": "Data Resource Time Points",
+          "multiType": "DataResourceTimePoints",
+          "key": "/DataResourceTimePoints/items/properties/index_id",
           "noLabel": true,
           "items": [
             {
@@ -931,7 +1161,7 @@
         }
       ]
     },
-    "BBox": {
+    "SpatialBoundingBox": {
       "type": "section",
       "key": "/SpatialBoundingBox/properties",
       "htmlClass": "sub-fields",
@@ -943,13 +1173,7 @@
           "items": [
             {
               "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "/MinX", "field": true}]
-            },
-            {
-              "type": "section",
-              "htmlClass": "col-6",
-              "items": [{"key": "/MaxX", "field": true}]
+              "items": [{"key": "/CRSIdentifier", "field": true, "type": "UmmSelect", "label": "CRS Identifier"}]
             }
           ]
         },
@@ -960,13 +1184,126 @@
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "/MinY", "field": true}]
+              "items": [{"key": "/WestBoundingCoordinate", "field": true}]
             },
             {
               "type": "section",
               "htmlClass": "col-6",
-              "items": [{"key": "/MaxY", "field": true}]
+              "items": [{"key": "/EastBoundingCoordinate", "field": true}]
             }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/SouthBoundingCoordinate", "field": true}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/NorthBoundingCoordinate", "field": true}]
+            }
+          ]
+        }
+      ]
+    },
+    "GeneralGrid": {
+      "type": "section",
+      "key": "/GeneralGrid/properties",
+      "htmlClass": "sub-fields",
+      "label": "General Grid",
+      "items": [
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "section",
+              "items": [{"key": "/CRSIdentifier", "field": true, "type": "UmmSelect", "label": "CRS Identifier"}]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "row",
+          "items": [
+            {
+              "type": "UmmMultiItems",
+              "multiType": "Axes",
+              "label": "Axes",
+              "key": "/Axis/items/properties/index_id",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/AxisLabel", "field": true}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/GridResolution", "field": true}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "key": "/Extent/properties",
+                  "htmlClass": "sub-fields",
+                  "label": "Extent",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [{"key": "/ExtentLabel", "field": true}]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "/LowerBound", "field": true}]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "/UpperBound", "field": true}]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [{"key": "/UOMLabel", "field": true, "label": "UOM Label"}]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+
           ]
         }
       ]
@@ -1085,6 +1422,7 @@
             {
               "type": "UmmMultiItem",
               "key": "/URI",
+              "multiType": "URI",
               "field": true,
               "items": [
                 {

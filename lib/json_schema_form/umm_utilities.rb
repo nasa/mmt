@@ -2,6 +2,7 @@
 class UmmUtilities
   class << self
     def convert_to_integer(string)
+      return string if string.is_a?(Integer)
       unless string.empty?
         stripped_string = string.delete(',')
 
@@ -16,6 +17,7 @@ class UmmUtilities
     end
 
     def convert_to_number(string)
+      return string if string.is_a?(Float)
       unless string.empty?
         stripped_string = string.delete(',')
 

@@ -9,6 +9,7 @@
       <th class="w10">Version</th>
       <th class="w40"><%= sort_by_link('Entry Title', 'entry_title', query, record_type) %></th>
       <th class="w15"><%= sort_by_link('Provider', 'provider_id', query, record_type) %></th>
+      <th class="w15">Granule Count</th>
       <th class="w15"><%= sort_by_link('Last Modified', 'revision_date', query, record_type) %></th>
     </tr>
   </thead>
@@ -16,7 +17,7 @@
 
     <% errors.each do |error| %>
       <tr>
-        <td colspan="5">
+        <td colspan="6">
           <strong>Error:</strong> <%= error %>
         </td>
       </tr>
@@ -24,7 +25,7 @@
 
     <% if collections.blank? %>
       <tr>
-        <td colspan="5">
+        <td colspan="6">
           No collections found.
         </td>
       </tr>
@@ -43,6 +44,9 @@
           </td>
           <td>
             <%= collection.fetch('meta', {})['provider-id'] %>
+          </td>
+          <td>
+            <%= collection.fetch('meta', {})['granule-count'] %>
           </td>
           <td>
             <%= display_last_modified(collection) %>

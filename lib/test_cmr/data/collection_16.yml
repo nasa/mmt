@@ -18,8 +18,7 @@ metadata: "<DIF xmlns=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/\" xmlns:dif=\
   DIMENSIONS</Topic><Term>POPULATION</Term><Variable_Level_1>POPULATION DENSITY</Variable_Level_1></Science_Keywords><Science_Keywords><Category>EARTH
   SCIENCE</Category><Topic>HUMAN DIMENSIONS</Topic><Term>POPULATION</Term><Variable_Level_1>POPULATION
   ESTIMATES</Variable_Level_1></Science_Keywords><Platform><Type>Not provided</Type><Short_Name>Not
-  provided</Short_Name><Instrument><Short_Name>Not provided</Short_Name></Instrument></Platform><Temporal_Coverage><Temporal_Range_Type>Long
-  Range</Temporal_Range_Type><Precision_Of_Seconds>1</Precision_Of_Seconds><Ends_At_Present_Flag>true</Ends_At_Present_Flag><Single_DateTime>1980-04-01T00:00:00.000Z</Single_DateTime></Temporal_Coverage><Spatial_Coverage><Spatial_Coverage_Type>Horizontal</Spatial_Coverage_Type><Granule_Spatial_Representation>CARTESIAN</Granule_Spatial_Representation><Geometry><Coordinate_System>CARTESIAN</Coordinate_System><Bounding_Rectangle><Southernmost_Latitude>18.0</Southernmost_Latitude><Northernmost_Latitude>72.0</Northernmost_Latitude><Westernmost_Longitude>-180.0</Westernmost_Longitude><Easternmost_Longitude>-66.0</Easternmost_Longitude></Bounding_Rectangle></Geometry><Spatial_Info><Spatial_Coverage_Type>Not
+  provided</Short_Name><Instrument><Short_Name>Not provided</Short_Name></Instrument></Platform><Temporal_Coverage><Precision_Of_Seconds>1</Precision_Of_Seconds><Ends_At_Present_Flag>true</Ends_At_Present_Flag><Single_DateTime>1980-04-01T00:00:00.000Z</Single_DateTime></Temporal_Coverage><Spatial_Coverage><Spatial_Coverage_Type>Horizontal</Spatial_Coverage_Type><Granule_Spatial_Representation>CARTESIAN</Granule_Spatial_Representation><Geometry><Coordinate_System>CARTESIAN</Coordinate_System><Bounding_Rectangle><Southernmost_Latitude>18.0</Southernmost_Latitude><Northernmost_Latitude>72.0</Northernmost_Latitude><Westernmost_Longitude>-180.0</Westernmost_Longitude><Easternmost_Longitude>-66.0</Easternmost_Longitude></Bounding_Rectangle></Geometry><Spatial_Info><Spatial_Coverage_Type>Not
   provided</Spatial_Coverage_Type></Spatial_Info></Spatial_Coverage><Location><Location_Category>GEOGRAPHIC
   REGION</Location_Category><Location_Type>EQUATORIAL</Location_Type></Location><Location><Location_Category>GEOGRAPHIC
   REGION</Location_Category><Location_Type>MID-LATITUDE</Location_Type></Location><Location><Location_Category>CONTINENT</Location_Category><Location_Type>NORTH
@@ -32,7 +31,7 @@ metadata: "<DIF xmlns=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/\" xmlns:dif=\
   CENTER CONTACT</Role><Contact_Person><Last_Name>Not provided</Last_Name></Contact_Person></Personnel></Organization><Organization><Organization_Type>ARCHIVER</Organization_Type><Organization_Name><Short_Name>Socioeconomic
   Data and Applications Center (SEDAC)\n\n</Short_Name></Organization_Name><Hours_Of_Service>9:00
   A.M. to 5:00 P.M., Monday to Friday</Hours_Of_Service><Personnel><Role>DATA CENTER
-  CONTACT</Role><Contact_Person><First_Name>SEDAC</First_Name><Middle_Name>User</Middle_Name><Last_Name>Services</Last_Name></Contact_Person></Personnel></Organization><Distribution><Distribution_Format>CSV</Distribution_Format><Fees>0</Fees></Distribution><Summary><Abstract>The
+  CONTACT</Role><Contact_Person><First_Name>SEDAC</First_Name><Middle_Name>User</Middle_Name><Last_Name>Services</Last_Name></Contact_Person></Personnel></Organization><Summary><Abstract>The
   1990 Census Block Statistics portion of the Archive of Census Related \n\nProducts
   (ACRP) contains population and housing data from the U.S. Census Bureau's 1990 Summary
   Tape File (STF1B). \n\nThe population data includes total population, age, race,
@@ -43,7 +42,7 @@ metadata: "<DIF xmlns=\"http://gcmd.gsfc.nasa.gov/Aboutus/xml/dif/\" xmlns:dif=\
   is produced by the Columbia University Center for International Earth Science \n\nInformation
   Network (CIESIN).</Abstract><Purpose>To provide population and housing data for
   the U.S.</Purpose></Summary><Related_URL><URL_Content_Type><Type>GET DATA</Type></URL_Content_Type><URL>http://sedac.ciesin.columbia.edu/data/set/acrp-census-block-stats-1990/data-download</URL><Description>data
-  download page</Description></Related_URL><Related_URL><URL_Content_Type><Type>VIEW
-  DATA SET LANDING PAGE</Type></URL_Content_Type><URL>http://dx.doi.org/10.7927/H43X84KH</URL><Description>data
+  download page</Description></Related_URL><Related_URL><URL_Content_Type><Type>DATA
+  SET LANDING PAGE</Type></URL_Content_Type><URL>http://dx.doi.org/10.7927/H43X84KH</URL><Description>data
   set DOI and homepage</Description></Related_URL><Metadata_Name>CEOS IDN DIF</Metadata_Name><Metadata_Version>VERSION
   10.2</Metadata_Version><Metadata_Dates><Metadata_Creation>1970-01-01</Metadata_Creation><Metadata_Last_Revision>1970-01-01</Metadata_Last_Revision><Data_Creation>2012-12-12T00:00:00.000Z</Data_Creation><Data_Last_Revision>2015-08-05T00:00:00.000Z</Data_Last_Revision></Metadata_Dates><Product_Level_Id>2</Product_Level_Id></DIF>"

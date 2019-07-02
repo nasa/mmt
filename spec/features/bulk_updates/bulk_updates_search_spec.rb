@@ -1,7 +1,5 @@
-require 'rails_helper'
-
 describe 'Searching collections to bulk update', reset_provider: true do
-  before(:all) do
+  before :all do
     # Create a few collections with unique attributes that we can search for
     2.times { |i| publish_collection_draft(version: "nasa.001#{i}") }
     3.times { |i| publish_collection_draft(short_name: "nasa.002#{i}") }

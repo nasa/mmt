@@ -258,31 +258,36 @@ $(document).ready ->
   ###
 
   handleCoverageSpatialTypeSelect = (element) ->
-    $parent = $(element).parents('.coverage-spatial-type-group')
+    $parent = $(element).parents('.data-resource-spatial-group')
 
-    $parent.find('.coverage-spatial-type').hide()
+    # hide the spatial extent forms
+    $parent.find('.data-resource-spatial-extent').hide()
 
+    # if no type is selected, we should hide the extent group that contains a duplicate label
+    $extentGroup = $parent.find('.data-resource-spatial-extent-group')
+    if $(element).val() == '' then $extentGroup.hide() else $extentGroup.show()
+
+    # show the form selected
     switch $(element).val()
       when 'SPATIAL_POINT'
-        $parent.find('.coverage-spatial-type.spatial-points').show()
+        $parent.find('.data-resource-spatial-extent.spatial-points').show()
       when 'SPATIAL_LINE_STRING'
-        $parent.find('.coverage-spatial-type.spatial-line-strings').show()
+        $parent.find('.data-resource-spatial-extent.spatial-line-strings').show()
       when 'BOUNDING_BOX'
-        $parent.find('.coverage-spatial-type.spatial-bounding-box').show()
+        $parent.find('.data-resource-spatial-extent.spatial-bounding-box').show()
+      when 'GENERAL_GRID'
+        $parent.find('.data-resource-spatial-extent.general-grid').show()
       when 'SPATIAL_POLYGON'
-        $parent.find('.coverage-spatial-type.spatial-polygons').show()
+        $parent.find('.data-resource-spatial-extent.spatial-polygons').show()
 
     # Clear all hidden fields
-    $parent.find('.coverage-spatial-type:hidden').find('input, select').not('input[type="radio"]').val ''
-
-    # Clear radio buttons
-    $parent.find('.coverage-spatial-type:hidden').find('input[type="radio"]').prop 'checked', false
+    $parent.find('.data-resource-spatial-extent:hidden').find('input, select').val ''
 
   # Handle SpatialCoverageType selector
-  $('.coverage-spatial-type-select').change ->
+  $('.data-resource-spatial-type-select').change ->
     handleCoverageSpatialTypeSelect($(this))
 
-  handleCoverageSpatialTypeSelect($('.coverage-spatial-type-select'))
+  handleCoverageSpatialTypeSelect($('.data-resource-spatial-type-select'))
 
   # Handle DOI Available selector
   $('.doi-available-select').change ->
@@ -303,3 +308,23 @@ $(document).ready ->
       when 'NotAvailable'
         $parent.find('.doi-fields.not-available').show()
         $parent.find('.doi-fields.not-available select').val('Not Applicable')
+
+  # Handle Total Collection File Size Selector (in Archive and Distribution Information)
+  $('.total-collection-file-size-select').change ->
+    $parent = $(this).parents('.total-collection-file-size-group')
+    $parent.find('.total-collection-file-size-fields').hide()
+
+    # Clear all fields
+    $parent.find('.total-collection-file-size-fields').find('input, select, textarea').val ''
+
+    # Clear collection file size radio buttons
+    # that aren't the one just selected
+    $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
+
+    # show the selected fields
+    switch $(this).val()
+      when 'BySize'
+        $parent.find('.total-collection-file-size-fields.by-size').show()
+      when 'ByDate'
+        $parent.find('.total-collection-file-size-fields.by-date').show()
+        $parent.find('.total-collection-file-size-fields.by-date select').val('Not Applicable')

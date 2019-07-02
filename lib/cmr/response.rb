@@ -2,12 +2,14 @@ module Cmr
   # Wraps a Faraday::Response object with helper methods and methods specific to
   # interpreting ECHO responses
   class Response
+    include Cmr::Util
+
     def initialize(faradayResponse)
       @response = faradayResponse
     end
 
     def error?
-      status >= 400 || (body.is_a?(Hash) && body['errors'])
+      status >= 400 || (body.is_a?(Hash) && !body['errors'].blank?)
     end
 
     def success?
@@ -42,10 +44,14 @@ module Cmr
       @errors ||= if body_is_html?
                     Rails.logger.error "CMR Error Response Body is a HTML document: #{body}"
                     ['There was an error with the operation you were trying to perform. There may be an issue with one of the services we depend on. Please contact your provider administrator or the CMR OPS team.']
-                  elsif body['errors']
-                    Array.wrap(body['errors'])
-                  elsif body['error']
-                    Array.wrap(body['error'])
+                  elsif body.is_a?(Hash)
+                    if body['errors']
+                      Array.wrap(body['errors'])
+                    elsif body['error']
+                      Array.wrap(body['error'])
+                    end
+                  elsif body.is_a?(String)
+                    [body]
                   else
                     []
                   end
@@ -72,6 +78,22 @@ module Cmr
 
     def cmr_request_header
       headers.fetch('cmr-request-id', '')
+    end
+
+    def clean_inspect
+      if faraday_response.env.fetch(:request_headers, {})['Echo-Token']
+        clean_response = faraday_response.deep_dup
+
+        echo_token = clean_response.env[:request_headers].delete('Echo-Token')
+
+        echo_token_snippet = truncate_token(echo_token)
+
+        clean_response.env[:request_headers]['Echo-Token-snippet'] = echo_token_snippet
+
+        clean_response.inspect
+      else
+        faraday_response.inspect
+      end
     end
   end
 end

@@ -243,7 +243,7 @@ module Cmr
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
-    def ingest_variable(metadata, provider_id, native_id, token)
+    def ingest_variable(metadata, provider_id, native_id, token, headers_override = nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
@@ -256,10 +256,12 @@ module Cmr
         'Content-Type' =>  "application/#{Rails.configuration.umm_var_version}; charset=utf-8"
       }
 
+      headers.merge!(headers_override) if headers_override
+
       put(url, metadata, headers.merge(token_header(token)))
     end
 
-    def ingest_service(metadata, provider_id, native_id, token)
+    def ingest_service(metadata, provider_id, native_id, token, headers_override = nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/services/#{encode_if_needed(native_id)}"
@@ -271,6 +273,8 @@ module Cmr
         'Accept' => 'application/json',
         'Content-Type' =>  "application/#{Rails.configuration.umm_s_version}; charset=utf-8"
       }
+
+      headers.merge!(headers_override) if headers_override
 
       put(url, metadata, headers.merge(token_header(token)))
     end
@@ -473,7 +477,7 @@ module Cmr
       response
     end
 
-    def update_permission(request_object, concept_id, token)
+    def update_permission(request_object, concept_id, token, revision_id = nil)
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3011/acls/#{concept_id}"
             else
@@ -481,6 +485,7 @@ module Cmr
             end
 
       headers = { 'Content-Type' => 'application/json' }
+      headers['Cmr-Revision-Id'] = revision_id if revision_id
 
       put(url, request_object.to_json, headers.merge(token_header(token)))
     end
@@ -510,6 +515,18 @@ module Cmr
       headers = { 'Accept' => 'application/json; charset=utf-8' }
 
       get(url, options, headers.merge(token_header(token)))
+    end
+
+    private
+
+    def valid_uri?(uri)
+      !!URI.parse(uri)
+    rescue URI::InvalidURIError
+      false
+    end
+
+    def encode_if_needed(url_fragment)
+      valid_uri?(url_fragment) ? url_fragment : URI.encode(url_fragment)
     end
   end
 end

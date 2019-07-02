@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 shared_examples_for 'Acquisition Information Form' do
   it 'displays the form with values' do
     expect(page).to have_field('service_draft_draft_platforms_0_short_name', with: 'A340-600')

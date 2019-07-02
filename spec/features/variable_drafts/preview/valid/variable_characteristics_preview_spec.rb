@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Valid Variable Draft Variable Characteristics Preview' do
   before do
     login
@@ -36,84 +34,32 @@ describe 'Valid Variable Draft Variable Characteristics Preview' do
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.variable_characteristics' do
-        expect(page).to have_css('.umm-preview-field-container', count: 12)
+        expect(page).to have_css('.umm-preview-field-container', count: 5)
 
-        within '#variable_draft_draft_characteristics_standard_name_preview' do
-          expect(page).to have_css('h5', text: 'Standard Name')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_standard_name'))
-
-          expect(page).to have_css('p', text: 'Tortor Ultricies Nibh Adipiscing')
+        within '#variable_draft_draft_characteristics_index_ranges_lat_range_preview' do
+          expect(page).to have_css('h5', text: 'Lat Range')
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_index_ranges_lat_range'))
+          expect(page).to have_css('h6', text: 'Lat Range 1')
+          expect(page).to have_css('p', text: '-90.0')
+          expect(page).to have_css('h6', text: 'Lat Range 2')
+          expect(page).to have_css('p', text: '90.0')
         end
 
-        within '#variable_draft_draft_characteristics_reference_preview' do
-          expect(page).to have_css('h5', text: 'Reference')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_reference'))
-
-          expect(page).to have_css('p', text: 'https://developer.earthdata.nasa.gov/')
+        within '#variable_draft_draft_characteristics_index_ranges_lon_range_preview' do
+          expect(page).to have_css('h5', text: 'Lon Range')
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_index_ranges_lon_range'))
+          expect(page).to have_css('h6', text: 'Lon Range 1')
+          expect(page).to have_css('p', text: '-180.0')
+          expect(page).to have_css('h6', text: 'Lon Range 2')
+          expect(page).to have_css('p', text: '180.0')
         end
 
-        within '#variable_draft_draft_characteristics_coordinates_preview' do
-          expect(page).to have_css('h5', text: 'Coordinates')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_coordinates'))
-
-          expect(page).to have_css('p', text: '38.8059922,-77.0435327')
+        within '#variable_draft_draft_characteristics_group_path_preview' do
+          expect(page).to have_css('h5', text: 'Group Path')
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_group_path'))
+          expect(page).to have_css('p', text: '/Data_Fields/')
         end
 
-        within '#variable_draft_draft_characteristics_grid_mapping_preview' do
-          expect(page).to have_css('h5', text: 'Grid Mapping')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_grid_mapping'))
-
-          expect(page).to have_css('p', text: 'Mercator')
-        end
-
-        within '#variable_draft_draft_characteristics_size_preview' do
-          expect(page).to have_css('h5', text: 'Size')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_size'))
-
-          expect(page).to have_css('p', text: 10.0)
-        end
-
-        within '#variable_draft_draft_characteristics_size_units_preview' do
-          expect(page).to have_css('h5', text: 'Size Units')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_size_units'))
-
-          expect(page).to have_css('p', text: 'nm')
-        end
-
-        within '#variable_draft_draft_characteristics_bounds_preview' do
-          expect(page).to have_css('h5', text: 'Bounds')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_bounds'))
-
-          expect(page).to have_css('p', text: 'UpperLeftPointMtrs = -180.0, 89.5; LowerRightMtrs = 177.5, -89.5')
-        end
-
-        within '#variable_draft_draft_characteristics_chunk_size_preview' do
-          expect(page).to have_css('h5', text: 'Chunk Size')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_chunk_size'))
-
-          expect(page).to have_css('p', text: '100.0')
-        end
-
-        within '#variable_draft_draft_characteristics_structure_preview' do
-          expect(page).to have_css('h5', text: 'Structure')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_structure'))
-
-          expect(page).to have_css('p', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
-        end
-
-        within '#variable_draft_draft_characteristics_measurement_conditions_preview' do
-          expect(page).to have_css('h5', text: 'Measurement Conditions')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_measurement_conditions'))
-
-          expect(page).to have_css('p', text: 'Nulla vitae elit libero, a pharetra augue.')
-        end
-
-        within '#variable_draft_draft_characteristics_reporting_conditions_preview' do
-          expect(page).to have_css('h5', text: 'Reporting Conditions')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_characteristics', anchor: 'variable_draft_draft_characteristics_reporting_conditions'))
-
-          expect(page).to have_css('p', text: 'Cras justo odio, dapibus ac facilisis in, egestas eget quam.')
-        end
       end
     end
   end

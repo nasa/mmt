@@ -16,6 +16,7 @@
         <%= hidden_field_tag 'provider_tracking_id', @provider_order['tracking_id'] %>
         <%= hidden_field_tag 'order_guid', @provider_order['guid'], readonly: true %>
         <%= hidden_field_tag 'provider_guid', @provider_order['provider_guid'], readonly: true %>
+        <%= hidden_field_tag 'previous_request_uuid', "#{request.uuid}" %>
 
         <fieldset>
           <div class="row">

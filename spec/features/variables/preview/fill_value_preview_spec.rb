@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Valid Variable Fill Value Preview', reset_provider: true do
   before do
     login
@@ -22,7 +20,7 @@ describe 'Valid Variable Fill Value Preview', reset_provider: true do
 
           within '#variable_fill_values_0_type_preview' do
             expect(page).to have_css('h5', text: 'Type')
-            expect(page).to have_css('p', text: 'Science')
+            expect(page).to have_css('p', text: 'SCIENCE_FILLVALUE')
           end
 
           within '#variable_fill_values_0_description_preview' do
@@ -39,7 +37,7 @@ describe 'Valid Variable Fill Value Preview', reset_provider: true do
 
           within '#variable_fill_values_1_type_preview' do
             expect(page).to have_css('h5', text: 'Type')
-            expect(page).to have_css('p', text: 'Fiction')
+            expect(page).to have_css('p', text: 'ANCILLARY_FILLVALUE')
           end
 
           within '#variable_fill_values_1_description_preview' do

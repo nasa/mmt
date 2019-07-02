@@ -84,19 +84,19 @@ describe 'Service Options Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Coverage')
+          expect(page).to have_content('Operation Metadata')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Coverage')
+          expect(page).to have_content('Operation Metadata')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('coverage')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('operation_metadata')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('coverage')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('operation_metadata')
         end
       end
     end
@@ -104,7 +104,7 @@ describe 'Service Options Form Navigation', js: true do
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Coverage', from: 'Save & Jump To:'
+          select 'Operation Metadata', from: 'Save & Jump To:'
         end
       end
 
@@ -115,19 +115,19 @@ describe 'Service Options Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Coverage')
+          expect(page).to have_content('Operation Metadata')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Coverage')
+          expect(page).to have_content('Operation Metadata')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('coverage')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('operation_metadata')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('coverage')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('operation_metadata')
         end
       end
     end

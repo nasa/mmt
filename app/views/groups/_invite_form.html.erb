@@ -14,27 +14,30 @@
       <div class="row">
         <div class="col-6">
           <%= label_tag('invite_first_name', 'First Name') %>
-          <%= text_field_tag('invite[first_name]', nil, class: 'full-width', placeholder: 'First Name') %>        
+          <%= text_field_tag('invite[first_name]', nil, class: 'full-width', placeholder: 'First Name') %>
         </div>
         <div class="col-6">
           <%= label_tag('invite_last_name', 'Last Name') %>
           <%= text_field_tag('invite[last_name]', nil, class: 'full-width', placeholder: 'Last Name') %>
         </div>
-      </div>  
+      </div>
     </fieldset>
-    
+
     <fieldset>
       <div class="row">
         <div class="col-12">
           <%= label_tag('invite_email', 'Email Address') %>
           <%= text_field_tag('invite[email]', nil, class: 'full-width', placeholder: 'Email') %>
         </div>
-      </div>      
+      </div>
     </fieldset>
 
     <fieldset>
       <%= submit_tag 'Submit', id: 'invite-user-button', class: 'eui-btn--blue spinner' %>
       <a href="javascript:void(0)" class="eui-btn modal-close">Cancel</a>
+      <span class="invite-fail is-invisible">
+        This person already has an URS account
+      </span>
       <span class="invite-success is-invisible">
         <i class="eui-icon eui-check-o icon-green"></i> Invitation sent!
       </span>

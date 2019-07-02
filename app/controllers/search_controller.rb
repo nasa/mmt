@@ -39,6 +39,7 @@ class SearchController < ManageMetadataController
     search_response =
       case @record_type
       when 'collections'
+        query['include_granule_counts'] = true
         cmr_client.get_collections_by_post(query, token)
       when 'variables'
         cmr_client.get_variables(query, token)
@@ -53,6 +54,8 @@ class SearchController < ManageMetadataController
       errors = []
       hits = search_response.body['hits'].to_i
     else
+      Rails.logger.error("Search Error: #{search_response.clean_inspect}")
+
       records = []
       hits = 0
       errors = search_response.error_messages(i18n: I18n.t("controllers.search.get_search_results.#{@record_type}.error"))

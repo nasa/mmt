@@ -36,7 +36,7 @@ describe 'Collections permissions', js: true do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context' do
@@ -63,7 +63,7 @@ describe 'Collections permissions', js: true do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context' do
@@ -90,7 +90,7 @@ describe 'Collections permissions', js: true do
           before do
             # click_on 'Yes'
             find('.not-current-provider-link').click
-            wait_for_ajax
+            wait_for_jQuery
           end
 
           it 'switches the provider context' do
@@ -127,7 +127,7 @@ describe 'Collections permissions', js: true do
             before do
               # click_on 'Yes'
               find('.not-current-provider-link').click
-              wait_for_ajax
+              wait_for_jQuery
             end
 
             it 'switches the provider context' do
@@ -159,7 +159,7 @@ describe 'Collections permissions', js: true do
           context 'when clicking the warning banner link' do
             before do
               click_link('You need to change your current provider to edit this collection')
-              wait_for_ajax
+              wait_for_jQuery
             end
 
             it 'switches the provider context' do
@@ -187,7 +187,7 @@ describe 'Collections permissions', js: true do
           context 'when clicking the warning banner link' do
             before do
               click_link('You need to change your current provider to clone this collection')
-              wait_for_ajax
+              wait_for_jQuery
             end
 
             it 'switches the provider context' do

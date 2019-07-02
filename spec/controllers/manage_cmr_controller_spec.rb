@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe ManageCmrController do
   describe 'GET #show' do
     it 'renders the #show view' do

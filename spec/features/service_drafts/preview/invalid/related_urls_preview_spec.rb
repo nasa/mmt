@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Invalid Service Draft Related URL Preview' do
   let(:service_draft) { create(:invalid_service_draft, user: User.where(urs_uid: 'testuser').first) }
 
@@ -27,13 +25,6 @@ describe 'Invalid Service Draft Related URL Preview' do
   it 'displays the correct progress indicators for required fields' do
     within '#related_urls-progress .progress-indicators' do
       expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.related-urls')
-    end
-  end
-
-  it 'displays the correct progress indicators for non required fields' do
-    within '#related_urls-progress .progress-indicators' do
-      expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.online-access-url-pattern-match')
-      expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.online-access-url-pattern-substitution')
     end
   end
 
