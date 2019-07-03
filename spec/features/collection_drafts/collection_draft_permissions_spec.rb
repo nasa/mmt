@@ -33,9 +33,8 @@ describe 'Collection draft permissions' do
         expect(page).to have_no_content('Delete Collection Draft')
         expect(page).to have_no_content('Metadata Preview')
 
-        # TODO: need to ask about this
-        expect(page).to have_no_content(entry_title)
 
+        expect(page).to have_no_content(entry_title)
 
         expect(page).to have_no_content('Science Keywords:')
         expect(page).to have_no_content('Spatial Extent:')
@@ -116,7 +115,6 @@ describe 'Collection draft permissions' do
         expect(page).to have_no_content('Delete Collection Draft')
         expect(page).to have_no_content('Metadata Preview')
 
-        # TODO: need to ask about this
         expect(page).to have_no_content(entry_title)
 
         expect(page).to have_no_content('Science Keywords:')

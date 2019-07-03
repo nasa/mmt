@@ -21,18 +21,4 @@ describe 'Collections breadcrumbs and header' do
       end
     end
   end
-
-  context 'When viewing a collection draft with NEAR_REAL_TIME' do
-    before do
-      ingest_response, _concept_response = publish_collection_draft(collection_data_type: 'NEAR_REAL_TIME')
-      visit collection_path(ingest_response['concept-id'])
-    end
-
-    # it 'displays the NRT badge' do
-      # TODO: NRT needs to be with general overview entry title
-      # within 'main header' do
-      #   expect(page).to have_css('span.eui-badge.nrt', text: 'NRT')
-      # end
-    # end
-  end
 end
