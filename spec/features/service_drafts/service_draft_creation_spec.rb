@@ -38,7 +38,6 @@ describe 'Service Draft creation' do
         expect(page).to have_content('Service Draft Created Successfully!')
       end
 
-
       context 'when accessing a service draft\'s json' do
         before do
           visit service_draft_path(ServiceDraft.first, format: 'json')
@@ -48,7 +47,7 @@ describe 'Service Draft creation' do
           expect(page).to have_content('test service draft')
         end
       end
-
+      
       context 'when filling in hidden fields' do
         before do
           visit service_draft_path(ServiceDraft.first)
