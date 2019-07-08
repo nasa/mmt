@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: delete
-    uri: https://testbed.echo.nasa.gov/echo-rest/option_definitions/C7EB886C-5790-76E0-0E51-D2CFD6985AC6
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/option_definitions/C7EB886C-5790-76E0-0E51-D2CFD6985AC6
     body:
       encoding: US-ASCII
       string: ''
@@ -50,7 +50,7 @@ http_interactions:
   recorded_at: Tue, 20 Dec 2016 22:15:08 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/DataManagementServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"

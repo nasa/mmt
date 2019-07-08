@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200056652-MMT_2
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200056652-MMT_2
     body:
       encoding: US-ASCII
       string: ''
@@ -45,7 +45,7 @@ http_interactions:
   recorded_at: Mon, 12 Dec 2016 23:28:40 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/DataManagementServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -504,7 +504,7 @@ http_interactions:
   recorded_at: Mon, 12 Dec 2016 23:28:41 GMT
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200060160-MMT_2
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200060160-MMT_2
     body:
       encoding: US-ASCII
       string: ''
@@ -547,7 +547,7 @@ http_interactions:
   recorded_at: Mon, 12 Dec 2016 23:28:42 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/DataManagementServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -726,7 +726,7 @@ http_interactions:
   recorded_at: Mon, 12 Dec 2016 23:28:42 GMT
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200019403-MMT_2
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200019403-MMT_2
     body:
       encoding: US-ASCII
       string: ''
@@ -769,7 +769,7 @@ http_interactions:
   recorded_at: Mon, 12 Dec 2016 23:28:42 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/DataManagementServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -892,7 +892,7 @@ http_interactions:
   recorded_at: Mon, 12 Dec 2016 23:28:42 GMT
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200189943-MMT_2
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200189943-MMT_2
     body:
       encoding: US-ASCII
       string: ''
@@ -935,7 +935,7 @@ http_interactions:
   recorded_at: Mon, 12 Dec 2016 23:28:42 GMT
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200189951-MMT_2
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200189951-MMT_2
     body:
       encoding: US-ASCII
       string: ''
@@ -978,7 +978,7 @@ http_interactions:
   recorded_at: Mon, 12 Dec 2016 23:28:43 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/DataManagementServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -1045,7 +1045,7 @@ http_interactions:
   recorded_at: Mon, 12 Dec 2016 23:28:43 GMT
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200190013-MMT_2
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200190013-MMT_2
     body:
       encoding: US-ASCII
       string: ''
@@ -1088,7 +1088,7 @@ http_interactions:
   recorded_at: Mon, 12 Dec 2016 23:28:43 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/DataManagementServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"

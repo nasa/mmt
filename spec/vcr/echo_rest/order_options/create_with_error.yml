@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/AuthenticationServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/AuthenticationServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -42,7 +42,7 @@ http_interactions:
   recorded_at: Tue, 15 Nov 2016 14:40:32 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-rest/option_definitions
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/option_definitions
     body:
       encoding: UTF-8
       string: '{"option_definition":{"name":"Test Order Option ABC-1","scope":"PROVIDER","description":"Test

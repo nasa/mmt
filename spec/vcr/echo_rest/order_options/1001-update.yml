@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/option_definitions/848DA05B-51A2-1F3D-6783-6C27E5EA74B4
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/option_definitions/848DA05B-51A2-1F3D-6783-6C27E5EA74B4
     body:
       encoding: US-ASCII
       string: ''
