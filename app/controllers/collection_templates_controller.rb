@@ -1,4 +1,7 @@
-class CollectionTemplatesController < TemplatesController
+class CollectionTemplatesController < CollectionDraftsController
+  before_action :set_resource, only: [:create_draft, :destroy, :edit, :update]
+  before_action :templates_enabled?
+
   def create_draft
     authorize get_resource
     draft = CollectionDraft.create_from_template(get_resource, current_user)

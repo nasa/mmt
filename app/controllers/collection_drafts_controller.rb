@@ -39,7 +39,7 @@ class CollectionDraftsController < BaseDraftsController
   def edit
     authorize get_resource
 
-    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), collection_draft_path(get_resource)
+    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
     Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
 
@@ -48,7 +48,7 @@ class CollectionDraftsController < BaseDraftsController
     # `form` is optional so if its not provided just use the first form
     @draft_form = params[:form] || @draft_forms.first
 
-    add_breadcrumb titleize_form_name(@draft_form), edit_collection_draft_path(get_resource)
+    add_breadcrumb titleize_form_name(@draft_form), send("edit_#{resource_name}_path", get_resource)
 
     # Set instance variables depending on the form requested
     set_country_codes
@@ -124,7 +124,7 @@ class CollectionDraftsController < BaseDraftsController
   def create_template
     authorize get_resource
     template = CollectionTemplate.create_template(get_resource, current_user, params[:template][:title])
-    Rails.logger.info("Audit Log: Collection Template #{template.display_title} was created by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
+    Rails.logger.info("Audit Log: Collection Template #{template.display_entry_title} was created by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
     redirect_to collection_templates_path
   end
 

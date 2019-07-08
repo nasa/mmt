@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190317214047) do
+ActiveRecord::Schema.define(version: 20190708114927) do
 
   create_table "drafts", force: :cascade do |t|
     t.integer  "user_id"
@@ -38,12 +38,13 @@ ActiveRecord::Schema.define(version: 20190317214047) do
   create_table "templates", force: :cascade do |t|
     t.integer  "user_id"
     t.text     "draft"
-    t.string   "title"
+    t.string   "entry_title"
+    t.string   "provider_id"
     t.string   "template_type"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.string   "provider_id"
-    t.string   "entry_title"
+    t.string   "template_name"
+    t.string   "short_name"
   end
 
   create_table "user_invites", force: :cascade do |t|

@@ -123,6 +123,7 @@ Rails.application.routes.draw do
   resources :collection_templates, controller: 'collection_templates', template_type: 'CollectionTemplate', as: 'collection_templates' do
     member do
       get 'create_draft'
+      get 'edit', path: 'edit(/:form)'
     end
   end
 

@@ -26,7 +26,7 @@
         <% get_resources.each_with_index do |template, index| %>
           <tr class='<%= cycle("alt", "") %>'>
             <td>
-              <%= link_to template.display_title, send("create_draft_#{resource_name}_path", template) %>
+              <%= link_to template.display_entry_title, send("create_draft_#{resource_name}_path", template) %>
             </td>
             <td>
               <%= link_to 'Delete Collection Template', "#delete-template-modal-#{index}", class: 'display-modal' %>
