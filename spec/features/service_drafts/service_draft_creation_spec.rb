@@ -45,7 +45,7 @@ describe 'Service Draft creation' do
         end
 
         it 'displays json' do
-          expect(page).to have_content('test service draft')
+          expect(page).to have_content("{\n  \"Name\": \"test service draft\"\n}")
         end
       end
 
