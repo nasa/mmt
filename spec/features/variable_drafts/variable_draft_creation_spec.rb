@@ -42,7 +42,7 @@ describe 'Variable Draft creation' do
         end
 
         it 'displays json' do
-          expect(page).to have_content('test var draft')
+          expect(page).to have_content("{\n  \"Name\": \"test var draft\"\n}")
         end
       end
     end

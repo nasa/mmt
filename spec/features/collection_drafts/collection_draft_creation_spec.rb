@@ -61,7 +61,7 @@ describe 'Collection Draft creation', js: true do
           end
 
           it 'returns the json' do
-            expect(page).to have_content('123')
+            expect(page).to have_content("{\n  \"ShortName\": \"123\"\n}")
           end
         end
       end
