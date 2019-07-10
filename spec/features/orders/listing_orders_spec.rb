@@ -219,5 +219,22 @@ describe 'Searching Orders' do
         expect(page).to have_selector('.orders-table tbody tr', count: 2)
       end
     end
+
+    context 'when searching with bad token' do
+      before do
+        fill_in 'Order GUID', with: 'bad_token'
+
+
+        VCR.use_cassette('echo_soap/order_management_service/provider_orders/bad_token', record: :none) do
+          within '#order-by-guid-form' do
+            click_on 'Submit'
+          end
+        end
+      end
+
+      it 'has a descriptive error message' do
+        expect(page).to have_content('Token [xxx] has expired.')
+      end
+    end
   end
 end

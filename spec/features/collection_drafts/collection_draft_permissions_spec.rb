@@ -1,7 +1,3 @@
-# MMT-351
-
-require 'rails_helper'
-
 describe 'Collection draft permissions' do
   let(:short_name)  { 'Draft Title' }
   let(:entry_title) { 'Tropical Forest Observation Record' }
@@ -30,21 +26,25 @@ describe 'Collection draft permissions' do
           expect(page).to have_content('Collection Drafts')
           expect(page).to have_content("#{short_name}_1")
         end
-
-        within 'main header' do
-          expect(page).to have_css('h2', text: "#{short_name}_1")
-          expect(page).to have_content(entry_title)
-        end
       end
 
       it 'does not display the collection draft preview' do
         expect(page).to have_no_content('Publish Collection Draft')
         expect(page).to have_no_content('Save As Template')
         expect(page).to have_no_content('Delete Collection Draft')
-        expect(page).to have_no_content('Metadata Fields')
-        expect(page).to have_no_content('Abstract')
-        expect(page).to have_no_content('Data Identification Fields:')
-        expect(page).to have_no_content('Acquisition Information Fields:')
+        expect(page).to have_no_content('Metadata Preview')
+
+
+        expect(page).to have_no_content(entry_title)
+
+        expect(page).to have_no_content('Science Keywords:')
+        expect(page).to have_no_content('Spatial Extent:')
+        expect(page).to have_no_content('Data Format(s):')
+        expect(page).to have_no_content('Temporal Extent:')
+        expect(page).to have_no_content('Platform(s):')
+        expect(page).to have_no_content('Data Center(s):')
+        expect(page).to have_no_content('Instrument(s):')
+        expect(page).to have_no_content('Version:')
       end
 
       it 'displays a banner message to change provider the Not Current Provider content' do
@@ -74,19 +74,31 @@ describe 'Collection draft permissions' do
             expect(page).to have_content("#{short_name}_1")
           end
 
-          within 'main header' do
-            expect(page).to have_css('h2', text: "#{short_name}_1")
+          within '.collection-short-name' do
+            expect(page).to have_content(short_name)
+          end
+
+          within '.collection-title' do
             expect(page).to have_content(entry_title)
           end
         end
 
         it 'displays the collection draft preview information' do
-          expect(page).to have_content('Publish Collection Draft')
-          expect(page).to have_content('Save As Template')
-          expect(page).to have_content('Delete Collection Draft')
-          expect(page).to have_content('Abstract')
-          expect(page).to have_content('Data Identification Fields:')
-          expect(page).to have_content('Acquisition Information Fields:')
+          expect(page).to have_no_content('Publish Collection Draft')
+          expect(page).to have_no_content('Delete Collection Draft')
+          expect(page).to have_no_content('Metadata Preview')
+
+
+          expect(page).to have_no_content(entry_title)
+
+          expect(page).to have_no_content('Science Keywords:')
+          expect(page).to have_no_content('Spatial Extent:')
+          expect(page).to have_no_content('Data Format(s):')
+          expect(page).to have_no_content('Temporal Extent:')
+          expect(page).to have_no_content('Platform(s):')
+          expect(page).to have_no_content('Data Center(s):')
+          expect(page).to have_no_content('Instrument(s):')
+          expect(page).to have_no_content('Version:')
         end
       end
     end
@@ -102,21 +114,24 @@ describe 'Collection draft permissions' do
           expect(page).to have_content('Collection Drafts')
           expect(page).to have_content("#{short_name}_1")
         end
-
-        within 'main header' do
-          expect(page).to have_css('h2', text: "#{short_name}_1")
-          expect(page).to have_content(entry_title)
-        end
       end
 
       it 'does not display the collection draft preview' do
         expect(page).to have_no_content('Publish Collection Draft')
         expect(page).to have_no_content('Save As Template')
         expect(page).to have_no_content('Delete Collection Draft')
-        expect(page).to have_no_content('Metadata Fields')
-        expect(page).to have_no_content('Abstract')
-        expect(page).to have_no_content('Data Identification Fields:')
-        expect(page).to have_no_content('Acquisition Information Fields:')
+        expect(page).to have_no_content('Metadata Preview')
+
+        expect(page).to have_no_content(entry_title)
+
+        expect(page).to have_no_content('Science Keywords:')
+        expect(page).to have_no_content('Spatial Extent:')
+        expect(page).to have_no_content('Data Format(s):')
+        expect(page).to have_no_content('Temporal Extent:')
+        expect(page).to have_no_content('Platform(s):')
+        expect(page).to have_no_content('Data Center(s):')
+        expect(page).to have_no_content('Instrument(s):')
+        expect(page).to have_no_content('Version:')
       end
 
       it 'displays a banner message to change provider the Not Current Provider content' do

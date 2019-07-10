@@ -5,6 +5,8 @@ describe 'Metadata information preview' do
         login
         draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
+
+        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'does not display metadata' do
@@ -20,6 +22,8 @@ describe 'Metadata information preview' do
         draft.save
 
         visit collection_draft_path(draft)
+
+        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'displays the metadata' do

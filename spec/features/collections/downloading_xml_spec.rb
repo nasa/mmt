@@ -13,9 +13,9 @@ describe 'Downloading Collection XML', js: true do
       visit collection_path(@concept_id)
     end
 
-    context 'when clicking Download XML' do
+    context 'when clicking the Available Formats download link' do
       before do
-        click_on 'Download XML'
+        click_on 'Available Formats'
       end
 
       it 'shows the download selections' do

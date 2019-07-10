@@ -20,7 +20,7 @@ class OrdersController < ManageCmrController
       render :show
     end
   rescue Faraday::Error::TimeoutError
-    flash.now[:alert] = 'The order request timed out retrieving results.  Limit your search criteria and try again.'
+    flash.now[:alert] = "The order request #{request.uuid} timed out retrieving results.  Limit your search criteria and try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}."
     render :index
   end
 
@@ -32,7 +32,14 @@ class OrdersController < ManageCmrController
       log_time_spent "search #{guids.class == Array ? guids.count : 1} orders" do
         log_time_spent 'time to retrieve details infos' do
           echo_client.timeout = time_left
-          @orders = Echo::Orders.new(client: echo_client, echo_provider_token: echo_provider_token, guids: guids).orders
+          orders_obj = Echo::Orders.new(client: echo_client, echo_provider_token: echo_provider_token, guids: guids)
+
+          if orders_obj.errors
+            redirect_to orders_path, flash: { error: "#{I18n.t('controllers.orders.search.flash.error', error: orders_obj.errors)}Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+            return
+          end
+
+          @orders = orders_obj.orders
         end
 
         log_time_spent 'time to precache owner guids' do
@@ -41,14 +48,14 @@ class OrdersController < ManageCmrController
 
         # if user_id param is supplied and we're not searching by guid, filter orders by given user_id
         if params['order_guid'].blank? && params['user_id'].present?
-          @orders.select! {|order| order.owner == params['user_id']}
+          @orders.select! { |order| order.owner == params['user_id'] }
         end
 
         render :search
       end
     end
   rescue Faraday::Error::TimeoutError
-    flash.now[:alert] = 'The order request timed out retrieving results.  Limit your search criteria and try again.'
+    flash.now[:alert] = "The order request #{request.uuid} timed out retrieving results.  Limit your search criteria and try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}."
     render :index
   end
 

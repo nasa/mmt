@@ -8,7 +8,9 @@ describe 'Acquisition information preview' do
       end
 
       it 'does not display metadata' do
-        expect(page).to have_content('No platforms or instruments have been added to this associated with this collection.')
+        within '#additional-information-panel' do
+          expect(page).to have_no_content('Projects')
+        end
       end
     end
 
@@ -21,31 +23,6 @@ describe 'Acquisition information preview' do
       end
 
       it 'displays the metadata' do
-        within '.platform-cards' do
-          within all('li.card')[0] do
-            within '.card-header' do
-              expect(page).to have_content('Aircraft')
-              expect(page).to have_content('A340-600')
-            end
-            within '.card-body' do
-              expect(page).to have_content('Instruments')
-              expect(page).to have_content('ATM')
-              expect(page).to have_content('LVIS')
-            end
-          end
-          within all('li.card')[1] do
-            within '.card-header' do
-              expect(page).to have_content('Earth Observation Satellites')
-              expect(page).to have_content('SMAP')
-            end
-            within '.card-body' do
-              expect(page).to have_content('Instruments')
-              expect(page).to have_content('ADS')
-              expect(page).to have_content('SMAP L-BAND RADIOMETER')
-            end
-          end
-        end
-
         within '.projects-table' do
           within all('tr')[1] do
             expect(page).to have_content('test 1 ShortName')

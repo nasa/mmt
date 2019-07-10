@@ -1,7 +1,3 @@
-# MMT-25
-
-require 'rails_helper'
-
 describe 'Viewing search results', js: true do
   short_name = 'CIESIN_SEDAC_ESI_2000'
 
@@ -13,7 +9,6 @@ describe 'Viewing search results', js: true do
       fill_in 'keyword', with: short_name
       click_on 'Search Collections'
       click_on short_name
-      open_accordions
     end
 
     it 'displays the published record page' do

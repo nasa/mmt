@@ -10,7 +10,7 @@ class ProviderOrdersController < ManageCmrController
       render :show
     end
   rescue Faraday::Error::TimeoutError
-    flash[:alert] = 'The order request timed out showing the order.'
+    flash[:alert] = "The order request #{request.uuid} timed out showing the order. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}."
     redirect_to orders_path
   end
 
@@ -22,7 +22,7 @@ class ProviderOrdersController < ManageCmrController
       render :edit
     end
   rescue Faraday::Error::TimeoutError
-    flash[:alert] = 'The order request timed out editing the order.'
+    flash[:alert] = "The order request #{request.uuid} timed out editing the order. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}."
     redirect_to orders_path
   end
 
@@ -55,7 +55,7 @@ class ProviderOrdersController < ManageCmrController
       redirect_to provider_order_path(params['order_guid'])
     end
   rescue Faraday::Error::TimeoutError
-    flash[:alert] = 'The order request timed out deleting the order.'
+    flash[:alert] = "The order request #{request.uuid} timed out deleting the order. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}."
     redirect_to orders_path
   end
 
@@ -84,7 +84,7 @@ class ProviderOrdersController < ManageCmrController
       end
     end
   rescue Faraday::Error::TimeoutError
-    flash[:alert] = 'The order request timed out resubmitting order.'
+    flash[:alert] = "The order request #{request.uuid} timed out resubmitting order. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}."
     redirect_to orders_path
   end
 

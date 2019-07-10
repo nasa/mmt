@@ -39,6 +39,24 @@ section {
   @include outer-container;
 }
 
+.wide-content {
+  @include outer-container(1440px);
+
+  .content {
+    // need to override the other outer-container
+    max-width: 100%
+  }
+
+  section {
+    // need to override the other outer-container
+    max-width: 100%
+  }
+
+  .wide-content-inside {
+    margin: 0 3.75em;
+  }
+}
+
 .row {
   @include row();
   position: relative;

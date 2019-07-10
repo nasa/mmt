@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.echo.nasa.gov/echo-rest/providers/SEDAC.json
+    uri: https://api.echo.nasa.gov/rest/providers/SEDAC.json
     body:
       encoding: US-ASCII
       string: ''

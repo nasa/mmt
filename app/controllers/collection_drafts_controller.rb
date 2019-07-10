@@ -6,6 +6,8 @@ class CollectionDraftsController < BaseDraftsController
   before_action :load_umm_schema, only: [:new, :edit, :show]
   before_action :templates_enabled?, only: [:create_template]
 
+  layout 'collection_preview', only: [:show]
+
   def new
     set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
 

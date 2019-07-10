@@ -5,6 +5,8 @@ describe 'Data identification preview' do
         login
         draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
+
+        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'does not display metadata' do
@@ -23,8 +25,9 @@ describe 'Data identification preview' do
       before do
         login
         draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
-
         visit collection_draft_path(draft)
+
+        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'displays the metadata' do
@@ -64,36 +67,24 @@ describe 'Data identification preview' do
             end
           end
 
-          within '.publication-reference-cards' do
-            within all('li.card')[0] do
-              within '.card-header' do
-                expect(page).to have_content('Publication reference title')
-                expect(page).to have_content('2015-07-01')
-              end
-              within all('.card-body')[0] do
-                within all('.col-6')[0] do
-                  expect(page).to have_content('Publisher')
-                  expect(page).to have_content('Publication reference publisher')
-                  expect(page).to have_content('Author(s)')
-                  expect(page).to have_content('Publication reference author')
-                end
-                within all('.col-6')[1] do
-                  expect(page).to have_content('Publication reference series')
-                  expect(page).to have_content('Edition: Publication reference edition')
-                  expect(page).to have_content('Vol: Publication reference volume')
-                  expect(page).to have_content('Iss: Publication reference issue')
-                  expect(page).to have_content('Pages: Publication reference pages')
-                  expect(page).to have_content('DOI: Publication reference DOI')
-                end
-              end
-              within all('.card-body')[1] do
-                expect(page).to have_link('http://example.com', href: 'http://example.com')
-              end
+          within '.publication-reference-preview' do
+            within all('li.publication-reference')[0] do
+              expect(page).to have_content('Title: Publication reference title')
+              expect(page).to have_content('Publication Date: 2015-07-01')
+              expect(page).to have_content('Publisher: Publication reference publisher')
+              expect(page).to have_content('Author(s): Publication reference author')
+              expect(page).to have_content('Series: Publication reference series')
+              expect(page).to have_content('Edition: Publication reference edition')
+              expect(page).to have_content('Volume: Publication reference volume')
+              expect(page).to have_content('Issue: Publication reference issue')
+              expect(page).to have_content('Pages: Publication reference pages')
+              expect(page).to have_content('DOI: Publication reference DOI')
+              expect(page).to have_content('Online Resource: http://example.com')
+              expect(page).to have_link('http://example.com', href: 'http://example.com')
             end
-            within all('li.card')[1] do
-              within '.card-header' do
-                expect(page).to have_content('Publication reference title 1')
-              end
+
+            within all('li.publication-reference')[1] do
+              expect(page).to have_content('Title: Publication reference title 1')
             end
           end
         end

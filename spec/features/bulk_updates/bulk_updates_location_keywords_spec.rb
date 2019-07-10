@@ -89,10 +89,12 @@ describe 'Bulk updating Location Keywords' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@find_and_remove_ingest_response['concept-id'])
+
+          find('.tab-label', text: 'Additional Information').click
         end
 
         it 'no longer has the removed keyword' do
-          within '.location-keyword-preview' do
+          within '.location-keywords-preview' do
             expect(page).to have_no_content('ARCTIC')
           end
         end
@@ -181,10 +183,12 @@ describe 'Bulk updating Location Keywords' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@add_to_existing_ingest_response['concept-id'])
+
+          find('.tab-label', text: 'Additional Information').click
         end
 
         it 'displays the new keyword' do
-          within '.location-keyword-preview' do
+          within '.location-keywords-preview' do
             expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
           end
         end
@@ -285,10 +289,12 @@ describe 'Bulk updating Location Keywords' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@find_and_replace_ingest_response['concept-id'])
+
+          find('.tab-label', text: 'Additional Information').click
         end
 
         it 'displays the new keyword' do
-          within '.location-keyword-preview' do
+          within '.location-keywords-preview' do
             expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
           end
         end
@@ -378,10 +384,12 @@ describe 'Bulk updating Location Keywords' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@clear_all_and_replace_ingest_response['concept-id'])
+
+          find('.tab-label', text: 'Additional Information').click
         end
 
         it 'displays the updated keywords' do
-          within '.location-keyword-preview' do
+          within '.location-keywords-preview' do
             expect(page).to have_no_content('GEOGRAPHIC REGION ARCTIC', normalize_ws: true)
             expect(page).to have_no_content('OCEAN ATLANTIC OCEAN', normalize_ws: true)
 

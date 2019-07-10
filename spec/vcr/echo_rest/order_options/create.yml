@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-rest/option_definitions
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/option_definitions
     body:
       encoding: UTF-8
       string: '{"option_definition":{"name":"Test Order Option ABC-1","scope":"PROVIDER","description":"Test
@@ -33,7 +33,7 @@ http_interactions:
       message: 
     headers:
       location:
-      - https://testbed.echo.nasa.gov/legacy-services/rest/option_definitions/3F3BCE87-CEBA-9852-E20A-16A91989CEEC
+      - https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/option_definitions/3F3BCE87-CEBA-9852-E20A-16A91989CEEC
       content-type:
       - application/xml; charset=utf-8
       cache-control:
@@ -79,7 +79,7 @@ http_interactions:
   recorded_at: Tue, 15 Nov 2016 14:40:33 GMT
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/option_definitions/3F3BCE87-CEBA-9852-E20A-16A91989CEEC
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/option_definitions/3F3BCE87-CEBA-9852-E20A-16A91989CEEC
     body:
       encoding: US-ASCII
       string: ''

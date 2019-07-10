@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Temporal information preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
@@ -7,6 +5,8 @@ describe 'Temporal information preview' do
         login
         draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
+
+        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'does not display metadata' do
@@ -19,8 +19,9 @@ describe 'Temporal information preview' do
       before do
         login
         draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
-
         visit collection_draft_path(draft)
+
+        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'displays the metadata' do

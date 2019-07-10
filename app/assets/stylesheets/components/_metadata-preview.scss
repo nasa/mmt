@@ -122,8 +122,220 @@ ul.sub-field {
   }
 }
 
-.location-keyword-preview, .science-keywords-preview, .service-keywords-preview {
+.location-keywords-preview, .science-keywords-preview, .service-keywords-preview {
   ul.arrow-tag-group-list {
     width: 100%;
   }
+}
+
+
+/* ===================================================== *\
+   Collection Preview
+\* ===================================================== */
+// specific to collection previews, with change to display wider view and tab organized content
+
+.collection-preview {
+  margin-top: 15px;
+}
+
+#collection-general-overview {
+
+  h2.draft-preview-label {
+    border: 0;
+  }
+
+  .collection-title {
+    min-width: 900px;
+
+    h1 {
+      float: left;
+      font-size: 1.9em;
+      margin-bottom: 20px;
+      margin-top: 0;
+    }
+
+    .title-nrt-badge {
+      float: left;
+      margin-left: 15px;
+    }
+  }
+
+  .collection-dataset-logo {
+    .zzz-item {
+      float: left;
+      width: 60px;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  .collection-short-name {
+    color: #8c8c8c;
+    float: left;
+    margin-top: -10px;
+    width: 80%;
+    min-width: 208px;
+
+    .zzz-label {
+      float: left;
+      line-height: inherit;
+      margin: 0;
+      padding-right: 10px;
+    }
+    .zzz-item {
+      float: left;
+    }
+  }
+
+  .collection-abstract {
+    clear: left;
+  }
+}
+
+#data-center-logo {
+  background: none;
+  border: none;
+  float: left;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+#collection-preview-tabs {
+  .collection-tabs-container {
+    border-bottom: 1px solid #c9dce7;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: 100%;
+
+    .tab-label {
+      background: linear-gradient(to bottom,#fdfdfe 0%,#eff1f4 100%);
+      border: 1px solid #c9dce7;
+      color: #7f7f7f;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      margin-right: 5px;
+      padding: 12px 15px;
+      transition: background 0.1s, color 0.1s;
+    }
+
+    .tab-label:hover {
+      background: #d8d8d8;
+    }
+
+    .tab-label.active {
+      background: linear-gradient(to bottom,#eff1f4 0%,#ffffff 71%);
+      border-bottom: 2px solid #fff;
+      margin-bottom: -1px;
+    }
+  }
+
+  .collection-panels-container {
+    width: 100%;
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+    border-color: #c9dce7;
+
+    img {
+      padding: 0;
+    }
+
+    .tab-panel {
+      background: #fff;
+      padding: 20px 30px 30px;
+
+      ul {
+        list-style: none;
+      }
+
+      .list-item-label {
+        font-weight: bold;
+      }
+
+      .url-list-item-description {
+        color: #95a5a6;
+        font-size: 90%;
+      }
+
+      .panel-title {
+        font-weight: bold;
+      }
+    }
+
+  }
+}
+
+.collection-overview-table {
+  border: 0;
+
+  td {
+    padding: 10px;
+    border: 0;
+    border-bottom: 1px solid #f1f1f1;
+
+    div {
+      display: inline;
+    }
+
+    span {
+      display: block;
+    }
+  }
+
+  td.label-cell {
+    background: #7ab5da;
+    border-bottom: 1px solid white;
+    color: white;
+    font-weight: bold;
+    width: 15%;
+  }
+
+  td.empty-cell {
+    border-bottom: 0;
+  }
+}
+
+@media print {
+  .tab-panel.is-invisible {
+    position: inherit;
+    top: inherit;
+    left: inherit;
+    width: inherit;
+    height: inherit;
+    overflow: inherit;
+  }
+  .preview-spatial,div.collection-tabs-container label,#preview-map {
+    display: none;
+  }
+}
+
+#additional-information-panel {
+
+  .dc-title-container {
+    margin: 15px 0;
+
+    h6.no-margin {
+      margin: 0;
+    }
+  }
+
+  .dc-title {
+    h5 {
+      display: inline-block;
+      margin: 0;
+    }
+
+    h5 {
+      padding-right: 15px
+    }
+  }
+
+  .dc-contact-info {
+    margin-bottom: 15px;
+  }
+
 }

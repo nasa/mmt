@@ -1,4 +1,3 @@
-# MMT-1775
 describe 'Archive And Distribution Information form', js: true do
   before do
     login

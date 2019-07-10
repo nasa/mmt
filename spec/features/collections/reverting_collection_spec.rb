@@ -1,7 +1,3 @@
-# MMT-89 MMT-90
-
-require 'rails_helper'
-
 describe 'Reverting to previous collections', js: true do
   before do
     login

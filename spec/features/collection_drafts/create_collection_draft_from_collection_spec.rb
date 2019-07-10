@@ -1,4 +1,3 @@
-# MMT-26
 describe 'Create new draft from collection' do
   # short_name = '12345'
   # entry_title = 'Draft Title'

@@ -404,7 +404,6 @@ module Helpers
     def add_related_urls(type: nil, button_type: nil)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_related_urls' do
         within '.multiple.related-urls' do
-          puts 'adding related urls'
           if type == 'data_contact'
             fill_in 'Description', with: 'Example Description'
             select 'Data Contact URL', from: 'URL Content Type'

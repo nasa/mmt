@@ -41,6 +41,12 @@
     margin: 0;
   }
 
+  .drafts {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   ul {
     margin-top: 0.5em;
     padding-left: 0;
@@ -114,4 +120,17 @@
       margin-left: 1.5625em;
     }
   }
+}
+
+.ui-tooltip {
+  white-space: wrap;
+  // An arbitrary width, but not wider than twice the current box size.
+  max-width: 600px;
+  word-wrap: break-word;
+}
+
+.ui-helper-hidden-accessible {
+  position: absolute;
+  left: -9999px;
+  bottom: 0%;
 }

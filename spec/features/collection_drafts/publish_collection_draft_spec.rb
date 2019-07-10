@@ -1,6 +1,3 @@
-# MMT-51
-
-require 'rails_helper'
 include DraftsHelper
 include ActionView::Helpers::NumberHelper
 
@@ -16,7 +13,6 @@ describe 'Publishing collection draft records', js: true do
       draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
       visit collection_draft_path(draft)
       click_on 'Publish'
-      open_accordions
     end
 
     # after do
@@ -35,17 +31,17 @@ describe 'Publishing collection draft records', js: true do
     end
 
     it 'displays the published metadata' do
-      expect(page).to have_no_content('There are no additional metadata details for this collection.')
-      expect(page).to have_no_content('There are no related URLs for this collection.')
-      expect(page).to have_no_content('There are no science keywords for this collection.')
-      expect(page).to have_no_content('There are no listed organizations for this collection.')
-      expect(page).to have_no_content('There are no listed personnel for this collection.')
-      expect(page).to have_no_content('This collection\'s processing level has not been specified.')
-      expect(page).to have_no_content('There is no spatial information for this collection.')
-      expect(page).to have_no_content('No platforms or instruments have been added to this associated with this collection.')
-      expect(page).to have_no_content('No Spatial Coordinates found')
-      expect(page).to have_no_content('No Location Keywords found')
-      expect(page).to have_no_content('No Temporal Coverages found')
+      within '.collection-short-name' do
+        expect(page).to have_content('12345')
+      end
+
+      within '.collection-title' do
+        expect(page).to have_content('Draft Title')
+      end
+
+      within '.collection-overview-table' do
+        expect(page).to have_no_css('td', text: 'Not Provided', count: 8)
+      end
     end
 
     # it 'sends the user a notification email' do
@@ -117,7 +113,6 @@ describe 'Publishing collection draft records', js: true do
       draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url, encoded / native id', draft_short_name: 'test short name')
       visit collection_draft_path(draft)
       click_on 'Publish'
-      open_accordions
     end
 
     it 'displays a confirmation message' do

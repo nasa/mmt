@@ -15,10 +15,12 @@ describe 'Data Contacts form filling in Data Center Contacts' do
       before do
         draft = create(:collection_draft_all_required_fields, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
+
+        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'displays the Data Center on the preview page' do
-        within '.data-centers-cards' do
+        within '.data-centers-preview' do
           expect(page).to have_content(data_center_short_name)
           expect(page).to have_content(data_center_long_name_without_space)
         end
@@ -115,6 +117,8 @@ describe 'Data Contacts form filling in Data Center Contacts' do
               end
 
               expect(page).to have_content('Metadata Fields')
+
+              find('.tab-label', text: 'Additional Information').click
             end
 
             it 'displays a confirmation message' do
@@ -122,16 +126,16 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             end
 
             it 'displays the Data Center Contact Person on the preview page' do
-              within '.data-contacts-cards' do
+              within '.data-contacts-preview' do
                 expect(page).to have_content('First Name')
                 expect(page).to have_content('Last Name')
-                expect(page).to have_content('MULTIPLE ROLES')
+                expect(page).to have_content('Technical Contact, Investigator')
                 expect(page).to have_content(data_center_short_name)
               end
             end
 
             it 'still displays the Data Center on the preview page' do
-              within '.data-centers-cards' do
+              within '.data-centers-preview' do
                 expect(page).to have_content(data_center_short_name)
                 expect(page).to have_content(data_center_long_name_without_space)
               end
@@ -240,6 +244,8 @@ describe 'Data Contacts form filling in Data Center Contacts' do
               within '.nav-top' do
                 click_on 'Done'
               end
+
+              find('.tab-label', text: 'Additional Information').click
             end
 
             it 'displays a confirmation message' do
@@ -247,15 +253,15 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             end
 
             it 'displays the Contact Group on the preview' do
-              within '.data-contacts-cards' do
+              within '.data-contacts-preview' do
                 expect(page).to have_content('DC Contact Group Name')
-                expect(page).to have_content('MULTIPLE ROLES')
+                expect(page).to have_content('Data Center Contact, User Services')
                 expect(page).to have_content(data_center_short_name)
               end
             end
 
             it 'still displays the Data Center on the preview page' do
-              within '.data-centers-cards' do
+              within '.data-centers-preview' do
                 expect(page).to have_content(data_center_short_name)
                 expect(page).to have_content(data_center_long_name_without_space)
               end
@@ -283,6 +289,8 @@ describe 'Data Contacts form filling in Data Center Contacts' do
       before do
         draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
+
+        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'has no Data Centers on the preview page' do
@@ -380,6 +388,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
               end
 
               expect(page).to have_content('Metadata Fields')
+              find('.tab-label', text: 'Additional Information').click
             end
 
             it 'displays a confirmation message' do
@@ -387,16 +396,16 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             end
 
             it 'displays the Data Center Contact Person on the preview page' do
-              within '.data-contacts-cards' do
+              within '.data-contacts-preview' do
                 expect(page).to have_content('First Name')
                 expect(page).to have_content('Last Name')
-                expect(page).to have_content('MULTIPLE ROLES')
+                expect(page).to have_content('Technical Contact, Investigator')
                 expect(page).to have_content(data_center_short_name)
               end
             end
 
             it 'displays the newly added Data Center on the preview page' do
-              within '.data-centers-cards' do
+              within '.data-centers-preview' do
                 expect(page).to have_content(data_center_short_name)
                 expect(page).to have_content(data_center_long_name)
               end
@@ -505,6 +514,8 @@ describe 'Data Contacts form filling in Data Center Contacts' do
               within '.nav-top' do
                 click_on 'Done'
               end
+
+              find('.tab-label', text: 'Additional Information').click
             end
 
             it 'displays a confirmation message' do
@@ -512,15 +523,15 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             end
 
             it 'displays the Contact Group on the preview' do
-              within '.data-contacts-cards' do
+              within '.data-contacts-preview' do
                 expect(page).to have_content('DC Contact Group Name')
-                expect(page).to have_content('MULTIPLE ROLES')
+                expect(page).to have_content('Data Center Contact, User Services')
                 expect(page).to have_content(data_center_short_name)
               end
             end
 
             it 'displays the newly created Data Center on the preview page' do
-              within '.data-centers-cards' do
+              within '.data-centers-preview' do
                 expect(page).to have_content(data_center_short_name)
                 expect(page).to have_content(data_center_long_name)
               end

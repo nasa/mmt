@@ -5,6 +5,8 @@ describe 'Spatial information preview' do
         login
         draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
+
+        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'does not display metadata' do
@@ -16,8 +18,9 @@ describe 'Spatial information preview' do
       before do
         login
         draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
-
         visit collection_draft_path(draft)
+
+        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'displays the metadata' do
@@ -54,12 +57,12 @@ describe 'Spatial information preview' do
           end
         end
 
-        within '.location-keyword-preview' do
+        within '.location-keywords-preview' do
           within all('ul')[0] do
-            expect(page).to have_content('GEOGRAPHIC REGION ARCTIC', normalize_ws: true)
+            expect(page).to have_content('GEOGRAPHIC REGIONARCTIC', normalize_ws: true)
           end
           within all('ul')[1] do
-            expect(page).to have_content('OCEAN ATLANTIC OCEAN', normalize_ws: true)
+            expect(page).to have_content('OCEANATLANTIC OCEAN', normalize_ws: true)
           end
         end
       end

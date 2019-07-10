@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200056652-MMT_2
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/catalog_item_option_assignments.json?catalog_item%5B%5D=C1200056652-MMT_2
     body:
       encoding: US-ASCII
       string: ''
@@ -45,7 +45,7 @@ http_interactions:
   recorded_at: Fri, 23 Dec 2016 00:34:21 GMT
 - request:
     method: delete
-    uri: https://testbed.echo.nasa.gov/echo-rest/catalog_item_option_assignments/541D55D0-CC71-111A-6A28-3EF9412CFDC0
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/catalog_item_option_assignments/541D55D0-CC71-111A-6A28-3EF9412CFDC0
     body:
       encoding: US-ASCII
       string: ''

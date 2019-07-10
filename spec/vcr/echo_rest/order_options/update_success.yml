@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-v10/DataManagementServicePortImpl
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/DataManagementServicePortImpl
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -46,7 +46,7 @@ http_interactions:
   recorded_at: Wed, 23 Nov 2016 16:20:02 GMT
 - request:
     method: post
-    uri: https://testbed.echo.nasa.gov/echo-rest/option_definitions
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/option_definitions
     body:
       encoding: UTF-8
       string: '{"option_definition":{"name":"Test Order Option ABC-1 V2","scope":"PROVIDER","description":"Updated
@@ -77,7 +77,7 @@ http_interactions:
       message: 
     headers:
       location:
-      - https://testbed.echo.nasa.gov/legacy-services/rest/option_definitions/B8F5E94F-A1D5-6229-F898-8C756F979D43
+      - https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/option_definitions/B8F5E94F-A1D5-6229-F898-8C756F979D43
       content-type:
       - application/xml; charset=utf-8
       cache-control:
@@ -122,7 +122,7 @@ http_interactions:
   recorded_at: Wed, 23 Nov 2016 16:20:02 GMT
 - request:
     method: get
-    uri: https://testbed.echo.nasa.gov/echo-rest/option_definitions/B8F5E94F-A1D5-6229-F898-8C756F979D43
+    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/rest/option_definitions/B8F5E94F-A1D5-6229-F898-8C756F979D43
     body:
       encoding: US-ASCII
       string: ''

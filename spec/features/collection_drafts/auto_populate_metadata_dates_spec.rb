@@ -1,7 +1,3 @@
-# MMT-378
-
-require 'rails_helper'
-
 describe 'Auto populating metadata dates', js: true do
   context 'when publishing a new collection' do
     before do
@@ -17,7 +13,8 @@ describe 'Auto populating metadata dates', js: true do
       visit collection_draft_path(draft)
       click_on 'Publish'
       wait_for_cmr
-      open_accordions
+
+      find('.tab-label', text: 'Additional Information').click
     end
 
     it 'displays the create date on the collection page' do
@@ -42,7 +39,8 @@ describe 'Auto populating metadata dates', js: true do
 
         click_on 'Publish'
         wait_for_cmr
-        open_accordions
+
+        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'displays the update date, new metadata dates, and creation date on the collection page' do

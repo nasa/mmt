@@ -1409,7 +1409,7 @@
             },
             {
               "type": "section",
-              "items": [{"key": "/FullName", "field": true}]
+              "items": [{"key": "/FullName", "field": true, "autocomplete": true}]
             },
             {
               "type": "section",

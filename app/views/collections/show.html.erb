@@ -1,9 +1,3 @@
-<% content_for :header_title do %>
-  <h2><%= display_entry_id(@collection, 'collections') %></h2>
-  <p class="subtitle"><%= display_collection_entry_title(@collection) %></p>
-  <%= nrt_badge(@collection) %>
-<% end %>
-
 <% if @user_permissions == 'none' %>
   <div class="eui-banner--danger">
     <p class="eui-banner__message">
@@ -57,24 +51,35 @@
         </p>
       </div>
     <% else %>
-      <section class="action">
-        <p>
-          <% if current_provider?(@provider_id) %>
-            <%= link_to 'Edit Collection Record', edit_collection_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
-          <% elsif available_provider?(@provider_id) %>
-            <%= link_to 'Edit Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'edit-collection' } %>
-          <% end %>
-          <% if current_provider?(@provider_id) %>
-            <%= link_to 'Clone Collection Record', clone_collection_path, class: 'eui-btn--link bar-after' %>
-          <% elsif available_provider?(@provider_id) %>
-            <%= link_to 'Clone Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'clone-collection' } %>
-          <% end %>
-          <%= link_to 'Download XML', '#download-xml-modal', class: 'display-modal download-xml eui-btn--link' %>
-          <% if current_provider?(@provider_id) %>
-            <%= link_to 'Delete Collection Record', "#delete-record-modal", class: 'display-modal delete-collection eui-btn--link bar-before' %>
-          <% elsif available_provider?(@provider_id) %>
-            <%= link_to 'Delete Collection Record', '#not-current-provider-modal', class: 'display-modal delete-collection not-current-provider eui-btn--link bar-before', data: { provider: @provider_id, record_action: 'delete-collection' } %>
-          <% end %>
+      <section class="action wide-content">
+        <div class="wide-content-inside">
+          <p>
+            <% if current_provider?(@provider_id) %>
+              <%= link_to 'Edit Collection Record', edit_collection_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
+            <% elsif available_provider?(@provider_id) %>
+              <%= link_to 'Edit Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'edit-collection' } %>
+            <% end %>
+
+            <% if current_provider?(@provider_id) %>
+              <%= link_to 'Clone Collection Record', clone_collection_path, class: 'eui-btn--link' %>
+            <% elsif available_provider?(@provider_id) %>
+              <%= link_to 'Clone Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'clone-collection' } %>
+            <% end %>
+
+            <% if current_provider?(@provider_id) %>
+              <%= link_to 'Delete Collection Record', "#delete-record-modal", class: 'display-modal delete-collection eui-btn--link' %>
+            <% elsif available_provider?(@provider_id) %>
+              <%= link_to 'Delete Collection Record', '#not-current-provider-modal', class: 'display-modal delete-collection not-current-provider eui-btn--link', data: { provider: @provider_id, record_action: 'delete-collection' } %>
+            <% end %>
+
+            <%= link_to "Revisions (#{@revisions.size})", collection_revisions_path, class: 'eui-btn--link bar-after bar-before' %>
+
+            <a class="collection-granule-count disabled bar-after" href="#">Granules (<%= @num_granules %>)</a>
+
+            <a class="disabled" href="#">Save as Template</a>
+          </p>
+
+          <!-- hidden content for action buttons -->
           <div id="delete-record-modal" class="eui-modal-content">
             <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
             <p>Are you sure you want to delete this record?</p>
@@ -100,21 +105,15 @@
               <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
             </p>
           </div>
-        </p>
-
-        <p>
-          <%= link_to "Revisions (#{@revisions.size})", collection_revisions_path, class: 'eui-btn--link bar-after' %>
-          <a class="collection-granule-count disabled bar-after" href="#">Granules (<%= @num_granules %>)</a>
-          <a class="disabled" href="#">Save as Template</a>
-        </p>
-
-        <%= render partial: 'shared/download_xml', locals: {
-          concept_id: @concept_id,
-          revision_id: @revision_id
+          <%= render partial: 'shared/download_xml', locals: {
+            concept_id: @concept_id,
+            revision_id: @revision_id
           } %>
+          <!-- end hidden content for action buttons -->
+        </div>
       </section>
 
-      <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, editable: false, edsc_url: nil, concept_id: nil, additional_information: nil } %>
+      <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, is_mmt: true, editable: false, edsc_url: nil, concept_id: nil, additional_information: nil } %>
     <% end %>
   </div>
 <% end %>

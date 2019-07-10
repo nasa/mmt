@@ -38,7 +38,7 @@ describe Cmr::BaseClient do
       expect(req.headers['Client-Id']).to eq('MMT')
     end
 
-    it 'sets a client id compatible with echo-rest requests' do
+    it 'sets a client id compatible with rest requests' do
       expect(connection).to receive(:post).with(dummy_url, nil).and_yield(req)
 
       basic_client.request(:post, dummy_url, nil, nil, {})
