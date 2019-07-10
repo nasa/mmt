@@ -1,5 +1,5 @@
 class CollectionTemplatesController < CollectionDraftsController
-  before_action :set_resource, only: [:create_draft, :destroy, :edit, :update]
+  before_action :set_resource, only: [:create_draft, :destroy, :edit, :update, :show]
   before_action :templates_enabled?
 
   def create_draft

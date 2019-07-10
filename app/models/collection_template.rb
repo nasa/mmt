@@ -1,18 +1,5 @@
 class CollectionTemplate < Template
-  DRAFT_FORMS = %w(
-    collection_information
-    data_identification
-    related_urls
-    descriptive_keywords
-    acquisition_information
-    temporal_information
-    spatial_information
-    data_centers
-    data_contacts
-    collection_citations
-    metadata_information
-    archive_and_distribution_information
-  )
+  include CollectionDraftsHelper
 
   class << self
     def create_template(draft, user, name)
@@ -29,7 +16,7 @@ class CollectionTemplate < Template
     end
 
     def forms
-      DRAFT_FORMS
+      CollectionDraftsHelper::DRAFT_FORMS
     end
 
     def get_next_form(name, direction)

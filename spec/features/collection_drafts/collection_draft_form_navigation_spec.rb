@@ -1,4 +1,5 @@
 include DraftsHelper
+include CollectionDraftsHelper
 
 describe 'Collection Draft form navigation', js: true do
   before do
