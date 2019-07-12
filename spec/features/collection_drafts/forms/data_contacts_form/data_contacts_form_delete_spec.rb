@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Collection Draft editing', js: true do
   before do
     login
@@ -62,7 +60,7 @@ describe 'Collection Draft editing', js: true do
         end
 
         it 'saves the removal of the data contact' do
-          expect(page).not_to have_content('Little Johnny Drop Tables')
+          expect(page).to have_no_content('Little Johnny Drop Tables')
         end
       end
 
@@ -97,7 +95,7 @@ describe 'Collection Draft editing', js: true do
         end
 
         it 'does not have an error message' do
-          expect(page).not_to have_content('This draft has the following errors')
+          expect(page).to have_no_content('This draft has the following errors')
         end
       end
     end
