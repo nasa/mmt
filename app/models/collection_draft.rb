@@ -12,8 +12,8 @@ class CollectionDraft < Draft
 
     def get_next_form(name, direction)
       delta = direction == 'Next' ? 1 : -1
-      index = DRAFT_FORMS.index(name)
-      DRAFT_FORMS[index + delta] || DRAFT_FORMS.first
+      index = CollectionDraftsHelper::DRAFT_FORMS.index(name)
+      CollectionDraftsHelper::DRAFT_FORMS[index + delta] || CollectionDraftsHelper::DRAFT_FORMS.first
     end
 
     def create_from_template(template, user)

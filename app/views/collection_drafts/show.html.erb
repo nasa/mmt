@@ -33,49 +33,15 @@
           <%= link_to 'Publish Collection Draft', publish_collection_draft_path(get_resource), method: :post, class: 'eui-btn--blue spinner' %>
         <% end %>
 
-        <%= link_to 'Delete Collection Draft', "#delete-draft-modal", class: 'display-modal' %>
+        <%= link_to "Delete #{name_to_title(resource_name)}", "#delete-draft-modal", class: 'display-modal' %>
         <div id="delete-draft-modal" class="eui-modal-content">
           <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
           <p>Are you sure you want to delete this draft?</p>
           <p>
             <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <%= link_to 'Yes', collection_draft_path(get_resource), method: :delete, class: 'eui-btn--blue spinner' %>
+            <%= link_to 'Yes', send("#{resource_name}_path", get_resource), method: :delete, class: 'eui-btn--blue spinner' %>
           </p>
         </div>
-<<<<<<< HEAD
-      <% else %>
-        <%= link_to 'Publish Collection Draft', publish_collection_draft_path(get_resource), method: :post, class: 'eui-btn--blue spinner' %>
-      <% end %>
-      <%= link_to 'Save As Template', '#save-as-template-modal', class: 'display-modal' if Rails.configuration.templates_enabled %>
-      <%= '|' if Rails.configuration.templates_enabled %>
-      <div id="save-as-template-modal", class="eui-modal-content">
-        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-        <%= form_tag(create_template_collection_draft_path(get_resource), method: :post) do %>
-          <fieldset>
-            <div class="row">
-              <div class="col-12">
-                <%= label_tag('template_name', 'Template Name') %>
-                <%= text_field_tag('template[title]', nil, class: 'full-width', placeholder: 'Title') %>
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <%= submit_tag 'Submit', id: 'save-as-template-button', class: 'eui-btn--blue spinner' %>
-            <a href="javascript:void(0)" class="eui-btn modal-close">Cancel</a>
-          </fieldset>
-        <% end %>
-      </div>
-      <%= link_to 'Delete Collection Draft', '#delete-draft-modal', class: 'display-modal' %>
-      <div id="delete-draft-modal" class="eui-modal-content">
-        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-        <p>Are you sure you want to delete this draft?</p>
-        <p>
-          <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-          <%= link_to 'Yes', collection_draft_path(get_resource), method: :delete, class: 'eui-btn--blue spinner' %>
-        </p>
-=======
->>>>>>> 239fb56286e13a36a209a82144eb1f9e9ea1e9ae
       </div>
     </section>
 
