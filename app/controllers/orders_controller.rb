@@ -35,7 +35,12 @@ class OrdersController < ManageCmrController
           orders_obj = Echo::Orders.new(client: echo_client, echo_provider_token: echo_provider_token, guids: guids)
 
           if orders_obj.errors
-            redirect_to orders_path, flash: { error: "#{I18n.t('controllers.orders.search.flash.error', error: orders_obj.errors)}Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+            if orders_obj.errors.match(/Could not find order with guid/)
+              err_message = { alert: "#{orders_obj.errors}Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+            else
+              err_message = { error: "#{orders_obj.errors}Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+            end
+            redirect_to orders_path, flash: err_message
             return
           end
 

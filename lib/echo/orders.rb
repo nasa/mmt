@@ -15,8 +15,11 @@ module Echo
         Rails.logger.info 'Searching for Orders Success!'
         @orders = Array.wrap(response.parsed_body.fetch('Item', [])).map { |order| Order.new(client: client, echo_provider_token: echo_provider_token, response: order) }
       else
-        Rails.logger.error "Searching for Orders Error: #{response.error_message}"
-        @errors = response.error_message.gsub(/\[.*\]/, '[xxx]')
+        if response.error_message.match(/guid/)
+          @errors = response.error_message.gsub(/[\[\]]/, '')
+        else
+          @errors = response.error_message.gsub(/\[.*\]/, '[xxx]')
+        end
       end
     end
   end
