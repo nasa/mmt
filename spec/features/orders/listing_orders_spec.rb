@@ -236,5 +236,24 @@ describe 'Searching Orders' do
         expect(page).to have_content('Token [xxx] has expired.')
       end
     end
+
+
+    context 'with no matching GUID' do
+      before do
+        fill_in 'Order GUID', with: 'bad_guid_test'
+
+
+        VCR.use_cassette('echo_soap/order_management_service/provider_orders/bad_guid_test', record: :none) do
+          within '#order-by-guid-form' do
+            click_on 'Submit'
+          end
+        end
+      end
+
+      it 'has a descriptive error message' do
+        expect(page).to have_content('Could not find order with guid')
+        expect(page).to have_no_content('Error response returned')
+      end
+    end
   end
 end
