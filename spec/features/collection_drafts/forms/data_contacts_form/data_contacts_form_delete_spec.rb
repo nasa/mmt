@@ -18,6 +18,7 @@ describe 'Collection Draft editing', js: true do
         click_on 'Done'
       end
       click_link 'invalid-draft-accept'
+      find('.tab-label', text: 'Additional Information').click
     end
 
     # Verifying explicitly that the entry has data.
@@ -53,6 +54,7 @@ describe 'Collection Draft editing', js: true do
           within '.nav-top' do
             click_on 'Done'
           end
+          find('.tab-label', text: 'Additional Information').click
         end
 
         it 'saves the data center' do
