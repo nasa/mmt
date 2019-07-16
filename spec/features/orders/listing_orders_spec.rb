@@ -237,7 +237,6 @@ describe 'Searching Orders' do
       end
     end
 
-
     context 'with no matching GUID' do
       before do
         fill_in 'Order GUID', with: 'bad_guid_test'
