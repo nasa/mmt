@@ -167,6 +167,7 @@ en:
     orders:
       search:
         flash:
+          guid: "%{error} <br>"
           error: "Error response returned from CMR: %{error}  <br>"
   views:
     pagination:
