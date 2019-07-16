@@ -36,9 +36,9 @@ class OrdersController < ManageCmrController
 
           if orders_obj.errors
             if orders_obj.errors.match(/Could not find order with guid/)
-              err_message = { alert: "#{orders_obj.errors}Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+              err_message = { alert: "#{orders_obj.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
             else
-              err_message = { error: "#{orders_obj.errors}Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+              err_message = { error: "#{orders_obj.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
             end
             redirect_to orders_path, flash: err_message
             return
