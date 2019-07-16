@@ -36,7 +36,7 @@ class OrdersController < ManageCmrController
 
           if orders_obj.errors
             if orders_obj.errors.match(/Could not find order with guid/)
-              err_message = I18n.t('controllers.orders.search.flash.guid', error: orders_obj.errors)
+              err_message = "#{orders_obj.errors}<br>"
             else
               err_message = I18n.t('controllers.orders.search.flash.error', error: orders_obj.errors)
             end
