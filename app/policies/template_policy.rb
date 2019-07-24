@@ -9,7 +9,7 @@ class TemplatePolicy < ApplicationPolicy
   end
 
   # Same as draft new/create; ensure user has an id set.
-  def from_existing?
+  def new_from_existing?
     !user.user.provider_id.blank?
   end
 

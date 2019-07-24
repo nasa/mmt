@@ -82,11 +82,11 @@
               <% elsif available_provider?(@provider_id) %>
                 <%= link_to 'Save as Template', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link', data: { provider: @provider_id, record_action: 'create-template-collection' } %>
               <% end %>
-              <%= form_tag from_existing_collection_template_path, method: :post, class: "template_creation_form" do %>
+              <%= form_tag new_from_existing_collection_template_path, method: :post, class: "template_creation_form" do %>
                 <%= hidden_field_tag "collection_id", params[:id] %>
                 <%= hidden_field_tag "origin", "Collection" %>
                 <%= hidden_field_tag "revision_id", @revision_id %>
-                <%= submit_tag 'Save as Template', class: 'eui-btn--blue', id: 'template_from_existing_button' %>
+                <%= submit_tag 'Save as Template', class: 'eui-btn--blue', id: 'template_new_from_existing_button' %>
                 <%= submit_tag 'Save as Template', class: 'eui-btn--blue', id: 'not-current-provider-create-template-collection-link' %>
               <% end %>
             <% end %>

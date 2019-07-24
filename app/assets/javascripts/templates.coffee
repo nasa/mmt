@@ -12,4 +12,4 @@ $(document).ready ->
   # When the user clicks on the save as template link, click the invisible button
   # to submit the form and change pages
   $('#save_as_template_link').on 'click', () ->
-    $('#template_from_existing_button').click()
+    $('#template_new_from_existing_button').click()

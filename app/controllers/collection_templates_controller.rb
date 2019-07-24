@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class CollectionTemplatesController < CollectionDraftsController
   include CollectionsCmrHelper
   before_action :templates_enabled?
-  before_action :set_resource, only: [:create_draft, :destroy, :edit, :update, :show]
-  before_action :load_umm_schema, only: [:new, :edit, :show, :from_existing]
+  before_action :set_resource, only: %i[create_draft destroy edit update show]
+  before_action :load_umm_schema, only: %i[new edit show new_from_existing]
 
   def create_draft
     authorize get_resource
     draft = CollectionDraft.create_from_template(get_resource, current_user)
-    Rails.logger.info("Audit Log: Collection Draft #{draft.entry_title} was created by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
+    Rails.logger.info("Audit Log: Collection Draft #{draft.entry_title} was created from a template by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
     redirect_to edit_collection_draft_path(draft)
   end
 
@@ -17,25 +19,41 @@ class CollectionTemplatesController < CollectionDraftsController
     @template_names = names_list
   end
 
-  def names_list(id = nil)
-    policy_scope(resource_class).map{ |template| template['template_name'] unless template.id == id }
-  end
-
-  def from_existing
-    if params[:origin] == "CollectionDraft"
-      source_collection = CollectionDraft.where(id: params[:draft])[0]
-    elsif params[:origin] == "Collection"
-      if params[:revision_id] == ""
-        revision_id = nil
-      else
-        revision_id = params[:revision_id]
-      end
-      source_collection = CollectionData.new(request_collection_by_id(params[:collection_id], revision_id))
+  def create
+    if names_list.include?(params[:draft][:template_name])
+      flash[:error] = 'A template with that name already exists.'
+      redirect_to manage_collections_path
+      return
     end
 
-    #TODO: source_collection == nil handling
+    super
+  end
 
-    set_resource(source_collection)
+  def names_list(id = nil)
+    policy_scope(resource_class).map { |template| template['template_name'] unless template.id == id }
+  end
+
+  def new_from_existing
+    if params[:origin] == 'CollectionDraft'
+      source_collection = CollectionDraft.where(id: params[:draft])[0].draft
+    elsif params[:origin] == 'Collection'
+      revision_id = if params[:revision_id] == ''
+                      nil
+                    else
+                      params[:revision_id]
+                    end
+      source_collection = request_collection_by_id(params[:collection_id], revision_id)
+    end
+
+    # If CMR did not find the collection, redirect to manage collections and flash an error.
+    # Also addresses a bad id being passed to CollectionDraft
+    if source_collection.nil?
+      flash[:error] = 'The requested collection could not be found at this time.'
+      redirect_to manage_collections_path
+    end
+
+    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: source_collection))
+    authorize get_resource
 
     @draft_forms = CollectionDraft.forms
     @draft_form = params[:form] || @draft_forms.first
@@ -57,7 +75,7 @@ class CollectionTemplatesController < CollectionDraftsController
     render :new
   end
 
-  #define create and edit such that they cannot overwrite with non-unique names in situations like using back.
+  # define create and edit such that they cannot overwrite with non-unique names in situations like using back.
 
   # This is largely duplicate from collections_controller, but templates don't need
   # all of the things that collections do.  Unsure if an alternate implementation is
@@ -73,17 +91,9 @@ class CollectionTemplatesController < CollectionDraftsController
       content_type = "application/#{Rails.configuration.umm_c_version}; charset=utf-8"
 
       collection_response = cmr_client.get_concept(id, token, { 'Accept' => content_type }, nil)
-      if collection_response.success?
-        collection = collection_response.body
-      else
-        collection = nil
-        #TODO: failure handling
-      end
+      collection = (collection_response.body if collection_response.success?)
       collection
     else
-      # concept wasn't found, CMR might be a little slow
-      # Take the user to a blank page with a message the collection doesn't exist yet,
-      # eventually auto refreshing the page would be cool
       nil
     end
   end
@@ -100,5 +110,4 @@ class CollectionTemplatesController < CollectionDraftsController
       true
     end
   end
-
 end

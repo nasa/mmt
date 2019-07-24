@@ -125,7 +125,7 @@ Rails.application.routes.draw do
       get 'edit', path: 'edit(/:form)'
     end
   end
-  post '/collection_templates/from_existing' => 'collection_templates#from_existing', as: 'from_existing_collection_template'
+  post '/collection_templates/new_from_existing' => 'collection_templates#new_from_existing', as: 'new_from_existing_collection_template'
 
   get 'welcome/index'
   # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's
