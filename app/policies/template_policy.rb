@@ -8,6 +8,10 @@ class TemplatePolicy < ApplicationPolicy
     user.user.provider_id == target.provider_id
   end
 
+  def from_existing?
+    
+  end
+
   # :nodoc
   class Scope < Scope
     def resolve

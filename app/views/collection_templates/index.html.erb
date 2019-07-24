@@ -2,6 +2,8 @@
   <section>
     <h2><%= current_user.provider_id %> <%= plural_resource_name.titleize %></h2>
 
+    <%= link_to "Create a #{resource_name.titleize}", send("new_#{resource_name}_path"), class: 'eui-btn--blue space-bot' %>
+
     <% if get_resources.any? %>
       <p><%= page_entries_info get_resources, entry_name: resource_name.titleize %></p>
     <% end %>
@@ -35,7 +37,6 @@
                 <p>Are you sure you want to delete this template?</p>
                 <p>
                   <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                  <% #4/0 %>
                   <%= link_to 'Yes', collection_template_path(template['id']), method: :delete, class: 'eui-btn--blue spinner' %>
                 </p>
               </div>

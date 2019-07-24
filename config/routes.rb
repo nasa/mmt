@@ -64,6 +64,7 @@ Rails.application.routes.draw do
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'
   get '/collections/:id/clone' => 'collections#clone', as: 'clone_collection'
   get '/collections/:id/download_xml/:format(/:revision_id)' => 'collections#download_xml', as: 'download_collection_xml'
+  post '/collections/:id/create_template' => 'collections#create_template', as: 'create_template_collection'
 
   resource :variable_generation_processes_search, only: [:new]
 
@@ -126,6 +127,7 @@ Rails.application.routes.draw do
       get 'edit', path: 'edit(/:form)'
     end
   end
+  post '/collection_templates/from_existing' => 'collection_templates#from_existing', as: 'from_existing_collection_template'
 
   get 'welcome/index'
   # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's
@@ -136,6 +138,7 @@ Rails.application.routes.draw do
   get 'search' => 'search#index', as: 'search'
 
   resource :manage_collections, only: :show
+  post 'manage_collections/make_new_draft' => 'manage_collections#make_new_draft', as: 'make_new_draft_manage_collections'
   resource :manage_variables, only: :show
   resource :manage_services, only: :show, controller: 'manage_services'
   resource :manage_cmr, only: :show, controller: 'manage_cmr'

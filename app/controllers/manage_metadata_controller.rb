@@ -4,7 +4,9 @@ class ManageMetadataController < ApplicationController
   protected
 
   def breadcrumb_name(metadata, type)
-    short_name = if type.downcase.include? 'collection'
+    short_name = if type.downcase.include? 'template'
+                   metadata['TemplateName'] || '<Blank Template Name>'
+                 elsif type.downcase.include? 'collection'
                    metadata['ShortName'] || '<Blank Short Name>'
                  elsif type.downcase.include? 'variable'
                    metadata['Name'] || '<Blank Name>'
@@ -15,7 +17,11 @@ class ManageMetadataController < ApplicationController
     version = metadata.fetch('Version', '')
     version = "_#{version}" unless version.empty?
 
-    short_name + version
+    if type.downcase.include? 'template'
+      short_name
+    else
+      short_name + version
+    end
   end
   helper_method :breadcrumb_name
 

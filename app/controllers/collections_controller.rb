@@ -2,7 +2,7 @@ class CollectionsController < ManageCollectionsController
   include ManageMetadataHelper
 
   before_action :set_collection
-  before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
+  before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy, :clone_template]
 
   layout 'collection_preview', only: [:show]
 
@@ -115,7 +115,6 @@ class CollectionsController < ManageCollectionsController
       @num_granules = meta['granule-count']
 
       @old_revision = !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s ? true : false
-
 
       # set accept content-type as umm-json with our current umm-c version
       content_type = "application/#{Rails.configuration.umm_c_version}; charset=utf-8"

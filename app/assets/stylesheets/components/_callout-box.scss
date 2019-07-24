@@ -99,7 +99,9 @@
 
   /* Form Elements
   ------------------------------------------*/
-  form {
+/*  This does not appear to be used anywhere.  Should we retain this?
+
+    form {
 
     img {
       display: inline-block;
@@ -119,7 +121,7 @@
       width: 14.0625em !important;
       margin-left: 1.5625em;
     }
-  }
+  } */
 }
 
 .ui-tooltip {

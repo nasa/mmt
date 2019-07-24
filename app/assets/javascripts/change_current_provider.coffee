@@ -15,11 +15,15 @@ $(document).ready ->
     $link = $modal.find('a.not-current-provider-link')
     $link.data('provider', provider)
 
+    console.log(provider, action, href, element, $link, $modal)
+
     textAction = switch action
       when 'edit-collection'
         'Editing this collection'
       when 'clone-collection'
         'Cloning this collection'
+      when 'create-template-collection'
+        'Creating a template from this collection'
       when 'delete-collection'
         'Deleting this collection'
       when 'reinstate-collection'
@@ -71,6 +75,8 @@ $(document).ready ->
       when 'manage-service-associations'
         "Managing this service's collection associations"
 
+    console.log(action)
+
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
     $modal.find('span.record-action').text(textAction)
@@ -83,6 +89,8 @@ $(document).ready ->
     link = "#not-current-provider-#{linkType}-link"
     link += "-#{index}" if index != false
 
+    console.log("waiting on post")
+
     $.ajax
       url: "/set_provider?provider_id=#{provider}"
       method: 'post'
@@ -90,10 +98,14 @@ $(document).ready ->
 
       success: (data, status, xhr) ->
         # Click the link that the user needs
+        console.log("pre click")
         $(link)[0].click()
+
+        console.log("Clicker getting called.", provider, element, linkType, index, link, data, status, xhr, $(link)[0])
 
   # Change current provider
   $('#change-current-provider-banner-link').on 'click', (element) ->
+    console.log("Change getting called.")
     provider = $(element.target).data('provider')
     actionLink = $(element.target).data('actionLink')
 
@@ -106,6 +118,7 @@ $(document).ready ->
         $("##{actionLink}")[0].click()
 
   $('#refresh-available-providers-link').on 'click', (element) ->
+    console.log("Refresh getting called.")
     if $(this).hasClass('spinner')
       $.ajax
         url: '/refresh_providers'

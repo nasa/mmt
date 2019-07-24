@@ -15,7 +15,7 @@
   </div>
 <% end %>
 
-<%= form_tag(collection_drafts_path, method: 'post', class: 'metadata-form', enforce_utf8: false) do %>
+<%= form_tag(send("#{plural_resource_name}_path"), method: 'post', class: 'metadata-form', enforce_utf8: false) do %>
   <%= hidden_field_tag 'commit' %>
 
   <div class="row row-content">
@@ -51,6 +51,7 @@
         var globalJsonSchema = <%= raw @json_schema.to_json %>;
 
         var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
+        var globalTemplateNames = <%= raw @template_names.to_json %>;
       </script>
 
       </br>
@@ -62,7 +63,7 @@
           draft_forms: @draft_forms } %>
 
       <!-- Hidden link to allow modal to be shown -->
-      <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Model</a>
+      <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Modal</a>
       <div id="invalid-draft-modal" class="eui-modal-content">
         <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
         <p>This page has invalid data. Are you sure you want to save it and proceed?</p>
@@ -70,6 +71,12 @@
           <a href="javascript:void(0)" id="invalid-draft-deny" class="eui-btn modal-close">No</a>
           <a href="javascript:void(0)" id="invalid-draft-accept" class="eui-btn--blue">Yes</a>
         </p>
+      </div>
+
+      <a href="#invalid-template-modal" id="display-invalid-template-modal" class="display-modal is-invisible">Invalid Template Modal</a>
+      <div id="invalid-template-modal" class="eui-modal-content">
+        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+        <p>A template needs a unique name to be saved.</p>
       </div>
 
     </section>

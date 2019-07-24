@@ -9,7 +9,7 @@ class CollectionDraftsController < BaseDraftsController
   layout 'collection_preview', only: [:show]
 
   def new
-    set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
 
     authorize get_resource
 
@@ -125,7 +125,7 @@ class CollectionDraftsController < BaseDraftsController
 
   def create_template
     authorize get_resource
-    template = CollectionTemplate.create_template(get_resource, current_user, params[:template][:title])
+    template = CollectionTemplate.create_template(get_resource, current_user)
     Rails.logger.info("Audit Log: Collection Template #{template.display_entry_title} was created by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
     redirect_to collection_templates_path
   end

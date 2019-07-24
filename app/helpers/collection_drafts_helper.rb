@@ -1,4 +1,5 @@
 module CollectionDraftsHelper
+
   DRAFT_FORMS = %w(
     collection_information
     data_identification
@@ -20,6 +21,10 @@ module CollectionDraftsHelper
       if params['short_name']
         self.entry_title = params['entry_title'].empty? ? nil : params['entry_title']
         self.short_name = params['short_name'].empty? ? nil : params['short_name']
+      end
+
+      if params['template_name']
+        self.template_name = params['template_name'].empty? ? nil : params['template_name']
       end
 
       # Convert {'0' => {'id' => '123'}} to [{'id' => '123'}]

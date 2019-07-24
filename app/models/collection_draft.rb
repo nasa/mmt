@@ -17,6 +17,7 @@ class CollectionDraft < Draft
     end
 
     def create_from_template(template, user)
+      template['draft'].delete('TemplateName')
       draft = CollectionDraft.new do |d|
         d.draft = template.draft
         d.entry_title = template.entry_title

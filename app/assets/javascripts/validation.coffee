@@ -195,6 +195,11 @@ $(document).ready ->
       # we only want this simple message instead of the raw message:
 #     # 'should have property TotalCollectionFileSizeUnit when property TotalCollectionFileSize is present'
       when 'dependencies' then "#{field} is required"
+      when 'not_unique' then "#{field} must be unique within a provider context"
+      # Using an alternate keyword allows skipping some checks associated with
+      # required fields that are problematic because the field is not in the schema
+      # This error message should appear when a template name is not provided by the user
+      when 'must_exist' then "#{field} is required"
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
@@ -263,6 +268,7 @@ $(document).ready ->
     $(summary).insertAfter('.nav-top')
 
   getErrorDetails = (error) ->
+    console.log(error)
     if error.keyword == 'additionalProperties'
       error = null
       return
@@ -504,6 +510,12 @@ $(document).ready ->
     validateParameterRanges(errors)
     errors = validatePicklistValues(errors)
 
+    errors_length = errors.length
+    invalid_template = false
+    errors = validateTemplateName(errors)
+    if !(errors_length == errors.length)
+      invalid_template = true
+
     inlineErrors = []
     summaryErrors = []
 
@@ -538,12 +550,31 @@ $(document).ready ->
 
     valid = summaryErrors.length == 0
 
-    if !valid and opts.showConfirm
+    if invalid_template and opts.showConfirm
+      $('#display-invalid-template-modal').click()
+      $('#invalid-draft-deny').hide()
+      $('#invalid-draft-accept').hide()
+      return false
+    else if !valid and opts.showConfirm
       # click on link to open modal
       $('#display-invalid-draft-modal').click()
+      $('#invalid-draft-deny').show()
+      $('#invalid-draft-accept').show()
       return false
 
     valid
+
+
+  validateTemplateName = (errors) ->
+    if $('#draft_template_name').length > 0
+      error = null
+      if $('#draft_template_name').val().length == 0
+        error = { "id": 'draft_template_name', "title": 'Draft Template Name', "params": {}, 'dataPath': '/TemplateName', 'keyword': 'must_exist'}
+      else if globalTemplateNames.indexOf($('#draft_template_name').val()) isnt -1
+        error = { "id": 'draft_template_name', "title": 'Draft Template Name', "params": {}, 'dataPath': '/TemplateName', 'keyword': 'not_unique'}
+
+      errors.push(error) if error
+    errors
 
   visitedFields = []
   visitField = (field_id) ->
