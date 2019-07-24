@@ -268,7 +268,6 @@ $(document).ready ->
     $(summary).insertAfter('.nav-top')
 
   getErrorDetails = (error) ->
-    console.log(error)
     if error.keyword == 'additionalProperties'
       error = null
       return

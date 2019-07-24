@@ -8,8 +8,9 @@ class TemplatePolicy < ApplicationPolicy
     user.user.provider_id == target.provider_id
   end
 
+  # Same as draft new/create; ensure user has an id set.
   def from_existing?
-    
+    !user.user.provider_id.blank?
   end
 
   # :nodoc
