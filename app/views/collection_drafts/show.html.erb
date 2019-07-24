@@ -34,11 +34,11 @@
         <% end %>
 
         <% if Rails.configuration.templates_enabled %>
-          <%= link_to 'Save as Template', '#dead-modal', id: 'save_as_template_link', class: 'eui-btn--link bar-after' %>
+          <%= link_to 'Save as Template', '#new-template-modal', id: 'save_as_template_link', class: 'eui-btn--link bar-after' %>
           <%= form_tag from_existing_collection_template_path, method: :post, class: "template_creation_form" do %>
             <%= hidden_field_tag "draft", @collection_draft.id %>
             <%= hidden_field_tag "origin", "CollectionDraft" %>
-            <%= submit_tag 'Save as Template', { class: 'draft eui-btn--blue submit' } %>
+            <%= submit_tag 'Save as Template', id: 'template_from_existing_button', class: 'draft eui-btn--blue submit' %>
           <% end %>
         <% end %>
 

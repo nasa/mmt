@@ -64,7 +64,6 @@ Rails.application.routes.draw do
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'
   get '/collections/:id/clone' => 'collections#clone', as: 'clone_collection'
   get '/collections/:id/download_xml/:format(/:revision_id)' => 'collections#download_xml', as: 'download_collection_xml'
-  post '/collections/:id/create_template' => 'collections#create_template', as: 'create_template_collection'
 
   resource :variable_generation_processes_search, only: [:new]
 
@@ -116,7 +115,6 @@ Rails.application.routes.draw do
       get 'edit', path: 'edit(/:form)'
       get 'download'
       post 'publish'
-      post 'create_template'
     end
   end
   get 'subregion_options' => 'collection_drafts#subregion_options'
