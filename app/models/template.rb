@@ -10,8 +10,4 @@ class Template < ActiveRecord::Base
   def display_short_name
     short_name || '<Blank Short Name>'
   end
-
-  class << self
-    def create_template(draft, user, name) end
-  end
 end

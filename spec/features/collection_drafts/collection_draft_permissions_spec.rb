@@ -84,21 +84,16 @@ describe 'Collection draft permissions' do
         end
 
         it 'displays the collection draft preview information' do
-          expect(page).to have_no_content('Publish Collection Draft')
-          expect(page).to have_no_content('Delete Collection Draft')
-          expect(page).to have_no_content('Metadata Preview')
-
-
-          expect(page).to have_no_content(entry_title)
-
-          expect(page).to have_no_content('Science Keywords:')
-          expect(page).to have_no_content('Spatial Extent:')
-          expect(page).to have_no_content('Data Format(s):')
-          expect(page).to have_no_content('Temporal Extent:')
-          expect(page).to have_no_content('Platform(s):')
-          expect(page).to have_no_content('Data Center(s):')
-          expect(page).to have_no_content('Instrument(s):')
-          expect(page).to have_no_content('Version:')
+          within '.collection-overview-table' do
+            expect(page).to have_content('Science Keywords:')
+            expect(page).to have_content('Spatial Extent:')
+            expect(page).to have_content('Data Format(s):')
+            expect(page).to have_content('Temporal Extent:')
+            expect(page).to have_content('Platform(s):')
+            expect(page).to have_content('Data Center(s):')
+            expect(page).to have_content('Instrument(s):')
+            expect(page).to have_content('Version:')
+          end
         end
       end
     end

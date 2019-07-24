@@ -67,6 +67,7 @@ class CollectionTemplatesController < CollectionDraftsController
     set_language_codes
     set_platform_short_names
     set_instrument_short_names
+    set_temporal_keywords
 
     @errors = validate_metadata
 
