@@ -1,4 +1,32 @@
 $(document).ready ->
+  extractType = (topMultiple) ->
+    type = $(topMultiple).attr('class').split(' ').pop().replace(/-/g, '_')
+    # if a UMM form, just use the last piece of type
+    type = type.split('/').pop() if $(this).parents('.umm-form').length > 0
+    return type
+
+  changeHeaderNumbers = (newDiv, targetIndex = null) ->
+    $.each $(newDiv).find('.eui-accordion__header .header-title'), (index, field) ->
+      headerHtml = $(field).html()
+      headerIndex = headerHtml.match(/\d+/)
+      targetIndex = if targetIndex then targetIndex else parseInt(headerIndex) + 1
+      if headerIndex != undefined
+        if index == 0
+          $(field).html headerHtml.replace(headerIndex, targetIndex)
+        else
+          $(field).html headerHtml.replace(headerIndex, 1)
+
+    # Increment index on toggle link in accordion header, set all others to 1
+    $.each $(newDiv).find('.eui-accordion__header .eui-accordion__icon span'), (index, field) ->
+      headerHtml = $(field).html()
+      headerIndex = headerHtml.match(/\d+/)
+      targetIndex = if targetIndex then targetIndex else parseInt(headerIndex) + 1
+      if headerIndex != undefined
+        if index == 0
+          $(field).html headerHtml.replace(headerIndex, targetIndex)
+        else
+          $(field).html headerHtml.replace(headerIndex, 1)
+
   $('.metadata-form .multiple, .umm-form .multiple').on 'click', '.add-new', (e) ->
 
     $('.select2-select').select2('destroy')
@@ -6,9 +34,7 @@ $(document).ready ->
     simple = $(this).hasClass('new-simple')
     topMultiple = $(this).closest('.multiple')
 
-    type = $(topMultiple).attr('class').split(' ').pop().replace(/-/g, '_')
-    # if a UMM form, just use the last piece of type
-    type = type.split('/').pop() if $(this).parents('.umm-form').length > 0
+    type = extractType(topMultiple)
 
     multipleItem = topMultiple.children('.multiple-item:last')
     newDiv = multipleItem.clone(true)
@@ -22,7 +48,7 @@ $(document).ready ->
       $.each $(newDiv).find('select, input, textarea'), (index, field) ->
         $(field).val ''
 
-      newDiv = incrementElementIndex(newDiv, multipleIndex, true, type)
+      newDiv = changeElementIndex(newDiv, multipleIndex, multipleIndex + 1, true, type)
       $(newDiv).appendTo topMultiple
     else
       # multiple-item is a collection of fields
@@ -33,32 +59,14 @@ $(document).ready ->
           if index2 > 0
             $(this).remove()
 
-      newDiv = incrementElementIndex(newDiv, multipleIndex, false, type)
+      newDiv = changeElementIndex(newDiv, multipleIndex, multipleIndex + 1, false, type)
       $(newDiv).insertAfter multipleItem
 
       # close last accordion and open all new accordions
       $(multipleItem).addClass 'is-closed'
       $(newDiv).find('.eui-accordion').removeClass 'is-closed'
 
-      # Increment index on first accordion header, set all others to 1
-      $.each $(newDiv).find('.eui-accordion__header .header-title'), (index, field) ->
-        headerHtml = $(field).html()
-        headerIndex = headerHtml.match(/\d+/)
-        if headerIndex != undefined
-          if index == 0
-            $(field).html headerHtml.replace(headerIndex, parseInt(headerIndex) + 1)
-          else
-            $(field).html headerHtml.replace(headerIndex, 1)
-
-      # Increment index on toggle link in accordion header, set all others to 1
-      $.each $(newDiv).find('.eui-accordion__header .eui-accordion__icon span'), (index, field) ->
-        headerHtml = $(field).html()
-        headerIndex = headerHtml.match(/\d+/)
-        if headerIndex != undefined
-          if index == 0
-            $(field).html headerHtml.replace(headerIndex, parseInt(headerIndex) + 1)
-          else
-            $(field).html headerHtml.replace(headerIndex, 1)
+      changeHeaderNumbers(newDiv)
 
       initializeTextcounter()
 
@@ -83,7 +91,7 @@ $(document).ready ->
 
     e.stopImmediatePropagation()
 
-  incrementElementIndex = (newDiv, multipleIndex, simple, type) ->
+  changeElementIndex = (newDiv, multipleIndex, targetIndex, simple, type) ->
     # 'type' is different with composed_of/instrument_children
     # than the rest of the forms. If we see instrument_children
     # here we really want to increment the composed_of index
@@ -115,7 +123,7 @@ $(document).ready ->
     # Update newDiv's id
     id = $(newDiv).attr('id')
     if id?
-      id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
+      id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, targetIndex)
       $(newDiv).attr 'id', id
 
     # Loop through newDiv and increment the correct index
@@ -126,16 +134,16 @@ $(document).ready ->
       if $(field).is('input, textarea, select')
         name = $(field).attr('name')
         if name != undefined
-          name = name.slice(0, nameIndex) + name.slice(nameIndex).replace(multipleIndex, multipleIndex + 1)
+          name = name.slice(0, nameIndex) + name.slice(nameIndex).replace(multipleIndex, targetIndex)
           $(field).attr 'name', name
 
         id = $(field).attr('id')
-        id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
+        id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, targetIndex)
         $(field).attr 'id', id
 
         if $('.metadata-form').length > 0
           dataLevel = $(field).attr('data-level')
-          dataLevel = dataLevel.slice(0, idIndex) + dataLevel.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
+          dataLevel = dataLevel.slice(0, idIndex) + dataLevel.slice(idIndex).replace(multipleIndex, targetIndex)
           # TODO for some reason, incrementing on the page does not happen without the .attr call,
           # but required fields does not work properly without the .data call
           $(field).data('level', dataLevel)
@@ -158,20 +166,51 @@ $(document).ready ->
         labelFor = $(field).attr('for')
 
         if labelFor != undefined
-          labelFor = labelFor.slice(0, idIndex) + labelFor.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
+          labelFor = labelFor.slice(0, idIndex) + labelFor.slice(idIndex).replace(multipleIndex, targetIndex)
           $(field).attr 'for', labelFor
 
       else if $(field).is('div')
         # also increment the id for data contacts divs
         id = $(field).attr('id')
-        id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, multipleIndex + 1)
+        id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, targetIndex)
         $(field).attr 'id', id
 
     newDiv
 
-  $('.metadata-form .multiple, .umm-form .multiple').on 'click', '.remove', ->
+  $('.metadata-form .multiple, .umm-form .multiple').on 'click', '.remove', (e) ->
     multipleItem = $(this).closest('.multiple-item')
-    $(multipleItem).remove()
+    if !multipleItem.siblings('.multiple-item').length
+      # Reset the form state to original page load.
+      # Adding another and deleting causes the formatting to break, so this is
+      # clearing out the existing fields instead.
+      # In order to return the document to the original state, the document needs
+      # to clear the Country/RelatedURLs before they would be cleared by changing
+      # the contact type, so go up the document in reverse
+      $(multipleItem.find('select:not([disabled="disabled"])').get().reverse()).each (index, element) ->
+        elem = $(element)
+        if elem.prop('selectedIndex')
+          elem.prop('selectedIndex', 0).change()
+      multipleItem.find('.eui-accordion__body').find('.multiple-item').each (index, element) ->
+        elem = $(element)
+        if elem.siblings('.multiple-item').length
+          # Programmatically clicking the remove rather than calling .remove()
+          # means the extra address lines do not need to be hard coded to be excluded.
+          elem.find('a.remove').click()
+        else
+          # If the index isn't zero, the headers and index numbers need to be adjusted
+          # in order to reset to fresh page load
+          multipleIndex = getIndex(elem)
+          if multipleIndex != 0
+            simple = $(elem).closest('.multiple').hasClass('simple-multiple')
+            type = extractType($(elem).parent())
+            $(elem).closest('.multiple-item').removeClass('multiple-item-' + multipleIndex).addClass 'multiple-item-0'
+            changeHeaderNumbers(elem, 1)
+            changeElementIndex(elem, multipleIndex, 0, simple, type)
+      multipleItem.find('input').val('')
+      # Prevent validation from displaying an error for a required field.
+      e.stopImmediatePropagation()
+    else
+      $(multipleItem).remove()
 
   getIndex = (multipleItem) ->
     classMatch = $(multipleItem).attr('class').match(/multiple-item-(\d+)/)

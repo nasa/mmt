@@ -89,6 +89,11 @@
   display: none;
 }
 
+// Specifically allows the last data contact in collections to be deleted.
+.data-contacts > .multiple-item:first-child:nth-last-child(2) > .eui-accordion__header > .actions > .remove {
+  display: inline-block;
+}
+
 .simple-multiple > .multiple-item:only-of-type > .remove {
   display: none;
 }

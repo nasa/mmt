@@ -19,6 +19,11 @@ class BaseDraftsController < DraftsController
     end
 
     add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
+
+    respond_to do |format|
+      format.html { return }
+      format.json { render json: JSON.pretty_generate(get_resource.draft) }
+    end
   end
 
   def new
