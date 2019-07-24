@@ -2,7 +2,7 @@ class CollectionsController < ManageCollectionsController
   include ManageMetadataHelper
 
   before_action :set_collection
-  before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy, :clone_template]
+  before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
   layout 'collection_preview', only: [:show]
 

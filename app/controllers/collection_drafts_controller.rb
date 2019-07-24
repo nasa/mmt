@@ -2,9 +2,8 @@
 class CollectionDraftsController < BaseDraftsController
   include DraftsHelper
   include ControlledKeywords
-  before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish, :create_template]
+  before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
   before_action :load_umm_schema, only: [:new, :edit, :show]
-  before_action :templates_enabled?, only: [:create_template]
 
   layout 'collection_preview', only: [:show]
 

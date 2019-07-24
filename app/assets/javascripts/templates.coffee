@@ -1,5 +1,5 @@
-# Hides or shows the template name select box on manage_collections page.
 $(document).ready ->
+  # Hides or shows the template name select box on manage_collections page.
   $('.draft-base-select').on 'click', (e) ->
     $(this).parents('.make-draft-radio').find('input').not("##{$(this).attr('id')}").prop 'checked', false
 

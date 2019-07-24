@@ -97,17 +97,4 @@ class CollectionTemplatesController < CollectionDraftsController
       nil
     end
   end
-
-  # Data-sack class so that collections respond to .draft, .errors, and .new_record?
-  class CollectionData
-    attr_reader :draft, :errors
-    def initialize(draft)
-      @draft = draft
-      @errors = []
-    end
-
-    def new_record?
-      true
-    end
-  end
 end
