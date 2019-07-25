@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe CollectionDraft do
   # display_entry_title method
   it '"display_entry_title" returns a drafts title if available' do

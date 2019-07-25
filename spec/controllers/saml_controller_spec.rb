@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe SamlController do
   describe 'GET #sso' do
     before do
