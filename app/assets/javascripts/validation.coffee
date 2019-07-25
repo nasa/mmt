@@ -509,11 +509,7 @@ $(document).ready ->
     validateParameterRanges(errors)
     errors = validatePicklistValues(errors)
 
-    errors_length = errors.length
-    invalid_template = false
-    errors = validateTemplateName(errors)
-    if !(errors_length == errors.length)
-      invalid_template = true
+    template_error = validateTemplateName(errors)
 
     inlineErrors = []
     summaryErrors = []
@@ -549,7 +545,7 @@ $(document).ready ->
 
     valid = summaryErrors.length == 0
 
-    if invalid_template and opts.showConfirm
+    if template_error and opts.showConfirm
       $('#display-invalid-template-modal').click()
       $('#invalid-draft-deny').hide()
       $('#invalid-draft-accept').hide()
@@ -572,8 +568,10 @@ $(document).ready ->
       else if globalTemplateNames.indexOf($('#draft_template_name').val()) isnt -1
         error = { "id": 'draft_template_name', "title": 'Draft Template Name', "params": {}, 'dataPath': '/TemplateName', 'keyword': 'not_unique'}
 
-      errors.push(error) if error
-    errors
+      if error
+        errors.push(error)
+        return true
+    false
 
   visitedFields = []
   visitField = (field_id) ->
