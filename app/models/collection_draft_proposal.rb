@@ -4,9 +4,9 @@ class CollectionDraftProposal < CollectionDraft
   # after_initialize :exception_unless_draft_only
   # after_find :exception_unless_draft_only
 
-  before_validation :in_draft_only_mode?
-  before_save :in_draft_only_mode?
+  # before_validation :in_draft_only_mode?
   before_create :in_draft_only_mode?
+  before_save :in_draft_only_mode?
   before_update :in_draft_only_mode?
   before_destroy :in_draft_only_mode?
 

@@ -27,7 +27,7 @@ class Draft < ActiveRecord::Base
 
   def set_user_and_provider(user)
     self.user = user
-    self.provider_id = user.provider_id
+    self.provider_id = user.provider_id if provider_required?
   end
 
   private
