@@ -18,6 +18,12 @@
 <%= form_tag(send("#{plural_resource_name}_path"), method: 'post', class: 'metadata-form', enforce_utf8: false) do %>
   <%= hidden_field_tag 'commit' %>
 
+  <% if Rails.configuration.templates_enabled %>
+    <%= hidden_field_tag 'collection_id', params[:collection_id] %>
+    <%= hidden_field_tag 'origin', params[:origin] %>
+    <%= hidden_field_tag 'revision_id', params[:revision_id] %>
+  <% end %>
+
   <div class="row row-content">
     <section>
 
@@ -73,7 +79,7 @@
         </p>
       </div>
 
-      <% if resource_name == 'collection_template' %>
+      <% if resource_name == 'collection_template' && Rails.configuration.templates_enabled %>
         <a href="#invalid-template-modal" id="display-invalid-template-modal" class="display-modal is-invisible">Invalid Template Modal</a>
         <div id="invalid-template-modal" class="eui-modal-content">
           <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>

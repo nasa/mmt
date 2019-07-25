@@ -177,13 +177,3 @@ describe 'When trying to save a template with a non-unique name', js: true do
     expect(page).to have_content('A template with that name already exists.')
   end
 end
-
-#describe 'Create new collection template from scratch', js: true do
-  #click ze button
-  #error validation
-  #invalid template modal
-  #go back and try to make another
-#end
-
-#collection_draft_edit does not have template name
-#collection_draft_edit does not lock a user from submitting for not having a template name

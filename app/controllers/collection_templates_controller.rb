@@ -25,6 +25,9 @@ class CollectionTemplatesController < CollectionDraftsController
       redirect_to manage_collections_path
       return
     end
+    # Need to fetch and merge the old data in because the params[:draft] only has the form.
+    old_draft = fetch_source_data
+    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: params[:draft].deep_merge(old_draft)))
 
     super
   end
@@ -34,23 +37,7 @@ class CollectionTemplatesController < CollectionDraftsController
   end
 
   def new_from_existing
-    if params[:origin] == 'CollectionDraft'
-      source_collection = CollectionDraft.where(id: params[:draft])[0].draft
-    elsif params[:origin] == 'Collection'
-      revision_id = if params[:revision_id] == ''
-                      nil
-                    else
-                      params[:revision_id]
-                    end
-      source_collection = request_collection_by_id(params[:collection_id], revision_id)
-    end
-
-    # If CMR did not find the collection, redirect to manage collections and flash an error.
-    # Also addresses a bad id being passed to CollectionDraft
-    if source_collection.nil?
-      flash[:error] = 'The requested collection could not be found at this time.'
-      redirect_to manage_collections_path
-    end
+    source_collection = fetch_source_data
 
     set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: source_collection))
     authorize get_resource
@@ -97,5 +84,28 @@ class CollectionTemplatesController < CollectionDraftsController
     else
       nil
     end
+  end
+
+  # Helper function to fetch the original data during new/create.
+  def fetch_source_data
+    if params[:origin] == 'CollectionDraft'
+      source_collection = CollectionDraft.where(id: params[:collection_id])[0].draft
+    elsif params[:origin] == 'Collection'
+      revision_id = if params[:revision_id] == ''
+                      nil
+                    else
+                      params[:revision_id]
+                    end
+      source_collection = request_collection_by_id(params[:collection_id], revision_id)
+    end
+
+    # If CMR did not find the collection, redirect to manage collections and flash an error.
+    # Also addresses a bad id being passed to CollectionDraft
+    if source_collection.nil?
+      flash[:error] = 'The requested collection could not be found at this time.'
+      redirect_to manage_collections_path
+    end
+
+    source_collection
   end
 end

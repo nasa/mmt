@@ -20,7 +20,6 @@
 
   <div class="row row-content">
     <section>
-
       <input type="hidden" name='new_form_name' id="new_form_name" />
 
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
@@ -28,6 +27,12 @@
           draft: get_resource,
           draft_form: @draft_form,
           draft_forms: @draft_forms } %>
+
+      <% if resource_name == "collection_template" %>
+        <div class="template-identifier">
+          <h1>Collection Template</h1>
+        </div>
+      <% end %>
 
       <div class="row">
         <div class="col-6">

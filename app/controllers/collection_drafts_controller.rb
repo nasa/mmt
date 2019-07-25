@@ -65,7 +65,7 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def create
-    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {})) unless resource_name == 'collection_template'
 
     authorize get_resource
 

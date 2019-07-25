@@ -78,7 +78,7 @@
 
             <% if Rails.configuration.templates_enabled %>
               <% if current_provider?(@provider_id) %>
-                <%= link_to 'Save as Template', '#dead-modal', id: 'save_as_template_link' %>
+                <%= link_to 'Save as Template', '#save-as-template-modal', id: 'save_as_template_link' %>
               <% elsif available_provider?(@provider_id) %>
                 <%= link_to 'Save as Template', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link', data: { provider: @provider_id, record_action: 'create-template-collection' } %>
               <% end %>
