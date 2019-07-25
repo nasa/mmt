@@ -1,15 +1,9 @@
-class CollectionTemplate < Template
-  include CollectionDraftsHelper
+class CollectionTemplate < CollectionDraft
+  self.table_name = 'templates'
+  # Unsure if this is still needed.  It's inherited from James.
+  self.inheritance_column = :draft_type
 
-  class << self
-    def forms
-      CollectionDraftsHelper::DRAFT_FORMS
-    end
-
-    def get_next_form(name, direction)
-      delta = direction == 'Next' ? 1 : -1
-      index = CollectionDraftsHelper::DRAFT_FORMS.index(name)
-      CollectionDraftsHelper::DRAFT_FORMS[index + delta] || CollectionDraftsHelper::DRAFT_FORMS.first
-    end
+  def display_entry_title
+    template_name || '<Untitled Template>'
   end
 end

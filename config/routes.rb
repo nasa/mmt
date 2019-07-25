@@ -119,7 +119,7 @@ Rails.application.routes.draw do
   end
   get 'subregion_options' => 'collection_drafts#subregion_options'
 
-  resources :collection_templates, controller: 'collection_templates', template_type: 'CollectionTemplate', as: 'collection_templates' do
+  resources :collection_templates, controller: 'collection_templates', draft_type: 'CollectionTemplate', as: 'collection_templates' do
     member do
       get 'create_draft'
       get 'edit', path: 'edit(/:form)'

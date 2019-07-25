@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190708114927) do
+ActiveRecord::Schema.define(version: 20190725165636) do
 
   create_table "drafts", force: :cascade do |t|
     t.integer  "user_id"
@@ -40,11 +40,12 @@ ActiveRecord::Schema.define(version: 20190708114927) do
     t.text     "draft"
     t.string   "entry_title"
     t.string   "provider_id"
-    t.string   "template_type"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "draft_type"
     t.string   "template_name"
     t.string   "short_name"
+    t.string   "native_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "user_invites", force: :cascade do |t|
