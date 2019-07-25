@@ -5,7 +5,7 @@ describe CollectionDraftProposal do
     end
 
     # display_entry_title method
-    it '"display_entry_title" returns a drafts title if available' do
+    it '"display_entry_title" returns a draft proposal\'s title if available' do
       collection_draft_proposal = build(:empty_collection_draft_proposal, entry_title: 'Title Example')
       expect(collection_draft_proposal.display_entry_title).to eq('Title Example')
     end
@@ -15,7 +15,7 @@ describe CollectionDraftProposal do
     end
 
     # display_short_name method
-    it '"display_short_name" returns a drafts short_name if available' do
+    it '"display_short_name" returns a draft proposal\'s short_name if available' do
       collection_draft_proposal = build(:empty_collection_draft_proposal, short_name: 'ID Example')
       expect(collection_draft_proposal.display_short_name).to eq('ID Example')
     end
@@ -123,7 +123,7 @@ describe CollectionDraftProposal do
 
       expect(collection_draft_proposal.user).to eq(user)
     end
-    it '"create_from_collection" saves the draft' do
+    it '"create_from_collection" saves the draft proposal' do
       collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
       user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
       native_id = 'test_id'
@@ -205,19 +205,31 @@ describe CollectionDraftProposal do
     before do
       set_as_mmt_proper
     end
+    # we are not testing that update or destroy should fail because that would
+    # require first creating draft proposals to do those actions, which should
+    # not be possible if the other actions are successfully blocked
 
-    it 'creating a draft returns false' # do
-    #   expect(create(:empty_collection_draft_proposal)).to eq false
-    #   # failing because getting ActiveRecord::RecordInvalid: Validation failed:
-    #   # how to test for this?
-    # end
+    it 'creating a draft proposal should fail to save' do
+      collection_draft_proposal = CollectionDraftProposal.create
+      expect(collection_draft_proposal.id).to be(nil)
 
-    it '"update_draft" returns false'
+      expect { CollectionDraftProposal.create! }.to raise_error(ActiveRecord::RecordNotSaved)
+    end
 
-    it '"create_from_collection" returns false'
+    it 'saving a draft proposal should fail' do
+      collection_draft_proposal = build(:empty_collection_draft_proposal)
+      expect(collection_draft_proposal.save).to eq(false)
 
-    # does this need to be tested? ostensibly if these other tests work, drafts can't be created so we shouldn't need to verify that deleting fails
-    # do we want to block deleting? (in case something accidentally gets in)
-    # it 'deleting a draft returns false'
+      expect { collection_draft_proposal.save! }.to raise_error(ActiveRecord::RecordNotSaved)
+    end
+
+    it '"create_from_collection" should fail to save' do
+      collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
+      user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
+      native_id = 'test_id'
+      collection_draft_proposal = CollectionDraftProposal.create_from_collection(collection, user, native_id)
+
+      expect(collection_draft_proposal.id).to be(nil)
+    end
   end
 end
