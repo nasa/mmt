@@ -44,7 +44,7 @@ describe 'Create new collection template from cloning a collection with a differ
       before do
         ingest_response, _concept_response = publish_collection_draft(revision_count: 2)
 
-        login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
+        login(provider: 'MMT_1', providers: %w[MMT_1 MMT_2])
 
         visit collection_path(ingest_response['concept-id'])
       end
@@ -94,9 +94,89 @@ describe 'Create new collection template from cloning a collection with a differ
   end
 end
 
-#describe 'Create new collection template from cloning a draft', js: true do
-  #click ze button
-#end
+describe 'Create new collection template from cloning a draft', js: true do
+  before do
+    login
+    visit manage_collections_path
+    click_on 'Create New Record'
+
+    fill_in 'Short Name', with: 'Inigo Montoya'
+    within '.nav-top' do
+      click_on 'Done'
+    end
+
+    click_on 'Yes'
+    page.save_screenshot('post_before.png')
+
+    click_on 'Save as Template'
+  end
+
+  context 'when it has navigated to the new page' do
+    it 'navigates to the "new" page' do
+      expect(page).to have_content('Template Name')
+    end
+
+    it 'can be saved with a unique name' do
+      fill_in 'Template Name', with: 'Unique Name'
+      within '.nav-top' do
+        click_on 'Done'
+      end
+
+      click_on 'Yes'
+
+      expect(page).to have_content('Unique Name')
+    end
+  end
+end
+
+describe 'When trying to save a template with a non-unique name', js: true do
+  before do
+    login
+    visit collection_templates_path
+    click_on 'Create a Collection Template'
+    fill_in 'Template Name', with: 'Unique Name'
+    within '.nav-top' do
+      click_on 'Done'
+    end
+    click_on 'Yes'
+
+    visit collection_templates_path
+    click_on 'Create a Collection Template'
+  end
+
+  it 'validates locally' do
+    fill_in 'Template Name', with: 'Unique Name'
+
+    within '.nav-top' do
+      click_on 'Done'
+    end
+
+    expect(page).to have_content('A template needs a unique name to be saved.')
+    expect(page).to have_content('Template Name must be unique within a provider context')
+  end
+
+  it 'validates on the server' do
+    fill_in 'Template Name', with: 'Unique Name2'
+
+    within '.nav-top' do
+      click_on 'Done'
+    end
+
+    click_on 'Yes'
+
+    expect(page).to have_content('Collection Template Created Successfully')
+
+    page.go_back
+
+    within '.nav-top' do
+      click_on 'Done'
+    end
+
+    click_on 'Yes'
+
+    expect(page).to have_content('A template with that name already exists.')
+  end
+end
 
 #describe 'Create new collection template from scratch', js: true do
   #click ze button
