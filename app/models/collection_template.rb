@@ -1,6 +1,6 @@
 class CollectionTemplate < CollectionDraft
   self.table_name = 'templates'
-  # Unsure if this is still needed.  It's inherited from James.
+  # This is not currently needed, but may be if templates are added for services/variables
   self.inheritance_column = :draft_type
 
   def display_entry_title
