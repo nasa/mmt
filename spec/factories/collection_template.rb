@@ -10,7 +10,7 @@ FactoryGirl.define do
     end
 
     provider_id 'MMT_2'
-    template_type 'CollectionTemplate'
+    draft_type 'CollectionTemplate'
 
     trait :with_valid_dates do
       draft {{
