@@ -15,7 +15,7 @@ class CollectionDraftsController < BaseDraftsController
     @draft_forms = CollectionDraft.forms
     @draft_form = params[:form] || @draft_forms.first
 
-    add_breadcrumb 'New', new_collection_draft_path
+    add_breadcrumb 'New', send("new_#{resource_name}_path")
 
     set_science_keywords
     set_location_keywords

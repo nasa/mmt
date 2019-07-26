@@ -26,26 +26,26 @@ class CollectionTemplatesController < CollectionDraftsController
       return
     end
     # Need to fetch and merge the old data in because the params[:draft] only has the form.
-    old_draft = fetch_source_data
-    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: params[:draft].deep_merge(old_draft)))
+    # If new submitted no origin, then it's a fresh draft, and the provided draft can be
+    # used.  Otherwise, the data provided by the user needs to be merged with the source data.
+    new_draft = if params[:origin] == ''
+                  params[:draft]
+                else
+                  fetch_source_data.deep_merge(params[:draft])
+                end
+    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: new_draft))
 
     super
   end
 
-  def names_list(id = nil)
-    policy_scope(resource_class).map { |template| template['template_name'] unless template.id == id }
-  end
-
   def new_from_existing
-    source_collection = fetch_source_data
-
-    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: source_collection))
+    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: fetch_source_data))
     authorize get_resource
 
     @draft_forms = CollectionDraft.forms
     @draft_form = params[:form] || @draft_forms.first
 
-    add_breadcrumb 'New', new_collection_draft_path
+    add_breadcrumb 'New', new_collection_template_path
 
     set_science_keywords
     set_location_keywords
@@ -63,7 +63,10 @@ class CollectionTemplatesController < CollectionDraftsController
     render :new
   end
 
-  # define create and edit such that they cannot overwrite with non-unique names in situations like using back.
+  def publish
+    flash[:error] = 'Templates cannot be published.'
+    redirect_to manage_collections_path
+  end
 
   # This is largely duplicate from collections_controller, but templates don't need
   # all of the things that collections do.  Unsure if an alternate implementation is
@@ -84,6 +87,11 @@ class CollectionTemplatesController < CollectionDraftsController
     else
       nil
     end
+  end
+
+  # Provide a list of names currently in the database for validation.
+  def names_list(id = nil)
+    policy_scope(resource_class).map { |template| template['template_name'] unless template.id == id }
   end
 
   # Helper function to fetch the original data during new/create.

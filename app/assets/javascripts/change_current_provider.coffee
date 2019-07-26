@@ -94,7 +94,6 @@ $(document).ready ->
         # Click the link that the user needs
         $(link)[0].click()
 
-
   # Change current provider
   $('#change-current-provider-banner-link').on 'click', (element) ->
     provider = $(element.target).data('provider')
