@@ -1,6 +1,6 @@
 describe 'Create new collection template from cloning a collection', js: true do
   before :all do
-    @ingest_response, @concept_response = publish_collection_draft(short_name: 'Example1')
+    @ingest_response, @concept_response = publish_collection_draft
   end
 
   context 'when cloning a CMR collection as a template' do
@@ -12,13 +12,12 @@ describe 'Create new collection template from cloning a collection', js: true do
       click_on 'Save as Template'
     end
 
-    it 'displays the new template page with data' do
+    it 'displays the new template page' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Collection Templates')
       end
 
       expect(page).to have_field('draft_template_name')
-      expect(page).to have_field('draft_short_name', with: 'Example1')
     end
 
     it 'cannot be saved without adding a name' do
@@ -28,6 +27,17 @@ describe 'Create new collection template from cloning a collection', js: true do
 
       expect(page).to have_content('A template needs a unique name to be saved.')
       expect(page).to have_content('Template Name is required')
+    end
+
+    it 'can be saved with a unique name and retains information' do
+      fill_in 'Template Name', with: 'Unique Name'
+      within '.nav-top' do
+        click_on 'Done'
+      end
+
+      find('.tab-label', text: 'Download Data').click
+
+      expect(page).to have_content('Earthdata Search')
     end
   end
 end
@@ -106,7 +116,6 @@ describe 'Create new collection template from cloning a draft', js: true do
     end
 
     click_on 'Yes'
-    page.save_screenshot('post_before.png')
 
     click_on 'Save as Template'
   end
