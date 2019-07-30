@@ -33,7 +33,7 @@ class CollectionTemplatesController < CollectionDraftsController
                 else
                   fetch_source_data.deep_merge(params[:draft])
                 end
-    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: new_draft))
+    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: new_draft.to_camel_keys))
 
     super
   end
@@ -91,7 +91,9 @@ class CollectionTemplatesController < CollectionDraftsController
 
   # Provide a list of names currently in the database for validation.
   def names_list(id = nil)
-    policy_scope(resource_class).map { |template| template['template_name'] unless template.id == id }
+    policy_scope(resource_class).each_with_object([]) do |template, memo|
+      memo << template['template_name'] unless template.id == id.to_i
+    end
   end
 
   # Helper function to fetch the original data during new/create.
