@@ -2,6 +2,7 @@
 
 class CollectionTemplatesController < CollectionDraftsController
   include CMRCollectionsHelper
+  before_action :load_umm_schema, only: %i[new edit show new_from_existing]
   before_action :templates_enabled?
 
   def create_draft
