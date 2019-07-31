@@ -12,7 +12,7 @@
       <thead>
         <tr>
           <th>Title</th>
-          <th>Actions</th>
+          <th colspan="2">Actions</th>
           <th>Last Modified</th>
         </tr>
       </thead>
@@ -28,10 +28,13 @@
         <% get_resources.each_with_index do |template, index| %>
           <tr class='<%= cycle("alt", "") %>'>
             <td>
-              <%= link_to template.display_entry_title, send("create_draft_#{resource_name}_path", template) %>
+              <%= link_to template.display_entry_title, send("#{resource_name}_path", template) %>
             </td>
             <td>
-              <%= link_to 'Delete Collection Template', "#delete-template-modal-#{index}", class: 'display-modal' %>
+              <%= link_to 'Edit', send("edit_#{resource_name}_path", template) %>
+            </td>
+            <td>
+              <%= link_to 'Delete', "#delete-template-modal-#{index}", class: 'display-modal' %>
               <div id='delete-template-modal-<%= index %>' class="eui-modal-content">
                 <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
                 <p>Are you sure you want to delete this template?</p>
