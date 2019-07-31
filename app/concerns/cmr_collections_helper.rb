@@ -1,4 +1,6 @@
-module CollectionsCmrHelper
+module CMRCollectionsHelper
+  extend ActiveSupport::Concern
+
   def get_revisions(concept_id, revision_id)
     # this process was suggested/requested by the CMR team: if the revision is not found,
     # try again because CMR might be a little slow to index if it is a newly published revision

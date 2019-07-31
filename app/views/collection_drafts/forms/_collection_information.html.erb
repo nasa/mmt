@@ -4,7 +4,7 @@
   </div>
   <div class="eui-accordion__body">
     <div class="row">
-      <% if resource_name == "collection_template" %>
+      <% if Rails.configuration.templates_enabled && resource_name == "collection_template" %>
         <div class="row">
           <div class="col-12">
             <%= mmt_text_field(

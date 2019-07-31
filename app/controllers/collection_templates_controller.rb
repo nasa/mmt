@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CollectionTemplatesController < CollectionDraftsController
-  include CollectionsCmrHelper
+  include CMRCollectionsHelper
   before_action :templates_enabled?
   before_action :set_resource, only: %i[create_draft destroy edit update show]
   before_action :load_umm_schema, only: %i[new edit show new_from_existing]
@@ -42,8 +42,8 @@ class CollectionTemplatesController < CollectionDraftsController
     set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: fetch_source_data))
     authorize get_resource
 
-    @draft_forms = CollectionDraft.forms
-    @draft_form = params[:form] || @draft_forms.first
+    @forms = CollectionDraft.forms
+    @form = params[:form] || @forms.first
 
     add_breadcrumb 'New', new_collection_template_path
 

@@ -12,8 +12,8 @@ class CollectionDraftsController < BaseDraftsController
 
     authorize get_resource
 
-    @draft_forms = CollectionDraft.forms
-    @draft_form = params[:form] || @draft_forms.first
+    @forms = CollectionDraft.forms
+    @form = params[:form] || @forms.first
 
     add_breadcrumb 'New', send("new_#{resource_name}_path")
 
@@ -44,24 +44,24 @@ class CollectionDraftsController < BaseDraftsController
 
     Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
 
-    @draft_forms = CollectionDraft.forms
+    @forms = CollectionDraft.forms
 
     # `form` is optional so if its not provided just use the first form
-    @draft_form = params[:form] || @draft_forms.first
+    @form = params[:form] || @forms.first
 
-    add_breadcrumb titleize_form_name(@draft_form), send("edit_#{resource_name}_path", get_resource)
+    add_breadcrumb titleize_form_name(@form), send("edit_#{resource_name}_path", get_resource)
 
     # Set instance variables depending on the form requested
     set_country_codes
-    set_language_codes        if @draft_form == 'collection_information' || @draft_form == 'metadata_information'
-    set_science_keywords      if @draft_form == 'descriptive_keywords'
-    set_platform_types        if @draft_form == 'acquisition_information'
-    set_instruments           if @draft_form == 'acquisition_information'
-    set_projects              if @draft_form == 'acquisition_information'
-    set_temporal_keywords     if @draft_form == 'temporal_information'
-    set_location_keywords     if @draft_form == 'spatial_information'
-    set_data_centers          if @draft_form == 'data_centers' || @draft_form == 'data_contacts'
-    load_data_contacts_schema if @draft_form == 'data_contacts'
+    set_language_codes        if @form == 'collection_information' || @form == 'metadata_information'
+    set_science_keywords      if @form == 'descriptive_keywords'
+    set_platform_types        if @form == 'acquisition_information'
+    set_instruments           if @form == 'acquisition_information'
+    set_projects              if @form == 'acquisition_information'
+    set_temporal_keywords     if @form == 'temporal_information'
+    set_location_keywords     if @form == 'spatial_information'
+    set_data_centers          if @form == 'data_centers' || @form == 'data_contacts'
+    load_data_contacts_schema if @form == 'data_contacts'
   end
 
   def create
