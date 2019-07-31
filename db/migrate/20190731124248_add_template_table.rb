@@ -11,5 +11,7 @@ class AddTemplateTable < ActiveRecord::Migration
       t.string :native_id
       t.timestamps null: false
     end
+
+    add_index :templates, [:provider_id, :template_name], unique: true
   end
 end
