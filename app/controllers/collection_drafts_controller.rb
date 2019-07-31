@@ -12,7 +12,7 @@ class CollectionDraftsController < BaseDraftsController
 
     authorize get_resource
 
-    @forms = CollectionDraft.forms
+    @forms = resource_class.forms
     @form = params[:form] || @forms.first
 
     add_breadcrumb 'New', send("new_#{resource_name}_path")
@@ -44,7 +44,7 @@ class CollectionDraftsController < BaseDraftsController
 
     Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
 
-    @forms = CollectionDraft.forms
+    @forms = resource_class.forms
 
     # `form` is optional so if its not provided just use the first form
     @form = params[:form] || @forms.first

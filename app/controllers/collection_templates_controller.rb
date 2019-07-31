@@ -3,8 +3,6 @@
 class CollectionTemplatesController < CollectionDraftsController
   include CMRCollectionsHelper
   before_action :templates_enabled?
-  before_action :set_resource, only: %i[create_draft destroy edit update show]
-  before_action :load_umm_schema, only: %i[new edit show new_from_existing]
 
   def create_draft
     authorize get_resource
@@ -42,7 +40,7 @@ class CollectionTemplatesController < CollectionDraftsController
     set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: fetch_source_data))
     authorize get_resource
 
-    @forms = CollectionDraft.forms
+    @forms = resource_class.forms
     @form = params[:form] || @forms.first
 
     add_breadcrumb 'New', new_collection_template_path
