@@ -298,6 +298,7 @@ FactoryGirl.define do
       'EntryTitle'   => draft_entry_title || "#{Faker::Number.number(6)}_#{Faker::Name.title}",
       'Purpose'      => 'This is the purpose field',
       'DataLanguage' => 'eng',
+      'TemplateName' => template_name,
       'DataDates' => [{
         'Type' => 'CREATE',
         'Date' => '2015-07-01T00:00:00Z'
