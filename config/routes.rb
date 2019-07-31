@@ -119,6 +119,14 @@ Rails.application.routes.draw do
   end
   get 'subregion_options' => 'collection_drafts#subregion_options'
 
+  resources :collection_templates, controller: 'collection_templates', draft_type: 'CollectionTemplate', as: 'collection_templates' do
+    member do
+      get 'create_draft'
+      get 'edit', path: 'edit(/:form)'
+    end
+  end
+  post '/collection_templates/new_from_existing' => 'collection_templates#new_from_existing', as: 'new_from_existing_collection_template'
+
   get 'welcome/index'
   # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's
   # causing issues with load times but before we can solve that we need to discuss the implemntation
@@ -128,6 +136,7 @@ Rails.application.routes.draw do
   get 'search' => 'search#index', as: 'search'
 
   resource :manage_collections, only: :show
+  post 'manage_collections/make_new_draft' => 'manage_collections#make_new_draft', as: 'make_new_draft_manage_collections'
   resource :manage_variables, only: :show
   resource :manage_services, only: :show, controller: 'manage_services'
   resource :manage_cmr, only: :show, controller: 'manage_cmr'

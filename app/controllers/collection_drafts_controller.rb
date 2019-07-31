@@ -8,14 +8,14 @@ class CollectionDraftsController < BaseDraftsController
   layout 'collection_preview', only: [:show]
 
   def new
-    set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
 
     authorize get_resource
 
-    @draft_forms = CollectionDraft.forms
-    @draft_form = params[:form] || @draft_forms.first
+    @forms = resource_class.forms
+    @form = params[:form] || @forms.first
 
-    add_breadcrumb 'New', new_collection_draft_path
+    add_breadcrumb 'New', send("new_#{resource_name}_path")
 
     set_science_keywords
     set_location_keywords
@@ -40,32 +40,32 @@ class CollectionDraftsController < BaseDraftsController
   def edit
     authorize get_resource
 
-    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), collection_draft_path(get_resource)
+    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
     Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
 
-    @draft_forms = CollectionDraft.forms
+    @forms = resource_class.forms
 
     # `form` is optional so if its not provided just use the first form
-    @draft_form = params[:form] || @draft_forms.first
+    @form = params[:form] || @forms.first
 
-    add_breadcrumb titleize_form_name(@draft_form), edit_collection_draft_path(get_resource)
+    add_breadcrumb titleize_form_name(@form), send("edit_#{resource_name}_path", get_resource)
 
     # Set instance variables depending on the form requested
     set_country_codes
-    set_language_codes        if @draft_form == 'collection_information' || @draft_form == 'metadata_information'
-    set_science_keywords      if @draft_form == 'descriptive_keywords'
-    set_platform_types        if @draft_form == 'acquisition_information'
-    set_instruments           if @draft_form == 'acquisition_information'
-    set_projects              if @draft_form == 'acquisition_information'
-    set_temporal_keywords     if @draft_form == 'temporal_information'
-    set_location_keywords     if @draft_form == 'spatial_information'
-    set_data_centers          if @draft_form == 'data_centers' || @draft_form == 'data_contacts'
-    load_data_contacts_schema if @draft_form == 'data_contacts'
+    set_language_codes        if @form == 'collection_information' || @form == 'metadata_information'
+    set_science_keywords      if @form == 'descriptive_keywords'
+    set_platform_types        if @form == 'acquisition_information'
+    set_instruments           if @form == 'acquisition_information'
+    set_projects              if @form == 'acquisition_information'
+    set_temporal_keywords     if @form == 'temporal_information'
+    set_location_keywords     if @form == 'spatial_information'
+    set_data_centers          if @form == 'data_centers' || @form == 'data_contacts'
+    load_data_contacts_schema if @form == 'data_contacts'
   end
 
   def create
-    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {})) unless resource_name == 'collection_template'
 
     authorize get_resource
 
@@ -78,14 +78,14 @@ class CollectionDraftsController < BaseDraftsController
       when 'Next', 'Previous'
         # Determine next form to go to
         next_form_name = CollectionDraft.get_next_form(params['next_section'], params[:commit])
-        redirect_to edit_collection_draft_path(get_resource, next_form_name)
+        redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       when 'Save'
         # tried to use render to avoid another request, but could not get form name in url even with passing in location
         get_resource_form = params['next_section']
-        redirect_to edit_collection_draft_path(get_resource, get_resource_form)
+        redirect_to send("edit_#{resource_name}_path", get_resource, get_resource_form)
       else # Jump directly to a form
         next_form_name = params['new_form_name']
-        redirect_to edit_collection_draft_path(get_resource, next_form_name)
+        redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else # record update failed
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error")
@@ -105,14 +105,14 @@ class CollectionDraftsController < BaseDraftsController
       when 'Next', 'Previous'
         # Determine next form to go to
         next_form_name = CollectionDraft.get_next_form(params['next_section'], params[:commit])
-        redirect_to edit_collection_draft_path(get_resource, next_form_name)
+        redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       when 'Save'
         # tried to use render to avoid another request, but could not get form name in url even with passing in location
         get_resource_form = params['next_section']
-        redirect_to edit_collection_draft_path(get_resource, get_resource_form)
+        redirect_to send("edit_#{resource_name}_path", get_resource, get_resource_form)
       else # Jump directly to a form
         next_form_name = params['new_form_name']
-        redirect_to edit_collection_draft_path(get_resource, next_form_name)
+        redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else # record update failed
       # render 'edit' # this should get get_resource_form

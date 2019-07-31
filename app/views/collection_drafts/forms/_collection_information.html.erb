@@ -4,6 +4,23 @@
   </div>
   <div class="eui-accordion__body">
     <div class="row">
+      <% if Rails.configuration.templates_enabled && resource_name == "collection_template" %>
+        <div class="row">
+          <div class="col-12">
+            <%= mmt_text_field(
+              name: 'template_name',
+              title: 'Template Name',
+              prefix: 'draft_',
+              value: draft.draft['TemplateName'],
+              help: 'properties/TemplateName',
+              validate: true,
+              always_required: true,
+              help_url: 'Template Name'
+             ) %>
+          </div>
+        </div>
+      <% end %>
+
       <!-- Short Name [r] -->
       <div class="col-6">
         <%= mmt_text_field(

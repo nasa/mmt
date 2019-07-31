@@ -29,6 +29,19 @@ class CollectionDraft < Draft
       DRAFT_FORMS[index + delta] || DRAFT_FORMS.first
     end
 
+    def create_from_template(template, user)
+      template['draft'].delete('TemplateName')
+      draft = CollectionDraft.new do |d|
+        d.draft = template.draft
+        d.entry_title = template.entry_title
+        d.user = user
+        d.provider_id = template.provider_id
+        d.short_name = template.short_name
+      end
+      draft.save
+      draft
+    end
+
     def create_from_collection(collection, user, native_id)
       new_entry_title = (collection['EntryTitle'].blank?) ? nil : collection['EntryTitle']
 
@@ -60,6 +73,10 @@ class CollectionDraft < Draft
       if params['short_name']
         self.entry_title = params['entry_title'].empty? ? nil : params['entry_title']
         self.short_name = params['short_name'].empty? ? nil : params['short_name']
+      end
+
+      if params['template_name']
+        self.template_name = params['template_name'].empty? ? nil : params['template_name']
       end
 
       # Convert {'0' => {'id' => '123'}} to [{'id' => '123'}]
@@ -382,4 +399,5 @@ class CollectionDraft < Draft
 
     json_params
   end
+
 end

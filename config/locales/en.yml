@@ -65,6 +65,15 @@ en:
           flash:
             success: 'Collection Draft Published Successfully!'
             error: 'Collection Draft was not published successfully'
+      collection_templates:
+        create:
+          flash:
+            success: 'Collection Template Created Successfully'
+            error: 'Collection Template was not created successfully'
+        destroy:
+          flash:
+            success: 'Collection Template Deleted Successfully!'
+            error: 'Collection Template was not deleted successfully'
     collections:
       destroy:
         flash:

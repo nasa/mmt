@@ -99,6 +99,9 @@ Rails.application.configure do
   # Feature Toggle for UMM-Var Generation
   config.uvg_enabled = false
 
+  # Feature Toggle for templates
+  config.templates_enabled = false
+
   config.cmr_env = 'ops'
   config.echo_env = 'ops'
   config.analytics_id = 'UA-62340125-5'
