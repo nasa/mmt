@@ -17,9 +17,9 @@
     <%= submit_tag 'Save', class: 'eui-btn save-form' %>
     <%= submit_tag 'Done', class: 'eui-btn--blue save-form' %>
     <% if draft.new_record? %>
-      <%= link_to 'Cancel', new_collection_draft_path, class: 'cancel' %>
+      <%= link_to 'Cancel', send("new_#{resource_name}_path"), class: 'cancel' %>
     <% else %>
-      <%= link_to 'Cancel', collection_draft_path(draft), class: 'cancel' %>
+      <%= link_to 'Cancel', send("#{resource_name}_path", get_resource), class: 'cancel' %>
     <% end %>
     <p class="update-timestamp">
       <% unless draft.new_record? %>

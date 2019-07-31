@@ -20,6 +20,8 @@ $(document).ready ->
         'Editing this collection'
       when 'clone-collection'
         'Cloning this collection'
+      when 'create-template-collection'
+        'Creating a template from this collection'
       when 'delete-collection'
         'Deleting this collection'
       when 'reinstate-collection'

@@ -32,6 +32,10 @@ describe 'Collection Information form', js: true do
       end
     end
 
+    it 'does not have a template name field' do
+      expect(page).to have_no_field('Template Name')
+    end
+
     it 'displays a confirmation message' do
       expect(page).to have_content('Collection Draft Updated Successfully!')
     end

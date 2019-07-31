@@ -1,7 +1,7 @@
-<input type='hidden' id='mmt-form-name' value='<%= @draft_form %>'>
+<input type='hidden' id='mmt-form-name' value='<%= @form %>'>
 
 <% content_for :header_title do %>
-  <h2><%= @draft_form.titleize %></h2>
+  <h2><%= @form.titleize %></h2>
 <% end %>
 
 <% if get_resource.errors.any? %>
@@ -15,8 +15,14 @@
   </div>
 <% end %>
 
-<%= form_tag(collection_drafts_path, method: 'post', class: 'metadata-form', enforce_utf8: false) do %>
+<%= form_tag(send("#{plural_resource_name}_path"), method: 'post', class: 'metadata-form', enforce_utf8: false) do %>
   <%= hidden_field_tag 'commit' %>
+
+  <% if Rails.configuration.templates_enabled && resource_name == 'collection_template' %>
+    <%= hidden_field_tag 'collection_id', params[:collection_id] %>
+    <%= hidden_field_tag 'origin', params[:origin] %>
+    <%= hidden_field_tag 'revision_id', params[:revision_id] %>
+  <% end %>
 
   <div class="row row-content">
     <section>
@@ -26,15 +32,15 @@
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'top',
           draft: get_resource,
-          draft_form: @draft_form,
-          draft_forms: @draft_forms } %>
+          draft_form: @form,
+          draft_forms: @forms } %>
 
       <div class="row">
         <div class="col-6">
           <p class="eui-required-o">Indicates required field</p>
         </div>
         <!-- Expand All link -->
-        <% unless DraftsHelper::SINGLE_FIELDSET_FORMS.include? @draft_form  %>
+        <% unless DraftsHelper::SINGLE_FIELDSET_FORMS.include? @form  %>
           <div class="col-6">
             <p class="align-r">
               <a href="#" class="expand-accordions">Expand All</a>
@@ -44,13 +50,14 @@
         <% end %>
       </div>
 
-      <%= render partial: "collection_drafts/forms/#{@draft_form}", locals: { draft: get_resource } %>
+      <%= render partial: "collection_drafts/forms/#{@form}", locals: { draft: get_resource } %>
 
       <script>
         // Load json-schema for field validation
         var globalJsonSchema = <%= raw @json_schema.to_json %>;
 
         var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
+        var globalTemplateNames = <%= raw @template_names.to_json %>;
       </script>
 
       </br>
@@ -58,11 +65,11 @@
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'bottom',
           draft: get_resource,
-          draft_form: @draft_form,
-          draft_forms: @draft_forms } %>
+          draft_form: @form,
+          draft_forms: @forms } %>
 
       <!-- Hidden link to allow modal to be shown -->
-      <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Model</a>
+      <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Modal</a>
       <div id="invalid-draft-modal" class="eui-modal-content">
         <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
         <p>This page has invalid data. Are you sure you want to save it and proceed?</p>
@@ -71,6 +78,14 @@
           <a href="javascript:void(0)" id="invalid-draft-accept" class="eui-btn--blue">Yes</a>
         </p>
       </div>
+
+      <% if Rails.configuration.templates_enabled && resource_name == 'collection_template' %>
+        <a href="#invalid-template-modal" id="display-invalid-template-modal" class="display-modal is-invisible">Invalid Template Modal</a>
+        <div id="invalid-template-modal" class="eui-modal-content">
+          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+          <p>A template needs a unique name to be saved.</p>
+        </div>
+      <% end %>
 
     </section>
   </div>
