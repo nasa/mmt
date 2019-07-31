@@ -23,6 +23,7 @@ class CollectionTemplatesController < CollectionDraftsController
       redirect_to manage_collections_path
       return
     end
+
     # Need to fetch and merge the old data in because the params[:draft] only has the form.
     # If new submitted no origin, then it's a fresh draft, and the provided draft can be
     # used.  Otherwise, the data provided by the user needs to be merged with the source data.
@@ -33,7 +34,15 @@ class CollectionTemplatesController < CollectionDraftsController
                 end
     set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: new_draft.to_camel_keys))
 
-    super
+    # Adding a uniqueness constraint to the DB will cause it to throw an exception
+    # during race conditions that the current validation can't catch.  This should
+    # provide the user a smoother experience in this rare event.
+    begin
+      super
+    rescue ActiveRecord::RecordNotUnique
+      flash[:error] = 'A template with that name already exists.'
+      redirect_to manage_collections_path
+    end
   end
 
   def new_from_existing
