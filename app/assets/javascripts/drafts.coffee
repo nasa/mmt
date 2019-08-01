@@ -191,21 +191,8 @@ $(document).ready ->
         if elem.prop('selectedIndex')
           elem.prop('selectedIndex', 0).change()
       multipleItem.find('.eui-accordion__body').find('.multiple-item').each (index, element) ->
-        elem = $(element)
-        if elem.siblings('.multiple-item').length
-          # Programmatically clicking the remove rather than calling .remove()
-          # means the extra address lines do not need to be hard coded to be excluded.
-          elem.find('a.remove').click()
-        else
-          # If the index isn't zero, the headers and index numbers need to be adjusted
-          # in order to reset to fresh page load
-          multipleIndex = getIndex(elem)
-          if multipleIndex != 0
-            simple = $(elem).closest('.multiple').hasClass('simple-multiple')
-            type = extractType($(elem).parent())
-            $(elem).closest('.multiple-item').removeClass('multiple-item-' + multipleIndex).addClass 'multiple-item-0'
-            changeHeaderNumbers(elem, 1)
-            changeElementIndex(elem, multipleIndex, 0, simple, type)
+        scrubElements(element)
+      scrubElements(multipleItem)
       multipleItem.find('input').val('')
       # Prevent validation from displaying an error for a required field.
       e.stopImmediatePropagation()
@@ -218,6 +205,23 @@ $(document).ready ->
       false
     else
       parseInt classMatch[1]
+
+  scrubElements = (element) ->
+    elem = $(element)
+    if elem.siblings('.multiple-item').length
+      # Programmatically clicking the remove rather than calling .remove()
+      # means the extra address lines do not need to be hard coded to be excluded.
+      elem.find('a.remove').click()
+    else
+      # If the index isn't zero, the headers and index numbers need to be adjusted
+      # in order to reset to fresh page load
+      multipleIndex = getIndex(elem)
+      if multipleIndex != 0
+        simple = $(elem).closest('.multiple').hasClass('simple-multiple')
+        type = extractType($(elem).parent())
+        $(elem).closest('.multiple-item').removeClass('multiple-item-' + multipleIndex).addClass 'multiple-item-0'
+        changeHeaderNumbers(elem, 1)
+        changeElementIndex(elem, multipleIndex, 0, simple, type)
 
   # Shape file uploads
   csrf = undefined

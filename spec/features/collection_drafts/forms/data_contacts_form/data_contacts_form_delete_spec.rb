@@ -100,6 +100,24 @@ describe 'Collection Draft editing', js: true do
           expect(page).to have_no_content('This draft has the following errors')
         end
       end
+
+      context 'when deleting the last contact that is not contact 1' do
+        before do
+          click_on 'Add another Data Contact'
+
+          within '.data-contacts > .multiple-item-0 > .eui-accordion__header > .actions' do
+            find('a.remove', match: :first).click()
+          end
+
+          within '.data-contacts > .multiple-item-1 > .eui-accordion__header > .actions' do
+            find('a.remove', match: :first).click()
+          end
+        end
+
+        it 'has the right number' do
+          expect(page).to have_content('Data Contact 1')
+        end
+      end
     end
   end
 end
