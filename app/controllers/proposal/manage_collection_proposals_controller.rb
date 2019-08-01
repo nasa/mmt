@@ -1,6 +1,6 @@
 module Proposal
   class ManageCollectionProposalsController < ManageMetadataController
-    #before_action :collection_draft_proposal_enabled?
+    before_action :collection_draft_proposal_enabled?
 
     def show
       # TODO: change the directory name for the tests

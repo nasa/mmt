@@ -9,15 +9,12 @@ class CollectionDraftsController < BaseDraftsController
 
   def new
     set_new_resource
-    #set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
 
     authorize get_resource
 
     @forms = resource_class.forms
     @form = params[:form] || @forms.first
 
-    # add_breadcrumb 'New', new_collection_draft_path
-    # add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
     add_breadcrumb 'New', send("new_#{resource_name}_path")
 
     set_science_keywords
@@ -43,7 +40,6 @@ class CollectionDraftsController < BaseDraftsController
   def edit
     authorize get_resource
 
-    #add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), collection_draft_path(get_resource)
     add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
     Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
@@ -53,7 +49,6 @@ class CollectionDraftsController < BaseDraftsController
     # `form` is optional so if its not provided just use the first form
     @form = params[:form] || @forms.first
 
-    #add_breadcrumb titleize_form_name(@form), edit_collection_draft_path(get_resource)
     add_breadcrumb titleize_form_name(@form), send("edit_#{resource_name}_path", get_resource)
 
     # Set instance variables depending on the form requested
@@ -71,7 +66,6 @@ class CollectionDraftsController < BaseDraftsController
 
   def create
     set_new_resource
-    #set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
 
     authorize get_resource
 
@@ -83,17 +77,14 @@ class CollectionDraftsController < BaseDraftsController
       when 'Next', 'Previous'
         # Determine next form to go to
         next_form_name = resource_class.get_next_form(params['next_section'], params[:commit])
-        #redirect_to edit_collection_draft_path(get_resource, next_form_name)
         redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       when 'Save'
         # tried to use render to avoid another request, but could not get form name in url even with passing in location
         get_resource_form = params['next_section']
         redirect_to send("edit_#{resource_name}_path", get_resource, get_resource_form)
-        #redirect_to edit_collection_draft_path(get_resource, get_resource_form)
       else # Jump directly to a form
         next_form_name = params['new_form_name']
         redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
-        #redirect_to edit_collection_draft_path(get_resource, next_form_name)
       end
     else # record update failed
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error")
