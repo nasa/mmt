@@ -33,6 +33,8 @@ module ManageMetadataHelper
       'manage_variables'
     elsif is_services_controller?
       'manage_services'
+    elsif controller.lookup_context.prefixes.include?('proposal/manage_collection_proposals')
+      'manage_collection_proposals'
     else
       # default, including collection drafts and everything under manage collections
       'manage_collections'

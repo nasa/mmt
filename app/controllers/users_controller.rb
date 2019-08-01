@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   skip_before_action :ensure_user_is_logged_in, except: [:set_provider, :refresh_providers]
   skip_before_action :setup_query
   skip_before_action :provider_set?
+  skip_before_action :collection_draft_proposal_enabled?
 
   def login
     session[:last_point] = request.referrer

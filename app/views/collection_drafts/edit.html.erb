@@ -1,7 +1,7 @@
-<input type='hidden' id='mmt-form-name' value='<%= @draft_form %>'>
+<input type='hidden' id='mmt-form-name' value='<%= @form %>'>
 
 <% content_for :header_title do %>
-  <h2><%= titleize_form_name(@draft_form) %></h2>
+  <h2><%= titleize_form_name(@form) %></h2>
 <% end %>
 
 <% if get_resource.errors.any? %>
@@ -26,15 +26,15 @@
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'top',
           draft: get_resource,
-          draft_form: @draft_form,
-          draft_forms: @draft_forms } %>
+          draft_form: @form,
+          draft_forms: @forms } %>
 
       <div class="row">
         <div class="col-6">
           <p class="eui-required-o">Indicates required field</p>
         </div>
         <!-- Expand All link -->
-        <% unless DraftsHelper::SINGLE_FIELDSET_FORMS.include? @draft_form  %>
+        <% unless DraftsHelper::SINGLE_FIELDSET_FORMS.include? @form  %>
           <div class="col-6">
             <p class="align-r">
               <a href="#" class="expand-accordions">Expand All</a>
@@ -44,7 +44,7 @@
         <% end %>
       </div>
 
-      <%= render partial: "collection_drafts/forms/#{@draft_form}", locals: { draft: get_resource } %>
+      <%= render partial: "collection_drafts/forms/#{@form}", locals: { draft: get_resource } %>
 
       <script>
         // Load json-schema for field validation
@@ -58,8 +58,8 @@
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'bottom',
           draft: get_resource,
-          draft_form: @draft_form,
-          draft_forms: @draft_forms } %>
+          draft_form: @form,
+          draft_forms: @forms } %>
 
       <!-- Hidden link to allow modal to be shown -->
       <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Model</a>

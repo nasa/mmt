@@ -28,11 +28,15 @@ module Helpers
 
     def set_as_mmt_proper
       allow_any_instance_of(CollectionDraftProposal).to receive(:in_draft_only_mode?).and_return(false)
+      allow_any_instance_of(Proposal::ManageCollectionProposalsController).to receive(:collection_draft_proposal_enabled?).and_return(false)
+      allow_any_instance_of(Proposal::CollectionDraftProposalsController).to receive(:collection_draft_proposal_enabled?).and_return(false)
       # allow_any_instance_of(CollectionDraftProposal).to receive(:exception_unless_draft_only?).and_return(nil)
     end
 
     def set_as_draft_only_mmt
       allow_any_instance_of(CollectionDraftProposal).to receive(:in_draft_only_mode?).and_return(true)
+      allow_any_instance_of(Proposal::ManageCollectionProposalsController).to receive(:collection_draft_proposal_enabled?).and_return(true)
+      allow_any_instance_of(Proposal::CollectionDraftProposalsController).to receive(:collection_draft_proposal_enabled?).and_return(true)
       # allow_any_instance_of(CollectionDraftProposal).to receive(:exception_unless_draft_only?).and_return(raise ActiveRecord::Rollback) # can this raise an exception?
     end
   end

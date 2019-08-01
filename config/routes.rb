@@ -119,6 +119,11 @@ Rails.application.routes.draw do
   end
   get 'subregion_options' => 'collection_drafts#subregion_options'
 
+  scope module: :proposal do
+    resource :manage_collection_proposals, only: :show
+    resources :collection_draft_proposals, only: [:new, :create, :edit, :show]
+  end
+
   get 'welcome/index'
   # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's
   # causing issues with load times but before we can solve that we need to discuss the implemntation
