@@ -8,7 +8,7 @@ class CollectionDraftsController < BaseDraftsController
   layout 'collection_preview', only: [:show]
 
   def new
-    set_new_resource
+    set_resource_by_model
 
     authorize get_resource
 
@@ -65,7 +65,7 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def create
-    set_new_resource
+    set_resource_by_model
 
     authorize get_resource
 
@@ -169,7 +169,7 @@ class CollectionDraftsController < BaseDraftsController
 
   private
 
-  def set_new_resource
+  def set_resource_by_model
     set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
   end
 
