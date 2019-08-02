@@ -6,7 +6,7 @@ module Proposal
 
     private
 
-    def set_new_resource
+    def set_resource_by_model
       set_resource(CollectionDraftProposal.new(user: current_user, draft: {}))
     end
 
