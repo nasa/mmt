@@ -1,0 +1,30 @@
+<div class="row align-c metadata-cta nav-<%= location %>">
+  <div class="col-2">
+    <%= submit_tag 'Previous', class: 'eui-btn save-form' %>
+  </div>
+
+  <div class="col-5 form-nav">
+    <label for="next-section-<%= location %>">Save &amp; Jump To: </label>
+
+    <%= select_tag 'next_section', options_for_select(draft_forms.map{|form| [titleize_form_name(form), form]}, draft_form), class: 'next-section', id: "next-section-#{location}" %>
+  </div>
+
+  <div class="col-2">
+    <%= submit_tag 'Next', class: 'eui-btn save-form' %>
+  </div>
+
+  <div class="col-3">
+    <%= submit_tag 'Save', class: 'eui-btn save-form' %>
+    <%= submit_tag 'Done', class: 'eui-btn--blue save-form' %>
+    <% if draft.new_record? %>
+      <%= link_to 'Cancel', new_collection_draft_proposal_path, class: 'cancel' %>
+    <% else %>
+      <%= link_to 'Cancel', collection_draft_proposal_path(draft), class: 'cancel' %>
+    <% end %>
+    <p class="update-timestamp">
+      <% unless draft.new_record? %>
+        Last saved <%= draft.updated_at.in_time_zone('Eastern Time (US & Canada)').to_s(:default_with_time_zone) %>
+      <% end %>
+    </p>
+  </div>
+</div>
