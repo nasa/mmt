@@ -104,14 +104,17 @@ class CollectionDraftsController < BaseDraftsController
       when 'Next', 'Previous'
         # Determine next form to go to
         next_form_name = resource_class.get_next_form(params['next_section'], params[:commit])
-        redirect_to edit_collection_draft_path(get_resource, next_form_name)
+        #redirect_to edit_collection_draft_path(get_resource, next_form_name)
+        redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       when 'Save'
         # tried to use render to avoid another request, but could not get form name in url even with passing in location
         get_resource_form = params['next_section']
-        redirect_to edit_collection_draft_path(get_resource, get_resource_form)
+        #redirect_to edit_collection_draft_path(get_resource, get_resource_form)
+        redirect_to send("edit_#{resource_name}_path", get_resource, get_resource_form)
       else # Jump directly to a form
         next_form_name = params['new_form_name']
-        redirect_to edit_collection_draft_path(get_resource, next_form_name)
+        #redirect_to edit_collection_draft_path(get_resource, next_form_name)
+        redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else # record update failed
       # render 'edit' # this should get get_resource_form
