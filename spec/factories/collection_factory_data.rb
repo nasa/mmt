@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This function returns the a hash that does not include: ShortName, Version, EntryTitle,
+# This function returns a hash that does not include: ShortName, Version, EntryTitle,
 # CollectionDataType, or any field which may be specific to a derivative draft style
 # (e.g. TemplateName).
 
