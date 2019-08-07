@@ -1,29 +1,40 @@
-class CollectionDraftProposalPolicy < DraftPolicy
+class CollectionDraftProposalPolicy < ApplicationPolicy
+
+  attr_reader :user_context
+
+  def initialize(user_context, object)
+    @user_context = user_context
+  end
+
   def publish?
     false
   end
 
   def show?
-    true
+    check?
   end
 
   def new?
-    true
+    check?
   end
 
   def edit?
-    true
+    check?
   end
 
   def create?
-    true
+    check?
   end
 
   def update?
-    true
+    check?
   end
 
   def destroy?
-    true
+    check?
+  end
+
+  def check?
+    Rails.configuration.is_draft_only && !@user_context.user['urs_uid'].blank?
   end
 end
