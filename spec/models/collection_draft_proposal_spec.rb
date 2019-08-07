@@ -1,7 +1,7 @@
 describe CollectionDraftProposal do
   context 'when MMT is in draft only mode' do
     before do
-      set_as_draft_only_mmt
+      set_as_proposal_mode_mmt
     end
 
     # display_entry_title method
