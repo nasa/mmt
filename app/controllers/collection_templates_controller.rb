@@ -19,18 +19,12 @@ class CollectionTemplatesController < CollectionDraftsController
   end
 
   def edit
-     super
+    super
 
-     @template_names = names_list(params[:id])
+    @template_names = names_list(params[:id])
   end
 
   def create
-    if names_list.include?(params[:draft][:template_name])
-      flash[:error] = 'A template with that name already exists.'
-      redirect_to manage_collections_path
-      return
-    end
-
     # Need to fetch and merge the old data in because the params[:draft] only has the form.
     # If new submitted no origin, then it's a fresh draft, and the provided draft can be
     # used.  Otherwise, the data provided by the user needs to be merged with the source data.
@@ -53,12 +47,6 @@ class CollectionTemplatesController < CollectionDraftsController
   end
 
   def update
-    if names_list(params[:id]).include?(params[:draft][:template_name])
-      flash[:error] = 'A template with that name already exists.'
-      redirect_to manage_collections_path
-      return
-    end
-
     begin
       super
     rescue ActiveRecord::RecordNotUnique
