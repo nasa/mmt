@@ -63,7 +63,6 @@ describe 'Searching Orders' do
           end
         end
       end
-      #page.save_and_load_screenshot
       it 'displays the matching order' do
         within '.orders-table tbody' do
           expect(page).to have_selector('tr', count: 1)
