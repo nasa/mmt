@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :refresh_urs_if_needed, except: [:login, :logout, :refresh_token] # URS login
   before_action :refresh_launchpad_if_needed, except: [:login, :logout] # Launchpad login
   before_action :provider_set?
-  before_action :collection_draft_proposal_enabled?
+  before_action :proposal_mode?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -307,9 +307,9 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def collection_draft_proposal_enabled?
+  def proposal_mode?
     # If draft only then all regular mmt actions should be blocked
-    redirect_to manage_collection_proposals_path if Rails.configuration.is_draft_only
+    redirect_to manage_collection_proposals_path if Rails.configuration.proposal_mode
   end
 
   def groups_enabled?
