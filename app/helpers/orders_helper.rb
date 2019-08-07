@@ -26,4 +26,12 @@ module OrdersHelper
   def state_is_terminal(order_state)
     OrdersHelper::TERMINAL_ORDER_STATES.include?(order_state)
   end
+
+  def safe_date_output(date_text, default_message)
+    if date_text.nil? or date_text.empty?
+      default_message
+    else
+      DateTime.parse(date_text).to_s
+    end
+  end
 end
