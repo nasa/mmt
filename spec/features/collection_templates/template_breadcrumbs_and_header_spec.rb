@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Collection Template headers and breadcrumbs' do
   before do
     login
