@@ -18,6 +18,12 @@ class CollectionTemplatesController < CollectionDraftsController
     @template_names = names_list
   end
 
+  def edit
+     super
+
+     @template_names = names_list(params[:id])
+  end
+
   def create
     if names_list.include?(params[:draft][:template_name])
       flash[:error] = 'A template with that name already exists.'
@@ -38,6 +44,21 @@ class CollectionTemplatesController < CollectionDraftsController
     # Adding a uniqueness constraint to the DB will cause it to throw an exception
     # during race conditions that the current validation can't catch.  This should
     # provide the user a smoother experience in this rare event.
+    begin
+      super
+    rescue ActiveRecord::RecordNotUnique
+      flash[:error] = 'A template with that name already exists.'
+      redirect_to manage_collections_path
+    end
+  end
+
+  def update
+    if names_list(params[:id]).include?(params[:draft][:template_name])
+      flash[:error] = 'A template with that name already exists.'
+      redirect_to manage_collections_path
+      return
+    end
+
     begin
       super
     rescue ActiveRecord::RecordNotUnique
