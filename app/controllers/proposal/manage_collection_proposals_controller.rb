@@ -9,8 +9,6 @@ module Proposal
 
       @collection_draft_proposals = CollectionDraftProposal.order('updated_at DESC')
                    .limit(@draft_proposal_display_max_count + 1)
-      # @drafts = policy_scope(CollectionDraft).order('updated_at DESC')
-      #             .limit(@draft_display_max_count + 1)
     end
 
     private
