@@ -1,6 +1,6 @@
 <nav>
   <div class="content">
-    <% if !Rails.configuration.is_draft_only %>
+    <% if !Rails.configuration.proposal_mode %>
       <h2 class="<%= 'current' if current_manage_title == 'manage_collections' %>">
         <%= link_to 'Manage Collections', manage_collections_path %>
         <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_c_version)}" %></span>

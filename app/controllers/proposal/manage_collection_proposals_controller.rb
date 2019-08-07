@@ -1,6 +1,6 @@
 module Proposal
   class ManageCollectionProposalsController < ManageMetadataController
-    before_action :collection_draft_proposal_enabled?
+    before_action :proposal_mode?
 
     def show
       # TODO: change the directory name for the tests
@@ -13,9 +13,9 @@ module Proposal
 
     private
 
-    def collection_draft_proposal_enabled?
+    def proposal_mode?
       # in regular mmt all proposal actions should be blocked
-      redirect_to manage_collections_path unless Rails.configuration.is_draft_only
+      redirect_to manage_collections_path unless Rails.configuration.proposal_mode
     end
   end
 end

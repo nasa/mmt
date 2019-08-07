@@ -47,8 +47,8 @@ module Mmt
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.2'
 
     # Is this a Draft Only version of MMT?
-    config.is_draft_only = false
-    config.is_draft_only = true if ENV['is_draft_only'] == 'true'
+    config.proposal_mode = false
+    config.proposal_mode = true if ENV['proposal_mode'] == 'true'
 
     config.middleware.insert_after "Rails::Rack::Logger", "MiddlewareHealthcheck"
 

@@ -35,6 +35,6 @@ class CollectionDraftProposalPolicy < ApplicationPolicy
   end
 
   def check?
-    Rails.configuration.is_draft_only && !@user_context.user['urs_uid'].blank?
+    Rails.configuration.proposal_mode && !@user_context.user['urs_uid'].blank?
   end
 end
