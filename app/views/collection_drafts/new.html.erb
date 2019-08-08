@@ -9,12 +9,12 @@
     <div class="eui-banner--danger">
       <div class="eui-banner__message">
         <div id="error_explanation">
-          <h4><i class="fa fa-exclamation-triangle"></i> <%= pluralize(get_resource.errors.count, 'error') %> prohibit this draft from being saved:</h4>
-          <ul>
+          <h4><i class="fa fa-exclamation-triangle"></i> This <%= "#{resource_name}".titleize.downcase %> cannot be saved because of the following errors:</h4>
+          <div id="model_error_explanation">
             <% get_resource.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
+              <u><%= msg %></u>
             <% end %>
-          </ul>
+          </div>
         </div>
       </div>
     </div>
