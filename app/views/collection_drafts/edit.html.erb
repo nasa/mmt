@@ -9,10 +9,12 @@
     <div class="eui-banner--danger">
       <div class="eui-banner__message">
         <div id="error_explanation">
-          <h4><i class="fa fa-exclamation-triangle"></i> This <%="#{resource_name}"%> cannot be saved because of the following error(s):</h4>
-          <% get_resource.errors.full_messages.each do |msg| %>
-            <%= msg %>
-          <% end %>
+          <h4><i class="fa fa-exclamation-triangle"></i> This <%="#{resource_name}".titleize.downcase %> cannot be saved because of the following errors:</h4>
+          <div id="model_error_explanation">
+            <% get_resource.errors.full_messages.each do |msg| %>
+              <u><%= msg %></u>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
