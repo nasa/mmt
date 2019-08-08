@@ -63,7 +63,6 @@ class CollectionDraftsController < BaseDraftsController
       new_view_setup
       @template_names = names_list if resource_name == 'collection_template'
       render :new
-      false
     end
   end
 
@@ -95,7 +94,6 @@ class CollectionDraftsController < BaseDraftsController
       edit_view_setup
       @template_names = names_list(params[:id]) if resource_name == 'collection_template'
       render :edit
-      false
     end
   end
 
