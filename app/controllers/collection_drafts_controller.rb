@@ -12,16 +12,7 @@ class CollectionDraftsController < BaseDraftsController
 
     authorize get_resource
 
-    @forms = resource_class.forms
-    @form = params[:form] || @forms.first
-
-    add_breadcrumb 'New', send("new_#{resource_name}_path")
-
-    set_science_keywords
-    set_location_keywords
-    set_projects
-    set_country_codes
-    set_language_codes
+    new_view_setup
 
     @errors = validate_metadata
   end
@@ -40,28 +31,7 @@ class CollectionDraftsController < BaseDraftsController
   def edit
     authorize get_resource
 
-    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
-
-    Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
-
-    @forms = resource_class.forms
-
-    # `form` is optional so if its not provided just use the first form
-    @form = params[:form] || @forms.first
-
-    add_breadcrumb titleize_form_name(@form), send("edit_#{resource_name}_path", get_resource)
-
-    # Set instance variables depending on the form requested
-    set_country_codes
-    set_language_codes        if @form == 'collection_information' || @form == 'metadata_information'
-    set_science_keywords      if @form == 'descriptive_keywords'
-    set_platform_types        if @form == 'acquisition_information'
-    set_instruments           if @form == 'acquisition_information'
-    set_projects              if @form == 'acquisition_information'
-    set_temporal_keywords     if @form == 'temporal_information'
-    set_location_keywords     if @form == 'spatial_information'
-    set_data_centers          if @form == 'data_centers' || @form == 'data_contacts'
-    load_data_contacts_schema if @form == 'data_contacts'
+    edit_view_setup
   end
 
   def create
@@ -89,7 +59,11 @@ class CollectionDraftsController < BaseDraftsController
       end
     else # record update failed
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error")
+      load_umm_schema
+      new_view_setup
+      @template_names = names_list if resource_name == 'collection_template'
       render :new
+      false
     end
   end
 
@@ -116,9 +90,12 @@ class CollectionDraftsController < BaseDraftsController
       end
     else # record update failed
       # render 'edit' # this should get get_resource_form
-      # Remove
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error")
+      load_umm_schema
+      edit_view_setup
+      @template_names = names_list(params[:id]) if resource_name == 'collection_template'
       render :edit
+      false
     end
   end
 
@@ -402,5 +379,43 @@ class CollectionDraftsController < BaseDraftsController
 
   def set_language_codes
     @language_codes = cmr_client.get_language_codes.to_a
+  end
+
+  def new_view_setup
+    @forms = resource_class.forms
+    @form = params[:form] || @forms.first
+
+    add_breadcrumb 'New', send("new_#{resource_name}_path")
+
+    set_science_keywords
+    set_location_keywords
+    set_projects
+    set_country_codes
+    set_language_codes
+  end
+
+  def edit_view_setup
+    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
+
+    Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
+
+    @forms = resource_class.forms
+
+    # `form` is optional so if its not provided just use the first form
+    @form = params[:form] || @forms.first
+
+    add_breadcrumb titleize_form_name(@form), send("edit_#{resource_name}_path", get_resource)
+
+    # Set instance variables depending on the form requested
+    set_country_codes
+    set_language_codes        if @form == 'collection_information' || @form == 'metadata_information'
+    set_science_keywords      if @form == 'descriptive_keywords'
+    set_platform_types        if @form == 'acquisition_information'
+    set_instruments           if @form == 'acquisition_information'
+    set_projects              if @form == 'acquisition_information'
+    set_temporal_keywords     if @form == 'temporal_information'
+    set_location_keywords     if @form == 'spatial_information'
+    set_data_centers          if @form == 'data_centers' || @form == 'data_contacts'
+    load_data_contacts_schema if @form == 'data_contacts'
   end
 end

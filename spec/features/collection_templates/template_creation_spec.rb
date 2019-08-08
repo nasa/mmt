@@ -164,25 +164,44 @@ describe 'When trying to save a template with a non-unique name', js: true do
     expect(page).to have_content('Template Name must be unique within a provider context')
   end
 
-  it 'validates on the server' do
-    fill_in 'Template Name', with: 'Unique Name2'
+  context 'when the model generates an error' do
+    before do
+      fill_in 'Template Name', with: 'Unique Name2'
 
-    within '.nav-top' do
-      click_on 'Done'
+      within '.nav-top' do
+        click_on 'Done'
+      end
+
+      click_on 'Yes'
+
+      page.go_back # Use browser to go back, to avoid triggering the local validation
+
+      fill_in 'Short Name', with: 'Kept on failure'
+
+      within '.nav-top' do
+        click_on 'Done'
+      end
+
+      click_on 'Yes'
     end
 
-    click_on 'Yes'
-
-    expect(page).to have_content('Collection Template Created Successfully')
-
-    page.go_back
-
-    within '.nav-top' do
-      click_on 'Done'
+    it 'has the correct model error text' do
+      expect(page).to have_content('Template name has already been taken') # Verify model error
     end
 
-    click_on 'Yes'
+    it 'has retained the user\'s changes' do
+      expect(page).to have_field('Short Name', with: 'Kept on failure')
+    end
 
-    expect(page).to have_content('A template with that name already exists.')
+    it 'has the correct new local validation' do
+      fill_in 'Template Name', with: 'Unique Name2'
+
+      expect(page).to have_content('Template Name must be unique within a provider context') # Verify that name list is updating on failure
+
+      fill_in 'Template Name', with: 'Unique Name3'
+      fill_in 'Short Name', with: 'Different text'
+
+      expect(page).to have_no_content('Template Name must be unique within a provider context')
+    end
   end
 end
