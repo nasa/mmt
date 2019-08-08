@@ -1,6 +1,6 @@
 module Proposal
   class ManageCollectionProposalsController < ManageMetadataController
-    before_action :proposal_mode?
+    skip_before_action :provider_set?
 
     def show
       # TODO: change the directory name for the tests
