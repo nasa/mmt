@@ -5,14 +5,20 @@
 <% end %>
 
 <% if get_resource.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(get_resource.errors.count, 'error') %>) prohibit this draft from being saved:</h2>
-    <ul>
-      <% get_resource.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
+  <section class="errors">
+    <div class="eui-banner--danger">
+      <div class="eui-banner__message">
+        <div id="error_explanation">
+          <h4><i class="fa fa-exclamation-triangle"></i> <%= pluralize(get_resource.errors.count, 'error') %> prohibit this draft from being saved:</h4>
+          <ul>
+            <% get_resource.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 <% end %>
 
 <%= form_tag(send("#{resource_name}_path", get_resource), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
@@ -51,7 +57,7 @@
 
         var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
 
-        var globalTemplateNames = <%= raw @template_names.to_json %>;
+        var globalTemplateNames = <%= sanitize @template_names.to_json %>;
       </script>
 
       <br>
