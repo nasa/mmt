@@ -23,11 +23,11 @@
 
       <input type="hidden" name='new_form_name' id="new_form_name" />
 
-      <%= render partial: 'proposal/collection_draft_proposals/forms/form_navigation', locals: {
+      <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'top',
-          draft: get_resource,
-          draft_form: @form,
-          draft_forms: @forms } %>
+          unpublished_record: get_resource,
+          unpublished_record_form: @form,
+          unpublished_record_forms: @forms } %>
 
       <div class="row">
         <div class="col-6">
@@ -55,11 +55,11 @@
 
       </br>
 
-      <%= render partial: 'proposal/collection_draft_proposals/forms/form_navigation', locals: {
+      <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'bottom',
-          draft: get_resource,
-          draft_form: @form,
-          draft_forms: @forms } %>
+          unpublished_record: get_resource,
+          unpublished_record_form: @form,
+          unpublished_record_forms: @forms } %>
 
       <!-- Hidden link to allow modal to be shown -->
       <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Model</a>
