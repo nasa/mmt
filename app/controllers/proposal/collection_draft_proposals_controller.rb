@@ -1,9 +1,12 @@
 module Proposal
   class CollectionDraftProposalsController < CollectionDraftsController
+    skip_before_action :provider_set?
 
     def publish
+      authorize get_resource
+
       flash[:error] = 'Collection Draft Proposal cannot be published.'
-      redirect_to manage_collections_path
+      redirect_to manage_collection_proposals_path
     end
 
     private

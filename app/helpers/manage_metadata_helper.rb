@@ -26,11 +26,9 @@ module ManageMetadataHelper
 
   def is_collection_draft_proposal_controller?
     controller.lookup_context.prefixes.each do |item|
-      if item.start_with?('proposal')
-        return true
-      end
-      return false
+      return true if item.start_with?('proposal')
     end
+    false
   end
 
   def current_manage_title

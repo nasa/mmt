@@ -11,30 +11,30 @@ class CollectionDraftProposalPolicy < ApplicationPolicy
   end
 
   def show?
-    check?
+    verify_mode_and_logged_in?
   end
 
   def new?
-    check?
+    create?
   end
 
   def edit?
-    check?
+    update?
   end
 
   def create?
-    check?
+    verify_mode_and_logged_in?
   end
 
   def update?
-    check?
+    verify_mode_and_logged_in?
   end
 
   def destroy?
-    check?
+    verify_mode_and_logged_in?
   end
 
-  def check?
+  def verify_mode_and_logged_in?
     proposal_mode? && !@user_context.user['urs_uid'].blank?
   end
 
