@@ -33,26 +33,12 @@ class CollectionTemplatesController < CollectionDraftsController
                 else
                   fetch_source_data.deep_merge(params[:draft])
                 end
-    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: new_draft.to_camel_keys))
+    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: new_draft.to_camel_keys, template_name: new_draft['template_name']))
 
     # Adding a uniqueness constraint to the DB will cause it to throw an exception
     # during race conditions that the current validation can't catch.  This should
     # provide the user a smoother experience in this rare event.
-    begin
-      super
-    rescue ActiveRecord::RecordNotUnique
-      flash[:error] = 'A template with that name already exists.'
-      redirect_to manage_collections_path
-    end
-  end
-
-  def update
-    begin
-      super
-    rescue ActiveRecord::RecordNotUnique
-      flash[:error] = 'A template with that name already exists.'
-      redirect_to manage_collections_path
-    end
+    super
   end
 
   def new_from_existing

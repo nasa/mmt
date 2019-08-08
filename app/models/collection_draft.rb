@@ -97,11 +97,11 @@ class CollectionDraft < Draft
 
       if new_draft
         self.draft = new_draft
-        save
+        return save
       elsif self.draft != {}
         # draft had content, but now new_draft is nil/empty so any data has been deleted and saved in the forms
         self.draft = {}
-        save
+        return save
       end
     end
     # This keeps an empty form from sending the user back to draft_path when clicking on Next
