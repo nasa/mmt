@@ -11,15 +11,17 @@ describe 'Collection Draft Proposal Update', js: true do
 
     context 'when updating data' do
       before do
-        fill_in 'Short Name', with: '123'
+        fill_in 'Short Name', with: 'A Special Short Name'
         fill_in 'Abstract', with: 'collection abstract'
         within '.nav-top' do
-          click_on 'Save'
+          click_on 'Done'
         end
       end
 
       it 'displays a confirmation message' do
         expect(page).to have_content('Collection Draft Proposal Updated Successfully!')
+        expect(page).to have_content('A Special Short Name')
+        expect(page).to have_content('collection abstract')
       end
     end
   end
