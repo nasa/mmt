@@ -61,7 +61,6 @@ class CollectionDraftsController < BaseDraftsController
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error")
       load_umm_schema
       new_view_setup
-      @template_names = names_list if resource_name == 'collection_template'
       render :new
     end
   end
@@ -92,7 +91,6 @@ class CollectionDraftsController < BaseDraftsController
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error")
       load_umm_schema
       edit_view_setup
-      @template_names = names_list(params[:id]) if resource_name == 'collection_template'
       render :edit
     end
   end
