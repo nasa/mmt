@@ -16,14 +16,14 @@
   <div class="col-3">
     <%= submit_tag 'Save', class: 'eui-btn save-form' %>
     <%= submit_tag 'Done', class: 'eui-btn--blue save-form' %>
-    <% if unpublished_record.new_record? %>
+    <% if unpublished_resource.new_record? %>
       <%= link_to 'Cancel', send("new_#{resource_name}_path"), class: 'cancel' %>
     <% else %>
-      <%= link_to 'Cancel', send("#{resource_name}_path", unpublished_record), class: 'cancel' %>
+      <%= link_to 'Cancel', send("#{resource_name}_path", unpublished_resource), class: 'cancel' %>
     <% end %>
     <p class="update-timestamp">
-      <% unless unpublished_record.new_record? %>
-        Last saved <%= unpublished_record.updated_at.in_time_zone('Eastern Time (US & Canada)').to_s(:default_with_time_zone) %>
+      <% unless unpublished_resource.new_record? %>
+        Last saved <%= unpublished_resource.updated_at.in_time_zone('Eastern Time (US & Canada)').to_s(:default_with_time_zone) %>
       <% end %>
     </p>
   </div>

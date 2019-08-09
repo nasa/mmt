@@ -19,7 +19,6 @@ describe 'Collection Draft Proposal Update', js: true do
       end
 
       it 'displays a confirmation message' do
-        save_screenshot '/tmp/s.png'
         expect(page).to have_content('Collection Draft Proposal Updated Successfully!')
       end
     end

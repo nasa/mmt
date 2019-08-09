@@ -25,9 +25,9 @@
 
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'top',
-          unpublished_record: get_resource,
-          unpublished_record_form: @form,
-          unpublished_record_forms: @forms } %>
+          unpublished_resource: get_resource,
+          unpublished_resource_form: @form,
+          unpublished_resource_forms: @forms } %>
 
       <div class="row">
         <div class="col-6">
@@ -57,9 +57,9 @@
 
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'bottom',
-          unpublished_record: get_resource,
-          unpublished_record_form: @form,
-          unpublished_record_forms: @forms } %>
+          unpublished_resource: get_resource,
+          unpublished_resource_form: @form,
+          unpublished_resource_forms: @forms } %>
 
       <!-- Hidden link to allow modal to be shown -->
       <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Model</a>
