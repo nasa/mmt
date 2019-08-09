@@ -38,6 +38,12 @@ class CollectionTemplatesController < CollectionDraftsController
     # Adding a uniqueness constraint to the DB will cause it to throw an exception
     # during race conditions that the current validation can't catch.  This should
     # provide the user a smoother experience in this rare event.
+    @template_names = names_list
+    super
+  end
+
+  def update
+    @template_names = names_list
     super
   end
 
@@ -67,6 +73,7 @@ class CollectionTemplatesController < CollectionDraftsController
   end
 
   def publish
+    # TODO: pundit policy
     flash[:error] = 'Templates cannot be published.'
     redirect_to manage_collections_path
   end
