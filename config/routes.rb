@@ -126,7 +126,6 @@ Rails.application.routes.draw do
         get 'edit', path: 'edit(/:form)'
       end
     end
-    get 'subregion_options' => 'collection_draft_proposals#subregion_options'
   end
 
   get 'welcome/index'
