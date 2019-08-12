@@ -33,6 +33,8 @@
           <% else %>
             <%= link_to 'Publish Collection Draft', publish_collection_draft_path(get_resource), method: :post, class: 'eui-btn--blue spinner' %>
           <% end %>
+        <% else %>
+          <%= link_to 'Create Collection Draft', create_draft_collection_template_path(get_resource), class: 'eui-btn--blue display-modal' %>
         <% end %>
 
         <% if Rails.configuration.templates_enabled && resource_name != 'collection_template' %>
