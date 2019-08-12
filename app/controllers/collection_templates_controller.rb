@@ -2,7 +2,11 @@
 
 class CollectionTemplatesController < CollectionDraftsController
   include CMRCollectionsHelper
-  before_action :load_umm_schema, only: %i[new edit show new_from_existing]
+  # The syntax here differs from CollectionDraftsController in order to add
+  # to things to an existing list.  If the before_action #action only: #list
+  # syntax is used, it overwrites the parent list.  This saves redeclarations.
+  before_action(only: :create_draft) { set_resource }
+  before_action(only: :new_from_existing) { load_umm_schema }
   before_action :templates_enabled?
 
   def create_draft
