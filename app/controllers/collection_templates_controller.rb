@@ -12,7 +12,7 @@ class CollectionTemplatesController < CollectionDraftsController
   def create_draft
     authorize get_resource
     draft = CollectionDraft.create_from_template(get_resource, current_user)
-    Rails.logger.info("Audit Log: Collection Draft #{draft.entry_title} was created from a template by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
+    Rails.logger.info("Audit Log: Collection Draft '#{draft.entry_title}' with id: #{draft.id} was created by #{current_user.urs_uid} from template with title: '#{get_resource.display_entry_title}' and id: #{get_resource.id} in provider: #{current_user.provider_id}")
     redirect_to edit_collection_draft_path(draft)
   end
 
