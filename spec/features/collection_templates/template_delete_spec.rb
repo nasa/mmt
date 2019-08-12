@@ -13,10 +13,11 @@ describe 'Template deletion', js: true do
       end
     end
 
+    # Has the correct flash, and is on the templates index page with no template
     it 'displays a confirmation message' do
       expect(page).to have_content('Collection Template Deleted Successfully!')
-
       expect(page).to have_content('MMT_2 Collection Templates')
+      expect(page).to have_content('No MMT_2 Templates found')
     end
   end
 
@@ -49,8 +50,8 @@ describe 'When deleting a template from the index page', js: true do
 
     it 'displays a confirmation message' do
       expect(page).to have_content('Collection Template Deleted Successfully!')
-
       expect(page).to have_no_content('Example Name')
+      expect(page).to have_content('No MMT_2 Templates found')
     end
   end
 end
