@@ -636,7 +636,7 @@ def collection_one
       'Description' => 'Related URL 2 Description',
       'URLContentType' => 'DistributionURL',
       'Type' => 'GET DATA',
-      'Subtype' => 'EARTHDATA SEARCH',
+      'Subtype' => 'Earthdata Search',
       'URL' => 'https://search.earthdata.nasa.gov/',
       'GetData' => {
         'Format' => 'ascii',
@@ -649,8 +649,8 @@ def collection_one
     }, {
       'Description' => 'Related URL 3 Description',
       'URLContentType' => 'DistributionURL',
-      'Type' => 'GET SERVICE',
-      'Subtype' => 'DIF',
+      'Type' => 'GET DATA',
+      'Subtype' => 'DIRECT DOWNLOAD',
       'URL' => 'https://example.com/',
       'GetService' => {
         'Format' => 'ascii',
@@ -661,6 +661,30 @@ def collection_one
         'DataType' => 'data type',
         'URI' => ['uri']
       }
+    }, {
+      'Description' => 'This is data citation policy',
+      'URLContentType' => 'PublicationURL',
+      'Type' => 'VIEW RELATED INFORMATION',
+      'Subtype' => 'DATA CITATION POLICY',
+      'URL' => 'https://example.com/data-citation-policy',
+    }, {
+      'Description' => 'This is general documentation',
+      'URLContentType' => 'PublicationURL',
+      'Type' => 'VIEW RELATED INFORMATION',
+      'Subtype' => 'GENERAL DOCUMENTATION',
+      'URL' => 'https://example.com/documentation-1',
+    }, {
+      'Description' => 'This is how-to documentation',
+      'URLContentType' => 'PublicationURL',
+      'Type' => 'VIEW RELATED INFORMATION',
+      'Subtype' => 'HOW-TO',
+      'URL' => 'https://example.com/documentation-2',
+    }, {
+      'Description' => 'This is anomalies documentation',
+      'URLContentType' => 'PublicationURL',
+      'Type' => 'VIEW RELATED INFORMATION',
+      'Subtype' => 'ANOMALIES',
+      'URL' => 'https://example.com/documentation-3',
     }],
     'MetadataLanguage' => 'eng',
     'MetadataDates' => [{
@@ -802,6 +826,43 @@ def collection_one
         'Eon' => 'test 3 Eon text 1'
       }]
     }],
-    'ISOTopicCategories' => %w[farming climatologyMeteorologyAtmosphere health]
+    'ISOTopicCategories' => %w[farming climatologyMeteorologyAtmosphere health],
+    'ArchiveAndDistributionInformation' => {
+      'FileArchiveInformation' => [
+        {
+          'Format' => 'kml',
+          'FormatType' => 'Native',
+          'AverageFileSize' => 2,
+          'AverageFileSizeUnit' => 'MB',
+          'TotalCollectionFileSize' => 25,
+          'TotalCollectionFileSizeUnit' => 'GB',
+          'Description' => 'A file archive information description'
+        },
+        {
+          'Format' => 'jpeg',
+          'FormatType' => 'Supported',
+          'AverageFileSize' => 3,
+          'AverageFileSizeUnit' => 'MB',
+          'TotalCollectionFileSize' => 99,
+          'TotalCollectionFileSizeUnit' => 'TB',
+          'Description' => 'Another file archive information description'
+        }
+      ],
+      'FileDistributionInformation' => [
+        {
+          'Format' => 'tiff',
+          'FormatType' => 'Native',
+          'Media' => [
+            'disc', 'file', 'online'
+          ],
+          'AverageFileSize' => 2,
+          'AverageFileSizeUnit' => 'KB',
+          'TotalCollectionFileSize' => 10,
+          'TotalCollectionFileSizeUnit' => 'TB',
+          'Description' => 'File distribution information description',
+          'Fees' => '$2,900'
+        }
+      ]
+    }
   }
 end
