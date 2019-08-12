@@ -1,7 +1,7 @@
 <input type='hidden' id='mmt-form-name' value='<%= @form %>'>
 
 <% content_for :header_title do %>
-  <h2><%= @form.titleize %></h2>
+  <h2><%= titleize_form_name(@form) %></h2>
 <% end %>
 
 <% if get_resource.errors.any? %>
@@ -15,7 +15,7 @@
   </div>
 <% end %>
 
-<%= form_tag(collection_draft_proposals_path, method: 'post', class: 'metadata-form', enforce_utf8: false) do %>
+<%= form_tag(collection_draft_proposal_path(get_resource), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
   <%= hidden_field_tag 'commit' %>
 
   <div class="row row-content">
