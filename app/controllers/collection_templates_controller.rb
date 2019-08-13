@@ -16,39 +16,16 @@ class CollectionTemplatesController < CollectionDraftsController
     redirect_to edit_collection_draft_path(draft)
   end
 
-  def new
+  def new_view_setup
     super
 
     @template_names = names_list
   end
 
-  def edit
+  def edit_view_setup
     super
 
     @template_names = names_list(params[:id])
-  end
-
-  def create
-    # Need to fetch and merge the old data in because the params[:draft] only has the form.
-    # If new submitted no origin, then it's a fresh draft, and the provided draft can be
-    # used.  Otherwise, the data provided by the user needs to be merged with the source data.
-    new_draft = if params[:origin] == ''
-                  params[:draft]
-                else
-                  fetch_source_data.deep_merge(params[:draft])
-                end
-    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: new_draft.to_camel_keys, template_name: new_draft['template_name']))
-
-    # Adding a uniqueness constraint to the DB will cause it to throw an exception
-    # during race conditions that the current validation can't catch.  This should
-    # provide the user a smoother experience in this rare event.
-    @template_names = names_list
-    super
-  end
-
-  def update
-    @template_names = names_list
-    super
   end
 
   def new_from_existing
@@ -77,7 +54,7 @@ class CollectionTemplatesController < CollectionDraftsController
   end
 
   def publish
-    # TODO: pundit policy
+    authorize get_resource
     flash[:error] = 'Templates cannot be published.'
     redirect_to manage_collections_path
   end
@@ -131,5 +108,18 @@ class CollectionTemplatesController < CollectionDraftsController
     end
 
     source_collection
+  end
+
+  def set_resource_by_model
+    if params[:draft].blank?
+      set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+    else
+      draft = if params[:origin] == ''
+                params[:draft]
+              else
+                fetch_source_data.deep_merge(params[:draft])
+              end
+      set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: draft.to_camel_keys, template_name: draft['template_name']))
+    end
   end
 end
