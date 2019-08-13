@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :refresh_urs_if_needed, except: [:login, :logout, :refresh_token] # URS login
   before_action :refresh_launchpad_if_needed, except: [:login, :logout] # Launchpad login
   before_action :provider_set?
-  before_action :proposal_mode?, except: [:subregion_options]
+  before_action :proposal_mode?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
