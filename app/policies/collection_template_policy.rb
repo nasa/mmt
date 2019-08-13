@@ -7,4 +7,8 @@ class CollectionTemplatePolicy < CollectionDraftPolicy
   def new_from_existing?
     !user.user.provider_id.blank?
   end
+
+  def publish?
+    false
+  end
 end

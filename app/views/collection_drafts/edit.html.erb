@@ -4,22 +4,7 @@
   <h2><%= titleize_form_name(@form) %></h2>
 <% end %>
 
-<% if get_resource.errors.any? %>
-  <section class="errors">
-    <div class="eui-banner--danger">
-      <div class="eui-banner__message">
-        <div id="error_explanation">
-          <h4><i class="fa fa-exclamation-triangle"></i> This <%="#{resource_name}".titleize.downcase %> cannot be saved because of the following errors:</h4>
-          <div id="model_error_explanation">
-            <% get_resource.errors.full_messages.each do |msg| %>
-              <u><%= msg %></u>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-<% end %>
+<%= render partial: 'collection_drafts/forms/model_errors' %>
 
 <%= form_tag(send("#{resource_name}_path", get_resource), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
   <%= hidden_field_tag 'commit' %>
@@ -30,9 +15,13 @@
 
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'top',
-          draft: get_resource,
-          draft_form: @form,
-          draft_forms: @forms } %>
+          unpublished_resource: get_resource,
+          unpublished_resource_form: @form,
+          unpublished_resource_forms: @forms } %>
+
+      <% if Rails.configuration.templates_enabled && resource_name == 'collection_template' %>
+        <h1 id="template_reminder">Collection Template</h1>
+      <% end %>
 
       <div class="row">
         <div class="col-6">
@@ -64,28 +53,14 @@
 
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'bottom',
-          draft: get_resource,
-          draft_form: @form,
-          draft_forms: @forms } %>
+          unpublished_resource: get_resource,
+          unpublished_resource_form: @form,
+          unpublished_resource_forms: @forms } %>
 
       <!-- Hidden link to allow modal to be shown -->
-      <a href="#invalid-draft-modal" id="display-invalid-draft-modal" class="display-modal is-invisible">Invalid Draft Model</a>
-      <div id="invalid-draft-modal" class="eui-modal-content">
-        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-        <p>This page has invalid data. Are you sure you want to save it and proceed?</p>
-        <p>
-          <a href="javascript:void(0)" id="invalid-draft-deny" class="eui-btn modal-close">No</a>
-          <a href="javascript:void(0)" id="invalid-draft-accept" class="eui-btn--blue">Yes</a>
-        </p>
-      </div>
+      <%= render partial: 'collection_drafts/forms/invalid_draft_modal' %>
 
-      <% if Rails.configuration.templates_enabled && resource_name == 'collection_template' %>
-        <a href="#invalid-template-modal" id="display-invalid-template-modal" class="display-modal is-invisible">Invalid Template Modal</a>
-        <div id="invalid-template-modal" class="eui-modal-content">
-          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-          <p>A template needs a unique name to be saved.</p>
-        </div>
-      <% end %>
+      <%= render partial: 'collection_templates/forms/invalid_template_modal' if Rails.configuration.templates_enabled && resource_name == 'collection_template' %>
 
     </section>
   </div>

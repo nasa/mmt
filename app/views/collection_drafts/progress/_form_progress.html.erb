@@ -1,10 +1,10 @@
 <div class="status">
-  <%= form_circle(form_name, draft.draft, metadata_errors).html_safe %>
+  <%= form_circle(form_name, unpublished_resource.draft, metadata_errors).html_safe %>
 </div>
 <div class="meta-info">
-  <%= link_to titleize_form_name(form_name), send("edit_#{resource_name}_path", draft, form_name) %>
+  <%= link_to titleize_form_name(form_name), send("edit_#{resource_name}_path", unpublished_resource, form_name) %>
   <div class="progress-indicators">
-    <% preview_circles(form_name, draft, metadata_errors).each do |circle| %>
+    <% preview_circles(form_name, unpublished_resource, metadata_errors).each do |circle| %>
       <%= circle.html_safe %>
     <% end %>
   </div>
