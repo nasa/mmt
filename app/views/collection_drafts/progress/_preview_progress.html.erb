@@ -5,7 +5,7 @@
     <ul class="progress-indicator">
       <% CollectionDraft.forms.each do |form_name| %>
       <li id="<%= form_name.dasherize %>">
-        <%= render partial: 'collection_drafts/progress/form_progress', locals: { draft: draft, form_name: form_name, metadata_errors: metadata_errors } %>
+        <%= render partial: 'collection_drafts/progress/form_progress', locals: { unpublished_resource: unpublished_resource, form_name: form_name, metadata_errors: metadata_errors } %>
       </li>
       <% end %>
     </ul>

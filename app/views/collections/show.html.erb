@@ -67,12 +67,12 @@
             <% end %>
 
             <% if current_provider?(@provider_id) %>
-              <%= link_to 'Delete Collection Record', "#delete-record-modal", class: 'display-modal delete-collection eui-btn--link' %>
+              <%= link_to 'Delete Collection Record', "#delete-record-modal", class: 'display-modal delete-collection eui-btn--link bar-after' %>
             <% elsif available_provider?(@provider_id) %>
-              <%= link_to 'Delete Collection Record', '#not-current-provider-modal', class: 'display-modal delete-collection not-current-provider eui-btn--link', data: { provider: @provider_id, record_action: 'delete-collection' } %>
+              <%= link_to 'Delete Collection Record', '#not-current-provider-modal', class: 'display-modal delete-collection not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'delete-collection' } %>
             <% end %>
 
-            <%= link_to "Revisions (#{@revisions.size})", collection_revisions_path, class: 'eui-btn--link bar-after bar-before' %>
+            <%= link_to "Revisions (#{@revisions.size})", collection_revisions_path, class: 'eui-btn--link bar-after' %>
 
             <a class="collection-granule-count disabled bar-after" href="#">Granules (<%= @num_granules %>)</a>
 

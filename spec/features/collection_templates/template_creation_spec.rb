@@ -186,7 +186,7 @@ describe 'When trying to save a template with a non-unique name', js: true do
     end
 
     it 'has the correct model error text' do
-      expect(page).to have_content('Template name has already been taken') # Verify model error
+      expect(page).to have_content('Collection Template could not be saved because of the following errors: template name must be unique within a provider context') # Verify model error
     end
 
     it 'has retained the user\'s changes' do
@@ -195,6 +195,7 @@ describe 'When trying to save a template with a non-unique name', js: true do
 
     it 'has the correct new local validation' do
       fill_in 'Template Name', with: 'Unique Name2'
+      fill_in 'Short Name', with: 'Different text'
 
       expect(page).to have_content('Template Name must be unique within a provider context') # Verify that name list is updating on failure
 

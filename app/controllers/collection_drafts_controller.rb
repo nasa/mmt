@@ -8,7 +8,7 @@ class CollectionDraftsController < BaseDraftsController
   layout 'collection_preview', only: [:show]
 
   def new
-    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+    set_resource_by_model
 
     authorize get_resource
 
@@ -35,7 +35,7 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def create
-    set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {})) unless resource_name == 'collection_template'
+    set_resource_by_model
 
     authorize get_resource
 
@@ -58,7 +58,7 @@ class CollectionDraftsController < BaseDraftsController
         redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else # record update failed
-      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error")
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error", error_message: generate_model_error)
       load_umm_schema
       new_view_setup
       render :new
@@ -88,7 +88,7 @@ class CollectionDraftsController < BaseDraftsController
       end
     else # record update failed
       # render 'edit' # this should get get_resource_form
-      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error")
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error", error_message: generate_model_error)
       load_umm_schema
       edit_view_setup
       render :edit
@@ -413,5 +413,19 @@ class CollectionDraftsController < BaseDraftsController
     set_location_keywords     if @form == 'spatial_information'
     set_data_centers          if @form == 'data_centers' || @form == 'data_contacts'
     load_data_contacts_schema if @form == 'data_contacts'
+  end
+
+  def set_resource_by_model
+    set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+  end
+
+  def generate_model_error
+    return unless get_resource.errors.any?
+    model_error_message = ''
+    get_resource.errors.full_messages.each do |msg|
+      model_error_message += ', ' unless model_error_message == ''
+      model_error_message += msg.downcase
+    end
+    model_error_message
   end
 end

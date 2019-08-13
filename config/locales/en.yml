@@ -20,6 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    errors:
+      messages:
+        taken: 'must be unique within a provider context'
   controllers:
     draft:
       variable_drafts:
@@ -52,11 +56,11 @@ en:
         create:
           flash:
             success: 'Collection Draft Created Successfully!'
-            error: 'Collection Draft was not created successfully'
+            error: "Collection Draft could not be saved because of the following errors: %{error_message}"
         update:
           flash:
             success: 'Collection Draft Updated Successfully!'
-            error: 'Collection Draft was not updated successfully'
+            error: "Collection Draft could not be saved because of the following errors: %{error_message}"
         destroy:
           flash:
             success: 'Collection Draft Deleted Successfully!'
@@ -69,7 +73,7 @@ en:
         create:
           flash:
             success: 'Collection Template Created Successfully'
-            error: 'Collection Template was not created successfully'
+            error: "Collection Template could not be saved because of the following errors: %{error_message}"
         destroy:
           flash:
             success: 'Collection Template Deleted Successfully!'
@@ -77,7 +81,7 @@ en:
         update:
           flash:
             success: 'Collection Template Updated Successfully!'
-            error: 'Collection Template was not updated successfully'
+            error: "Collection Template could not be saved because of the following errors: %{error_message}"
     collections:
       destroy:
         flash:

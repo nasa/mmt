@@ -248,10 +248,17 @@ $(document).ready ->
       $(errorElement).insertAfter(afterElement)
 
   displaySummary = (errors) ->
-    summary = $('<div/>',
-      class: 'eui-banner--danger summary-errors'
-      html: '<h4><i class="fa fa-exclamation-triangle"></i> This draft has the following errors:</h4>'
-    )
+    # This modal is loaded on every new/edit page for templates, but not drafts
+    if $('#invalid-template-modal').length > 0
+      summary = $('<div/>',
+        class: 'eui-banner--danger summary-errors'
+        html: '<h4><i class="fa fa-exclamation-triangle"></i> This template has the following errors:</h4>'
+      )
+    else
+      summary = $('<div/>',
+        class: 'eui-banner--danger summary-errors'
+        html: '<h4><i class="fa fa-exclamation-triangle"></i> This draft has the following errors:</h4>'
+      )
 
     errorList = $('<ul/>', class: 'no-bullet')
     for error in errors
@@ -605,18 +612,20 @@ $(document).ready ->
 
   # Validate the whole page on page load
   if $('.metadata-form, .umm-form').length > 0
-    # "visit" each field with a value on page load
-    $('.validate').not(':disabled').filter ->
-      return switch this.type
-        when 'radio'
-          # don't want to save fields that aren't translated into metadata
-          this.name? and this.checked
-        else
-          this.value
-    .each (index, element) ->
-      visitField($(element).attr('id'))
+    # Do not display validation errors on page load if model errors are showing
+    if $('.errors').length == 0
+      # "visit" each field with a value on page load
+      $('.validate').not(':disabled').filter ->
+        return switch this.type
+          when 'radio'
+            # don't want to save fields that aren't translated into metadata
+            this.name? and this.checked
+          else
+            this.value
+      .each (index, element) ->
+        visitField($(element).attr('id'))
 
-    validateFromFormChange()
+      validateFromFormChange()
 
   # // set up validation call
   $('.metadata-form, .umm-form').on 'blur', '.validate', ->
