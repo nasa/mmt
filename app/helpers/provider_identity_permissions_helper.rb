@@ -1,30 +1,33 @@
+# frozen_string_literal: true
+
 module ProviderIdentityPermissionsHelper
-  AUDIT_REPORT_PERMISSIONS = %w(read)
-  AUTHENTICATOR_DEFINITION_PERMISSIONS = %w(create delete)
-  CATALOG_ITEM_ACL_PERMISSIONS = %w(create read update delete)
-  DASHBOARD_DAAC_CURATOR_PERMISSIONS = %w(create read update delete)
-  DATA_QUALITY_SUMMARY_ASSIGNMENT_PERMISSIONS = %w(create delete)
-  DATA_QUALITY_SUMMARY_DEFINITION_PERMISSIONS = %w(create update delete)
-  DATASET_INFORMATION_PERMISSIONS = %w(read)
-  EXTENDED_SERVICE_PERMISSIONS = %w(create update delete)
-  GROUP_PERMISSIONS = %w(create read)
-  INGEST_MANAGEMENT_ACL_PERMISSIONS = %w(read update)
-  OPTION_ASSIGNMENT_PERMISSIONS = %w(create read delete)
-  OPTION_DEFINITION_PERMISSIONS = %w(create delete)
-  OPTION_DEFINITION_DEPRECATION_PERMISSIONS = %w(create)
-  PROVIDER_CALENDAR_EVENT_PERMISSIONS = %w(create update delete)
-  PROVIDER_CONTEXT_PERMISSIONS = %w(read)
-  PROVIDER_HOLDINGS_PERMISSIONS = %w(read)
-  PROVIDER_INFORMATION_PERMISSIONS = %w(update)
-  PROVIDER_OBJECT_ACL_PERMISSIONS = %w(create read update delete)
-  PROVIDER_ORDER_ACCEPTANCE_PERMISSIONS = %w(create)
-  PROVIDER_ORDER_CLOSURE_PERMISSIONS = %w(create)
-  PROVIDER_ORDER_REJECTION_PERMISSIONS = %w(create)
-  PROVIDER_ORDER_RESUBMISSION_PERMISSIONS = %w(create)
-  PROVIDER_ORDER_TRACKING_ID_PERMISSIONS = %w(update)
-  PROVIDER_ORDER_PERMISSIONS = %w(read)
-  PROVIDER_POLICIES_PERMISSIONS = %w(read update delete)
-  USER_PERMISSIONS = %w(read)
+  AUDIT_REPORT_PERMISSIONS = %w[read].freeze
+  AUTHENTICATOR_DEFINITION_PERMISSIONS = %w[create delete].freeze
+  CATALOG_ITEM_ACL_PERMISSIONS = %w[create read update delete].freeze
+  DASHBOARD_DAAC_CURATOR_PERMISSIONS = %w[create read update delete].freeze
+  DATA_QUALITY_SUMMARY_ASSIGNMENT_PERMISSIONS = %w[create delete].freeze
+  DATA_QUALITY_SUMMARY_DEFINITION_PERMISSIONS = %w[create update delete].freeze
+  DATASET_INFORMATION_PERMISSIONS = %w[read].freeze
+  EXTENDED_SERVICE_PERMISSIONS = %w[create update delete].freeze
+  GROUP_PERMISSIONS = %w[create read].freeze
+  INGEST_MANAGEMENT_ACL_PERMISSIONS = %w[read update].freeze
+  NON_NASA_DRAFT_USER_PERMISSIONS = %w[create read update delete].freeze
+  OPTION_ASSIGNMENT_PERMISSIONS = %w[create read delete].freeze
+  OPTION_DEFINITION_PERMISSIONS = %w[create delete].freeze
+  OPTION_DEFINITION_DEPRECATION_PERMISSIONS = %w[create].freeze
+  PROVIDER_CALENDAR_EVENT_PERMISSIONS = %w[create update delete].freeze
+  PROVIDER_CONTEXT_PERMISSIONS = %w[read].freeze
+  PROVIDER_HOLDINGS_PERMISSIONS = %w[read].freeze
+  PROVIDER_INFORMATION_PERMISSIONS = %w[update].freeze
+  PROVIDER_OBJECT_ACL_PERMISSIONS = %w[create read update delete].freeze
+  PROVIDER_ORDER_ACCEPTANCE_PERMISSIONS = %w[create].freeze
+  PROVIDER_ORDER_CLOSURE_PERMISSIONS = %w[create].freeze
+  PROVIDER_ORDER_REJECTION_PERMISSIONS = %w[create].freeze
+  PROVIDER_ORDER_RESUBMISSION_PERMISSIONS = %w[create].freeze
+  PROVIDER_ORDER_TRACKING_ID_PERMISSIONS = %w[update].freeze
+  PROVIDER_ORDER_PERMISSIONS = %w[read].freeze
+  PROVIDER_POLICIES_PERMISSIONS = %w[read update delete].freeze
+  USER_PERMISSIONS = %w[read].freeze
 
   PROVIDER_TARGETS = [
     ['Audit Reports', 'AUDIT_REPORT'],
@@ -37,6 +40,7 @@ module ProviderIdentityPermissionsHelper
     ['Extended Services', 'EXTENDED_SERVICE'],
     ['Groups', 'GROUP'],
     ['Ingest Operations', 'INGEST_MANAGEMENT_ACL'],
+    ['Non-NASA Draft MMT User', 'NON_NASA_DRAFT_USER'],
     ['Option Assignments', 'OPTION_ASSIGNMENT'],
     ['Option Definition Deprecations', 'OPTION_DEFINITION_DEPRECATION'],
     ['Option Definitions', 'OPTION_DEFINITION'],
