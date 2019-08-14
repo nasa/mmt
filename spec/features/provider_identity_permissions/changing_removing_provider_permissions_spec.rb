@@ -1,7 +1,3 @@
-# MMT-582
-
-require 'rails_helper'
-
 describe 'Changing or Removing Provider Identity Permissions', reset_provider: true do
   before :all do
     @group = create_group(

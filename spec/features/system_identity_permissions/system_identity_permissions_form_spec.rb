@@ -1,7 +1,3 @@
-# MMT-586
-
-require 'rails_helper'
-
 describe 'System Identity Permissions pages and form' do
   # concept_id for Administrators_2 group created on cmr setup
   let(:concept_id) { group_concept_from_name('Administrators_2', 'access_token_admin') }

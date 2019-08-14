@@ -1,7 +1,3 @@
-# MMT-586
-
-require 'rails_helper'
-
 describe 'Changing or Removing System Identity Permissions' do
   before :all do
     @group_response = create_group(
