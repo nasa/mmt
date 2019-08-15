@@ -22,6 +22,17 @@ Depending on your version of Ruby, you may need to install ruby rdoc/ri data:
      = 1.9.1 : gem install rdoc-data; rdoc-data --install
     >= 1.9.2 : you're good to go!
 
+#### Aditional Install Steps
+Some operating systems may require additional steps.
+
+Mac OS X 10.14.6 moved some required libraries around which has been known to cause nokogiri to not install, if you have errors with that gem, you may need to run the following:
+
+    open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg
+
+Details can be found on nokogiri's [site](https://nokogiri.org/tutorials/installing_nokogiri.html#macos).
+
+#### Database
+
 Check your `/config/` directory for a `database.yml` file (with no additional extensions). If you do not have one, duplicate* the `database.yml.example` file and then rename it to `database.yml`.
 
 *_Note: Do not simply rename the `database.yml.example` file as it is being tracked in Git and has its own history._
@@ -33,6 +44,8 @@ Next, create your database by running the standard rails command:
 And then to migrate the database schema, run the standard rails command:
 
     rake db:migrate
+
+#### Other Steps
 
 Finally, create an `application.yml` file in your `/config/` directory. The contents of this file will be supplied by an MMT developer
 
