@@ -56,11 +56,11 @@ en:
         create:
           flash:
             success: 'Collection Draft Created Successfully!'
-            error: "Collection Draft could not be saved because of the following errors: %{error_message}"
+            error: "Collection Draft was not saved because of the following errors: %{error_message}"
         update:
           flash:
             success: 'Collection Draft Updated Successfully!'
-            error: "Collection Draft could not be saved because of the following errors: %{error_message}"
+            error: "Collection Draft was not saved because of the following errors: %{error_message}"
         destroy:
           flash:
             success: 'Collection Draft Deleted Successfully!'
@@ -73,7 +73,7 @@ en:
         create:
           flash:
             success: 'Collection Template Created Successfully'
-            error: "Collection Template could not be saved because of the following errors: %{error_message}"
+            error: "Collection Template was not saved because of the following errors: %{error_message}"
         destroy:
           flash:
             success: 'Collection Template Deleted Successfully!'
@@ -81,7 +81,7 @@ en:
         update:
           flash:
             success: 'Collection Template Updated Successfully!'
-            error: "Collection Template could not be saved because of the following errors: %{error_message}"
+            error: "Collection Template was not saved because of the following errors: %{error_message}"
     collections:
       destroy:
         flash:

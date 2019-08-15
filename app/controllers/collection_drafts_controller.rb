@@ -58,7 +58,7 @@ class CollectionDraftsController < BaseDraftsController
         redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else # record update failed
-      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error", error_message: generate_model_error)
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error", error_message: generate_model_error)
       load_umm_schema
       new_view_setup
       render :new
