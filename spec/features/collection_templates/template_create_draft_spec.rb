@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 describe 'Creating a new draft from an existing template', js: true do
-  template = nil
   before do
     login
-    template = create(:full_collection_template, template_name: 'An Example Template', short_name: 'A Tale of Two Cities')
+    @template = create(:full_collection_template, template_name: 'An Example Template', short_name: 'A Tale of Two Cities')
   end
 
   context 'when creating a draft from the manage collection page' do
@@ -78,7 +77,7 @@ describe 'Creating a new draft from an existing template', js: true do
 
   context 'when creating a draft while viewing its metadata' do
     before do
-      visit collection_template_path(template)
+      visit collection_template_path(@template)
       click_on 'Create Collection Draft'
     end
 
