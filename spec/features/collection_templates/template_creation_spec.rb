@@ -186,7 +186,7 @@ describe 'When trying to save a template with a non-unique name', js: true do
     end
 
     it 'has the correct model error text' do
-      expect(page).to have_content('Collection Template could not be saved because of the following errors: template name must be unique within a provider context') # Verify model error
+      expect(page).to have_content('Collection Template was not saved because of the following errors: template name must be unique within a provider context') # Verify model error
     end
 
     it 'has retained the user\'s changes' do
