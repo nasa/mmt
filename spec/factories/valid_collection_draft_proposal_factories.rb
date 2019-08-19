@@ -26,7 +26,7 @@ FactoryGirl.define do
     end
 
     draft {
-      collection_draft_proposal_one.merge(
+      collection_one.merge(
         'ShortName' => draft_short_name,
         'EntryTitle' => draft_entry_title,
         'Version' => version,

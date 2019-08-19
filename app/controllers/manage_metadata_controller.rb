@@ -3,7 +3,7 @@ class ManageMetadataController < ApplicationController
 
   protected
 
-  def breadcrumb_name(metadata, type)
+  def fetch_entry_id(metadata, type)
     short_name = if type.downcase.include? 'collection'
                    metadata['ShortName'] || '<Blank Short Name>'
                  elsif type.downcase.include? 'variable'
@@ -17,7 +17,7 @@ class ManageMetadataController < ApplicationController
 
     short_name + version
   end
-  helper_method :breadcrumb_name
+  helper_method :fetch_entry_id
 
   # helper methods used by published record controller methods ensuring a user
   # has the appropriate provider context set
