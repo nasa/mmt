@@ -26,18 +26,17 @@
               <li>
                 <p class="drafts">
                   <%= time_tag proposal.updated_at, proposal.updated_at.to_s(:date) %> |
-                  <%= link_to proposal.display_short_name, collection_draft_proposal_path(proposal), title: proposal.display_short_name %>
+                  <%= link_to fetch_entry_id(proposal.draft, proposal.draft_type), collection_draft_proposal_path(proposal), title: proposal.display_short_name %>
                   <br>
                   <%= content_tag(:span, proposal.display_entry_title, title: proposal.display_entry_title) %>
                 </p>
               </li>
             <% end %>
-            <%# if @collection_draft_proposals.size > @draft_proposal_display_max_count %>
-<!--              <li>-->
-<%#                TODO: fix path %>
-                <%#= link_to 'More', collection_draft_proposals_path %>
-<!--              </li>-->
-            <%# end %>
+            <% if @collection_draft_proposals.size > @draft_proposal_display_max_count %>
+              <li>
+                <%= link_to 'More', collection_draft_proposals_path %>
+              </li>
+            <% end %>
           </ul>
         </div>
       </div>

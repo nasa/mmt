@@ -145,7 +145,7 @@ class CollectionAssociationsController < CmrSearchController
 
   def add_high_level_breadcrumbs
     add_breadcrumb plural_resource_name # there is no variables index action, so not providing a link
-    add_breadcrumb breadcrumb_name(@resource, lower_resource_name), send("#{lower_resource_name}_path", resource_id)
+    add_breadcrumb fetch_entry_id(@resource, lower_resource_name), send("#{lower_resource_name}_path", resource_id)
 
     add_breadcrumb 'Collection Associations', send("#{lower_resource_name}_collection_associations_path", resource_id)
   end
