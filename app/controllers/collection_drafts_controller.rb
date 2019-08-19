@@ -421,11 +421,6 @@ class CollectionDraftsController < BaseDraftsController
 
   def generate_model_error
     return unless get_resource.errors.any?
-    model_error_message = ''
-    get_resource.errors.full_messages.each do |msg|
-      model_error_message += ', ' unless model_error_message == ''
-      model_error_message += msg.downcase
-    end
-    model_error_message
+    get_resource.errors.full_messages.reject(&:blank?).map(&:downcase).join(', ')
   end
 end
