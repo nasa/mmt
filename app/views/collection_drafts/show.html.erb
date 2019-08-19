@@ -21,7 +21,7 @@
   <div class="row row-content">
     <section class="action wide-content">
       <div class="wide-content-inside">
-        <% if resource_name != 'collection_template' %>
+        <% if resource_name == 'collection_draft' %>
           <% if get_resource.new_record? || (@errors && @errors.size > 0) %>
             <%= link_to 'Publish Collection Draft', '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
             <div id="invalid-draft-modal" class="eui-modal-content">
@@ -33,7 +33,7 @@
           <% else %>
             <%= link_to 'Publish Collection Draft', publish_collection_draft_path(get_resource), method: :post, class: 'eui-btn--blue spinner' %>
           <% end %>
-        <% else %>
+        <% else if resource_name == 'collection_template' %>
           <%= link_to 'Create Collection Draft', create_draft_collection_template_path(get_resource), class: 'eui-btn--blue display-modal' %>
         <% end %>
 
