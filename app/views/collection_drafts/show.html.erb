@@ -33,7 +33,7 @@
           <% else %>
             <%= link_to 'Publish Collection Draft', publish_collection_draft_path(get_resource), method: :post, class: 'eui-btn--blue spinner' %>
           <% end %>
-        <% else if resource_name == 'collection_template' %>
+        <% elsif resource_name == 'collection_template' %>
           <%= link_to 'Create Collection Draft', create_draft_collection_template_path(get_resource), class: 'eui-btn--blue display-modal' %>
         <% end %>
 
