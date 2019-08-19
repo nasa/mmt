@@ -249,16 +249,11 @@ $(document).ready ->
 
   displaySummary = (errors) ->
     # This modal is loaded on every new/edit page for templates, but not drafts
-    if $('#invalid-template-modal').length > 0
-      summary = $('<div/>',
-        class: 'eui-banner--danger summary-errors'
-        html: '<h4><i class="fa fa-exclamation-triangle"></i> This template has the following errors:</h4>'
-      )
-    else
-      summary = $('<div/>',
-        class: 'eui-banner--danger summary-errors'
-        html: '<h4><i class="fa fa-exclamation-triangle"></i> This draft has the following errors:</h4>'
-      )
+    resource_type = if $('#invalid-template-modal').length > 0 then 'template' else 'draft'
+    summary = $('<div/>',
+      class: 'eui-banner--danger summary-errors'
+      html: "<h4><i class='fa fa-exclamation-triangle'></i> This #{resource_type} has the following errors:</h4>"
+    )
 
     errorList = $('<ul/>', class: 'no-bullet')
     for error in errors
@@ -613,7 +608,7 @@ $(document).ready ->
   # Validate the whole page on page load
   if $('.metadata-form, .umm-form').length > 0
     # Do not display validation errors on page load if model errors are showing
-    if $('.errors').length == 0
+    if $('.model-errors').length == 0
       # "visit" each field with a value on page load
       $('.validate').not(':disabled').filter ->
         return switch this.type
