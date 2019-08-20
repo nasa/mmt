@@ -12,6 +12,7 @@ FactoryGirl.define do
     native_id 'full_collection_draft_proposal_id'
     provider_id 'MMT_2'
     draft_type 'CollectionDraftProposal'
+    entry_title { draft_entry_title }
 
     trait :with_valid_dates do
       draft {{
@@ -28,8 +29,8 @@ FactoryGirl.define do
     draft {
       collection_one.merge(
         'ShortName' => draft_short_name,
-        'EntryTitle' => draft_entry_title,
         'Version' => version,
+        'EntryTitle' => draft_entry_title,
         'CollectionDataType' => collection_data_type
       )
     }
