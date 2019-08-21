@@ -84,18 +84,18 @@ describe 'Updating a Service Entry', reset_provider: true do
         before do
           # Remove and add back the first option
           select "ID_1 | Mark's Test", from: 'tag_guids_fromList'
-          find('button[title=remove]').click
+          find('.remove_button').click
           select "ID_1 | Mark's Test", from: 'tag_guids_toList'
-          find('button[title=add]').click
+          find('.add_button').click
 
           # Remove and add back the second option
           # also, press esc after select to hide tool tip, it blocks button
           select "lorem_223 | ipsum", from: 'tag_guids_fromList'
           page.find('body').native.send_keys :escape
-          find('button[title=remove]').click
+          find('.remove_button').click
 
           select "lorem_223 | ipsum", from: 'tag_guids_toList'
-          find('button[title=add]').click
+          find('.add_button').click
         end
 
         it 'maintains the sort order on the right panel of the chooser widget' do

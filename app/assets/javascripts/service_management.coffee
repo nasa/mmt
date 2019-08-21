@@ -150,6 +150,7 @@ $(document).ready ->
         toLabel: 'Selected Service Implementations',
         uniqueMsg: 'Service Implementation is already selected.',
         attachTo: $('#service-entry-selections'),
+        tooltipObject: 'Service Implementations'
         toMax: 100,
         addButton: {
           cssClass: 'eui-btn nowrap',

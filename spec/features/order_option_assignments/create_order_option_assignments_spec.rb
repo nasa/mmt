@@ -26,7 +26,7 @@ describe 'Viewing and Creating Order Option Assignments' do
         select('lorem_223 | ipsum', from: 'Available Collections')
 
         within '.button-container' do
-          find('button[title=add]').click
+          find('.add_button').click
         end
       end
 
@@ -60,7 +60,7 @@ describe 'Viewing and Creating Order Option Assignments' do
         end
 
         within '.button-container' do
-          find('button[title=add]').click
+          find('.add_button').click
         end
       end
 
@@ -237,7 +237,7 @@ describe 'Viewing and Creating Order Option Assignments' do
         select('lorem_223 | ipsum', from: 'Available Collections')
 
         within '.button-container' do
-          find('button[title=add]').click
+          find('.add_button').click
         end
       end
 

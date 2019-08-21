@@ -7,7 +7,7 @@ handleGranuleConstraintState = (granulesEnabled) ->
 # Handle the hiding and showing of the collection chooser
 handleCollectionOptions = (selectedCollections) ->
   $('#chooser-widget :input').attr('disabled', !selectedCollections)
-  
+
   if selectedCollections
     $('#chooser-widget').fadeIn(100)
   else
@@ -96,7 +96,7 @@ $(document).ready ->
       # Not providing any concept ids will result in all items coming back, avoid that
       $.ajax '/provider_collections',
         method: 'POST'
-        data: 
+        data:
           concept_id: selectedValues
           page_size: selectedValues.length
         success: (data) ->
@@ -120,8 +120,14 @@ $(document).ready ->
     $('.clear-filters').on 'click', (event) ->
       $('#' + $(this).data('container') + ' :input').val('')
       $('#' + $(this).data('container') + ' :checkbox').attr('checked', false)
-      
+
       event.preventDefault()
+
+    # Clear a user's selection when they try to filter something.  Otherwise,
+    # a user can remove items from the selected box without being able to see
+    # that it is currently selected.
+    $('.to-filter').on 'focus', ->
+      $('#collectionsChooser_toList').val('')
 
     # add or remove required icons for access value min and max fields if at least one has an input value
     $('.min-max-value').on 'blur', ->
