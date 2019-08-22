@@ -497,6 +497,8 @@ window.Chooser = (config) ->
       # This is a hack in order to accommodate picky libraries like validate
   #    $(TO_LIST).find('option:first').prop 'selected', true
   #    $(TO_LIST).find('option:first').click()
+      $(TO_LIST).focus()
+      $(FROM_LIST).focus()
       return
 
     return
@@ -539,6 +541,7 @@ window.Chooser = (config) ->
 #    $(TO_LIST).find('option:first').prop 'selected', true
 #    $(TO_LIST).find('option:first').click()
     $(TO_LIST).focus()
+    $(FROM_LIST).focus()
     return
 
   removeAllButtonClick = (e) ->

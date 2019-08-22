@@ -184,7 +184,8 @@ $(document).ready ->
     $('#service-option-assignments-form').validate
       rules:
         'service_entries_toList[]':
-          required: true
+          required: ->
+            $('.___toList option').length == 0
 
       messages:
         'service_entries_toList[]':
@@ -205,7 +206,8 @@ $(document).ready ->
 
       rules:
         'service_option_assignment[]':
-          required: true
+          required:  ->
+            $('.___toList option').length == 0
 
       messages:
         'service_option_assignment[]':
@@ -220,7 +222,8 @@ $(document).ready ->
         'service_option_definition_guid':
           required: true
         'service_option_assignment_catalog_guid_toList[]':
-          required: true
+          required: ->
+            $('.___toList option').length == 0
 
       messages:
         'service_entry_guid':

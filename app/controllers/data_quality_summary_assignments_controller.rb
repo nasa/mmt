@@ -23,7 +23,7 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
       success_count += 1 unless response.error?
       error_count += 1 if response.error?
     end
-    
+
     flash_messages = {}
     flash_messages[:success] = "#{success_count} #{'data quality summary assignment'.pluralize(success_count)} created successfully." if success_count > 0
     flash_messages[:error] = "#{error_count} #{'data quality summary assignment'.pluralize(error_count)} failed to save." if error_count > 0
@@ -52,7 +52,7 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
         Array.wrap(assignment.parsed_body.fetch('Item', []))
       rescue
         Rails.logger.error "Error retrieving data quality summary assignment for collection with guid '#{collection_guid}'"
-        
+
         # In the event of an error set assignments to an empty array
         []
       end
@@ -77,7 +77,7 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
 
       @assignments << collection
     end
- 
+
     render action: :edit
   end
 

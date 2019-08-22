@@ -176,7 +176,8 @@ $(document).ready ->
             !$('input[name=collection_applicable]').is(':checked')
         'collectionsChooser_toList[]':
           required: ->
-            $('input[name=collection_option]:checked').val() == 'selected' && $('.hidden-collection').length == 0
+            $('input[name=collection_option]:checked').val() == 'selected' && $('#collectionsChooser_toList').find('option').length == 0 && $('.hidden-collection').length == 0
+#            $('input[name=collection_option]:checked').val() == 'selected' && $('.hidden-collection').length == 0
         'collection_access_value[min_value]':
           required: (element) ->
             # field should be required if min has a value
