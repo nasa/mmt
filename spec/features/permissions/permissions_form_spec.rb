@@ -215,21 +215,30 @@ describe 'Collection Permissions form', js: true do
 
   context 'when selecting a collection in the chooser' do
     before do
-      publish_collection_draft(short_name: 'RM Test', entry_title: 'Test 1')
+      ingest_response, concept_response_1 = publish_collection_draft
+      @entry_id_1 = "#{concept_response_1.body['ShortName']}_#{concept_response_1.body['Version']} | #{concept_response_1.body['EntryTitle']}"
       login
       visit new_permission_path
       find('#collection_option_selected').click()
+
+      within '#collectionsChooser' do
+        select(@entry_id_1, from: 'Available Collections')
+        find('.add_button').click
+      end
     end
 
     it 'does not highlight an entry in the right column after using +/-' do
-      within '#collectionsChooser' do
-        # selecting each individually as it seems more robust.
-        select('RM Test_1 | Test 1', from: 'Available Collections')
-        find('.add_button').click
-      end
-
-      expect(page).to have_select('Selected Collections', options: ['RM Test_1 | Test 1'], selected: [])
+      expect(page).to have_select('Selected Collections', options: [@entry_id_1], selected: [])
       expect(page).to have_no_content('You must select at least 1 collection.')
+    end
+
+    it 'does not have an entry highlighted after filling in the filter' do
+      within '#collectionsChooser' do
+        select(@entry_id_1, from: 'Selected Collections')
+      end
+      fill_in('to-filter', with: @entry_id_1)
+
+      expect(page).to have_select('Selected Collections', options: [@entry_id_1], selected: [])
     end
   end
 end

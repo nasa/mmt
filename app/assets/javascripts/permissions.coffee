@@ -127,7 +127,7 @@ $(document).ready ->
     # a user can remove items from the selected box without being able to see
     # that it is currently selected.
     $('#to-filter').on 'focus', ->
-      $('#collectionsChooser_toList').val('')
+      $('.___toList').val('')
 
     # add or remove required icons for access value min and max fields if at least one has an input value
     $('.min-max-value').on 'blur', ->
@@ -177,7 +177,6 @@ $(document).ready ->
         'collectionsChooser_toList[]':
           required: ->
             $('input[name=collection_option]:checked').val() == 'selected' && $('#collectionsChooser_toList').find('option').length == 0 && $('.hidden-collection').length == 0
-#            $('input[name=collection_option]:checked').val() == 'selected' && $('.hidden-collection').length == 0
         'collection_access_value[min_value]':
           required: (element) ->
             # field should be required if min has a value
