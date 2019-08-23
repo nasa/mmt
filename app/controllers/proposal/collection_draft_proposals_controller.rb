@@ -16,7 +16,7 @@ module Proposal
       set_resource(CollectionDraftProposal.new(user: current_user, draft: {}))
     end
 
-    def proposal_mode?
+    def proposal_mode_enabled?
       # in regular mmt all proposal actions should be blocked
       redirect_to manage_collections_path unless Rails.configuration.proposal_mode
     end

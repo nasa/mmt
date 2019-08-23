@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Drafts listed on the Manage Services page' do
   draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_variables_controller
 

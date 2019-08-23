@@ -5,10 +5,10 @@ class CollectionDraftProposal < CollectionDraft
   # after_find :exception_unless_draft_only
 
   # before_validation :proposal_mode?
-  before_create :proposal_mode?
-  before_save :proposal_mode?
-  before_update :proposal_mode?
-  before_destroy :proposal_mode?
+  before_create :proposal_mode_enabled?
+  before_save :proposal_mode_enabled?
+  before_update :proposal_mode_enabled?
+  before_destroy :proposal_mode_enabled?
 
 
   private
@@ -18,10 +18,10 @@ class CollectionDraftProposal < CollectionDraft
     false
   end
 
-  def proposal_mode?
+  def proposal_mode_enabled?
     # TODO this will work until we update to Rails 5
     # https://blog.bigbinary.com/2016/02/13/rails-5-does-not-halt-callback-chain-when-false-is-returned.html
-    Rails.configuration.proposal_mode ? true : false
+    Rails.configuration.proposal_mode
   end
 
   def exception_unless_draft_only

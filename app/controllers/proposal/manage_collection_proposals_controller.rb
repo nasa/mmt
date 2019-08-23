@@ -13,7 +13,7 @@ module Proposal
 
     private
 
-    def proposal_mode?
+    def proposal_mode_enabled?
       # in regular mmt all proposal actions should be blocked
       redirect_to manage_collections_path unless Rails.configuration.proposal_mode
     end

@@ -35,10 +35,10 @@ class CollectionDraftProposalPolicy < ApplicationPolicy
   end
 
   def verify_mode_and_logged_in?
-    proposal_mode? && !@user_context.user['urs_uid'].blank?
+    proposal_mode_enabled? && !@user_context.user['urs_uid'].blank?
   end
 
-  def proposal_mode?
+  def proposal_mode_enabled?
     Rails.configuration.proposal_mode
   end
 end

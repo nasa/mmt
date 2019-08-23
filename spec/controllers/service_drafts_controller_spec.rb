@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe ServiceDraftsController, reset_provider: true do
   describe 'GET #index' do
     before do
