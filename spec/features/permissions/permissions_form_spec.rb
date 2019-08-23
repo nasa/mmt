@@ -194,4 +194,42 @@ describe 'Collection Permissions form', js: true do
       end
     end
   end
+
+  context 'when using the chooser' do
+    before do
+      login
+      visit new_permission_path
+      find('#collection_option_selected').click()
+    end
+
+    it 'does not click the + button when pressing enter in the left filter box' do
+      fill_in('from-filter', with: '\n')
+      expect(page).to have_select('Selected Collections', options: [])
+    end
+
+    it 'does not click the + button when pressing enter in the right filter box' do
+      fill_in('to-filter', with: '\n')
+      expect(page).to have_select('Selected Collections', options: [])
+    end
+  end
+
+  context 'when selecting a collection in the chooser' do
+    before do
+      publish_collection_draft(short_name: 'RM Test', entry_title: 'Test 1')
+      login
+      visit new_permission_path
+      find('#collection_option_selected').click()
+    end
+
+    it 'does not highlight an entry in the right column after using +/-' do
+      within '#collectionsChooser' do
+        # selecting each individually as it seems more robust.
+        select('RM Test_1 | Test 1', from: 'Available Collections')
+        find('.add_button').click
+      end
+
+      expect(page).to have_select('Selected Collections', options: ['RM Test_1 | Test 1'], selected: [])
+      expect(page).to have_no_content('You must select at least 1 collection.')
+    end
+  end
 end

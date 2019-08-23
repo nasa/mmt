@@ -145,10 +145,10 @@ window.Chooser = (config) ->
     TO_LIST = $('<select>').addClass('___toList').attr('name', config.id + '_toList[]').attr('id', config.id + '_toList').attr('multiple', true).attr('size', config.size)
 
     fromPlaceHolderText = if hasProp('fromFilterText', 'string') then config.fromFilterText else 'filter'
-    FROM_FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', fromPlaceHolderText).attr('class', 'filter from-filter')
+    FROM_FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', fromPlaceHolderText).attr('id', 'from-filter')
 
     toPlaceHolderText = if hasProp('toFilterText', 'string') then config.toFilterText else 'filter'
-    TO_FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', toPlaceHolderText).attr('class', 'filter to-filter')
+    TO_FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', toPlaceHolderText).attr('id', 'to-filter')
 
     if !config.hasOwnProperty('resetSize')
       config.resetSize = 50

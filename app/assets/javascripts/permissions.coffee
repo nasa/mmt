@@ -126,7 +126,7 @@ $(document).ready ->
     # Clear a user's selection when they try to filter something.  Otherwise,
     # a user can remove items from the selected box without being able to see
     # that it is currently selected.
-    $('.to-filter').on 'focus', ->
+    $('#to-filter').on 'focus', ->
       $('#collectionsChooser_toList').val('')
 
     # add or remove required icons for access value min and max fields if at least one has an input value
