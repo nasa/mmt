@@ -20,7 +20,7 @@
         <div class="eui-callout-box__list">
           <ul>
             <% unless @collection_draft_proposals.any? %>
-              <%= current_user.provider_id %> has no drafts to display.
+              There are no draft proposals to display.
             <% end %>
             <% @collection_draft_proposals[0..@draft_proposal_display_max_count-1].each do |proposal| %>
               <li>

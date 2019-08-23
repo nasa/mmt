@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :refresh_urs_if_needed, except: [:login, :logout, :refresh_token] # URS login
   before_action :refresh_launchpad_if_needed, except: [:login, :logout] # Launchpad login
   before_action :provider_set?
-  before_action :proposal_mode?
+  before_action :proposal_mode_enabled?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   ].freeze
 
   def urs_login_required?
-    ENV['urs_login_required'] != 'false'
+    Rails.configuration.proposal_mode == true || ENV['urs_login_required'] != 'false'
   end
   helper_method :urs_login_required?
 
@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
   helper_method :invite_users_enabled?
 
   def launchpad_login_required?
-    ENV['launchpad_login_required'] == 'true'
+    Rails.configuration.proposal_mode == false && ENV['launchpad_login_required'] == 'true'
   end
   helper_method :launchpad_login_required?
 
@@ -112,7 +112,7 @@ class ApplicationController < ActionController::Base
   helper_method :available_provider?
 
   def provider_set?
-    if logged_in? && current_user.provider_id.nil?
+    if logged_in? && current_user.provider_id.nil? && !Rails.configuration.proposal_mode
       redirect_to provider_context_path
     end
   end
@@ -307,7 +307,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def proposal_mode?
+  def proposal_mode_enabled?
     # If draft only then all regular mmt actions should be blocked
     redirect_to manage_collection_proposals_path if Rails.configuration.proposal_mode
   end

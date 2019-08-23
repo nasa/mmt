@@ -27,18 +27,14 @@ module Helpers
     end
 
     def set_as_mmt_proper
-      allow_any_instance_of(CollectionDraftProposal).to receive(:proposal_mode?).and_return(false)
-      allow_any_instance_of(Proposal::ManageCollectionProposalsController).to receive(:proposal_mode?).and_return(false)
-      allow_any_instance_of(Proposal::CollectionDraftProposalsController).to receive(:proposal_mode?).and_return(false)
-      allow_any_instance_of(CollectionDraftProposalPolicy).to receive(:proposal_mode?).and_return(false)
+      allow(Mmt::Application.config).to receive(:proposal_mode).and_return(false)
+
       # allow_any_instance_of(CollectionDraftProposal).to receive(:exception_unless_draft_only?).and_return(nil)
     end
 
     def set_as_proposal_mode_mmt
-      allow_any_instance_of(CollectionDraftProposal).to receive(:proposal_mode?).and_return(true)
-      allow_any_instance_of(Proposal::ManageCollectionProposalsController).to receive(:proposal_mode?).and_return(true)
-      allow_any_instance_of(Proposal::CollectionDraftProposalsController).to receive(:proposal_mode?).and_return(true)
-      allow_any_instance_of(CollectionDraftProposalPolicy).to receive(:proposal_mode?).and_return(true)
+      allow(Mmt::Application.config).to receive(:proposal_mode).and_return(true)
+
       # allow_any_instance_of(CollectionDraftProposal).to receive(:exception_unless_draft_only?).and_return(raise ActiveRecord::Rollback) # can this raise an exception?
     end
   end
