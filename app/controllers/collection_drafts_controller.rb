@@ -393,7 +393,7 @@ class CollectionDraftsController < BaseDraftsController
   def edit_view_setup
     add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
-    Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
+    Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify #{resource_name} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id}")
 
     @forms = resource_class.forms
 
