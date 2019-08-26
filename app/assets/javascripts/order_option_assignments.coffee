@@ -71,8 +71,8 @@ $(document).ready ->
 
       rules:
         'order_option_assignment[]':
-          required: ->
-            $('.___toList option').length == 0
+          required: true
+          
       messages:
         'order_option_assignment[]':
           'You must select at least 1 assignment.'

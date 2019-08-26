@@ -123,12 +123,6 @@ $(document).ready ->
 
       event.preventDefault()
 
-    # Clear a user's selection when they try to filter something.  Otherwise,
-    # a user can remove items from the selected box without being able to see
-    # that it is currently selected.
-    $('#to-filter').on 'focus', ->
-      $('.___toList').val('')
-
     # add or remove required icons for access value min and max fields if at least one has an input value
     $('.min-max-value').on 'blur', ->
       $currentAccessVal = $(this)
@@ -310,3 +304,9 @@ $(document).ready ->
       toggleSelectOption('#search_and_order_groups_', $(option).val(), 'disable')
     $selectedSearchOrderGroupOptions.each (index, option) ->
       toggleSelectOption('#search_groups_', $(option).val(), 'disable')
+
+  # Clear a user's selection when they try to filter something.  Otherwise,
+  # a user can remove items from the selected box without being able to see
+  # that it is currently selected.
+  $('#to-filter').on 'focus', ->
+    $('.___toList').val('')
