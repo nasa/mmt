@@ -21,6 +21,10 @@ class ManageCollectionsController < ManageMetadataController
     if params['base'] == 'blank'
       redirect_to new_collection_draft_path
     elsif params['base'] == 'template'
+      if params['template_id'].blank?
+        flash[:error] = 'Collection draft was not created successfully. Select a template.'
+        redirect_to manage_collections_path and return
+      end
       redirect_to create_draft_collection_template_path(params['template_id'])
     end
   end

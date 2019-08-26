@@ -194,7 +194,12 @@ class BaseDraftsController < DraftsController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_resource(resource = nil)
-    resource ||= resource_class.find(params[:id])
+    begin
+      resource ||= resource_class.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = ''
+      redirect_to manage_collections_path
+    end
     instance_variable_set("@#{resource_name}", resource)
   end
 
