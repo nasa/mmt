@@ -2,16 +2,40 @@
   <div class="row row-content">
     <section class="action wide-content">
       <div class="wide-content-inside">
-        <%= link_to 'Submit for Review', "#submit-proposal-modal", class: 'eui-btn--blue display-modal' %>
-        <div id="submit-proposal-modal" class="eui-modal-content">
-          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-          <p>Are you sure you want to submit this proposal?</p>
-          <p>
-            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <!-- TODO: Update this to a valid link when submission is supported. -->
-            <a href="javascript:void(0)" class="eui-btn modal-close">Yes</a>
-          </p>
-        </div>
+        <% if get_resource.in_work? %>
+          <span>
+            <% if @errors && @errors.size > 0 %>
+              <%= link_to 'Submit for Review', '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
+              <div id="invalid-draft-modal" class="eui-modal-content">
+                <p>This proposal is not ready to be submitted. Please use the progress indicators on the proposal preview page to address incomplete or invalid fields.</p>
+                <p>
+                  <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
+                </p>
+              </div>
+            <% else %>
+              <%= link_to 'Submit for Review', "#submit-proposal-modal", class: 'eui-btn--blue display-modal' %>
+              <div id="submit-proposal-modal" class="eui-modal-content">
+                <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+                <p>Are you sure you want to submit this proposal?</p>
+                <p>
+                  <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                  <!-- TODO: Update this to a valid link when submission is supported. -->
+                  <a href="javascript:void(0)" class="eui-btn modal-close">Yes</a>
+                </p>
+              </div>
+            <% end %>
+            <%= link_to 'Delete Collection Draft Proposal', "#delete-proposal-modal", class: 'display-modal' %>
+            <div id="delete-proposal-modal" class="eui-modal-content">
+              <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+              <p>Are you sure you want to delete this proposal?</p>
+              <p>
+                <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                <%= link_to 'Yes', collection_draft_proposal_path(get_resource), method: :delete, class: 'eui-btn--blue spinner' %>
+              </p>
+            </div>
+          </span>
+        <% end %>
+        <span id="proposal-status-display">Proposal Status: <%= get_resource.proposal_status.titleize %></span>
       </div>
     </section>
 
