@@ -2,7 +2,7 @@
 #
 # Chooser - dynamic, AJAX-enabled pick-list
 #
-# @author James Pino
+# @author James LastName
 # v2.0 (rewritten in CoffeeScript)
 #
 # Configuration parameters:
