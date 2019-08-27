@@ -64,6 +64,8 @@ gem 'multi_xml'
 
 gem 'whenever', require: false
 
+gem 'aasm'
+
 # collections metadata preview
 # run this command to work from a local copy of the gem's repo
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository

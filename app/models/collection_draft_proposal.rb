@@ -1,4 +1,5 @@
 class CollectionDraftProposal < CollectionDraft
+  include AASM
   self.table_name = 'draft_proposals'
 
   # after_initialize :exception_unless_draft_only
@@ -10,6 +11,9 @@ class CollectionDraftProposal < CollectionDraft
   before_update :proposal_mode_enabled?
   before_destroy :proposal_mode_enabled?
 
+  aasm column: 'proposal_status', whiny_transitions: false do
+    state :in_work, initial: true
+  end
 
   private
 
