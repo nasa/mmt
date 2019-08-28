@@ -69,6 +69,7 @@ class CollectionDraftsController < BaseDraftsController
     authorize get_resource
 
     if get_resource.update_draft(params[:draft], current_user.urs_uid)
+      Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} successfully modified #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id}")
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
 
       case params[:commit]
@@ -87,8 +88,9 @@ class CollectionDraftsController < BaseDraftsController
         redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else # record update failed
-      # render 'edit' # this should get get_resource_form
-      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error", error_message: generate_model_error)
+      errors_list = generate_model_error
+      Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} unsuccessfully modified #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id} because of '#{errors_list}'")
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error", error_message: errors_list)
       load_umm_schema
       edit_view_setup
       render :edit
@@ -393,7 +395,7 @@ class CollectionDraftsController < BaseDraftsController
   def edit_view_setup
     add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
-    Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id}")
+    Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} started to modify #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id}")
 
     @forms = resource_class.forms
 
