@@ -1,4 +1,8 @@
 describe VariableGenerationProcessesSearchesController, reset_provider: true do
+  before do
+    set_as_mmt_proper
+  end
+
   describe 'GET #new' do
     before :all do
       5.times { publish_collection_draft }

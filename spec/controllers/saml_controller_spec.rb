@@ -1,4 +1,8 @@
 describe SamlController do
+  before do
+    set_as_mmt_proper
+  end
+
   describe 'GET #sso' do
     before do
       get :sso

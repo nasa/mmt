@@ -1,4 +1,8 @@
 describe VariableDraftsController, reset_provider: true do
+  before do
+    set_as_mmt_proper
+  end
+
   describe 'GET #index' do
     before do
       sign_in

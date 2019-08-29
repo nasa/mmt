@@ -1,5 +1,6 @@
 describe VariableGenerationProcessesController, reset_provider: true do
   before do
+    set_as_mmt_proper
     sign_in
   end
 
