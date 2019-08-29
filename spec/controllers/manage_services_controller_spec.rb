@@ -1,6 +1,8 @@
-require 'rails_helper'
-
 describe ManageServicesController do
+  before do
+    set_as_mmt_proper
+  end
+
   describe 'GET #show' do
     before do
       sign_in

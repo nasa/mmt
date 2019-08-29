@@ -1,4 +1,8 @@
 describe ManageCollectionsController do
+  before do
+    set_as_mmt_proper
+  end
+
   describe 'GET #show' do
     before do
       sign_in

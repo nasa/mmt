@@ -32,11 +32,11 @@ urs:
   uat:
     "https://uat.urs.earthdata.nasa.gov": "zFb4tV63ET-V6-oRnDKmJg"
   sit:
-    "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
+    "https://sit.urs.earthdata.nasa.gov": "K1EF5n6rbUzoEi_1SFOLQg"
   development:
-    "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
+    "https://sit.urs.earthdata.nasa.gov": "K1EF5n6rbUzoEi_1SFOLQg"
   test:
-    "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
+    "https://sit.urs.earthdata.nasa.gov": "K1EF5n6rbUzoEi_1SFOLQg"
 
 echo_soap:
   services:
