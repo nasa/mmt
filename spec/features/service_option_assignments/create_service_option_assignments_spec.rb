@@ -155,16 +155,20 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
             within '.button-container' do
               find('.add_button').click
             end
-
-            VCR.use_cassette('echo_soap/service_management_service/service_option_assignments/create', record: :none) do
-              within '#new-service-option-assignment-form' do
-                click_on 'Submit'
-              end
-            end
           end
 
-          it 'creates the assignment and displays a confirmation message' do
-            expect(page).to have_content('Service Option Assignments successfully created')
+          context 'when submitting the form' do
+            before do
+              VCR.use_cassette('echo_soap/service_management_service/service_option_assignments/create', record: :none) do
+                within '#new-service-option-assignment-form' do
+                  click_on 'Submit'
+                end
+              end
+            end
+
+            it 'creates the assignment and displays a confirmation message' do
+              expect(page).to have_content('Service Option Assignments successfully created')
+            end
           end
         end
       end

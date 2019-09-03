@@ -110,6 +110,7 @@ window.Chooser = (config) ->
     setDefault('endlessScroll', false)
     setDefault('uniqueMsg', 'Value already added')
     setDefault('delimiter', ',')
+    setDefault('tooltipObject', 'Collections')
 
     # Construct each component
     OUTER_CONTAINER = $('<div>').addClass('Chooser').attr('id', config.id)
@@ -121,13 +122,13 @@ window.Chooser = (config) ->
 
     addButtonText = if hasProp('addButton', 'object') then config.addButton.text else '&#x2192;'
     addButtonCssClass = if hasProp('addButton', 'object') then config.addButton.cssClass else ''
-    ADD_BUTTON = $('<button>').attr('title', 'add').addClass(addButtonCssClass).addClass('add_button').text(addButtonText)
+    ADD_BUTTON = $('<button>').attr('title', "Add highlighted items to 'Selected #{config.tooltipObject}'").attr('type', 'button').addClass(addButtonCssClass).addClass('add_button').text(addButtonText)
     if hasProp('addButton') and config.addButton.arrowCssClass
       $(ADD_BUTTON).append('<span>').addClass(config.addButton.arrowCssClass)
 
     delButtonText = if hasProp('delButton', 'object') then config.delButton.text else '&#x2190;'
     delButtonCssClass = if hasProp('delButton', 'object') then config.delButton.cssClass else ''
-    REMOVE_BUTTON = $('<button>').attr('title', 'remove').addClass(delButtonCssClass).addClass('remove_button').text(delButtonText)
+    REMOVE_BUTTON = $('<button>').attr('title', "Remove highlighted items from 'Selected #{config.tooltipObject}'").attr('type', 'button').addClass(delButtonCssClass).addClass('remove_button').text(delButtonText)
     if hasProp('delButton') and config.delButton.arrowCssClass
       $(REMOVE_BUTTON).prepend('<span>').addClass(config.delButton.arrowCssClass)
 
@@ -136,7 +137,7 @@ window.Chooser = (config) ->
       delAllButtonText = if hasProp('delAllButton', 'object') then config.delAllButton.text else '&#x2190;'
       delAllButtonCssClass = if hasProp('delAllButton', 'object') then config.delAllButton.cssClass else ''
 
-      REMOVE_ALL_BUTTON = $('<button>').attr('title', 'remove all').addClass(delAllButtonCssClass).addClass('remove_all_button').text(delAllButtonText)
+      REMOVE_ALL_BUTTON = $('<button>').attr('title', "Remove all entries from 'Selected #{config.tooltipObject}'").attr('type', 'button').addClass(delAllButtonCssClass).addClass('remove_all_button').text(delAllButtonText)
       if hasProp('delAllButton') and config.delAllButton.arrowCssClass
         $(REMOVE_ALL_BUTTON).prepend('<span>').addClass(config.delAllButton.arrowCssClass)
 
@@ -144,10 +145,10 @@ window.Chooser = (config) ->
     TO_LIST = $('<select>').addClass('___toList').attr('name', config.id + '_toList[]').attr('id', config.id + '_toList').attr('multiple', true).attr('size', config.size)
 
     fromPlaceHolderText = if hasProp('fromFilterText', 'string') then config.fromFilterText else 'filter'
-    FROM_FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', fromPlaceHolderText)
+    FROM_FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', fromPlaceHolderText).attr('id', 'from-filter')
 
     toPlaceHolderText = if hasProp('toFilterText', 'string') then config.toFilterText else 'filter'
-    TO_FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', toPlaceHolderText)
+    TO_FILTER_TEXTBOX = $('<input>').attr('type', 'text').attr('placeholder', toPlaceHolderText).attr('id', 'to-filter')
 
     if !config.hasOwnProperty('resetSize')
       config.resetSize = 50
@@ -400,6 +401,9 @@ window.Chooser = (config) ->
   # Filter the TO side of the chooser
   # This only fiters based on the visible text
   initToFilter = ->
+    # Clear the selected values first so that the user cannot have options
+    # that are both selected and invisible because they've been filtered.
+    $('.___toList').val('')
     SELF.toFilter($(this).val())
     $(TO_LIST).trigger 'change'
 
@@ -493,9 +497,7 @@ window.Chooser = (config) ->
       # Sort the list every time
       sortOptions(TO_LIST)
 
-      # This is a hack in order to accommodate picky libraries like validate
-      $(TO_LIST).find('option:first').prop 'selected', true
-      $(TO_LIST).find('option:first').click()
+      $(TO_LIST).blur()
       return
 
     return
@@ -534,10 +536,7 @@ window.Chooser = (config) ->
     # Sort the list every time
     sortOptions(TO_LIST)
 
-    # This is a hack in order to accommodate picky libraries like validate
-    $(TO_LIST).find('option:first').prop 'selected', true
-    $(TO_LIST).find('option:first').click()
-    $(TO_LIST).focus()
+    $(TO_LIST).blur()
     return
 
   removeAllButtonClick = (e) ->

@@ -188,13 +188,13 @@ describe 'Collection Permissions', reset_provider: true, js: true do
             within '#collectionsChooser' do
               # selecting each individually as it seems more robust.
               select(@entry_id_1, from: 'Available Collections')
-              find('button[title=add]').click
+              find('.add_button').click
 
               select(@entry_id_2, from: 'Available Collections')
-              find('button[title=add]').click
+              find('.add_button').click
 
               select(@entry_id_3, from: 'Available Collections')
-              find('button[title=add]').click
+              find('.add_button').click
             end
 
             within '#search_and_order_groups_cell' do
