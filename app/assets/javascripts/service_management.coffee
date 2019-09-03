@@ -282,9 +282,3 @@ $(document).ready ->
     # Update the Chooser when the service interface is modified
     $('#service_entry_guid').on 'change', ->
       populateDynamicChooser(serviceOptionAssignmentCollectionsChooser, $(this).val())
-
-  # Clear a user's selection when they try to filter something.  Otherwise,
-  # a user can remove items from the selected box without being able to see
-  # that it is currently selected.
-  $('#to-filter').on 'focus', ->
-    $('.___toList').val('')

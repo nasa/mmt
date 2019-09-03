@@ -170,28 +170,6 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
               expect(page).to have_content('Service Option Assignments successfully created')
             end
           end
-
-          context 'when using the chooser' do
-            before do
-              within '#service_option_assignment_catalog_guid_toList' do
-                find('option[value="C1200019403-MMT_2"]').select_option
-              end
-            end
-
-            it 'clears selections when the filter box is used' do
-              fill_in('to-filter', with: 'C1200019403-MMT_2')
-
-              expect(page).to have_select('Selected Collections', options: ["ID_1 | Mark's Test", "Matthew'sTest_2 | Matthew's Test"], selected: [])
-            end
-
-            it 'does not highlight things on the right side when the +/- buttons are used' do
-              within '.button-container' do
-                find('.remove_button').click
-              end
-
-              expect(page).to have_select('Selected Collections', options: ["ID_1 | Mark's Test"], selected: [])
-            end
-          end
         end
       end
     end

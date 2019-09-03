@@ -401,6 +401,9 @@ window.Chooser = (config) ->
   # Filter the TO side of the chooser
   # This only fiters based on the visible text
   initToFilter = ->
+    # Clear the selected values first so that the user cannot have options
+    # that are both selected and invisible because they've been filtered.
+    $('.___toList').val('')
     SELF.toFilter($(this).val())
     $(TO_LIST).trigger 'change'
 
