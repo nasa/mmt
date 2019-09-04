@@ -95,5 +95,49 @@ describe 'Saving Data Contacts and Data Centers', js: true do
       end
 
     end
+
+    context 'when adding a Data Center Contact Person without Data Center Short Name' do
+      before do
+        click_on 'Data Contacts', match: :first
+
+        select 'Data Center Contact Person', from: 'Data Contact Type'
+
+        within '.multiple.data-contacts' do
+          select 'Technical Contact', from: 'Role'
+          fill_in 'First Name', with: 'Test First Name'
+          fill_in 'Last Name', with: 'Test First Name'
+        end
+
+        within '.nav-top' do
+          click_on 'Done'
+        end
+
+        click_on 'Yes'
+
+        expect(page).to have_content('Metadata Fields')
+        find('.tab-label', text: 'Additional Information').click
+        click_on 'Data Centers', match: :first
+        within '.multiple.data-centers > .multiple-item-1' do
+          fill_in 'Service Hours', with: '9 - 5'
+        end
+        within '.nav-top' do
+          click_on 'Done'
+        end
+
+        click_on 'Yes'
+
+        expect(page).to have_content('Metadata Fields')
+        find('.tab-label', text: 'Additional Information').click
+        save_screenshot '/tmp/2.png'
+      end
+
+      it 'displays the Data Contact on the preview page' do
+        within '.data-contacts-preview' do
+          expect(page).to have_content('Test First Name')
+          expect(page).to have_content('Test First Name')
+        end
+      end
+    end
+
   end
 end

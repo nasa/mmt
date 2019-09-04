@@ -376,6 +376,25 @@ class CollectionDraft < Draft
           # no match, so draft_data_center is not in the params
           # if there are no contact persons or groups, no problem
           # if there are contact persons or groups - what to do? keep the contacts or no?
+
+          # MMT-1898 assign ContactPersons and ContactGroups in case draft_data_center created with
+          # only ContactPersons and/or ContactGroups but without data center ShortName
+          if short_name.nil?
+            if !draft_data_center['ContactPersons'].nil?
+              if !json_params['DataCenters'].first['ContactPersons'].nil?
+                json_params['DataCenters'].first['ContactPersons'].concat(draft_data_center['ContactPersons'])
+              else
+                json_params['DataCenters'].first['ContactPersons'] = draft_data_center['ContactPersons']
+              end
+            end
+            if !draft_data_center['ContactGroups'].nil?
+              if !json_params['DataCenters'].first['ContactGroups'].nil?
+                json_params['DataCenters'].first['ContactGroups'].concat(draft_data_center['ContactGroups'])
+              else
+                json_params['DataCenters'].first['ContactGroups'] = draft_data_center['ContactGroups']
+              end
+            end
+          end
         end
       end
     end
