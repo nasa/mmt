@@ -52,6 +52,12 @@ describe 'Header' do
             expect(page).to have_no_content('Manage Collection Proposals')
           end
         end
+
+        it 'does not display the badge for MMT for Non-NASA users' do
+          within 'header.mmt-header' do
+            expect(page).to have_no_content('Non-NASA Users')
+          end
+        end
       end
 
       context 'from the Manage Services page' do
@@ -80,6 +86,12 @@ describe 'Header' do
             expect(page).to have_content('Manage CMR')
 
             expect(page).to have_no_content('Manage Collection Proposals')
+          end
+        end
+
+        it 'does not display the badge for MMT for Non-NASA users' do
+          within 'header.mmt-header' do
+            expect(page).to have_no_content('Non-NASA Users')
           end
         end
       end
@@ -112,6 +124,12 @@ describe 'Header' do
             expect(page).to have_no_content('Manage Collection Proposals')
           end
         end
+
+        it 'does not display the badge for MMT for Non-NASA users' do
+          within 'header.mmt-header' do
+            expect(page).to have_no_content('Non-NASA Users')
+          end
+        end
       end
 
       context 'from the Manage Cmr page' do
@@ -133,6 +151,12 @@ describe 'Header' do
             expect(page).to have_content('Manage CMR')
 
             expect(page).to have_no_content('Manage Collection Proposals')
+          end
+        end
+
+        it 'does not display the badge for MMT for Non-NASA users' do
+          within 'header.mmt-header' do
+            expect(page).to have_no_content('Non-NASA Users')
           end
         end
       end
@@ -178,6 +202,12 @@ describe 'Header' do
             expect(page).to have_no_content('Manage Variables')
             expect(page).to have_no_content('Manage Services')
             expect(page).to have_no_content('Manage CMR')
+          end
+        end
+
+        it 'indicates that the user is using the MMT for Non-Nasa Users' do
+          within 'header.mmt-header' do
+            expect(page).to have_content('Non-NASA Users')
           end
         end
       end
