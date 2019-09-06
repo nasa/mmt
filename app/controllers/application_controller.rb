@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
   before_action :refresh_launchpad_if_needed, except: [:login, :logout] # Launchpad login
   before_action :provider_set?
   before_action :proposal_mode_enabled?
+  # NOTE: when adding before actions, particularly dealing with logging in, make
+  # sure to check whether it needs to be skipped for the welcome#index landing page as well as the custom error pages
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -139,12 +141,12 @@ class ApplicationController < ActionController::Base
 
   def logged_in?
     if launchpad_login_required? && session[:login_method] == 'launchpad'
-      is_user_logged_in = LAUNCHPAD_SESSION_KEYS.all? { |session_key| session[session_key].present? }
+      LAUNCHPAD_SESSION_KEYS.all? { |session_key| session[session_key].present? }
     elsif urs_login_required? && session[:login_method] == 'urs'
-      is_user_logged_in = URS_SESSION_KEYS.all? { |session_key| session[session_key].present? }
+      URS_SESSION_KEYS.all? { |session_key| session[session_key].present? }
+    else
+      false
     end
-
-    is_user_logged_in
   end
   helper_method :logged_in?
 
@@ -302,10 +304,20 @@ class ApplicationController < ActionController::Base
     last_point = session[:last_point]
     session[:last_point] = nil
 
-    redirect_to return_to || last_point || manage_collections_path
+    redirect_to return_to || last_point || internal_landing_page
   end
 
   private
+
+  def internal_landing_page
+    # now that we have two modes, we cannot default to Manage Collections
+    # this will help us determine the default page depending on mode
+    if Rails.configuration.proposal_mode
+      manage_collection_proposals_path
+    else
+      manage_collections_path
+    end
+  end
 
   def proposal_mode_enabled?
     # If draft only then all regular mmt actions should be blocked
@@ -348,7 +360,7 @@ class ApplicationController < ActionController::Base
     policy_name = exception.policy.class.to_s.underscore
 
     flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
-    redirect_to(request.referrer || manage_collections_path)
+    redirect_to(request.referrer || internal_landing_page)
   end
 
   def clear_session_and_token_data

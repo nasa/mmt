@@ -1,8 +1,8 @@
 <% if logged_in? %>
-  <section id="user-info" role="navigation">
+  <section id="user-info" role="navigation" class="<%= 'proposal-mode-color' if Rails.configuration.proposal_mode %>">
     <!-- User Info Dropdown Menu -->
     <div id="login-info" class="login-info-dropdown">
-      <% unless hide_provider_context %>
+      <% if !hide_provider_context && !Rails.configuration.proposal_mode %>
         <%= link_to 'Change Provider', '#provider-context', class: 'display-modal', id: 'change-context' %>
       <% end %>
       <!--a href="#">Account Settings</a-->
@@ -17,7 +17,7 @@
         </p>
       </a>
       <!-- Display provider context badge -->
-      <% if current_user.provider_id %>
+      <% if current_user.provider_id && !Rails.configuration.proposal_mode %>
         <a href="#provider-context" id="provider-badge-link" class="display-modal">
           <div class="provider-context">
             <span class="eui-badge--sm daac"><%= current_user.provider_id %></span>

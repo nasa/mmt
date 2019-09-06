@@ -18,7 +18,7 @@
 
 </head>
 
-<body>
+<body class="application-layout <%= 'proposal-mode-body' if Rails.configuration.proposal_mode %>">
   <%= render partial: 'shared/google_tag_manager_body' %>
 
   <div class="th-wrapper">

@@ -4,8 +4,22 @@
 
 // todo: refactor these styles
 
+// variables for proposal mode background image
+body.proposal-mode-body {
+  --proposal-mode-background-image: asset-url('ed-images/columbia-glacier-lrg.jpg');
+}
+
 body {
-  background: $white asset-url('ed-images/yellow-sea-swirls.jpg') no-repeat center top;
+  background: $white no-repeat center top;
+  background-image: var(--proposal-mode-background-image, asset-url('ed-images/yellow-sea-swirls.jpg'));
+}
+
+body.proposal-mode-body.application-layout {
+  background-size: cover;
+}
+
+body.proposal-mode-body.offset-background-image {
+  background-position: 0 -430px;
 }
 
 .highlight {
