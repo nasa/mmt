@@ -16,7 +16,7 @@
   <%= render partial: 'shared/google_tag_manager_head' %>
 </head>
 
-<body class="dashboard manage-metadata-layout <%= 'proposal-mode-body offset-background-image' if Rails.configuration.proposal_mode %>">
+<body class="dashboard <%= 'proposal-mode-body offset-background-image' if Rails.configuration.proposal_mode %>">
 
   <%= render partial: 'shared/google_tag_manager_body' %>
   <div class="th-wrapper">
@@ -47,7 +47,11 @@
 
         <%= yield %>
 
-        <div class="background-filler"></div>
+        <% if Rails.configuration.proposal_mode %>
+          <div class="background-filler">
+            <!-- For covering the bit of the proposal mode background image that peeks under some content -->
+          </div>
+        <% end %>
       </main>
     </div>
 

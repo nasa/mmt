@@ -1,7 +1,7 @@
 <main class="dashboard" role="main">
   <article id="metadata" class="row-content flex-row--start" role="article">
     <section class="eui-callout-box col-left">
-      <h3 class="eui-callout-box__title">Create Collection Proposal</h3>
+      <h3 class="eui-callout-box__title slate-grey">Create Collection Proposal</h3>
       <div class="eui-callout-box__list">
         <%= link_to 'Create New Record', new_collection_draft_proposal_path, class: 'eui-btn--blue submit' %>
         <div class="question-group">
@@ -16,7 +16,7 @@
 
     <section class="eui-callout-box col-left">
       <div class="open-drafts">
-        <h3 class="eui-callout-box__title green-title">Collection Draft Proposals</h2>
+        <h3 class="eui-callout-box__title slate-grey">Collection Draft Proposals</h2>
         <div class="eui-callout-box__list">
           <ul>
             <% unless @collection_draft_proposals.any? %>
