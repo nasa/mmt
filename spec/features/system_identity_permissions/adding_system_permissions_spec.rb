@@ -42,8 +42,11 @@ describe 'Saving System Identity Permissions' do
       expect(page).to have_content('System Object Permissions')
       expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
 
-      expect(page).to have_content('System Object Permissions were saved.')
-      expect(page).to have_no_content('permissions were unable to be saved.')
+      expect(page).to have_content("'System Option Definition' permissions were saved")
+      expect(page).to have_content("'Metric Data Point Sample' permissions were saved")
+      expect(page).to have_content("'Extended Service' permissions were saved")
+      expect(page).to have_content("'Tag Group' permissions were saved")
+      expect(page).to have_no_content('permissions were unable to be saved')
     end
   end
 end
