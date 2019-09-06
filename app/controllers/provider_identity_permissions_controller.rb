@@ -42,6 +42,8 @@ class ProviderIdentityPermissionsController < ManageCmrController
 
     # assemble provider permissions for the table of checkboxes
     @group_provider_permissions = assemble_permissions_for_table(permissions: group_provider_permissions_list, type: 'provider', group_id: @group_id)
+    # assemble a hash of current revision ids
+    @revision_ids = get_revisions_for_edit(type: 'provider')
 
     group_response = cmr_client.get_group(@group_id, token)
     if group_response.success?
@@ -57,10 +59,10 @@ class ProviderIdentityPermissionsController < ManageCmrController
 
   def update
     @group_id = params[:id]
-    permissions_params = params[:provider_permissions]
+    permissions_params = params[:provider_permissions] || {}
     redirect_to provider_identity_permissions_path and return if permissions_params.nil?
 
-    permissions_params.each { |_target, perms| perms.delete('') }
+    permissions_params&.each { |_target, perms| perms.delete('') }
     all_provider_permissions = get_permissions_for_identity_type(type: 'provider')
     # assemble permissions so they can be sorted and updated
     selective_provider_permission_info = assemble_permissions_for_updating(
@@ -69,9 +71,13 @@ class ProviderIdentityPermissionsController < ManageCmrController
                                            group_id: @group_id
                                          )
 
-    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete = sort_permissions_to_update(assembled_all_permissions: selective_provider_permission_info, permissions_params: permissions_params)
-
+    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete, targets_to_fail, target_revision_ids = sort_permissions_to_update(assembled_all_permissions: selective_provider_permission_info, permissions_params: permissions_params, type: 'provider')
+    next_revision_ids = {}
+    target_revision_ids.each do |key, value|
+      next_revision_ids[key] = (Integer(value) + 1).to_s
+    end
     successes = []
+    overwrite_fails = targets_to_fail
     fails = []
 
     create_target_permissions(
@@ -98,11 +104,28 @@ class ProviderIdentityPermissionsController < ManageCmrController
       type: 'provider',
       group_id: @group_id,
       successes: successes,
-      fails: fails
+      fails: fails,
+      overwrite_fails: overwrite_fails,
+      revision_ids: next_revision_ids
     )
 
-    flash[:success] = 'Provider Object Permissions were saved.' unless successes.blank?
-    flash[:error] = "#{fails.join(', ')} permissions were unable to be saved." unless fails.blank?
+    unless successes.blank?
+      flash[:success] = (successes.reduce('') do |memo, target|
+        memo += '<br>' unless memo.blank?
+        memo + "'#{target.titleize}' permissions were saved"
+      end).html_safe
+    end
+    unless fails.blank? && overwrite_fails.blank?
+      error_message = fails.reduce('') do |memo, target|
+        memo += '<br>' unless memo.blank?
+        memo + "'#{target.titleize}' permissions were unable to be saved."
+      end
+      error_message = overwrite_fails.reduce(error_message) do |memo, target|
+        memo += '<br>' unless memo.blank?
+        memo + "'#{target.titleize}' permissions were unable to be saved because another user made changes to those permissions."
+      end
+      flash[:error] = error_message.html_safe
+    end
 
     redirect_to provider_identity_permissions_path
   end
