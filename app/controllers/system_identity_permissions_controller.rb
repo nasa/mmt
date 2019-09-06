@@ -40,7 +40,10 @@ class SystemIdentityPermissionsController < ManageCmrController
     group_system_permissions_list = get_permissions_for_identity_type(type: 'system', group_id: @group_id)
 
     # assemble system permissions for the table of checkboxes
+
     @group_system_permissions = assemble_permissions_for_table(permissions: group_system_permissions_list, type: 'system', group_id: @group_id)
+    # assemble a hash of current revision ids
+    @revision_ids = get_revisions_for_edit(type: 'system')
 
     group_response = cmr_client.get_group(@group_id, token)
     if group_response.success?
@@ -56,10 +59,9 @@ class SystemIdentityPermissionsController < ManageCmrController
 
   def update
     @group_id = params[:id]
-    permissions_params = params[:system_permissions]
-    redirect_to system_identity_permissions_path and return if permissions_params.nil?
+    permissions_params = params[:system_permissions] || {}
 
-    permissions_params.each { |_target, perms| perms.delete('') }
+    permissions_params&.each { |_target, perms| perms.delete('') }
     all_system_permissions = get_permissions_for_identity_type(type: 'system')
     # assemble permissions so they can be sorted and updated
     selective_full_system_permission_info = assemble_permissions_for_updating(
@@ -68,10 +70,27 @@ class SystemIdentityPermissionsController < ManageCmrController
                                               group_id: @group_id
                                             )
 
-    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete = sort_permissions_to_update(assembled_all_permissions: selective_full_system_permission_info, permissions_params: permissions_params)
+    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, pre_targets_to_delete, targets_to_fail, target_revision_ids = sort_permissions_to_update(assembled_all_permissions: selective_full_system_permission_info, permissions_params: permissions_params)
+    next_revision_ids = {}
+    target_revision_ids.each do |key, value|
+      next_revision_ids[key] = (Integer(value) + 1).to_s
+    end
+    current_revisions = get_revisions_for_edit(type: 'system')
+
+    # The CMR does not accept a revision_id for deletes.  This does _not_
+    # close the possible concurrency problem, but it should make it almost non-existent
+    targets_to_delete = []
+    pre_targets_to_delete.each do |target|
+      if current_revisions[target] == Integer(target_revision_ids[target])
+        targets_to_delete << target
+      else
+        targets_to_fail << target
+      end
+    end
 
     successes = []
     fails = []
+    overwrite_fails = targets_to_fail
 
     create_target_permissions(
       targets_to_create: targets_to_create,
@@ -97,11 +116,28 @@ class SystemIdentityPermissionsController < ManageCmrController
       type: 'system',
       group_id: @group_id,
       successes: successes,
-      fails: fails
+      fails: fails,
+      overwrite_fails: overwrite_fails,
+      revision_ids: next_revision_ids
     )
 
-    flash[:success] = 'System Object Permissions were saved.' unless successes.blank?
-    flash[:error] = "#{fails.join(', ')} permissions were unable to be saved." unless fails.blank?
+    unless successes.blank?
+      flash[:success] = (successes.reduce('') do |memo, target|
+        memo += '<br>' unless memo.blank?
+        memo + "'#{target.titleize}' permissions were saved"
+      end).html_safe
+    end
+    unless fails.blank? && overwrite_fails.blank?
+      error_message = fails.reduce('') do |memo, target|
+        memo += '<br>' unless memo.blank?
+        memo + "'#{target.titleize}' permissions were unable to be saved."
+      end
+      error_message = overwrite_fails.reduce(error_message) do |memo, target|
+        memo += '<br>' unless memo.blank?
+        memo + "'#{target.titleize}' permissions were unable to be saved because another user made changes to those permissions."
+      end
+      flash[:error] = error_message.html_safe
+    end
 
     redirect_to system_identity_permissions_path
   end

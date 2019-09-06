@@ -28,6 +28,29 @@ module PermissionManagement
     permissions_list
   end
 
+  # Function to get revisions from CMR.  The hash returned is the target : revision_id
+  # This function is needed to allay concurrency concerns when updating system or provider
+  # permissions.  Specifically, we need the revision_ids of permissions which exist, but
+  # the group does not have.
+  def get_revisions_for_edit(type:)
+    revision_ids = {}
+    options = { 'include_full_acl' => true,
+                'identity_type' => type,
+                'page_size' => 50 }
+    options['provider'] = current_user.provider_id if type == 'provider'
+
+    revisions_response = cmr_client.get_permissions(options, token)
+    if revisions_response.success?
+      revisions_response.body['items'].each do |permission|
+        revision_ids[permission['acl']["#{type}_identity"]['target']] = permission['revision_id']
+      end
+    else
+      Rails.logger.error("Get #{type.titleize} Revisions Fetch Error: #{permissions_response.clean_inspect}")
+      flash[:error] = revisions_response.error_message
+    end
+    revision_ids
+  end
+
   def assemble_permissions_for_table(permissions:, type:, group_id:)
     assembled_permissions = {}
 
@@ -82,6 +105,9 @@ module PermissionManagement
     targets_to_remove_group = []
     targets_to_delete = []
     targets_to_skip = []
+    target_revision_ids = {}
+    targets_to_fail = []
+    targets_to_create = []
 
     assembled_all_permissions.each do |target, acl_info|
       if acl_info['matched_to_group'] # group is currently in the target acl
@@ -89,30 +115,66 @@ module PermissionManagement
           # permissions are the same, do nothing
           targets_to_skip << target
         elsif permissions_params[target] == [] && acl_info['num_groups'] > 1
-          # removing permissions to the target, need to remove the group from the acl
-          targets_to_remove_group << target
+          # The acl_info is information obtained AFTER submission of the form
+          # The revision_id from the parameters is obtained BEFORE submission of the form
+          if params["#{target}_revision_id"].present?
+            # removing permissions to the target, need to remove the group from the acl
+            targets_to_remove_group << target
+            target_revision_ids[target] = params["#{target}_revision_id"]
+          else
+            # If there is no revision_id but the acl_info says we should be deleting here,
+            # then another user has modified the permission while this user was making changes
+            targets_to_fail << target
+          end
         elsif permissions_params[target] == [] && acl_info['num_groups'] == 1
-          # removing permissions, but group is only group in the acl, need to delete the acl
-          targets_to_delete << target
+          if params["#{target}_revision_id"].present?
+            # removing permissions, but group is only group in the acl, need to delete the acl
+            targets_to_delete << target
+            target_revision_ids[target] = params["#{target}_revision_id"]
+          else
+            # If there is no revision_id but the acl_info says we should be deleting here,
+            # then another user has modified the permission while this user was making changes
+            targets_to_fail << target
+          end
         elsif acl_info['granted_permissions'] != permissions_params[target]
-          # group is in the acl, but permissions need to be changed
-          targets_to_update_perms << target
+          if params["#{target}_revision_id"].present?
+            # group is in the acl, but permissions need to be changed
+            targets_to_update_perms << target
+            target_revision_ids[target] = params["#{target}_revision_id"]
+          else
+            # If there is no revision_id but the acl_info says we should be updating here,
+            # then another user has modified the permission while this user was making changes
+            targets_to_fail << target
+          end
         end
-      else
-        # there is an acl for the target, but it does not have the group so need to add group
-        targets_to_add_group << target if permissions_params.keys.include?(target)
+      elsif permissions_params.keys.include?(target)
+        if params["#{target}_revision_id"].present?
+          # there is an acl for the target, but it does not have the group so need to add group
+          targets_to_add_group << target
+          target_revision_ids[target] = params["#{target}_revision_id"]
+        else
+          # If there is no revision_id but the acl_info says we should be adding to an existing permission here,
+          # then another user has modified the permission while this user was making changes
+          targets_to_fail << target
+        end
       end
     end
 
-    all_update_perms = targets_to_skip + targets_to_remove_group + targets_to_update_perms + targets_to_add_group + targets_to_delete
+    all_update_perms = targets_to_skip + targets_to_remove_group + targets_to_update_perms + targets_to_add_group + targets_to_delete + targets_to_fail
     # need to create any target permissions not in existing permissions
-    targets_to_create = permissions_params.keys - all_update_perms
-
-    [targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete]
+    unfiltered_targets_to_create = permissions_params.keys - all_update_perms
+    unfiltered_targets_to_create.each do |target|
+      if params["#{target}_revision_id"].blank?
+        targets_to_create << target
+      else
+        targets_to_fail << target
+      end
+    end
+    [targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete, targets_to_fail, target_revision_ids]
   end
 
   # sort and update target permissions
-  def update_target_permissions(all_permissions:, permissions_params:, targets_to_add_group: [], targets_to_update_perms: [], targets_to_remove_group: [], type:, group_id:, successes: [], fails: [])
+  def update_target_permissions(all_permissions:, permissions_params:, targets_to_add_group: [], targets_to_update_perms: [], targets_to_remove_group: [], type:, group_id:, successes: [], fails: [], overwrite_fails: [], revision_ids: {})
     identity_type = "#{type}_identity"
 
     all_permissions.each do |full_perm|
@@ -145,28 +207,35 @@ module PermissionManagement
 
       next unless new_perm_obj
 
-      log_target = target
-      log_target = "#{current_user.provider_id} #{target}" if type == 'provider'
-
       update_permission(
         acl_object: new_perm_obj,
         concept_id: concept_id,
         identity_type: identity_type,
-        log_target: log_target,
+        target: target,
         successes: successes,
-        fails: fails
+        fails: fails,
+        overwrite_fails: overwrite_fails,
+        revision_id: revision_ids[target]
       )
     end
   end
 
-  def update_permission(acl_object:, concept_id:, identity_type:, log_target:, successes: [], fails: [])
-    update_permission_response = cmr_client.update_permission(acl_object, concept_id, token)
+  def update_permission(acl_object:, concept_id:, identity_type:, target:, successes: [], fails: [], overwrite_fails:[], revision_id: nil)
+    log_target = target
+    log_target = "#{current_user.provider_id} #{target}" if identity_type == 'provider_identity'
+    update_permission_response = cmr_client.update_permission(acl_object, concept_id, token, revision_id)
     if update_permission_response.success?
       Rails.logger.info("#{identity_type.titleize} for target #{log_target} successfully updated by #{current_user}")
-      successes << log_target
+      successes << target
     else
       Rails.logger.error("Update #{identity_type.titleize} for target #{log_target} error: #{update_permission_response.clean_inspect}")
-      fails << log_target
+      update_permission_response.errors.each do |error|
+        if error.include?("Expected revision-id of")
+          overwrite_fails << target
+          return
+        end
+      end
+      fails << target
     end
   end
 
@@ -195,7 +264,7 @@ module PermissionManagement
   end
 
   def create_target_permissions(targets_to_create:, permissions_params:, identity_type:, group_id:, successes: [], fails: [])
-    permissions_to_create = permissions_params.select { |target, _perms| targets_to_create.include?(target) }
+    permissions_to_create = permissions_params.present? ? permissions_params.select { |target, _perms| targets_to_create.include?(target) } : []
 
     permissions_to_create.each do |target, perms|
       new_perm = construct_permission_object(
@@ -220,7 +289,7 @@ module PermissionManagement
     end
   end
 
-  def construct_permission_object(group_id:, permissions:, target:, identity_type:, target_id: nil)
+  def construct_permission_object(group_id:, permissions:, target:, identity_type:, target_id: nil) #target_id: is unused here?
     new_perm = {
       'group_permissions' => [{
           'group_id' => group_id,
