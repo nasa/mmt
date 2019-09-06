@@ -43,4 +43,13 @@ html, body {
 footer, .push {
   height: $footer-height; /* '.push' must be the same height as 'footer' */
   clear: both;
+  // TODO: there might be a better way to implement sticky footer -
+  // https://css-tricks.com/couple-takes-sticky-footer/. Also it may allow us
+  // to implement the background-filler differently
+}
+
+.background-filler {
+  // cover any background image peeking out under content within the wrapper
+  background-color: $light-grey;
+  min-height: 64px;
 }
