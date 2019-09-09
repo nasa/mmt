@@ -186,7 +186,7 @@ module PermissionManagement
       concept_id = full_perm['concept_id']
       acl_object = full_perm.fetch('acl', {})
       target = acl_object.fetch(identity_type, {}).fetch('target', nil)
-      new_perms = permissions_params[target]
+      new_perms = permissions_params[target] || []
       if targets_to_add_group.include?(target)
         new_perm_obj = edit_permission_object(
                          permission_object: acl_object,
