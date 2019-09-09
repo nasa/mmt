@@ -13,6 +13,7 @@ FactoryGirl.define do
     provider_id 'MMT_2'
     draft_type 'CollectionDraftProposal'
     entry_title { draft_entry_title }
+    short_name { draft_short_name }
 
     trait :with_valid_dates do
       draft {{

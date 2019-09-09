@@ -21,8 +21,8 @@ describe 'Proposals listed on the Manage Collection Proposals page' do
   context 'when there are proposals' do
     before do
       4.times { create(:full_collection_draft_proposal) }
-      create(:full_collection_draft_proposal, draft_short_name: 'An Example Proposal', version: '5', draft_entry_title: 'An Example Proposal Title')
-      create(:full_collection_draft_proposal, draft_short_name: 'An Example Proposal2', version: '')
+      create(:full_collection_draft_proposal, draft_short_name: 'An Example Proposal', version: '5', draft_entry_title: 'An Example Title')
+      create(:full_collection_draft_proposal, draft_short_name: 'An Second Example Proposal', version: '')
 
       visit manage_collection_proposals_path
     end
@@ -31,13 +31,13 @@ describe 'Proposals listed on the Manage Collection Proposals page' do
       expect(page).to have_link('More')
     end
 
-    it 'displays versions correctly' do
-      expect(page).to have_content('An Example Proposal_5')
-      expect(page).to have_content('An Example Proposal2')
+    it 'displays short names correctly' do
+      expect(page).to have_content('An Example Proposal')
+      expect(page).to have_content('An Second Example Proposal')
     end
 
     it 'displays entry titles' do
-      expect(page).to have_content('An Example Proposal Title')
+      expect(page).to have_content('An Example Title')
     end
 
     context 'when visiting the index page' do
@@ -45,13 +45,13 @@ describe 'Proposals listed on the Manage Collection Proposals page' do
         visit collection_draft_proposals_path
       end
 
-      it 'displays versions correctly' do
-        expect(page).to have_content('An Example Proposal_5')
-        expect(page).to have_content('An Example Proposal2')
+      it 'displays short names correctly' do
+        expect(page).to have_content('An Example Proposal')
+        expect(page).to have_content('An Second Example Proposal')
       end
 
       it 'displays entry titles' do
-        expect(page).to have_content('An Example Proposal Title')
+        expect(page).to have_content('An Example Title')
       end
     end
   end
