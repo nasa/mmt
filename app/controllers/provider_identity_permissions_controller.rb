@@ -60,7 +60,6 @@ class ProviderIdentityPermissionsController < ManageCmrController
   def update
     @group_id = params[:id]
     permissions_params = params[:provider_permissions] || {}
-    redirect_to provider_identity_permissions_path and return if permissions_params.nil?
 
     permissions_params&.each { |_target, perms| perms.delete('') }
     all_provider_permissions = get_permissions_for_identity_type(type: 'provider')
