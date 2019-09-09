@@ -97,7 +97,7 @@ module PermissionManagement
     assembled_permissions
   end
 
-  def sort_permissions_to_update(assembled_all_permissions:, permissions_params:)
+  def sort_permissions_to_update(assembled_all_permissions:, permissions_params:, type:)
     permissions_params ||= {}
 
     targets_to_add_group = []
@@ -108,6 +108,8 @@ module PermissionManagement
     target_revision_ids = {}
     targets_to_fail = []
     targets_to_create = []
+
+    current_revisions = get_revisions_for_edit(type: type)
 
     assembled_all_permissions.each do |target, acl_info|
       if acl_info['matched_to_group'] # group is currently in the target acl
@@ -122,16 +124,20 @@ module PermissionManagement
             targets_to_remove_group << target
             target_revision_ids[target] = params["#{target}_revision_id"]
           else
-            # If there is no revision_id but the acl_info says we should be deleting here,
-            # then another user has modified the permission while this user was making changes
             targets_to_fail << target
           end
         elsif permissions_params[target] == [] && acl_info['num_groups'] == 1
-          if params["#{target}_revision_id"].present?
+          # *** CONCERN ***
+          # There is no way to guarantee delete does not overwrite changes from other users
+          # because the CMR does not accept a revision_id on delete calls. Comparing two
+          # revision ids before we send the request is the best I can see to do in the current
+          # state.
+          if params["#{target}_revision_id"].present? && params["#{target}_revision_id"] == (current_revisions[target]).to_s
             # removing permissions, but group is only group in the acl, need to delete the acl
             targets_to_delete << target
             target_revision_ids[target] = params["#{target}_revision_id"]
           else
+            puts params["#{target}_revision_id"], current_revisions[target]
             # If there is no revision_id but the acl_info says we should be deleting here,
             # then another user has modified the permission while this user was making changes
             targets_to_fail << target

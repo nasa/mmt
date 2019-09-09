@@ -71,24 +71,11 @@ class ProviderIdentityPermissionsController < ManageCmrController
                                            group_id: @group_id
                                          )
 
-    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, pre_targets_to_delete, targets_to_fail, target_revision_ids = sort_permissions_to_update(assembled_all_permissions: selective_provider_permission_info, permissions_params: permissions_params)
+    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete, targets_to_fail, target_revision_ids = sort_permissions_to_update(assembled_all_permissions: selective_provider_permission_info, permissions_params: permissions_params, type: 'provider')
     next_revision_ids = {}
     target_revision_ids.each do |key, value|
       next_revision_ids[key] = (Integer(value) + 1).to_s
     end
-    current_revisions = get_revisions_for_edit(type: 'provider')
-
-    # The CMR does not accept a revision_id for deletes.  This does _not_
-    # close the possible concurrency problem, but it should make it almost non-existent
-    targets_to_delete = []
-    pre_targets_to_delete.each do |target|
-      if current_revisions[target] == Integer(target_revision_ids[target])
-        targets_to_delete << target
-      else
-        targets_to_fail << target
-      end
-    end
-
     successes = []
     overwrite_fails = targets_to_fail
     fails = []
