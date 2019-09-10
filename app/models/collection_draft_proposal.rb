@@ -13,6 +13,8 @@ class CollectionDraftProposal < CollectionDraft
 
   aasm column: 'proposal_status', whiny_transitions: false do
     state :in_work, initial: true
+    # When this state is enabled, uncomment a test in spec/features/proposal/collection_draft_proposals/collection_draft_proposals_destroy_spec.#!/usr/bin/env ruby -wKU
+    # state :submitted
   end
 
   private
