@@ -9,6 +9,17 @@ module Proposal
       redirect_to manage_collection_proposals_path
     end
 
+    def destroy
+      # According to the documentation, only "In Work" proposals should be deletable
+      # "Rejected" and "Submitted" can be rescinded to "In Work" to be deleted.
+      # "Approved" and "Done" can be neither rescinded nor deleted.
+      unless get_resource&.in_work?
+        flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.destroy.flash.error") + '. Only proposals in an "In Work" status can be deleted.'
+        redirect_to collection_draft_proposal_path(get_resource) and return
+      end
+      super
+    end
+
     private
 
     def set_resource_by_model
