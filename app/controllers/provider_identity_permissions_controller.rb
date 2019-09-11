@@ -41,9 +41,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
     group_provider_permissions_list = get_permissions_for_identity_type(type: 'provider', group_id: @group_id)
 
     # assemble provider permissions for the table of checkboxes
-    @group_provider_permissions = assemble_permissions_for_table(permissions: group_provider_permissions_list, type: 'provider', group_id: @group_id)
-    # assemble a hash of current revision ids
-    @revision_ids = get_revisions_for_edit(type: 'provider')
+    @group_provider_permissions, @revision_ids = assemble_permissions_for_table(permissions: group_provider_permissions_list, type: 'provider')
 
     group_response = cmr_client.get_group(@group_id, token)
     if group_response.success?
@@ -60,23 +58,35 @@ class ProviderIdentityPermissionsController < ManageCmrController
   def update
     @group_id = params[:id]
     permissions_params = params[:provider_permissions] || {}
+    overwrite_fails = []
 
     permissions_params&.each { |_target, perms| perms.delete('') }
     all_provider_permissions = get_permissions_for_identity_type(type: 'provider')
     # assemble permissions so they can be sorted and updated
-    selective_provider_permission_info = assemble_permissions_for_updating(
+    selective_provider_permission_info, revision_ids = assemble_permissions_for_updating(
                                            full_permissions: all_provider_permissions,
                                            type: 'provider',
                                            group_id: @group_id
                                          )
 
-    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete, targets_to_fail, target_revision_ids = sort_permissions_to_update(assembled_all_permissions: selective_provider_permission_info, permissions_params: permissions_params, type: 'provider')
+    # If the revision ids do not match, another user's changes would be overwritten
+    # Removing it from the permissions_params and selective_full_system_permission_info
+    # prevents it from being sorted into a category to be changed
+    (permissions_params.keys | revision_ids.keys).each do |key|
+      unless revision_ids[key]&.to_s == params["#{key}_revision_id"]
+        Rails.logger.info("User #{current_user.urs_uid} attempted to modify ACL #{key} in provider #{current_user.provider_id}, but failed because another user had already made a change.")
+        overwrite_fails << key
+        permissions_params.delete(key)
+        selective_provider_permission_info.delete(key)
+      end
+    end
+
+    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete = sort_permissions_to_update(assembled_all_permissions: selective_provider_permission_info, permissions_params: permissions_params)
     next_revision_ids = {}
-    target_revision_ids.each do |key, value|
-      next_revision_ids[key] = (Integer(value) + 1).to_s
+    (targets_to_add_group + targets_to_update_perms + targets_to_remove_group).each do |target|
+      next_revision_ids[target] = (Integer(params["#{target}_revision_id"]) + 1).to_s
     end
     successes = []
-    overwrite_fails = targets_to_fail
     fails = []
 
     create_target_permissions(
