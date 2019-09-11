@@ -1,4 +1,4 @@
-describe 'Attempting to access the Manage CMR functionalities', js: true do
+describe 'Attempting to access the Manage CMR functionalities in proposal mode', js: true do
   before do
     set_as_proposal_mode_mmt
     login
@@ -21,6 +21,8 @@ describe 'Attempting to access the Manage CMR functionalities', js: true do
     expect(page).to have_no_content('Data Quality Summaries')
   end
 
+  # Groups was chosen arbitrarily to represent "a function available through the
+  # manage cmr page" that should be inaccessible to draft MMT.
   it 'does not let the user reach the groups page' do
     visit groups_path
 
