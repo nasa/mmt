@@ -13,6 +13,8 @@ module Cmr
     end
 
     def create_order_option(order_option, token)
+      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
+
       url = '/legacy-services/rest/option_definitions'
       content_type = { 'Content-Type' => 'application/json' }
       body = { 'option_definition' => order_option }
@@ -26,6 +28,8 @@ module Cmr
     end
 
     def delete_order_option(id, token)
+      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
+
       url = "/legacy-services/rest/option_definitions/#{id}"
       delete(url, nil, nil, { 'Echo-Token' => token })
     end
@@ -36,6 +40,8 @@ module Cmr
     end
 
     def add_order_option_assignments(id, order_option, token)
+      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
+
       url = "/legacy-services/rest/catalog_item_option_assignments"
       content_type = { 'Content-Type' => 'application/json' }
       body = {
@@ -49,6 +55,8 @@ module Cmr
     end
 
     def delete_order_option_assignments(option_assignment_guid, token)
+      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
+      
       url = "/legacy-services/rest/catalog_item_option_assignments/#{option_assignment_guid}"
       delete(url, nil, nil, { 'Echo-Token' => token })
     end
