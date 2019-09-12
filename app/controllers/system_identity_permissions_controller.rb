@@ -118,21 +118,16 @@ class SystemIdentityPermissionsController < ManageCmrController
     )
 
     unless successes.blank?
-      flash[:success] = (successes.reduce('') do |memo, target|
-        memo += '<br>' unless memo.blank?
-        memo + "'#{target.titleize}' permissions were saved"
-      end).html_safe
+      flash[:success] = successes.join(', ').titleize + ' permissions were saved.'
     end
     unless fails.blank? && overwrite_fails.blank?
-      error_message = fails.reduce('') do |memo, target|
-        memo += '<br>' unless memo.blank?
-        memo + "'#{target.titleize}' permissions were unable to be saved."
+      error_message = fails.join(', ').titleize + ' permissions were unable to be saved.' unless error_message.blank?
+      overwrite_error_message = overwrite_fails.join(', ').titleize + ' permissions were unable to be saved because another user made changes to those permissions.' unless overwrite_error_message.present?
+      if error_message.present?
+        flash[:error] = overwrite_error_message.present? ? error_message + '<br>' + overwrite_error_message : error_message
+      else
+        flash[:error] = overwrite_error_message
       end
-      error_message = overwrite_fails.reduce(error_message) do |memo, target|
-        memo += '<br>' unless memo.blank?
-        memo + "'#{target.titleize}' permissions were unable to be saved because another user made changes to those permissions."
-      end
-      flash[:error] = error_message.html_safe
     end
 
     redirect_to system_identity_permissions_path
