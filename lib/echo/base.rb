@@ -24,6 +24,7 @@ module Echo
     end
 
     def make_request(url, body)
+      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
       parsed_body = Hash.send('from_xml', body).fetch('Envelope', {}).fetch('Body', {})
 
       Rails.logger.info("SOAP call: URL: #{url} - Params: #{parsed_body.keys.first}: #{parsed_body[parsed_body.keys.first].except('xmlns:ns2', 'xmlns:ns3', 'xmlns:ns4', 'token').inspect} - Time: #{Time.now.to_s(:log_time)}")
