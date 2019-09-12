@@ -58,7 +58,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
     end
 
     it 'does not succeed' do
-      expect(page).to have_content("'Dashboard Admin' permissions were unable to be saved because another user made changes to those permissions.")
+      expect(page).to have_content('Dashboard Admin permissions were unable to be saved because another user made changes to those permissions.')
     end
   end
 
@@ -85,7 +85,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
     end
 
     it 'does not succeed' do
-      expect(page).to have_content("'Dashboard Admin' permissions were unable to be saved because another user made changes to those permissions.")
+      expect(page).to have_content('Dashboard Admin permissions were unable to be saved because another user made changes to those permissions.')
     end
   end
 
@@ -125,7 +125,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
     end
 
     it 'does not succeed' do
-      expect(page).to have_content("'User' permissions were unable to be saved because another user made changes to those permissions.")
+      expect(page).to have_content('User permissions were unable to be saved because another user made changes to those permissions.')
     end
   end
 end

@@ -56,10 +56,7 @@ describe 'Saving Provider Identity Permissions', reset_provider: true do
       expect(page).to have_content('Provider Object Permissions')
       expect(page).to have_content('Click on a Group to access the provider object permissions for that group.')
 
-      expect(page).to have_content("'Group' permissions were saved")
-      expect(page).to have_content("'Ingest Management Acl' permissions were saved")
-      expect(page).to have_content("'Option Definition' permissions were saved")
-      expect(page).to have_content("'Provider Policies' permissions were saved")
+      expect(page).to have_content('Option Definition, Provider Policies, Group, Ingest Management Acl permissions were saved')
       expect(page).to have_no_content('permissions were unable to be saved')
     end
   end
@@ -86,10 +83,7 @@ describe 'Saving Provider Identity Permissions', reset_provider: true do
       expect(page).to have_content('Provider Object Permissions')
       expect(page).to have_content('Click on a Group to access the provider object permissions for that group.')
 
-      expect(page).to have_content("'Provider Calendar Event' permissions were saved")
-      expect(page).to have_content("'Ingest Management Acl' permissions were saved")
-      expect(page).to have_content("'Provider Information' permissions were saved")
-      expect(page).to have_content("'Extended Service' permissions were saved")
+      expect(page).to have_content('Extended Service, Provider Calendar Event, Provider Information, Ingest Management Acl permissions were saved')
       expect(page).to have_no_content('permissions were unable to be saved')
     end
   end
