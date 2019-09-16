@@ -24,8 +24,6 @@ module Cmr
     end
 
     def get_collections_by_post(query, token = nil, response_format = 'umm-json')
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       defaults = {
         'sort_key' => 'entry_title'
       }
@@ -75,8 +73,6 @@ module Cmr
     end
 
     def add_collection_assocations_to_variable(concept_id, collection_ids, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/variables/#{concept_id}/associations"
             else
@@ -91,8 +87,6 @@ module Cmr
     end
 
     def add_collection_assocations_to_service(concept_id, collection_ids, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/services/#{concept_id}/associations"
             else
@@ -107,8 +101,6 @@ module Cmr
     end
 
     def delete_collection_assocations_to_variable(concept_id, collection_ids, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/variables/#{concept_id}/associations"
             else
@@ -123,8 +115,6 @@ module Cmr
     end
 
     def delete_collection_assocations_to_service(concept_id, collection_ids, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/services/#{concept_id}/associations"
             else
@@ -207,8 +197,6 @@ module Cmr
     ### CMR Ingest
 
     def translate_collection(draft_metadata, from_format, to_format, skip_validation = false)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3002/translate/collection'
             else
@@ -224,8 +212,6 @@ module Cmr
     end
 
     def ingest_collection(metadata, provider_id, native_id, token, content_type = nil)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
@@ -245,8 +231,6 @@ module Cmr
     end
 
     def delete_collection(provider_id, native_id, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
@@ -260,8 +244,6 @@ module Cmr
     end
 
     def ingest_variable(metadata, provider_id, native_id, token, headers_override = nil)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
@@ -280,8 +262,6 @@ module Cmr
     end
 
     def ingest_service(metadata, provider_id, native_id, token, headers_override = nil)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/services/#{encode_if_needed(native_id)}"
@@ -300,8 +280,6 @@ module Cmr
     end
 
     def delete_variable(provider_id, native_id, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
             else
@@ -314,8 +292,6 @@ module Cmr
     end
 
     def delete_service(provider_id, native_id, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/services/#{encode_if_needed(native_id)}"
             else
@@ -356,8 +332,6 @@ module Cmr
     end
 
     def create_bulk_update(provider_id, params, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       # ingest/providers/<provider-id>/bulk-update/collections
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/bulk-update/collections"
@@ -382,8 +356,6 @@ module Cmr
     end
 
     def create_group(group, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               add_users_to_local_cmr(group['members'], token) if group['members']
               'http://localhost:3011/groups'
@@ -397,8 +369,6 @@ module Cmr
     end
 
     def update_group(concept_id, group, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3011/groups/#{concept_id}"
             else
@@ -420,8 +390,6 @@ module Cmr
     end
 
     def delete_group(concept_id, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3011/groups/#{concept_id}"
             else
@@ -441,8 +409,6 @@ module Cmr
     end
 
     def add_group_members(concept_id, user_uids, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       # if using local cmr, need to add users to it
       url = if Rails.env.development? || Rails.env.test?
               add_users_to_local_cmr(user_uids, token)
@@ -454,8 +420,6 @@ module Cmr
     end
 
     def remove_group_members(concept_id, user_uids, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3011/groups/#{concept_id}/members"
             else
@@ -476,8 +440,6 @@ module Cmr
     ### CMR Permissions (aka ACLs), via Access Control
 
     def add_group_permissions(request_object, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       # Example: curl -XPOST -i -H "Content-Type: application/json" -H "Echo-Token: XXXXX" https://cmr.sit.earthdata.nasa.gov/access-control/acls -d \
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3011/acls'
@@ -516,8 +478,6 @@ module Cmr
     end
 
     def update_permission(request_object, concept_id, token, revision_id = nil)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3011/acls/#{concept_id}"
             else
@@ -531,8 +491,6 @@ module Cmr
     end
 
     def delete_permission(concept_id, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-      
       # curl -XDELETE -i -H "Echo-Token: mock-echo-system-token" https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200000000-CMR
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3011/acls/#{concept_id}"

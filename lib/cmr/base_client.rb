@@ -95,14 +95,21 @@ module Cmr
     end
 
     def delete(url, params = {}, body = nil, headers = {})
+      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
       request(:delete, url, params, body, headers)
     end
 
     def post(url, body, headers = {})
+      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
+      proposal_mode_safe_post(url, body, headers)
+    end
+
+    def proposal_mode_safe_post(url, body, headers = {})
       request(:post, url, nil, body, headers)
     end
 
     def put(url, body, headers = {})
+      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
       request(:put, url, nil, body, headers)
     end
 

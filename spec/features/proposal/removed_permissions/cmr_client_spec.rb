@@ -32,27 +32,27 @@ describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to
   end
 
   it 'cannot ingest_collection' do
-    expect { cmr_client.ingest_collection({}, {}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    expect { cmr_client.ingest_collection({}, {}, '', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot delete_collection' do
-    expect { cmr_client.delete_collection({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    expect { cmr_client.delete_collection({}, '', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot ingest_variable' do
-    expect { cmr_client.ingest_variable({}, {}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    expect { cmr_client.ingest_variable({}, {}, '', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot ingest_service' do
-    expect { cmr_client.ingest_service({}, {}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    expect { cmr_client.ingest_service({}, {}, '', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot delete_variable' do
-    expect { cmr_client.delete_variable({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    expect { cmr_client.delete_variable({}, '', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot delete_service' do
-    expect { cmr_client.delete_service({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    expect { cmr_client.delete_service({}, '', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot create_bulk_update' do

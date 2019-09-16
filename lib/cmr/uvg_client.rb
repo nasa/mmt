@@ -52,8 +52,6 @@ module Cmr
     # Proposal_mode before action, pundit, and a specific block to the call itself
 
     def uvg_generate(params, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:4000/generate'
             else
@@ -64,8 +62,6 @@ module Cmr
     end
 
     def uvg_augment_definitions(params, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:4000/augment/definitions'
             else
@@ -76,8 +72,6 @@ module Cmr
     end
 
     def uvg_augment_keywords(params, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:4000/augment/keywords'
             else
@@ -88,8 +82,6 @@ module Cmr
     end
 
     def uvg_augment_estimates(params, token)
-      raise NotAllowedError.new(__method__) if Rails.configuration.proposal_mode
-
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:4000/augment/estimates'
             else
