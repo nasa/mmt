@@ -120,14 +120,14 @@ class SystemIdentityPermissionsController < ManageCmrController
     unless successes.blank?
       flash[:success] = successes.join(', ').titleize + ' permissions were saved.'
     end
-    unless fails.blank? && overwrite_fails.blank?
-      error_message = fails.join(', ').titleize + ' permissions were unable to be saved.' unless error_message.blank?
-      overwrite_error_message = overwrite_fails.join(', ').titleize + ' permissions were unable to be saved because another user made changes to those permissions.' unless overwrite_error_message.present?
-      if error_message.present?
-        flash[:error] = overwrite_error_message.present? ? error_message + '<br>' + overwrite_error_message : error_message
-      else
-        flash[:error] = overwrite_error_message
-      end
+    error_message = fails.join(', ').titleize
+    overwrite_error_message = overwrite_fails.join(', ').titleize
+    if error_message.present? && overwrite_error_message.present?
+      flash[:error] = error_message + ' permissions were unable to be saved.<br>' + overwrite_error_message + ' permissions were unable to be saved because another user made changes to those permissions.'
+    elsif error_message.present?
+      flash[:error] = error_message + ' permissions were unable to be saved.'
+    elsif overwrite_error_message.present?
+      flash[:error] = overwrite_error_message + ' permissions were unable to be saved because another user made changes to those permissions.'
     end
 
     redirect_to system_identity_permissions_path
