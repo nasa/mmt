@@ -1,17 +1,11 @@
 class CollectionDraftProposalPolicy < ApplicationPolicy
-
-  attr_reader :user_context
-
-  def initialize(user_context, object)
-    @user_context = user_context
-  end
-
+  
   def publish?
     false
   end
 
   def show?
-    verify_mode_and_logged_in?
+    verify_mode_and_non_nasa_draft_user
   end
 
   def new?
@@ -23,19 +17,21 @@ class CollectionDraftProposalPolicy < ApplicationPolicy
   end
 
   def create?
-    verify_mode_and_logged_in?
+    verify_mode_and_non_nasa_draft_user
   end
 
   def update?
-    verify_mode_and_logged_in?
+    verify_mode_and_non_nasa_draft_user
   end
 
   def destroy?
-    verify_mode_and_logged_in?
+    verify_mode_and_non_nasa_draft_user
   end
 
-  def verify_mode_and_logged_in?
-    proposal_mode_enabled? && !@user_context.user['urs_uid'].blank?
+  private
+
+  def verify_mode_and_non_nasa_draft_user
+    proposal_mode_enabled? && is_non_nasa_draft_user?(user: user.user, token: user.token)
   end
 
   def proposal_mode_enabled?

@@ -1,14 +1,14 @@
 # :nodoc:
-class ServiceOptionAssignmentPolicy < ProviderPolicy
+class ServiceOptionAssignmentPolicy < ApplicationPolicy
   def new?
     create?
   end
 
   def create?
-    user_has_permission_to('create', 'OPTION_ASSIGNMENT')
+    user_has_provider_permission_to(user: user.user, action: 'create', target: 'OPTION_ASSIGNMENT', token: user.token)
   end
 
   def destroy?
-    user_has_permission_to('delete', 'OPTION_ASSIGNMENT')
+    user_has_provider_permission_to(user: user.user, action: 'delete', target: 'OPTION_ASSIGNMENT', token: user.token)
   end
 end

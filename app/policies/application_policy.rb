@@ -1,5 +1,7 @@
 # :nodoc:
 class ApplicationPolicy
+  include PermissionChecking
+
   attr_reader :user, :target
 
   def initialize(user, target)
@@ -35,10 +37,6 @@ class ApplicationPolicy
     false
   end
 
-  def cmr_client
-    @cmr_client ||= Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
-  end
-
   # :nodoc:
   class Scope
     attr_reader :user, :scope
@@ -51,5 +49,11 @@ class ApplicationPolicy
     def resolve
       scope.all
     end
+  end
+
+  private
+
+  def cmr_client
+    @cmr_client ||= Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
   end
 end

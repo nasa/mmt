@@ -1,5 +1,5 @@
 # :nodoc:
-class SystemGroupPolicy < SystemPolicy
+class SystemGroupPolicy < ApplicationPolicy
   def new?
     create?
   end
@@ -9,11 +9,13 @@ class SystemGroupPolicy < SystemPolicy
   end
 
   def create?
-    user_has_permission_to('create', 'GROUP')
+    # user_has_permission_to('create', 'GROUP')
+    user_has_system_permission_to(user: user.user, action: 'create', target: 'GROUP', token: user.token)
   end
 
   def read?
-    user_has_permission_to('read', 'GROUP')
+    # user_has_permission_to('read', 'GROUP')
+    user_has_system_permission_to(user: user.user, action: 'read', target: 'GROUP', token: user.token)
   end
 
   def show?
