@@ -1,7 +1,3 @@
-# MMT-129, MMT-818
-
-require 'rails_helper'
-
 describe 'Viewing Order Policies', js: true do
   context 'when no order policies exist' do
     before do
@@ -33,7 +29,7 @@ describe 'Viewing Order Policies', js: true do
           expect(page).to have_content('New MMT_2 Order Policies')
 
           wait_for_jQuery
-          
+
           # Check that all 6 results appear on the page
           expect(page).to have_selector('#collections_supporting_duplicate_order_items_fromList option', count: 6)
 

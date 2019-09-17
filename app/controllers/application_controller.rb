@@ -1,6 +1,7 @@
 # :nodoc:
 class ApplicationController < ActionController::Base
   include Pundit
+  include PermissionChecking
 
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
@@ -433,5 +434,4 @@ class ApplicationController < ActionController::Base
   def launchpad_cookie_name
     Rails.configuration.launchpad_cookie_name
   end
-
 end
