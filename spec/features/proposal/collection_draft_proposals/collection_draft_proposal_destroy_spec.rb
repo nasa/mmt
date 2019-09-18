@@ -1,7 +1,7 @@
 describe 'Collection Draft Proposal destruction', js: true do
   before do
     login
-    set_as_proposal_mode_mmt
+    set_as_proposal_mode_mmt(with_required_acl: true)
   end
 
   context 'when deleting a "In Work" proposal' do

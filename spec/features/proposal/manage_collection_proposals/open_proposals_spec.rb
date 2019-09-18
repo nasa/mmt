@@ -2,7 +2,7 @@ describe 'Proposals listed on the Manage Collection Proposals page' do
   draft_proposal_display_max_count = 5 # should agree with @draft_proposal_display_max_count found in manage_collection_proposals_controller
 
   before do
-    set_as_proposal_mode_mmt
+    set_as_proposal_mode_mmt(with_required_acl: true)
     login
   end
 

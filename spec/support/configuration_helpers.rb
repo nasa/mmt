@@ -32,8 +32,16 @@ module Helpers
       # allow_any_instance_of(CollectionDraftProposal).to receive(:exception_unless_draft_only?).and_return(nil)
     end
 
-    def set_as_proposal_mode_mmt
+    def set_as_proposal_mode_mmt(with_required_acl: false)
       allow(Mmt::Application.config).to receive(:proposal_mode).and_return(true)
+
+      if with_required_acl
+        # we have tests for checking whether a user has the Non-NASA Draft User ACL
+        # to access Draft MMT (proposal mode) and CRUD Collection Draft Proposals
+        # but for most of our test for proposal mode, it would be too cumbersome
+        # to have to set up the group and ACL in the local CMR
+        allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_user?).and_return(true)
+      end
 
       # allow_any_instance_of(CollectionDraftProposal).to receive(:exception_unless_draft_only?).and_return(raise ActiveRecord::Rollback) # can this raise an exception?
     end

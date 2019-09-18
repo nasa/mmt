@@ -5,7 +5,7 @@ describe 'Collection Draft Proposal creation', js: true do
 
   context 'when creating a new collection draft proposal from scratch' do
     before do
-      set_as_proposal_mode_mmt
+      set_as_proposal_mode_mmt(with_required_acl: true)
       visit manage_collection_proposals_path
       click_on 'Create New Record'
     end
