@@ -193,7 +193,7 @@ describe 'User Access' do
 
   context 'when proposal_mode is turned on' do
     before do
-      set_as_proposal_mode_mmt
+      set_as_proposal_mode_mmt(with_required_acl: true)
     end
 
     context 'when a user is logged out' do
