@@ -1,7 +1,7 @@
 describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
   before do
     login
-    set_as_proposal_mode_mmt
+    set_as_proposal_mode_mmt(with_required_acl: true)
     4.times { create(:full_collection_draft_proposal) }
     create(:full_collection_draft_proposal, draft_short_name: 'An Example Proposal', version: '5', draft_entry_title: 'An Example Title')
     create(:full_collection_draft_proposal, draft_short_name: 'A Second Example Proposal', version: '')

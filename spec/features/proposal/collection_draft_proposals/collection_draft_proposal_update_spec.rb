@@ -4,7 +4,7 @@ describe 'Collection Draft Proposal Update', js: true do
   end
   context 'when updating an existing collection draft proposal' do
     before do
-      set_as_proposal_mode_mmt
+      set_as_proposal_mode_mmt(with_required_acl: true)
       @collection_draft_proposal = create(:full_collection_draft_proposal)
       visit edit_collection_draft_proposal_path(@collection_draft_proposal)
     end

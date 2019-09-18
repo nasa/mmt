@@ -180,7 +180,7 @@ describe 'Header' do
 
     context 'when proposal mode is turned on' do
       before do
-        set_as_proposal_mode_mmt
+        set_as_proposal_mode_mmt(with_required_acl: true)
       end
 
       context 'from the Manage Collections page' do
