@@ -1,11 +1,11 @@
-describe 'Citing These Data Tab preview' do
+describe 'Citation Information Tab preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
       before do
         login
         draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
-        find('.tab-label', text: 'Citing These Data').click
+        find('.tab-label', text: 'Citation Information').click
       end
 
       it 'does not display metadata' do
@@ -19,11 +19,11 @@ describe 'Citing These Data Tab preview' do
         login
         draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
-        find('.tab-label', text: 'Citing These Data').click
+        find('.tab-label', text: 'Citation Information').click
       end
 
       it 'display metadata' do
-        within '#citing-these-data-panel' do
+        within '#citation-information-panel' do
           expect(page).to have_content('Title: Citation title')
           expect(page).to have_content('Version: v1')
           expect(page).to have_content('Creator: Citation creator')
