@@ -77,7 +77,15 @@
         value_type: 'update_value', value_hash: @task.fetch('update-value', {})
       } %>
 
-      <%= submit_tag 'Submit', class: 'eui-btn--blue' %>
+      <%= link_to "Submit", "#bulk-update-confirmation-modal", class: 'display-modal eui-btn--blue' %>
+      <div id="bulk-update-confirmation-modal" class="eui-modal-content">
+        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+        <p>All records updated by the Bulk Update will be stored in the CMR in UMM-JSON format. Are you sure you want to proceed?</p>
+        <p>
+          <a href="javascript:void(0)" id="invalid-draft-deny" class="eui-btn modal-close">No</a>
+          <%= submit_tag 'Yes', class: 'eui-btn--blue' %>
+        </p>
+      </div>
     <% end %>
   </section>
 </div>

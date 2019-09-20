@@ -56,6 +56,7 @@ describe 'Bulk updating Location Keywords' do
     context 'when submitting the bulk update' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
+        click_on 'Yes'
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
@@ -150,6 +151,7 @@ describe 'Bulk updating Location Keywords' do
     context 'when submitting the bulk update' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
+        click_on 'Yes'
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
@@ -251,6 +253,7 @@ describe 'Bulk updating Location Keywords' do
     context 'when submitting the bulk update' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
+        click_on 'Yes'
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
@@ -327,6 +330,11 @@ describe 'Bulk updating Location Keywords' do
       click_on 'Preview'
     end
 
+    it 'has the correct confirmation message', bulk_update_step_1: true do
+      click_on 'Submit'
+      expect(page).to have_content('All records updated by the Bulk Update will be stored in the CMR in UMM-JSON format. Are you sure you want to proceed?')
+    end
+
     it 'displays the preview information', bulk_update_step_1: true do
       expect(page).to have_content('Preview of New MMT_2 Bulk Update')
 
@@ -351,6 +359,7 @@ describe 'Bulk updating Location Keywords' do
     context 'when submitting the bulk update' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
+        click_on 'Yes'
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last

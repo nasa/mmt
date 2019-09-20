@@ -54,6 +54,7 @@ describe 'Bulk updating Data Centers' do
     context 'when submitting the bulk update' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
+        click_on 'Yes'
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
@@ -171,6 +172,7 @@ describe 'Bulk updating Data Centers' do
         context 'when submitting the bulk update' do
           before(:each, bulk_update_step_3: true) do
             click_on 'Submit'
+            click_on 'Yes'
 
             # need to wait until the task status is 'COMPLETE'
             task_id = page.current_path.split('/').last
@@ -302,6 +304,7 @@ describe 'Bulk updating Data Centers' do
         context 'when submitting the bulk update' do
           before(:each, bulk_update_step_3: true) do
             click_on 'Submit'
+            click_on 'Yes'
 
             # need to wait until the task status is 'COMPLETE'
             task_id = page.current_path.split('/').last

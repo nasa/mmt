@@ -48,6 +48,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         )
 
         click_on 'Submit'
+        click_on 'Yes'
       end
 
       it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
@@ -136,6 +137,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         )
 
         click_on 'Submit'
+        click_on 'Yes'
       end
 
       it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
@@ -222,6 +224,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         )
 
         click_on 'Submit'
+        click_on 'Yes'
       end
 
       it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
@@ -319,6 +322,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         )
 
         click_on 'Submit'
+        click_on 'Yes'
       end
 
       it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
@@ -417,6 +421,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         )
 
         click_on 'Submit'
+        click_on 'Yes'
       end
 
       it 'the bulk update fails and respopulates the Bulk Update Form with previously entered information' do
