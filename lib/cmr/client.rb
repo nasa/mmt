@@ -2,7 +2,8 @@ module Cmr
   class Client
     def self.client_for_environment(env, service_configs)
       service_config = service_configs['earthdata'][env]
-      urs_client_id = service_configs['urs'][Rails.env.to_s][service_config['urs_root']]
+      mmt_mode = Rails.configuration.proposal_mode ? 'mmt_proposal_mode' : 'mmt_proper'
+      urs_client_id = service_configs['urs'][mmt_mode][Rails.env.to_s][service_config['urs_root']]
       Cmr::Client.new(service_config, urs_client_id)
     end
 
