@@ -284,7 +284,8 @@ class ApplicationController < ActionController::Base
     else
       services = Rails.configuration.services
       config = services['earthdata'][Rails.configuration.cmr_env]
-      client_id = services['urs'][Rails.env.to_s][config['urs_root']]
+      mmt_mode = Rails.configuration.proposal_mode ? 'mmt_proposal_mode' : 'mmt_proper'
+      client_id = services['urs'][mmt_mode][Rails.env.to_s][config['urs_root']]
 
       "#{token}:#{client_id}"
     end
