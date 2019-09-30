@@ -330,7 +330,7 @@ describe 'Bulk updating Location Keywords' do
       click_on 'Preview'
     end
 
-    it 'has the correct confirmation message', bulk_update_step_1: true do
+    it 'has the correct submit confirmation message', bulk_update_step_1: true do
       click_on 'Submit'
       expect(page).to have_content('All records updated by the Bulk Update will be stored in the CMR in UMM-JSON format. Are you sure you want to proceed?')
     end
