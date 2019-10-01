@@ -1,25 +1,32 @@
 <nav>
   <div class="content">
-    <h2 class="<%= 'current' if current_manage_title == 'manage_collections' %>">
-      <%= link_to 'Manage Collections', manage_collections_path %>
-      <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_c_version)}" %></span>
-    </h2>
-
-    <h2 class="<%= 'current' if current_manage_title == 'manage_variables' %>">
-      <%= link_to 'Manage Variables', manage_variables_path %>
-      <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_var_version)}" %></span>
-    </h2>
-
-    <% if Rails.configuration.umm_s_enabled %>
-      <h2 class="<%= 'current' if current_manage_title == 'manage_services' %>">
-        <%= link_to 'Manage Services', manage_services_path %>
-        <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_s_version)}" %></span>
+    <% if !Rails.configuration.proposal_mode %>
+      <h2 class="<%= 'current' if current_manage_title == 'manage_collections' %>">
+        <%= link_to 'Manage Collections', manage_collections_path %>
+        <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_c_version)}" %></span>
       </h2>
-    <% end %>
 
-    <% if Rails.configuration.groups_enabled %>
-      <h2 class="<%= 'current' if current_manage_title == 'manage_cmr' %>">
-        <%= link_to 'Manage CMR', manage_cmr_path %>
+      <h2 class="<%= 'current' if current_manage_title == 'manage_variables' %>">
+        <%= link_to 'Manage Variables', manage_variables_path %>
+        <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_var_version)}" %></span>
+      </h2>
+
+      <% if Rails.configuration.umm_s_enabled %>
+        <h2 class="<%= 'current' if current_manage_title == 'manage_services' %>">
+          <%= link_to 'Manage Services', manage_services_path %>
+          <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_s_version)}" %></span>
+        </h2>
+      <% end %>
+
+      <% if Rails.configuration.groups_enabled %>
+        <h2 class="<%= 'current' if current_manage_title == 'manage_cmr' %>">
+          <%= link_to 'Manage CMR', manage_cmr_path %>
+        </h2>
+      <% end %>
+    <% else %>
+      <h2 class="<%= 'current' if current_manage_title == 'manage_collection_proposals' %>">
+        <%= link_to 'Manage Collection Proposals', manage_collection_proposals_path %>
+        <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_c_version)}" %></span>
       </h2>
     <% end %>
   </div>

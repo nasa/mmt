@@ -13,7 +13,7 @@ class CollectionsController < ManageCollectionsController
     @language_codes = cmr_client.get_language_codes
     @draft = CollectionDraft.where(provider_id: @provider_id, native_id: @native_id).first
 
-    add_breadcrumb breadcrumb_name(@collection, 'collections'), collection_path(@concept_id)
+    add_breadcrumb fetch_entry_id(@collection, 'collections'), collection_path(@concept_id)
   end
 
   def edit
@@ -46,7 +46,7 @@ class CollectionsController < ManageCollectionsController
   end
 
   def revisions
-    add_breadcrumb breadcrumb_name(@collection, 'collections'), collection_path(@concept_id)
+    add_breadcrumb fetch_entry_id(@collection, 'collections'), collection_path(@concept_id)
     add_breadcrumb 'Revision History', collection_revisions_path(@concept_id)
   end
 

@@ -27,16 +27,30 @@ earthdata:
 
 # Every (MMT, URS) environment pair has a different client id.
 urs:
-  production:
-    "https://urs.earthdata.nasa.gov": "QCuabaWMrGyq0OvCj0X-pg"
-  uat:
-    "https://uat.urs.earthdata.nasa.gov": "zFb4tV63ET-V6-oRnDKmJg"
-  sit:
-    "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
-  development:
-    "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
-  test:
-    "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
+  mmt_proper:
+    production:
+      "https://urs.earthdata.nasa.gov": "QCuabaWMrGyq0OvCj0X-pg"
+    uat:
+      "https://uat.urs.earthdata.nasa.gov": "zFb4tV63ET-V6-oRnDKmJg"
+    sit:
+      "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
+    development:
+      "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
+    test:
+      "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
+  mmt_proposal_mode:
+    # TODO: Draft MMT production and uat have not yet been registered with URS
+    # when they have, we will need to update these client ids
+    production:
+      "https://urs.earthdata.nasa.gov": "QCuabaWMrGyq0OvCj0X-pg"
+    uat:
+      "https://uat.urs.earthdata.nasa.gov": "zFb4tV63ET-V6-oRnDKmJg"
+    sit:
+      "https://sit.urs.earthdata.nasa.gov": "K1EF5n6rbUzoEi_1SFOLQg"
+    development:
+      "https://sit.urs.earthdata.nasa.gov": "K1EF5n6rbUzoEi_1SFOLQg"
+    test:
+      "https://sit.urs.earthdata.nasa.gov": "K1EF5n6rbUzoEi_1SFOLQg"
 
 echo_soap:
   services:

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Resubmitting Provider Orders' do
   let(:order_guid) { 'FF330AD3-1A89-871C-AC94-B689A5C95723' }
 

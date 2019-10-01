@@ -1,6 +1,3 @@
-# MMT-561
-require 'rails_helper'
-
 describe 'Listing System Level Groups' do
   context 'when viewing the index page with a mix of system level and provider level groups' do
     before do

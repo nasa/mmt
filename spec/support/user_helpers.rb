@@ -1,30 +1,5 @@
 module Helpers
   module UserHelpers
-    def require_launchpad_and_urs_login
-      set_required_login_method(launchpad_required: true, urs_required: true)
-    end
-
-    def require_launchpad_login
-      set_required_login_method(launchpad_required: true, urs_required: false)
-    end
-
-    def require_urs_login
-      set_required_login_method(launchpad_required: false, urs_required: true)
-    end
-
-    def require_no_login_methods
-      set_required_login_method(launchpad_required: false, urs_required: false)
-    end
-
-    def set_required_login_method(launchpad_required:, urs_required:)
-      allow_any_instance_of(ApplicationController).to receive(:launchpad_login_required?).and_return(launchpad_required)
-      allow_any_instance_of(ApplicationController).to receive(:urs_login_required?).and_return(urs_required)
-    end
-
-    def make_launchpad_button_hidden(hide)
-      allow_any_instance_of(ApplicationController).to receive(:hide_launchpad_button?).and_return(hide)
-    end
-
     def profile_body(admin: false)
       body = {
         'uid'           => 'testuser',

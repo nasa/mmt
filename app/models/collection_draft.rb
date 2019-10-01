@@ -43,24 +43,25 @@ class CollectionDraft < Draft
     end
 
     def create_from_collection(collection, user, native_id)
+      # TODO: try to refactor this method for all drafts
       new_entry_title = (collection['EntryTitle'].blank?) ? nil : collection['EntryTitle']
 
       if native_id
         # Edited record
-        draft = CollectionDraft.find_or_create_by(native_id: native_id)
+        draft = self.find_or_create_by(native_id: native_id)
         draft.entry_title = new_entry_title
         draft.short_name = (collection['ShortName'].blank?) ? nil : collection['ShortName']
       else
         # Cloned record
-        draft = CollectionDraft.create
+        draft = self.create
         draft.entry_title = "#{new_entry_title} - Cloned"
         collection['EntryTitle'] = "#{new_entry_title} - Cloned"
         draft.short_name = nil
         collection.delete('ShortName')
         collection.delete('MetadataDates')
       end
-      draft.user = user
-      draft.provider_id = user.provider_id # TODO is this problematic for collections editing permissions?
+
+      draft.set_user_and_provider(user)
       draft.draft = collection
       draft.save
       draft

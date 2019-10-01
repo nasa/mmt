@@ -24,6 +24,13 @@ module ManageMetadataHelper
     (SERVICES_CONTROLLERS & controller.lookup_context.prefixes).any? || (controller.lookup_context.prefixes.include?('collection_associations') && params[:service_id])
   end
 
+  def is_collection_draft_proposal_controller?
+    controller.lookup_context.prefixes.each do |item|
+      return true if item.start_with?('proposal')
+    end
+    false
+  end
+
   def current_manage_title
     if controller.lookup_context.prefixes.include?('search')
       "manage_#{resource_type}"
@@ -33,6 +40,8 @@ module ManageMetadataHelper
       'manage_variables'
     elsif is_services_controller?
       'manage_services'
+    elsif is_collection_draft_proposal_controller?
+      'manage_collection_proposals'
     else
       # default, including collection drafts and everything under manage collections
       'manage_collections'

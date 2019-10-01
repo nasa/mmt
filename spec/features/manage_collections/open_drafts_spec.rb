@@ -1,6 +1,3 @@
-# MMT-57
-
-require 'rails_helper'
 # Basic draft creation and retrieval via the list on the Manage Collections page are tested in draft_creation_spec.rb
 
 describe 'Collection Drafts listed on the Manage Collections page' do

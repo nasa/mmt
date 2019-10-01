@@ -1,5 +1,5 @@
 <% content_for :header_title do %>
-  <h2><%= breadcrumb_name(get_resource.draft, resource_name) %></h2>
+  <h2><%= fetch_entry_id(get_resource.draft, resource_name) %></h2>
   <p class="subtitle"><%= display_header_subtitle(get_resource.draft, resource_name) %></p>
 <% end %>
 

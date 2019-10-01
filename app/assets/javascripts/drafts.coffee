@@ -360,6 +360,8 @@ $(document).ready ->
       $select.prop 'disabled', false
 
       url = "/subregion_options?parent_region=#{countryCode}"
+      if ($(this).parents('.proposal-mode').length)
+        url = "/proposal/subregion_options?parent_region=#{countryCode}"
       $select.load url, (e) ->
         # if 'Select State/Province is only option
         if $(e).length < 2

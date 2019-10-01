@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Group permissions', reset_provider: true do
   modal_text = 'requires you change your provider context to MMT_2'
 

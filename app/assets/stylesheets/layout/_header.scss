@@ -119,6 +119,13 @@ header.mmt-header {
         padding-top: 28px;
         padding-left: 72px;
       }
+
+      .proposal-mode-label {
+        background-color: $orange;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline;
+      }
     }
   }
 
@@ -129,7 +136,7 @@ header.mmt-header {
     @include row();
     display: inline-flex;
     font-size: 0.8em;
-    background-color: lighten($ocean-blue, 10%);
+    background-color: var(--proposal-mode-background-color, lighten($ocean-blue, 10%));
     padding: .2em .6em .3em .6em;
     border-radius: 5px;
     margin-bottom: 1em;
@@ -158,6 +165,10 @@ header.mmt-header {
   }
 }
 
+.proposal-mode-color {
+  --proposal-mode-background-color: $orange;
+}
+
 .subtitle {
   margin: 0;
   font-size: 0.9em;
@@ -173,7 +184,7 @@ header.mmt-header {
   width: 115px;
   text-align: left;
   font-size:12px;
-  background-color: lighten($ocean-blue, 10%);
+  background-color: var(--proposal-mode-background-color, lighten($ocean-blue, 10%));
   padding: 10px;
   border-radius: 5px;
   margin-top: 25px;

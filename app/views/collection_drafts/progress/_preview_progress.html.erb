@@ -3,7 +3,7 @@
 
     <h3 class="inline-header">Metadata Fields</h3><a href="#progress-legend" id="legend" class="display-modal"><i class="eui-icon eui-fa-info-circle"></i> <span class="is-invisible">Progress Legend</span></a>
     <ul class="progress-indicator">
-      <% CollectionDraft.forms.each do |form_name| %>
+      <% @resource_class.forms.each do |form_name| %>
       <li id="<%= form_name.dasherize %>">
         <%= render partial: 'collection_drafts/progress/form_progress', locals: { unpublished_resource: unpublished_resource, form_name: form_name, metadata_errors: metadata_errors } %>
       </li>

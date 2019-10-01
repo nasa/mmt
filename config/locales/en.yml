@@ -69,6 +69,19 @@ en:
           flash:
             success: 'Collection Draft Published Successfully!'
             error: 'Collection Draft was not published successfully'
+      collection_draft_proposals:
+        create:
+          flash:
+            success: 'Collection Draft Proposal Created Successfully!'
+            error: 'Collection Draft Proposal was not created successfully'
+        update:
+          flash:
+            success: 'Collection Draft Proposal Updated Successfully!'
+            error: 'Collection Draft Proposal was not updated successfully'
+        destroy:
+          flash:
+            success: 'Collection Draft Proposal Deleted Successfully!'
+            error: 'Collection Draft Proposal was not deleted successfully'
       collection_templates:
         create:
           flash:

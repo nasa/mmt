@@ -18,6 +18,8 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (5.0.5)
+      concurrent-ruby (~> 1.0)
     actionmailer (4.2.11.1)
       actionpack (= 4.2.11.1)
       actionview (= 4.2.11.1)
@@ -188,7 +190,7 @@ GEM
     pg (0.18.4)
     powerpack (0.1.1)
     public_suffix (3.0.3)
-    pundit (1.1.0)
+    pundit (2.1.0)
       activesupport (>= 3.0.0)
     rack (1.6.11)
     rack-test (0.6.3)
@@ -321,6 +323,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   activerecord-import
   activerecord-session_store
   autoprefixer-rails

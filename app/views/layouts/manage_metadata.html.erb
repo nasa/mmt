@@ -16,7 +16,8 @@
   <%= render partial: 'shared/google_tag_manager_head' %>
 </head>
 
-<body class="dashboard">
+<body class="dashboard <%= 'proposal-mode-body offset-background-image' if Rails.configuration.proposal_mode %>">
+
   <%= render partial: 'shared/google_tag_manager_body' %>
   <div class="th-wrapper">
     <header id="earthdata-tophat2" />
@@ -45,6 +46,12 @@
         <%= render 'shared/flash_messages' %>
 
         <%= yield %>
+
+        <% if Rails.configuration.proposal_mode %>
+          <div class="background-filler">
+            <!-- For covering the bit of the proposal mode background image that peeks under some content -->
+          </div>
+        <% end %>
       </main>
     </div>
 

@@ -19,7 +19,7 @@
     <% if unpublished_resource.new_record? %>
       <%= link_to 'Cancel', send("new_#{resource_name}_path"), class: 'cancel' %>
     <% else %>
-      <%= link_to 'Cancel', send("#{resource_name}_path", get_resource), class: 'cancel' %>
+      <%= link_to 'Cancel', send("#{resource_name}_path", unpublished_resource), class: 'cancel' %>
     <% end %>
     <p class="update-timestamp">
       <% unless unpublished_resource.new_record? %>

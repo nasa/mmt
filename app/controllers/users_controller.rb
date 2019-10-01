@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   skip_before_action :ensure_user_is_logged_in, except: [:set_provider, :refresh_providers]
   skip_before_action :setup_query
   skip_before_action :provider_set?
+  skip_before_action :proposal_mode_enabled?
 
   def login
     session[:last_point] = request.referrer
@@ -127,15 +128,19 @@ class UsersController < ApplicationController
     log_urs_session_keys
     log_all_session_keys
 
-    Rails.logger.debug '>>>>> running set_available_providers'
-    # Updates the user's available providers
-    current_user.set_available_providers(token)
-    log_all_session_keys
+    unless Rails.configuration.proposal_mode
+      # users do not need providers in proposal mode (Draft MMT)
 
-    Rails.logger.debug '>>>>> running get_providers'
-    # Refresh (force retrieve) the list of all providers
-    cmr_client.get_providers(true)
-    log_all_session_keys
+      Rails.logger.debug '>>>>> running set_available_providers'
+      # Updates the user's available providers
+      current_user.set_available_providers(token)
+      log_all_session_keys
+
+      Rails.logger.debug '>>>>> running get_providers'
+      # Refresh (force retrieve) the list of all providers
+      cmr_client.get_providers(true)
+      log_all_session_keys
+    end
 
     # Redirects the user to an appropriate location
     redirect_after_login

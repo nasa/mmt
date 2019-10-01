@@ -1,8 +1,6 @@
-require 'rails_helper'
-
 describe CollectionDraft do
   # display_entry_title method
-  it '"display_entry_title" returns a drafts title if available' do
+  it '"display_entry_title" returns a draft\'s title if available' do
     collection_draft = build(:collection_draft, entry_title: 'Title Example')
     expect(collection_draft.display_entry_title).to eq('Title Example')
   end
@@ -12,7 +10,7 @@ describe CollectionDraft do
   end
 
   # display_short_name method
-  it '"display_short_name" returns a drafts short_name if available' do
+  it '"display_short_name" returns a draft\'s short_name if available' do
     collection_draft = build(:collection_draft, short_name: 'ID Example')
     expect(collection_draft.display_short_name).to eq('ID Example')
   end

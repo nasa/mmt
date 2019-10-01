@@ -41,13 +41,12 @@ class CollectionDraftsController < BaseDraftsController
 
     if get_resource.save && get_resource.update_draft(params[:draft], current_user.urs_uid)
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success")
-
       case params[:commit]
       when 'Done'
         redirect_to get_resource
       when 'Next', 'Previous'
         # Determine next form to go to
-        next_form_name = CollectionDraft.get_next_form(params['next_section'], params[:commit])
+        next_form_name = resource_class.get_next_form(params['next_section'], params[:commit])
         redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       when 'Save'
         # tried to use render to avoid another request, but could not get form name in url even with passing in location
@@ -77,7 +76,7 @@ class CollectionDraftsController < BaseDraftsController
         redirect_to get_resource
       when 'Next', 'Previous'
         # Determine next form to go to
-        next_form_name = CollectionDraft.get_next_form(params['next_section'], params[:commit])
+        next_form_name = resource_class.get_next_form(params['next_section'], params[:commit])
         redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       when 'Save'
         # tried to use render to avoid another request, but could not get form name in url even with passing in location
@@ -144,6 +143,10 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   private
+
+  def set_resource_by_model
+    set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+  end
 
   def load_umm_schema
     # if user has a provider set and provider file exists
@@ -393,7 +396,7 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def edit_view_setup
-    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
+    add_breadcrumb fetch_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
     Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} started to modify #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id}")
 

@@ -12,7 +12,7 @@ class BasePublishedRecordController < ManageMetadataController
     end
 
     @draft = draft_resource_class.where(provider_id: @provider_id, native_id: @native_id).first
-    add_breadcrumb breadcrumb_name(get_resource, resource_name), send("#{resource_name}_path", params[:id])
+    add_breadcrumb fetch_entry_id(get_resource, resource_name), send("#{resource_name}_path", params[:id])
   end
 
   def edit
@@ -84,7 +84,7 @@ class BasePublishedRecordController < ManageMetadataController
   end
 
   def revisions
-    add_breadcrumb breadcrumb_name(get_resource, plural_resource_name), send("#{resource_name}_path", @concept_id)
+    add_breadcrumb fetch_entry_id(get_resource, plural_resource_name), send("#{resource_name}_path", @concept_id)
     add_breadcrumb 'Revision History', send("#{resource_name}_revisions_path", @concept_id)
   end
 

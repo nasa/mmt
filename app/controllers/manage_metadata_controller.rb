@@ -3,7 +3,7 @@ class ManageMetadataController < ApplicationController
 
   protected
 
-  def breadcrumb_name(metadata, type)
+  def fetch_entry_id(metadata, type)
     short_name = if type.downcase.include? 'template'
                    metadata['TemplateName'] || '<Blank Template Name>'
                  elsif type.downcase.include? 'collection'
@@ -23,7 +23,7 @@ class ManageMetadataController < ApplicationController
       short_name + version
     end
   end
-  helper_method :breadcrumb_name
+  helper_method :fetch_entry_id
 
   # helper methods used by published record controller methods ensuring a user
   # has the appropriate provider context set
@@ -317,4 +317,12 @@ class ManageMetadataController < ApplicationController
     TemporalKeywords
     PaleoTemporalCoverages
   )
+
+  def ensure_non_nasa_draft_user
+    unless is_non_nasa_draft_user?(user: current_user, token: token)
+      clear_session_and_token_data
+
+      redirect_to root_url, flash: { error: "It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
+    end
+  end
 end

@@ -9,11 +9,11 @@ module Cmr
     def get_oauth_tokens(auth_code:, callback_url: ENV['urs_login_callback_url'], associate: false)
       callback_url = ENV['urs_association_callback_url'] if associate
 
-      post("/oauth/token?grant_type=authorization_code&code=#{auth_code}&redirect_uri=#{callback_url}", {})
+      proposal_mode_safe_post("/oauth/token?grant_type=authorization_code&code=#{auth_code}&redirect_uri=#{callback_url}", {})
     end
 
     def refresh_token(refresh_token)
-      post("/oauth/token?grant_type=refresh_token&refresh_token=#{refresh_token}", {})
+      proposal_mode_safe_post("/oauth/token?grant_type=refresh_token&refresh_token=#{refresh_token}", {})
     end
 
     def get_profile(endpoint, token)
@@ -48,7 +48,7 @@ module Cmr
 
     def associate_urs_uid_and_auid(urs_uid, auid)
       client_token = get_client_token
-      response = post("/api/users/#{urs_uid}/add_nams_auid", "nams_auid=#{auid}", 'Authorization' => "Bearer #{client_token}")
+      response = proposal_mode_safe_post("/api/users/#{urs_uid}/add_nams_auid", "nams_auid=#{auid}", 'Authorization' => "Bearer #{client_token}")
       response
     end
 
@@ -58,7 +58,7 @@ module Cmr
       # URS API says that the client token expires in 3600 (1 hr)
       # so cache token for one hour, and if needed will run request again
       client_access = Rails.cache.fetch('client_token', expires_in: 55.minutes) do
-        post('/oauth/token?grant_type=client_credentials', {})
+        proposal_mode_safe_post('/oauth/token?grant_type=client_credentials', {})
       end
 
       if client_access.success?

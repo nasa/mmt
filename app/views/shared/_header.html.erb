@@ -1,14 +1,18 @@
 <header class="mmt-header" role="eui-banner">
   <!-- <div class="content"> -->
   <div class="<%= defined?(wide) && wide ? 'wide-content' : 'content' %>">
-    <div class="col-6">
+    <div class="col-7">
       <div class="eui-masthead-logo eui-application-logo" id="masthead-logo">
         <%= link_to root_path do %>
-            <h1>Metadata Management Tool</h1>
+            <h1>Metadata Management Tool
+              <% if Rails.configuration.proposal_mode %>
+                <span class="eui-badge proposal-mode-label"><%= "Non-NASA Users" %></span>
+              <% end %>
+            </h1>
         <% end %>
       </div>
     </div>
-    <div class="col-6 header-tools">
+    <div class="col-5 header-tools">
       <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
       <% if controller_name.include? 'welcome'%>
         <% if both_login_methods_on? %>

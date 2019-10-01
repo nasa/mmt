@@ -33,6 +33,12 @@
     border-right: 8px solid darken($ocean-blue, 10%);
     box-shadow: -1.5em 0 0 0 $ocean-blue;
   }
+
+  .slate-grey {
+    background-color: $slate-grey;
+    border-right: 8px solid darken($slate-grey, 10%);
+    box-shadow: -1.5em 0 0 0 $slate-grey;
+  }
 }
 
 .eui-callout-box__list {

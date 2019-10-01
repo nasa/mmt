@@ -2,7 +2,7 @@
 class Draft < ActiveRecord::Base
   belongs_to :user
 
-  validates :provider_id, presence: true
+  validates :provider_id, presence: true, if: :provider_required?
 
   serialize :draft, JSON
 
@@ -23,5 +23,17 @@ class Draft < ActiveRecord::Base
     record_type = draft_type.underscore.split('_').first # we should remove 'draft' from the native_id
     self.native_id ||= "mmt_#{record_type}_#{id}"
     save
+  end
+
+  def set_user_and_provider(user)
+    self.user = user
+    self.provider_id = user.provider_id if provider_required?
+  end
+
+  private
+
+  def provider_required?
+    # provider is required for all drafts
+    true
   end
 end

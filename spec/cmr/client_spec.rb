@@ -6,7 +6,8 @@ describe Cmr::Client do
       env = Rails.configuration.cmr_env
       service_configs = Rails.configuration.services
       service_config = service_configs['earthdata'][env]
-      urs_client_id = service_configs['urs'][Rails.env.to_s][service_config['urs_root']]
+      mmt_mode = Rails.configuration.proposal_mode ? 'mmt_proposal_mode' : 'mmt_proper'
+      urs_client_id = service_configs['urs'][mmt_mode][Rails.env.to_s][service_config['urs_root']]
       cmr_client = Cmr::Client.new(service_config, urs_client_id)
 
       cmr_client.timeout = 50

@@ -1,7 +1,3 @@
-# MMT-381
-
-require 'rails_helper'
-
 describe 'Collection Information form', js: true do
   before do
     login

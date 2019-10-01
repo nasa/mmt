@@ -18,7 +18,7 @@ class BaseDraftsController < DraftsController
       authorize get_resource
     end
 
-    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
+    add_breadcrumb fetch_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
     respond_to do |format|
       format.html { return }
@@ -41,7 +41,7 @@ class BaseDraftsController < DraftsController
   def edit
     authorize get_resource
 
-    add_breadcrumb breadcrumb_name(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
+    add_breadcrumb fetch_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
     add_breadcrumb @json_form.get_form(@current_form).title, send("edit_#{resource_name}_path", get_resource, @current_form)
   end

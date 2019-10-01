@@ -46,6 +46,10 @@ module Mmt
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.5'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.2'
 
+    # Is this the Proposal Mode version of MMT?
+    config.proposal_mode = false
+    config.proposal_mode = true if ENV['proposal_mode'] == 'true'
+
     config.middleware.insert_after "Rails::Rack::Logger", "MiddlewareHealthcheck"
 
     # Launchpad Session Cookie name

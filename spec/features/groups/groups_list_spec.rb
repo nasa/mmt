@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Groups list page', reset_provider: true do
   context 'when there are system level groups' do
     context 'when logging in as a regular user' do

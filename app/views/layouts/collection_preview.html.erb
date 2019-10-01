@@ -16,7 +16,8 @@
   <%= render partial: 'shared/google_tag_manager_head' %>
 </head>
 
-<body class="dashboard">
+<body class="dashboard <%= 'proposal-mode-body offset-background-image' if Rails.configuration.proposal_mode %>">
+
   <%= render partial: 'shared/google_tag_manager_body' %>
   <div class="th-wrapper">
     <header id="earthdata-tophat2" />
