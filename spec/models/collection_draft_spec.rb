@@ -127,6 +127,35 @@ describe CollectionDraft do
     expect(collection_draft.draft).to eq(collection)
   end
 
+  # These tests may be re-enabled or rewritten when create_from_template goes live.
+  ## create_from_template method
+  #it '"create_from_template" saves the draft' do
+  #  draft = { 'TestField1' => 'test value1', 'TestField2' => 'test value2' }
+  #  template = CollectionTemplate.create(draft: draft, entry_title: 'test_title')
+  #  user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
+  #  collection_draft = CollectionDraft.create_from_template(template, user)
+
+  #  expect(collection_draft.draft).to eq(draft)
+  #end
+
+  #it '"create_from_template" saves the entry title' do
+  #  draft = { 'TestField1' => 'test value1', 'TestField2' => 'test value2' }
+  #  template = CollectionTemplate.create(draft: draft, entry_title: 'test_title')
+  #  user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
+  #  collection_draft = CollectionDraft.create_from_template(template, user)
+
+  #  expect(collection_draft.entry_title).to eq('test_title')
+  #end
+
+  #it '"create_from_template" saves the user' do
+  #  draft = { 'TestField1' => 'test value1', 'TestField2' => 'test value2' }
+  #  template = CollectionTemplate.create(draft: draft, entry_title: 'test_title')
+  #  user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
+  #  collection_draft = CollectionDraft.create_from_template(template, user)
+
+  #  expect(collection_draft.user).to eq(user)
+  #end
+
   # add_metadata_dates
   it '"add_metadata_dates" adds create and update dates' do
     collection_draft = create(:collection_draft)

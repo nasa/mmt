@@ -6,12 +6,11 @@
 
 <%= render partial: 'collection_drafts/forms/model_errors' %>
 
-<%= form_tag(collection_draft_path(get_resource), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
+<%= form_tag(send("#{resource_name}_path", get_resource), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
   <%= hidden_field_tag 'commit' %>
 
   <div class="row row-content">
     <section>
-
       <input type="hidden" name='new_form_name' id="new_form_name" />
 
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
@@ -19,6 +18,10 @@
           unpublished_resource: get_resource,
           unpublished_resource_form: @form,
           unpublished_resource_forms: @forms } %>
+
+      <% if Rails.configuration.templates_enabled && resource_name == 'collection_template' %>
+        <h1 id="template_reminder">Collection Template</h1>
+      <% end %>
 
       <div class="row">
         <div class="col-6">
@@ -42,9 +45,11 @@
         var globalJsonSchema = <%= raw @json_schema.to_json %>;
 
         var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
+
+        var globalTemplateNames = <%= sanitize @template_names.to_json %>;
       </script>
 
-      </br>
+      <br>
 
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'bottom',
@@ -54,6 +59,8 @@
 
       <!-- Hidden link to allow modal to be shown -->
       <%= render partial: 'collection_drafts/forms/invalid_draft_modal' %>
+
+      <%= render partial: 'collection_templates/forms/invalid_template_modal' if Rails.configuration.templates_enabled && resource_name == 'collection_template' %>
 
     </section>
   </div>

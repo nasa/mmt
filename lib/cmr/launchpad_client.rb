@@ -2,7 +2,9 @@ module Cmr
   # this client connects to the launchpad `apps` subdomain for the keep alive endpoint
   class LaunchpadClient < BaseClient
     def keep_alive(token)
-      get('/icam/api/sm/v1/keepalive', {}, 'Origin' => ENV['SAML_SP_ISSUER_BASE'], 'cookie' => "#{Rails.configuration.launchpad_cookie_name}=#{token}")
+      # .../pub/... should be availible from 2019-08-03 in SBX and OPS till 
+      # the end of 2019-09-11
+      get('/icam/api/pub/sm/v1/keepalive', {}, 'Origin' => ENV['SAML_SP_ISSUER_BASE'], 'cookie' => "#{Rails.configuration.launchpad_cookie_name}=#{token}")
     end
 
     def launchpad_healthcheck

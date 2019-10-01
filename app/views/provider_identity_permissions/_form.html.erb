@@ -42,6 +42,7 @@
           <% if @group_provider_permissions.keys.include?(provider_target[1]) %>
             <%= hidden_field_tag("provider_permissions[#{provider_target[1]}][]", '') %>
           <% end %>
+          <%= hidden_field_tag("#{provider_target[1]}_revision_id", @revision_ids[provider_target[1]]) unless @revision_ids[provider_target[1]].blank? %>
         </tr>
       <% end %>
     </tbody>

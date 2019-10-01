@@ -1,7 +1,6 @@
 <div class="row row-content">
   <section>
     <h2><%= current_user.provider_id %> Orders</h2>
-
     <table class="orders-table" id="order-tracking-search-results">
       <thead>
         <tr>
@@ -23,9 +22,9 @@
           <% @orders.each_with_index do |order| %>
             <tr>
               <td><%= link_to order.state, order_path(order.guid) %></td>
-              <td><%= DateTime.parse(order.created_date).to_s %></td>
-              <td><%= DateTime.parse(order.submitted_date).to_s %></td>
-              <td><%= DateTime.parse(order.updated_date).to_s %></td>
+              <td><%= safe_date_output order.created_date, 'Not Created' %></td>
+              <td><%= safe_date_output order.submitted_date, 'Not Submited' %></td>
+              <td><%= safe_date_output order.updated_date, 'Not Updated' %></td>
               <td><%= mail_to order.contact_address.email, order.contact_name %></td>
               <td><%= link_to order.guid, provider_order_path(order.guid) %></td>
               <td><%= order.tracking_id %></td>

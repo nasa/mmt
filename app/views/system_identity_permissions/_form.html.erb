@@ -42,6 +42,7 @@
           <% if @group_system_permissions.keys.include?(system_target[1]) %>
             <%= hidden_field_tag("system_permissions[#{system_target[1]}][]", '') %>
           <% end %>
+          <%= hidden_field_tag("#{system_target[1]}_revision_id", @revision_ids[system_target[1]]) unless @revision_ids[system_target[1]].blank? %>
         </tr>
       <% end %>
     </tbody>

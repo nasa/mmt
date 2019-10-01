@@ -1,7 +1,3 @@
-# MMT-582
-
-require 'rails_helper'
-
 describe 'Saving Provider Identity Permissions', reset_provider: true do
   before :all do
     @provider_group = create_group(
@@ -60,8 +56,8 @@ describe 'Saving Provider Identity Permissions', reset_provider: true do
       expect(page).to have_content('Provider Object Permissions')
       expect(page).to have_content('Click on a Group to access the provider object permissions for that group.')
 
-      expect(page).to have_content('Provider Object Permissions were saved.')
-      expect(page).to have_no_content('permissions were unable to be saved.')
+      expect(page).to have_content('Option Definition, Provider Policies, Group, Ingest Management Acl permissions were saved')
+      expect(page).to have_no_content('permissions were unable to be saved')
     end
   end
 
@@ -87,8 +83,8 @@ describe 'Saving Provider Identity Permissions', reset_provider: true do
       expect(page).to have_content('Provider Object Permissions')
       expect(page).to have_content('Click on a Group to access the provider object permissions for that group.')
 
-      expect(page).to have_content('Provider Object Permissions were saved.')
-      expect(page).to have_no_content('permissions were unable to be saved.')
+      expect(page).to have_content('Extended Service, Provider Calendar Event, Provider Information, Ingest Management Acl permissions were saved')
+      expect(page).to have_no_content('permissions were unable to be saved')
     end
   end
 end

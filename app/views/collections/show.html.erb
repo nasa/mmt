@@ -61,22 +61,35 @@
             <% end %>
 
             <% if current_provider?(@provider_id) %>
-              <%= link_to 'Clone Collection Record', clone_collection_path, class: 'eui-btn--link' %>
+              <%= link_to 'Clone Collection Record', clone_collection_path, class: 'eui-btn--link bar-after' %>
             <% elsif available_provider?(@provider_id) %>
               <%= link_to 'Clone Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'clone-collection' } %>
             <% end %>
 
             <% if current_provider?(@provider_id) %>
-              <%= link_to 'Delete Collection Record', "#delete-record-modal", class: 'display-modal delete-collection eui-btn--link' %>
+              <%= link_to 'Delete Collection Record', "#delete-record-modal", class: 'display-modal delete-collection eui-btn--link bar-after' %>
             <% elsif available_provider?(@provider_id) %>
-              <%= link_to 'Delete Collection Record', '#not-current-provider-modal', class: 'display-modal delete-collection not-current-provider eui-btn--link', data: { provider: @provider_id, record_action: 'delete-collection' } %>
+              <%= link_to 'Delete Collection Record', '#not-current-provider-modal', class: 'display-modal delete-collection not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'delete-collection' } %>
             <% end %>
 
-            <%= link_to "Revisions (#{@revisions.size})", collection_revisions_path, class: 'eui-btn--link bar-after bar-before' %>
+            <%= link_to "Revisions (#{@revisions.size})", collection_revisions_path, class: 'eui-btn--link bar-after' %>
 
             <a class="collection-granule-count disabled bar-after" href="#">Granules (<%= @num_granules %>)</a>
 
-            <a class="disabled" href="#">Save as Template</a>
+            <% if Rails.configuration.templates_enabled %>
+              <% if current_provider?(@provider_id) %>
+                <%= link_to 'Save as Template', '#save-as-template-modal', id: 'save_as_template_link' %>
+              <% elsif available_provider?(@provider_id) %>
+                <%= link_to 'Save as Template', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link', data: { provider: @provider_id, record_action: 'create-template-collection' } %>
+              <% end %>
+              <%= form_tag new_from_existing_collection_template_path, method: :post, class: "template_creation_form" do %>
+                <%= hidden_field_tag "collection_id", params[:id] %>
+                <%= hidden_field_tag "origin", "Collection" %>
+                <%= hidden_field_tag "revision_id", @revision_id %>
+                <%= submit_tag 'Save as Template', class: 'eui-btn--blue', id: 'template_new_from_existing_button' %>
+                <%= submit_tag 'Save as Template', class: 'eui-btn--blue', id: 'not-current-provider-create-template-collection-link' %>
+              <% end %>
+            <% end %>
           </p>
 
           <!-- hidden content for action buttons -->

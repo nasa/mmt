@@ -53,6 +53,30 @@ describe 'Searching Orders' do
       end
     end
 
+    context 'when searching by order guid that is not validated' do
+      before do
+        fill_in 'Order GUID', with: 'order_guid'
+
+        VCR.use_cassette('echo_soap/order_management_service/search_by_guid_results_not_validated', record: :none) do
+          within '#order-by-guid-form' do
+            click_on 'Submit'
+          end
+        end
+      end
+      it 'displays the matching order' do
+        within '.orders-table tbody' do
+          expect(page).to have_selector('tr', count: 1)
+
+          within 'tr:first-child' do
+            # State
+            expect(page).to have_link('NOT_VALIDATED', href: '/orders/order_guid')
+            # not submited
+            expect(page).to have_content('Not Submited')
+          end
+        end
+      end
+    end
+
     context 'when searching by order state and date' do
       before do
         select 'SUBMIT_FAILED', from: 'states'

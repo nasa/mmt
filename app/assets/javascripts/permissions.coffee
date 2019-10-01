@@ -7,7 +7,7 @@ handleGranuleConstraintState = (granulesEnabled) ->
 # Handle the hiding and showing of the collection chooser
 handleCollectionOptions = (selectedCollections) ->
   $('#chooser-widget :input').attr('disabled', !selectedCollections)
-  
+
   if selectedCollections
     $('#chooser-widget').fadeIn(100)
   else
@@ -96,7 +96,7 @@ $(document).ready ->
       # Not providing any concept ids will result in all items coming back, avoid that
       $.ajax '/provider_collections',
         method: 'POST'
-        data: 
+        data:
           concept_id: selectedValues
           page_size: selectedValues.length
         success: (data) ->
@@ -120,7 +120,7 @@ $(document).ready ->
     $('.clear-filters').on 'click', (event) ->
       $('#' + $(this).data('container') + ' :input').val('')
       $('#' + $(this).data('container') + ' :checkbox').attr('checked', false)
-      
+
       event.preventDefault()
 
     # add or remove required icons for access value min and max fields if at least one has an input value
@@ -170,7 +170,7 @@ $(document).ready ->
             !$('input[name=collection_applicable]').is(':checked')
         'collectionsChooser_toList[]':
           required: ->
-            $('input[name=collection_option]:checked').val() == 'selected' && $('.hidden-collection').length == 0
+            $('input[name=collection_option]:checked').val() == 'selected' && $('#collectionsChooser_toList').find('option').length == 0 && $('.hidden-collection').length == 0
         'collection_access_value[min_value]':
           required: (element) ->
             # field should be required if min has a value

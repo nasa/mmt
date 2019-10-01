@@ -98,6 +98,9 @@ Rails.application.configure do
 
   # Feature Toggle for UMM-Var Generation
   config.uvg_enabled = false
+  
+  # Feature Toggle for templates
+  config.templates_enabled = true
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'

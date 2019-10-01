@@ -1,7 +1,3 @@
-# MMT-586
-
-require 'rails_helper'
-
 describe 'Saving System Identity Permissions' do
   before :all do
     @group_response = create_group(name: 'Test System Permissions Group 1', description: 'Group to test system permissions', provider_id: nil, admin: true)
@@ -46,8 +42,8 @@ describe 'Saving System Identity Permissions' do
       expect(page).to have_content('System Object Permissions')
       expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
 
-      expect(page).to have_content('System Object Permissions were saved.')
-      expect(page).to have_no_content('permissions were unable to be saved.')
+      expect(page).to have_content('Extended Service, Metric Data Point Sample, System Option Definition, Tag Group permissions were saved.')
+      expect(page).to have_no_content('permissions were unable to be saved')
     end
   end
 end

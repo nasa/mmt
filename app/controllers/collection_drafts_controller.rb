@@ -57,7 +57,7 @@ class CollectionDraftsController < BaseDraftsController
         redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else # record update failed
-      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error")
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error", error_message: generate_model_error)
       load_umm_schema
       new_view_setup
       render :new
@@ -68,6 +68,7 @@ class CollectionDraftsController < BaseDraftsController
     authorize get_resource
 
     if get_resource.update_draft(params[:draft], current_user.urs_uid)
+      Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} successfully modified #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id}")
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
 
       case params[:commit]
@@ -86,9 +87,9 @@ class CollectionDraftsController < BaseDraftsController
         redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else # record update failed
-      # render 'edit' # this should get get_resource_form
-      # Remove
-      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error")
+      errors_list = generate_model_error
+      Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} unsuccessfully modified #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id} because of '#{errors_list}'")
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error", error_message: errors_list)
       load_umm_schema
       edit_view_setup
       render :edit
@@ -397,7 +398,7 @@ class CollectionDraftsController < BaseDraftsController
   def edit_view_setup
     add_breadcrumb fetch_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
-    Rails.logger.info("Audit Log: User #{current_user.urs_uid} started to modify draft #{get_resource.entry_title} for provider #{current_user.provider_id}")
+    Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} started to modify #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id}")
 
     @forms = resource_class.forms
 
@@ -417,5 +418,14 @@ class CollectionDraftsController < BaseDraftsController
     set_location_keywords     if @form == 'spatial_information'
     set_data_centers          if @form == 'data_centers' || @form == 'data_contacts'
     load_data_contacts_schema if @form == 'data_contacts'
+  end
+
+  def set_resource_by_model
+    set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
+  end
+
+  def generate_model_error
+    return unless get_resource.errors.any?
+    get_resource.errors.full_messages.reject(&:blank?).map(&:downcase).join(', ')
   end
 end

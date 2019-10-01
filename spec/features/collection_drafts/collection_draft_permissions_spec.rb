@@ -30,6 +30,7 @@ describe 'Collection draft permissions' do
 
       it 'does not display the collection draft preview' do
         expect(page).to have_no_content('Publish Collection Draft')
+        expect(page).to have_no_content('Save As Template')
         expect(page).to have_no_content('Delete Collection Draft')
         expect(page).to have_no_content('Metadata Preview')
 
@@ -112,6 +113,7 @@ describe 'Collection draft permissions' do
 
       it 'does not display the collection draft preview' do
         expect(page).to have_no_content('Publish Collection Draft')
+        expect(page).to have_no_content('Save As Template')
         expect(page).to have_no_content('Delete Collection Draft')
         expect(page).to have_no_content('Metadata Preview')
 

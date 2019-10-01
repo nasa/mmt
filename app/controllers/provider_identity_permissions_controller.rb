@@ -38,10 +38,10 @@ class ProviderIdentityPermissionsController < ManageCmrController
   def edit
     @group_id = params[:id]
     @group = {}
-    group_provider_permissions_list = get_permissions_for_identity_type(type: 'provider', group_id: @group_id)
+    group_provider_permissions_list = get_permissions_for_identity_type(type: 'provider')
 
     # assemble provider permissions for the table of checkboxes
-    @group_provider_permissions = assemble_permissions_for_table(permissions: group_provider_permissions_list, type: 'provider', group_id: @group_id)
+    @group_provider_permissions, @revision_ids = assemble_permissions_for_table(permissions: group_provider_permissions_list, type: 'provider', group_id: @group_id)
 
     group_response = cmr_client.get_group(@group_id, token)
     if group_response.success?
@@ -57,20 +57,35 @@ class ProviderIdentityPermissionsController < ManageCmrController
 
   def update
     @group_id = params[:id]
-    permissions_params = params[:provider_permissions]
-    redirect_to provider_identity_permissions_path and return if permissions_params.nil?
+    permissions_params = params[:provider_permissions] || {}
+    overwrite_fails = []
 
-    permissions_params.each { |_target, perms| perms.delete('') }
+    permissions_params&.each { |_target, perms| perms.delete('') }
     all_provider_permissions = get_permissions_for_identity_type(type: 'provider')
     # assemble permissions so they can be sorted and updated
-    selective_provider_permission_info = assemble_permissions_for_updating(
+    selective_provider_permission_info, revision_ids = assemble_permissions_for_updating(
                                            full_permissions: all_provider_permissions,
                                            type: 'provider',
                                            group_id: @group_id
                                          )
 
-    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete = sort_permissions_to_update(assembled_all_permissions: selective_provider_permission_info, permissions_params: permissions_params)
+    # If the revision ids do not match, another user's changes would be overwritten
+    # Removing it from the permissions_params and selective_full_system_permission_info
+    # prevents it from being sorted into a category to be changed
+    (permissions_params.keys | revision_ids.keys).each do |key|
+      unless revision_ids[key]&.to_s == params["#{key}_revision_id"]
+        Rails.logger.info("User #{current_user.urs_uid} attempted to modify ACL #{key} in provider #{current_user.provider_id}, but failed because another user had already made a change.")
+        overwrite_fails << key
+        permissions_params.delete(key)
+        selective_provider_permission_info.delete(key)
+      end
+    end
 
+    targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete = sort_permissions_to_update(assembled_all_permissions: selective_provider_permission_info, permissions_params: permissions_params)
+    next_revision_ids = {}
+    (targets_to_add_group + targets_to_update_perms + targets_to_remove_group).each do |target|
+      next_revision_ids[target] = (Integer(params["#{target}_revision_id"]) + 1).to_s
+    end
     successes = []
     fails = []
 
@@ -98,11 +113,23 @@ class ProviderIdentityPermissionsController < ManageCmrController
       type: 'provider',
       group_id: @group_id,
       successes: successes,
-      fails: fails
+      fails: fails,
+      overwrite_fails: overwrite_fails,
+      revision_ids: next_revision_ids
     )
 
-    flash[:success] = 'Provider Object Permissions were saved.' unless successes.blank?
-    flash[:error] = "#{fails.join(', ')} permissions were unable to be saved." unless fails.blank?
+    unless successes.blank?
+      flash[:success] = successes.join(', ').titleize + ' permissions were saved.'
+    end
+    error_message = fails.join(', ').titleize
+    overwrite_error_message = overwrite_fails.join(', ').titleize
+    if error_message.present? && overwrite_error_message.present?
+      flash[:error] = error_message + ' permissions were unable to be saved.<br>' + overwrite_error_message + ' permissions were unable to be saved because another user made changes to those permissions.'
+    elsif error_message.present?
+      flash[:error] = error_message + ' permissions were unable to be saved.'
+    elsif overwrite_error_message.present?
+      flash[:error] = overwrite_error_message + ' permissions were unable to be saved because another user made changes to those permissions.'
+    end
 
     redirect_to provider_identity_permissions_path
   end

@@ -56,7 +56,8 @@ $(document).ready ->
         definition_guid:
           required: true
         'catalog_item_guid_toList[]':
-          required: true
+          required: ->
+            $('.___toList option').length == 0
 
       messages:
         definition_guid:

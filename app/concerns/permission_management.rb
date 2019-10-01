@@ -7,14 +7,13 @@ module PermissionManagement
   # for the methods below, some require type (i.e. 'provider' or 'system') and
   # some require identity_type (i.e. 'provider_identity' or 'system_identity')
 
-  def get_permissions_for_identity_type(type:, group_id: nil)
+  def get_permissions_for_identity_type(type:)
     permissions_list = []
 
     options = { 'include_full_acl' => true,
                 'identity_type' => type,
                 'page_size' => 50 }
 
-    options['permitted_group'] = group_id if group_id
     options['provider'] = current_user.provider_id if type == 'provider'
 
     permissions_response = cmr_client.get_permissions(options, token)
@@ -30,22 +29,25 @@ module PermissionManagement
 
   def assemble_permissions_for_table(permissions:, type:, group_id:)
     assembled_permissions = {}
+    revision_ids = {}
 
     identity_type = "#{type}_identity"
     permissions.each do |perm|
       target = perm.fetch('acl', {}).fetch(identity_type, {}).fetch('target', nil)
 
       group_permission = perm.fetch('acl', {}).fetch('group_permissions', []).select { |group_perm| group_perm['group_id'] == group_id }
-      granted_permissions = group_permission[0].fetch('permissions', [])
+      granted_permissions = group_permission[0]&.fetch('permissions', [])
 
-      assembled_permissions[target] = granted_permissions
+      assembled_permissions[target] = granted_permissions if granted_permissions.present?
+      revision_ids[perm['acl']["#{type}_identity"]['target']] = perm['revision_id']
     end
 
-    assembled_permissions
+    [assembled_permissions, revision_ids]
   end
 
   def assemble_permissions_for_updating(full_permissions:, type:, group_id:)
     assembled_permissions = {}
+    revision_ids = {}
 
     identity_type = "#{type}_identity"
     full_permissions.each do |perm|
@@ -69,9 +71,11 @@ module PermissionManagement
         'matched_to_group' => matched_to_group,
         'granted_permissions' => granted_permissions
       }
+
+      revision_ids[perm['acl']["#{type}_identity"]['target']] = perm['revision_id']
     end
 
-    assembled_permissions
+    [assembled_permissions, revision_ids]
   end
 
   def sort_permissions_to_update(assembled_all_permissions:, permissions_params:)
@@ -98,9 +102,9 @@ module PermissionManagement
           # group is in the acl, but permissions need to be changed
           targets_to_update_perms << target
         end
-      else
+      elsif permissions_params.keys.include?(target)
         # there is an acl for the target, but it does not have the group so need to add group
-        targets_to_add_group << target if permissions_params.keys.include?(target)
+        targets_to_add_group << target
       end
     end
 
@@ -112,14 +116,14 @@ module PermissionManagement
   end
 
   # sort and update target permissions
-  def update_target_permissions(all_permissions:, permissions_params:, targets_to_add_group: [], targets_to_update_perms: [], targets_to_remove_group: [], type:, group_id:, successes: [], fails: [])
+  def update_target_permissions(all_permissions:, permissions_params:, targets_to_add_group: [], targets_to_update_perms: [], targets_to_remove_group: [], type:, group_id:, successes: [], fails: [], overwrite_fails: [], revision_ids: {})
     identity_type = "#{type}_identity"
 
     all_permissions.each do |full_perm|
       concept_id = full_perm['concept_id']
       acl_object = full_perm.fetch('acl', {})
       target = acl_object.fetch(identity_type, {}).fetch('target', nil)
-      new_perms = permissions_params[target]
+      new_perms = permissions_params[target] || []
       if targets_to_add_group.include?(target)
         new_perm_obj = edit_permission_object(
                          permission_object: acl_object,
@@ -145,28 +149,35 @@ module PermissionManagement
 
       next unless new_perm_obj
 
-      log_target = target
-      log_target = "#{current_user.provider_id} #{target}" if type == 'provider'
-
       update_permission(
         acl_object: new_perm_obj,
         concept_id: concept_id,
         identity_type: identity_type,
-        log_target: log_target,
+        target: target,
         successes: successes,
-        fails: fails
+        fails: fails,
+        overwrite_fails: overwrite_fails,
+        revision_id: revision_ids[target]
       )
     end
   end
 
-  def update_permission(acl_object:, concept_id:, identity_type:, log_target:, successes: [], fails: [])
-    update_permission_response = cmr_client.update_permission(acl_object, concept_id, token)
+  def update_permission(acl_object:, concept_id:, identity_type:, target:, successes: [], fails: [], overwrite_fails:[], revision_id: nil)
+    log_target = target
+    log_target = "#{current_user.provider_id} #{target}" if identity_type == 'provider_identity'
+    update_permission_response = cmr_client.update_permission(acl_object, concept_id, token, revision_id)
     if update_permission_response.success?
       Rails.logger.info("#{identity_type.titleize} for target #{log_target} successfully updated by #{current_user}")
-      successes << log_target
+      successes << target
     else
       Rails.logger.error("Update #{identity_type.titleize} for target #{log_target} error: #{update_permission_response.clean_inspect}")
-      fails << log_target
+      update_permission_response.errors.each do |error|
+        if error.include?('Expected revision-id of')
+          overwrite_fails << target
+          return
+        end
+      end
+      fails << target
     end
   end
 
@@ -195,7 +206,7 @@ module PermissionManagement
   end
 
   def create_target_permissions(targets_to_create:, permissions_params:, identity_type:, group_id:, successes: [], fails: [])
-    permissions_to_create = permissions_params.select { |target, _perms| targets_to_create.include?(target) }
+    permissions_to_create = permissions_params.present? ? permissions_params.select { |target, _perms| targets_to_create.include?(target) } : []
 
     permissions_to_create.each do |target, perms|
       new_perm = construct_permission_object(
@@ -220,7 +231,7 @@ module PermissionManagement
     end
   end
 
-  def construct_permission_object(group_id:, permissions:, target:, identity_type:, target_id: nil)
+  def construct_permission_object(group_id:, permissions:, target:, identity_type:)
     new_perm = {
       'group_permissions' => [{
           'group_id' => group_id,

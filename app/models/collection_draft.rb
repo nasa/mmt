@@ -29,6 +29,19 @@ class CollectionDraft < Draft
       DRAFT_FORMS[index + delta] || DRAFT_FORMS.first
     end
 
+    def create_from_template(template, user)
+      template['draft'].delete('TemplateName')
+      draft = CollectionDraft.new do |d|
+        d.draft = template.draft
+        d.entry_title = template.entry_title
+        d.user = user
+        d.provider_id = template.provider_id
+        d.short_name = template.short_name
+      end
+      draft.save
+      draft
+    end
+
     def create_from_collection(collection, user, native_id)
       # TODO: try to refactor this method for all drafts
       new_entry_title = (collection['EntryTitle'].blank?) ? nil : collection['EntryTitle']
@@ -63,11 +76,15 @@ class CollectionDraft < Draft
         self.short_name = params['short_name'].empty? ? nil : params['short_name']
       end
 
+      if params['template_name']
+        self.template_name = params['template_name'].empty? ? nil : params['template_name']
+      end
+
       # Convert {'0' => {'id' => '123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM
       json_params = params.to_hash.to_camel_keys
-      Rails.logger.info("Audit Log: #{editing_user_id} modified Draft Parameters: #{json_params}")
+      Rails.logger.info("Audit Log: Metadata update attempt where #{editing_user_id} modified #{self.class} parameters: #{json_params}")
 
       # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters
       json_params = convert_data_contacts_params(json_params)
@@ -383,4 +400,5 @@ class CollectionDraft < Draft
 
     json_params
   end
+
 end

@@ -6,7 +6,7 @@ class MiddlewareHealthcheck
   def call(env)
     if env['PATH_INFO'.freeze] == '/status'.freeze
       Rails.logger.tagged "middleware health check" do
-        response = [503, {'Content-Type' => 'application/json'}]
+        response = [503, {'Content-Type' => 'application/json', 'X-Powered-By' => 'Metadata-Management-Tool', 'X-Version' => Rails.configuration.version}]
 
         # checks the database health
         begin
@@ -37,7 +37,6 @@ class MiddlewareHealthcheck
         if db_healthy && (ENV['launchpad_login_required'] != 'true' || launchpad_healthy)
           response[0] = 200
         end
-        Rails.logger.info "The Status page returned a #{response[0]} Response:#{response.inspect}"
         response
       end
     else

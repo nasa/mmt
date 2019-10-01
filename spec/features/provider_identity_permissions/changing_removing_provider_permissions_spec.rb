@@ -1,7 +1,3 @@
-# MMT-582
-
-require 'rails_helper'
-
 describe 'Changing or Removing Provider Identity Permissions', reset_provider: true do
   before :all do
     @group = create_group(
@@ -86,8 +82,8 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
         expect(page).to have_content('Provider Object Permissions')
         expect(page).to have_content('Click on a Group to access the provider object permissions for that group.')
 
-        expect(page).to have_content('Provider Object Permissions were saved.')
-        expect(page).to have_no_content('permissions were unable to be saved.')
+        expect(page).to have_content('Option Definition, Provider Policies, Provider Order Tracking Id, Authenticator Definition, Ingest Management Acl, Option Assignment permissions were saved')
+        expect(page).to have_no_content('permissions were unable to be saved')
       end
     end
   end

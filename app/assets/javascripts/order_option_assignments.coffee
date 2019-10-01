@@ -39,7 +39,8 @@ $(document).ready ->
     $('#order-option-assignments-form').validate
       rules:
         'collectionsChooser_toList[]':
-          required: true
+          required: ->
+            $('.___toList option').length == 0
       messages:
         'collectionsChooser_toList[]':
           'You must select at least 1 collection.'
@@ -71,6 +72,7 @@ $(document).ready ->
       rules:
         'order_option_assignment[]':
           required: true
+          
       messages:
         'order_option_assignment[]':
           'You must select at least 1 assignment.'
@@ -136,7 +138,8 @@ $(document).ready ->
         'order-options':
           required: true
         'collectionsChooser_toList[]':
-          required: true
+          required: ->
+            $('.___toList option').length == 0
 
       messages:
         'order-options':

@@ -180,33 +180,23 @@ $(document).ready ->
   $('.metadata-form .multiple, .umm-form .multiple').on 'click', '.remove', (e) ->
     multipleItem = $(this).closest('.multiple-item')
     if !multipleItem.siblings('.multiple-item').length
+      # This is required to get the short name selector to properly renumber.
+      $('.select2-select').select2('destroy')
       # Reset the form state to original page load.
       # Adding another and deleting causes the formatting to break, so this is
       # clearing out the existing fields instead.
       # In order to return the document to the original state, the document needs
       # to clear the Country/RelatedURLs before they would be cleared by changing
       # the contact type, so go up the document in reverse
-      $(multipleItem.find('select:not([disabled="disabled"])').get().reverse()).each (index, element) ->
+      $(multipleItem.find('select:not([disabled="disabled"]):not(.disabled)').get().reverse()).each (index, element) ->
         elem = $(element)
         if elem.prop('selectedIndex')
           elem.prop('selectedIndex', 0).change()
       multipleItem.find('.eui-accordion__body').find('.multiple-item').each (index, element) ->
-        elem = $(element)
-        if elem.siblings('.multiple-item').length
-          # Programmatically clicking the remove rather than calling .remove()
-          # means the extra address lines do not need to be hard coded to be excluded.
-          elem.find('a.remove').click()
-        else
-          # If the index isn't zero, the headers and index numbers need to be adjusted
-          # in order to reset to fresh page load
-          multipleIndex = getIndex(elem)
-          if multipleIndex != 0
-            simple = $(elem).closest('.multiple').hasClass('simple-multiple')
-            type = extractType($(elem).parent())
-            $(elem).closest('.multiple-item').removeClass('multiple-item-' + multipleIndex).addClass 'multiple-item-0'
-            changeHeaderNumbers(elem, 1)
-            changeElementIndex(elem, multipleIndex, 0, simple, type)
+        scrubElement(element)
+      scrubElement(multipleItem)
       multipleItem.find('input').val('')
+      $('.select2-select').select2()
       # Prevent validation from displaying an error for a required field.
       e.stopImmediatePropagation()
     else
@@ -218,6 +208,23 @@ $(document).ready ->
       false
     else
       parseInt classMatch[1]
+
+  scrubElement = (element) ->
+    elem = $(element)
+    if elem.siblings('.multiple-item').length
+      # Programmatically clicking the remove rather than calling .remove()
+      # means the extra address lines do not need to be hard coded to be excluded.
+      elem.find('a.remove').click()
+    else
+      # If the index isn't zero, the headers and index numbers need to be adjusted
+      # in order to reset to fresh page load
+      multipleIndex = getIndex(elem)
+      if multipleIndex != 0
+        simple = $(elem).closest('.multiple').hasClass('simple-multiple')
+        type = extractType($(elem).parent())
+        $(elem).closest('.multiple-item').removeClass('multiple-item-' + multipleIndex).addClass 'multiple-item-0'
+        changeHeaderNumbers(elem, 1)
+        changeElementIndex(elem, multipleIndex, 0, simple, type)
 
   # Shape file uploads
   csrf = undefined
