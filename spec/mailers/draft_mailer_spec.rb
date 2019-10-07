@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe DraftMailer do
   context 'draft_published_notification' do
     user = { name: 'Captain Planet', email: 'supergreen@bluemarble.com' }

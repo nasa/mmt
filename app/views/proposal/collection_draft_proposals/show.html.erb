@@ -18,8 +18,7 @@
               <p>Are you sure you want to submit this proposal?</p>
               <p>
                 <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                <!-- TODO: Update this to a valid link when submission is supported. -->
-                <a href="javascript:void(0)" class="eui-btn modal-close">Yes</a>
+                <%= link_to 'Yes', submit_collection_draft_proposal_path(get_resource), class: 'eui-btn--blue spinner' %>
               </p>
             </div>
           <% end %>
@@ -33,12 +32,14 @@
             </p>
           </div>
         </span>
+      <% elsif get_resource.submitted? %>
+        <%= link_to 'Rescind Draft Submission', rescind_collection_draft_proposal_path(get_resource), class: 'eui-btn--blue display-modal' %>
       <% end %>
       <span id="proposal-status-display">Proposal Status: <%= get_resource.proposal_status.titleize %></span>
     </div>
   </section>
 
-  <%= render partial: 'collection_drafts/progress/preview_progress', locals: { unpublished_resource: get_resource, metadata_errors: @errors || @ingest_errors } %>
+  <%= render partial: 'collection_drafts/progress/preview_progress', locals: { unpublished_resource: get_resource, metadata_errors: @errors || @ingest_errors } if get_resource.in_work? %>
 
   <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, is_mmt: true, editable: true, edsc_url: nil, concept_id: nil, additional_information: nil} %>
 </div>

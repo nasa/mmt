@@ -30,19 +30,17 @@ describe 'Collection Draft Proposal destruction', js: true do
     end
   end
 
-  # This test should be uncommented when the submitted state is added.  It works
-  # without modification, locally, at the time of writing.
-  # context 'when deleting a "Submitted" proposal' do
-  #   before do
-  #     draft = create(:full_collection_draft_proposal, draft_short_name: 'A Deletable Example')
-  #     proposal = CollectionDraftProposal.first
-  #     proposal.proposal_status = 'submitted'
-  #     proposal.save
-  #     visit collection_draft_proposal_path(draft)
-  #   end
+  context 'when deleting a "Submitted" proposal' do
+    before do
+      draft = create(:full_collection_draft_proposal, draft_short_name: 'A Deletable Example')
+      proposal = CollectionDraftProposal.first
+      proposal.proposal_status = 'submitted'
+      proposal.save
+      visit collection_draft_proposal_path(draft)
+    end
 
-  #   it 'does not have a delete link' do
-  #     expect(page).to have_no_link('Delete Collection Draft Proposal')
-  #   end
-  # end
+    it 'does not have a delete link' do
+      expect(page).to have_no_link('Delete Collection Draft Proposal')
+    end
+  end
 end

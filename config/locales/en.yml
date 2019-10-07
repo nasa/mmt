@@ -82,6 +82,14 @@ en:
           flash:
             success: 'Collection Draft Proposal Deleted Successfully!'
             error: 'Collection Draft Proposal was not deleted successfully'
+        submit:
+          flash:
+            success: 'Collection Draft Proposal Submitted Successfully'
+            error: 'Collection Draft Proposal was not submitted successfully'
+        rescind:
+          flash:
+            success: 'Collection Draft Proposal Rescinded Successfully'
+            error: 'Collection Draft Proposal was not rescinded successfully'
       collection_templates:
         create:
           flash:
