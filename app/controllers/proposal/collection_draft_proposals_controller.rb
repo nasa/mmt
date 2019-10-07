@@ -2,7 +2,45 @@ module Proposal
   class CollectionDraftProposalsController < CollectionDraftsController
     skip_before_action :provider_set?
 
+    # TODO: Limit this to only the things a user is supposed to do, also need a new one for approver
+    # TODO: Also need one for functions which both can perform (e.g. show)
     before_action :ensure_non_nasa_draft_user
+    before_action(only: %I[submit rescind]) { set_resource }
+
+    def edit
+      unless get_resource&.in_work?
+        flash[:error] = 'Only proposals in an "In Work" status can be edited.'
+        redirect_to collection_draft_proposal_path(get_resource) and return
+      end
+      super
+    end
+
+    def submit
+      authorize get_resource
+
+      if get_resource.submit && get_resource.save
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+
+        ProposalMailer.proposal_submitted_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id']).deliver_now
+        flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.submit.flash.success")
+      else
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.submit.flash.error")
+      end
+      redirect_to collection_draft_proposal_path(get_resource) and return
+    end
+
+    def rescind
+      authorize get_resource
+
+      if get_resource.rescind && get_resource.save
+        flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.success")
+      else
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully rescinded #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.error")
+      end
+      redirect_to collection_draft_proposal_path(get_resource) and return
+    end
 
     def publish
       authorize get_resource

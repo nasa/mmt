@@ -1,5 +1,4 @@
 class CollectionDraftProposalPolicy < ApplicationPolicy
-  
   def publish?
     false
   end
@@ -26,6 +25,14 @@ class CollectionDraftProposalPolicy < ApplicationPolicy
 
   def destroy?
     verify_mode_and_non_nasa_draft_user
+  end
+
+  def submit?
+    update?
+  end
+
+  def rescind?
+    update?
   end
 
   private

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe GroupMailer do
   context 'invite_user' do
     let(:invite) { create(:user_invite) }

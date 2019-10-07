@@ -1,0 +1,18 @@
+<h1 class="styled-heading"><%= "#{@short_name}_#{@version} Submitted" %></h1>
+
+
+<div class="email-message">
+  <p>
+    <%= @user[:name] %>,
+  </p>
+  <p>
+    <%= "Your collection metadata proposal #{@short_name}_#{@version} has been successfully submitted for review." %>
+  </p>
+  <div class="center">
+    <%= link_to 'View Collection Metadata Proposal', collection_draft_proposal_url(@id), class: 'btn btn-blue' %>
+  </div>
+</div>
+
+<div class="email-footer">
+  <img src="https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/meatball.png" alt="Meatball" class="image-center" />
+</div>
