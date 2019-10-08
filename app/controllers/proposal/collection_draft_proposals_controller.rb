@@ -27,7 +27,7 @@ module Proposal
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.submit.flash.error")
       end
-      redirect_to collection_draft_proposal_path(get_resource) and return
+      redirect_to collection_draft_proposal_path(get_resource)
     end
 
     def rescind
@@ -39,7 +39,7 @@ module Proposal
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully rescinded #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.error")
       end
-      redirect_to collection_draft_proposal_path(get_resource) and return
+      redirect_to collection_draft_proposal_path(get_resource)
     end
 
     def publish

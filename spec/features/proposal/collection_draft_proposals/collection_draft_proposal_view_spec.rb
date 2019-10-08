@@ -11,13 +11,16 @@ describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
     end
 
     it 'displays the current proposal status' do
-      expect(page).to have_content('Proposal Status: In Work')
+      within '#proposal-status-display' do
+        expect(page).to have_content('PROPOSAL STATUS:')
+        expect(page).to have_content('IN WORK')
+      end
     end
 
     it 'has a submit button' do
       expect(page).to have_link('Submit for Review')
       click_on('Submit for Review')
-      expect(page).to have_content('Are you sure you want to submit this proposal?')
+      expect(page).to have_content('Are you sure you want to submit this proposal for review? Upon approval, your collection record will be published to the CMR.')
     end
 
     it 'has a delete link' do
