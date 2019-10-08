@@ -20,7 +20,7 @@ describe ProposalMailer do
         expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
       end
 
-      it 'renders the new record published notice including short name + version' do
+      it 'renders the new metadata submitted notice including short name + version' do
         expect(mail.html_part.body).to have_content("#{short_name}_#{version} Submitted")
         expect(mail.html_part.body).to have_content("#{user[:name]}, Your collection metadata proposal #{short_name}_#{version} has been successfully submitted for review.", normalize_ws: true)
         expect(mail.text_part.body).to have_content("#{user[:name]}, Your collection metadata proposal #{short_name}_#{version} has been successfully submitted for review.", normalize_ws: true)
