@@ -15,7 +15,7 @@
             <%= link_to 'Submit for Review', "#submit-proposal-modal", class: 'eui-btn--blue display-modal' %>
             <div id="submit-proposal-modal" class="eui-modal-content">
               <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-              <p>Are you sure you want to submit this proposal?</p>
+              <p>Are you sure you want to submit this proposal for review? Upon approval, your collection record will be published to the CMR.</p>
               <p>
                 <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
                 <%= link_to 'Yes', submit_collection_draft_proposal_path(get_resource), class: 'eui-btn--blue spinner' %>
@@ -33,9 +33,19 @@
           </div>
         </span>
       <% elsif get_resource.submitted? %>
-        <%= link_to 'Rescind Draft Submission', rescind_collection_draft_proposal_path(get_resource), class: 'eui-btn--blue display-modal' %>
+        <%= link_to 'Rescind Draft Submission', "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
+        <div id="rescind-submission-modal" class="eui-modal-content">
+          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+          <p>Are you sure you want to rescind this proposal submission? The proposal will not be reviewed until it has been resubmitted.</p>
+          <p>
+            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+            <%= link_to 'Yes', rescind_collection_draft_proposal_path(get_resource), class: 'eui-btn--blue spinner' %>
+          </p>
+        </div>
       <% end %>
-      <span id="proposal-status-display">Proposal Status: <%= get_resource.proposal_status.titleize %></span>
+      <span id="proposal-status-display">
+        <span class="eui-badge eui-badge--split ">Proposal Status: <span><%= get_resource.proposal_status.titleize %></span></span>
+      </span>
     </div>
   </section>
 

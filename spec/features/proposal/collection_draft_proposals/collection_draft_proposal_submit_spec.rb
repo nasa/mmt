@@ -71,13 +71,20 @@ describe 'Collection Draft Proposal Submit', js: true do
     it 'has a rescind button and cannot be deleted' do
       expect(page).to have_link('Rescind Draft Submission')
       expect(page).to have_no_link('Delete Collection Draft Proposal')
-      expect(page).to have_content('Proposal Status: Submitted')
+      within '#proposal-status-display' do
+        expect(page).to have_content('PROPOSAL STATUS:')
+        expect(page).to have_content('SUBMITTED')
+      end
     end
 
     it 'can be rescinded' do
       click_on 'Rescind Draft Submission'
+      click_on 'Yes'
       expect(page).to have_link('Submit for Review')
-      expect(page).to have_content('Proposal Status: In Work')
+      within '#proposal-status-display' do
+        expect(page).to have_content('PROPOSAL STATUS:')
+        expect(page).to have_content('IN WORK')
+      end
     end
 
     context 'when rescinding fails' do
@@ -88,6 +95,7 @@ describe 'Collection Draft Proposal Submit', js: true do
         proposal.proposal_status = 'in_work'
         proposal.save
         click_on 'Rescind Draft Submission'
+        click_on 'Yes'
       end
 
       it 'provides the correct error message' do
