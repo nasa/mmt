@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe Cmr::Client do
   context 'Cmr Client' do
     it 'cmr_client delegates have assigned timeouts' do

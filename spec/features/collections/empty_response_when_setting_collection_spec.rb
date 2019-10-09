@@ -60,7 +60,7 @@ describe 'Viewing a collection', js: true do
 
       before do
         revisions_response = cmr_success_response(empty_revisions_search_response)
-        allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(revisions_response)
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(revisions_response)
 
         visit collection_path(@ingest_response['concept-id'])
       end

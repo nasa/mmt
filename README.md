@@ -96,7 +96,7 @@ You will need to stop the CMR before upgrading to a new CMR version. Note: stopp
 
 ## Inserting Sample Drafts
 
-You can insert sample drafts into your local database. These commands use the first user in the database (should only be one), and add the drafts to your current provider, so make sure you login to the system and select a provider or the commands will fail.
+You can insert sample drafts into your local database. These commands use the first user in the database (there should only be one), and add the drafts to your current provider, so make sure you login to the system and select a provider or the commands will fail.
 
 To insert a sample draft that only has the required fields present:
 
@@ -110,7 +110,7 @@ To insert a sample draft with every field completed:
 
 ### OpenSSL Issue
 
-*If you have a similar error from `rake cmr:start_and_load` below:
+* If you receive a error from running `rake cmr:start_and_load` like
 
     Faraday::Error::ConnectionFailed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
 
@@ -170,6 +170,9 @@ This isn't an issue normally but with MMT we run a number of services locally wh
 
 For calls to CMR that are asyncronous, we do have a method of waiting for those to finish, syncronously. Within the [spec/helpers/cmr_helper.rb](spec/helpers/cmr_helper.rb) we have a method called `wait_for_cmr` that makes two calls to CMR and ElasticSearch to ensure all work is complete. This should ONLY be used within tests.
 
+## ACLs
+Access Control Lists (ACLs, aka Permissions) determine access to data and functionality in the CMR. See the [Access Control Documentation](https://cmr.earthdata.nasa.gov/access-control/site/docs/access-control/api.html) for technical information.
+
 ### Testing against ACLs
 When testing functionality in the browser that requires specific permissions you'll need to ensure your environment is setup properly and you're able to assign yourself the permissions necessary. This includes:
 
@@ -198,6 +201,18 @@ Replacing URS_USERNAME with your own username. An example:
     [Success] Added username to MMT Admins
 
 From here I'm able to visit `/provider_identity_permissions` and see my newly created group. Clicking on it allows me to grant myself Provider Level Access to the necessary targets for testing.
+
+### Draft MMT
+The Draft MMT is intended for Non-NASA Users to propose new metadata records or changes to existing records in the CMR.
+
+Changing to the Draft MMT (aka proposal mode) is controlled the `proposal_mode` environment variable in your `application.yml` file.
+
+Access to the Draft MMT is controlled by the Non-NASA Draft User ACL. There is a rake task that will create the group and assign the ACL for you (make sure you use your own username):
+
+    rake acls:proposal_mode:draft_user[URS_USERNAME]
+
+  * make sure you use your own username
+  * make sure that `proposal_mode` is set to 'false' in your `application.yml` file when you run this rake task. If you see `NotAllowedError: A requested action is not allowed in the current configuration.` when running this rake task, you missed this step.
 
 ### Replicating SIT Collections Locally
 Often we need collections to exist in our local CMR that already exist in SIT for the purposes of sending collection ids (concept ids) as part of a payload to the ECHO API that doesn't run locally, but instead on testbed. In order to do this the collection concept ids have to match those on SIT so we cannot simply download and ingest them. A rake task exists to replicate collections locally for this purpose.

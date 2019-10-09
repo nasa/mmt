@@ -6,7 +6,7 @@ module CMRCollectionsHelper
     # try again because CMR might be a little slow to index if it is a newly published revision
     attempts = 0
     while attempts < 20
-      revisions_response = cmr_client.get_collections_by_post({ concept_id: concept_id, all_revisions: true, include_granule_counts: true }, token)
+      revisions_response = cmr_client.get_collections({ concept_id: concept_id, all_revisions: true, include_granule_counts: true }, token)
       revisions = if revisions_response.success?
                     revisions_response.body.fetch('items', [])
                   else

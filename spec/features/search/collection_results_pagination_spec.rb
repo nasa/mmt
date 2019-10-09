@@ -1,7 +1,3 @@
-# MMT-268
-
-require 'rails_helper'
-
 describe 'Collection Search Results Pagination', js: true do
   before do
     login

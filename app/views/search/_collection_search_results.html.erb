@@ -6,10 +6,14 @@
   <thead>
     <tr>
       <th class="w20"><%= sort_by_link('Short Name', 'short_name', query, record_type) %></th>
-      <th class="w10">Version</th>
+      <% unless Rails.configuration.proposal_mode %>
+        <th class="w10">Version</th>
+      <% end %>
       <th class="w40"><%= sort_by_link('Entry Title', 'entry_title', query, record_type) %></th>
       <th class="w15"><%= sort_by_link('Provider', 'provider_id', query, record_type) %></th>
-      <th class="w15">Granule Count</th>
+      <% unless Rails.configuration.proposal_mode %>
+        <th class="w15">Granule Count</th>
+      <% end %>
       <th class="w15"><%= sort_by_link('Last Modified', 'revision_date', query, record_type) %></th>
     </tr>
   </thead>
@@ -36,18 +40,22 @@
           <td>
             <%= link_to collection.fetch('umm', {})['short-name'], collection_path(collection.fetch('meta', {})['concept-id']) %>
           </td>
-          <td>
-            <%= collection.fetch('umm', {})['version-id'] %>
-          </td>
+          <% unless Rails.configuration.proposal_mode %>
+            <td>
+              <%= collection.fetch('umm', {})['version-id'] %>
+            </td>
+          <% end %>
           <td>
             <%= collection.fetch('umm', {})['entry-title'] %>
           </td>
           <td>
             <%= collection.fetch('meta', {})['provider-id'] %>
           </td>
-          <td>
-            <%= collection.fetch('meta', {})['granule-count'] %>
-          </td>
+          <% unless Rails.configuration.proposal_mode %>
+            <td>
+              <%= collection.fetch('meta', {})['granule-count'] %>
+            </td>
+          <% end %>
           <td>
             <%= display_last_modified(collection) %>
           </td>

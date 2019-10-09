@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe 'Downloading Service JSON', reset_provider: true, js: true do
+describe 'Downloading Service JSON', js: true do
   before :all do
     @ingest_response, _concept_response = publish_service_draft
   end

@@ -66,5 +66,9 @@
 
   .row-content {
     padding: 0.5em 0;
+
+    // the background image for Draft MMT is larger than the one for MMT proper
+    // and can bleed out under the main content, so this will help prevent that
+    min-height: var(--proposal-mode-content-min-height, 0);
   }
 }
