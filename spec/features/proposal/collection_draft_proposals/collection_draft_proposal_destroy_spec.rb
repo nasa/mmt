@@ -30,7 +30,7 @@ describe 'Collection Draft Proposal destruction', js: true do
     end
   end
 
-  context 'when deleting a "Submitted" proposal' do
+  context 'when attempting to delete a "Submitted" proposal' do
     before do
       draft = create(:full_collection_draft_proposal, draft_short_name: 'A Deletable Example')
       proposal = CollectionDraftProposal.first
