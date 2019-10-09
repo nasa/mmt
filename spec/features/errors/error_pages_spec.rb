@@ -60,7 +60,7 @@ describe 'Error pages' do
 
         # we need to provide a bad response to trigger a desired error
         bad_search_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: 55))
-        allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(bad_search_response)
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections).and_return(bad_search_response)
 
         login
         visit manage_collections_path

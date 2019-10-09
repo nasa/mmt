@@ -71,6 +71,29 @@ namespace :acls do
     end
   end
 
+  namespace :proposal_mode do
+    desc 'Creates a group and grants permission for Non-NASA Draft User'
+    task :draft_user, [:username] => :environment do |_task, args|
+      # Create the group
+      Rake::Task['acls:groups:create'].invoke('Non-NASA Draft Users', 'Group Created for Non-NASA Draft Users', args.username, 'MMT_2')
+
+      group_id = get_group_concept_from_name(group_name: 'Non-NASA Draft Users')
+
+      provider_perm = {
+        'group_permissions' => [{
+          'group_id' => group_id,
+          'permissions' => ['create']
+        }],
+        'provider_identity' => {
+          'target' => 'NON_NASA_DRAFT_USER',
+          'provider_id' => 'MMT_2'
+        }
+      }
+
+      print_result(cmr_client.add_group_permissions(provider_perm, get_acls_token(admin: true)), '`Non-NASA Draft User` permissions added to the group.')
+    end
+  end
+
   def cmr_client
     @cmr_client ||= Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
   end
@@ -85,5 +108,14 @@ namespace :acls do
     else
       puts "[Failure] #{cmr_response.body['errors'].first}"
     end
+  end
+
+  def get_group_concept_from_name(group_name:, token: get_acls_token)
+    filter = { 'name' => group_name }
+    group_response = cmr_client.get_cmr_groups(filter, token)
+
+    raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless group_response.success?
+
+    group_response.body.fetch('items', [{}]).first['concept_id']
   end
 end

@@ -2,6 +2,8 @@
 class SearchController < ManageMetadataController
   include SearchHelper
 
+  skip_before_action :proposal_mode_enabled?
+
   RESULTS_PER_PAGE = 25
 
   def index
@@ -40,7 +42,7 @@ class SearchController < ManageMetadataController
       case @record_type
       when 'collections'
         query['include_granule_counts'] = true
-        cmr_client.get_collections_by_post(query, token)
+        cmr_client.get_collections(query, token)
       when 'variables'
         cmr_client.get_variables(query, token)
       when 'services'
