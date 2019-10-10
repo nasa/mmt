@@ -1,6 +1,6 @@
-describe 'Searching for published collections in proposal mode', reset_provider: true, js: true do
+describe 'Searching for published collections in proposal mode', js: true do
   short_name = "Search Proposal Mode Collection short name #{Faker::Number.number(6)}"
-  entry_title = "Long title for Search Proposal Mode Collection"
+  entry_title = "Long title for Search Proposal Mode Collection #{Faker::Number.number(6)}"
   provider = 'MMT_2'
 
   before :all do
@@ -13,18 +13,13 @@ describe 'Searching for published collections in proposal mode', reset_provider:
     visit manage_collection_proposals_path
   end
 
-  context 'when viewing all collection search results' do
+  context 'when searching for a specific collection' do
     before do
+      fill_in 'keyword', with: short_name
       click_on 'Search Collections'
     end
 
-    it 'displays the collection results' do
-      # there should be 54 collections ingested with the cmr start up script, plus the one ingested above
-      expect(page).to have_content('55 Collection Results')
-      expect(page).to have_content('Showing collections 1 - 25 of 55')
-    end
-
-    it 'displays the table with the correct columns' do
+    it 'displays the search results table with the correct columns' do
       within '#search-results thead tr' do
         expect(page).to have_content('Short Name')
         expect(page).to have_content('Entry Title')
@@ -35,15 +30,11 @@ describe 'Searching for published collections in proposal mode', reset_provider:
         expect(page).to have_no_content('Granule Count')
       end
     end
-  end
 
-  context 'when searching for a specific collection' do
-    before do
-      fill_in 'keyword', with: short_name
-      click_on 'Search Collections'
-    end
+    it 'displays the search results' do
+      expect(page).to have_content('1 Collection Result')
+      expect(page).to have_content('Showing 1 collection')
 
-    it 'displays the correct values in the search results table' do
       within '#search-results tbody tr:nth-child(1)' do
         expect(page).to have_content(short_name)
         expect(page).to have_content(entry_title)
