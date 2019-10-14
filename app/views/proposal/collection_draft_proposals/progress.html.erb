@@ -1,0 +1,98 @@
+
+<div class="row row-content">
+  <section class="action wide-content">
+    <div class="wide-content-inside">
+      <span>
+        <span id="proposal-status-display-left" class="eui-badge eui-badge--split ">Proposal Status: <span><%= get_resource.proposal_status.titleize %></span></span>
+        <span class="progress-update"> Last Updated: <%= "#{get_resource.updated_at.utc} UTC" %></span>
+      </span><br>
+      <span>
+      <div class="timeline">
+        <h4 class="progress-title">Progress</h4>
+        <div class="timeline-wrapper">
+          <div class="timeline-container" id="timeline-create-submission">
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {
+              stage: @first_stage,
+              active: true,
+              information: @first_information
+            } %>
+            <% if @status_history['rejected'] && @status_history['submitted'].nil? %>
+              <div class="timeline-node-active timeline-line-active"></div>
+            <% elsif get_resource.in_work? || get_resource.submitted? %>
+              <div class="timeline-node-active timeline-faded-line-active"></div>
+            <% else %>
+              <div class="timeline-node timeline-line"></div>
+            <% end %>
+          </div>
+          <div class="timeline-container" id="timeline-review-submission">
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {
+              stage: 'Approval',
+              active: @status_history['approved'] || @status_history['rejected'],
+              information: @second_information
+            } %>
+            <% if get_resource.rejected? %>
+              <div class="timeline-node-active timeline-faded-line-active"></div>
+            <% elsif @status_history['approved'] %>
+              <div class="timeline-node timeline-line"></div>
+            <% elsif @status_history['rejected'] %>
+              <div class="timeline-node timeline-faded-line"></div>
+            <% else %>
+              <div class="timeline-faded-node timeline-faded-line"></div>
+            <% end %>
+          </div>
+          <div class="timeline-container" id="timeline-waiting-to-publish">
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {
+              stage: 'Ready to Publish',
+              active: @status_history['approved'],
+              information: ''
+            } %>
+            <% if get_resource.approved? %>
+              <div class="timeline-node-active timeline-faded-line-active"></div>
+            <% elsif @status_history['approved'] %>
+              <div class="timeline-node timeline-line"></div>
+            <% else %>
+              <div class="timeline-faded-node timeline-faded-line"></div>
+            <% end %>
+          </div>
+          <div class="timeline-container" id="timeline-published">
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {
+              stage: 'Published',
+              active: @status_history['done'],
+              information: @fourth_information
+            } %>
+            <% if get_resource.done? %>
+              <div class="timeline-node-active"></div>
+            <% else %>
+              <div class="timeline-faded-node"></div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="progress-actions progress-down">
+        <h4 class="progress-title">Actions</h4>
+        <p class="progress-actions-text"><%= @available_actions %></p>
+        <p class="progress-actions-links">
+          <% if get_resource.in_work? %>
+            <% if @errors %>
+              <%= link_to 'Submit for Review', '#invalid-proposal-modal', class: 'eui-btn--blue display-modal' %>
+              <%= link_to 'Edit Proposal', edit_collection_draft_proposal_path(get_resource) %>
+              <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/invalid_proposal_modal' %>
+            <% else %>
+              <%= link_to 'Submit for Review', "#submit-proposal-modal", class: 'eui-btn--blue display-modal' %>
+              <%= link_to 'Edit Proposal', edit_collection_draft_proposal_path(get_resource) %>
+              <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/submit_modal' %>
+            <% end %>
+          <% elsif get_resource.submitted? %>
+            <%= link_to 'Rescind this Submission', "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
+          <% elsif get_resource.rejected? %>
+            <%= link_to 'Rescind Rejected Proposal', "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
+          <% elsif get_resource.done? %>
+          <% end %>
+        </p>
+      </div>
+      </span>
+    </div>
+  </section>
+</div>

@@ -35,6 +35,10 @@ class CollectionDraftProposalPolicy < ApplicationPolicy
     update?
   end
 
+  def progress?
+    show?
+  end
+
   private
 
   def verify_mode_and_non_nasa_draft_user

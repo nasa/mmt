@@ -11,9 +11,15 @@ class CollectionDraftProposal < CollectionDraft
   before_update :proposal_mode_enabled?
   before_destroy :proposal_mode_enabled?
 
+  serialize :status_history, JSON
+  serialize :approver_feedback, JSON
+
   aasm column: 'proposal_status', whiny_transitions: false do
     state :in_work, initial: true
     state :submitted
+    state :rejected
+    state :approved
+    state :done
 
     event :submit do
       transitions from: :in_work, to: :submitted
@@ -21,6 +27,7 @@ class CollectionDraftProposal < CollectionDraft
 
     event :rescind do
       transitions from: :submitted, to: :in_work
+      transitions from: :rejected, to: :in_work
     end
   end
 

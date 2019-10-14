@@ -31,16 +31,17 @@ describe 'Collection Draft Proposal Submit', js: true do
       before do
         # After loading the page, manipulate the state of the proposal so that
         # submit will fail in order to execute the else code in the controller.
-        proposal = CollectionDraftProposal.first
-        proposal.proposal_status = 'submitted'
-        proposal.save
+        mock_publish(@collection_draft_proposal)
         click_on 'Submit for Review'
         click_on 'Yes'
       end
 
       it 'provides an error message' do
         expect(page).to have_content('Collection Draft Proposal was not submitted successfully')
-        expect(page).to have_link('Rescind Draft Submission')
+        within '#proposal-status-display' do
+          expect(page).to have_content('PROPOSAL STATUS:')
+          expect(page).to have_content('DONE')
+        end
       end
     end
   end
@@ -62,9 +63,7 @@ describe 'Collection Draft Proposal Submit', js: true do
     before do
       set_as_proposal_mode_mmt(with_required_acl: true)
       @collection_draft_proposal = create(:full_collection_draft_proposal)
-      proposal = CollectionDraftProposal.first
-      proposal.proposal_status = 'submitted'
-      proposal.save
+      mock_submit(@collection_draft_proposal)
       visit collection_draft_proposal_path(@collection_draft_proposal)
     end
 
@@ -91,15 +90,16 @@ describe 'Collection Draft Proposal Submit', js: true do
       before do
         # After loading the page, manipulate the state of the proposal so that
         # rescind will fail in order to execute the else code.
-        proposal = CollectionDraftProposal.first
-        proposal.proposal_status = 'in_work'
-        proposal.save
+        mock_publish(@collection_draft_proposal)
         click_on 'Rescind Draft Submission'
         click_on 'Yes'
       end
 
       it 'provides the correct error message' do
-        expect(page).to have_link 'Submit for Review'
+        within '#proposal-status-display' do
+          expect(page).to have_content('PROPOSAL STATUS:')
+          expect(page).to have_content('DONE')
+        end
         expect(page).to have_content 'Collection Draft Proposal was not rescinded successfully'
       end
     end

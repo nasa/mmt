@@ -144,10 +144,6 @@ class CollectionDraftsController < BaseDraftsController
 
   private
 
-  def set_resource_by_model
-    set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
-  end
-
   def load_umm_schema
     # if user has a provider set and provider file exists
     if current_user.provider_id && File.exist?(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json"))

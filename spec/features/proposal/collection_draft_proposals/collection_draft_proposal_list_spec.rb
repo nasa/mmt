@@ -39,5 +39,9 @@ describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
     it 'displays entry titles' do
       expect(page).to have_content('An Example Title')
     end
+
+    it 'displays proposal status' do
+      expect(page).to have_link('In Work')
+    end
   end
 end

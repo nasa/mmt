@@ -1,0 +1,116 @@
+.timeline {
+  border-width: 1px;
+  border-color: $black;
+  border-radius: 5px;
+  border-style: solid;
+  width: 47%;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.timeline-wrapper {
+  position: relative;
+  max-width: 1200px;
+}
+
+.timeline-node, .timeline-faded-node, .timeline-node-active {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  left: -20px;
+  top: 30%;
+  background-color: $ocean-blue;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+// The settings that need to change to display the active color ring.
+.timeline-node-active {
+  width: 24px;
+  height: 24px;
+  left: -21px;
+  border: 3px solid $orange;
+}
+
+// The ::after classes control the lines on the timeline
+.timeline-line-active::after, .timeline-faded-line-active::after, .timeline-line::after, .timeline-faded-line::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  background-color: $dolphin-grey;
+  top: 19px;
+  bottom: -97px;
+  left: 53%;
+  margin-left: -3px;
+}
+
+.timeline-faded-line-active::after, .timeline-faded-line::after {
+  opacity: 0.2;
+}
+
+.timeline-line::after, .timeline-faded-line::after {
+  top: 22px;
+  bottom: -96px;
+}
+
+// Using opacity for the nodes made the line visible, so change the color
+// to generate the faded effect.
+.timeline-faded-node {
+  background-color: $pale-blue;
+}
+
+.timeline-container {
+  padding: 5px 20px;
+  position: relative;
+  background-color: inherit;
+  width: 90%;
+  left: 10%;
+}
+
+.timeline-information {
+  font-style: italic;
+  color: grey;
+}
+
+.progress-title {
+  padding-left: 40px;
+}
+
+.timeline-stage, .timeline-stage-inactive {
+  font-weight: bold;
+}
+
+.timeline-stage-inactive {
+  opacity: .6;
+}
+
+.progress-actions {
+  border-width: 1px;
+  border-color: $black;
+  border-radius: 5px;
+  border-style: solid;
+  width: 47%;
+  display: inline-block;
+  vertical-align: top;
+  height: 180px;
+  margin-top: 20px;
+}
+
+.progress-actions-text {
+  padding-left: 45px;
+}
+
+#proposal-status-display-left {
+  padding: 9px 0px 9px 9px;
+}
+
+.progress-update {
+  float:right;
+  padding-right: 100px;
+}
+
+.progress-actions-links {
+  margin-top: 20px;
+  text-align: center;
+}

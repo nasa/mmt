@@ -124,6 +124,7 @@ Rails.application.routes.draw do
     resources :collection_draft_proposals, controller: 'collection_draft_proposals', draft_type: 'CollectionDraftProposal', as: 'collection_draft_proposals' do
       member do
         get 'edit', path: 'edit(/:form)'
+        get 'progress'
         get 'submit'
         get 'rescind'
       end

@@ -4,23 +4,11 @@
       <% if get_resource.in_work? %>
         <span>
           <% if @errors && @errors.size > 0 %>
-            <%= link_to 'Submit for Review', '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
-            <div id="invalid-draft-modal" class="eui-modal-content">
-              <p>This proposal is not ready to be submitted. Please use the progress indicators on the proposal preview page to address incomplete or invalid fields.</p>
-              <p>
-                <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
-              </p>
-            </div>
+            <%= link_to 'Submit for Review', '#invalid-proposal-modal', class: 'eui-btn--blue display-modal' %>
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/invalid_proposal_modal' %>
           <% else %>
             <%= link_to 'Submit for Review', "#submit-proposal-modal", class: 'eui-btn--blue display-modal' %>
-            <div id="submit-proposal-modal" class="eui-modal-content">
-              <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-              <p>Are you sure you want to submit this proposal for review? Upon approval, your collection record will be published to the CMR.</p>
-              <p>
-                <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                <%= link_to 'Yes', submit_collection_draft_proposal_path(get_resource), class: 'eui-btn--blue spinner' %>
-              </p>
-            </div>
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/submit_modal' %>
           <% end %>
           <%= link_to 'Delete Collection Draft Proposal', "#delete-proposal-modal", class: 'display-modal' %>
           <div id="delete-proposal-modal" class="eui-modal-content">
@@ -34,17 +22,10 @@
         </span>
       <% elsif get_resource.submitted? %>
         <%= link_to 'Rescind Draft Submission', "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
-        <div id="rescind-submission-modal" class="eui-modal-content">
-          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-          <p>Are you sure you want to rescind this proposal submission? The proposal will not be reviewed until it has been resubmitted.</p>
-          <p>
-            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <%= link_to 'Yes', rescind_collection_draft_proposal_path(get_resource), class: 'eui-btn--blue spinner' %>
-          </p>
-        </div>
+        <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
       <% end %>
       <span id="proposal-status-display">
-        <span class="eui-badge eui-badge--split ">Proposal Status: <span><%= get_resource.proposal_status.titleize %></span></span>
+        <a href="<%= progress_collection_draft_proposal_path(get_resource) %>"><span class="eui-badge eui-badge--split ">Proposal Status: <span><%= get_resource.proposal_status.titleize %></span></span></a>
       </span>
     </div>
   </section>
