@@ -207,9 +207,13 @@ The Draft MMT is intended for Non-NASA Users to propose new metadata records or 
 
 Changing to the Draft MMT (aka proposal mode) is controlled the `proposal_mode` environment variable in your `application.yml` file.
 
-Access to the Draft MMT is controlled by the Non-NASA Draft User ACL. There is a rake task that will create the group and assign the ACL for you (make sure you use your own username):
+Access to the Draft MMT is controlled by the Non-NASA Draft User and Non-NASA Draft Approver ACLs. There is a rake task that will create the group and assign the ACL for you (make sure you use your own username):
 
     rake acls:proposal_mode:draft_user[URS_USERNAME]
+
+or
+
+    rake acls:proposal_mode:draft_approver[URS_USERNAME]
 
   * make sure you use your own username
   * make sure that `proposal_mode` is set to 'false' in your `application.yml` file when you run this rake task. If you see `NotAllowedError: A requested action is not allowed in the current configuration.` when running this rake task, you missed this step.
