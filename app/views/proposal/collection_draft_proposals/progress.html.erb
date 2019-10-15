@@ -33,13 +33,6 @@
               active: @status_history['approved'],
             } %>
             <%== approved_node %>
-            <% if get_resource.approved? %>
-              <div class="timeline-node-active timeline-faded-line-active"></div>
-            <% elsif @status_history['approved'] %>
-              <div class="timeline-node timeline-line"></div>
-            <% else %>
-              <div class="timeline-faded-node timeline-faded-line"></div>
-            <% end %>
           </div>
           <div class="timeline-container" id="timeline-published">
             <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {

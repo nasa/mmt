@@ -41,7 +41,7 @@
   width: 2px;
   background-color: $dolphin-grey;
   top: 19px;
-  bottom: -97px;
+  bottom: -93px;
   left: 53%;
   margin-left: -3px;
 }
@@ -52,7 +52,7 @@
 
 .timeline-line::after, .timeline-faded-line::after {
   top: 22px;
-  bottom: -96px;
+  bottom: -92px;
 }
 
 // Using opacity for the nodes made the line visible, so change the color
