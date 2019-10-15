@@ -12,6 +12,7 @@ module ProviderIdentityPermissionsHelper
   GROUP_PERMISSIONS = %w[create read].freeze
   INGEST_MANAGEMENT_ACL_PERMISSIONS = %w[read update].freeze
   NON_NASA_DRAFT_USER_PERMISSIONS = %w[create read update delete].freeze
+  NON_NASA_DRAFT_APPROVER_PERMISSIONS = %w[create read update delete].freeze
   OPTION_ASSIGNMENT_PERMISSIONS = %w[create read delete].freeze
   OPTION_DEFINITION_PERMISSIONS = %w[create delete].freeze
   OPTION_DEFINITION_DEPRECATION_PERMISSIONS = %w[create].freeze
@@ -41,6 +42,7 @@ module ProviderIdentityPermissionsHelper
     ['Groups', 'GROUP'],
     ['Ingest Operations', 'INGEST_MANAGEMENT_ACL'],
     ['Non-NASA Draft MMT User', 'NON_NASA_DRAFT_USER'],
+    ['Non-NASA Draft MMT Approver', 'NON_NASA_DRAFT_APPROVER'],
     ['Option Assignments', 'OPTION_ASSIGNMENT'],
     ['Option Definition Deprecations', 'OPTION_DEFINITION_DEPRECATION'],
     ['Option Definitions', 'OPTION_DEFINITION'],

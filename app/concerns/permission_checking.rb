@@ -7,14 +7,10 @@ module PermissionChecking
   extend ActiveSupport::Concern
 
   def is_non_nasa_draft_user?(user:, token:)
-    # TODO: when we work MMT-1920 to update configurations, these environment
-    # configurations may need to be changed
-
     # the required ACL for CRUD for Collection Draft Proposals is the Non-NASA Draft MMT User
     # we are only checking for the `create` permission for all CRUD access
     if Rails.env.production?
       # in Production, this ACL will be provided in the SCIOPS provider
-      # we are on
       user_has_provider_permission_to(user: user, action: 'create', target: 'NON_NASA_DRAFT_USER', token: token, specific_provider: 'SCIOPS')
     elsif Rails.env.sit? || Rails.env.uat?
       # SIT and UAT, this ACL will be provided in SCIOPS as well as SCIOPSTEST for testing
@@ -22,6 +18,21 @@ module PermissionChecking
     elsif Rails.env.development? || Rails.env.test?
       # in development and test, we will use MMT_2 as we do for most tests
       user_has_provider_permission_to(user: user, action: 'create', target: 'NON_NASA_DRAFT_USER', token: token, specific_provider: 'MMT_2')
+    end
+  end
+
+  def is_non_nasa_draft_approver?(user:, token:)
+    # the required ACL for Approving Collection Draft Proposals is the Non-NASA Draft MMT Approver
+    # we are only checking for the `create` permission for all CRUD access
+    if Rails.env.production?
+      # in Production, this ACL will be provided in the SCIOPS provider
+      user_has_provider_permission_to(user: user, action: 'create', target: 'NON_NASA_DRAFT_APPROVER', token: token, specific_provider: 'SCIOPS')
+    elsif Rails.env.sit? || Rails.env.uat?
+      # SIT and UAT, this ACL will be provided in SCIOPS as well as SCIOPSTEST for testing
+      user_has_provider_permission_to(user: user, action: 'create', target: 'NON_NASA_DRAFT_APPROVER', token: token, specific_provider: 'SCIOPS') || user_has_provider_permission_to(user: user, action: 'create', target: 'NON_NASA_DRAFT_APPROVER', token: token, specific_provider: 'SCIOPSTEST')
+    elsif Rails.env.development? || Rails.env.test?
+      # in development and test, we will use MMT_2 as we do for most tests
+      user_has_provider_permission_to(user: user, action: 'create', target: 'NON_NASA_DRAFT_APPROVER', token: token, specific_provider: 'MMT_2')
     end
   end
 

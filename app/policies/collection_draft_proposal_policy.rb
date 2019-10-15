@@ -4,7 +4,7 @@ class CollectionDraftProposalPolicy < ApplicationPolicy
   end
 
   def show?
-    verify_mode_and_non_nasa_draft_user
+    verify_mode_and_non_nasa_draft_permissions
   end
 
   def new?
@@ -16,15 +16,15 @@ class CollectionDraftProposalPolicy < ApplicationPolicy
   end
 
   def create?
-    verify_mode_and_non_nasa_draft_user
+    verify_mode_and_non_nasa_draft_permissions
   end
 
   def update?
-    verify_mode_and_non_nasa_draft_user
+    verify_mode_and_non_nasa_draft_permissions
   end
 
   def destroy?
-    verify_mode_and_non_nasa_draft_user
+    verify_mode_and_non_nasa_draft_permissions
   end
 
   def submit?
@@ -37,8 +37,10 @@ class CollectionDraftProposalPolicy < ApplicationPolicy
 
   private
 
-  def verify_mode_and_non_nasa_draft_user
-    proposal_mode_enabled? && is_non_nasa_draft_user?(user: user.user, token: user.token)
+  def verify_mode_and_non_nasa_draft_permissions
+    proposal_mode_enabled? &&
+      (is_non_nasa_draft_user?(user: user.user, token: user.token) ||
+      is_non_nasa_draft_approver?(user: user.user, token: user.token))
   end
 
   def proposal_mode_enabled?
