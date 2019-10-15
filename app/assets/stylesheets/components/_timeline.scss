@@ -1,11 +1,12 @@
 .timeline {
   border-width: 1px;
-  border-color: $black;
+  border-color: $dolphin-grey;
   border-radius: 5px;
   border-style: solid;
   width: 47%;
   display: inline-block;
   margin-top: 20px;
+  float:left;
 }
 
 .timeline-wrapper {
@@ -71,6 +72,7 @@
 .timeline-information {
   font-style: italic;
   color: grey;
+  margin: 10px;
 }
 
 .progress-title {
@@ -87,7 +89,7 @@
 
 .progress-actions {
   border-width: 1px;
-  border-color: $black;
+  border-color: $dolphin-grey;
   border-radius: 5px;
   border-style: solid;
   width: 47%;
@@ -95,6 +97,7 @@
   vertical-align: top;
   height: 180px;
   margin-top: 20px;
+  float: right;
 }
 
 .progress-actions-text {
@@ -107,7 +110,6 @@
 
 .progress-update {
   float:right;
-  padding-right: 100px;
 }
 
 .progress-actions-links {

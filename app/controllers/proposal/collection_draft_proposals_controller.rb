@@ -77,11 +77,7 @@ module Proposal
         @first_stage = 'In Work'
 
         # This applies the same validation as is applied on the preview/show page
-        set_platform_short_names
-        set_instrument_short_names
-        set_temporal_keywords
-        set_country_codes
-        set_language_codes
+        show_view_setup
         load_umm_schema
         @errors = validate_metadata
       else
@@ -92,7 +88,8 @@ module Proposal
       if @status_history['approved']
         @second_information = "Approved: #{@status_history['approved']['action_date']} UTC By: #{@status_history['approved']['username']}"
       elsif @status_history['rejected']
-        @second_information = "Rejected: #{@status_history['rejected']['action_date']} UTC By: #{@status_history['rejected']['username']} Reason: #{approver_feedback.fetch('rejection_reason', 'No Reason Provided')}"
+        @second_information = "Rejected: #{@status_history['rejected']['action_date']} UTC By: #{@status_history['rejected']['username']}"
+        @rejection_reason = "Reason: #{approver_feedback.fetch('rejection_reason', 'No Reason Provided')}"
       end
 
       @fourth_information = "Published: #{@status_history['done']['action_date']} UTC By: #{@status_history['done']['username']}" if get_resource.proposal_status == 'done'

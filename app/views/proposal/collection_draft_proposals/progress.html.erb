@@ -16,36 +16,23 @@
               active: true,
               information: @first_information
             } %>
-            <% if @status_history['rejected'] && @status_history['submitted'].nil? %>
-              <div class="timeline-node-active timeline-line-active"></div>
-            <% elsif get_resource.in_work? || get_resource.submitted? %>
-              <div class="timeline-node-active timeline-faded-line-active"></div>
-            <% else %>
-              <div class="timeline-node timeline-line"></div>
-            <% end %>
+            <%== submit_node %>
           </div>
           <div class="timeline-container" id="timeline-review-submission">
             <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {
               stage: 'Approval',
               active: @status_history['approved'] || @status_history['rejected'],
-              information: @second_information
+              information: @second_information,
+              reason: @rejection_reason
             } %>
-            <% if get_resource.rejected? %>
-              <div class="timeline-node-active timeline-faded-line-active"></div>
-            <% elsif @status_history['approved'] %>
-              <div class="timeline-node timeline-line"></div>
-            <% elsif @status_history['rejected'] %>
-              <div class="timeline-node timeline-faded-line"></div>
-            <% else %>
-              <div class="timeline-faded-node timeline-faded-line"></div>
-            <% end %>
+            <%== review_node %>
           </div>
           <div class="timeline-container" id="timeline-waiting-to-publish">
             <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {
               stage: 'Ready to Publish',
               active: @status_history['approved'],
-              information: ''
             } %>
+            <%== approved_node %>
             <% if get_resource.approved? %>
               <div class="timeline-node-active timeline-faded-line-active"></div>
             <% elsif @status_history['approved'] %>
@@ -60,11 +47,7 @@
               active: @status_history['done'],
               information: @fourth_information
             } %>
-            <% if get_resource.done? %>
-              <div class="timeline-node-active"></div>
-            <% else %>
-              <div class="timeline-faded-node"></div>
-            <% end %>
+            <%== published_node %>
           </div>
         </div>
       </div>
@@ -73,7 +56,7 @@
         <p class="progress-actions-text"><%= @available_actions %></p>
         <p class="progress-actions-links">
           <% if get_resource.in_work? %>
-            <% if @errors %>
+            <% if @errors.any? %>
               <%= link_to 'Submit for Review', '#invalid-proposal-modal', class: 'eui-btn--blue display-modal' %>
               <%= link_to 'Edit Proposal', edit_collection_draft_proposal_path(get_resource) %>
               <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/invalid_proposal_modal' %>
