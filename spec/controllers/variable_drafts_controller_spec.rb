@@ -7,7 +7,7 @@ describe VariableDraftsController, reset_provider: true do
     before do
       sign_in
 
-      get :index, draft_type: 'VariableDraft'
+      get :index, params: { draft_type: 'VariableDraft' }
     end
 
     it 'renders the #index view' do
@@ -23,7 +23,7 @@ describe VariableDraftsController, reset_provider: true do
     before do
       sign_in
 
-      get :new, draft_type: 'VariableDraft'
+      get :new, params: { draft_type: 'VariableDraft' }
     end
 
     it 'renders the #new view' do
@@ -42,14 +42,14 @@ describe VariableDraftsController, reset_provider: true do
       end
 
       it 'redirects to the variable draft edit page' do
-        post :create, variable_draft: { draft: {} }, draft_type: 'VariableDraft'
+        post :create, params: { variable_draft: { draft: {} }, draft_type: 'VariableDraft' }
 
         expect(response).to redirect_to(edit_variable_draft_path(VariableDraft.last))
       end
 
       it 'creates a new variable draft' do
         expect do
-          post :create, variable_draft: { draft: {} }, draft_type: 'VariableDraft'
+          post :create, params: { variable_draft: { draft: {} }, draft_type: 'VariableDraft' }
         end.to change(VariableDraft, :count).by(1)
       end
     end
@@ -61,7 +61,7 @@ describe VariableDraftsController, reset_provider: true do
 
       draft = FactoryGirl.create(:full_variable_draft)
 
-      get :edit, draft_type: 'VariableDraft', id: draft
+      get :edit, params: { draft_type: 'VariableDraft', id: draft }
     end
 
     it 'renders the #edit view' do
