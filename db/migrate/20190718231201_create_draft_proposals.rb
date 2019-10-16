@@ -1,4 +1,4 @@
-class CreateDraftProposals < ActiveRecord::Migration
+class CreateDraftProposals < ActiveRecord::Migration[4.2]
   def change
     create_table :draft_proposals do |t|
       # fields mirroring drafts
