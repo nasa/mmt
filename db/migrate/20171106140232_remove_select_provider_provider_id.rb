@@ -1,4 +1,4 @@
-class RemoveSelectProviderProviderId < ActiveRecord::Migration
+class RemoveSelectProviderProviderId < ActiveRecord::Migration[4.2]
   def up
     User.all.each do |user|
       if user.available_providers && user.available_providers.include?('Select Provider')

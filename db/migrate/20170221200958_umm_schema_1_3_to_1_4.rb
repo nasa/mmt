@@ -1,4 +1,4 @@
-class UmmSchema13To14 < ActiveRecord::Migration
+class UmmSchema13To14 < ActiveRecord::Migration[4.2]
   def up
     Draft.find_each do |d|
       draft = d.draft
