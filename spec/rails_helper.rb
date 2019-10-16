@@ -102,6 +102,8 @@ RSpec.configure do |config|
 
   # Lines below taken from http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
   config.use_transactional_fixtures = false
+  # https://github.com/rails/rails/pull/19282
+  # config.use_transactional_tests = false
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end

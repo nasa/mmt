@@ -7,8 +7,11 @@ class ServiceOptionsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
+
     # Default the page to 1
-    page = params.fetch('page', 1)
+    #
+    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+    page = permitted.fetch('page', 1)
 
     service_option_response = echo_client.get_service_options(echo_provider_token)
 

@@ -8,8 +8,10 @@ class ProviderIdentityPermissionsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
+    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+
     # default the page to 1
-    page = params.fetch('page', 1).to_i
+    page = permitted.fetch('page', 1).to_i
     # prevent error with page_entries_info when page < 1 and @groups = []
     page = 1 if page < 1
 

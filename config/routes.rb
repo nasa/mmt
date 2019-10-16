@@ -100,19 +100,19 @@ Rails.application.routes.draw do
 
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
-      get 'edit', path: 'edit(/:form)'
+      get :edit, path: "edit(/:form)"
     end
   end
 
   resources :service_drafts, controller: 'service_drafts', draft_type: 'ServiceDraft' do
     member do
-      get 'edit', path: 'edit(/:form)'
+      get :edit, path: "edit(/:form)"
     end
   end
 
   resources :collection_drafts, controller: 'collection_drafts', draft_type: 'CollectionDraft', as: 'collection_drafts' do
     member do
-      get 'edit', path: 'edit(/:form)'
+      get :edit, path: 'edit(/:form)'
       get 'download'
       post 'publish'
     end
@@ -123,7 +123,7 @@ Rails.application.routes.draw do
     resource :manage_collection_proposals, only: :show
     resources :collection_draft_proposals, controller: 'collection_draft_proposals', draft_type: 'CollectionDraftProposal', as: 'collection_draft_proposals' do
       member do
-        get 'edit', path: 'edit(/:form)'
+        get :edit, path: 'edit(/:form)'
         get 'submit'
         get 'rescind'
       end
@@ -134,7 +134,7 @@ Rails.application.routes.draw do
   resources :collection_templates, controller: 'collection_templates', draft_type: 'CollectionTemplate', as: 'collection_templates' do
     member do
       get 'create_draft'
-      get 'edit', path: 'edit(/:form)'
+      get :edit, path: 'edit(/:form)'
     end
   end
   post '/collection_templates/new_from_existing' => 'collection_templates#new_from_existing', as: 'new_from_existing_collection_template'

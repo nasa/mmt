@@ -18,16 +18,12 @@ Rails.application.configure do
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => 'public, max-age=172800'
+      'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
     }
   else
     config.action_controller.perform_caching = false
     config.cache_store = :null_store
   end
-  # https://github.com/ankane/secure_rails against host header injection
-  # Next two properties should be uncommented if your testing X-Forward-Host protection
-  # config.action_controller.default_url_options = {host: 'mmt.localtest.earthdata.nasa.gov', port: '3000'}
-  # config.action_controller.asset_host = 'http://mmt.localtest.earthdata.nasa.gov:3000'
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
@@ -46,6 +42,8 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # Suppress logger output for asset requests.
+  config.assets.quiet = true
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
