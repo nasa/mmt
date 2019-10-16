@@ -5,18 +5,20 @@ class SearchController < ManageMetadataController
   RESULTS_PER_PAGE = 25
 
   def index
-    page = params['page'].to_i || 1
+    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+
+    page = permitted['page'].to_i || 1
     page = 1 if page < 1
 
     results_per_page = RESULTS_PER_PAGE
 
-    @record_type = params['record_type']
+    @record_type = permitted['record_type']
 
     # set query
     @query = {}
-    @query['keyword'] = params['keyword'] || ''
-    @query['provider_id'] = params['provider_id'] unless params['provider_id'].blank?
-    @query['sort_key'] = params['sort_key'] unless params['sort_key'].blank?
+    @query['keyword'] = permitted['keyword'] || ''
+    @query['provider_id'] = permitted['provider_id'] unless params['provider_id'].blank?
+    @query['sort_key'] = permitted['sort_key'] unless params['sort_key'].blank?
     @query['page_num'] = page
     @query['page_size'] = results_per_page
 

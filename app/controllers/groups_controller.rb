@@ -11,7 +11,9 @@ class GroupsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
-    @filters = params[:filters] || {}
+    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+
+    @filters = permitted[:filters] || {}
 
     @member_filter_details = if @filters['member']
                                @filters['options'] = { 'member' => { 'and' => true } }
@@ -24,7 +26,7 @@ class GroupsController < ManageCmrController
     @filters[:page_size] = RESULTS_PER_PAGE
 
     # Default the page to 1
-    page = params.fetch('page', 1)
+    page = permitted.fetch('page', 1)
 
     @filters[:page_num] = page.to_i
 
