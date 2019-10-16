@@ -136,7 +136,12 @@ class CollectionDraftsController < BaseDraftsController
   # Returns the allowed parameters for pagination
   # @return [Hash]
   def collection_draft_params
+<<<<<<< HEAD
     permitted = safe_hash(:draft)
+=======
+    permitted = params.require(:draft).permit(:user_id, :draft, :short_name, :entry_title, :provider_id, :native_id, :draft_type).to_h
+    permitted.to_unsafe_h # need to understand what this is doing more, think related to nested parameters not permitted.
+>>>>>>> MMT-1598 - rails 5.1 upgrade - lot of failures related to permitted params
   end
 
   private
