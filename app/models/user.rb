@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   serialize :available_providers, JSON
 
   has_many :drafts
