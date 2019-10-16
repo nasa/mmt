@@ -1,4 +1,4 @@
-class UmmS10To11 < ActiveRecord::Migration
+class UmmS10To11 < ActiveRecord::Migration[4.2]
   def up
     Draft.where(draft_type: 'ServiceDraft').find_each do |d|
       draft = d.draft

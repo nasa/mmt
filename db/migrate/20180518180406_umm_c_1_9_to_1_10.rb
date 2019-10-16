@@ -1,7 +1,7 @@
 # https://github.com/nasa/Common-Metadata-Repository/blob/master/umm-spec-lib/src/cmr/umm_spec/migration/version/collection.clj#L208
 # interface/migrate-umm-version [:collection "1.9" "1.10"]
 
-class UmmC19To110 < ActiveRecord::Migration
+class UmmC19To110 < ActiveRecord::Migration[4.2]
   def up
     CollectionDraft.find_each do |d|
       draft = d.draft
