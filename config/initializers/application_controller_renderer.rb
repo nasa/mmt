@@ -4,4 +4,7 @@
 #   http_host: 'example.org',
 #   https: false
 # )
+<<<<<<< HEAD
 # end
+=======
+>>>>>>> MMT-1598 - rails 5.0 upgrade.
