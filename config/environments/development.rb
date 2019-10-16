@@ -24,6 +24,10 @@ Rails.application.configure do
     config.action_controller.perform_caching = false
     config.cache_store = :null_store
   end
+  # https://github.com/ankane/secure_rails against host header injection
+  # Next two properties should be uncommented if your testing X-Forward-Host protection
+  # config.action_controller.default_url_options = {host: 'mmt.localtest.earthdata.nasa.gov', port: '3000'}
+  # config.action_controller.asset_host = 'http://mmt.localtest.earthdata.nasa.gov:3000'
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
