@@ -1,4 +1,4 @@
-class UmmC110To112 < ActiveRecord::Migration
+class UmmC110To112 < ActiveRecord::Migration[4.2]
   def up
     CollectionDraft.find_each do |d|
       draft = d.draft

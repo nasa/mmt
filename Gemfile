@@ -84,6 +84,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'sqlite3'
   gem 'vcr'
+  gem 'rails-controller-testing' # https://www.ombulabs.com/blog/rails/upgrades/upgrade-rails-from-4-2-to-5-0.html
 end
 
 group :development do

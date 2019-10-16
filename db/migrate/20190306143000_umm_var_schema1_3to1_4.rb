@@ -1,4 +1,4 @@
-class UmmVarSchema13to14 < ActiveRecord::Migration
+class UmmVarSchema13to14 < ActiveRecord::Migration[4.2]
   def up
     Draft.where(draft_type: 'VariableDraft').find_each do |d|
       draft = d.draft
