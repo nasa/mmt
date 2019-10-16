@@ -93,7 +93,7 @@ namespace :acls do
       print_result(cmr_client.add_group_permissions(provider_perm, get_acls_token(admin: true)), '`Non-NASA Draft User` permissions added to the group.')
     end
 
-    desc 'Creates a group and grans permission for Non-NASA Draft Approver'
+    desc 'Creates a group and grants permission for Non-NASA Draft Approver'
     task :draft_approver, [:username] => :environment do |_task, args|
       # Create the group
       Rake::Task['acls:groups:create'].invoke('Non-NASA Draft Approvers', 'Group Created for Non-NASA Draft Approvers', args.username, 'MMT_2')
