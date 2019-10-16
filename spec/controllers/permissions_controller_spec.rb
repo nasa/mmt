@@ -61,13 +61,13 @@ describe PermissionsController, reset_provider: true do
     end
 
     it 'renders the #show view' do
-      get :show, id: @permission['concept_id']
+      get :show, params: { id: @permission['concept_id'] }
 
       expect(response).to render_template(:show)
     end
 
     it 'sets the permission instance variable' do
-      get :show, id: @permission['concept_id']
+      get :show, params: { id: @permission['concept_id'] }
 
       expect(assigns(:permission).keys).to eq(%w(group_permissions catalog_item_identity))
     end
@@ -75,7 +75,7 @@ describe PermissionsController, reset_provider: true do
     it 'requests groups from cmr' do
       expect_any_instance_of(Cmr::CmrClient).to receive('get_permission').and_call_original
 
-      get :show, id: @permission['concept_id']
+      get :show, params: { id: @permission['concept_id'] }
     end
   end
 

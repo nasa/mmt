@@ -1,5 +1,5 @@
 # Parent class of all draft objects
-class Draft < ActiveRecord::Base
+class Draft < ApplicationRecord
   belongs_to :user
 
   validates :provider_id, presence: true, if: :provider_required?

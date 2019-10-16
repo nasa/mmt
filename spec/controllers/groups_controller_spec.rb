@@ -45,7 +45,7 @@ describe GroupsController, reset_provider: true do
     end
 
     it 'renders the #show view' do
-      get :show, id: @concept_id
+      get :show, params: { id: @concept_id }
 
       expect(response).to render_template(:show)
     end
@@ -53,7 +53,7 @@ describe GroupsController, reset_provider: true do
     it 'requests the group from cmr' do
       expect_any_instance_of(Cmr::CmrClient).to receive('get_group').with(@concept_id, anything).and_call_original
 
-      get :show, id: @concept_id
+      get :show, params: { id: @concept_id }
     end
 
     context 'When groups are disabled' do
@@ -62,7 +62,7 @@ describe GroupsController, reset_provider: true do
       end
 
       it 'redirects the user to the manage collections page' do
-        get :show, id: @concept_id
+        get :show, params: { id: @concept_id }
 
         expect(response).to redirect_to(manage_collections_path)
       end
