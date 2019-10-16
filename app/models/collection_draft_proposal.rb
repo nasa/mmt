@@ -75,9 +75,8 @@ class CollectionDraftProposal < CollectionDraft
   end
 
   def proposal_mode_enabled?
-    # TODO this will work until we update to Rails 5
-    # https://blog.bigbinary.com/2016/02/13/rails-5-does-not-halt-callback-chain-when-false-is-returned.html
-    Rails.configuration.proposal_mode
+    throw(:abort) unless Rails.configuration.proposal_mode
+    true
   end
 
   def exception_unless_draft_only
