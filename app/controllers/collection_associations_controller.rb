@@ -10,8 +10,10 @@ class CollectionAssociationsController < CmrSearchController
   before_action :ensure_correct_provider, only: [:index, :new]
 
   def index
+    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+
     # Default the page to 1
-    page = params.fetch('page', 1)
+    page = permitted.fetch('page', 1)
 
     search_params = {
       "#{lower_resource_name}_concept_id": resource_id,

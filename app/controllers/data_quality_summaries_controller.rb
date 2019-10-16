@@ -8,6 +8,8 @@ class DataQualitySummariesController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
+    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+
     response = echo_client.get_data_quality_summary_definition_name_guids(token_with_client_id, current_provider_guid)
 
     summary_guids = []
@@ -33,7 +35,7 @@ class DataQualitySummariesController < ManageCmrController
     summary_list.sort_by! { |summary| summary.parsed_body.fetch('Name', '').downcase }
 
     # Default the page to 1
-    page = params.fetch('page', 1)
+    page = permitted.fetch('page', 1)
 
     @summaries = Kaminari.paginate_array(summary_list, total_count: summary_list.count).page(page).per(RESULTS_PER_PAGE)
   end
