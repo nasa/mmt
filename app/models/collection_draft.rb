@@ -91,7 +91,7 @@ class CollectionDraft < Draft
       # Convert {'0' => {'id' => '123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM
-      json_params = params.to_camel_keys
+      json_params = params.permit(params.keys).to_h.to_camel_keys
       Rails.logger.info("Audit Log: Metadata update attempt where #{editing_user_id} modified #{self.class} parameters: #{json_params}")
 
       # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters
