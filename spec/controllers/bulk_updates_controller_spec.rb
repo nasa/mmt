@@ -137,7 +137,7 @@ describe BulkUpdatesController, reset_provider: true do
           create_bulk_update_response = cmr_success_response(success_response_body)
           allow_any_instance_of(Cmr::CmrClient).to receive(:create_bulk_update).and_return(create_bulk_update_response)
 
-          post :create,
+          post :create, params: {
                'concept_ids': ['C1200000785-MMT_1'],
                'name': 'test instruments bulk update',
                'update_field': 'instruments',
@@ -149,6 +149,7 @@ describe BulkUpdatesController, reset_provider: true do
                  'ShortName': 'ATM',
                  'LongName': 'Airborne Topographic Mapper'
                }
+          }
         end
 
         it 'sets the task instance variable' do
@@ -178,7 +179,7 @@ describe BulkUpdatesController, reset_provider: true do
         before do
           sign_in
 
-          post :create,
+          post :create, params: {
                'concept_ids': [],
                'update_field': 'bad_update_field',
                'update_type': 'BAD_UPDATE_TYPE',
@@ -188,6 +189,7 @@ describe BulkUpdatesController, reset_provider: true do
                  'Term': 'ATMOSPHERIC TEMPERATURE',
                  'VariableLevel1': 'SURFACE TEMPERATURE'
                }
+          }
 
         end
 
