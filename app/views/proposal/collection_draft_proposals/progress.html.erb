@@ -3,7 +3,9 @@
   <section class="action wide-content">
     <div class="wide-content-inside">
       <span>
-        <span id="proposal-status-display-left" class="eui-badge eui-badge--split ">Proposal Status: <span><%= get_resource.proposal_status.titleize %></span></span>
+        <span class="eui-badge eui-badge--split proposal-status-badge"><%= get_resource.request_type == 'create' ? 'Draft Proposal Submission:' : "#{get_resource.request_type.titleize} Metadata Request:" %>
+          <span><%= get_resource.proposal_status.titleize %></span>
+        </span>
         <span class="progress-update"> Last Updated: <%= "#{get_resource.updated_at.to_s(:default_with_time_zone)}" %></span>
       </span><br>
       <span>

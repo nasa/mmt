@@ -56,7 +56,7 @@ describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: tr
 
           expect(page).to have_link('Submit for Review')
           expect(page).to have_link('Delete Collection Draft Proposal')
-          expect(page).to have_content('Proposal Status: In Work')
+          expect(page).to have_content('In Work')
 
           expect(page).to have_content('Metadata Fields')
         end

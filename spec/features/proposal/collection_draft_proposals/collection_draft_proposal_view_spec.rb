@@ -12,8 +12,7 @@ describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
 
     it 'displays the current proposal status' do
       within '#proposal-status-display' do
-        expect(page).to have_content('PROPOSAL STATUS:')
-        expect(page).to have_content('IN WORK')
+        expect(page).to have_content('In Work')
       end
     end
 

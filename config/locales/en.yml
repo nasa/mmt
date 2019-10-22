@@ -90,6 +90,9 @@ en:
           flash:
             success: 'Collection Draft Proposal Rescinded Successfully'
             error: 'Collection Draft Proposal was not rescinded successfully'
+            delete:
+              success: 'The request to delete the collection [Short Name: %{short_name}] has been successfully rescinded.'
+              error: 'The request to delete the collection [Short Name: %{short_name}] could not be successfully rescinded.'
       collection_templates:
         create:
           flash:
@@ -115,6 +118,9 @@ en:
       clone:
         flash:
           notice: 'Records must have a unique Short Name. Click here to enter a new Short Name.'
+      delete_proposal:
+        flash:
+          success: 'Delete Collection Metadata Request Created Successfully!'
     variables:
       create:
         flash:

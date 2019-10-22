@@ -7,6 +7,7 @@ FactoryGirl.define do
       draft_entry_title 'Entry Title'
       version '001'
       collection_data_type 'SCIENCE_QUALITY'
+      draft_request_type 'create'
     end
 
     native_id 'full_collection_draft_proposal_id'
@@ -14,6 +15,7 @@ FactoryGirl.define do
     draft_type 'CollectionDraftProposal'
     entry_title { draft_entry_title }
     short_name { draft_short_name }
+    request_type { draft_request_type }
 
     trait :with_valid_dates do
       draft {{

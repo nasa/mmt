@@ -31,6 +31,26 @@ class CollectionDraftProposal < CollectionDraft
     end
   end
 
+  class << self
+    def create_request(collection, user, native_id, type, username = nil)
+      request = self.create
+      request.request_type = type
+      request.draft = collection
+      request.native_id = native_id
+      request.short_name = request.draft['ShortName']
+      request.entry_title = request.draft['EntryTitle']
+      request.set_user_and_provider(user)
+
+      if type == 'delete'
+        request.submit
+        request.status_history = { 'submitted' => { 'username' => username, 'action_date' => Time.new.utc.to_s } }
+      end
+
+      request.save
+      request
+    end
+  end
+
   private
 
   def provider_required?

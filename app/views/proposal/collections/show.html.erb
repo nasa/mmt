@@ -16,9 +16,21 @@
   <% else %>
     <section class="action wide-content">
       <div class="wide-content-inside">
-        <!-- TODO: may need p tags for action buttons/links to display properly -->
+        <span>
+          <%= link_to 'Request this Collection Record be Deleted', '#delete-request-modal', class: 'display-modal eui-btn--link' %>
+        </span>
       </div>
     </section>
+
+
+    <div id="delete-request-modal" class="eui-modal-content">
+      <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+      <p>Are you sure you want to request this record be deleted?</p>
+      <p>
+        <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+        <%= link_to 'Yes', delete_proposal_collection_path(revision_id: @revision_id), class: 'eui-btn--blue spinner' %>
+      </p>
+    </div>
 
     <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, is_mmt: true, editable: false, edsc_url: nil, concept_id: nil, additional_information: nil } %>
   <% end %>

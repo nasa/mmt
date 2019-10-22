@@ -26,13 +26,15 @@ module ManageMetadataHelper
 
   def is_collection_draft_proposal_controller?
     controller.lookup_context.prefixes.each do |item|
-      return true if item.start_with?('proposal')
+      return true if item.start_with?('proposal') || (Rails.configuration.proposal_mode && resource_type == 'collections')
     end
     false
   end
 
   def current_manage_title
-    if controller.lookup_context.prefixes.include?('search')
+    if is_collection_draft_proposal_controller?
+      'manage_collection_proposals'
+    elsif controller.lookup_context.prefixes.include?('search')
       "manage_#{resource_type}"
     elsif controller.lookup_context.prefixes.include?('manage_cmr')
       'manage_cmr'
@@ -40,8 +42,6 @@ module ManageMetadataHelper
       'manage_variables'
     elsif is_services_controller?
       'manage_services'
-    elsif is_collection_draft_proposal_controller?
-      'manage_collection_proposals'
     else
       # default, including collection drafts and everything under manage collections
       'manage_collections'

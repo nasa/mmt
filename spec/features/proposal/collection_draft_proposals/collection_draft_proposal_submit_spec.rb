@@ -1,4 +1,4 @@
-describe 'Collection Draft Proposal Submit', js: true do
+describe 'Collection Draft Proposal Submit and Rescind', js: true do
   before do
     login
   end
@@ -39,8 +39,7 @@ describe 'Collection Draft Proposal Submit', js: true do
       it 'provides an error message' do
         expect(page).to have_content('Collection Draft Proposal was not submitted successfully')
         within '#proposal-status-display' do
-          expect(page).to have_content('PROPOSAL STATUS:')
-          expect(page).to have_content('DONE')
+          expect(page).to have_content('Done')
         end
       end
     end
@@ -71,8 +70,7 @@ describe 'Collection Draft Proposal Submit', js: true do
       expect(page).to have_link('Rescind Draft Submission')
       expect(page).to have_no_link('Delete Collection Draft Proposal')
       within '#proposal-status-display' do
-        expect(page).to have_content('PROPOSAL STATUS:')
-        expect(page).to have_content('SUBMITTED')
+        expect(page).to have_content('Submitted')
       end
     end
 
@@ -81,8 +79,7 @@ describe 'Collection Draft Proposal Submit', js: true do
       click_on 'Yes'
       expect(page).to have_link('Submit for Review')
       within '#proposal-status-display' do
-        expect(page).to have_content('PROPOSAL STATUS:')
-        expect(page).to have_content('IN WORK')
+        expect(page).to have_content('In Work')
       end
     end
 
@@ -97,11 +94,40 @@ describe 'Collection Draft Proposal Submit', js: true do
 
       it 'provides the correct error message' do
         within '#proposal-status-display' do
-          expect(page).to have_content('PROPOSAL STATUS:')
-          expect(page).to have_content('DONE')
+          expect(page).to have_content('Done')
         end
         expect(page).to have_content 'Collection Draft Proposal was not rescinded successfully'
       end
+    end
+  end
+
+  context 'when looking at a delete metadata request' do
+    before do
+      set_as_proposal_mode_mmt(with_required_acl: true)
+      @collection_draft_proposal = create(:full_collection_draft_proposal, draft_request_type: 'delete')
+      mock_submit(@collection_draft_proposal)
+      visit collection_draft_proposal_path(@collection_draft_proposal)
+    end
+
+    it 'can be rescinded and deleted' do
+      short_name = @collection_draft_proposal['short_name']
+      click_on 'Rescind Draft Submission'
+      click_on 'Yes'
+
+      expect(page).to have_content "The request to delete the collection [Short Name: #{short_name}] has been successfully rescinded."
+      within '.open-drafts' do
+        expect(page).to have_no_content short_name
+      end
+    end
+
+    it 'generates the correct error message when failing to delete a metadata request' do
+      short_name = @collection_draft_proposal['short_name']
+      mock_publish(@collection_draft_proposal)
+      click_on 'Rescind Draft Submission'
+      click_on 'Yes'
+
+      expect(page).to have_content "The request to delete the collection [Short Name: #{short_name}] could not be successfully rescinded."
+      expect(page).to have_content 'Done'
     end
   end
 end
