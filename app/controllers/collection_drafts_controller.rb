@@ -20,11 +20,7 @@ class CollectionDraftsController < BaseDraftsController
   def show
     super
 
-    set_platform_short_names
-    set_instrument_short_names
-    set_temporal_keywords
-    set_country_codes
-    set_language_codes
+    show_view_setup
     @errors = validate_metadata
   end
 
@@ -143,10 +139,6 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   private
-
-  def set_resource_by_model
-    set_resource(CollectionDraft.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
-  end
 
   def load_umm_schema
     # if user has a provider set and provider file exists
@@ -418,6 +410,14 @@ class CollectionDraftsController < BaseDraftsController
     set_location_keywords     if @form == 'spatial_information'
     set_data_centers          if @form == 'data_centers' || @form == 'data_contacts'
     load_data_contacts_schema if @form == 'data_contacts'
+  end
+
+  def show_view_setup
+    set_platform_short_names
+    set_instrument_short_names
+    set_temporal_keywords
+    set_country_codes
+    set_language_codes
   end
 
   def set_resource_by_model

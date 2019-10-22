@@ -4,8 +4,9 @@ module Proposal
 
     # TODO: Limit this to only the things a user is supposed to do, also need a new one for approver
     # TODO: Also need one for functions which both can perform (e.g. show)
+
     before_action :ensure_non_nasa_draft_permissions
-    before_action(only: %I[submit rescind]) { set_resource }
+    before_action(only: %I[submit rescind progress]) { set_resource }
 
     def edit
       if get_resource&.in_work?
@@ -18,6 +19,9 @@ module Proposal
 
     def submit
       authorize get_resource
+
+      add_status_history('submitted')
+      remove_status_history('rejected')
 
       if get_resource.submit && get_resource.save
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
@@ -33,6 +37,8 @@ module Proposal
 
     def rescind
       authorize get_resource
+
+      remove_status_history('submitted')
 
       if get_resource.rescind && get_resource.save
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.success")
@@ -62,11 +68,47 @@ module Proposal
       end
     end
 
+    def progress
+      authorize get_resource
+
+      @status_history = get_resource.status_history || {}
+      approver_feedback = get_resource.approver_feedback || {}
+
+      if get_resource.in_work?
+        @first_stage = 'In Work'
+
+        # This applies the same validation as is applied on the preview/show page
+        show_view_setup
+        load_umm_schema
+        @errors = validate_metadata
+      else
+        @first_stage = 'Submitted for Review'
+        @first_information = get_progress_message('submitted')
+      end
+
+      if @status_history['approved']
+        @second_information = get_progress_message('approved')
+      elsif @status_history['rejected']
+        @second_information = get_progress_message('rejected')
+        @rejection_reason = "Reason: #{approver_feedback.fetch('rejection_reason', 'No Reason Provided')}"
+      end
+
+      @fourth_information = get_progress_message('done') if get_resource.proposal_status == 'done'
+
+      @available_actions =  if get_resource.in_work?
+                              'Make additional changes or submit this proposal for approval.'
+                            elsif get_resource.submitted? || get_resource.rejected?
+                              'You may rescind this proposal to make additional changes.'
+                            else
+                              'No actions are possible.'
+                            end
+    end
+
     private
 
     def set_resource_by_model
       # Doing this way because don't want provider id being sent
-      set_resource(CollectionDraftProposal.new(user: current_user, draft: {}))
+      set_resource(CollectionDraftProposal.new(user: current_user, draft: {}, request_type: 'create'))
     end
 
     def proposal_mode_enabled?
@@ -79,6 +121,19 @@ module Proposal
       clear_session_and_token_data
 
       redirect_to root_url, flash: { error: "It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
+    end
+
+    def add_status_history(target)
+      get_resource.status_history ||= {}
+      get_resource.status_history[target] = { 'username' => session[:name], 'action_date' => Time.new.in_time_zone('UTC').to_s(:default_with_time_zone) }
+    end
+
+    def remove_status_history(target)
+      get_resource.status_history.delete(target)
+    end
+
+    def get_progress_message(action)
+      "#{action == 'done' ? 'Published' : action.titleize}: #{@status_history[action]['action_date']} By: #{@status_history[action]['username']}"
     end
   end
 end
