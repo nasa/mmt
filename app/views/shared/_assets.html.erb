@@ -5,11 +5,6 @@
 <!-- Javascripts -->
 <%= javascript_include_tag 'application' -%>
 
-<% if Rails.configuration.respond_to?(:analytics_id) -%>
-  <!-- Google Analytics -->
-  <%= render 'shared/google_analytics' %>
-<% end -%>
-
 <% if Rails.env.test? %>
   <!-- Prevent CSS animations in test -->
   <style type="text/css">
