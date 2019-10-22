@@ -13,11 +13,9 @@ module ProposalsHelper
     # implementation, this is the only time the active node should display its line
     classes =   if @status_history['rejected'] && @status_history['submitted'].nil?
                   %w[timeline-node-active timeline-line-active]
-
     # If the proposal is in work or has been submitted, this is the current step
                 elsif get_resource.in_work? || get_resource.submitted?
                   %w[timeline-node-active timeline-faded-line-active]
-
     # Otherwise, it is in some later step and this node should be visible.
                 else
                   %w[timeline-node timeline-line]
@@ -32,11 +30,9 @@ module ProposalsHelper
     # rescinded
     classes =   if get_resource.rejected?
                   %w[timeline-node-active timeline-faded-line-active]
-
     # If the proposal has been approved, a later node is active.
                 elsif @status_history['approved']
                   %w[timeline-node timeline-line]
-
     # If this proposal has been rejected, but isn't in the rejected state,
     # this node should be visible, but no progress to the next state is shown
     # (e.g. a faded line)
@@ -54,7 +50,6 @@ module ProposalsHelper
     # This is the active node if the proposal is approved and not published.
     classes = if get_resource.approved?
                 %w[timeline-node-active timeline-faded-line-active]
-
     # If the status history has an approved entry and it is not currently
     # in that state, then it should be in 'done' and the node and line should
     # be displayed
