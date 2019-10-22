@@ -82,17 +82,17 @@ module Proposal
         @errors = validate_metadata
       else
         @first_stage = 'Submitted for Review'
-        @first_information = "Submitted: #{@status_history['submitted']['action_date']} UTC By: #{@status_history['submitted']['username']}"
+        @first_information = get_progress_message('submitted')
       end
 
       if @status_history['approved']
-        @second_information = "Approved: #{@status_history['approved']['action_date']} UTC By: #{@status_history['approved']['username']}"
+        @second_information = get_progress_message('approved')
       elsif @status_history['rejected']
-        @second_information = "Rejected: #{@status_history['rejected']['action_date']} UTC By: #{@status_history['rejected']['username']}"
+        @second_information = get_progress_message('rejected')
         @rejection_reason = "Reason: #{approver_feedback.fetch('rejection_reason', 'No Reason Provided')}"
       end
 
-      @fourth_information = "Published: #{@status_history['done']['action_date']} UTC By: #{@status_history['done']['username']}" if get_resource.proposal_status == 'done'
+      @fourth_information = get_progress_message('done') if get_resource.proposal_status == 'done'
 
       @available_actions =  if get_resource.in_work?
                               'Make additional changes or submit this proposal for approval.'
@@ -124,11 +124,15 @@ module Proposal
 
     def add_status_history(target)
       get_resource.status_history ||= {}
-      get_resource.status_history[target] = { 'username' => session[:name], 'action_date' => Time.new.utc.to_s }
+      get_resource.status_history[target] = { 'username' => session[:name], 'action_date' => Time.new.in_time_zone('UTC').to_s(:default_with_time_zone) }
     end
 
     def remove_status_history(target)
       get_resource.status_history.delete(target)
+    end
+
+    def get_progress_message(action)
+      "#{action == 'done' ? 'Published' : action.titleize}: #{@status_history[action]['action_date']} By: #{@status_history[action]['username']}"
     end
   end
 end

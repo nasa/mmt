@@ -11,62 +11,70 @@ module ProposalsHelper
     # If the proposal has been rejected and has not been submitted,
     # Display the old rejection information.  At the time of the original
     # implementation, this is the only time the active node should display its line
-    if @status_history['rejected'] && @status_history['submitted'].nil?
-      '<div class="timeline-node-active timeline-line-active"></div>'
+    classes =   if @status_history['rejected'] && @status_history['submitted'].nil?
+                  %w[timeline-node-active timeline-line-active]
 
     # If the proposal is in work or has been submitted, this is the current step
-    elsif get_resource.in_work? || get_resource.submitted?
-      '<div class="timeline-node-active timeline-faded-line-active"></div>'
+                elsif get_resource.in_work? || get_resource.submitted?
+                  %w[timeline-node-active timeline-faded-line-active]
 
     # Otherwise, it is in some later step and this node should be visible.
-    else
-      '<div class="timeline-node timeline-line"></div>'
-    end
+                else
+                  %w[timeline-node timeline-line]
+                end
+
+    content_tag(:div, nil, class: classes)
   end
 
   # Second node on the progress page
   def review_node
     # This node is the active node when a rejected proposal has not been
     # rescinded
-    if get_resource.rejected?
-      '<div class="timeline-node-active timeline-faded-line-active"></div>'
+    classes =   if get_resource.rejected?
+                  %w[timeline-node-active timeline-faded-line-active]
 
     # If the proposal has been approved, a later node is active.
-    elsif @status_history['approved']
-      '<div class="timeline-node timeline-line"></div>'
+                elsif @status_history['approved']
+                  %w[timeline-node timeline-line]
 
     # If this proposal has been rejected, but isn't in the rejected state,
     # this node should be visible, but no progress to the next state is shown
     # (e.g. a faded line)
-    elsif @status_history['rejected']
-      '<div class="timeline-node timeline-faded-line"></div>'
-    else
-      '<div class="timeline-faded-node timeline-faded-line"></div>'
-    end
+                elsif @status_history['rejected']
+                  %w[timeline-node timeline-faded-line]
+                else
+                  %w[timeline-faded-node timeline-faded-line]
+                end
+
+    content_tag(:div, nil, class: classes)
   end
 
   # Third node on the progress page
   def approved_node
     # This is the active node if the proposal is approved and not published.
-    if get_resource.approved?
-      '<div class="timeline-node-active timeline-faded-line-active"></div>'
+    classes = if get_resource.approved?
+                %w[timeline-node-active timeline-faded-line-active]
 
     # If the status history has an approved entry and it is not currently
     # in that state, then it should be in 'done' and the node and line should
     # be displayed
-    elsif @status_history['approved']
-      '<div class="timeline-node timeline-line"></div>'
-    else
-      '<div class="timeline-faded-node timeline-faded-line"></div>'
-    end
+              elsif @status_history['approved']
+                %w[timeline-node timeline-line]
+              else
+                %w[timeline-faded-node timeline-faded-line]
+              end
+
+    content_tag(:div, nil, class: classes)
   end
 
   # Fourth node on the progress page
   def published_node
-    if get_resource.done?
-      '<div class="timeline-node-active"></div>'
-    else
-      '<div class="timeline-faded-node"></div>'
-    end
+    classes = if get_resource.done?
+                %w[timeline-node-active]
+              else
+                %w[timeline-faded-node]
+              end
+
+    content_tag(:div, nil, class: classes)
   end
 end
