@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Variable revision list', js: true do
   context 'when viewing a published variable' do
     before do

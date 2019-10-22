@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Downloading Variable JSON', js: true do
   before :all do
     @ingest_response, _concept_response = publish_variable_draft

@@ -1,0 +1,25 @@
+<% if @old_revision %>
+  <div class="eui-banner--info">
+    <p class="eui-banner__message">
+      <%= link_to 'You are viewing an older revision of this collection. Click here to view the latest published version.', collection_path %>
+    </p>
+  </div>
+<% end %>
+
+<div class="row row-content">
+  <% if @error %>
+    <div class="eui-banner--info">
+      <p class="eui-banner__message">
+        <%= @error %>
+      </p>
+    </div>
+  <% else %>
+    <section class="action wide-content">
+      <div class="wide-content-inside">
+        <!-- TODO: may need p tags for action buttons/links to display properly -->
+      </div>
+    </section>
+
+    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, is_mmt: true, editable: false, edsc_url: nil, concept_id: nil, additional_information: nil } %>
+  <% end %>
+</div>

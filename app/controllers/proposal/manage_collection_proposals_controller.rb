@@ -2,7 +2,7 @@ module Proposal
   class ManageCollectionProposalsController < ManageMetadataController
     skip_before_action :provider_set?
 
-    before_action :ensure_non_nasa_draft_user
+    before_action :ensure_non_nasa_draft_permissions
 
     def show
       authorize CollectionDraftProposal, policy_class: CollectionDraftProposalPolicy

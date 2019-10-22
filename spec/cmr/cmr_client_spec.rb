@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe Cmr::Client do
   let(:connection) { Faraday.new }
   let(:req) { double(headers: {}) }
@@ -62,7 +60,7 @@ describe Cmr::Client do
         # the first error logging happens in base_client, with just the response body
         expect(Rails.logger).to receive(:error).with("Cmr::CmrClient Response Error: \"{\\\"errors\\\":[\\\"Token does not exist\\\"]}\"")
 
-        response = cmr_client.get_collections({ 'short_name' => 'term' }, 'bad-bad-bad-token-bad-bad-bad-token:somethingsomethingso')
+        response = cmr_client.get_collections_by_post({ 'short_name' => 'term' }, 'bad-bad-bad-token-bad-bad-bad-token:somethingsomethingso')
       end
     end
   end

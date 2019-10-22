@@ -4,7 +4,8 @@ module Proposal
 
     # TODO: Limit this to only the things a user is supposed to do, also need a new one for approver
     # TODO: Also need one for functions which both can perform (e.g. show)
-    before_action :ensure_non_nasa_draft_user
+
+    before_action :ensure_non_nasa_draft_permissions
     before_action(only: %I[submit rescind progress]) { set_resource }
 
     def edit

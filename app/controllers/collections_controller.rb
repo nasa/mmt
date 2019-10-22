@@ -5,15 +5,25 @@ class CollectionsController < ManageCollectionsController
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
+  skip_before_action :proposal_mode_enabled?, only: [:show]
+  # the only functionality that should be available in Draft MMT should be
+  # to view the collection preview
+
   layout 'collection_preview', only: [:show]
 
   add_breadcrumb 'Collections' # there is no collections index action, so not providing a link
 
   def show
     @language_codes = cmr_client.get_language_codes
-    @draft = CollectionDraft.where(provider_id: @provider_id, native_id: @native_id).first
 
     add_breadcrumb fetch_entry_id(@collection, 'collections'), collection_path(@concept_id)
+
+    if Rails.configuration.proposal_mode
+      render 'proposal/collections/show'
+    else
+      @draft = CollectionDraft.where(provider_id: @provider_id, native_id: @native_id).first
+      render :show
+    end
   end
 
   def edit
