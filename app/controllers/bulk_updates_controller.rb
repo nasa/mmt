@@ -64,9 +64,12 @@ class BulkUpdatesController < ManageCollectionsController
     @task = construct_task(params)
     ensure_correct_data_center_update_value(@task)
 
+    Rails.logger.info("Creating Bulk Update: #{@task.inspect}")
+
     bulk_update_response = cmr_client.create_bulk_update(current_user.provider_id, @task, token)
 
     if bulk_update_response.success?
+      Rails.logger.info("Bulk Update successfully created: #{bulk_update_response.clean_inspect}")
       redirect_to bulk_update_path(bulk_update_response.body['task-id']), flash: { success: I18n.t('controllers.bulk_updates.create.flash.success') }
     else
       Rails.logger.error("Error creating Bulk Update: #{bulk_update_response.clean_inspect}")
