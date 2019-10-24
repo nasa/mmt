@@ -221,7 +221,9 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
       visit progress_collection_draft_proposal_path(@collection_draft_proposal)
     end
 
-    # Verifies that the Time is formatted correctly in the status_history
+    # This works through enough of the workflow to verify that the helpers in
+    # the controller are storing the time in a way that is retrievable (which
+    # caused the original ticket to bounce back).
     it 'can submit a proposal' do
       click_on 'Submit for Review'
       click_on 'Yes'
