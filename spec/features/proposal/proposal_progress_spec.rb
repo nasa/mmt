@@ -214,4 +214,25 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
       end
     end
   end
+
+  context 'when viewing a complete draft' do
+    before do
+      @collection_draft_proposal = create(:full_collection_draft_proposal)
+      visit progress_collection_draft_proposal_path(@collection_draft_proposal)
+    end
+
+    # This works through enough of the workflow to verify that the helpers in
+    # the controller are storing the time in a way that is retrievable (which
+    # caused the original ticket to bounce back).
+    it 'can submit a proposal' do
+      click_on 'Submit for Review'
+      click_on 'Yes'
+
+      visit progress_collection_draft_proposal_path(@collection_draft_proposal)
+
+      within '.progress-actions' do
+        expect(page).to have_link('Rescind this Submission')
+      end
+    end
+  end
 end
