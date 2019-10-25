@@ -64,7 +64,8 @@ class BulkUpdatesController < ManageCollectionsController
     @task = construct_task(params)
     ensure_correct_data_center_update_value(@task)
 
-    Rails.logger.info("Creating Bulk Update: #{@task.inspect}")
+    bulk_update_log_data = create_bulk_update_log_data
+    Rails.logger.info("Creating Bulk Update: #{bulk_update_log_data.inspect}")
 
     bulk_update_response = cmr_client.create_bulk_update(current_user.provider_id, @task, token)
 
@@ -103,6 +104,14 @@ class BulkUpdatesController < ManageCollectionsController
   end
 
   private
+
+  def create_bulk_update_log_data
+    bulk_update_log_data = @task.clone
+    bulk_update_log_data['provider-id'] = current_user.provider_id
+    concept_id_array = bulk_update_log_data['concept-ids']
+    bulk_update_log_data['number-of-records'] = concept_id_array.length
+    bulk_update_log_data
+  end
 
   def construct_task(params)
     # CMR expects update-field values to be in ALL_CAPS with underscores, but the
