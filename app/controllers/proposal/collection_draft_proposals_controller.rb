@@ -20,9 +20,10 @@ module Proposal
     def submit
       authorize get_resource
 
+      add_status_history('submitted')
+      remove_status_history('rejected')
+
       if get_resource.submit && get_resource.save
-        add_status_history('submitted')
-        remove_status_history('rejected')
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} submitted #{resource_name.titleize} (a #{get_resource.request_type} metadata request) with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
 
         ProposalMailer.proposal_submitted_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id']).deliver_now
@@ -37,6 +38,8 @@ module Proposal
     def rescind
       authorize get_resource
 
+      remove_status_history('submitted')
+
       # An in_work delete request does not make sense.  If a delete request is
       # rescinded, delete the request instead.
       if get_resource.request_type == 'delete'
@@ -50,7 +53,6 @@ module Proposal
           flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.delete.error", short_name: short_name)
         end
       elsif get_resource.rescind && get_resource.save
-        remove_status_history('submitted')
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.success")
       else
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully rescinded #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
