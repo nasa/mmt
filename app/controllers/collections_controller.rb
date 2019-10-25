@@ -3,7 +3,7 @@ class CollectionsController < ManageCollectionsController
   include CMRCollectionsHelper
 
   before_action :set_collection
-  before_action :ensure_correct_collection_provider, only: %i[edit clone revert destroy]
+  before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
   layout 'collection_preview', only: [:show]
 
@@ -94,7 +94,7 @@ class CollectionsController < ManageCollectionsController
     send_data collection_download, type: content_type, disposition: "attachment; filename=#{concept_id}.#{download_format}"
   end
 
-  def delete_proposal
+  def create_delete_proposal
     proposal = CollectionDraftProposal.create_request(@collection, current_user, @native_id, 'delete', session[:name])
     Rails.logger.info("Audit Log: Delete Collection Proposal Request for #{proposal.entry_title} was created by #{current_user.urs_uid}")
     flash[:success] = I18n.t('controllers.collections.delete_proposal.flash.success')
@@ -158,14 +158,14 @@ class CollectionsController < ManageCollectionsController
   end
 
   def proposal_mode_enabled?
-    # actions available in both dMMT and MMT
     if %w[show].include?(params['action'])
-      authorize_public_actions(user: current_user, token: token)
+    # actions available in both dMMT and MMT
+      multi_mode_actions_allowed?(user: current_user, token: token)
+    elsif %w[create_delete_proposal].include?(params['action'])
     # actions available in dMMT to users and approvers
-    elsif %w[delete_proposal].include?(params['action'])
-      authorize_proposal_all_user_actions(user: current_user, token: token)
-    # actions available in MMT
+      proposal_mode_all_user_actions_allowed?(user: current_user, token: token)
     else
+    # actions available in MMT
       super
     end
   end

@@ -72,4 +72,12 @@ module ProposalsHelper
 
     content_tag(:div, nil, class: classes)
   end
+
+  def rescind_button_text
+    get_resource.request_type == 'create' ? 'Cancel Proposal Submission' : "Cancel #{get_resource.request_type.titleize} Request"
+  end
+
+  def status_badge_text
+    get_resource.request_type == 'create' ? 'Draft Proposal Submission:' : "#{get_resource.request_type.titleize} Metadata Request:"
+  end
 end

@@ -67,7 +67,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
     end
 
     it 'has a rescind button and cannot be deleted' do
-      expect(page).to have_link('Rescind Draft Submission')
+      expect(page).to have_link('Cancel Proposal Submission')
       expect(page).to have_no_link('Delete Collection Draft Proposal')
       within '#proposal-status-display' do
         expect(page).to have_content('Submitted')
@@ -75,7 +75,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
     end
 
     it 'can be rescinded' do
-      click_on 'Rescind Draft Submission'
+      click_on 'Cancel Proposal Submission'
       click_on 'Yes'
       expect(page).to have_link('Submit for Review')
       within '#proposal-status-display' do
@@ -88,7 +88,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
         # After loading the page, manipulate the state of the proposal so that
         # rescind will fail in order to execute the else code.
         mock_publish(@collection_draft_proposal)
-        click_on 'Rescind Draft Submission'
+        click_on 'Cancel Proposal Submission'
         click_on 'Yes'
       end
 
@@ -107,27 +107,34 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
       @collection_draft_proposal = create(:full_collection_draft_proposal, draft_request_type: 'delete')
       mock_submit(@collection_draft_proposal)
       visit collection_draft_proposal_path(@collection_draft_proposal)
+      @short_name = @collection_draft_proposal['short_name']
     end
 
-    it 'can be rescinded and deleted' do
-      short_name = @collection_draft_proposal['short_name']
-      click_on 'Rescind Draft Submission'
-      click_on 'Yes'
+    context 'when rescinding a delete metadata request' do
+      before do
+        click_on 'Cancel Delete Request'
+        click_on 'Yes'
+      end
 
-      expect(page).to have_content "The request to delete the collection [Short Name: #{short_name}] has been successfully rescinded."
-      within '.open-drafts' do
-        expect(page).to have_no_content short_name
+      it 'can be rescinded and deleted' do
+        expect(page).to have_content "The request to delete the collection [Short Name: #{@short_name}] has been successfully rescinded."
+        within '.open-drafts' do
+          expect(page).to have_no_content @short_name
+        end
       end
     end
 
-    it 'generates the correct error message when failing to delete a metadata request' do
-      short_name = @collection_draft_proposal['short_name']
-      mock_publish(@collection_draft_proposal)
-      click_on 'Rescind Draft Submission'
-      click_on 'Yes'
+    context 'when failing to delete a metadata request' do
+      before do
+        mock_publish(@collection_draft_proposal)
+        click_on 'Cancel Delete Request'
+        click_on 'Yes'
+      end
 
-      expect(page).to have_content "The request to delete the collection [Short Name: #{short_name}] could not be successfully rescinded."
-      expect(page).to have_content 'Done'
+      it 'generates the correct error message' do
+        expect(page).to have_content "The request to delete the collection [Short Name: #{@short_name}] could not be successfully rescinded."
+        expect(page).to have_content 'Done'
+      end
     end
   end
 end

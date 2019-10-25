@@ -40,11 +40,11 @@ module PermissionChecking
     is_non_nasa_draft_user?(user: user, token: token) || is_non_nasa_draft_approver?(user: user, token: token)
   end
 
-  def authorize_proposal_all_user_actions(user:, token:)
+  def proposal_mode_all_user_actions_allowed?(user:, token:)
     redirect_to manage_collection_proposals_path unless Rails.configuration.proposal_mode && either_non_nasa_user_or_approver?(user: user, token: token)
   end
 
-  def authorize_public_actions(user:, token:)
+  def multi_mode_actions_allowed?(user:, token:)
     redirect_to manage_collection_proposals_path unless !Rails.configuration.proposal_mode || (Rails.configuration.proposal_mode && either_non_nasa_user_or_approver?(user: user, token: token))
   end
 

@@ -36,7 +36,7 @@ describe 'Collection Draft Proposal Update', js: true do
 
       it 'cannot be edited' do
         expect(page).to have_content('Only proposals in an "In Work" status can be edited.')
-        expect(page).to have_link('Rescind Draft Submission')
+        expect(page).to have_link('Cancel Proposal Submission')
       end
     end
   end

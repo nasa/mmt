@@ -21,13 +21,13 @@
           </div>
         </span>
       <% elsif get_resource.submitted? %>
-        <%= link_to 'Rescind Draft Submission', "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
+        <%= link_to rescind_button_text, "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
         <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
       <% end %>
       <span id="proposal-status-display">
         <a href="<%= progress_collection_draft_proposal_path(get_resource) %>">
-          <span class="eui-badge eui-badge--split proposal-status-badge"><%= get_resource.request_type == 'create' ? 'Draft Proposal Submission:' : "#{get_resource.request_type.titleize} Metadata Request:" %> 
-            <span><%= get_resource.proposal_status.titleize %></span>
+          <span class="eui-badge eui-badge--split proposal-status-badge"><%= status_badge_text %>
+            <span class="proposal-status-display-status"><%= get_resource.proposal_status.titleize %></span>
           </span>
         </a>
       </span>

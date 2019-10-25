@@ -84,12 +84,16 @@ describe 'Collection Draft Proposal creation', js: true do
       visit collection_path(@ingest_response['concept-id'])
     end
 
-    it 'a delete metadata proposal can be created' do
-      click_on 'Request this Collection Record be Deleted'
-      click_on 'Yes'
+    context 'when creating a delete metadata proposal' do
+      before do
+        click_on 'Submit Delete Request'
+        click_on 'Yes'
+      end
 
-      expect(page).to have_content('Delete Collection Metadata Request Created Successfully!')
-      expect(page).to have_content('Submitted')
+      it 'a delete metadata proposal can be created' do
+        expect(page).to have_content('Delete Collection Metadata Request Created Successfully!')
+        expect(page).to have_content('Submitted')
+      end
     end
   end
 end

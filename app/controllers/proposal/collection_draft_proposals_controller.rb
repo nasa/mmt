@@ -23,12 +23,12 @@ module Proposal
       if get_resource.submit && get_resource.save
         add_status_history('submitted')
         remove_status_history('rejected')
-        Rails.logger.info("Audit Log: User #{current_user.urs_uid} submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} submitted #{resource_name.titleize} (a #{get_resource.request_type} metadata request) with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
 
         ProposalMailer.proposal_submitted_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id']).deliver_now
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.submit.flash.success")
       else
-        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully submitted #{resource_name.titleize} (a #{get_resource.request_type} metadata request) with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.submit.flash.error")
       end
       redirect_to collection_draft_proposal_path(get_resource)
@@ -42,11 +42,11 @@ module Proposal
       if get_resource.request_type == 'delete'
         short_name = get_resource.draft['ShortName']
         if get_resource.rescind && get_resource.destroy
-          Rails.logger.info("Audit Log: #{resource_name.titleize} #{get_resource.entry_title} was rescinded and destroyed by #{current_user.urs_uid}")
+          Rails.logger.info("Audit Log: #{resource_name.titleize} #{get_resource.entry_title} (a #{get_resource.request_type} metadata request) was rescinded and destroyed by #{current_user.urs_uid}")
           flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.delete.success", short_name: short_name)
           redirect_to manage_collection_proposals_path and return
         else
-          Rails.logger.info("Audit Log: Attempt to rescind and destroy #{resource_name.titleize} #{get_resource.entry_title} by #{current_user.urs_uid} failed.")
+          Rails.logger.info("Audit Log: Attempt to rescind and destroy #{resource_name.titleize} #{get_resource.entry_title} (a #{get_resource.request_type} metadata request) by #{current_user.urs_uid} failed.")
           flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.delete.error", short_name: short_name)
         end
       elsif get_resource.rescind && get_resource.save

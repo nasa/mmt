@@ -16,10 +16,14 @@ describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
       end
     end
 
-    it 'has a submit button' do
-      expect(page).to have_link('Submit for Review')
-      click_on('Submit for Review')
-      expect(page).to have_content('Are you sure you want to submit this proposal for review? Upon approval, your collection record will be published to the CMR.')
+    context 'when clicking the submit button' do
+      before do
+        click_on 'Submit for Review'
+      end
+
+      it 'has the correct modal text' do
+        expect(page).to have_content('Are you sure you want to submit this proposal for review? Upon approval, your collection record will be published to the CMR.')
+      end
     end
 
     it 'has a delete link' do
@@ -33,9 +37,14 @@ describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
       visit collection_draft_proposal_path(draft)
     end
 
-    it 'cannot be submitted yet' do
-      click_on('Submit for Review')
-      expect(page).to have_content('This proposal is not ready to be submitted. Please use the progress indicators on the proposal preview page to address incomplete or invalid fields.')
+    context 'when trying to submit it' do
+      before do
+        click_on('Submit for Review')
+      end
+
+      it 'cannot be submitted yet' do
+        expect(page).to have_content('This proposal is not ready to be submitted. Please use the progress indicators on the proposal preview page to address incomplete or invalid fields.')
+      end
     end
   end
 end
