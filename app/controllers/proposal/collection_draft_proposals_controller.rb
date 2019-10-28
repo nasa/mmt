@@ -125,7 +125,7 @@ module Proposal
 
     def add_status_history(target)
       get_resource.status_history ||= {}
-      get_resource.status_history[target] = { 'username' => session[:name], 'action_date' => Time.new.in_time_zone('UTC').to_s(:default_with_time_zone) }
+      get_resource.status_history[target] = { 'username' => session[:name], 'action_date' => Time.new }
     end
 
     def remove_status_history(target)
@@ -133,7 +133,7 @@ module Proposal
     end
 
     def get_progress_message(action)
-      "#{action == 'done' ? 'Published' : action.titleize}: #{@status_history[action]['action_date']} By: #{@status_history[action]['username']}"
+      "#{action == 'done' ? 'Published' : action.titleize}: #{@status_history.fetch(action, {})['action_date'].in_time_zone('UTC').to_s(:default_with_time_zone)} By: #{@status_history.fetch(action, {})['username']}"
     end
   end
 end
