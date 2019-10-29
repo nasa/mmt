@@ -109,7 +109,7 @@ class BulkUpdatesController < ManageCollectionsController
     bulk_update_log_data = @task.clone
     bulk_update_log_data['provider-id'] = current_user.provider_id
     concept_id_array = bulk_update_log_data['concept-ids']
-    bulk_update_log_data['number-of-records'] = concept_id_array.length
+    bulk_update_log_data['number-of-records'] = concept_id_array.length unless concept_id_array.nil?
     bulk_update_log_data
   end
 
