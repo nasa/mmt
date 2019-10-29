@@ -129,11 +129,19 @@ module Proposal
     end
 
     def remove_status_history(target)
-      get_resource.status_history.delete(target)
+      get_resource.status_history&.delete(target)
     end
 
     def get_progress_message(action)
-      "#{action == 'done' ? 'Published' : action.titleize}: #{@status_history.fetch(action, {})['action_date'].in_time_zone('UTC').to_s(:default_with_time_zone)} By: #{@status_history.fetch(action, {})['username']}"
+      if @status_history.fetch(action, {}).blank?
+        action_time = 'No Date Provided'
+        action_username = 'No User Provided'
+        Rails.logger.info("The progress page was loaded with a record that does not have a status_history and is not in_work.  The origin of this record (#{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}) should be investigated.")
+      else
+        action_time = @status_history[action]['action_date'].in_time_zone('UTC').to_s(:default_with_time_zone)
+        action_username = @status_history[action]['username']
+      end
+      "#{action == 'done' ? 'Published' : action.titleize}: #{action_time} By: #{action_username}"
     end
   end
 end
