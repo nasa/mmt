@@ -96,7 +96,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
         within '#proposal-status-display' do
           expect(page).to have_content('Done')
         end
-        expect(page).to have_content 'Collection Draft Proposal was not rescinded successfully'
+        expect(page).to have_content 'Collection Draft Proposal was not canceled successfully'
       end
     end
   end
@@ -117,7 +117,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
       end
 
       it 'can be rescinded and deleted' do
-        expect(page).to have_content "The request to delete the collection [Short Name: #{@short_name}] has been successfully rescinded."
+        expect(page).to have_content "The request to delete the collection [Short Name: #{@short_name}] has been successfully canceled."
         within '.open-drafts' do
           expect(page).to have_no_content @short_name
         end
@@ -132,7 +132,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
       end
 
       it 'generates the correct error message' do
-        expect(page).to have_content "The request to delete the collection [Short Name: #{@short_name}] could not be successfully rescinded."
+        expect(page).to have_content "The request to delete the collection [Short Name: #{@short_name}] could not be successfully canceled."
         expect(page).to have_content 'Done'
       end
     end

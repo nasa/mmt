@@ -88,11 +88,11 @@ en:
             error: 'Collection Draft Proposal was not submitted successfully'
         rescind:
           flash:
-            success: 'Collection Draft Proposal Rescinded Successfully'
-            error: 'Collection Draft Proposal was not rescinded successfully'
+            success: 'Collection Draft Proposal Canceled Successfully'
+            error: 'Collection Draft Proposal was not canceled successfully'
             delete:
-              success: 'The request to delete the collection [Short Name: %{short_name}] has been successfully rescinded.'
-              error: 'The request to delete the collection [Short Name: %{short_name}] could not be successfully rescinded.'
+              success: 'The request to delete the collection [Short Name: %{short_name}] has been successfully canceled.'
+              error: 'The request to delete the collection [Short Name: %{short_name}] could not be successfully canceled.'
       collection_templates:
         create:
           flash:
