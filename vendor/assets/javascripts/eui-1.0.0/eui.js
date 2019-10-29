@@ -183,16 +183,7 @@
     });
   });
 }(jQuery));
-;(function () {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','euiga');
-
-	euiga('create', 'UA-62340125-3', 'auto', {'name': 'eui_tracker'});
-	euiga('eui_tracker.send', 'pageview');
-	euiga('eui_tracker.send', 'event', 'eui', 'loaded', '1.0.0');
-})();;// leanModal v1.1 by Ray Stone - http://finelysliced.com.au
+// leanModal v1.1 by Ray Stone - http://finelysliced.com.au
 // Dual licensed under the MIT and GPL
 
 (function($){$.fn.extend({leanModal:function(options){var defaults={top:100,overlay:0.5,closeButton:null};var overlay=$("<div id='lean_overlay'></div>");$("body").append(overlay);options=$.extend(defaults,options);return this.each(function(){var o=options;$(this).click(function(e){var modal_id=$(this).attr("href");$("#lean_overlay").click(function(){close_modal(modal_id)});$(o.closeButton).click(function(){close_modal(modal_id)});var modal_height=$(modal_id).outerHeight();var modal_width=$(modal_id).outerWidth();

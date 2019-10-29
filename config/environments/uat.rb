@@ -104,7 +104,6 @@ Rails.application.configure do
 
   config.cmr_env = 'uat'
   config.echo_env = 'uat'
-  config.analytics_id = 'UA-62340125-5'
   config.urs_register_url = 'https://uat.urs.earthdata.nasa.gov/users/new'
 
   config.tophat_url = 'https://cdn.uat.earthdata.nasa.gov/tophat2/tophat2.js'
