@@ -1,12 +1,13 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 03072e2c727acfcf26891633a440de3792a3851a
-  ref: 03072e2c727
+  revision: 5eaeaafefa8456ff5f6b6035eb79139166af64a8
+  ref: 5eaeaafefa8
   specs:
     cmr_metadata_preview (0.1.0)
       georuby (~> 2.5.2)
       rails (~> 4.2.11)
       rgeo (~> 0.6.0)
+      sprockets (< 4.0)
 
 GIT
   remote: https://github.com/johannesthoma/libxml-to-hash
