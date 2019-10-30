@@ -3,7 +3,9 @@
   <section class="action wide-content">
     <div class="wide-content-inside">
       <span>
-        <span id="proposal-status-display-left" class="eui-badge eui-badge--split ">Proposal Status: <span><%= get_resource.proposal_status.titleize %></span></span>
+        <span class="eui-badge eui-badge--split proposal-status-badge"><%= status_badge_text %>
+          <span><%= get_resource.proposal_status.titleize %></span>
+        </span>
         <span class="progress-update"> Last Updated: <%= "#{get_resource.updated_at.to_s(:default_with_time_zone)}" %></span>
       </span><br>
       <span>
@@ -59,10 +61,10 @@
               <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/submit_modal' %>
             <% end %>
           <% elsif get_resource.submitted? %>
-            <%= link_to 'Rescind this Submission', "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
+            <%= link_to rescind_button_text, "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
             <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
           <% elsif get_resource.rejected? %>
-            <%= link_to 'Rescind Rejected Proposal', "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
+            <%= link_to rescind_button_text, "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
             <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
           <% elsif get_resource.done? %>
           <% end %>

@@ -5,10 +5,6 @@ class CollectionsController < ManageCollectionsController
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
-  skip_before_action :proposal_mode_enabled?, only: [:show]
-  # the only functionality that should be available in Draft MMT should be
-  # to view the collection preview
-
   layout 'collection_preview', only: [:show]
 
   add_breadcrumb 'Collections' # there is no collections index action, so not providing a link
@@ -98,6 +94,13 @@ class CollectionsController < ManageCollectionsController
     send_data collection_download, type: content_type, disposition: "attachment; filename=#{concept_id}.#{download_format}"
   end
 
+  def create_delete_proposal
+    proposal = CollectionDraftProposal.create_request(@collection, current_user, @native_id, 'delete', session[:name])
+    Rails.logger.info("Audit Log: Delete Collection Proposal Request for #{proposal.entry_title} was created by #{current_user.urs_uid}")
+    flash[:success] = I18n.t('controllers.collections.delete_proposal.flash.success')
+    redirect_to collection_draft_proposal_path(proposal)
+  end
+
   private
 
   def ensure_correct_collection_provider
@@ -152,5 +155,18 @@ class CollectionsController < ManageCollectionsController
     @collection = {}
     @collection_format = ''
     @error = 'This collection is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this collection.'
+  end
+
+  def proposal_mode_enabled?
+    if %w[show].include?(params['action'])
+    # actions available in both dMMT and MMT
+      multi_mode_actions_allowed?(user: current_user, token: token)
+    elsif %w[create_delete_proposal].include?(params['action'])
+    # actions available in dMMT to users and approvers
+      proposal_mode_all_user_actions_allowed?(user: current_user, token: token)
+    else
+    # actions available in MMT
+      super
+    end
   end
 end

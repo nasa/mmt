@@ -33,9 +33,14 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
       end
     end
 
-    it 'cannot be submitted' do
-      click_on 'Submit for Review'
-      expect(page).to have_content('This proposal is not ready to be submitted. Please use the progress indicators on the proposal preview page to address incomplete or invalid fields.')
+    context 'when trying to submit an incomplete proposal' do
+      before do
+        click_on 'Submit for Review'
+      end
+
+      it 'cannot be submitted' do
+        expect(page).to have_content('This proposal is not ready to be submitted. Please use the progress indicators on the proposal preview page to address incomplete or invalid fields.')
+      end
     end
   end
 
@@ -63,7 +68,7 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
     it 'displays the correct actions' do
       within '.progress-actions' do
         expect(page).to have_content('You may rescind this proposal to make additional changes.')
-        expect(page).to have_link('Rescind this Submission')
+        expect(page).to have_link('Cancel Proposal Submission')
       end
     end
   end
@@ -167,7 +172,7 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
       it 'displays the correct actions' do
         within '.progress-actions' do
           expect(page).to have_content('You may rescind this proposal to make additional changes.')
-          expect(page).to have_link('Rescind Rejected Proposal')
+          expect(page).to have_link('Cancel Proposal Submission')
         end
       end
     end

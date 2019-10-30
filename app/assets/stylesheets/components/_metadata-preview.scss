@@ -348,3 +348,13 @@ ul.sub-field {
   float:right;
   padding: 5px;
 }
+
+// Overriding eui defaults for these badges only (bold and caps lock default)
+.proposal-status-badge {
+  text-transform: none;
+  font-weight: normal;
+}
+
+.proposal-status-display-status {
+  text-decoration: underline;
+}

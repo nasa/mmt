@@ -2,8 +2,6 @@
 class SearchController < ManageMetadataController
   include SearchHelper
 
-  skip_before_action :proposal_mode_enabled?
-
   RESULTS_PER_PAGE = 25
 
   def index
@@ -64,5 +62,9 @@ class SearchController < ManageMetadataController
     end
 
     [records, errors, hits]
+  end
+
+  def proposal_mode_enabled?
+    multi_mode_actions_allowed?(user: current_user, token: token)
   end
 end

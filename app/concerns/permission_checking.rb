@@ -36,6 +36,18 @@ module PermissionChecking
     end
   end
 
+  def either_non_nasa_user_or_approver?(user:, token:)
+    is_non_nasa_draft_user?(user: user, token: token) || is_non_nasa_draft_approver?(user: user, token: token)
+  end
+
+  def proposal_mode_all_user_actions_allowed?(user:, token:)
+    redirect_to manage_collection_proposals_path unless Rails.configuration.proposal_mode && either_non_nasa_user_or_approver?(user: user, token: token)
+  end
+
+  def multi_mode_actions_allowed?(user:, token:)
+    redirect_to manage_collection_proposals_path unless !Rails.configuration.proposal_mode || (Rails.configuration.proposal_mode && either_non_nasa_user_or_approver?(user: user, token: token))
+  end
+
   def user_has_provider_permission_to(user:, action:, target:, token:, specific_provider: nil)
     user_has_permission_to(user: user, action: action, target: target, type: 'provider', token: token, specific_provider: specific_provider)
   end
