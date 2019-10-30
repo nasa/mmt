@@ -10,6 +10,7 @@ class WelcomeController < ApplicationController
   before_action :redirect_if_logged_in
 
   # Skip all filters for status
+  # Todo this is causing MMT not to work in Rails 5
   skip_filter *_process_action_callbacks.map(&:filter), only: [:status]
 
   # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's
