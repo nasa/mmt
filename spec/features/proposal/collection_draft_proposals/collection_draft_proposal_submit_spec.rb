@@ -104,4 +104,40 @@ describe 'Collection Draft Proposal Submit', js: true do
       end
     end
   end
+
+  context 'when viewing a record that has been submitted, but has no status_history' do
+    before do
+      # Testing bad data, do not change this to use the mock methods.
+      set_as_proposal_mode_mmt(with_required_acl: true)
+      @collection_draft_proposal = create(:empty_collection_draft_proposal)
+      @collection_draft_proposal.proposal_status = 'submitted'
+      @collection_draft_proposal.save
+    end
+
+    # This test exists to verify that remove_status_history correctly
+    # handles empty status_history.
+    context 'when clicking the rescind button' do
+      before do
+        visit collection_draft_proposal_path(@collection_draft_proposal)
+        click_on 'Rescind Draft Submission'
+        click_on 'Yes'
+      end
+
+      it 'can be rescinded' do
+        expect(page).to have_content('Collection Draft Proposal Rescinded Successfully')
+      end
+    end
+
+    context 'when viewing the progress page' do
+      before do
+        visit progress_collection_draft_proposal_path(@collection_draft_proposal)
+      end
+
+      it 'can go to the progress page' do
+        expect(page).to have_content('You may rescind this proposal to make additional changes.')
+        expect(page).to have_content('No Date Provided')
+        expect(page).to have_content('No User Provided')
+      end
+    end
+  end
 end
