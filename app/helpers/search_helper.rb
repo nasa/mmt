@@ -31,7 +31,7 @@ module SearchHelper
     "for: #{results.join(' | ')}"
   end
 
-  def sort_by_link(title, sort_key, query, record_type, specified_url: false)
+  def sort_by_link(title, sort_key, query, record_type, specified_url = nil)
     params = query.clone
     params['record_type'] = record_type unless specified_url
 

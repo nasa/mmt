@@ -37,8 +37,11 @@ describe 'Proposals listed on the Manage Collection Proposals page', js: true do
         expect(page).to have_content('An Second Example Proposal')
       end
 
-      it 'displays entry titles' do
-        expect(page).to have_content('An Example Title')
+      it 'displays states and types' do
+        within '.all-proposals' do
+          expect(page).to have_content('In Work')
+          expect(page).to have_content('New Collection Request')
+        end
       end
 
       context 'when visiting the index page' do
@@ -70,10 +73,10 @@ describe 'Proposals listed on the Manage Collection Proposals page', js: true do
       end
 
       it 'no drafts are displayed' do
-        expect(page).to have_content('Upcoming Proposals')
+        expect(page).to have_content('In Work Proposals')
         expect(page).to have_content('Queued Proposals')
 
-        within '.upcoming-proposals' do
+        within '.in-work-proposals' do
           expect(page).to have_content('There are no draft proposals to display.')
         end
         within '.queued-proposals' do
@@ -92,7 +95,7 @@ describe 'Proposals listed on the Manage Collection Proposals page', js: true do
       end
 
       it 'has a more button' do
-        within '.upcoming-proposals' do
+        within '.in-work-proposals' do
           expect(page).to have_link('More')
         end
       end
@@ -126,8 +129,8 @@ describe 'Proposals listed on the Manage Collection Proposals page', js: true do
         end
       end
 
-      it 'does not have any upcoming proposals' do
-        within '.upcoming-proposals' do
+      it 'does not have any in work proposals' do
+        within '.in-work-proposals' do
           expect(page).to have_content('There are no draft proposals to display.')
         end
       end

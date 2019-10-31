@@ -23,7 +23,7 @@ describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: tr
       end
 
       it 'displays the Manage Collection Proposals page' do
-        expect(page).to have_content('Upcoming Proposals')
+        expect(page).to have_content('In Work Proposals')
         expect(page).to have_content('Queued Proposals')
       end
     end

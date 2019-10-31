@@ -1,6 +1,6 @@
 <div class="row row-content">
   <section>
-    <h2><%= "#{@proposal_type} Draft Proposals" %></h2>
+    <h2><%= "#{@category_of_displayed_proposal} Draft Proposals" %></h2>
 
     <%= link_to "Create a #{resource_name.titleize}", send("new_#{resource_name}_path"), class: 'eui-btn--blue space-bot' unless @proposal_type == 'Queued' %>
 
@@ -11,11 +11,11 @@
     <table class="open-draft-proposals">
       <thead>
         <tr>
-          <th><%= sort_by_link(short_name_header(resource_name), 'short_name', @query, nil, specified_url: @specified_url) %></th>
-          <th><%= sort_by_link(entry_title_header(resource_name), 'entry_title', @query, nil, specified_url: @specified_url) %></th>
-          <th><%= sort_by_link('Proposal Status', 'proposal_status', @query, nil, specified_url: @specified_url) %></th>
-          <th><%= sort_by_link('Request Type', 'request_type', @query, nil, specified_url: @specified_url) %></th>
-          <th><%= sort_by_link('Last Modified', 'updated_at', @query, nil, specified_url: @specified_url) %></th>
+          <th><%= sort_by_link(short_name_header(resource_name), 'short_name', @query, nil, @specified_url) %></th>
+          <th><%= sort_by_link(entry_title_header(resource_name), 'entry_title', @query, nil, @specified_url) %></th>
+          <th><%= sort_by_link('Proposal Status', 'proposal_status', @query, nil, @specified_url) %></th>
+          <th><%= sort_by_link('Request Type', 'request_type', @query, nil, @specified_url) %></th>
+          <th><%= sort_by_link('Last Modified', 'updated_at', @query, nil, @specified_url) %></th>
         </tr>
       </thead>
       <tbody>

@@ -110,8 +110,6 @@ module Proposal
       end
 
       @fourth_information = get_progress_message('done') if get_resource.proposal_status == 'done'
-
-      @available_actions =  get_available_actions_text
     end
 
     def approve
@@ -136,23 +134,31 @@ module Proposal
     end
 
     def queued_index
-      index_resources('proposal_status != ?', 'in_work')
+      resources = resource_class.where('proposal_status != ?', 'in_work')
+                                .order(index_sort_order)
+                                .page(params[:page]).per(RESULTS_PER_PAGE)
+      instance_variable_set("@#{plural_resource_name}", resources)
       @proposal_type = 'Queued'
       @specified_url = '/collection_draft_proposals/queued_index'
       render :index
     end
 
-    def upcoming_index
-      index_resources('proposal_status = ?', 'in_work')
-      @proposal_type = 'Upcoming'
-      @specified_url = '/collection_draft_proposals/upcoming_index'
+    def in_work_index
+      resources = resource_class.where('proposal_status = ?', 'in_work')
+                                .order(index_sort_order)
+                                .page(params[:page]).per(RESULTS_PER_PAGE)
+      instance_variable_set("@#{plural_resource_name}", resources)
+      @proposal_type = 'In Work'
+      @specified_url = '/collection_draft_proposals/in_work_index'
       render :index
     end
 
     def index
+      resources = resource_class.order(index_sort_order)
+                                .page(params[:page]).per(RESULTS_PER_PAGE)
+      instance_variable_set("@#{plural_resource_name}", resources)
       @proposal_type = 'Collection'
       @specified_url = '/collection_draft_proposals'
-      index_resources(nil, nil)
     end
 
     private
@@ -208,33 +214,8 @@ module Proposal
       @non_nasa_approver = is_non_nasa_draft_approver?(user: current_user, token: token)
     end
 
-    def get_available_actions_text
-      if get_resource.in_work?
-        'Make additional changes or submit this proposal for approval.'
-      elsif @non_nasa_approver
-        if get_resource.approved?
-          'Please visit the Metadata Management Tool for NASA users to finish publishing this metadata.'
-        elsif get_resource.done?
-          'No actions are possible.'
-        end
-      elsif get_resource.submitted? || get_resource.rejected?
-        'You may rescind this proposal to make additional changes.'
-      else
-        'No actions are possible.'
-      end
-    end
-
-    # Pass in the parameters of the where clause to restrict which proposals are
-    # displayed.  Passing nil for both is valid and returns all proposals.
     # TODO: Investigate if this can be used to provide sorting to all drafts.
     # It probably can, but MMT-1966 was already quite large.
-    def index_resources(where_equality, where_target)
-      resources = CollectionDraftProposal.where(where_equality, where_target).order(index_sort_order).page(params[:page]).per(RESULTS_PER_PAGE)
-
-      plural_resource = "@#{plural_resource_name}"
-      instance_variable_set(plural_resource, resources)
-    end
-
     # Translate the result of the sort_by_link helper into a string that can fit
     # in the 'order' command
     def index_sort_order

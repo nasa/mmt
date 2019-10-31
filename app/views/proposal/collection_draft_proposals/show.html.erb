@@ -5,10 +5,10 @@
         <span>
           <% if @errors && @errors.size > 0 %>
             <%= link_to 'Submit for Review', '#invalid-proposal-modal', class: 'eui-btn--blue display-modal' %>
-            <%= render partial: 'proposal/proposal_partials/invalid_proposal_modal' %>
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/invalid_proposal_modal' %>
           <% else %>
             <%= link_to 'Submit for Review', "#submit-proposal-modal", class: 'eui-btn--blue display-modal' %>
-            <%= render partial: 'proposal/proposal_partials/submit_modal' %>
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/submit_modal' %>
           <% end %>
           <%= link_to 'Delete Collection Draft Proposal', "#delete-proposal-modal", class: 'display-modal' %>
           <div id="delete-proposal-modal" class="eui-modal-content">
@@ -24,11 +24,11 @@
         <% if @non_nasa_approver %>
           <%= link_to state_action_button_text('Approve'), "#approve-proposal-modal", class: 'eui-btn--blue display-modal' %>
           <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--link display-modal' %>
-          <%= render partial: 'proposal/proposal_partials/approve_modal' %>
-          <%= render partial: 'proposal/proposal_partials/rescind_modal' %>
+          <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/approve_modal' %>
+          <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
         <% else %>
           <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
-          <%= render partial: 'proposal/proposal_partials/rescind_modal' %>
+          <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
         <% end %>
       <% end %>
       <span id="proposal-status-display">

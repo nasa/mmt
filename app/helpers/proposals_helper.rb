@@ -98,4 +98,21 @@ module ProposalsHelper
 
     content_tag(:span, "#{proposal.proposal_status.titleize} | #{request_type} #{type} Request")
   end
+
+  # Get the text for the 'actions' box on the progress page
+  def get_available_actions_text
+    if get_resource.in_work?
+      'Make additional changes or submit this proposal for approval.'
+    elsif @non_nasa_approver
+      if get_resource.approved?
+        'Please visit the Metadata Management Tool for NASA users to finish publishing this metadata.'
+      elsif get_resource.done?
+        'No actions are possible.'
+      end
+    elsif get_resource.submitted? || get_resource.rejected?
+      'You may rescind this proposal to make additional changes.'
+    else
+      'No actions are possible.'
+    end
+  end
 end

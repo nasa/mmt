@@ -13,7 +13,7 @@
 </section>
 
 <section class="eui-callout-box col-left">
-  <div class="open-drafts">
+  <div class="open-drafts all-proposals">
     <h3 class="eui-callout-box__title slate-grey"><%= "#{@proposal_type.titleize}s" %></h2>
     <div class="eui-callout-box__list">
       <ul>
@@ -26,7 +26,7 @@
               <%= time_tag proposal.updated_at, proposal.updated_at.to_s(:date) %> |
               <%= link_to proposal.display_short_name, send("#{@proposal_type.underscore}_path", proposal), title: proposal.display_short_name %>
               <br>
-              <%= content_tag(:span, proposal.display_entry_title, title: proposal.display_entry_title) %>
+              <%= status_content_tag(proposal) %>
             </p>
           </li>
         <% end %>

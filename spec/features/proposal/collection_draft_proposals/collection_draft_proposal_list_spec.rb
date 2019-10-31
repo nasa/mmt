@@ -161,9 +161,9 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
       mock_submit(create(:full_collection_draft_proposal, draft_short_name: 'A Second Example Proposal', version: '', draft_entry_title: 'A Second Example Title', draft_request_type: 'delete'))
     end
 
-    context 'while on the upcoming index page' do
+    context 'while on the in work index page' do
       before do
-        visit upcoming_index_collection_draft_proposals_path
+        visit in_work_index_collection_draft_proposals_path
       end
 
       it 'does not have any proposals in states other than "in_work"' do

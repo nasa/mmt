@@ -19,7 +19,7 @@
         <h4 class="progress-title">Progress</h4>
         <div class="timeline-wrapper">
           <div class="timeline-container" id="timeline-create-submission">
-            <%= render partial: 'proposal/proposal_partials/progress_content', locals: {
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {
               stage: @first_stage,
               active: true,
               information: @first_information
@@ -27,7 +27,7 @@
             <%= submit_node %>
           </div>
           <div class="timeline-container" id="timeline-review-submission">
-            <%= render partial: 'proposal/proposal_partials/progress_content', locals: {
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {
               stage: 'Approval',
               active: @status_history['approved'] || @status_history['rejected'],
               information: @second_information,
@@ -36,14 +36,14 @@
             <%= review_node %>
           </div>
           <div class="timeline-container" id="timeline-waiting-to-publish">
-            <%= render partial: 'proposal/proposal_partials/progress_content', locals: {
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {
               stage: 'Ready to Publish',
               active: @status_history['approved'],
             } %>
             <%= approved_node %>
           </div>
           <div class="timeline-container" id="timeline-published">
-            <%= render partial: 'proposal/proposal_partials/progress_content', locals: {
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {
               stage: 'Published',
               active: @status_history['done'],
               information: @fourth_information
@@ -54,42 +54,34 @@
       </div>
       <div class="progress-actions progress-down">
         <h4 class="progress-title">Actions</h4>
-        <p class="progress-actions-text"><%= @available_actions %></p>
+        <p class="progress-actions-text"><%= get_available_actions_text %></p>
         <p class="progress-actions-links">
           <% if get_resource.in_work? %>
             <% if @errors.any? %>
               <%= link_to 'Submit for Review', '#invalid-proposal-modal', class: 'eui-btn--blue display-modal' %>
               <%= link_to 'Edit Proposal', edit_collection_draft_proposal_path(get_resource) %>
-              <%= render partial: 'proposal/proposal_partials/invalid_proposal_modal' %>
+              <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/invalid_proposal_modal' %>
             <% else %>
               <%= link_to 'Submit for Review', "#submit-proposal-modal", class: 'eui-btn--blue display-modal' %>
               <%= link_to 'Edit Proposal', edit_collection_draft_proposal_path(get_resource) %>
-              <%= render partial: 'proposal/proposal_partials/submit_modal' %>
+              <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/submit_modal' %>
             <% end %>
           <% elsif get_resource.submitted? %>
-<<<<<<< HEAD
-            <%= link_to rescind_button_text, "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
-            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
-          <% elsif get_resource.rejected? %>
-            <%= link_to rescind_button_text, "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
-            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
-=======
             <% if @non_nasa_approver %>
               <%= link_to state_action_button_text('Approve'), "#approve-proposal-modal", class: 'eui-btn--blue display-modal' %>
               <%= link_to state_action_button_text('Reject'), "#rescind-submission-modal", class: 'eui-btn--red display-modal' %>
               <p class="progress-actions-links">
                 <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--link display-modal' %>
               </p>
-              <%= render partial: 'proposal/proposal_partials/approve_modal' %>
-              <%= render partial: 'proposal/proposal_partials/rescind_modal' %>
+              <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/approve_modal' %>
+              <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
             <% else %>
               <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
-              <%= render partial: 'proposal/proposal_partials/rescind_modal' %>
+              <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
             <% end %>
           <% elsif get_resource.rejected? %>
             <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
-            <%= render partial: 'proposal/proposal_partials/rescind_modal' %>
->>>>>>> 12b7d046... MMT-1966 Added approve and new metadata management page for approver.  Added queued and upcoming index pages.
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
           <% elsif get_resource.done? %>
           <% end %>
         </p>

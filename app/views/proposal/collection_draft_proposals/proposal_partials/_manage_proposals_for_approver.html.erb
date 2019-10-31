@@ -1,6 +1,6 @@
 <section class="eui-callout-box col-left">
-  <div class="open-drafts upcoming-proposals">
-    <h3 class="eui-callout-box__title slate-grey">Upcoming Proposals</h2>
+  <div class="open-drafts in-work-proposals">
+    <h3 class="eui-callout-box__title slate-grey">In Work Proposals</h2>
     <div class="eui-callout-box__list">
       <ul>
         <% unless @in_work_proposals.any? %>
@@ -18,7 +18,7 @@
         <% end %>
         <% if @in_work_proposals.size > @proposal_display_max_count %>
           <li>
-            <%= link_to 'More', send("upcoming_index_#{@proposal_type.underscore}s_path") %>
+            <%= link_to 'More', send("in_work_index_#{@proposal_type.underscore}s_path") %>
           </li>
         <% end %>
       </ul>

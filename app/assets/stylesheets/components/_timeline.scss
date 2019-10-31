@@ -1,3 +1,7 @@
+/* ===================================================== *\
+   Timeline feature (originally in draft MMT progress page)
+\* ===================================================== */
+
 .timeline {
   border-width: 1px;
   border-color: $dolphin-grey;
@@ -114,9 +118,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-// Styling sorting links on index pages
-.open-draft-proposals thead a:link, .open-draft-proposals thead a:visited{
-  color: $black;
 }

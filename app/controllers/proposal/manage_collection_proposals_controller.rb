@@ -14,13 +14,13 @@ module Proposal
 
       if @non_nasa_approver
         @in_work_proposals =
-          CollectionDraftProposal .where('proposal_status = ?', 'in_work')
-                                  .order('updated_at DESC')
-                                  .limit(@proposal_display_max_count + 1)
+          CollectionDraftProposal.where('proposal_status = ?', 'in_work')
+                                 .order('updated_at DESC')
+                                 .limit(@proposal_display_max_count + 1)
         @queued_proposals =
-          CollectionDraftProposal .where('proposal_status != ?', 'in_work')
-                                  .order('updated_at DESC')
-                                  .limit(@proposal_display_max_count + 1)
+          CollectionDraftProposal.where('proposal_status != ?', 'in_work')
+                                 .order('updated_at DESC')
+                                 .limit(@proposal_display_max_count + 1)
       else
         @proposals =
           CollectionDraftProposal.order('updated_at DESC')

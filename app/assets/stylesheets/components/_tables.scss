@@ -91,3 +91,8 @@ table.tablesorter {
     }
   }
 }
+
+// Styling sorting links on proposal index page tables
+.open-draft-proposals thead a:link, .open-draft-proposals thead a:visited{
+  color: $black;
+}

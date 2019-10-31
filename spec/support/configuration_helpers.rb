@@ -46,7 +46,6 @@ module Helpers
         allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_user?).and_return(true)
         allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(false)
       elsif with_draft_approver_acl
-        allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_user?).and_return(false)
         allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
       end
 
