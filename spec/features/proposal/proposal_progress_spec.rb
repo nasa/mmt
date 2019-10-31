@@ -236,7 +236,7 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
       visit progress_collection_draft_proposal_path(@collection_draft_proposal)
 
       within '.progress-actions' do
-        expect(page).to have_link('Rescind this Submission')
+        expect(page).to have_link('Cancel Proposal Submission')
       end
     end
   end
