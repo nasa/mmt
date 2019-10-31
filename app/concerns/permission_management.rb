@@ -253,12 +253,12 @@ module PermissionManagement
     new_perm
   end
 
-  def delete_target_permissions(targets_to_delete:, assembled_permissions:, identity_type:, successes: [], fails: [])
+  def delete_target_permissions(targets_to_delete:, assembled_permissions:, identity_type:, successes: [], fails: [], overwrite_fails: [], revision_ids: {})
     permissions_to_delete = {}
     targets_to_delete.each { |perm| permissions_to_delete[perm] = assembled_permissions.fetch(perm, {}).fetch('permission_concept_id') }
 
     permissions_to_delete.each do |target, concept_id|
-      delete_response = cmr_client.delete_permission(concept_id, token)
+      delete_response = cmr_client.delete_permission(concept_id, token, revision_ids[target])
 
       log_target = target
       log_target = "#{current_user.provider_id} #{target}" if identity_type == 'provider_identity'
@@ -267,6 +267,12 @@ module PermissionManagement
         Rails.logger.info("#{identity_type.titleize} Identity ACL for #{log_target} successfully deleted by #{current_user.urs_uid}")
         successes << target
       else
+        delete_response.errors.each do |error|
+          if error.include?('Expected revision-id of')
+            overwrite_fails << target
+            return
+          end
+        end
         Rails.logger.error("Delete #{identity_type.titleize} Identity ACL for #{log_target} error: #{delete_response.clean_inspect}")
         fails << target
       end

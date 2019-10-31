@@ -1,7 +1,6 @@
 describe 'Concurrent Users Editing System Permissions', js: true do
   before do
     @group_response = create_group(name: 'Test System Permissions Group 1', description: 'Group to test system permissions', provider_id: nil, admin: true)
-    @group_response2 = create_group(name: 'Test System Permissions Group 2', description: 'Group to test system permissions', provider_id: nil, admin: true)
   end
 
   after do
@@ -11,20 +10,11 @@ describe 'Concurrent Users Editing System Permissions', js: true do
       'permitted_group' => @group_response['concept_id']
     }
 
-    permissions_options2 = {
-      'page_size' => 30,
-      'permitted_group' => @group_response2['concept_id']
-    }
-
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
     permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token_admin') }
 
-    permissions_response_items2 = cmr_client.get_permissions(permissions_options2, 'access_token_admin').body.fetch('items', [])
-    permissions_response_items2.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token_admin') }
-
     # delete the group
     delete_group(concept_id: @group_response['concept_id'], admin: true)
-    delete_group(concept_id: @group_response2['concept_id'], admin: true)
   end
 
   # These tests generally follow the format of:
@@ -62,6 +52,52 @@ describe 'Concurrent Users Editing System Permissions', js: true do
     end
   end
 
+  context 'when deleting with the wrong revision_id' do
+    before do
+      login_admin
+      cmr_client.add_group_permissions(
+        { 'group_permissions' =>
+          [{
+            'group_id' => @group_response['concept_id'],
+            'permissions' => ['create']
+          }],
+          'system_identity' =>
+          {
+            'target' => 'TAG_GROUP'
+          } }, 'access_token_admin'
+      )
+      visit edit_system_identity_permission_path(@group_response['concept_id'])
+      uncheck('system_permissions_TAG_GROUP_', option: 'create')
+
+      # Difficult to actually generate the race condition in CMR, just VCR it.
+      # VCR's configuration needs to be adjusted to hit localhost to make the
+      # recording.
+      VCR.configure do |c|
+        c.ignore_localhost = false
+      end
+
+      # Need a dynamic cassette in order to match the correct group concept ID.
+      # If the wrong group concept ID is returned as part of the interaction
+      # series, the sorter determines that this should be a remove group
+      # rather than a delete. Causing the next call to be a put instead of a
+      # delete.  This means that the VCR does not recognize the request properly
+      # and generates an error. Changing the verb means that the delete code
+      # in the controller/helper are not getting tested, so this is the best
+      # solution.
+      VCR.use_cassette('permissions/concurrent_delete', erb: { acl_id: @group_response['concept_id'] } ) do
+        click_on 'Submit'
+      end
+
+      VCR.configure do |c|
+        c.ignore_localhost = true
+      end
+    end
+
+    it 'does not succeed' do
+      expect(page).to have_content('Tag Group permissions were unable to be saved because another user made changes to those permissions.')
+    end
+  end
+
   context 'when incorrectly creating' do
     before do
       login_admin
@@ -92,7 +128,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
   context 'when updating with the wrong revision_id' do
     before do
       login_admin
-      # When loading hte page, the user has the permission to read in USER.
+      # When loading the page, the user has the permission to read in USER.
       # But another user updates the permissions while this one is still deciding
       # on changes.  When this user submits the document as it was loaded,
       # the user would be overwriting the intervening user's added permissions.
