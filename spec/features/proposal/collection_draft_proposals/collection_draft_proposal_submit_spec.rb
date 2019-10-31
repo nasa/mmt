@@ -152,12 +152,12 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
     context 'when clicking the rescind button' do
       before do
         visit collection_draft_proposal_path(@collection_draft_proposal)
-        click_on 'Rescind Draft Submission'
+        click_on 'Cancel Proposal Submission'
         click_on 'Yes'
       end
 
       it 'can be rescinded' do
-        expect(page).to have_content('Collection Draft Proposal Rescinded Successfully')
+        expect(page).to have_content('Collection Draft Proposal Canceled Successfully')
       end
     end
 
