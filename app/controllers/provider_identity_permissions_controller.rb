@@ -83,7 +83,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
 
     targets_to_add_group, targets_to_update_perms, targets_to_remove_group, targets_to_create, targets_to_delete = sort_permissions_to_update(assembled_all_permissions: selective_provider_permission_info, permissions_params: permissions_params)
     next_revision_ids = {}
-    (targets_to_add_group + targets_to_update_perms + targets_to_remove_group).each do |target|
+    (targets_to_add_group + targets_to_update_perms + targets_to_remove_group + targets_to_delete).each do |target|
       next_revision_ids[target] = (Integer(params["#{target}_revision_id"]) + 1).to_s
     end
     successes = []
@@ -102,7 +102,9 @@ class ProviderIdentityPermissionsController < ManageCmrController
       assembled_permissions: selective_provider_permission_info,
       identity_type: 'provider_identity',
       successes: successes,
-      fails: fails
+      fails: fails,
+      overwrite_fails: overwrite_fails,
+      revision_ids: next_revision_ids
     )
     update_target_permissions(
       all_permissions: all_provider_permissions,
