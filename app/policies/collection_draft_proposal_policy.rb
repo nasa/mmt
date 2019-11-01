@@ -39,12 +39,20 @@ class CollectionDraftProposalPolicy < ApplicationPolicy
     show?
   end
 
+  def approve?
+    verify_approver
+  end
+
   private
 
   def verify_mode_and_non_nasa_draft_permissions
     proposal_mode_enabled? &&
       (is_non_nasa_draft_user?(user: user.user, token: user.token) ||
       is_non_nasa_draft_approver?(user: user.user, token: user.token))
+  end
+
+  def verify_approver
+    proposal_mode_enabled? && is_non_nasa_draft_approver?(user: user.user, token: user.token)
   end
 
   def proposal_mode_enabled?

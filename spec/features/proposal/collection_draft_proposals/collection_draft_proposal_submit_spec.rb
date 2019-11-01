@@ -5,7 +5,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
 
   context 'when submitting a validated proposal' do
     before do
-      set_as_proposal_mode_mmt(with_required_acl: true)
+      set_as_proposal_mode_mmt(with_draft_user_acl: true)
       @collection_draft_proposal = create(:full_collection_draft_proposal)
       visit collection_draft_proposal_path(@collection_draft_proposal)
     end
@@ -60,7 +60,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
 
   context 'when viewing a submitted proposal as a user' do
     before do
-      set_as_proposal_mode_mmt(with_required_acl: true)
+      set_as_proposal_mode_mmt(with_draft_user_acl: true)
       @collection_draft_proposal = create(:full_collection_draft_proposal)
       mock_submit(@collection_draft_proposal)
       visit collection_draft_proposal_path(@collection_draft_proposal)
@@ -71,6 +71,14 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
       expect(page).to have_no_link('Delete Collection Draft Proposal')
       within '#proposal-status-display' do
         expect(page).to have_content('Submitted')
+      end
+    end
+
+    it 'does not have an approve button' do
+      expect(page).to have_no_link('Approve Proposal Submission')
+      within '#proposal-status-display' do
+        expect(page).to have_content('PROPOSAL STATUS:')
+        expect(page).to have_content('SUBMITTED')
       end
     end
 

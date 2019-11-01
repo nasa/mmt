@@ -1,6 +1,6 @@
 describe 'Non-NASA Draft User Permissions for Draft MMT', reset_provider: true do
   before do
-    set_as_proposal_mode_mmt
+    set_as_proposal_mode_mmt(with_draft_user_acl: true)
   end
 
   context 'when the user has permissions for Non-NASA Draft User' do

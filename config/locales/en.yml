@@ -93,6 +93,10 @@ en:
             delete:
               success: 'The request to delete the collection [Short Name: %{short_name}] has been successfully canceled.'
               error: 'The request to delete the collection [Short Name: %{short_name}] could not be successfully canceled.'
+        approve:
+          flash:
+            success: 'Collection Draft Proposal Approved Successfully'
+            error: 'Collection Draft Proposal was not approved successfully'
       collection_templates:
         create:
           flash:

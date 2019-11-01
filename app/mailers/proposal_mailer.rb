@@ -9,4 +9,15 @@ class ProposalMailer < ApplicationMailer
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
+
+  def proposal_approved_notification(user, short_name, version, id)
+    @user = user
+    @short_name = short_name
+    @version = version
+    @id = id
+
+    email_subject = 'Create Collection Proposal Approved in Metadata Management Tool'
+
+    mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
+  end
 end

@@ -29,6 +29,10 @@ class CollectionDraftProposal < CollectionDraft
       transitions from: :submitted, to: :in_work
       transitions from: :rejected, to: :in_work
     end
+
+    event :approve do
+      transitions from: :submitted, to: :approved
+    end
   end
 
   class << self

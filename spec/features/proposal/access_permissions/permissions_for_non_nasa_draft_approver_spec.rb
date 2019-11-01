@@ -1,6 +1,6 @@
 describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: true do
   before do
-    set_as_proposal_mode_mmt
+    set_as_proposal_mode_mmt(with_draft_approver_acl: true)
   end
 
   context 'when the user has permissions for Non-NASA Draft Approver' do
@@ -23,13 +23,19 @@ describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: tr
       end
 
       it 'displays the Manage Collection Proposals page' do
-        expect(page).to have_content('Create Collection Proposal')
-        expect(page).to have_content('Collection Draft Proposals')
+        expect(page).to have_content('Upcoming Proposals')
+        expect(page).to have_content('Queued Proposals')
+      end
+    end
+
+    context 'when visiting the Collection Proposals index page' do
+      before do
+        visit collection_draft_proposals_path
       end
 
       context 'when creating a new collection draft proposals page' do
         before do
-          click_on 'Create New Record'
+          click_on 'Create a Collection Draft Proposal'
         end
 
         it 'creates a new blank draft record' do

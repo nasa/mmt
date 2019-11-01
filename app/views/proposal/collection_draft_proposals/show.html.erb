@@ -5,10 +5,10 @@
         <span>
           <% if @errors && @errors.size > 0 %>
             <%= link_to 'Submit for Review', '#invalid-proposal-modal', class: 'eui-btn--blue display-modal' %>
-            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/invalid_proposal_modal' %>
+            <%= render partial: 'proposal/proposal_partials/invalid_proposal_modal' %>
           <% else %>
             <%= link_to 'Submit for Review', "#submit-proposal-modal", class: 'eui-btn--blue display-modal' %>
-            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/submit_modal' %>
+            <%= render partial: 'proposal/proposal_partials/submit_modal' %>
           <% end %>
           <%= link_to 'Delete Collection Draft Proposal', "#delete-proposal-modal", class: 'display-modal' %>
           <div id="delete-proposal-modal" class="eui-modal-content">
@@ -21,8 +21,15 @@
           </div>
         </span>
       <% elsif get_resource.submitted? %>
-        <%= link_to rescind_button_text, "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
-        <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
+        <% if @non_nasa_approver %>
+          <%= link_to state_action_button_text('Approve'), "#approve-proposal-modal", class: 'eui-btn--blue display-modal' %>
+          <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--link display-modal' %>
+          <%= render partial: 'proposal/proposal_partials/approve_modal' %>
+          <%= render partial: 'proposal/proposal_partials/rescind_modal' %>
+        <% else %>
+          <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
+          <%= render partial: 'proposal/proposal_partials/rescind_modal' %>
+        <% end %>
       <% end %>
       <span id="proposal-status-display">
         <a href="<%= progress_collection_draft_proposal_path(get_resource) %>">
@@ -36,5 +43,5 @@
 
   <%= render partial: 'collection_drafts/progress/preview_progress', locals: { unpublished_resource: get_resource, metadata_errors: @errors || @ingest_errors } if get_resource.in_work? %>
 
-  <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, is_mmt: true, editable: true, edsc_url: nil, concept_id: nil, additional_information: nil} %>
+  <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, is_mmt: true, editable: get_resource.in_work?, edsc_url: nil, concept_id: nil, additional_information: nil} %>
 </div>

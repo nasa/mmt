@@ -1,27 +1,28 @@
 <div class="row row-content">
   <section>
-    <h2><%= current_user.provider_id %> <%= plural_resource_name.titleize %></h2>
+    <h2><%= "#{@proposal_type} Draft Proposals" %></h2>
 
-    <%= link_to "Create a #{resource_name.titleize}", send("new_#{resource_name}_path"), class: 'eui-btn--blue space-bot' %>
+    <%= link_to "Create a #{resource_name.titleize}", send("new_#{resource_name}_path"), class: 'eui-btn--blue space-bot' unless @proposal_type == 'Queued' %>
 
     <% if get_resources.any? %>
       <p><%= page_entries_info get_resources, entry_name: resource_name.titleize %></p>
     <% end %>
 
-    <table id="open_drafts">
+    <table class="open-draft-proposals">
       <thead>
         <tr>
-          <th><%= short_name_header(resource_name) %></th>
-          <th><%= entry_title_header(resource_name) %></th>
-          <th>Proposal Status
-          <th>Last Modified</th>
+          <th><%= sort_by_link(short_name_header(resource_name), 'short_name', @query, nil, specified_url: @specified_url) %></th>
+          <th><%= sort_by_link(entry_title_header(resource_name), 'entry_title', @query, nil, specified_url: @specified_url) %></th>
+          <th><%= sort_by_link('Proposal Status', 'proposal_status', @query, nil, specified_url: @specified_url) %></th>
+          <th><%= sort_by_link('Request Type', 'request_type', @query, nil, specified_url: @specified_url) %></th>
+          <th><%= sort_by_link('Last Modified', 'updated_at', @query, nil, specified_url: @specified_url) %></th>
         </tr>
       </thead>
       <tbody>
 
       <% if get_resources.blank? %>
         <tr>
-          <td colspan="5">
+          <td colspan="6">
             No <%= current_user.provider_id %> Drafts found
           </td>
         </tr>
@@ -36,6 +37,9 @@
             </td>
             <td>
               <%= link_to draft.proposal_status.titleize, send("progress_#{resource_name}_path", draft) %>
+            </td>
+            <td>
+              <%= "#{draft.request_type.titleize}" %>
             </td>
             <td>
               <%= draft.updated_at.to_s(:date) %>

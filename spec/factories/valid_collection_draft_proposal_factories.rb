@@ -10,6 +10,7 @@ FactoryGirl.define do
       draft_request_type 'create'
     end
 
+    user_id 1
     native_id 'full_collection_draft_proposal_id'
     provider_id 'MMT_2'
     draft_type 'CollectionDraftProposal'

@@ -73,11 +73,29 @@ module ProposalsHelper
     content_tag(:div, nil, class: classes)
   end
 
-  def rescind_button_text
-    get_resource.request_type == 'create' ? 'Cancel Proposal Submission' : "Cancel #{get_resource.request_type.titleize} Request"
+  def state_action_button_text(state)
+    get_resource.request_type == 'create' ? "#{state} Proposal Submission" : "#{state} #{get_resource.request_type.titleize} Request"
   end
 
   def status_badge_text
     get_resource.request_type == 'create' ? 'Draft Proposal Submission:' : "#{get_resource.request_type.titleize} Metadata Request:"
+  end
+
+  # Used in the manage proposals page for approvers to generate:
+  #   <Status> | <Request Type> for each record.
+  def status_content_tag(proposal)
+    type =  if proposal.draft_type && proposal.draft_type == 'CollectionDraftProposal'
+              'Collection'
+            else
+              ''
+            end
+
+    request_type =  if proposal.request_type == 'create'
+                      'New'
+                    else
+                      proposal.request_type.titleize
+                    end
+
+    content_tag(:span, "#{proposal.proposal_status.titleize} | #{request_type} #{type} Request")
   end
 end

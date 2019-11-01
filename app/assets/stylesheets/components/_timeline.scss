@@ -5,7 +5,7 @@
   border-style: solid;
   width: 47%;
   display: inline-block;
-  margin-top: 20px;
+  margin-top: 28px;
   float:left;
 }
 
@@ -95,17 +95,14 @@
   width: 47%;
   display: inline-block;
   vertical-align: top;
-  height: 180px;
+  height: auto;
   margin-top: 20px;
   float: right;
 }
 
 .progress-actions-text {
   padding-left: 45px;
-}
-
-#proposal-status-display-left {
-  padding: 9px 0px 9px 9px;
+  padding-right: 10px;
 }
 
 .progress-update {
@@ -114,5 +111,12 @@
 
 .progress-actions-links {
   margin-top: 20px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Styling sorting links on index pages
+.open-draft-proposals thead a:link, .open-draft-proposals thead a:visited{
+  color: $black;
 }
