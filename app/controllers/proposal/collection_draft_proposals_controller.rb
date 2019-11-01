@@ -138,7 +138,7 @@ module Proposal
                                 .order(index_sort_order)
                                 .page(params[:page]).per(RESULTS_PER_PAGE)
       instance_variable_set("@#{plural_resource_name}", resources)
-      @proposal_type = 'Queued'
+      @category_of_displayed_proposal = 'Queued'
       @specified_url = '/collection_draft_proposals/queued_index'
       render :index
     end
@@ -148,7 +148,7 @@ module Proposal
                                 .order(index_sort_order)
                                 .page(params[:page]).per(RESULTS_PER_PAGE)
       instance_variable_set("@#{plural_resource_name}", resources)
-      @proposal_type = 'In Work'
+      @category_of_displayed_proposal = 'In Work'
       @specified_url = '/collection_draft_proposals/in_work_index'
       render :index
     end
@@ -157,7 +157,7 @@ module Proposal
       resources = resource_class.order(index_sort_order)
                                 .page(params[:page]).per(RESULTS_PER_PAGE)
       instance_variable_set("@#{plural_resource_name}", resources)
-      @proposal_type = 'Collection'
+      @category_of_displayed_proposal = 'Collection'
       @specified_url = '/collection_draft_proposals'
     end
 
