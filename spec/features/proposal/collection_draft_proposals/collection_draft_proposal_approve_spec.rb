@@ -30,8 +30,8 @@ describe 'Collection Draft Proposal Approve', js: true do
         it 'approves a proposal' do
           expect(page).to have_content('Collection Draft Proposal Approved Successfully')
           within '#proposal-status-display' do
-            expect(page).to have_content('PROPOSAL STATUS:')
-            expect(page).to have_content('APPROVED')
+            expect(page).to have_content('Draft Proposal Submission')
+            expect(page).to have_content('Approved')
           end
         end
       end
@@ -43,8 +43,8 @@ describe 'Collection Draft Proposal Approve', js: true do
 
         it 'does not navigate away when cancelling' do
           within '#proposal-status-display' do
-            expect(page).to have_content('PROPOSAL STATUS:')
-            expect(page).to have_content('SUBMITTED')
+            expect(page).to have_content('Draft Proposal Submission')
+            expect(page).to have_content('Submitted')
           end
         end
       end
@@ -62,8 +62,8 @@ describe 'Collection Draft Proposal Approve', js: true do
       it 'provides an error message' do
         expect(page).to have_content('Collection Draft Proposal was not approved successfully')
         within '#proposal-status-display' do
-          expect(page).to have_content('PROPOSAL STATUS:')
-          expect(page).to have_content('DONE')
+          expect(page).to have_content('Draft Proposal Submission')
+          expect(page).to have_content('Done')
         end
       end
     end

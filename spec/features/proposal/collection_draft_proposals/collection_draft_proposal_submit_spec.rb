@@ -77,8 +77,8 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
     it 'does not have an approve button' do
       expect(page).to have_no_link('Approve Proposal Submission')
       within '#proposal-status-display' do
-        expect(page).to have_content('PROPOSAL STATUS:')
-        expect(page).to have_content('SUBMITTED')
+        expect(page).to have_content('Draft Proposal Submission:')
+        expect(page).to have_content('Submitted')
       end
     end
 
@@ -111,7 +111,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
 
   context 'when looking at a delete metadata request' do
     before do
-      set_as_proposal_mode_mmt(with_required_acl: true)
+      set_as_proposal_mode_mmt(with_draft_user_acl: true)
       @collection_draft_proposal = create(:full_collection_draft_proposal, draft_request_type: 'delete')
       mock_submit(@collection_draft_proposal)
       visit collection_draft_proposal_path(@collection_draft_proposal)
@@ -149,7 +149,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
   context 'when viewing a record that has been submitted, but has no status_history' do
     before do
       # Testing bad data, do not change this to use the mock methods.
-      set_as_proposal_mode_mmt(with_required_acl: true)
+      set_as_proposal_mode_mmt(with_draft_user_acl: true)
       @collection_draft_proposal = create(:empty_collection_draft_proposal)
       @collection_draft_proposal.proposal_status = 'submitted'
       @collection_draft_proposal.save
