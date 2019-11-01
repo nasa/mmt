@@ -210,10 +210,10 @@ describe CollectionDraftProposal do
     # not be possible if the other actions are successfully blocked
 
     it 'creating a draft proposal should fail to save' do
-      collection_draft_proposal = CollectionDraftProposal.create
+      collection_draft_proposal = CollectionDraftProposal.create(request_type: 'create')
       expect(collection_draft_proposal.id).to be(nil)
 
-      expect { CollectionDraftProposal.create! }.to raise_error(ActiveRecord::RecordNotSaved)
+      expect { CollectionDraftProposal.create!(request_type: 'create') }.to raise_error(ActiveRecord::RecordNotSaved)
     end
 
     it 'saving a draft proposal should fail' do

@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20191101143748) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.text     "status_history"
-    t.string   "request_type"
+    t.string   "request_type",      null: false
   end
 
   create_table "drafts", force: :cascade do |t|

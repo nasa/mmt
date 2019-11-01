@@ -7,7 +7,6 @@ module Proposal
 
     before_action :ensure_non_nasa_draft_permissions
     before_action(only: %I[submit rescind progress]) { set_resource }
-    before_action :validate_proposal, only: ['progress', 'show', 'edit']
 
     def edit
       if get_resource&.in_work?
@@ -155,14 +154,6 @@ module Proposal
         action_username = @status_history[action]['username']
       end
       "#{action == 'done' ? 'Published' : action.titleize}: #{action_time} By: #{action_username}"
-    end
-
-    def validate_proposal
-      unless get_resource.valid?
-        Rails.logger.error("A user tried to load a record that is missing a critical field (for example: request_type).  The user was provided ID: #{request.uuid}.  The associated record is a #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}.")
-        flash[:error] = "This record is in an invalid state.  Please refer to ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}."
-        redirect_to manage_collection_proposals_path
-      end
     end
   end
 end
