@@ -197,6 +197,13 @@ describe CollectionDraftProposal do
 
       expect(collection_draft_proposal.valid?).to eq(true)
     end
+
+    it 'creating a draft proposal without a request_type should fail to save' do
+      collection_draft_proposal = CollectionDraftProposal.create
+      expect(collection_draft_proposal.id).to be(nil)
+
+      expect { CollectionDraftProposal.create! }.to raise_error(ActiveRecord::RecordInvalid)
+    end
   end
 
 
