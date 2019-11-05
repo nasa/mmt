@@ -2,7 +2,7 @@
   <section>
     <h2><%= "#{@category_of_displayed_proposal} Draft Proposals" %></h2>
 
-    <%= link_to "Create a #{resource_name.titleize}", send("new_#{resource_name}_path"), class: 'eui-btn--blue space-bot' unless @proposal_type == 'Queued' %>
+    <%= link_to "Create a #{resource_name.titleize}", send("new_#{resource_name}_path"), class: 'eui-btn--blue space-bot' unless @category_of_displayed_proposal == 'Queued' %>
 
     <% if get_resources.any? %>
       <p><%= page_entries_info get_resources, entry_name: resource_name.titleize %></p>
