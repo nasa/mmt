@@ -41,11 +41,12 @@ module Helpers
         # but for most of our test for proposal mode, it would be too cumbersome
         # to have to set up the group and ACL in the local CMR
         allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_user?).and_return(true)
-
         allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
-        # TODO: we may need more granular acl options for user and approver
-        # once the full approving workflow has been implemented, and if this method
-        # has not changed at the end of the MVP we should remove this reminder
+      elsif with_draft_user_acl
+        allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_user?).and_return(true)
+        allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(false)
+      elsif with_draft_approver_acl
+        allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
       end
 
       # allow_any_instance_of(CollectionDraftProposal).to receive(:exception_unless_draft_only?).and_return(raise ActiveRecord::Rollback) # can this raise an exception?

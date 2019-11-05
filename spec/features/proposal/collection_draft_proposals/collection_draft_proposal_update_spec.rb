@@ -5,7 +5,7 @@ describe 'Collection Draft Proposal Update', js: true do
 
   context 'when updating an existing collection draft proposal' do
     before do
-      set_as_proposal_mode_mmt(with_required_acl: true)
+      set_as_proposal_mode_mmt(with_draft_user_acl: true)
       @collection_draft_proposal = create(:full_collection_draft_proposal)
     end
 
@@ -28,9 +28,7 @@ describe 'Collection Draft Proposal Update', js: true do
 
     context 'when a proposal is not "in work"' do
       before do
-        proposal = CollectionDraftProposal.first
-        proposal.proposal_status = 'submitted'
-        proposal.save
+        mock_submit(CollectionDraftProposal.first)
         visit edit_collection_draft_proposal_path(@collection_draft_proposal)
       end
 

@@ -121,6 +121,8 @@ Rails.application.routes.draw do
   get 'subregion_options' => 'collection_drafts#subregion_options'
 
   scope module: :proposal do
+    get '/collection_draft_proposals/queued_index' => 'collection_draft_proposals#queued_index', as: 'queued_index_collection_draft_proposals'
+    get '/collection_draft_proposals/in_work_index' => 'collection_draft_proposals#in_work_index', as: 'in_work_index_collection_draft_proposals'
     resource :manage_collection_proposals, only: :show
     resources :collection_draft_proposals, controller: 'collection_draft_proposals', draft_type: 'CollectionDraftProposal', as: 'collection_draft_proposals' do
       member do
@@ -128,6 +130,7 @@ Rails.application.routes.draw do
         get 'progress'
         get 'submit'
         get 'rescind'
+        get 'approve'
       end
     end
     get 'proposal/subregion_options' => 'collection_draft_proposals#subregion_options'

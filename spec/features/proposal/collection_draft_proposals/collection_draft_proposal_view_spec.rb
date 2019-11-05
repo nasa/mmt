@@ -1,7 +1,7 @@
 describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
   before do
     login
-    set_as_proposal_mode_mmt(with_required_acl: true)
+    set_as_proposal_mode_mmt(with_draft_user_acl: true)
   end
 
   context 'when viewing the metadata' do

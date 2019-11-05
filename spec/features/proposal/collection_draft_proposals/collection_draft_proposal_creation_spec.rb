@@ -5,7 +5,7 @@ describe 'Collection Draft Proposal creation', js: true do
 
   context 'when creating a new collection draft proposal from scratch' do
     before do
-      set_as_proposal_mode_mmt(with_required_acl: true)
+      set_as_proposal_mode_mmt(with_draft_user_acl: true)
       visit manage_collection_proposals_path
       click_on 'Create New Record'
     end
@@ -37,7 +37,6 @@ describe 'Collection Draft Proposal creation', js: true do
         it 'displays the new draft' do
           within('.open-drafts') do
             expect(page).to have_content("#{today_string} | 123")
-            expect(page).to have_content('<Untitled Collection Record>')
           end
         end
 
@@ -54,7 +53,7 @@ describe 'Collection Draft Proposal creation', js: true do
           end
         end
 
-        context 'when accessing a collection draft\'s json' do
+        context "when accessing a collection draft's json" do
           before do
             visit collection_draft_proposal_path(CollectionDraftProposal.first, format: 'json')
           end
@@ -63,16 +62,6 @@ describe 'Collection Draft Proposal creation', js: true do
             expect(page).to have_content("{\n  \"ShortName\": \"123\"\n}")
           end
         end
-      end
-    end
-
-    context 'when viewing the manage collection draft proposals page' do
-      before do
-        visit manage_collection_proposals_path
-      end
-
-      it 'does not show any open collection draft proposals' do
-        expect(page).to have_no_content('<Untitled Collection Record>')
       end
     end
   end

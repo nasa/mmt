@@ -73,11 +73,46 @@ module ProposalsHelper
     content_tag(:div, nil, class: classes)
   end
 
-  def rescind_button_text
-    get_resource.request_type == 'create' ? 'Cancel Proposal Submission' : "Cancel #{get_resource.request_type.titleize} Request"
+  def state_action_button_text(state)
+    get_resource.request_type == 'create' ? "#{state} Proposal Submission" : "#{state} #{get_resource.request_type.titleize} Request"
   end
 
   def status_badge_text
     get_resource.request_type == 'create' ? 'Draft Proposal Submission:' : "#{get_resource.request_type.titleize} Metadata Request:"
+  end
+
+  # Used in the manage proposals page for approvers to generate:
+  #   <Status> | <Request Type> for each record.
+  def status_content_tag(proposal)
+    type =  if proposal.draft_type && proposal.draft_type == 'CollectionDraftProposal'
+              'Collection'
+            else
+              ''
+            end
+
+    request_type =  if proposal.request_type == 'create'
+                      'New'
+                    else
+                      proposal.request_type.titleize
+                    end
+
+    content_tag(:span, "#{proposal.proposal_status.titleize} | #{request_type} #{type} Request")
+  end
+
+  # Get the text for the 'actions' box on the progress page
+  def get_available_actions_text
+    if get_resource.in_work?
+      'Make additional changes or submit this proposal for approval.'
+    elsif @non_nasa_approver
+      if get_resource.approved?
+        'Please visit the Metadata Management Tool for NASA users to finish publishing this metadata.'
+      elsif get_resource.done?
+        'No actions are possible.'
+      end
+    elsif get_resource.submitted? || get_resource.rejected?
+      'You may rescind this proposal to make additional changes.'
+    else
+      'No actions are possible.'
+    end
   end
 end

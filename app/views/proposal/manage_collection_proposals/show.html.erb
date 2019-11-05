@@ -1,46 +1,12 @@
 <main class="dashboard" role="main">
   <article id="metadata" class="row-content flex-row--start" role="article">
-    <section class="eui-callout-box col-left">
-      <h3 class="eui-callout-box__title slate-grey">Create Collection Proposal</h3>
-      <div class="eui-callout-box__list">
-        <%= link_to 'Create New Record', new_collection_draft_proposal_path, class: 'eui-btn--blue submit' %>
-        <div class="question-group">
-        </div>
-        <div class="question-group">
-          <div class="row">
-            <p><strong>OR</strong> use the <a id="search-focus" href="#">search</a> in the top right corner to find published collections to clone or edit.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="eui-callout-box col-left">
-      <div class="open-drafts">
-        <h3 class="eui-callout-box__title slate-grey">Collection Draft Proposals</h2>
-        <div class="eui-callout-box__list">
-          <ul>
-            <% unless @collection_draft_proposals.any? %>
-              There are no draft proposals to display.
-            <% end %>
-            <% @collection_draft_proposals[0..@draft_proposal_display_max_count-1].each do |proposal| %>
-              <li>
-                <p class="drafts">
-                  <%= time_tag proposal.updated_at, proposal.updated_at.to_s(:date) %> |
-                  <%= link_to proposal.display_short_name, collection_draft_proposal_path(proposal), title: proposal.display_short_name %>
-                  <br>
-                  <%= content_tag(:span, proposal.display_entry_title, title: proposal.display_entry_title) %>
-                </p>
-              </li>
-            <% end %>
-            <% if @collection_draft_proposals.size > @draft_proposal_display_max_count %>
-              <li>
-                <%= link_to 'More', collection_draft_proposals_path %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-    </section>
-
+    <% if @non_nasa_approver %>
+      <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/manage_proposals_for_approver' %>
+    <% else %>
+      <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/manage_proposals_for_user' , locals: {
+        create_type: 'Collection Proposal',
+        search_type: 'collections'
+      } %>
+    <% end %>
   </article>
 </main>

@@ -1,0 +1,41 @@
+<section class="eui-callout-box col-left">
+  <h3 class="eui-callout-box__title slate-grey">Create <%= create_type %></h3>
+  <div class="eui-callout-box__list">
+    <%= link_to 'Create New Record', send("new_#{@proposal_type.underscore}_path"), class: 'eui-btn--blue submit' %>
+    <div class="question-group">
+    </div>
+    <div class="question-group">
+      <div class="row">
+        <p><strong>OR</strong> use the <a id="search-focus" href="#">search</a> in the top right corner to find published <%= search_type %> to request to delete or update.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="eui-callout-box col-left">
+  <div class="open-drafts all-proposals">
+    <h3 class="eui-callout-box__title slate-grey"><%= "#{@proposal_type.titleize}s" %></h2>
+    <div class="eui-callout-box__list">
+      <ul>
+        <% unless @proposals.any? %>
+          There are no draft proposals to display.
+        <% end %>
+        <% @proposals[0..@proposal_display_max_count-1].each do |proposal| %>
+          <li>
+            <p class="drafts">
+              <%= time_tag proposal.updated_at, proposal.updated_at.to_s(:date) %> |
+              <%= link_to proposal.display_short_name, send("#{@proposal_type.underscore}_path", proposal), title: proposal.display_short_name %>
+              <br>
+              <%= status_content_tag(proposal) %>
+            </p>
+          </li>
+        <% end %>
+        <% if @proposals.size > @proposal_display_max_count %>
+          <li>
+            <%= link_to 'More', send("#{@proposal_type.underscore}s_path") %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</section>

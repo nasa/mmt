@@ -1,6 +1,6 @@
 describe 'Attempting to access the Manage CMR functionalities in proposal mode', js: true do
   before do
-    set_as_proposal_mode_mmt(with_required_acl: true)
+    set_as_proposal_mode_mmt(with_draft_user_acl: true)
     login
   end
 

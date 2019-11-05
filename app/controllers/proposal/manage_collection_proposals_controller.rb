@@ -8,11 +8,24 @@ module Proposal
       authorize CollectionDraftProposal, policy_class: CollectionDraftProposalPolicy
 
       # If you change this number you must also change it in the corresponding test file - features/manage_collections/open_drafts_spec.rb.
-      @draft_proposal_display_max_count = 5
+      @proposal_display_max_count = 5
+      @proposal_type = 'CollectionDraftProposal'
+      @non_nasa_approver = is_non_nasa_draft_approver?(user: current_user, token: token)
 
-      @collection_draft_proposals =
-        CollectionDraftProposal.order('updated_at DESC')
-                               .limit(@draft_proposal_display_max_count + 1)
+      if @non_nasa_approver
+        @in_work_proposals =
+          CollectionDraftProposal.where('proposal_status = ?', 'in_work')
+                                 .order('updated_at DESC')
+                                 .limit(@proposal_display_max_count + 1)
+        @queued_proposals =
+          CollectionDraftProposal.where('proposal_status != ?', 'in_work')
+                                 .order('updated_at DESC')
+                                 .limit(@proposal_display_max_count + 1)
+      else
+        @proposals =
+          CollectionDraftProposal.order('updated_at DESC')
+                                 .limit(@proposal_display_max_count + 1)
+      end
     end
 
     private

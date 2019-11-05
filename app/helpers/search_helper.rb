@@ -31,9 +31,9 @@ module SearchHelper
     "for: #{results.join(' | ')}"
   end
 
-  def sort_by_link(title, sort_key, query, record_type)
+  def sort_by_link(title, sort_key, query, record_type, specified_url = nil)
     params = query.clone
-    params['record_type'] = record_type
+    params['record_type'] = record_type unless specified_url
 
     link_type = nil
     if query['sort_key'] && query['sort_key'].include?(sort_key)
@@ -46,7 +46,11 @@ module SearchHelper
 
     params['sort_key'] = sort_key
 
-    url = "/search?#{params.to_query}"
+    url = if specified_url
+            "#{specified_url}?#{params.to_query}"
+          else
+            "/search?#{params.to_query}"
+          end
 
     link_to "#{title} <i class='fa fa-sort#{'-' + link_type if link_type}'></i>".html_safe, url, title: "Sort by #{title} #{link_type == 'asc' ? 'Desc' : 'Asc'}"
   end
