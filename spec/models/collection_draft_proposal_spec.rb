@@ -204,6 +204,17 @@ describe CollectionDraftProposal do
 
       expect { CollectionDraftProposal.create! }.to raise_error(ActiveRecord::RecordInvalid)
     end
+
+    it 'creating a draft proposal without a proposal_status should fail to save' do
+      collection_draft_proposal = CollectionDraftProposal.create(request_type: 'create', proposal_status: nil)
+      # AASM is actually populating the proposal status during the creation.
+      # Set it to nil and try to save, the validation should stop it.
+      collection_draft_proposal.proposal_status = nil
+      expect(collection_draft_proposal.save).to be(false)
+      expect { collection_draft_proposal.save! }.to raise_error(ActiveRecord::RecordInvalid)
+
+      expect { CollectionDraftProposal.create! }.to raise_error(ActiveRecord::RecordInvalid)
+    end
   end
 
 

@@ -2,6 +2,7 @@ class CollectionDraftProposal < CollectionDraft
   include AASM
   self.table_name = 'draft_proposals'
   validates :request_type, presence: true
+  validates :proposal_status, presence: true
 
   # after_initialize :exception_unless_draft_only
   # after_find :exception_unless_draft_only
