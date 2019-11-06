@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191101143748) do
+ActiveRecord::Schema.define(version: 20191105200412) do
 
   create_table "draft_proposals", force: :cascade do |t|
     t.integer  "user_id"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20191101143748) do
     t.string   "provider_id"
     t.string   "native_id"
     t.string   "draft_type"
-    t.string   "proposal_status"
+    t.string   "proposal_status",   null: false
     t.text     "approver_feedback"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
