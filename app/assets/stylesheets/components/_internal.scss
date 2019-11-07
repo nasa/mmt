@@ -25,7 +25,7 @@
   }
 
   .collection-basics {
-    @include span-columns(10);
+    @include span-columns(12);
   }
 
   .collection-details {
@@ -70,5 +70,9 @@
     // the background image for Draft MMT is larger than the one for MMT proper
     // and can bleed out under the main content, so this will help prevent that
     min-height: var(--proposal-mode-content-min-height, 0);
+  }
+
+  .manage-proposals-mmt {
+    min-height: 300px;
   }
 }

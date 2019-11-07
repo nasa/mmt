@@ -24,10 +24,12 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
       it 'displays proposal status' do
         expect(page).to have_link('In Work')
+        expect(page).to have_link('Submitted')
       end
 
       it 'displays proposal request types' do
         expect(page).to have_content('Create')
+        expect(page).to have_content('Delete')
       end
 
       context 'when sorting short name' do
@@ -36,7 +38,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
         end
 
         it 'sorts in ascending order' do
-          within '.open-draft-proposals' do
+          within '.open-draft-proposals tbody tr:nth-child(1)' do
             expect(page).to have_content('An Example Proposal')
           end
         end
@@ -47,7 +49,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
           end
 
           it 'sorts in descending order' do
-            within '.open-draft-proposals tbody' do
+            within '.open-draft-proposals tbody tr:nth-child(1)' do
               expect(page).to have_content('A Second Example Proposal')
             end
           end
@@ -60,8 +62,8 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
         end
 
         it 'sorts in ascending order' do
-          within '.open-draft-proposals' do
-            expect(page).to have_content('An Example Proposal')
+          within '.open-draft-proposals tbody tr:nth-child(1)' do
+            expect(page).to have_content('ABC5918')
           end
         end
 
@@ -71,7 +73,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
           end
 
           it 'sorts in descending order' do
-            within '.open-draft-proposals tbody' do
+            within '.open-draft-proposals tbody tr:nth-child(1)' do
               expect(page).to have_content('A Second Example Proposal')
             end
           end
@@ -84,8 +86,8 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
         end
 
         it 'sorts in ascending order' do
-          within '.open-draft-proposals' do
-            expect(page).to have_content('An Example Proposal')
+          within '.open-draft-proposals tbody tr:nth-child(1)' do
+            expect(page).to have_content('A Second Example Proposal')
           end
         end
 
@@ -95,8 +97,12 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
           end
 
           it 'sorts in descending order' do
-            within '.open-draft-proposals tbody' do
+            within '.open-draft-proposals tbody tr:nth-child(6)' do
               expect(page).to have_content('A Second Example Proposal')
+            end
+
+            within '.open-draft-proposals tbody tr:nth-child(5)' do
+              expect(page).to have_content('An Example Proposal')
             end
           end
         end
@@ -108,8 +114,8 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
         end
 
         it 'sorts in ascending order' do
-          within '.open-draft-proposals' do
-            expect(page).to have_content('An Example Proposal')
+          within '.open-draft-proposals tbody tr:nth-child(1)' do
+            expect(page).to have_content('A Second Example Proposal')
           end
         end
 
@@ -119,8 +125,12 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
           end
 
           it 'sorts in descending order' do
-            within '.open-draft-proposals tbody' do
+            within '.open-draft-proposals tbody tr:nth-child(6)' do
               expect(page).to have_content('A Second Example Proposal')
+            end
+
+            within '.open-draft-proposals tbody tr:nth-child(5)' do
+              expect(page).to have_content('An Example Proposal')
             end
           end
         end
@@ -132,8 +142,8 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
         end
 
         it 'sorts in ascending order' do
-          within '.open-draft-proposals' do
-            expect(page).to have_content('An Example Proposal')
+          within '.open-draft-proposals tbody tr:nth-child(1)' do
+            expect(page).to have_content('A Second Example Proposal')
           end
         end
 
@@ -143,8 +153,8 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
           end
 
           it 'sorts in descending order' do
-            within '.open-draft-proposals tbody' do
-              expect(page).to have_content('A Second Example Proposal')
+            within '.open-draft-proposals tbody tr:nth-child(1)' do
+              expect(page).to have_content('ABC5918')
             end
           end
         end

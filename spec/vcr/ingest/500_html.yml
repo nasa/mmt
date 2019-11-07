@@ -1,6 +1,43 @@
 ---
 http_interactions:
 - request:
+    method: get
+    uri: http://localhost:3011/permissions?user_id=testuser&provider=MMT_2&target=NON_NASA_DRAFT_APPROVER
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Echo-Token:
+      - "???"
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      connection:
+      - close
+      date:
+      - Thu, 07 Nov 2019 16:54:04 GMT
+      cmr-request-id:
+      - 176107e1-5933-44b4-9874-a99b6f296f05
+      vary:
+      - Accept-Encoding, User-Agent
+      content-length:
+      - '30'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+    http_version:
+  recorded_at: Thu, 07 Nov 2019 16:54:04 GMT
+- request:
     method: put
     uri: http://localhost:3002/providers/MMT_2/collections/full_collection_draft_id
     body:
@@ -8,118 +45,129 @@ http_interactions:
       string: '{"Projects":[{"ShortName":"test 1 ShortName","LongName":"test 1 LongName","Campaigns":["test
         1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"test
         2 ShortName","LongName":"test 2 LongName","Campaigns":["test 2a Campaign","test
-        2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"Platforms":[{"Type":"test
-        1 Type","ShortName":"test 1 P ShortName","LongName":"test 1 P LongName","Characteristics":[{"Name":"test
-        1 PC Name","Description":"test 1 PC Description","Value":"test 1 PC Value","Unit":"test
-        1 PC Unit","DataType":"test 1 PC DataType"},{"Name":"test 2 PC Name","Description":"test
-        2 PC Description","Value":"test 2 PC Value","Unit":"test 2 PC Unit","DataType":"test
-        2 PC DataType"}],"Instruments":[{"ShortName":"test 1 PI ShortName","LongName":"test
-        1 PI LongName","Characteristics":[{"Name":"test 1 PI Name","Description":"test
-        1 PI Description","Value":"test 1 PI Value","Unit":"test 1 PI Unit","DataType":"test
-        1 PI DataType"},{"Name":"test 2 PI Name","Description":"test 2 PI Description","Value":"test
-        2 PI Value","Unit":"test 2 PI Unit","DataType":"test 2 PI DataType"}],"Technique":"test
-        1 PI Technique","NumberOfSensors":234,"Sensors":[{"ShortName":"test 1 PS ShortName","LongName":"test
-        1 PS LongName","Technique":"test 1 PS Technique","Characteristics":[{"Name":"test
+        2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"Platforms":[{"Type":"Aircraft","ShortName":"A340-600","LongName":"Airbus
+        A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
+        1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
+        2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
+        2 PC Unit","DataType":"STRING"}],"Instruments":[{"ShortName":"ATM","LongName":"Airborne
+        Topographic Mapper","Characteristics":[{"Name":"test 1 PI Name","Description":"test
+        1 PI Description","Value":"test 1 PI Value","Unit":"test 1 PI Unit","DataType":"STRING"},{"Name":"test
+        2 PI Name","Description":"test 2 PI Description","Value":"test 2 PI Value","Unit":"test
+        2 PI Unit","DataType":"STRING"}],"Technique":"test 1 PI Technique","NumberOfInstruments":234,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test 1 PS Technique","Characteristics":[{"Name":"test
         1 PS Name","Description":"test 1 PS Description","Value":"test 1 PS Value","Unit":"test
-        1 PS Unit","DataType":"test 1 PS DataType"},{"Name":"test 2 PS Name","Description":"test
-        2 PS Description","Value":"test 2 PS Value","Unit":"test 2 PS Unit","DataType":"test
-        2 PS DataType"}]},{"ShortName":"test 1b PS ShortName","LongName":"test 1b
-        PS LongName","Technique":"test 1b PS Technique","Characteristics":[{"Name":"test
-        1b PS Name","Description":"test 1b PS Description","Value":"test 1b PS Value","Unit":"test
-        1b PS Unit","DataType":"test 1b PS DataType"},{"Name":"test 2b PS Name","Description":"test
-        2b PS Description","Value":"test 2b PS Value","Unit":"test 2b PS Unit","DataType":"test
-        2b PS DataType"}]}],"OperationalModes":["test 1a Op","test 1b Op"]},{"ShortName":"test
-        1d PI ShortName","LongName":"test 1d PI LongName","Characteristics":[{"Name":"test
+        1 PS Unit","DataType":"STRING"},{"Name":"test 2 PS Name","Description":"test
+        2 PS Description","Value":"test 2 PS Value","Unit":"test 2 PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP
+        L-BAND RADIOMETER","LongName":"SMAP L-Band Radiometer","Technique":"test 1b
+        PS Technique","Characteristics":[{"Name":"test 1b PS Name","Description":"test
+        1b PS Description","Value":"test 1b PS Value","Unit":"test 1b PS Unit","DataType":"STRING"},{"Name":"test
+        2b PS Name","Description":"test 2b PS Description","Value":"test 2b PS Value","Unit":"test
+        2b PS Unit","DataType":"STRING"}]}],"OperationalModes":["test 1a Op","test
+        1b Op"]},{"ShortName":"LVIS","LongName":"Land, Vegetation, and Ice Sensor","Characteristics":[{"Name":"test
         1d PI Name","Description":"test 1d PI Description","Value":"test 1d PI Value","Unit":"test
-        1d PI Unit","DataType":"test 1d PI DataType"},{"Name":"test 2d PI Name","Description":"test
-        2d PI Description","Value":"test 2d PI Value","Unit":"test 2d PI Unit","DataType":"test
-        2d PI DataType"}],"Technique":"test 1d PI Technique","NumberOfSensors":345,"Sensors":[{"ShortName":"test
-        1d PS ShortName","LongName":"test 1d PS LongName","Technique":"test 1d PS
-        Technique","Characteristics":[{"Name":"test 1d PS Name","Description":"test
-        1d PS Description","Value":"test 1d PS Value","Unit":"test 1d PS Unit","DataType":"test
-        1d PS DataType"},{"Name":"test 2d PS Name","Description":"test 2d PS Description","Value":"test
-        2d PS Value","Unit":"test 2d PS Unit","DataType":"test 2d PS DataType"}]},{"ShortName":"test
-        1db PS ShortName","LongName":"test 1db PS LongName","Technique":"test 1db
+        1d PI Unit","DataType":"STRING"},{"Name":"test 2d PI Name","Description":"test
+        2d PI Description","Value":"test 2d PI Value","Unit":"test 2d PI Unit","DataType":"STRING"}],"Technique":"test
+        1d PI Technique","NumberOfInstruments":345,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test 1d PS Technique","Characteristics":[{"Name":"test
+        1d PS Name","Description":"test 1d PS Description","Value":"test 1d PS Value","Unit":"test
+        1d PS Unit","DataType":"STRING"},{"Name":"test 2d PS Name","Description":"test
+        2d PS Description","Value":"test 2d PS Value","Unit":"test 2d PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP
+        L-BAND RADIOMETER","LongName":"SMAP L-Band Radiometer","Technique":"test 1db
         PS Technique","Characteristics":[{"Name":"test 1db PS Name","Description":"test
-        1db PS Description","Value":"test 1db PS Value","Unit":"test 1db PS Unit","DataType":"test
-        1db PS DataType"},{"Name":"test 2db PS Name","Description":"test 2db PS Description","Value":"test
-        2db PS Value","Unit":"test 2db PS Unit","DataType":"test 2db PS DataType"}]}],"OperationalModes":["test
-        1da Op","test 1db Op"]}]},{"Type":"test a1 Type","ShortName":"test a1 P ShortName","LongName":"test
-        a1 P LongName","Characteristics":[{"Name":"test a1 PC Name","Description":"test
-        a1 PC Description","Value":"test a1 PC Value","Unit":"test a1 PC Unit","DataType":"test
-        a1 PC DataType"},{"Name":"test a2 PC Name","Description":"test a2 PC Description","Value":"test
-        a2 PC Value","Unit":"test a2 PC Unit","DataType":"test a2 PC DataType"}],"Instruments":[{"ShortName":"test
-        a1 PI ShortName","LongName":"test a1 PI LongName","Characteristics":[{"Name":"test
-        a1 PI Name","Description":"test a1 PI Description","Value":"test a1 PI Value","Unit":"test
-        a1 PI Unit","DataType":"test a1 PI DataType"},{"Name":"test a2 PI Name","Description":"test
-        a2 PI Description","Value":"test a2 PI Value","Unit":"test a2 PI Unit","DataType":"test
-        a2 PI DataType"}],"Technique":"test a1 PI Technique","NumberOfSensors":456,"Sensors":[{"ShortName":"test
-        a1 PS ShortName","LongName":"test a1 PS LongName","Technique":"test a1 PS
-        Technique","Characteristics":[{"Name":"test a1 PS Name","Description":"test
-        a1 PS Description","Value":"test a1 PS Value","Unit":"test a1 PS Unit","DataType":"test
-        a1 PS DataType"},{"Name":"test a2 PS Name","Description":"test a2 PS Description","Value":"test
-        a2 PS Value","Unit":"test a2 PS Unit","DataType":"test a2 PS DataType"}]},{"ShortName":"test
-        a1b PS ShortName","LongName":"test a1b PS LongName","Technique":"test a1b
+        1db PS Description","Value":"test 1db PS Value","Unit":"test 1db PS Unit","DataType":"STRING"},{"Name":"test
+        2db PS Name","Description":"test 2db PS Description","Value":"test 2db PS
+        Value","Unit":"test 2db PS Unit","DataType":"STRING"}]}],"OperationalModes":["test
+        1da Op","test 1db Op"]}]},{"Type":"Earth Observation Satellites","ShortName":"SMAP","LongName":"Soil
+        Moisture Active and Passive Observatory","Characteristics":[{"Name":"test
+        a1 PC Name","Description":"test a1 PC Description","Value":"test a1 PC Value","Unit":"test
+        a1 PC Unit","DataType":"STRING"},{"Name":"test a2 PC Name","Description":"test
+        a2 PC Description","Value":"test a2 PC Value","Unit":"test a2 PC Unit","DataType":"STRING"}],"Instruments":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Characteristics":[{"Name":"test a1 PI Name","Description":"test
+        a1 PI Description","Value":"test a1 PI Value","Unit":"test a1 PI Unit","DataType":"STRING"},{"Name":"test
+        a2 PI Name","Description":"test a2 PI Description","Value":"test a2 PI Value","Unit":"test
+        a2 PI Unit","DataType":"STRING"}],"Technique":"test a1 PI Technique","NumberOfInstruments":456,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test a1 PS Technique","Characteristics":[{"Name":"test
+        a1 PS Name","Description":"test a1 PS Description","Value":"test a1 PS Value","Unit":"test
+        a1 PS Unit","DataType":"STRING"},{"Name":"test a2 PS Name","Description":"test
+        a2 PS Description","Value":"test a2 PS Value","Unit":"test a2 PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP
+        L-BAND RADIOMETER","LongName":"SMAP L-Band Radiometer","Technique":"test a1b
         PS Technique","Characteristics":[{"Name":"test a1b PS Name","Description":"test
-        a1b PS Description","Value":"test a1b PS Value","Unit":"test a1b PS Unit","DataType":"test
-        a1b PS DataType"},{"Name":"test a2b PS Name","Description":"test a2b PS Description","Value":"test
-        a2b PS Value","Unit":"test a2b PS Unit","DataType":"test a2b PS DataType"}]}],"OperationalModes":["test
-        a1a Op","test a1b Op"]},{"ShortName":"test a1d PI ShortName","LongName":"test
-        a1d PI LongName","Characteristics":[{"Name":"test a1d PI Name","Description":"test
-        a1d PI Description","Value":"test a1d PI Value","Unit":"test a1d PI Unit","DataType":"test
-        a1d PI DataType"},{"Name":"test a2d PI Name","Description":"test a2d PI Description","Value":"test
-        a2d PI Value","Unit":"test a2d PI Unit","DataType":"test a2d PI DataType"}],"Technique":"test
-        a1d PI Technique","NumberOfSensors":567,"Sensors":[{"ShortName":"test a1d
-        PS ShortName","LongName":"test a1d PS LongName","Technique":"test a1d PS Technique","Characteristics":[{"Name":"test
+        a1b PS Description","Value":"test a1b PS Value","Unit":"test a1b PS Unit","DataType":"STRING"},{"Name":"test
+        a2b PS Name","Description":"test a2b PS Description","Value":"test a2b PS
+        Value","Unit":"test a2b PS Unit","DataType":"STRING"}]}],"OperationalModes":["test
+        a1a Op","test a1b Op"]},{"ShortName":"SMAP L-BAND RADIOMETER","LongName":"SMAP
+        L-Band Radiometer","Characteristics":[{"Name":"test a1d PI Name","Description":"test
+        a1d PI Description","Value":"test a1d PI Value","Unit":"test a1d PI Unit","DataType":"STRING"},{"Name":"test
+        a2d PI Name","Description":"test a2d PI Description","Value":"test a2d PI
+        Value","Unit":"test a2d PI Unit","DataType":"STRING"}],"Technique":"test a1d
+        PI Technique","NumberOfInstruments":567,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test a1d PS Technique","Characteristics":[{"Name":"test
         a1d PS Name","Description":"test a1d PS Description","Value":"test a1d PS
-        Value","Unit":"test a1d PS Unit","DataType":"test a1d PS DataType"},{"Name":"test
-        a2d PS Name","Description":"test a2d PS Description","Value":"test a2d PS
-        Value","Unit":"test a2d PS Unit","DataType":"test a2d PS DataType"}]},{"ShortName":"test
-        a1db PS ShortName","LongName":"test a1db PS LongName","Technique":"test a1db
-        PS Technique","Characteristics":[{"Name":"test a1db PS Name","Description":"test
-        a1db PS Description","Value":"test a1db PS Value","Unit":"test a1db PS Unit","DataType":"test
-        a1db PS DataType"},{"Name":"test a2db PS Name","Description":"test a2db PS
-        Description","Value":"test a2db PS Value","Unit":"test a2db PS Unit","DataType":"test
-        a2db PS DataType"}]}],"OperationalModes":["test a1da Op","test a1db Op"]}]}],"Abstract":"This
-        is a long description of the collection","ShortName":"12345","Version":"1","EntryTitle":"Draft
-        Title","Purpose":"This is the purpose field","DataLanguage":"eng","DataDates":[{"Type":"CREATE","Date":"2015-07-01T00:00:00Z"},{"Type":"UPDATE","Date":"2015-07-05T00:00:00Z"}],"Organizations":[{"Role":"RESOURCEPROVIDER","Party":{"OrganizationName":{"ShortName":"ORG_SHORT
-        2","LongName":"Organization Long Name 2"},"ServiceHours":"9-6, M-F","ContactInstructions":"Email
-        only","Contacts":[{"Type":"Email","Value":"example@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
+        Value","Unit":"test a1d PS Unit","DataType":"STRING"},{"Name":"test a2d PS
+        Name","Description":"test a2d PS Description","Value":"test a2d PS Value","Unit":"test
+        a2d PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP L-BAND RADIOMETER","LongName":"SMAP
+        L-Band Radiometer","Technique":"test a1db PS Technique","Characteristics":[{"Name":"test
+        a1db PS Name","Description":"test a1db PS Description","Value":"test a1db
+        PS Value","Unit":"test a1db PS Unit","DataType":"STRING"},{"Name":"test a2db
+        PS Name","Description":"test a2db PS Description","Value":"test a2db PS Value","Unit":"test
+        a2db PS Unit","DataType":"STRING"}]}],"OperationalModes":["test a1da Op","test
+        a1db Op"]}]}],"Abstract":"This is a long description of the collection","VersionDescription":"Version
+        1 Description","Purpose":"This is the purpose field","DataLanguage":"eng","DataDates":[{"Type":"CREATE","Date":"2015-07-01T00:00:00Z"},{"Type":"UPDATE","Date":"2015-07-05T00:00:00Z"}],"DataCenters":[{"Roles":["ARCHIVER"],"ShortName":"AARHUS-HYDRO","LongName":"Hydrogeophysics
+        Group, Aarhus University ","ContactInformation":{"ServiceHours":"9-6, M-F","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
         E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
-        States of America"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
-        States of America"}],"RelatedUrls":[{"URLs":["http://example.com","http://another-example.com"],"Description":"Example
-        Description","MimeType":"text/html","Title":"Example Title","FileSize":{"Size":42,"Unit":"MB"}},{"URLs":["http://example1.com/1"]}]}},{"Role":"OWNER","Party":{"OrganizationName":{"ShortName":"ORG_SHORT
-        3","LongName":"Organization Long Name 3"},"ServiceHours":"10-2, M-W","ContactInstructions":"Email
-        only","Contacts":[{"Type":"Email","Value":"example@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataCenterURL","Type":"HOME
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DataCenterURL","Type":"HOME
+        PAGE","URL":"http://example.com/2"}]}},{"Roles":["ORIGINATOR","DISTRIBUTOR"],"ShortName":"ESA/ED","LongName":"Educational
+        Office, Ecological Society of America","ContactInformation":{"ServiceHours":"10-2,
+        M-W","ContactInstruction":"Email only","ContactMechanisms":[{"Type":"Email","Value":"example@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
         E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
-        States of America"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
-        States of America"}],"RelatedUrls":[{"URLs":["http://example.com","http://another-example.com"],"Description":"Example
-        Description","MimeType":"text/html","Title":"Example Title","FileSize":{"Size":42,"Unit":"MB"}},{"URLs":["http://example2.com/1"]}]}}],"Personnel":[{"Role":"RESOURCEPROVIDER","Party":{"Person":{"FirstName":"First
-        Name","MiddleName":"Middle Name","LastName":"Last Name"},"ServiceHours":"9-5,
-        M-F","ContactInstructions":"Email only","Contacts":[{"Type":"Email","Value":"example@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataCenterURL","Type":"HOME
+        PAGE","URL":"http://example.com/"}]},"ContactPersons":[{"Roles":["Investigator","Metadata
+        Author"],"FirstName":"First Name 3","MiddleName":"Middle Name 3","LastName":"Last
+        Name 3","ContactInformation":{"ServiceHours":"1-4, M-W","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example5@example.com"},{"Type":"Email","Value":"example6@example.com"}],"Addresses":[{"StreetAddresses":["300
         E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
-        States of America"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
-        States of America"}],"RelatedUrls":[{"URLs":["http://example.com","http://another-example.com"],"Description":"Example
-        Description","MimeType":"text/html","Title":"Example Title","FileSize":{"Size":42,"Unit":"MB"}},{"URLs":["http://example.com/1"]}]}},{"Role":"OWNER","Party":{"Person":{"FirstName":"First
-        Name 2","MiddleName":"Middle Name 2","LastName":"Last Name 2"},"ServiceHours":"10-2,
-        M-W","ContactInstructions":"Email only","Contacts":[{"Type":"Email","Value":"example1@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"}]}}],"ContactGroups":[{"Roles":["User Services"],"GroupName":"Group
+        Name 2","ContactInformation":{"ServiceHours":"9-5, M-F","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example7@example.com"},{"Type":"Email","Value":"example8@example.com"}],"Addresses":[{"StreetAddresses":["300
         E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
-        States of America"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
-        States of America"}],"RelatedUrls":[{"URLs":["http://example.com","http://another-example.com"],"Description":"Example
-        Description","MimeType":"text/html","Title":"Example Title","FileSize":{"Size":42,"Unit":"MB"}},{"URLs":["http://example.com/1"]}]}}],"CollectionDataType":"SCIENCE_QUALITY","ProcessingLevel":{"Id":"Level
-        1A","ProcessingLevelDescription":"Level 1 Description"},"CollectionCitations":[{"Version":"v1","Title":"Citation
-        title","Creator":"Citation creator","Editor":"Citation editor","SeriesName":"Citation
-        series name","ReleaseDate":"2015-07-01T00:00:00Z","ReleasePlace":"Citation
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"}]}}]}],"ContactPersons":[{"Roles":["Science
+        Contact","Technical Contact"],"FirstName":"First Name","MiddleName":"Middle
+        Name","LastName":"Last Name","NonDataCenterAffiliation":"Famous University","ContactInformation":{"ServiceHours":"10-2,
+        M-W","ContactInstruction":"Email only","ContactMechanisms":[{"Type":"Email","Value":"example1@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/2"}]}}],"ContactGroups":[{"Roles":["User Services","Science
+        Software Development"],"GroupName":"Group Name","NonDataCenterAffiliation":"Famous
+        University","ContactInformation":{"ServiceHours":"9-5, M-F","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example3@example.com"},{"Type":"Email","Value":"example4@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/2"}]}}],"ProcessingLevel":{"Id":"1A","ProcessingLevelDescription":"Level
+        1 Description"},"CollectionCitations":[{"Version":"v1","Title":"Citation title","Creator":"Citation
+        creator","Editor":"Citation editor","SeriesName":"Citation series name","ReleaseDate":"2015-07-01T00:00:00Z","ReleasePlace":"Citation
         release place","Publisher":"Citation publisher","IssueIdentification":"Citation
         issue identification","DataPresentationForm":"Citation data presentation form","OtherCitationDetails":"Citation
-        other details","DOI":{"DOI":"Citation DOI","Authority":"Citation DOI Authority"},"RelatedUrl":{"URLs":["http://example.com","http://another-example.com"],"Description":"Example
-        Description","MimeType":"text/html","Title":"Example related URL Title 1","FileSize":{"Size":42,"Unit":"MB"}}},{"Version":"v2","Title":"Citation
-        title 1","Creator":"Citation creator 1","RelatedUrl":{"URLs":["http://example2.com","http://another-example2.com"],"Description":"Example
-        2 Description","MimeType":"text/html","Title":"Example 2 related URL Title","FileSize":{"Size":42,"Unit":"MB"}}}],"CollectionProgress":"IN
-        WORK","Quality":"Metadata quality summary","UseConstraints":"These are some
-        use constraints","AccessConstraints":{"Value":42,"Description":"Access constraint
-        description"},"MetadataAssociations":[{"Type":"SCIENCE ASSOCIATED","Description":"Metadata
-        association description","EntryId":"12345"},{"Type":"LARGER CITATION WORKS","EntryId":"123abc"}],"PublicationReferences":[{"Title":"Publication
+        other details","OnlineResource":{"Linkage":"http://example.com","Description":"Example
+        Description","Name":"Example related URL Title 1"}},{"Version":"v2","Title":"Citation
+        title 1","Creator":"Citation creator 1","OnlineResource":{"Linkage":"http://example2.com","Description":"Example
+        2 Description","Name":"Example 2 related URL Title"}}],"DOI":{"DOI":"Citation
+        DOI","Authority":"Citation DOI Authority"},"CollectionProgress":"ACTIVE","Quality":"Metadata
+        quality summary","UseConstraints":{"Description":{"Description":"These are
+        some use constraints"},"LicenseUrl":{"Linkage":"http://example.com"}},"AccessConstraints":{"Value":42,"Description":"Access
+        constraint description"},"MetadataAssociations":[{"Type":"SCIENCE ASSOCIATED","EntryId":"12345","Description":"Metadata
+        association description","Version":"23"},{"Type":"LARGER CITATION WORKS","EntryId":"123abc"}],"PublicationReferences":[{"Title":"Publication
         reference title","Publisher":"Publication reference publisher","DOI":{"DOI":"Publication
         reference DOI","Authority":"Publication reference authority"},"Author":"Publication
         reference author","PublicationDate":"2015-07-01T00:00:00Z","Series":"Publication
@@ -127,51 +175,63 @@ http_interactions:
         reference volume","Issue":"Publication reference issue","ReportNumber":"Publication
         reference report number","PublicationPlace":"Publication reference publication
         place","Pages":"Publication reference pages","ISBN":"1234567890123","OtherReferenceDetails":"Publication
-        reference details","RelatedUrl":{"URLs":["http://example.com","http://another-example.com"],"Description":"Example
-        Description","MimeType":"text/html","Title":"Example URL Title","FileSize":{"Size":42,"Unit":"MB"}}},{"Title":"Publication
-        reference title 1","ISBN":"9876543210987"}],"ScienceKeywords":[{"Category":"EARTH
-        SCIENCE SERVICES","Topic":"DATA ANALYSIS AND VISUALIZATION","Term":"GEOGRAPHIC
-        INFORMATION SYSTEMS"},{"Category":"EARTH SCIENCE SERVICES","Topic":"DATA ANALYSIS
-        AND VISUALIZATION","Term":"GEOGRAPHIC INFORMATION SYSTEMS","VariableLevel1":"MOBILE
-        GEOGRAPHIC INFORMATION SYSTEMS"},{"Category":"EARTH SCIENCE SERVICES","Topic":"DATA
-        ANALYSIS AND VISUALIZATION","Term":"GEOGRAPHIC INFORMATION SYSTEMS","VariableLevel1":"DESKTOP
-        GEOGRAPHIC INFORMATION SYSTEMS"}],"AncillaryKeywords":["Ancillary keyword
-        1","Ancillary keyword 2"],"AdditionalAttributes":[{"Name":"Attribute 1","Description":"Description","DataType":"INT","MeasurementResolution":"Measurement
+        reference details","OnlineResource":{"Linkage":"http://example.com","Description":"Example
+        Description","Name":"Example URL Title"}},{"Title":"Publication reference
+        title 1","ISBN":"9876543210987"}],"ScienceKeywords":[{"Category":"EARTH SCIENCE","Topic":"ATMOSPHERE","Term":"ATMOSPHERIC
+        TEMPERATURE","VariableLevel1":"SURFACE TEMPERATURE","VariableLevel2":"MAXIMUM/MINIMUM
+        TEMPERATURE","VariableLevel3":"24 HOUR MAXIMUM TEMPERATURE"},{"Category":"EARTH
+        SCIENCE","Topic":"SOLID EARTH","Term":"ROCKS/MINERALS/CRYSTALS","VariableLevel1":"SEDIMENTARY
+        ROCKS","VariableLevel2":"SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES","VariableLevel3":"LUMINESCENCE"}],"AncillaryKeywords":["Ancillary
+        keyword 1","Ancillary keyword 2"],"AdditionalAttributes":[{"Name":"Attribute
+        1","Description":"Description","DataType":"INT","MeasurementResolution":"Measurement
         Resolution","ParameterRangeBegin":"1","ParameterRangeEnd":"5","ParameterUnitsOfMeasure":"Parameter
         Units Of Measure","ParameterValueAccuracy":"Parameter Value Accuracy","ValueAccuracyExplanation":"Value
         Accuracy Explanation","Group":"Group","UpdateDate":"2015-09-14T00:00:00Z"},{"Name":"Attribute
-        2","DataType":"STRING"}],"RelatedUrls":[{"URLs":["http://example.com"]},{"Description":"test
-        1 Description","URLs":["http://example.com/1","http://example.com/a"],"Title":"test
-        1 Title","MimeType":"test 1 MimeType","FileSize":{"Size":123,"Unit":"MB"}},{"Description":"test
-        2 Description","URLs":["http://example.com/2","http://example.com/b"],"Title":"test
-        2 Title","MimeType":"test 2 MimeType","FileSize":{"Size":321,"Unit":"PB"}}],"Distributions":[{},{"DistributionMedia":"test
-        2 DistributionMedia","Sizes":[{"Size":42,"Unit":"KB"},{"Size":9001,"Unit":"MB"}],"DistributionFormat":"test
-        2 DistributionFormat","Fees":"1234.56"},{"DistributionMedia":"test 1 DistributionMedia","Sizes":[{"Size":25,"Unit":"TB"}],"DistributionFormat":"test
-        1 DistributionFormat","Fees":"1234.56"}],"MetadataLanguage":"eng","MetadataDates":[{"Type":"CREATE","Date":"2010-12-25T00:00:00Z"},{"Type":"UPDATE","Date":"2016-01-21T21:35:00.000Z"}],"DirectoryNames":[{"ShortName":"Short
+        2","Description":"Description 2","DataType":"STRING"}],"RelatedUrls":[{"Description":"Related
+        URL 1 Description","URLContentType":"CollectionURL","Type":"DATA SET LANDING
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DistributionURL","Type":"GET
+        DATA","Subtype":"Earthdata Search","URL":"https://search.earthdata.nasa.gov/","GetData":{"Format":"ascii","MimeType":"Not
+        provided","Size":42,"Unit":"KB","Fees":"0","Checksum":"sdfgfgksghafgsdvbasf"}},{"Description":"Related
+        URL 3 Description","URLContentType":"DistributionURL","Type":"GET DATA","Subtype":"DIRECT
+        DOWNLOAD","URL":"https://example.com/","GetService":{"Format":"ascii","MimeType":"Not
+        provided","Protocol":"HTTPS","FullName":"Earthdata Search","DataID":"data_id","DataType":"data
+        type","URI":["uri"]}},{"Description":"This is data citation policy","URLContentType":"PublicationURL","Type":"VIEW
+        RELATED INFORMATION","Subtype":"DATA CITATION POLICY","URL":"https://example.com/data-citation-policy"},{"Description":"This
+        is general documentation","URLContentType":"PublicationURL","Type":"VIEW RELATED
+        INFORMATION","Subtype":"GENERAL DOCUMENTATION","URL":"https://example.com/documentation-1"},{"Description":"This
+        is how-to documentation","URLContentType":"PublicationURL","Type":"VIEW RELATED
+        INFORMATION","Subtype":"HOW-TO","URL":"https://example.com/documentation-2"},{"Description":"This
+        is anomalies documentation","URLContentType":"PublicationURL","Type":"VIEW
+        RELATED INFORMATION","Subtype":"ANOMALIES","URL":"https://example.com/documentation-3"}],"MetadataLanguage":"eng","MetadataDates":[{"Type":"CREATE","Date":"2010-12-25T00:00:00Z"},{"Type":"UPDATE","Date":"2019-11-07T16:54:00.000Z"}],"DirectoryNames":[{"ShortName":"Short
         Directory 1","LongName":"Long Directory 1"},{"ShortName":"Short Directory
         2","LongName":"Long Directory 2"}],"SpatialExtent":{"SpatialCoverageType":"HORIZONTAL","HorizontalSpatialDomain":{"ZoneIdentifier":"Zone
-        ID","Geometry":{"CoordinateSystem":"CARTESIAN","BoundingRectangles":[{"WestBoundingCoordinate":-180.0,"NorthBoundingCoordinate":90.0,"EastBoundingCoordinate":180.0,"SouthBoundingCoordinate":-90.0},{"WestBoundingCoordinate":-96.9284587,"NorthBoundingCoordinate":58.968602,"EastBoundingCoordinate":-56.9284587,"SouthBoundingCoordinate":18.968602}]}},"GranuleSpatialRepresentation":"CARTESIAN"},"TilingIdentificationSystem":{"TilingIdentificationSystemName":"System
-        name","Coordinate1":{"MinimumValue":-50,"MaximumValue":50},"Coordinate2":{"MinimumValue":-30,"MaximumValue":30}},"SpatialInformation":{"SpatialCoverageType":"BOTH","HorizontalCoordinateSystem":{"GeodeticModel":{"HorizontalDatumName":"Datum
-        name","EllipsoidName":"Ellipsoid name","SemiMajorAxis":3.0,"DenominatorOfFlatteningRatio":4.0}},"VerticalCoordinateSystem":{"AltitudeSystemDefinition":{"DatumName":"Datum","DistanceUnits":"Distance
-        Units","EncodingMethod":"Encoding","Resolutions":[1.0,2.0,3.0]},"DepthSystemDefinition":{"DatumName":"Datum
-        2","DistanceUnits":"Distance Units 2","EncodingMethod":"Encoding 2","Resolutions":[12.0,22.0,32.0]}}},"LocationKeywords":[{"Category":"GEOGRAPHIC
-        REGION","Type":"ARCTIC"},{"Category":"OCEAN","Type":ATLANTIC OCEAN"}],"TemporalExtents":[{"TemporalRangeType":"SingleDateTime","PrecisionOfSeconds":1,"EndsAtPresentFlag":false,"SingleDateTimes":["2015-07-01T00:00:00Z","2015-12-25T00:00:00Z"]},{"TemporalRangeType":"RangeDateTime","PrecisionOfSeconds":10,"EndsAtPresentFlag":false,"RangeDateTimes":[{"BeginningDateTime":"2014-07-01T00:00:00Z","EndingDateTime":"2014-08-01T00:00:00Z"},{"BeginningDateTime":"2015-07-01T00:00:00Z","EndingDateTime":"2015-08-01T00:00:00Z"}]},{"TemporalRangeType":"PeriodicDateTime","PrecisionOfSeconds":30,"EndsAtPresentFlag":false,"PeriodicDateTimes":[{"Name":"test
+        ID","Geometry":{"CoordinateSystem":"CARTESIAN","BoundingRectangles":[{"WestBoundingCoordinate":-180.0,"NorthBoundingCoordinate":90.0,"EastBoundingCoordinate":180.0,"SouthBoundingCoordinate":-90.0},{"WestBoundingCoordinate":-96.9284587,"NorthBoundingCoordinate":58.968602,"EastBoundingCoordinate":-56.9284587,"SouthBoundingCoordinate":18.968602}]}},"GranuleSpatialRepresentation":"CARTESIAN"},"TilingIdentificationSystems":[{"TilingIdentificationSystemName":"MISR","Coordinate1":{"MinimumValue":-50,"MaximumValue":50},"Coordinate2":{"MinimumValue":-30,"MaximumValue":30}},{"TilingIdentificationSystemName":"MODIS
+        Tile EASE","Coordinate1":{"MinimumValue":-25,"MaximumValue":25},"Coordinate2":{"MinimumValue":-15,"MaximumValue":15}}],"SpatialInformation":{"SpatialCoverageType":"BOTH","HorizontalCoordinateSystem":{"GeodeticModel":{"HorizontalDatumName":"Datum
+        name","EllipsoidName":"Ellipsoid name","SemiMajorAxis":3.0,"DenominatorOfFlatteningRatio":4.0}},"VerticalCoordinateSystem":{"AltitudeSystemDefinition":{"DatumName":"Datum","DistanceUnits":"HectoPascals","Resolutions":[1.0,2.0,3.0]},"DepthSystemDefinition":{"DatumName":"Datum
+        2","DistanceUnits":"Fathoms","Resolutions":[12.0,22.0,32.0]}}},"LocationKeywords":[{"Category":"GEOGRAPHIC
+        REGION","Type":"ARCTIC"},{"Category":"OCEAN","Type":"ATLANTIC OCEAN"}],"TemporalExtents":[{"PrecisionOfSeconds":1,"EndsAtPresentFlag":false,"SingleDateTimes":["2015-07-01T00:00:00Z","2015-12-25T00:00:00Z"]},{"PrecisionOfSeconds":10,"EndsAtPresentFlag":false,"RangeDateTimes":[{"BeginningDateTime":"2014-07-01T00:00:00Z","EndingDateTime":"2014-08-01T00:00:00Z"},{"BeginningDateTime":"2015-07-01T00:00:00Z","EndingDateTime":"2015-08-01T00:00:00Z"}]},{"PrecisionOfSeconds":30,"EndsAtPresentFlag":false,"PeriodicDateTimes":[{"Name":"test
         1 Periodic Extent","StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-08-01T00:00:00Z","DurationUnit":"DAY","DurationValue":5,"PeriodCycleDurationUnit":"DAY","PeriodCycleDurationValue":1},{"Name":"test
-        2 Periodic Extent","StartDate":"2016-07-01T00:00:00Z","EndDate":"2016-08-01T00:00:00Z","DurationUnit":"MONTH","DurationValue":4,"PeriodCycleDurationUnit":"MONTH","PeriodCycleDurationValue":2}]}],"TemporalKeywords":["test
-        1 Keyword","test 2 Keyword"],"PaleoTemporalCoverage":{"StartDate":"50 Ga","EndDate":"25
-        Ga","ChronostratigraphicUnits":[{"Eon":"test 1 Eon","Era":"test 1 Era","Epoch":"test
-        1 Epoch","Stage":"test 1 Stage","DetailedClassification":"test 1 Detailed
-        Classification","Period":"test 1 Period"},{"Eon":"test 2 Eon","Era":"test
+        2 Periodic Extent","StartDate":"2016-07-01T00:00:00Z","EndDate":"2016-08-01T00:00:00Z","DurationUnit":"MONTH","DurationValue":4,"PeriodCycleDurationUnit":"MONTH","PeriodCycleDurationValue":2}]}],"TemporalKeywords":["Monthly
+        Climatology","Weekly Climatology"],"PaleoTemporalCoverages":[{"StartDate":"50
+        Ga","EndDate":"25 Ga","ChronostratigraphicUnits":[{"Eon":"test 1 Eon","Era":"test
+        1 Era","Epoch":"test 1 Epoch","Stage":"test 1 Stage","DetailedClassification":"test
+        1 Detailed Classification","Period":"test 1 Period"},{"Eon":"test 2 Eon","Era":"test
         2 Era","Epoch":"test 2 Epoch","Stage":"test 2 Stage","DetailedClassification":"test
         2 Detailed Classification","Period":"test 2 Period"},{"Eon":"test 3 Eon text
-        1"}]},"ISOTopicCategories":["farming","climatologyMeteorologyAtmosphere","health"]}'
+        1"}]}],"ISOTopicCategories":["farming","climatologyMeteorologyAtmosphere","health"],"ArchiveAndDistributionInformation":{"FileArchiveInformation":[{"Format":"kml","FormatType":"Native","AverageFileSize":2,"AverageFileSizeUnit":"MB","TotalCollectionFileSize":25,"TotalCollectionFileSizeUnit":"GB","Description":"A
+        file archive information description"},{"Format":"jpeg","FormatType":"Supported","AverageFileSize":3,"AverageFileSizeUnit":"MB","TotalCollectionFileSize":99,"TotalCollectionFileSizeUnit":"TB","Description":"Another
+        file archive information description"}],"FileDistributionInformation":[{"Format":"tiff","FormatType":"Native","Media":["disc","file","online"],"AverageFileSize":2,"AverageFileSizeUnit":"KB","TotalCollectionFileSize":10,"TotalCollectionFileSizeUnit":"TB","Description":"File
+        distribution information description","Fees":"$2,900"}]},"ShortName":"637484_Mr
+        Cogliostro","Version":"1","EntryTitle":"830826_Regional Communications Agent","CollectionDataType":"SCIENCE_QUALITY"}'
     headers:
       User-Agent:
-      - Faraday v0.8.9
+      - Faraday v0.8.11
       Content-Type:
-      - application/umm+json
+      - application/vnd.nasa.cmr.umm+json; version=1.13; charset=utf-8
       Client-Id:
       - MMT
+      Accept:
+      - application/json
       Echo-Token:
       - "???"
   response:
@@ -195,5 +255,5 @@ http_interactions:
       encoding: UTF-8
       string: "<html>\r\n<head><title>500 Internal Server Error</title></head>\r\n<body bgcolor=\"white\">\r\n<center><h1>500 Internal Server Error</h1></center>\r\n errors error <hr><center>nginx/1.12.2</center>\r\n</body>\r\n</html>\r\n"
     http_version:
-  recorded_at: Thu, 21 Jan 2016 21:35:36 GMT
-recorded_with: VCR 2.9.3
+  recorded_at: Thu, 07 Nov 2019 16:54:04 GMT
+recorded_with: VCR 4.0.0

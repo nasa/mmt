@@ -5,6 +5,7 @@ class WelcomeController < ApplicationController
   skip_before_action :refresh_launchpad_if_needed
   skip_before_action :refresh_urs_if_needed
   skip_before_action :proposal_mode_enabled?
+  skip_before_action :proposal_approver_permissions
 
   before_action :redirect_if_logged_in
 

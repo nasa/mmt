@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   before_action :refresh_launchpad_if_needed, except: [:login, :logout] # Launchpad login
   before_action :provider_set?
   before_action :proposal_mode_enabled?
+  before_action :proposal_approver_permissions
   # NOTE: when adding before actions, particularly dealing with logging in, make
   # sure to check whether it needs to be skipped for the welcome#index landing page as well as the custom error pages
 
@@ -321,6 +322,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Detemine if the user should see the proposal approver tab in MMT
+  def proposal_approver_permissions
+    @user_has_approver_permissions = if Rails.configuration.proposal_mode
+                                       false
+                                     else
+                                       is_non_nasa_draft_approver?(user: current_user, token: token)
+                                     end
+  end
+
   def proposal_mode_enabled?
     # If draft only then all regular mmt actions should be blocked
     redirect_to manage_collection_proposals_path if Rails.configuration.proposal_mode
@@ -344,6 +354,10 @@ class ApplicationController < ActionController::Base
 
   def templates_enabled?
     redirect_to manage_collections_path unless Rails.configuration.templates_enabled
+  end
+
+  def mmt_approver_workflow_enabled?
+    redirect_to manage_collections_path unless Rails.configuration.mmt_approver_workflow_enabled
   end
 
   def authenticated_urs_uid

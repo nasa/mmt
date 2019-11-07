@@ -102,6 +102,9 @@ Rails.application.configure do
   # Feature Toggle for templates
   config.templates_enabled = true
 
+  # Feature toggle for approver workflow in MMT.
+  config.mmt_approver_workflow_enabled = false
+
   config.cmr_env = 'uat'
   config.echo_env = 'uat'
   config.urs_register_url = 'https://uat.urs.earthdata.nasa.gov/users/new'
