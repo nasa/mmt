@@ -17,6 +17,7 @@ module Cmr
       launchpad_root = 'launchpad_root' if ENV['launchpad_production'] == 'true'
       clients << LaunchpadClient.new(@config[launchpad_root], urs_client_id)
       clients << UvgClient.new(@config['uvg_root'], urs_client_id)
+      clients << DmmtClient.new(@config['dmmt_root'], urs_client_id)
       @clients = clients
     end
 
@@ -41,8 +42,5 @@ module Cmr
         client.timeout = value
       end
     end
-
-
-
   end
 end

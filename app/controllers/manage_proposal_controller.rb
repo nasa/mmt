@@ -7,6 +7,8 @@ class ManageProposalController < ManageMetadataController
   def show
     @specified_url = 'manage_proposals'
 
+    # make request to get approved proposals
+
     sort_key, sort_dir = index_sort_order
     # TODO: When we have the end points set up, this will probably be receiving
     # a JSON blob that gets converted to an array of records. If this is true,

@@ -20,9 +20,12 @@ namespace :cmr do
   desc 'Start local CMR'
   task start: [:stop] do
     # Process.spawn('cd cmr; java -XX:-OmitStackTraceInFastThrow -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr_logs.log &')
+<<<<<<< HEAD
 
     # `-DCMR_DEV_SYSTEM_REDIS_TYPE=external` was added when CMR made a change to use Redis
     # we may be able to remove it when they adjust the uberjar configuration
+=======
+>>>>>>> fc67d161... MMT-1974 Initial commit; Working on kinks of URS authentication.
     Process.spawn('cd cmr; nohup java -DCMR_DEV_SYSTEM_REDIS_TYPE=external -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr.log 2>&1 &')
 
     # this command was necessary when there was an issue with jRuby in CMR accessing our gems
