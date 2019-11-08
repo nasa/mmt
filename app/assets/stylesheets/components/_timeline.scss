@@ -18,7 +18,7 @@
   max-width: 1200px;
 }
 
-.timeline-node, .timeline-faded-node, .timeline-node-active {
+.timeline-node, .timeline-faded-node, .timeline-node-active, .timeline-node-rejected {
   content: '';
   position: absolute;
   width: 22px;
@@ -30,12 +30,26 @@
   z-index: 1;
 }
 
+// Using opacity for the nodes made the line visible, so change the color
+// to generate the faded effect.
+.timeline-faded-node {
+  background-color: $pale-blue;
+}
+
 // The settings that need to change to display the active color ring.
 .timeline-node-active {
   width: 24px;
   height: 24px;
   left: -21px;
   border: 3px solid $orange;
+}
+
+// TODO: refactor the timeline node classes, esp to incorporate rejected
+.timeline-node-rejected {
+  width: 24px;
+  height: 24px;
+  left: -21px;
+  border: 3px solid $red;
 }
 
 // The ::after classes control the lines on the timeline
@@ -50,6 +64,19 @@
   margin-left: -3px;
 }
 
+// TODO: refactor the timeline line classes, esp to incorporate rejected
+.timeline-faded-line-rejected::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  background-color: $dolphin-grey;
+  top: 19px;
+  bottom: -123px;
+  left: 53%;
+  margin-left: -3px;
+  opacity: 0.2;
+}
+
 .timeline-faded-line-active::after, .timeline-faded-line::after {
   opacity: 0.2;
 }
@@ -57,12 +84,6 @@
 .timeline-line::after, .timeline-faded-line::after {
   top: 22px;
   bottom: -92px;
-}
-
-// Using opacity for the nodes made the line visible, so change the color
-// to generate the faded effect.
-.timeline-faded-node {
-  background-color: $pale-blue;
 }
 
 .timeline-container {
@@ -77,6 +98,14 @@
   font-style: italic;
   color: grey;
   margin: 10px;
+}
+
+.timeline-rejection-information {
+  display: block;
+  white-space: nowrap;
+  max-width: 45ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .progress-title {

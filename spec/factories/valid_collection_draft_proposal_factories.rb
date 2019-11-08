@@ -3,20 +3,20 @@ require 'faker'
 FactoryGirl.define do
   factory :full_collection_draft_proposal, class: CollectionDraftProposal do
     transient do
-      draft_short_name 'ABC5918'
-      draft_entry_title 'Entry Title'
+      proposal_short_name nil
+      proposal_entry_title nil
       version '001'
       collection_data_type 'SCIENCE_QUALITY'
-      draft_request_type 'create'
+      proposal_request_type 'create'
     end
 
     user_id 1
     native_id 'full_collection_draft_proposal_id'
     provider_id 'MMT_2'
     draft_type 'CollectionDraftProposal'
-    entry_title { draft_entry_title }
-    short_name { draft_short_name }
-    request_type { draft_request_type }
+    entry_title { proposal_entry_title }
+    short_name { proposal_short_name }
+    request_type { proposal_request_type }
 
     trait :with_valid_dates do
       draft {{
@@ -32,9 +32,9 @@ FactoryGirl.define do
 
     draft {
       collection_one.merge(
-        'ShortName' => draft_short_name,
+        'ShortName' => proposal_short_name || "#{Faker::Movies::LordOfTheRings.character}_#{Faker::Number.number(10)}",
         'Version' => version,
-        'EntryTitle' => draft_entry_title,
+        'EntryTitle' => proposal_entry_title || "#{Faker::Movies::LordOfTheRings.location}_#{Faker::Number.number(15)}",
         'CollectionDataType' => collection_data_type
       )
     }

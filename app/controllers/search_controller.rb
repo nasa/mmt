@@ -65,6 +65,6 @@ class SearchController < ManageMetadataController
   end
 
   def proposal_mode_enabled?
-    multi_mode_actions_allowed?(user: current_user, token: token)
+    multi_mode_actions_allowed?
   end
 end

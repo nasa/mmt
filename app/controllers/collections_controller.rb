@@ -158,14 +158,14 @@ class CollectionsController < ManageCollectionsController
   end
 
   def proposal_mode_enabled?
-    if %w[show].include?(params['action'])
-    # actions available in both dMMT and MMT
-      multi_mode_actions_allowed?(user: current_user, token: token)
+    if params['action'] == 'show'
+      # actions available in both dMMT and MMT
+      multi_mode_actions_allowed?
     elsif %w[create_delete_proposal].include?(params['action'])
-    # actions available in dMMT to users and approvers
-      proposal_mode_all_user_actions_allowed?(user: current_user, token: token)
+      # actions available in dMMT to users and approvers
+      proposal_mode_all_user_actions_allowed?
     else
-    # actions available in MMT
+      # actions available in MMT
       super
     end
   end

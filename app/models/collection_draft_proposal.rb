@@ -15,6 +15,26 @@ class CollectionDraftProposal < CollectionDraft
   serialize :status_history, JSON
   serialize :approver_feedback, JSON
 
+  class << self
+    def create_request(collection, user, native_id, type, username = nil)
+      request = self.create
+      request.request_type = type
+      request.draft = collection
+      request.native_id = native_id
+      request.short_name = request.draft['ShortName']
+      request.entry_title = request.draft['EntryTitle']
+      request.set_user_and_provider(user)
+
+      if type == 'delete'
+        request.submit
+        request.status_history = { 'submitted' => { 'username' => username, 'action_date' => Time.new.utc.to_s } }
+      end
+
+      request.save
+      request
+    end
+  end
+
   aasm column: 'proposal_status', whiny_transitions: false do
     state :in_work, initial: true
     state :submitted
@@ -34,26 +54,16 @@ class CollectionDraftProposal < CollectionDraft
     event :approve do
       transitions from: :submitted, to: :approved
     end
+
+    event :reject do
+      transitions from: :submitted, to: :rejected
+    end
   end
 
-  class << self
-    def create_request(collection, user, native_id, type, username = nil)
-      request = self.create
-      request.request_type = type
-      request.draft = collection
-      request.native_id = native_id
-      request.short_name = request.draft['ShortName']
-      request.entry_title = request.draft['EntryTitle']
-      request.set_user_and_provider(user)
-
-      if type == 'delete'
-        request.submit
-        request.status_history = { 'submitted' => { 'username' => username, 'action_date' => Time.new.utc.to_s } }
-      end
-
-      request.save
-      request
-    end
+  def default_values
+    super
+    self.status_history ||= {}
+    self.approver_feedback ||= {}
   end
 
   private

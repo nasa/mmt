@@ -112,10 +112,10 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
   context 'when looking at a delete metadata request' do
     before do
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:full_collection_draft_proposal, draft_request_type: 'delete')
+      @collection_draft_proposal = create(:full_collection_draft_proposal, proposal_request_type: 'delete')
       mock_submit(@collection_draft_proposal)
       visit collection_draft_proposal_path(@collection_draft_proposal)
-      @short_name = @collection_draft_proposal['short_name']
+      @short_name = @collection_draft_proposal.draft['ShortName']
     end
 
     context 'when rescinding a delete metadata request' do
@@ -127,7 +127,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
       it 'can be rescinded and deleted' do
         expect(page).to have_content "The request to delete the collection [Short Name: #{@short_name}] has been successfully canceled."
         within '.open-drafts' do
-          expect(page).to have_no_content @short_name
+          expect(page).to have_no_content(@short_name)
         end
       end
     end

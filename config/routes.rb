@@ -131,6 +131,8 @@ Rails.application.routes.draw do
         get 'submit'
         get 'rescind'
         get 'approve'
+        # TODO: method type? 'reject'
+        match 'reject', action: :reject, via: :put
       end
     end
     get 'proposal/subregion_options' => 'collection_draft_proposals#subregion_options'

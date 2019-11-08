@@ -1,14 +1,40 @@
 module Proposal
   class CollectionDraftProposalsController < CollectionDraftsController
     include GroupEndpoints
+
     skip_before_action :provider_set?
 
-    # TODO: Limit this to only the things a user is supposed to do, also need a new one for approver
-    # TODO: Also need one for functions which both can perform (e.g. show)
-
     before_action :ensure_non_nasa_draft_permissions
-    before_action(only: [:submit, :rescind, :progress, :approve]) { set_resource }
-    before_action :approver_status, only: [:show, :progress]
+    before_action :check_approver_status, only: [:show, :progress]
+    before_action(only: [:submit, :rescind, :progress, :approve, :reject]) { set_resource }
+
+    def index
+      resources = resource_class.order(index_sort_order)
+                                .page(params[:page]).per(RESULTS_PER_PAGE)
+      instance_variable_set("@#{plural_resource_name}", resources)
+      @category_of_displayed_proposal = 'Collection'
+      @specified_url = '/collection_draft_proposals'
+    end
+
+    def queued_index
+      resources = resource_class.where('proposal_status != ?', 'in_work')
+      .order(index_sort_order)
+      .page(params[:page]).per(RESULTS_PER_PAGE)
+      instance_variable_set("@#{plural_resource_name}", resources)
+      @category_of_displayed_proposal = 'Queued'
+      @specified_url = '/collection_draft_proposals/queued_index'
+      render :index
+    end
+
+    def in_work_index
+      resources = resource_class.where('proposal_status = ?', 'in_work')
+      .order(index_sort_order)
+      .page(params[:page]).per(RESULTS_PER_PAGE)
+      instance_variable_set("@#{plural_resource_name}", resources)
+      @category_of_displayed_proposal = 'In Work'
+      @specified_url = '/collection_draft_proposals/in_work_index'
+      render :index
+    end
 
     def edit
       if get_resource&.in_work?
@@ -19,6 +45,54 @@ module Proposal
       end
     end
 
+    def destroy
+      # According to the documentation, only "In Work" proposals should be deletable
+      # "Rejected" and "Submitted" can be rescinded to "In Work" to be deleted.
+      # "Approved" and "Done" can be neither rescinded nor deleted.
+      if get_resource&.in_work?
+        super
+        # TODO check audit log
+      else
+        flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.destroy.flash.error") + '. Only proposals in an "In Work" status can be deleted.'
+        redirect_to collection_draft_proposal_path(get_resource)
+      end
+    end
+
+    def progress
+      authorize get_resource
+
+      add_breadcrumb fetch_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
+      add_breadcrumb 'Progress', send("progress_#{resource_name}_path", get_resource)
+      @status_history = get_resource.status_history || {}
+      approver_feedback = get_resource.approver_feedback || {}
+
+      @second_stage = 'Approval'
+
+      if get_resource.in_work?
+        @first_stage = 'In Work'
+
+        # This applies the same validation as is applied on the preview/show page
+        show_view_setup
+        load_umm_schema
+        @errors = validate_metadata
+      else
+        @first_stage = 'Submitted for Review'
+        @first_information = get_progress_message('submitted')
+      end
+
+      if @status_history['approved']
+        @second_stage = 'Approved'
+        @second_information = get_progress_message('approved')
+      elsif @status_history['rejected']
+        @second_stage = 'Rejected'
+        @second_information = get_progress_message('rejected')
+        @rejection_reasons = approver_feedback.fetch('reasons', ['No Reason Provided'])
+        @rejection_note = approver_feedback.fetch('note', 'No Notes Provided')
+      end
+
+      @fourth_information = get_progress_message('done') if get_resource.proposal_status == 'done'
+    end
+
     def submit
       authorize get_resource
 
@@ -26,12 +100,15 @@ module Proposal
       remove_status_history('rejected')
 
       if get_resource.submit && get_resource.save
-        Rails.logger.info("Audit Log: User #{current_user.urs_uid} submitted #{resource_name.titleize} (a #{get_resource.request_type} metadata request) with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        # TODO successfully submittted
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
 
         ProposalMailer.proposal_submitted_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id']).deliver_now
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.submit.flash.success")
       else
-        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully submitted #{resource_name.titleize} (a #{get_resource.request_type} metadata request) with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        # TODO: attempted to submit .... but the operation was unsuccessful
+        # unsuccessfully attempted to submit
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.submit.flash.error")
       end
       redirect_to collection_draft_proposal_path(get_resource)
@@ -47,6 +124,7 @@ module Proposal
       if get_resource.request_type == 'delete'
         short_name = get_resource.draft['ShortName']
         if get_resource.rescind && get_resource.destroy
+          # TODO successfully rescinded and destroyed
           Rails.logger.info("Audit Log: #{resource_name.titleize} #{get_resource.entry_title} (a #{get_resource.request_type} metadata request) was rescinded and destroyed by #{current_user.urs_uid}")
           flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.delete.success", short_name: short_name)
           redirect_to manage_collection_proposals_path and return
@@ -56,60 +134,14 @@ module Proposal
         end
       elsif get_resource.rescind && get_resource.save
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.success")
+        # TODO: success logging
       else
+        # TODO: attempted to rescind ... but the operation was unsuccessful
+        # unsuccessfully attempted to rescind
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully rescinded #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.error")
       end
       redirect_to collection_draft_proposal_path(get_resource)
-    end
-
-    def publish
-      authorize get_resource
-
-      flash[:error] = 'Collection Draft Proposal cannot be published.'
-      redirect_to manage_collection_proposals_path
-    end
-
-    def destroy
-      # According to the documentation, only "In Work" proposals should be deletable
-      # "Rejected" and "Submitted" can be rescinded to "In Work" to be deleted.
-      # "Approved" and "Done" can be neither rescinded nor deleted.
-      if get_resource&.in_work?
-        super
-      else
-        flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.destroy.flash.error") + '. Only proposals in an "In Work" status can be deleted.'
-        redirect_to collection_draft_proposal_path(get_resource)
-      end
-    end
-
-    def progress
-      authorize get_resource
-
-      add_breadcrumb fetch_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
-      add_breadcrumb 'Progress', send("progress_#{resource_name}_path", get_resource)
-      @status_history = get_resource.status_history || {}
-      approver_feedback = get_resource.approver_feedback || {}
-
-      if get_resource.in_work?
-        @first_stage = 'In Work'
-
-        # This applies the same validation as is applied on the preview/show page
-        show_view_setup
-        load_umm_schema
-        @errors = validate_metadata
-      else
-        @first_stage = 'Submitted for Review'
-        @first_information = get_progress_message('submitted')
-      end
-
-      if @status_history['approved']
-        @second_information = get_progress_message('approved')
-      elsif @status_history['rejected']
-        @second_information = get_progress_message('rejected')
-        @rejection_reason = "Reason: #{approver_feedback.fetch('rejection_reason', 'No Reason Provided')}"
-      end
-
-      @fourth_information = get_progress_message('done') if get_resource.proposal_status == 'done'
     end
 
     def approve
@@ -133,32 +165,34 @@ module Proposal
       redirect_to collection_draft_proposal_path(get_resource)
     end
 
-    def queued_index
-      resources = resource_class.where('proposal_status != ?', 'in_work')
-                                .order(index_sort_order)
-                                .page(params[:page]).per(RESULTS_PER_PAGE)
-      instance_variable_set("@#{plural_resource_name}", resources)
-      @category_of_displayed_proposal = 'Queued'
-      @specified_url = '/collection_draft_proposals/queued_index'
-      render :index
+    def reject
+      authorize get_resource
+
+      get_resource.approver_feedback = params[:rejection]
+      add_status_history('rejected')
+
+      if get_resource.reject && get_resource.save
+        flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.reject.flash.success")
+        # TODO: success logging
+        # TODO: success mailer
+      else
+        # TODO: attempted to reject ... but the operation was unsuccessful
+        # unsuccessfully attempted to reject
+        # (Approver?)
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully attempted to reject #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.reject.flash.error")
+      end
+      redirect_to collection_draft_proposal_path(get_resource)
     end
 
-    def in_work_index
-      resources = resource_class.where('proposal_status = ?', 'in_work')
-                                .order(index_sort_order)
-                                .page(params[:page]).per(RESULTS_PER_PAGE)
-      instance_variable_set("@#{plural_resource_name}", resources)
-      @category_of_displayed_proposal = 'In Work'
-      @specified_url = '/collection_draft_proposals/in_work_index'
-      render :index
-    end
+    def publish
+      # This action is NOT allowed in the Draft MMT and should not be accessible
+      # to a user. We are only declaring it here to block any action as an extra
+      # layer of defense
+      authorize get_resource
 
-    def index
-      resources = resource_class.order(index_sort_order)
-                                .page(params[:page]).per(RESULTS_PER_PAGE)
-      instance_variable_set("@#{plural_resource_name}", resources)
-      @category_of_displayed_proposal = 'Collection'
-      @specified_url = '/collection_draft_proposals'
+      flash[:error] = 'Collection Draft Proposals cannot be published directly through the Draft MMT. To publish a Collection Draft Proposal, please Submit it for approval.'
+      redirect_to manage_collection_proposals_path
     end
 
     private
@@ -180,6 +214,7 @@ module Proposal
       redirect_to root_url, flash: { error: "It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
     end
 
+    # TODO: these status methods should probably be moved into the model
     def add_status_history(target)
       get_resource.status_history ||= {}
       get_resource.status_history[target] = { 'username' => session[:name], 'action_date' => Time.new }
@@ -210,8 +245,9 @@ module Proposal
 
     # Used as a before action to manipulate which look of the role based
     # two-look pages is used.
-    def approver_status
-      @non_nasa_approver = is_non_nasa_draft_approver?(user: current_user, token: token)
+    def check_approver_status
+      # @non_nasa_approver = is_non_nasa_draft_approver?(user: current_user, token: token)
+      @non_nasa_approver = approver?
     end
 
     # TODO: Investigate if this can be used to provide sorting to all drafts.

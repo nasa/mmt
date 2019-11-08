@@ -21,6 +21,7 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
         end
 
         within '#timeline-review-submission' do
+          expect(page).to have_css('p.timeline-stage-inactive', text: 'Approval')
           expect(page).to have_css('div.timeline-faded-node')
           expect(page).to have_css('div.timeline-faded-line')
         end
@@ -57,10 +58,11 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
           expect(page).to have_content('Submitted: 2019-10-11 01:00')
           expect(page).to have_content('By: TestUser1')
           expect(page).to have_css('div.timeline-node-active')
-          expect(page).to have_css('div.timeline-faded-line-active')
+          expect(page).to have_css('div.timeline-line-active')
         end
 
         within '#timeline-review-submission' do
+          expect(page).to have_css('p.timeline-stage-inactive', text: 'Approval')
           expect(page).to have_css('div.timeline-faded-node')
           expect(page).to have_css('div.timeline-faded-line')
         end
@@ -70,6 +72,9 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
         within '.progress-actions' do
           expect(page).to have_content('You may rescind this proposal to make additional changes.')
           expect(page).to have_link('Cancel Proposal Submission')
+
+          expect(page).to have_no_link('Approve Proposal Submission')
+          expect(page).to have_no_link('Reject Proposal Submission')
         end
       end
     end
@@ -90,7 +95,7 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
         end
 
         within '#timeline-review-submission' do
-          expect(page).to have_content('Approval')
+          expect(page).to have_content('Approved')
           expect(page).to have_content('Approved: 2019-10-11 02:00')
           expect(page).to have_content('By: TestUser2')
           expect(page).to have_css('div.timeline-node')
@@ -98,14 +103,17 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
         end
 
         within '#timeline-waiting-to-publish' do
+          expect(page).to have_css('p.timeline-stage', text: 'Ready to Publish')
           expect(page).to have_css('div.timeline-node-active')
-          expect(page).to have_css('div.timeline-faded-line-active')
+          expect(page).to have_css('div.timeline-line-active')
         end
       end
 
       it 'displays the correct actions' do
         within '.progress-actions' do
           expect(page).to have_content('No actions are possible.')
+
+          expect(page).to have_no_content('Please visit the Metadata Management Tool for NASA users to finish publishing this metadata.')
         end
       end
     end
@@ -121,18 +129,20 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
           within '#timeline-create-submission' do
             expect(page).to have_content('In Work')
             expect(page).to have_css('div.timeline-node-active')
-            expect(page).to have_css('div.timeline-line-active')
+            expect(page).to have_css('div.timeline-faded-line-active')
             expect(page).to have_no_content('Submitted')
             expect(page).to have_no_content('By')
           end
 
           within '#timeline-review-submission' do
-            expect(page).to have_content('Approval')
+            expect(page).to have_content('Rejected')
             expect(page).to have_content('Rejected: 2019-10-11 03:00')
             expect(page).to have_content('By: TestUser3')
-            expect(page).to have_content('Reason: TestReason')
-            expect(page).to have_css('div.timeline-node')
-            expect(page).to have_css('div.timeline-faded-line')
+            expect(page).to have_content('Reason(s): Misspellings/Grammar and Other')
+            expect(page).to have_content('Note: Test Reason for rejecting a proposal')
+            expect(page).to have_link('Click for full details')
+            expect(page).to have_css('div.timeline-faded-node')
+            expect(page).to have_css('div.timeline-faded-line-rejected')
           end
         end
 
@@ -141,6 +151,44 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
             expect(page).to have_content('Make additional changes or submit this proposal for approval.')
             expect(page).to have_link('Submit for Review')
             expect(page).to have_link('Edit Proposal')
+          end
+        end
+
+        context 'when viewing a rescinded rejected proposal that is then submitted' do
+          before do
+            mock_submit(@collection_draft_proposal)
+            visit progress_collection_draft_proposal_path(@collection_draft_proposal)
+          end
+
+          it 'displays the correct progress' do
+            within '#timeline-create-submission' do
+              expect(page).to have_content('Submitted for Review')
+              expect(page).to have_content('Submitted: 2019-10-11 01:00')
+              expect(page).to have_content('By: TestUser1')
+              expect(page).to have_css('div.timeline-node-active')
+              expect(page).to have_css('div.timeline-line-active')
+            end
+
+            within '#timeline-review-submission' do
+              expect(page).to have_css('p.timeline-stage-inactive', text: 'Approval')
+              expect(page).to have_css('div.timeline-faded-node')
+              expect(page).to have_css('div.timeline-faded-line')
+
+              expect(page).to have_no_content('Rejected')
+              expect(page).to have_no_content('Reason(s)')
+              expect(page).to have_no_content('Note')
+              expect(page).to have_no_link('Click for full details')
+            end
+          end
+
+          it 'displays the correct actions' do
+            within '.progress-actions' do
+              expect(page).to have_content('You may rescind this proposal to make additional changes.')
+              expect(page).to have_link('Cancel Proposal Submission')
+
+              expect(page).to have_no_link('Approve Proposal Submission')
+              expect(page).to have_no_link('Reject Proposal Submission')
+            end
           end
         end
       end
@@ -161,12 +209,14 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
           end
 
           within '#timeline-review-submission' do
-            expect(page).to have_content('Approval')
+            expect(page).to have_content('Rejected')
             expect(page).to have_content('Rejected: 2019-10-11 03:00')
             expect(page).to have_content('By: TestUser3')
-            expect(page).to have_content('Reason: TestReason')
-            expect(page).to have_css('div.timeline-node-active')
-            expect(page).to have_css('div.timeline-faded-line-active')
+            expect(page).to have_content('Reason(s): Misspellings/Grammar and Other')
+            expect(page).to have_content('Note: Test Reason for rejecting a proposal')
+            expect(page).to have_link('Click for full details')
+            expect(page).to have_css('div.timeline-node-rejected')
+            expect(page).to have_css('div.timeline-faded-line-rejected')
           end
         end
 
@@ -174,6 +224,21 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
           within '.progress-actions' do
             expect(page).to have_content('You may rescind this proposal to make additional changes.')
             expect(page).to have_link('Cancel Proposal Submission')
+          end
+        end
+
+        context 'when clicking on the link for full details' do
+          before do
+            within '#timeline-review-submission' do
+              click_on 'Click for full details'
+            end
+          end
+
+          it 'displays the modal with the rejection feedback' do
+            within '#rejection-reasons-modal' do
+              expect(page).to have_content('Reason(s): Misspellings/Grammar and Other')
+              expect(page).to have_content('Note: Test Reason for rejecting a proposal')
+            end
           end
         end
       end
@@ -195,7 +260,7 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
         end
 
         within '#timeline-review-submission' do
-          expect(page).to have_content('Approval')
+          expect(page).to have_content('Approved')
           expect(page).to have_content('Approved: 2019-10-11 02:00')
           expect(page).to have_content('By: TestUser2')
           expect(page).to have_css('div.timeline-node')
@@ -203,11 +268,13 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
         end
 
         within '#timeline-waiting-to-publish' do
+          expect(page).to have_css('p.timeline-stage', text: 'Ready to Publish')
           expect(page).to have_css('div.timeline-node')
           expect(page).to have_css('div.timeline-line')
         end
 
         within '#timeline-published' do
+          expect(page).to have_css('p.timeline-stage', text: 'Published')
           expect(page).to have_css('div.timeline-node-active')
           expect(page).to have_content('Published: 2019-10-11 04:00')
           expect(page).to have_content('By: TestUser4')
@@ -244,6 +311,7 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
         end
 
         within '#timeline-review-submission' do
+          expect(page).to have_css('p.timeline-stage-inactive', text: 'Approval')
           expect(page).to have_css('div.timeline-faded-node')
           expect(page).to have_css('div.timeline-faded-line')
         end
@@ -275,10 +343,12 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
           expect(page).to have_content('Submitted: 2019-10-11 01:00')
           expect(page).to have_content('By: TestUser1')
           expect(page).to have_css('div.timeline-node-active')
-          expect(page).to have_css('div.timeline-faded-line-active')
+          # expect(page).to have_css('div.timeline-faded-line-active')
+          expect(page).to have_css('div.timeline-line-active')
         end
 
         within '#timeline-review-submission' do
+          expect(page).to have_css('p.timeline-stage-inactive', text: 'Approval')
           expect(page).to have_css('div.timeline-faded-node')
           expect(page).to have_css('div.timeline-faded-line')
         end
@@ -287,7 +357,10 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
       it 'displays the correct actions' do
         within '.progress-actions' do
           expect(page).to have_link('Approve Proposal Submission')
+          expect(page).to have_link('Reject Proposal Submission')
           expect(page).to have_link('Cancel Proposal Submission')
+
+          expect(page).to have_no_content('You may rescind this proposal to make additional changes.')
         end
       end
     end
@@ -308,7 +381,7 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
         end
 
         within '#timeline-review-submission' do
-          expect(page).to have_content('Approval')
+          expect(page).to have_content('Approved')
           expect(page).to have_content('Approved: 2019-10-11 02:00')
           expect(page).to have_content('By: TestUser2')
           expect(page).to have_css('div.timeline-node')
@@ -316,14 +389,17 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
         end
 
         within '#timeline-waiting-to-publish' do
+          expect(page).to have_css('p.timeline-stage', text: 'Ready to Publish')
           expect(page).to have_css('div.timeline-node-active')
-          expect(page).to have_css('div.timeline-faded-line-active')
+          expect(page).to have_css('div.timeline-line-active')
         end
       end
 
       it 'displays the correct actions' do
         within '.progress-actions' do
           expect(page).to have_content('Please visit the Metadata Management Tool for NASA users to finish publishing this metadata.')
+
+          expect(page).to have_no_content('No actions are possible.')
         end
       end
     end
@@ -339,18 +415,20 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
           within '#timeline-create-submission' do
             expect(page).to have_content('In Work')
             expect(page).to have_css('div.timeline-node-active')
-            expect(page).to have_css('div.timeline-line-active')
+            expect(page).to have_css('div.timeline-faded-line-active')
             expect(page).to have_no_content('Submitted')
             expect(page).to have_no_content('By')
           end
 
           within '#timeline-review-submission' do
-            expect(page).to have_content('Approval')
+            expect(page).to have_content('Rejected')
             expect(page).to have_content('Rejected: 2019-10-11 03:00')
             expect(page).to have_content('By: TestUser3')
-            expect(page).to have_content('Reason: TestReason')
-            expect(page).to have_css('div.timeline-node')
-            expect(page).to have_css('div.timeline-faded-line')
+            expect(page).to have_content('Reason(s): Misspellings/Grammar and Other')
+            expect(page).to have_content('Note: Test Reason for rejecting a proposal')
+            expect(page).to have_link('Click for full details')
+            expect(page).to have_css('div.timeline-faded-node')
+            expect(page).to have_css('div.timeline-faded-line-rejected')
           end
         end
 
@@ -359,6 +437,44 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
             expect(page).to have_content('Make additional changes or submit this proposal for approval.')
             expect(page).to have_link('Submit for Review')
             expect(page).to have_link('Edit Proposal')
+          end
+        end
+
+        context 'when viewing a rescinded rejected proposal that is then submitted' do
+          before do
+            mock_submit(@collection_draft_proposal)
+            visit progress_collection_draft_proposal_path(@collection_draft_proposal)
+          end
+
+          it 'displays the correct progress' do
+            within '#timeline-create-submission' do
+              expect(page).to have_content('Submitted for Review')
+              expect(page).to have_content('Submitted: 2019-10-11 01:00')
+              expect(page).to have_content('By: TestUser1')
+              expect(page).to have_css('div.timeline-node-active')
+              expect(page).to have_css('div.timeline-line-active')
+            end
+
+            within '#timeline-review-submission' do
+              expect(page).to have_css('p.timeline-stage-inactive', text: 'Approval')
+              expect(page).to have_css('div.timeline-faded-node')
+              expect(page).to have_css('div.timeline-faded-line')
+
+              expect(page).to have_no_content('Rejected')
+              expect(page).to have_no_content('Reason(s)')
+              expect(page).to have_no_content('Note')
+              expect(page).to have_no_link('Click for full details')
+            end
+          end
+
+          it 'displays the correct actions' do
+            within '.progress-actions' do
+              expect(page).to have_link('Approve Proposal Submission')
+              expect(page).to have_link('Reject Proposal Submission')
+              expect(page).to have_link('Cancel Proposal Submission')
+
+              expect(page).to have_no_content('You may rescind this proposal to make additional changes.')
+            end
           end
         end
       end
@@ -379,18 +495,37 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
           end
 
           within '#timeline-review-submission' do
-            expect(page).to have_content('Approval')
+            expect(page).to have_content('Rejected')
             expect(page).to have_content('Rejected: 2019-10-11 03:00')
             expect(page).to have_content('By: TestUser3')
-            expect(page).to have_content('Reason: TestReason')
-            expect(page).to have_css('div.timeline-node-active')
-            expect(page).to have_css('div.timeline-faded-line-active')
+            expect(page).to have_content('Reason(s): Misspellings/Grammar and Other')
+            expect(page).to have_content('Note: Test Reason for rejecting a proposal')
+            expect(page).to have_link('Click for full details')
+            expect(page).to have_css('div.timeline-node-rejected')
+            expect(page).to have_css('div.timeline-faded-line-rejected')
           end
         end
 
         it 'displays the correct actions' do
           within '.progress-actions' do
             expect(page).to have_link('Cancel Proposal Submission')
+
+            expect(page).to have_no_content('You may rescind this proposal to make additional changes.')
+          end
+        end
+
+        context 'when clicking on the link for full details' do
+          before do
+            within '#timeline-review-submission' do
+              click_on 'Click for full details'
+            end
+          end
+
+          it 'displays the modal with the rejection feedback' do
+            within '#rejection-reasons-modal' do
+              expect(page).to have_content('Reason(s): Misspellings/Grammar and Other')
+              expect(page).to have_content('Note: Test Reason for rejecting a proposal')
+            end
           end
         end
       end
@@ -412,7 +547,7 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
         end
 
         within '#timeline-review-submission' do
-          expect(page).to have_content('Approval')
+          expect(page).to have_content('Approved')
           expect(page).to have_content('Approved: 2019-10-11 02:00')
           expect(page).to have_content('By: TestUser2')
           expect(page).to have_css('div.timeline-node')
@@ -420,11 +555,13 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
         end
 
         within '#timeline-waiting-to-publish' do
+          expect(page).to have_css('p.timeline-stage', text: 'Ready to Publish')
           expect(page).to have_css('div.timeline-node')
           expect(page).to have_css('div.timeline-line')
         end
 
         within '#timeline-published' do
+          expect(page).to have_css('p.timeline-stage', text: 'Published')
           expect(page).to have_css('div.timeline-node-active')
           expect(page).to have_content('Published: 2019-10-11 04:00')
           expect(page).to have_content('By: TestUser4')
@@ -433,13 +570,15 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
 
       it 'displays the correct actions' do
         within '.progress-actions' do
-          'No actions are possible.'
+          expect(page).to have_content('No actions are possible.')
         end
       end
     end
   end
 
   context 'when viewing a complete draft' do
+    # This works through enough of the workflow to verify that the helpers in
+    # the controller are storing the time in a way that is retrievable
     before do
       login
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
@@ -447,9 +586,6 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
       visit progress_collection_draft_proposal_path(@collection_draft_proposal)
     end
 
-    # This works through enough of the workflow to verify that the helpers in
-    # the controller are storing the time in a way that is retrievable (which
-    # caused the original ticket to bounce back).
     it 'can submit a proposal' do
       click_on 'Submit for Review'
       click_on 'Yes'

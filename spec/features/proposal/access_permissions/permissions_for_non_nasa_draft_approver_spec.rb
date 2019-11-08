@@ -1,7 +1,8 @@
-describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: true do
+describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: true, js: true do
   before do
     set_as_proposal_mode_mmt(with_draft_approver_acl: true)
   end
+  # TODO: any more tests needed here?
 
   context 'when the user has permissions for Non-NASA Draft Approver' do
     before :all do
@@ -35,6 +36,7 @@ describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: tr
 
       context 'when creating a new collection draft proposals page' do
         before do
+          save_screenshot
           click_on 'Create a Collection Draft Proposal'
         end
 
@@ -48,7 +50,7 @@ describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: tr
 
     context 'when there are collection draft proposals' do
       before do
-        @collection_draft_proposal = create(:full_collection_draft_proposal, draft_short_name: 'Example Proposal Short Name', draft_entry_title: 'Example Proposal Title')
+        @collection_draft_proposal = create(:full_collection_draft_proposal, proposal_short_name: 'Example Proposal Short Name', proposal_entry_title: 'Example Proposal Title')
       end
 
       context 'when visiting the show page for a collection draft proposal' do
