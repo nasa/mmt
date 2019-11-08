@@ -8,6 +8,7 @@ earthdata:
     launchpad_root: "https://apps.launchpad.nasa.gov"
     launchpad_sbx_root: "https://apps.launchpad-sbx.nasa.gov"
     # uvg_root: "https://uvg.earthdata.nasa.gov"
+    # dmmt_root: "https://draftmmt.earthdata.nasa.gov"
   uat:
     urs_root: "https://uat.urs.earthdata.nasa.gov"
     echo_root: "https://cmr.uat.earthdata.nasa.gov/legacy-services"
@@ -16,6 +17,7 @@ earthdata:
     launchpad_root: "https://apps.launchpad.nasa.gov"
     launchpad_sbx_root: "https://apps.launchpad-sbx.nasa.gov"
     # uvg_root: "https://uvg.uat.earthdata.nasa.gov"
+    # dmmt_root: "https://draftmmt.uat.earthdata.nasa.gov"
   sit:
     urs_root: "https://sit.urs.earthdata.nasa.gov"
     echo_root: "https://cmr.sit.earthdata.nasa.gov/legacy-services"
@@ -24,6 +26,7 @@ earthdata:
     launchpad_root: "https://apps.launchpad.nasa.gov"
     launchpad_sbx_root: "https://apps.launchpad-sbx.nasa.gov"
     uvg_root: "https://uvg.sit.earthdata.nasa.gov"
+    dmmt_root: "https://draftmmt.sit.earthdata.nasa.gov"
 
 # Every (MMT, URS) environment pair has a different client id.
 urs:

@@ -52,6 +52,36 @@ module Cmr
       response
     end
 
+    # On pause, we think we need to talk to EDL about SSO, maybe
+    def retrieve_urs_profile_from_shared_token(token)
+
+    end
+
+#
+#From Leo
+#private String validateUrsAccessToken(String token) {
+#            if (token == null) {
+#                return null;
+#            }
+#
+#            String accessToken = token.split(URS_SSO_TOKEN_SEPARATOR)[0];
+#            String clientId = token.split(URS_SSO_TOKEN_SEPARATOR)[1];
+#            String echoClientId = mEchoProperties.getProperty(EchoProperties2.URS_SSO_ECHO_CLIENT_ID);
+#
+#            String uri = mEchoProperties.getProperty(EchoProperties2.URS4_SSO_ROOT_URL)
+#                    + mEchoProperties.getProperty(EchoProperties2.URS_SSO_VALIDATE_ACCESS_TOKEN_ENDPOINT);
+#            String request = URS_SSO_ACCESS_TOKEN_PARAM_NAME + URS_SSO_EQUAL + accessToken
+#                    + URS_SSO_PARAM_CONNECTOR + URS_SSO_CLIENT_ID_PARAM_NAME + URS_SSO_EQUAL + echoClientId
+#                    + URS_SSO_PARAM_CONNECTOR + URS_SSO_ON_BEHALF_OF_PARAM_NAME + URS_SSO_EQUAL + clientId;
+#
+#            return (new UrsSsoResources()).postRequestToUrs(uri, request);
+#      }
+#    https://urs.earthdata.nasa.gov/oauth/tokens/user <--- Leo says it authorizes
+    # On pause, we think we need to talk to EDL about SSO, maybe
+    def validate_token(token)
+
+    end
+
     protected
 
     def get_client_token
