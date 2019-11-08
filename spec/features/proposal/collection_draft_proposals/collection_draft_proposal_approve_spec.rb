@@ -53,7 +53,7 @@ describe 'Collection Draft Proposal Approve', js: true do
     context 'when the approving fails' do
       before do
         # After loading the page, manipulate the state of the proposal so that
-        # submit will fail in order to execute the else code in the controller.
+        # approve will fail in order to execute the else code in the controller.
         mock_publish(@collection_draft_proposal)
         click_on 'Approve Proposal Submission'
         click_on 'Yes'

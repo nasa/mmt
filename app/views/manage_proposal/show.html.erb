@@ -1,9 +1,9 @@
 <div class="row row-content manage-proposals-mmt">
   <section>
-    <h2><%= "#{@category_of_displayed_proposal} Proposals" %></h2>
+    <h2><%= "Approved Proposals" %></h2>
 
     <% if @proposals.any? %>
-      <p><%= page_entries_info @proposals, entry_name: "#{@category_of_displayed_proposal} Proposals" %></p>
+      <p><%= page_entries_info @proposals, entry_name: "Approved Proposals" %></p>
     <% end %>
 
     <table class="open-draft-proposals">
@@ -22,7 +22,7 @@
       <% if @proposals.blank? %>
         <tr>
           <td colspan="6">
-            <%= "No #{@category_of_displayed_proposal} Proposals found" %>
+            <%= "No Approved Proposals found" %>
           </td>
         </tr>
       <% else %>

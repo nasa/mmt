@@ -3,7 +3,10 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
     before do
       login
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      4.times { create(:full_collection_draft_proposal) }
+      create(:full_collection_draft_proposal, draft_short_name: 'M Example Proposal', version: '5', draft_entry_title: 'M Example Title')
+      create(:full_collection_draft_proposal, draft_short_name: 'N Example Proposal', version: '5', draft_entry_title: 'N Example Title')
+      create(:full_collection_draft_proposal, draft_short_name: 'O Example Proposal', version: '5', draft_entry_title: 'O Example Title')
+      create(:full_collection_draft_proposal, draft_short_name: 'P Example Proposal', version: '5', draft_entry_title: 'P Example Title')
       create(:full_collection_draft_proposal, draft_short_name: 'An Example Proposal', version: '5', draft_entry_title: 'An Example Title')
       mock_submit(create(:full_collection_draft_proposal, draft_short_name: 'A Second Example Proposal', version: '', draft_entry_title: 'Second Example Title', draft_request_type: 'delete'))
     end
@@ -49,7 +52,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
           end
 
           it 'sorts in descending order' do
-            within '.open-draft-proposals tbody tr:nth-child(1)' do
+            within '.open-draft-proposals tbody tr:nth-child(5)' do
               expect(page).to have_content('An Example Proposal')
             end
           end

@@ -5,7 +5,6 @@ class ManageProposalController < ManageMetadataController
   RESULTS_PER_PAGE = 25
 
   def show
-    @category_of_displayed_proposal = 'Approved'
     @specified_url = 'manage_proposals'
 
     sort_key, sort_dir = index_sort_order
