@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# :nodoc:
 class CollectionDraftProposalPolicy < ApplicationPolicy
   def publish?
     false

@@ -51,7 +51,6 @@ module Proposal
       # "Approved" and "Done" can be neither rescinded nor deleted.
       if get_resource&.in_work?
         super
-        # TODO check audit log
       else
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.destroy.flash.error") + '. Only proposals in an "In Work" status can be deleted.'
         redirect_to collection_draft_proposal_path(get_resource)
@@ -100,17 +99,16 @@ module Proposal
       remove_status_history('rejected')
 
       if get_resource.submit && get_resource.save
-        # TODO successfully submittted
-        Rails.logger.info("Audit Log: User #{current_user.urs_uid} submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
 
         ProposalMailer.proposal_submitted_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id']).deliver_now
+
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.submit.flash.success")
       else
-        # TODO: attempted to submit .... but the operation was unsuccessful
-        # unsuccessfully attempted to submit
-        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully attempted to submit #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.submit.flash.error")
       end
+
       redirect_to collection_draft_proposal_path(get_resource)
     end
 
@@ -124,23 +122,22 @@ module Proposal
       if get_resource.request_type == 'delete'
         short_name = get_resource.draft['ShortName']
         if get_resource.rescind && get_resource.destroy
-          # TODO successfully rescinded and destroyed
-          Rails.logger.info("Audit Log: #{resource_name.titleize} #{get_resource.entry_title} (a #{get_resource.request_type} metadata request) was rescinded and destroyed by #{current_user.urs_uid}")
+          Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully rescinded and destroyed #{resource_name.titleize} #{get_resource.entry_title} (a #{get_resource.request_type} metadata request).")
           flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.delete.success", short_name: short_name)
+
           redirect_to manage_collection_proposals_path and return
         else
-          Rails.logger.info("Audit Log: Attempt to rescind and destroy #{resource_name.titleize} #{get_resource.entry_title} (a #{get_resource.request_type} metadata request) by #{current_user.urs_uid} failed.")
+          Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully attempted to rescind and destroy #{resource_name.titleize} #{get_resource.entry_title} (a #{get_resource.request_type} metadata request).")
           flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.delete.error", short_name: short_name)
         end
       elsif get_resource.rescind && get_resource.save
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.success")
-        # TODO: success logging
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully rescinded #{resource_name.titleize} #{get_resource.entry_title} (a #{get_resource.request_type} metadata request).")
       else
-        # TODO: attempted to rescind ... but the operation was unsuccessful
-        # unsuccessfully attempted to rescind
-        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully rescinded #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully attempted to rescind #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.rescind.flash.error")
       end
+
       redirect_to collection_draft_proposal_path(get_resource)
     end
 
@@ -150,18 +147,20 @@ module Proposal
       add_status_history('approved')
 
       if get_resource.approve && get_resource.save
-        Rails.logger.info("Audit Log: User #{current_user.urs_uid} approved #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully approved #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
 
         user_from_resource_response = user_from_resource
         # User e-mail
         ProposalMailer.proposal_approved_notification(user_from_resource_response, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id']).deliver_now if user_from_resource_response
         # Approver e-mail
         ProposalMailer.proposal_approved_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id']).deliver_now
+
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.approve.flash.success")
       else
-        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully attempted to approve #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.approve.flash.error")
       end
+
       redirect_to collection_draft_proposal_path(get_resource)
     end
 
@@ -172,16 +171,14 @@ module Proposal
       add_status_history('rejected')
 
       if get_resource.reject && get_resource.save
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully rejected #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.reject.flash.success")
-        # TODO: success logging
         # TODO: success mailer
       else
-        # TODO: attempted to reject ... but the operation was unsuccessful
-        # unsuccessfully attempted to reject
-        # (Approver?)
-        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully attempted to reject #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}")
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully attempted to reject #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.reject.flash.error")
       end
+
       redirect_to collection_draft_proposal_path(get_resource)
     end
 
@@ -246,7 +243,6 @@ module Proposal
     # Used as a before action to manipulate which look of the role based
     # two-look pages is used.
     def check_approver_status
-      # @non_nasa_approver = is_non_nasa_draft_approver?(user: current_user, token: token)
       @non_nasa_approver = approver?
     end
 

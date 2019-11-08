@@ -2,7 +2,6 @@ describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: tr
   before do
     set_as_proposal_mode_mmt(with_draft_approver_acl: true)
   end
-  # TODO: any more tests needed here?
 
   context 'when the user has permissions for Non-NASA Draft Approver' do
     before :all do
