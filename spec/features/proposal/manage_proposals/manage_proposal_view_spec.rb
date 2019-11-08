@@ -68,7 +68,7 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
 
       it 'sorts in ascending order' do
         within '.open-draft-proposals tbody tr:nth-child(1)' do
-          expect(page).to have_content('Short Name: 9')
+          expect(page).to have_content('Short Name: 0')
         end
       end
 
@@ -79,7 +79,7 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
 
         it 'sorts in descending order' do
           within '.open-draft-proposals tbody tr:nth-child(1)' do
-            expect(page).to have_content('Short Name: 0')
+            expect(page).to have_content('Short Name: 9')
           end
         end
       end
