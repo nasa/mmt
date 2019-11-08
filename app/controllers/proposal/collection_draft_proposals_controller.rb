@@ -223,9 +223,9 @@ module Proposal
       @query['sort_key'] = params['sort_key'] unless params['sort_key'].blank?
 
       if @query['sort_key']&.starts_with?('-')
-        "#{@query['sort_key'].delete_prefix('-')} ASC"
+        "#{@query['sort_key'].delete_prefix('-')} DESC"
       elsif @query['sort_key'].present?
-        "#{@query['sort_key']} DESC"
+        "#{@query['sort_key']} ASC"
       else
         'updated_at DESC'
       end
