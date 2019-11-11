@@ -7,8 +7,8 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
       create(:full_collection_draft_proposal, draft_short_name: 'N Example Proposal', version: '5', draft_entry_title: 'N Example Title')
       create(:full_collection_draft_proposal, draft_short_name: 'O Example Proposal', version: '5', draft_entry_title: 'O Example Title')
       create(:full_collection_draft_proposal, draft_short_name: 'P Example Proposal', version: '5', draft_entry_title: 'P Example Title')
-      create(:full_collection_draft_proposal, draft_short_name: 'An Example Proposal', version: '5', draft_entry_title: 'An Example Title')
-      mock_submit(create(:full_collection_draft_proposal, draft_short_name: 'A Second Example Proposal', version: '', draft_entry_title: 'Second Example Title', draft_request_type: 'delete'))
+      create(:full_collection_draft_proposal, draft_short_name: 'A Example Proposal', version: '5', draft_entry_title: 'A Example Title')
+      mock_submit(create(:full_collection_draft_proposal, draft_short_name: 'Z Example Proposal', version: '', draft_entry_title: 'Z Example Title', draft_request_type: 'delete'))
     end
 
     context 'while on the index page' do
@@ -17,12 +17,12 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
       end
 
       it 'displays short names correctly' do
-        expect(page).to have_content('An Example Proposal')
-        expect(page).to have_content('A Second Example Proposal')
+        expect(page).to have_content('A Example Proposal')
+        expect(page).to have_content('Z Example Proposal')
       end
 
       it 'displays entry titles' do
-        expect(page).to have_content('An Example Title')
+        expect(page).to have_content('A Example Title')
       end
 
       it 'displays proposal status' do
@@ -42,7 +42,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
         it 'sorts in ascending order' do
           within '.open-draft-proposals tbody tr:nth-child(1)' do
-            expect(page).to have_content('Second Example Title')
+            expect(page).to have_content('A Example Title')
           end
         end
 
@@ -52,8 +52,8 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
           end
 
           it 'sorts in descending order' do
-            within '.open-draft-proposals tbody tr:nth-child(5)' do
-              expect(page).to have_content('An Example Proposal')
+            within '.open-draft-proposals tbody tr:nth-child(6)' do
+              expect(page).to have_content('A Example Proposal')
             end
           end
         end
@@ -66,7 +66,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
         it 'sorts in ascending order' do
           within '.open-draft-proposals tbody tr:nth-child(6)' do
-            expect(page).to have_content('Second Example Title')
+            expect(page).to have_content('Z Example Title')
           end
         end
 
@@ -77,7 +77,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
           it 'sorts in descending order' do
             within '.open-draft-proposals tbody tr:nth-child(1)' do
-              expect(page).to have_content('Second Example Title')
+              expect(page).to have_content('Z Example Title')
             end
           end
         end
@@ -90,7 +90,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
         it 'sorts in ascending order' do
           within '.open-draft-proposals tbody tr:nth-child(6)' do
-            expect(page).to have_content('Second Example Title')
+            expect(page).to have_content('Z Example Title')
           end
         end
 
@@ -101,7 +101,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
           it 'sorts in descending order' do
             within '.open-draft-proposals tbody tr:nth-child(1)' do
-              expect(page).to have_content('Second Example Title')
+              expect(page).to have_content('Z Example Title')
             end
           end
         end
@@ -114,7 +114,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
         it 'sorts in ascending order' do
           within '.open-draft-proposals tbody tr:nth-child(6)' do
-            expect(page).to have_content('Second Example Title')
+            expect(page).to have_content('Z Example Title')
           end
         end
 
@@ -125,7 +125,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
           it 'sorts in descending order' do
             within '.open-draft-proposals tbody tr:nth-child(1)' do
-              expect(page).to have_content('Second Example Title')
+              expect(page).to have_content('Z Example Title')
             end
           end
         end
@@ -138,7 +138,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
         it 'sorts in ascending order' do
           within '.open-draft-proposals tbody tr:nth-child(6)' do
-            expect(page).to have_content('Second Example Title')
+            expect(page).to have_content('Z Example Title')
           end
         end
 
@@ -149,7 +149,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
           it 'sorts in descending order' do
             within '.open-draft-proposals tbody tr:nth-child(1)' do
-              expect(page).to have_content('Second Example Title')
+              expect(page).to have_content('Z Example Title')
             end
           end
         end
