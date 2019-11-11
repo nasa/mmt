@@ -41,7 +41,7 @@
               <%= draft['request_type'].titleize %>
             </td>
             <td>
-              <%= draft['updated_at'].to_s(:date) %>
+              <%= DateTime.parse(draft['updated_at']).to_s(:date) %>
             </td>
             <td>
               <%= link_to draft['request_type'] == 'delete' ? 'Delete' : 'Publish' , "#approver-proposal-modal", class: 'eui-btn--link display-modal approver-proposal-modal-link', data: { 'proposal': draft.to_json } %>

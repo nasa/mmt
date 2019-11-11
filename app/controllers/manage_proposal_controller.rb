@@ -13,10 +13,14 @@ class ManageProposalController < ManageMetadataController
     # TODO: When we have the end points set up, this will probably be receiving
     # a JSON blob that gets converted to an array of records. If this is true,
     # dummy_data should be replacable with that array.
+
+    response = cmr_client.dmmt_get_approved_proposals({'param1' => 'stuff'}, token)
+    puts ">>>>>>>>>>>>>>>>> #{response.body.count}"
+
     proposals = if sort_dir == 'ASC'
-                  dummy_data.sort { |a, b| a[sort_key] <=> b[sort_key] }
+                  response.body.sort { |a, b| a[sort_key] <=> b[sort_key] }
                 else
-                  dummy_data.sort { |a, b| b[sort_key] <=> a[sort_key] }
+                  response.body.sort { |a, b| b[sort_key] <=> a[sort_key] }
                 end
 
     @proposals = Kaminari.paginate_array(proposals, total_count: proposals.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE)
