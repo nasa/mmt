@@ -3,7 +3,7 @@
 describe 'Creating a new draft from an existing template', js: true do
   before do
     login
-    @template = create(:full_collection_template, template_name: 'An Example Template', short_name: 'A Tale of Two Cities')
+    @template = create(:full_collection_template, collection_template_name: 'An Example Template', short_name: 'A Tale of Two Cities')
   end
 
   context 'when creating a draft from the manage collection page' do

@@ -19,24 +19,26 @@ FactoryGirl.define do
     request_type { proposal_request_type }
 
     trait :with_valid_dates do
-      draft {{
-        'MetadataDates' => [{
-          'Type' => 'CREATE',
-          'Date' => '2010-12-25T00:00:00Z'
-        }, {
-          'Type' => 'UPDATE',
-          'Date' => '2010-12-30T00:00:00Z'
-        }]
-      }}
+      draft do
+        {
+          'MetadataDates' => [{
+            'Type' => 'CREATE',
+            'Date' => '2010-12-25T00:00:00Z'
+          }, {
+            'Type' => 'UPDATE',
+            'Date' => '2010-12-30T00:00:00Z'
+          }]
+        }
+      end
     end
 
-    draft {
+    draft do
       collection_one.merge(
-        'ShortName' => proposal_short_name || "#{Faker::Movies::LordOfTheRings.character}_#{Faker::Number.number(10)}",
-        'Version' => version,
-        'EntryTitle' => proposal_entry_title || "#{Faker::Movies::LordOfTheRings.location}_#{Faker::Number.number(15)}",
-        'CollectionDataType' => collection_data_type
+        'CollectionDataType' => collection_data_type,
+        'Version'            => version,
+        'EntryTitle'         => proposal_entry_title || "#{Faker::Movies::LordOfTheRings.location}_#{Faker::Number.number(15)}",
+        'ShortName'          => proposal_short_name || "#{Faker::Movies::LordOfTheRings.character}_#{Faker::Number.number(10)}"
       )
-    }
+    end
   end
 end
