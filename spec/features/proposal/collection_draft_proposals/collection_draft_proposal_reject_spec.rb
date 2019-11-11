@@ -28,9 +28,6 @@ describe 'Collection Draft Proposal Reject', js: true do
       it 'displays the modal to provide rejection feedback' do
         within '#reject-submission-modal' do
           expect(page).to have_content('Please provide the reasons for rejecting this proposal submission.')
-          # field for reasons
-          # field for note
-          # expect(page).to have_select('Reason(s) for Rejection', with_options: ['Missing Keywords', 'Insufficient Content', 'Misspellings/Grammar', 'Invalid/Incorrect Content', 'Broken Links', 'Duplicate Metadata', 'Other'])
           expect(page).to have_select('proposal-rejection-reasons', with_options: ['Missing Keywords', 'Insufficient Content', 'Misspellings/Grammar', 'Invalid/Incorrect Content', 'Broken Links', 'Duplicate Metadata', 'Other'])
           expect(page).to have_field('Note')
         end
@@ -102,10 +99,10 @@ describe 'Collection Draft Proposal Reject', js: true do
       end
     end
 
-    context 'when the approving fails' do
+    context 'when rejecting fails' do
       before do
         # After loading the page, manipulate the state of the proposal so that
-        # submit will fail in order to execute the else code in the controller.
+        # reject will fail in order to execute the else code in the controller.
         mock_publish(@collection_draft_proposal)
         click_on 'Reject Proposal Submission'
 

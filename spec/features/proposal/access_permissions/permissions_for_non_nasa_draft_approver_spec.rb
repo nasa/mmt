@@ -35,7 +35,6 @@ describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: tr
 
       context 'when creating a new collection draft proposals page' do
         before do
-          save_screenshot
           click_on 'Create a Collection Draft Proposal'
         end
 
