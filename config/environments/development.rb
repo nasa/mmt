@@ -75,4 +75,7 @@ Rails.application.configure do
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
 
   config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
+
+  config.cache_classes = true
+  config.eager_load = true
 end

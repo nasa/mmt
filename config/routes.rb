@@ -121,6 +121,7 @@ Rails.application.routes.draw do
   get 'subregion_options' => 'collection_drafts#subregion_options'
 
   scope module: :proposal do
+    get '/approved_proposals' => 'approved_proposals#approved_proposals', as: 'approved_proposals_approved_proposals'
     get '/collection_draft_proposals/queued_index' => 'collection_draft_proposals#queued_index', as: 'queued_index_collection_draft_proposals'
     get '/collection_draft_proposals/in_work_index' => 'collection_draft_proposals#in_work_index', as: 'in_work_index_collection_draft_proposals'
     resource :manage_collection_proposals, only: :show

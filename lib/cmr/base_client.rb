@@ -7,6 +7,8 @@ module Cmr
     # include Cmr::QueryTransformations
     include Cmr::Util
 
+    # who cares about this client ID?  As a consequence, do we need to change it
+    # to include dmmt?
     CLIENT_ID = 'MMT'.freeze
     NGINX_TIMEOUT = 300
 
@@ -67,6 +69,8 @@ module Cmr
           req.headers[header] = value
         end
         req.body = body unless body.blank?
+        Rails.logger.info("Logging request for debug: #{req.inspect}")
+        req
       end
 
       client_response = Cmr::Response.new(faraday_response)
