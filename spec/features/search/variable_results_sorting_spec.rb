@@ -8,8 +8,8 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
       publish_variable_draft(name: '000_Adder Var Name')
       publish_variable_draft(name: 'Zebra Var Name')
 
-      publish_variable_draft(name: "Larc Sorting Test Var #{Faker::Number.number(6)}", provider_id: 'LARC')
-      publish_variable_draft(name: "Sedac Sorting Test Var #{Faker::Number.number(6)}", provider_id: 'SEDAC')
+      publish_variable_draft(name: "Larc Sorting Test Var #{Faker::Number.number(digits: 6)}", provider_id: 'LARC')
+      publish_variable_draft(name: "Sedac Sorting Test Var #{Faker::Number.number(digits: 6)}", provider_id: 'SEDAC')
 
       publish_variable_draft(long_name: '000_Agouti Var Long Name')
       publish_variable_draft(long_name: 'Zebra Var Long Name')

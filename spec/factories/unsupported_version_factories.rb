@@ -6,8 +6,8 @@ FactoryGirl.define do
     draft_type 'VariableDraft'
 
     draft {{
-      "Name": "sea_ice_fraction_#{Faker::Space.galaxy}_#{Faker::Number.number(6)}",
-      "LongName": "sea ice area fraction #{Faker::Space.nebula} #{Faker::Space.star_cluster} #{Faker::Number.number(6)}",
+      "Name": "sea_ice_fraction_#{Faker::Space.galaxy}_#{Faker::Number.number(digits: 6)}",
+      "LongName": "sea ice area fraction #{Faker::Space.nebula} #{Faker::Space.star_cluster} #{Faker::Number.number(digits: 6)}",
       "Definition": " sea_ice_fraction data shall be recorded in the variable sea_ice_fraction_dtime_from_sst. Units Percent byte ",
       "Units": "fraction (between 0 and 1)",
       "DataType": "int16",
@@ -140,7 +140,7 @@ FactoryGirl.define do
       "Description": "EDF_DEV08 EOSDIS Service Implementation",
       "Version": "1",
       "UseConstraints": "NONE",
-      "Name": "EDF_DEV08_#{Faker::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(30)}",
+      "Name": "EDF_DEV08_#{Faker::Books::Dune.title}_#{Faker::Number.number(digits: 30)}",
       "ServiceOptions": {
         "SubsetTypes": [
           "Spatial",
@@ -195,7 +195,7 @@ FactoryGirl.define do
           ]
         }
       ],
-      "LongName": "EDF_DEV08 EOSDIS Service Implementation #{Faker::HitchhikersGuideToTheGalaxy.quote.truncate(60, omission: '')}_#{Faker::Number.number(10)}"
+      "LongName": "EDF_DEV08 EOSDIS Service Implementation #{Faker::Books::Dune.saying.truncate(60, omission: '')}_#{Faker::Number.number(digits: 10)}"
     }}
   end
 end
