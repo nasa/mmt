@@ -52,11 +52,6 @@ module Cmr
       response
     end
 
-    # On pause, we think we need to talk to EDL about SSO, maybe
-    def retrieve_urs_profile_from_shared_token(token)
-
-    end
-
 #
 #From Leo
 #private String validateUrsAccessToken(String token) {
@@ -77,9 +72,18 @@ module Cmr
 #            return (new UrsSsoResources()).postRequestToUrs(uri, request);
 #      }
 #    https://urs.earthdata.nasa.gov/oauth/tokens/user <--- Leo says it authorizes
-    # On pause, we think we need to talk to EDL about SSO, maybe
-    def validate_token(token)
 
+    # Catalino confirmed that we should be using the same endpoint as CMR
+    # but added "It looks like this is  is gonna change under a new fix we have
+    # coming out so standby"
+
+    # Function to allow dMMT to authenticate a token from MMT.
+    def validate_token(token)
+      services = Rails.configuration.services
+      config = services['earthdata'][Rails.configuration.cmr_env]
+      mmt_client_id = services['urs']['mmt_proper'][Rails.env.to_s][config['urs_root']]
+      dmmt_client_id = services['urs']['mmt_proposal_mode'][Rails.env.to_s][config['urs_root']]
+      post("/oauth/tokens/user?client_id=#{dmmt_client_id}&token=#{token}&on_behalf_of=#{mmt_client_id}", {})
     end
 
     protected

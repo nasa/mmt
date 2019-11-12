@@ -7,35 +7,29 @@ class ManageProposalController < ManageMetadataController
   def show
     @specified_url = 'manage_proposals'
 
-    # make request to get approved proposals
-
     sort_key, sort_dir = index_sort_order
-    # TODO: When we have the end points set up, this will probably be receiving
-    # a JSON blob that gets converted to an array of records. If this is true,
-    # dummy_data should be replacable with that array.
+    dmmt_response = cmr_client.dmmt_get_approved_proposals({}, token)
 
-    response = cmr_client.dmmt_get_approved_proposals({'param1' => 'stuff'}, token)
-    puts ">>>>>>>>>>>>>>>>> #{response.body.count}"
-
-    proposals = if sort_dir == 'ASC'
-                  response.body.sort { |a, b| a[sort_key] <=> b[sort_key] }
-                else
-                  response.body.sort { |a, b| b[sort_key] <=> a[sort_key] }
-                end
-
+    if dmmt_response.success?
+      proposals = if sort_dir == 'ASC'
+                    dmmt_response.body['proposals'].sort { |a, b| a[sort_key] <=> b[sort_key] }
+                  else
+                    dmmt_response.body['proposals'].sort { |a, b| b[sort_key] <=> a[sort_key] }
+                  end
+    else
+      if dmmt_response.status == 401
+        flash[:error] = "Your token could not be authorized.  Please try refreshing the page before contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid}."
+        Rails.logger.error("#{request.uuid}: A user who was logged in with Non-NASA draft approver privileges was not authenticated or authorized correctly.  Refer to dMMT logs for further information: #{dmmt_response.body['request_id']}")
+      else
+        flash[:error] = "An internal error has occurred.  Please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid} for further assitance."
+        Rails.logger.error("#{request.uuid}: MMT or dMMT is not configured correctly.")
+      end
+      proposals = []
+    end
     @proposals = Kaminari.paginate_array(proposals, total_count: proposals.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE)
   end
 
   private
-
-  # TODO: This should be removed by the end of MMT-1974
-  def dummy_data
-    data = []
-    51.times do |i|
-      data << { 'short_name' => "Short Name: #{i}", 'entry_title' => "Entry Title: #{i}", 'proposal_status' => 'approved', 'request_type' => i.even? ? 'create' : 'delete', 'updated_at' => Time.now }
-    end
-    data
-  end
 
   def index_sort_order
     @query = {}

@@ -12,7 +12,7 @@ module Cmr
         'Content-Type' => 'application/json'
       }
 
-      get(url, params, headers.merge(token_header(token)))
+      get(url, params, headers.merge(token_header(token, true)))
     end
   end
 end
