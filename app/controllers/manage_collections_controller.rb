@@ -11,7 +11,7 @@ class ManageCollectionsController < ManageMetadataController
     @templates = {}
     templates = policy_scope(CollectionTemplate).order('updated_at DESC')
     templates.each do |template|
-      @templates[template.display_entry_title] = template['id']
+      @templates[template.display_template_name] = template['id']
     end
 
     @bulk_updates = retrieve_bulk_updates.take(@draft_display_max_count + 1)
