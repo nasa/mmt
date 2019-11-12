@@ -76,6 +76,11 @@ Rails.application.configure do
 
   config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
 
-  config.cache_classes = true
-  config.eager_load = true
+  # These settings are necessary for dMMT and MMT to talk in dev, but are
+  # inconvienent because cache_classes means you have to reboot rails to see
+  # code changes.
+  if ENV['webrick_monkey_patch_enabled'] == 'true'
+    config.cache_classes = true
+    config.eager_load = true
+  end
 end
