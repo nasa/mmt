@@ -22,8 +22,8 @@ describe 'Proposals listed on the Manage Collection Proposals page', js: true do
     context 'when there are proposals' do
       before do
         4.times { create(:full_collection_draft_proposal) }
-        create(:full_collection_draft_proposal, draft_short_name: 'An Example Proposal', version: '5', draft_entry_title: 'An Example Title')
-        create(:full_collection_draft_proposal, draft_short_name: 'An Second Example Proposal', version: '')
+        create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Title')
+        create(:full_collection_draft_proposal, proposal_short_name: 'An Second Example Proposal', version: '')
 
         visit manage_collection_proposals_path
       end
@@ -88,8 +88,8 @@ describe 'Proposals listed on the Manage Collection Proposals page', js: true do
     context 'when there are proposals in work' do
       before do
         4.times { create(:full_collection_draft_proposal) }
-        create(:full_collection_draft_proposal, draft_short_name: 'An Example Proposal', version: '5', draft_entry_title: 'An Example Title')
-        create(:full_collection_draft_proposal, draft_short_name: 'An Second Example Proposal', version: '')
+        create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Title')
+        create(:full_collection_draft_proposal, proposal_short_name: 'An Second Example Proposal', version: '')
 
         visit manage_collection_proposals_path
       end
@@ -115,10 +115,10 @@ describe 'Proposals listed on the Manage Collection Proposals page', js: true do
     context 'when there are proposals in queue' do
       before do
         2.times { mock_submit(create(:full_collection_draft_proposal)) }
-        mock_submit(create(:full_collection_draft_proposal, draft_short_name: 'An Example Proposal', version: '5', draft_entry_title: 'An Example Title'))
-        mock_reject(create(:full_collection_draft_proposal, draft_short_name: 'An Second Example Proposal', version: ''))
-        mock_approve(create(:full_collection_draft_proposal, draft_short_name: 'A Third Example Proposal', version: ''))
-        mock_publish(create(:full_collection_draft_proposal, draft_short_name: 'A Fourth Example Proposal', version: '', draft_request_type: 'delete'))
+        mock_submit(create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Title'))
+        mock_reject(create(:full_collection_draft_proposal, proposal_short_name: 'An Second Example Proposal', version: ''))
+        mock_approve(create(:full_collection_draft_proposal, proposal_short_name: 'A Third Example Proposal', version: ''))
+        mock_publish(create(:full_collection_draft_proposal, proposal_short_name: 'A Fourth Example Proposal', version: '', proposal_request_type: 'delete'))
 
         visit manage_collection_proposals_path
       end

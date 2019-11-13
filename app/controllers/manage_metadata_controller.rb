@@ -319,11 +319,10 @@ class ManageMetadataController < ApplicationController
   )
 
   def ensure_non_nasa_draft_permissions
-    unless is_non_nasa_draft_user?(user: current_user, token: token) ||
-      is_non_nasa_draft_approver?(user: current_user, token: token)
-      clear_session_and_token_data
+    return if either_non_nasa_user_or_approver?
 
-      redirect_to root_url, flash: { error: "It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
-    end
+    clear_session_and_token_data
+
+    redirect_to root_url, flash: { error: "It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
   end
 end

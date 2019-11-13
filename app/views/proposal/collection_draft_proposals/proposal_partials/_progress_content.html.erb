@@ -1,14 +1,26 @@
 <% information ||= nil %>
-<% reason ||= nil %>
+<% rejection_reasons ||= nil %>
+<% rejection_note ||= nil %>
 
 <div class="timeline-content">
   <% if active %>
-    <p class="timeline-stage"><%= stage %><p>
+    <p class="timeline-stage"><%= stage %></p>
   <% else %>
-    <p class="timeline-stage-inactive"><%= stage %><p>
+    <p class="timeline-stage-inactive"><%= stage %></p>
   <% end %>
+
   <p class="timeline-information"><%= information %>&nbsp</p>
-  <% if reason %>
-    <p class="timeline-information"><%= reason %>
+
+  <% if rejection_reasons %>
+    <p class="timeline-information">
+      <span class="timeline-rejection-information">Reason(s): <%= rejection_reasons.to_sentence %></span>
+      <span class="timeline-rejection-information">Note: <%= rejection_note %></span>
+      <%= link_to 'Click for full details', '#rejection-reasons-modal', class: 'display-modal' %>
+    </p>
+
+    <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rejection_reasons_modal', locals: {
+        rejection_reasons: rejection_reasons,
+        rejection_note: rejection_note
+    } %>
   <% end %>
 </div>

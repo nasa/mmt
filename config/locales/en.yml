@@ -97,6 +97,10 @@ en:
           flash:
             success: 'Collection Draft Proposal Approved Successfully'
             error: 'Collection Draft Proposal was not approved successfully'
+        reject:
+          flash:
+            success: 'Collection Draft Proposal Rejected Successfully'
+            error: 'Collection Draft Proposal was not rejected successfully'
       collection_templates:
         create:
           flash:

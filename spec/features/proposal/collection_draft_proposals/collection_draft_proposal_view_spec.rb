@@ -6,7 +6,7 @@ describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
 
   context 'when viewing the metadata' do
     before do
-      draft = create(:full_collection_draft_proposal, draft_short_name: 'An Example Proposal', version: '5', draft_entry_title: 'An Example Proposal Title')
+      draft = create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Proposal Title')
       visit collection_draft_proposal_path(draft)
     end
 

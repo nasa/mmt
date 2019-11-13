@@ -14,10 +14,6 @@ class CollectionDraft < Draft
     archive_and_distribution_information
   )
 
-  def display_entry_title
-    entry_title || '<Untitled Collection Record>'
-  end
-
   class << self
     def forms
       DRAFT_FORMS
@@ -66,6 +62,10 @@ class CollectionDraft < Draft
       draft.save
       draft
     end
+  end
+
+  def display_entry_title
+    entry_title || '<Untitled Collection Record>'
   end
 
   def update_draft(params, editing_user_id)

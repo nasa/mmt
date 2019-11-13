@@ -3,40 +3,42 @@ require 'faker'
 FactoryGirl.define do
   factory :full_collection_draft_proposal, class: CollectionDraftProposal do
     transient do
-      draft_short_name 'ABC5918'
-      draft_entry_title 'Entry Title'
+      proposal_short_name nil
+      proposal_entry_title nil
       version '001'
       collection_data_type 'SCIENCE_QUALITY'
-      draft_request_type 'create'
+      proposal_request_type 'create'
     end
 
     user_id 1
     native_id 'full_collection_draft_proposal_id'
     provider_id 'MMT_2'
     draft_type 'CollectionDraftProposal'
-    entry_title { draft_entry_title }
-    short_name { draft_short_name }
-    request_type { draft_request_type }
+    entry_title { proposal_entry_title }
+    short_name { proposal_short_name }
+    request_type { proposal_request_type }
 
     trait :with_valid_dates do
-      draft {{
-        'MetadataDates' => [{
-          'Type' => 'CREATE',
-          'Date' => '2010-12-25T00:00:00Z'
-        }, {
-          'Type' => 'UPDATE',
-          'Date' => '2010-12-30T00:00:00Z'
-        }]
-      }}
+      draft do
+        {
+          'MetadataDates' => [{
+            'Type' => 'CREATE',
+            'Date' => '2010-12-25T00:00:00Z'
+          }, {
+            'Type' => 'UPDATE',
+            'Date' => '2010-12-30T00:00:00Z'
+          }]
+        }
+      end
     end
 
-    draft {
+    draft do
       collection_one.merge(
-        'ShortName' => draft_short_name,
-        'Version' => version,
-        'EntryTitle' => draft_entry_title,
-        'CollectionDataType' => collection_data_type
+        'CollectionDataType' => collection_data_type,
+        'Version'            => version,
+        'EntryTitle'         => proposal_entry_title || "#{Faker::Movies::LordOfTheRings.location}_#{Faker::Number.number(15)}",
+        'ShortName'          => proposal_short_name || "#{Faker::Movies::LordOfTheRings.character}_#{Faker::Number.number(10)}"
       )
-    }
+    end
   end
 end

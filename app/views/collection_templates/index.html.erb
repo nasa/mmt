@@ -28,7 +28,7 @@
         <% get_resources.each_with_index do |template, index| %>
           <tr class='<%= cycle("alt", "") %>'>
             <td>
-              <%= link_to template.display_entry_title, send("#{resource_name}_path", template) %>
+              <%= link_to template.display_template_name, send("#{resource_name}_path", template) %>
             </td>
             <td>
               <%= link_to 'Edit', send("edit_#{resource_name}_path", template) %>

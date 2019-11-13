@@ -56,4 +56,13 @@ class ApplicationPolicy
   def cmr_client
     @cmr_client ||= Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
   end
+
+  # replicate the helper methods we have for controllers and views, using the Pundit user context
+  def current_user
+    user.user
+  end
+
+  def token
+    user.token
+  end
 end
