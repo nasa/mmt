@@ -84,7 +84,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
       # and generates an error. Changing the verb means that the delete code
       # in the controller/helper are not getting tested, so this is the best
       # solution.
-      VCR.use_cassette('permissions/concurrent_delete', erb: { acl_id: @group_response['concept_id'] } ) do
+      VCR.use_cassette('permissions/concurrent_delete', erb: { group_id: @group_response['concept_id'] } ) do
         click_on 'Submit'
       end
 

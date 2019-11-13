@@ -81,7 +81,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"hits":3,"took":9,"items":[{"revision_id":1,"concept_id":"ACL1200000015-CMR","identity_type":"System","acl":{"group_permissions":[{"group_id":"AG1200000001-CMR","permissions":["read","create","update","delete"]},{"user_type":"registered","permissions":["read"]}],"system_identity":{"target":"ANY_ACL"}},"name":"System
         - ANY_ACL","location":"http://localhost:3011/acls/ACL1200000015-CMR"},{"revision_id":1,"concept_id":"ACL1200000017-CMR","identity_type":"System","acl":{"group_permissions":[{"group_id":"AG1200000001-CMR","permissions":["read","create"]}],"system_identity":{"target":"GROUP"}},"name":"System
-        - GROUP","location":"http://localhost:3011/acls/ACL1200000017-CMR"},{"revision_id":1,"concept_id":"ACL1200000107-CMR","identity_type":"System","acl":{"group_permissions":[{"group_id":"<%= acl_id %>","permissions":["create"]}],"system_identity":{"target":"TAG_GROUP"}},"name":"System
+        - GROUP","location":"http://localhost:3011/acls/ACL1200000017-CMR"},{"revision_id":1,"concept_id":"ACL1200000107-CMR","identity_type":"System","acl":{"group_permissions":[{"group_id":"<%= group_id %>","permissions":["create"]}],"system_identity":{"target":"TAG_GROUP"}},"name":"System
         - TAG_GROUP","location":"http://localhost:3011/acls/ACL1200000107-CMR"}]}'
     http_version:
   recorded_at: Mon, 04 Nov 2019 13:56:23 GMT
