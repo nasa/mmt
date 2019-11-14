@@ -16,7 +16,16 @@ Rails.application.configure do
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
   # preloads Rails for running tests, you may have to set it to true.
-  config.eager_load = false
+  # config.eager_load = false
+
+  # This configuration change is needed to permit dMMT and MMT to talk to each
+  # other in test via the monkey patch.  Local testing was not meaningfully
+  # impacted by changing this to true, so a trial period should be conducted
+  # to see whether we can simply turn it to true or if we need to make much more
+  # complex changes to do the both-MMT communications tests.
+  # For futher information about the monkey patch, consult:
+  #         config/initializers/multithreaded_dev_webrick.rb
+  config.eager_load = true
 
   # Configure static file server for tests with Cache-Control for performance.
   config.serve_static_files   = true

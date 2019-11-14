@@ -207,6 +207,7 @@ RSpec.configure do |config|
   config.include Helpers::ConceptHelper
   config.include Helpers::ConfigurationHelpers
   config.include Helpers::ProposalStatusHelper
+  config.include Helpers::ApprovedProposalsHelpers
 
   # Precompile assets before running the test suite
   # config.before(:suite) do

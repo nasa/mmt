@@ -69,8 +69,6 @@ module Cmr
           req.headers[header] = value
         end
         req.body = body unless body.blank?
-        Rails.logger.info("Logging request for debug: #{req.inspect}")
-        req
       end
 
       client_response = Cmr::Response.new(faraday_response)
@@ -135,7 +133,5 @@ module Cmr
         conn.adapter Faraday.default_adapter
       end
     end
-
-
   end
 end
