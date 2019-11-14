@@ -157,6 +157,7 @@ Rails.application.routes.draw do
   resource :manage_variables, only: :show
   resource :manage_services, only: :show, controller: 'manage_services'
   resource :manage_cmr, only: :show, controller: 'manage_cmr'
+  resource :manage_proposals, only: :show, controller: 'manage_proposal'
 
   # API Endpoints for Chooser implementations
   get 'provider_collections' => 'manage_cmr#provider_collections'

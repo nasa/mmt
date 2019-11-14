@@ -1,0 +1,64 @@
+<div class="row row-content manage-proposals-mmt">
+  <section>
+    <h2><%= "Approved Proposals" %></h2>
+
+    <% if @proposals.any? %>
+      <p><%= page_entries_info @proposals, entry_name: "Approved Proposals" %></p>
+    <% end %>
+
+    <table class="open-draft-proposals">
+      <thead>
+        <tr>
+          <th><%= sort_by_link('Short Name', 'short_name', @query, nil, @specified_url) %></th>
+          <th><%= sort_by_link('Entry Title', 'entry_title', @query, nil, @specified_url) %></th>
+          <th><%= sort_by_link('Proposal Status', 'proposal_status', @query, nil, @specified_url) %></th>
+          <th><%= sort_by_link('Request Type', 'request_type', @query, nil, @specified_url) %></th>
+          <th><%= sort_by_link('Last Modified', 'updated_at', @query, nil, @specified_url) %></th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      <% if @proposals.blank? %>
+        <tr>
+          <td colspan="6">
+            <%= "No Approved Proposals found" %>
+          </td>
+        </tr>
+      <% else %>
+        <% @proposals.each do |draft| %>
+          <tr class='<%= cycle("alt", "") %>'>
+            <td>
+              <%= draft['short_name'] %>
+            </td>
+            <td>
+              <%= draft['entry_title'] %>
+            </td>
+            <td>
+              <%= draft['proposal_status'].titleize %>
+            </td>
+            <td>
+              <%= draft['request_type'].titleize %>
+            </td>
+            <td>
+              <%= draft['updated_at'].to_s(:date) %>
+            </td>
+            <td>
+              <%= link_to draft['request_type'] == 'delete' ? 'Delete' : 'Publish' , "#approver-proposal-modal", class: 'eui-btn--link display-modal approver-proposal-modal-link', data: { 'proposal': draft.to_json } %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+    <div id="approver-proposal-modal" class="eui-modal-content">
+      <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+      <p id="approver-proposal-modal-question-text"></p>
+      <p>
+        <a id="approver-proposal-modal-no-button" href="javascript:void(0)" class="eui-btn modal-close">No</a>
+        <%= link_to 'Yes', '#', class: 'eui-btn--blue spinner', id: 'approver-proposal-modal-yes-button' %>
+      </p>
+    </div>
+    <%= paginate @proposals %>
+  </section>
+</div>

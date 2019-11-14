@@ -23,6 +23,12 @@
           <%= link_to 'Manage CMR', manage_cmr_path %>
         </h2>
       <% end %>
+
+      <% if Rails.configuration.mmt_approver_workflow_enabled && @user_has_approver_permissions %>
+        <h2 class="<%= 'current' if current_manage_title == 'manage_proposal' %>">
+          <%= link_to 'Manage Proposals', manage_proposals_path %>
+        </h2>
+      <% end %>
     <% else %>
       <h2 class="<%= 'current' if current_manage_title == 'manage_collection_proposals' %>">
         <%= link_to 'Manage Collection Proposals', manage_collection_proposals_path %>

@@ -102,6 +102,9 @@ Rails.application.configure do
   # Feature Toggle for templates
   config.templates_enabled = true
 
+  # Feature toggle for approver workflow in MMT.
+  config.mmt_approver_workflow_enabled = false
+
   config.cmr_env = 'ops'
   config.echo_env = 'ops'
   config.urs_register_url = 'https://urs.earthdata.nasa.gov/users/new'

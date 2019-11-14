@@ -38,6 +38,8 @@ module ManageMetadataHelper
       "manage_#{resource_type}"
     elsif controller.lookup_context.prefixes.include?('manage_cmr')
       'manage_cmr'
+    elsif controller.lookup_context.prefixes.include?('manage_proposal')
+      'manage_proposal'
     elsif is_variable_controller?
       'manage_variables'
     elsif is_services_controller?

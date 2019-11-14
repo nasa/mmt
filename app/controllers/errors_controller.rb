@@ -7,6 +7,7 @@ class ErrorsController < ApplicationController
   skip_before_action :refresh_launchpad_if_needed
   skip_before_action :provider_set?
   skip_before_action :proposal_mode_enabled?
+  skip_before_action :proposal_approver_permissions
 
   layout 'error'
 
