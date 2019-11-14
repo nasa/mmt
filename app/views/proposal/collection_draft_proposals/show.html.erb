@@ -22,15 +22,18 @@
         </span>
       <% elsif get_resource.submitted? %>
         <% if @non_nasa_approver %>
-          <%= link_to state_action_button_text('Approve'), "#approve-proposal-modal", class: 'eui-btn--blue display-modal' %>
-          <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--link display-modal' %>
+          <%= link_to state_action_button_text('Approve'), "#approve-submission-modal", class: 'eui-btn--blue display-modal' %>
+          <%= link_to state_action_button_text('Reject'), "#reject-submission-modal", class: 'eui-btn--red display-modal' %>
           <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/approve_modal' %>
-          <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
-        <% else %>
-          <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
-          <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
+          <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/reject_modal' %>
         <% end %>
+        <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
+        <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
+      <% elsif get_resource.rejected? %>
+        <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--link display-modal' %>
+        <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
       <% end %>
+
       <span id="proposal-status-display">
         <a href="<%= progress_collection_draft_proposal_path(get_resource) %>">
           <span class="eui-badge eui-badge--split proposal-status-badge"><%= status_badge_text %>

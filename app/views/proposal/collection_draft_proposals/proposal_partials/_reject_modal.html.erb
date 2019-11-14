@@ -1,0 +1,29 @@
+<div id="reject-submission-modal" class="eui-modal-content">
+  <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+
+  <p>Please provide the reasons for rejecting this proposal submission.</p>
+
+  <%= form_tag(reject_collection_draft_proposal_path(get_resource), method: :put, class: 'reject-proposal-form') %>
+    <fieldset>
+      <div class="row">
+        <div class="col-4">
+          <%= label_tag('rejection[reasons]', 'Reason(s) for Rejection', class: 'eui-required-o') %>
+        </div>
+        <div class="col-8">
+          <%= select_tag 'rejection[reasons]', options_for_select(ProposalsHelper::REASONS_FOR_REJECTION), class: 'proposal-reject-select2 required', id: 'proposal-rejection-reasons', multiple: true %>
+        </div>
+      </div>
+
+      <div class="row">
+        <%= label_tag('rejection[note]', 'Note', class: 'eui-required-o') %>
+      </div>
+      <div class="row">
+        <%= text_area_tag('rejection[note]', nil, class: 'required') %>
+      </div>
+    </fieldset>
+
+    <p>
+      <a href="javascript:void(0)" class="eui-btn modal-close">Cancel</a>
+      <%= submit_tag 'Reject', class: 'eui-btn--red' %>
+    </p>
+</div>

@@ -56,9 +56,9 @@
           <% end %>
 
           <%= form_tag(edit_variable_generation_process_path, method: :put, class: 'inline-form-button') do %>
-          <%= hidden_field_tag 'variables_json', @variables.to_json %>
-          <%= hidden_field_tag 'collection_id', @collection_id %>
-          <%= submit_tag 'Select Augmentation', class: 'eui-btn', id: 'submit-to-select-uvg-augmentation' %>
+            <%= hidden_field_tag 'variables_json', @variables.to_json %>
+            <%= hidden_field_tag 'collection_id', @collection_id %>
+            <%= submit_tag 'Select Augmentation', class: 'eui-btn', id: 'submit-to-select-uvg-augmentation' %>
           <% end %>
         </div>
       </fieldset>

@@ -4,7 +4,7 @@ describe 'When visiting the template index page', js:true do
   context 'when there is one record' do
     before do
       login
-      create(:full_collection_template, template_name: 'An Example Template')
+      create(:full_collection_template, collection_template_name: 'An Example Template')
       visit collection_templates_path
     end
 
@@ -32,7 +32,7 @@ describe 'When visiting the template index page', js:true do
     
     context 'when there are multiple records' do
       before do
-        create(:full_collection_template, template_name: 'An Example Template2')
+        create(:full_collection_template, collection_template_name: 'An Example Template2')
         visit collection_templates_path
       end
 

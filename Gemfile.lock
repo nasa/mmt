@@ -1,9 +1,9 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 5eaeaafefa8456ff5f6b6035eb79139166af64a8
-  ref: 5eaeaafefa8
+  revision: 20d8e8fc2227f1578d8e16c78d684e18028f9119
+  ref: 20d8e8fc2227f1578d8e16c78d684e18028f9119
   specs:
-    cmr_metadata_preview (0.1.0)
+    cmr_metadata_preview (0.1.1)
       georuby (~> 2.5.2)
       rails (~> 4.2.11)
       rgeo (~> 0.6.0)
@@ -123,8 +123,8 @@ GEM
     factory_girl_rails (4.6.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
-    faker (1.8.7)
-      i18n (>= 0.7)
+    faker (2.2.1)
+      i18n (>= 0.8)
     faraday (0.8.11)
       multipart-post (~> 1.2.0)
     faraday_middleware (0.9.0)

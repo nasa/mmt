@@ -162,8 +162,8 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
       login
       set_as_proposal_mode_mmt(with_draft_approver_acl: true)
       4.times { create(:full_collection_draft_proposal) }
-      create(:full_collection_draft_proposal, draft_short_name: 'An Example Proposal', version: '5', draft_entry_title: 'An Example Title')
-      mock_submit(create(:full_collection_draft_proposal, draft_short_name: 'A Second Example Proposal', version: '', draft_entry_title: 'A Second Example Title', draft_request_type: 'delete'))
+      create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Title')
+      mock_submit(create(:full_collection_draft_proposal, proposal_short_name: 'A Second Example Proposal', version: '', proposal_entry_title: 'A Second Example Title', proposal_request_type: 'delete'))
     end
 
     context 'while on the in work index page' do

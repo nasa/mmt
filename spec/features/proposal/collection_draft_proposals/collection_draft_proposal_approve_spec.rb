@@ -3,7 +3,7 @@ describe 'Collection Draft Proposal Approve', js: true do
     login
   end
 
-  context 'when viewing a proposal as an approver' do
+  context 'when viewing a submitted proposal as an approver' do
     before do
       set_as_proposal_mode_mmt(with_draft_approver_acl: true)
       @collection_draft_proposal = create(:full_collection_draft_proposal)
@@ -11,16 +11,21 @@ describe 'Collection Draft Proposal Approve', js: true do
       visit collection_draft_proposal_path(@collection_draft_proposal)
     end
 
-    it 'retains user features' do
+    it 'displays the Non-NASA Draft User actions' do
       expect(page).to have_content('Cancel Proposal Submission')
     end
 
-    context 'when a create proposal is approved' do
+    it 'displays the Non-NASA Draft Approver actions' do
+      expect(page).to have_content('Approve Proposal Submission')
+      expect(page).to have_content('Reject Proposal Submission')
+    end
+
+    context 'when approving the proposal' do
       before do
         click_on 'Approve Proposal Submission'
       end
 
-      context 'when clicking yes' do
+      context 'when clicking Yes' do
         before do
           VCR.use_cassette('urs/proposal_email_fetch/proposal_approval') do
             click_on 'Yes'
@@ -36,7 +41,7 @@ describe 'Collection Draft Proposal Approve', js: true do
         end
       end
 
-      context 'when clicking no' do
+      context 'when clicking No' do
         before do
           click_on 'No'
         end
@@ -66,6 +71,24 @@ describe 'Collection Draft Proposal Approve', js: true do
           expect(page).to have_content('Done')
         end
       end
+    end
+  end
+
+  context 'when viewing a submitted proposal as a user' do
+    before do
+      set_as_proposal_mode_mmt(with_draft_user_acl: true)
+      @collection_draft_proposal = create(:full_collection_draft_proposal)
+      mock_submit(@collection_draft_proposal)
+      visit collection_draft_proposal_path(@collection_draft_proposal)
+    end
+
+    it 'displays the Non-NASA Draft User actions' do
+      expect(page).to have_content('Cancel Proposal Submission')
+    end
+
+    it 'does not display the Non-NASA Draft Approver actions' do
+      expect(page).to have_no_content('Approve Proposal Submission')
+      expect(page).to have_no_content('Reject Proposal Submission')
     end
   end
 end

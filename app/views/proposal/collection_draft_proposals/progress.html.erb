@@ -20,10 +20,11 @@
           </div>
           <div class="timeline-container" id="timeline-review-submission">
             <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/progress_content', locals: {
-              stage: 'Approval',
-              active: @status_history['approved'] || @status_history['rejected'],
+              stage: @second_stage,
+              active: @status_history['approved'] || get_resource.rejected?,
               information: @second_information,
-              reason: @rejection_reason
+              rejection_reasons: @rejection_reasons,
+              rejection_note: @rejection_note
             } %>
             <%= review_node %>
           </div>
@@ -54,18 +55,19 @@
               <%= link_to 'Edit Proposal', edit_collection_draft_proposal_path(get_resource) %>
               <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/invalid_proposal_modal' %>
             <% else %>
-              <%= link_to 'Submit for Review', "#submit-proposal-modal", class: 'eui-btn--blue display-modal' %>
+              <%= link_to 'Submit for Review', '#submit-proposal-modal', class: 'eui-btn--blue display-modal' %>
               <%= link_to 'Edit Proposal', edit_collection_draft_proposal_path(get_resource) %>
               <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/submit_modal' %>
             <% end %>
           <% elsif get_resource.submitted? %>
             <% if @non_nasa_approver %>
-              <%= link_to state_action_button_text('Approve'), "#approve-proposal-modal", class: 'eui-btn--blue display-modal' %>
-              <%= link_to state_action_button_text('Reject'), "#rescind-submission-modal", class: 'eui-btn--red display-modal' %>
+              <%= link_to state_action_button_text('Approve'), "#approve-submission-modal", class: 'eui-btn--blue display-modal' %>
+              <%= link_to state_action_button_text('Reject'), "#reject-submission-modal", class: 'eui-btn--red display-modal' %>
               <p class="progress-actions-links">
                 <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--link display-modal' %>
               </p>
               <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/approve_modal' %>
+              <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/reject_modal' %>
               <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
             <% else %>
               <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>

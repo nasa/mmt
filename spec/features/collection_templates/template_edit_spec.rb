@@ -7,12 +7,12 @@
 describe 'While editing a collection template', js:true do
   before do
     login
-    create(:full_collection_template, template_name: 'An Example Template')
+    create(:full_collection_template, collection_template_name: 'An Example Template')
   end
 
   context 'when editing a draft' do
     before do
-      draft = create(:full_collection_template, template_name: 'An Example Template2')
+      draft = create(:full_collection_template, collection_template_name: 'An Example Template2')
       visit edit_collection_template_path(draft)
     end
 
