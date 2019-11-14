@@ -8,7 +8,7 @@ class ManageProposalController < ManageMetadataController
     @specified_url = 'manage_proposals'
 
     sort_key, sort_dir = index_sort_order
-    dmmt_response = cmr_client.dmmt_get_approved_proposals({}, token)
+    dmmt_response = cmr_client.dmmt_get_approved_proposals({}, token, request.ip, request.port)
 
     if dmmt_response.success?
       proposals = if sort_dir == 'ASC'
@@ -18,10 +18,10 @@ class ManageProposalController < ManageMetadataController
                   end
     else
       if dmmt_response.status == 401
-        flash[:error] = "Your token could not be authorized.  Please try refreshing the page before contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid}."
+        flash[:error] = "Your token could not be authorized. Please try refreshing the page before contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid}."
         Rails.logger.error("#{request.uuid}: A user who was logged in with Non-NASA draft approver privileges was not authenticated or authorized correctly.  Refer to dMMT logs for further information: #{dmmt_response.body['request_id']}")
       else
-        flash[:error] = "An internal error has occurred.  Please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid} for further assitance."
+        flash[:error] = "An internal error has occurred. Please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid} for further assitance."
         Rails.logger.error("#{request.uuid}: MMT or dMMT is not configured correctly.")
       end
       proposals = []

@@ -6,26 +6,25 @@ module Proposal
 
     skip_before_action :ensure_user_is_logged_in
     skip_before_action :refresh_urs_if_needed, :refresh_launchpad_if_needed, :provider_set?
-    #skip_before_action :user_has_approver_permissions?
-
-# May need this later:
-#    skip_before_action :verify_authenticity_token, only: :approved_proposals
-
 
     def approved_proposals
-      passed_token = request.headers['Echo-Token'].split(':')[0]
+      passed_token = request.headers['Echo-Token'].split(':')[0] if request
 
-      response = cmr_client.validate_token(passed_token)
-      # verify user in urs
-      # check acls
+      token_response = cmr_client.validate_token(passed_token)
 
-      if true # replace with result of acl check
+      if token_response.success?
+        authenticated_user = User.new(urs_uid: token_response.body['uid'])
+        requester_has_approver_permissions = is_non_nasa_draft_approver?(user: authenticated_user, token: passed_token)
+      else
+        requester_has_approver_permissions = false
+      end
+
+      if requester_has_approver_permissions
         approved_proposals = CollectionDraftProposal.publish_approved_proposals
 
         render json: { proposals: approved_proposals }, status: :ok
       else
-        # TODO: Refine this logging message based on what results of URS endpoint and acl check are
-        Rails.logger.info("#{request.uuid}: Token provided by user either was not successfully authenticated or the user was not authorized to view dMMT proposals.")
+        Rails.logger.info("#{request.uuid}: Attempting to authenticate token resulted in '#{token_response.status}' status. If the status returned ok, then the user's Non-NASA Draft Approver ACL check failed.")
         render json: { body: 'Requesting user could not be authorized', request_id: request.uuid }, status: :unauthorized
       end
     end
