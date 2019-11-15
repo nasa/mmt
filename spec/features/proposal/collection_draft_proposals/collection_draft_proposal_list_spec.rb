@@ -3,12 +3,12 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
     before do
       login
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      create(:full_collection_draft_proposal, draft_short_name: 'M Example Proposal', version: '5', draft_entry_title: 'M Example Title')
-      create(:full_collection_draft_proposal, draft_short_name: 'N Example Proposal', version: '5', draft_entry_title: 'N Example Title')
-      create(:full_collection_draft_proposal, draft_short_name: 'O Example Proposal', version: '5', draft_entry_title: 'O Example Title')
-      create(:full_collection_draft_proposal, draft_short_name: 'P Example Proposal', version: '5', draft_entry_title: 'P Example Title')
-      create(:full_collection_draft_proposal, draft_short_name: 'A Example Proposal', version: '5', draft_entry_title: 'A Example Title')
-      mock_submit(create(:full_collection_draft_proposal, draft_short_name: 'Z Example Proposal', version: '', draft_entry_title: 'Z Example Title', draft_request_type: 'delete'))
+      create(:full_collection_draft_proposal, proposal_short_name: 'M Example Proposal', version: '5', proposal_entry_title: 'M Example Title')
+      create(:full_collection_draft_proposal, proposal_short_name: 'N Example Proposal', version: '5', proposal_entry_title: 'N Example Title')
+      create(:full_collection_draft_proposal, proposal_short_name: 'O Example Proposal', version: '5', proposal_entry_title: 'O Example Title')
+      create(:full_collection_draft_proposal, proposal_short_name: 'P Example Proposal', version: '5', proposal_entry_title: 'P Example Title')
+      create(:full_collection_draft_proposal, proposal_short_name: 'A Example Proposal', version: '5', proposal_entry_title: 'A Example Title')
+      mock_submit(create(:full_collection_draft_proposal, proposal_short_name: 'Z Example Proposal', version: '', proposal_entry_title: 'Z Example Title', proposal_request_type: 'delete'))
     end
 
     context 'while on the index page' do
