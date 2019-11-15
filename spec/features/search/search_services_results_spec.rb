@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Searching published services', reset_provider: true, js: true do
-  number = Faker::Number.number(6)
+  number = Faker::Number.number(digits: 6)
   service_name = "Service #{number}"
   long_name = "Long Detailed Description of Service #{number}"
 

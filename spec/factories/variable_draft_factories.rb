@@ -83,9 +83,9 @@ FactoryGirl.define do
     draft_type 'VariableDraft'
 
     draft {{
-      'Name': draft_short_name || "#{Faker::Space.galaxy}_#{Faker::Number.number(6)}",
+      'Name': draft_short_name || "#{Faker::Space.galaxy}_#{Faker::Number.number(digits: 6)}",
       'Alias': "An Alias",
-      'LongName': draft_entry_title || "#{Faker::Space.nebula} #{Faker::Space.star_cluster} #{Faker::Number.number(6)}",
+      'LongName': draft_entry_title || "#{Faker::Space.nebula} #{Faker::Space.star_cluster} #{Faker::Number.number(digits: 6)}",
       'Definition': 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)',
       'Units': 'Npptv',
       'DataType': 'float',
