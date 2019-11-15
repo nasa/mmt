@@ -140,7 +140,7 @@ FactoryGirl.define do
       "Description": "EDF_DEV08 EOSDIS Service Implementation",
       "Version": "1",
       "UseConstraints": "NONE",
-      "Name": "EDF_DEV08_#{Faker::Movies::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(30)}",
+      "Name": "EDF_DEV08_#{Faker::Books::Dune.title}_#{Faker::Number.number(digits: 30)}",
       "ServiceOptions": {
         "SubsetTypes": [
           "Spatial",
@@ -195,7 +195,7 @@ FactoryGirl.define do
           ]
         }
       ],
-      "LongName": "EDF_DEV08 EOSDIS Service Implementation #{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(60, omission: '')}_#{Faker::Number.number(10)}"
+      "LongName": "EDF_DEV08 EOSDIS Service Implementation #{Faker::Books::Dune.saying.truncate(60, omission: '')}_#{Faker::Number.number(digits: 10)}"
     }}
   end
 end
