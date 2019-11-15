@@ -1,6 +1,6 @@
 describe 'Searching for published collections in proposal mode', js: true do
-  short_name = "Search Proposal Mode Collection short name #{Faker::Number.number(6)}"
-  entry_title = "Long title for Search Proposal Mode Collection #{Faker::Number.number(6)}"
+  short_name = "Search Proposal Mode Collection short name #{Faker::Number.number(digits: 6)}"
+  entry_title = "Long title for Search Proposal Mode Collection #{Faker::Number.number(digits: 6)}"
   provider = 'MMT_2'
 
   before :all do

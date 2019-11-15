@@ -8,8 +8,8 @@ describe 'Service Search Results sorting', reset_provider: true, js: true do
       publish_service_draft(name: '000_Adder Ser Name')
       publish_service_draft(name: 'ZZebra Ser Name')
 
-      publish_service_draft(name: "LarcSortTest #{Faker::Number.number(6)}", provider_id: 'LARC')
-      publish_service_draft(name: "SedacSortTest #{Faker::Number.number(6)}", provider_id: 'SEDAC')
+      publish_service_draft(name: "LarcSortTest #{Faker::Number.number(digits: 6)}", provider_id: 'LARC')
+      publish_service_draft(name: "SedacSortTest #{Faker::Number.number(digits: 6)}", provider_id: 'SEDAC')
 
       publish_service_draft(long_name: '.. Agouti Ser Long Name')
       publish_service_draft(long_name: 'ZZebra Ser Long Name')
