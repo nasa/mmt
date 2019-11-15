@@ -5,10 +5,13 @@ module Proposal
     # environments.
 
     skip_before_action :ensure_user_is_logged_in
-    skip_before_action :refresh_urs_if_needed, :refresh_launchpad_if_needed, :provider_set?
+    skip_before_action :refresh_urs_if_needed, :refresh_launchpad_if_needed, :provider_set?, :proposal_approver_permissions
 
     def approved_proposals
-      passed_token = request.headers['Echo-Token'].split(':')[0] if request
+      passed_token = request.headers.fetch('Echo-Token', ':').split(':')[0]
+
+      # Navigate a browser elsewhere.
+      redirect_to root_path and return if passed_token.blank?
 
       token_response = cmr_client.validate_token(passed_token)
 
@@ -22,6 +25,7 @@ module Proposal
       if requester_has_approver_permissions
         approved_proposals = CollectionDraftProposal.publish_approved_proposals
 
+        Rails.logger.info("dMMT successfully authenticated and authorized #{authenticated_user.urs_uid} while fetching approved proposals.")
         render json: { proposals: approved_proposals }, status: :ok
       else
         Rails.logger.info("#{request.uuid}: Attempting to authenticate token resulted in '#{token_response.status}' status. If the status returned ok, then the user's Non-NASA Draft Approver ACL check failed.")
@@ -35,14 +39,6 @@ module Proposal
           format.json { render json: { body: nil }, status: :forbidden }
           format.html { redirect_to manage_collections_path }
         end
-      end
-    end
-
-    def proposal_approver_permissions
-      if Rails.env.development? || Rails.env.test?
-        @user_has_approver_permissions = false
-      else
-        super
       end
     end
   end

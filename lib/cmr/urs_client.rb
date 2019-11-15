@@ -58,7 +58,7 @@ module Cmr
       config = services['earthdata'][Rails.configuration.cmr_env]
       mmt_client_id = services['urs']['mmt_proper'][Rails.env.to_s][config['urs_root']]
       dmmt_client_id = services['urs']['mmt_proposal_mode'][Rails.env.to_s][config['urs_root']]
-      post("/oauth/tokens/user?client_id=#{dmmt_client_id}&token=#{token}&on_behalf_of=#{mmt_client_id}", {})
+      proposal_mode_safe_post("/oauth/tokens/user?client_id=#{dmmt_client_id}&token=#{token}&on_behalf_of=#{mmt_client_id}", {})
     end
 
     protected

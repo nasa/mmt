@@ -11,6 +11,7 @@ class ManageProposalController < ManageMetadataController
     dmmt_response = cmr_client.dmmt_get_approved_proposals({}, token, request.ip, request.port)
 
     if dmmt_response.success?
+      Rails.logger.info("MMT successfully received approved proposals from dMMT at #{current_user.urs_uid}'s request.")
       proposals = if sort_dir == 'ASC'
                     dmmt_response.body['proposals'].sort { |a, b| a[sort_key] <=> b[sort_key] }
                   else
@@ -22,7 +23,7 @@ class ManageProposalController < ManageMetadataController
         Rails.logger.error("#{request.uuid}: A user who was logged in with Non-NASA draft approver privileges was not authenticated or authorized correctly.  Refer to dMMT logs for further information: #{dmmt_response.body['request_id']}")
       else
         flash[:error] = "An internal error has occurred. Please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid} for further assitance."
-        Rails.logger.error("#{request.uuid}: MMT or dMMT is not configured correctly.")
+        Rails.logger.error("#{request.uuid}: MMT has a bug or dMMT is not configured correctly.")
       end
       proposals = []
     end
