@@ -7,7 +7,7 @@ gem 'rails', '5.1.7'
 gem 'sprockets', '~> 3.7.0'
 
 # Use SCSS for stylesheets
-gem 'bourbon'
+gem 'bourbon', '~> 5.1.0'
 gem 'neat'
 gem 'sass-rails', '~> 5.0'
 

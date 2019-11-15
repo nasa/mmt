@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Providers list' do
   before :all do
     create_group(
-      name: "Group #{Faker::Ancient.titan} for providers list #{Faker::Number.number(3)}",
+      name: "Group #{Faker::Ancient.titan} for providers list #{Faker::Number.number(digits: 3)}",
       description: 'test group',
       provider_id: 'MMT_2'
     )
@@ -18,7 +18,7 @@ describe 'Providers list' do
       end
 
       context 'when then adding the provider', js: true do
-        new_provider = "#{Faker::Ancient.primordial.slice(0, 5).upcase}_#{Faker::Number.number(3)}"
+        new_provider = "#{Faker::Ancient.primordial.slice(0, 5).upcase}_#{Faker::Number.number(digits: 3)}"
 
         before do
           create_provider(new_provider)
@@ -66,7 +66,7 @@ describe 'Providers list' do
     end
 
     context 'when the user is not yet logged in' do
-      new_provider = "#{Faker::Ancient.primordial.slice(0, 5).upcase}_#{Faker::Number.number(3)}"
+      new_provider = "#{Faker::Ancient.primordial.slice(0, 5).upcase}_#{Faker::Number.number(digits: 3)}"
 
       before :all do
         create_provider(new_provider)

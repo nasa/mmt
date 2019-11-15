@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Bulk updates form validations', reset_provider: true, js: true do
-  used_bulk_update_name = "Already used Bulk Update Name #{Faker::Number.number(4)}"
+  used_bulk_update_name = "Already used Bulk Update Name #{Faker::Number.number(digits: 4)}"
 
   before :all do
     @ingest_response, @concept_response = publish_collection_draft

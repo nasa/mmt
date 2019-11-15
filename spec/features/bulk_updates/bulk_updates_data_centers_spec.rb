@@ -12,7 +12,7 @@ describe 'Bulk updating Data Centers' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
-    let(:bulk_update_name) { "Bulk Update Data Centers Test Find & Remove #{Faker::Number.number(3)}" }
+    let(:bulk_update_name) { "Bulk Update Data Centers Test Find & Remove #{Faker::Number.number(digits: 3)}" }
 
     before(:each, bulk_update_step_1: true) do
       # Search form
@@ -103,7 +103,7 @@ describe 'Bulk updating Data Centers' do
 
   context 'when previewing a Find & Update bulk update for a data center that has a Related URL', js: true do
     context 'when filling in the form up to selecting the update data center short name' do
-      let(:bulk_update_name) { "Bulk Update Data Centers Test Find & Update #{Faker::Number.number(3)}" }
+      let(:bulk_update_name) { "Bulk Update Data Centers Test Find & Update #{Faker::Number.number(digits: 3)}" }
 
       before(:each, bulk_update_step_1: true) do
         # Search form
@@ -235,7 +235,7 @@ describe 'Bulk updating Data Centers' do
 
   context 'when previewing a Find & Update bulk update for a data center that does not have a Related URL', js: true do
     context 'when filling in the form up to selecting the update data center short name' do
-      let(:bulk_update_name) { "Bulk Update Data Centers Test Find & Update #{Faker::Number.number(3)}" }
+      let(:bulk_update_name) { "Bulk Update Data Centers Test Find & Update #{Faker::Number.number(digits: 3)}" }
 
       before(:each, bulk_update_step_1: true) do
         # Search form
