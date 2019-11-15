@@ -31,6 +31,12 @@ FactoryGirl.define do
 
     draft {
       collection_one.merge(
+<<<<<<< HEAD
+=======
+        'ShortName'    => draft_short_name || "#{Faker::Number.number(digits: 6)}_#{Faker::Superhero.name}",
+        'Version'      => version || '1',
+        'EntryTitle'   => draft_entry_title || "#{Faker::Number.number(digits: 6)}_#{Faker::Name.title}",
+>>>>>>> MMT-2032 -- Fix Rails 5.1 test case failures due to gem incompatabilities. (#438)
         'CollectionDataType' => collection_data_type || 'SCIENCE_QUALITY',
         'Version'            => version || '1',
         'EntryTitle'         => draft_entry_title || "#{Faker::Number.number(6)}_#{Faker::Job.title}",

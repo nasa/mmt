@@ -21,7 +21,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
 
     context 'when submitting a bulk update for Platforms but there is already a bulk update with the same name' do
       before do
-        @used_bulk_update_name = "Platforms Bulk Update Already Used Name #{Faker::Number.number(4)}"
+        @used_bulk_update_name = "Platforms Bulk Update Already Used Name #{Faker::Number.number(digits: 4)}"
 
         # Bulk Update form
         fill_in 'bulk_update_name', with: @used_bulk_update_name
@@ -68,7 +68,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
       end
 
       context 'when changing the name and previewing the bulk update again' do
-        let(:new_bulk_update_name) { "All New Bulk Update Name for Platforms #{Faker::Number.number(3)}" }
+        let(:new_bulk_update_name) { "All New Bulk Update Name for Platforms #{Faker::Number.number(digits: 3)}" }
         before do
           fill_in 'bulk_update_name', with: new_bulk_update_name
 
@@ -107,7 +107,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
 
     context 'when submitting a bulk update for Instruments but there is already a bulk update with the same name' do
       before do
-        @used_bulk_update_name = "Instruments Bulk Update Already Used Name #{Faker::Number.number(4)}"
+        @used_bulk_update_name = "Instruments Bulk Update Already Used Name #{Faker::Number.number(digits: 4)}"
 
         # Bulk Update form
         fill_in 'bulk_update_name', with: @used_bulk_update_name
@@ -157,7 +157,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
       end
 
       context 'when changing the name and previewing the bulk update again' do
-        let(:new_bulk_update_name) { "All New Bulk Update Name for Instruments #{Faker::Number.number(3)}" }
+        let(:new_bulk_update_name) { "All New Bulk Update Name for Instruments #{Faker::Number.number(digits: 3)}" }
         before do
           fill_in 'bulk_update_name', with: new_bulk_update_name
 
@@ -195,7 +195,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
 
     context 'when submitting a bulk update for Data Centers but there is already a bulk update with the same name' do
       before do
-        @used_bulk_update_name = "Data Centers Bulk Update Already Used Name #{Faker::Number.number(4)}"
+        @used_bulk_update_name = "Data Centers Bulk Update Already Used Name #{Faker::Number.number(digits: 4)}"
 
         # Bulk update form
         fill_in 'bulk_update_name', with: @used_bulk_update_name
@@ -250,7 +250,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
       end
 
       context 'when changing the name and previewing the bulk update again' do
-        let(:new_bulk_update_name) { "All New Bulk Update Name for Data Centers #{Faker::Number.number(3)}" }
+        let(:new_bulk_update_name) { "All New Bulk Update Name for Data Centers #{Faker::Number.number(digits: 3)}" }
         before do
           fill_in 'bulk_update_name', with: new_bulk_update_name
 
@@ -290,7 +290,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
 
     context 'when submitting a bulk update for Location Keywords but there is already a bulk update with the same name' do
       before do
-        @used_bulk_update_name = "Location Keywords Bulk Update Already Used Name #{Faker::Number.number(4)}"
+        @used_bulk_update_name = "Location Keywords Bulk Update Already Used Name #{Faker::Number.number(digits: 4)}"
 
         # Bulk update form
         fill_in 'bulk_update_name', with: @used_bulk_update_name
@@ -350,7 +350,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
       end
 
       context 'when changing the name and previewing the bulk update again' do
-        let(:new_bulk_update_name) { "All New Bulk Update Name for Location Keywords #{Faker::Number.number(3)}" }
+        let(:new_bulk_update_name) { "All New Bulk Update Name for Location Keywords #{Faker::Number.number(digits: 3)}" }
         before do
           fill_in 'bulk_update_name', with: new_bulk_update_name
 
@@ -390,7 +390,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
 
     context 'when submitting a bulk update for Science Keywords but there is already a bulk update with the same name' do
       before do
-        @used_bulk_update_name = "Science Keywords Bulk Update Already Used Name #{Faker::Number.number(4)}"
+        @used_bulk_update_name = "Science Keywords Bulk Update Already Used Name #{Faker::Number.number(digits: 4)}"
 
         # Bulk update form
         fill_in 'bulk_update_name', with: @used_bulk_update_name
@@ -448,7 +448,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
       end
 
       context 'when changing the name and previewing the bulk update again' do
-        let(:new_bulk_update_name) { "All New Bulk Update Name for Science Keywords #{Faker::Number.number(3)}" }
+        let(:new_bulk_update_name) { "All New Bulk Update Name for Science Keywords #{Faker::Number.number(digits: 3)}" }
         before do
           fill_in 'bulk_update_name', with: new_bulk_update_name
 

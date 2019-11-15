@@ -5,8 +5,8 @@ describe 'Viewing a service' do
   # the search endpoint returns an empty response. this has happened when the
   # CMR elasticsearch indexer was not functioning properly
 
-  service_name = "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(6)}".truncate(20)
-  long_name = "Long Detailed Description of Useful Gas and Ratio Test Search Var #{Faker::Number.number(6)}"
+  service_name = "#{Faker::Books::Dune.title}_#{Faker::Number.number(digits: 6)}".truncate(20)
+  long_name = "Long Detailed Description of Useful Gas and Ratio Test Search Var #{Faker::Number.number(digits: 6)}"
 
   before :all do
     @ingest_response, _concept_response = publish_service_draft(name: service_name, long_name: long_name)
