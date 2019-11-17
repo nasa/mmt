@@ -1,4 +1,6 @@
 require 'simplecov'
+require 'factory_girl_rails'
+
 SimpleCov.start 'rails' do
   # Filter out files that aren't part of the actual app code
   # Local CMR files

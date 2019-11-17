@@ -10,7 +10,7 @@ class WelcomeController < ApplicationController
 
   # Skip all filters for status
   # Todo this is causing MMT not to work in Rails 5
-  skip_filter *_process_action_callbacks.map(&:filter), only: [:status]
+  skip_before_action *_process_action_callbacks.map(&:filter), only: [:status], raise: false
 
   # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's
   # causing issues with load times but before we can solve that we need to discuss the implemntation
