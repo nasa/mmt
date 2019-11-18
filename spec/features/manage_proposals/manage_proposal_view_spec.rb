@@ -6,7 +6,7 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
 
   context 'when the user can be authenticated, has approver permissions, and there are two pages of proposals' do
     before do
-      set_as_proposal_mode_mmt
+      set_as_proposal_mode_mmt(with_draft_approver_acl: true)
       26.times do |num|
         mock_approve(create(:full_collection_draft_proposal, proposal_short_name: "Short Name: #{num}", proposal_entry_title: "Entry Title: #{num}", proposal_request_type: num.even? ? 'create' : 'delete'))
       end
@@ -60,6 +60,10 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
     it 'displays proposal request types' do
       expect(page).to have_content('Create')
       expect(page).to have_content('Delete')
+    end
+
+    it 'displays user names' do
+      expect(page).to have_content('Test User1')
     end
 
     it 'has the correct header' do

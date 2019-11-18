@@ -8,26 +8,23 @@ module Proposal
     skip_before_action :refresh_urs_if_needed, :refresh_launchpad_if_needed, :provider_set?, :proposal_approver_permissions
 
     def approved_proposals
-      token_and_client_id = request.headers.fetch('Echo-Token', ':').split(':')
-      passed_token = token_and_client_id[0]
-      passed_client_id = token_and_client_id[1]
+      passed_token, passed_client_id = request.headers.fetch('Echo-Token', ':').split(':')
 
       # Navigate a browser elsewhere
       redirect_to root_path and return if passed_token.blank?
 
       token_response = cmr_client.validate_token(passed_token, passed_client_id)
 
-      if token_response.success?
-        authenticated_user = User.new(urs_uid: token_response.body['uid'])
-        requester_has_approver_permissions = is_non_nasa_draft_approver?(user: authenticated_user, token: passed_token)
-      else
-        requester_has_approver_permissions = false
-      end
+      requester_has_approver_permissions = if token_response.success?
+                                             is_non_nasa_draft_approver?(user: User.new(urs_uid: token_response.body['uid']), token: passed_token)
+                                           else
+                                             false
+                                           end
 
       if requester_has_approver_permissions
         approved_proposals = CollectionDraftProposal.publish_approved_proposals
 
-        Rails.logger.info("dMMT successfully authenticated and authorized #{authenticated_user.urs_uid} while fetching approved proposals.")
+        Rails.logger.info("dMMT successfully authenticated and authorized #{token_response.body['uid']} while fetching approved proposals.")
         render json: { proposals: approved_proposals }, status: :ok
       else
         Rails.logger.info("#{request.uuid}: Attempting to authenticate token resulted in '#{token_response.status}' status. If the status returned ok, then the user's Non-NASA Draft Approver ACL check failed.")

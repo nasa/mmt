@@ -4,7 +4,7 @@ class CollectionDraftProposal < CollectionDraft
   validates :request_type, presence: true
   validates :proposal_status, presence: true
 
-  scope :publish_approved_proposals, -> { select(CollectionDraftProposal.attribute_names - %w[status_history approver_feedback]).where(proposal_status: 'approved') }
+  scope :publish_approved_proposals, -> { select(CollectionDraftProposal.attribute_names - %w[approver_feedback]).where(proposal_status: 'approved') }
 
   # after_initialize :exception_unless_draft_only
   # after_find :exception_unless_draft_only

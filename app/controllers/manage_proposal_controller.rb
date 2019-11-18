@@ -12,10 +12,19 @@ class ManageProposalController < ManageMetadataController
 
     if dmmt_response.success?
       Rails.logger.info("MMT successfully received approved proposals from dMMT at #{current_user.urs_uid}'s request.")
-      proposals = if sort_dir == 'ASC'
-                    dmmt_response.body['proposals'].sort { |a, b| a[sort_key] <=> b[sort_key] }
+
+      proposals = if sort_key == 'user_name'
+                    if sort_dir == 'ASC'
+                      dmmt_response.body['proposals'].sort { |a, b| a['status_history'].fetch('submitted', {}).fetch('username', '') <=> b['status_history'].fetch('submitted', {}).fetch('username', '') }
+                    else
+                      dmmt_response.body['proposals'].sort { |a, b| b['status_history'].fetch('submitted', {}).fetch('username', '') <=> a['status_history'].fetch('submitted', {}).fetch('username', '') }
+                    end
                   else
-                    dmmt_response.body['proposals'].sort { |a, b| b[sort_key] <=> a[sort_key] }
+                    if sort_dir == 'ASC'
+                      dmmt_response.body['proposals'].sort { |a, b| a[sort_key] <=> b[sort_key] }
+                    else
+                      dmmt_response.body['proposals'].sort { |a, b| b[sort_key] <=> a[sort_key] }
+                    end
                   end
     else
       if unauthorized?(dmmt_response)
