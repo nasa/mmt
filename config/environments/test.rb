@@ -25,6 +25,8 @@ Rails.application.configure do
   # complex changes to do the both-MMT communications tests.
   # For futher information about the monkey patch, consult:
   #         config/initializers/multithreaded_dev_webrick.rb
+  # TODO: If, after 01/01/20, this has not been changed back, update the
+  # comments above.
   config.eager_load = true
 
   # Configure static file server for tests with Cache-Control for performance.

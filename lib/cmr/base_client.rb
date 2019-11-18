@@ -7,9 +7,17 @@ module Cmr
     # include Cmr::QueryTransformations
     include Cmr::Util
 
-    # who cares about this client ID?  As a consequence, do we need to change it
-    # to include dmmt?
-    CLIENT_ID = 'MMT'.freeze
+    # Per CMR API:
+    # Client-Id - Indicates a name for the client using the CMR API. Specifying
+    # this helps Operations monitor query performance per client. It can also
+    # make it easier for them to identify your requests if you contact them for
+    # assistance.
+    CLIENT_ID = if Rails.configuration.proposal_mode
+                  'dMMT'.freeze
+                else
+                  'MMT'.freeze
+                end
+
     NGINX_TIMEOUT = 300
 
     def connection
