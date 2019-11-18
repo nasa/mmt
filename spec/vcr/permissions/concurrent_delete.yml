@@ -2,6 +2,43 @@
 http_interactions:
 - request:
     method: get
+    uri: http://localhost:3011/permissions?user_id=adminuser&provider=MMT_2&target=NON_NASA_DRAFT_APPROVER
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Echo-Token:
+      - ABC-1
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      connection:
+      - close
+      date:
+      - Fri, 15 Nov 2019 13:42:18 GMT
+      cmr-request-id:
+      - c039e975-7347-4128-9d4a-a5b13f1f0b29
+      vary:
+      - Accept-Encoding, User-Agent
+      content-length:
+      - '30'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+    http_version:
+  recorded_at: Fri, 15 Nov 2019 13:42:18 GMT
+- request:
+    method: get
     uri: http://localhost:3011/permissions?user_id=adminuser&system_object=ANY_ACL
     body:
       encoding: US-ASCII
@@ -23,9 +60,9 @@ http_interactions:
       connection:
       - close
       date:
-      - Mon, 04 Nov 2019 13:56:23 GMT
+      - Fri, 15 Nov 2019 13:42:18 GMT
       cmr-request-id:
-      - cb4a59e6-7b50-4666-8531-f1c56c6a8e48
+      - 79640e58-03ae-4f41-b81f-f97ebca5ce16
       vary:
       - Accept-Encoding, User-Agent
       content-length:
@@ -36,7 +73,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"ANY_ACL":["read","create","update","delete"]}'
     http_version:
-  recorded_at: Mon, 04 Nov 2019 13:56:23 GMT
+  recorded_at: Fri, 15 Nov 2019 13:42:18 GMT
 - request:
     method: get
     uri: http://localhost:3011/acls?include_full_acl=true&identity_type=system&page_size=50
@@ -58,19 +95,19 @@ http_interactions:
       connection:
       - close
       date:
-      - Mon, 04 Nov 2019 13:56:23 GMT
+      - Fri, 15 Nov 2019 13:42:18 GMT
       content-type:
       - application/json;charset=utf-8
       access-control-expose-headers:
-      - CMR-Hits, CMR-Request-Id, CMR-Scroll-Id
+      - CMR-Hits, CMR-Request-Id, CMR-Scroll-Id, CMR-Timed-Out
       access-control-allow-origin:
       - "*"
       cmr-hits:
       - '3'
       cmr-took:
-      - '11'
+      - '8'
       cmr-request-id:
-      - a1b1e35a-4bdf-4e31-9b64-b29bce424ae8
+      - 3d690579-0432-420c-b81a-07e28b688bde
       vary:
       - Accept-Encoding, User-Agent
       content-length:
@@ -84,7 +121,7 @@ http_interactions:
         - GROUP","location":"http://localhost:3011/acls/ACL1200000017-CMR"},{"revision_id":1,"concept_id":"ACL1200000107-CMR","identity_type":"System","acl":{"group_permissions":[{"group_id":"<%= group_id %>","permissions":["create"]}],"system_identity":{"target":"TAG_GROUP"}},"name":"System
         - TAG_GROUP","location":"http://localhost:3011/acls/ACL1200000107-CMR"}]}'
     http_version:
-  recorded_at: Mon, 04 Nov 2019 13:56:23 GMT
+  recorded_at: Fri, 15 Nov 2019 13:42:18 GMT
 - request:
     method: delete
     uri: http://localhost:3011/acls/ACL1200000107-CMR
@@ -123,7 +160,44 @@ http_interactions:
       encoding: UTF-8
       string: '{"errors":["Expected revision-id of [2] got [1] for [ACL1200000225-CMR]"]}'
     http_version:
-  recorded_at: Mon, 04 Nov 2019 13:56:23 GMT
+  recorded_at: Fri, 15 Nov 2019 13:42:18 GMT
+- request:
+    method: get
+    uri: http://localhost:3011/permissions?user_id=adminuser&provider=MMT_2&target=NON_NASA_DRAFT_APPROVER
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Echo-Token:
+      - ABC-1
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      connection:
+      - close
+      date:
+      - Fri, 15 Nov 2019 13:42:18 GMT
+      cmr-request-id:
+      - e2f3c16b-8d37-4cfb-b12c-be68a114371f
+      vary:
+      - Accept-Encoding, User-Agent
+      content-length:
+      - '30'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+    http_version:
+  recorded_at: Fri, 15 Nov 2019 13:42:18 GMT
 - request:
     method: get
     uri: http://localhost:3011/permissions?user_id=adminuser&system_object=ANY_ACL
@@ -147,9 +221,9 @@ http_interactions:
       connection:
       - close
       date:
-      - Mon, 04 Nov 2019 13:56:23 GMT
+      - Fri, 15 Nov 2019 13:42:18 GMT
       cmr-request-id:
-      - 23ef3123-7b9d-4cc4-a9da-095dd2aaa276
+      - 955330de-66f8-4e79-a1db-47dbfa4a0b25
       vary:
       - Accept-Encoding, User-Agent
       content-length:
@@ -160,7 +234,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"ANY_ACL":["read","create","update","delete"]}'
     http_version:
-  recorded_at: Mon, 04 Nov 2019 13:56:23 GMT
+  recorded_at: Fri, 15 Nov 2019 13:42:18 GMT
 - request:
     method: get
     uri: http://localhost:3011/groups?provider=CMR&page_size=25&page_num=1
@@ -182,19 +256,19 @@ http_interactions:
       connection:
       - close
       date:
-      - Mon, 04 Nov 2019 13:56:23 GMT
+      - Fri, 15 Nov 2019 13:42:18 GMT
       content-type:
       - application/json;charset=utf-8
       access-control-expose-headers:
-      - CMR-Hits, CMR-Request-Id, CMR-Scroll-Id
+      - CMR-Hits, CMR-Request-Id, CMR-Scroll-Id, CMR-Timed-Out
       access-control-allow-origin:
       - "*"
       cmr-hits:
       - '3'
       cmr-took:
-      - '8'
+      - '6'
       cmr-request-id:
-      - ff68071f-aefd-40b7-853e-985530d9f7ae
+      - e05f0655-6c9f-49fe-89fd-6938bc03639e
       vary:
       - Accept-Encoding, User-Agent
       content-length:
@@ -203,10 +277,10 @@ http_interactions:
       - Jetty(9.4.z-SNAPSHOT)
     body:
       encoding: UTF-8
-      string: '{"hits":3,"took":7,"items":[{"legacy_guid":"mock-admin-group-guid","member_count":2,"name":"Administrators","description":"CMR
+      string: '{"hits":3,"took":6,"items":[{"legacy_guid":"mock-admin-group-guid","member_count":2,"name":"Administrators","description":"CMR
         Administrators","revision_id":2,"concept_id":"AG1200000000-CMR"},{"member_count":2,"name":"Administrators_2","description":"The
         group of users that manages the CMR.","revision_id":2,"concept_id":"AG1200000001-CMR"},{"member_count":0,"name":"Test
-        System Permissions Group 1","description":"Group to test system permissions","revision_id":1,"concept_id":"AG1200000106-CMR"}]}'
+        System Permissions Group 1","description":"Group to test system permissions","revision_id":1,"concept_id":"AG1200000416-CMR"}]}'
     http_version:
-  recorded_at: Mon, 04 Nov 2019 13:56:23 GMT
+  recorded_at: Fri, 15 Nov 2019 13:42:18 GMT
 recorded_with: VCR 4.0.0
