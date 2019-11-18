@@ -8,12 +8,14 @@ module Proposal
     skip_before_action :refresh_urs_if_needed, :refresh_launchpad_if_needed, :provider_set?, :proposal_approver_permissions
 
     def approved_proposals
-      passed_token = request.headers.fetch('Echo-Token', ':').split(':')[0]
+      token_and_client_id = request.headers.fetch('Echo-Token', ':').split(':')
+      passed_token = token_and_client_id[0]
+      passed_client_id = token_and_client_id[1]
 
-      # Navigate a browser elsewhere.
+      # Navigate a browser elsewhere
       redirect_to root_path and return if passed_token.blank?
 
-      token_response = cmr_client.validate_token(passed_token)
+      token_response = cmr_client.validate_token(passed_token, passed_client_id)
 
       if token_response.success?
         authenticated_user = User.new(urs_uid: token_response.body['uid'])

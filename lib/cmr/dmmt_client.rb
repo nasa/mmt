@@ -1,10 +1,10 @@
 module Cmr
   class DmmtClient < BaseClient
-    def dmmt_get_approved_proposals(params, token, host, port)
+    def dmmt_get_approved_proposals(params, token, request)
       url = if Rails.env.development?
               "http://localhost:3000/approved_proposals"
             elsif Rails.env.test?
-              "http://#{host}:#{port}/approved_proposals"
+              "http://#{request.ip}:#{request.port}/approved_proposals"
             else
               '/approved_proposals'
             end

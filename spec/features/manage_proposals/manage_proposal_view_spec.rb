@@ -8,7 +8,7 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
     before do
       set_as_proposal_mode_mmt
       26.times do |num|
-        mock_approve(create(:full_collection_draft_proposal, draft_short_name: "Short Name: #{num}", draft_entry_title: "Entry Title: #{num}", draft_request_type: num.even? ? 'create' : 'delete'))
+        mock_approve(create(:full_collection_draft_proposal, proposal_short_name: "Short Name: #{num}", proposal_entry_title: "Entry Title: #{num}", proposal_request_type: num.even? ? 'create' : 'delete'))
       end
       set_as_mmt_proper
       mock_valid_token_validation
@@ -36,7 +36,7 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
     before do
       set_as_proposal_mode_mmt
       4.times do |num|
-        mock_approve(create(:full_collection_draft_proposal, draft_short_name: "Short Name: #{num}", draft_entry_title: "Entry Title: #{num}", draft_request_type: num.even? ? 'create' : 'delete'))
+        mock_approve(create(:full_collection_draft_proposal, proposal_short_name: "Short Name: #{num}", proposal_entry_title: "Entry Title: #{num}", proposal_request_type: num.even? ? 'create' : 'delete'))
       end
       set_as_mmt_proper
       mock_valid_token_validation

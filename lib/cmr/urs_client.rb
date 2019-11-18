@@ -53,12 +53,11 @@ module Cmr
     end
 
     # Function to allow dMMT to authenticate a token from MMT.
-    def validate_token(token)
+    def validate_token(token, client_id)
       services = Rails.configuration.services
       config = services['earthdata'][Rails.configuration.cmr_env]
-      mmt_client_id = services['urs']['mmt_proper'][Rails.env.to_s][config['urs_root']]
       dmmt_client_id = services['urs']['mmt_proposal_mode'][Rails.env.to_s][config['urs_root']]
-      proposal_mode_safe_post("/oauth/tokens/user?client_id=#{dmmt_client_id}&token=#{token}&on_behalf_of=#{mmt_client_id}", {})
+      proposal_mode_safe_post("/oauth/tokens/user?client_id=#{dmmt_client_id}&token=#{token}&on_behalf_of=#{client_id}", {})
     end
 
     protected
