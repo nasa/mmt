@@ -1,7 +1,7 @@
 describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
   context 'when logging in with URS' do
     before do
-      login
+      login(real_login: true)
       allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
     end
 
