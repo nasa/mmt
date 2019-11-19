@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe 'Saving Data Contacts and Data Centers', js: true do
   before do
     login

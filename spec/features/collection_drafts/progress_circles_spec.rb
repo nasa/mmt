@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe 'Progress circles', js: true do
   context 'when viewing the preview page of an empty draft' do
     before do

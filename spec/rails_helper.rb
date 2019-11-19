@@ -197,19 +197,20 @@ RSpec.configure do |config|
   config.order = :random
 
   # Helpers
-  config.include Helpers::ControllerHelpers
   config.include Helpers::AjaxHelpers
-  config.include Helpers::CmrHelper
-  config.include Helpers::DateHelpers
-  config.include Helpers::DraftHelpers
-  config.include Helpers::UmmSDraftHelpers
-  config.include Helpers::GroupHelper
-  config.include Helpers::SearchHelpers
-  config.include Helpers::UserHelpers
   config.include Helpers::BulkUpdateHelper
+  config.include Helpers::CmrHelper
   config.include Helpers::CollectionAssociationHelper
   config.include Helpers::ConceptHelper
   config.include Helpers::ConfigurationHelpers
+  config.include Helpers::ControllerHelpers
+  config.include Helpers::DateHelpers
+  config.include Helpers::DraftHelpers
+  config.include Helpers::GroupHelper
+  config.include Helpers::Instrumentation
+  config.include Helpers::SearchHelpers
+  config.include Helpers::UmmSDraftHelpers
+  config.include Helpers::UserHelpers
 
   # Precompile assets before running the test suite
   # config.before(:suite) do
