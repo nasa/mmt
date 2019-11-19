@@ -22,7 +22,7 @@
 
       <% if @proposals.blank? %>
         <tr>
-          <td colspan="6">
+          <td colspan="7">
             <%= "No Approved Proposals found" %>
           </td>
         </tr>
@@ -63,6 +63,6 @@
         <%= link_to 'Yes', '#', class: 'eui-btn--blue spinner', id: 'approver-proposal-modal-yes-button' %>
       </p>
     </div>
-    <%= paginate @proposals %>
+    <%= paginate @proposals unless @proposals.blank? %>
   </section>
 </div>
