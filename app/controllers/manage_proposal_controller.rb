@@ -10,7 +10,7 @@ class ManageProposalController < ManageMetadataController
     # TODO: By the end of MMT-1916, this should no longer be necessary.
     # dMMT cannot verify a launchpad token and we do not consider launchpad
     # access to dMMT features to be MVP.
-    if session[:launchpad_cookie].present?
+    if session[:access_token].blank?
       @proposals = []
       flash[:error] = 'Please log in with Earthdata Login to perform proposal approver actions in MMT.'
       return
