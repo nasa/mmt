@@ -100,7 +100,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '3.12.0'
+  gem 'capybara', '3.19.0'
   gem 'capybara-screenshot'
   gem 'fuubar'
   gem 'launchy'

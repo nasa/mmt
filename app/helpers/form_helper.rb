@@ -151,8 +151,8 @@ module FormHelper
       placeholder: "YYYY-MM-DDTHH:MM:SSZ",
       data: { level: remove_pipes(options[:prefix]) }
     )
-
-    mmt_label(options) + mmt_help_icon(options) + datetime_html
+    
+    mmt_label(options) + mmt_help_icon(options) + datetime_html.gsub('datetime-local','datetime').html_safe
   end
 
   def mmt_number(options)
