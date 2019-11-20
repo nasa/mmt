@@ -256,9 +256,17 @@ describe CollectionDraftProposal do
 
       expect { CollectionDraftProposal.create! }.to raise_error(ActiveRecord::RecordInvalid)
     end
+
+    it '"change_status_to_done" updates the status history and status of a proposal' do
+      collection_draft_proposal = CollectionDraftProposal.create(request_type: 'create', proposal_status: 'approved')
+      collection_draft_proposal.change_status_to_done('Test User')
+      proposal = CollectionDraftProposal.find(collection_draft_proposal.id)
+
+      expect(proposal.proposal_status).to eq('done')
+      expect(proposal.status_history['done']['username']).to eq('Test User')
+      expect(Time.parse(proposal.status_history['done']['action_date']).utc).to be_within(1.second).of Time.now
+    end
   end
-
-
 
   context 'when running in MMT proper' do
     before do

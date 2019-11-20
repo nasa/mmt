@@ -33,7 +33,7 @@ class CollectionDraftProposal < CollectionDraft
         request.submit
         request.status_history =
           { 'submitted' =>
-            { 'username' => (username || user.urs_uid), 'action_date' => Time.new.utc.to_s } }
+            { 'username' => (username || user.urs_uid), 'action_date' => Time.new } }
       end
 
       request.save
@@ -63,6 +63,10 @@ class CollectionDraftProposal < CollectionDraft
 
     event :reject do
       transitions from: :submitted, to: :rejected
+    end
+
+    event :mark_done do
+      transitions from: :approved, to: :done
     end
   end
 
@@ -106,6 +110,11 @@ class CollectionDraftProposal < CollectionDraft
     record_type = draft_type.underscore.split('_').first # we should remove 'draft' and 'proposal' from the native_id
     self.native_id ||= "dmmt_#{record_type}_#{id}"
     save
+  end
+
+  def change_status_to_done(user)
+    self.add_status_history('done', user)
+    self.mark_done!
   end
 
   private
