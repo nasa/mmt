@@ -6,6 +6,7 @@ class ManageProposalController < ManageMetadataController
 
   def show
     @specified_url = 'manage_proposals'
+    @providers = ['Select a provider to publish this record'] + current_user.available_providers
 
     # TODO: By the end of MMT-1916, this should no longer be necessary.
     # dMMT cannot verify a launchpad token and we do not consider launchpad
@@ -48,6 +49,26 @@ class ManageProposalController < ManageMetadataController
     @proposals = Kaminari.paginate_array(proposals, total_count: proposals.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE)
   end
 
+  def publish_proposal
+    proposal = JSON.parse(params['proposal_data'])
+
+    # Delete and update requests should have the provider_id populated already
+    provider = if proposal['request_type'] == 'create'
+                 params['provider-publish-target']
+               else
+                 proposal['provider_id']
+               end
+
+    # Update and create requests are ingested on the same end point
+    if proposal['request_type'] == 'delete'
+      publish_delete_proposal(proposal, provider)
+    else
+      publish_create_or_update_proposal(proposal, provider)
+    end
+
+    redirect_to manage_proposals_path
+  end
+
   private
 
   def index_sort_order
@@ -69,5 +90,43 @@ class ManageProposalController < ManageMetadataController
 
   def unauthorized?(response)
     response.status == 401
+  end
+
+  def publish_delete_proposal(proposal, provider)
+    search_response = cmr_client.get_collections({ 'native_id': proposal['native_id'] }, token)
+
+    if search_response.body['hits'].to_s != '1'
+      # If the search has more than one hit or 0 hits, the record was not
+      # uniquely identified from it's native ID.
+      flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.delete.not_found_error')
+      Rails.logger.info("Could not complete delete request from proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} because it could not be located.")
+    elsif !search_response.body['items'][0]['meta']['granule-count'].zero?
+      # Do not allow the deletion of collections which have granules
+      flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.delete.granules_error')
+      Rails.logger.info("Could not complete delete request from proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} because it had granules at the time of the delete attempt.")
+    else
+      cmr_response = cmr_client.delete_collection(provider, proposal['native_id'], token)
+
+      if cmr_response.success?
+        flash[:success] = I18n.t('controllers.manage_proposals.publish.flash.delete.success')
+        Rails.logger.info("Proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} were successfully deleted in the CMR")
+      else
+        flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.delete.error')
+        Rails.logger.info("Proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} could not be deleted in the CMR")
+      end
+    end
+  end
+
+  def publish_create_or_update_proposal(proposal, provider)
+    cmr_response = cmr_client.ingest_collection(proposal['draft'].to_json, provider, proposal['native_id'], token)
+
+    if cmr_response.success?
+      flash[:success] = I18n.t('controllers.manage_proposals.publish.flash.create.success')
+      Rails.logger.info("Proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} were successfully ingested into the CMR")
+    else
+      puts cmr_response.errors.inspect
+      flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.create.error')
+      Rails.logger.info("Proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} could not be ingested into the CMR. The CMR provided the following reasons: #{cmr_response.errors.inspect}")
+    end
   end
 end

@@ -123,7 +123,7 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
 
           it 'has the correct text and buttons' do
             expect(page).to have_text('Are you sure you want to delete this metadata in the CMR?')
-            expect(page).to have_link('Yes')
+            expect(page).to have_button('Yes')
             expect(page).to have_link('No')
           end
         end
