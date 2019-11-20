@@ -223,6 +223,17 @@ en:
       search:
         flash:
           error: "Error response returned from CMR: %{error}  <br>"
+    manage_proposals:
+      publish:
+        flash:
+          delete:
+            success: "Collection Metadata Deleted Successfully!"
+            error: "Collection metadata was not deleted successfully."
+            granules_error: "This collection cannot be deleted using the MMT because it has associated granules. Use the CMR API to delete the collection and its granules."
+            not_found_error: "Collection metadata was not deleted successfully because it could not be found."
+          create:
+            success: "Collection Metadata Successfully Published!"
+            error: "Collection metadata was not successfully published."
   views:
     pagination:
       first: "First"

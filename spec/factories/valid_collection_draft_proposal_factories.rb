@@ -8,10 +8,11 @@ FactoryGirl.define do
       version '001'
       collection_data_type 'SCIENCE_QUALITY'
       proposal_request_type 'create'
+      proposal_native_id 'full_collection_draft_proposal_id'
     end
 
     user_id 1
-    native_id 'full_collection_draft_proposal_id'
+    native_id { proposal_native_id }
     provider_id 'MMT_2'
     draft_type 'CollectionDraftProposal'
     entry_title { proposal_entry_title }

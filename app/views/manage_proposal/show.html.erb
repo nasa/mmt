@@ -56,12 +56,23 @@
       </tbody>
     </table>
     <div id="approver-proposal-modal" class="eui-modal-content">
-      <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-      <p id="approver-proposal-modal-question-text"></p>
-      <p>
-        <a id="approver-proposal-modal-no-button" href="javascript:void(0)" class="eui-btn modal-close">No</a>
-        <%= link_to 'Yes', '#', class: 'eui-btn--blue spinner', id: 'approver-proposal-modal-yes-button' %>
-      </p>
+      <%= form_tag publish_proposal_manage_proposal_path, method: :post, class: "proposal-publish-form" do %>
+        <%= hidden_field_tag "proposal_data" %>
+        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+        <p id="approver-proposal-modal-question-text"></p>
+        <%= select_tag(
+              'provider-publish-target',
+              options_for_select(@providers),
+              {
+                classes: 'provider-publish-target',
+                style: 'display: none;'
+              }
+            ) %>
+        <p>
+          <a id="approver-proposal-modal-no-button" href="javascript:void(0)" class="eui-btn modal-close">No</a>
+          <%= submit_tag 'Yes', { class: 'eui-btn--blue spinner', id: 'approver-proposal-modal-yes-button' } %>
+        </p>
+      <% end %>
     </div>
     <%= paginate @proposals unless @proposals.blank? %>
   </section>

@@ -98,6 +98,16 @@ class CollectionDraftProposal < CollectionDraft
     "#{action_name}: #{action_time} By: #{action_username}"
   end
 
+  # MMT need a native_id to publish changes. Either dMMT needs to provide a new
+  # unique way of identifying the records or MMT will need to find a unique way
+  # to identify them. Doing it this way also enables us to track how many dmmt
+  # originated records are in the CMR.
+  def set_native_id
+    record_type = draft_type.underscore.split('_').first # we should remove 'draft' and 'proposal' from the native_id
+    self.native_id ||= "dmmt_#{record_type}_#{id}"
+    save
+  end
+
   private
 
   def provider_required?
