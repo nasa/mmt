@@ -57,5 +57,21 @@ module Helpers
       dmmt_response = cmr_success_response({ 'proposals' => proposals }.to_json)
       allow_any_instance_of(Cmr::DmmtClient).to receive(:dmmt_get_approved_proposals).and_return(dmmt_response)
     end
+
+    def mock_update_proposal_status(succeed: true)
+      dmmt_response = if succeed
+                        cmr_success_response({'body' => nil}.to_json)
+                      else
+                        cmr_fail_response({ 'body' => nil }.to_json, 400)
+                      end
+      allow_any_instance_of(Cmr::DmmtClient).to receive(:dmmt_update_proposal_status).and_return(dmmt_response)
+    end
+
+    # Fake getting user names from URS for updating proposal status in dMMT
+    def mock_urs_get_users
+      urs_response_body = { 'users' => [{ 'first_name' => 'Test', 'last_name' => 'User' }] }
+      urs_response = cmr_success_response(urs_response_body.to_json)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_urs_users).and_return(urs_response)
+    end
   end
 end

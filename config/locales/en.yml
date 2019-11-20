@@ -226,6 +226,8 @@ en:
     manage_proposals:
       publish:
         flash:
+          update_proposal_status:
+            error: "Proposal status was not updated in dMMT successfully."
           delete:
             success: "Collection Metadata Deleted Successfully!"
             error: "Collection metadata was not deleted successfully."

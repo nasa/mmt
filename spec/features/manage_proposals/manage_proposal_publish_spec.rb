@@ -29,17 +29,44 @@ describe 'When publishing collection draft proposals', js: true do
         before do
           mock_cmr_get_collections
           click_on 'Delete'
-          click_on 'Yes'
         end
 
-        it 'generates a success message' do
-          expect(page).to have_content('Collection Metadata Deleted Successfully!')
+        context 'when dMMT can update the proposal_status' do
+          before do
+            mock_update_proposal_status
+            click_on 'Yes'
+          end
+
+          it 'generates a success message' do
+            expect(page).to have_content('Collection Metadata Deleted Successfully!')
+          end
+
+          it 'cannot find the record' do
+            visit collection_path(@ingest_response['concept-id'])
+
+            expect(page).to have_content('This collection is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this collection.')
+          end
         end
 
-        it 'cannot find the record' do
-          visit collection_path(@ingest_response['concept-id'])
+        context 'when dMMT cannot update the proposal_status' do
+          before do
+            mock_update_proposal_status(succeed: false)
+            click_on 'Yes'
+          end
 
-          expect(page).to have_content('This collection is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this collection.')
+          it 'generates a success message for the delete action' do
+            expect(page).to have_content('Collection Metadata Deleted Successfully!')
+          end
+
+          it 'generates an error message for the proposal status update' do
+            expect(page).to have_content('Proposal status was not updated in dMMT successfully.')
+          end
+
+          it 'cannot find the record' do
+            visit collection_path(@ingest_response['concept-id'])
+
+            expect(page).to have_content('This collection is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this collection.')
+          end
         end
       end
     end
@@ -50,6 +77,7 @@ describe 'When publishing collection draft proposals', js: true do
         mock_valid_token_validation
         visit manage_proposals_path
         mock_cmr_get_collections(hits: 0)
+        mock_update_proposal_status
         click_on 'Delete'
         click_on 'Yes'
       end
@@ -75,6 +103,7 @@ describe 'When publishing collection draft proposals', js: true do
 
     context 'when creating a new record' do
       before do
+        mock_update_proposal_status
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Publish'
         end
@@ -125,20 +154,47 @@ describe 'When publishing collection draft proposals', js: true do
       cmr_client.delete_collection('MMT_2', @update_native_id, 'ABC-2')
     end
 
-    context 'when there is an existing record with the same native id' do
-      before do
-        @ingest_response, _concept_response = publish_collection_draft(native_id: @update_native_id)
-        click_on 'Publish'
-        click_on 'Yes'
+    context 'when the proposal status update in dMMT succeeds' do
+      context 'when there is an existing record with the same native id' do
+        before do
+          @ingest_response, _concept_response = publish_collection_draft(native_id: @update_native_id)
+          mock_update_proposal_status
+          click_on 'Publish'
+          click_on 'Yes'
+        end
+
+        it 'updates the record' do
+          expect(page).to have_content('Collection Metadata Successfully Published!')
+
+          # CMR needs a moment to update the record
+          wait_for_cmr
+          response = cmr_client.get_collections({ 'native_id': @update_native_id }, 'ABC-2')
+          expect(response.body['items'][0]['meta']['revision-id'].to_i - @ingest_response['revision-id'].to_i).to eq(1)
+        end
       end
+    end
 
-      it 'updates the record' do
-        expect(page).to have_content('Collection Metadata Successfully Published!')
+    context 'when the proposal status update in dMMT fails' do
+      context 'when there is an existing record with the same native id' do
+        before do
+          @ingest_response, _concept_response = publish_collection_draft(native_id: @update_native_id)
+          mock_update_proposal_status(succeed: false)
+          click_on 'Publish'
+          click_on 'Yes'
+        end
 
-        # CMR needs a moment to update the record
-        wait_for_cmr
-        response = cmr_client.get_collections({ 'native_id': @update_native_id }, 'ABC-2')
-        expect(response.body['items'][0]['meta']['revision-id'].to_i - @ingest_response['revision-id'].to_i).to eq(1)
+        it 'updates the record' do
+          expect(page).to have_content('Collection Metadata Successfully Published!')
+
+          # CMR needs a moment to update the record
+          wait_for_cmr
+          response = cmr_client.get_collections({ 'native_id': @update_native_id }, 'ABC-2')
+          expect(response.body['items'][0]['meta']['revision-id'].to_i - @ingest_response['revision-id'].to_i).to eq(1)
+        end
+
+        it 'has an error message for failing to update the proposal status' do
+          expect(page).to have_content('Proposal status was not updated in dMMT successfully.')
+        end
       end
     end
   end

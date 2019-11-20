@@ -18,8 +18,7 @@ class ManageProposalController < ManageMetadataController
     end
 
     sort_key, sort_dir = index_sort_order
-    dmmt_response = cmr_client.dmmt_get_approved_proposals({}, token, request)
-
+    dmmt_response = cmr_client.dmmt_get_approved_proposals(token, request)
     if dmmt_response.success?
       Rails.logger.info("MMT successfully received approved proposals from dMMT at #{current_user.urs_uid}'s request.")
 
@@ -110,6 +109,12 @@ class ManageProposalController < ManageMetadataController
       if cmr_response.success?
         flash[:success] = I18n.t('controllers.manage_proposals.publish.flash.delete.success')
         Rails.logger.info("Audit Log: Collection with native_id #{proposal['native_id']} was deleted for #{provider} by #{session[:urs_uid]} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}.")
+
+        dmmt_response = cmr_client.dmmt_update_proposal_status({ 'draft_type': proposal['draft_type'], 'id': proposal['id'] }, token, request)
+        unless dmmt_response.success?
+          flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.update_proposal_status.error')
+          Rails.logger.info("Audit Log: dMMT did not successfully transition #{proposal['draft_type']} with id #{proposal['id']} to 'done' status from 'approved'.")
+        end
       else
         flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.delete.error')
         Rails.logger.info("User: #{current_user.urs_uid} could not delete a collection with native_id #{proposal['native_id']} based on proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
@@ -123,7 +128,13 @@ class ManageProposalController < ManageMetadataController
 
     if cmr_response.success?
       flash[:success] = I18n.t('controllers.manage_proposals.publish.flash.create.success')
-      Rails.logger.info("Audit Log: Draft #{proposal['entry_title']} was published by #{current_user.urs_uid} in provider: #{provider} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
+      Rails.logger.info("Audit Log: Proposal #{proposal['entry_title']} was published by #{current_user.urs_uid} in provider: #{provider} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
+
+      dmmt_response = cmr_client.dmmt_update_proposal_status({ 'draft_type': proposal['draft_type'], 'id': proposal['id'] }, token, request)
+      unless dmmt_response.success?
+        flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.update_proposal_status.error')
+        Rails.logger.info("Audit Log: dMMT did not successfully transition #{proposal['draft_type']} with id #{proposal['id']} to 'done' status from 'approved'.")
+      end
     else
       flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.create.error')
       Rails.logger.info("User: #{current_user.urs_uid} could not publish proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} in the CMR.")
