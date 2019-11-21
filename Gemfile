@@ -84,6 +84,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'vcr'
   gem 'rails-controller-testing' # https://www.ombulabs.com/blog/rails/upgrades/upgrade-rails-from-4-2-to-5-0.html
+  gem 'factory_girl_rails', :require => true
 end
 
 group :development do

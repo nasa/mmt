@@ -10,7 +10,7 @@ class WelcomeController < ApplicationController
   before_action :redirect_if_logged_in
 
   # Skip all filters for status
-  # Changed skip_filter to skip_before_action per Rails 5.1 upgrade 
+  # TODO Changed skip_filter to skip_before_action per Rails 5.1 upgrade 
   # TODO note that the raise: flag was added to avoid an exception. This is 
   # temporary so that testing can continue. The raise flag should be removed and the exception
   # should be tracked down.
