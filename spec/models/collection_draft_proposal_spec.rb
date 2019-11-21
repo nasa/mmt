@@ -192,6 +192,47 @@ describe CollectionDraftProposal do
       expect(metadata_dates[3]['Date']).to start_with(today_string)
     end
 
+    it '`add_status_history` adds a status history' do
+      collection_draft_proposal = create(:empty_collection_draft_proposal)
+      collection_draft_proposal.add_status_history('submitted', 'Rando User')
+
+      status = collection_draft_proposal.status_history['submitted']
+      expect(status['username']).to eq('Rando User')
+      expect(status['action_date'].to_s).to start_with(today_string)
+    end
+
+    it '`remove_status_history` removes the status history' do
+      collection_draft_proposal = create(:empty_collection_draft_proposal)
+      collection_draft_proposal.add_status_history('submitted', 'Rando User')
+
+      status = collection_draft_proposal.status_history['submitted']
+      expect(status['username']).to eq('Rando User')
+      expect(status['action_date'].to_s).to start_with(today_string)
+
+      collection_draft_proposal.remove_status_history('submitted')
+      expect(collection_draft_proposal.status_history['submitted']).to eq(nil)
+    end
+
+    it '`progress_message` retreives a message for a status history' do
+      collection_draft_proposal = create(:empty_collection_draft_proposal)
+      collection_draft_proposal.add_status_history('submitted', 'Rando User')
+      collection_draft_proposal.add_status_history('done', 'Rando User')
+
+      expect(collection_draft_proposal.progress_message('submitted')).to start_with("Submitted: #{today_string}").and end_with('By: Rando User')
+      expect(collection_draft_proposal.progress_message('done')).to start_with("Published: #{today_string}").and end_with('By: Rando User')
+    end
+
+    it '`progress_message` logs a message if there is a missing status history' do
+      collection_draft_proposal = create(:full_collection_draft_proposal, proposal_entry_title: 'My Title')
+      mock_submit(collection_draft_proposal)
+      collection_draft_proposal.remove_status_history('submitted')
+
+      # for testing logs, we need to put the expectation before the message is logged
+      # skipping the actual id as that is sometimes variable
+      expect(Rails.logger).to receive(:error).with(start_with('A CollectionDraftProposal with title My Title and id').and end_with('is being asked for a status_history for submitted, but does not have that information. This proposal should be investigated.'))
+      collection_draft_proposal.progress_message('submitted')
+    end
+
     it 'is valid without a provider_id' do
       collection_draft_proposal = build(:empty_collection_draft_proposal, provider_id: nil)
 

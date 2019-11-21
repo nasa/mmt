@@ -129,6 +129,9 @@ en:
       delete_proposal:
         flash:
           success: 'Delete Collection Metadata Request Created Successfully!'
+      update_proposal:
+        flash:
+          success: 'Update Collection Metadata Request Created Successfully!'
     variables:
       create:
         flash:

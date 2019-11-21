@@ -76,27 +76,27 @@ module Proposal
         @errors = validate_metadata
       else
         @first_stage = 'Submitted for Review'
-        @first_information = get_progress_message('submitted')
+        @first_information = get_resource.progress_message('submitted')
       end
 
       if @status_history['approved']
         @second_stage = 'Approved'
-        @second_information = get_progress_message('approved')
+        @second_information = get_resource.progress_message('approved')
       elsif @status_history['rejected']
         @second_stage = 'Rejected'
-        @second_information = get_progress_message('rejected')
+        @second_information = get_resource.progress_message('rejected')
         @rejection_reasons = approver_feedback.fetch('reasons', ['No Reason Provided'])
         @rejection_note = approver_feedback.fetch('note', 'No Notes Provided')
       end
 
-      @fourth_information = get_progress_message('done') if get_resource.proposal_status == 'done'
+      @fourth_information = get_resource.progress_message('done') if get_resource.proposal_status == 'done'
     end
 
     def submit
       authorize get_resource
 
-      add_status_history('submitted')
-      remove_status_history('rejected')
+      get_resource.add_status_history('submitted', session[:name])
+      get_resource.remove_status_history('rejected')
 
       if get_resource.submit && get_resource.save
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
@@ -115,7 +115,7 @@ module Proposal
     def rescind
       authorize get_resource
 
-      remove_status_history('submitted')
+      get_resource.remove_status_history('submitted')
 
       # An in_work delete request does not make sense.  If a delete request is
       # rescinded, delete the request instead.
@@ -144,7 +144,7 @@ module Proposal
     def approve
       authorize get_resource
 
-      add_status_history('approved')
+      get_resource.add_status_history('approved', session[:name])
 
       if get_resource.approve && get_resource.save
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully approved #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
@@ -168,7 +168,7 @@ module Proposal
       authorize get_resource
 
       get_resource.approver_feedback = params[:rejection]
-      add_status_history('rejected')
+      get_resource.add_status_history('rejected', session[:name])
 
       if get_resource.reject && get_resource.save
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully rejected #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
@@ -209,28 +209,6 @@ module Proposal
       clear_session_and_token_data
 
       redirect_to root_url, flash: { error: "It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
-    end
-
-    # TODO: these status methods should probably be moved into the model
-    def add_status_history(target)
-      get_resource.status_history ||= {}
-      get_resource.status_history[target] = { 'username' => session[:name], 'action_date' => Time.new }
-    end
-
-    def remove_status_history(target)
-      get_resource.status_history&.delete(target)
-    end
-
-    def get_progress_message(action)
-      if @status_history.fetch(action, {}).blank?
-        action_time = 'No Date Provided'
-        action_username = 'No User Provided'
-        Rails.logger.info("The progress page was loaded with a record that does not have a status_history and is not in_work.  The origin of this record (#{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}) should be investigated.")
-      else
-        action_time = @status_history[action]['action_date'].in_time_zone('UTC').to_s(:default_with_time_zone)
-        action_username = @status_history[action]['username']
-      end
-      "#{action == 'done' ? 'Published' : action.titleize}: #{action_time} By: #{action_username}"
     end
 
     # Fetch e-mails of users who are not the current user from URS to send them
