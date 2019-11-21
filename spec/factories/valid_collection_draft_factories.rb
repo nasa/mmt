@@ -32,7 +32,6 @@ FactoryGirl.define do
     draft {
       collection_one.merge(
         'ShortName'          => draft_short_name || "#{Faker::Number.number(digits: 6)}_#{Faker::Superhero.name}",
-        'CollectionDataType' => collection_data_type || 'SCIENCE_QUALITY',
         'Version'            => version || '1',
         'EntryTitle'         => draft_entry_title || "#{Faker::Number.number(digits: 6)}_#{Faker::Job.title}",
         'CollectionDataType' => collection_data_type || 'SCIENCE_QUALITY'
