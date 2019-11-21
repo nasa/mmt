@@ -95,9 +95,16 @@ class CollectionsController < ManageCollectionsController
   end
 
   def create_delete_proposal
-    proposal = CollectionDraftProposal.create_request(@collection, current_user, @native_id, 'delete', session[:name])
-    Rails.logger.info("Audit Log: Delete Collection Proposal Request for #{proposal.entry_title} was created by #{current_user.urs_uid}")
+    proposal = CollectionDraftProposal.create_request(collection: @collection, user: current_user, provider_id: @provider_id, native_id: @native_id, request_type: 'delete', username: session[:name])
+    Rails.logger.info("Audit Log: Delete Collection Proposal Request for #{proposal.entry_title} with concept #{@concept_id} was created by #{current_user.urs_uid}")
     flash[:success] = I18n.t('controllers.collections.delete_proposal.flash.success')
+    redirect_to collection_draft_proposal_path(proposal)
+  end
+
+  def create_update_proposal
+    proposal = CollectionDraftProposal.create_request(collection: @collection, user: current_user, provider_id: @provider_id, native_id: @native_id, request_type: 'update', username: session[:name])
+    Rails.logger.info("Audit Log: Update Collection Proposal Request for #{proposal.entry_title} with concept #{@concept_id} was created by #{current_user.urs_uid}")
+    flash[:success] = I18n.t('controllers.collections.update_proposal.flash.success')
     redirect_to collection_draft_proposal_path(proposal)
   end
 
@@ -161,7 +168,7 @@ class CollectionsController < ManageCollectionsController
     if params['action'] == 'show'
       # actions available in both dMMT and MMT
       multi_mode_actions_allowed?
-    elsif %w[create_delete_proposal].include?(params['action'])
+    elsif %w[create_delete_proposal create_update_proposal].include?(params['action'])
       # actions available in dMMT to users and approvers
       proposal_mode_all_user_actions_allowed?
     else

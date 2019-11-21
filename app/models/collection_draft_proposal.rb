@@ -19,18 +19,21 @@ class CollectionDraftProposal < CollectionDraft
   serialize :approver_feedback, JSON
 
   class << self
-    def create_request(collection, user, native_id, type, username = nil)
+    def create_request(collection:, user:, provider_id:, native_id:, request_type:, username: nil)
       request = self.create
-      request.request_type = type
-      request.draft = collection
+      request.request_type = request_type
+      request.provider_id = provider_id
       request.native_id = native_id
+      request.draft = collection
       request.short_name = request.draft['ShortName']
       request.entry_title = request.draft['EntryTitle']
-      request.set_user_and_provider(user)
+      request.user = user
 
-      if type == 'delete'
+      if request_type == 'delete'
         request.submit
-        request.status_history = { 'submitted' => { 'username' => username, 'action_date' => Time.new.utc.to_s } }
+        request.status_history =
+          { 'submitted' =>
+            { 'username' => (username || user.urs_uid), 'action_date' => Time.new.utc.to_s } }
       end
 
       request.save
@@ -69,10 +72,37 @@ class CollectionDraftProposal < CollectionDraft
     self.approver_feedback ||= {}
   end
 
+  def add_status_history(target, name)
+    self.status_history[target] = { 'username' => name, 'action_date' => Time.new }
+  end
+
+  def remove_status_history(target)
+    self.status_history.delete(target)
+  end
+
+  def progress_message(action)
+    status = self.status_history.fetch(action, {})
+    if status.blank?
+      action_time = 'No Date Provided'
+      action_username = 'No User Provided'
+      unless in_work?
+        Rails.logger.error("A #{self.class} with title #{entry_title} and id #{id} is being asked for a status_history for #{action}, but does not have that information. This proposal should be investigated.")
+      end
+    else
+      action_time = status['action_date'].in_time_zone('UTC').to_s(:default_with_time_zone)
+      action_username = status['username']
+    end
+
+    action_name = action == 'done' ? 'Published' : action.titleize
+
+    "#{action_name}: #{action_time} By: #{action_username}"
+  end
+
   private
 
   def provider_required?
-    # draft proposals do not have a provider
+    # new (create) proposals do not have a provider
+    # but update and delete proposals should have a provider, but from the record it is created from
     false
   end
 
