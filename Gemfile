@@ -7,8 +7,8 @@ gem 'rails', '5.1.7'
 gem 'sprockets', '~> 3.7.0'
 
 # Use SCSS for stylesheets
-gem 'bourbon', '~> 5.1.0'
-gem 'neat'
+gem 'bourbon', '~> 4.2.6'
+gem 'neat', '~> 1.7.2'
 gem 'sass-rails', '~> 5.0'
 
 # Use Autoprefixer for prefixing styles
@@ -44,7 +44,6 @@ gem 'breadcrumbs_on_rails'
 gem 'builder'
 gem 'carmen' # countries and subdivisions
 gem 'database_cleaner' # added to provide a solution to Capybara's problems with js=>true
-gem 'factory_girl_rails'
 gem 'faker'
 gem 'figaro'
 gem 'font-awesome-rails'
@@ -85,6 +84,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'vcr'
   gem 'rails-controller-testing' # https://www.ombulabs.com/blog/rails/upgrades/upgrade-rails-from-4-2-to-5-0.html
+  gem 'factory_girl_rails', :require => true
 end
 
 group :development do
@@ -100,7 +100,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '3.19.0'
   gem 'capybara-screenshot'
   gem 'fuubar'
   gem 'launchy'
