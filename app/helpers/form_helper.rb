@@ -151,8 +151,9 @@ module FormHelper
       placeholder: "YYYY-MM-DDTHH:MM:SSZ",
       data: { level: remove_pipes(options[:prefix]) }
     )
-
-    mmt_label(options) + mmt_help_icon(options) + datetime_html
+    
+    # TODO -- gsub reverts to the pre-Rails 5.1 behavior of using datetime,  instead of datetime-local See MMT-2060
+    mmt_label(options) + mmt_help_icon(options) + datetime_html.gsub('datetime-local','datetime').html_safe
   end
 
   def mmt_number(options)

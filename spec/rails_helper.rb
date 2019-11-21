@@ -1,4 +1,8 @@
 require 'simplecov'
+# TODO factory_girls_rails require was added by RAIL5 upgrade to avoide a double load.
+# this should be removed when factory_girl is replaced with factory_bot
+require 'factory_girl_rails'
+
 SimpleCov.start 'rails' do
   # Filter out files that aren't part of the actual app code
   # Local CMR files
@@ -192,22 +196,23 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   # Randomize the order of the tests
-  config.order = :random
+  config.order = :sorted
 
   # Helpers
-  config.include Helpers::ControllerHelpers
   config.include Helpers::AjaxHelpers
-  config.include Helpers::CmrHelper
-  config.include Helpers::DateHelpers
-  config.include Helpers::DraftHelpers
-  config.include Helpers::UmmSDraftHelpers
-  config.include Helpers::GroupHelper
-  config.include Helpers::SearchHelpers
-  config.include Helpers::UserHelpers
   config.include Helpers::BulkUpdateHelper
+  config.include Helpers::CmrHelper
   config.include Helpers::CollectionAssociationHelper
   config.include Helpers::ConceptHelper
   config.include Helpers::ConfigurationHelpers
+  config.include Helpers::ControllerHelpers
+  config.include Helpers::DateHelpers
+  config.include Helpers::DraftHelpers
+  config.include Helpers::GroupHelper
+  config.include Helpers::Instrumentation
+  config.include Helpers::SearchHelpers
+  config.include Helpers::UmmSDraftHelpers
+  config.include Helpers::UserHelpers
 
   # Precompile assets before running the test suite
   # config.before(:suite) do
