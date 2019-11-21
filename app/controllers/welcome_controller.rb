@@ -9,7 +9,10 @@ class WelcomeController < ApplicationController
   before_action :redirect_if_logged_in
 
   # Skip all filters for status
-  # TODO Changed skip_filter to skip_before_action per Rails 5.1 upgrade -- check the raise: flag 
+  # TODO Changed skip_filter to skip_before_action per Rails 5.1 upgrade 
+  # TODO note that the raise: flag was added to avoid an exception. This is 
+  # temporary so that testing can continue. The raise flag should be removed and the exception
+  # should be tracked down.
   skip_before_action *_process_action_callbacks.map(&:filter), only: [:status], raise: false
 
   # MMT-867: Removing Provider Holdings from the 'homepage' for now as we need because it's

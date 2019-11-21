@@ -1,4 +1,6 @@
 require 'simplecov'
+# TODO factory_girls_rails require was added by RAIL5 upgrade to avoide a double load.
+# this should be removed when factory_girl is replaced with factory_bot
 require 'factory_girl_rails'
 
 SimpleCov.start 'rails' do
@@ -194,7 +196,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   # Randomize the order of the tests
-  config.order = :random
+  config.order = :sorted
 
   # Helpers
   config.include Helpers::AjaxHelpers
