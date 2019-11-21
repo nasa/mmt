@@ -35,7 +35,7 @@ FactoryGirl.define do
         'CollectionDataType' => collection_data_type || 'SCIENCE_QUALITY',
         'Version'            => version || '1',
         'TemplateName'       => collection_template_name || "#{Faker::Number.number(digits: 6)}_#{Faker::Superhero.name}",
-        'EntryTitle'         => draft_entry_title || "#{Faker::Number.number(digits: 6)}_#{Faker::Name.title}",
+        'EntryTitle'         => draft_entry_title || "#{Faker::Number.number(digits: 6)}_#{Faker::Superhero.descriptor}",
         'ShortName'          => draft_short_name || "#{Faker::Number.number(digits: 6)}_#{Faker::Superhero.name}",
       )
     end
