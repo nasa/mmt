@@ -7,33 +7,17 @@ describe 'When publishing collection draft proposals', js: true do
   context 'when processing a delete request' do
     context 'when the target collection exists' do
       before do
-        set_as_proposal_mode_mmt(with_draft_approver_acl: true)
-        mock_approve(create(:full_collection_draft_proposal, proposal_short_name: "Delete Request", proposal_entry_title: "Delete Request Title", proposal_request_type: 'delete'))
-        set_as_mmt_proper
-        @ingest_response, _concept_response = publish_collection_draft(native_id: 'full_collection_draft_proposal_id')
+        mock_approve_proposals_success(proposal_info: [{ short_name: "Delete Request", entry_title: "Delete Request Title", request_type: 'delete'}])
+        @ingest_response, _concept_response = publish_collection_draft(native_id: 'dmmt_collection_1')
         mock_valid_token_validation
         visit manage_proposals_path
       end
 
       context 'when the collection has granules' do
         before do
+          mock_cmr_get_collections(granule_count: 1)
           click_on 'Delete'
-
-          # Using VCR to fake the collection having associated granules
-          # Need to configure it to accept a local host and use a dynamic
-          # cassette in order to capture the host and port that Capybara is
-          # currently using.
-          VCR.configure do |c|
-            c.ignore_localhost = false
-          end
-
-          VCR.use_cassette('proposals/collection_has_granules', erb: { host: Capybara.current_session.server.host, port: Capybara.current_session.server.port }) do
-            click_on 'Yes'
-          end
-
-          VCR.configure do |c|
-            c.ignore_localhost = true
-          end
+          click_on 'Yes'
         end
 
         it 'provides an error message' do
@@ -43,6 +27,7 @@ describe 'When publishing collection draft proposals', js: true do
 
       context 'when successfully deleting the collection' do
         before do
+          mock_cmr_get_collections
           click_on 'Delete'
           click_on 'Yes'
         end
@@ -61,11 +46,10 @@ describe 'When publishing collection draft proposals', js: true do
 
     context 'when the collection does not exist' do
       before do
-        set_as_proposal_mode_mmt(with_draft_approver_acl: true)
-        mock_approve(create(:full_collection_draft_proposal, proposal_short_name: "Delete Request", proposal_entry_title: "Delete Request Title", proposal_request_type: 'delete', proposal_native_id: 'DNE_ID'))
-        set_as_mmt_proper
+        mock_approve_proposals_success(proposal_info: [{ short_name: "Delete Request", entry_title: "Delete Request Title", request_type: 'delete', native_id: 'DNE_ID' }])
         mock_valid_token_validation
         visit manage_proposals_path
+        mock_cmr_get_collections(hits: 0)
         click_on 'Delete'
         click_on 'Yes'
       end
@@ -79,17 +63,14 @@ describe 'When publishing collection draft proposals', js: true do
   context 'when processing a create request' do
     before do
       @create_native_id = "proposal_id_#{Faker::Number.number(15)}"
-      set_as_proposal_mode_mmt(with_draft_approver_acl: true)
-      mock_approve(create(:full_collection_draft_proposal, proposal_short_name: "Second Create Request", proposal_entry_title: "Create Request Title", proposal_request_type: 'create', proposal_native_id: "proposal_id_#{Faker::Number.number(15)}"))
-      mock_approve(create(:full_collection_draft_proposal, proposal_short_name: "Create Request", proposal_entry_title: "Create Request Title", proposal_request_type: 'create', proposal_native_id: @create_native_id))
-      set_as_mmt_proper
+      mock_approve_proposals_success(proposal_info: [{ short_name: "Create Request", entry_title: "Create Request Title", request_type: 'create', native_id: @create_native_id },
+                                                     { short_name: "Second Create Request", entry_title: "Create Request Title", request_type: 'create', native_id: "proposal_id_#{Faker::Number.number(15)}" }])
       mock_valid_token_validation
       visit manage_proposals_path
     end
 
     after do
-      response = cmr_client.delete_collection('MMT_2', @create_native_id, 'ABC-2')
-      puts response.inspect
+      cmr_client.delete_collection('MMT_2', @create_native_id, 'ABC-2')
     end
 
     context 'when creating a new record' do
@@ -135,9 +116,7 @@ describe 'When publishing collection draft proposals', js: true do
   context 'when processing an update request' do
     before do
       @update_native_id = "full_collection_draft_proposal_id_#{Faker::Number.number(15)}"
-      set_as_proposal_mode_mmt(with_draft_approver_acl: true)
-      mock_approve(create(:full_collection_draft_proposal, proposal_short_name: "Create Request_#{Faker::Number.number(15)}", proposal_entry_title: "Create Request Title_#{Faker::Number.number(15)}", proposal_request_type: 'update', proposal_native_id: @update_native_id))
-      set_as_mmt_proper
+      mock_approve_proposals_success(proposal_info: [{ short_name: "Create Request_#{Faker::Number.number(15)}", entry_title: "Create Request Title_#{Faker::Number.number(15)}", request_type: 'update', native_id: @update_native_id }])
       mock_valid_token_validation
       visit manage_proposals_path
     end
