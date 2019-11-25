@@ -93,7 +93,8 @@ class ManageProposalController < ManageMetadataController
   end
 
   def publish_delete_proposal(proposal, provider)
-    search_response = cmr_client.get_collections({ 'native_id': proposal['native_id'] }, token)
+    search_response = cmr_client.get_collections({ 'native_id': proposal['native_id'], 'provider_id': provider }, token)
+    puts ">>>>>>>>>>>>>>>>>", search_response.body.as_json.inspect
 
     if search_response.body['hits'].to_s != '1'
       # If the search has more than one hit or 0 hits, the record was not
@@ -109,10 +110,10 @@ class ManageProposalController < ManageMetadataController
 
       if cmr_response.success?
         flash[:success] = I18n.t('controllers.manage_proposals.publish.flash.delete.success')
-        Rails.logger.info("Proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} were successfully deleted in the CMR")
+        Rails.logger.info("Audit Log: Collection with native_id #{proposal['native_id']} was deleted for #{provider} by #{session[:urs_uid]} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}.")
       else
         flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.delete.error')
-        Rails.logger.info("Proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} could not be deleted in the CMR")
+        Rails.logger.info("User: #{current_user.urs_uid} could not delete a collection with native_id #{proposal['native_id']} based on proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
       end
     end
   end
@@ -122,11 +123,10 @@ class ManageProposalController < ManageMetadataController
 
     if cmr_response.success?
       flash[:success] = I18n.t('controllers.manage_proposals.publish.flash.create.success')
-      Rails.logger.info("Proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} were successfully ingested into the CMR")
+      Rails.logger.info("Audit Log: Draft #{proposal['entry_title']} was published by #{current_user.urs_uid} in provider: #{provider} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
     else
-      puts cmr_response.errors.inspect
       flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.create.error')
-      Rails.logger.info("Proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} could not be ingested into the CMR. The CMR provided the following reasons: #{cmr_response.errors.inspect}")
+      Rails.logger.info("User: #{current_user.urs_uid} could not publish proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} in the CMR. The CMR provided the following reasons: #{cmr_response.errors.inspect}")
     end
   end
 end
