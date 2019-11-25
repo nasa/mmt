@@ -37,6 +37,7 @@ module Helpers
       proposal_info.each do |params|
         short_name = params[:short_name] || 'Test Proposal Short Name'
         entry_title = params[:entry_title] || 'Test Proposal Title'
+        default_time = Time.new.to_s
         proposals << {
           "id": params[:id] || 1,
           "user_id": params[:user_id] || 1,
@@ -45,8 +46,8 @@ module Helpers
           "provider_id": params[:provider_id] || 'MMT_2',
           "native_id": params[:native_id] || 'dmmt_collection_1',
           "proposal_status": "approved",
-          "created_at": "2019-11-25T13:59:36.190Z",
-          "updated_at": "2019-11-25T13:59:50.750Z",
+          "created_at": default_time,
+          "updated_at": default_time,
           "status_history": params[:status_history] || {"submitted":{"username":"Test User1","action_date":"2019-11-25 13:59"},"approved":{"username":"Test User1","action_date":"2019-11-25T08:59:50.748-05:00"}},
           "request_type": params[:request_type] || 'create',
           "draft": params[:draft] || collection_one.merge('ShortName' => short_name, 'Version' => params[:version] || '1', 'EntryTitle' => entry_title)
