@@ -94,7 +94,6 @@ class ManageProposalController < ManageMetadataController
 
   def publish_delete_proposal(proposal, provider)
     search_response = cmr_client.get_collections({ 'native_id': proposal['native_id'], 'provider_id': provider }, token)
-    puts ">>>>>>>>>>>>>>>>>", search_response.body.as_json.inspect
 
     if search_response.body['hits'].to_s != '1'
       # If the search has more than one hit or 0 hits, the record was not
