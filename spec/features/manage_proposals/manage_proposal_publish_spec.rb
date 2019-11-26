@@ -7,7 +7,7 @@ describe 'When publishing collection draft proposals', js: true do
   context 'when processing a delete request' do
     context 'when the target collection exists' do
       before do
-        mock_approve_proposals_success(proposal_info: [{ short_name: "Delete Request", entry_title: "Delete Request Title", request_type: 'delete'}])
+        mock_retrieve_approved_proposals(proposal_info: [{ short_name: "Delete Request", entry_title: "Delete Request Title", request_type: 'delete'}])
         @ingest_response, _concept_response = publish_collection_draft(native_id: 'dmmt_collection_1')
         mock_valid_token_validation
         visit manage_proposals_path
@@ -46,7 +46,7 @@ describe 'When publishing collection draft proposals', js: true do
 
     context 'when the collection does not exist' do
       before do
-        mock_approve_proposals_success(proposal_info: [{ short_name: "Delete Request", entry_title: "Delete Request Title", request_type: 'delete', native_id: 'DNE_ID' }])
+        mock_retrieve_approved_proposals(proposal_info: [{ short_name: "Delete Request", entry_title: "Delete Request Title", request_type: 'delete', native_id: 'DNE_ID' }])
         mock_valid_token_validation
         visit manage_proposals_path
         mock_cmr_get_collections(hits: 0)
@@ -63,7 +63,7 @@ describe 'When publishing collection draft proposals', js: true do
   context 'when processing a create request' do
     before do
       @create_native_id = "proposal_id_#{Faker::Number.number(15)}"
-      mock_approve_proposals_success(proposal_info: [{ short_name: "Create Request", entry_title: "Create Request Title", request_type: 'create', native_id: @create_native_id },
+      mock_retrieve_approved_proposals(proposal_info: [{ short_name: "Create Request", entry_title: "Create Request Title", request_type: 'create', native_id: @create_native_id },
                                                      { short_name: "Second Create Request", entry_title: "Create Request Title", request_type: 'create', native_id: "proposal_id_#{Faker::Number.number(15)}" }])
       mock_valid_token_validation
       visit manage_proposals_path
@@ -116,7 +116,7 @@ describe 'When publishing collection draft proposals', js: true do
   context 'when processing an update request' do
     before do
       @update_native_id = "full_collection_draft_proposal_id_#{Faker::Number.number(15)}"
-      mock_approve_proposals_success(proposal_info: [{ short_name: "Create Request_#{Faker::Number.number(15)}", entry_title: "Create Request Title_#{Faker::Number.number(15)}", request_type: 'update', native_id: @update_native_id }])
+      mock_retrieve_approved_proposals(proposal_info: [{ short_name: "Create Request_#{Faker::Number.number(15)}", entry_title: "Create Request Title_#{Faker::Number.number(15)}", request_type: 'update', native_id: @update_native_id }])
       mock_valid_token_validation
       visit manage_proposals_path
     end
