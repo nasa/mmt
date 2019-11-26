@@ -113,6 +113,7 @@ class ManageProposalController < ManageMetadataController
       else
         flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.delete.error')
         Rails.logger.info("User: #{current_user.urs_uid} could not delete a collection with native_id #{proposal['native_id']} based on proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
+        Rails.logger.error("Delete collection from proposal error: #{cmr_response.clean_inspect}")
       end
     end
   end
@@ -125,7 +126,8 @@ class ManageProposalController < ManageMetadataController
       Rails.logger.info("Audit Log: Draft #{proposal['entry_title']} was published by #{current_user.urs_uid} in provider: #{provider} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
     else
       flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.create.error')
-      Rails.logger.info("User: #{current_user.urs_uid} could not publish proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} in the CMR. The CMR provided the following reasons: #{cmr_response.errors.inspect}")
+      Rails.logger.info("User: #{current_user.urs_uid} could not publish proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} in the CMR.")
+      Rails.logger.error("Ingest collection from proposal error: #{cmr_response.clean_inspect}")
     end
   end
 end

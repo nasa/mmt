@@ -32,7 +32,7 @@ module Helpers
     # Takes an array of hashes.  Each hash represents a proposal to be mocked.
     # Hashes are assumed to have keys that match fields in the db table
     # Any values not provided are given a default value.
-    def mock_approve_proposals_success(proposal_info:)
+    def mock_retrieve_approved_proposals(proposal_info:)
       proposals = []
       proposal_info.each do |params|
         short_name = params[:short_name] || 'Test Proposal Short Name'
