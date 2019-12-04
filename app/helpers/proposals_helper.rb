@@ -21,7 +21,7 @@ module ProposalsHelper
   def submit_node
     classes = if get_resource.in_work?
                 # If the proposal is in work, this is the current node
-                %w[timeline-node-active timeline-faded-line-active]
+                %w[timeline-node-active timeline-line-faded-active]
               elsif get_resource.submitted?
                 # If the proposal has been submitted, this is the current node
                 # and we want to make the next line active to show it is
@@ -40,7 +40,7 @@ module ProposalsHelper
     classes = if get_resource.rejected?
                 # This node is the active node when a rejected proposal
                 # has not been rescinded
-                %w[timeline-node-rejected timeline-faded-line-rejected]
+                %w[timeline-node-rejected timeline-line-faded-rejected]
               elsif @status_history['approved']
                 # If the proposal has been approved, a later node is active.
                 %w[timeline-node timeline-line]
@@ -48,9 +48,9 @@ module ProposalsHelper
                 # If this proposal has been rejected, but isn't in the rejected
                 # state, this node should be visible, but no progress to the next
                 # state is shown (e.g. a faded line)
-                %w[timeline-faded-node timeline-faded-line-rejected]
+                %w[timeline-node-faded timeline-line-faded-rejected]
               else
-                %w[timeline-faded-node timeline-faded-line]
+                %w[timeline-node-faded timeline-line-faded]
               end
 
     content_tag(:div, nil, class: classes)
@@ -68,7 +68,7 @@ module ProposalsHelper
                 # and the node and line should be displayed
                 %w[timeline-node timeline-line]
               else
-                %w[timeline-faded-node timeline-faded-line]
+                %w[timeline-node-faded timeline-line-faded]
               end
 
     content_tag(:div, nil, class: classes)
@@ -79,7 +79,7 @@ module ProposalsHelper
     classes = if get_resource.done?
                 %w[timeline-node-active]
               else
-                %w[timeline-faded-node]
+                %w[timeline-node-faded]
               end
 
     content_tag(:div, nil, class: classes)
@@ -122,7 +122,7 @@ module ProposalsHelper
         'No actions are possible.'
       end
     elsif get_resource.submitted? || get_resource.rejected?
-      'You may rescind this proposal to make additional changes.'
+      'You may cancel this proposal to make additional changes.'
     else
       'No actions are possible.'
     end

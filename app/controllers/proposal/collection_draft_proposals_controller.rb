@@ -18,8 +18,8 @@ module Proposal
 
     def queued_index
       resources = resource_class.where('proposal_status != ?', 'in_work')
-      .order(index_sort_order)
-      .page(params[:page]).per(RESULTS_PER_PAGE)
+                                .order(index_sort_order)
+                                .page(params[:page]).per(RESULTS_PER_PAGE)
       instance_variable_set("@#{plural_resource_name}", resources)
       @category_of_displayed_proposal = 'Queued'
       @specified_url = '/collection_draft_proposals/queued_index'
@@ -28,8 +28,8 @@ module Proposal
 
     def in_work_index
       resources = resource_class.where('proposal_status = ?', 'in_work')
-      .order(index_sort_order)
-      .page(params[:page]).per(RESULTS_PER_PAGE)
+                                .order(index_sort_order)
+                                .page(params[:page]).per(RESULTS_PER_PAGE)
       instance_variable_set("@#{plural_resource_name}", resources)
       @category_of_displayed_proposal = 'In Work'
       @specified_url = '/collection_draft_proposals/in_work_index'

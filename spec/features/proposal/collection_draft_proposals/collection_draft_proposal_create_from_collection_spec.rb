@@ -11,7 +11,7 @@ describe 'Collection Draft Proposal creation from collection', js: true do
     end
 
     it 'displays the proposal actions' do
-      expect(page).to have_link('Create Update Proposal')
+      expect(page).to have_link('Create Update Request')
       expect(page).to have_link('Submit Delete Request')
     end
 
@@ -22,19 +22,19 @@ describe 'Collection Draft Proposal creation from collection', js: true do
       end
 
       it 'a delete metadata proposal can be created' do
-        expect(page).to have_content('Delete Collection Metadata Request Created Successfully!')
+        expect(page).to have_content('Collection Metadata Delete Request Created Successfully!')
         expect(page).to have_content('Submitted')
       end
     end
 
     context 'when creating an update metadata proposal' do
       before do
-        click_on 'Create Update Proposal'
+        click_on 'Create Update Request'
         click_on 'Yes'
       end
 
       it 'an update metadata proposal can be created' do
-        expect(page).to have_content('Update Collection Metadata Request Created Successfully!')
+        expect(page).to have_content('Collection Metadata Update Request Created Successfully!')
         expect(page).to have_content('In Work')
       end
     end

@@ -1,4 +1,21 @@
 <div class="row row-content manage-proposals-mmt">
+  <% if @ingest_errors && !@ingest_errors.empty? %>
+    <section class="errors">
+      <div class="eui-banner--danger">
+        <div class="eui-banner__message">
+          <h4><i class="fa fa-exclamation-triangle"></i> This proposal has the following errors:</h4>
+          <ul class="no-bullet">
+            <% @ingest_errors.each do |error| %>
+              <li>
+                <%= error[:error] %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </section>
+  <% end %>
+
   <section>
     <h2><%= "Approved Proposals" %></h2>
 
@@ -27,28 +44,28 @@
           </td>
         </tr>
       <% else %>
-        <% @proposals.each do |draft| %>
+        <% @proposals.each do |proposal| %>
           <tr class='<%= cycle("alt", "") %>'>
             <td>
-              <%= draft['short_name'] %>
+              <%= proposal['short_name'] %>
             </td>
             <td>
-              <%= draft['entry_title'] %>
+              <%= proposal['entry_title'] %>
             </td>
             <td>
-              <%= draft['proposal_status'].titleize %>
+              <%= proposal['proposal_status'].titleize %>
             </td>
             <td>
-              <%= draft['request_type'].titleize %>
+              <%= proposal['request_type'].titleize %>
             </td>
             <td>
-              <%= draft['status_history'].fetch('submitted', { 'username' => 'Not Provided' })['username'].titleize %>
+              <%= proposal['status_history'].fetch('submitted', { 'username' => 'Not Provided' })['username'].titleize %>
             </td>
             <td>
-              <%= DateTime.parse(draft['updated_at']).to_s(:date) %>
+              <%= DateTime.parse(proposal['updated_at']).to_s(:date) %>
             </td>
             <td>
-              <%= link_to draft['request_type'] == 'delete' ? 'Delete' : 'Publish' , "#approver-proposal-modal", class: 'eui-btn--link display-modal approver-proposal-modal-link', data: { 'proposal': draft.to_json } %>
+              <%= link_to proposal['request_type'] == 'delete' ? 'Delete' : 'Publish' , "#approver-proposal-modal", class: 'eui-btn--link display-modal approver-proposal-modal-link', data: { 'proposal': proposal.to_json } %>
             </td>
           </tr>
         <% end %>

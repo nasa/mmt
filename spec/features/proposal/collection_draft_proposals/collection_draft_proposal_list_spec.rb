@@ -35,6 +35,11 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
         expect(page).to have_content('Delete')
       end
 
+      it 'displays submitters' do
+        expect(page).to have_content('Test User1')
+        expect(page).to have_content('Not Submitted')
+      end
+
       context 'when sorting short name' do
         before do
           click_on 'Sort by Short Name Asc'

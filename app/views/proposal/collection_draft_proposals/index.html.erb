@@ -15,6 +15,7 @@
           <th><%= sort_by_link(entry_title_header(resource_name), 'entry_title', @query, nil, @specified_url) %></th>
           <th><%= sort_by_link('Proposal Status', 'proposal_status', @query, nil, @specified_url) %></th>
           <th><%= sort_by_link('Request Type', 'request_type', @query, nil, @specified_url) %></th>
+          <th><%= sort_by_link('Submitter', 'user_name', @query, nil, @specified_url) %></th>
           <th><%= sort_by_link('Last Modified', 'updated_at', @query, nil, @specified_url) %></th>
         </tr>
       </thead>
@@ -23,26 +24,29 @@
       <% if get_resources.blank? %>
         <tr>
           <td colspan="6">
-            No <%= current_user.provider_id %> Drafts found
+            No <%= @category_of_displayed_proposal %> Proposals found
           </td>
         </tr>
       <% else %>
-        <% get_resources.each do |draft| %>
+        <% get_resources.each do |proposal| %>
           <tr class='<%= cycle("alt", "") %>'>
             <td>
-              <%= link_to draft.display_short_name, send("#{resource_name}_path", draft) %>
+              <%= link_to proposal.display_short_name, send("#{resource_name}_path", proposal) %>
             </td>
             <td>
-              <%= draft.display_entry_title %>
+              <%= proposal.display_entry_title %>
             </td>
             <td>
-              <%= link_to draft.proposal_status.titleize, send("progress_#{resource_name}_path", draft) %>
+              <%= link_to proposal.proposal_status.titleize, send("progress_#{resource_name}_path", proposal) %>
             </td>
             <td>
-              <%= "#{draft.request_type.titleize}" %>
+              <%= "#{proposal.request_type.titleize}" %>
             </td>
             <td>
-              <%= draft.updated_at.to_s(:date) %>
+              <%= proposal['status_history'].fetch('submitted', proposal.in_work? ? { 'username' => 'Not Submitted' } : { 'username' => 'Not Provided' })['username'].titleize %>
+            </td>
+            <td>
+              <%= proposal.updated_at.to_s(:date) %>
             </td>
           </tr>
         <% end %>

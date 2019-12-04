@@ -324,11 +324,7 @@ class ApplicationController < ActionController::Base
 
   # Detemine if the user should see the proposal approver tab in MMT
   def proposal_approver_permissions
-    @user_has_approver_permissions = if Rails.configuration.proposal_mode
-                                       false
-                                     else
-                                       is_non_nasa_draft_approver?(user: current_user, token: token)
-                                     end
+    @user_has_approver_permissions = is_non_nasa_draft_approver?(user: current_user, token: token)
   end
 
   def proposal_mode_enabled?

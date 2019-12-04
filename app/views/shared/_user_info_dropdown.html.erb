@@ -23,6 +23,10 @@
             <span class="eui-badge--sm daac"><%= current_user.provider_id %></span>
           </div>
         </a>
+      <% elsif Rails.configuration.proposal_mode %>
+        <div class="available-permissions">
+          <span class="eui-badge--sm"><%= @user_has_approver_permissions ? 'Approver' : 'User' %></span>
+        </div>
       <% end %>
       <!-- End provider context badge -->
   </section>

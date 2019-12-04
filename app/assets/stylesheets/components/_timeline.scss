@@ -18,7 +18,7 @@
   max-width: 1200px;
 }
 
-.timeline-node, .timeline-faded-node, .timeline-node-active, .timeline-node-rejected {
+.timeline-node, .timeline-node-faded, .timeline-node-active, .timeline-node-rejected {
   content: '';
   position: absolute;
   width: 22px;
@@ -32,12 +32,12 @@
 
 // Using opacity for the nodes made the line visible, so change the color
 // to generate the faded effect.
-.timeline-faded-node {
+.timeline-node-faded {
   background-color: $pale-blue;
 }
 
 // The settings that need to change to display the active color ring.
-.timeline-node-active {
+.timeline-node-active, .timeline-node-rejected {
   width: 24px;
   height: 24px;
   left: -21px;
@@ -46,14 +46,11 @@
 
 // TODO: refactor the timeline node classes, esp to incorporate rejected
 .timeline-node-rejected {
-  width: 24px;
-  height: 24px;
-  left: -21px;
   border: 3px solid $red;
 }
 
 // The ::after classes control the lines on the timeline
-.timeline-line-active::after, .timeline-faded-line-active::after, .timeline-line::after, .timeline-faded-line::after {
+.timeline-line-active::after, .timeline-line-faded-active::after, .timeline-line::after, .timeline-line-faded::after, .timeline-line-faded-rejected::after {
   content: '';
   position: absolute;
   width: 2px;
@@ -65,23 +62,15 @@
 }
 
 // TODO: refactor the timeline line classes, esp to incorporate rejected
-.timeline-faded-line-rejected::after {
-  content: '';
-  position: absolute;
-  width: 2px;
-  background-color: $dolphin-grey;
-  top: 19px;
+.timeline-line-faded-rejected::after {
   bottom: -123px;
-  left: 53%;
-  margin-left: -3px;
+}
+
+.timeline-line-faded-active::after, .timeline-line-faded::after, .timeline-line-faded-rejected::after {
   opacity: 0.2;
 }
 
-.timeline-faded-line-active::after, .timeline-faded-line::after {
-  opacity: 0.2;
-}
-
-.timeline-line::after, .timeline-faded-line::after {
+.timeline-line::after, .timeline-line-faded::after {
   top: 22px;
   bottom: -92px;
 }

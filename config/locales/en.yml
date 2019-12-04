@@ -84,8 +84,8 @@ en:
             error: 'Collection Draft Proposal was not deleted successfully'
         submit:
           flash:
-            success: 'Collection Draft Proposal Submitted Successfully'
-            error: 'Collection Draft Proposal was not submitted successfully'
+            success: 'Collection Draft Proposal Submitted for Review Successfully'
+            error: 'Collection Draft Proposal was not submitted for review successfully'
         rescind:
           flash:
             success: 'Collection Draft Proposal Canceled Successfully'
@@ -128,10 +128,10 @@ en:
           notice: 'Records must have a unique Short Name. Click here to enter a new Short Name.'
       delete_proposal:
         flash:
-          success: 'Delete Collection Metadata Request Created Successfully!'
+          success: 'Collection Metadata Delete Request Created Successfully!'
       update_proposal:
         flash:
-          success: 'Update Collection Metadata Request Created Successfully!'
+          success: 'Collection Metadata Update Request Created Successfully!'
     variables:
       create:
         flash:
