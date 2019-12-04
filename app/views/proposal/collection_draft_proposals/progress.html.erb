@@ -52,13 +52,16 @@
           <% if get_resource.in_work? %>
             <% if @errors.any? %>
               <%= link_to 'Submit for Review', '#invalid-proposal-modal', class: 'eui-btn--blue display-modal' %>
-              <%= link_to 'Edit Proposal', edit_collection_draft_proposal_path(get_resource) %>
+              <%= link_to 'Edit Proposal', edit_collection_draft_proposal_path(get_resource), class: 'display-modal eui-btn--link bar-after' %>
+              <%= link_to 'Delete Proposal', "#delete-proposal-modal", class: 'display-modal' %>
               <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/invalid_proposal_modal' %>
             <% else %>
               <%= link_to 'Submit for Review', '#submit-proposal-modal', class: 'eui-btn--blue display-modal' %>
-              <%= link_to 'Edit Proposal', edit_collection_draft_proposal_path(get_resource) %>
+              <%= link_to 'Edit Proposal', edit_collection_draft_proposal_path(get_resource), class: 'display-modal eui-btn--link bar-after' %>
+              <%= link_to 'Delete Proposal', "#delete-proposal-modal", class: 'display-modal' %>
               <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/submit_modal' %>
             <% end %>
+            <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/delete_modal' %>
           <% elsif get_resource.submitted? %>
             <% if @non_nasa_approver %>
               <%= link_to state_action_button_text('Approve'), "#approve-submission-modal", class: 'eui-btn--blue display-modal' %>
@@ -76,7 +79,6 @@
           <% elsif get_resource.rejected? %>
             <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
             <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
-          <% elsif get_resource.done? %>
           <% end %>
         </p>
       </div>

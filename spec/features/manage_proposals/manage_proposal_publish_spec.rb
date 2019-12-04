@@ -137,6 +137,8 @@ describe 'When publishing collection draft proposals', js: true do
 
         it 'provides an error message' do
           expect(page).to have_content('Collection metadata was not successfully published.')
+          expect(page).to have_content('This proposal has the following errors:')
+          expect(page).to have_content('The Entry Title [Create Request Title] must be unique.')
         end
       end
     end

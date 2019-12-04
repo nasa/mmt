@@ -67,12 +67,12 @@ describe 'Collection Draft Proposal Update', reset_provider: true, js: true do
 
         context 'when creating an update metadata proposal' do
           before do
-            click_on 'Create Update Proposal'
+            click_on 'Create Update Request'
             click_on 'Yes'
           end
 
           it 'creates the update metadata proposal' do
-            expect(page).to have_content('Update Collection Metadata Request Created Successfully!')
+            expect(page).to have_content('Collection Metadata Update Request Created Successfully!')
             expect(page).to have_content('In Work')
           end
 

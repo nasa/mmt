@@ -17,7 +17,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
 
       it 'submits a proposal' do
         click_on 'Yes'
-        expect(page).to have_content('Collection Draft Proposal Submitted Successfully')
+        expect(page).to have_content('Collection Draft Proposal Submitted for Review Successfully')
         expect(page).to have_no_link('Temporal Information')
       end
 
@@ -37,7 +37,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
       end
 
       it 'provides an error message' do
-        expect(page).to have_content('Collection Draft Proposal was not submitted successfully')
+        expect(page).to have_content('Collection Draft Proposal was not submitted for review successfully')
         within '#proposal-status-display' do
           expect(page).to have_content('Done')
         end
@@ -175,7 +175,7 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
       end
 
       it 'can go to the progress page' do
-        expect(page).to have_content('You may rescind this proposal to make additional changes.')
+        expect(page).to have_content('You may cancel this proposal to make additional changes.')
         expect(page).to have_content('No Date Provided')
         expect(page).to have_content('No User Provided')
       end

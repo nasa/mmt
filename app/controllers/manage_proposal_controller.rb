@@ -5,6 +5,7 @@ class ManageProposalController < ManageMetadataController
   RESULTS_PER_PAGE = 25
 
   def show
+    @ingest_errors = params['ingest_errors']
     @specified_url = 'manage_proposals'
     @providers = ['Select a provider to publish this record'] + current_user.available_providers
 
@@ -70,7 +71,7 @@ class ManageProposalController < ManageMetadataController
       publish_create_or_update_proposal(proposal, provider)
     end
 
-    redirect_to manage_proposals_path
+    redirect_to manage_proposals_path(ingest_errors: @ingest_errors)
   end
 
   private
@@ -118,6 +119,7 @@ class ManageProposalController < ManageMetadataController
         update_proposal_status_in_dmmt(proposal)
       else
         flash[:error] = I18n.t('controllers.manage_proposal.publish_proposal.flash.delete.error')
+        @ingest_errors = generate_ingest_errors(cmr_response)
         Rails.logger.info("User: #{current_user.urs_uid} could not delete a collection with native_id #{proposal['native_id']} based on proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
         Rails.logger.error("Delete collection from proposal error: #{cmr_response.clean_inspect}")
       end
@@ -134,6 +136,7 @@ class ManageProposalController < ManageMetadataController
       update_proposal_status_in_dmmt(proposal)
     else
       flash[:error] = I18n.t('controllers.manage_proposal.publish_proposal.flash.create.error')
+      @ingest_errors = generate_ingest_errors(cmr_response)
       Rails.logger.info("User: #{current_user.urs_uid} could not publish proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} in the CMR.")
       Rails.logger.error("Ingest collection from proposal error: #{cmr_response.clean_inspect}")
     end

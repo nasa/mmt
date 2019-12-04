@@ -11,23 +11,18 @@
             <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/submit_modal' %>
           <% end %>
           <%= link_to 'Delete Collection Draft Proposal', "#delete-proposal-modal", class: 'display-modal' %>
-          <div id="delete-proposal-modal" class="eui-modal-content">
-            <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-            <p>Are you sure you want to delete this proposal?</p>
-            <p>
-              <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-              <%= link_to 'Yes', collection_draft_proposal_path(get_resource), method: :delete, class: 'eui-btn--blue spinner' %>
-            </p>
-          </div>
+          <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/delete_modal' %>
         </span>
       <% elsif get_resource.submitted? %>
         <% if @non_nasa_approver %>
           <%= link_to state_action_button_text('Approve'), "#approve-submission-modal", class: 'eui-btn--blue display-modal' %>
           <%= link_to state_action_button_text('Reject'), "#reject-submission-modal", class: 'eui-btn--red display-modal' %>
+          <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--link display-modal' %>
           <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/approve_modal' %>
           <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/reject_modal' %>
+        <% else %>
+          <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
         <% end %>
-        <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--blue display-modal' %>
         <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/rescind_modal' %>
       <% elsif get_resource.rejected? %>
         <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--link display-modal' %>

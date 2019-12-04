@@ -10,7 +10,7 @@ module Proposal
       # If you change this number you must also change it in the corresponding test file - features/manage_collections/open_drafts_spec.rb.
       @proposal_display_max_count = 5
       @proposal_type = 'CollectionDraftProposal'
-      @non_nasa_approver = is_non_nasa_draft_approver?(user: current_user, token: token)
+      @non_nasa_approver = approver?
 
       if @non_nasa_approver
         @in_work_proposals =
