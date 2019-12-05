@@ -1,6 +1,6 @@
 module Cmr
   class DmmtClient < BaseClient
-    def dmmt_get_approved_proposals(token, request)
+    def dmmt_get_approved_proposals(token, request = nil)
       url = if Rails.env.development?
               'http://localhost:3000/approved_proposals'
             elsif Rails.env.test?
@@ -17,7 +17,7 @@ module Cmr
       get(url, nil, headers.merge(token_header(token, true)))
     end
 
-    def dmmt_update_proposal_status(params, token, request)
+    def dmmt_update_proposal_status(params, token, request = nil)
       url = if Rails.env.development?
               'http://localhost:3000/approved_proposals/update_proposal_status'
             elsif Rails.env.test?
