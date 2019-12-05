@@ -41,7 +41,7 @@ module Proposal
           proposal = draft_type.constantize.find_by(id: request.params['id'])
           if update_and_save_done_status(proposal, @token_response.body['uid'])
             # Record was found and altered
-            Rails.logger.info("Proposal of type: #{draft_type} with id: #{request.params['id']} was successfully updated to be 'done'.")
+            Rails.logger.info("Audit Log: Proposal of type: #{draft_type} with id: #{request.params['id']} was successfully updated to be 'done'.")
             render json: { body: nil }, status: :ok
           else
             # Record either could not be found or altered.
@@ -91,6 +91,7 @@ module Proposal
 
     def update_and_save_done_status(proposal, urs_uid)
       urs_response = cmr_client.get_urs_users([urs_uid])
+      return false unless urs_response.success?
       user = urs_response.body['users'][0]
       if Rails.env.development? || Rails.env.test?
         # In the dev and test environments, the server is not in proposal mode,

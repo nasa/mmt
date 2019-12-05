@@ -18,7 +18,12 @@ class ManageProposalController < ManageMetadataController
     end
 
     sort_key, sort_dir = index_sort_order
-    dmmt_response = cmr_client.dmmt_get_approved_proposals(token, request)
+    dmmt_response = if Rails.env.test?
+                      cmr_client.dmmt_get_approved_proposals(token, request)
+                    else
+                      cmr_client.dmmt_get_approved_proposals(token)
+                    end
+
     if dmmt_response.success?
       Rails.logger.info("MMT successfully received approved proposals from dMMT at #{current_user.urs_uid}'s request.")
 
@@ -97,26 +102,22 @@ class ManageProposalController < ManageMetadataController
     if search_response.body['hits'].to_s != '1'
       # If the search has more than one hit or 0 hits, the record was not
       # uniquely identified from it's native ID.
-      flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.delete.not_found_error')
+      flash[:error] = I18n.t('controllers.manage_proposal.publish_proposal.flash.delete.not_found_error')
       Rails.logger.info("Could not complete delete request from proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} because it could not be located.")
     elsif !search_response.body['items'][0]['meta']['granule-count'].zero?
       # Do not allow the deletion of collections which have granules
-      flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.delete.granules_error')
+      flash[:error] = I18n.t('controllers.manage_proposal.publish_proposal.flash.delete.granules_error')
       Rails.logger.info("Could not complete delete request from proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} because it had granules at the time of the delete attempt.")
     else
       cmr_response = cmr_client.delete_collection(provider, proposal['native_id'], token)
 
       if cmr_response.success?
-        flash[:success] = I18n.t('controllers.manage_proposals.publish.flash.delete.success')
+        flash[:success] = I18n.t('controllers.manage_proposal.publish_proposal.flash.delete.success')
         Rails.logger.info("Audit Log: Collection with native_id #{proposal['native_id']} was deleted for #{provider} by #{session[:urs_uid]} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}.")
 
-        dmmt_response = cmr_client.dmmt_update_proposal_status({ 'draft_type': proposal['draft_type'], 'id': proposal['id'] }, token, request)
-        unless dmmt_response.success?
-          flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.update_proposal_status.error')
-          Rails.logger.info("Audit Log: dMMT did not successfully transition #{proposal['draft_type']} with id #{proposal['id']} to 'done' status from 'approved'.")
-        end
+        update_proposal_status_in_dmmt(proposal)
       else
-        flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.delete.error')
+        flash[:error] = I18n.t('controllers.manage_proposal.publish_proposal.flash.delete.error')
         Rails.logger.info("User: #{current_user.urs_uid} could not delete a collection with native_id #{proposal['native_id']} based on proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
         Rails.logger.error("Delete collection from proposal error: #{cmr_response.clean_inspect}")
       end
@@ -127,18 +128,25 @@ class ManageProposalController < ManageMetadataController
     cmr_response = cmr_client.ingest_collection(proposal['draft'].to_json, provider, proposal['native_id'], token)
 
     if cmr_response.success?
-      flash[:success] = I18n.t('controllers.manage_proposals.publish.flash.create.success')
+      flash[:success] = I18n.t('controllers.manage_proposal.publish_proposal.flash.create.success')
       Rails.logger.info("Audit Log: Proposal #{proposal['entry_title']} was published by #{current_user.urs_uid} in provider: #{provider} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
 
-      dmmt_response = cmr_client.dmmt_update_proposal_status({ 'draft_type': proposal['draft_type'], 'id': proposal['id'] }, token, request)
-      unless dmmt_response.success?
-        flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.update_proposal_status.error')
-        Rails.logger.info("Audit Log: dMMT did not successfully transition #{proposal['draft_type']} with id #{proposal['id']} to 'done' status from 'approved'.")
-      end
+      update_proposal_status_in_dmmt(proposal)
     else
-      flash[:error] = I18n.t('controllers.manage_proposals.publish.flash.create.error')
+      flash[:error] = I18n.t('controllers.manage_proposal.publish_proposal.flash.create.error')
       Rails.logger.info("User: #{current_user.urs_uid} could not publish proposal with short name: #{proposal['short_name']} and id: #{proposal['id']} in the CMR.")
       Rails.logger.error("Ingest collection from proposal error: #{cmr_response.clean_inspect}")
     end
+  end
+
+  def update_proposal_status_in_dmmt(proposal)
+    dmmt_response = if Rails.env.test?
+                      cmr_client.dmmt_update_proposal_status({ 'draft_type': proposal['draft_type'], 'id': proposal['id'] }, token, request)
+                    else
+                      cmr_client.dmmt_update_proposal_status({ 'draft_type': proposal['draft_type'], 'id': proposal['id'] }, token)
+                    end
+    return if dmmt_response.success?
+    flash[:error] = I18n.t('controllers.manage_proposal.publish_proposal.flash.update_proposal_status.error')
+    Rails.logger.info("Audit Log: dMMT did not successfully transition #{proposal['draft_type']} with id #{proposal['id']} to 'done' status from 'approved'.")
   end
 end

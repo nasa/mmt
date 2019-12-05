@@ -223,11 +223,11 @@ en:
       search:
         flash:
           error: "Error response returned from CMR: %{error}  <br>"
-    manage_proposals:
-      publish:
+    manage_proposal:
+      publish_proposal:
         flash:
           update_proposal_status:
-            error: "Proposal status was not updated in dMMT successfully."
+            error: "Proposal status was not updated in the Draft Metadata Management Tool successfully."
           delete:
             success: "Collection Metadata Deleted Successfully!"
             error: "Collection metadata was not deleted successfully."

@@ -59,7 +59,7 @@ describe 'When publishing collection draft proposals', js: true do
           end
 
           it 'generates an error message for the proposal status update' do
-            expect(page).to have_content('Proposal status was not updated in dMMT successfully.')
+            expect(page).to have_content('Proposal status was not updated in the Draft Metadata Management Tool successfully.')
           end
 
           it 'cannot find the record' do
@@ -193,7 +193,7 @@ describe 'When publishing collection draft proposals', js: true do
         end
 
         it 'has an error message for failing to update the proposal status' do
-          expect(page).to have_content('Proposal status was not updated in dMMT successfully.')
+          expect(page).to have_content('Proposal status was not updated in the Draft Metadata Management Tool successfully.')
         end
       end
     end
