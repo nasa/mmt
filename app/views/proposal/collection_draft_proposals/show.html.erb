@@ -14,7 +14,7 @@
           <%= render partial: 'proposal/collection_draft_proposals/proposal_partials/delete_modal' %>
         </span>
       <% elsif get_resource.submitted? %>
-        <% if @non_nasa_approver %>
+        <% if @user_has_approver_permissions %>
           <%= link_to state_action_button_text('Approve'), "#approve-submission-modal", class: 'eui-btn--blue display-modal' %>
           <%= link_to state_action_button_text('Reject'), "#reject-submission-modal", class: 'eui-btn--red display-modal' %>
           <%= link_to state_action_button_text('Cancel'), "#rescind-submission-modal", class: 'eui-btn--link display-modal' %>

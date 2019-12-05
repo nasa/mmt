@@ -42,7 +42,7 @@ module PermissionChecking
 
   # shortcut helper methods
   def approver?
-    is_non_nasa_draft_approver?(user: current_user, token: token)
+    @user_has_approver_permissions || is_non_nasa_draft_approver?(user: current_user, token: token)
   end
 
   def non_nasa_user?

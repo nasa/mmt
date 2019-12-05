@@ -115,7 +115,7 @@ module ProposalsHelper
   def get_available_actions_text
     if get_resource.in_work?
       'Make additional changes or submit this proposal for approval.'
-    elsif @non_nasa_approver
+    elsif @user_has_approver_permissions
       if get_resource.approved?
         'Please visit the Metadata Management Tool for NASA users to finish publishing this metadata.'
       elsif get_resource.done?

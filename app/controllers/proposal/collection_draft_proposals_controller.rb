@@ -5,7 +5,6 @@ module Proposal
     skip_before_action :provider_set?
 
     before_action :ensure_non_nasa_draft_permissions
-    before_action :check_approver_status, only: [:show, :progress]
     before_action(only: [:submit, :rescind, :progress, :approve, :reject]) { set_resource }
 
     def index
@@ -216,12 +215,6 @@ module Proposal
     def user_from_resource
       proposal_urs_user = retrieve_urs_users([User.find(get_resource.user_id).urs_uid])[0]
       { name: "#{proposal_urs_user['first_name']} #{proposal_urs_user['last_name']}", email: proposal_urs_user['email_address'] } unless proposal_urs_user.blank?
-    end
-
-    # Used as a before action to manipulate which look of the role based
-    # two-look pages is used.
-    def check_approver_status
-      @non_nasa_approver = approver?
     end
 
     # TODO: Investigate if this can be used to provide sorting to all drafts.

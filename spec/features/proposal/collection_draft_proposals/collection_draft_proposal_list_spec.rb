@@ -37,7 +37,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
       it 'displays submitters' do
         expect(page).to have_content('Test User1')
-        expect(page).to have_content('Not Submitted')
+        expect(page).to have_content('Pending')
       end
 
       context 'when sorting short name' do
