@@ -272,7 +272,7 @@ class PermissionsController < ManageCmrController
       }
     }
 
-    collection_access_constraints = params[:collection_access_value].delete_if { |_key, value| value.blank? }
+    collection_access_constraints = safe_hash(:collection_access_value).delete_if { |_key, value| value.blank? }
 
     if params.fetch(:collectionsChooser_toList, []).any? || params.fetch(:hidden_collections, []).any? || collection_access_constraints.any?
       # Create an empty hash for the nested key that we'll populate below
@@ -293,7 +293,7 @@ class PermissionsController < ManageCmrController
     end
 
     if granule_applicable
-      granule_access_constraints = params[:granule_access_value].delete_if { |_key, value| value.blank? }
+      granule_access_constraints = safe_hash(:granule_access_value).delete_if { |_key, value| value.blank? }
 
       if granule_access_constraints.any?
         req_obj['catalog_item_identity']['granule_identifier'] = {

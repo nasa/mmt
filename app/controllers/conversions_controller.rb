@@ -19,7 +19,7 @@ class ConversionsController < ApplicationController
       @tempfile
     end
 
-    response = OgreClient.convert_shapefile(params)
+    response = OgreClient.convert_shapefile(params.permit!)
 
     # render(json: current_user.to_fileupload(name, style), content_type: request.format)
     render text: response.body, content_type: request.format
