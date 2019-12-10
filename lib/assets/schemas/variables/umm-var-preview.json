@@ -147,11 +147,23 @@
           "hideFieldTitle": true,
           "fields": [
             {
-              "key": "/MeasurementName/MeasurementObject"
+              "key": "/MeasurementContextMedium"
             }, {
-              "key": "/MeasurementName/MeasurementQuantity"
+              "key": "/MeasurementContextMediumUri"
             }, {
-              "key": "/MeasurementSource"
+              "key": "/MeasurementObject"
+            }, {
+              "key": "/MeasurementObjectUri"
+            }, {
+              "key": "/MeasurementQuantities/index_id",
+              "type": "UmmPreviewMultiItems",
+              "fields": [
+                {
+                  "key": "/Value"
+                },{
+                  "key": "/MeasurementQuantityUri"
+                }
+              ]
             }
           ]
         }

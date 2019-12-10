@@ -233,36 +233,59 @@
     "MeasurementIdentifierType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "The elements of this section apply to a measurement.",
+      "description": "The elements of this section allow authors to provide community sourced words or phrases to further describe the variable data.",
       "properties": {
-        "MeasurementName": {
-          "description": "This element allows authors to provide community sourced words or phrases to further describe the variable data.",
-          "$ref": "#/definitions/MeasurementNameType"
-        },
-        "MeasurementSource": {
-          "description": "This element allows authors to identify the source of the measurements.",
+        "MeasurementContextMedium": {
+          "description": "This element describes the context/medium within which the measurement was made.",
           "type": "string",
-          "enum": ["CSDMS", "CF", "BODC", "OTHER"]
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "MeasurementContextMediumURI": {
+          "description": "This element contains the URI for the context/medium.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "MeasurementObject": {
+          "description": "This element describes the object which was measured.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "MeasurementObjectURI": {
+          "description": "This element contains the URI for the object which was measured.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "MeasurementQuantities": {
+          "description": "This element contains the quantity or quantities which was/were measured.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MeasurementQuantityType"
+          },
+          "minItems": 0
         }
       },
-      "required": ["MeasurementName", "MeasurementSource"]
+      "required": ["MeasurementContextMedium", "MeasurementObject"]
     },
-    "MeasurementNameType": {
+    "MeasurementQuantityType": {
       "type": "object",
       "additionalProperties": false,
       "description": "The elements of this section apply to a measurement name. The measurement name is structured according to the form defined by Scott Peckham. This is: <object>_<quantity>.",
       "properties": {
-        "MeasurementObject": {
-          "description": "This element allows authors to identify the object part of the measurement. For example: land_subsurface_water-sat, land_surface, land_surface_air, land_surface_air_flow, land_surface_air_heat, specific_humidity, radiative_flux, q.",
+        "Value": {
+          "description": "This element describes the value for the quantity which was measured.",
           "type": "string",
           "minLength": 1,
           "maxLength": 1024
         },
-        "MeasurementQuantity": {
-          "description": "This element allows authors to identify the quantity part of the measurement. For example: zone-top, incoming-latent, incoming-sensible, standard_error, detection_minimum, at_top_of_atmosphere_model, at_sea_level, error_limit, detection_limit",
+        "MeasurementQuantityURI": {
+          "description": "This element contains the URI for the quantity which was measured.",
           "type": "string",
           "minLength": 1,
-          "maxLength": 1024
+          "maxLength": 4000
         }
       }
     },
@@ -401,7 +424,7 @@
         "Type": {
           "description": "The type of the dimension of the variable represented in the data field. For example, if the dimension has a special meaning, i.e., a latitude, longitude, pressure, height (or depth) or time, then the type should be set to either 'LATITUDE_DIMENSION', 'LONGITUDE_DIMENSION', 'PRESSURE_DIMENSION', 'HEIGHT_DIMENSION', 'DEPTH_DIMENSION' or 'TIME_DIMENSION', otherwise it should be set to 'OTHER'.",
           "type": "string",
-          "enum": ["LATITUDE_DIMENSION", "LONGITUDE_DIMENSION", "PRESSURE_DIMENSION", "HEIGHT_DIMENSION", "DEPTH_DIMENSION", "TIME_DIMENSION", "OTHER"]
+          "enum": ["LATITUDE_DIMENSION", "LONGITUDE_DIMENSION", "ALONG_TRACK_DIMENSION", "CROSS_TRACK_DIMENSION", "PRESSURE_DIMENSION", "HEIGHT_DIMENSION", "DEPTH_DIMENSION", "TIME_DIMENSION", "OTHER"]
         }
       },
       "required": ["Name", "Size", "Type"]
@@ -417,7 +440,7 @@
       "enum": ["SCIENCE_SCALAR", "SCIENCE_VECTOR", "SCIENCE_ARRAY", "SCIENCE_EVENTFLAG", "OTHER"]
     },
     "AcquisitionSourceNameType": {
-      "description": "The unique short name of the Instrument, Simulation, or other acquisition source. This type matches the InstrumentShortNameType that is found in UMM-C.",
+      "description": "The unique short name of the Instrument, Simulation, or other acquisition source. This type matches the PlatformShortNameType that is found in UMM-C.",
       "type": "string",
       "minLength": 1,
       "maxLength": 80,

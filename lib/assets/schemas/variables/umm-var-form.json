@@ -421,29 +421,11 @@
               "items": [
                 {
                   "type": "section",
-                  "label": "Measurement Name",
-                  "htmlClass": "row sub-fields",
-                  "key": "/MeasurementName/properties",
+                  "htmlClass": "row space-top",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "row space-top",
-                      "items": [
-                        {
-                          "type": "section",
-                          "items": [{"key": "/MeasurementObject", "field": true}]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "section",
-                      "htmlClass": "row",
-                      "items": [
-                        {
-                          "type": "section",
-                          "items": [{"key": "/MeasurementQuantity", "field": true}]
-                        }
-                      ]
+                      "items": [{"key": "/MeasurementContextMedium", "field": true}]
                     }
                   ]
                 },
@@ -453,9 +435,33 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/MeasurementSource", "field": true, "type": "UmmSelect"}]
+                      "items": [{"key": "/MeasurementContextMediumUri", "field": true}]
                     }
                   ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/MeasurementObject", "field": true}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/MeasurementObjectUri", "field": true}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "$ref": "#/forms/MeasurementQuantities"
                 }
               ]
             }
@@ -583,5 +589,40 @@
         }
       ]
     }
-  ]
+  ],
+  "definitions": {
+    "MeasurementQuantities": {
+      "help": "MeasurementQuantities",
+      "items": [
+        {
+          "type": "UmmMultiItems",
+          "label": "Measurement Quantities",
+          "multiType": "MeasurementQuantities",
+          "key": "/MeasurementQuantities/items/properties/index_id",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/Value", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/MeasurementQuantityUri", "field": true}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
 }
