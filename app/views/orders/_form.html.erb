@@ -21,11 +21,11 @@
   <div class="row">
     <div class="col-6">
       <label for="from_date" class="eui-required-o">From</label>
-      <%= mmt_extended_datetime_field_tag('from_date', nil, class: 'full-width datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SS', data: { 'date-format' => 'YYYY-MM-DD[T]HH:mm:ss', 'date-min-date' => false }) %>
+      <%= datetime_field_tag('from_date', nil, class: 'full-width datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SS', data: { 'date-format' => 'YYYY-MM-DD[T]HH:mm:ss', 'date-min-date' => false }).gsub('datetime-local','datetime').html_safe %>
     </div>
     <div class="col-6">
       <label for="to_date" class="eui-required-o">To</label>
-      <%= mmt_extended_datetime_field_tag('to_date', nil, class: 'full-width datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SS', data: { 'date-format' => 'YYYY-MM-DD[T]HH:mm:ss', 'date-min-date' => false }) %>
+      <%= datetime_field_tag('to_date', nil, class: 'full-width datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SS', data: { 'date-format' => 'YYYY-MM-DD[T]HH:mm:ss', 'date-min-date' => false }).gsub('datetime-local','datetime').html_safe %>
     </div>
   </div>
 </fieldset>

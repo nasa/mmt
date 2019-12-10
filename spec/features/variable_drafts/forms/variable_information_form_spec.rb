@@ -186,7 +186,6 @@ describe 'Variable Information Form', js: true do
     end
 
     it 'displays the correct values in the form' do
-      page.save_screenshot('after+reloading+fields',full: true)
       expect(page).to have_field('variable_draft_draft_name', with: 'PNs_LIF')
       expect(page).to have_field('variable_draft_draft_alias', with: 'An Alias')
       expect(page).to have_field('variable_draft_draft_definition', with: 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)')
@@ -336,7 +335,6 @@ describe 'Variable Information Form', js: true do
         expect(page).to have_field('variable_draft_draft_valid_ranges_1_code_system_identifier_value_1', with: 'Code System Identifier Value 2')
         expect(page).to have_field('variable_draft_draft_scale', with: '1.0')
         expect(page).to have_field('variable_draft_draft_offset', with: '0.0')
-        page.save_screenshot('after+setting+fields',full: true)
       end
     end
   end

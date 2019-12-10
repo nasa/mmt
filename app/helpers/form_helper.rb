@@ -144,7 +144,7 @@ module FormHelper
     datetime_field_tag(name,dt,options).gsub('datetime-local','datetime').html_safe
   end
   def mmt_extended_datetime_field_tag(name, dt, cls, placeholder, data)
-    datetime_field_tag(name,dt,cls, placeholder,data).gsub('datetime-local','datetime').html_safe
+    datetime_field_tag(name,dt,cls, placeholder, data).gsub('datetime-local','datetime').html_safe
   end
   
   def mmt_datetime(options)

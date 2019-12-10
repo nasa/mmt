@@ -140,7 +140,6 @@ class CollectionDraftsController < BaseDraftsController
   # @return [Hash]
   def collection_draft_params
     permitted = safe_hash(:draft)
-    permitted.to_unsafe_h # need to understand what this is doing more, think related to nested parameters not permitted.
   end
 
   private
