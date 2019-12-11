@@ -1,4 +1,6 @@
 <div class="row sub-fields">
+
+
   <!-- GeodeticModel -->
   <label>Geodetic Model</label>
   <%= render partial: 'collection_drafts/forms/type', locals: {
@@ -8,24 +10,38 @@
       multiple: false,
       options: {} } %>
 
-  <% geographic_checked = !horizontal_coordinate_system['GeographicCoordinateSystem'].nil? %>
+  <%# <% geographic_checked = !horizontal_coordinate_system['GeographicCoordinateSystem'].nil? %> %>
+  <% resolution_checked = !horizontal_coordinate_system['ResolutionAndCoordinateSystem'].nil? %>
   <% local_checked = !horizontal_coordinate_system['LocalCoordinateSystem'].nil? %>
   <div class="coordinate-system-type" style="<%= 'display: none;' if options[:limit_type] %>">
-    <%= radio_button_tag(name_to_param("#{name_prefix}"), 'geographic', geographic_checked, class: 'coordinate-system-picker geographic', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+    <%# TODO: change this radio to HorizontalDataResolutions %>
+    <%# <%= radio_button_tag(name_to_param("#{name_prefix}"), 'geographic', geographic_checked, class: 'coordinate-system-picker geographic', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+    <%# <label for="<%= remove_pipes(name_prefix) %>geographic">Geographic Coordinate System</label> %> %>
+
+    <%= radio_button_tag(name_to_param("#{name_prefix}"), 'resolution', resolution_checked, class: 'coordinate-system-picker resolution', name: nil, data: { level: remove_pipes(name_prefix) }) %>
     <label for="<%= remove_pipes(name_prefix) %>geographic">Geographic Coordinate System</label>
 
     <%= radio_button_tag(name_to_param("#{name_prefix}"), 'local', local_checked, class: 'coordinate-system-picker local', name: nil, data: { level: remove_pipes(name_prefix) }) %>
     <label for="<%= remove_pipes(name_prefix) %>local">Local Coordinate System</label>
   </div>
 
-  <div class="geographic-coordinate-system-fields" style="<%= 'display: none;' unless geographic_checked %>">
+  <!-- HorizontalDataResolutions -->
+  <!-- can have more than one, but most cases will be more than one -->
+  <!-- for multiple instruments, multiple resolutions, will allow that -->
+  <div class="resolution-and-coordinate-system-fields" style="<%= 'display: none;' unless resolution_checked %>">
+  <%# <div class="geographic-coordinate-system-fields" style="<%= 'display: none;' unless geographic_checked %>"> %>
     <!-- GeographicCoordinateSystem -->
-    <label>Geographic Coordinate System</label>
+    <!-- <label>Geographic Coordinate System</label> -->
+    <label>Resolution and Coordinate System</label>
     <%= render partial: 'collection_drafts/forms/type', locals: {
-        type: 'geographic_coordinate_system',
-        values: horizontal_coordinate_system['GeographicCoordinateSystem'] || {},
-        name_prefix: "#{name_prefix}|geographic_coordinate_system|_",
-        multiple: false,
+        # type: 'geographic_coordinate_system',
+        type: 'resolution_and_coordinate_system',
+        # values: horizontal_coordinate_system['GeographicCoordinateSystem'] || {},
+        values: horizontal_coordinate_system['ResolutionAndCoordinateSystem'] || {},
+        # name_prefix: "#{name_prefix}|geographic_coordinate_system|_",
+        name_prefix: "#{name_prefix}|resolution_and_coordinate_system|_",
+        # multiple: false,
+        multiple: true,
         options: {} } %>
   </div>
 

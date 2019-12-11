@@ -87,7 +87,7 @@ class CollectionDraft < Draft
       if params['template_name']
         self.template_name = params['template_name'].empty? ? nil : params['template_name']
       end
-
+      # byebug
       # Convert {'0' => {'id' => '123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM

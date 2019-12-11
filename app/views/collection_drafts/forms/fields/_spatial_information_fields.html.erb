@@ -14,31 +14,11 @@
   <a href="javascript:void(0)" class="clear-radio-button" data-content="spatial-coverage-type">Clear</a>
   <div class="spatial-coverage-type-group">
     <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'HORIZONTAL', spatial_coverage_type == 'HORIZONTAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
-      <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_HORIZONTAL">Horizontal</label>
-    </p>
-    <p class="radio-group">
       <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
       <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label>
     </p>
-    <p class="radio-group">
-      <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'BOTH', spatial_coverage_type == 'BOTH', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
-      <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_BOTH">Both</label>
-    </p>
   </div>
   </br>
-
-
-  <!-- HorizontalCoordinateSystem -->
-  <div class="spatial-coverage-type horizontal" style="<%= 'display: none;' unless spatial_coverage_type == 'HORIZONTAL' || spatial_coverage_type == 'BOTH' %>">
-    <label>Horizontal Coordinate System</label>
-    <%= render partial: 'collection_drafts/forms/type', locals: {
-        type: 'horizontal_coordinate_system',
-        values: spatial_information['HorizontalCoordinateSystem'] || {},
-        name_prefix: "#{name_prefix}|horizontal_coordinate_system|_",
-        multiple: false,
-        options: {} } %>
-  </div>
 
 
   <!-- VerticalCoordinateSystem -->

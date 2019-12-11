@@ -276,6 +276,8 @@ $(document).ready ->
 
     # If the error is a Geometry anyOf error
     if error.keyword == 'anyOf'
+      # TODO figure out anyOf with new fields
+      # debugger
       if error.dataPath.indexOf('Geometry') != -1
         error.message = 'At least one Geometry Type is required'
       else
@@ -294,6 +296,10 @@ $(document).ready ->
     if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1 && !(error.dataPath.indexOf('ArchiveAndDistributionInformation') > -1 && error.params['missingProperty'] == 'Format')
       error = null
       return
+
+    # TODO if not already done above, figure out anyOf errors for new fields
+    # TODO look into oneOf errors
+
 
     error.dataPath += "/#{error.params.missingProperty}" if error.params.missingProperty?
 
@@ -369,7 +375,7 @@ $(document).ready ->
     $('select.mmt-fake-enum > option:disabled:selected, select.mmt-fake-enum > optgroup > option:disabled:selected').each ->
       id = $(this).parents('select').attr('id')
       visitField(id)
-
+      # TODO: add horizontal_resolution_processing_level_enum here?
       dataPath = switch
         when /processing_level_id/.test id
           '/ProcessingLevel/Id'
@@ -496,7 +502,7 @@ $(document).ready ->
       formats: 'uri' : URI_REGEX
     validate = ajv.compile(globalJsonSchema)
     validate(json)
-
+    # debugger
     # adding validation for Data Contacts form with separate schema as it
     # does not follow UMM schema structure in the form
     # Data Contacts Schema is only passed on the data contacts form
@@ -527,15 +533,18 @@ $(document).ready ->
         if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1
           # don't duplicate errors
           # Because ArchiveAndDistributionInformation has 'anyOf' child elements,
-          # error from the schema validator can be duplicated, so add an error to
-          # the error arrays only if not already exist
-          if error.id.match /^draft_archive_and_distribution_information_/i
+          # errors from the schema validator can be duplicated, so add an error to
+          # the error arrays only if it is not already there
+          # HorizontalDataResolutionType are 'oneOf' options that contain 'anyOf'
+          # required items, so also creates duplicates of errors
+          if error.id.match(/^draft_archive_and_distribution_information_/i) || error.id.match(/^draft_spatial_extent_horizontal_spatial_domain_resolution_and_coordinate_system_horizontal_data_resolutions/i)
             addIfNotAlready(inlineErrors, error)
             addIfNotAlready(summaryErrors, error)
           else
             inlineErrors.push error if $("##{error.id}").length > 0
             summaryErrors.push error if $("##{error.id}").length > 0
 
+    # debugger
     if inlineErrors.length > 0 and opts.showInline
       displayInlineErrors inlineErrors
     if summaryErrors.length > 0 and opts.showSummary

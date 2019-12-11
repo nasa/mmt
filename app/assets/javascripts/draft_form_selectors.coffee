@@ -11,20 +11,25 @@ $(document).ready ->
       $.each $fields.find('input'), (index, field) ->
         $(field).val ''
 
-  # Handle coordinate-system-picker (geographic/local)
+  # Handle coordinate-system-picker (resolution/local)
   $('.coordinate-system-picker').change ->
     coordinateSystemType = $(this).parents('.coordinate-system-type')
     switch $(this).val()
-      when 'geographic'
-        $(coordinateSystemType).siblings('.geographic-coordinate-system-fields').show()
+      when 'resolution'
+        $(coordinateSystemType).siblings('.horizontal-data-resolutions-fields').show()
         $(coordinateSystemType).siblings('.local-coordinate-system-fields').hide()
       when 'local'
-        $(coordinateSystemType).siblings('.geographic-coordinate-system-fields').hide()
+        $(coordinateSystemType).siblings('.horizontal-data-resolutions-fields').hide()
         $(coordinateSystemType).siblings('.local-coordinate-system-fields').show()
 
-    # Clear all fields
-    $.each $(coordinateSystemType).siblings('.geographic-coordinate-system-fields, .local-coordinate-system-fields').find('input, select'), (index, field) ->
-      $(field).val ''
+    # horizontal-data-resolutions-fields
+    # needed to add textarea -- make sure there are no other field types to clear
+    $allSiblings = $(coordinateSystemType).siblings('.horizontal-data-resolutions-fields, .local-coordinate-system-fields')
+
+    # Clear all fields (except for radio buttons)
+    $allSiblings.find('input, select, textarea').not("input[type='radio']").val ''
+    # Uncheck all radio buttons
+    $allSiblings.find("input[type='radio']").prop 'checked', false
 
     # Toggle checkboxes
     $(this).siblings('.coordinate-system-picker').prop 'checked', false
@@ -64,7 +69,7 @@ $(document).ready ->
     $parent.siblings('.spatial-coverage-type').find('input[type="radio"]').prop 'checked', false
 
     # Hide geographic and local coordinate system fields
-    $parent.siblings().find('.geographic-coordinate-system-fields').hide()
+    $parent.siblings().find('.horizontal-data-resolutions-fields').hide()
     $parent.siblings().find('.local-coordinate-system-fields').hide()
 
     switch $(this).val()
@@ -92,6 +97,75 @@ $(document).ready ->
     $fields.find('.bounding-rectangle-point.north').val('90')
     $fields.find('.bounding-rectangle-point.south').val('-90')
     $fields.find('.bounding-rectangle-point.south').trigger('change')
+
+
+  # OLD VERSION
+  # Handle Horizontal Resolution Processing Level Enum select
+  # half-width horizontal_resolution_processing_level_enum-select horizontal-resolution-processing-level-enum-select validate
+  # $('.horizontal-resolution-processing-level-enum-select').change ->
+  #   # $group = $(this).parents('.horizontal-data-resolution-group')
+  #
+  #   $parent = $(this).parents('.horizontal-resolution-processing-level-enum-group')
+  #   # hide all fields
+  #   $parent.siblings('.horizontal-resolution-processing-level').hide()
+  #   # Clear all fields
+  #   $parent.siblings('.horizontal-resolution-processing-level').find('input, select').val ''
+  #
+  #   # debugger
+  #   switch $(this).val()
+  #     when 'Point', 'Varies'
+  #       # console.log('point or varies')
+  #       # do nothing
+  #       # break
+  #       return
+  #     when 'Non Gridded'
+  #       $parent.siblings('.non-gridded-fields').show()
+  #     when 'Non Gridded Range'
+  #       $parent.siblings('.non-gridded-range-fields').show()
+  #     when 'Gridded', 'Not provided'
+  #       $parent.siblings('.gridded-and-not-provided-fields').show()
+  #     when 'Gridded Range'
+  #       $parent.siblings('.gridded-range-fields').show()
+
+  handleHorizontalResolutionProcessingLevelSelection = (element, clear=false) ->
+    # debugger
+    # element should be a '.horizontal-resolution-processing-level-enum-select'
+    $horizontalResProcessLevelSelect = $(element)
+    $horizontalResFieldsParent = $horizontalResProcessLevelSelect.parents('.horizontal-resolution-processing-level-enum-group').siblings('.horizontal-resolution-processing-level-fields-group')
+
+    if clear == true
+      $horizontalResFieldsParent.find('input, select').val ''
+
+    $horizontalResFieldsParent.find('.horizontal-resolution-processing-level-fields').hide()
+    # debugger
+    switch $horizontalResProcessLevelSelect.val()
+      when 'Point', 'Varies'
+        break
+      when 'Non Gridded'
+        $horizontalResFieldsParent.find('.non-gridded-fields').show()
+      when 'Non Gridded Range'
+        $horizontalResFieldsParent.find('.non-gridded-range-fields').show()
+      when 'Gridded', 'Not provided'
+        $horizontalResFieldsParent.find('.gridded-and-not-provided-fields').show()
+      when 'Gridded Range'
+        $horizontalResFieldsParent.find('.gridded-range-fields').show()
+
+
+  # Handle HorizontalDataResolutions fields on load
+  if $('.horizontal-data-resolution-group').length > 0
+    # $('.horizontal-data-resolution-group').find('.horizontal-resolution-processing-level-enum-select').each(handleHorizontalResolutionProcessingLevelSelection(index, element, false) ->
+    $('.horizontal-data-resolution-group').find('.horizontal-resolution-processing-level-enum-select').each( (index, element) ->
+      # clear = false
+      # debugger
+      if $(element).prop 'checked'
+        handleHorizontalResolutionProcessingLevelSelection(element)
+    )
+
+
+  # Handle Horizontal Resolution Processing Level Enum select
+  $('.horizontal-resolution-processing-level-enum-select').change ->
+    clear = true
+    handleHorizontalResolutionProcessingLevelSelection(this, clear)
 
   # Handle Data Contacts Type selector
   $('.data-contact-type-select').change ->

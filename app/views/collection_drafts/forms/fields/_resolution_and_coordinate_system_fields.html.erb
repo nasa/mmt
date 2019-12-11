@@ -1,0 +1,73 @@
+<div class="row sub-fields">
+   <!-- Description -->
+   <%= mmt_text_field(
+     name: 'description',
+     title: 'Description',
+     prefix: name_prefix,
+     value: resolution_and_coordinate_system['Description'],
+     help: 'definitions/ResolutionAndCoordinateSystemType/properties/Description',
+     validate: true
+    ) %>
+
+  <!-- GeodeticModel -->
+  <label>Geodetic Model</label>
+  <%= render partial: 'collection_drafts/forms/type', locals: {
+      type: 'geodetic_model',
+      values: resolution_and_coordinate_system['GeodeticModel'] || {},
+      name_prefix: "#{name_prefix}|geodetic_model|_",
+      multiple: false,
+      options: {} } %>
+
+  <% resolution_checked = !resolution_and_coordinate_system['HorizontalDataResolutions'].nil? %>
+  <% local_checked = !resolution_and_coordinate_system['LocalCoordinateSystem'].nil? %>
+  <%# TODO: need the check on limit_type??? %>
+  <div class="coordinate-system-type" style="<%= 'display: none;' if options[:limit_type] %>">
+    <%= radio_button_tag(name_to_param("#{name_prefix}"), 'resolution', resolution_checked, class: 'coordinate-system-picker resolution', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+
+    <%= mmt_label(
+      name: "resolution",
+      title: 'Horizontal Data Resolutions',
+      prefix: name_prefix
+    ) %>
+
+    <%= radio_button_tag(name_to_param("#{name_prefix}"), 'local', local_checked, class: 'coordinate-system-picker local', name: nil, data: { level: remove_pipes(name_prefix) }) %>
+    <%= mmt_label(
+      name: "local",
+      title: 'Local Coordinate System',
+      prefix: name_prefix
+    ) %>
+  </div>
+
+
+  <div class="horizontal-data-resolutions-fields" style="<%= 'display: none;' unless resolution_checked %>">
+  <!-- HorizontalDataResolutions -->
+    <%= mmt_label(
+      name: 'horizontal_data_resolutions',
+      title: 'Horizontal Data Resolutions',
+      prefix: name_prefix,
+    ) %>
+    <%= mmt_help_icon(
+      title: 'Horizontal Data Resolutions',
+      help: 'definitions/ResolutionAndCoordinateSystemType/oneOf/1/properties/HorizontalDataResolutions'
+    ) %>
+    <%= render partial: 'collection_drafts/forms/type', locals: {
+        type: 'horizontal_data_resolutions',
+        values: resolution_and_coordinate_system['HorizontalDataResolutions'] || [{}],
+        name_prefix: "#{name_prefix}|horizontal_data_resolutions|_",
+        multiple: true,
+        options: {
+          what: true
+        } } %>
+  </div>
+
+  <div class="local-coordinate-system-fields" style="<%= 'display: none;' unless local_checked %>">
+  <!-- LocalCoordinateSystem -->
+    <label>Local Coordinate System</label>
+    <%= render partial: 'collection_drafts/forms/type', locals: {
+        type: 'local_coordinate_system',
+        values: resolution_and_coordinate_system['LocalCoordinateSystem'] || {},
+        name_prefix: "#{name_prefix}|local_coordinate_system|_",
+        multiple: false,
+        options: {} } %>
+  </div>
+</div>
