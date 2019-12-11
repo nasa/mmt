@@ -44,7 +44,6 @@
   border: 3px solid $orange;
 }
 
-// TODO: refactor the timeline node classes, esp to incorporate rejected
 .timeline-node-rejected {
   border: 3px solid $red;
 }
@@ -61,7 +60,6 @@
   margin-left: -3px;
 }
 
-// TODO: refactor the timeline line classes, esp to incorporate rejected
 .timeline-line-faded-rejected::after {
   bottom: -123px;
 }
