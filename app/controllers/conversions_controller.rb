@@ -14,7 +14,7 @@ class ConversionsController < ApplicationController
     Rails.logger.info "converting shapefile #{request.headers["Content-Type"]}"
 
     # Define local_path method required by Faraday
-    upload = params.require(:upload)
+    upload = safe_hash(:upload)
     def upload.local_path
       @tempfile
     end
