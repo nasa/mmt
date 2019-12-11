@@ -60,6 +60,7 @@ class BaseDraftsController < DraftsController
     if get_resource.save
       # Successful flash message
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success")
+      Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{current_user.provider_id}")
 
       # TODO: Prevent this piece of code from being duplicated
       case params[:commit]
@@ -93,6 +94,7 @@ class BaseDraftsController < DraftsController
     if get_resource.update(sanitized_params)
       # Successful flash message
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
+      Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully updated #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{current_user.provider_id}")
 
       # TODO: Prevent this piece of code from being duplicated
       case params[:commit]
