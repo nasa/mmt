@@ -64,7 +64,7 @@ describe 'When going through the whole collection proposal approver workflow', j
         @ingest_response, _concept_response = publish_collection_draft
         set_as_proposal_mode_mmt(with_draft_approver_acl: true)
         visit collection_path(@ingest_response['concept-id'])
-        click_on 'Create Update Proposal'
+        click_on 'Create Update Request'
         click_on 'Yes'
         click_on 'Short Name - Required field complete'
         @short_name = "Full Workflow Update Test Proposal_#{Faker::Number.number(15)}"
