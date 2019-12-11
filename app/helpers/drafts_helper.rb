@@ -129,7 +129,32 @@ module DraftsHelper
     ['Cartesian', 'CARTESIAN'],
     ['Geodetic', 'GEODETIC'],
     ['Orbit', 'ORBIT'],
-    ['No Spatial', 'NO_SPATIAL'],
+    ['No Spatial', 'NO_SPATIAL']
+  ]
+  HorizontalDataResolutionUnitEnumOptions = [
+    ['Decimal Degrees'],
+    ['Kilometers'],
+    ['Meters'],
+    ['Statute Miles'],
+    ['Nautical Miles'],
+    ['Not provided']
+  ]
+  HorizontalResolutionProcessingLevelEnumOptions = [
+    ['Gridded'],
+    ['Gridded Range'],
+    ['Non Gridded'],
+    ['Non Gridded Range'],
+    ['Not provided'],
+    ['Point'],
+    ['Varies']
+  ]
+  HorizontalResolutionScanDirectionTypeOptions = [
+    ['Along Track'],
+    ['Cross Track']
+  ]
+  HorizontalResolutionViewingAngleTypeOptions = [
+    ['At Nadir'],
+    ['Scan Extremes']
   ]
   MetadataAssociationTypeOptions = [
     ['Science Associated', 'SCIENCE ASSOCIATED'],
@@ -810,5 +835,22 @@ module DraftsHelper
   def titleize_form_name(form_name)
     return 'Related URLs' if form_name == 'related_urls'
     form_name.titleize
+  end
+
+  def horizontal_resolution_processing_level_selected(value)
+    case value
+    when 'Point' || 'Varies'
+      'blah'
+    when 'Non Gridded'
+      'non-gridded-fields'
+    when 'Non Gridded Range'
+      'non-gridded-range-fields'
+    when 'Gridded' || 'Not provided'
+      'gridded-and-not-provided-fields'
+    when 'Gridded Range'
+      'gridded-range-fields'
+    else
+      nil
+    end
   end
 end

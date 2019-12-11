@@ -68,7 +68,7 @@ class CollectionsController < ManageCollectionsController
       Rails.logger.info("Audit Log: Collection Revision for record #{@concept_id} with native_id: #{@native_id} for provider: #{@provider_id} by user #{session[:urs_uid]} has been successfully revised")
       redirect_to collection_revisions_path(revision_id: latest_revision_id.to_i + 1)
     else
-      Rails.logger.error("Ingest (Revert) Collection Error: #{ingested_response.inspect}")
+      Rails.logger.error("Ingest (Revert) Collection Error: #{ingested_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to revert Collection #{@concept_id} by ingesting a previous revision in provider #{current_user.provider_id} but encountered an error.")
 
       @errors = generate_ingest_errors(ingested_response)

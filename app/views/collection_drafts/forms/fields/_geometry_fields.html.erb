@@ -28,16 +28,28 @@
   <!-- CoordinateSystem -->
   <% coordinate_system = geometry['CoordinateSystem'] || "" %>
   <div>
-    <label for="draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN" class="required">Coordinate System</label>
+    <%= mmt_label(
+      name: 'coordinate_system',
+      title: 'Coordinate System',
+      prefix: name_prefix,
+    ) %>
     <a href="javascript:void(0)" class="clear-radio-button" data-content="coordinate-system-type">Clear</a>
     <div class="coordinate-system-type-group">
       <p class="radio-group">
         <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
-        <label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label>
+        <%= mmt_label(
+        name: "coordinate_system_CARTESIAN",
+        title: 'Cartesian',
+        prefix: name_prefix
+        ) %>
       </p>
       <p class="radio-group">
         <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'GEODETIC', coordinate_system == 'GEODETIC', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
-        <label for="<%= remove_pipes(name_prefix) %>coordinate_system_GEODETIC">Geodetic</label>
+        <%= mmt_label(
+          name: "coordinate_system_GEODETIC",
+          title: 'Geodetic',
+          prefix: name_prefix
+        ) %>
       </p>
     </div>
     </br>

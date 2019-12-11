@@ -1,0 +1,225 @@
+<div class="row sub-fields">
+  <div class="horizontal-data-resolution-group">
+
+    <div class="horizontal-resolution-processing-level-enum-group">
+      <!-- HorizontalResolutionProcessingLevelEnum -->
+      <%= mmt_label(
+      name: "horizontal_resolution_processing_level_enum",
+      title: 'Horizontal Resolution Processing Level Enum',
+      prefix: name_prefix
+      ) %>
+
+      <% horizontal_resolution_processing_level_enum = horizontal_data_resolutions.fetch('HorizontalResolutionProcessingLevelEnum', nil) %>
+
+      <p class="radio-group">
+        <%= radio_button_tag(name_to_param("#{name_prefix}|horizontal_resolution_processing_level_enum|"), 'Gridded', horizontal_resolution_processing_level_enum == 'Gridded', class: 'horizontal-resolution-processing-level-enum-select validate', data: { level: remove_pipes(name_prefix) }) %>
+        <%= mmt_label(
+        name: "horizontal_resolution_processing_level_enum_Gridded",
+        title: 'Gridded',
+        prefix: name_prefix
+        ) %>
+      </p>
+      <p class="radio-group">
+        <%= radio_button_tag(name_to_param("#{name_prefix}|horizontal_resolution_processing_level_enum|"), 'Gridded Range', horizontal_resolution_processing_level_enum == 'Gridded Range', class: 'horizontal-resolution-processing-level-enum-select validate', data: { level: remove_pipes(name_prefix) }) %>
+        <%= mmt_label(
+        name: "horizontal_resolution_processing_level_enum_Gridded_Range",
+        title: 'Gridded Range',
+        prefix: name_prefix
+        ) %>
+      </p>
+      <p class="radio-group">
+        <%= radio_button_tag(name_to_param("#{name_prefix}|horizontal_resolution_processing_level_enum|"), 'Non Gridded', horizontal_resolution_processing_level_enum == 'Non Gridded', class: 'horizontal-resolution-processing-level-enum-select validate', data: { level: remove_pipes(name_prefix) }) %>
+        <%= mmt_label(
+        name: "horizontal_resolution_processing_level_enum_Non_Gridded",
+        title: 'Non Gridded',
+        prefix: name_prefix
+        ) %>
+      </p>
+      <p class="radio-group">
+        <%= radio_button_tag(name_to_param("#{name_prefix}|horizontal_resolution_processing_level_enum|"), 'Non Gridded Range', horizontal_resolution_processing_level_enum == 'Non Gridded Range', class: 'horizontal-resolution-processing-level-enum-select validate', data: { level: remove_pipes(name_prefix) }) %>
+        <%= mmt_label(
+        name: "horizontal_resolution_processing_level_enum_Non_Gridded_Range",
+        title: 'Non Gridded Range',
+        prefix: name_prefix
+        ) %>
+      </p>
+      <p class="radio-group">
+        <%= radio_button_tag(name_to_param("#{name_prefix}|horizontal_resolution_processing_level_enum|"), 'Point', horizontal_resolution_processing_level_enum == 'Point', class: 'horizontal-resolution-processing-level-enum-select validate', data: { level: remove_pipes(name_prefix) }) %>
+        <%= mmt_label(
+        name: "horizontal_resolution_processing_level_enum_Point",
+        title: 'Point',
+        prefix: name_prefix
+        ) %>
+      </p>
+      <p class="radio-group">
+        <%= radio_button_tag(name_to_param("#{name_prefix}|horizontal_resolution_processing_level_enum|"), 'Varies', horizontal_resolution_processing_level_enum == 'Varies', class: 'horizontal-resolution-processing-level-enum-select validate', data: { level: remove_pipes(name_prefix) }) %>
+        <%= mmt_label(
+        name: "horizontal_resolution_processing_level_enum_Varies",
+        title: 'Varies',
+        prefix: name_prefix
+        ) %>
+      </p>
+      <p class="radio-group">
+        <%= radio_button_tag(name_to_param("#{name_prefix}|horizontal_resolution_processing_level_enum|"), 'Not provided', horizontal_resolution_processing_level_enum == 'Not provided', class: 'horizontal-resolution-processing-level-enum-select validate', data: { level: remove_pipes(name_prefix) }) %>
+        <%= mmt_label(
+          name: "horizontal_resolution_processing_level_enum_Not_provided",
+          title: 'Not provided',
+          prefix: name_prefix
+        ) %>
+      </p>
+
+      <% processing_level_selected = horizontal_resolution_processing_level_selected(horizontal_resolution_processing_level_enum) %>
+    </div>
+
+    <div class="horizontal-resolution-processing-level-fields-group">
+      <!-- non-gridded: xdim, ydim, unit, ViewingAngleType, ScanDirection -->
+      <!-- non-gridded-range: minx miny maxx maxy unit ViewingAngleType ScanDirection -->
+      <!-- gridded-and-not-provided: xdim ydim unit -->
+      <!-- gridded-range: minx maxx miny maxy unit -->
+      <div class="horizontal-resolution-processing-level-fields gridded-and-not-provided-fields non-gridded-fields is-hidden">
+        <div class="row">
+          <div class="col-6">
+            <!-- XDimension -->
+            <%= mmt_text_field(
+            name: 'x_dimension',
+            title: 'X Dimension',
+            prefix: name_prefix,
+            value: horizontal_data_resolutions['XDimension'],
+            help: 'definitions/HorizontalDataResolutionType/oneOf/1/properties/XDimension',
+            validate: true,
+            # required: true,
+            classes: 'mmt-number gridded-and-not-provided-field non-gridded-field horizontal-resolution-processing-level-field'
+            ) %>
+          </div>
+
+          <div class="col-6">
+            <!-- YDimension -->
+            <%= mmt_text_field(
+            name: 'y_dimension',
+            title: 'Y Dimension',
+            prefix: name_prefix,
+            value: horizontal_data_resolutions['YDimension'],
+            help: 'definitions/HorizontalDataResolutionType/oneOf/1/properties/YDimension',
+            validate: true,
+            # required: true,
+            classes: 'mmt-number gridded-and-not-provided-field non-gridded-field horizontal-resolution-processing-level-field'
+            ) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="horizontal-resolution-processing-level-fields gridded-range-fields non-gridded-range-fields is-hidden">
+        <div class="row">
+          <div class="col-6">
+            <!-- MinimumXDimension -->
+            <%= mmt_text_field(
+            name: 'minimum_x_dimension',
+            title: 'Minimum X Dimension',
+            prefix: name_prefix,
+            value: horizontal_data_resolutions['MinimumXDimension'],
+            help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/MinimumXDimension',
+            validate: true,
+            # required: true,
+            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field'
+            ) %>
+
+          </div>
+          <div class="col-6">
+            <!-- MaximumXDimension -->
+            <%= mmt_text_field(
+            name: 'maximum_x_dimension',
+            title: 'Maximum X Dimension',
+            prefix: name_prefix,
+            value: horizontal_data_resolutions['MaximumXDimension'],
+            help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/MaximumXDimension',
+            validate: true,
+            # required: true,
+            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field'
+            ) %>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <!-- MinimumYDimension -->
+            <%= mmt_text_field(
+            name: 'minimum_y_dimension',
+            title: 'Minimum Y Dimension',
+            prefix: name_prefix,
+            value: horizontal_data_resolutions['MinimumYDimension'],
+            help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/MinimumYDimension',
+            validate: true,
+            # required: true,
+            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field'
+            ) %>
+          </div>
+
+          <div class="col-6">
+            <!-- MaximumYDimension -->
+            <%= mmt_text_field(
+            name: 'maximum_y_dimension',
+            title: 'Maximum Y Dimension',
+            prefix: name_prefix,
+            value: horizontal_data_resolutions['MaximumYDimension'],
+            help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/MaximumYDimension',
+            validate: true,
+            # required: true,
+            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field'
+            ) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="horizontal-resolution-processing-level-fields non-gridded-fields non-gridded-range-fields is-hidden">
+        <div class="row">
+          <div class="col-6">
+            <!-- ViewingAngleType -->
+            <%= mmt_select(
+            name: 'viewing_angle_type',
+            title: 'Viewing Angle Type',
+            prefix: name_prefix,
+            value: horizontal_data_resolutions['ViewingAngleType'],
+            help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/ViewingAngleType',
+            options: DraftsHelper::HorizontalResolutionViewingAngleTypeOptions,
+            validate: true,
+            classes: 'non-gridded-range-field non-gridded-field horizontal-resolution-processing-level-field'
+            ) %>
+          </div>
+
+          <div class="col-6">
+            <!-- ScanDirection -->
+            <%= mmt_select(
+            name: 'scan_direction',
+            title: 'Scan Direction',
+            prefix: name_prefix,
+            value: horizontal_data_resolutions['ScanDirection'],
+            help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/ScanDirection',
+            options: DraftsHelper::HorizontalResolutionScanDirectionTypeOptions,
+            validate: true,
+            classes: 'non-gridded-range-field non-gridded-field horizontal-resolution-processing-level-field'
+            ) %>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="horizontal-resolution-processing-level-fields gridded-and-not-provided-fields gridded-range-fields non-gridded-fields non-gridded-range-fields is-hidden">
+        <div class="row">
+          <!-- Unit -->
+          <%= mmt_select(
+          name: 'unit',
+          title: 'Unit',
+          prefix: name_prefix,
+          value: horizontal_data_resolutions['Unit'],
+          help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/Unit',
+          options: DraftsHelper::HorizontalDataResolutionUnitEnumOptions,
+          validate: true,
+          classes: 'non-gridded-range-field gridded-range-field gridded-and-not-provided-field non-gridded-field horizontal-resolution-processing-level-field'
+          ) %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
