@@ -36,6 +36,7 @@ class CollectionDraftsController < BaseDraftsController
     authorize get_resource
 
     if get_resource.save && get_resource.update_draft(params[:draft], current_user.urs_uid)
+      Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{current_user.provider_id}")
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success")
       case params[:commit]
       when 'Done'
