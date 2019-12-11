@@ -14,7 +14,7 @@ class ConversionsController < ApplicationController
     Rails.logger.info "converting shapefile #{request.headers["Content-Type"]}"
 
     # Define local_path method required by Faraday
-    upload = safe_hash(:upload)
+    upload = params.require(:upload)
     def upload.local_path
       @tempfile
     end
@@ -22,7 +22,6 @@ class ConversionsController < ApplicationController
     response = OgreClient.convert_shapefile(params.permit!.to_h)
     
 
-    # render(json: current_user.to_fileupload(name, style), content_type: request.format)
-    render :json => response.body
+    render json: response.body
   end
 end
