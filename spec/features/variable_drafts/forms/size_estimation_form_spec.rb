@@ -260,7 +260,7 @@ describe 'Size Estimation Form', js: true do
       end
 
       it 'displays the correct values in the form' do
-        expect(page).to have_field('variable_draft_draft_size_estimation_average_size_of_granules_sampled', with: '3009960')
+        expect(page).to have_field('variable_draft_draft_size_estimation_average_size_of_granules_sampled', with: '3009960.0')
 
         expect(page).to have_field('variable_draft_draft_size_estimation_average_compression_information_0_rate', with: '4.0')
         expect(page).to have_field('variable_draft_draft_size_estimation_average_compression_information_0_format', with: 'ASCII')

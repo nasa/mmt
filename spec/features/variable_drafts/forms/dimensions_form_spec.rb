@@ -317,11 +317,11 @@ describe 'Dimensions Form', js: true do
 
       it 'displays the correct values in the form' do
         expect(page).to have_field('variable_draft_draft_dimensions_0_name', with: 'LatDim')
-        expect(page).to have_field('variable_draft_draft_dimensions_0_size', with: '36')
+        expect(page).to have_field('variable_draft_draft_dimensions_0_size', with: '36.0')
         expect(page).to have_field('variable_draft_draft_dimensions_0_type', with: 'LATITUDE_DIMENSION')
 
         expect(page).to have_field('variable_draft_draft_dimensions_1_name', with: 'Lizard Herp Doc Pop')
-        expect(page).to have_field('variable_draft_draft_dimensions_1_size', with: '2020')
+        expect(page).to have_field('variable_draft_draft_dimensions_1_size', with: '2020.0')
         expect(page).to have_field('variable_draft_draft_dimensions_1_type', with: 'LONGITUDE_DIMENSION')
       end
     end

@@ -4,8 +4,6 @@ require 'rails_helper'
 
 include DraftsHelper
 
-debug = false
-
 validation_element_display_selector_string = '.validation-error'
 validation_summary_display_selector_string = '#summary-errors'
 
@@ -30,17 +28,9 @@ describe 'Data validation on each form for the factory draft', js: true do
 
       it 'validation produces no false positives' do
         # Loop through each validate field...
-        if debug
-          # This probably is not as efficient (39 seconds vs 6 on my machine) but gives you more information
-          page.all(:css, '.validate').each do |element|
-            puts element[:id]
-            element.trigger('blur')
-            expect(page).not_to have_selector(validation_element_display_selector_string)
-          end
-        else
-          script = "$('.validate').each(function(element ) { element.blur;  }); "
-          page.execute_script(script)
-        end
+        # the previous technique element.trigger('blur') is no longer supported by capybara/selenium
+        # use find('body').click to trigger the validations
+        find('body').click
 
         # There should be no errors.
         expect(page).not_to have_selector(validation_element_display_selector_string)

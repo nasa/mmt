@@ -115,9 +115,9 @@ class CollectionTemplatesController < CollectionDraftsController
       set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: {}))
     else
       draft = if params[:origin] == ''
-                params[:draft]
+                safe_hash(:draft)
               else
-                fetch_source_data.deep_merge(params[:draft])
+                fetch_source_data.deep_merge(safe_hash(:draft))
               end
       set_resource(resource_class.new(user: current_user, provider_id: current_user.provider_id, draft: draft.to_camel_keys, template_name: draft['template_name']))
     end
