@@ -42,7 +42,7 @@ gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
 gem 'bootstrap3-datetimepicker-rails'
 gem 'breadcrumbs_on_rails'
 gem 'builder'
-gem 'carmen' # countries and subdivisions
+gem 'carmen', '~>1.0.2'  # countries and subdivisions
 gem 'database_cleaner' # added to provide a solution to Capybara's problems with js=>true
 gem 'faker'
 gem 'figaro'
@@ -89,7 +89,7 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 3.0'
 
   # better error handling
   gem 'better_errors'

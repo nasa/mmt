@@ -371,13 +371,13 @@ describe 'Set Form', js: true do
       it 'displays the correct values in the form' do
         expect(page).to have_field('variable_draft_draft_sets_0_name', with: 'Science')
         expect(page).to have_field('variable_draft_draft_sets_0_type', with: 'Land')
-        expect(page).to have_field('variable_draft_draft_sets_0_size', with: '50')
-        expect(page).to have_field('variable_draft_draft_sets_0_index', with: '1')
+        expect(page).to have_field('variable_draft_draft_sets_0_size', with: '50.0')
+        expect(page).to have_field('variable_draft_draft_sets_0_index', with: '1.0')
 
         expect(page).to have_field('variable_draft_draft_sets_1_name', with: 'Fiction')
         expect(page).to have_field('variable_draft_draft_sets_1_type', with: 'Water')
-        expect(page).to have_field('variable_draft_draft_sets_1_size', with: '100')
-        expect(page).to have_field('variable_draft_draft_sets_1_index', with: '2')
+        expect(page).to have_field('variable_draft_draft_sets_1_size', with: '100.0')
+        expect(page).to have_field('variable_draft_draft_sets_1_index', with: '2.0')
       end
     end
   end
