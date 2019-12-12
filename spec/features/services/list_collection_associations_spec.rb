@@ -50,7 +50,7 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
       end
 
       it 'lists the second page of collection associations' do
-        expect(page).to have_content('Showing Collection Associations 26 - 26 of 26')
+        expect(page).to have_content('Showing Collection Association 26 - 26 of 26')
         within '#collection-associations' do
           expect(page).to have_selector('tbody tr', count: 1)
         end

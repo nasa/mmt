@@ -93,7 +93,7 @@ describe 'Listing Service Entries', reset_provider: true do
         end
 
         it 'displays the pagination information for page two' do
-          expect(page).to have_content('Showing Service Entries 26 - 26 of 26')
+          expect(page).to have_content('Showing Service Entry 26 - 26 of 26')
         end
 
         it 'lists all the available service entries' do
