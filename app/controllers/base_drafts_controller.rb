@@ -82,6 +82,12 @@ class BaseDraftsController < DraftsController
         redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else
+      errors_list = generate_model_error
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error")
+      Rails.logger.info("Audit Log: #{current_user.urs_uid} could not create #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{current_user.provider_id} because of #{errors_list}")
+
+      add_breadcrumb 'New', send("new_#{resource_name}_path")
+      set_current_form
       render 'new'
     end
   end
@@ -116,6 +122,13 @@ class BaseDraftsController < DraftsController
         redirect_to send("edit_#{resource_name}_path", get_resource, next_form_name)
       end
     else
+      errors_list = generate_model_error
+      flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error")
+      Rails.logger.info("Audit Log: #{current_user.urs_uid} could not update #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{current_user.provider_id} because of #{errors_list}")
+
+      set_current_form
+      add_breadcrumb fetch_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
+      add_breadcrumb @json_form.get_form(@current_form).title, send("edit_#{resource_name}_path", get_resource, @current_form)
       render 'edit'
     end
   end
@@ -250,5 +263,10 @@ class BaseDraftsController < DraftsController
     return if concept_id.nil? || @unconfirmed_version
 
     compare_resource_umm_version(concept_id)
+  end
+
+  def generate_model_error
+    return unless get_resource.errors.any?
+    get_resource.errors.full_messages.reject(&:blank?).map(&:downcase).join(', ')
   end
 end
