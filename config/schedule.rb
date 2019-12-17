@@ -1,3 +1,5 @@
+require File.expand_path(File.dirname(__FILE__) + "/environment")
+
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
@@ -27,4 +29,10 @@ set :output, 'log/session_cleanup_cron.log'
 
 every 1.day do
   rake 'sessions_cleanup_cron:cleanup'
+end
+
+if Rails.configuration.proposal_mode
+  every 1.day do
+    rake "delete_proposals:expired_proposals"
+  end
 end
