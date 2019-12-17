@@ -1,4 +1,4 @@
-class MigrationForProposalPublishing < ActiveRecord::Migration
+class MigrationForProposalPublishing < ActiveRecord::Migration[4.2]
   def change
     CollectionDraftProposal.where(request_type: 'delete', provider_id: nil).delete_all
     create_proposals = CollectionDraftProposal.where(request_type: 'create')

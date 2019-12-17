@@ -1,4 +1,4 @@
-class AddRequiredToProposalStatus < ActiveRecord::Migration
+class AddRequiredToProposalStatus < ActiveRecord::Migration[4.2]
   def up
     CollectionDraftProposal.where(proposal_status: nil).update_all(proposal_status: 'in_work')
     change_column 'draft_proposals', :proposal_status, :string, null: false
