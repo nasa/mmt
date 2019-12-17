@@ -67,7 +67,7 @@ describe 'When going through the whole collection proposal approver workflow', j
         click_on 'Create Update Request'
         click_on 'Yes'
         click_on 'Short Name - Required field complete'
-        @short_name = "Full Workflow Update Test Proposal_#{Faker::Number.number(15)}"
+        @short_name = "Full Workflow Update Test Proposal_#{Faker::Number.number(digits: 15)}"
         fill_in 'Short Name', with: @short_name
         within '.nav-top' do
           click_on 'Done'

@@ -37,8 +37,8 @@ FactoryGirl.define do
       collection_one.merge(
         'CollectionDataType' => collection_data_type,
         'Version'            => version,
-        'EntryTitle'         => proposal_entry_title || "#{Faker::Movies::LordOfTheRings.location}_#{Faker::Number.number(15)}",
-        'ShortName'          => proposal_short_name || "#{Faker::Movies::LordOfTheRings.character}_#{Faker::Number.number(10)}"
+        'EntryTitle'         => proposal_entry_title || "#{Faker::Movies::LordOfTheRings.location}_#{Faker::Number.number(digits: 15)}",
+        'ShortName'          => proposal_short_name || "#{Faker::Movies::LordOfTheRings.character}_#{Faker::Number.number(digits: 10)}"
       )
     end
   end
