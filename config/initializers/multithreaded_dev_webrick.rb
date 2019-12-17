@@ -7,7 +7,7 @@
 
 if (Rails.env.development? && ENV['webrick_monkey_patch_enabled'] == 'true') || Rails.env.test?
   # Remove Rack::Lock so WEBrick can be fully multi-threaded.
-  require 'rails/commands/server'
+  require 'rails/commands/server/server_command'
 
   class Rails::Server
     def middleware

@@ -103,8 +103,8 @@ FactoryGirl.define do
     draft_type 'ServiceDraft'
 
     draft {{
-      'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location.truncate(10, omission: '')}_#{Faker::Number.number(digitis: 9)}",
-      'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')}_#{Faker::Number.number(digitis: 19)}",
+      'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location.truncate(10, omission: '')}_#{Faker::Number.number(digits: 9)}",
+      'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')}_#{Faker::Number.number(digits: 19)}",
       'Type': 'NOT PROVIDED',
       'Version': '1.0',
       'Description': 'Description of the test service',
