@@ -6,7 +6,8 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  # Do not eager load code on boot.
+  # eager load on boot to avoid a Rails hang when using mmt/dmmt in the same rails app
+  # as we do in testing.
   config.eager_load = true
 
   # Show full error reports and disable caching.
