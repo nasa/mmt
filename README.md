@@ -31,8 +31,7 @@ Mac OS X 10.14.6 moved some required libraries around which has been known to ca
 
 Details can be found on nokogiri's [site](https://nokogiri.org/tutorials/installing_nokogiri.html#macos).
 
-
-If you are having issues installing libxml-ruby (cannot find libxml.h), you may need to configure it with the location of your libxml2 directory. You can do a:
+The libxml gem has also historically caused difficulty because it is a native library. If you are having issues installing libxml-ruby (cannot find libxml.h), you may need to configure it with the location of your libxml2 directory. You can do a:
 
     find / -name xmlversion.h
 
@@ -40,11 +39,11 @@ which may return something like the following:
 
     /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2/libxml/xmlversion.h
 
-then you can run 'bundle config' with the location of libxml2 returned from the find command as in:
+then you can run `bundle config` with the location of libxml2 returned from the find command as in:
 
     bundle config build.libxml-ruby --with-xml2-include=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
 
-You should then be able to run 'bundle install' as normal afterwards.
+You should then be able to run `bundle install` as normal afterwards.
 
 #### Database
 
@@ -96,7 +95,23 @@ After adding the line and saving the file, don't forget to source the file
 
     source ~/.bash_profile
 
-#### 3. Running the CMR rake tasks
+#### 3. Setting up local redis for CMR
+CMR comes with redis in the jar, but it is not compiled to run on Macs.  If you need to run the CMR on a Mac, download it from
+
+    https://redis.io/
+
+CMR does not appear to be making significant configuration changes to redis, so a positive response from executing these commands in redis's root directory:
+
+    make
+    make test
+
+should be sufficient to run CMR locally.  Run this command before starting CMR each session:
+
+    path/to/redis/src/redis-server
+
+The option '--daemonize yes' runs the server in the background.
+
+#### 4. Running the CMR rake tasks
 To start the local CMR and load data*:
 
     rake cmr:start_and_load

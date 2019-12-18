@@ -718,6 +718,57 @@ def collection_one
             'EastBoundingCoordinate'  => -56.9284587,
             'SouthBoundingCoordinate' => 18.968602
           }]
+        },
+        'ResolutionAndCoordinateSystem': {
+          'Description': 'ResolutionAndCoordinateSystem Description',
+          'GeodeticModel': {
+            'HorizontalDatumName': 'HorizontalDatumName Text',
+            'EllipsoidName': 'EllipsoidName Text',
+            'SemiMajorAxis': 1.0,
+            'DenominatorOfFlatteningRatio': 1.0
+          },
+          'HorizontalDataResolutions': [
+            {
+              'HorizontalResolutionProcessingLevelEnum': 'Non Gridded Range',
+              'MinimumXDimension': 1,
+              'MaximumXDimension': 2,
+              'MinimumYDimension': 3,
+              'MaximumYDimension': 4,
+              'ViewingAngleType': 'At Nadir',
+              'ScanDirection': 'Along Track',
+              'Unit': 'Meters'
+            },
+            {
+              'HorizontalResolutionProcessingLevelEnum': 'Gridded',
+              'XDimension': 1,
+              'YDimension': 2,
+              'Unit': 'Meters'
+            },
+            {
+              'HorizontalResolutionProcessingLevelEnum': 'Non Gridded',
+              'XDimension': 3,
+              'YDimension': 4,
+              'ViewingAngleType': 'At Nadir',
+              'ScanDirection': 'Cross Track',
+              'Unit': 'Statute Miles'
+            },
+            {
+              'HorizontalResolutionProcessingLevelEnum': 'Varies'
+            },
+            {
+              'HorizontalResolutionProcessingLevelEnum': 'Non Gridded',
+              'XDimension': 5,
+              'ViewingAngleType': 'At Nadir',
+              'ScanDirection': 'Cross Track',
+              'Unit': 'Statute Miles'
+            },
+            {
+              'HorizontalResolutionProcessingLevelEnum': 'Gridded Range',
+              'MinimumYDimension': 6,
+              'MaximumYDimension': 7,
+              'Unit': 'Meters'
+            }
+          ]
         }
       },
       'GranuleSpatialRepresentation' => 'CARTESIAN'
@@ -740,15 +791,7 @@ def collection_one
       }
     }],
     'SpatialInformation' => {
-      'SpatialCoverageType' => 'BOTH',
-      'HorizontalCoordinateSystem' => {
-        'GeodeticModel' => {
-          'HorizontalDatumName' => 'Datum name',
-          'EllipsoidName' => 'Ellipsoid name',
-          'SemiMajorAxis' => 3.0,
-          'DenominatorOfFlatteningRatio' => 4.0
-        }
-      },
+      'SpatialCoverageType' => 'VERTICAL',
       'VerticalCoordinateSystem' => {
         'AltitudeSystemDefinition' => {
           'DatumName' => 'Datum',

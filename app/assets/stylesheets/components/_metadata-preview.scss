@@ -53,6 +53,16 @@ ul.sub-field {
   }
 }
 
+.two-column-fields-left {
+  width: 49%;
+  display: inline-block;
+}
+
+.two-column-fields-right {
+  width: 50%;
+  display: inline-block;
+}
+
 .field-name {
   font-weight: bold;
 }
