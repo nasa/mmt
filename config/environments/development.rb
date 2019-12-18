@@ -7,7 +7,7 @@ Rails.application.configure do
   config.cache_classes = false
 
   # Do not eager load code on boot.
-  config.eager_load = false
+  config.eager_load = true
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -89,11 +89,4 @@ Rails.application.configure do
 
   config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
 
-  # These settings are necessary for dMMT and MMT to talk in dev, but are
-  # inconvienent because cache_classes means you have to reboot rails to see
-  # code changes.
-  if ENV['webrick_monkey_patch_enabled'] == 'true'
-    config.cache_classes = true
-    config.eager_load = true
-  end
 end
