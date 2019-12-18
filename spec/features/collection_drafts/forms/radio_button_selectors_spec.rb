@@ -21,24 +21,7 @@ describe 'Radio button form selectors', js: true do
     end
 
     it 'does not show any spatial coverage fields' do
-      expect(page).to have_no_css('.spatial-coverage-type.horizontal')
       expect(page).to have_no_css('.spatial-coverage-type.vertical')
-    end
-
-    context 'when selecting horizontal spatial coverage' do
-      before do
-        within '#spatial-representation-information' do
-          choose 'Horizontal'
-        end
-      end
-
-      it 'displays the horizontal coordinate system fields' do
-        expect(page).to have_css('.spatial-coverage-type.horizontal')
-      end
-
-      it 'does not display the other form fields' do
-        expect(page).to have_no_css('.spatial-coverage-type.vertical')
-      end
     end
 
     context 'when selecting vertical spatial coverage' do
@@ -51,56 +34,25 @@ describe 'Radio button form selectors', js: true do
       it 'displays the vertical coordinate system fields' do
         expect(page).to have_css('.spatial-coverage-type.vertical')
       end
-
-      it 'does not display the other form fields' do
-        expect(page).to have_no_css('.spatial-coverage-type.horizontal')
-      end
     end
 
-    context 'when selecting both spatial coverage' do
+    context 'when clearing options after filling in form data' do
       before do
         within '#spatial-representation-information' do
-          choose 'Both'
-        end
-      end
-
-      it 'displays the horizontal and vertical coordinate system fields' do
-        expect(page).to have_css('.spatial-coverage-type.horizontal')
-        expect(page).to have_css('.spatial-coverage-type.vertical')
-      end
-    end
-
-    context 'when switching between options after filling in form data' do
-      before do
-        within '#spatial-representation-information' do
-          choose 'Horizontal'
-          fill_in 'Horizontal Datum Name', with: 'Datum name'
-          fill_in 'Ellipsoid Name', with: 'Ellipsoid name'
-          fill_in 'Semi Major Axis', with: '3.0'
-          fill_in 'Denominator Of Flattening Ratio', with: '4.0'
-
-          choose 'Geographic'
-          select 'Meters', from: 'Geographic Coordinate Units'
-          fill_in 'Latitude Resolution', with: '42.0'
-          fill_in 'Longitude Resolution', with: '43.0'
-
           choose 'Vertical'
-          choose 'Horizontal'
+          within '.altitude-system-definition' do
+            fill_in 'Datum Name', with: 'sample name'
+            select 'Millibars', from: 'Distance Units'
+          end
+
+          click_on 'Clear'
+          choose 'Vertical'
         end
       end
 
       it 'clears the form data' do
-        expect(page).to have_field('Horizontal Datum Name', with: '')
-        expect(page).to have_field('Ellipsoid Name', with: '')
-        expect(page).to have_field('Semi Major Axis', with: '')
-        expect(page).to have_field('Denominator Of Flattening Ratio', with: '')
-
-        expect(page).to have_no_css('.geographic-coordinate-system-fields')
-        expect(page).to have_no_css('.local-coordinate-system-fields')
-      end
-
-      it 'resets coordinate system radio buttons' do
-        expect(find('.coordinate-system-picker.geographic')).to_not be_checked
+        expect(page).to have_field('Datum Name', with: '')
+        expect(page).to have_field('Distance Units', with: '')
       end
     end
   end
@@ -115,23 +67,23 @@ describe 'Radio button form selectors', js: true do
 
       open_accordions
 
-      within '#spatial-representation-information' do
-        choose 'Horizontal'
+      within '#spatial-extent' do
+        select 'Horizontal', from: 'Spatial Coverage Type'
       end
     end
 
     it 'does not show any coordinate system fields' do
-      expect(page).to have_no_css('.geographic-coordinate-system-fields')
+      expect(page).to have_no_css('.horizontal-data-resolutions-fields')
       expect(page).to have_no_css('.local-coordinate-system-fields')
     end
 
-    context 'when selecting geographic coordinate system' do
+    context 'when selecting horizontal data resolutions' do
       before do
-        choose 'Geographic'
+        choose 'Horizontal Data Resolutions'
       end
 
       it 'displays the geographic coordinate system fields' do
-        expect(page).to have_css('.geographic-coordinate-system-fields')
+        expect(page).to have_css('.horizontal-data-resolutions-fields')
       end
 
       it 'does not display the other form fields' do
@@ -149,25 +101,30 @@ describe 'Radio button form selectors', js: true do
       end
 
       it 'does not display the other form fields' do
-        expect(page).to have_no_css('.geographic-coordinate-system-fields')
+        expect(page).to have_no_css('.horizontal-data-resolutions-fields')
       end
     end
 
     context 'when switching between options after filling in form data' do
       before do
-        choose 'Geographic'
-        select 'Meters', from: 'Geographic Coordinate Units'
-        fill_in 'Latitude Resolution', with: '42.0'
-        fill_in 'Longitude Resolution', with: '43.0'
+        choose 'Horizontal Data Resolutions'
+        choose 'Gridded'
+        select 'Meters', from: 'Unit'
+        fill_in 'X Dimension', with: '42.0'
+        fill_in 'Y Dimension', with: '43.0'
 
         choose 'Local'
-        choose 'Geographic'
+        choose 'Horizontal Data Resolutions'
       end
 
       it 'clears the form data' do
-        expect(page).to have_field('Geographic Coordinate Units', with: '')
-        expect(page).to have_field('Latitude Resolution', with: '')
-        expect(page).to have_field('Longitude Resolution', with: '')
+        expect(page).to have_no_checked_field('Gridded')
+
+        choose 'Gridded'
+
+        expect(page).to have_field('Unit', with: '')
+        expect(page).to have_field('X Dimension', with: '')
+        expect(page).to have_field('Y Dimension', with: '')
       end
     end
   end

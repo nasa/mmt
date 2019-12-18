@@ -26,6 +26,75 @@ describe 'Spatial information form', js: true do
           add_points
         end
         select 'Cartesian', from: 'Granule Spatial Representation'
+        within '.resolution-and-coordinate-system' do
+          fill_in 'Description', with: 'Sample description'
+          fill_in 'Horizontal Datum Name', with: 'Datum name'
+          fill_in 'Ellipsoid Name', with: 'Ellipsoid name'
+          fill_in 'Semi Major Axis', with: '3.0'
+          fill_in 'Denominator Of Flattening Ratio', with: '4.0'
+          choose 'Horizontal Data Resolutions'
+          within '.horizontal-data-resolutions-fields' do
+            within '.multiple-item-0' do
+              choose 'Gridded'
+              fill_in 'X Dimension', with: '1'
+              fill_in 'Y Dimension', with: '2'
+              select 'Meters', from: 'Unit'
+            end
+          end
+          click_on 'Add another Horizontal Data Resolution'
+          within '.horizontal-data-resolutions-fields' do
+            within '.multiple-item-1' do
+              choose 'Gridded Range'
+              fill_in 'Minimum X Dimension', with: '3'
+              fill_in 'Maximum X Dimension', with: '4'
+              fill_in 'Minimum Y Dimension', with: '5'
+              fill_in 'Maximum Y Dimension', with: '6'
+              select 'Meters', from: 'Unit'
+            end
+          end
+          click_on 'Add another Horizontal Data Resolution'
+          within '.horizontal-data-resolutions-fields' do
+            within '.multiple-item-2' do
+              choose 'Non Gridded'
+              fill_in 'X Dimension', with: '7'
+              fill_in 'Y Dimension', with: '8'
+              select 'At Nadir', from: 'Viewing Angle Type'
+              select 'Along Track', from: 'Scan Direction'
+              select 'Meters', from: 'Unit'
+            end
+          end
+          click_on 'Add another Horizontal Data Resolution'
+          within '.horizontal-data-resolutions-fields' do
+            within '.multiple-item-3' do
+              choose 'Non Gridded Range'
+              fill_in 'Minimum X Dimension', with: '9'
+              fill_in 'Maximum X Dimension', with: '10'
+              fill_in 'Minimum Y Dimension', with: '11'
+              fill_in 'Maximum Y Dimension', with: '12'
+              select 'At Nadir', from: 'Viewing Angle Type'
+              select 'Along Track', from: 'Scan Direction'
+              select 'Meters', from: 'Unit'
+            end
+          end
+          click_on 'Add another Horizontal Data Resolution'
+          within '.horizontal-data-resolutions-fields' do
+            within '.multiple-item-4' do
+              choose 'Point'
+            end
+          end
+          click_on 'Add another Horizontal Data Resolution'
+          within '.horizontal-data-resolutions-fields' do
+            within '.multiple-item-5' do
+              choose 'Varies'
+            end
+          end
+          click_on 'Add another Horizontal Data Resolution'
+          within '.horizontal-data-resolutions-fields' do
+            within '.multiple-item-6' do
+              choose 'Not provided'
+            end
+          end
+        end
 
         # Tiling Identification System
         within '.multiple.tiling-identification-systems' do
@@ -53,17 +122,7 @@ describe 'Spatial information form', js: true do
           end
         end
 
-        # Spatial Representation Information
-        choose 'draft_spatial_information_spatial_coverage_type_HORIZONTAL'
-        fill_in 'Horizontal Datum Name', with: 'Datum name'
-        fill_in 'Ellipsoid Name', with: 'Ellipsoid name'
-        fill_in 'Semi Major Axis', with: '3.0'
-        fill_in 'Denominator Of Flattening Ratio', with: '4.0'
-
-        find('.coordinate-system-picker.geographic').click
-        select 'Meters', from: 'Geographic Coordinate Units'
-        fill_in 'Latitude Resolution', with: '42.0'
-        fill_in 'Longitude Resolution', with: '43.0'
+        # Spatial Representation Information is not filled in in this case
 
         # Location Keywords
         add_location_keywords
@@ -71,6 +130,10 @@ describe 'Spatial information form', js: true do
         within '.nav-top' do
           click_on 'Save'
         end
+
+        # TODO: MMT-1726: This should be removed from the final push of the branch because the data should be valid
+        click_on 'Yes'
+
         # output_schema_validation Draft.first.draft
         click_on 'Expand All'
       end
@@ -94,6 +157,58 @@ describe 'Spatial information form', js: true do
               within '.multiple-item-1' do
                 expect(page).to have_field('Longitude', with: '-76.9284587')
                 expect(page).to have_field('Latitude', with: '38.968602')
+              end
+            end
+          end
+          within '.resolution-and-coordinate-system' do
+            expect(page).to have_field('Description', with: 'Sample description')
+            expect(page).to have_field('Horizontal Datum Name', with: 'Datum name')
+            expect(page).to have_field('Ellipsoid Name', with: 'Ellipsoid name')
+            expect(page).to have_field('Semi Major Axis', with: '3.0')
+            expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
+            expect(page).to have_checked_field('Horizontal Data Resolutions')
+
+            within '.horizontal-data-resolutions-fields' do
+              within '.multiple-item-0' do
+                expect(page).to have_checked_field('Gridded')
+                expect(page).to have_field('X Dimension', with: '1')
+                expect(page).to have_field('Y Dimension', with: '2')
+                expect(page).to have_field('Unit', with: 'Meters')
+              end
+              within '.multiple-item-1' do
+                expect(page).to have_checked_field('Gridded Range')
+                expect(page).to have_field('Minimum X Dimension', with: '3')
+                expect(page).to have_field('Maximum X Dimension', with: '4')
+                expect(page).to have_field('Minimum Y Dimension', with: '5')
+                expect(page).to have_field('Maximum Y Dimension', with: '6')
+                expect(page).to have_field('Unit', with: 'Meters')
+              end
+              within '.multiple-item-2' do
+                expect(page).to have_checked_field('Non Gridded')
+                expect(page).to have_field('X Dimension', with: '7')
+                expect(page).to have_field('Y Dimension', with: '8')
+                expect(page).to have_field('Unit', with: 'Meters')
+                expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
+                expect(page).to have_field('Scan Direction', with: 'Along Track')
+              end
+              within '.multiple-item-3' do
+                expect(page).to have_checked_field('Non Gridded Range')
+                expect(page).to have_field('Minimum X Dimension', with: '9')
+                expect(page).to have_field('Maximum X Dimension', with: '10')
+                expect(page).to have_field('Minimum Y Dimension', with: '11')
+                expect(page).to have_field('Maximum Y Dimension', with: '12')
+                expect(page).to have_field('Unit', with: 'Meters')
+                expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
+                expect(page).to have_field('Scan Direction', with: 'Along Track')
+              end
+              within '.multiple-item-4' do
+                expect(page).to have_checked_field('Point')
+              end
+              within '.multiple-item-5' do
+                expect(page).to have_checked_field('Varies')
+              end
+              within '.multiple-item-6' do
+                expect(page).to have_checked_field('Not provided')
               end
             end
           end
@@ -126,19 +241,7 @@ describe 'Spatial information form', js: true do
           end
         end
 
-        # Spatial Representation Information
-        expect(page).to have_checked_field('Horizontal')
-        expect(page).to have_no_checked_field('Vertical')
-        expect(page).to have_no_checked_field('Both')
-
-        expect(page).to have_field('Horizontal Datum Name', with: 'Datum name')
-        expect(page).to have_field('Ellipsoid Name', with: 'Ellipsoid name')
-        expect(page).to have_field('Semi Major Axis', with: '3.0')
-        expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
-        expect(page).to have_checked_field('Geographic Coordinate System')
-        expect(page).to have_field('Geographic Coordinate Units', with: 'Meters')
-        expect(page).to have_field('Latitude Resolution', with: '42.0')
-        expect(page).to have_field('Longitude Resolution', with: '43.0')
+        # Spatial Representation Information is empty in this case
 
         # Location Keywords
         expect(page).to have_content('GEOGRAPHIC REGION > ARCTIC')
@@ -479,14 +582,7 @@ describe 'Spatial information form', js: true do
       select 'Cartesian', from: 'Granule Spatial Representation'
 
       # Spatial Representation Information
-      choose 'draft_spatial_information_spatial_coverage_type_BOTH'
-      fill_in 'Horizontal Datum Name', with: 'Datum name'
-      fill_in 'Ellipsoid Name', with: 'Ellipsoid name'
-      fill_in 'Semi Major Axis', with: '3'
-      fill_in 'Denominator Of Flattening Ratio', with: '4'
-      find('.coordinate-system-picker.local').click
-      fill_in 'Geo Reference Information', with: 'reference information'
-      fill_in 'Description', with: 'local description'
+      choose 'draft_spatial_information_spatial_coverage_type_VERTICAL'
 
       within '.altitude-system-definition' do
         fill_in 'Datum Name', with: 'datum name'
@@ -541,16 +637,7 @@ describe 'Spatial information form', js: true do
       end
 
       # Spatial Representation Information
-      expect(page).to have_no_checked_field('Horizontal')
-      expect(page).to have_no_checked_field('Vertical')
-      expect(page).to have_checked_field('Both')
-      expect(page).to have_field('Horizontal Datum Name', with: 'Datum name')
-      expect(page).to have_field('Ellipsoid Name', with: 'Ellipsoid name')
-      expect(page).to have_field('Semi Major Axis', with: '3.0')
-      expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
-      expect(page).to have_checked_field('Local Coordinate System')
-      expect(page).to have_field('Geo Reference Information', with: 'reference information')
-      expect(page).to have_field('Description', with: 'local description')
+      expect(page).to have_checked_field('Vertical')
 
       within '.altitude-system-definition' do
         expect(page).to have_field('Datum Name', with: 'datum name')
@@ -567,7 +654,7 @@ describe 'Spatial information form', js: true do
     end
   end
 
-  context 'when submitting the form with horizontal and vertial spatial' do
+  context 'when submitting the form with horizontal and vertical spatial' do
     before do
       within '.metadata' do
         click_on 'Spatial Information', match: :first
@@ -639,7 +726,7 @@ describe 'Spatial information form', js: true do
     end
   end
 
-  context 'when submitting the form with orbital and vertial spatial' do
+  context 'when submitting the form with orbital and vertical spatial' do
     before do
       within '.metadata' do
         click_on 'Spatial Information', match: :first
