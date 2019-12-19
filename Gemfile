@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.1.7'
+gem 'rails', '5.2.3'
 
 # deployment support
 gem 'sprockets', '~> 3.7.0'
@@ -70,7 +70,7 @@ gem 'aasm'
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
 # make sure to delete the local config when done making changes to merge into master
 # bundle config --delete local.cmr_metadata_preview
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '8423102782c'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '804f1bdd412'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -89,7 +89,7 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 3.0'
+  gem 'web-console'
 
   # better error handling
   gem 'better_errors'
