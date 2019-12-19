@@ -74,30 +74,7 @@ header.mmt-header {
   .eui-masthead-logo {
     @include row();
     display: block;
-    width: 100%;
     padding: 1em 0;
-
-    a:link,
-    a:visited {
-      background: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo.png") no-repeat left;
-      min-height: 64px;
-      color: $white;
-      display: block;
-      @include transition(background-image 0.1s linear);
-
-      @include hidpi(1.3) {
-        background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_2x.png");
-        background-size: auto 50px;
-      }
-    }
-
-    a:hover {
-      background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover.png");
-
-      @include hidpi(1.3) {
-        background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover_2x.png");
-      }
-    }
 
     // EUI Candidate
     // Temporary nesting due to specificity battle with EUI
@@ -164,6 +141,70 @@ header.mmt-header {
     background-color: $ocean-blue;
   }
 }
+
+.eui-masthead-logo-background-mmt {
+  width: 100%;
+
+  a:link,
+  a:visited {
+    background: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo.png") no-repeat left;
+    min-height: 64px;
+    color: $white;
+    display: block;
+    @include transition(background-image 0.1s linear);
+
+    @include hidpi(1.3) {
+      background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_2x.png");
+      background-size: auto 50px;
+    }
+  }
+
+  a:hover {
+    background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover.png");
+
+    @include hidpi(1.3) {
+      background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover_2x.png");
+    }
+  }
+}
+
+.eui-masthead-logo-background-dmmt {
+  width: 120%;
+
+  a:link,
+  a:visited {
+    background-image: asset-url("ceos_logo.png"), asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo.png");
+    background-repeat: no-repeat, no-repeat;
+    background-position: 28% 15%, 0% 50%;
+    background-size: 52px, auto;
+    min-height: 64px;
+    color: $white;
+    display: block;
+    @include transition(background-image 0.1s linear);
+
+    @include hidpi(1.3) {
+      background-image: asset-url("ceos_logo.png"), asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_2x.png");
+      background-repeat: no-repeat, no-repeat;
+      background-position: 28% 15%, 0% 50%;
+      background-size: 52px, auto;
+    }
+  }
+
+  a:hover {
+    background-image: asset-url("ceos_logo.png"), asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover.png");
+    background-repeat: no-repeat, no-repeat;
+    background-position: 28% 15%, 0% 50%;
+    background-size: 52px, auto;
+
+    @include hidpi(1.3) {
+      background-image: asset-url("ceos_logo.png"), asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover_2x.png");
+      background-repeat: no-repeat, no-repeat;
+      background-position: 28% 15%, 0% 50%;
+      background-size: 52px, auto;
+    }
+  }
+}
+
 
 .proposal-mode-color {
   --proposal-mode-background-color: $orange;
