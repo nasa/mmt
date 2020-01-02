@@ -18,13 +18,13 @@ describe 'Datepicker', js: true do
   context 'when using the datepicker to pick a date value' do
     before do
       find('#draft_metadata_dates_0_date').click
-      find('span.year', text: '2015').click
+      find('span.year', text: '2029').click
       find('span.month', text: 'Oct').click
       find('td.day', text: '31').click
     end
 
     it 'displays a valid datetime with a time of 00:00:00' do
-      expect(page).to have_field('draft_metadata_dates_0_date', with: '2015-10-31T00:00:00.000Z')
+      expect(page).to have_field('draft_metadata_dates_0_date', with: '2029-10-31T00:00:00.000Z')
     end
 
     context 'when editing the time' do
@@ -43,7 +43,7 @@ describe 'Datepicker', js: true do
 
         select 'Future Review', from: 'Type'
         find('#draft_metadata_dates_1_date').click
-        find('span.year', text: '2015').click
+        find('span.year', text: '2029').click
       end
 
       it 'does not display a validation error' do
