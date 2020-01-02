@@ -3,7 +3,7 @@
   <div class="<%= defined?(wide) && wide ? 'wide-content' : 'content' %>">
     <div class="col-7">
       <% if Rails.configuration.proposal_mode %>
-        <div class="eui-masthead-logo eui-masthead-logo-background-draftmmt eui-application-logo" id="masthead-logo">
+        <div class="eui-masthead-logo eui-masthead-logo-background-draftmmt<%= defined?(wide) && wide ? '-wide' : '' %> eui-application-logo" id="masthead-logo">
       <% else %>
         <div class="eui-masthead-logo eui-masthead-logo-background-mmt eui-application-logo" id="masthead-logo">
       <% end %>
