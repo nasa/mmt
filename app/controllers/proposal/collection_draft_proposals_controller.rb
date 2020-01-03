@@ -103,7 +103,7 @@ module Proposal
       if get_resource.submit && get_resource.save
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
 
-        ProposalMailer.proposal_submitted_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id']).deliver_now
+        ProposalMailer.proposal_submitted_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id'], get_resource.request_type).deliver_now
 
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.submit.flash.success")
       else
@@ -154,9 +154,9 @@ module Proposal
 
         user_from_resource_response = user_from_resource
         # User e-mail
-        ProposalMailer.proposal_approved_notification(user_from_resource_response, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id']).deliver_now if user_from_resource_response
+        ProposalMailer.proposal_approved_notification(user_from_resource_response, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id'], get_resource.proposal_status).deliver_now if user_from_resource_response
         # Approver e-mail
-        ProposalMailer.proposal_approved_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id']).deliver_now
+        ProposalMailer.proposal_approved_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id'], get_resource.proposal_status).deliver_now
 
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.approve.flash.success")
       else

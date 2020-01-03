@@ -1,0 +1,7 @@
+<%= @user[:name] %>,
+
+<%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{@request_type == 'deleted' ? 'deleted from the CMR' : "published to the CMR. Your collection's concept ID is #{@concept_id}."}" %>
+
+<% unless @request_type == 'delete' %>
+View Collection: <%= collection_url(@concept_id, revision_id: @revision_id) %>
+<% end %>
