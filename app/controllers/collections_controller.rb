@@ -98,6 +98,7 @@ class CollectionsController < ManageCollectionsController
     proposal = CollectionDraftProposal.create_request(collection: @collection, user: current_user, provider_id: @provider_id, native_id: @native_id, request_type: 'delete', username: session[:name])
     Rails.logger.info("Audit Log: Delete Collection Proposal Request for #{proposal.entry_title} with concept #{@concept_id} was created by #{current_user.urs_uid}")
     flash[:success] = I18n.t('controllers.collections.delete_proposal.flash.success')
+    ProposalMailer.proposal_submitted_notification(get_user_info, proposal.draft['ShortName'], proposal.draft['Version'], proposal.id, proposal.request_type).deliver_now
     redirect_to collection_draft_proposal_path(proposal)
   end
 

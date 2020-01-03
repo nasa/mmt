@@ -1,0 +1,19 @@
+<h1 class="styled-heading"><%= "#{@short_name}_#{@version} #{@request_type.titleize}d" %></h1>
+
+<div class="email-message">
+  <p>
+    <%= @user[:name] %>,
+  </p>
+  <p>
+    <%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{@request_type == 'deleted' ? 'deleted from the CMR' : "published to the CMR. Your collection's concept ID is #{@concept_id}."}" %>
+  </p>
+  <% unless @request_type == 'delete' %>
+    <div class="center">
+      <%= link_to 'View Collection', collection_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>
+    </div>
+  <% end %>
+</div>
+
+<div class="email-footer">
+  <img src="https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/meatball.png" alt="Meatball" class="image-center" />
+</div>
