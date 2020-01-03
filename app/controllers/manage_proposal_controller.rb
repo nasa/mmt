@@ -116,7 +116,7 @@ class ManageProposalController < ManageMetadataController
         Rails.logger.info("Audit Log: Collection with native_id #{proposal['native_id']} was deleted for #{provider} by #{session[:urs_uid]} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}.")
 
         user_from_proposal_response = user_from_proposal(proposal)
-        ProposalMailer.proposal_published_notification(user_from_resource_response, cmr_response.body['concept_id'], cmr_response.body['revision_id'], proposal['short_name'], proposal['draft']['Version'], proposal['request_type']).deliver_now if user_from_proposal_response
+        ProposalMailer.proposal_published_notification(user_from_proposal_response, cmr_response.body['concept-id'], cmr_response.body['revision-id'], proposal['short_name'], proposal['draft']['Version'], proposal['request_type']).deliver_now if user_from_proposal_response
         update_proposal_status_in_dmmt(proposal)
       else
         flash[:error] = I18n.t('controllers.manage_proposal.publish_proposal.flash.delete.error')
@@ -135,7 +135,7 @@ class ManageProposalController < ManageMetadataController
       Rails.logger.info("Audit Log: Proposal #{proposal['entry_title']} was published by #{current_user.urs_uid} in provider: #{provider} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
 
       user_from_proposal_response = user_from_proposal(proposal)
-      ProposalMailer.proposal_published_notification(user_from_resource_response, cmr_response.body['concept_id'], cmr_response.body['revision_id'], proposal['short_name'], proposal['draft']['Version'], proposal['request_type']).deliver_now if user_from_proposal_response
+      ProposalMailer.proposal_published_notification(user_from_proposal_response, cmr_response.body['concept-id'], cmr_response.body['revision-id'], proposal['short_name'], proposal['draft']['Version'], proposal['request_type']).deliver_now if user_from_proposal_response
       update_proposal_status_in_dmmt(proposal)
     else
       flash[:error] = I18n.t('controllers.manage_proposal.publish_proposal.flash.create.error')
