@@ -29,6 +29,7 @@ describe 'When publishing collection draft proposals', js: true do
 
       context 'when successfully deleting the collection' do
         before do
+          @email_count = ActionMailer::Base.deliveries.count
           mock_cmr_get_collections
           click_on 'Delete'
         end
@@ -47,6 +48,12 @@ describe 'When publishing collection draft proposals', js: true do
             visit collection_path(@ingest_response['concept-id'])
 
             expect(page).to have_content('This collection is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this collection.')
+          end
+
+          it 'sends an e-mail' do
+            expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 1)
+            expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/deleted from the CMR/)
+            expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/deleted from the CMR/)
           end
         end
 
@@ -68,6 +75,12 @@ describe 'When publishing collection draft proposals', js: true do
             visit collection_path(@ingest_response['concept-id'])
 
             expect(page).to have_content('This collection is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this collection.')
+          end
+
+          it 'sends an e-mail' do
+            expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 1)
+            expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/deleted from the CMR/)
+            expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/deleted from the CMR/)
           end
         end
       end
@@ -105,6 +118,7 @@ describe 'When publishing collection draft proposals', js: true do
 
     context 'when creating a new record' do
       before do
+        @email_count = ActionMailer::Base.deliveries.count
         mock_update_proposal_status
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Publish'
@@ -113,6 +127,13 @@ describe 'When publishing collection draft proposals', js: true do
         within '#approver-proposal-modal' do
           click_on 'Publish'
         end
+      end
+
+      it 'sends an e-mail' do
+        expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 1)
+        expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/published to the CMR. Your collection's concept ID is/)
+        # &#39; = ' in html
+        expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/published to the CMR. Your collection&#39;s concept ID is/)
       end
 
       it 'creates a new record' do
