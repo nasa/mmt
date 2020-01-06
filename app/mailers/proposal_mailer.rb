@@ -33,4 +33,18 @@ class ProposalMailer < ApplicationMailer
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
+
+  def proposal_rejected_notification(user, proposal)
+    @user = user
+    @short_name = proposal.draft['ShortName']
+    @version = proposal.draft['Version']
+    @id = proposal.id
+    @rejected_reasons = proposal.approver_feedback['reasons'].join(', ')
+    @rejected_note = proposal.approver_feedback['note']
+    @request_type = proposal.request_type
+
+    email_subject = "#{@request_type.titleize} Collection Proposal Rejected in Metadata Management Tool"
+
+    mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
+  end
 end

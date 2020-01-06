@@ -68,20 +68,29 @@ describe 'Collection Draft Proposal Reject', js: true do
 
       context 'when rejecting the proposal with feedback' do
         before do
+          mock_urs_get_users
+          @email_count = ActionMailer::Base.deliveries.count
           within '#reject-submission-modal' do
             select 'Broken Links', from: 'proposal-rejection-reasons'
             fill_in 'Note', with: 'There are many reasons for rejecting this submission'
 
             click_on 'Reject'
           end
+        end
 
-          it 'rejects the proposal' do
-            expect(page).to have_content('Collection Draft Proposal Rejected Successfully')
-            within '#proposal-status-display' do
-              expect(page).to have_content('Draft Proposal Submission')
-              expect(page).to have_content('Rejected')
-            end
+        it 'rejects the proposal' do
+          expect(page).to have_content('Collection Draft Proposal Rejected Successfully')
+          within '#proposal-status-display' do
+            expect(page).to have_content('Draft Proposal Submission')
+            expect(page).to have_content('Rejected')
           end
+        end
+
+        it 'sends two e-mails' do
+          # Reject sends two e-mails; one to approver and one to user
+          expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 2)
+          expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/Additional feedback was provided: 'There are many reasons for rejecting this submission'/)
+          expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/Additional feedback was provided: 'There are many reasons for rejecting this submission'/)
         end
       end
 
