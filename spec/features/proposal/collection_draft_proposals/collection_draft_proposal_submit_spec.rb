@@ -10,8 +10,10 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
       visit collection_draft_proposal_path(@collection_draft_proposal)
     end
 
-    context 'when clicking the button to submit a proposal' do
+    context 'when the submit proposal button is clicked' do
       before do
+        mock_urs_get_users(count: 2)
+        @email_count = ActionMailer::Base.deliveries.count
         click_on 'Submit for Review'
       end
 
@@ -29,9 +31,16 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
         it 'populates the submitter_id' do
           expect(CollectionDraftProposal.last.submitter_id).to eq('testuser')
         end
+
+        it 'sends emails' do
+          # Expect 3 emails because of the mock call above; 1 to user and 2 to approvers
+          expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 3)
+          expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/has been submitted by/)
+          expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/has been submitted by/)
+        end
       end
 
-      context 'when clicking no to submit a proposal' do
+      context 'when the no button is clicked' do
         before do
           click_on 'No'
         end
