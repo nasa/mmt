@@ -435,7 +435,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/MeasurementContextMediumUri", "field": true}]
+                      "items": [{"key": "/MeasurementContextMediumURI", "field": true}]
                     }
                   ]
                 },
@@ -455,7 +455,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/MeasurementObjectUri", "field": true}]
+                      "items": [{"key": "/MeasurementObjectURI", "field": true}]
                     }
                   ]
                 },
@@ -616,7 +616,7 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/MeasurementQuantityUri", "field": true}]
+                  "items": [{"key": "/MeasurementQuantityURI", "field": true}]
                 }
               ]
             }

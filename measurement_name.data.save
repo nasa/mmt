@@ -1,0 +1,983 @@
+HTTP/2 200 
+
+content-type: application/json;charset=utf-8
+
+content-length: 29718
+
+vary: Accept-Encoding
+
+vary: Accept-Encoding, User-Agent
+
+date: Tue, 07 Jan 2020 15:10:19 GMT
+
+set-cookie: AWSALB=feDIfqWXBGbHyBHuL+cKWDOvV1xwUxCFGS0jrKh2xxePY5zQyqqXmVQxahxDuhFg/qeIrL6Cna2QZdIDMNpKyg/3FntncVu17tRLMWIK6n2MOdZH0T9HT/IcjgP6; Expires=Tue, 14 Jan 2020 15:10:19 GMT; Path=/
+
+cmr-request-id: 67781013-8493-4e43-bf89-c17d42d6b8be
+
+server: Jetty(9.4.z-SNAPSHOT)
+
+strict-transport-security: max-age=31536000; includeSubdomains; preload
+
+x-cache: Miss from cloudfront
+
+via: 1.1 9fb7397504a65afc778db3eb0ee0bfa4.cloudfront.net (CloudFront)
+
+x-amz-cf-pop: IAD79-C3
+
+x-amz-cf-id: JqORQZOLMLdiyI0BUhJSAAXbIspUBrDb93Z7B66Wd_C2n-BEXGo79w==
+
+
+{
+  "context_medium" : [ {
+    "value" : "vegetation_floor",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "water_interception",
+      "uuid" : "191433fe-2d8e-4ac2-be15-a5f1c683c53a",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "volume_flux",
+        "uuid" : "23be936b-4614-4f9b-a2ef-efe3a4725cc5"
+      } ]
+    } ]
+  }, {
+    "value" : "ocean",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "sea_ice",
+      "uuid" : "67cc1cc2-04b9-4763-8e73-fb028f45baab",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "albedo",
+        "uuid" : "52134b42-d055-47b1-8126-6905fe9c8784"
+      }, {
+        "value" : "mass_per_unit_area",
+        "uuid" : "355998d9-cc22-4cf7-ab21-f66176aa3288"
+      }, {
+        "value" : "bottom_depth",
+        "uuid" : "5d34fef2-b517-4fb3-b317-0e6c2807e610"
+      }, {
+        "value" : "area",
+        "uuid" : "fb3ca6d5-ab16-413b-80f6-c2e2d50ec4c0"
+      } ]
+    }, {
+      "value" : "sea_ice-water",
+      "uuid" : "ed0b8976-413a-4f8d-8647-77f780852f4a",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "bottom_depth",
+        "uuid" : "fdf18525-124a-49d2-8de9-1babb372dcd8"
+      } ]
+    }, {
+      "value" : "sea_ice-meltwater",
+      "uuid" : "ad2fceb4-ff6e-426c-991f-45dd1edafbb8",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "volume",
+        "uuid" : "e4e4dac0-f0aa-4757-989c-70522eb64e76"
+      } ]
+    }, {
+      "value" : "sea_ice__and_surface_snow",
+      "uuid" : "396823a4-c840-49cc-a0b1-a5e9b5cc2230",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "mass_per_unit_area",
+        "uuid" : "53feeeb9-a947-4129-a344-23ad1e9473d7"
+      } ]
+    }, {
+      "value" : "sea_surface_subskin",
+      "uuid" : "2ab73c26-33f0-4e88-8a60-5ea670b17a94",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "temperature",
+        "uuid" : "5819b364-892c-40ab-a90f-5a239c3e028b"
+      } ]
+    }, {
+      "value" : "hydrological_evaporation",
+      "uuid" : "24840d39-3bec-4d3d-afec-8a76652e5639",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "mass_flux",
+        "uuid" : "decb98b0-b70f-4782-a693-fac6d16ca0e4"
+      } ]
+    }, {
+      "value" : "sea_ice_radiation_incoming",
+      "uuid" : "b92c52de-b04a-4682-a643-151d8d64952c",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "longwave",
+        "uuid" : "df9fe4bc-2589-4a51-8731-bdd09d21507d"
+      }, {
+        "value" : "total",
+        "uuid" : "c899c6e7-9e0f-461b-a588-584e954233b7"
+      }, {
+        "value" : "shortwave",
+        "uuid" : "53ef3a78-30ae-42e8-9609-63224b7ea121"
+      } ]
+    }, {
+      "value" : "sea_surface_skin",
+      "uuid" : "04f8c212-9e02-4135-8434-64b3dc15b938",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "temperature",
+        "uuid" : "c1f75c04-84da-4185-ac89-4e33700b4cd3"
+      } ]
+    } ]
+  }, {
+    "value" : "soil",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "a8d070ea-9ffd-4dcc-bb78-799e20f16de8",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "volume_fraction",
+        "uuid" : "41cb1459-0e89-4142-908d-e561204fa9b0"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere-at_convective_cloud_top",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "1bfab372-f275-449c-ac46-2d6193305592",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "pressure",
+        "uuid" : "a60f429a-087b-4b26-89c6-8dbdd13ef75f"
+      } ]
+    } ]
+  }, {
+    "value" : "land",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "permafrost",
+      "uuid" : "369c608c-787a-4ca6-8811-cc8eca7447d5",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "top_height",
+        "uuid" : "44b8b582-ebac-4d05-be2a-b3982a64b91e"
+      }, {
+        "value" : "bottom_height",
+        "uuid" : "fcb181b4-4732-4752-b70d-bbcc81fcdc59"
+      } ]
+    }, {
+      "value" : "hydrological_evaporation",
+      "uuid" : "75442d9d-e3e4-4241-941d-c4899c6a41a8",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "mass_flux",
+        "uuid" : "283680c0-5043-410f-bc7d-5c8bdcf31403"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere-over",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "sea_surface",
+      "uuid" : "5a16e8a0-2580-4f71-bbfd-0fb8bc21fac0",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "air_pressure",
+        "uuid" : "5d427c67-80c4-408b-9dc7-635f75807163"
+      } ]
+    }, {
+      "value" : "land_surface",
+      "uuid" : "2843a8ce-e1fd-4fb6-9b59-22f1a39f249f",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "air_pressure",
+        "uuid" : "31ec3bb4-b486-4bb6-a956-70717c30f597"
+      } ]
+    } ]
+  }, {
+    "value" : "sea_ice",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "incoming_total_radiation",
+      "uuid" : "3feff332-a91f-4246-97dd-c72f7b464d71"
+    }, {
+      "value" : "incoming_longwave _radiation",
+      "uuid" : "5d9c7b8a-41cd-474c-a602-f4d286537c69"
+    }, {
+      "value" : "incoming_shortwave_ radiation",
+      "uuid" : "83db5ff7-ae38-4a8e-942f-7bf58d6db512"
+    } ]
+  }, {
+    "value" : "planetary_surface_overcast_sky",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "ultraviolet_radiation",
+      "uuid" : "ebb1a6bf-b84a-4159-a304-88c82e93f032",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "radiative_flux",
+        "uuid" : "af677440-5473-4074-b3a6-84d5cb82d739"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere-at_top",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "b4d53418-c70d-4ad0-9868-51a119d51a63",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "pressure",
+        "uuid" : "6f900066-a11f-43d3-9ef9-8d2b153c788e"
+      } ]
+    } ]
+  }, {
+    "value" : "planetary_surface-at_10m_above_displacement_height",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "wind_speed",
+      "uuid" : "284d4437-b7f1-4e6d-96f4-92a3b14863c4",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "magnitude-northward",
+        "uuid" : "86bfbc9b-e319-49f1-8f35-8adf0ab9e8d8"
+      }, {
+        "value" : "magnitude-eastward",
+        "uuid" : "96479c2e-7a6a-42c5-9bd7-c50692ea6cb8"
+      } ]
+    } ]
+  }, {
+    "value" : "glacier_bottom",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "ice_flow",
+      "uuid" : "4658aa47-a19d-452b-90ce-5cf32f0c2ce4",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "eastward_velocity",
+        "uuid" : "08d41260-9c6e-408c-b579-62fee09a31ee"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere-at_cloud_top",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "3102a98a-ac0c-47fb-83b9-992ff0dc0497",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "temperature",
+        "uuid" : "a32cbebb-0f17-41a6-9bf7-f3b111e4c56e"
+      }, {
+        "value" : "temperature_threshold",
+        "uuid" : "e2203a61-1ef4-4e3d-b7aa-98e7867f8b7c"
+      }, {
+        "value" : "pressure",
+        "uuid" : "4d3ddb7f-42c9-44b8-8ccc-4a651b7dc9ed"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere-over_land_surface",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "6de37519-bc50-4ddd-8401-da3ecdeaa900",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "pressure",
+        "uuid" : "fabeb7da-9d33-450e-83b0-5c3651d1e4a1"
+      } ]
+    } ]
+  }, {
+    "value" : "glacier_bed",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "planetary_ice",
+      "uuid" : "c83482b6-f02d-45f7-a838-2522fa5b3123",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "elevation",
+        "uuid" : "7ff4afde-71ac-459e-931c-d24398a20e5e"
+      } ]
+    }, {
+      "value" : "planetary_surface",
+      "uuid" : "0d0d3df9-1be1-4073-a6a8-7f9c3955e155",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "elevation",
+        "uuid" : "9c8d0175-b21d-4382-bed7-0a880625b565"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere-at_cloud_base",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "c6347897-a64d-4393-9935-dbce464eab09",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "pressure",
+        "uuid" : "d9e1cc0b-f124-4058-a022-ae234f831076"
+      } ]
+    } ]
+  }, {
+    "value" : "surface_water",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "hydrological_evaporation",
+      "uuid" : "96af39dd-d4eb-4188-bc48-2349a97c5918",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "mass_per_unit_area",
+        "uuid" : "2e9ba350-fc1d-49e3-a9c4-5c739505b884"
+      }, {
+        "value" : "mass_flux",
+        "uuid" : "5064181d-13c6-464f-b17d-9c66c9b934aa"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere-over_sea_surface",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "915b7bb2-de0a-4101-b2a5-e5617e9cc40c",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "pressure",
+        "uuid" : "e2d36dce-c603-4423-b84d-920e00fd9210"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere-at_convective_cloud_base",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "afc398e3-0f5a-451c-aa48-4c0ba157dea4",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "pressure",
+        "uuid" : "9cd99b43-79e4-4de7-b525-50171d015da4"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere_layers",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "ambient_aerosol_particles",
+      "uuid" : "038ac74c-470a-43e0-b80d-2b2fb1acfc13",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "optical_thickness",
+        "uuid" : "a29f30ee-6188-4132-ba78-2a341c6bfc8b"
+      } ]
+    } ]
+  }, {
+    "value" : "not_specified",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "not_specified",
+      "uuid" : "ef4dd3c8-d8dc-423e-bec3-ae47e0b20f59",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "not_specified",
+        "uuid" : "92f58ac5-476c-43c0-831d-d7ce9cef1765"
+      } ]
+    } ]
+  }, {
+    "value" : "stratosphere",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "ambient_aerosol_particles",
+      "uuid" : "fb24d78d-d1a8-4a3c-9858-4dd2d0793902",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "optical_thickness",
+        "uuid" : "28a4bc78-c92e-4c26-848d-827dd7356198"
+      } ]
+    }, {
+      "value" : "ambient_aerosol_particles-volcanic",
+      "uuid" : "11d6f2a7-8f2c-4753-a7b0-a72d611b2954",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "optical_thickness",
+        "uuid" : "b86a061e-3312-4d7c-91f9-8b13d4910d2e"
+      } ]
+    } ]
+  }, {
+    "value" : "cloud_top-effective",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "203cc14e-0fac-4b7d-b120-800c2a106e59",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "temperature",
+        "uuid" : "622048a9-42c3-4a81-b097-9a69397b40a3"
+      } ]
+    } ]
+  }, {
+    "value" : "planetary_surface",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "wind_stress",
+      "uuid" : "91aad519-c0cf-4350-882d-429bee5c5e4b",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "magnitude",
+        "uuid" : "d73c7668-2353-4e8a-a8e2-d6d0d302a3a4"
+      }, {
+        "value" : "direction",
+        "uuid" : "c44db244-9086-4e9d-a217-1a78e851249e"
+      } ]
+    }, {
+      "value" : "soil_active-layer",
+      "uuid" : "7e3b1d24-d96d-4b4a-a09c-ed9abd0e81e2",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "porosity",
+        "uuid" : "4b604ba3-39d8-46bd-9d33-6b44c7a316c2"
+      } ]
+    }, {
+      "value" : "soil",
+      "uuid" : "650548c5-fccc-4e26-a040-0e5d47316e63",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "albedo",
+        "uuid" : "4dbde065-df1c-48dc-9345-2d9623475eac"
+      } ]
+    }, {
+      "value" : "deep_snow",
+      "uuid" : "949498e6-5d4a-4f14-aa83-93e3eed1bc4d",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "albedo",
+        "uuid" : "b5129dae-42ed-4cfa-9fe8-3f37f38cc286"
+      } ]
+    }, {
+      "value" : "glacier_bottom",
+      "uuid" : "b5647175-f5ef-41d7-ac25-9b7a12878bde",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "slope",
+        "uuid" : "aeb02243-583f-444e-a2a4-341ab351a3d8"
+      } ]
+    }, {
+      "value" : "snowpack_top",
+      "uuid" : "abc70f23-f386-41da-b1ad-43cd7aebe7c4",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "albedo",
+        "uuid" : "03a7c97e-71e2-469e-8af9-bbe80ffedb1a"
+      } ]
+    }, {
+      "value" : "land",
+      "uuid" : "7b13444d-b5b0-416d-be9d-7c11328833e7",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "albedo",
+        "uuid" : "5395e33c-02cb-4027-b425-e771eab13610"
+      } ]
+    }, {
+      "value" : "sea_ice",
+      "uuid" : "101904f4-75f6-4b76-9adf-a6a4c8009667",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "albedo",
+        "uuid" : "5332daa8-b5c4-4ac9-8a0e-6f60614ac760"
+      } ]
+    }, {
+      "value" : "canopy",
+      "uuid" : "7266c8c3-81eb-47fd-849c-55a1498c4d3d",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "area_fraction",
+        "uuid" : "afed4375-d93d-42e2-9874-0c5aa2449cf0"
+      }, {
+        "value" : "albedo",
+        "uuid" : "3726d4fe-036e-417b-b637-15c2a38dd408"
+      } ]
+    }, {
+      "value" : "water_infiltration",
+      "uuid" : "875b1cd8-ca7e-4edb-9e83-ac78f1a3bc9f",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "mass_flux",
+        "uuid" : "7932ab90-9137-4496-a695-43943216f387"
+      } ]
+    }, {
+      "value" : "vegetation",
+      "uuid" : "2bf08c64-dabc-42ab-99ae-3cf3104cd596",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "reference_stomatal_resistance",
+        "uuid" : "ae5ed212-3980-444f-b49b-4e37eebb3eba"
+      }, {
+        "value" : "leaf-area_index",
+        "uuid" : "201b21eb-5781-4d69-ba1f-026111b3b1e5"
+      }, {
+        "value" : "area_fraction",
+        "uuid" : "08360b01-46ff-49a4-b6fd-01009a72144f"
+      } ]
+    }, {
+      "value" : "snow",
+      "uuid" : "2a3ff6e7-4cd1-4c89-8a68-c624dde2b441",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "temperature",
+        "uuid" : "3e7854b1-d7bc-4e5b-af2f-57d8d7bc5648"
+      } ]
+    } ]
+  }, {
+    "value" : "vegetation",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "carbon",
+      "uuid" : "511637f3-82aa-43b2-9eee-0c099ecbfcce",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "mass_flux",
+        "uuid" : "822fd082-5098-4b2c-bf0d-87c2b298eea7"
+      }, {
+        "value" : "mass_per_unit_area",
+        "uuid" : "21174afa-96bd-4506-973e-502bc7b91be9"
+      } ]
+    } ]
+  }, {
+    "value" : "canopy",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "hydrological_evaporation",
+      "uuid" : "1e10e790-9f01-437e-8846-6c10d8330d6e",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "mass_per_unit_area",
+        "uuid" : "b09b51da-93be-478d-a36d-e1b55b4c2433"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "planetary_surface_land",
+      "uuid" : "80037b21-dc0f-4062-8f0a-7d742346d821",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "temperature",
+        "uuid" : "6abc5393-cfe7-4e0b-b748-8f3a71602faf"
+      } ]
+    }, {
+      "value" : "planetary_surface-no_snow",
+      "uuid" : "5fa46896-b958-449d-acc4-e0ed3d3a86eb",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "albedo",
+        "uuid" : "bbafe0e9-38c1-4124-9bbd-ce0a83e4ca6e"
+      } ]
+    }, {
+      "value" : "snowfall",
+      "uuid" : "1f697c83-969d-48ee-87b8-245b11f7e24f",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "lwe_rate",
+        "uuid" : "ffcda4b1-0956-4413-a4c9-8d72b5dffb58"
+      } ]
+    }, {
+      "value" : "convective_snowfall",
+      "uuid" : "ae381c21-55f2-4dd0-9dd8-e5e39f23d9a0",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "lwe_rate",
+        "uuid" : "b80ee2f3-9c79-47ac-8a85-059927ada534"
+      } ]
+    }, {
+      "value" : "cloud",
+      "uuid" : "1c08d8f3-f733-41d8-a01b-2f4044043224",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "albedo",
+        "uuid" : "34e4bf15-fa75-409a-bac2-8ddfe8e7fe75"
+      } ]
+    }, {
+      "value" : "precipitation",
+      "uuid" : "28c92cae-64f2-4fde-9159-852d62def5a6",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "mass_per_unit_area",
+        "uuid" : "d53e3416-0d61-4b7e-96e6-322d6f5081fd"
+      }, {
+        "value" : "mass_flux",
+        "uuid" : "1c6e0c43-eab4-49d2-b2de-3d24491f4146"
+      }, {
+        "value" : "lwe_rate",
+        "uuid" : "c980bf7d-952e-4eb7-8625-95cf9946262f"
+      } ]
+    }, {
+      "value" : "freezing_level",
+      "uuid" : "4904c803-4d8a-4c15-aae7-67eea1fa1ab3",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "air_pressure",
+        "uuid" : "cdcf882f-32b7-4553-984e-2081fb7d59fd"
+      } ]
+    }, {
+      "value" : "lwe_convective_snowfall",
+      "uuid" : "e362f052-2f1d-43c0-bc7e-12278d495892",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "rate",
+        "uuid" : "6858c11c-c5ee-40de-a67b-a8468a4a66b7"
+      } ]
+    }, {
+      "value" : "mean_sea_level",
+      "uuid" : "ad92e251-3da7-4e3f-a45a-cd7651611eca",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "air_pressure",
+        "uuid" : "8d338244-fb44-4666-b957-c0bdcf238cf6"
+      } ]
+    }, {
+      "value" : "cloud_top",
+      "uuid" : "c111cb05-75e7-4fae-985e-d3768a7cd118",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "air_pressure",
+        "uuid" : "fb33c68f-3ffb-45bc-938a-323f7658cf48"
+      }, {
+        "value" : "geopotential_height",
+        "uuid" : "afa85e48-5967-45f0-aeab-cdf73d1d23a8"
+      }, {
+        "value" : "height",
+        "uuid" : "b1a4572e-a1e6-4473-9061-4ce9023eda4d"
+      }, {
+        "value" : "frozen_water_particle",
+        "uuid" : "7d44b6e1-9914-458a-8fc9-eeeaacf613ed"
+      }, {
+        "value" : "liquid_water_particle",
+        "uuid" : "ad0132ad-7ce1-4a99-ba7d-b2bcc3ef915c"
+      }, {
+        "value" : "air",
+        "uuid" : "ea2f6ff0-4ea2-4a85-af8a-fd29d7e5bf75"
+      }, {
+        "value" : "temperature",
+        "uuid" : "968803f5-490d-41fd-8bdd-7fdd20428004"
+      } ]
+    }, {
+      "value" : "air_pressure_surface",
+      "uuid" : "4dc2a213-8eb3-49fb-8728-a06f323e7267",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "geopotential_height_anomaly",
+        "uuid" : "a4850560-d5e3-4db4-beb8-81fc352effc7"
+      } ]
+    }, {
+      "value" : "ambient_aerosol_black_carbon",
+      "uuid" : "4a38c228-59b1-4d69-8a19-95b61f85d01f",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "extinction_optical_thickness",
+        "uuid" : "48887ac3-f280-414b-8cc1-c1eb2a4cb270"
+      }, {
+        "value" : "absorption_optical_thickness",
+        "uuid" : "e0b8fe38-0faa-43f2-bf83-d5901bdd6715"
+      } ]
+    }, {
+      "value" : "air",
+      "uuid" : "78533b60-f7e2-4882-bd57-5d5049980abf",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "temperature_threshold",
+        "uuid" : "d87901bc-8a50-4442-8d03-a4e77f02bfb0"
+      }, {
+        "value" : "temperature_anomaly",
+        "uuid" : "1838e31f-ef6d-42f8-b166-71f6cd1aaa57"
+      }, {
+        "value" : "temperature_lapse_rate",
+        "uuid" : "090697f0-a982-4cda-94f6-9375d0c816c5"
+      }, {
+        "value" : "pressure_anomoly",
+        "uuid" : "e631957b-9253-45ba-aa3c-77850d6c2aa0"
+      } ]
+    }, {
+      "value" : "convective_precipitation",
+      "uuid" : "a42f94f5-1ba2-45cd-ad2a-ca3468efc35e",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "lwe_rate",
+        "uuid" : "9d6c2595-1922-4123-b2d0-d64944caac71"
+      } ]
+    }, {
+      "value" : "cloud_base",
+      "uuid" : "f92a9b68-455a-4645-ad44-2e1017bf1859",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "air_pressure",
+        "uuid" : "e0e1b50c-71e6-4075-934b-0880ef6efc20"
+      }, {
+        "value" : "height",
+        "uuid" : "cd052bc6-1bdd-4ebc-8c99-295b50817fe6"
+      } ]
+    }, {
+      "value" : "eastward_wind-geostrophic",
+      "uuid" : "3f5f93ef-2c60-406c-800c-ee9b058f6f66",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "horizontal_velocity",
+        "uuid" : "5ea9add0-e69e-44f9-95ff-d1457c0fafd6"
+      } ]
+    }, {
+      "value" : "convective_cloud_top",
+      "uuid" : "c036679f-f295-4022-a2cd-f26ee8ec5829",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "air_pressure",
+        "uuid" : "001fe2af-7b28-47fb-abf8-e60f9038c1c2"
+      } ]
+    }, {
+      "value" : "lwe_stratiform_snowfall",
+      "uuid" : "50ffe6dd-6804-4319-9534-04831a96f5c9",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "rate",
+        "uuid" : "fb29ebc9-bc39-4921-8238-6a5b38ae3643"
+      } ]
+    }, {
+      "value" : "volcanic_ash_cloud_top",
+      "uuid" : "b9bdf785-0447-461f-9371-0a3108e44cb0",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "geopotential_height",
+        "uuid" : "958918e7-8961-45e6-aaf4-5992c456422b"
+      } ]
+    }, {
+      "value" : "northward_wind-geostrophic",
+      "uuid" : "78a0a1bc-26be-4067-822d-fefe7395c194",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "horizontal_velocity",
+        "uuid" : "8e0c445c-93fe-4a92-a0b3-a0a6f57e3453"
+      } ]
+    }, {
+      "value" : "atmospheric_wind",
+      "uuid" : "a628333f-aea2-42cf-b930-c8c859ee0547",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "vertical_velocity_divergence",
+        "uuid" : "a95a0223-c67b-45b9-addd-10607c09298a"
+      }, {
+        "value" : "horizontal_velocity_divergence",
+        "uuid" : "8ad4b6a5-19e2-4454-8f28-3cad7c409a1c"
+      }, {
+        "value" : "beaufort_force",
+        "uuid" : "b464706c-63dc-4c93-ae5b-d6a1c7f64931"
+      } ]
+    }, {
+      "value" : "lwe_stratiform_precipitation",
+      "uuid" : "1bd529b0-060e-4371-96dd-f364c7784496",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "rate",
+        "uuid" : "5469eec4-fead-4fc1-b287-a060b8444848"
+      } ]
+    }, {
+      "value" : "planetary_surface",
+      "uuid" : "20176d52-f396-46d2-ab37-46fb95aabbc6",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "temperature_anomoly",
+        "uuid" : "79f28c8b-b3a7-489d-a95f-7d4af14e3b50"
+      }, {
+        "value" : "brightness_temperature",
+        "uuid" : "8d28c44d-b17d-4e31-9834-dd98f39312cd"
+      }, {
+        "value" : "albedo",
+        "uuid" : "9e2c36bb-2059-44b9-b9e6-2006f146582f"
+      } ]
+    }, {
+      "value" : "startiform_precipitation",
+      "uuid" : "8e58f9b0-b83b-4f4f-858a-e578b01eec15",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "lwe_rate",
+        "uuid" : "585b1a1b-913a-4d2b-8e4b-bf7bc61c604f"
+      } ]
+    }, {
+      "value" : "lwe_snowfall",
+      "uuid" : "45ecec46-aef5-40c2-9f5c-2a31e4870ca8",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "rate",
+        "uuid" : "a348d165-43dd-44b3-a3ab-85265c8c1509"
+      } ]
+    }, {
+      "value" : "lwe_precipitation",
+      "uuid" : "1c220f55-9cd3-4f0b-9d94-afb8f9743a16",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "rate",
+        "uuid" : "a2e6df97-447b-476e-8fde-268b3ecadbbf"
+      } ]
+    }, {
+      "value" : "lwe_convective_precipitation",
+      "uuid" : "d2b2e171-d7b4-4826-9fed-99abd05b979e",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "rate",
+        "uuid" : "2ff3d74c-a483-47e7-91be-edd61e2a1a1a"
+      } ]
+    }, {
+      "value" : "northward_wind",
+      "uuid" : "2084dc9d-c856-4430-971b-aff5f9a4d98e",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "horizontal_velocity",
+        "uuid" : "488fdda1-0aff-41e9-9999-e15d89c279de"
+      } ]
+    }, {
+      "value" : "ambient_aerosol_particles",
+      "uuid" : "ba2abd4d-80f7-4861-8aa7-aaa3ed58a526",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "absorption_optical_thickness",
+        "uuid" : "a2c7ece0-939a-417a-a87e-720c0de35020"
+      } ]
+    }, {
+      "value" : "stratiform_snowfall",
+      "uuid" : "11abb715-37f4-43b7-8681-1410ee578290",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "lwe_rate",
+        "uuid" : "6a2b6712-683b-4155-b730-5486199cbad8"
+      } ]
+    }, {
+      "value" : "convective_cloud_base",
+      "uuid" : "9eec9a9a-7a6a-4abb-aed0-61508149a547",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "air_pressure",
+        "uuid" : "bbcdf261-d91b-4b63-bb71-82946a2d9a89"
+      } ]
+    } ]
+  }, {
+    "value" : "surface_water-potential",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "hydrological_evaporation",
+      "uuid" : "3f84c899-1916-41c5-bf4e-c94ad77aaeee",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "mass_flux",
+        "uuid" : "f3b844cb-fb6a-4080-90d0-4f05dad4836e"
+      }, {
+        "value" : "mass_per_unit_area",
+        "uuid" : "f9283032-11d8-4556-a58b-44fb6a628921"
+      } ]
+    } ]
+  }, {
+    "value" : "land_surface",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "glacier_ablation_zone",
+      "uuid" : "2cbc1b3d-1093-4c9e-aa6c-3227d8c332dc",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "area",
+        "uuid" : "d52e6680-dbf6-4e64-91a5-061001cceded"
+      } ]
+    }, {
+      "value" : "glacier_accumulation_zone",
+      "uuid" : "3f82607b-f9ed-4388-94fe-e324c50ddf64",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "area_fraction",
+        "uuid" : "57a61ddc-e0c8-47bb-b608-da31833cf4b2"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere-top",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "dc8bbde4-6d14-44b9-937e-730925d40c0a",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "pressure",
+        "uuid" : "2862699c-a8e0-478f-8c28-e3f204dffedd"
+      } ]
+    } ]
+  }, {
+    "value" : "planetary_surface-at_2m_above_displacement_height",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "wind_speed",
+      "uuid" : "ccaa2ec0-1c28-4171-b1dd-fcb38d2edd3a",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "magnitude-northward",
+        "uuid" : "8fae8bf2-1d9a-402b-ac8c-9edea394f878"
+      }, {
+        "value" : "magnitude-eastward",
+        "uuid" : "6e129502-6d54-467d-9c53-f67c64285c0b"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere-at_freezing_level",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "881b1087-512b-4f4a-a3c5-dca4da248000",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "pressure",
+        "uuid" : "e8c14fdf-c644-47e2-ac78-572eedf4154a"
+      } ]
+    } ]
+  }, {
+    "value" : "atmosphere-at_mean_sea_level",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "air",
+      "uuid" : "c0d94ef7-8655-436d-b257-162d364dcad2",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "pressure",
+        "uuid" : "1c3fa118-3130-4951-ada1-755fcf0776f9"
+      } ]
+    } ]
+  }, {
+    "value" : "cloud_top",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "frozen_water_particle",
+      "uuid" : "3c8caa79-900b-4f42-9320-7726c92e50b9",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "size",
+        "uuid" : "1588a8fd-46fc-4c3a-b539-5859668c2010"
+      } ]
+    }, {
+      "value" : "liquid_water_particle",
+      "uuid" : "623dff5d-b2f3-411e-9ea4-0e7ca5c1fc5f",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "size",
+        "uuid" : "cf63a558-c296-48c6-873c-cedc854e532e"
+      } ]
+    }, {
+      "value" : "air",
+      "uuid" : "5b2a974e-0461-4eb1-86bd-807a29dccfc9",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "temperature",
+        "uuid" : "fa13c1b2-6be4-45c3-aefa-7918575a583d"
+      } ]
+    } ]
+  }, {
+    "value" : "planetary_surface_clear_sky",
+    "subfields" : [ "object" ],
+    "object" : [ {
+      "value" : "ultraviolet_radiation",
+      "uuid" : "ac561a17-8a86-430b-8699-fe6145a11787",
+      "subfields" : [ "quantity" ],
+      "quantity" : [ {
+        "value" : "radiative_flux",
+        "uuid" : "e6839d1c-3ba4-49e2-bd1c-58fab5c88e79"
+      } ]
+    } ]
+  } ]
+}
