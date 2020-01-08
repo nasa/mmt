@@ -3,6 +3,7 @@
 describe 'When going through the whole collection proposal approver workflow', js: true do
   before do
     login(real_login: true)
+    mock_urs_get_users
     allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
   end
 
@@ -20,8 +21,6 @@ describe 'When going through the whole collection proposal approver workflow', j
         mock_valid_token_validation
         visit manage_proposals_path
 
-        # Mock URS call to get information to update status history
-        mock_urs_get_users
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Publish'
         end
@@ -83,8 +82,6 @@ describe 'When going through the whole collection proposal approver workflow', j
         mock_valid_token_validation
         visit manage_proposals_path
 
-        # Mock URS call to get information to update status history
-        mock_urs_get_users
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Publish'
         end
@@ -133,8 +130,6 @@ describe 'When going through the whole collection proposal approver workflow', j
         mock_valid_token_validation
         visit manage_proposals_path
 
-        # Mock URS call to get information to update status history
-        mock_urs_get_users
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Delete'
         end
