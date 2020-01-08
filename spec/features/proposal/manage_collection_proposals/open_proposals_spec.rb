@@ -46,6 +46,7 @@ describe 'Proposals listed on the Manage Collection Proposals page', js: true do
 
       context 'when visiting the index page' do
         before do
+          mock_urs_get_users
           visit collection_draft_proposals_path
         end
 
