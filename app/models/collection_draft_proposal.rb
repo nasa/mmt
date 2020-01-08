@@ -31,9 +31,10 @@ class CollectionDraftProposal < CollectionDraft
 
       if request_type == 'delete'
         request.submit
+        request.submitter_id = user.urs_uid
         request.status_history =
           { 'submitted' =>
-            { 'username' => (username || user.urs_uid), 'action_date' => Time.new } }
+            { 'username' => username, 'action_date' => Time.new } }
       end
 
       request.save

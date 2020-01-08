@@ -11,6 +11,7 @@ module Helpers
       record.proposal_status = 'submitted'
       record.status_history = { 'submitted' => { 'username' => 'TestUser1', 'action_date' => '2019-10-11 01:00' } }
       record.approver_feedback = {}
+      record.submitter_id = 'TestUser1'
       record.save
     end
 
@@ -22,6 +23,7 @@ module Helpers
           'approved' =>
             { 'username' => 'TestUser2', 'action_date' => '2019-10-11 02:00' } }
       record.approver_feedback = {}
+      record.submitter_id = 'TestUser1'
       record.save
     end
 
@@ -35,6 +37,7 @@ module Helpers
       record.approver_feedback =
         { 'reasons' => ['Misspellings/Grammar', 'Other'],
           'note' => 'Test Reason for rejecting a proposal' }
+      record.submitter_id = 'TestUser1'
       record.save
     end
 
@@ -44,6 +47,7 @@ module Helpers
       record.approver_feedback =
         { 'reasons' => ['Misspellings/Grammar', 'Other'],
           'note' => 'Test Reason for rejecting a proposal' }
+      record.submitter_id = nil
       record.save
     end
 
@@ -51,6 +55,7 @@ module Helpers
       record.proposal_status = 'done'
       record.status_history = { 'submitted' => { 'username' => 'TestUser1', 'action_date' => '2019-10-11 01:00' }, 'approved' => { 'username' => 'TestUser2', 'action_date' => '2019-10-11 02:00' }, 'done' => { 'username' => 'TestUser4', 'action_date' => '2019-10-11 04:00' } }
       record.approver_feedback = {}
+      record.submitter_id = 'TestUser1'
       record.save
     end
   end

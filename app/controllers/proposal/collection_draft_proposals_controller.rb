@@ -8,28 +8,47 @@ module Proposal
     before_action(only: [:submit, :rescind, :progress, :approve, :reject]) { set_resource }
 
     def index
-      resources = resource_class.order(index_sort_order)
-                                .page(params[:page]).per(RESULTS_PER_PAGE)
-      instance_variable_set("@#{plural_resource_name}", resources)
+      working_proposals = resource_class
+      set_urs_user_hash(working_proposals)
+      if params['sort_key']&.include?('submitter_id')
+        resources = sort_by_submitter(working_proposals)
+        instance_variable_set("@#{plural_resource_name}", Kaminari.paginate_array(resources, total_count: resources.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE))
+      else
+        resources = working_proposals.order(index_sort_order)
+                                  .page(params[:page]).per(RESULTS_PER_PAGE)
+        instance_variable_set("@#{plural_resource_name}", resources)
+      end
       @category_of_displayed_proposal = 'Collection'
       @specified_url = '/collection_draft_proposals'
     end
 
     def queued_index
-      resources = resource_class.where('proposal_status != ?', 'in_work')
-                                .order(index_sort_order)
-                                .page(params[:page]).per(RESULTS_PER_PAGE)
-      instance_variable_set("@#{plural_resource_name}", resources)
+      working_proposals = resource_class.where('proposal_status != ?', 'in_work')
+      set_urs_user_hash(working_proposals)
+      if params['sort_key']&.include?('submitter_id')
+        resources = sort_by_submitter(working_proposals)
+        instance_variable_set("@#{plural_resource_name}", Kaminari.paginate_array(resources, total_count: resources.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE))
+      else
+        resources = working_proposals.order(index_sort_order)
+                                     .page(params[:page]).per(RESULTS_PER_PAGE)
+        instance_variable_set("@#{plural_resource_name}", resources)
+      end
       @category_of_displayed_proposal = 'Queued'
       @specified_url = '/collection_draft_proposals/queued_index'
       render :index
     end
 
     def in_work_index
-      resources = resource_class.where('proposal_status = ?', 'in_work')
-                                .order(index_sort_order)
-                                .page(params[:page]).per(RESULTS_PER_PAGE)
-      instance_variable_set("@#{plural_resource_name}", resources)
+      working_proposals = resource_class.where('proposal_status = ?', 'in_work')
+      set_urs_user_hash(working_proposals)
+      if params['sort_key']&.include?('submitter_id')
+        resources = sort_by_submitter(working_proposals)
+        instance_variable_set("@#{plural_resource_name}", Kaminari.paginate_array(resources, total_count: resources.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE))
+      else
+        resources = working_proposals.order(index_sort_order)
+                                     .page(params[:page]).per(RESULTS_PER_PAGE)
+        instance_variable_set("@#{plural_resource_name}", resources)
+      end
       @category_of_displayed_proposal = 'In Work'
       @specified_url = '/collection_draft_proposals/in_work_index'
       render :index
@@ -96,6 +115,7 @@ module Proposal
 
       get_resource.add_status_history('submitted', session[:name])
       get_resource.remove_status_history('rejected')
+      get_resource.submitter_id = current_user[:urs_uid]
 
       if get_resource.submit && get_resource.save
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
@@ -115,6 +135,7 @@ module Proposal
       authorize get_resource
 
       get_resource.remove_status_history('submitted')
+      get_resource.submitter_id = nil
 
       # An in_work delete request does not make sense.  If a delete request is
       # rescinded, delete the request instead.
@@ -232,6 +253,43 @@ module Proposal
       else
         'updated_at DESC'
       end
+    end
+
+    def set_urs_user_hash(proposals)
+      submitters = proposals.uniq.pluck(:submitter_id)
+      urs_users = retrieve_urs_users(submitters)
+      @urs_user_hash = {}
+      urs_users.each do |user|
+        @urs_user_hash[user['uid']] = "#{user['first_name']} #{user['last_name']}"
+      end
+    end
+
+    def sort_by_submitter(proposals)
+      @query = {}
+      @query['sort_key'] = params['sort_key'] unless params['sort_key'].blank?
+
+      sorted_proposals = if params['sort_key'] == 'submitter_id'
+                           proposals.all.sort do |a,b|
+                             if a.submitter_id && b.submitter_id
+                               @urs_user_hash[a.submitter_id] <=> @urs_user_hash[b.submitter_id]
+                             elsif a.submitter_id.blank?
+                               1
+                             elsif b.submitter_id.blank?
+                               -1
+                             end
+                           end
+                         else
+                           proposals.all.sort do |a,b|
+                             if a.submitter_id && b.submitter_id
+                               @urs_user_hash[b.submitter_id] <=> @urs_user_hash[a.submitter_id]
+                             elsif a.submitter_id.blank?
+                               -1
+                             elsif b.submitter_id.blank?
+                               1
+                             end
+                           end
+                         end
+      sorted_proposals
     end
   end
 end

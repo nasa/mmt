@@ -2,6 +2,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
   context 'when logged in as a user' do
     before do
       login
+      mock_urs_get_users
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
       create(:full_collection_draft_proposal, proposal_short_name: 'M Example Proposal', version: '5', proposal_entry_title: 'M Example Title')
       create(:full_collection_draft_proposal, proposal_short_name: 'N Example Proposal', version: '5', proposal_entry_title: 'N Example Title')
@@ -36,7 +37,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
       end
 
       it 'displays submitters' do
-        expect(page).to have_content('Test User1')
+        expect(page).to have_content('Test User')
         expect(page).to have_content('Pending')
       end
 
@@ -136,6 +137,30 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
         end
       end
 
+      context 'when sorting submitter asc' do
+        before do
+          click_on 'Sort by Submitter Asc'
+        end
+
+        it 'sorts in ascending order' do
+          within '.open-draft-proposals tbody tr:nth-child(1)' do
+            expect(page).to have_content('Z Example Title')
+          end
+        end
+
+        context 'when sorting submitter desc' do
+          before do
+            click_on 'Sort by Submitter Desc'
+          end
+
+          it 'sorts in descending order' do
+            within '.open-draft-proposals tbody tr:nth-child(6)' do
+              expect(page).to have_content('Z Example Title')
+            end
+          end
+        end
+      end
+
       context 'when sorting updated at' do
         before do
           click_on 'Sort by Last Modified Asc'
@@ -165,6 +190,7 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
   context 'when logged in as an approver' do
     before do
       login
+      mock_urs_get_users
       set_as_proposal_mode_mmt(with_draft_approver_acl: true)
       4.times { create(:full_collection_draft_proposal) }
       create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Title')

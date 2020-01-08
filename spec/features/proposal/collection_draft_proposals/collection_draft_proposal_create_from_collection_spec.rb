@@ -25,6 +25,10 @@ describe 'Collection Draft Proposal creation from collection', js: true do
         expect(page).to have_content('Collection Metadata Delete Request Created Successfully!')
         expect(page).to have_content('Submitted')
       end
+
+      it 'has a submitter_id' do
+        expect(CollectionDraftProposal.last.submitter_id).to eq('testuser')
+      end
     end
 
     context 'when creating an update metadata proposal' do
