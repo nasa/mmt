@@ -101,7 +101,7 @@ module Proposal
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully submitted #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
 
         ProposalMailer.proposal_submitted_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id']).deliver_now
-        approver_users = get_approver_emails(ENV['approvers_urs'].split(','))
+        approver_users = get_approver_emails
         approver_users.each do |approver|
           ProposalMailer.proposal_submitted_approvers_notification(approver, get_resource, get_user_info).deliver_now
         end
@@ -221,8 +221,10 @@ module Proposal
       { name: "#{proposal_urs_user['first_name']} #{proposal_urs_user['last_name']}", email: proposal_urs_user['email_address'] } unless proposal_urs_user.blank?
     end
 
-    def get_approver_emails(approvers_urs)
-      approver_urs_users = retrieve_urs_users(approvers_urs)
+    # Get urs users and get emails from urs for approvers
+    # Returns array of hashes for each user
+    def get_approver_emails
+      approver_urs_users = retrieve_urs_users(ENV['approvers_urs'].split(','))
       approver_emails = []
       approver_urs_users.each do |approver|
         approver_emails.push(name: "#{approver['first_name']} #{approver['last_name']}", email: approver['email_address'])
