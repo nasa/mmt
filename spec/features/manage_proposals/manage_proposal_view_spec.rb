@@ -2,6 +2,7 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
   context 'when logging in with URS' do
     before do
       login(real_login: true)
+      mock_urs_get_users
       allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
     end
 
@@ -64,7 +65,7 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
       end
 
       it 'displays user names' do
-        expect(page).to have_content('Test User1')
+        expect(page).to have_content('Test User')
       end
 
       it 'has the correct header' do

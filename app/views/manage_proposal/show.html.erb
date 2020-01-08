@@ -30,7 +30,7 @@
           <th><%= sort_by_link('Entry Title', 'entry_title', @query, nil, @specified_url) %></th>
           <th><%= sort_by_link('Proposal Status', 'proposal_status', @query, nil, @specified_url) %></th>
           <th><%= sort_by_link('Request Type', 'request_type', @query, nil, @specified_url) %></th>
-          <th><%= sort_by_link('User Name', 'user_name', @query, nil, @specified_url) %></th>
+          <th><%= sort_by_link('Submitter', 'user_name', @query, nil, @specified_url) %></th>
           <th><%= sort_by_link('Last Modified', 'updated_at', @query, nil, @specified_url) %></th>
           <th>Action</th>
         </tr>
@@ -59,7 +59,7 @@
               <%= proposal['request_type'].titleize %>
             </td>
             <td>
-              <%= proposal['status_history'].fetch('submitted', { 'username' => 'Not Provided' })['username'].titleize %>
+              <%= @urs_user_hash[proposal['submitter_id']] || 'Pending' %>
             </td>
             <td>
               <%= DateTime.parse(proposal['updated_at']).to_s(:date) %>

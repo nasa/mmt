@@ -1,0 +1,29 @@
+module ProposalIndex
+  extend ActiveSupport::Concern
+  include GroupEndpoints
+
+  def set_urs_user_hash(proposals)
+    submitters = proposals.map { |proposal| proposal['submitter_id'] }.uniq
+    urs_users = retrieve_urs_users(submitters)
+    @urs_user_hash = {}
+    urs_users.each do |user|
+      @urs_user_hash[user['uid']] = "#{user['first_name']} #{user['last_name']}"
+    end
+  end
+
+  def sort_by_submitter(proposals)
+    @query = {}
+    @query['sort_key'] = params['sort_key'] unless params['sort_key'].blank?
+
+    sorted_proposals = proposals.all.sort do |a, b|
+                         a_name = @urs_user_hash[a.submitter_id] ? [0, @urs_user_hash[a.submitter_id]] : [1, @urs_user_hash[a.submitter_id]]
+                         b_name = @urs_user_hash[b.submitter_id] ? [0, @urs_user_hash[b.submitter_id]] : [1, @urs_user_hash[b.submitter_id]]
+                         if params['sort_key'] == 'submitter_id'
+                           a_name <=> b_name
+                         else
+                           b_name <=> a_name
+                         end
+                       end
+    sorted_proposals
+  end
+end

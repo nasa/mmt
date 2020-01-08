@@ -3,6 +3,7 @@
 describe 'When going through the whole collection proposal approver workflow', js: true do
   before do
     login(real_login: true)
+    mock_urs_get_users
     allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
   end
 
