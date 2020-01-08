@@ -21,8 +21,6 @@ describe 'When going through the whole collection proposal approver workflow', j
         mock_valid_token_validation
         visit manage_proposals_path
 
-        # Mock URS call to get information to update status history
-        mock_urs_get_users
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Publish'
         end
@@ -84,8 +82,6 @@ describe 'When going through the whole collection proposal approver workflow', j
         mock_valid_token_validation
         visit manage_proposals_path
 
-        # Mock URS call to get information to update status history
-        mock_urs_get_users
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Publish'
         end
@@ -134,8 +130,6 @@ describe 'When going through the whole collection proposal approver workflow', j
         mock_valid_token_validation
         visit manage_proposals_path
 
-        # Mock URS call to get information to update status history
-        mock_urs_get_users
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Delete'
         end
