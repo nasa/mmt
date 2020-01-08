@@ -10,20 +10,35 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
       visit collection_draft_proposal_path(@collection_draft_proposal)
     end
 
-    context 'when the proposal is submitted' do
+    context 'when clicking the button to submit a proposal' do
       before do
         click_on 'Submit for Review'
       end
 
-      it 'submits a proposal' do
-        click_on 'Yes'
-        expect(page).to have_content('Collection Draft Proposal Submitted for Review Successfully')
-        expect(page).to have_no_link('Temporal Information')
+      context 'when clicking yes to submit a proposal' do
+        before do
+          click_on 'Yes'
+        end
+
+        it 'submits a proposal' do
+          expect(page).to have_content('Collection Draft Proposal Submitted for Review Successfully')
+          expect(page).to have_no_link('Temporal Information')
+          expect(CollectionDraftProposal.last.proposal_status).to eq('submitted')
+        end
+
+        it 'populates the submitter_id' do
+          expect(CollectionDraftProposal.last.submitter_id).to eq('testuser')
+        end
       end
 
-      it 'does not navigate away when cancelling' do
-        click_on 'No'
-        expect(page).to have_link('Temporal Information')
+      context 'when clicking no to submit a proposal' do
+        before do
+          click_on 'No'
+        end
+
+        it 'does not navigate away when cancelling' do
+          expect(page).to have_link('Temporal Information')
+        end
       end
     end
 
