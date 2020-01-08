@@ -42,6 +42,10 @@ class UmmControlledSelect < UmmSelect
       options_for_select(DraftsHelper::UMMSURLTypeOptions, element_value)
     when 'related_url_subtype'
       options_for_select(DraftsHelper::UMMSURLSubtypeOptions, element_value)
+    when 'measurement_name'
+      options_for_select(set_measurement_names.keys, element_value)
+    when 'measurement_object'
+      options_for_select(set_measurement_names, element_value)
     end
   end
 

@@ -162,4 +162,22 @@ module ControlledKeywords
     united_states = country_codes.delete(Carmen::Country.named('United States'))
     @country_codes = country_codes.unshift(united_states)
   end
+
+  def set_measurement_names
+    cmr_response = cmr_client.get_controlled_keywords('measurement_name')
+    measurements = cmr_response.body.fetch('context_medium', [])
+    final_hash = {}
+    measurements.each do |medium|
+      medium_hash = {}
+      medium.fetch('object', []).each do |object|
+        quantities = []
+        object.fetch('quantity', []).each do |quantity|
+          quantities.push(quantity['value'])
+        end
+        medium_hash[object['value']] = quantities
+      end
+      final_hash[medium['value']] = medium_hash
+    end
+    @measurement_names = final_hash
+  end
 end

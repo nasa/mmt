@@ -425,7 +425,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/MeasurementContextMedium", "field": true}]
+                      "items": [{"key": "/MeasurementContextMedium", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "measurement_name"}]
                     }
                   ]
                 },
@@ -445,7 +445,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/MeasurementObject", "field": true}]
+                      "items": [{"key": "/MeasurementObject", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "measurement_object"}]
                     }
                   ]
                 },
