@@ -1,6 +1,7 @@
 module Proposal
   class CollectionDraftProposalsController < CollectionDraftsController
     include GroupEndpoints
+    include ProposalIndex
 
     skip_before_action :provider_set?
 
@@ -8,7 +9,7 @@ module Proposal
     before_action(only: [:submit, :rescind, :progress, :approve, :reject]) { set_resource }
 
     def index
-      working_proposals = resource_class
+      working_proposals = resource_class.all
       set_urs_user_hash(working_proposals)
       if params['sort_key']&.include?('submitter_id')
         resources = sort_by_submitter(working_proposals)
@@ -253,43 +254,6 @@ module Proposal
       else
         'updated_at DESC'
       end
-    end
-
-    def set_urs_user_hash(proposals)
-      submitters = proposals.uniq.pluck(:submitter_id)
-      urs_users = retrieve_urs_users(submitters)
-      @urs_user_hash = {}
-      urs_users.each do |user|
-        @urs_user_hash[user['uid']] = "#{user['first_name']} #{user['last_name']}"
-      end
-    end
-
-    def sort_by_submitter(proposals)
-      @query = {}
-      @query['sort_key'] = params['sort_key'] unless params['sort_key'].blank?
-
-      sorted_proposals = if params['sort_key'] == 'submitter_id'
-                           proposals.all.sort do |a,b|
-                             if a.submitter_id && b.submitter_id
-                               @urs_user_hash[a.submitter_id] <=> @urs_user_hash[b.submitter_id]
-                             elsif a.submitter_id.blank?
-                               1
-                             elsif b.submitter_id.blank?
-                               -1
-                             end
-                           end
-                         else
-                           proposals.all.sort do |a,b|
-                             if a.submitter_id && b.submitter_id
-                               @urs_user_hash[b.submitter_id] <=> @urs_user_hash[a.submitter_id]
-                             elsif a.submitter_id.blank?
-                               -1
-                             elsif b.submitter_id.blank?
-                               1
-                             end
-                           end
-                         end
-      sorted_proposals
     end
   end
 end

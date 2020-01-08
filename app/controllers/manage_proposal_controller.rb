@@ -1,4 +1,6 @@
 class ManageProposalController < ManageMetadataController
+  include ProposalIndex
+
   before_action :mmt_approver_workflow_enabled?
   before_action :user_has_approver_permissions?
 
@@ -28,12 +30,9 @@ class ManageProposalController < ManageMetadataController
     if dmmt_response.success?
       Rails.logger.info("MMT successfully received approved proposals from dMMT at #{current_user.urs_uid}'s request.")
 
-      proposals = if sort_key == 'user_name'
-                    if sort_dir == 'ASC'
-                      dmmt_response.body['proposals'].sort { |a, b| a['status_history'].fetch('submitted', {}).fetch('username', '') <=> b['status_history'].fetch('submitted', {}).fetch('username', '') }
-                    else
-                      dmmt_response.body['proposals'].sort { |a, b| b['status_history'].fetch('submitted', {}).fetch('username', '') <=> a['status_history'].fetch('submitted', {}).fetch('username', '') }
-                    end
+      set_urs_user_hash(dmmt_response.body['proposals'])
+      proposals = if sort_key == 'submitter_id'
+                    sort_by_submitter(dmmt_response.body['proposals'])
                   else
                     if sort_dir == 'ASC'
                       dmmt_response.body['proposals'].sort { |a, b| a[sort_key] <=> b[sort_key] }

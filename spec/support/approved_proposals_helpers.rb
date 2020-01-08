@@ -69,7 +69,7 @@ module Helpers
 
     # Fake getting user names from URS for updating proposal status in dMMT
     def mock_urs_get_users
-      urs_response_body = { 'users' => [{ 'first_name' => 'Test', 'last_name' => 'User' }] }
+      urs_response_body = { 'users' => [{ 'first_name' => 'Test', 'last_name' => 'User', 'uid': 'testuser' }] }
       urs_response = cmr_success_response(urs_response_body.to_json)
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_urs_users).and_return(urs_response)
     end
