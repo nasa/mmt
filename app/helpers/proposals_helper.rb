@@ -128,7 +128,7 @@ module ProposalsHelper
     end
   end
 
-  def display_submitter_name(submitter_id)
-    @urs_user_hash[submitter_id] || 'Pending'
+  def display_submitter_name(submitter_id, user_hash = {})
+    user_hash[submitter_id] || 'Pending'
   end
 end
