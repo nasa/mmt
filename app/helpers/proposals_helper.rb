@@ -127,4 +127,8 @@ module ProposalsHelper
       'No actions are possible.'
     end
   end
+
+  def display_submitter_name(submitter_id)
+    @urs_user_hash[submitter_id] || 'Pending'
+  end
 end
