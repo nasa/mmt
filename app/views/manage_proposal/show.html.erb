@@ -59,7 +59,7 @@
               <%= proposal['request_type'].titleize %>
             </td>
             <td>
-              <%= display_submitter_name(proposal['submitter_id']) %>
+              <%= display_submitter_name(proposal['submitter_id'], @urs_user_hash) %>
             </td>
             <td>
               <%= DateTime.parse(proposal['updated_at']).to_s(:date) %>
