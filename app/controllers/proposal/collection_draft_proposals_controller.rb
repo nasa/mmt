@@ -11,14 +11,8 @@ module Proposal
     def index
       working_proposals = resource_class.all
       set_urs_user_hash(working_proposals)
-      if params['sort_key']&.include?('submitter_id')
-        resources = sort_by_submitter(working_proposals)
-        instance_variable_set("@#{plural_resource_name}", Kaminari.paginate_array(resources, total_count: resources.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE))
-      else
-        resources = working_proposals.order(index_sort_order)
-                                  .page(params[:page]).per(RESULTS_PER_PAGE)
-        instance_variable_set("@#{plural_resource_name}", resources)
-      end
+      sort_for_index(working_proposals)
+
       @category_of_displayed_proposal = 'Collection'
       @specified_url = '/collection_draft_proposals'
     end
@@ -26,14 +20,8 @@ module Proposal
     def queued_index
       working_proposals = resource_class.where('proposal_status != ?', 'in_work')
       set_urs_user_hash(working_proposals)
-      if params['sort_key']&.include?('submitter_id')
-        resources = sort_by_submitter(working_proposals)
-        instance_variable_set("@#{plural_resource_name}", Kaminari.paginate_array(resources, total_count: resources.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE))
-      else
-        resources = working_proposals.order(index_sort_order)
-                                     .page(params[:page]).per(RESULTS_PER_PAGE)
-        instance_variable_set("@#{plural_resource_name}", resources)
-      end
+      sort_for_index(working_proposals)
+
       @category_of_displayed_proposal = 'Queued'
       @specified_url = '/collection_draft_proposals/queued_index'
       render :index
@@ -42,14 +30,8 @@ module Proposal
     def in_work_index
       working_proposals = resource_class.where('proposal_status = ?', 'in_work')
       set_urs_user_hash(working_proposals)
-      if params['sort_key']&.include?('submitter_id')
-        resources = sort_by_submitter(working_proposals)
-        instance_variable_set("@#{plural_resource_name}", Kaminari.paginate_array(resources, total_count: resources.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE))
-      else
-        resources = working_proposals.order(index_sort_order)
-                                     .page(params[:page]).per(RESULTS_PER_PAGE)
-        instance_variable_set("@#{plural_resource_name}", resources)
-      end
+      sort_for_index(working_proposals)
+
       @category_of_displayed_proposal = 'In Work'
       @specified_url = '/collection_draft_proposals/in_work_index'
       render :index
@@ -253,6 +235,17 @@ module Proposal
         "#{@query['sort_key']} ASC"
       else
         'updated_at DESC'
+      end
+    end
+
+    def sort_for_index(working_proposals)
+      if params['sort_key']&.include?('submitter_id')
+        resources = sort_by_submitter(working_proposals)
+        instance_variable_set("@#{plural_resource_name}", Kaminari.paginate_array(resources, total_count: resources.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE))
+      else
+        resources = working_proposals.order(index_sort_order)
+                                     .page(params[:page]).per(RESULTS_PER_PAGE)
+        instance_variable_set("@#{plural_resource_name}", resources)
       end
     end
   end

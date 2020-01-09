@@ -21,6 +21,8 @@ module ProposalIndex
 
     sorted_proposals = proposals.all.sort do |a, b|
                          # Making these arrays allows empty submitter_ids to sort last/first for ASC/DESC
+                         # Using 0 for 'has submitter id' and 1 for 'does not have submitted id'
+                         # allows these to naturally sort last in ASC order, and first in DESC order
                          a_name = @urs_user_hash[a.submitter_id] ? [0, @urs_user_hash[a.submitter_id]] : [1, @urs_user_hash[a.submitter_id]]
                          b_name = @urs_user_hash[b.submitter_id] ? [0, @urs_user_hash[b.submitter_id]] : [1, @urs_user_hash[b.submitter_id]]
                          if params['sort_key'] == 'submitter_id'
