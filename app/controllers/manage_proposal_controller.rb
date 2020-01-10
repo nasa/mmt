@@ -115,8 +115,11 @@ class ManageProposalController < ManageMetadataController
         flash[:success] = I18n.t('controllers.manage_proposal.publish_proposal.flash.delete.success')
         Rails.logger.info("Audit Log: Collection with native_id #{proposal['native_id']} was deleted for #{provider} by #{session[:urs_uid]} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}.")
 
-        user_from_proposal_response = user_from_proposal(proposal)
-        ProposalMailer.proposal_published_notification(user_from_proposal_response, cmr_response.body['concept-id'], cmr_response.body['revision-id'], proposal['short_name'], proposal['draft']['Version'], proposal['request_type']).deliver_now if user_from_proposal_response
+        submitter_from_proposal_response = submitter_from_proposal(proposal)
+        # Submitter email
+        ProposalMailer.proposal_published_notification(submitter_from_proposal_response, cmr_response.body, proposal).deliver_now if submitter_from_proposal_response
+        # Approver email
+        ProposalMailer.proposal_published_notification(get_user_info, cmr_response.body, proposal).deliver_now
         update_proposal_status_in_dmmt(proposal)
       else
         flash[:error] = I18n.t('controllers.manage_proposal.publish_proposal.flash.delete.error')
@@ -134,8 +137,11 @@ class ManageProposalController < ManageMetadataController
       flash[:success] = I18n.t('controllers.manage_proposal.publish_proposal.flash.create.success')
       Rails.logger.info("Audit Log: Proposal #{proposal['entry_title']} was published by #{current_user.urs_uid} in provider: #{provider} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
 
-      user_from_proposal_response = user_from_proposal(proposal)
-      ProposalMailer.proposal_published_notification(user_from_proposal_response, cmr_response.body['concept-id'], cmr_response.body['revision-id'], proposal['short_name'], proposal['draft']['Version'], proposal['request_type']).deliver_now if user_from_proposal_response
+      submitter_from_proposal_response = submitter_from_proposal(proposal)
+      # Submitter email
+      ProposalMailer.proposal_published_notification(submitter_from_proposal_response, cmr_response.body, proposal).deliver_now if submitter_from_proposal_response
+      # Approver email
+      ProposalMailer.proposal_published_notification(get_user_info, cmr_response.body, proposal).deliver_now
       update_proposal_status_in_dmmt(proposal)
     else
       flash[:error] = I18n.t('controllers.manage_proposal.publish_proposal.flash.create.error')
@@ -156,8 +162,8 @@ class ManageProposalController < ManageMetadataController
     Rails.logger.info("Audit Log: dMMT did not successfully transition #{proposal['draft_type']} with id #{proposal['id']} to 'done' status from 'approved'.")
   end
 
-  def user_from_proposal(proposal)
-    proposal_urs_user = retrieve_urs_users([User.find(proposal['user_id']).urs_uid])[0]
+  def submitter_from_proposal(proposal)
+    proposal_urs_user = retrieve_urs_users([proposal['submitter_id']])[0]
     proposal_urs_user.blank? ? nil : { name: "#{proposal_urs_user['first_name']} #{proposal_urs_user['last_name']}", email: proposal_urs_user['email_address'] }
   end
 end
