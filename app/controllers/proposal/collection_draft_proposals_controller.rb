@@ -152,9 +152,9 @@ module Proposal
       if get_resource.approve && get_resource.save
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully approved #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
 
-        user_from_resource_response = user_from_resource
+        submitter_from_resource_response = submitter_from_resource
         # User e-mail
-        ProposalMailer.proposal_approved_notification(user_from_resource_response, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id'], get_resource.proposal_status).deliver_now if user_from_resource_response
+        ProposalMailer.proposal_approved_notification(submitter_from_resource_response, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id'], get_resource.proposal_status).deliver_now if submitter_from_resource_response
         # Approver e-mail
         ProposalMailer.proposal_approved_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id'], get_resource.proposal_status).deliver_now
 
@@ -216,8 +216,8 @@ module Proposal
 
     # Fetch e-mails of users who are not the current user from URS to send them
     # e-mails.
-    def user_from_resource
-      proposal_urs_user = retrieve_urs_users([User.find(get_resource.user_id).urs_uid])[0]
+    def submitter_from_resource
+      proposal_urs_user = retrieve_urs_users([get_resource.submitter_id])[0]
       { name: "#{proposal_urs_user['first_name']} #{proposal_urs_user['last_name']}", email: proposal_urs_user['email_address'] } unless proposal_urs_user.blank?
     end
 

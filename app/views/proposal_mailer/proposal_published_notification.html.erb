@@ -5,7 +5,7 @@
     <%= @user[:name] %>,
   </p>
   <p>
-    <%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{@request_type == 'delete' ? 'deleted from the CMR' : "published to the CMR. Your collection's concept ID is #{@concept_id}."}" %>
+    <%= "The collection metadata record #{@short_name}_#{@version} has been successfully #{@request_type == 'delete' ? 'deleted from the CMR' : "published to the CMR. The collection's concept ID is #{@concept_id}."}" %>
   </p>
   <% unless @request_type == 'delete' %>
     <div class="center">

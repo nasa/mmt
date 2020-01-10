@@ -20,23 +20,17 @@ class ProposalMailerPreview < ActionMailer::Preview
 
   def new_proposal_published_delete_notification
     user = { name: 'Captain Planet', email: 'supergreen@bluemarble.com' }
-    concept_id = 'C1200000007-SEDAC'
-    revision_id = 1
-    short_name = 'CIESIN_SEDAC_EPI_2010'
-    version = 2010
-    request_type = 'delete'
+    cmr_response_body = { 'concept-id' => 'C1200000007-SEDAC', 'revision-id' => 1 }
+    proposal = { 'draft' => { 'ShortName' => 'CIESIN_SEDAC_EPI_2010', 'Version' => 2010 }, 'request_type' => 'delete' }
 
-    ProposalMailer.proposal_published_notification(user, concept_id, revision_id, short_name, version, request_type)
+    ProposalMailer.proposal_published_notification(user, cmr_response_body, proposal)
   end
 
   def new_proposal_published_create_notification
     user = { name: 'Captain Planet', email: 'supergreen@bluemarble.com' }
-    concept_id = 'C1200000007-SEDAC'
-    revision_id = 1
-    short_name = 'CIESIN_SEDAC_EPI_2010'
-    version = 2010
-    request_type = 'create'
+    cmr_response_body = { 'concept-id' => 'C1200000007-SEDAC', 'revision-id' => 1 }
+    proposal = { 'draft' => { 'ShortName' => 'CIESIN_SEDAC_EPI_2010', 'Version' => 2010 }, 'request_type' => 'create' }
 
-    ProposalMailer.proposal_published_notification(user, concept_id, revision_id, short_name, version, request_type)
+    ProposalMailer.proposal_published_notification(user, cmr_response_body, proposal)
   end
 end

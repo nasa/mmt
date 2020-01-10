@@ -67,12 +67,9 @@ describe ProposalMailer do
     end
 
     context 'when publishing a proposal' do
-      concept_id = 'C1200000007-SEDAC'
-      revision_id = 1
-      short_name = 'CIESIN_SEDAC_EPI_2010'
-      version = 2010
-      request_type = 'create'
-      let(:mail) { described_class.proposal_published_notification(user, concept_id, revision_id, short_name, version, request_type) }
+      cmr_response_body = { 'concept-id' => 'C1200000007-SEDAC', 'revision-id' => 1 }
+      proposal = { 'draft' => { 'ShortName' => 'CIESIN_SEDAC_EPI_2010', 'Version' => 2010 }, 'request_type' => 'create' }
+      let(:mail) { described_class.proposal_published_notification(user, cmr_response_body, proposal) }
 
       it 'renders the subject' do
         expect(mail.subject).to eq('Create Collection Request Published in Metadata Management Tool')
@@ -87,15 +84,15 @@ describe ProposalMailer do
       end
 
       it 'renders the new metadata submitted notice including short name + version' do
-        expect(mail.html_part.body).to have_content("#{short_name}_#{version} Created")
-        expect(mail.html_part.body).to have_content("#{user[:name]}, Your collection metadata record #{short_name}_#{version} has been successfully published to the CMR. Your collection's concept ID is #{concept_id}", normalize_ws: true)
-        expect(mail.text_part.body).to have_content("#{user[:name]}, Your collection metadata record #{short_name}_#{version} has been successfully published to the CMR. Your collection's concept ID is #{concept_id}", normalize_ws: true)
+        expect(mail.html_part.body).to have_content("#{proposal['draft']['ShortName']}_#{proposal['draft']['Version']} Created")
+        expect(mail.html_part.body).to have_content("#{user[:name]}, The collection metadata record #{proposal['draft']['ShortName']}_#{proposal['draft']['Version']} has been successfully published to the CMR. The collection's concept ID is #{cmr_response_body['concept-id']}", normalize_ws: true)
+        expect(mail.text_part.body).to have_content("#{user[:name]}, The collection metadata record #{proposal['draft']['ShortName']}_#{proposal['draft']['Version']} has been successfully published to the CMR. The collection's concept ID is #{cmr_response_body['concept-id']}", normalize_ws: true)
       end
 
       it 'renders the link to the collection' do
-        expect(mail.html_part.body).to have_link('View Collection', href: collection_url(concept_id, revision_id: revision_id))
+        expect(mail.html_part.body).to have_link('View Collection', href: collection_url(cmr_response_body['concept-id'], revision_id: cmr_response_body['revision-id']))
         # link renders as text in text format email
-        expect(mail.text_part.body).to have_content(collection_url(concept_id, revision_id: revision_id))
+        expect(mail.text_part.body).to have_content(collection_url(cmr_response_body['concept-id'], revision_id: cmr_response_body['revision-id']))
       end
     end
   end

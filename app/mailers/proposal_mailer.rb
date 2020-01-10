@@ -21,15 +21,15 @@ class ProposalMailer < ApplicationMailer
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
 
-  def proposal_published_notification(user, concept_id, revision_id, short_name, version, request_type)
+  def proposal_published_notification(user, cmr_response_body, proposal)
     @user = user
-    @concept_id = concept_id
-    @short_name = short_name
-    @version = version
-    @revision_id = revision_id.to_i
-    @request_type = request_type
+    @concept_id = cmr_response_body['concept-id']
+    @short_name = proposal['draft']['ShortName']
+    @version = proposal['draft']['Version']
+    @revision_id = cmr_response_body['revision-id'].to_i
+    @request_type = proposal['request_type']
 
-    email_subject = "#{request_type.titleize} Collection Request Published in Metadata Management Tool"
+    email_subject = "#{@request_type.titleize} Collection Request Published in Metadata Management Tool"
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
