@@ -140,11 +140,7 @@ FactoryGirl.define do
       "Description": "EDF_DEV08 EOSDIS Service Implementation",
       "Version": "1",
       "UseConstraints": "NONE",
-<<<<<<< HEAD
-      "Name": "EDF_DEV08_#{Faker::Books::Dune.title}_#{Faker::Number.number(digits: 30)}",
-=======
       "Name": "EDF_DEV08_#{Faker::Movies::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(digits: 30)}",
->>>>>>> MMT-2032 -- Fix Rails 5.1 test case failures due to gem incompatabilities. (#438)
       "ServiceOptions": {
         "SubsetTypes": [
           "Spatial",
@@ -199,11 +195,7 @@ FactoryGirl.define do
           ]
         }
       ],
-<<<<<<< HEAD
-      "LongName": "EDF_DEV08 EOSDIS Service Implementation #{Faker::Books::Dune.saying.truncate(60, omission: '')}_#{Faker::Number.number(digits: 10)}"
-=======
       "LongName": "EDF_DEV08 EOSDIS Service Implementation #{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(60, omission: '')}_#{Faker::Number.number(digits: 10)}"
->>>>>>> MMT-2032 -- Fix Rails 5.1 test case failures due to gem incompatabilities. (#438)
     }}
   end
 end
