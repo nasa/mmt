@@ -22,7 +22,7 @@ Depending on your version of Ruby, you may need to install ruby rdoc/ri data:
      = 1.9.1 : gem install rdoc-data; rdoc-data --install
     >= 1.9.2 : you're good to go!
 
-#### Aditional Install Steps
+#### Additional Install Steps
 Some operating systems may require additional steps.
 
 Mac OS X 10.14.6 moved some required libraries around which has been known to cause nokogiri to not install, if you have errors with that gem, you may need to run the following:
@@ -168,7 +168,7 @@ This isn't an issue normally but with MMT we run a number of services locally wh
 
 #### CMR
 
-For calls to CMR that are asyncronous, we do have a method of waiting for those to finish, syncronously. Within the [spec/helpers/cmr_helper.rb](spec/helpers/cmr_helper.rb) we have a method called `wait_for_cmr` that makes two calls to CMR and ElasticSearch to ensure all work is complete. This should ONLY be used within tests.
+For calls to CMR that are asynchronous, we do have a method of waiting for those to finish, synchronously. Within the [spec/helpers/cmr_helper.rb](spec/helpers/cmr_helper.rb) we have a method called `wait_for_cmr` that makes two calls to CMR and ElasticSearch to ensure all work is complete. This should ONLY be used within tests.
 
 ## ACLs
 Access Control Lists (ACLs, aka Permissions) determine access to data and functionality in the CMR. See the [Access Control Documentation](https://cmr.earthdata.nasa.gov/access-control/site/docs/access-control/api.html) for technical information.
