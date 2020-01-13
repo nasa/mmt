@@ -32,7 +32,7 @@ class ManageProposalController < ManageMetadataController
 
       set_urs_user_hash(dmmt_response.body['proposals'])
       proposals = if sort_key == 'submitter_id'
-                    sort_by_submitter(dmmt_response.body['proposals'], @urs_user_hash)
+                    sort_hashes_by_submitter(dmmt_response.body['proposals'], @urs_user_hash)
                   else
                     if sort_dir == 'ASC'
                       dmmt_response.body['proposals'].sort { |a, b| a[sort_key] <=> b[sort_key] }
