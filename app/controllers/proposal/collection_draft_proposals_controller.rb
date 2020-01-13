@@ -240,32 +240,13 @@ module Proposal
 
     def sort_for_index(working_proposals)
       if params['sort_key']&.include?('submitter_id')
-        resources = sort_records_by_submitter(working_proposals, @urs_user_hash)
+        resources = sort_by_submitter(working_proposals, @urs_user_hash)
         instance_variable_set("@#{plural_resource_name}", Kaminari.paginate_array(resources, total_count: resources.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE))
       else
         resources = working_proposals.order(index_sort_order)
                                      .page(params[:page]).per(RESULTS_PER_PAGE)
         instance_variable_set("@#{plural_resource_name}", resources)
       end
-    end
-
-    def sort_records_by_submitter(proposals, user_hash = {})
-      @query = {}
-      @query['sort_key'] = params['sort_key'] unless params['sort_key'].blank?
-
-      sorted_proposals = proposals.sort do |a, b|
-                           # Making these arrays allows empty submitter_ids to sort last/first for ASC/DESC
-                           # Using 0 for 'has submitter id' and 1 for 'does not have submitted id'
-                           # allows these to naturally sort last in ASC order, and first in DESC order
-                           a_name = user_hash[a.submitter_id] ? [0, user_hash[a.submitter_id]] : [1, user_hash[a.submitter_id]]
-                           b_name = user_hash[b.submitter_id] ? [0, user_hash[b.submitter_id]] : [1, user_hash[b.submitter_id]]
-                           if params['sort_key'] == 'submitter_id'
-                             a_name <=> b_name
-                           else
-                             b_name <=> a_name
-                           end
-                         end
-      sorted_proposals
     end
   end
 end

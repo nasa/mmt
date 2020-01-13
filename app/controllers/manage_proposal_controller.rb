@@ -32,7 +32,7 @@ class ManageProposalController < ManageMetadataController
 
       set_urs_user_hash(dmmt_response.body['proposals'])
       proposals = if sort_key == 'submitter_id'
-                    sort_hashes_by_submitter(dmmt_response.body['proposals'], @urs_user_hash)
+                    sort_by_submitter(dmmt_response.body['proposals'], @urs_user_hash)
                   else
                     if sort_dir == 'ASC'
                       dmmt_response.body['proposals'].sort { |a, b| a[sort_key] <=> b[sort_key] }
@@ -165,27 +165,5 @@ class ManageProposalController < ManageMetadataController
   def submitter_from_proposal(proposal)
     proposal_urs_user = retrieve_urs_users([proposal['submitter_id']])[0]
     proposal_urs_user.blank? ? nil : { name: "#{proposal_urs_user['first_name']} #{proposal_urs_user['last_name']}", email: proposal_urs_user['email_address'] }
-  end
-
-  # This function is mirrored in the proposal draft controller to sort an
-  # array of records instead of an array of hashes. They should be kept similar
-  # to maintain consistency in behavior for the proposal workflow.
-  def sort_hashes_by_submitter(proposals,user_hash = {})
-    @query = {}
-    @query['sort_key'] = params['sort_key'] unless params['sort_key'].blank?
-
-    sorted_proposals = proposals.sort do |a, b|
-                         # Making these arrays allows empty submitter_ids to sort last/first for ASC/DESC
-                         # Using 0 for 'has submitter id' and 1 for 'does not have submitted id'
-                         # allows these to naturally sort last in ASC order, and first in DESC order
-                         a_name = user_hash[a['submitter_id']] ? [0, user_hash[a['submitter_id']]] : [1, user_hash[a['submitter_id']]]
-                         b_name = user_hash[b['submitter_id']] ? [0, user_hash[b['submitter_id']]] : [1, user_hash[b['submitter_id']]]
-                         if params['sort_key'] == 'submitter_id'
-                           a_name <=> b_name
-                         else
-                           b_name <=> a_name
-                         end
-                       end
-    sorted_proposals
   end
 end
