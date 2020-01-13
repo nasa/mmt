@@ -36,10 +36,12 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
     # time to run the tests because it saves on FactoryGirl creation time.
     context 'when the user can be authenticated and has approver permissions' do
       before do
+        mock_urs_get_users(count: 0, users: [{ 'first_name' => 'ZZZ', 'last_name' => 'User', 'uid' => 'z_user' }, { 'first_name' => 'Test', 'last_name' => 'User', 'uid' => 'testuser' }])
         set_as_proposal_mode_mmt
         4.times do |num|
           mock_approve(create(:full_collection_draft_proposal, proposal_short_name: "Short Name: #{num}", proposal_entry_title: "Entry Title: #{num}", proposal_request_type: num.even? ? 'create' : 'delete'))
         end
+        CollectionDraftProposal.last.update_column('submitter_id', 'z_user')
         set_as_mmt_proper
         mock_valid_token_validation
         visit manage_proposals_path
@@ -66,6 +68,7 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
 
       it 'displays user names' do
         expect(page).to have_content('Test User')
+        expect(page).to have_content('ZZZ User')
       end
 
       it 'has the correct header' do
@@ -93,6 +96,30 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
           it 'sorts in descending order' do
             within '.open-draft-proposals tbody tr:nth-child(1)' do
               expect(page).to have_content('Short Name: 3')
+            end
+          end
+        end
+      end
+
+      context 'when sorting submitter' do
+        before do
+          click_on 'Sort by Submitter Asc'
+        end
+
+        it 'sorts in ascending order' do
+          within '.open-draft-proposals tbody tr:nth-child(4)' do
+            expect(page).to have_content('ZZZ User')
+          end
+        end
+
+        context 'when sorting short name desc' do
+          before do
+            click_on 'Sort by Submitter Desc'
+          end
+
+          it 'sorts in descending order' do
+            within '.open-draft-proposals tbody tr:nth-child(1)' do
+              expect(page).to have_content('ZZZ User')
             end
           end
         end

@@ -240,7 +240,7 @@ module Proposal
 
     def sort_for_index(working_proposals)
       if params['sort_key']&.include?('submitter_id')
-        resources = sort_by_submitter(working_proposals, @urs_user_hash)
+        resources = sort_records_by_submitter(working_proposals, @urs_user_hash)
         instance_variable_set("@#{plural_resource_name}", Kaminari.paginate_array(resources, total_count: resources.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE))
       else
         resources = working_proposals.order(index_sort_order)
