@@ -157,6 +157,73 @@ $(document).ready ->
   getRelatedUrlSubtypeSelect = (selector) ->
     $(selector).closest('.eui-accordion__body').find('.related-url-subtype-select')
 
+  getMeasurementMediumSelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.measurement-context-medium-select')
+
+  getMeasurementObjectSelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.measurement-object-select')
+
+  getMeasurementQuantitySelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.measurement-quantity-select')
+
+  $('.measurement-object-select').change ->
+    mediumValue = getMeasurementMediumSelect($(this)).val()
+    objectValue = $(this).val()
+
+    $quantitySelect = getMeasurementQuantitySelect($(this))
+
+    for field in $quantitySelect
+      disableField(field)
+
+      quantityValue = $(field).val()
+
+      $(field).find('option').remove()
+      $(field).append($("<option />").val('').text('Select Type'))
+
+      if objectValue?.length > 0
+        measurementQuantities = measurementNameMap[mediumValue][objectValue]
+
+        if measurementQuantities?.length > 0
+          for measurementQuantity in measurementQuantities
+            $(field).append($("<option />").val(measurementQuantity).text(measurementQuantity))
+            $(field).val(quantityValue) if quantityValue == measurementQuantity
+
+          if $(field).find('option').length == 2
+            $(field).find('option').first().remove()
+            $(field).find('option').first().prop 'selected', true
+          enableField(field)
+
+      $(field).trigger('change')
+
+  $('.measurement-context-medium-select').change ->
+    mediumValue = $(this).val()
+
+    $objectSelect = getMeasurementObjectSelect($(this))
+
+    disableField($objectSelect)
+
+    objectValue = $objectSelect.val()
+
+    $objectSelect.find('option').remove()
+    $objectSelect.append($("<option />").val('').text('Select Type'))
+
+    if mediumValue?.length > 0
+      measurementObjects = measurementNameMap[mediumValue]
+
+      for measurementObject, measurementQuantity of measurementObjects
+        $objectSelect.append($("<option />").val(measurementObject).text(measurementObject))
+        $objectSelect.val(objectValue) if objectValue == measurementObject
+
+      if $objectSelect.find('option').length == 2
+        $objectSelect.find('option').first().remove()
+        $objectSelect.find('option').first().prop 'selected', true
+      enableField($objectSelect)
+
+    $objectSelect.trigger('change')
+
+  $('.measurement-object-select').trigger('change')
+  $('.measurement-context-medium-select').trigger('change')
+
   handleContentTypeSelect = (selector) ->
     contentTypeValue = $(selector).val()
 

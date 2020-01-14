@@ -12,7 +12,7 @@ class UmmControlledSelect < UmmSelect
 
   def select_class
     select2_class = !controlled_keyword.include?('related_url')
-    short_name_class = !controlled_keyword.include?('related_url')
+    short_name_class = !controlled_keyword.include?('related_url') && !controlled_keyword.include?('measurement')
     "validate #{'select2-select' if select2_class} #{controlled_keyword.dasherize.singularize}#{'-short-name' if short_name_class}-select"
   end
 
@@ -42,10 +42,14 @@ class UmmControlledSelect < UmmSelect
       options_for_select(DraftsHelper::UMMSURLTypeOptions, element_value)
     when 'related_url_subtype'
       options_for_select(DraftsHelper::UMMSURLSubtypeOptions, element_value)
-    when 'measurement_name'
+    when 'measurement_context_medium'
       options_for_select(set_measurement_names.keys, element_value)
     when 'measurement_object'
-      options_for_select(set_measurement_names, element_value)
+      value = element_value
+      options_for_select([value], value)
+    when 'measurement_quantity'
+      value = element_value
+      options_for_select([value], value)
     end
   end
 

@@ -13,6 +13,7 @@ class VariableDraftsController < BaseDraftsController
     super
 
     set_science_keywords if @current_form == 'science_keywords'
+    set_measurement_names if @current_form == 'measurement_identifiers'
   end
 
   private

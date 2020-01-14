@@ -94,6 +94,10 @@ class UmmJsonForm < JsonFile
     input['draft'] = fix_related_urls(input['draft'])
     Rails.logger.debug "After fix_related_urls: #{input.inspect}"
 
+    # Convert variable measurement 'Uri's to URIs
+    input['draft'] = fix_measurement_uris(input['draft'])
+    Rails.logger.debug "After fix_measurement_uris: #{input.inspect}"
+
     # Convert fields that have specific types to their appropriate format
     convert_values_by_type(input['draft'], input['draft'])
     Rails.logger.debug "After Type Conversions: #{input.inspect}"
@@ -324,6 +328,22 @@ class UmmJsonForm < JsonFile
   # fix the top level field to be RelatedURLs
   def fix_related_urls(draft)
     draft['RelatedURLs'] = draft.delete('RelatedUrls') if draft.key? 'RelatedUrls'
+    draft
+  end
+
+  # In UMM-V 1.6, several Measurement<stuff>URI fields were introduced
+  # This function ensures that they are being saved in the data structure with
+  # the correct key.  Fundamentally, somewhere in the form generation process,
+  # URI is being converted to _uri and then back to Uri rather than URI
+  def fix_measurement_uris(draft)
+    return draft unless draft.key? 'MeasurementIdentifiers'
+    draft['MeasurementIdentifiers'].each do |measurement|
+      measurement['MeasurementContextMediumURI'] = measurement.delete('MeasurementContextMediumUri') if measurement.key? 'MeasurementContextMediumUri'
+      measurement['MeasurementObjectURI'] = measurement.delete('MeasurementObjectUri') if measurement.key? 'MeasurementObjectUri'
+      measurement['MeasurementQuantities'].each do |quantity|
+        quantity['MeasurementQuantityURI'] = quantity.delete('MeasurementQuantityUri') if quantity.key? 'MeasurementQuantityUri'
+      end
+    end
     draft
   end
 end

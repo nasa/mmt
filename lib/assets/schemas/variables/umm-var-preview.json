@@ -149,11 +149,11 @@
             {
               "key": "/MeasurementContextMedium"
             }, {
-              "key": "/MeasurementContextMediumUri"
+              "key": "/MeasurementContextMediumURI"
             }, {
               "key": "/MeasurementObject"
             }, {
-              "key": "/MeasurementObjectUri"
+              "key": "/MeasurementObjectURI"
             }, {
               "key": "/MeasurementQuantities/index_id",
               "type": "UmmPreviewMultiItems",
@@ -161,7 +161,7 @@
                 {
                   "key": "/Value"
                 },{
-                  "key": "/MeasurementQuantityUri"
+                  "key": "/MeasurementQuantityURI"
                 }
               ]
             }
