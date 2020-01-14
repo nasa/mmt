@@ -44,6 +44,7 @@ gem 'breadcrumbs_on_rails'
 gem 'builder'
 gem 'carmen', '~>1.0.2'  # countries and subdivisions
 gem 'database_cleaner' # added to provide a solution to Capybara's problems with js=>true
+gem 'factory_girl_rails', :require => true
 gem 'faker'
 gem 'figaro'
 gem 'font-awesome-rails'
@@ -84,7 +85,6 @@ group :development, :test do
   gem 'sqlite3'
   gem 'vcr'
   gem 'rails-controller-testing' # https://www.ombulabs.com/blog/rails/upgrades/upgrade-rails-from-4-2-to-5-0.html
-  gem 'factory_girl_rails', :require => true
 end
 
 group :development do
