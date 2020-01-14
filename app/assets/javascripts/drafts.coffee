@@ -87,7 +87,7 @@ $(document).ready ->
       url = $(this).attr('href').split('?')[0]
       $(this).attr 'href', url
 
-    $('.select2-select').select2()
+    $('.select2-select').select2({ width: '100%' })
 
     e.stopImmediatePropagation()
 

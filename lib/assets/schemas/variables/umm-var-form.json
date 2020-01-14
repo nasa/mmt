@@ -425,7 +425,14 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/MeasurementContextMedium", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "measurement_name"}]
+                      "items": [
+                        {
+                          "key": "/MeasurementContextMedium",
+                          "field": true,
+                          "type": "UmmControlledSelect",
+                          "controlledKeyword": "measurement_context_medium"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -445,7 +452,14 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/MeasurementObject", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "measurement_object"}]
+                      "items": [
+                        {
+                          "key": "/MeasurementObject",
+                          "field": true,
+                          "type": "UmmControlledSelect",
+                          "controlledKeyword": "measurement_object"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -455,7 +469,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/MeasurementObjectURI", "field": true}]
+                      "items": [{"key": "/MeasurementObjectURI", "field": true, "htmlClass": "uri"}]
                     }
                   ]
                 },
@@ -606,7 +620,14 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/Value", "field": true}]
+                  "items": [
+                    {
+                      "key": "/Value",
+                      "field": true,
+                      "type": "UmmControlledSelect",
+                      "controlledKeyword": "measurement_quantity"
+                    }
+                  ]
                 }
               ]
             },
@@ -616,7 +637,7 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/MeasurementQuantityURI", "field": true}]
+                  "items": [{"key": "/MeasurementQuantityURI", "field": true, "type": "UmmTextField", "label": "Measurement Quantity URI"}]
                 }
               ]
             }

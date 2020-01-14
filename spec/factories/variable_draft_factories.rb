@@ -173,29 +173,33 @@ FactoryGirl.define do
             }
           ]
         },
-      "MeasurementIdentifiers": [
-        {
-          "MeasurementSource": "BODC",
-          "MeasurementName": {
-            "MeasurementObject": "Standard Pressure",
-            "MeasurementQuantity": "At Top Of Atmosphere"
-          }
-        },
-        {
-          "MeasurementSource": "CF",
-          "MeasurementName": {
-            "MeasurementObject": "Entropy",
-            "MeasurementQuantity": "At Top Of Atmosphere"
-          }
-        },
-        {
-          "MeasurementSource": "CSDMS",
-          "MeasurementName": {
-            "MeasurementObject": "Standard Temperature",
-            "MeasurementQuantity": "At Top Of Atmosphere"
-          }
-        }
-      ],
+        "MeasurementIdentifiers":
+        [
+            {
+              "MeasurementContextMedium": "ocean",
+              "MeasurementContextMediumURI": "fake.website.gov",
+              "MeasurementObject": "sea_ice-meltwater",
+              "MeasurementObjectURI": "fake.website.gov",
+              "MeasurementQuantities": [
+                {
+                  "MeasurementQuantityURI": "fake.website.gov",
+                  "Value": "volume"
+                },
+                {
+                  "Value": "volume"
+                }
+              ]
+            },
+            {
+              "MeasurementContextMedium": "ocean",
+              "MeasurementObject": "sea_ice-meltwater",
+              "MeasurementQuantities": [
+                {
+                  "Value": "volume"
+                }
+              ]
+            }
+        ],
       "SamplingIdentifiers": [
         {
           "SamplingMethod": "Satellite overpass",

@@ -169,15 +169,17 @@ describe 'Measurement Identifiers Form', js: true do
     end
 
     it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_name_measurement_object', with: 'Standard Pressure')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_name_measurement_quantity', with: 'At Top Of Atmosphere')
-      expect(page).to have_select('variable_draft_draft_measurement_identifiers_0_measurement_source', selected: 'BODC')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_name_measurement_object', with: 'Entropy')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_name_measurement_quantity', with: 'At Top Of Atmosphere')
-      expect(page).to have_select('variable_draft_draft_measurement_identifiers_1_measurement_source', selected: 'CF')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_2_measurement_name_measurement_object', with: 'Standard Temperature')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_2_measurement_name_measurement_quantity', with: 'At Top Of Atmosphere')
-      expect(page).to have_select('variable_draft_draft_measurement_identifiers_2_measurement_source', selected: 'CSDMS')
+      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_context_medium', with: 'ocean')
+      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_context_medium_uri', with: 'fake.website.gov')
+      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_object', with: 'sea_ice-meltwater')
+      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_object_uri', with: 'fake.website.gov')
+      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_0_value', with: 'volume')
+      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_0_measurement_quantity_uri', with: 'fake.website.gov')
+      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_1_value', with: 'volume')
+
+      expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_context_medium', with: 'ocean')
+      expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_object', with: 'sea_ice-meltwater')
+      expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_quantities_0_value', with: 'volume')
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -262,15 +264,17 @@ describe 'Measurement Identifiers Form', js: true do
       end
 
       it 'displays the correct values in the form' do
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_name_measurement_object', with: 'Standard Pressure')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_name_measurement_quantity', with: 'At Top Of Atmosphere')
-        expect(page).to have_select('variable_draft_draft_measurement_identifiers_0_measurement_source', selected: 'BODC')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_name_measurement_object', with: 'Entropy')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_name_measurement_quantity', with: 'At Top Of Atmosphere')
-        expect(page).to have_select('variable_draft_draft_measurement_identifiers_1_measurement_source', selected: 'CF')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_2_measurement_name_measurement_object', with: 'Standard Temperature')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_2_measurement_name_measurement_quantity', with: 'At Top Of Atmosphere')
-        expect(page).to have_select('variable_draft_draft_measurement_identifiers_2_measurement_source', selected: 'CSDMS')
+        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_context_medium', with: 'ocean')
+        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_context_medium_uri', with: 'fake.website.gov')
+        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_object', with: 'sea_ice-meltwater')
+        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_object_uri', with: 'fake.website.gov')
+        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_0_value', with: 'volume')
+        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_0_measurement_quantity_uri', with: 'fake.website.gov')
+        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_1_value', with: 'volume')
+
+        expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_context_medium', with: 'ocean')
+        expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_object', with: 'sea_ice-meltwater')
+        expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_quantities_0_value', with: 'volume')
       end
     end
   end

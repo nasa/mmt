@@ -15,4 +15,8 @@
   <% else %>
     var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
   <% end %>
+
+  <% if @current_form == 'measurement_identifiers' %>
+    var measurementNameMap = <%= raw @measurement_names.to_json %>;
+  <% end %>
 </script>
