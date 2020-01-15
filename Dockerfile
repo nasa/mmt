@@ -6,16 +6,16 @@ FROM centos:centos7
 
 # Get java, epel, whatnot
 RUN yum install -y epel-release \
-                   https://rpm.nodesource.com/pub_8.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm \
+#                   https://rpm.nodesource.com/pub_8.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm \
                    https://yum.postgresql.org/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm \
  && yum --enablerepo=updates clean metadata \
  && yum install -y bzip2 \
-                   clamav \
-                   cmake \
                    chromedriver \
-                   git \
+#                   clamav \
+                   cmake \
                    gcc \
                    gcc-c++ \
+                   git \
                    https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm \
                    ImageMagick \
                    java-1.8.0-openjdk-headless.x86_64 \
@@ -24,7 +24,7 @@ RUN yum install -y epel-release \
                    libicu-devel \
                    libxml2-devel \
                    make \
-                   nodejs \
+#                   nodejs \
                    openssl-devel \
                    postgresql96-devel \
                    readline-devel \
@@ -32,8 +32,12 @@ RUN yum install -y epel-release \
                    tar \
                    which \
                    xorg-x11-server-Xvfb \
- && yum clean all \ 
- && freshclam
+ && yum install -y  \
+  tmux \
+  tree \
+  zsh \
+ && yum clean all #\  #add in if you plan to run clamav
+# && freshclam        #add in if you plan to run clamav
 
 ENV JAVA_HOME /etc/alternatives/jre
 
@@ -55,20 +59,10 @@ RUN gem update --system 2.7.8
 RUN groupadd -g 500 bamboo
 RUN useradd --gid bamboo --create-home --uid 500 bamboo
 
-ENV PATH /usr/pgsql-9.6/bin:/opt/google/chrome:$PATH
+ENV PATH /build/bin:/usr/pgsql-9.6/bin:/opt/google/chrome:$PATH
 
 USER bamboo
 WORKDIR /build
-#RUN whoami
-#RUN pwd
-#RUN ls -l /
-#RUN touch test.owner.txt
 
-#this should be writable to everyone.
-#RUN ls -l /build/.bundle/config
-
-#RUN bundle install --path=/build/vendor/bundle
-#RUN su bamboo -c "bundle install --path=/build/vendor/bundle"
-CMD bundle install --path=/build/vendor/bundle
-CMD ./bin/rails s --binding 0.0.0.0
-
+COPY bashrc.env /home/bamboo/bashrc.env
+RUN echo "source /home/bamboo/bashrc.env" >> /home/bamboo/.bashrc

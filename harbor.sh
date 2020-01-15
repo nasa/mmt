@@ -48,25 +48,32 @@ function run
   docker run \
     --tty \
     --publish ${port_inside}:${port_outside} \
-    --volume $(pwd):/build \
-    --detach ${img_name}
-  printf "Commands: docker container [create start run ls stop kill rm]\n"
-  printf "Do not forget to run these commands:\n"
-  printf ">bundle install\n"
-  printf "./bin/rails s --bind 0.0.0.0\n"
+    --volume $(pwd):/build:cached \
+    --detach ${img_name} \
+    bash -c "cd /build && bundle install --path ~/bundle && rails s --bind 0.0.0.0"
 }
 
-# step 2 ; -r ; run the container, starting rails
+# step 2 ; -R ; run the container, starting rails
 function run_interactive
 {
+  #"echo bundle install ; ./bin/rails s --bind 0.0.0.0; /bin/bash"
   docker run \
     --tty \
+    --interactive \
     --publish ${port_inside}:${port_outside} \
     --volume $(pwd):/build \
-    ${img_name} /usr/bin/bash
-    #tail -n 24 -f log/development.log
-    #"echo bundle install ; ./bin/rails s --bind 0.0.0.0; /bin/bash"
+    ${img_name} 
 }
+
+## Statistics on calling bundle install using a mounted directory:
+#cached
+# no parameter - 
+# cached - 37 s + 4'51"
+# delegated - 5'11"
+# outside of docker - 130 s
+# inside to ~ - 2'7"
+
+   # --volume $(pwd):/build:delegated \
 
 # -C ; list containers
 function list_containers
@@ -85,8 +92,7 @@ function connect
     docker exec \
       --interactive \
       --tty \
-      "${id}" \
-      /bin/bash
+      "${id}" /bin/bash
     fi
 }
 
