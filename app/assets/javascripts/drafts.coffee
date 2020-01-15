@@ -82,6 +82,13 @@ $(document).ready ->
     $(newDiv).find('.related-url-type-select, .related-url-subtype-select').addClass 'disabled'
     $(newDiv).find('.related-url-type-select, .related-url-subtype-select').prop 'disabled', true
 
+    # trigger controlled keyword consequences for adding a new measurement quantity in UMM-V
+    if $('.measurement-quantity-select')?.length > 0 && $(newDiv).find('.measurement-context-medium-select')?.length == 0
+      $(newDiv).closest('.eui-accordion__body').find('.measurement-object-select').trigger('change')
+
+    # trigger controlled keyword consequences for adding a new measurement context medium in UMM-V
+    $(newDiv).find('.measurement-context-medium-select').trigger('change')
+
     # Remove points from preview link
     $.each $(newDiv).find('.spatial-preview-link'), ->
       url = $(this).attr('href').split('?')[0]

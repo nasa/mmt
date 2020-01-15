@@ -187,10 +187,6 @@ $(document).ready ->
           for measurementQuantity in measurementQuantities
             $(field).append($("<option />").val(measurementQuantity).text(measurementQuantity))
             $(field).val(quantityValue) if quantityValue == measurementQuantity
-
-          if $(field).find('option').length == 2
-            $(field).find('option').first().remove()
-            $(field).find('option').first().prop 'selected', true
           enableField(field)
 
       $(field).trigger('change')
@@ -221,6 +217,7 @@ $(document).ready ->
 
     $objectSelect.trigger('change')
 
+  # Populate the dependent options for controlled keywords on page load
   $('.measurement-object-select').trigger('change')
   $('.measurement-context-medium-select').trigger('change')
 

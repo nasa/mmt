@@ -163,6 +163,8 @@ module ControlledKeywords
     @country_codes = country_codes.unshift(united_states)
   end
 
+  # Returns and sets:
+  # { measurement_context_medium => { measurement_object => [measurement_quantities] } }
   def set_measurement_names
     cmr_response = cmr_client.get_controlled_keywords('measurement_name')
     measurements = cmr_response.body.fetch('context_medium', [])
