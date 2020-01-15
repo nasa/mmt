@@ -469,7 +469,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/MeasurementObjectURI", "field": true, "htmlClass": "uri"}]
+                      "items": [{"key": "/MeasurementObjectURI", "field": true}]
                     }
                   ]
                 },
@@ -637,7 +637,7 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/MeasurementQuantityURI", "field": true, "type": "UmmTextField", "label": "Measurement Quantity URI"}]
+                  "items": [{"key": "/MeasurementQuantityURI", "field": true}]
                 }
               ]
             }

@@ -343,9 +343,9 @@ describe 'Measurement Identifiers Form', js: true do
       select 'test_medium', from: 'Measurement Context Medium'
     end
 
-    it 'automatically selects the only option' do
+    it 'automatically selects the only option for objects, but not quantities' do
       expect(page).to have_field('Measurement Object', with: 'test_object')
-      expect(page).to have_field('Value', with: 'test_quantity')
+      expect(page).to have_field('Value', with: '')
     end
   end
 end
