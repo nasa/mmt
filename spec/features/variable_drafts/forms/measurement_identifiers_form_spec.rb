@@ -278,4 +278,74 @@ describe 'Measurement Identifiers Form', js: true do
       end
     end
   end
+
+  context 'when filling in the form' do
+    before do
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
+      visit edit_variable_draft_path(draft, 'measurement_identifiers')
+    end
+
+    it 'the object and quantity start disabled' do
+      expect(page).to have_field('Measurement Object', disabled: true)
+      expect(page).to have_field('Value', disabled: true)
+    end
+
+    context 'when changing the medium context' do
+      before do
+        select 'glacier_bed', from: 'Measurement Context Medium'
+      end
+
+      it 'lets the user choose an object, but not a quantity' do
+        expect(page).to have_field('Measurement Object', with: '')
+        expect(page).to have_field('Value', disabled: true)
+      end
+
+      context 'when changing the context medium again' do
+        before do
+          select 'planetary_ice', from: 'Measurement Object'
+          select 'ocean', from: 'Measurement Context Medium'
+        end
+
+        it 'changes the object back to an empty selection' do
+          expect(page).to have_field('Measurement Object', with: '')
+        end
+      end
+    end
+
+    context 'when changing the object' do
+      before do
+        select 'ocean', from: 'Measurement Context Medium'
+        select 'sea_ice', from: 'Measurement Object'
+      end
+
+      it 'lets the user choose a quantity' do
+        expect(page).to have_field('Value', with: '')
+      end
+
+      context 'when changing the object again' do
+        before do
+          select 'area', from: 'Value'
+          select 'sea_ice_radiation_incoming', from: 'Measurement Object'
+        end
+
+        it 'changes the quantity back to an empty selection' do
+          expect(page).to have_field('Value', with: '')
+        end
+      end
+    end
+  end
+
+  context 'when using fake measurement names' do
+    before do
+      mock_get_controlled_keywords_static
+      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
+      visit edit_variable_draft_path(draft, 'measurement_identifiers')
+      select 'test_medium', from: 'Measurement Context Medium'
+    end
+
+    it 'automatically selects the only option' do
+      expect(page).to have_field('Measurement Object', with: 'test_object')
+      expect(page).to have_field('Value', with: 'test_quantity')
+    end
+  end
 end
