@@ -879,5 +879,23 @@ module Helpers
 
       end
     end
+
+    def mock_get_controlled_keywords_static
+      keyword_response = cmr_success_response(
+        {"context_medium"=>
+          [
+            { "value"=>"test_medium",
+              "object"=>
+                [
+                  { "value"=>"test_object",
+                    "quantity"=>
+                      [{ "value"=>"test_quantity" }]
+                  }
+                ]
+            }
+          ]
+        }.to_json)
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_controlled_keywords).and_return(keyword_response)
+    end
   end
 end
