@@ -475,7 +475,44 @@
                 },
                 {
                   "type": "section",
-                  "$ref": "#/forms/MeasurementQuantities"
+                  "help": "MeasurementQuantities",
+                  "items": [
+                    {
+                      "type": "UmmMultiItems",
+                      "label": "Measurement Quantities",
+                      "multiType": "MeasurementQuantities",
+                      "key": "/MeasurementQuantities/items/properties/index_id",
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [
+                                {
+                                  "key": "/Value",
+                                  "field": true,
+                                  "type": "UmmControlledSelect",
+                                  "controlledKeyword": "measurement_quantity"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [{"key": "/MeasurementQuantityURI", "field": true}]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -603,47 +640,5 @@
         }
       ]
     }
-  ],
-  "definitions": {
-    "MeasurementQuantities": {
-      "help": "MeasurementQuantities",
-      "items": [
-        {
-          "type": "UmmMultiItems",
-          "label": "Measurement Quantities",
-          "multiType": "MeasurementQuantities",
-          "key": "/MeasurementQuantities/items/properties/index_id",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "items": [
-                    {
-                      "key": "/Value",
-                      "field": true,
-                      "type": "UmmControlledSelect",
-                      "controlledKeyword": "measurement_quantity"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "items": [{"key": "/MeasurementQuantityURI", "field": true}]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  }
+  ]
 }
