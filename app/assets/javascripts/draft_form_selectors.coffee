@@ -178,7 +178,7 @@ $(document).ready ->
       quantityValue = $(field).val()
 
       $(field).find('option').remove()
-      $(field).append($("<option />").val('').text('Select Type'))
+      $(field).append($("<option />").val('').text('Select Value'))
 
       if objectValue?.length > 0
         measurementQuantities = measurementNameMap[mediumValue][objectValue]
@@ -201,7 +201,7 @@ $(document).ready ->
     objectValue = $objectSelect.val()
 
     $objectSelect.find('option').remove()
-    $objectSelect.append($("<option />").val('').text('Select Type'))
+    $objectSelect.append($("<option />").val('').text('Select Measurement Object'))
 
     if mediumValue?.length > 0
       measurementObjects = measurementNameMap[mediumValue]
