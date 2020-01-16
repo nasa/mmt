@@ -17,7 +17,7 @@ earthdata:
     launchpad_root: "https://apps.launchpad.nasa.gov"
     launchpad_sbx_root: "https://apps.launchpad-sbx.nasa.gov"
     # uvg_root: "https://uvg.uat.earthdata.nasa.gov"
-    # dmmt_root: "https://draftmmt.uat.earthdata.nasa.gov"
+    dmmt_root: "https://draftmmt.uat.earthdata.nasa.gov"
   sit:
     urs_root: "https://sit.urs.earthdata.nasa.gov"
     echo_root: "https://cmr.sit.earthdata.nasa.gov/legacy-services"
@@ -47,7 +47,7 @@ urs:
     production:
       "https://urs.earthdata.nasa.gov": "QCuabaWMrGyq0OvCj0X-pg"
     uat:
-      "https://uat.urs.earthdata.nasa.gov": "zFb4tV63ET-V6-oRnDKmJg"
+      "https://uat.urs.earthdata.nasa.gov": "neKOIkHeOyvhjKWZmzl_fQ"
     sit:
       "https://sit.urs.earthdata.nasa.gov": "K1EF5n6rbUzoEi_1SFOLQg"
     development:
