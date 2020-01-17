@@ -78,5 +78,20 @@ module Helpers
       urs_response = cmr_success_response(urs_response_body.to_json)
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_urs_users).and_return(urs_response)
     end
+
+    # Fake getting ACLs from CMR, then getting groups from CMR, then getting group members from CMR
+    def mock_get_approver_emails
+      get_permissions_response_body = { 'items' => [{ 'revision_id' => 1, 'concept_id' => 'ACL1200000353-CMR', 'identity_type' => 'Provider', 'name' => 'Provider - MMT_2 - NON_NASA_DRAFT_APPROVER', 'location' => 'http://localhost:3011/acls/ACL1200000353-CMR' }] }
+      get_permission_response_body = { 'group_permissions' => [{ 'group_id' => 'AG1200000351-MMT_2', 'permissions' => ['create'] }] }
+      group_member_response_body = %w[user1 user2]
+
+      get_permissions_response = cmr_success_response(get_permissions_response_body.to_json)
+      get_permission_response = cmr_success_response(get_permission_response_body.to_json)
+      group_member_response = cmr_success_response(group_member_response_body.to_json)
+
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_permissions).and_return(get_permissions_response)
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_permission).and_return(get_permission_response)
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_group_members).and_return(group_member_response)
+    end
   end
 end

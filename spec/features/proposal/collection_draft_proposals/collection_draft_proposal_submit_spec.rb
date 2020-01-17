@@ -12,13 +12,14 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
 
     context 'when the submit proposal button is clicked' do
       before do
-        mock_urs_get_users(count: 2)
-        @email_count = ActionMailer::Base.deliveries.count
         click_on 'Submit for Review'
       end
 
       context 'when clicking yes to submit a proposal' do
         before do
+          mock_get_approver_emails
+          mock_urs_get_users(count: 2)
+          @email_count = ActionMailer::Base.deliveries.count
           click_on 'Yes'
         end
 
