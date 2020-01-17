@@ -5,8 +5,9 @@ class ProposalMailerPreview < ActionMailer::Preview
     short_name = 'CIESIN_SEDAC_EPI_2010'
     version = 2010
     id = 1
+    request_type = 'create'
 
-    ProposalMailer.proposal_submitted_notification(user, short_name, version, id)
+    ProposalMailer.proposal_submitted_notification(user, short_name, version, id, request_type)
   end
 
   def new_proposal_submitted_approvers_notification
@@ -25,8 +26,9 @@ class ProposalMailerPreview < ActionMailer::Preview
     short_name = 'CIESIN_SEDAC_EPI_2010'
     version = 2010
     id = 1
+    request_type = 'create'
 
-    ProposalMailer.proposal_approved_notification(user, short_name, version, id)
+    ProposalMailer.proposal_approved_notification(user, short_name, version, id, request_type)
   end
 
   def new_proposal_published_delete_notification
