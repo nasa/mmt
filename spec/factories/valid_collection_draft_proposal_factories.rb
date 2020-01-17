@@ -3,18 +3,18 @@ require 'faker'
 FactoryGirl.define do
   factory :full_collection_draft_proposal, class: CollectionDraftProposal do
     transient do
-      proposal_short_name nil
-      proposal_entry_title nil
-      version '001'
-      collection_data_type 'SCIENCE_QUALITY'
-      proposal_request_type 'create'
-      proposal_native_id 'full_collection_draft_proposal_id'
+      proposal_short_name { nil }
+      proposal_entry_title { nil }
+      version { '001' }
+      collection_data_type { 'SCIENCE_QUALITY' }
+      proposal_request_type { 'create' }
+      proposal_native_id { 'full_collection_draft_proposal_id' }
     end
 
-    user_id 1
+    user_id { 1 }
     native_id { proposal_native_id }
-    provider_id 'MMT_2'
-    draft_type 'CollectionDraftProposal'
+    provider_id { 'MMT_2' }
+    draft_type { 'CollectionDraftProposal' }
     entry_title { proposal_entry_title }
     short_name { proposal_short_name }
     request_type { proposal_request_type }

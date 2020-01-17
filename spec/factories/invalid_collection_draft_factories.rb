@@ -2,31 +2,31 @@ FactoryGirl.define do
   # This is a valid factory, used to test to make sure all the factories
   # that use all_required_fields will work
   factory :collection_draft_all_required_fields, class: CollectionDraft do
-    draft_type 'CollectionDraft'
-    native_id 'required_fields_draft_id'
-    provider_id 'MMT_2'
+    draft_type { 'CollectionDraft' }
+    native_id { 'required_fields_draft_id' }
+    provider_id {'MMT_2'}
     draft { all_required_fields }
   end
 
   factory :collection_draft, class: CollectionDraft do
     # Empty draft
-    provider_id 'MMT_2'
-    draft_type 'CollectionDraft'
+    provider_id { 'MMT_2' }
+    draft_type { 'CollectionDraft' }
   end
 
   factory :mmt_1_collection_draft, class: CollectionDraft do
-    provider_id 'MMT_1'
-    draft_type 'CollectionDraft'
+    provider_id { 'MMT_1' }
+    draft_type { 'CollectionDraft' }
   end
 
   # Will trigger required fields error for data identification required fields
   factory :collection_draft_missing_required_fields, class: CollectionDraft do
-    draft_type 'CollectionDraft'
-    draft 'ShortName' => '12345'
+    draft_type { 'CollectionDraft' }
+    draft {{ 'ShortName' => '12345' }}
   end
 
   factory :collection_draft_nested_required_field, class: CollectionDraft do
-    draft_type 'CollectionDraft'
+    draft_type { 'CollectionDraft' }
     draft {
       all_required_fields.merge(
         'RelatedUrls' => [{
@@ -37,7 +37,7 @@ FactoryGirl.define do
   end
 
   factory :collection_draft_field_too_long, class: CollectionDraft do
-    draft_type 'CollectionDraft'
+    draft_type { 'CollectionDraft' }
     draft {
       all_required_fields.merge(
         'ShortName' => "#{'a' * 81}"
@@ -46,7 +46,7 @@ FactoryGirl.define do
   end
 
   factory :collection_draft_field_too_high, class: CollectionDraft do
-    draft_type 'CollectionDraft'
+    draft_type { 'CollectionDraft' }
     draft {
       all_required_fields.merge(
         'SpatialExtent' => {
@@ -67,7 +67,7 @@ FactoryGirl.define do
   end
 
   factory :collection_draft_field_invalid_date, class: CollectionDraft do
-    draft_type 'CollectionDraft'
+    draft_type { 'CollectionDraft' }
     draft {
       all_required_fields.merge(
         'DataDates' => [{
@@ -79,7 +79,7 @@ FactoryGirl.define do
   end
 
   factory :collection_draft_field_invalid_pattern, class: CollectionDraft do
-    draft_type 'CollectionDraft'
+    draft_type { 'CollectionDraft' }
     draft {
       all_required_fields.merge(
         'DataCenters' => [{
@@ -92,7 +92,7 @@ FactoryGirl.define do
   end
 
   factory :collection_draft_field_invalid_uri, class: CollectionDraft do
-    draft_type 'CollectionDraft'
+    draft_type { 'CollectionDraft' }
     draft {
       all_required_fields.merge(
         'RelatedUrls' => [{
@@ -103,9 +103,9 @@ FactoryGirl.define do
   end
 
   factory :collection_draft_invalid_picklists, class: CollectionDraft do
-    draft_type 'CollectionDraft'
-    native_id 'invalid_picklists_draft_id'
-    provider_id 'MMT_2'
+    draft_type { 'CollectionDraft' }
+    native_id { 'invalid_picklists_draft_id' }
+    provider_id { 'MMT_2' }
     draft {
       all_required_fields.merge(
         'ShortName' => 'Invalid Picklists',
@@ -230,9 +230,9 @@ FactoryGirl.define do
   end
 
   factory :collection_draft_invalid_picklists_instruments, class: CollectionDraft do
-    draft_type 'CollectionDraft'
-    native_id 'invalid_picklists_draft_id'
-    provider_id 'MMT_2'
+    draft_type { 'CollectionDraft' }
+    native_id { 'invalid_picklists_draft_id' }
+    provider_id { 'MMT_2' }
     draft {
       all_required_fields.merge(
         'Platforms' => [{
@@ -249,9 +249,9 @@ FactoryGirl.define do
   end
 
   factory :collection_draft_invalid_picklists_instrument_children, class: CollectionDraft do
-    draft_type 'CollectionDraft'
-    native_id 'invalid_picklists_draft_id'
-    provider_id 'MMT_2'
+    draft_type { 'CollectionDraft' }
+    native_id { 'invalid_picklists_draft_id' }
+    provider_id { 'MMT_2' }
     draft {
       all_required_fields.merge(
         'Platforms' => [{
@@ -272,9 +272,9 @@ FactoryGirl.define do
   end
 
   factory :collection_invalid_ingest_error, class: CollectionDraft do
-    draft_type 'CollectionDraft'
-    native_id 'invalid_ingest_draft_id'
-    provider_id 'MMT_2'
+    draft_type { 'CollectionDraft' }
+    native_id { 'invalid_ingest_draft_id' }
+    provider_id { 'MMT_2' }
     draft {
       all_required_fields.merge(
         'SpatialExtent' => {
