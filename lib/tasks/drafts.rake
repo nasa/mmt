@@ -1,5 +1,5 @@
 require 'faker'
-require 'factory_girl'
+require 'factory_bot'
 require 'csv'
 
 namespace :drafts do

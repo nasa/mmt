@@ -1,4 +1,4 @@
-require 'factory_girl'
+require 'factory_bot'
 
 # Usage:
 # rake testing:ingest_full[<ticket number>,<number of collections>,<development|sit>]
