@@ -107,9 +107,9 @@ describe 'When publishing collection draft proposals', js: true do
 
   context 'when processing a create request' do
     before do
-      @create_native_id = "proposal_id_#{Faker::Number.number(15)}"
+      @create_native_id = "proposal_id_#{Faker::Number.number(digits: 15)}"
       mock_retrieve_approved_proposals(proposal_info: [{ short_name: "Create Request", entry_title: "Create Request Title", request_type: 'create', native_id: @create_native_id },
-                                                     { short_name: "Second Create Request", entry_title: "Create Request Title", request_type: 'create', native_id: "proposal_id_#{Faker::Number.number(15)}" }])
+                                                     { short_name: "Second Create Request", entry_title: "Create Request Title", request_type: 'create', native_id: "proposal_id_#{Faker::Number.number(digits: 15)}" }])
       mock_valid_token_validation
       visit manage_proposals_path
     end
@@ -172,8 +172,8 @@ describe 'When publishing collection draft proposals', js: true do
 
   context 'when processing an update request' do
     before do
-      @update_native_id = "full_collection_draft_proposal_id_#{Faker::Number.number(15)}"
-      mock_retrieve_approved_proposals(proposal_info: [{ short_name: "Create Request_#{Faker::Number.number(15)}", entry_title: "Create Request Title_#{Faker::Number.number(15)}", request_type: 'update', native_id: @update_native_id }])
+      @update_native_id = "full_collection_draft_proposal_id_#{Faker::Number.number(digits: 15)}"
+      mock_retrieve_approved_proposals(proposal_info: [{ short_name: "Create Request_#{Faker::Number.number(digits: 15)}", entry_title: "Create Request Title_#{Faker::Number.number(digits: 15)}", request_type: 'update', native_id: @update_native_id }])
       mock_valid_token_validation
       visit manage_proposals_path
     end

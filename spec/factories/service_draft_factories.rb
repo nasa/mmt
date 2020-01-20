@@ -19,8 +19,8 @@ FactoryGirl.define do
     draft_type 'ServiceDraft'
 
     draft {{
-      'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(90)}",
-      'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(1000, omission: '')}_#{Faker::Number.number(1100)}",
+      'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(digits: 90)}",
+      'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(1000, omission: '')}_#{Faker::Number.number(digits: 1100)}",
       'Type': 'INVALID',
       'Version': '1.12345678987654321012345',
       'Description': 1030.times { 's' },
@@ -103,8 +103,8 @@ FactoryGirl.define do
     draft_type 'ServiceDraft'
 
     draft {{
-      'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location.truncate(10, omission: '')}_#{Faker::Number.number(9)}",
-      'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')}_#{Faker::Number.number(19)}",
+      'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location.truncate(10, omission: '')}_#{Faker::Number.number(digits: 9)}",
+      'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')}_#{Faker::Number.number(digits: 19)}",
       'Type': 'NOT PROVIDED',
       'Version': '1.0',
       'Description': 'Description of the test service',

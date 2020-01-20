@@ -1,4 +1,4 @@
-class CreateUserInvites < ActiveRecord::Migration
+class CreateUserInvites < ActiveRecord::Migration[4.2]
   def change
     create_table :user_invites do |t|
       t.string :manager_name

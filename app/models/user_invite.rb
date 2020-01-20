@@ -1,4 +1,4 @@
-class UserInvite < ActiveRecord::Base
+class UserInvite < ApplicationRecord
   before_create :generate_token
 
   def self.new_invite(user, manager)

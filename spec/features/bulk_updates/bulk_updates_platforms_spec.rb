@@ -12,7 +12,7 @@ describe 'Bulk updating Platforms' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
-    let(:bulk_update_name) { "Bulk Update Platforms Test Find & Remove #{Faker::Number.number(3)}" }
+    let(:bulk_update_name) { "Bulk Update Platforms Test Find & Remove #{Faker::Number.number(digits: 3)}" }
 
     before(:each, bulk_update_step_1: true) do
       # Search collections
@@ -102,7 +102,7 @@ describe 'Bulk updating Platforms' do
   end
 
   context 'when previewing a Find & Update bulk update that has a long name', js: true do
-    let(:bulk_update_name) { "Bulk Update Platforms Test Find & Update #{Faker::Number.number(3)}" }
+    let(:bulk_update_name) { "Bulk Update Platforms Test Find & Update #{Faker::Number.number(digits: 3)}" }
     before(:each, bulk_update_step_1: true) do
       # Search collections
       select 'Entry Title', from: 'Search Field'
@@ -212,7 +212,7 @@ describe 'Bulk updating Platforms' do
   end
 
   context 'when previewing a Find & Update bulk update that does not have a long name', js: true do
-    let(:bulk_update_name) { "Bulk Update Platforms Test Find & Update #{Faker::Number.number(3)}" }
+    let(:bulk_update_name) { "Bulk Update Platforms Test Find & Update #{Faker::Number.number(digits: 3)}" }
     before(:each, bulk_update_step_1: true) do
       # Search collections
       select 'Entry Title', from: 'Search Field'

@@ -5,8 +5,8 @@ describe 'Viewing a variable' do
   # the search endpoint returns an empty response. this has happened when the
   # CMR elasticsearch indexer was not functioning properly
 
-  variable_name = "Useful Gas and Ratio Test Search Var #{Faker::Number.number(6)}"
-  long_name = "Long Detailed Description of Useful Gas and Ratio Test Search Var #{Faker::Number.number(6)}"
+  variable_name = "Useful Gas and Ratio Test Search Var #{Faker::Number.number(digits: 6)}"
+  long_name = "Long Detailed Description of Useful Gas and Ratio Test Search Var #{Faker::Number.number(digits: 6)}"
 
   before :all do
     @ingest_response, _concept_response = publish_variable_draft(name: variable_name, long_name: long_name)

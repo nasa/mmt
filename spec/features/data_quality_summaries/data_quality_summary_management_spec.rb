@@ -38,8 +38,8 @@ describe 'Viewing Data Quality Summaries' do
       before do
         fill_in 'Name', with: ''
 
-        # Field is hidden because of the WYSIWYG so we'll need to use js to interact with it
-        page.execute_script("$('#summary').redactor('code.set', '')")
+        # body click will trigger validations, including redactor
+        find('body').click
 
         click_on 'Submit'
       end

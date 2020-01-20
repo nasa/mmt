@@ -70,6 +70,14 @@ class CollectionDraft < Draft
 
   def update_draft(params, editing_user_id)
     if params
+      
+      # RAILS5.1 This is simpler than permit with a full json structure for collection
+      # rethink this in light of CSRF solutions that prevent illegal items in params
+      case params 
+      when ActionController::Parameters
+        params = params.permit!.to_h
+      end
+
       # pull out searchable fields if provided
       if params['short_name']
         self.entry_title = params['entry_title'].empty? ? nil : params['entry_title']
@@ -83,7 +91,7 @@ class CollectionDraft < Draft
       # Convert {'0' => {'id' => '123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
       # Convert parameter keys to CamelCase for UMM
-      json_params = params.to_hash.to_camel_keys
+      json_params = params.to_camel_keys
       Rails.logger.info("Audit Log: Metadata update attempt where #{editing_user_id} modified #{self.class} parameters: #{json_params}")
 
       # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters

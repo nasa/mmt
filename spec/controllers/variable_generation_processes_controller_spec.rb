@@ -13,9 +13,10 @@ describe VariableGenerationProcessesController, reset_provider: true do
           uvg_generate_response = cmr_success_response(success_response_body)
           allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate).and_return(uvg_generate_response)
 
-          post :create,
+          post :create, params: {
                selected_collection: 'C1238517344-GES_DISC',
                provider: 'GES_DISC'
+          }
         end
 
         it 'renders the show view' do
@@ -30,9 +31,10 @@ describe VariableGenerationProcessesController, reset_provider: true do
           uvg_generate_error_response = cmr_fail_response(error_response_body)
           allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_generate).and_return(uvg_generate_error_response)
 
-          post :create,
+          post :create, params: {
                collection_concept_id: 'C1238517344-GES_DISC',
                provider: 'GES_DISC'
+          }
         end
 
         it 'redirects back to the cmr_search page' do
@@ -66,11 +68,11 @@ describe VariableGenerationProcessesController, reset_provider: true do
           uvg_augment_response = cmr_success_response(success_response_body)
           allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_augment_keywords).and_return(uvg_augment_response)
 
-          put :update,
+          put :update, params: {
               collection_id: 'C1238517344-GES_DISC',
               provider: 'GES_DISC',
               augmentation_type: 'keywords',
-              variables_json: variables
+              variables_json: variables }
         end
 
         it 'renders the show view' do
@@ -88,11 +90,11 @@ describe VariableGenerationProcessesController, reset_provider: true do
           uvg_generate_error_response = cmr_fail_response(error_response_body)
           allow_any_instance_of(Cmr::UvgClient).to receive(:uvg_augment_keywords).and_return(uvg_generate_error_response)
 
-          put :update,
+          put :update, params: {
               collection_concept_id: 'C1238517344-GES_DISC',
               provider: 'GES_DISC',
               augmentation_type: 'keywords',
-              variables_json: variables
+              variables_json: variables }
         end
 
         it 'renders the edit page' do

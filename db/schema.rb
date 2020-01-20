@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -47,10 +46,9 @@ ActiveRecord::Schema.define(version: 20200107163307) do
     t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
+    t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
-
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true
-  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
 
   create_table "templates", force: :cascade do |t|
     t.integer  "user_id"
@@ -63,9 +61,8 @@ ActiveRecord::Schema.define(version: 20200107163307) do
     t.string   "native_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.index ["provider_id", "template_name"], name: "index_templates_on_provider_id_and_template_name", unique: true
   end
-
-  add_index "templates", ["provider_id", "template_name"], name: "index_templates_on_provider_id_and_template_name", unique: true
 
   create_table "user_invites", force: :cascade do |t|
     t.string   "manager_name"

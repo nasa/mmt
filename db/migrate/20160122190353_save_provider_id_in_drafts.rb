@@ -1,4 +1,4 @@
-class SaveProviderIdInDrafts < ActiveRecord::Migration
+class SaveProviderIdInDrafts < ActiveRecord::Migration[4.2]
   def change
     # Set current drafts providers to their user's current provider
     Draft.where(provider_id: nil).each do |draft|

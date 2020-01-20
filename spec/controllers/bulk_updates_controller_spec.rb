@@ -40,7 +40,7 @@ describe BulkUpdatesController, reset_provider: true do
       before do
         sign_in
 
-        get :show, id: 1000
+        get :show, params: { id: 1000 }
       end
 
       it 'renders the #show view' do
@@ -60,7 +60,7 @@ describe BulkUpdatesController, reset_provider: true do
       end
 
       it 'redirects the user to the manage collections page' do
-        get :show, id: 1
+        get :show, params: { id: 1 }
 
         expect(response).to redirect_to(manage_collections_path)
       end
@@ -72,7 +72,7 @@ describe BulkUpdatesController, reset_provider: true do
       before do
         sign_in
 
-        post :new, search_field: 'short_name', search_query: 'dunno', selected_collections: ['C1200000785-MMT_1']
+        post :new, params: { search_field: 'short_name', search_query: 'dunno', selected_collections: ['C1200000785-MMT_1'] }
       end
 
       it 'renders the preview view' do
@@ -104,7 +104,7 @@ describe BulkUpdatesController, reset_provider: true do
       before do
         sign_in
 
-        post :preview, concept_ids: ['1', '2'], 'update_field': 'science_keywords'
+        post :preview, params: { concept_ids: ['1', '2'], 'update_field': 'science_keywords' }
       end
 
       it 'renders the preview view' do
@@ -120,7 +120,7 @@ describe BulkUpdatesController, reset_provider: true do
       it 'redirects the user to the manage collections page' do
         sign_in
 
-        post :preview, 'update_field': 'science_keywords'
+        post :preview, params: { 'update_field': 'science_keywords' }
 
         expect(response).to redirect_to(manage_collections_path)
       end
@@ -137,7 +137,7 @@ describe BulkUpdatesController, reset_provider: true do
           create_bulk_update_response = cmr_success_response(success_response_body)
           allow_any_instance_of(Cmr::CmrClient).to receive(:create_bulk_update).and_return(create_bulk_update_response)
 
-          post :create,
+          post :create, params: {
                'concept_ids': ['C1200000785-MMT_1'],
                'name': 'test instruments bulk update',
                'update_field': 'instruments',
@@ -149,6 +149,7 @@ describe BulkUpdatesController, reset_provider: true do
                  'ShortName': 'ATM',
                  'LongName': 'Airborne Topographic Mapper'
                }
+          }
         end
 
         it 'sets the task instance variable' do
@@ -178,7 +179,7 @@ describe BulkUpdatesController, reset_provider: true do
         before do
           sign_in
 
-          post :create,
+          post :create, params: {
                'concept_ids': [],
                'update_field': 'bad_update_field',
                'update_type': 'BAD_UPDATE_TYPE',
@@ -188,6 +189,7 @@ describe BulkUpdatesController, reset_provider: true do
                  'Term': 'ATMOSPHERIC TEMPERATURE',
                  'VariableLevel1': 'SURFACE TEMPERATURE'
                }
+          }
 
         end
 

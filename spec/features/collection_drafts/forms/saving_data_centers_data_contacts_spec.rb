@@ -1,3 +1,6 @@
+# rails_helper require was added for RAILS5 upgrade to eliminate a race condition
+require 'rails_helper'
+
 describe 'Saving Data Contacts and Data Centers', js: true do
   before do
     login

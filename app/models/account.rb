@@ -1,6 +1,6 @@
 # Modified from https://github.com/onelogin/ruby-saml-example/blob/master/app/models/account.rb
 
-class Account < ActiveRecord::Base
+class Account < ApplicationRecord
   def self.get_saml_settings(url_base = ENV['SAML_SP_ISSUER_BASE'], authn_context = "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport")
 
     # configuring settings from url metadata

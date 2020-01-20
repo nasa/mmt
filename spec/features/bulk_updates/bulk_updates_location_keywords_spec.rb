@@ -13,7 +13,7 @@ describe 'Bulk updating Location Keywords' do
   end
 
   context 'when previewing a Find & Remove bulk update', js: true do
-    let(:bulk_update_name) { "Bulk Update Location Keywords Test Find & Remove #{Faker::Number.number(3)}" }
+    let(:bulk_update_name) { "Bulk Update Location Keywords Test Find & Remove #{Faker::Number.number(digits: 3)}" }
 
     before(:each, bulk_update_step_1: true) do
       # Search form
@@ -104,7 +104,7 @@ describe 'Bulk updating Location Keywords' do
   end
 
   context 'when previewing a Add to Existing bulk update', js: true do
-    let(:bulk_update_name) { "Bulk Update Location Keywords Test Add to Existing #{Faker::Number.number(3)}" }
+    let(:bulk_update_name) { "Bulk Update Location Keywords Test Add to Existing #{Faker::Number.number(digits: 3)}" }
 
     before(:each, bulk_update_step_1: true) do
       # Search form
@@ -199,7 +199,7 @@ describe 'Bulk updating Location Keywords' do
   end
 
   context 'when previewing a Find & Replace bulk update', js: true do
-    let(:bulk_update_name) { "Bulk Update Location Keywords Test Find & Replace #{Faker::Number.number(3)}" }
+    let(:bulk_update_name) { "Bulk Update Location Keywords Test Find & Replace #{Faker::Number.number(digits: 3)}" }
 
     before(:each, bulk_update_step_1: true) do
       # Search form
@@ -306,7 +306,7 @@ describe 'Bulk updating Location Keywords' do
   end
 
   context 'when previewing a Clear All and Replace bulk update', js: true do
-    let(:bulk_update_name) { "Bulk Update Location Keywords Test Clear All and Replace #{Faker::Number.number(3)}" }
+    let(:bulk_update_name) { "Bulk Update Location Keywords Test Clear All and Replace #{Faker::Number.number(digits: 3)}" }
 
     before(:each, bulk_update_step_1: true) do
       # Search form

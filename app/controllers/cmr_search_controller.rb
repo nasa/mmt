@@ -3,9 +3,11 @@ class CmrSearchController < ManageMetadataController
   RESULTS_PER_PAGE = 500
 
   def new
+    permitted = params.to_unsafe_h unless params.nil? # need to understand what this is doing more, think related to nested parameters not permitted.
+
     cmr_params = {
       page_size: RESULTS_PER_PAGE,
-      page_num: params['page'],
+      page_num: permitted['page'],
       provider: current_user.provider_id
     }
 
@@ -13,7 +15,7 @@ class CmrSearchController < ManageMetadataController
     collection_count = 0
     collection_results = []
 
-    (params[:search_criteria] || {}).each do |_index, criteria|
+    (permitted[:search_criteria] || {}).each do |_index, criteria|
       criteria[:query] = if !criteria[:query_text].blank?
                            criteria[:query_text]
                          elsif !criteria[:query_date].blank?
@@ -23,10 +25,10 @@ class CmrSearchController < ManageMetadataController
                          end
     end
 
-    if params.key?(:search_criteria) && !params[:search_criteria].empty?
+    if permitted.key?(:search_criteria) && !permitted[:search_criteria].empty?
 
       keys = []
-      params[:search_criteria].each do |_index, criteria|
+      permitted[:search_criteria].each do |_index, criteria|
         keys << criteria[:field]
         cmr_params[criteria[:field]] ||= []
         cmr_params[criteria[:field]] << criteria[:query].dup
@@ -54,7 +56,7 @@ class CmrSearchController < ManageMetadataController
       end
     end
 
-    @collections = Kaminari.paginate_array(collection_results, total_count: collection_count).page(params['page']).per(RESULTS_PER_PAGE)
+    @collections = Kaminari.paginate_array(collection_results, total_count: collection_count).page(permitted['page']).per(RESULTS_PER_PAGE)
   end
 
   private

@@ -56,9 +56,10 @@ class ServiceDraftsController < BaseDraftsController
     return {} unless params.key?(:service_draft)
 
     # If the form isn't empty, only permit whitelisted attributes
-    params.require(:service_draft).permit(:draft_type).tap do |whitelisted|
+    permitted = params.require(:service_draft).permit(:draft_type).tap do |whitelisted|
       # Allows for any nested key within the draft hash
       whitelisted[:draft] = params[:service_draft][:draft]
     end
+    permitted.to_unsafe_h # need to understand what this is doing more, think related to nested parameters not permitted.
   end
 end

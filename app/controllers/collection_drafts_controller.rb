@@ -136,7 +136,7 @@ class CollectionDraftsController < BaseDraftsController
   # Returns the allowed parameters for pagination
   # @return [Hash]
   def collection_draft_params
-    params.require(:draft).permit(:user_id, :draft, :short_name, :entry_title, :provider_id, :native_id, :draft_type)
+    permitted = safe_hash(:draft)
   end
 
   private

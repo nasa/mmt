@@ -9,8 +9,10 @@ class BulkUpdatesController < ManageCollectionsController
   RESULTS_PER_PAGE = 25
 
   def index
+    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+
     # Default the page to 1
-    page = params.fetch('page', 1)
+    page = permitted.fetch('page', 1)
 
     bulk_updates_list = retrieve_bulk_updates
 
@@ -54,14 +56,15 @@ class BulkUpdatesController < ManageCollectionsController
 
   def preview
     add_breadcrumb 'Preview', bulk_update_preview_path
-
-    @task = construct_task(params)
+    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+    @task = construct_task(permitted)
 
     @collections = retrieve_task_collections
   end
 
   def create
-    @task = construct_task(params)
+    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+    @task = construct_task(permitted)
     ensure_correct_data_center_update_value(@task)
 
     bulk_update_log_data = create_bulk_update_log_data

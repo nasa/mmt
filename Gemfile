@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>4.2.11'
+gem 'rails', '5.2.4'
 
 # deployment support
-gem 'sprockets', '~> 2.12'
+gem 'sprockets', '~> 3.7.0'
 
 # Use SCSS for stylesheets
-gem 'bourbon'
-gem 'neat'
+gem 'bourbon', '~> 4.2.6'
+gem 'neat', '~> 1.7.2'
 gem 'sass-rails', '~> 5.0'
 
 # Use Autoprefixer for prefixing styles
@@ -18,10 +18,10 @@ gem 'autoprefixer-rails'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2.0'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'therubyracer', platforms: :ruby
+gem 'mini_racer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -42,9 +42,9 @@ gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
 gem 'bootstrap3-datetimepicker-rails'
 gem 'breadcrumbs_on_rails'
 gem 'builder'
-gem 'carmen' # countries and subdivisions
+gem 'carmen', '~>1.0.2'  # countries and subdivisions
 gem 'database_cleaner' # added to provide a solution to Capybara's problems with js=>true
-gem 'factory_girl_rails'
+gem 'factory_girl_rails', :require => true
 gem 'faker'
 gem 'figaro'
 gem 'font-awesome-rails'
@@ -71,7 +71,7 @@ gem 'aasm'
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
 # make sure to delete the local config when done making changes to merge into master
 # bundle config --delete local.cmr_metadata_preview
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '08bdb4b7e481e8168d10b36e68c0b83b35480d22'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '804f1bdd412'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -80,15 +80,16 @@ group :development, :test do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
 
-  gem 'jshint'
+  # gem 'jshint'
   gem 'rspec-rails'
   gem 'sqlite3'
   gem 'vcr'
+  gem 'rails-controller-testing' # https://www.ombulabs.com/blog/rails/upgrades/upgrade-rails-from-4-2-to-5-0.html
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+  gem 'web-console'
 
   # better error handling
   gem 'better_errors'
@@ -99,7 +100,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '3.19.0'
   gem 'capybara-screenshot'
   gem 'fuubar'
   gem 'launchy'

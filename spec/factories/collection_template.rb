@@ -34,9 +34,9 @@ FactoryGirl.define do
       collection_one.merge(
         'CollectionDataType' => collection_data_type || 'SCIENCE_QUALITY',
         'Version'            => version || '1',
-        'TemplateName'       => collection_template_name || "#{Faker::Number.number(6)}_#{Faker::Superhero.name}",
-        'EntryTitle'         => draft_entry_title || "#{Faker::Number.number(6)}_#{Faker::Job.title}",
-        'ShortName'          => draft_short_name || "#{Faker::Number.number(6)}_#{Faker::Superhero.name}"
+        'TemplateName'       => collection_template_name || "#{Faker::Number.number(digits: 6)}_#{Faker::Superhero.name}",
+        'EntryTitle'         => draft_entry_title || "#{Faker::Number.number(digits: 6)}_#{Faker::Job.title}",
+        'ShortName'          => draft_short_name || "#{Faker::Number.number(digits: 6)}_#{Faker::Superhero.name}"
       )
     end
   end

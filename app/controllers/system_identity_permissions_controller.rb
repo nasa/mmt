@@ -8,8 +8,10 @@ class SystemIdentityPermissionsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
+    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+
     # Default the page to 1
-    page = params.fetch('page', 1).to_i
+    page = permitted.fetch('page', 1).to_i
 
     # Prevent the page from being less than 1
     page = 1 if page < 1
