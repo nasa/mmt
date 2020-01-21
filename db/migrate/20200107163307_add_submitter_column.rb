@@ -1,4 +1,4 @@
-class AddSubmitterColumn < ActiveRecord::Migration
+class AddSubmitterColumn < ActiveRecord::Migration[4.2]
   def change
     add_column 'draft_proposals', :submitter_id, :string
 
