@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :v1_2_variable_draft, class: VariableDraft do
 
     native_id { 'variable_v1_2_native_id' }

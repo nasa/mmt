@@ -33,7 +33,7 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
     end
 
     # Separating these tests from the ones with more approved proposals halves the
-    # time to run the tests because it saves on FactoryGirl creation time.
+    # time to run the tests because it saves on FactoryBot creation time.
     context 'when the user can be authenticated and has approver permissions' do
       before do
         mock_urs_get_users(count: 0, users: [{ 'first_name' => 'ZZZ', 'last_name' => 'User', 'uid' => 'z_user' }, { 'first_name' => 'Test', 'last_name' => 'User', 'uid' => 'testuser' }])

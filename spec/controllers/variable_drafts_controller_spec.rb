@@ -59,7 +59,7 @@ describe VariableDraftsController, reset_provider: true do
     before do
       sign_in
 
-      draft = FactoryGirl.create(:full_variable_draft)
+      draft = FactoryBot.create(:full_variable_draft)
 
       get :edit, params: { draft_type: 'VariableDraft', id: draft }
     end

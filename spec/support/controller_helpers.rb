@@ -10,7 +10,7 @@ module Helpers
       # Set the access token for the session
       allow(controller).to receive(:token).and_return(token)
 
-      user = as || FactoryGirl.build(:user)
+      user = as || FactoryBot.build(:user)
       allow(controller).to receive(:current_user).and_return(user)
     end
   end

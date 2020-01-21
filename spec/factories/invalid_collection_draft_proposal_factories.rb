@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :empty_collection_draft_proposal, class: CollectionDraftProposal do
     transient do
       draft_request_type { 'create' }

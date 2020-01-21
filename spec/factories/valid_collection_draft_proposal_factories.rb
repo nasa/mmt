@@ -1,6 +1,6 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :full_collection_draft_proposal, class: CollectionDraftProposal do
     transient do
       proposal_short_name { nil }

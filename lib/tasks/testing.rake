@@ -18,13 +18,13 @@ require 'factory_bot'
 namespace :testing do
   desc 'Ingest testing collections into CMR with every field completed'
   task :ingest_full, [:ticket, :count, :env] => [:environment] do |_t, args|
-    draft = FactoryGirl.build(:full_collection_draft)
+    draft = FactoryBot.build(:full_collection_draft)
     ingest_collection(draft, args[:ticket], args[:count], args[:env])
   end
 
   desc 'Ingest testing collections into CMR with only required fields present'
   task :ingest_required, [:ticket, :count, :env] => [:environment] do |_t, args|
-    draft = FactoryGirl.build(:collection_draft_all_required_fields)
+    draft = FactoryBot.build(:collection_draft_all_required_fields)
     ingest_collection(draft, args[:ticket], args[:count], args[:env])
   end
 

@@ -1,5 +1,5 @@
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user, class: User do
     urs_uid { 'testuser' }
     provider_id { 'MMT_2' }
