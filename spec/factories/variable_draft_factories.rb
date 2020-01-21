@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :empty_variable_draft, class: VariableDraft do
     provider_id { 'MMT_2' }
     draft_type { 'VariableDraft' }

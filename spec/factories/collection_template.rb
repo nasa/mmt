@@ -1,6 +1,6 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :full_collection_template, class: CollectionTemplate do
     transient do
       collection_template_name { nil }

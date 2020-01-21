@@ -1,5 +1,5 @@
 # A series of helper functions designed to manipulate the status of
-# proposals for testing dMMT.  If you pass the result of a factory_girl create,
+# proposals for testing dMMT.  If you pass the result of a factory_bot create,
 # they will update the record's proposal_status, status_history, and
 # approver_feedback and save. These bypass all validation, but are handy to test
 # failure conditions by changing a record after a button has been loaded, thus

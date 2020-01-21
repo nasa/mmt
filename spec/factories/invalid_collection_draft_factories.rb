@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   # This is a valid factory, used to test to make sure all the factories
   # that use all_required_fields will work
   factory :collection_draft_all_required_fields, class: CollectionDraft do

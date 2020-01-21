@@ -5,11 +5,11 @@ require 'csv'
 namespace :drafts do
   desc 'Load full draft into database'
   task load_full: :environment do
-    draft = FactoryGirl.build(:full_collection_draft)
+    draft = FactoryBot.build(:full_collection_draft)
 
     found_draft = Draft.where(native_id: draft.native_id)
     if found_draft.empty?
-      new_draft = FactoryGirl.create(:full_collection_draft,
+      new_draft = FactoryBot.create(:full_collection_draft,
                                      user: User.first,
                                      provider_id: User.first.provider_id,
                                      short_name: draft.draft['ShortName'],
@@ -23,11 +23,11 @@ namespace :drafts do
 
   desc 'Load full draft into database'
   task load_full_variable: :environment do
-    draft = FactoryGirl.build(:full_variable_draft)
+    draft = FactoryBot.build(:full_variable_draft)
 
     found_draft = Draft.where(native_id: draft.native_id)
     if found_draft.empty?
-      new_draft = FactoryGirl.create(:full_variable_draft,
+      new_draft = FactoryBot.create(:full_variable_draft,
                                      user: User.first,
                                      provider_id: User.first.provider_id,
                                      short_name: draft.draft['Name'],
@@ -41,11 +41,11 @@ namespace :drafts do
 
   desc 'Load full draft into database'
   task load_full_service: :environment do
-    draft = FactoryGirl.build(:full_service_draft)
+    draft = FactoryBot.build(:full_service_draft)
 
     found_draft = Draft.where(native_id: draft.native_id)
     if found_draft.empty?
-      new_draft = FactoryGirl.create(:full_service_draft,
+      new_draft = FactoryBot.create(:full_service_draft,
                                      user: User.first,
                                      provider_id: User.first.provider_id,
                                      short_name: draft.draft['Name'],
@@ -59,11 +59,11 @@ namespace :drafts do
 
   desc 'Load required fields only draft into database'
   task load_required: :environment do
-    draft = FactoryGirl.build(:collection_draft_all_required_fields)
+    draft = FactoryBot.build(:collection_draft_all_required_fields)
 
     found_draft = Draft.where(native_id: draft.native_id)
     if found_draft.empty?
-      new_draft = FactoryGirl.create(:collection_draft_all_required_fields,
+      new_draft = FactoryBot.create(:collection_draft_all_required_fields,
                                      user: User.first,
                                      provider_id: User.first.provider_id,
                                      short_name: draft.draft['ShortName'],
@@ -77,11 +77,11 @@ namespace :drafts do
 
   desc 'Load draft with invalid picklists into database'
   task load_invalid_picklists: :environment do
-    draft = FactoryGirl.build(:collection_draft_invalid_picklists)
+    draft = FactoryBot.build(:collection_draft_invalid_picklists)
 
     found_draft = Draft.where(native_id: draft.native_id)
     if found_draft.empty?
-      new_draft = FactoryGirl.create(:collection_draft_invalid_picklists,
+      new_draft = FactoryBot.create(:collection_draft_invalid_picklists,
                                      user: User.first,
                                      provider_id: User.first.provider_id,
                                      short_name: draft.draft['ShortName'],

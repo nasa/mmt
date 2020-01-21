@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :user_invite do
     manager_name { 'Manager Name' }
     manager_email { 'manager@example.com' }
