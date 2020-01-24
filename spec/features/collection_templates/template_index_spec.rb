@@ -29,7 +29,7 @@ describe 'When visiting the template index page', js:true do
       expect(page).to have_content('An Example Template') # in the breadcrumbs
       expect(page).to have_content('Metadata Preview')
     end
-    
+
     context 'when there are multiple records' do
       before do
         create(:full_collection_template, collection_template_name: 'An Example Template2')
