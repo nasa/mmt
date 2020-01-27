@@ -147,23 +147,23 @@ header.mmt-header {
 
   a:link,
   a:visited {
-    background: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo.png") no-repeat left;
+    background: asset-url("app-logo.png") no-repeat left;
     min-height: 64px;
     color: $white;
     display: block;
     @include transition(background-image 0.1s linear);
 
     @include hidpi(1.3) {
-      background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_2x.png");
+      background-image: asset-url("app-logo_2x.png");
       background-size: auto 50px;
     }
   }
 
   a:hover {
-    background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover.png");
+    background-image: asset-url("app-logo_hover.png");
 
     @include hidpi(1.3) {
-      background-image: asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover_2x.png");
+      background-image: asset-url("app-logo_hover_2x.png");
     }
   }
 }
@@ -173,7 +173,7 @@ header.mmt-header {
 
   a:link,
   a:visited {
-    background-image: asset-url("ceos_logo.png"), asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo.png");
+    background-image: asset-url("ceos_logo.png"), asset-url("app-logo.png");
     background-repeat: no-repeat, no-repeat;
     background-position: 28% 15%, 0% 50%;
     background-size: 52px, 214px;
@@ -183,7 +183,7 @@ header.mmt-header {
     @include transition(background-image 0.1s linear);
 
     @include hidpi(1.3) {
-      background-image: asset-url("ceos_logo.png"), asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_2x.png");
+      background-image: asset-url("ceos_logo.png"), asset-url("app-logo_2x.png");
       background-repeat: no-repeat, no-repeat;
       background-position: 28% 15%, 0% 50%;
       background-size: 52px, 214px;
@@ -191,13 +191,13 @@ header.mmt-header {
   }
 
   a:hover {
-    background-image: asset-url("ceos_logo.png"), asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover.png");
+    background-image: asset-url("ceos_logo.png"), asset-url("app-logo_hover.png");
     background-repeat: no-repeat, no-repeat;
     background-position: 28% 15%, 0% 50%;
     background-size: 52px, 214px;
 
     @include hidpi(1.3) {
-      background-image: asset-url("ceos_logo.png"), asset-url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_hover_2x.png");
+      background-image: asset-url("ceos_logo.png"), asset-url("app-logo_hover_2x.png");
       background-repeat: no-repeat, no-repeat;
       background-position: 28% 15%, 0% 50%;
       background-size: 52px, 214px;
@@ -226,7 +226,7 @@ header.mmt-header {
 
 
 .proposal-mode-color {
-  --proposal-mode-background-color: $orange;
+  --proposal-mode-background-color: #{$orange};
 }
 
 .subtitle {
