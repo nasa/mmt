@@ -233,31 +233,41 @@ module Proposal
     # Get urs users and get emails from urs for approvers
     # Returns array of hashes for each user
     def get_approver_emails
-      provider_target = Rails.env.development? ? 'MMT_2' : 'SCIOPS'
+      provider_targets = if Rails.env.production?
+                           %w[SCIOPS]
+                         elsif Rails.env.development? || Rails.env.test?
+                           %w[MMT_2]
+                         elsif Rails.env.sit? || Rails.env.uat?
+                           %w[SCIOPS SCIOPSTEST]
+                         end
 
-      # Find the ACL for correct provider in this env.
-      find_acl_response = cmr_client.get_permissions({ 'provider' => provider_target }, token)
-      return [] unless find_acl_response.success?
-
-      approver_acl = find_acl_response.body['items'].select { |acl| acl['name']&.include?('NON_NASA_DRAFT_APPROVER') }
-      return [] if approver_acl.blank?
-
-      # Find the groups that have this ACL in this env.
-      find_groups_response = cmr_client.get_permission(approver_acl[0]['concept_id'], token)
-      return [] unless find_groups_response.success?
-
-      # Use only groups with create priv
-      approver_groups_list = find_groups_response.body['group_permissions'].map { |group| group['group_id'] if group['permissions'].include?('create') }.compact
-      return [] if approver_groups_list.empty?
-
-      # For each group that has this acl, collect the users to send to URS
       approvers_urs_users = []
-      approver_groups_list.each do |group|
-        group_member_response = cmr_client.get_group_members(group, token)
-        next unless group_member_response.success?
 
-        approvers_urs_users += group_member_response.body
+      provider_targets.each do |provider_target|
+        # Find the ACL for correct provider in this env.
+        find_acl_response = cmr_client.get_permissions({ 'provider' => provider_target }, token)
+        next unless find_acl_response.success?
+
+        approver_acl = find_acl_response.body['items'].select { |acl| acl['name']&.include?('NON_NASA_DRAFT_APPROVER') }
+        next if approver_acl.blank?
+
+        # Find the groups that have this ACL in this env.
+        find_groups_response = cmr_client.get_permission(approver_acl[0]['concept_id'], token)
+        next unless find_groups_response.success?
+
+        # Use only groups with create priv
+        approver_groups_list = find_groups_response.body['group_permissions'].map { |group| group['group_id'] if group['permissions'].include?('create') }.compact
+        next if approver_groups_list.empty?
+
+        # For each group that has this acl, collect the users to send to URS
+        approver_groups_list.each do |group|
+          group_member_response = cmr_client.get_group_members(group, token)
+          next unless group_member_response.success?
+
+          approvers_urs_users += group_member_response.body
+        end
       end
+      return [] if approvers_urs_users.empty?
 
       # Get e-mails from URS using user names
       approver_urs_users = retrieve_urs_users(approvers_urs_users.uniq)

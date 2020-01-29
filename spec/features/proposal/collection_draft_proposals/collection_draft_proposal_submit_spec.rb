@@ -1,4 +1,5 @@
-describe 'Collection Draft Proposal Submit and Rescind', js: true do
+# Running reset provider in order to verify approvers get emails when proposals are submitted
+describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, js: true do
   before do
     login
   end
@@ -17,7 +18,6 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
 
       context 'when clicking yes to submit a proposal' do
         before do
-          mock_get_approver_emails
           mock_urs_get_users(count: 2)
           @email_count = ActionMailer::Base.deliveries.count
           click_on 'Yes'
@@ -32,12 +32,77 @@ describe 'Collection Draft Proposal Submit and Rescind', js: true do
         it 'populates the submitter_id' do
           expect(CollectionDraftProposal.last.submitter_id).to eq('testuser')
         end
+      end
 
-        it 'sends emails' do
-          # Expect 3 emails because of the mock call above; 1 to user and 2 to approvers
-          expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 3)
-          expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/has been submitted by/)
-          expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/has been submitted by/)
+      context 'when clicking yes to submit a proposal' do
+        before do
+          # Need mmt_proper to do group manipulations; will need to reset proposal mode in each of the tests
+          set_as_mmt_proper
+        end
+
+        context 'when trying to send emails' do
+          context 'when no acl for that provider exists' do
+            before do
+              set_as_proposal_mode_mmt(with_draft_user_acl: true)
+              mock_urs_get_users(count: 2)
+              @email_count = ActionMailer::Base.deliveries.count
+              click_on 'Yes'
+            end
+            # In this case, the provider exists, but CMR should not have an ACL
+            it 'does not send e-mails to approvers' do
+              # Expect 1 email because approver emails fail here
+              expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 1)
+            end
+          end
+
+          context 'when no groups have the create acl' do
+            before do
+              @group = create_group(name: 'Approver Email Fail Test Group', members: ['testuser'])
+              # This is the wrong permission with one member in the right group
+              # This tests that the correct permission is being checked and that
+              # no emails are sent when no users are found.
+              @permission = add_permissions_to_group(@group['concept_id'], 'delete', 'NON_NASA_DRAFT_APPROVER', 'MMT_2')
+              set_as_proposal_mode_mmt(with_draft_user_acl: true)
+              mock_urs_get_users(count: 2)
+              @email_count = ActionMailer::Base.deliveries.count
+              click_on 'Yes'
+            end
+
+            after do
+              set_as_mmt_proper
+              delete_group(concept_id: @group['concept_id'], admin: true)
+              remove_group_permissions(@permission['concept_id'])
+            end
+
+            it 'does not send e-mails to approvers' do
+              # Expect 1 email because approver emails fail here
+              expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 1)
+            end
+          end
+
+          context 'when successfully sending emails' do
+            before do
+              @group = create_group(name: 'Approver Email Success Test Group', members: ['testuser'])
+              @permission = add_permissions_to_group(@group['concept_id'], 'create', 'NON_NASA_DRAFT_APPROVER', 'MMT_2')
+              set_as_proposal_mode_mmt(with_draft_user_acl: true)
+              mock_urs_get_users(count: 2)
+              @email_count = ActionMailer::Base.deliveries.count
+              click_on 'Yes'
+            end
+
+            after do
+              set_as_mmt_proper
+              delete_group(concept_id: @group['concept_id'], admin: true)
+              remove_group_permissions(@permission['concept_id'])
+            end
+
+            it 'sends emails' do
+              # Expect 3 emails because of the mock call above; 1 to user and 2 to approvers
+              expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 3)
+              expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/has been submitted by/)
+              expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/has been submitted by/)
+            end
+          end
         end
       end
 
