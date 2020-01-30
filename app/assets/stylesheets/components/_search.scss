@@ -10,7 +10,7 @@
 
 #search {
   float: right;
-  @include transition(z-index 0.25s ease-in-out);
+  transition: z-index 0.25s ease-in-out;
 
   &.open {
     background-color: darken($black, 5%);

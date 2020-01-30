@@ -6,7 +6,7 @@
 
 header.mmt-header {
   @include row();
-  @include linear-gradient($ocean-blue, darken($ocean-blue, 2%));
+  background-color: linear-gradient($ocean-blue, darken($ocean-blue, 2%));
   color: white;
   padding: 0.5em 3.75em;
   box-shadow: 0 3px 3px rgba($true-black, 0.15);
@@ -151,7 +151,7 @@ header.mmt-header {
     min-height: 64px;
     color: $white;
     display: block;
-    @include transition(background-image 0.1s linear);
+    transition: background-image 0.1s linear;
 
     @include hidpi(1.3) {
       background-image: url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_2x.png");
@@ -180,7 +180,7 @@ header.mmt-header {
     min-height: 64px;
     color: $white;
     display: block;
-    @include transition(background-image 0.1s linear);
+    transition: background-image 0.1s linear;
 
     @include hidpi(1.3) {
       background-image: asset-url("ceos_logo.png"), url("https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/app-logo_2x.png");

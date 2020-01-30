@@ -5,7 +5,7 @@
 .metadata-cta {
   padding: 1.2em;
   border-bottom: 1px solid darken($light-grey, 10%);
-  @include linear-gradient($white, $light-grey);
+  background_color: linear-gradient($white, $light-grey);
 
   select {
     width: 50% !important;
