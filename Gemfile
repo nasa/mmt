@@ -7,7 +7,7 @@ gem 'rails', '5.2.4'
 gem 'sprockets', '~> 3.7.0'
 
 # Use SCSS for stylesheets
-gem 'bourbon', '~> 4.2.6'
+gem 'bourbon'
 gem 'neat', '~> 1.7.2'
 gem 'sass-rails', '~> 5.0'
 
@@ -100,7 +100,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '3.19.0'
+  gem 'capybara'
   gem 'capybara-screenshot'
   gem 'fuubar'
   gem 'launchy'
