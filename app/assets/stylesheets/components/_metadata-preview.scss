@@ -81,7 +81,7 @@ ul.sub-field {
 
 .hash-link {
   opacity: 0.3;
-  @include transition(all 0.15s ease-in-out);
+  transition: all 0.15s ease-in-out;
   float: left;
   margin-left: -30px;
 

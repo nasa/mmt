@@ -40,7 +40,7 @@ div.location-keywords {
 
 .tt-suggestion {
   padding: 0.25em 0.5em;
-  @include transition(all 0.25s linear);
+  transition: all 0.25s linear;
 
   &:hover {
     background-color: rgba($medium-blue,0.4);

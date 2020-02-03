@@ -19,7 +19,7 @@
   table {
     border: 0;
     margin: 0;
-    @include user-select(none);
+    user-select: none;
 
     tr {
       background: #fff;

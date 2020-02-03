@@ -8,7 +8,7 @@
   .eui-fa-info-circle {
     color: $ocean-blue;
     margin: 0 0.5em;
-    @include transition(all 0.15s ease-in-out);
+    transition: all 0.15s ease-in-out;
 
     &:hover {
       color: darken($ocean-blue, 15%);
@@ -51,7 +51,7 @@
   .eui-fa-info-circle {
     color: $ocean-blue;
     margin: 0 0.75em;
-    @include transition(all 0.15s ease-in-out);
+    transition: all 0.15s ease-in-out;
 
     &:hover {
       color: darken($ocean-blue, 15%);
@@ -125,7 +125,7 @@
   padding: 1em 1.5em;
   background: darken($light-grey, 5%);
   border-left: 2px solid darken($light-grey, 12%);
-  @include transition(all 0.25s ease-in-out);
+  transition: all 0.25s ease-in-out;
   &:hover {
     border-color: $ocean-blue;
   }

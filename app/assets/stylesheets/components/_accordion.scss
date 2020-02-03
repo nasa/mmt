@@ -13,7 +13,7 @@
   font-weight: bold;
   color: darken($dolphin-grey, 20%);
   border-bottom: 0;
-  @include transition(all 0.25s ease-in-out);
+  transition: all 0.25s ease-in-out;
 
   &:hover {
     background-color: transparent;
@@ -25,7 +25,7 @@
   }
 
   .toggle {
-    @include transition(all 0.1s ease-in-out);
+    transition: all 0.1s ease-in-out;
     margin-right: 0.5em;
   }
 
@@ -62,7 +62,7 @@
   }
 
   > .eui-accordion__header .toggle {
-    @include transform(rotate(-90deg));
+    transform: rotate(-90deg);
   }
 }
 
