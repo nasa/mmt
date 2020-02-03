@@ -6,7 +6,7 @@
 
 header.mmt-header {
   @include row();
-  background-color: linear-gradient($ocean-blue, darken($ocean-blue, 2%));
+  background-image: linear-gradient($ocean-blue, darken($ocean-blue, 2%));
   color: white;
   padding: 0.5em 3.75em;
   box-shadow: 0 3px 3px rgba($true-black, 0.15);
