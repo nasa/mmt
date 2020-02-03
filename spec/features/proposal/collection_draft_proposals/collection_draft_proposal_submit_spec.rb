@@ -50,7 +50,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
             end
             # In this case, the provider exists, but CMR should not have an ACL
             it 'does not send e-mails to approvers' do
-              # Expect 1 email because approver emails fail here
+              # Expect 1 email because approver emails fail here (submitter succeeds)
               expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 1)
             end
           end
@@ -59,8 +59,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
             before do
               @group = create_group(name: 'Approver Email Fail Test Group', members: ['testuser'])
               # This is the wrong permission with one member in the right group
-              # This tests that the correct permission is being checked and that
-              # no emails are sent when no users are found.
+              # This tests that the correct permission is being checked.
               @permission = add_permissions_to_group(@group['concept_id'], 'delete', 'NON_NASA_DRAFT_APPROVER', 'MMT_2')
               set_as_proposal_mode_mmt(with_draft_user_acl: true)
               mock_urs_get_users(count: 2)
@@ -75,7 +74,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
             end
 
             it 'does not send e-mails to approvers' do
-              # Expect 1 email because approver emails fail here
+              # Expect 1 email because approver emails fail here (submitter succeeds)
               expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 1)
             end
           end
@@ -97,7 +96,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
             end
 
             it 'sends emails' do
-              # Expect 3 emails because of the mock call above; 1 to user and 2 to approvers
+              # Expect 3 emails because of the mock call above; 1 to submitter and 2 to approvers
               expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 3)
               expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/has been submitted by/)
               expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/has been submitted by/)

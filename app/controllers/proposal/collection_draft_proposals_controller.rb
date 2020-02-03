@@ -245,14 +245,15 @@ module Proposal
 
       provider_targets.each do |provider_target|
         # Find the ACL for correct provider in this env.
-        find_acl_response = cmr_client.get_permissions({ 'provider' => provider_target }, token)
+        find_acl_response = cmr_client.get_permissions({ 'provider' => provider_target, 'target' => 'NON_NASA_DRAFT_APPROVER' }, token)
+        Rails.logger.debug("ACL query response while trying to send approvers emails on proposal submission for #{provider_target}: #{find_acl_response.body}")
         next unless find_acl_response.success?
 
-        approver_acl = find_acl_response.body['items'].select { |acl| acl['name']&.include?('NON_NASA_DRAFT_APPROVER') }
+        approver_acl = find_acl_response.body['items'][0] unless find_acl_response.body['items'].count != 1
         next if approver_acl.blank?
 
         # Find the groups that have this ACL in this env.
-        find_groups_response = cmr_client.get_permission(approver_acl[0]['concept_id'], token)
+        find_groups_response = cmr_client.get_permission(approver_acl['concept_id'], token)
         next unless find_groups_response.success?
 
         # Use only groups with create priv
