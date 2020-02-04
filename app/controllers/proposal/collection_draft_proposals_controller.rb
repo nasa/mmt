@@ -249,7 +249,7 @@ module Proposal
         Rails.logger.debug("ACL query response while trying to send approvers emails on proposal submission for #{provider_target}: #{find_acl_response.body}")
         next unless find_acl_response.success?
 
-        approver_acl = find_acl_response.body['items'][0] unless find_acl_response.body['items'].count != 1
+        approver_acl = find_acl_response.body['items'][0] if find_acl_response.body['items'].count == 1
         next if approver_acl.blank?
 
         # Find the groups that have this ACL in this env.
