@@ -6,7 +6,7 @@ class CollectionTemplatesController < CollectionDraftsController
   # to things to an existing list.  If the before_action #action only: #list
   # syntax is used, it overwrites the parent list.  This saves redeclarations.
   before_action(only: :create_draft) { set_resource }
-  before_action(only: :new_from_existing) { load_umm_schema }
+  before_action(only: :new_from_existing) { load_umm_c_schema }
   before_action :templates_enabled?
 
   def create_draft

@@ -1,0 +1,46 @@
+<div class="row sub-fields">
+  <div class="row">
+    <div class="col-6">
+      <!-- XDimension -->
+      <%= mmt_text_field(
+      name: 'x_dimension',
+      title: 'X Dimension',
+      prefix: name_prefix,
+      value: generic_resolution['XDimension'],
+      help: 'definitions/HorizontalDataGenericResolutionType/XDimension',
+      validate: true,
+      # required: true,
+      classes: 'mmt-number required optionally-required'
+      ) %>
+    </div>
+
+    <div class="col-6">
+      <!-- YDimension -->
+      <%= mmt_text_field(
+      name: 'y_dimension',
+      title: 'Y Dimension',
+      prefix: name_prefix,
+      value: generic_resolution['YDimension'],
+      help: 'definitions/HorizontalDataGenericResolutionType/YDimension',
+      validate: true,
+      # required: true,
+      classes: 'mmt-number required optionally-required'
+      ) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Unit -->
+    <%= mmt_select(
+      name: 'unit',
+      title: 'Unit',
+      prefix: name_prefix,
+      value: generic_resolution['Unit'],
+      help: 'definitions/HorizontalDataGenericResolutionType/Unit',
+      options: DraftsHelper::HorizontalDataResolutionUnitEnumOptions,
+      required: true,
+      validate: true,
+      classes: 'required'
+    ) %>
+  </div>
+</div>

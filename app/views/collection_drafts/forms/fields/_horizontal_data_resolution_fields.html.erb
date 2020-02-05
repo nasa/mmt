@@ -1,0 +1,215 @@
+<div class="row sub-fields">
+  <div class="horizontal-data-resolution-group">
+    <%# determine_horizontal_resolution_type(horizontal_data_resolution) %>
+
+    <!-- HorizontalResolutionType (not an actual field) -->
+    <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
+    <% point_resolution_checked = !horizontal_data_resolution['PointResolution'].blank? %>
+    <% varies_resolution_checked = !horizontal_data_resolution['VariesResolution'].blank? %>
+    <% non_gridded_resolutions_checked = !horizontal_data_resolution['NonGriddedResolutions'].blank? %>
+    <% non_gridded_range_resolutions_checked = !horizontal_data_resolution['NonGriddedRangeResolutions'].blank? %>
+    <% gridded_resolutions_checked = !horizontal_data_resolution['GriddedResolutions'].blank? %>
+    <% gridded_range_resolutions_checked = !horizontal_data_resolution['GriddedRangeResolutions'].blank? %>
+    <% generic_resolutions_checked = !horizontal_data_resolution['GenericResolutions'].blank? %>
+
+    <div class="horizontal-data-resolution-group">
+      <div class="checkbox-group">
+        <%= check_box_tag(name_to_param("#{name_prefix}|point_resolution|"), nil, point_resolution_checked, class: 'horizontal-data-resolution-picker point-resolution', name: nil) %>
+        <%= mmt_label(
+          name: 'point_resolution',
+          title: 'Point Resolution',
+          prefix: name_prefix
+        ) %>
+
+        <!-- PointResolution -->
+        <div class="row sub-fields horizontal-data-resolution-fields point-resolution" style="<%= 'display: none;' unless point_resolution_checked %>">
+          <label>Horizontal Resolution Processing Level Enum</label>
+          <%= mmt_help_icon(
+            title: 'Horizontal Resolution Processing Level Enum',
+            help: 'definitions/HorizontalDataResolutionPointType/properties/HorizontalResolutionProcessingLevelEnum'
+          ) %>
+          <div class="row">
+            <%= radio_button_tag(name_to_param("#{name_prefix}|point_resolution|_|horizontal_resolution_processing_level_enum|"), 'Point', horizontal_data_resolution.fetch('PointResolution', {}).fetch('HorizontalResolutionProcessingLevelEnum', nil) == 'Point', class: 'point-resolution-select validate', data: { level: remove_pipes("#{name_prefix}|point_resolution") } ) %>
+
+            <%= mmt_label(
+              name: 'point_resolution_horizontal_resolution_processing_level_enum_Point',
+              title: 'Point',
+              prefix: name_prefix
+            ) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <%= check_box_tag(name_to_param("#{name_prefix}|varies_resolution|"), nil, varies_resolution_checked, class: 'horizontal-data-resolution-picker varies-resolution', name: nil) %>
+
+        <%= mmt_label(
+          name: 'varies_resolution',
+          title: 'Varies Resolution',
+          prefix: name_prefix
+        ) %>
+
+        <!-- VariesResolution -->
+        <div class="row sub-fields horizontal-data-resolution-fields varies-resolution" style="<%= 'display: none;' unless varies_resolution_checked %>">
+          <label>Horizontal Resolution Processing Level Enum</label>
+          <%= mmt_help_icon(
+            title: 'Horizontal Resolution Processing Level Enum',
+            help: 'definitions/HorizontalDataResolutionVariesType/properties/HorizontalResolutionProcessingLevelEnum'
+          ) %>
+          <div class="row">
+            <%= radio_button_tag(name_to_param("#{name_prefix}|varies_resolution|_|horizontal_resolution_processing_level_enum|"), 'Varies', horizontal_data_resolution.fetch('VariesResolution', {}).fetch('HorizontalResolutionProcessingLevelEnum', nil) == 'Varies', class: 'varies-resolution-select validate', data: { level: remove_pipes("#{name_prefix}|varies_resolution") } ) %>
+
+            <%= mmt_label(
+              name: 'varies_resolution_horizontal_resolution_processing_level_enum_Varies',
+              title: 'Varies',
+              prefix: name_prefix
+            ) %>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <%= check_box_tag(name_to_param("#{name_prefix}|non_gridded_resolutions|"), nil, non_gridded_resolutions_checked, class: 'horizontal-data-resolution-picker non-gridded-resolutions', name: nil) %>
+        <%= mmt_label(
+          name: 'non_gridded_resolutions',
+          title: 'Non Gridded Resolution',
+          prefix: name_prefix
+        ) %>
+
+        <!-- NonGriddedResolutions -->
+        <div class="row sub-fields horizontal-data-resolution-fields non-gridded-resolutions" style="<%= 'display: none;' unless non_gridded_resolutions_checked %>">
+          <%= mmt_label(
+          name: 'non_gridded_resolutions',
+          title: 'Non Gridded Resolutions',
+          prefix: name_prefix
+          ) %>
+          <%= mmt_help_icon(
+            title: 'Non Gridded Resolutions',
+            help: 'definitions/HorizontalDataResolutionNonGriddedType'
+          ) %>
+          <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'non_gridded_resolution',
+            values: horizontal_data_resolution['NonGriddedResolutions'] || [{}],
+            name_prefix: "#{name_prefix}|non_gridded_resolutions|_",
+            multiple: true,
+            options: {} } %>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <%= check_box_tag(name_to_param("#{name_prefix}|non_gridded_range_resolutions|"), nil, non_gridded_range_resolutions_checked, class: 'horizontal-data-resolution-picker non-gridded-range-resolutions', name: nil) %>
+        <%= mmt_label(
+          name: 'non_gridded_range_resolution',
+          title: 'Non Gridded Range Resolutions',
+          prefix: name_prefix
+        ) %>
+
+        <!-- NonGriddedRangeResolutions -->
+        <div class="row sub-fields horizontal-data-resolution-fields non-gridded-range-resolutions" style="<%= 'display: none;' unless non_gridded_range_resolutions_checked %>">
+          <%= mmt_label(
+            name: 'non_gridded_range_resolutions',
+            title: 'Non Gridded Range Resolutions',
+            prefix: name_prefix
+          ) %>
+          <%= mmt_help_icon(
+            title: 'Non Gridded Range Resolutions',
+            help: 'definitions/HorizontalDataResolutionNonGriddedRangeType'
+          ) %>
+          <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'non_gridded_range_resolution',
+            values: horizontal_data_resolution['NonGriddedRangeResolutions'] || [{}],
+            name_prefix: "#{name_prefix}|non_gridded_range_resolutions|_",
+            multiple: true,
+            options: {} } %>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <%= check_box_tag(name_to_param("#{name_prefix}|gridded_resolutions|"), nil, gridded_resolutions_checked, class: 'horizontal-data-resolution-picker gridded-resolutions', name: nil) %>
+        <%= mmt_label(
+          name: 'gridded_resolutions',
+          title: 'Gridded Resolutions',
+          prefix: name_prefix
+        ) %>
+
+        <!-- GriddedResolutions -->
+        <div class="row sub-fields horizontal-data-resolution-fields gridded-resolutions" style="<%= 'display: none;' unless gridded_resolutions_checked %>">
+          <%= mmt_label(
+            name: 'gridded_resolutions',
+            title: 'Gridded Resolutions',
+            prefix: name_prefix
+          ) %>
+          <%= mmt_help_icon(
+            title: 'Gridded Resolutions',
+            help: 'definitions/HorizontalDataResolutionGriddedType'
+          ) %>
+          <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'gridded_resolution',
+            values: horizontal_data_resolution['GriddedResolutions'] || [{}],
+            name_prefix: "#{name_prefix}|gridded_resolutions|_",
+            multiple: true,
+            options: {} } %>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <%= check_box_tag(name_to_param("#{name_prefix}|gridded_range_resolutions|"), nil, gridded_range_resolutions_checked, class: 'horizontal-data-resolution-picker gridded-range-resolutions', name: nil) %>
+        <%= mmt_label(
+          name: 'gridded_range_resolutions',
+          title: 'Gridded Range Resolutions',
+          prefix: name_prefix
+        ) %>
+
+        <!-- GriddedRangeResolutions -->
+        <div class="horizontal-data-resolution-fields gridded-range-resolutions" style="<%= 'display: none;' unless gridded_range_resolutions_checked %>">
+          <%= mmt_label(
+            name: 'gridded_range_resolutions',
+            title: 'Gridded Range Resolutions',
+            prefix: name_prefix
+          ) %>
+          <%= mmt_help_icon(
+            title: 'Gridded Range Resolutions',
+            help: 'definitions/HorizontalDataResolutionGriddedRangeType'
+          ) %>
+          <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'gridded_range_resolution',
+            values: horizontal_data_resolution['GriddedRangeResolutions'] || [{}],
+            name_prefix: "#{name_prefix}|gridded_range_resolutions|_",
+            multiple: true,
+            options: {} } %>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <%= check_box_tag(name_to_param("#{name_prefix}|generic_resolutions|"), nil, generic_resolutions_checked, class: 'horizontal-data-resolution-picker generic-resolutions', name: nil) %>
+        <%= mmt_label(
+          name: 'generic_resolutions',
+          title: 'Generic Resolutions',
+          prefix: name_prefix
+        ) %>
+
+        <!-- GenericResolutions -->
+        <div class="row sub-fields horizontal-data-resolution-fields generic-resolutions" style="<%= 'display: none;' unless generic_resolutions_checked %>">
+          <%= mmt_label(
+            name: 'generic_resolutions',
+            title: 'Generic Resolutions',
+            prefix: name_prefix
+          ) %>
+          <%= mmt_help_icon(
+            title: 'Generic Resolutions',
+            help: 'definitions/HorizontalDataGenericResolutionType'
+          ) %>
+          <%= render partial: 'collection_drafts/forms/type', locals: {
+            type: 'generic_resolution',
+            values: horizontal_data_resolution['GenericResolutions'] || [{}],
+            name_prefix: "#{name_prefix}|generic_resolutions|_",
+            multiple: true,
+            options: {} } %>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

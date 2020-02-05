@@ -3,7 +3,7 @@ class CollectionDraftsController < BaseDraftsController
   include DraftsHelper
   include ControlledKeywords
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
-  before_action :load_umm_schema, only: [:new, :edit, :show]
+  before_action :load_umm_c_schema, only: [:new, :edit, :show]
 
   layout 'collection_preview', only: [:show]
 
@@ -55,7 +55,7 @@ class CollectionDraftsController < BaseDraftsController
       end
     else # record update failed
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error", error_message: generate_model_error)
-      load_umm_schema
+      load_umm_c_schema
       new_view_setup
       render :new
     end
@@ -87,7 +87,7 @@ class CollectionDraftsController < BaseDraftsController
       errors_list = generate_model_error
       Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} unsuccessfully modified #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id} because of '#{errors_list}'")
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.error", error_message: errors_list)
-      load_umm_schema
+      load_umm_c_schema
       edit_view_setup
       render :edit
     end
@@ -141,7 +141,7 @@ class CollectionDraftsController < BaseDraftsController
 
   private
 
-  def load_umm_schema
+  def load_umm_c_schema
     # if user has a provider set and provider file exists
     if current_user.provider_id && File.exist?(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json"))
       provider_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'provider_schemas', "#{current_user.provider_id.downcase}.json")))
@@ -156,6 +156,7 @@ class CollectionDraftsController < BaseDraftsController
       end
     else
       @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'collections', 'umm-c-merged.json')))
+      # @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'collections', 'umm-c-merged-test.json')))
     end
   end
 
@@ -175,8 +176,12 @@ class CollectionDraftsController < BaseDraftsController
     JSON::Validator.register_format_validator('date-time', date_time_format_proc)
 
     errors = Array.wrap(JSON::Validator.fully_validate(@json_schema, get_resource.draft))
+    puts "validate metadata errors 1: #{errors.join("\n")}"
     errors = validate_parameter_ranges(errors, get_resource.draft)
+    puts "validate metadata errors 2: #{errors.join("\n")}"
     @errors_before_generate = validate_picklists(errors, get_resource.draft)
+    puts "validate metadata errors 3: #{@errors_before_generate}"
+    puts "validate metadata errors being returned: #{@errors_before_generate.map { |error| generate_show_errors(error) }.flatten}"
     @errors_before_generate.map { |error| generate_show_errors(error) }.flatten
   end
 
