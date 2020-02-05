@@ -6,7 +6,9 @@
       <%= mmt_label(
       name: "horizontal_resolution_processing_level_enum",
       title: 'Horizontal Resolution Processing Level Enum',
-      prefix: name_prefix
+      prefix: name_prefix,
+      required: true,
+      class: 'eui-required-o'
       ) %>
 
       <% horizontal_resolution_processing_level_enum = horizontal_data_resolutions.fetch('HorizontalResolutionProcessingLevelEnum', nil) %>
@@ -88,7 +90,7 @@
             help: 'definitions/HorizontalDataResolutionType/oneOf/1/properties/XDimension',
             validate: true,
             # required: true,
-            classes: 'mmt-number gridded-and-not-provided-field non-gridded-field horizontal-resolution-processing-level-field'
+            classes: 'mmt-number gridded-and-not-provided-field non-gridded-field horizontal-resolution-processing-level-field required optionally-required'
             ) %>
           </div>
 
@@ -102,7 +104,7 @@
             help: 'definitions/HorizontalDataResolutionType/oneOf/1/properties/YDimension',
             validate: true,
             # required: true,
-            classes: 'mmt-number gridded-and-not-provided-field non-gridded-field horizontal-resolution-processing-level-field'
+            classes: 'mmt-number gridded-and-not-provided-field non-gridded-field horizontal-resolution-processing-level-field required optionally-required'
             ) %>
           </div>
         </div>
@@ -120,7 +122,7 @@
             help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/MinimumXDimension',
             validate: true,
             # required: true,
-            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field'
+            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field required optionally-required'
             ) %>
 
           </div>
@@ -134,7 +136,7 @@
             help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/MaximumXDimension',
             validate: true,
             # required: true,
-            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field'
+            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field required optionally-required'
             ) %>
 
           </div>
@@ -151,7 +153,7 @@
             help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/MinimumYDimension',
             validate: true,
             # required: true,
-            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field'
+            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field required optionally-required'
             ) %>
           </div>
 
@@ -165,7 +167,7 @@
             help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/MaximumYDimension',
             validate: true,
             # required: true,
-            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field'
+            classes: 'mmt-number non-gridded-range-field gridded-range-field horizontal-resolution-processing-level-field required optionally-required'
             ) %>
           </div>
         </div>
@@ -214,8 +216,9 @@
           value: horizontal_data_resolutions['Unit'],
           help: 'definitions/HorizontalDataResolutionType/oneOf/2/properties/Unit',
           options: DraftsHelper::HorizontalDataResolutionUnitEnumOptions,
+          required: true,
           validate: true,
-          classes: 'non-gridded-range-field gridded-range-field gridded-and-not-provided-field non-gridded-field horizontal-resolution-processing-level-field'
+          classes: 'non-gridded-range-field gridded-range-field gridded-and-not-provided-field non-gridded-field horizontal-resolution-processing-level-field required'
           ) %>
         </div>
       </div>

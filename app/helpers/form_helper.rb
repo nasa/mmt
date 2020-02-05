@@ -19,12 +19,15 @@ module FormHelper
       data_level = remove_pipes(options[:prefix])
     end
 
+    data_attrs = { level: data_level }
+    data_attrs[:required_level] = options[:required_level] if options[:required_level]
+    data_attrs[:required_group] = options[:required_group] if options[:required_group]
+
     text_field_html = text_field_tag(
       name_to_param(options[:prefix] + options[:name]),
       options[:value],
       class: classes.join(' '),
-      data: { level: data_level,
-              required_level: options[:required_level] },
+      data: data_attrs,
       readonly: options[:readonly],
       autocomplete: options[:autocomplete]
     )
@@ -122,6 +125,9 @@ module FormHelper
     # need to make sure the required icons act the way we want with this change
     # labels, name, id will be different than data-level ...
 
+    data_attrs = { level: data_level }
+    data_attrs[:required_level] = options[:required_level] if options[:required_level]
+
     select_html = select_tag(
       name_to_param(options[:prefix] + options[:name]),
       select_options,
@@ -129,8 +135,7 @@ module FormHelper
       size: size,
       class: classes,
       prompt: prompt,
-      data: { level: data_level,
-              required_level: options[:required_level] },
+      data: data_attrs,
       style: styles
     )
 

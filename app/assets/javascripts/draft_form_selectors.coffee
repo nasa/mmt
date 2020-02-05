@@ -11,19 +11,31 @@ $(document).ready ->
       $.each $fields.find('input'), (index, field) ->
         $(field).val ''
 
+  # Handle horizontal-data-resolution-picker ()
+  $('.horizontal-data-resolution-picker').change ->
+    $fields = $(this).siblings('div.horizontal-data-resolution-fields')
+    if this.checked
+      # Show fields
+      $fields.show()
+    else
+      # clear and hide fields
+      $fields.hide()
+      $.each $fields.find('input'), (index, field) ->
+        $(field).val ''
+      $.each $fields.find("input[type='radio']"), (index, field) ->
+        $(field).prop 'checked', false
+
   # Handle coordinate-system-picker (resolution/local)
   $('.coordinate-system-picker').change ->
     coordinateSystemType = $(this).parents('.coordinate-system-type')
     switch $(this).val()
       when 'resolution'
-        $(coordinateSystemType).siblings('.horizontal-data-resolutions-fields').show()
+        $(coordinateSystemType).siblings('.horizontal-data-resolution-fields').show()
         $(coordinateSystemType).siblings('.local-coordinate-system-fields').hide()
       when 'local'
         $(coordinateSystemType).siblings('.horizontal-data-resolutions-fields').hide()
         $(coordinateSystemType).siblings('.local-coordinate-system-fields').show()
 
-    # horizontal-data-resolutions-fields
-    # needed to add textarea -- make sure there are no other field types to clear
     $allSiblings = $(coordinateSystemType).siblings('.horizontal-data-resolutions-fields, .local-coordinate-system-fields')
 
     # Clear all fields (except for radio buttons)
@@ -98,74 +110,43 @@ $(document).ready ->
     $fields.find('.bounding-rectangle-point.south').val('-90')
     $fields.find('.bounding-rectangle-point.south').trigger('change')
 
-
-  # OLD VERSION
-  # Handle Horizontal Resolution Processing Level Enum select
-  # half-width horizontal_resolution_processing_level_enum-select horizontal-resolution-processing-level-enum-select validate
-  # $('.horizontal-resolution-processing-level-enum-select').change ->
-  #   # $group = $(this).parents('.horizontal-data-resolution-group')
-  #
-  #   $parent = $(this).parents('.horizontal-resolution-processing-level-enum-group')
-  #   # hide all fields
-  #   $parent.siblings('.horizontal-resolution-processing-level').hide()
-  #   # Clear all fields
-  #   $parent.siblings('.horizontal-resolution-processing-level').find('input, select').val ''
-  #
-  #   # debugger
-  #   switch $(this).val()
-  #     when 'Point', 'Varies'
-  #       # console.log('point or varies')
-  #       # do nothing
-  #       # break
-  #       return
-  #     when 'Non Gridded'
-  #       $parent.siblings('.non-gridded-fields').show()
-  #     when 'Non Gridded Range'
-  #       $parent.siblings('.non-gridded-range-fields').show()
-  #     when 'Gridded', 'Not provided'
-  #       $parent.siblings('.gridded-and-not-provided-fields').show()
-  #     when 'Gridded Range'
-  #       $parent.siblings('.gridded-range-fields').show()
-
-  handleHorizontalResolutionProcessingLevelSelection = (element, clear=false) ->
-    # debugger
-    # element should be a '.horizontal-resolution-processing-level-enum-select'
-    $horizontalResProcessLevelSelect = $(element)
-    $horizontalResFieldsParent = $horizontalResProcessLevelSelect.parents('.horizontal-resolution-processing-level-enum-group').siblings('.horizontal-resolution-processing-level-fields-group')
+  handleHorizontalResolutionTypeSelection = (element, clear=false) ->
+    # element should be a '.horizontal-resolution-type-select'
+    $horizontalResTypeSelect = $(element)
+    $horizontalResFieldsParent = $horizontalResTypeSelect.parents('.horizontal-resolution-type-group').siblings('.horizontal-resolution-type-fields-group')
 
     if clear == true
       $horizontalResFieldsParent.find('input, select').val ''
 
-    $horizontalResFieldsParent.find('.horizontal-resolution-processing-level-fields').hide()
-    # debugger
-    switch $horizontalResProcessLevelSelect.val()
-      when 'Point', 'Varies'
-        break
-      when 'Non Gridded'
-        $horizontalResFieldsParent.find('.non-gridded-fields').show()
-      when 'Non Gridded Range'
-        $horizontalResFieldsParent.find('.non-gridded-range-fields').show()
-      when 'Gridded', 'Not provided'
-        $horizontalResFieldsParent.find('.gridded-and-not-provided-fields').show()
-      when 'Gridded Range'
-        $horizontalResFieldsParent.find('.gridded-range-fields').show()
+    $horizontalResFieldsParent.find('.horizontal-resolution-type').hide()
+    debugger
+    switch $horizontalResTypeSelect.val()
+      when 'Point Resolution'
+        $horizontalResFieldsParent.find('.point-resolution').show()
+      when 'Varies Resolution'
+        $horizontalResFieldsParent.find('.varies-resolution').show()
+      when 'Non Gridded Resolutions'
+        $horizontalResFieldsParent.find('.non-gridded-resolutions').show()
+      when 'Non Gridded Range Resolutions'
+        $horizontalResFieldsParent.find('.non-gridded-range-resolutions').show()
+      when 'Gridded Resolutions'
+        $horizontalResFieldsParent.find('.gridded-resolutions').show()
+      when 'Gridded Range Resolutions'
+        $horizontalResFieldsParent.find('.gridded-range-resolutions').show()
 
 
   # Handle HorizontalDataResolutions fields on load
   if $('.horizontal-data-resolution-group').length > 0
-    # $('.horizontal-data-resolution-group').find('.horizontal-resolution-processing-level-enum-select').each(handleHorizontalResolutionProcessingLevelSelection(index, element, false) ->
-    $('.horizontal-data-resolution-group').find('.horizontal-resolution-processing-level-enum-select').each( (index, element) ->
-      # clear = false
-      # debugger
-      if $(element).prop 'checked'
-        handleHorizontalResolutionProcessingLevelSelection(element)
+    $('.horizontal-data-resolution-group').find('.horizontal-resolution-type-select').each( (index, element) ->
+
+      if $(element).val() != ''
+        handleHorizontalResolutionTypeSelection(element)
     )
 
-
-  # Handle Horizontal Resolution Processing Level Enum select
-  $('.horizontal-resolution-processing-level-enum-select').change ->
+  # Handle Horizontal Resolution Type select
+  $('.horizontal-resolution-type-select').change ->
     clear = true
-    handleHorizontalResolutionProcessingLevelSelection(this, clear)
+    handleHorizontalResolutionTypeSelection(this, clear)
 
   # Handle Data Contacts Type selector
   $('.data-contact-type-select').change ->

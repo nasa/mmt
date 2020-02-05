@@ -65,7 +65,11 @@
   <div class="geometry-type-group">
     <div class="checkbox-group">
       <%= check_box_tag(name_to_param("#{name_prefix}points"), nil, points_checked, class: 'geometry-picker points', name: nil) %>
-      <label for="<%= remove_pipes(name_prefix) %>points">Points</label>
+      <%= mmt_label(
+        name: 'points',
+        title: 'Points',
+        prefix: name_prefix
+      ) %>
 
       <div class="row sub-fields points-fields geometry-fields" style="<%= 'display: none;' unless points_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {
@@ -78,7 +82,11 @@
     </div>
     <div class="checkbox-group">
       <%= check_box_tag(name_to_param("#{name_prefix}bounding_rectangles"), nil, bounding_rectangles_checked, class: 'geometry-picker bounding-rectangles', name: nil) %>
-      <label for="<%= remove_pipes(name_prefix) %>bounding_rectangles">Bounding Rectangles</label>
+      <%= mmt_label(
+        name: 'bounding_rectangles',
+        title: 'Bounding Rectangles',
+        prefix: name_prefix
+      ) %>
 
       <div class="row sub-fields bounding-rectangles-fields geometry-fields" style="<%= 'display: none;' unless bounding_rectangles_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {
@@ -91,7 +99,11 @@
     </div>
     <div class="checkbox-group">
       <%= check_box_tag(name_to_param("#{name_prefix}g_polygons"), nil, g_polygons_checked, class: 'geometry-picker g-polygons', name: nil) %>
-      <label for="<%= remove_pipes(name_prefix) %>g_polygons">G Polygons</label>
+      <%= mmt_label(
+        name: 'g_polygons',
+        title: 'G Polygons',
+        prefix: name_prefix
+      ) %>
 
       <div class="row sub-fields g-polygons-fields geometry-fields" style="<%= 'display: none;' unless g_polygons_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {
@@ -104,7 +116,11 @@
     </div>
     <div class="checkbox-group">
       <%= check_box_tag(name_to_param("#{name_prefix}lines"), nil, lines_checked, class: 'geometry-picker lines', name: nil) %>
-      <label for="<%= remove_pipes(name_prefix) %>lines">Lines</label>
+      <%= mmt_label(
+        name: 'lines',
+        title: 'Lines',
+        prefix: name_prefix
+      ) %>
 
       <div class="row sub-fields lines-fields geometry-fields" style="<%= 'display: none;' unless lines_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {

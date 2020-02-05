@@ -16,21 +16,38 @@
   }
 }
 
-.eui-required {
+.eui-required-grey-o {
   &:before {
-    content: "\f126";
+    font-family: "EUI-Icon-Library";
+    color: $medium-grey;
+    display: block;
+    float: left;
+    margin-right: 5px;
   }
 }
 
-.eui-required-o {
+.eui-required {
   &:before {
-    content: "\f125";
+    content: '\f126';
   }
 }
+
+.eui-required-o,
+.eui-required-grey-o {
+  &:before {
+    content: '\f125';
+  }
+}
+
+// TODO: eui has evolved since this was implemented. according to eui docs, we can
+// just use the appropriate instead of the pseudo classes as font. We should
+// determine if we should make the appropriate change. One argument in favor:
+// the unicode should match up with font awesome icons, but I could not seem to
+// find the appropriate list where the unicode matched up with the expected icon
 
 .eui-completed {
   &:before {
-    content: "\f111";
+    content: '\f111';
   }
 }
 

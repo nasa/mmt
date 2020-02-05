@@ -11,6 +11,10 @@
 
   <!-- GeodeticModel -->
   <label>Geodetic Model</label>
+  <%= mmt_help_icon(
+    title: 'Geodetic Model',
+    help: 'definitions/GeodeticModelType'
+  ) %>
   <%= render partial: 'collection_drafts/forms/type', locals: {
       type: 'geodetic_model',
       values: resolution_and_coordinate_system['GeodeticModel'] || {},
@@ -18,15 +22,15 @@
       multiple: false,
       options: {} } %>
 
-  <% resolution_checked = !resolution_and_coordinate_system['HorizontalDataResolutions'].nil? %>
+  <% resolution_checked = !resolution_and_coordinate_system['HorizontalDataResolution'].nil? %>
   <% local_checked = !resolution_and_coordinate_system['LocalCoordinateSystem'].nil? %>
-  <%# TODO: need the check on limit_type??? %>
-  <div class="coordinate-system-type" style="<%= 'display: none;' if options[:limit_type] %>">
+
+  <div class="coordinate-system-type"">
     <%= radio_button_tag(name_to_param("#{name_prefix}"), 'resolution', resolution_checked, class: 'coordinate-system-picker resolution', name: nil, data: { level: remove_pipes(name_prefix) }) %>
 
     <%= mmt_label(
       name: "resolution",
-      title: 'Horizontal Data Resolutions',
+      title: 'Horizontal Data Resolution',
       prefix: name_prefix
     ) %>
 
@@ -39,22 +43,23 @@
   </div>
 
 
-  <div class="horizontal-data-resolutions-fields" style="<%= 'display: none;' unless resolution_checked %>">
-  <!-- HorizontalDataResolutions -->
+  <div class="horizontal-data-resolution-fields" style="<%= 'display: none;' unless resolution_checked %>">
+
+  <!-- HorizontalDataResolution -->
     <%= mmt_label(
-      name: 'horizontal_data_resolutions',
-      title: 'Horizontal Data Resolutions',
+      name: 'horizontal_data_resolution',
+      title: 'Horizontal Data Resolution',
       prefix: name_prefix,
     ) %>
     <%= mmt_help_icon(
-      title: 'Horizontal Data Resolutions',
-      help: 'definitions/ResolutionAndCoordinateSystemType/oneOf/1/properties/HorizontalDataResolutions'
+      title: 'Horizontal Data Resolution',
+      help: 'definitions/ResolutionAndCoordinateSystemType/oneOf/1/properties/HorizontalDataResolution'
     ) %>
     <%= render partial: 'collection_drafts/forms/type', locals: {
-        type: 'horizontal_data_resolutions',
-        values: resolution_and_coordinate_system['HorizontalDataResolutions'] || [{}],
-        name_prefix: "#{name_prefix}|horizontal_data_resolutions|_",
-        multiple: true,
+        type: 'horizontal_data_resolution',
+        values: resolution_and_coordinate_system['HorizontalDataResolution'] || {},
+        name_prefix: "#{name_prefix}|horizontal_data_resolution|_",
+        multiple: false,
         options: {
           what: true
         } } %>

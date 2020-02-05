@@ -35,6 +35,8 @@ $(document).ready ->
 
       requiredFieldDataLevels.push topRequiredDataLevel + name + '_'
       requiredFieldDataLevels.push topRequiredDataLevel + name + '_0_'
+    console.log "requiredFieldDataLevels: #{JSON.stringify(requiredFieldDataLevels)}"
+
 
   # Stores the pages required fields
   requiredDataLevels = []
@@ -43,7 +45,19 @@ $(document).ready ->
   addRequiredIcons = (field) ->
     # get current fields data-level value
     return unless $(field).data('level')?
+    console.log "in addRequiredIcons for", $(field)
     dataLevels = $(field).data('level').split('_')
+    # console.log "dataLevels: #{dataLevels}"
+    fieldParamName = $(field).attr('name')
+    # console.log "#{fieldParamName}"
+    if fieldParamName?
+      nameLevels = fieldParamName.replace(/\]/g, '').split('[')
+    else
+      # some of our form pickers have no `name` as they are not actual objects
+      # in the schema i.e. geometry, horizontal data resolution
+      nameLevels = []
+    # console.log "nameLevels: #{nameLevels}"
+    # debugger
 
     # use data-required-level for data contacts form
     if $(field).data('required-level')? && $(field).data('required-level') != null
@@ -54,46 +68,72 @@ $(document).ready ->
     # console.log 'going past data-required-level. staying in addRequiredIcons'
 
     isRequired = false
-    topDataLevel = dataLevels.join('_')
+    currentDataLevel = dataLevels.join('_') # this is the current data-level
+    # topDataLevel = dataLevels.join('_') # this is the current data-level
+    console.log "currentDataLevel, topDataLevel: #{currentDataLevel}"
+    # console.log "topDataLevel: #{JSON.stringify(topDataLevel)}"
 
-    # fields at the current data-level
-    $fields = $("[data-level='#{topDataLevel}']")
+    # fields at the current data-level (`topDataLevel`)
+    # $fields = $("[data-level='#{topDataLevel}']")
+    # fields at the current data-level (`currentDataLevel`)
+    $fields = $("[data-level='#{currentDataLevel}']")
     if $fields.length > 0
+      # get any values from the fields at the current data-level
       values = $fields.filter ->
         if this.type == 'radio' || this.type == 'checkbox'
           this.checked
         else
           this.value
 
-      # If any of the fields have values
-      if topDataLevel == topRequiredDataLevel or requiredFieldDataLevels.indexOf(topDataLevel) != -1 or values.length > 0
+      # If the current data-level is the same as the topRequiredDataLevel (is this necessary?)
+      # or if the current data-level is a top level required field
+      # or if any of the fields have values
+      # if topDataLevel == topRequiredDataLevel or requiredFieldDataLevels.indexOf(topDataLevel) != -1 or values.length > 0
+      console.log ">>>>>>> values: ", values
+      if requiredFieldDataLevels.indexOf(currentDataLevel) != -1 or values.length > 0
         isRequired = true
         # add required icon to required fields at this data-level
-        addRequiredFields($fields)
+        # addRequiredFields($fields) # TODO is this necessary? it will be removed then re-added lines 120 - 128
 
     # for all the other data levels
     # (some real and some that aren't)
     # draft_personnel_0_related_urls_0_ is good,
     # draft_personnel_0_related isn't an actual data level
-    for level, index in dataLevels
-      dataLevel = dataLevels.slice(0, index + 1).join('_') + '_'
+    # for level, index in dataLevels
+    #   # reconstruct the dataLevel, using each underscore separated 'word' in the data-level attribute
+    #   dataLevel = dataLevels.slice(0, index + 1).join('_') + '_'
+
+    for level, index in nameLevels
+      # reconstruct the dataLevel, using the levels/words in nameLevels
+      dataLevel = nameLevels.slice(0, index + 1).join('_') + '_'
+
+      break if currentDataLevel.indexOf(dataLevel) == -1 # using the nameLevels can get more specific than the data-level, which we don't want
+        # console.log "dataLevel causing us to break: #{dataLevel}"
+        # break
 
       # setup a data level object to save, or remove
       dataLevelObj = {}
       dataLevelObj.level = dataLevel
-      dataLevelObj.topLevel = topDataLevel
+      dataLevelObj.topLevel = currentDataLevel
+      # dataLevelObj.topLevel = topDataLevel
+      # console.log "dataLevelObj: #{JSON.stringify(dataLevelObj)}"
 
-      # if the top data level is required
+      # console.log "requiredDataLevels before adding (#{isRequired}) or removing (#{!isRequired})): #{JSON.stringify(requiredDataLevels)}"
+      # console.log "requiredDataLevelsSize: #{requiredDataLevels.length}"
       if isRequired
+        # the current data-level (`topDataLevel`) is required
         # if the dataLevelObj is not already saved, save it
         if requiredDataLevels.where(dataLevelObj).length == 0
           requiredDataLevels.push(dataLevelObj)
       else
-        # if the top data level is not required
+        # the current data-level (`topDataLevel`) is not required
         # if the dataLevelObj is found in requiredDataLevels, remove it
         for removeLevel, index in requiredDataLevels by -1
-          if removeLevel.topLevel == topDataLevel
+          # if removeLevel.topLevel == topDataLevel
+          if removeLevel.topLevel == currentDataLevel
             requiredDataLevels.splice(index, 1)
+      # console.log "after: #{JSON.stringify(requiredDataLevels)}"
+      # console.log "requiredDataLevelsSize: #{requiredDataLevels.length}"
 
     # console.log "requiredDataLevelsSize: #{requiredDataLevels.length}"
     # console.log "requiredDataLevels: #{JSON.stringify(requiredDataLevels)}"
@@ -105,26 +145,31 @@ $(document).ready ->
 
     # Remove all required icons
     $('label.eui-required-o').not('label.always-required').removeClass('eui-required-o')
+    $('label.eui-required-grey-o').removeClass('eui-required-grey-o')
 
+    console.log "adding required icons/fields in these data-levels: #{levels}"
     # Add required icons to required fields within required data levels
     for dataLevel in levels
       $fields = $("[data-level='#{dataLevel}']")
       if $fields.length > 0
         addRequiredFields($fields)
+        addOptionallyRequiredFields($fields)
       addRequiredLabels(dataLevel)
 
-  # add eui-required-o to labels of required fields
+  # add class `eui-required-o` to labels of required fields (have the class `required`)
   addRequiredFields = (fields) ->
     requiredLabels = []
+    # debugger
     $(fields).each (index, field) ->
-      label = getLabels(field)
-      if label.hasClass('required')
-        requiredLabels.push(label[0])
+      $label = getLabels(field)
+      if $label.hasClass('required')
+        requiredLabels.push($label[0])
 
     $(requiredLabels).addClass('eui-required-o')
 
   # add eui-required-o to labels matching the level
   addRequiredLabels = (level) ->
+    # debugger
     label = $("label[for=#{level}]")
     if label.hasClass('required')
       label.addClass('eui-required-o')
@@ -143,6 +188,86 @@ $(document).ready ->
       labels.push(label[0]) if label.length > 0
 
     $(labels)
+
+  addOptionallyRequiredFields = (fieldsAtDataLevel) ->
+    # optionally required fieldsets should all be at the same data-level
+    # this is already called on fields on one data-level
+    # filter fieldsAtDataLevel for optionally required fields
+    $optionallyRequiredFields = $(fieldsAtDataLevel).filter ->
+      $(this).hasClass('optionally-required')
+
+    return unless $optionallyRequiredFields.length > 0
+    console.log "!!!!!!!@@@@@@@@@@@@!!!!!!!!!! inside optionally required"
+    console.log "optionallyRequiredFields", $optionallyRequiredFields
+
+    # debugger
+    # push all fields into optionallyRequiredLabels
+    allOptionallyRequiredLabels = getLabels($optionallyRequiredFields)
+    console.log "optionallyRequiredLabels", allOptionallyRequiredLabels
+    requiredLabels = []
+
+    # filter optionally required fields for those that have a value
+    $optionallyRequiredWithValueFields = $optionallyRequiredFields.filter ->
+      this.value
+      # we are not checking for radio buttons or checkboxes, as there are no
+      # such optionally required fields yet
+    console.log "optionallyRequiredWithValueFields", $optionallyRequiredWithValueFields
+
+    $optionallyRequiredWithValueFields.each (index, element) ->
+      id = $(element).attr('id')
+      $label = $("label[for='#{id}']")
+
+      if $(element).hasClass('optionally-required-group')
+        # get the fields in the same data-required-group (which will include the current element)
+        requiredGroup = $(element).data('required-group')
+        $parent = $(element).closest('.optionally-required-parent')
+        $requiredGroupFields = $parent.find("input[data-required-group='#{requiredGroup}']")
+
+        # get the labels for these fields and merge them into the list
+        $requiredGroupLabels = getLabels($requiredGroupFields)
+        Array::push.apply requiredLabels, $requiredGroupLabels
+      else
+        # not in a group, so just add the label to the list
+        requiredLabels.push($label[0])
+
+        # for each optReqWithValue
+          # if it hasClass('optionally-required-group') ?
+            # get data-required-group
+            # push all fields in group into requiredLabels
+          # else
+            # push field into requiredLabels
+
+    console.log "requiredLabels before unique:", requiredLabels
+    requiredLabels.unique()
+    console.log "requiredLabels after unique:", requiredLabels
+    console.log "allOptionallyRequiredLabels:", allOptionallyRequiredLabels
+
+    # # remove all labels in requiredLabels from allOptionallyRequiredLabels
+    # optionallyRequiredLabels = allOptionallyRequiredLabels.filter ->
+    #   # requiredLabels.indexOf(this) == -1
+    #   optionalLabel = $(this)
+    #   $(requiredLabels).each (index, element) ->
+    #     return false if element[0] == optionalLabel[0]
+    #   true
+    debugger # TODO this is not working
+    optionallyRequiredLabels = []
+    $(allOptionallyRequiredLabels).each (index, element) ->
+      $optionalLabel = $(element)
+      isDup = false
+      $(requiredLabels).each (index, element) ->
+        $requiredLabel = $(element)
+        isDup = true if $optionalLabel[0] == $requiredLabel[0]
+
+      optionallyRequiredLabels.push($optionalLabel[0]) unless isDup
+
+    console.log "after filtering: optionallyRequiredLabels:", optionallyRequiredLabels
+    # all optionallyRequiredLabels get required-grey-o
+    $(optionallyRequiredLabels).addClass('eui-required-grey-o')
+    # all requiredLabels get required-o
+    $(requiredLabels).addClass('eui-required-o')
+
+
+
 
   # get all fields at this required-level
   getAllFieldsAtRequiredLevel = (reqLevel, ancestor) ->
@@ -206,13 +331,18 @@ $(document).ready ->
     isRequired = false
 
     # still using data-level to differentiate different field groups
-    topDataLevel = $(field).data('level')
-    dataLevels = topDataLevel.split('_')
+    # topDataLevel = $(field).data('level') # current data-level
+    # dataLevels = topDataLevel.split('_')
+    currentDataLevel = $(field).data('level') # current data-level
+    dataLevels = currentDataLevel.split('_')
 
     # fields at current data-level
-    $topDataLevelFields = $ancestor.find("[data-level='#{topDataLevel}']") # TODO using ancestor b/c of issues incrementing data-level in drafts.coffee
-    if $topDataLevelFields.length > 0
-      values = $topDataLevelFields.filter ->
+    # $topDataLevelFields = $ancestor.find("[data-level='#{topDataLevel}']") # TODO using ancestor b/c of issues incrementing data-level in drafts.coffee
+    $currentDataLevelFields = $ancestor.find("[data-level='#{currentDataLevel}']") # TODO using ancestor b/c of issues incrementing data-level in drafts.coffee
+    # if $topDataLevelFields.length > 0
+    #   values = $topDataLevelFields.filter ->
+    if $currentDataLevelFields.length > 0
+      values = $currentDataLevelFields.filter ->
         this.value
       # if fields have values
       if values.length > 0
@@ -275,11 +405,16 @@ $(document).ready ->
   # Add required icons when a form field is updated
   $('.metadata-form, .umm-form').on 'blur', 'input, select, textarea', ->
     return if $(this).attr('type') == 'submit'
+    console.log "option AAAA"
+    # debugger
     addRequiredIcons(this)
 
   # Add required icons on page load
   $('.metadata-form, .umm-form').find('input, select, textarea').not(':disabled').each (index, field) ->
+    # console.log "option BBBB"
+    # console.log "field", $(field)
     addRequiredIcons(field)
 
   $('.metadata-form, .umm-form').on 'change', 'input[type="radio"], select', ->
+    # console.log "option CCCC"
     addRequiredIcons(this)
