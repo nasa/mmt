@@ -1,7 +1,7 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 804f1bdd412f79a2b49ec5f82d70e40d37538bfe
-  ref: 804f1bdd412
+  revision: 91cd5b93d51f0db925b2d95e0bb37a65fe21fd2d
+  ref: 91cd5b93d51
   specs:
     cmr_metadata_preview (0.2.0)
       georuby (~> 2.5.2)
