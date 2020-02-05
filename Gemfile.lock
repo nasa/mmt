@@ -1,7 +1,7 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 804f1bdd412f79a2b49ec5f82d70e40d37538bfe
-  ref: 804f1bdd412
+  revision: 91cd5b93d51f0db925b2d95e0bb37a65fe21fd2d
+  ref: 91cd5b93d51
   specs:
     cmr_metadata_preview (0.2.0)
       georuby (~> 2.5.2)
@@ -121,13 +121,13 @@ GEM
     docile (1.3.2)
     erubi (1.9.0)
     execjs (2.7.0)
-    factory_girl (4.9.0)
-      activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
-      railties (>= 3.0.0)
-    faker (2.9.0)
-      i18n (>= 1.6, < 1.8)
+    factory_bot (5.1.1)
+      activesupport (>= 4.2.0)
+    factory_bot_rails (5.1.1)
+      factory_bot (~> 5.1.0)
+      railties (>= 4.2.0)
+    faker (2.10.1)
+      i18n (>= 1.6, < 2)
     faraday (0.8.11)
       multipart-post (~> 1.2.0)
     faraday_middleware (0.9.0)
@@ -143,7 +143,7 @@ GEM
     georuby (2.5.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    i18n (1.7.0)
+    i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.4)
     jbuilder (2.9.1)
@@ -359,7 +359,7 @@ DEPENDENCIES
   carmen (~> 1.0.2)
   cmr_metadata_preview!
   coffee-rails (~> 4.2.0)
-  factory_girl_rails
+  factory_bot_rails
   faker
   faraday
   faraday_middleware (<= 0.9.0)

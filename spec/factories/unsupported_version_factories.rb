@@ -1,9 +1,9 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :v1_2_variable_draft, class: VariableDraft do
 
-    native_id 'variable_v1_2_native_id'
-    provider_id 'MMT_2'
-    draft_type 'VariableDraft'
+    native_id { 'variable_v1_2_native_id' }
+    provider_id { 'MMT_2' }
+    draft_type { 'VariableDraft' }
 
     draft {{
       "Name": "sea_ice_fraction_#{Faker::Space.galaxy}_#{Faker::Number.number(digits: 6)}",
@@ -79,9 +79,9 @@ FactoryGirl.define do
 
     end
 
-    native_id 'service_v1_2_native_id'
-    provider_id 'MMT_2'
-    draft_type 'ServiceDraft'
+    native_id { 'service_v1_2_native_id' }
+    provider_id { 'MMT_2' }
+    draft_type { 'ServiceDraft' }
 
     draft {{
       "RelatedURLs": [

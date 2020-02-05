@@ -245,18 +245,11 @@ module Proposal
 
       provider_targets.each do |provider_target|
         # Find the ACL for correct provider in this env.
-        find_acl_response = cmr_client.get_permissions({ 'provider' => provider_target }, token)
-        next unless find_acl_response.success?
+        find_acl_response = cmr_client.get_permissions({ 'provider' => provider_target, 'target' => 'NON_NASA_DRAFT_APPROVER', 'include_full_acl' => true }, token)
+        Rails.logger.debug("ACL query response while trying to send approvers emails on proposal submission for #{provider_target}: #{find_acl_response.body}")
+        next unless find_acl_response.success? && find_acl_response.body['items'].count == 1
 
-        approver_acl = find_acl_response.body['items'].select { |acl| acl['name']&.include?('NON_NASA_DRAFT_APPROVER') }
-        next if approver_acl.blank?
-
-        # Find the groups that have this ACL in this env.
-        find_groups_response = cmr_client.get_permission(approver_acl[0]['concept_id'], token)
-        next unless find_groups_response.success?
-
-        # Use only groups with create priv
-        approver_groups_list = find_groups_response.body['group_permissions'].map { |group| group['group_id'] if group['permissions'].include?('create') }.compact
+        approver_groups_list = find_acl_response.body['items'][0]['acl']['group_permissions'].map { |group| group['group_id'] if group['permissions'].include?('create') }.compact
         next if approver_groups_list.empty?
 
         # For each group that has this acl, collect the users to send to URS

@@ -43,7 +43,7 @@ gem 'bootstrap3-datetimepicker-rails'
 gem 'breadcrumbs_on_rails'
 gem 'builder'
 gem 'carmen', '~>1.0.2'  # countries and subdivisions
-gem 'factory_girl_rails', :require => true
+gem 'factory_bot_rails'
 gem 'faker'
 gem 'figaro'
 gem 'font-awesome-rails'
@@ -70,7 +70,7 @@ gem 'aasm'
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
 # make sure to delete the local config when done making changes to merge into master
 # bundle config --delete local.cmr_metadata_preview
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '804f1bdd412'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '91cd5b93d51'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,7 +1,4 @@
 require 'simplecov'
-# TODO factory_girls_rails require was added by RAIL5 upgrade to avoide a double load.
-# this should be removed when factory_girl is replaced with factory_bot
-require 'factory_girl_rails'
 
 SimpleCov.start 'rails' do
   # Filter out files that aren't part of the actual app code

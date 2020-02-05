@@ -59,7 +59,7 @@ describe ServiceDraftsController, reset_provider: true do
     before do
       sign_in
 
-      draft = FactoryGirl.create(:full_service_draft)
+      draft = FactoryBot.create(:full_service_draft)
 
       get :edit, params: { draft_type: 'ServiceDraft', id: draft }
     end

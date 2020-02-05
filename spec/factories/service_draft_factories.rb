@@ -1,22 +1,22 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :empty_service_draft, class: ServiceDraft do
-    provider_id 'MMT_2'
-    draft_type 'ServiceDraft'
+    provider_id { 'MMT_2' }
+    draft_type { 'ServiceDraft' }
 
     draft { {} }
 
-    short_name nil
-    entry_title nil
+    short_name { nil }
+    entry_title { nil }
   end
 
   factory :invalid_service_draft, class: ServiceDraft do
     transient do
-      draft_short_name nil
-      draft_entry_title nil
+      draft_short_name { nil }
+      draft_entry_title { nil }
     end
 
-    provider_id 'MMT_2'
-    draft_type 'ServiceDraft'
+    provider_id { 'MMT_2' }
+    draft_type { 'ServiceDraft' }
 
     draft {{
       'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(digits: 90)}",
@@ -88,19 +88,19 @@ FactoryGirl.define do
       ]
     }}
 
-    short_name nil
-    entry_title nil
+    short_name { nil }
+    entry_title { nil }
   end
 
   factory :full_service_draft, class: ServiceDraft do
     transient do
-      draft_short_name nil
-      draft_entry_title nil
+      draft_short_name { nil }
+      draft_entry_title { nil }
     end
 
-    native_id 'full_service_draft_native_id'
-    provider_id 'MMT_2'
-    draft_type 'ServiceDraft'
+    native_id { 'full_service_draft_native_id' }
+    provider_id { 'MMT_2' }
+    draft_type { 'ServiceDraft' }
 
     draft {{
       'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location.truncate(10, omission: '')}_#{Faker::Number.number(digits: 9)}",

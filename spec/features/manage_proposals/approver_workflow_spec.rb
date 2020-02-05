@@ -10,7 +10,7 @@ describe 'When going through the whole collection proposal approver workflow', j
   context 'when loading the manage proposals page' do
     context 'when publishing a create metadata proposal' do
       before do
-        # FactoryGirl respects validations; need to be in proposal mode to create
+        # FactoryBot respects validations; need to be in proposal mode to create
         set_as_proposal_mode_mmt(with_draft_approver_acl: true)
         @native_id = 'dmmt_collection_1'
         @proposal = create(:full_collection_draft_proposal, proposal_short_name: 'Full Workflow Create Test Proposal', proposal_entry_title: 'Test Entry Title', proposal_request_type: 'create', proposal_native_id: @native_id)

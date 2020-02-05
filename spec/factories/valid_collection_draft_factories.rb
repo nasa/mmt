@@ -1,17 +1,17 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :full_collection_draft, class: CollectionDraft do
     transient do
-      draft_short_name nil
-      draft_entry_title nil
-      version nil
-      collection_data_type nil
+      draft_short_name { nil }
+      draft_entry_title { nil }
+      version { nil }
+      collection_data_type { nil }
     end
 
-    native_id 'full_collection_draft_id'
-    provider_id 'MMT_2'
-    draft_type 'CollectionDraft'
+    native_id { 'full_collection_draft_id' }
+    provider_id { 'MMT_2' }
+    draft_type { 'CollectionDraft' }
     entry_title { draft_entry_title }
     short_name { draft_short_name }
 

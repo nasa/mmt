@@ -84,10 +84,10 @@ ActiveSupport::Notifications.subscribe('request.faraday') do |*args|
   Helpers::Instrumentation.record_performance(key, event.duration)
 end
 
-ActiveSupport::Notifications.subscribe('factory_girl.run_factory') do |*args|
+ActiveSupport::Notifications.subscribe('factory_bot.run_factory') do |*args|
   event = ActiveSupport::Notifications::Event.new(*args)
 
-  key = "FactoryGirl##{event.payload[:strategy]} (#{event.payload[:name]})"
+  key = "FactoryBot##{event.payload[:strategy]} (#{event.payload[:name]})"
 
   Helpers::Instrumentation.record_performance(key, event.duration)
 end
@@ -110,6 +110,6 @@ ActiveSupport::Notifications.subscribe 'render_partial.action_view' do |*args|
   event = ActiveSupport::Notifications::Event.new(*args)
 
   template = event.payload[:identifier].sub(Rails.root.to_s, '')
-  
+
   Helpers::Instrumentation.record_performance("Render Partial #{template}", event.duration)
 end

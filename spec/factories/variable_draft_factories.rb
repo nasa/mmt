@@ -1,17 +1,17 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :empty_variable_draft, class: VariableDraft do
-    provider_id 'MMT_2'
-    draft_type 'VariableDraft'
+    provider_id { 'MMT_2' }
+    draft_type { 'VariableDraft' }
 
-    draft {{}}
+    draft { {} }
 
-    short_name nil
-    entry_title nil
+    short_name { nil }
+    entry_title { nil }
   end
 
   factory :invalid_variable_draft, class: VariableDraft do
-    provider_id 'MMT_2'
-    draft_type 'VariableDraft'
+    provider_id {'MMT_2'}
+    draft_type {'VariableDraft'}
 
     draft {{
       'Scale': 'string',
@@ -67,20 +67,20 @@ FactoryGirl.define do
         }
     }}
 
-    short_name nil
-    entry_title nil
+    short_name { nil }
+    entry_title { nil }
   end
 
   factory :full_variable_draft, class: VariableDraft do
     transient do
-      draft_short_name nil
-      draft_entry_title nil
-      draft_science_keywords nil
+      draft_short_name { nil }
+      draft_entry_title { nil }
+      draft_science_keywords { nil }
     end
 
-    native_id 'full_variable_draft_native_id'
-    provider_id 'MMT_2'
-    draft_type 'VariableDraft'
+    native_id { 'full_variable_draft_native_id' }
+    provider_id { 'MMT_2' }
+    draft_type { 'VariableDraft' }
 
     draft {{
       'Name': draft_short_name || "#{Faker::Space.galaxy}_#{Faker::Number.number(digits: 6)}",
