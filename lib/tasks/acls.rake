@@ -19,13 +19,13 @@ namespace :acls do
     # this should be changed to the 'MMT Admin Group'
     desc 'Add a user to the User Group' # guidMMTUser
     task :mmt_users, [:username] => :environment do |_task, args|
-      print_result(cmr_client.add_group_members('AG1200000005-CMR', [args.username], get_acls_token(admin: true)), "Added #{args.username} to MMT Users")
+      print_result(cmr_client.add_group_members('AG1200000005-MMT_2', [args.username], get_acls_token(admin: true)), "Added #{args.username} to MMT Users")
     end
 
     # we don't need to add the user to this group, we should just add them to Administrators_2 below
     desc 'Add a user to the Admin Group' # guidMMTAdmin
     task :admins, [:username] => :environment do |_task, args|
-      print_result(cmr_client.add_group_members('AG1200000004-CMR', [args.username, 'typical'], get_acls_token(admin: true)), "Added #{args.username} to MMT Admins")
+      print_result(cmr_client.add_group_members('AG1200000004-MMT_1', [args.username, 'typical'], get_acls_token(admin: true)), "Added #{args.username} to MMT Admins")
     end
 
     desc 'Add a user to the Administrators_2'
@@ -64,7 +64,7 @@ namespace :acls do
 
       # Give the username the necessary permissions
       Rake::Task['acls:groups:mmt_users'].invoke(args.username)
-      Rake::Task['acls:groups:admins'].invoke(args.username)
+      Rake::Task['acls:groups:super_admins'].invoke(args.username)
 
       # Create the group
       Rake::Task['acls:groups:create'].invoke(args.group_name, "Group created for #{args.username}.", args.username, 'CMR')
