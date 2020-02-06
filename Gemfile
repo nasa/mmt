@@ -43,7 +43,6 @@ gem 'bootstrap3-datetimepicker-rails'
 gem 'breadcrumbs_on_rails'
 gem 'builder'
 gem 'carmen', '~>1.0.2'  # countries and subdivisions
-gem 'database_cleaner' # added to provide a solution to Capybara's problems with js=>true
 gem 'factory_bot_rails'
 gem 'faker'
 gem 'figaro'

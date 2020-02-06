@@ -19,7 +19,6 @@ require 'rspec/rails'
 require 'selenium/webdriver'
 require 'rack_session_access/capybara'
 require 'capybara-screenshot/rspec'
-require 'database_cleaner'
 
 require 'rake'
 require 'rails/tasks'
@@ -101,31 +100,10 @@ RSpec.configure do |config|
 
   Capybara.default_max_wait_time = (ENV['CAPYBARA_WAIT_TIME'] || 15).to_i
 
-  # Lines below taken from http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
-  config.use_transactional_fixtures = false
+  config.use_transactional_fixtures = true
+  # Rails 5 appears to support transactional fixtures for Capybara.
+  # If this regresses, the old solution was taken from: http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
   # https://github.com/rails/rails/pull/19282
-  # config.use_transactional_tests = false
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.before(:each) do
-    # set the default
-    DatabaseCleaner.strategy = :transaction
-  end
-
-  config.before(:each, type: :feature) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.append_after(:each) do
-    DatabaseCleaner.clean
-  end
-  # End of lines from http://stackoverflow.com/questions/8178120/capybara-with-js-true-causes-test-to-fail
 
   # Catch all requests, specific examples are still caught using their specific cassettes
   config.around(:each) do |spec|
