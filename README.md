@@ -31,6 +31,21 @@ Mac OS X 10.14.6 moved some required libraries around which has been known to ca
 
 Details can be found on nokogiri's [site](https://nokogiri.org/tutorials/installing_nokogiri.html#macos).
 
+
+If you are having issues installing libxml-ruby (cannot find libxml.h), you may need to configure it with the location of your libxml2 directory. You can do a:
+
+    find / -name xmlversion.h
+
+which may return something like the following:
+
+    /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2/libxml/xmlversion.h
+
+then you can run 'bundle config' with the location of libxml2 returned from the find command as in:
+
+    bundle config build.libxml-ruby --with-xml2-include=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
+
+You should then be able to run 'bundle install' as normal afterwards.
+
 #### Database
 
 Check your `/config/` directory for a `database.yml` file (with no additional extensions). If you do not have one, duplicate* the `database.yml.example` file and then rename it to `database.yml`.
@@ -52,6 +67,8 @@ Finally, create an `application.yml` file in your `/config/` directory. The cont
 ### Usage
 
 *_Note: Before running this step, make sure you are **Running a local copy of CMR** as outlined below_
+
+*_Note: If you want to run on http://localhost:3000 and just use Earthdata Login, you may need to modify entries in the `application.yml` file. Replace the 'urs_*_url' entries from 'https://mmt.localtest.earthdata.nasa.gov' to 'http://localhost:3000'_
 
 *_Note: With Launchpad Integration, you will need to set up MMT to run locally with HTTPS. Please see `/doc/local_https_setup.md` for options and instructions_
 
@@ -147,6 +164,15 @@ Try the following steps:
 10. Navigate to MMT directory and check to make sure Ruby and OpenSSL version are correct.
 
 11. Run `rake cmr:start` and `rake cmr:load` again. If you still have issues, please reach out to a developer to help with troubleshooting.
+
+### Earthdata Login Issue
+
+* If you receive an error when logging into MMT using Earthdata Login such as
+
+    JSON::ParserError at /urs_login_callback
+    784: unexpected token at 'null'
+
+Check your cmr.log file. It may show some errors and you need to restart your local copy of cmr.
 
 ### UMM JSON-Schema
 
