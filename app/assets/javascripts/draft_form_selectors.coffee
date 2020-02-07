@@ -100,6 +100,13 @@ $(document).ready ->
       when 'BOTH'
         $parent.siblings('.spatial-coverage-type.horizontal').show()
         $parent.siblings('.spatial-coverage-type.vertical').show()
+      when 'HORIZONTAL_ORBITAL'
+        $parent.siblings('.spatial-coverage-type.horizontal').show()
+        $parent.siblings('.spatial-coverage-type.orbit').show()
+      when 'HORIZONTAL_VERTICAL_ORBITAL'
+        $parent.siblings('.spatial-coverage-type.horizontal').show()
+        $parent.siblings('.spatial-coverage-type.vertical').show()
+        $parent.siblings('.spatial-coverage-type.orbit').show()
 
   # Handle global spatial checkbox
   $('.spatial-coverage-type.horizontal').on 'click', 'a.global-coverage', ->

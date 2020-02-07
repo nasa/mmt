@@ -703,6 +703,7 @@ def collection_one
     }],
     'SpatialExtent' => {
       'SpatialCoverageType' => 'HORIZONTAL',
+      'GranuleSpatialRepresentation' => 'CARTESIAN',
       'HorizontalSpatialDomain' => {
         'ZoneIdentifier' => 'Zone ID',
         'Geometry' => {
@@ -727,51 +728,49 @@ def collection_one
             'SemiMajorAxis': 1.0,
             'DenominatorOfFlatteningRatio': 1.0
           },
-          'HorizontalDataResolutions': [
-            {
-              'HorizontalResolutionProcessingLevelEnum': 'Non Gridded Range',
-              'MinimumXDimension': 1,
-              'MaximumXDimension': 2,
-              'MinimumYDimension': 3,
-              'MaximumYDimension': 4,
-              'ViewingAngleType': 'At Nadir',
-              'ScanDirection': 'Along Track',
-              'Unit': 'Meters'
-            },
-            {
-              'HorizontalResolutionProcessingLevelEnum': 'Gridded',
-              'XDimension': 1,
-              'YDimension': 2,
-              'Unit': 'Meters'
-            },
-            {
-              'HorizontalResolutionProcessingLevelEnum': 'Non Gridded',
-              'XDimension': 3,
-              'YDimension': 4,
-              'ViewingAngleType': 'At Nadir',
-              'ScanDirection': 'Cross Track',
-              'Unit': 'Statute Miles'
-            },
-            {
+          'HorizontalDataResolution': {
+            'VariesResolution': {
               'HorizontalResolutionProcessingLevelEnum': 'Varies'
             },
-            {
-              'HorizontalResolutionProcessingLevelEnum': 'Non Gridded',
-              'XDimension': 5,
-              'ViewingAngleType': 'At Nadir',
-              'ScanDirection': 'Cross Track',
-              'Unit': 'Statute Miles'
+            'PointResolution': {
+              'HorizontalResolutionProcessingLevelEnum': 'Point'
             },
-            {
-              'HorizontalResolutionProcessingLevelEnum': 'Gridded Range',
-              'MinimumYDimension': 6,
-              'MaximumYDimension': 7,
+            'NonGriddedResolutions': [{
+              'XDimension': 10,
+              'YDimension': 10,
+              'Unit': 'Meters',
+              'ViewingAngleType': 'At Nadir',
+              'ScanDirection': 'Cross Track'
+            }],
+            'NonGriddedRangeResolutions': [{
+              'MinimumXDimension': 10,
+              'MinimumYDimension': 10,
+              'MaximumXDimension': 20,
+              'MaximumYDimension': 20,
+              'Unit': 'Meters',
+              'ViewingAngleType': 'At Nadir',
+              'ScanDirection': 'Cross Track'
+            }],
+            'GriddedResolutions': [{
+              'XDimension': 10,
+              'YDimension': 10,
               'Unit': 'Meters'
-            }
-          ]
-        }
+            }],
+            'GriddedRangeResolutions': [{
+              'MinimumXDimension': 10,
+              'MinimumYDimension': 10,
+              'MaximumXDimension': 20,
+              'MaximumYDimension': 20,
+              'Unit': 'Meters'
+            }],
+            'GenericResolutions': [{
+              'XDimension': 10,
+              'YDimension': 10,
+              'Unit': 'Meters'
+            }]
+          },
+        },
       },
-      'GranuleSpatialRepresentation' => 'CARTESIAN'
     },
     'TilingIdentificationSystems' => [{
       'TilingIdentificationSystemName' => 'MISR',
