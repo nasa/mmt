@@ -246,7 +246,9 @@ module DraftsHelper
     ['Vertical', 'VERTICAL'],
     ['Orbital', 'ORBITAL'],
     ['Horizontal and Vertical', 'HORIZONTAL_VERTICAL'],
-    ['Orbital and Vertical', 'ORBITAL_VERTICAL']
+    ['Orbital and Vertical', 'ORBITAL_VERTICAL'],
+    ['Horizontal and Orbital', 'HORIZONTAL_ORBITAL'],
+    ['Horizontal, Vertical, and Orbital', 'HORIZONTAL_VERTICAL_ORBITAL']
   ]
   TilingIdentificationSystemNameOptions = [
     ['CALIPSO'],
