@@ -120,6 +120,22 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
           end
         end
 
+        it 'shows a failure message' do
+          expect(page).to have_content('Only one collection allowed in the list because a variable can only be associated with one collection.')
+        end
+      end
+
+      context 'When submitting the form with one AMSR-E record selected' do
+        before do
+          within '#collections-select' do
+            find("input[value='#{@collection_ingest_response1['concept-id']}']").set(true)
+
+            click_button 'Submit'
+
+            wait_for_cmr
+          end
+        end
+
         it 'shows a success message' do
           expect(page).to have_content('Collection Associations Created Successfully!')
         end
@@ -133,15 +149,13 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
 
           it 'shows the associated collections' do
             within '#collection-associations' do
-              expect(page).to have_selector('tbody > tr', count: 2)
+              expect(page).to have_selector('tbody > tr', count: 1)
 
               within 'tbody tr:nth-child(1)' do
-                expect(page).to have_content('MODIS-I Water Skipper')
-              end
-              within 'tbody tr:nth-child(2)' do
                 expect(page).to have_content('MODIS-I Water Traveler')
               end
 
+              expect(page).to have_no_content('MODIS-I Water Skipper')
               expect(page).to have_no_content('AQUA Not MODIS-I')
             end
           end
