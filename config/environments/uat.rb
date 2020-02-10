@@ -103,7 +103,7 @@ Rails.application.configure do
   config.templates_enabled = true
 
   # Feature toggle for approver workflow in MMT.
-  config.mmt_approver_workflow_enabled = false
+  config.mmt_approver_workflow_enabled = true
 
   config.cmr_env = 'uat'
   config.echo_env = 'uat'
