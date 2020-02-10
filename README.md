@@ -68,7 +68,7 @@ Finally, create an `application.yml` file in your `/config/` directory. The cont
 
 *_Note: Before running this step, make sure you are **Running a local copy of CMR** as outlined below_
 
-*_Note: If you want to run on http://localhost:3000 and just use Earthdata Login, you may need to modify entries in the `application.yml` file. Replace the 'urs_*_url' entries from 'https://mmt.localtest.earthdata.nasa.gov' to 'http://localhost:3000'_
+*_Note: If you want to run on http://localhost:3000 and just use Earthdata Login, you may need to modify entries in the `application.yml` file. Replace the 'urs...url' entries from 'https://mmt.localtest.earthdata.nasa.gov' to 'http://localhost:3000'_
 
 *_Note: With Launchpad Integration, you will need to set up MMT to run locally with HTTPS. Please see `/doc/local_https_setup.md` for options and instructions_
 
