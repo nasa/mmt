@@ -6,12 +6,11 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
 
     @variable_ingest_response, _concept_response = publish_variable_draft
 
-    create_variable_collection_association(@variable_ingest_response['concept-id'], @ingest_response1['concept-id'], @ingest_response2['concept-id'])
+    create_variable_collection_association(@variable_ingest_response['concept-id'], @ingest_response1['concept-id'])
   end
 
   before :all do
     @ingest_response1, _concept_response1 = publish_collection_draft(entry_title: 'MODIS-I Water Traveler')
-    @ingest_response2, _concept_response2 = publish_collection_draft(entry_title: 'MODIS-I Water Skipper')
   end
 
   context 'When viewing the associated collections page' do
@@ -21,12 +20,9 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
 
     it 'shows the associated collections' do
       within '#collection-associations' do
-        expect(page).to have_selector('tbody > tr', count: 2)
+        expect(page).to have_selector('tbody > tr', count: 1)
 
         within 'tbody tr:nth-child(1)' do
-          expect(page).to have_content('MODIS-I Water Skipper')
-        end
-        within 'tbody tr:nth-child(2)' do
           expect(page).to have_content('MODIS-I Water Traveler')
         end
       end
@@ -59,14 +55,12 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
             click_link 'refresh the page'
           end
 
-          it 'reloades the page and dislay the correct associations' do
+          it 'reloads the page and displays no associations' do
             within '#collection-associations' do
               expect(page).to have_selector('tbody > tr', count: 1)
+              expect(page).to have_content('No Collection Associations found.')
 
-              within 'tbody tr:nth-child(1)' do
-                expect(page).to have_content('MODIS-I Water Skipper')
-              end
-
+              expect(page).to have_no_content('MODIS-I Water Skipper')
               expect(page).to have_no_content('MODIS-I Water Traveler')
             end
           end

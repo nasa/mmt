@@ -125,14 +125,12 @@ describe 'Variables permissions', js: true do
             expect(page).to have_no_content('collections. Deleting this variable will also delete the collection associations')
           end
 
-          context 'when the variable has associated collections' do
+          context 'when the variable has an associated collection' do
             before :all do
               ingested_collection_1, concept_response_1 = publish_collection_draft
-              ingested_collection_2, concept_response_2 = publish_collection_draft
 
               create_variable_collection_association(@ingested_variable_for_delete_modal['concept-id'],
-                                                     ingested_collection_1['concept-id'],
-                                                     ingested_collection_2['concept-id'])
+                                                     ingested_collection_1['concept-id'])
             end
 
             before do
@@ -147,7 +145,7 @@ describe 'Variables permissions', js: true do
 
             it 'informs the user of the number of collection associations that will also be deleted' do
               # 2 associations created
-              expect(page).to have_content('This variable is associated with 2 collections. Deleting this variable will also delete the collection associations')
+              expect(page).to have_content('This variable is associated with 1 collections. Deleting this variable will also delete the collection associations')
             end
           end
         end

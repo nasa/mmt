@@ -5,11 +5,9 @@ describe 'Delete variable', js: true do
     @ingested_variable_with_associations, _concept_response = publish_variable_draft
 
     ingested_collection_1, _concept_response = publish_collection_draft
-    ingested_collection_2, _concept_response = publish_collection_draft
 
     create_variable_collection_association(@ingested_variable_with_associations['concept-id'],
-                                           ingested_collection_1['concept-id'],
-                                           ingested_collection_2['concept-id'])
+                                           ingested_collection_1['concept-id'])
 
     @ingested_variable_without_associations, _concept_response = publish_variable_draft
 
@@ -21,7 +19,7 @@ describe 'Delete variable', js: true do
   end
 
   context 'when viewing a published variable' do
-    context 'when the variable has associated collections' do
+    context 'when the variable has an associated collection' do
       before do
         visit variable_path(@ingested_variable_with_associations['concept-id'])
       end
@@ -41,7 +39,7 @@ describe 'Delete variable', js: true do
 
         it 'informs the user of the number of collection associations that will also be deleted' do
           # 2 associated collections
-          expect(page).to have_content('This variable is associated with 2 collections. Deleting this variable will also delete the collection associations.')
+          expect(page).to have_content('This variable is associated with 1 collections. Deleting this variable will also delete the collection associations.')
         end
 
         context 'when clicking Yes' do
