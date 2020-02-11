@@ -90,7 +90,15 @@ module Cmr
           client_response_headers_for_logs['set-cookie'] = "length: #{set_cookie_to_log.length.round(-2)}; snippet: #{set_cookie_to_log.truncate(60)}"
         end
 
-        Rails.logger.error "#{self.class} Response Error: #{client_response.body.inspect}" if client_response.error?
+        if client_response.error?
+          error_string = if self.class == Cmr::CmrClient
+                           client_response.clean_inspect(body_only: true)
+                         else
+                           client_response.body.inspect
+                         end
+
+          Rails.logger.error "#{self.class} Response Error: #{error_string}"
+        end
 
         Rails.logger.info "#{self.class} Response #{method} #{url} result : Headers: #{client_response_headers_for_logs} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_s(:log_time)}"
       rescue => e
