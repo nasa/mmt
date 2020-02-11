@@ -249,7 +249,7 @@ $(document).ready ->
     #   $(requiredLabels).each (index, element) ->
     #     return false if element[0] == optionalLabel[0]
     #   true
-    debugger # TODO this is not working
+    # debugger # TODO this is not working
     optionallyRequiredLabels = []
     $(allOptionallyRequiredLabels).each (index, element) ->
       $optionalLabel = $(element)

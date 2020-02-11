@@ -70,6 +70,14 @@
 
   p {
     margin: 0;
+
+    &.space-bot {
+      margin-bottom: 15px;
+    }
+
+    &.space-top {
+      margin-top: 15px;
+    }
   }
 
   li {

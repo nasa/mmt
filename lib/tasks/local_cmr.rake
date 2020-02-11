@@ -108,7 +108,7 @@ namespace :cmr do
         File.join(Rails.root.to_s, 'vendor', 'assets', 'javascripts', 'eui-1.0.0', 'eui.js')
       ]
 
-      jquery = Rails.application.config.assets.paths.select { |p| p.include?('jquery-rails') }
+      jquery = Rails.application.config.assets.paths.select { |p| p.to_s.include?('jquery-rails') }
       dependencies.unshift(File.join(jquery.first, 'jquery.js')) if jquery.any?
 
       js_to_uglify = dependencies.sort.map do |file|
