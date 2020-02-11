@@ -70,7 +70,7 @@ gem 'aasm'
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
 # make sure to delete the local config when done making changes to merge into master
 # bundle config --delete local.cmr_metadata_preview
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '92d73f5436210d1d56fcf769e6011d20d8959ebd'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: 'c83a8540ff8'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

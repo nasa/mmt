@@ -111,6 +111,21 @@ should be sufficient to run CMR locally.  Run this command before starting CMR e
 
 The option '--daemonize yes' runs the server in the background.
 
+Alternatively, you can install Redis with homebrew
+
+The basics are
+
+    brew update
+    brew install redis
+    brew services start redis
+
+For more information, see one of these links
+
+    https://www.devglan.com/blog/install-redis-windows-and-mac
+    https://gist.github.com/tomysmile/1b8a321e7c58499ef9f9441b2faa0aa8
+
+
+
 #### 4. Running the CMR rake tasks
 To start the local CMR and load data*:
 
