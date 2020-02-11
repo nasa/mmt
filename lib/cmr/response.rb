@@ -41,24 +41,27 @@ module Cmr
     end
 
     def errors
-      @errors ||= if body_is_html?
-                    Rails.logger.error "CMR Error Response Body is a HTML document: #{body}"
-                    ['There was an error with the operation you were trying to perform. There may be an issue with one of the services we depend on. Please contact your provider administrator or the CMR OPS team.']
-                  elsif body.is_a?(Hash)
-                    if body['errors']
-                      Array.wrap(body['errors'])
-                    elsif body['error']
-                      Array.wrap(body['error'])
-                    end
-                  elsif body.is_a?(String)
-                    [body]
-                  else
-                    []
+      return @errors if @errors.present?
+
+      @errors = if body_is_html?
+                  Rails.logger.error "CMR Error Response Body is a HTML document: #{body}"
+                  ['There was an error with the operation you were trying to perform. There may be an issue with one of the services we depend on. Please contact your provider administrator or the CMR OPS team.']
+                elsif body.is_a?(Hash)
+                  if body['errors']
+                    Array.wrap(body['errors'])
+                  elsif body['error']
+                    Array.wrap(body['error'])
                   end
+                elsif body.is_a?(String)
+                  [body]
+                else
+                  []
+                end
+      remove_tokens_from_errors(@errors)
     end
 
     def error_messages(i18n: nil)
-      if !errors.blank?
+      if errors.present?
         errors
       elsif i18n
         [i18n]
@@ -80,8 +83,9 @@ module Cmr
       headers.fetch('cmr-request-id', '')
     end
 
-    def clean_inspect
-      if faraday_response.env.fetch(:request_headers, {})['Echo-Token']
+    def clean_inspect(body_only: false)
+      errors
+      if faraday_response.env.fetch(:request_headers, {})['Echo-Token'] && !body_only
         clean_response = faraday_response.deep_dup
 
         echo_token = clean_response.env[:request_headers].delete('Echo-Token')
@@ -91,9 +95,26 @@ module Cmr
         clean_response.env[:request_headers]['Echo-Token-snippet'] = echo_token_snippet
 
         clean_response.inspect
+      elsif body_only
+        faraday_response.body.inspect
       else
         faraday_response.inspect
       end
+    end
+
+    # Clean tokens out of error messages in responses
+    def remove_tokens_from_errors(input_errors)
+      input_errors&.each do |error|
+        # Ingest errors return as {errors => [{path => string, errors => string}]}
+        # where path is a place in the metadata and the errors are content errors
+        # There should not be tokens in these errors, so we can skip them.
+        next if error.is_a?(Hash)
+
+        # Match something that contains Token [<token>] and replace it where \1 = the first 6 chars of <token>
+        error.gsub!(/Token \[(.{6}).*\]/, 'Token beginning with \1')
+      end
+
+      input_errors
     end
   end
 end

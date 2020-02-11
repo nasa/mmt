@@ -121,7 +121,7 @@ describe 'User login' do
 
         context 'when the user successfully logs in with launchpad' do
           before do
-            no_linked_account_response = Cmr::Response.new(Faraday::Response.new(status: 404, body: '{"error": "NAMS auid testuser is not associated with a EDL profile"}'))
+            no_linked_account_response = cmr_fail_response('{"error": "NAMS auid testuser is not associated with a EDL profile"}', 404)
             allow_any_instance_of(Cmr::UrsClient).to receive(:get_urs_uid_from_nams_auid).and_return(no_linked_account_response)
 
             real_login(method: 'launchpad', associated: false)
