@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2020_02_06_201605) do
+=======
+ActiveRecord::Schema.define(version: 2020_01_07_163307) do
+>>>>>>> df2b4057... MMT-2139 fixed selector issue with eui code's validity check of accordion
 
   create_table "draft_proposals", force: :cascade do |t|
     t.integer "user_id"

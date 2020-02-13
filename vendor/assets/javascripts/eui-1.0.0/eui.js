@@ -146,13 +146,15 @@
     }
 
     function checkAccordionValidity(urlHash) {
-      var accordionId = $("#" + urlHash);
-      var accordionName = $("[name='" + urlHash + "']");
+      if (urlHash.length > 0) {
+        var accordionId = $("#" + urlHash),
+          accordionName = $("[name='" + urlHash + "']");
 
-      if (accordionId.length > 0) {
-        openHashAccordion(accordionId);
-      } else if (accordionName.length > 0) {
-        openHashAccordion(accordionName);
+        if (accordionId.length > 0) {
+          openHashAccordion(accordionId);
+        } else if (accordionName.length > 0) {
+          openHashAccordion(accordionName);
+        }
       }
     }
 
