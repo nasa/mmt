@@ -34,6 +34,9 @@ class BasePublishedRecordController < ManageMetadataController
     redirect_to send("#{resource_name}_draft_path", draft)
   end
 
+  # This is not an intuitive way to publish variable_drafts and service_drafts.
+  # Adding some things people might search to try to find this as comments.
+  # def publish_variable def publish_service
   def create
     draft = draft_resource_class.find(params[:id])
 
@@ -60,7 +63,12 @@ class BasePublishedRecordController < ManageMetadataController
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest #{resource_name} draft #{draft.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
       @ingest_errors = generate_ingest_errors(ingested_response)
-      redirect_to send("#{resource_name}_draft_path", draft), flash: { error: I18n.t("controllers.#{plural_resource_name}.create.flash.error") }
+      flash[:error] = if ingested_response.body['errors'].any? { |error| error.include?('does not match the existing variable name') }
+                        I18n.t("controllers.#{plural_resource_name}.create.flash.name_error")
+                      else
+                        I18n.t("controllers.#{plural_resource_name}.create.flash.error")
+                      end
+      redirect_to send("#{resource_name}_draft_path", draft)
     end
   end
 

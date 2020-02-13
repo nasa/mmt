@@ -430,7 +430,7 @@ class UmmFormElement < UmmForm
   end
 
   def element_properties(element)
-    readonly = parsed_json['readonly'].nil? ? {} : { readonly: true }
+    readonly = check_readonly
     autocomplete = parsed_json['autocomplete'].nil? ? {} : { autocomplete: "off" }
     {
       class: element_classes(element),
@@ -439,6 +439,19 @@ class UmmFormElement < UmmForm
       .deep_merge(autocomplete)
       .deep_merge(readonly)
       .deep_merge(validation_properties(element))
+  end
+
+  # Allows selective field disabling based on circumstance
+  # Current use case: variable names should not be changable when the variable already exists in CMR
+  # Needs to return a hash to get merged in element_properties
+  def check_readonly
+    return {} if parsed_json['readonly'].nil?
+
+    return { readonly: true } if parsed_json['readonly'] == true
+
+    # The value in the form JSON for readonly needs to match the value being passed
+    # in the options to create the form
+    { readonly: @options[parsed_json['readonly']] }
   end
 
   # Locates the fragment of the schema that the provided key represents

@@ -147,6 +147,7 @@ en:
         flash:
           success: 'Variable Draft Published Successfully!'
           error: 'Variable Draft was not published successfully'
+          name_error: 'Variable Draft was not published successfully. CMR does not allow changing the variable name of existing variables.'
       destroy:
         flash:
           success: 'Variable Deleted Successfully!'
