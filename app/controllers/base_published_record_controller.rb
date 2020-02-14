@@ -63,8 +63,13 @@ class BasePublishedRecordController < ManageMetadataController
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest #{resource_name} draft #{draft.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
       @ingest_errors = generate_ingest_errors(ingested_response)
-      flash[:error] = if ingested_response.body['errors'].any? { |error| error.include?('does not match the existing variable name') }
-                        I18n.t("controllers.#{plural_resource_name}.create.flash.name_error")
+      # Per CMR's documentation, 422 is the error code when the records fails
+      # non-structural validation e.g. the name of a variable does not match
+      # or a controlled keyword doesn't exist
+      # From observations: 400 is returned when it is structurally invalid
+      # e.g. missing a required field or formatted incorrectly
+      flash[:error] = if ingested_response.status == 422
+                        ingested_response.error_message(i18n: I18n.t("controllers.#{plural_resource_name}.create.flash.error"), force_i18n_preface: true)
                       else
                         I18n.t("controllers.#{plural_resource_name}.create.flash.error")
                       end

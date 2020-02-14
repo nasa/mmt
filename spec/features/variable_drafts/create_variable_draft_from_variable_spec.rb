@@ -44,7 +44,7 @@ describe 'Create new draft from variable', reset_provider: true do
       end
 
       it 'does not succeed' do
-        expect(page).to have_content('Variable Draft was not published successfully. CMR does not allow changing the variable name of existing variables.')
+        expect(page).to have_content('Variable Draft was not published successfully. Variable name [An Incompatible Name] does not match the existing variable name [Test Edit Variable Name 2]')
       end
     end
   end
