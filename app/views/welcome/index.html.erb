@@ -1,21 +1,19 @@
-<main class="welcome" role="main">
-  <div class="row row-header">
-    <div class="content">
-      <% if !Rails.configuration.proposal_mode %>
-        <section class="col-6 highlight">
-          <h2>About the Metadata Management Tool</h2>
-          <p>The MMT is a web-based user interface to the NASA EOSDIS Common Metadata Repository (CMR). The MMT allows metadata authors to create and update CMR metadata records by using a data entry form based on the metadata fields in the CMR Unified Metadata Model (UMM). Metadata authors may also publish, view, delete, and manage revisions of CMR metadata records using the MMT.</p>
-        </section>
-        <section class="col-6 highlight">
-          <h2>About the CMR</h2>
-          <p>The CMR is a high-performance, high-quality metadata repository for earth science metadata records. The CMR manages the evolution of NASA Earth Science metadata in a unified and consistent way by providing a central storage and access capability that streamlines current workflows while increasing overall metadata quality and anticipating future capabilities.</p>
-        </section>
-      <% else %>
-        <section class="col-12 highlight">
-          <h2>About the Metadata Management Tool for Non-NASA Users</h2>
-          <p>The MMT for non-NASA users is a web-based user interface that allows metadata authors to create metadata draft proposals by using a data entry form based on the metadata fields in the Unified Metadata Model (UMM). Prior to being published to the NASA EOSDIS Common Metadata Repository (CMR), metadata draft proposals must be approved by NASA CMR personnel. Metadata authors may also submit requests to update existing CMR metadata records using the MMT.</p>
-        </section>
-      <% end %>
-    </div>
-  </div>
-</main>
+<div class="row row-header">
+  <div class="content">
+    <% if !Rails.configuration.proposal_mode %>
+       <section class="col-6 highlight">
+         <h2>About the Metadata Management Tool</h2>
+         <p>The MMT is a web-based user interface to the NASA EOSDIS Common Metadata Repository (CMR). The MMT allows metadata authors to create and update CMR metadata records by using a data entry form based on the metadata fields in the CMR Unified Metadata Model (UMM). Metadata authors may also publish, view, delete, and manage revisions of CMR metadata records using the MMT.</p>
+       </section>
+       <section class="col-6 highlight">
+         <h2>About the CMR</h2>
+         <p>The CMR is a high-performance, high-quality metadata repository for earth science metadata records. The CMR manages the evolution of NASA Earth Science metadata in a unified and consistent way by providing a central storage and access capability that streamlines current workflows while increasing overall metadata quality and anticipating future capabilities.</p>
+       </section>
+     <% else %>
+       <section class="col-12 highlight">
+         <h2>About the Metadata Management Tool for Non-NASA Users</h2>
+         <p>The MMT for non-NASA users is a web-based user interface that allows metadata authors to create metadata draft proposals by using a data entry form based on the metadata fields in the Unified Metadata Model (UMM). Prior to being published to the NASA EOSDIS Common Metadata Repository (CMR), metadata draft proposals must be approved by NASA CMR personnel. Metadata authors may also submit requests to update existing CMR metadata records using the MMT.</p>
+       </section>
+     <% end %>
+   </div>
+ </div>
