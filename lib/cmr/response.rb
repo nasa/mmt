@@ -71,10 +71,12 @@ module Cmr
       message = error_messages(i18n: i18n).first
       if message.is_a?(Hash)
         message.fetch('errors', []).first
-      elsif force_i18n_preface && i18n && !message.include?(i18n)
-        "#{i18n}. #{message}"
       else
         message
+      end
+
+      if force_i18n_preface && i18n && !message.include?(i18n)
+        "#{i18n}. #{message}"
       end
     end
 

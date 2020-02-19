@@ -68,11 +68,7 @@ class BasePublishedRecordController < ManageMetadataController
       # or a controlled keyword doesn't exist
       # From observations: 400 is returned when it is structurally invalid
       # e.g. missing a required field or formatted incorrectly
-      flash[:error] = if ingested_response.status == 422
-                        ingested_response.error_message(i18n: I18n.t("controllers.#{plural_resource_name}.create.flash.error"), force_i18n_preface: true)
-                      else
-                        I18n.t("controllers.#{plural_resource_name}.create.flash.error")
-                      end
+      flash[:error] = ingested_response.error_message(i18n: I18n.t("controllers.#{plural_resource_name}.create.flash.error"), force_i18n_preface: true)
       redirect_to send("#{resource_name}_draft_path", draft)
     end
   end

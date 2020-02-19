@@ -1,5 +1,5 @@
 describe 'Create new draft from variable', reset_provider: true do
-  context 'when making a draft of a published variable' do
+  context 'when making a draft from a published variable' do
     before do
       login
 
