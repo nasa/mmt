@@ -77,6 +77,8 @@ module Cmr
 
       if force_i18n_preface && i18n && !message.include?(i18n)
         "#{i18n}. #{message}"
+      else
+        message
       end
     end
 
