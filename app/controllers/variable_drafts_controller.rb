@@ -24,13 +24,26 @@ class VariableDraftsController < BaseDraftsController
   end
 
   def set_form
+    # Disable the name field if CMR already has this variable.
+    # CMR will reject it if the name changes, so we shouldn't let the user try
+    # Just having params[:form]... on the left side causes it to hit CMR when
+    # leaving the form too.
+    if (params[:form] == 'variable_information' && params[:jump_to_section].nil?) || (params[:action] == 'edit' && params[:form].nil?)
+      get_variables_response = cmr_client.get_variables({ 'provider' => get_resource.provider_id, 'native_id' => get_resource.native_id }, token)
+
+      existing_variable = get_variables_response.success? && get_variables_response.body['hits'] == 1
+    else
+      existing_variable = false
+    end
+
     @json_form = UmmJsonForm.new(
       plural_published_resource_name,
       'umm-var-form.json',
       @schema,
       get_resource.draft,
       field_prefix: 'variable_draft/draft',
-      draft_id: get_resource.id
+      draft_id: get_resource.id,
+      'existing_variable' => existing_variable
     )
   end
 

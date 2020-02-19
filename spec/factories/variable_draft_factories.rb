@@ -10,8 +10,8 @@ FactoryBot.define do
   end
 
   factory :invalid_variable_draft, class: VariableDraft do
-    provider_id {'MMT_2'}
-    draft_type {'VariableDraft'}
+    provider_id { 'MMT_2' }
+    draft_type { 'VariableDraft' }
 
     draft {{
       'Scale': 'string',

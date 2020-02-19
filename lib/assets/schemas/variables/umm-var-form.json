@@ -16,7 +16,7 @@
                 {
                   "type": "section",
                   "htmlClass": "col-5",
-                  "items": [{"key": "Name", "field": true}]
+                  "items": [{"key": "Name", "field": true, "readonly": "existing_variable"}]
                 },
                 {
                   "type": "section",
