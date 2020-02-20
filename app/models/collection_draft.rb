@@ -241,6 +241,12 @@ class CollectionDraft < Draft
     distribution_size
     average_file_size
     total_collection_file_size
+    x_dimension
+    y_dimension
+    minimum_x_dimension
+    minimum_y_dimension
+    maximum_x_dimension
+    maximum_y_dimension
   )
   BOOLEAN_KEYS = %w(
     ends_at_present_flag
