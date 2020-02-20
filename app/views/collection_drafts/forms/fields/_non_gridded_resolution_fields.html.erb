@@ -8,7 +8,7 @@
           title: 'X Dimension',
           prefix: name_prefix,
           value: non_gridded_resolution['XDimension'],
-          help: 'definitions/HorizontalDataResolutionNonGriddedType/XDimension',
+          help: 'definitions/HorizontalDataResolutionNonGriddedType/properties/XDimension',
           validate: true,
           # required: true,
           classes: 'mmt-number optionally-required'
@@ -22,7 +22,7 @@
           title: 'Y Dimension',
           prefix: name_prefix,
           value: non_gridded_resolution['YDimension'],
-          help: 'definitions/HorizontalDataResolutionNonGriddedType/YDimension',
+          help: 'definitions/HorizontalDataResolutionNonGriddedType/properties/YDimension',
           validate: true,
           # required: true,
           classes: 'mmt-number optionally-required'
@@ -38,7 +38,7 @@
       title: 'Unit',
       prefix: name_prefix,
       value: non_gridded_resolution['Unit'],
-      help: 'definitions/HorizontalDataResolutionNonGriddedType/Unit',
+      help: 'definitions/HorizontalDataResolutionNonGriddedType/properties/Unit',
       options: DraftsHelper::HorizontalDataResolutionUnitEnumOptions,
       required: true,
       validate: true,
@@ -54,7 +54,7 @@
         title: 'Viewing Angle Type',
         prefix: name_prefix,
         value: non_gridded_resolution['ViewingAngleType'],
-        help: 'definitions/HorizontalDataResolutionNonGriddedType/ViewingAngleType',
+        help: 'definitions/HorizontalDataResolutionNonGriddedType/properties/ViewingAngleType',
         options: DraftsHelper::HorizontalResolutionViewingAngleTypeOptions,
         validate: true,
         classes: ''
@@ -68,7 +68,7 @@
         title: 'Scan Direction',
         prefix: name_prefix,
         value: non_gridded_resolution['ScanDirection'],
-        help: 'definitions/HorizontalDataResolutionNonGriddedType/ScanDirection',
+        help: 'definitions/HorizontalDataResolutionNonGriddedType/properties/ScanDirection',
         options: DraftsHelper::HorizontalResolutionScanDirectionTypeOptions,
         validate: true,
         classes: ''
