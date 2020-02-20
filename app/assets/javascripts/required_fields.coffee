@@ -79,7 +79,7 @@ $(document).ready ->
     $fields = $("[data-level='#{currentDataLevel}']")
     if $fields.length > 0
       # get any values from the fields at the current data-level
-      values = $fields.filter ->
+      fieldsWithValues = $fields.filter ->
         if this.type == 'radio' || this.type == 'checkbox'
           this.checked
         else
@@ -88,9 +88,9 @@ $(document).ready ->
       # If the current data-level is the same as the topRequiredDataLevel (is this necessary?)
       # or if the current data-level is a top level required field
       # or if any of the fields have values
-      # if topDataLevel == topRequiredDataLevel or requiredFieldDataLevels.indexOf(topDataLevel) != -1 or values.length > 0
-      console.log ">>>>>>> values: ", values
-      if requiredFieldDataLevels.indexOf(currentDataLevel) != -1 or values.length > 0
+      # if topDataLevel == topRequiredDataLevel or requiredFieldDataLevels.indexOf(topDataLevel) != -1 or fieldsWithValues.length > 0
+      console.log ">>>>>>> fieldsWithValues: ", fieldsWithValues
+      if requiredFieldDataLevels.indexOf(currentDataLevel) != -1 or fieldsWithValues.length > 0
         isRequired = true
         # add required icon to required fields at this data-level
         # addRequiredFields($fields) # TODO is this necessary? it will be removed then re-added lines 120 - 128
@@ -147,7 +147,7 @@ $(document).ready ->
     $('label.eui-required-o').not('label.always-required').removeClass('eui-required-o')
     $('label.eui-required-grey-o').removeClass('eui-required-grey-o')
 
-    console.log "adding required icons/fields in these data-levels: #{levels}"
+    # console.log "adding required icons/fields in these data-levels: #{levels}"
     # Add required icons to required fields within required data levels
     for dataLevel in levels
       $fields = $("[data-level='#{dataLevel}']")
@@ -197,13 +197,13 @@ $(document).ready ->
       $(this).hasClass('optionally-required')
 
     return unless $optionallyRequiredFields.length > 0
-    console.log "!!!!!!!@@@@@@@@@@@@!!!!!!!!!! inside optionally required"
-    console.log "optionallyRequiredFields", $optionallyRequiredFields
+    # console.log "!!!!!!!@@@@@@@@@@@@!!!!!!!!!! inside optionally required"
+    # console.log "optionallyRequiredFields", $optionallyRequiredFields
 
     # debugger
     # push all fields into optionallyRequiredLabels
     allOptionallyRequiredLabels = getLabels($optionallyRequiredFields)
-    console.log "optionallyRequiredLabels", allOptionallyRequiredLabels
+    # console.log "optionallyRequiredLabels", allOptionallyRequiredLabels
     requiredLabels = []
 
     # filter optionally required fields for those that have a value
@@ -211,7 +211,7 @@ $(document).ready ->
       this.value
       # we are not checking for radio buttons or checkboxes, as there are no
       # such optionally required fields yet
-    console.log "optionallyRequiredWithValueFields", $optionallyRequiredWithValueFields
+    # console.log "optionallyRequiredWithValueFields", $optionallyRequiredWithValueFields
 
     $optionallyRequiredWithValueFields.each (index, element) ->
       id = $(element).attr('id')
@@ -237,10 +237,10 @@ $(document).ready ->
           # else
             # push field into requiredLabels
 
-    console.log "requiredLabels before unique:", requiredLabels
+    # console.log "requiredLabels before unique:", requiredLabels
     requiredLabels.unique()
-    console.log "requiredLabels after unique:", requiredLabels
-    console.log "allOptionallyRequiredLabels:", allOptionallyRequiredLabels
+    # console.log "requiredLabels after unique:", requiredLabels
+    # console.log "allOptionallyRequiredLabels:", allOptionallyRequiredLabels
 
     # # remove all labels in requiredLabels from allOptionallyRequiredLabels
     # optionallyRequiredLabels = allOptionallyRequiredLabels.filter ->
@@ -249,7 +249,9 @@ $(document).ready ->
     #   $(requiredLabels).each (index, element) ->
     #     return false if element[0] == optionalLabel[0]
     #   true
-    # debugger # TODO this is not working
+    # debugger
+    # TODO: is this filtering actually working??
+    # why are some fields getting both required classes?
     optionallyRequiredLabels = []
     $(allOptionallyRequiredLabels).each (index, element) ->
       $optionalLabel = $(element)
@@ -405,7 +407,7 @@ $(document).ready ->
   # Add required icons when a form field is updated
   $('.metadata-form, .umm-form').on 'blur', 'input, select, textarea', ->
     return if $(this).attr('type') == 'submit'
-    console.log "option AAAA"
+    # console.log "option AAAA"
     # debugger
     addRequiredIcons(this)
 

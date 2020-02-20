@@ -176,19 +176,13 @@ $(document).ready ->
       when 'minimum' then "#{field} is too low"
       when 'parameter-range-later' then "#{field} must be later than Parameter Range Begin"
       when 'parameter-range-larger' then "#{field} must be larger than Parameter Range Begin"
-      when 'oneOf' # TODO check and remove 'Party' - was only for organization or personnel
-        # oneOf Party means it wants oneOf OrganizationName or Person
-        # Those errors don't matter to a user because they don't see
-        # that difference in the forms
-        # if field == 'Party'
-        #   "Party is incomplete"
-        # else
+      when 'oneOf'
+        # the stock message is: "should match exactly one schema in oneOf", which is not as useful to the user
         "#{field} should have one option completed"
       when 'invalidPicklist' then "#{field} #{error.message}"
       when 'enum' then "#{field} value [#{$('#' + error.id + ' option:selected').text()}] does not match a valid selection option"
-      when 'anyOf' # then "#{error.message}"
-        # testing anyOf messages
-        # message usu is: "should match some schema in anyOf"
+      when 'anyOf'
+        # the stock message is: "should match some schema in anyOf", which is not as useful to the user
         "#{field} should have one schema option completed"
       # UseConstraintsType is the only place a 'not' validation is used
       # so this is a very specific message
@@ -196,7 +190,7 @@ $(document).ready ->
       # In case of Average File Size is set but no Average File Size Unit was selected
       # and also in case of Total Collection File Size and Total Collection File Size Unit,
       # we only want this simple message instead of the raw message:
-#     # 'should have property TotalCollectionFileSizeUnit when property TotalCollectionFileSize is present'
+      # 'should have property TotalCollectionFileSizeUnit when property TotalCollectionFileSize is present'
       when 'dependencies' then "#{field} is required"
       when 'not_unique' then "#{field} must be unique within a provider context"
       # Using an alternate keyword allows skipping some checks associated with
@@ -275,68 +269,40 @@ $(document).ready ->
 
   getErrorDetails = (error) ->
     if error.keyword == 'additionalProperties'
+      # ignore/suppress errors with keyword additionalProperties
+      # since we control the forms, we should not be sending properties not
+      # defined in the schema
+      # these errors tend to show up when data is not fully valid and there are
+      # variations in what is valid data from anyOf or oneOf characteristics
       error = null
       return
+    # if error.schemaPath.indexOf('oneOf') != -1
+    #   console.log "starting `getErrorDetails`, `oneOf` error is:", error
 
-    # if error.dataPath.match '/SpatialExtent/HorizontalSpatialDomain/'
-      # debugger
-      # how to figure out sorting through the oneOf and anyOf that may pop up
-      # in this field
-
-      # - use radio button selection?
-      #   - can tie it to the enum to the oneOf index
-      #   - then can ignore the others
-    # if error.keyword == 'oneOf' || error.dataPath.indexOf('HorizontalSpatialDomain') != -1
-    #   # debugger
-    #   console.log "oneOf or HorizontalSpatialDomain error for #{error.dataPath}"
-    #   console.log "message: #{error.message}"
-
-
-
-    # If the error is a Geometry anyOf error
     if error.keyword == 'anyOf'
-      # TODO figure out anyOf with new fields
-      # debugger
       if error.dataPath.indexOf('Geometry') != -1
+        # If the error is for Geometry with keyword anyOf
         error.message = 'At least one Geometry Type is required'
-      else if error.dataPath.indexOf('DataContacts') != -1 #|| error.dataPath.indexOf('HorizontalSpatialDomain') != -1
+      else if error.dataPath.indexOf('DataContacts') != -1
+        # ignore/suppress errors with keyword anyOf for DataContacts
         # anyOf errors are showing up in the data contacts form, but only when
         # there are other validation errors. as the error messages are duplicate
         # and don't have the specificity of the other error messages (or have
         # information useful to the user), it seems best to suppress these
         # more info at https://github.com/epoberezkin/ajv/issues/201#issuecomment-222544956
-
-        # anyOf errors for HorizontalSpatialDomain and ResolutionAndCoordinateSystem
-        # also are duplicative and do not have helpful information for the user
-        # so we are suppressing them
         error = null
         return
-      else
-        console.log "got an `anyOf` error for #{error.dataPath}"
-        # console.log "message: #{error.message}"
-        console.log JSON.stringify(error)
-        # debugger
+      # else
+      #   console.log "got a keyword `anyOf` error for #{error.dataPath}", error
 
-
-    # Hide individual required errors from an anyOf constraint
-    # So we don't fill the form with errors that don't make sense to the user
-    # Except ArchiveAndDistributionInformation has 'anyOf' constraint to the child element FileArchiveInformation and
-    # FileDistributionInformation which have required field 'Format'
-    # if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1 && !(error.dataPath.indexOf('ArchiveAndDistributionInformation') > -1 && error.params['missingProperty'] == 'Format')
-    if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1
-      if error.dataPath.indexOf('ArchiveAndDistributionInformation') != -1 && error.params['missingProperty'] == 'Format'
-        ; # you shall pass
-      else if error.dataPath.indexOf('HorizontalSpatialDomain') != -1
-        ; # you shall pass
-      else
-        # you shall not pass
-        console.log "supressing a `required` and `anyOf` error"
-        console.log JSON.stringify(error)
+    if error.schemaPath.indexOf('oneOf') != -1
+      dp = error.dataPath.split('/')
+      if dp[dp.length - 1] == 'ResolutionAndCoordinateSystem'
+        # we are suppressing oneOf errors for ResolutionAndCoordinateSystem until
+        # MMT-2153 so that we can work through the most useful error messages for
+        # for the user
         error = null
         return
-
-    # TODO if not already done above, figure out anyOf errors for new fields
-    # TODO look into oneOf errors
 
 
     error.dataPath += "/#{error.params.missingProperty}" if error.params.missingProperty?
@@ -372,142 +338,91 @@ $(document).ready ->
     error.id = id
     error.element = $("##{id}")
 
+    # Hide individual required errors from an anyOf constraint
+    # So we don't fill the form with errors that don't make sense to the user
+    # Except ArchiveAndDistributionInformation has 'anyOf' constraint to the child element FileArchiveInformation and
+    # FileDistributionInformation which have required field 'Format'
+    # if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1 && !(error.dataPath.indexOf('ArchiveAndDistributionInformation') > -1 && error.params['missingProperty'] == 'Format')
+    if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1
+      if error.dataPath.indexOf('ArchiveAndDistributionInformation') != -1 && error.params['missingProperty'] == 'Format'
+        ; # you shall pass
+      else if error.dataPath.indexOf('HorizontalDataResolution') != -1
+        if error.params.missingProperty == 'Unit'
+          ; # you shall pass
+        else if error.id.endsWith('dimension')
+          axisIndex = error.id.indexOf('_dimension') - 1
+          axis = error.id[axisIndex]
+          switch axis
+            when 'x'
+              otherDimId = error.id.replace('x_dimension', 'y_dimension')
+            when 'y'
+              otherDimId = error.id.replace('y_dimension', 'x_dimension')
+
+          # debugger
+          if error.id.indexOf('maximum') != -1
+            minFieldId = error.id.replace('maximum', 'minimum')
+            otherMinFieldId = otherDimId.replace('maximum', 'minimum')
+            if $("##{minFieldId}").val() != ''
+              # the paired Min field has a value, this is a valid error
+              ; # you shall pass
+            else if ($("##{otherDimId}").val() != '' || $("##{otherMinFieldId}").val() != '')
+              # the other pair of Min/Max values has at least one value, and
+              # since the paired Min field does not have a value, this is
+              # not a valid error
+              # you shall not pass
+              error = null
+              return
+            else
+              # the paired Min field has no value, and the other pair of
+              # Min/Max fields have no value. So this is a valid error
+              ; # you shall pass
+
+          else if error.id.indexOf('minimum') != -1
+            maxFieldId = error.id.replace('minimum', 'maximum')
+            otherMaxFieldId = otherDimId.replace('minimum', 'maximum')
+            if $("##{maxFieldId}").val() != ''
+              # the paired Max field has a value, this is a valid error
+              ;
+            else if ($("##{otherDimId}").val() != '' || $("##{otherMaxFieldId}").val() != '')
+              # the other pair of Min/Max values has at least one value, and
+              # since the paired Max field does not have a value, this is
+              # not a valid error
+              # you shall not pass
+              error = null
+              return
+            else
+              # the paired Max field has no value, and the other pair of
+              # Min/Max fields have no value. So this is a valid error
+              ; # you shall pass
+          else
+            # the error is for XDimension or YDimension, so no Min/Max
+            if $("##{otherDimId}").val() != ''
+              # if the other dimension has a value, this one is no longer required
+              # you shall not pass
+              error = null
+              return
+
+        else
+          console.log "what??? another keyword `requred` with `anyOf` error??", error
+      else
+        # you shall not pass
+        console.log "supressing a keyword `required` relating to `anyOf` error", error
+        error = null
+        return
+
     if id.indexOf('cdf4') >= 0
       labelFor = id
     else
       labelFor = id.replace(/(_)?\d+$/, "")
 
-
-    if error.dataPath.indexOf('ResolutionAndCoordinateSystem') != -1
-      json = getPageJson()
-
-      racs = json.SpatialExtent.HorizontalSpatialDomain.ResolutionAndCoordinateSystem
-        # if racs has GeodeticModel || ResolutionAndCoordinateSystem || LocalCoordinateSystem
-
-      if typeof racs.HorizontalDataResolutions != 'undefined'
-        hsd = racs.HorizontalDataResolutions
-
-        if error.schemaPath.indexOf('HorizontalResolutionProcessingLevelEnum/enum') != -1
-          error = null
-          return
-        else if error.dataPath.indexOf('HorizontalDataResolutions') != -1
-          # debugger
-          if /#\/oneOf\/(\d*)/.test error.schemaPath
-            [_, oneOfErrorIndex] = error.schemaPath.match /#\/oneOf\/(\d*)/
-            #anyOf/0/required/
-          [_, dataIndex] = error.id.match /resolution_and_coordinate_system_horizontal_data_resolutions_(\d*)/
-          oneOfErrorIndex = parseInt(oneOfErrorIndex)
-          dataIndex = parseInt(dataIndex)
-          horizDataRes = hsd[dataIndex]
-
-          switch horizDataRes.HorizontalResolutionProcessingLevelEnum
-            when 'Point', 'Varies'
-              ; # do nothing
-            when 'Non Gridded'
-              if oneOfErrorIndex != 1
-                error = null
-                return
-              else
-                debugger
-            when 'Non Gridded Range'
-              if oneOfErrorIndex != 2
-                error = null
-                return
-              else
-                debugger
-            when 'Gridded', 'Not provided'
-              if oneOfErrorIndex != 3
-                error = null
-                return
-              else
-                debugger
-            when 'Gridded Range'
-              if oneOfErrorIndex != 4
-                error = null
-                return
-              else
-                if error.keyword == 'required'
-                  missing = error.params.missingProperty
-                  # should be one of the min or max values
-                  # TODO how to split and figure out if it is X or Y
-                  # then check if the other part of the range is filled in
-                  # to determine if the error is valid
-                  # indexOf Dimension, -1, grab letter
-                  dimIndex = missing.indexOf('Dimension') - 1
-                  dim = missing[dimIndex]
-                  highOrLow = missing.slice(0, dimIndex)
-                  switch dim
-                    when 'X'
-                      otherDim = 'Y'
-                    when 'Y'
-                      otherDim = 'X'
-                  switch highOrLow
-                    when 'Maximum'
-                      otherHighOrLow = 'Minimum'
-                    when 'Minimum'
-                      otherHighOrLow = 'Maximum'
-                  debugger
-              #
-
-          # point, varies = oneOf/0
-          # non gridded = oneOf/1
-            # xdim = anyOf/0
-            # ydim = anyOf/1
-          # non gridded range = oneOf/2
-            # x's = anyOf/0
-            # y's = anyOf/1
-          # gridded, not provided = oneOf/3
-            # xdim = anyOf/0
-            # ydim = anyOf/1
-          # gridded range = oneOf/4
-            # x's = anyOf/0
-            # y's = anyOf/1
-
-
-          # does not need HorizontalSpatialDomain should have one option
-          # GeodeticModel error.schemaPath: "#/oneOf/0/required"
-          #
-
-          # enum: "{"keyword":"enum","dataPath":"/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem/HorizontalDataResolutions/0/HorizontalResolutionProcessingLevelEnum","schemaPath":"#/oneOf/0/properties/HorizontalResolutionProcessingLevelEnum/enum","params":{},"message":"should be equal to one of values"}"
-          # required in other option: "{"keyword":"required","dataPath":"/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem/HorizontalDataResolutions/0","schemaPath":"#/oneOf/1/anyOf/0/required","params":{"missingProperty":"XDimension"},"message":"should have required property 'XDimension'"}"
-          # also 'YDimension',
-          # schemaPath":"#/oneOf/3/anyOf/0/required
-          # required and anyOf are being suppressed below
-
-          # anyOf: "{"keyword":"anyOf","dataPath":"/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem/HorizontalDataResolutions/0","schemaPath":"#/oneOf/1/anyOf","params":{},"message":"should match some schema in anyOf"}"
-          # {"keyword":"anyOf","dataPath":"/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem/HorizontalDataResolutions/0","schemaPath":"#/oneOf/3/anyOf","params":{},"message":"should match some schema in anyOf"}
-
-          # legit error: "{"keyword":"type","dataPath":"/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem/HorizontalDataResolutions/0/MinimumYDimension","schemaPath":"#/oneOf/2/properties/MinimumYDimension/type","params":{"type":"number"},"message":"should be number"}"
-          # but not legit b/c wrong oneOf: "{"keyword":"type","dataPath":"/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem/HorizontalDataResolutions/0/MinimumYDimension","schemaPath":"#/oneOf/4/properties/MinimumYDimension/type","params":{"type":"number"},"message":"should be number"}"
-
-
-          # oneOf: "{"keyword":"oneOf","dataPath":"/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem/HorizontalDataResolutions/0","schemaPath":"#/oneOf","params":{},"message":"should match exactly one schema in oneOf"}"
-
-          # not legit b/c data in ResolutionAndCoordinateSystem "{"keyword":"required","dataPath":"/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem","schemaPath":"#/oneOf/2/required","params":{"missingProperty":"LocalCoordinateSystem"},"message":"should have required property 'LocalCoordinateSystem'"}"
-
-          # oneOf higher up: "{"keyword":"oneOf","dataPath":"/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem","schemaPath":"#/oneOf","params":{},"message":"should match exactly one schema in oneOf"}"
-
-          # 0: {keyword: "required", dataPath: "/SpatialExtent/HorizontalSpatialDomain/Geometry", schemaPath: "#/required", params: {…}, message: "should have required property 'Geometry'", …}
-          # 1: {keyword: "required", dataPath: "/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem/GeodeticModel", schemaPath: "#/oneOf/0/required", params: {…}, message: "should have required property 'GeodeticModel'", …}
-          # 2: {keyword: "required", dataPath: "/SpatialExtent/HorizontalSpatialDomain/ResolutionA…tem/HorizontalDataResolutions/0/MaximumXDimension", schemaPath: "#/oneOf/4/anyOf/0/required", params: {…}, message: "should have required property 'MaximumXDimension'", …}
-          # 3: {keyword: "required", dataPath: "/SpatialExtent/HorizontalSpatialDomain/ResolutionA…tem/HorizontalDataResolutions/0/MinimumYDimension", schemaPath: "#/oneOf/4/anyOf/1/required", params: {…}, message: "should have required property 'MinimumYDimension'", …}
-          # 4: {keyword: "required", dataPath: "/SpatialExtent/HorizontalSpatialDomain/ResolutionA…tem/HorizontalDataResolutions/0/MaximumYDimension", schemaPath: "#/oneOf/4/anyOf/1/required", params: {…}, message: "should have required property 'MaximumYDimension'", …}
-          # 5: {keyword: "anyOf", dataPath: "/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem/HorizontalDataResolutions/0", schemaPath: "#/oneOf/4/anyOf", params: {…}, message: "should match some schema in anyOf", …}
-          # 6: {keyword: "required", dataPath: "/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem/LocalCoordinateSystem", schemaPath: "#/oneOf/2/required", params: {…}, message: "should have required property 'LocalCoordinateSystem'", …}
-          # 7: {keyword: "oneOf", dataPath: "/SpatialExtent/HorizontalSpatialDomain/ResolutionAndCoordinateSystem", schemaPath: "#/oneOf", params: {…}, message: "should match exactly one schema in oneOf", …}
-          # 8: {keyword: "required", dataPath: "/SpatialExtent/GranuleSpatialRepresentation", schemaPath: "#/required", params: {…}, message: "should have required property 'GranuleSpatialRepresentation'", …}
-
-
-      # if typeof hsd.ResolutionAndCoordinateSystem != 'undefined'
-      #    = hsd
-
-
     error.title = $("label[for='#{labelFor}']").text()
 
     if error.title.length == 0 && error.element.closest('.multiple').hasClass('simple-multiple')
-      # some Multi Item fields (arrays of simple values) in UMM-C drafts have one label tied to the first field
+      # some Multi Item fields (arrays of simple values) in UMM-C drafts have
+      # one label tied to the first field
       error.title = $("label[for='#{labelFor}_0']").text()
 
+    # console.log "returning error from `getErrorDetails`:", error
     error
 
   validateParameterRanges = (errors) ->

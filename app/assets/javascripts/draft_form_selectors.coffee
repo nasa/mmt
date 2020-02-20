@@ -97,9 +97,6 @@ $(document).ready ->
       when 'ORBITAL_VERTICAL'
         $parent.siblings('.spatial-coverage-type.orbit').show()
         $parent.siblings('.spatial-coverage-type.vertical').show()
-      when 'BOTH'
-        $parent.siblings('.spatial-coverage-type.horizontal').show()
-        $parent.siblings('.spatial-coverage-type.vertical').show()
       when 'HORIZONTAL_ORBITAL'
         $parent.siblings('.spatial-coverage-type.horizontal').show()
         $parent.siblings('.spatial-coverage-type.orbit').show()
