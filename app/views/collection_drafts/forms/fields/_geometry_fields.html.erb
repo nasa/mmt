@@ -22,16 +22,15 @@
         Polygons must contain less than 50 points.
       </p>
   </div>
-  </br>
-
 
   <!-- CoordinateSystem -->
   <% coordinate_system = geometry['CoordinateSystem'] || "" %>
-  <div>
+  <div class="space-top">
     <%= mmt_label(
-      name: 'coordinate_system',
+      name: nil,
       title: 'Coordinate System',
       prefix: name_prefix,
+      required: true
     ) %>
     <a href="javascript:void(0)" class="clear-radio-button" data-content="coordinate-system-type">Clear</a>
     <div class="coordinate-system-type-group">
@@ -52,7 +51,6 @@
         ) %>
       </p>
     </div>
-    </br>
   </div>
 
   <!-- GeometryType (not an actual field) -->
@@ -61,7 +59,7 @@
   <% bounding_rectangles_checked = !geometry['BoundingRectangles'].nil? %>
   <% g_polygons_checked = !geometry['GPolygons'].nil? %>
   <% lines_checked = !geometry['Lines'].nil? %>
-  <label class="eui-required-o">Geometry Type</label>
+  <label class="eui-required-o space-top">Geometry Type</label>
   <div class="geometry-type-group">
     <div class="checkbox-group">
       <%= check_box_tag(name_to_param("#{name_prefix}points"), nil, points_checked, class: 'geometry-picker points', name: nil) %>
