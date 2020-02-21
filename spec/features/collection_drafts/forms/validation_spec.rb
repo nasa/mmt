@@ -283,7 +283,7 @@ describe 'Data validation for a collection draft form', js: true do
       click_on 'No'
 
       expect(page).to have_selector(validation_error)
-      expect(page).to have_content('TemporalExtents should have one type completed')
+      expect(page).to have_content('TemporalExtents should have one option completed')
       choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
 
       within '.single-date-times' do
@@ -321,12 +321,12 @@ describe 'Data validation for a collection draft form', js: true do
 
     it 'validation of anyOf does work' do
       within '.summary-errors' do
-        expect(page).to have_content('At least one Geometry Type is required')
+        expect(page).to have_content('Geometry should have one schema option completed')
       end
 
       within '.horizontal-spatial-domain' do
         expect(page).to have_selector(validation_error)
-        expect(page).to have_content('At least one Geometry Type is required')
+        expect(page).to have_content('Geometry should have one schema option completed')
       end
     end
 

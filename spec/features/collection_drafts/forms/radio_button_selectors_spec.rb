@@ -79,11 +79,11 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting horizontal data resolutions' do
       before do
-        choose 'Horizontal Data Resolutions'
+        choose 'Horizontal Data Resolution'
       end
 
       it 'displays the geographic coordinate system fields' do
-        expect(page).to have_css('.horizontal-data-resolutions-fields')
+        expect(page).to have_css('.horizontal-data-resolution-fields')
       end
 
       it 'does not display the other form fields' do
@@ -101,26 +101,26 @@ describe 'Radio button form selectors', js: true do
       end
 
       it 'does not display the other form fields' do
-        expect(page).to have_no_css('.horizontal-data-resolutions-fields')
+        expect(page).to have_no_css('.horizontal-data-resolution-fields')
       end
     end
 
     context 'when switching between options after filling in form data' do
       before do
-        choose 'Horizontal Data Resolutions'
-        choose 'Gridded'
+        choose 'Horizontal Data Resolution'
+        check 'Gridded Resolutions'
         select 'Meters', from: 'Unit'
         fill_in 'X Dimension', with: '42.0'
         fill_in 'Y Dimension', with: '43.0'
 
         choose 'Local'
-        choose 'Horizontal Data Resolutions'
+        choose 'Horizontal Data Resolution'
       end
 
       it 'clears the form data' do
-        expect(page).to have_no_checked_field('Gridded')
+        expect(page).to have_no_checked_field('Gridded Resolutions')
 
-        choose 'Gridded'
+        check 'Gridded Resolutions'
 
         expect(page).to have_field('Unit', with: '')
         expect(page).to have_field('X Dimension', with: '')
