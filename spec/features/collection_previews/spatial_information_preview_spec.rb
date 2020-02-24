@@ -31,7 +31,8 @@ describe 'Spatial information preview' do
         end
 
         within '.resolution_and_coordinate_system' do
-          expect(page).to have_content('Description: ResolutionAndCoordinateSystem Description')
+          expect(page).to have_content('Description:')
+          expect(page).to have_content('ResolutionAndCoordinateSystem Description')
 
           within '.geodetic_model_table' do
             within all('tr')[0] do
@@ -42,66 +43,63 @@ describe 'Spatial information preview' do
             end
           end
 
-          within '.horizontal_data_resolution_0' do
-            expect(page).to have_content('Horizontal Resolution Processing Level: Non Gridded Range')
-            within '.horizontal-x-dimension-range' do
-              within '.two-column-fields-left' do
-                expect(page).to have_content('X Dimension Minimum: 1 Meters')
-              end
+          within '.point_resolution' do
+            expect(page).to have_content('Point Resolution')
+            expect(page).to have_content('Horizontal Resolution Processing Level Enum')
+            expect(page).to have_content('Point')
+          end
 
-              within '.two-column-fields-right' do
-                expect(page).to have_content('X Dimension Maximum: 2 Meters')
-              end
+          within '.varies_resolution' do
+            expect(page).to have_content('Varies Resolution')
+            expect(page).to have_content('Horizontal Resolution Processing Level Enum')
+            expect(page).to have_content('Varies')
+          end
+
+          within '.non_gridded_resolutions' do
+            expect(page).to have_content('Non Gridded Resolutions')
+            within '.non_gridded_resolution_0' do
+              expect(page).to have_content('1 Meters')
+              expect(page).to have_content('2 Meters')
+              expect(page).to have_content('At Nadir')
+              expect(page).to have_content('Cross Track')
             end
+          end
 
-            within '.horizontal-y-dimension-range' do
-              within '.two-column-fields-left' do
-                expect(page).to have_content('Y Dimension Minimum: 3 Meters')
-              end
-
-              within '.two-column-fields-right' do
-                expect(page).to have_content('Y Dimension Maximum: 4 Meters')
-              end
+          within '.non_gridded_range_resolutions' do
+            expect(page).to have_content('Non Gridded Range Resolutions')
+            within '.non_gridded_range_resolution_0' do
+              expect(page).to have_content('3 Meters')
+              expect(page).to have_content('4 Meters')
+              expect(page).to have_content('5 Meters')
+              expect(page).to have_content('6 Meters')
+              expect(page).to have_content('At Nadir')
+              expect(page).to have_content('Cross Track')
             end
-            expect(page).to have_content('Viewing Angle: At Nadir')
-            expect(page).to have_content('Scan Direction: Along Track')
           end
 
-          within '.horizontal_data_resolution_1' do
-            expect(page).to have_content('Horizontal Resolution Processing Level: Gridded')
-            expect(page).to have_content('X Dimension: 1 Meters')
-            expect(page).to have_content('Y Dimension: 2 Meters')
+          within '.gridded_resolutions' do
+            expect(page).to have_content('Gridded Resolutions')
+            within '.gridded_resolution_0' do
+              expect(page).to have_content('7 Meters')
+              expect(page).to have_content('8 Meters')
+            end
           end
 
-          within '.horizontal_data_resolution_2' do
-            expect(page).to have_content('Horizontal Resolution Processing Level: Non Gridded')
-            expect(page).to have_content('X Dimension: 3 Statute Miles')
-            expect(page).to have_content('Y Dimension: 4 Statute Miles')
-            expect(page).to have_content('Viewing Angle: At Nadir')
-            expect(page).to have_content('Scan Direction: Cross Track')
+          within '.gridded_range_resolutions' do
+            expect(page).to have_content('Gridded Range Resolutions')
+            within '.gridded_range_resolution_0' do
+              expect(page).to have_content('9 Meters')
+              expect(page).to have_content('10 Meters')
+              expect(page).to have_content('11 Meters')
+              expect(page).to have_content('12 Meters')
+            end
           end
 
-          within '.horizontal_data_resolution_3' do
-            expect(page).to have_content('Horizontal Resolution Processing Level: Varies')
-          end
-
-          within '.horizontal_data_resolution_4' do
-            expect(page).to have_content('Horizontal Resolution Processing Level: Non Gridded')
-            expect(page).to have_content('X Dimension: 5 Statute Miles')
-            expect(page).to have_content('Viewing Angle: At Nadir')
-            expect(page).to have_content('Scan Direction: Cross Track')
-          end
-
-          within '.horizontal_data_resolution_5' do
-            expect(page).to have_content('Horizontal Resolution Processing Level: Gridded Range')
-            within '.horizontal-y-dimension-range' do
-              within '.two-column-fields-left' do
-                expect(page).to have_content('Y Dimension Minimum: 6 Meters')
-              end
-
-              within '.two-column-fields-right' do
-                expect(page).to have_content('Y Dimension Maximum: 7 Meters')
-              end
+          within '.generic_resolutions' do
+            expect(page).to have_content('Generic Resolutions')
+            within '.generic_resolution_0' do
+              expect(page).to have_content('13 Meters')
+              expect(page).to have_content('14 Meters')
             end
           end
         end

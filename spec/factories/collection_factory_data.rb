@@ -736,36 +736,36 @@ def collection_one
               'HorizontalResolutionProcessingLevelEnum': 'Point'
             },
             'NonGriddedResolutions': [{
-              'XDimension': 10,
-              'YDimension': 10,
+              'XDimension': 1,
+              'YDimension': 2,
               'Unit': 'Meters',
               'ViewingAngleType': 'At Nadir',
               'ScanDirection': 'Cross Track'
             }],
             'NonGriddedRangeResolutions': [{
-              'MinimumXDimension': 10,
-              'MinimumYDimension': 10,
-              'MaximumXDimension': 20,
-              'MaximumYDimension': 20,
+              'MinimumXDimension': 3,
+              'MinimumYDimension': 4,
+              'MaximumXDimension': 5,
+              'MaximumYDimension': 6,
               'Unit': 'Meters',
               'ViewingAngleType': 'At Nadir',
               'ScanDirection': 'Cross Track'
             }],
             'GriddedResolutions': [{
-              'XDimension': 10,
-              'YDimension': 10,
+              'XDimension': 7,
+              'YDimension': 8,
               'Unit': 'Meters'
             }],
             'GriddedRangeResolutions': [{
-              'MinimumXDimension': 10,
+              'MinimumXDimension': 9,
               'MinimumYDimension': 10,
-              'MaximumXDimension': 20,
-              'MaximumYDimension': 20,
+              'MaximumXDimension': 11,
+              'MaximumYDimension': 12,
               'Unit': 'Meters'
             }],
             'GenericResolutions': [{
-              'XDimension': 10,
-              'YDimension': 10,
+              'XDimension': 13,
+              'YDimension': 14,
               'Unit': 'Meters'
             }]
           },

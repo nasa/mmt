@@ -69,7 +69,6 @@ $(document).ready ->
 
     isRequired = false
     currentDataLevel = dataLevels.join('_') # this is the current data-level
-    # topDataLevel = dataLevels.join('_') # this is the current data-level
     console.log "currentDataLevel, topDataLevel: #{currentDataLevel}"
 
     # fields at the current data-level (`currentDataLevel`)
@@ -82,10 +81,10 @@ $(document).ready ->
         else
           this.value
 
-      # If the current data-level is the same as the topRequiredDataLevel (is this necessary?)
+      # If the current data-level is the same as the topRequiredDataLevel (this appears to be critical to how variable/service drafts get required icons)
       # or if the current data-level is a top level required field
       # or if any of the fields have values
-      if requiredFieldDataLevels.indexOf(currentDataLevel) != -1 or fieldsWithValues.length > 0
+      if currentDataLevel == topRequiredDataLevel or requiredFieldDataLevels.indexOf(topDataLevel) != -1 or fieldsWithValues.length > 0
         isRequired = true
         # add required icon to required fields at this data-level
         # addRequiredFields($fields) # TODO is this necessary? it will be removed then re-added lines 120 - 128
