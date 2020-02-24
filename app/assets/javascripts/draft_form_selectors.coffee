@@ -20,7 +20,7 @@ $(document).ready ->
     else
       # clear and hide fields
       $fields.hide()
-      $.each $fields.find('input'), (index, field) ->
+      $.each $fields.find('input').not("input[type='radio']"), (index, field) ->
         $(field).val ''
       $.each $fields.find("input[type='radio']"), (index, field) ->
         $(field).prop 'checked', false

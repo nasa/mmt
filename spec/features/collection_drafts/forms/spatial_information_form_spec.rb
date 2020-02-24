@@ -154,9 +154,9 @@ describe 'Spatial information form', js: true do
             expect(page).to have_field('Ellipsoid Name', with: 'Ellipsoid name')
             expect(page).to have_field('Semi Major Axis', with: '3.0')
             expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
-            expect(page).to have_checked_field('Horizontal Data Resolutions')
+            #expect(page).to have_checked_field('Horizontal Data Resolution')
 
-            within '.horizontal-data-resolutions-fields' do
+            within '.horizontal-data-resolution' do
               expect(page).to have_checked_field('Point Resolution')
               expect(page).to have_checked_field('Point')
 
@@ -164,36 +164,36 @@ describe 'Spatial information form', js: true do
               expect(page).to have_checked_field('Varies')
 
               within '.horizontal-data-resolution-fields.gridded-resolutions' do
-                expect(page).to have_field('X Dimension', with: '1')
-                expect(page).to have_field('Y Dimension', with: '2')
+                expect(page).to have_field('X Dimension', with: '1.0')
+                expect(page).to have_field('Y Dimension', with: '2.0')
                 expect(page).to have_field('Unit', with: 'Meters')
               end
               within '.horizontal-data-resolution-fields.gridded-range-resolutions' do
-                expect(page).to have_field('Minimum X Dimension', with: '3')
-                expect(page).to have_field('Maximum X Dimension', with: '4')
-                expect(page).to have_field('Minimum Y Dimension', with: '5')
-                expect(page).to have_field('Maximum Y Dimension', with: '6')
+                expect(page).to have_field('Minimum X Dimension', with: '3.0')
+                expect(page).to have_field('Maximum X Dimension', with: '4.0')
+                expect(page).to have_field('Minimum Y Dimension', with: '5.0')
+                expect(page).to have_field('Maximum Y Dimension', with: '6.0')
                 expect(page).to have_field('Unit', with: 'Meters')
               end
               within '.horizontal-data-resolution-fields.non-gridded-resolutions' do
-                expect(page).to have_field('X Dimension', with: '7')
-                expect(page).to have_field('Y Dimension', with: '8')
+                expect(page).to have_field('X Dimension', with: '7.0')
+                expect(page).to have_field('Y Dimension', with: '8.0')
                 expect(page).to have_field('Unit', with: 'Meters')
                 expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
                 expect(page).to have_field('Scan Direction', with: 'Along Track')
               end
               within '.horizontal-data-resolution-fields.non-gridded-range-resolutions' do
-                expect(page).to have_field('Minimum X Dimension', with: '9')
-                expect(page).to have_field('Maximum X Dimension', with: '10')
-                expect(page).to have_field('Minimum Y Dimension', with: '11')
-                expect(page).to have_field('Maximum Y Dimension', with: '12')
+                expect(page).to have_field('Minimum X Dimension', with: '9.0')
+                expect(page).to have_field('Maximum X Dimension', with: '10.0')
+                expect(page).to have_field('Minimum Y Dimension', with: '11.0')
+                expect(page).to have_field('Maximum Y Dimension', with: '12.0')
                 expect(page).to have_field('Unit', with: 'Meters')
                 expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
                 expect(page).to have_field('Scan Direction', with: 'Along Track')
               end
               within '.horizontal-data-resolution-fields.generic-resolutions' do
-                expect(page).to have_field('X Dimension', with: '13')
-                expect(page).to have_field('Y Dimension', with: '14')
+                expect(page).to have_field('X Dimension', with: '13.0')
+                expect(page).to have_field('Y Dimension', with: '14.0')
                 expect(page).to have_field('Unit', with: 'Meters')
               end
             end
