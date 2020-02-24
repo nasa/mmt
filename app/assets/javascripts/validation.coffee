@@ -419,7 +419,7 @@ $(document).ready ->
 
     if error.title.length == 0 && error.element.closest('.multiple').hasClass('simple-multiple')
       # some Multi Item fields (arrays of simple values) in UMM-C drafts have
-      # one label tied to the first field
+      #one label tied to the first field
       error.title = $("label[for='#{labelFor}_0']").text()
 
     # console.log "returning error from `getErrorDetails`:", error
