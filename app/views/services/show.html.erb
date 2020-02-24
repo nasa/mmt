@@ -71,6 +71,9 @@
           <%= link_to 'This service has an open draft associated with it. Click here to view it.', @draft %>
         <% elsif available_provider?(@provider_id) %>
           <%= link_to 'This service has an open draft associated with it. Click here to view it.', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'view-draft' } %>
+        <% else %>
+            It appears that you do not have access to an open draft already associated with this service.<br />
+            If you feel you should have access, please check with your provider manager or ensure that you are logged into the correct provider.
         <% end %>
       </p>
     </div>
