@@ -32,41 +32,43 @@ describe 'Spatial information form', js: true do
           fill_in 'Ellipsoid Name', with: 'Ellipsoid name'
           fill_in 'Semi Major Axis', with: '3.0'
           fill_in 'Denominator Of Flattening Ratio', with: '4.0'
-          choose 'Horizontal Data Resolutions'
-          within '.horizontal-data-resolutions-fields' do
-            within '.multiple-item-0' do
-              choose 'Gridded'
+          choose 'Horizontal Data Resolution'
+          within '.horizontal-data-resolution-fields' do
+            check 'Point Resolution'
+            within '.horizontal-data-resolution-fields.point-resolution' do
+              choose 'Point'
+            end
+
+            check 'Varies Resolution'
+            choose 'Varies'
+
+            check 'Gridded Resolutions'
+            within '.horizontal-data-resolution-fields.gridded-resolutions' do
               fill_in 'X Dimension', with: '1'
               fill_in 'Y Dimension', with: '2'
               select 'Meters', from: 'Unit'
             end
-          end
-          click_on 'Add another Horizontal Data Resolution'
-          within '.horizontal-data-resolutions-fields' do
-            within '.multiple-item-1' do
-              choose 'Gridded Range'
+
+            check 'Gridded Range Resolutions'
+            within '.horizontal-data-resolution-fields.gridded-range-resolutions' do
               fill_in 'Minimum X Dimension', with: '3'
               fill_in 'Maximum X Dimension', with: '4'
               fill_in 'Minimum Y Dimension', with: '5'
               fill_in 'Maximum Y Dimension', with: '6'
               select 'Meters', from: 'Unit'
             end
-          end
-          click_on 'Add another Horizontal Data Resolution'
-          within '.horizontal-data-resolutions-fields' do
-            within '.multiple-item-2' do
-              choose 'Non Gridded'
+
+            check 'Non Gridded Resolutions'
+            within '.horizontal-data-resolution-fields.non-gridded-resolutions' do
               fill_in 'X Dimension', with: '7'
               fill_in 'Y Dimension', with: '8'
               select 'At Nadir', from: 'Viewing Angle Type'
               select 'Along Track', from: 'Scan Direction'
               select 'Meters', from: 'Unit'
             end
-          end
-          click_on 'Add another Horizontal Data Resolution'
-          within '.horizontal-data-resolutions-fields' do
-            within '.multiple-item-3' do
-              choose 'Non Gridded Range'
+
+            check 'Non Gridded Range Resolutions'
+            within '.horizontal-data-resolution-fields.non-gridded-range-resolutions' do
               fill_in 'Minimum X Dimension', with: '9'
               fill_in 'Maximum X Dimension', with: '10'
               fill_in 'Minimum Y Dimension', with: '11'
@@ -75,23 +77,12 @@ describe 'Spatial information form', js: true do
               select 'Along Track', from: 'Scan Direction'
               select 'Meters', from: 'Unit'
             end
-          end
-          click_on 'Add another Horizontal Data Resolution'
-          within '.horizontal-data-resolutions-fields' do
-            within '.multiple-item-4' do
-              choose 'Point'
-            end
-          end
-          click_on 'Add another Horizontal Data Resolution'
-          within '.horizontal-data-resolutions-fields' do
-            within '.multiple-item-5' do
-              choose 'Varies'
-            end
-          end
-          click_on 'Add another Horizontal Data Resolution'
-          within '.horizontal-data-resolutions-fields' do
-            within '.multiple-item-6' do
-              choose 'Not provided'
+
+            check 'Generic Resolutions'
+            within '.horizontal-data-resolution-fields.generic-resolutions' do
+              fill_in 'X Dimension', with: '13'
+              fill_in 'Y Dimension', with: '14'
+              select 'Meters', from: 'Unit'
             end
           end
         end
@@ -131,9 +122,6 @@ describe 'Spatial information form', js: true do
           click_on 'Save'
         end
 
-        # TODO: MMT-1726: This should be removed from the final push of the branch because the data should be valid
-        click_on 'Yes'
-
         # output_schema_validation Draft.first.draft
         click_on 'Expand All'
       end
@@ -166,49 +154,47 @@ describe 'Spatial information form', js: true do
             expect(page).to have_field('Ellipsoid Name', with: 'Ellipsoid name')
             expect(page).to have_field('Semi Major Axis', with: '3.0')
             expect(page).to have_field('Denominator Of Flattening Ratio', with: '4.0')
-            expect(page).to have_checked_field('Horizontal Data Resolutions')
+            expect(page).to have_checked_field('Horizontal Data Resolution')
 
-            within '.horizontal-data-resolutions-fields' do
-              within '.multiple-item-0' do
-                expect(page).to have_checked_field('Gridded')
-                expect(page).to have_field('X Dimension', with: '1')
-                expect(page).to have_field('Y Dimension', with: '2')
+            within '.horizontal-data-resolution' do
+              expect(page).to have_checked_field('Point Resolution')
+              expect(page).to have_checked_field('Point')
+
+              expect(page).to have_checked_field('Varies Resolution')
+              expect(page).to have_checked_field('Varies')
+
+              within '.horizontal-data-resolution-fields.gridded-resolutions' do
+                expect(page).to have_field('X Dimension', with: '1.0')
+                expect(page).to have_field('Y Dimension', with: '2.0')
                 expect(page).to have_field('Unit', with: 'Meters')
               end
-              within '.multiple-item-1' do
-                expect(page).to have_checked_field('Gridded Range')
-                expect(page).to have_field('Minimum X Dimension', with: '3')
-                expect(page).to have_field('Maximum X Dimension', with: '4')
-                expect(page).to have_field('Minimum Y Dimension', with: '5')
-                expect(page).to have_field('Maximum Y Dimension', with: '6')
+              within '.horizontal-data-resolution-fields.gridded-range-resolutions' do
+                expect(page).to have_field('Minimum X Dimension', with: '3.0')
+                expect(page).to have_field('Maximum X Dimension', with: '4.0')
+                expect(page).to have_field('Minimum Y Dimension', with: '5.0')
+                expect(page).to have_field('Maximum Y Dimension', with: '6.0')
                 expect(page).to have_field('Unit', with: 'Meters')
               end
-              within '.multiple-item-2' do
-                expect(page).to have_checked_field('Non Gridded')
-                expect(page).to have_field('X Dimension', with: '7')
-                expect(page).to have_field('Y Dimension', with: '8')
-                expect(page).to have_field('Unit', with: 'Meters')
-                expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
-                expect(page).to have_field('Scan Direction', with: 'Along Track')
-              end
-              within '.multiple-item-3' do
-                expect(page).to have_checked_field('Non Gridded Range')
-                expect(page).to have_field('Minimum X Dimension', with: '9')
-                expect(page).to have_field('Maximum X Dimension', with: '10')
-                expect(page).to have_field('Minimum Y Dimension', with: '11')
-                expect(page).to have_field('Maximum Y Dimension', with: '12')
+              within '.horizontal-data-resolution-fields.non-gridded-resolutions' do
+                expect(page).to have_field('X Dimension', with: '7.0')
+                expect(page).to have_field('Y Dimension', with: '8.0')
                 expect(page).to have_field('Unit', with: 'Meters')
                 expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
                 expect(page).to have_field('Scan Direction', with: 'Along Track')
               end
-              within '.multiple-item-4' do
-                expect(page).to have_checked_field('Point')
+              within '.horizontal-data-resolution-fields.non-gridded-range-resolutions' do
+                expect(page).to have_field('Minimum X Dimension', with: '9.0')
+                expect(page).to have_field('Maximum X Dimension', with: '10.0')
+                expect(page).to have_field('Minimum Y Dimension', with: '11.0')
+                expect(page).to have_field('Maximum Y Dimension', with: '12.0')
+                expect(page).to have_field('Unit', with: 'Meters')
+                expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
+                expect(page).to have_field('Scan Direction', with: 'Along Track')
               end
-              within '.multiple-item-5' do
-                expect(page).to have_checked_field('Varies')
-              end
-              within '.multiple-item-6' do
-                expect(page).to have_checked_field('Not provided')
+              within '.horizontal-data-resolution-fields.generic-resolutions' do
+                expect(page).to have_field('X Dimension', with: '13.0')
+                expect(page).to have_field('Y Dimension', with: '14.0')
+                expect(page).to have_field('Unit', with: 'Meters')
               end
             end
           end

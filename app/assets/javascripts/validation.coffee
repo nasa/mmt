@@ -443,6 +443,7 @@ $(document).ready ->
               keyword: keyword,
               dataPath: "/AdditionalAttributes/#{index}/ParameterRangeEnd"
               params: {}
+              schemaPath: "" # these errors need this to not throw errors in getErrorDetails
             errors.push newError
 
   validatePicklistValues = (errors) ->
@@ -525,6 +526,7 @@ $(document).ready ->
       error.message = "value [#{$(this).val()}] does not match a valid selection option"
       error.params = {}
       error.dataPath = dataPath
+      error.schemaPath = "" # these errors need this to not throw errors in getErrorDetails
       errors.push error
 
     # combine TemporalKeywords invalidPicklist errors if more than one exist
@@ -548,6 +550,7 @@ $(document).ready ->
       newError.message = "values [#{values.join(', ')}] do not match a valid selection option"
       newError.params = {}
       newError.dataPath = '/TemporalKeywords'
+      newError.schemaPath = "" # these errors need this to not throw errors in getErrorDetails
       errors.push newError
 
     errors
@@ -656,10 +659,21 @@ $(document).ready ->
     if $('#draft_template_name').length > 0
       error = null
       if $('#draft_template_name').val().length == 0
-        error = { "id": 'draft_template_name', "title": 'Draft Template Name', "params": {}, 'dataPath': '/TemplateName', 'keyword': 'must_exist'}
+       error = 
+          id: 'draft_template_name'
+          title: 'Draft Template Name'
+          params: {}
+          dataPath: '/TemplateName'
+          keyword: 'must_exist'
+          schemaPath: "" # these errors need this to not throw errors in getErrorDetails
       else if globalTemplateNames.indexOf($('#draft_template_name').val()) isnt -1
-        error = { "id": 'draft_template_name', "title": 'Draft Template Name', "params": {}, 'dataPath': '/TemplateName', 'keyword': 'not_unique'}
-
+        error = 
+          id: 'draft_template_name'
+          title: 'Draft Template Name'
+          params: {}
+          dataPath: '/TemplateName'
+          keyword: 'not_unique'
+          schemaPath: "" # these errors need this to not throw errors in getErrorDetails
       if error
         errors.push(error)
         return true

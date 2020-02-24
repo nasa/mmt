@@ -20,7 +20,7 @@ $(document).ready ->
     else
       # clear and hide fields
       $fields.hide()
-      $.each $fields.find('input'), (index, field) ->
+      $.each $fields.find('input').not("input[type='radio']"), (index, field) ->
         $(field).val ''
       $.each $fields.find("input[type='radio']"), (index, field) ->
         $(field).prop 'checked', false
@@ -33,15 +33,18 @@ $(document).ready ->
         $(coordinateSystemType).siblings('.horizontal-data-resolution-fields').show()
         $(coordinateSystemType).siblings('.local-coordinate-system-fields').hide()
       when 'local'
-        $(coordinateSystemType).siblings('.horizontal-data-resolutions-fields').hide()
+        $(coordinateSystemType).siblings('.horizontal-data-resolution-fields').hide()
         $(coordinateSystemType).siblings('.local-coordinate-system-fields').show()
 
-    $allSiblings = $(coordinateSystemType).siblings('.horizontal-data-resolutions-fields, .local-coordinate-system-fields')
+    $allSiblings = $(coordinateSystemType).siblings('.horizontal-data-resolution-fields, .local-coordinate-system-fields')
 
     # Clear all fields (except for radio buttons)
     $allSiblings.find('input, select, textarea').not("input[type='radio']").val ''
     # Uncheck all radio buttons
     $allSiblings.find("input[type='radio']").prop 'checked', false
+    # Close the forms tied to checkboxes
+    $(this).parents('.resolution-and-coordinate-system').find("input[type='checkbox']").prop 'checked', false
+    $(this).parents('.resolution-and-coordinate-system').find("input[type='checkbox']").change()
 
     # Toggle checkboxes
     $(this).siblings('.coordinate-system-picker').prop 'checked', false
