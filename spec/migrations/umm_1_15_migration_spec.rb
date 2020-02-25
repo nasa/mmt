@@ -4,9 +4,7 @@
 describe 'Migration tests for UMM-C 1.15' do
   context 'when migrating a record which does not have horizontal spatial information' do
     before do
-      @collection = CollectionDraft.new()
-      @collection.draft = {
-        # Some fields that should be retained
+      @draft = {
         'DOI' => {
           'DOI'       => 'Citation DOI',
           'Authority' => 'Citation DOI Authority'
@@ -25,9 +23,7 @@ describe 'Migration tests for UMM-C 1.15' do
     end
 
     it 'should have all of the old fields' do
-      @collection.migration_test
-      expect(@collection.draft).to eq({
-        # Some fields that should be retained
+      expect(umm_c_1_15_migration_test(@draft)).to eq({
         'DOI' => {
           'DOI'       => 'Citation DOI',
           'Authority' => 'Citation DOI Authority'
@@ -47,27 +43,25 @@ describe 'Migration tests for UMM-C 1.15' do
 
     context 'when migrating a record which has vertical spatial information' do
       before do
-        @collection.draft['SpatialInformation'] = {
-              'SpatialCoverageType' => 'VERTICAL',
-              'VerticalCoordinateSystem' => {
-                'AltitudeSystemDefinition' => {
-                  'DatumName' => 'Datum',
-                  'DistanceUnits' => 'HectoPascals',
-                  'Resolutions' => [1.0, 2.0, 3.0]
-                },
-                'DepthSystemDefinition' => {
-                  'DatumName' => 'Datum 2',
-                  'DistanceUnits' => 'Fathoms',
-                  'Resolutions' => [12.0, 22.0, 32.0]
-                }
-              }
+        @draft['SpatialInformation'] = {
+          'SpatialCoverageType' => 'VERTICAL',
+          'VerticalCoordinateSystem' => {
+            'AltitudeSystemDefinition' => {
+              'DatumName' => 'Datum',
+              'DistanceUnits' => 'HectoPascals',
+              'Resolutions' => [1.0, 2.0, 3.0]
+            },
+            'DepthSystemDefinition' => {
+              'DatumName' => 'Datum 2',
+              'DistanceUnits' => 'Fathoms',
+              'Resolutions' => [12.0, 22.0, 32.0]
             }
+          }
+        }
       end
 
       it 'retains the vertical spatial information' do
-        @collection.migration_test
-        expect(@collection.draft).to eq({
-          # Some fields that should be retained
+        expect(umm_c_1_15_migration_test(@draft)).to eq({
           'DOI' => {
             'DOI'       => 'Citation DOI',
             'Authority' => 'Citation DOI Authority'
@@ -104,9 +98,7 @@ describe 'Migration tests for UMM-C 1.15' do
 
   context 'when migrating records that have horizontal spatial information' do
     before do
-      @collection = CollectionDraft.new()
-      @collection.draft = {
-        # Some fields that should be retained
+      @draft = {
         'DOI' => {
           'DOI'       => 'Citation DOI',
           'Authority' => 'Citation DOI Authority'
@@ -158,9 +150,7 @@ describe 'Migration tests for UMM-C 1.15' do
 
     context 'when migrating records that also have horizontal spatial extents' do
       it 'adds to an existing horizontal spatial extent' do
-        @collection.migration_test
-        expect(@collection.draft).to eq({
-          # Some fields that should be retained
+        expect(umm_c_1_15_migration_test(@draft)).to eq({
           'DOI' => {
             'DOI'       => 'Citation DOI',
             'Authority' => 'Citation DOI Authority'
@@ -210,13 +200,11 @@ describe 'Migration tests for UMM-C 1.15' do
 
     context 'when migrating records that do not have horizontal spatial extents' do
       before do
-        # I think it is easier to understand what is happening if the above record is whole and we remove the horizontal spatial domain here.
-        @collection.draft['SpatialExtent'].delete('HorizontalSpatialDomain')
+        @draft['SpatialExtent'].delete('HorizontalSpatialDomain')
       end
 
       it 'makes a new HorizontalSpatialDomain' do
-        @collection.migration_test
-        expect(@collection.draft).to eq({
+        expect(umm_c_1_15_migration_test(@draft)).to eq({
           # Some fields that should be retained
           'DOI' => {
             'DOI'       => 'Citation DOI',
@@ -252,13 +240,12 @@ describe 'Migration tests for UMM-C 1.15' do
 
     context 'when migrating records that do not have spatial extents' do
       before do
-        # I think it is easier to understand what is happening if the above record is whole and we remove the horizontal spatial domain here.
-        @collection.draft.delete('SpatialExtent')
+        # I think it is easier to understand what is happening if the above record is whole and we remove the spatial extent here.
+        @draft.delete('SpatialExtent')
       end
 
       it 'makes a new Spatial Extent' do
-        @collection.migration_test
-        expect(@collection.draft).to eq({
+        expect(umm_c_1_15_migration_test(@draft)).to eq({
           # Some fields that should be retained
           'DOI' => {
             'DOI'       => 'Citation DOI',
@@ -293,7 +280,7 @@ describe 'Migration tests for UMM-C 1.15' do
 
     context 'when the horizontal spatial information has what will become a generic resolution' do
       before do
-        @collection.draft['SpatialInformation']['HorizontalCoordinateSystem']['GeographicCoordinateSystem'] = {
+        @draft['SpatialInformation']['HorizontalCoordinateSystem']['GeographicCoordinateSystem'] = {
           'LatitudeResolution' => 9,
           'LongitudeResolution' => 5,
           'GeographicCoordinateUnits' => 'Kilometers'
@@ -301,8 +288,7 @@ describe 'Migration tests for UMM-C 1.15' do
       end
 
       it 'makes a new Generic Resolution' do
-        @collection.migration_test
-        expect(@collection.draft).to eq({
+        expect(umm_c_1_15_migration_test(@draft)).to eq({
           # Some fields that should be retained
           'DOI' => {
             'DOI'       => 'Citation DOI',
@@ -361,8 +347,7 @@ describe 'Migration tests for UMM-C 1.15' do
 
   context 'when migrating records that have vertical and orbital spatial extents' do
     before do
-      @collection = CollectionDraft.new()
-      @collection.draft = {
+      @draft = {
         # Some fields that should be retained
         'DOI' => {
           'DOI'       => 'Citation DOI',
@@ -410,8 +395,7 @@ describe 'Migration tests for UMM-C 1.15' do
     end
 
     it 'adds to an existing spatial extent' do
-      @collection.migration_test
-      expect(@collection.draft).to eq({
+      expect(umm_c_1_15_migration_test(@draft)).to eq({
         # Some fields that should be retained
         'DOI' => {
           'DOI'       => 'Citation DOI',
@@ -460,8 +444,7 @@ describe 'Migration tests for UMM-C 1.15' do
 
   context 'when migrating records that have horizontal and vertical spatial extents' do
     before do
-      @collection = CollectionDraft.new
-      @collection.draft = {
+      @draft = {
         # Some fields that should be retained
         'DOI' => {
           'DOI'       => 'Citation DOI',
@@ -519,8 +502,7 @@ describe 'Migration tests for UMM-C 1.15' do
     end
 
     it 'adds to an existing horizontal spatial extent' do
-      @collection.migration_test
-      expect(@collection.draft).to eq({
+      expect(umm_c_1_15_migration_test(@draft)).to eq({
         # Some fields that should be retained
         'DOI' => {
           'DOI'       => 'Citation DOI',
@@ -577,8 +559,7 @@ describe 'Migration tests for UMM-C 1.15' do
 
   context 'when migrating records which have both horizontal and vertical spatial information' do
     before do
-      @collection = CollectionDraft.new
-      @collection.draft = {
+      @draft = {
         # Some fields that should be retained
         'DOI' => {
           'DOI'       => 'Citation DOI',
@@ -648,8 +629,7 @@ describe 'Migration tests for UMM-C 1.15' do
     end
 
     it 'preserves the vertical information' do
-      @collection.migration_test
-      expect(@collection.draft).to eq({
+      expect(umm_c_1_15_migration_test(@draft)).to eq({
         # Some fields that should be retained
         'DOI' => {
           'DOI'       => 'Citation DOI',
