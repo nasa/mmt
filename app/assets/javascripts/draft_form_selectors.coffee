@@ -1,30 +1,28 @@
 $(document).ready ->
   # Handle geometry-picker (points/rectangles/polygons/lines)
   $('.geometry-picker').change ->
-    $fields = $(this).siblings('div.geometry-fields')
-    if this.checked
-      # Show fields
-      $fields.show()
-    else
-      # clear and hide fields
-      $fields.hide()
-      $.each $fields.find('input'), (index, field) ->
-        $(field).val ''
+    handleCheckboxes(this, 'div.geometry-fields')
 
   # Handle horizontal-data-resolution-picker
   $('.horizontal-data-resolution-picker').change ->
-    $fields = $(this).siblings('div.horizontal-data-resolution-fields')
-    if this.checked
+    handleCheckboxes(this, 'div.horizontal-data-resolution-fields')
+
+  # Show the fields if the checkbox is checked, otherwise hide them, clear them,
+  # remove required icons, and hide validation errors.
+  handleCheckboxes = (element, siblings) -> 
+    $fields = $(element).siblings(siblings)
+    if element.checked
       # Show fields
       $fields.show()
     else
       # clear and hide fields
       $fields.hide()
-      $.each $fields.find('input').not("input[type='radio']"), (index, field) ->
+      $.each $fields.find('input, select').not("input[type='radio']"), (index, field) ->
         $(field).val ''
       $.each $fields.find("input[type='radio']"), (index, field) ->
         $(field).prop 'checked', false
-      # TODO: clear validation errors and required icons
+      $fields.find('label').removeClass('eui-required-o eui-required-grey-o')
+      $fields.find('.validation-error').remove()
 
   # Handle coordinate-system-picker (resolution/local)
   $('.coordinate-system-picker').change ->
@@ -220,70 +218,6 @@ $(document).ready ->
   getRelatedUrlSubtypeSelect = (selector) ->
     $(selector).closest('.eui-accordion__body').find('.related-url-subtype-select')
 
-  getMeasurementMediumSelect = (selector) ->
-    $(selector).closest('.eui-accordion__body').find('.measurement-context-medium-select')
-
-  getMeasurementObjectSelect = (selector) ->
-    $(selector).closest('.eui-accordion__body').find('.measurement-object-select')
-
-  getMeasurementQuantitySelect = (selector) ->
-    $(selector).closest('.eui-accordion__body').find('.measurement-quantity-select')
-
-  $('.measurement-object-select').change ->
-    mediumValue = getMeasurementMediumSelect($(this)).val()
-    objectValue = $(this).val()
-
-    $quantitySelect = getMeasurementQuantitySelect($(this))
-
-    for field in $quantitySelect
-      disableField(field)
-
-      quantityValue = $(field).val()
-
-      $(field).find('option').remove()
-      $(field).append($("<option />").val('').text('Select Value'))
-
-      if objectValue?.length > 0
-        measurementQuantities = measurementNameMap[mediumValue][objectValue]
-
-        if measurementQuantities?.length > 0
-          for measurementQuantity in measurementQuantities
-            $(field).append($("<option />").val(measurementQuantity).text(measurementQuantity))
-            $(field).val(quantityValue) if quantityValue == measurementQuantity
-          enableField(field)
-
-      $(field).trigger('change')
-
-  $('.measurement-context-medium-select').change ->
-    mediumValue = $(this).val()
-
-    $objectSelect = getMeasurementObjectSelect($(this))
-
-    disableField($objectSelect)
-
-    objectValue = $objectSelect.val()
-
-    $objectSelect.find('option').remove()
-    $objectSelect.append($("<option />").val('').text('Select Measurement Object'))
-
-    if mediumValue?.length > 0
-      measurementObjects = measurementNameMap[mediumValue]
-
-      for measurementObject, measurementQuantity of measurementObjects
-        $objectSelect.append($("<option />").val(measurementObject).text(measurementObject))
-        $objectSelect.val(objectValue) if objectValue == measurementObject
-
-      if $objectSelect.find('option').length == 2
-        $objectSelect.find('option').first().remove()
-        $objectSelect.find('option').first().prop 'selected', true
-      enableField($objectSelect)
-
-    $objectSelect.trigger('change')
-
-  # Populate the dependent options for controlled keywords on page load
-  $('.measurement-object-select').trigger('change')
-  $('.measurement-context-medium-select').trigger('change')
-
   handleContentTypeSelect = (selector) ->
     contentTypeValue = $(selector).val()
 
@@ -379,6 +313,74 @@ $(document).ready ->
 
   $('.additional-attribute-type-select').each ->
     handleAdditionAttributeDataType($(this))
+
+  ###
+  # UMM-V Forms
+  ###
+
+  getMeasurementMediumSelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.measurement-context-medium-select')
+
+  getMeasurementObjectSelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.measurement-object-select')
+
+  getMeasurementQuantitySelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.measurement-quantity-select')
+
+  $('.measurement-object-select').change ->
+    mediumValue = getMeasurementMediumSelect($(this)).val()
+    objectValue = $(this).val()
+
+    $quantitySelect = getMeasurementQuantitySelect($(this))
+
+    for field in $quantitySelect
+      disableField(field)
+
+      quantityValue = $(field).val()
+
+      $(field).find('option').remove()
+      $(field).append($("<option />").val('').text('Select Value'))
+
+      if objectValue?.length > 0
+        measurementQuantities = measurementNameMap[mediumValue][objectValue]
+
+        if measurementQuantities?.length > 0
+          for measurementQuantity in measurementQuantities
+            $(field).append($("<option />").val(measurementQuantity).text(measurementQuantity))
+            $(field).val(quantityValue) if quantityValue == measurementQuantity
+          enableField(field)
+
+      $(field).trigger('change')
+
+  $('.measurement-context-medium-select').change ->
+    mediumValue = $(this).val()
+
+    $objectSelect = getMeasurementObjectSelect($(this))
+
+    disableField($objectSelect)
+
+    objectValue = $objectSelect.val()
+
+    $objectSelect.find('option').remove()
+    $objectSelect.append($("<option />").val('').text('Select Measurement Object'))
+
+    if mediumValue?.length > 0
+      measurementObjects = measurementNameMap[mediumValue]
+
+      for measurementObject, measurementQuantity of measurementObjects
+        $objectSelect.append($("<option />").val(measurementObject).text(measurementObject))
+        $objectSelect.val(objectValue) if objectValue == measurementObject
+
+      if $objectSelect.find('option').length == 2
+        $objectSelect.find('option').first().remove()
+        $objectSelect.find('option').first().prop 'selected', true
+      enableField($objectSelect)
+
+    $objectSelect.trigger('change')
+
+  # Populate the dependent options for controlled keywords on page load
+  $('.measurement-object-select').trigger('change')
+  $('.measurement-context-medium-select').trigger('change')
 
   ###
   # UMM-S Forms
