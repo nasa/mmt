@@ -1,7 +1,7 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 92d73f5436210d1d56fcf769e6011d20d8959ebd
-  ref: 92d73f5436210d1d56fcf769e6011d20d8959ebd
+  revision: 5dc1e67b1a3674af0f6531caec73adb1e5511523
+  ref: 5dc1e67b1a3
   specs:
     cmr_metadata_preview (0.2.0)
       georuby (~> 2.5.2)
@@ -197,7 +197,7 @@ GEM
       bourbon (>= 4.0)
       sass (>= 3.3)
     nio4r (2.5.2)
-    nokogiri (1.10.7)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     parallel (1.19.1)
     parser (2.6.5.0)
