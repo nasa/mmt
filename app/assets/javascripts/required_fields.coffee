@@ -93,9 +93,7 @@ $(document).ready ->
     # (some real and some that aren't)
     # draft_personnel_0_related_urls_0_ is good,
     # draft_personnel_0_related isn't an actual data level
-    # for level, index in dataLevels
-    #   # reconstruct the dataLevel, using each underscore separated 'word' in the data-level attribute
-    #   dataLevel = dataLevels.slice(0, index + 1).join('_') + '_'
+    # reconstruct the dataLevel, using each underscore separated 'word' in the data-level attribute
 
     for level, index in nameLevels
       # reconstruct the dataLevel, using the levels/words in nameLevels

@@ -11,7 +11,7 @@ $(document).ready ->
       $.each $fields.find('input'), (index, field) ->
         $(field).val ''
 
-  # Handle horizontal-data-resolution-picker ()
+  # Handle horizontal-data-resolution-picker
   $('.horizontal-data-resolution-picker').change ->
     $fields = $(this).siblings('div.horizontal-data-resolution-fields')
     if this.checked
@@ -24,6 +24,7 @@ $(document).ready ->
         $(field).val ''
       $.each $fields.find("input[type='radio']"), (index, field) ->
         $(field).prop 'checked', false
+      # TODO: clear validation errors and required icons
 
   # Handle coordinate-system-picker (resolution/local)
   $('.coordinate-system-picker').change ->

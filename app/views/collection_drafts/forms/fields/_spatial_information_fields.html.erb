@@ -22,7 +22,7 @@
 
 
   <!-- VerticalCoordinateSystem -->
-  <div class="spatial-coverage-type vertical" style="<%= 'display: none;' unless spatial_coverage_type == 'VERTICAL' || spatial_coverage_type == 'BOTH' %>">
+  <div class="spatial-coverage-type vertical" style="<%= 'display: none;' unless spatial_coverage_type == 'VERTICAL' %>">
     <label>Vertical Coordinate System</label>
     <%= render partial: 'collection_drafts/forms/type', locals: {
         type: 'vertical_coordinate_system',
