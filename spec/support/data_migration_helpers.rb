@@ -1,16 +1,10 @@
-class UmmC115 < ActiveRecord::Migration[5.2]
-  def change
-    collection_drafts = CollectionDraft.where.not(draft: {})
-    proposals = CollectionDraftProposal.where.not(draft: {})
-    templates = CollectionTemplate.where.not(draft: {})
+module Helpers
+  module DataMigrationHelper
 
-    records = collection_drafts + proposals + templates
-
-    records.each do |record|
-      draft = record.draft
-
+    # This mirrors the logic of the migration for the umm-c update.
+    def umm_c_1_15_migration_test(draft)
       # Nothing to migrate if there is no horizontal spatial information
-      next unless draft['SpatialInformation'].present? && ['HORIZONTAL', 'BOTH'].include?(draft['SpatialInformation']['SpatialCoverageType'])
+      return draft unless draft['SpatialInformation'].present? && ['HORIZONTAL', 'BOTH'].include?(draft['SpatialInformation']['SpatialCoverageType'])
 
       spatial_information = draft.delete('SpatialInformation') || {}
       spatial_extent = draft.delete('SpatialExtent') || {}
@@ -66,7 +60,7 @@ class UmmC115 < ActiveRecord::Migration[5.2]
       draft['SpatialInformation'] = spatial_information unless spatial_information.blank?
       draft['SpatialExtent'] = spatial_extent unless spatial_extent.blank?
 
-      record.save
+      draft
     end
   end
 end
