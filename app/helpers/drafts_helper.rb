@@ -134,10 +134,7 @@ module DraftsHelper
   HorizontalDataResolutionUnitEnumOptions = [
     ['Decimal Degrees'],
     ['Kilometers'],
-    ['Meters'],
-    ['Statute Miles'],
-    ['Nautical Miles'],
-    ['Not provided']
+    ['Meters']
   ]
   HorizontalResolutionScanDirectionTypeOptions = [
     ['Along Track'],

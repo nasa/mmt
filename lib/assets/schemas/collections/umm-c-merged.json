@@ -1085,7 +1085,7 @@
     "HorizontalDataResolutionUnitEnum": {
       "description": "Units of measure used for the geodetic latitude and longitude resolution values (e.g., decimal degrees).",
       "type": "string",
-      "enum": ["Decimal Degrees", "Kilometers", "Meters", "Nautical Miles", "Statute Miles", "Not provided"]
+      "enum": ["Decimal Degrees", "Kilometers", "Meters"]
     },
     "HorizontalResolutionViewingAngleType": {
       "description": "This element describes the angle of the measurement with respect to the instrument that give an understanding of the specified resolution.",

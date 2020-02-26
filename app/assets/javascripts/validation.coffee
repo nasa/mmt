@@ -398,7 +398,7 @@ $(document).ready ->
         #   console.log "what??? another keyword `requred` with `anyOf` error??", error
       else
         # you shall not pass
-        console.log "supressing a keyword `required` relating to `anyOf` error", error
+        # console.log "supressing a keyword `required` relating to `anyOf` error", error
         error = null
         return
 

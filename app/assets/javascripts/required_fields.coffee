@@ -35,7 +35,6 @@ $(document).ready ->
 
       requiredFieldDataLevels.push topRequiredDataLevel + name + '_'
       requiredFieldDataLevels.push topRequiredDataLevel + name + '_0_'
-    console.log "requiredFieldDataLevels: #{JSON.stringify(requiredFieldDataLevels)}"
 
 
   # Stores the pages required fields

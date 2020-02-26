@@ -1,5 +1,6 @@
-# By the final PR, this file should be deleted because the function it depends on
-# should not exist anymore
+# the functionality from the Migration for UMM-C 1.13 -> 1.15 was copied into
+# helper methods, that are being used here to make sure test that the data
+# would be transformed as expected
 
 describe 'Migration tests for UMM-C 1.15' do
   context 'when migrating a record which does not have horizontal spatial information' do

@@ -756,7 +756,7 @@ def collection_one
               'Unit': 'Meters'
             }, {
               'YDimension': 8,
-              'Unit': 'Nautical Miles'
+              'Unit': 'Decimal Degrees'
             }],
             'GriddedRangeResolutions': [{
               'MinimumXDimension': 9,
@@ -765,7 +765,7 @@ def collection_one
             }],
             'GenericResolutions': [{
               'XDimension': 11,
-              'Unit': 'Statute Miles'
+              'Unit': 'Decimal Degrees'
             }]
           },
         },
