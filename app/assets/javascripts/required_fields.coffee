@@ -142,7 +142,6 @@ $(document).ready ->
 
   # add eui-required-o to labels matching the level
   addRequiredLabels = (level) ->
-    # debugger
     label = $("label[for=#{level}]")
     if label.hasClass('required')
       label.addClass('eui-required-o')
