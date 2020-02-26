@@ -90,7 +90,7 @@ describe 'Variable with draft' do
       end
 
       it 'does not display a message that a draft exists' do
-        expect(page).to have_no_content('This variable has an open draft associated with it. Click here to view it.')
+        expect(page).to have_content('This variable has an open draft associated with it. However, it appears you do not have access to the open draft.')
       end
     end
   end

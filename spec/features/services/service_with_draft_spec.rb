@@ -90,7 +90,8 @@ describe 'Service with draft', reset_provider: true do
       end
 
       it 'does not display a message that a draft exists' do
-        expect(page).to have_no_content('This service has an open draft associated with it. Click here to view it.')
+        expect(page).to have_content('This service has an open draft associated with it. However, it appears you do not have access to the open draft.')
+        expect(page).to have_content('If you feel you should have access, please check with your provider manager or ensure that you are logged into the correct provider.')
       end
     end
   end
