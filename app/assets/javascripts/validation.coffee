@@ -215,7 +215,6 @@ $(document).ready ->
     type
 
   displayInlineErrors = (errors) ->
-    # debugger
     for error in errors
       $element = $("##{error.id}")
 
@@ -276,8 +275,6 @@ $(document).ready ->
       # variations in what is valid data from anyOf or oneOf characteristics
       error = null
       return
-    # if error.schemaPath.indexOf('oneOf') != -1
-    #   console.log "starting `getErrorDetails`, `oneOf` error is:", error
 
     if error.keyword == 'anyOf'
       if error.dataPath.indexOf('Geometry') != -1
@@ -358,7 +355,6 @@ $(document).ready ->
             when 'y'
               otherDimId = error.id.replace('y_dimension', 'x_dimension')
 
-          # debugger
           if error.id.indexOf('maximum') != -1
             minFieldId = error.id.replace('maximum', 'minimum')
             otherMinFieldId = otherDimId.replace('maximum', 'minimum')
@@ -376,13 +372,12 @@ $(document).ready ->
               # the paired Min field has no value, and the other pair of
               # Min/Max fields have no value. So this is a valid error
               ; # you shall pass
-
           else if error.id.indexOf('minimum') != -1
             maxFieldId = error.id.replace('minimum', 'maximum')
             otherMaxFieldId = otherDimId.replace('minimum', 'maximum')
             if $("##{maxFieldId}").val() != ''
               # the paired Max field has a value, this is a valid error
-              ;
+              ; # you shall pass
             else if ($("##{otherDimId}").val() != '' || $("##{otherMaxFieldId}").val() != '')
               # the other pair of Min/Max values has at least one value, and
               # since the paired Max field does not have a value, this is
@@ -401,9 +396,8 @@ $(document).ready ->
               # you shall not pass
               error = null
               return
-
-        else
-          console.log "what??? another keyword `requred` with `anyOf` error??", error
+        # else
+        #   console.log "what??? another keyword `requred` with `anyOf` error??", error
       else
         # you shall not pass
         console.log "supressing a keyword `required` relating to `anyOf` error", error
@@ -419,10 +413,9 @@ $(document).ready ->
 
     if error.title.length == 0 && error.element.closest('.multiple').hasClass('simple-multiple')
       # some Multi Item fields (arrays of simple values) in UMM-C drafts have
-      #one label tied to the first field
+      # one label tied to the first field
       error.title = $("label[for='#{labelFor}_0']").text()
 
-    # console.log "returning error from `getErrorDetails`:", error
     error
 
   validateParameterRanges = (errors) ->
@@ -443,7 +436,7 @@ $(document).ready ->
               keyword: keyword,
               dataPath: "/AdditionalAttributes/#{index}/ParameterRangeEnd"
               params: {}
-              schemaPath: "" # these errors need this to not throw errors in getErrorDetails
+              schemaPath: '' # these errors need this to not throw errors in getErrorDetails
             errors.push newError
 
   validatePicklistValues = (errors) ->
@@ -526,7 +519,7 @@ $(document).ready ->
       error.message = "value [#{$(this).val()}] does not match a valid selection option"
       error.params = {}
       error.dataPath = dataPath
-      error.schemaPath = "" # these errors need this to not throw errors in getErrorDetails
+      error.schemaPath = '' # these errors need this to not throw errors in getErrorDetails
       errors.push error
 
     # combine TemporalKeywords invalidPicklist errors if more than one exist
@@ -550,7 +543,7 @@ $(document).ready ->
       newError.message = "values [#{values.join(', ')}] do not match a valid selection option"
       newError.params = {}
       newError.dataPath = '/TemporalKeywords'
-      newError.schemaPath = "" # these errors need this to not throw errors in getErrorDetails
+      newError.schemaPath = '' # these errors need this to not throw errors in getErrorDetails
       errors.push newError
 
     errors
@@ -584,7 +577,7 @@ $(document).ready ->
       formats: 'uri' : URI_REGEX
     validate = ajv.compile(globalJsonSchema)
     validate(json)
-    # debugger
+
     # adding validation for Data Contacts form with separate schema as it
     # does not follow UMM schema structure in the form
     # Data Contacts Schema is only passed on the data contacts form
@@ -606,9 +599,9 @@ $(document).ready ->
 
     # Display errors, from visited fields
     for error, index in errors
-      if error = getErrorDetails(error) # TODO add something here to check errors against page json?
+      if error = getErrorDetails(error)
         # does the error id match the visitedFields
-        visited = visitedFields.filter (e) -> # TODO check fields for horizontal or resolution coordinate fields
+        visited = visitedFields.filter (e) ->
           return e == error.id
         .length > 0
 
@@ -619,16 +612,12 @@ $(document).ready ->
             # Because ArchiveAndDistributionInformation has 'anyOf' child elements,
             # errors from the schema validator can be duplicated, so add an error to
             # the error arrays only if it is not already there
-            # HorizontalDataResolutionType are 'oneOf' options that contain 'anyOf'
-            # required items, so also creates duplicates of errors
-            # TODO horizontal_data_resolutions (still needed?)
             addIfNotAlready(inlineErrors, error)
             addIfNotAlready(summaryErrors, error)
           else
             inlineErrors.push error if $("##{error.id}").length > 0
             summaryErrors.push error if $("##{error.id}").length > 0
 
-    # debugger
     if inlineErrors.length > 0 and opts.showInline
       displayInlineErrors inlineErrors
     if summaryErrors.length > 0 and opts.showSummary
@@ -659,21 +648,21 @@ $(document).ready ->
     if $('#draft_template_name').length > 0
       error = null
       if $('#draft_template_name').val().length == 0
-       error = 
+        error =
           id: 'draft_template_name'
           title: 'Draft Template Name'
           params: {}
           dataPath: '/TemplateName'
           keyword: 'must_exist'
-          schemaPath: "" # these errors need this to not throw errors in getErrorDetails
+          schemaPath: '' # these errors need this to not throw errors in getErrorDetails
       else if globalTemplateNames.indexOf($('#draft_template_name').val()) isnt -1
-        error = 
+        error =
           id: 'draft_template_name'
           title: 'Draft Template Name'
           params: {}
           dataPath: '/TemplateName'
           keyword: 'not_unique'
-          schemaPath: "" # these errors need this to not throw errors in getErrorDetails
+          schemaPath: '' # these errors need this to not throw errors in getErrorDetails
       if error
         errors.push(error)
         return true

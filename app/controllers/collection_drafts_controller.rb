@@ -156,7 +156,6 @@ class CollectionDraftsController < BaseDraftsController
       end
     else
       @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'collections', 'umm-c-merged.json')))
-      # @json_schema = JSON.parse(File.read(File.join(Rails.root, 'lib', 'assets', 'schemas', 'collections', 'umm-c-merged-test.json')))
     end
   end
 
@@ -176,12 +175,8 @@ class CollectionDraftsController < BaseDraftsController
     JSON::Validator.register_format_validator('date-time', date_time_format_proc)
 
     errors = Array.wrap(JSON::Validator.fully_validate(@json_schema, get_resource.draft))
-    # puts "validate metadata errors 1, number of errors(#{errors.count}): #{errors.join("\n")}"
     errors = validate_parameter_ranges(errors, get_resource.draft)
-    # puts "validate metadata errors 2, number of errors(#{errors.count}): #{errors.join("\n")}"
     errors_before_generate = validate_picklists(errors, get_resource.draft)
-    # puts "validate metadata errors 3, number of errors(#{errors.count}): #{errors_before_generate}"
-    # puts "validate metadata errors being returned: #{errors_before_generate.map { |error| generate_show_errors(error) }.flatten}"
     errors_before_generate.map { |error| generate_show_errors(error) }.flatten
   end
 

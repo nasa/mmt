@@ -77,12 +77,12 @@ describe 'Radio button form selectors', js: true do
       expect(page).to have_no_css('.local-coordinate-system-fields')
     end
 
-    context 'when selecting horizontal data resolutions' do
+    context 'when selecting horizontal data resolution' do
       before do
         choose 'Horizontal Data Resolution'
       end
 
-      it 'displays the geographic coordinate system fields' do
+      it 'displays the horizontal data resolution fields' do
         expect(page).to have_css('.horizontal-data-resolution-fields')
       end
 
@@ -93,7 +93,7 @@ describe 'Radio button form selectors', js: true do
 
     context 'when selecting local coordinate system' do
       before do
-        choose 'Local'
+        choose 'Local Coordinate System'
       end
 
       it 'displays the local coordinate system fields' do
@@ -113,7 +113,9 @@ describe 'Radio button form selectors', js: true do
         fill_in 'X Dimension', with: '42.0'
         fill_in 'Y Dimension', with: '43.0'
 
-        choose 'Local'
+        choose 'Local Coordinate System'
+        wait_for_jQuery
+        save_screenshot
         choose 'Horizontal Data Resolution'
       end
 

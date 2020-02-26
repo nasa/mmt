@@ -62,7 +62,7 @@
   <label class="eui-required-o space-top">Geometry Type</label>
   <div class="geometry-type-group">
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}points"), nil, points_checked, class: 'geometry-picker points', name: nil) %>
+      <%= check_box_tag(name_to_param("#{name_prefix}points"), nil, points_checked, class: 'geometry-picker points show-hide-checkbox', name: nil) %>
       <%= mmt_label(
         name: 'points',
         title: 'Points',
@@ -79,7 +79,7 @@
       </div>
     </div>
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}bounding_rectangles"), nil, bounding_rectangles_checked, class: 'geometry-picker bounding-rectangles', name: nil) %>
+      <%= check_box_tag(name_to_param("#{name_prefix}bounding_rectangles"), nil, bounding_rectangles_checked, class: 'geometry-picker bounding-rectangles show-hide-checkbox', name: nil) %>
       <%= mmt_label(
         name: 'bounding_rectangles',
         title: 'Bounding Rectangles',
@@ -96,7 +96,7 @@
       </div>
     </div>
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}g_polygons"), nil, g_polygons_checked, class: 'geometry-picker g-polygons', name: nil) %>
+      <%= check_box_tag(name_to_param("#{name_prefix}g_polygons"), nil, g_polygons_checked, class: 'geometry-picker g-polygons show-hide-checkbox', name: nil) %>
       <%= mmt_label(
         name: 'g_polygons',
         title: 'G Polygons',
@@ -113,7 +113,7 @@
       </div>
     </div>
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}lines"), nil, lines_checked, class: 'geometry-picker lines', name: nil) %>
+      <%= check_box_tag(name_to_param("#{name_prefix}lines"), nil, lines_checked, class: 'geometry-picker lines show-hide-checkbox', name: nil) %>
       <%= mmt_label(
         name: 'lines',
         title: 'Lines',

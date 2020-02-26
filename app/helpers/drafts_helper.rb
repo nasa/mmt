@@ -139,27 +139,9 @@ module DraftsHelper
     ['Nautical Miles'],
     ['Not provided']
   ]
-  HorizontalResolutionProcessingLevelEnumOptions = [
-    ['Gridded'],
-    ['Gridded Range'],
-    ['Non Gridded'],
-    ['Non Gridded Range'],
-    ['Not provided'],
-    ['Point'],
-    ['Varies']
-  ]
   HorizontalResolutionScanDirectionTypeOptions = [
     ['Along Track'],
     ['Cross Track']
-  ]
-  HorizontalResolutionTypeOptions = [
-    ['Generic Resolutions'],
-    ['Gridded Range Resolutions'],
-    ['Gridded Resolutions'],
-    ['Non Gridded Range Resolutions'],
-    ['Non Gridded Resolutions'],
-    ['Point Resolution'],
-    ['Varies Resolution']
   ]
   HorizontalResolutionViewingAngleTypeOptions = [
     ['At Nadir'],
@@ -778,8 +760,6 @@ module DraftsHelper
   # Words that should keep their underscore should be wrapped in pipes, like "_|metadata_lineage|_"
   # For param elements that need to be an array (update_value[contact_information][related_urls][][url]), use two underscores in a row
   def name_to_param(name)
-    # byebug if name.include?('varies')
-
     # convert good words (wrapped in pipes) to dashes
     name.gsub!(/(_?)\|(\w+)\|(_?)/) { "#{Regexp.last_match[1]}#{Regexp.last_match[2].dasherize}#{Regexp.last_match[3]}" }
 
@@ -848,22 +828,5 @@ module DraftsHelper
   def titleize_form_name(form_name)
     return 'Related URLs' if form_name == 'related_urls'
     form_name.titleize
-  end
-
-  def horizontal_resolution_processing_level_selected(value)
-    case value
-    when 'Point' || 'Varies'
-      'no_other_fields'
-    when 'Non Gridded'
-      'non-gridded-fields'
-    when 'Non Gridded Range'
-      'non-gridded-range-fields'
-    when 'Gridded' || 'Not provided'
-      'gridded-and-not-provided-fields'
-    when 'Gridded Range'
-      'gridded-range-fields'
-    else
-      nil
-    end
   end
 end

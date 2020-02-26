@@ -70,8 +70,7 @@ class CollectionDraft < Draft
 
   def update_draft(params, editing_user_id)
     if params
-
-      # RAILS5.1 This is simpler than permit with a full json structure for collection
+      # RAILS 5.1 This is simpler than permit with a full json structure for collection
       # rethink this in light of CSRF solutions that prevent illegal items in params
       case params
       when ActionController::Parameters

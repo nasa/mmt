@@ -1,15 +1,19 @@
 $(document).ready ->
+  ###
+  # UMM-C Forms
+  ###
+
   # Handle geometry-picker (points/rectangles/polygons/lines)
   $('.geometry-picker').change ->
-    handleCheckboxes(this, 'div.geometry-fields')
+    handleShowHideCheckboxes(this, 'div.geometry-fields')
 
   # Handle horizontal-data-resolution-picker
   $('.horizontal-data-resolution-picker').change ->
-    handleCheckboxes(this, 'div.horizontal-data-resolution-fields')
+    handleShowHideCheckboxes(this, 'div.horizontal-data-resolution-fields')
 
   # Show the fields if the checkbox is checked, otherwise hide them, clear them,
   # remove required icons, and hide validation errors.
-  handleCheckboxes = (element, siblings) -> 
+  handleShowHideCheckboxes = (element, siblings) ->
     $fields = $(element).siblings(siblings)
     if element.checked
       # Show fields
@@ -76,14 +80,13 @@ $(document).ready ->
 
     $parent.siblings('.spatial-coverage-type').hide()
 
-    # Clear all fields
+    # Clear all fields except radio buttons
     $parent.siblings('.spatial-coverage-type').find('input, select').not('input[type="radio"]').val ''
-
-    # Clear radio buttons
+    # Uncheck radio buttons
     $parent.siblings('.spatial-coverage-type').find('input[type="radio"]').prop 'checked', false
 
     # Hide geographic and local coordinate system fields
-    $parent.siblings().find('.horizontal-data-resolutions-fields').hide()
+    $parent.siblings().find('.horizontal-data-resolution-fields').hide()
     $parent.siblings().find('.local-coordinate-system-fields').hide()
 
     switch $(this).val()
@@ -115,44 +118,6 @@ $(document).ready ->
     $fields.find('.bounding-rectangle-point.north').val('90')
     $fields.find('.bounding-rectangle-point.south').val('-90')
     $fields.find('.bounding-rectangle-point.south').trigger('change')
-
-  handleHorizontalResolutionTypeSelection = (element, clear=false) ->
-    # element should be a '.horizontal-resolution-type-select'
-    $horizontalResTypeSelect = $(element)
-    $horizontalResFieldsParent = $horizontalResTypeSelect.parents('.horizontal-resolution-type-group').siblings('.horizontal-resolution-type-fields-group')
-
-    if clear == true
-      $horizontalResFieldsParent.find('input, select').val ''
-
-    $horizontalResFieldsParent.find('.horizontal-resolution-type').hide()
-    debugger
-    switch $horizontalResTypeSelect.val()
-      when 'Point Resolution'
-        $horizontalResFieldsParent.find('.point-resolution').show()
-      when 'Varies Resolution'
-        $horizontalResFieldsParent.find('.varies-resolution').show()
-      when 'Non Gridded Resolutions'
-        $horizontalResFieldsParent.find('.non-gridded-resolutions').show()
-      when 'Non Gridded Range Resolutions'
-        $horizontalResFieldsParent.find('.non-gridded-range-resolutions').show()
-      when 'Gridded Resolutions'
-        $horizontalResFieldsParent.find('.gridded-resolutions').show()
-      when 'Gridded Range Resolutions'
-        $horizontalResFieldsParent.find('.gridded-range-resolutions').show()
-
-
-  # Handle HorizontalDataResolutions fields on load
-  if $('.horizontal-data-resolution-group').length > 0
-    $('.horizontal-data-resolution-group').find('.horizontal-resolution-type-select').each( (index, element) ->
-
-      if $(element).val() != ''
-        handleHorizontalResolutionTypeSelection(element)
-    )
-
-  # Handle Horizontal Resolution Type select
-  $('.horizontal-resolution-type-select').change ->
-    clear = true
-    handleHorizontalResolutionTypeSelection(this, clear)
 
   # Handle Data Contacts Type selector
   $('.data-contact-type-select').change ->

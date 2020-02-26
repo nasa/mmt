@@ -10,7 +10,6 @@
           value: non_gridded_resolution['XDimension'],
           help: 'definitions/HorizontalDataResolutionNonGriddedType/properties/XDimension',
           validate: true,
-          # required: true,
           classes: 'mmt-number optionally-required'
         ) %>
       </div>
@@ -24,7 +23,6 @@
           value: non_gridded_resolution['YDimension'],
           help: 'definitions/HorizontalDataResolutionNonGriddedType/properties/YDimension',
           validate: true,
-          # required: true,
           classes: 'mmt-number optionally-required'
         ) %>
       </div>
@@ -56,8 +54,7 @@
         value: non_gridded_resolution['ViewingAngleType'],
         help: 'definitions/HorizontalDataResolutionNonGriddedType/properties/ViewingAngleType',
         options: DraftsHelper::HorizontalResolutionViewingAngleTypeOptions,
-        validate: true,
-        classes: ''
+        validate: true
       ) %>
     </div>
 
@@ -70,8 +67,7 @@
         value: non_gridded_resolution['ScanDirection'],
         help: 'definitions/HorizontalDataResolutionNonGriddedType/properties/ScanDirection',
         options: DraftsHelper::HorizontalResolutionScanDirectionTypeOptions,
-        validate: true,
-        classes: ''
+        validate: true
       ) %>
     </div>
   </div>

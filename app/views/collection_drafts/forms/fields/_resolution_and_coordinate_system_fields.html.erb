@@ -27,16 +27,15 @@
   <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
   <div class="coordinate-system-type">
     <%= radio_button_tag(name_to_param("#{name_prefix}"), 'resolution', resolution_checked, class: 'coordinate-system-picker resolution', name: nil, data: { level: remove_pipes(name_prefix) }) %>
-
     <%= mmt_label(
-      name: "resolution",
+      name: 'resolution',
       title: 'Horizontal Data Resolution',
       prefix: name_prefix
     ) %>
 
     <%= radio_button_tag(name_to_param("#{name_prefix}"), 'local', local_checked, class: 'coordinate-system-picker local', name: nil, data: { level: remove_pipes(name_prefix) }) %>
     <%= mmt_label(
-      name: "local",
+      name: 'local',
       title: 'Local Coordinate System',
       prefix: name_prefix
     ) %>
@@ -44,7 +43,6 @@
 
 
   <div class="horizontal-data-resolution-fields" style="<%= 'display: none;' unless resolution_checked %>">
-
     <!-- HorizontalDataResolution -->
     <%= mmt_label(
       name: 'horizontal_data_resolution',
@@ -60,14 +58,11 @@
         values: resolution_and_coordinate_system['HorizontalDataResolution'] || {},
         name_prefix: "#{name_prefix}|horizontal_data_resolution|_",
         multiple: false,
-        options: {
-          what: true
-        } } %>
+        options: {} } %>
   </div>
 
   <div class="local-coordinate-system-fields" style="<%= 'display: none;' unless local_checked %>">
     <!-- LocalCoordinateSystem -->
-    <!-- <label>Local Coordinate System</label> -->
     <%= mmt_label(
       name: 'local_coordinate_system',
       title: 'Local Coordinate System',
