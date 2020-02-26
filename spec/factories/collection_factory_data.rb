@@ -753,20 +753,19 @@ def collection_one
             }],
             'GriddedResolutions': [{
               'XDimension': 7,
-              'YDimension': 8,
               'Unit': 'Meters'
+            }, {
+              'YDimension': 8,
+              'Unit': 'Nautical Miles'
             }],
             'GriddedRangeResolutions': [{
               'MinimumXDimension': 9,
-              'MinimumYDimension': 10,
-              'MaximumXDimension': 11,
-              'MaximumYDimension': 12,
+              'MaximumXDimension': 10,
               'Unit': 'Meters'
             }],
             'GenericResolutions': [{
-              'XDimension': 13,
-              'YDimension': 14,
-              'Unit': 'Meters'
+              'XDimension': 11,
+              'Unit': 'Statute Miles'
             }]
           },
         },

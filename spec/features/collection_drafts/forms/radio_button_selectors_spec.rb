@@ -114,8 +114,6 @@ describe 'Radio button form selectors', js: true do
         fill_in 'Y Dimension', with: '43.0'
 
         choose 'Local Coordinate System'
-        wait_for_jQuery
-        save_screenshot
         choose 'Horizontal Data Resolution'
       end
 

@@ -293,10 +293,9 @@ $(document).ready ->
       #   console.log "got a keyword `anyOf` error for #{error.dataPath}", error
 
     if error.schemaPath.indexOf('oneOf') != -1
-      dp = error.dataPath.split('/')
-      if dp[dp.length - 1] == 'ResolutionAndCoordinateSystem'
-        # we are suppressing oneOf errors for ResolutionAndCoordinateSystem until
-        # MMT-2153 so that we can work through the most useful error messages for
+      if error.dataPath.endsWith('ResolutionAndCoordinateSystem')
+        # we are suppressing oneOf related errors for ResolutionAndCoordinateSystem
+        # until MMT-2153 so that we can work through the most useful error messages
         # for the user
         error = null
         return
@@ -339,7 +338,6 @@ $(document).ready ->
     # So we don't fill the form with errors that don't make sense to the user
     # Except ArchiveAndDistributionInformation has 'anyOf' constraint to the child element FileArchiveInformation and
     # FileDistributionInformation which have required field 'Format'
-    # if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1 && !(error.dataPath.indexOf('ArchiveAndDistributionInformation') > -1 && error.params['missingProperty'] == 'Format')
     if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1
       if error.dataPath.indexOf('ArchiveAndDistributionInformation') != -1 && error.params['missingProperty'] == 'Format'
         ; # you shall pass

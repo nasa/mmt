@@ -310,6 +310,13 @@ describe 'Data validation for a collection draft form', js: true do
       within '.geometry' do
         choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
       end
+      within '.resolution-and-coordinate-system' do
+        choose 'Horizontal Data Resolution'
+        check 'Non Gridded Range Resolutions'
+        within '.non-gridded-range-resolutions .multiple-item-0' do
+          fill_in 'Minimum X Dimension', with: '2'
+        end
+      end
       select 'Cartesian', from: 'Granule Spatial Representation'
 
       within '.nav-top' do
@@ -322,11 +329,17 @@ describe 'Data validation for a collection draft form', js: true do
     it 'validation of anyOf does work' do
       within '.summary-errors' do
         expect(page).to have_content('Geometry should have one schema option completed')
+        expect(page).to have_content('Non Gridded Range Resolutions should have one schema option completed')
       end
 
       within '.horizontal-spatial-domain' do
         expect(page).to have_selector(validation_error)
         expect(page).to have_content('Geometry should have one schema option completed')
+      end
+
+      within '.resolution-and-coordinate-system' do
+        expect(page).to have_selector(validation_error)
+        expect(page).to have_content('Non Gridded Range Resolutions should have one schema option completed')
       end
     end
 
@@ -336,6 +349,10 @@ describe 'Data validation for a collection draft form', js: true do
         within '.geometry' do
           choose 'draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN'
           add_points
+        end
+        within '.resolution-and-coordinate-system .non-gridded-range-resolutions .multiple-item-0' do
+          fill_in 'Maximum X Dimension', with: '200'
+          select 'Nautical Miles', from: 'Unit'
         end
         select 'Cartesian', from: 'Granule Spatial Representation'
       end

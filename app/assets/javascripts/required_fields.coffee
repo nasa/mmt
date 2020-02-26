@@ -45,11 +45,9 @@ $(document).ready ->
   addRequiredIcons = (field) ->
     # get current fields data-level value
     return unless $(field).data('level')?
-    console.log "in addRequiredIcons for", $(field)
+
     dataLevels = $(field).data('level').split('_')
-
     fieldParamName = $(field).attr('name')
-
     if fieldParamName?
       nameLevels = fieldParamName.replace(/\]/g, '').split('[')
     else

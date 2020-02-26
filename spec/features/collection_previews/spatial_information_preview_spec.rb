@@ -81,7 +81,9 @@ describe 'Spatial information preview' do
             expect(page).to have_content('Gridded Resolutions')
             within '.gridded_resolution_0' do
               expect(page).to have_content('7 Meters')
-              expect(page).to have_content('8 Meters')
+            end
+            within '.gridded_resolution_1' do
+              expect(page).to have_content('8 Nautical Miles')
             end
           end
 
@@ -90,16 +92,13 @@ describe 'Spatial information preview' do
             within '.gridded_range_resolution_0' do
               expect(page).to have_content('9 Meters')
               expect(page).to have_content('10 Meters')
-              expect(page).to have_content('11 Meters')
-              expect(page).to have_content('12 Meters')
             end
           end
 
           within '.generic_resolutions' do
             expect(page).to have_content('Generic Resolutions')
             within '.generic_resolution_0' do
-              expect(page).to have_content('13 Meters')
-              expect(page).to have_content('14 Meters')
+              expect(page).to have_content('11 Statute Miles')
             end
           end
         end
