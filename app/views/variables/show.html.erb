@@ -71,6 +71,9 @@
           <%= link_to 'This variable has an open draft associated with it. Click here to view it.', @draft %>
         <% elsif available_provider?(@provider_id) %>
           <%= link_to 'This variable has an open draft associated with it. Click here to view it.', '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: 'view-draft' } %>
+        <% else %>
+            This variable has an open draft associated with it. However, it appears you do not have access to the open draft.
+            If you feel you should have access, please check with your provider manager or ensure that you are logged into the correct provider.
         <% end %>
       </p>
     </div>
