@@ -1,8 +1,4 @@
 $(document).ready ->
-  ###
-  # UMM-C Forms
-  ###
-
   # Handle geometry-picker (points/rectangles/polygons/lines)
   $('.geometry-picker').change ->
     handleShowHideCheckboxes(this, 'div.geometry-fields')
@@ -45,6 +41,8 @@ $(document).ready ->
     $allSiblings.find('input, select, textarea').not("input[type='radio']").val ''
     # Uncheck all radio buttons
     $allSiblings.find("input[type='radio']").prop 'checked', false
+    # Clear required labels
+    $allSiblings.find('label').removeClass('eui-required-o eui-required-grey-o')
     # Close the forms tied to checkboxes
     $(this).parents('.resolution-and-coordinate-system').find("input[type='checkbox']").prop 'checked', false
     $(this).parents('.resolution-and-coordinate-system').find("input[type='checkbox']").change()

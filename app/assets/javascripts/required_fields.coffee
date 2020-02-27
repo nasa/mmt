@@ -37,7 +37,7 @@ $(document).ready ->
       requiredFieldDataLevels.push topRequiredDataLevel + name + '_0_'
 
 
-  # Stores the pages required fields
+  # Stores the page's required fields
   requiredDataLevels = []
 
   # Add required icons

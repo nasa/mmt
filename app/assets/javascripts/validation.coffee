@@ -666,7 +666,9 @@ $(document).ready ->
         return true
     false
 
+  # Stores the page's visited fields
   visitedFields = []
+
   visitField = (field_id) ->
     # If anything in UseConstraints shows up, 'visit' draft_use_constraints
     # so the 'not' validation will show up before clicking

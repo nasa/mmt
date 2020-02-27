@@ -352,7 +352,7 @@ describe 'Data validation for a collection draft form', js: true do
         end
         within '.resolution-and-coordinate-system .non-gridded-range-resolutions .multiple-item-0' do
           fill_in 'Maximum X Dimension', with: '200'
-          select 'Nautical Miles', from: 'Unit'
+          select 'Decimal Degrees', from: 'Unit'
         end
         select 'Cartesian', from: 'Granule Spatial Representation'
       end

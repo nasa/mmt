@@ -85,7 +85,7 @@ describe 'Conditionally required fields', js: true do
       context 'when filling in a field that causes fields to become required and optionally required' do
         before do
           within '.resolution-and-coordinate-system .gridded-range-resolutions .multiple-item-0' do
-            select 'Nautical Miles', from: 'Unit'
+            select 'Decimal Degrees', from: 'Unit'
           end
         end
 

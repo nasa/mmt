@@ -1,46 +1,13 @@
 <div class="row sub-fields">
-  <div class="row">
-    <div class="optionally-required-parent">
-      <div class="col-6">
-        <!-- XDimension -->
-        <%= mmt_text_field(
-        name: 'x_dimension',
-        title: 'X Dimension',
-        prefix: name_prefix,
-        value: gridded_resolution['XDimension'],
-        help: 'definitions/HorizontalDataResolutionGriddedType/properties/XDimension',
-        validate: true,
-        classes: 'mmt-number optionally-required'
-        ) %>
-      </div>
+  <%= render partial: 'collection_drafts/forms/fields/resolution_x_y_fields', locals: {
+    name_prefix: name_prefix,
+    schema_object_type: 'HorizontalDataResolutionGriddedType',
+    resolution: gridded_resolution
+  } %>
 
-      <div class="col-6">
-        <!-- YDimension -->
-        <%= mmt_text_field(
-        name: 'y_dimension',
-        title: 'Y Dimension',
-        prefix: name_prefix,
-        value: gridded_resolution['YDimension'],
-        help: 'definitions/HorizontalDataResolutionGriddedType/properties/YDimension',
-        validate: true,
-        classes: 'mmt-number optionally-required'
-        ) %>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <!-- Unit -->
-    <%= mmt_select(
-      name: 'unit',
-      title: 'Unit',
-      prefix: name_prefix,
-      value: gridded_resolution['Unit'],
-      help: 'definitions/HorizontalDataResolutionGriddedType/properties/Unit',
-      options: DraftsHelper::HorizontalDataResolutionUnitEnumOptions,
-      required: true,
-      validate: true,
-      classes: 'required'
-    ) %>
-  </div>
+  <%= render partial: 'collection_drafts/forms/fields/resolution_unit_fields', locals: {
+    name_prefix: name_prefix,
+    schema_object_type: 'HorizontalDataResolutionGriddedType',
+    resolution: gridded_resolution
+  } %>
 </div>

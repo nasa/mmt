@@ -83,7 +83,7 @@ describe 'Spatial information preview' do
               expect(page).to have_content('7 Meters')
             end
             within '.gridded_resolution_1' do
-              expect(page).to have_content('8 Nautical Miles')
+              expect(page).to have_content('8 Decimal Degrees')
             end
           end
 
@@ -98,7 +98,7 @@ describe 'Spatial information preview' do
           within '.generic_resolutions' do
             expect(page).to have_content('Generic Resolutions')
             within '.generic_resolution_0' do
-              expect(page).to have_content('11 Statute Miles')
+              expect(page).to have_content('11 Decimal Degrees')
             end
           end
         end

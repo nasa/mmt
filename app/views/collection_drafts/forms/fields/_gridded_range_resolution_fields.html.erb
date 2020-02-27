@@ -1,78 +1,13 @@
 <div class="row sub-fields">
-  <div class="optionally-required-parent">
-    <div class="row">
-      <div class="col-6">
-        <!-- MinimumXDimension -->
-        <%= mmt_text_field(
-          name: 'minimum_x_dimension',
-          title: 'Minimum X Dimension',
-          prefix: name_prefix,
-          value: gridded_range_resolution['MinimumXDimension'],
-          help: 'definitions/HorizontalDataResolutionGriddedRangeType/properties/MinimumXDimension',
-          validate: true,
-          classes: 'mmt-number optionally-required optionally-required-group',
-          required_group: 'a'
-        ) %>
+  <%= render partial: 'collection_drafts/forms/fields/resolution_range_fields', locals: {
+    name_prefix: name_prefix,
+    schema_object_type: 'HorizontalDataResolutionGriddedRangeType',
+    resolution: gridded_range_resolution
+  } %>
 
-      </div>
-      <div class="col-6">
-        <!-- MaximumXDimension -->
-        <%= mmt_text_field(
-        name: 'maximum_x_dimension',
-        title: 'Maximum X Dimension',
-        prefix: name_prefix,
-        value: gridded_range_resolution['MaximumXDimension'],
-        help: 'definitions/HorizontalDataResolutionGriddedRangeType/properties/MaximumXDimension',
-        validate: true,
-        classes: 'mmt-number optionally-required optionally-required-group',
-        required_group: 'a'
-        ) %>
-
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <!-- MinimumYDimension -->
-        <%= mmt_text_field(
-        name: 'minimum_y_dimension',
-        title: 'Minimum Y Dimension',
-        prefix: name_prefix,
-        value: gridded_range_resolution['MinimumYDimension'],
-        help: 'definitions/HorizontalDataResolutionGriddedRangeType/properties/MinimumYDimension',
-        validate: true,
-        classes: 'mmt-number optionally-required optionally-required-group',
-        required_group: 'b'
-        ) %>
-      </div>
-
-      <div class="col-6">
-        <!-- MaximumYDimension -->
-        <%= mmt_text_field(
-        name: 'maximum_y_dimension',
-        title: 'Maximum Y Dimension',
-        prefix: name_prefix,
-        value: gridded_range_resolution['MaximumYDimension'],
-        help: 'definitions/HorizontalDataResolutionGriddedRangeType/properties/MaximumYDimension',
-        validate: true,
-        classes: 'mmt-number optionally-required optionally-required-group',
-        required_group: 'b'
-        ) %>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <!-- Unit -->
-    <%= mmt_select(
-      name: 'unit',
-      title: 'Unit',
-      prefix: name_prefix,
-      value: gridded_range_resolution['Unit'],
-      help: 'definitions/HorizontalDataResolutionGriddedRangeType/properties/Unit',
-      options: DraftsHelper::HorizontalDataResolutionUnitEnumOptions,
-      required: true,
-      validate: true
-    ) %>
-  </div>
+  <%= render partial: 'collection_drafts/forms/fields/resolution_unit_fields', locals: {
+    name_prefix: name_prefix,
+    schema_object_type: 'HorizontalDataResolutionGriddedRangeType',
+    resolution: gridded_range_resolution
+  } %>
 </div>
