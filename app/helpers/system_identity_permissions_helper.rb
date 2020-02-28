@@ -5,6 +5,7 @@ module SystemIdentityPermissionsHelper
   ARCHIVE_RECORD_PERMISSIONS = %w[delete].freeze
   DASHBOARD_ADMIN_PERMISSIONS =  %w[create read update delete].freeze
   DASHBOARD_ARC_CURATOR_PERMISSIONS = %w[create read update delete].freeze
+  DASHBOARD_MDQ_CURATOR_PERMISSIONS = %w[create read update delete].freeze
   ERROR_MESSAGE_PERMISSIONS = %w[update].freeze
   EVENT_NOTIFICATION_PERMISSIONS = %w[delete].freeze
   EXTENDED_SERVICE_ACTIVATION_PERMISSIONS = %w[create].freeze
@@ -32,6 +33,7 @@ module SystemIdentityPermissionsHelper
     ['Archive Records', 'ARCHIVE_RECORD'],
     ['CMR Dashboard Admin', 'DASHBOARD_ADMIN'],
     ['CMR Dashboard ARC Curator', 'DASHBOARD_ARC_CURATOR'],
+    ['CMR Dashboard MDQ Curator', 'DASHBOARD_MDQ_CURATOR'],
     ['Error Messages', 'ERROR_MESSAGE'],
     ['Event Notifications', 'EVENT_NOTIFICATION'],
     ['Extended Service Activation', 'EXTENDED_SERVICE_ACTIVATION'],
