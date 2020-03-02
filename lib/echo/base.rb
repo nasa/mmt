@@ -37,9 +37,11 @@ module Echo
 
       echo_response = Echo::Response.new(response)
       begin
-
         msg_hash = Hash.send('from_xml', echo_response.body)
-        msg_hash.dig('Envelope', 'Body', 'Fault', 'detail','AuthorizationFault').delete('Token') if echo_response.error?
+        if echo_response.error?
+          token_val = msg_hash.dig('Envelope', 'Body', 'Fault', 'detail','AuthorizationFault','Token')
+          msg_hash.dig('Envelope', 'Body', 'Fault', 'detail','AuthorizationFault').delete('Token') if token_val.present?
+        end
         Rails.logger.error "SOAP Response Error: #{msg_hash.inspect}"
         
         Rails.logger.info "SOAP Response: #{url} result : Headers: #{echo_response.headers} - Body Size (bytes): #{echo_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(echo_response.body.to_s)} - Status: #{echo_response.status} - Time: #{Time.now.to_s(:log_time)}"
