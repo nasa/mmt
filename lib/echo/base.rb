@@ -33,10 +33,8 @@ module Echo
       response = connection.post do |req|
         req.headers['Content-Type'] = 'text/xml'
         req.body = body
-        Rails.logger.debug("TBD connnection=#{connection.inspect}")
       end
 
-      Rails.logger.debug("TBD connnection response=#{response.inspect}")
       echo_response = Echo::Response.new(response)
       begin
 
