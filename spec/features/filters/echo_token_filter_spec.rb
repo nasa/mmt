@@ -15,7 +15,7 @@ describe 'Echo Token Filter' do
 
     it 'filters the token' do
       expect(Rails.logger).to receive(:error).with('SOAP Response Error: {"Envelope"=>{"xmlns:SOAP_ENV"=>"http://schemas.xmlsoap.org/soap/envelope/", "Header"=>nil, "Body"=>{"Fault"=>{"faultcode"=>"SOAP-ENV:Client", "faultstring"=>"Caught exception when getting NAMS AUID from Token Service.java.io.IOException: Server returned HTTP response code: 500 for URL: https://api.launchpad.nasa.gov/icam/api/sm/v1/validate", "detail"=>{"AuthorizationFault"=>{"xmlns:ns2"=>"http://echo.nasa.gov/echo/v10/types", "xmlns:ns3"=>"http://echo.nasa.gov/echo/v10", "xmlns:ns4"=>"http://echo.nasa.gov/echo/v10/faults", "ErrorCode"=>"NAMSAuidNotFoundForToken", "OpsMessage"=>{"xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance", "xsi:nil"=>"true"}, "SystemMessage"=>"Caught exception when getting NAMS AUID from Token Service.java.io.IOException: Server returned HTTP response code: 500 for URL: https://api.launchpad.nasa.gov/icam/api/sm/v1/validate", "Timestamp"=>"2020-02-07T14:32:04.509Z", "ErrorInstanceId"=>"534FF4C2-40E6-A0CB-7ED0-07BE7C7121FE"}}}}}}')
-      echo_provider.test_endpoint_connection("https://test.com", :non_token_response)
+      echo_provider.test_endpoint_connection("https://test.com", :token_response)
     end
   end
 
