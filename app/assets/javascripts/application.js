@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require jquery-tablesorter/jquery.tablesorter.min
 //= require jquery-tablesorter/jquery.tablesorter.widget-filter.min
+// if you update the eui version, make sure to update the assets for the
+// cmr_metadata_preview gem as well, in lib/tasks/local_cmr.rake
 //= require eui-1.0.0/eui
 //= require bootstrap-datepicker-1.6.0/bootstrap-datepicker.min
 //= require moment

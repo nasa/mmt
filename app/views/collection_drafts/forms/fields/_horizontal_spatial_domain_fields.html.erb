@@ -18,4 +18,17 @@
       multiple: false,
       options: {} } %>
 
+  <!-- ResolutionAndCoordinateSystem -->
+  <%= mmt_label(
+    name: 'resolution_and_coordinate_system',
+    title: 'Resolution and Coordinate System',
+    prefix: name_prefix,
+  ) %>
+  <%= render partial: 'collection_drafts/forms/type', locals: {
+    type: 'resolution_and_coordinate_system',
+    values: horizontal_spatial_domain['ResolutionAndCoordinateSystem'] || {},
+    name_prefix: "#{name_prefix}|resolution_and_coordinate_system|_",
+    help: 'definitions/ResolutionAndCoordinateSystem',
+    multiple: false,
+    options: {} } %>
 </div>

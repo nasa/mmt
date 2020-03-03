@@ -120,4 +120,92 @@ describe 'checkboxes form selectors', js: true do
       end
     end
   end
+
+  context 'when viewing horizontal data resolution fields' do
+    before do
+      within '.metadata' do
+        click_on 'Spatial Information', match: :first
+      end
+
+      expect(page).to have_content('Spatial Information')
+
+      open_accordions
+
+      select 'Horizontal', from: 'Spatial Coverage Type'
+      choose 'Horizontal Data Resolution'
+    end
+
+    it 'does not show any horizontal data resolution fields' do
+      expect(page).to have_no_css('.horizontal-data-resolution-fields.point-resolution')
+      expect(page).to have_no_css('.horizontal-data-resolution-fields.varies-resolution')
+      expect(page).to have_no_css('.horizontal-data-resolution-fields.non-gridded-resolutions')
+      expect(page).to have_no_css('.horizontal-data-resolution-fields.non-gridded-range-resolutions')
+      expect(page).to have_no_css('.horizontal-data-resolution-fields.gridded-resolutions')
+      expect(page).to have_no_css('.horizontal-data-resolution-fields.gridded-range-resolutions')
+      expect(page).to have_no_css('.horizontal-data-resolution-fields.generic-resolutions')
+    end
+
+    context 'when selecting non gridded range resolutions' do
+      before do
+        check 'Non Gridded Range Resolutions'
+      end
+
+      it 'displays the non gridded range resolutions fields' do
+        expect(page).to have_css('.non-gridded-range-resolutions')
+      end
+
+      it 'does not display the other form fields' do
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.point-resolution')
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.varies-resolution')
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.non-gridded-resolutions')
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.gridded-resolutions')
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.gridded-range-resolutions')
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.generic-resolutions')
+      end
+    end
+
+    context 'when selecting gridded resolutions' do
+      before do
+        check 'Gridded Resolutions'
+      end
+
+      it 'displays the lines fields' do
+        expect(page).to have_css('.gridded-resolutions')
+      end
+
+      it 'does not display the other form fields' do
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.point-resolution')
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.varies-resolution')
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.non-gridded-resolutions')
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.non-gridded-range-resolutions')
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.gridded-range-resolutions')
+        expect(page).to have_no_css('.horizontal-data-resolution-fields.generic-resolutions')
+      end
+    end
+
+    context 'when switching between options after filling in form data' do
+      before do
+        check 'Generic Resolutions'
+
+        within '.horizontal-data-resolution-fields.generic-resolutions' do
+          fill_in 'X Dimension', with: '20'
+          fill_in 'Y Dimension', with: '50'
+          select 'Meters', from: 'Unit'
+        end
+
+        uncheck 'Generic Resolutions'
+        check 'Generic Resolutions'
+      end
+
+      it 'clears the form data' do
+        within '.horizontal-data-resolution-fields.generic-resolutions' do
+          expect(page).to have_field('X Dimension', with: '')
+          expect(page).to have_field('Y Dimension', with: '')
+          expect(page).to have_field('Unit', with: '')
+          expect(page).to have_no_css('label.eui-required-o')
+          expect(page).to have_no_css('label.eui-required-grey-o')
+        end
+      end
+    end
+  end
 end

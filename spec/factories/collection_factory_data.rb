@@ -703,6 +703,7 @@ def collection_one
     }],
     'SpatialExtent' => {
       'SpatialCoverageType' => 'HORIZONTAL',
+      'GranuleSpatialRepresentation' => 'CARTESIAN',
       'HorizontalSpatialDomain' => {
         'ZoneIdentifier' => 'Zone ID',
         'Geometry' => {
@@ -718,9 +719,57 @@ def collection_one
             'EastBoundingCoordinate'  => -56.9284587,
             'SouthBoundingCoordinate' => 18.968602
           }]
-        }
+        },
+        'ResolutionAndCoordinateSystem': {
+          'Description': 'ResolutionAndCoordinateSystem Description',
+          'GeodeticModel': {
+            'HorizontalDatumName': 'HorizontalDatumName Text',
+            'EllipsoidName': 'EllipsoidName Text',
+            'SemiMajorAxis': 1.0,
+            'DenominatorOfFlatteningRatio': 1.0
+          },
+          'HorizontalDataResolution': {
+            'VariesResolution': {
+              'HorizontalResolutionProcessingLevelEnum': 'Varies'
+            },
+            'PointResolution': {
+              'HorizontalResolutionProcessingLevelEnum': 'Point'
+            },
+            'NonGriddedResolutions': [{
+              'XDimension': 1,
+              'YDimension': 2,
+              'Unit': 'Meters',
+              'ViewingAngleType': 'At Nadir',
+              'ScanDirection': 'Cross Track'
+            }],
+            'NonGriddedRangeResolutions': [{
+              'MinimumXDimension': 3,
+              'MinimumYDimension': 4,
+              'MaximumXDimension': 5,
+              'MaximumYDimension': 6,
+              'Unit': 'Meters',
+              'ViewingAngleType': 'At Nadir',
+              'ScanDirection': 'Cross Track'
+            }],
+            'GriddedResolutions': [{
+              'XDimension': 7,
+              'Unit': 'Meters'
+            }, {
+              'YDimension': 8,
+              'Unit': 'Decimal Degrees'
+            }],
+            'GriddedRangeResolutions': [{
+              'MinimumXDimension': 9,
+              'MaximumXDimension': 10,
+              'Unit': 'Meters'
+            }],
+            'GenericResolutions': [{
+              'XDimension': 11,
+              'Unit': 'Decimal Degrees'
+            }]
+          },
+        },
       },
-      'GranuleSpatialRepresentation' => 'CARTESIAN'
     },
     'TilingIdentificationSystems' => [{
       'TilingIdentificationSystemName' => 'MISR',
@@ -740,15 +789,7 @@ def collection_one
       }
     }],
     'SpatialInformation' => {
-      'SpatialCoverageType' => 'BOTH',
-      'HorizontalCoordinateSystem' => {
-        'GeodeticModel' => {
-          'HorizontalDatumName' => 'Datum name',
-          'EllipsoidName' => 'Ellipsoid name',
-          'SemiMajorAxis' => 3.0,
-          'DenominatorOfFlatteningRatio' => 4.0
-        }
-      },
+      'SpatialCoverageType' => 'VERTICAL',
       'VerticalCoordinateSystem' => {
         'AltitudeSystemDefinition' => {
           'DatumName' => 'Datum',

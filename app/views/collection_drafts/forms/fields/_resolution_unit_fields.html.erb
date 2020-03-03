@@ -1,0 +1,14 @@
+<div class="row">
+  <!-- Unit -->
+  <%= mmt_select(
+      name: 'unit',
+      title: 'Unit',
+      prefix: name_prefix,
+      value: resolution['Unit'],
+      help: "definitions/#{schema_object_type}/properties/Unit",
+      options: DraftsHelper::HorizontalDataResolutionUnitEnumOptions,
+      required: true,
+      validate: true,
+      classes: 'required'
+  ) %>
+</div>
