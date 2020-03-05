@@ -196,11 +196,11 @@ $(document).ready ->
         'search_groups[]':
           required: (element) ->
             # field is required if the other field has no value/selection
-            $('#search_and_order_groups_').val().length == 0 || $('#search_and_order_groups_').val() == null
+            $('#search_and_order_groups_').val() == null || $('#search_and_order_groups_').val().length == 0
         'search_and_order_groups[]':
           required: (element) ->
             # field is required if the other field has no value/selection
-            $('#search_groups_').val().length == 0 || $('#search_and_order_groups_').val() == null
+            $('#search_and_order_groups_').val() == null || $('#search_groups_').val().length == 0
 
       messages:
         permission_name:
