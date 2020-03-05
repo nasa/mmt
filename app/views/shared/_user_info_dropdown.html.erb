@@ -6,7 +6,11 @@
         <%= link_to 'Change Provider', '#provider-context', class: 'display-modal', id: 'change-context' %>
       <% end %>
       <!--a href="#">Account Settings</a-->
-      <%= link_to "User's Guide", "https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide", target: '_blank' %>
+      <% if Rails.configuration.proposal_mode %>
+        <%= link_to "User's Guide", "https://wiki.earthdata.nasa.gov/display/CMR/Draft+Metadata+Management+Tool+%28dMMT%29+User%27s+Guide", target: '_blank' %>
+      <% else %>
+        <%= link_to "User's Guide", "https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide", target: '_blank' %>
+      <% end %>
       <%= link_to 'Logout', logout_path %>
     </div>
     <!-- End User Info Dropdown Menu -->
