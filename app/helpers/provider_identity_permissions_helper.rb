@@ -39,7 +39,7 @@ module ProviderIdentityPermissionsHelper
     ['Data Quality Summary Assignments', 'DATA_QUALITY_SUMMARY_ASSIGNMENT'],
     ['Data Quality Summary Definitions', 'DATA_QUALITY_SUMMARY_DEFINITION'],
     ['Dataset Information', 'DATASET_INFORMATION'],
-    ['Emain Subscription Management', 'EMAIL_SUBSCRIPTION_MANAGEMENT'],
+    ['Email Subscription Management', 'EMAIL_SUBSCRIPTION_MANAGEMENT'],
     ['Extended Services', 'EXTENDED_SERVICE'],
     ['Groups', 'GROUP'],
     ['Ingest Operations', 'INGEST_MANAGEMENT_ACL'],

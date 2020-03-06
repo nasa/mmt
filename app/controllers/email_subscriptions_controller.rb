@@ -15,6 +15,7 @@ class EmailSubscriptionsController < ManageCmrController
     # subscriber urs_uid should be passed as `user_id`
     # subscriber email should be passed as `email_address`
     @subscription = subscription_params
+    authorize @subscription, policy_class: EmailSubscriptionPolicy
     # add email if blank
     @subscription['email_address'] = get_subscriber_email(@subscription['user_id']) if @subscription['email_address'].blank?
 
@@ -44,7 +45,7 @@ class EmailSubscriptionsController < ManageCmrController
 
   def get_subscriber(subscriber_id)
     if subscriber_id
-      # subscriber id must be an array for the cmr query
+      # subscriber id must be an array for the urs query
       retrieve_urs_users(Array.wrap(subscriber_id))
     else
       []

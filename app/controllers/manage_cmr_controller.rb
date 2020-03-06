@@ -6,7 +6,6 @@ class ManageCmrController < ApplicationController
   before_action :check_if_system_acl_administrator, only: :show
   before_action :check_if_current_provider_acl_administrator, only: :show
   before_action :groups_enabled?
-  # before_action :email_subscriptions_enabled?, only: :show
   after_action :cleanup_request
 
   # These are json respones for ajax calls that user wouldnt get to without being logged in.
