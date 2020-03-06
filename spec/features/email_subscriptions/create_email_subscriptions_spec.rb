@@ -6,6 +6,8 @@ describe 'Creating Email Subscriptions' do
   context 'when email subscriptions is turned on' do
     context 'when visiting the new email subscription form' do
       before do
+        allow_any_instance_of(EmailSubscriptionPolicy).to receive(:create?).and_return(true)
+
         visit new_email_subscription_path
       end
 
@@ -101,7 +103,7 @@ describe 'Creating Email Subscriptions' do
 
   context 'when email subscriptions is turned off' do
     before do
-      allow_any_instance_of(Mmt::Application.config).to receive(:email_subscriptions_enabled).and_return(false)
+      allow(Mmt::Application.config).to receive(:email_subscriptions_enabled).and_return(false)
     end
 
     context 'when visiting the Manage Cmr page' do
@@ -119,10 +121,11 @@ describe 'Creating Email Subscriptions' do
         visit new_email_subscription_path
       end
 
-      it 'displays the Manage Cmr page' do
-        expect(page).to have_css('h2.current', text: 'Manage Cmr')
-        expect(page).to have_link('Groups', href: groups_path)
-        expect(page).to have_link('Collection Permissions', href: permissions_path)
+      it 'displays the Manage Cmr page with a warning message' do
+        expect(page).to have_css('h2.current', text: 'Manage CMR')
+
+        expect(page).to have_css('h3.eui-callout-box__title', text: 'Permissions & Groups')
+        expect(page).to have_css('h3.eui-callout-box__title', text: 'Orders')
       end
 
       it 'does not display the new email subscription form' do

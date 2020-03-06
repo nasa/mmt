@@ -5,6 +5,7 @@ class EmailSubscriptionsController < ManageCmrController
 
   def new
     @subscription = {}
+    authorize @subscription, policy_class: EmailSubscriptionPolicy
     @subscriber = []
 
     add_breadcrumb 'New', new_email_subscription_path
