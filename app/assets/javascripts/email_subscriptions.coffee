@@ -4,16 +4,16 @@ $(document).ready ->
     # Validate email subscription form
     $('.email-subscription-form').validate
       rules:
-        'subscription[descriiption]':
+        'subscription[description]':
           required: true
-        'subscription[query]':
+        'subscription[metadata]':
           required: true
         'subscription[user_id]':
           required: true
       messages:
-        'subscription[descriiption]':
+        'subscription[description]':
           required: 'Description is required.'
-        'subscription[query]':
+        'subscription[metadata]':
           required: 'Query is required.'
         'subscription[user_id]':
           required: 'Subscriber is required.'

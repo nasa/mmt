@@ -9,9 +9,8 @@ class EmailSubscriptionPolicy < ApplicationPolicy
   end
 
   def create?
-    true
-    # user_has_provider_permission_to(user: user.user, action: 'create', target: 'EMAIL_SUBSCRIPTION_MANAGEMENT', token: user.token)
-    # caller_locations.first.label
+    user_has_provider_permission_to(user: user.user, action: 'create', target: 'EMAIL_SUBSCRIPTION_MANAGEMENT', token: user.token)
+    # TODO: use `caller_locations.first.label` when adding another acl check
   end
 
   def update?
