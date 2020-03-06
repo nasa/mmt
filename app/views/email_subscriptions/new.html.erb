@@ -25,7 +25,6 @@
         <div class="row space-bot subscriber-group">
           <%= label_tag('subscriber', 'Subscriber', class: 'eui-required-o') %>
           <%= select_tag 'subscription[user_id]', options_for_select(@subscriber), id: 'subscriber', class: 'urs_autocomplete', multiple: false %>
-          <% hidden_field_tag 'subscription[email_address]', @subscription['email_address'] %>
         </div>
       </fieldset>
 

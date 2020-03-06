@@ -1,5 +1,5 @@
 class EmailSubscriptionsController < ManageCmrController
-  include UrsUserEndpoints # will be renamed
+  include UrsUserEndpoints
 
   before_action :email_subscriptions_enabled?
 
@@ -17,8 +17,8 @@ class EmailSubscriptionsController < ManageCmrController
     # subscriber email should be passed as `email_address`
     @subscription = subscription_params
     authorize @subscription, policy_class: EmailSubscriptionPolicy
-    # add email if blank
-    @subscription['email_address'] = get_subscriber_email(@subscription['user_id']) if @subscription['email_address'].blank?
+    # add email from user_id
+    @subscription['email_address'] = get_subscriber_email(@subscription['user_id'])
 
     subscription_response = cmr_client.create_email_subscription(@subscription, token)
     if subscription_response.success?
