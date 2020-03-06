@@ -6,6 +6,7 @@ class ManageCmrController < ApplicationController
   before_action :check_if_system_acl_administrator, only: :show
   before_action :check_if_current_provider_acl_administrator, only: :show
   before_action :groups_enabled?
+  # before_action :email_subscriptions_enabled?, only: :show
   after_action :cleanup_request
 
   # These are json respones for ajax calls that user wouldnt get to without being logged in.
@@ -47,6 +48,13 @@ class ManageCmrController < ApplicationController
     collections = get_datasets_for_service_implementation(params.permit(:service_interface_guid, :page_size, :page_num, :short_name))
 
     render_collections_for_chooser(collections)
+  end
+
+  # URS users search for groups and subscriptions
+  def urs_search
+    render json: render_users_from_urs(
+      search_urs(params[:search])
+    )
   end
 
   private

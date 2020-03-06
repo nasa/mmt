@@ -62,5 +62,16 @@
         <% end %>
       </div>
     </section>
+
+    <% if Rails.configuration.email_subscriptions_enabled %>
+      <section class="eui-callout-box">
+        <div class="eui-callout-box-content">
+          <h3 class="eui-callout-box__title">Email Subscriptions</h3>
+          <% if policy(:email_subscription).create? %>
+            <p><%= link_to 'Create an Email Subscription', new_email_subscription_path %></p>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
   </article>
 </main>

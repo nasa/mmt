@@ -1,7 +1,7 @@
 # :nodoc:
 class GroupsController < ManageCmrController
   include GroupsHelper
-  include GroupEndpoints
+  include UrsUserEndpoints
   include PermissionManagement
 
   skip_before_action :ensure_user_is_logged_in, :setup_query, :refresh_urs_if_needed, only: [:urs_search]
@@ -184,12 +184,6 @@ class GroupsController < ManageCmrController
                     end
 
     @added = recipient_uid && @invite.accept_invite(cmr_client, recipient_uid, token)
-  end
-
-  def urs_search
-    render json: render_users_from_urs(
-      search_urs(params[:search])
-    )
   end
 
   private

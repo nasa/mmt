@@ -1,6 +1,6 @@
 module Proposal
   class CollectionDraftProposalsController < CollectionDraftsController
-    include GroupEndpoints
+    include UrsUserEndpoints
     include ProposalIndex
 
     skip_before_action :provider_set?
