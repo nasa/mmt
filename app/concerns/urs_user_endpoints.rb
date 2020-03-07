@@ -1,6 +1,6 @@
 # Controller methods that allows developers to get this data without
 # making an HTTP request (with the exception of the URS call)
-module GroupEndpoints
+module UrsUserEndpoints
   extend ActiveSupport::Concern
 
   def urs_user_full_name(user)
@@ -17,6 +17,8 @@ module GroupEndpoints
   end
 
   def search_urs(query)
+    # searches for users from urs with all available attributes
+    # uid, first_name, last_name, and email_address along with others we dont usually use
     return [] if query.blank?
 
     urs_response = cmr_client.search_urs_users(query)
@@ -29,6 +31,8 @@ module GroupEndpoints
   end
 
   def retrieve_urs_users(uids)
+    # retrieves users from urs with all available attributes
+    # uid, first_name, last_name, and email_address along with others we dont usually use
     return [] if uids.blank?
 
     users_response = cmr_client.get_urs_users(uids)

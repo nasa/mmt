@@ -2,7 +2,7 @@
 
 module ProposalIndex
   extend ActiveSupport::Concern
-  include GroupEndpoints
+  include UrsUserEndpoints
 
   # Pass in an array of proposals to extract and query URS for user names
   # set a variable for use in other functions/views

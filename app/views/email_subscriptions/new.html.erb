@@ -1,0 +1,38 @@
+<div class="row row-content">
+  <section>
+    <h2>New <span class="provider-context"><%= current_user.provider_id %></span> Email Subscription</h2>
+
+    <%= form_tag(email_subscriptions_path, method: :post, class: 'email-subscription-form') %>
+      <fieldset>
+        <div class="row">
+          <%= label_tag('subscription[description]', 'Description', class: 'eui-required-o') %>
+        </div>
+        <div class="row">
+          <%= text_area_tag('subscription[description]', @subscription['description'], cols: 30, rows: 3, class: 'required textcounter', maxlength: 255) %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="row">
+          <%= label_tag('subscription[metadata]', 'Query', class: 'eui-required-o') %>
+        </div>
+        <div class="row">
+          <%= text_area_tag('subscription[metadata]', @subscription['metadata'], cols: 30, rows: 3, class: 'required') %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="row space-bot subscriber-group">
+          <%= label_tag('subscriber', 'Subscriber', class: 'eui-required-o') %>
+          <%= select_tag 'subscription[user_id]', options_for_select(@subscriber), id: 'subscriber', class: 'urs_autocomplete', multiple: false %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'new-subscription-submit' %>
+        <%= link_to 'Cancel', :back, class: 'eui-btn' %>
+      </fieldset>
+    <%# end %>
+
+  </section>
+</div>

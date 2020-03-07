@@ -449,7 +449,7 @@ class ApplicationController < ActionController::Base
   def launchpad_cookie_name
     Rails.configuration.launchpad_cookie_name
   end
-  
+
   # relatively safe extraction of a hash from the ActionController::Base::Parameters structure.
   def safe_hash( key)
      params.require(key).permit!.to_h

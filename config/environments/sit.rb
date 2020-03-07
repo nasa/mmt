@@ -105,6 +105,9 @@ Rails.application.configure do
   # Feature toggle for approver workflow in MMT.
   config.mmt_approver_workflow_enabled = true
 
+  # Feature toggle for email subscriptions in MMT
+  config.email_subscriptions_enabled = true
+
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'

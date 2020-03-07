@@ -76,11 +76,11 @@ describe 'Provider Identity Permissions pages and form', reset_provider: true do
 
         within '.provider-permissions-table' do
           expect(page).to have_css('tbody > tr', count: ProviderIdentityPermissionsHelper::PROVIDER_TARGETS.count)
-          expect(page).to have_css('input[type=checkbox]', count: 112) # all checkboxes
+          expect(page).to have_css('input[type=checkbox]', count: 116) # all checkboxes
           expect(page).to have_css('input[type=checkbox][checked]', count: 0)
           expect(page).to have_css('input[type=checkbox][disabled]', count: 54)
-          expect(page).to have_css('input[type=checkbox]:not([disabled])', count: 58)
-          expect(page).to have_css('input[type=checkbox]:not([checked])', count: 112)
+          expect(page).to have_css('input[type=checkbox]:not([disabled])', count: 62)
+          expect(page).to have_css('input[type=checkbox]:not([checked])', count: 116)
 
           expect(page).to have_no_content('Group Management for')
         end
@@ -109,7 +109,7 @@ describe 'Provider Identity Permissions pages and form', reset_provider: true do
 
         it 'checks all the available permissions checkboxes' do
           within '.provider-permissions-table' do
-            expect(page).to have_css('input[type=checkbox]:checked', count: 58)
+            expect(page).to have_css('input[type=checkbox]:checked', count: 62)
           end
         end
 

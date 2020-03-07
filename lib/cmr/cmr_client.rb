@@ -522,6 +522,25 @@ module Cmr
       get(url, options, headers.merge(token_header(token)))
     end
 
+    ### Email Subscriptions
+
+    def create_email_subscription(subscription, token)
+      # TODO: this is a stubbed success response because we do not have the cmr
+      # endpoint available yet. We should update this to be a real cmr call
+      # when the update becomes available
+      # NOTE: for development we will need to add the users to local cmr's urs
+      # see add_group_members
+
+      # the structure of the success and failure responses are unclear at this point
+      # so they will change
+      success_response_body = '{"revision_id":1,"concept_id":"ES1200000000-MMT"}'
+      Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(success_response_body)))
+
+      # This error response is provided for viewing and testing a failure
+      # error_response_body = '{"errors":["some error message"]}'
+      # Cmr::Response.new(Faraday::Response.new(status: 400, body: JSON.parse(error_response_body)))
+    end
+
     private
 
     def valid_uri?(uri)

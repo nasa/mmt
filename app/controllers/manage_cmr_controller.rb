@@ -49,6 +49,13 @@ class ManageCmrController < ApplicationController
     render_collections_for_chooser(collections)
   end
 
+  # URS users search for groups and subscriptions
+  def urs_search
+    render json: render_users_from_urs(
+      search_urs(params[:search])
+    )
+  end
+
   private
 
   # Custom error messaging for Pundit
