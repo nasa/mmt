@@ -86,7 +86,7 @@ Go to https://ci.earthdata.nasa.gov/browse/CN2-CSN2/latestSuccessful/artifact/, 
 
 In your root directory for MMT, create a folder named `cmr`. Place the `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar` file in the `cmr` folder.
 
-#### 2. Setting the environment variable needed by the local CMR
+#### 2. Setting the enviroment variable needed by the local CMR
 Before running a local copy of the CMR, you will need to set a required environment variable. Add this line into your `.bash_profile`:
 
     export CMR_URS_PASSWORD=mock-urs-password
