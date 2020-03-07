@@ -176,24 +176,21 @@ $(document).ready ->
       when 'minimum' then "#{field} is too low"
       when 'parameter-range-later' then "#{field} must be later than Parameter Range Begin"
       when 'parameter-range-larger' then "#{field} must be larger than Parameter Range Begin"
-      when 'oneOf' # TODO check and remove 'Party' - was only for organization or personnel
-        # oneOf Party means it wants oneOf OrganizationName or Person
-        # Those errors don't matter to a user because they don't see
-        # that difference in the forms
-        if field == 'Party'
-          "Party is incomplete"
-        else
-          "#{field} should have one type completed"
+      when 'oneOf'
+        # the stock message is: "should match exactly one schema in oneOf", which is not as useful to the user
+        "#{field} should have one option completed"
       when 'invalidPicklist' then "#{field} #{error.message}"
       when 'enum' then "#{field} value [#{$('#' + error.id + ' option:selected').text()}] does not match a valid selection option"
-      when 'anyOf' then "#{error.message}"
+      when 'anyOf'
+        # the stock message is: "should match some schema in anyOf", which is not as useful to the user
+        "#{field} should have one schema option completed"
       # UseConstraintsType is the only place a 'not' validation is used
       # so this is a very specific message
       when 'not' then 'License Url and License Text cannot be used together'
       # In case of Average File Size is set but no Average File Size Unit was selected
       # and also in case of Total Collection File Size and Total Collection File Size Unit,
       # we only want this simple message instead of the raw message:
-#     # 'should have property TotalCollectionFileSizeUnit when property TotalCollectionFileSize is present'
+      # 'should have property TotalCollectionFileSizeUnit when property TotalCollectionFileSize is present'
       when 'dependencies' then "#{field} is required"
       when 'not_unique' then "#{field} must be unique within a provider context"
       # Using an alternate keyword allows skipping some checks associated with
@@ -271,14 +268,20 @@ $(document).ready ->
 
   getErrorDetails = (error) ->
     if error.keyword == 'additionalProperties'
+      # ignore/suppress errors with keyword additionalProperties
+      # since we control the forms, we should not be sending properties not
+      # defined in the schema
+      # these errors tend to show up when data is not fully valid and there are
+      # variations in what is valid data from anyOf or oneOf characteristics
       error = null
       return
 
-    # If the error is a Geometry anyOf error
     if error.keyword == 'anyOf'
       if error.dataPath.indexOf('Geometry') != -1
+        # If the error is for Geometry with keyword anyOf
         error.message = 'At least one Geometry Type is required'
-      else
+      else if error.dataPath.indexOf('DataContacts') != -1
+        # ignore/suppress errors with keyword anyOf for DataContacts
         # anyOf errors are showing up in the data contacts form, but only when
         # there are other validation errors. as the error messages are duplicate
         # and don't have the specificity of the other error messages (or have
@@ -286,14 +289,17 @@ $(document).ready ->
         # more info at https://github.com/epoberezkin/ajv/issues/201#issuecomment-222544956
         error = null
         return
+      # else
+      #   console.log "got a keyword `anyOf` error for #{error.dataPath}", error
 
-    # Hide individual required errors from an anyOf constraint
-    # So we don't fill the form with errors that don't make sense to the user
-    # Except ArchiveAndDistributionInformation has 'anyOf' constraint to the child element FileArchiveInformation and
-    # FileDistributionInformation which have required field 'Format'
-    if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1 && !(error.dataPath.indexOf('ArchiveAndDistributionInformation') > -1 && error.params['missingProperty'] == 'Format')
-      error = null
-      return
+    if error.schemaPath.indexOf('oneOf') != -1
+      if error.dataPath.endsWith('ResolutionAndCoordinateSystem')
+        # we are suppressing oneOf related errors for ResolutionAndCoordinateSystem
+        # until MMT-2153 so that we can work through the most useful error messages
+        # for the user
+        error = null
+        return
+
 
     error.dataPath += "/#{error.params.missingProperty}" if error.params.missingProperty?
 
@@ -328,6 +334,74 @@ $(document).ready ->
     error.id = id
     error.element = $("##{id}")
 
+    # Hide individual required errors from an anyOf constraint
+    # So we don't fill the form with errors that don't make sense to the user
+    # Except ArchiveAndDistributionInformation has 'anyOf' constraint to the child element FileArchiveInformation and
+    # FileDistributionInformation which have required field 'Format'
+    if error.keyword == 'required' && error.schemaPath.indexOf('anyOf') != -1
+      if error.dataPath.indexOf('ArchiveAndDistributionInformation') != -1 && error.params['missingProperty'] == 'Format'
+        ; # you shall pass
+      else if error.dataPath.indexOf('HorizontalDataResolution') != -1
+        if error.params.missingProperty == 'Unit'
+          ; # you shall pass
+        else if error.id.endsWith('dimension')
+          axisIndex = error.id.indexOf('_dimension') - 1
+          axis = error.id[axisIndex]
+          switch axis
+            when 'x'
+              otherDimId = error.id.replace('x_dimension', 'y_dimension')
+            when 'y'
+              otherDimId = error.id.replace('y_dimension', 'x_dimension')
+
+          if error.id.indexOf('maximum') != -1
+            minFieldId = error.id.replace('maximum', 'minimum')
+            otherMinFieldId = otherDimId.replace('maximum', 'minimum')
+            if $("##{minFieldId}").val() != ''
+              # the paired Min field has a value, this is a valid error
+              ; # you shall pass
+            else if ($("##{otherDimId}").val() != '' || $("##{otherMinFieldId}").val() != '')
+              # the other pair of Min/Max values has at least one value, and
+              # since the paired Min field does not have a value, this is
+              # not a valid error
+              # you shall not pass
+              error = null
+              return
+            else
+              # the paired Min field has no value, and the other pair of
+              # Min/Max fields have no value. So this is a valid error
+              ; # you shall pass
+          else if error.id.indexOf('minimum') != -1
+            maxFieldId = error.id.replace('minimum', 'maximum')
+            otherMaxFieldId = otherDimId.replace('minimum', 'maximum')
+            if $("##{maxFieldId}").val() != ''
+              # the paired Max field has a value, this is a valid error
+              ; # you shall pass
+            else if ($("##{otherDimId}").val() != '' || $("##{otherMaxFieldId}").val() != '')
+              # the other pair of Min/Max values has at least one value, and
+              # since the paired Max field does not have a value, this is
+              # not a valid error
+              # you shall not pass
+              error = null
+              return
+            else
+              # the paired Max field has no value, and the other pair of
+              # Min/Max fields have no value. So this is a valid error
+              ; # you shall pass
+          else
+            # the error is for XDimension or YDimension, so no Min/Max
+            if $("##{otherDimId}").val() != ''
+              # if the other dimension has a value, this one is no longer required
+              # you shall not pass
+              error = null
+              return
+        # else
+        #   console.log "what??? another keyword `requred` with `anyOf` error??", error
+      else
+        # you shall not pass
+        # console.log "supressing a keyword `required` relating to `anyOf` error", error
+        error = null
+        return
+
     if id.indexOf('cdf4') >= 0
       labelFor = id
     else
@@ -336,7 +410,8 @@ $(document).ready ->
     error.title = $("label[for='#{labelFor}']").text()
 
     if error.title.length == 0 && error.element.closest('.multiple').hasClass('simple-multiple')
-      # some Multi Item fields (arrays of simple values) in UMM-C drafts have one label tied to the first field
+      # some Multi Item fields (arrays of simple values) in UMM-C drafts have
+      # one label tied to the first field
       error.title = $("label[for='#{labelFor}_0']").text()
 
     error
@@ -359,6 +434,7 @@ $(document).ready ->
               keyword: keyword,
               dataPath: "/AdditionalAttributes/#{index}/ParameterRangeEnd"
               params: {}
+              schemaPath: '' # these errors need this to not throw errors in getErrorDetails
             errors.push newError
 
   validatePicklistValues = (errors) ->
@@ -367,6 +443,7 @@ $(document).ready ->
     # we need to display through schema validation. 'Fake' enums need this method to
     # generate errors
     $('select.mmt-fake-enum > option:disabled:selected, select.mmt-fake-enum > optgroup > option:disabled:selected').each ->
+
       id = $(this).parents('select').attr('id')
       visitField(id)
 
@@ -440,6 +517,7 @@ $(document).ready ->
       error.message = "value [#{$(this).val()}] does not match a valid selection option"
       error.params = {}
       error.dataPath = dataPath
+      error.schemaPath = '' # these errors need this to not throw errors in getErrorDetails
       errors.push error
 
     # combine TemporalKeywords invalidPicklist errors if more than one exist
@@ -463,6 +541,7 @@ $(document).ready ->
       newError.message = "values [#{values.join(', ')}] do not match a valid selection option"
       newError.params = {}
       newError.dataPath = '/TemporalKeywords'
+      newError.schemaPath = '' # these errors need this to not throw errors in getErrorDetails
       errors.push newError
 
     errors
@@ -518,7 +597,7 @@ $(document).ready ->
 
     # Display errors, from visited fields
     for error, index in errors
-      if error = getErrorDetails error
+      if error = getErrorDetails(error)
         # does the error id match the visitedFields
         visited = visitedFields.filter (e) ->
           return e == error.id
@@ -526,10 +605,11 @@ $(document).ready ->
 
         if (visited or opts.showConfirm) and inlineErrors.indexOf(error) == -1
           # don't duplicate errors
-          # Because ArchiveAndDistributionInformation has 'anyOf' child elements,
-          # error from the schema validator can be duplicated, so add an error to
-          # the error arrays only if not already exist
-          if error.id.match /^draft_archive_and_distribution_information_/i
+
+          if error.id.match(/^draft_archive_and_distribution_information_/i) || error.id.match(/^draft_spatial_extent_horizontal_spatial_domain_resolution_and_coordinate_system_/)
+            # Because ArchiveAndDistributionInformation has 'anyOf' child elements,
+            # errors from the schema validator can be duplicated, so add an error to
+            # the error arrays only if it is not already there
             addIfNotAlready(inlineErrors, error)
             addIfNotAlready(summaryErrors, error)
           else
@@ -566,16 +646,29 @@ $(document).ready ->
     if $('#draft_template_name').length > 0
       error = null
       if $('#draft_template_name').val().length == 0
-        error = { "id": 'draft_template_name', "title": 'Draft Template Name', "params": {}, 'dataPath': '/TemplateName', 'keyword': 'must_exist'}
+        error =
+          id: 'draft_template_name'
+          title: 'Draft Template Name'
+          params: {}
+          dataPath: '/TemplateName'
+          keyword: 'must_exist'
+          schemaPath: '' # these errors need this to not throw errors in getErrorDetails
       else if globalTemplateNames.indexOf($('#draft_template_name').val()) isnt -1
-        error = { "id": 'draft_template_name', "title": 'Draft Template Name', "params": {}, 'dataPath': '/TemplateName', 'keyword': 'not_unique'}
-
+        error =
+          id: 'draft_template_name'
+          title: 'Draft Template Name'
+          params: {}
+          dataPath: '/TemplateName'
+          keyword: 'not_unique'
+          schemaPath: '' # these errors need this to not throw errors in getErrorDetails
       if error
         errors.push(error)
         return true
     false
 
+  # Stores the page's visited fields
   visitedFields = []
+
   visitField = (field_id) ->
     # If anything in UseConstraints shows up, 'visit' draft_use_constraints
     # so the 'not' validation will show up before clicking

@@ -1,0 +1,13 @@
+<div class="row sub-fields">
+  <%= render partial: 'collection_drafts/forms/fields/resolution_range_fields', locals: {
+    name_prefix: name_prefix,
+    schema_object_type: 'HorizontalDataResolutionGriddedRangeType',
+    resolution: gridded_range_resolution
+  } %>
+
+  <%= render partial: 'collection_drafts/forms/fields/resolution_unit_fields', locals: {
+    name_prefix: name_prefix,
+    schema_object_type: 'HorizontalDataResolutionGriddedRangeType',
+    resolution: gridded_range_resolution
+  } %>
+</div>

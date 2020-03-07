@@ -73,7 +73,7 @@ module Proposal
 
         # This applies the same validation as is applied on the preview/show page
         show_view_setup
-        load_umm_schema
+        load_umm_c_schema
         @errors = validate_metadata
       else
         @first_stage = 'Submitted for Review'

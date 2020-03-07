@@ -129,7 +129,20 @@ module DraftsHelper
     ['Cartesian', 'CARTESIAN'],
     ['Geodetic', 'GEODETIC'],
     ['Orbit', 'ORBIT'],
-    ['No Spatial', 'NO_SPATIAL'],
+    ['No Spatial', 'NO_SPATIAL']
+  ]
+  HorizontalDataResolutionUnitEnumOptions = [
+    ['Decimal Degrees'],
+    ['Kilometers'],
+    ['Meters']
+  ]
+  HorizontalResolutionScanDirectionTypeOptions = [
+    ['Along Track'],
+    ['Cross Track']
+  ]
+  HorizontalResolutionViewingAngleTypeOptions = [
+    ['At Nadir'],
+    ['Scan Extremes']
   ]
   MetadataAssociationTypeOptions = [
     ['Science Associated', 'SCIENCE ASSOCIATED'],
@@ -212,7 +225,9 @@ module DraftsHelper
     ['Vertical', 'VERTICAL'],
     ['Orbital', 'ORBITAL'],
     ['Horizontal and Vertical', 'HORIZONTAL_VERTICAL'],
-    ['Orbital and Vertical', 'ORBITAL_VERTICAL']
+    ['Orbital and Vertical', 'ORBITAL_VERTICAL'],
+    ['Horizontal and Orbital', 'HORIZONTAL_ORBITAL'],
+    ['Horizontal, Vertical, and Orbital', 'HORIZONTAL_VERTICAL_ORBITAL']
   ]
   TilingIdentificationSystemNameOptions = [
     ['CALIPSO'],

@@ -1,30 +1,51 @@
 $(document).ready ->
   # Handle geometry-picker (points/rectangles/polygons/lines)
   $('.geometry-picker').change ->
-    $fields = $(this).siblings('div.geometry-fields')
-    if this.checked
+    handleShowHideCheckboxes(this, 'div.geometry-fields')
+
+  # Handle horizontal-data-resolution-picker
+  $('.horizontal-data-resolution-picker').change ->
+    handleShowHideCheckboxes(this, 'div.horizontal-data-resolution-fields')
+
+  # Show the fields if the checkbox is checked, otherwise hide them, clear them,
+  # remove required icons, and hide validation errors.
+  handleShowHideCheckboxes = (element, siblings) ->
+    $fields = $(element).siblings(siblings)
+    if element.checked
       # Show fields
       $fields.show()
     else
       # clear and hide fields
       $fields.hide()
-      $.each $fields.find('input'), (index, field) ->
+      $.each $fields.find('input, select').not("input[type='radio']"), (index, field) ->
         $(field).val ''
+      $.each $fields.find("input[type='radio']"), (index, field) ->
+        $(field).prop 'checked', false
+      $fields.find('label').removeClass('eui-required-o eui-required-grey-o')
+      $fields.find('.validation-error').remove()
 
-  # Handle coordinate-system-picker (geographic/local)
+  # Handle coordinate-system-picker (resolution/local)
   $('.coordinate-system-picker').change ->
     coordinateSystemType = $(this).parents('.coordinate-system-type')
     switch $(this).val()
-      when 'geographic'
-        $(coordinateSystemType).siblings('.geographic-coordinate-system-fields').show()
+      when 'resolution'
+        $(coordinateSystemType).siblings('.horizontal-data-resolution-fields').show()
         $(coordinateSystemType).siblings('.local-coordinate-system-fields').hide()
       when 'local'
-        $(coordinateSystemType).siblings('.geographic-coordinate-system-fields').hide()
+        $(coordinateSystemType).siblings('.horizontal-data-resolution-fields').hide()
         $(coordinateSystemType).siblings('.local-coordinate-system-fields').show()
 
-    # Clear all fields
-    $.each $(coordinateSystemType).siblings('.geographic-coordinate-system-fields, .local-coordinate-system-fields').find('input, select'), (index, field) ->
-      $(field).val ''
+    $allSiblings = $(coordinateSystemType).siblings('.horizontal-data-resolution-fields, .local-coordinate-system-fields')
+
+    # Clear all fields (except for radio buttons)
+    $allSiblings.find('input, select, textarea').not("input[type='radio']").val ''
+    # Uncheck all radio buttons
+    $allSiblings.find("input[type='radio']").prop 'checked', false
+    # Clear required labels
+    $allSiblings.find('label').removeClass('eui-required-o eui-required-grey-o')
+    # Close the forms tied to checkboxes
+    $(this).parents('.resolution-and-coordinate-system').find("input[type='checkbox']").prop 'checked', false
+    $(this).parents('.resolution-and-coordinate-system').find("input[type='checkbox']").change()
 
     # Toggle checkboxes
     $(this).siblings('.coordinate-system-picker').prop 'checked', false
@@ -57,14 +78,13 @@ $(document).ready ->
 
     $parent.siblings('.spatial-coverage-type').hide()
 
-    # Clear all fields
+    # Clear all fields except radio buttons
     $parent.siblings('.spatial-coverage-type').find('input, select').not('input[type="radio"]').val ''
-
-    # Clear radio buttons
+    # Uncheck radio buttons
     $parent.siblings('.spatial-coverage-type').find('input[type="radio"]').prop 'checked', false
 
     # Hide geographic and local coordinate system fields
-    $parent.siblings().find('.geographic-coordinate-system-fields').hide()
+    $parent.siblings().find('.horizontal-data-resolution-fields').hide()
     $parent.siblings().find('.local-coordinate-system-fields').hide()
 
     switch $(this).val()
@@ -80,9 +100,13 @@ $(document).ready ->
       when 'ORBITAL_VERTICAL'
         $parent.siblings('.spatial-coverage-type.orbit').show()
         $parent.siblings('.spatial-coverage-type.vertical').show()
-      when 'BOTH'
+      when 'HORIZONTAL_ORBITAL'
+        $parent.siblings('.spatial-coverage-type.horizontal').show()
+        $parent.siblings('.spatial-coverage-type.orbit').show()
+      when 'HORIZONTAL_VERTICAL_ORBITAL'
         $parent.siblings('.spatial-coverage-type.horizontal').show()
         $parent.siblings('.spatial-coverage-type.vertical').show()
+        $parent.siblings('.spatial-coverage-type.orbit').show()
 
   # Handle global spatial checkbox
   $('.spatial-coverage-type.horizontal').on 'click', 'a.global-coverage', ->
@@ -156,70 +180,6 @@ $(document).ready ->
 
   getRelatedUrlSubtypeSelect = (selector) ->
     $(selector).closest('.eui-accordion__body').find('.related-url-subtype-select')
-
-  getMeasurementMediumSelect = (selector) ->
-    $(selector).closest('.eui-accordion__body').find('.measurement-context-medium-select')
-
-  getMeasurementObjectSelect = (selector) ->
-    $(selector).closest('.eui-accordion__body').find('.measurement-object-select')
-
-  getMeasurementQuantitySelect = (selector) ->
-    $(selector).closest('.eui-accordion__body').find('.measurement-quantity-select')
-
-  $('.measurement-object-select').change ->
-    mediumValue = getMeasurementMediumSelect($(this)).val()
-    objectValue = $(this).val()
-
-    $quantitySelect = getMeasurementQuantitySelect($(this))
-
-    for field in $quantitySelect
-      disableField(field)
-
-      quantityValue = $(field).val()
-
-      $(field).find('option').remove()
-      $(field).append($("<option />").val('').text('Select Value'))
-
-      if objectValue?.length > 0
-        measurementQuantities = measurementNameMap[mediumValue][objectValue]
-
-        if measurementQuantities?.length > 0
-          for measurementQuantity in measurementQuantities
-            $(field).append($("<option />").val(measurementQuantity).text(measurementQuantity))
-            $(field).val(quantityValue) if quantityValue == measurementQuantity
-          enableField(field)
-
-      $(field).trigger('change')
-
-  $('.measurement-context-medium-select').change ->
-    mediumValue = $(this).val()
-
-    $objectSelect = getMeasurementObjectSelect($(this))
-
-    disableField($objectSelect)
-
-    objectValue = $objectSelect.val()
-
-    $objectSelect.find('option').remove()
-    $objectSelect.append($("<option />").val('').text('Select Measurement Object'))
-
-    if mediumValue?.length > 0
-      measurementObjects = measurementNameMap[mediumValue]
-
-      for measurementObject, measurementQuantity of measurementObjects
-        $objectSelect.append($("<option />").val(measurementObject).text(measurementObject))
-        $objectSelect.val(objectValue) if objectValue == measurementObject
-
-      if $objectSelect.find('option').length == 2
-        $objectSelect.find('option').first().remove()
-        $objectSelect.find('option').first().prop 'selected', true
-      enableField($objectSelect)
-
-    $objectSelect.trigger('change')
-
-  # Populate the dependent options for controlled keywords on page load
-  $('.measurement-object-select').trigger('change')
-  $('.measurement-context-medium-select').trigger('change')
 
   handleContentTypeSelect = (selector) ->
     contentTypeValue = $(selector).val()
@@ -316,6 +276,74 @@ $(document).ready ->
 
   $('.additional-attribute-type-select').each ->
     handleAdditionAttributeDataType($(this))
+
+  ###
+  # UMM-V Forms
+  ###
+
+  getMeasurementMediumSelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.measurement-context-medium-select')
+
+  getMeasurementObjectSelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.measurement-object-select')
+
+  getMeasurementQuantitySelect = (selector) ->
+    $(selector).closest('.eui-accordion__body').find('.measurement-quantity-select')
+
+  $('.measurement-object-select').change ->
+    mediumValue = getMeasurementMediumSelect($(this)).val()
+    objectValue = $(this).val()
+
+    $quantitySelect = getMeasurementQuantitySelect($(this))
+
+    for field in $quantitySelect
+      disableField(field)
+
+      quantityValue = $(field).val()
+
+      $(field).find('option').remove()
+      $(field).append($("<option />").val('').text('Select Value'))
+
+      if objectValue?.length > 0
+        measurementQuantities = measurementNameMap[mediumValue][objectValue]
+
+        if measurementQuantities?.length > 0
+          for measurementQuantity in measurementQuantities
+            $(field).append($("<option />").val(measurementQuantity).text(measurementQuantity))
+            $(field).val(quantityValue) if quantityValue == measurementQuantity
+          enableField(field)
+
+      $(field).trigger('change')
+
+  $('.measurement-context-medium-select').change ->
+    mediumValue = $(this).val()
+
+    $objectSelect = getMeasurementObjectSelect($(this))
+
+    disableField($objectSelect)
+
+    objectValue = $objectSelect.val()
+
+    $objectSelect.find('option').remove()
+    $objectSelect.append($("<option />").val('').text('Select Measurement Object'))
+
+    if mediumValue?.length > 0
+      measurementObjects = measurementNameMap[mediumValue]
+
+      for measurementObject, measurementQuantity of measurementObjects
+        $objectSelect.append($("<option />").val(measurementObject).text(measurementObject))
+        $objectSelect.val(objectValue) if objectValue == measurementObject
+
+      if $objectSelect.find('option').length == 2
+        $objectSelect.find('option').first().remove()
+        $objectSelect.find('option').first().prop 'selected', true
+      enableField($objectSelect)
+
+    $objectSelect.trigger('change')
+
+  # Populate the dependent options for controlled keywords on page load
+  $('.measurement-object-select').trigger('change')
+  $('.measurement-context-medium-select').trigger('change')
 
   ###
   # UMM-S Forms

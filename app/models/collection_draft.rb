@@ -70,10 +70,9 @@ class CollectionDraft < Draft
 
   def update_draft(params, editing_user_id)
     if params
-      
-      # RAILS5.1 This is simpler than permit with a full json structure for collection
+      # RAILS 5.1 This is simpler than permit with a full json structure for collection
       # rethink this in light of CSRF solutions that prevent illegal items in params
-      case params 
+      case params
       when ActionController::Parameters
         params = params.permit!.to_h
       end
@@ -174,6 +173,12 @@ class CollectionDraft < Draft
     distribution_size
     average_file_size
     total_collection_file_size
+    x_dimension
+    y_dimension
+    minimum_x_dimension
+    minimum_y_dimension
+    maximum_x_dimension
+    maximum_y_dimension
   )
   BOOLEAN_KEYS = %w(
     ends_at_present_flag
@@ -408,5 +413,4 @@ class CollectionDraft < Draft
 
     json_params
   end
-
 end

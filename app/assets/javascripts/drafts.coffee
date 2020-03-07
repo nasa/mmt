@@ -27,6 +27,7 @@ $(document).ready ->
         else
           $(field).html headerHtml.replace(headerIndex, 1)
 
+  # Adding another element (clicking to 'Add another <fieldset>')
   $('.metadata-form .multiple, .umm-form .multiple').on 'click', '.add-new', (e) ->
 
     $('.select2-select').select2('destroy')
@@ -96,7 +97,12 @@ $(document).ready ->
 
     $('.select2-select').select2({ width: '100%' })
 
+    # Remove all required icons
+    $(newDiv).find('label.eui-required-o').not('label.always-required').removeClass('eui-required-o')
+    $(newDiv).find('label.eui-required-grey-o').removeClass('eui-required-grey-o')
+
     e.stopImmediatePropagation()
+
 
   changeElementIndex = (newDiv, multipleIndex, targetIndex, simple, type) ->
     # 'type' is different with composed_of/instrument_children

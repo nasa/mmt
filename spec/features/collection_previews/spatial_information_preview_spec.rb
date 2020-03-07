@@ -26,43 +26,107 @@ describe 'Spatial information preview' do
       it 'displays the metadata' do
         within '.spatial-extent-table' do
           within all('tr')[1] do
-            expect(page).to have_content('HORIZONTAL Zone ID CARTESIAN CARTESIAN', normalize_ws: true)
+            expect(page).to have_content('HORIZONTAL Zone ID CARTESIAN CARTESIAN')
+          end
+        end
+
+        within '.resolution_and_coordinate_system' do
+          expect(page).to have_content('Description:')
+          expect(page).to have_content('ResolutionAndCoordinateSystem Description')
+
+          within '.geodetic_model_table' do
+            within all('tr')[0] do
+              expect(page).to have_content('Datum Name Ellipsoid Name Semi Major Axis Flattening Ratio Denominator')
+            end
+            within all('tr')[1] do
+              expect(page).to have_content('HorizontalDatumName Text EllipsoidName Text 1.0 1.0')
+            end
+          end
+
+          within '.point_resolution' do
+            expect(page).to have_content('Point Resolution')
+            expect(page).to have_content('Horizontal Resolution Processing Level Enum')
+            expect(page).to have_content('Point')
+          end
+
+          within '.varies_resolution' do
+            expect(page).to have_content('Varies Resolution')
+            expect(page).to have_content('Horizontal Resolution Processing Level Enum')
+            expect(page).to have_content('Varies')
+          end
+
+          within '.non_gridded_resolutions' do
+            expect(page).to have_content('Non Gridded Resolutions')
+            within '.non_gridded_resolution_0' do
+              expect(page).to have_content('1 Meters')
+              expect(page).to have_content('2 Meters')
+              expect(page).to have_content('At Nadir')
+              expect(page).to have_content('Cross Track')
+            end
+          end
+
+          within '.non_gridded_range_resolutions' do
+            expect(page).to have_content('Non Gridded Range Resolutions')
+            within '.non_gridded_range_resolution_0' do
+              expect(page).to have_content('3 Meters')
+              expect(page).to have_content('4 Meters')
+              expect(page).to have_content('5 Meters')
+              expect(page).to have_content('6 Meters')
+              expect(page).to have_content('At Nadir')
+              expect(page).to have_content('Cross Track')
+            end
+          end
+
+          within '.gridded_resolutions' do
+            expect(page).to have_content('Gridded Resolutions')
+            within '.gridded_resolution_0' do
+              expect(page).to have_content('7 Meters')
+            end
+            within '.gridded_resolution_1' do
+              expect(page).to have_content('8 Decimal Degrees')
+            end
+          end
+
+          within '.gridded_range_resolutions' do
+            expect(page).to have_content('Gridded Range Resolutions')
+            within '.gridded_range_resolution_0' do
+              expect(page).to have_content('9 Meters')
+              expect(page).to have_content('10 Meters')
+            end
+          end
+
+          within '.generic_resolutions' do
+            expect(page).to have_content('Generic Resolutions')
+            within '.generic_resolution_0' do
+              expect(page).to have_content('11 Decimal Degrees')
+            end
           end
         end
 
         within '.tiling-identification-systems-table' do
           within all('tr')[1] do
-            expect(page).to have_content('MISR -50 50 -30 30', normalize_ws: true)
+            expect(page).to have_content('MISR -50 50 -30 30')
           end
           within all('tr')[2] do
-            expect(page).to have_content('MODIS Tile EASE -25 25 -15 15', normalize_ws: true)
+            expect(page).to have_content('MODIS Tile EASE -25 25 -15 15')
           end
         end
 
         within '.spatial-information-table' do
           within all('tr')[0] do
-            expect(page).to have_content('Spatial Coverage Type: Vertical & Horizontal')
+            expect(page).to have_content('Coverage Type Datum Name Distance Units Resolutions')
           end
           within all('tr')[1] do
-            expect(page).to have_content('Hor. Datum Name Ellipsoid Name Semi Major Axis Flattening Ratio Denominator', normalize_ws: true)
-          end
-          within all('tr')[2] do
-            expect(page).to have_content('Datum name Ellipsoid name 3.0 4.0', normalize_ws: true)
-          end
-          within all('tr')[3] do
-            expect(page).to have_content('Vert. Datum Name Distance Units Resolutions', normalize_ws: true)
-          end
-          within all('tr')[4] do
-            expect(page).to have_content('Datum HectoPascals [1.0, 2.0, 3.0]', normalize_ws: true)
+            expect(page).to have_content('VERTICAL Datum HectoPascals [1.0, 2.0, 3.0]')
           end
         end
 
         within '.location-keywords-preview' do
           within all('ul')[0] do
-            expect(page).to have_content('GEOGRAPHIC REGIONARCTIC', normalize_ws: true)
+            expect(page).to have_content('GEOGRAPHIC REGIONARCTIC')
           end
           within all('ul')[1] do
-            expect(page).to have_content('OCEANATLANTIC OCEAN', normalize_ws: true)
+            expect(page).to have_content('OCEANATLANTIC OCEAN')
           end
         end
       end

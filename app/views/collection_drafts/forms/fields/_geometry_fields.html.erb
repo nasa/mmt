@@ -22,25 +22,35 @@
         Polygons must contain less than 50 points.
       </p>
   </div>
-  </br>
-
 
   <!-- CoordinateSystem -->
   <% coordinate_system = geometry['CoordinateSystem'] || "" %>
-  <div>
-    <label for="draft_spatial_extent_horizontal_spatial_domain_geometry_coordinate_system_CARTESIAN" class="required">Coordinate System</label>
+  <div class="space-top">
+    <%= mmt_label(
+      name: nil,
+      title: 'Coordinate System',
+      prefix: name_prefix,
+      required: true
+    ) %>
     <a href="javascript:void(0)" class="clear-radio-button" data-content="coordinate-system-type">Clear</a>
     <div class="coordinate-system-type-group">
       <p class="radio-group">
         <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
-        <label for="<%= remove_pipes(name_prefix) %>coordinate_system_CARTESIAN">Cartesian</label>
+        <%= mmt_label(
+        name: "coordinate_system_CARTESIAN",
+        title: 'Cartesian',
+        prefix: name_prefix
+        ) %>
       </p>
       <p class="radio-group">
         <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'GEODETIC', coordinate_system == 'GEODETIC', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
-        <label for="<%= remove_pipes(name_prefix) %>coordinate_system_GEODETIC">Geodetic</label>
+        <%= mmt_label(
+          name: "coordinate_system_GEODETIC",
+          title: 'Geodetic',
+          prefix: name_prefix
+        ) %>
       </p>
     </div>
-    </br>
   </div>
 
   <!-- GeometryType (not an actual field) -->
@@ -49,11 +59,15 @@
   <% bounding_rectangles_checked = !geometry['BoundingRectangles'].nil? %>
   <% g_polygons_checked = !geometry['GPolygons'].nil? %>
   <% lines_checked = !geometry['Lines'].nil? %>
-  <label class="eui-required-o">Geometry Type</label>
+  <label class="eui-required-o space-top">Geometry Type</label>
   <div class="geometry-type-group">
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}points"), nil, points_checked, class: 'geometry-picker points', name: nil) %>
-      <label for="<%= remove_pipes(name_prefix) %>points">Points</label>
+      <%= check_box_tag(name_to_param("#{name_prefix}points"), nil, points_checked, class: 'geometry-picker points show-hide-checkbox', name: nil) %>
+      <%= mmt_label(
+        name: 'points',
+        title: 'Points',
+        prefix: name_prefix
+      ) %>
 
       <div class="row sub-fields points-fields geometry-fields" style="<%= 'display: none;' unless points_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {
@@ -65,8 +79,12 @@
       </div>
     </div>
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}bounding_rectangles"), nil, bounding_rectangles_checked, class: 'geometry-picker bounding-rectangles', name: nil) %>
-      <label for="<%= remove_pipes(name_prefix) %>bounding_rectangles">Bounding Rectangles</label>
+      <%= check_box_tag(name_to_param("#{name_prefix}bounding_rectangles"), nil, bounding_rectangles_checked, class: 'geometry-picker bounding-rectangles show-hide-checkbox', name: nil) %>
+      <%= mmt_label(
+        name: 'bounding_rectangles',
+        title: 'Bounding Rectangles',
+        prefix: name_prefix
+      ) %>
 
       <div class="row sub-fields bounding-rectangles-fields geometry-fields" style="<%= 'display: none;' unless bounding_rectangles_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {
@@ -78,8 +96,12 @@
       </div>
     </div>
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}g_polygons"), nil, g_polygons_checked, class: 'geometry-picker g-polygons', name: nil) %>
-      <label for="<%= remove_pipes(name_prefix) %>g_polygons">G Polygons</label>
+      <%= check_box_tag(name_to_param("#{name_prefix}g_polygons"), nil, g_polygons_checked, class: 'geometry-picker g-polygons show-hide-checkbox', name: nil) %>
+      <%= mmt_label(
+        name: 'g_polygons',
+        title: 'G Polygons',
+        prefix: name_prefix
+      ) %>
 
       <div class="row sub-fields g-polygons-fields geometry-fields" style="<%= 'display: none;' unless g_polygons_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {
@@ -91,8 +113,12 @@
       </div>
     </div>
     <div class="checkbox-group">
-      <%= check_box_tag(name_to_param("#{name_prefix}lines"), nil, lines_checked, class: 'geometry-picker lines', name: nil) %>
-      <label for="<%= remove_pipes(name_prefix) %>lines">Lines</label>
+      <%= check_box_tag(name_to_param("#{name_prefix}lines"), nil, lines_checked, class: 'geometry-picker lines show-hide-checkbox', name: nil) %>
+      <%= mmt_label(
+        name: 'lines',
+        title: 'Lines',
+        prefix: name_prefix
+      ) %>
 
       <div class="row sub-fields lines-fields geometry-fields" style="<%= 'display: none;' unless lines_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {

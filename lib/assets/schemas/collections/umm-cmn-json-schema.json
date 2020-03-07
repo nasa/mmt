@@ -431,23 +431,6 @@
       },
       "required": ["Linkage"]
     },
-    "FileSizeType": {
-      "description": "Represents a data file size.",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "Size": {
-          "description": "The size of the data.",
-          "type": "number"
-        },
-        "Unit": {
-          "description": "Unit of information, together with Size determines total size in bytes of the data.",
-          "type": "string",
-          "enum": ["KB", "MB", "GB", "TB", "PB"]
-        }
-      },
-      "required": ["Size", "Unit"]
-    },
     "ResourceCitationType": {
       "type": "object",
       "additionalProperties": false,
@@ -727,6 +710,7 @@
       "description": "Additional unique attributes of the collection, beyond those defined in the UMM model, which the data provider deems useful for end-user understanding of the data in the collection.  Additional attributes are also called Product Specific Attributes (PSAs) or non-core attributes.  Examples are HORIZONTALTILENUMBER, VERTICALTILENUMBER.",
       "properties": {
         "Name": {
+          "description": "The name (1 word description) of the additional attribute.",
           "type": "string",
           "minLength": 1,
           "maxLength": 80
@@ -796,38 +780,6 @@
         }
       },
       "required": ["Name", "DataType", "Description"]
-    },
-    "DistributionType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Describes media options, size, data format, and fees involved in distributing or accessing the data.",
-      "properties": {
-        "DistributionMedia": {
-          "description": "The distribution media for the collection data.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 500
-        },
-        "Sizes": {
-          "description": "A list of file sizes indicating a single exact or approximate, or range of distribution sizes.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/FileSizeType"
-          }
-        },
-        "DistributionFormat": {
-          "description": "The distribution format of the collection data (e.g., HDF, netCDF).",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "Fees": {
-          "description": "The fee for ordering the collection data.  The fee is entered as a number, in US Dollars.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 255
-        }
-      }
     },
     "PlatformType": {
       "type": "object",
@@ -1120,262 +1072,6 @@
       },
       "required": ["Name", "StartDate", "EndDate", "DurationUnit", "DurationValue", "PeriodCycleDurationUnit", "PeriodCycleDurationValue"]
     },
-    "SpatialExtentType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Specifies the geographic and vertical (altitude, depth) coverage of the data.",
-      "properties": {
-        "SpatialCoverageType": {
-          "description": "Denotes whether the collection's spatial coverage requires horizontal, vertical, horizontal and vertical, orbit, or vertical and orbit in the spatial domain and coordinate system definitions.",
-          "$ref": "#/definitions/SpatialCoverageTypeEnum"
-        },
-        "HorizontalSpatialDomain": {
-          "$ref": "#/definitions/HorizontalSpatialDomainType"
-        },
-        "VerticalSpatialDomains": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/VerticalSpatialDomainType"
-          }
-        },
-        "OrbitParameters": {
-          "$ref": "#/definitions/OrbitParametersType"
-        },
-        "GranuleSpatialRepresentation": {
-          "$ref": "#/definitions/GranuleSpatialRepresentationEnum"
-        }
-      },
-      "required": ["GranuleSpatialRepresentation"]
-    },
-    "HorizontalSpatialDomainType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Information about a collection with horizontal spatial coverage.",
-      "properties": {
-        "ZoneIdentifier": {
-          "description": "The appropriate numeric or alpha code used to identify the various zones in the collection's grid coordinate system.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "Geometry": {
-          "$ref": "#/definitions/GeometryType"
-        }
-      },
-      "required": ["Geometry"]
-    },
-    "GeometryType": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "CoordinateSystem": {
-          "$ref": "#/definitions/CoordinateSystemEnum"
-        },
-        "Points": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PointType"
-          },
-          "minItems": 1
-        },
-        "BoundingRectangles": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BoundingRectangleType"
-          },
-          "minItems": 1
-        },
-        "GPolygons": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/GPolygonType"
-          },
-          "minItems": 1
-        },
-        "Lines": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LineType"
-          },
-          "minItems": 1
-        }
-      },
-      "required": ["CoordinateSystem"],
-      "anyOf": [{
-        "required": ["Points"]
-      }, {
-        "required": ["BoundingRectangles"]
-      }, {
-        "required": ["GPolygons"]
-      }, {
-        "required": ["Lines"]
-      }]
-    },
-    "PointType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "The longitude and latitude values of a spatially referenced point in degrees.",
-      "properties": {
-        "Longitude": {
-          "$ref": "#/definitions/LongitudeType"
-        },
-        "Latitude": {
-          "$ref": "#/definitions/LatitudeType"
-        }
-      },
-      "required": ["Longitude", "Latitude"]
-    },
-    "BoundingRectangleType": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "WestBoundingCoordinate": {
-          "$ref": "#/definitions/LongitudeType"
-        },
-        "NorthBoundingCoordinate": {
-          "$ref": "#/definitions/LatitudeType"
-        },
-        "EastBoundingCoordinate": {
-          "$ref": "#/definitions/LongitudeType"
-        },
-        "SouthBoundingCoordinate": {
-          "$ref": "#/definitions/LatitudeType"
-        }
-      },
-      "required": ["WestBoundingCoordinate", "NorthBoundingCoordinate", "EastBoundingCoordinate", "SouthBoundingCoordinate"]
-    },
-    "GPolygonType": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "Boundary": {
-          "$ref": "#/definitions/BoundaryType"
-        },
-        "ExclusiveZone": {
-          "$ref": "#/definitions/ExclusiveZoneType"
-        }
-      },
-      "required": ["Boundary"]
-    },
-    "BoundaryType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "A boundary is set of points connected by straight lines representing a polygon on the earth. It takes a minimum of three points to make a boundary. Points must be specified in counter-clockwise order and closed (the first and last vertices are the same).",
-      "properties": {
-        "Points": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PointType"
-          },
-          "minItems": 4
-        }
-      },
-      "required": ["Points"]
-    },
-    "ExclusiveZoneType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Contains the excluded boundaries from the GPolygon.",
-      "properties": {
-        "Boundaries": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BoundaryType"
-          },
-          "minItems": 1
-        }
-      },
-      "required": ["Boundaries"]
-    },
-    "LineType": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "Points": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PointType"
-          },
-          "minItems": 2
-        }
-      },
-      "required": ["Points"]
-    },
-    "VerticalSpatialDomainType": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "Type": {
-          "description": "Describes the type of the area of vertical space covered by the collection locality.",
-          "$ref": "#/definitions/VerticalSpatialDomainTypeEnum"
-        },
-        "Value": {
-          "description": "Describes the extent of the area of vertical space covered by the collection. Must be accompanied by an Altitude Encoding Method description. The datatype for this attribute is the value of the attribute VerticalSpatialDomainType. The unit for this attribute is the value of either DepthDistanceUnits or AltitudeDistanceUnits.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        }
-      },
-      "required": ["Type", "Value"]
-    },
-    "OrbitParametersType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Orbit parameters for the collection used by the Orbital Backtrack Algorithm.",
-      "properties": {
-        "SwathWidth": {
-          "description": "Width of the swath at the equator in Kilometers.",
-          "type": "number"
-        },
-        "Period": {
-          "description": "Orbital period in decimal minutes.",
-          "type": "number"
-        },
-        "InclinationAngle": {
-          "description": "Inclination of the orbit. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite. Data Unit: Degree.",
-          "type": "number"
-        },
-        "NumberOfOrbits": {
-          "description": "Indicates the number of orbits.",
-          "type": "number"
-        },
-        "StartCircularLatitude": {
-          "description": "The latitude start of the orbit relative to the equator. This is used by the backtrack search algorithm to treat the orbit as if it starts from the specified latitude. This is optional and will default to 0 if not specified.",
-          "type": "number"
-        }
-      },
-      "required": ["SwathWidth", "Period", "InclinationAngle", "NumberOfOrbits"]
-    },
-    "TilingIdentificationSystemType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Information about a two-dimensional tiling system related to this collection.",
-      "properties": {
-        "TilingIdentificationSystemName": {
-          "$ref": "#/definitions/TilingIdentificationSystemNameEnum"
-        },
-        "Coordinate1": {
-          "$ref": "#/definitions/TilingCoordinateType"
-        },
-        "Coordinate2": {
-          "$ref": "#/definitions/TilingCoordinateType"
-        }
-      },
-      "required": ["TilingIdentificationSystemName", "Coordinate1", "Coordinate2"]
-    },
-    "TilingCoordinateType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Defines the minimum and maximum value for one dimension of a two dimensional coordinate system.",
-      "properties": {
-        "MinimumValue": {
-          "type": "number"
-        },
-        "MaximumValue": {
-          "type": "number"
-        }
-      }
-    },
     "UuidType": {
       "description": "A Level 3 UUID, see wiki link http://en.wikipedia.org/wiki/Universally_unique_identifier#Version_4_.28random.29",
       "type": "string",
@@ -1385,12 +1081,6 @@
       "description": "The name of supported lineage date types",
       "type": "string",
       "enum": ["CREATE", "UPDATE", "DELETE", "REVIEW"]
-    },
-    "IdType": {
-      "description": "The unique identifier.",
-      "type": "string",
-      "minLength": 1,
-      "pattern":"[^\\\\/:\\s]{1,255}"
     },
     "VersionType": {
       "description": "The version of the metadata record.",
@@ -1512,34 +1202,6 @@
       "type": "string",
       "enum": ["DAY", "MONTH", "YEAR"]
     },
-    "SpatialCoverageTypeEnum": {
-      "type": "string",
-      "enum": ["HORIZONTAL", "VERTICAL", "ORBITAL", "HORIZONTAL_VERTICAL", "ORBITAL_VERTICAL"]
-    },
-    "CoordinateSystemEnum": {
-      "type": "string",
-      "enum": ["CARTESIAN", "GEODETIC"]
-    },
-    "LatitudeType": {
-      "description": "The latitude value of a spatially referenced point, in degrees.  Latitude values range from -90 to 90.",
-      "type": "number",
-      "minimum": -90,
-      "maximum": 90
-    },
-    "LongitudeType": {
-      "description": "The longitude value of a spatially referenced point, in degrees.  Longitude values range from -180 to 180.",
-      "type": "number",
-      "minimum": -180,
-      "maximum": 180
-    },
-    "VerticalSpatialDomainTypeEnum": {
-      "type": "string",
-      "enum": ["Atmosphere Layer", "Maximum Altitude", "Maximum Depth", "Minimum Altitude", "Minimum Depth"]
-    },
-    "GranuleSpatialRepresentationEnum": {
-      "type": "string",
-      "enum": ["CARTESIAN", "GEODETIC", "ORBIT", "NO_SPATIAL"]
-    },
     "RelatedURLContentTypeEnum": {
       "type": "string",
       "enum": ["CollectionURL", "PublicationURL", "DataCenterURL", "DistributionURL", "DataContactURL", "VisualizationURL"]
@@ -1574,10 +1236,6 @@
     "GetDataTypeFormatEnum": {
       "type": "string",
       "enum": ["ascii", "binary", "GRIB", "BUFR", "HDF4", "HDF5", "HDF-EOS4", "HDF-EOS5", "jpeg", "png", "tiff", "geotiff", "kml", "Not provided"]
-    },
-    "TilingIdentificationSystemNameEnum": {
-       "type": "string",
-       "enum": ["CALIPSO", "MISR", "MODIS Tile EASE", "MODIS Tile SIN", "WELD Alaska Tile", "WELD CONUS Tile", "WRS-1", "WRS-2"]
     }
   }
 }
