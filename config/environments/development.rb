@@ -35,6 +35,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: '3000' }
   config.action_mailer.perform_deliveries = false
   config.action_mailer.perform_caching = false
+  config.default_email_domain = 'earthdata.nasa.gov'
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
