@@ -18,7 +18,7 @@ describe ProposalMailer do
       end
 
       it 'renders the sender email' do
-        expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
+        expect(mail.from).to eq(['no-reply@earthdata.nasa.gov'])
       end
 
       it 'renders the new metadata submitted notice including short name + version' do
@@ -50,7 +50,7 @@ describe ProposalMailer do
       end
 
       it 'renders the sender email' do
-        expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
+        expect(mail.from).to eq(['no-reply@earthdata.nasa.gov'])
       end
 
       it 'renders the new metadata submitted notice including short name + version' do
@@ -80,7 +80,7 @@ describe ProposalMailer do
       end
 
       it 'renders the sender email' do
-        expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
+        expect(mail.from).to eq(['no-reply@earthdata.nasa.gov'])
       end
 
       it 'renders the new metadata submitted notice including short name + version' do
@@ -113,7 +113,7 @@ describe ProposalMailer do
       end
 
       it 'renders the sender email' do
-        expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
+        expect(mail.from).to eq(['no-reply@earthdata.nasa.gov'])
       end
 
       it 'renders the new metadata submitted notice including short name + version' do
@@ -149,7 +149,7 @@ describe ProposalMailer do
       end
 
       it 'renders the sender email' do
-        expect(mail.from).to eq(['no-reply@mmt.earthdata.nasa.gov'])
+        expect(mail.from).to eq(['no-reply@earthdata.nasa.gov'])
       end
 
       it 'renders the new metadata submitted notice including short name + version' do
