@@ -8,7 +8,7 @@ earthdata:
     launchpad_root: "https://apps.launchpad.nasa.gov"
     launchpad_sbx_root: "https://apps.launchpad-sbx.nasa.gov"
     # uvg_root: "https://uvg.earthdata.nasa.gov"
-    # dmmt_root: "https://draftmmt.earthdata.nasa.gov"
+    dmmt_root: "https://draftmmt.earthdata.nasa.gov"
   uat:
     urs_root: "https://uat.urs.earthdata.nasa.gov"
     echo_root: "https://cmr.uat.earthdata.nasa.gov/legacy-services"
@@ -45,7 +45,7 @@ urs:
     # TODO: Draft MMT production and uat have not yet been registered with URS
     # when they have, we will need to update these client ids
     production:
-      "https://urs.earthdata.nasa.gov": "QCuabaWMrGyq0OvCj0X-pg"
+      "https://urs.earthdata.nasa.gov": "9HnEWMMXk5nXOPaxxRg7bA"
     uat:
       "https://uat.urs.earthdata.nasa.gov": "neKOIkHeOyvhjKWZmzl_fQ"
     sit:
