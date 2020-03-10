@@ -1,3 +1,10 @@
+################################################################################
+# date time pickers are used throughout our CMR search related forms (e.g. bulk#
+# updates. If you are looking for the UI objects controlling the selection of  #
+# dates in the draft forms, you should be look in the datepicker files (e.g.   #
+# datepicker.coffee or vendor/assets/bootrap-datepicker-1.6.0                  #
+################################################################################
+
 $(document).ready ->
   defaultOptions =
     # Prevents the picker from adjusting the time displayed to

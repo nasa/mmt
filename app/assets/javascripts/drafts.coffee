@@ -1,3 +1,69 @@
+# Shape file uploads
+# These need to be outside of the $(document).ready in order to initialize the
+# dropzone correctly.
+csrf = undefined
+if typeof document.querySelector == 'function'
+  if document.querySelector('meta[name=csrf-token]')
+    csrf = document.querySelector('meta[name=csrf-token]').content
+Dropzone.options.shapeFileUpload =
+  url: '/convert'
+  paramName: 'upload'
+  headers: 'X-CSRF-Token': csrf
+  clickable: '.geojson-dropzone-link'
+  uploadMultiple: false
+  createImageThumbnails: false
+  dictDefaultMessage: ''
+  success: (file, response) ->
+    $.each response.features, (index, feature) ->
+      if feature.geometry.type == 'Point'
+        # click point radio button
+        $('.geometry-picker.points').click()
+        hasPoints = false
+        lastPoint = $('.multiple.points').first().find('.multiple-item').last()
+        $.each $(lastPoint).find('input'), (index, element) ->
+          if $(element).val() != ''
+            hasPoints = true
+            return false
+
+        if hasPoints
+          $('.multiple.points').first().find('.actions > .add-new').click()
+
+        lastPoint = $('.multiple.points').first().find('.multiple-item').last()
+        points = feature.geometry.coordinates
+        $(lastPoint).find('.longitude').val points[0]
+        $(lastPoint).find('.latitude').val points[1]
+        $(lastPoint).find('.longitude').trigger 'change'
+      else if feature.geometry.type == 'Polygon'
+        # click polygon radio button
+        $('.geometry-picker.g-polygons').click()
+        if feature.geometry.coordinates[0].length > 50
+          $(file.previewElement).addClass 'dz-error'
+          $(file.previewElement).find('.dz-error-message > span').text 'Too many points in polygon'
+        else
+          # if last polygon has points, click add another polygon
+          hasPoints = false
+          lastPolygon = $('.multiple.g-polygons > .multiple-item').last()
+          $.each $(lastPolygon).find('input'), (index, element) ->
+            if $(element).val() != ''
+              hasPoints = true
+              return false
+
+          if hasPoints
+            $('.multiple.g-polygons > .actions > .add-new').click()
+
+          # loop through coordinates and add points to last polygon
+          lastPolygon = $('.multiple.g-polygons > .multiple-item').last()
+          lastPolygonPoint = $(lastPolygon).find('.boundary .multiple.points > .multiple-item').last()
+          $.each feature.geometry.coordinates[0], (index, coordinate) ->
+            if index > 0
+              $(lastPolygon).find('.boundary .multiple.points > .actions > .add-new').click()
+              lastPolygonPoint = $(lastPolygon).find('.boundary .multiple.points > .multiple-item').last()
+            $(lastPolygonPoint).find('.longitude').val coordinate[0]
+            $(lastPolygonPoint).find('.latitude').val coordinate[1]
+
+          $(lastPolygonPoint).find('.longitude').trigger 'change'
+
+
 $(document).ready ->
   extractType = (topMultiple) ->
     type = $(topMultiple).attr('class').split(' ').pop().replace(/-/g, '_')
@@ -238,69 +304,6 @@ $(document).ready ->
         $(elem).closest('.multiple-item').removeClass('multiple-item-' + multipleIndex).addClass 'multiple-item-0'
         changeHeaderNumbers(elem, 1)
         changeElementIndex(elem, multipleIndex, 0, simple, type)
-
-  # Shape file uploads
-  csrf = undefined
-  if typeof document.querySelector == 'function'
-    if document.querySelector('meta[name=csrf-token]')
-      csrf = document.querySelector('meta[name=csrf-token]').content
-  Dropzone.options.shapeFileUpload =
-    url: '/convert'
-    paramName: 'upload'
-    headers: 'X-CSRF-Token': csrf
-    clickable: '.geojson-dropzone-link'
-    uploadMultiple: false
-    createImageThumbnails: false
-    dictDefaultMessage: ''
-    success: (file, response) ->
-      $.each response.features, (index, feature) ->
-        if feature.geometry.type == 'Point'
-          # click point radio button
-          $('.geometry-picker.points').click()
-          hasPoints = false
-          lastPoint = $('.multiple.points').first().find('.multiple-item').last()
-          $.each $(lastPoint).find('input'), (index, element) ->
-            if $(element).val() != ''
-              hasPoints = true
-              return false
-
-          if hasPoints
-            $('.multiple.points').first().find('.actions > .add-new').click()
-
-          lastPoint = $('.multiple.points').first().find('.multiple-item').last()
-          points = feature.geometry.coordinates
-          $(lastPoint).find('.longitude').val points[0]
-          $(lastPoint).find('.latitude').val points[1]
-          $(lastPoint).find('.longitude').trigger 'change'
-        else if feature.geometry.type == 'Polygon'
-          # click polygon radio button
-          $('.geometry-picker.g-polygons').click()
-          if feature.geometry.coordinates[0].length > 50
-            $(file.previewElement).addClass 'dz-error'
-            $(file.previewElement).find('.dz-error-message > span').text 'Too many points in polygon'
-          else
-            # if last polygon has points, click add another polygon
-            hasPoints = false
-            lastPolygon = $('.multiple.g-polygons > .multiple-item').last()
-            $.each $(lastPolygon).find('input'), (index, element) ->
-              if $(element).val() != ''
-                hasPoints = true
-                return false
-
-            if hasPoints
-              $('.multiple.g-polygons > .actions > .add-new').click()
-
-            # loop through coordinates and add points to last polygon
-            lastPolygon = $('.multiple.g-polygons > .multiple-item').last()
-            lastPolygonPoint = $(lastPolygon).find('.boundary .multiple.points > .multiple-item').last()
-            $.each feature.geometry.coordinates[0], (index, coordinate) ->
-              if index > 0
-                $(lastPolygon).find('.boundary .multiple.points > .actions > .add-new').click()
-                lastPolygonPoint = $(lastPolygon).find('.boundary .multiple.points > .multiple-item').last()
-              $(lastPolygonPoint).find('.longitude').val coordinate[0]
-              $(lastPolygonPoint).find('.latitude').val coordinate[1]
-
-            $(lastPolygonPoint).find('.longitude').trigger 'change'
 
   $('.latitude, .longitude').on 'change', ->
     coordinates = []

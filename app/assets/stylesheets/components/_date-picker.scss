@@ -13,7 +13,13 @@
   direction: ltr;
 
   > div {
-    display: none;
+    /* This was display:none before jquery 3, but was changed because the first
+     * part of the date picker menu was inheriting it when the field was
+     * selected.  At the time of changing it, this did not appear to have any 
+     * side effects on how the date picker displayed.
+     */
+     
+    display: inline-block;
   }
 
   table {
