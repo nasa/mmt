@@ -10,7 +10,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetTags, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:tagGuids) do
           Array.wrap(tag_guids).each do |g|
             builder.ns3(:Item, g)
@@ -24,11 +24,11 @@ module Echo
     end
 
     # Returns the service tags associated with a tag group.
-    def get_tags_by_tag_group(token, tag_guid)
+    def get_tags_by_tag_group(echo_provider_token, tag_guid)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetTagsByTagGroup, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
         builder.ns2(:tagGroupGuid, tag_guid)
       end
 
@@ -38,11 +38,11 @@ module Echo
     end
 
     # Retrieves service entries.
-    def get_service_entries(token, guids = null)
+    def get_service_entries(echo_provider_token, guids = null)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetServiceEntries, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
         if guids.nil?
           # Providing nil will return all service options (NOT an empty string, only nil)
           builder.ns2(:serviceEntryGuids, 'xsi:nil': true)
@@ -61,11 +61,11 @@ module Echo
     end
 
     # Get the listing of all services associated with the given providers.
-    def get_service_entries_by_provider(token, provider_guids)
+    def get_service_entries_by_provider(echo_provider_token, provider_guids)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetServiceEntriesByProvider, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
         builder.ns2(:providerGuids) do
           Array.wrap(provider_guids).each do |g|
             builder.ns3(:Item, g)
@@ -79,11 +79,11 @@ module Echo
     end
 
     # Creates a new service entry.
-    def create_service_entry(token, payload)
+    def create_service_entry(echo_provider_token, payload)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:CreateServiceEntry, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
         builder.ns2(:serviceEntry) do
           builder.ns3(:Guid, payload.fetch('Guid')) if payload.key?('Guid')
           builder.ns3(:ProviderGuid, payload.fetch('ProviderGuid')) if payload.key?('ProviderGuid')
@@ -108,11 +108,11 @@ module Echo
     end
 
     # Updates existing service entries.
-    def update_service_entry(token, payload)
+    def update_service_entry(echo_provider_token, payload)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:UpdateServiceEntries, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
         builder.ns2(:serviceEntries) do
           builder.ns3(:Item) do
             builder.ns3(:Guid, payload.fetch('Guid')) if payload.key?('Guid')
@@ -139,11 +139,11 @@ module Echo
     end
 
     # Removes service entries.
-    def remove_service_entry(token, guids)
+    def remove_service_entry(echo_provider_token, guids)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:RemoveServiceEntries, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
 
         builder.ns2(:serviceEntryGuids) do
           Array.wrap(guids).each do |g|
@@ -161,11 +161,11 @@ module Echo
     # is null then all of the service option definition names will be retrieved. If
     # the token is on behalf of a provider then all of the provider's service option
     # definition names will be retrieved.
-    def get_service_options_names(token, guids = nil)
+    def get_service_options_names(echo_provider_token, guids = nil)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetServiceOptionDefinitionNames, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
 
         if guids.nil?
           # Providing nil will return all service options (NOT an empty string, only nil)
@@ -185,11 +185,11 @@ module Echo
     end
 
     # Retrieves service option definitions.
-    def get_service_options(token, guids = nil)
+    def get_service_options(echo_provider_token, guids = nil)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetServiceOptionDefinitions, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
 
         if guids.nil?
           # Providing nil will return all service options (NOT an empty string, only nil)
@@ -209,11 +209,11 @@ module Echo
     end
 
     # Creates new service option definitions.
-    def create_service_option(token, payload)
+    def create_service_option(echo_provider_token, payload)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:AddServiceOptionDefinitions, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
         builder.ns2(:serviceOptionDefinitions) do
           builder.ns3(:Item) do
             builder.ns3(:Guid, payload.fetch('Guid')) if payload.key?('Guid')
@@ -235,7 +235,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:UpdateServiceOptionDefinitions, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:serviceOptionDefinitions) do
           builder.ns3(:Item) do
             builder.ns3(:Guid, payload.fetch('Guid')) if payload.key?('Guid')
@@ -257,7 +257,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:RemoveServiceOptionDefinitions, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
 
         builder.ns2(:optionGuids) do
           Array.wrap(guids).each do |g|
@@ -272,11 +272,11 @@ module Echo
     end
 
     # Retrieves service option assignments associated with a service.
-    def get_service_option_assignments_by_service(token, service_guids)
+    def get_service_option_assignments_by_service(echo_provider_token, service_guids)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetServiceOptionAssignmentsByService, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
         builder.ns2(:serviceEntryGuids) do
           Array.wrap(service_guids).each do |g|
             builder.ns3(:Item, g)
@@ -290,11 +290,11 @@ module Echo
     end
 
     # Creates new service option assignment.
-    def create_service_option_assignments(token, assignments)
+    def create_service_option_assignments(echo_provider_token, assignments)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:AddServiceOptionAssignments, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
 
         builder.ns2(:serviceOptionAssignments) do
           Array.wrap(assignments).each do |assignment|
@@ -314,11 +314,11 @@ module Echo
     end
 
     # Removes existing service option assignments.
-    def remove_service_option_assignments(token, guids)
+    def remove_service_option_assignments(echo_provider_token, guids)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:RemoveServiceOptionAssignments, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
 
         builder.ns2(:optionGuids) do
           Array.wrap(guids).each do |g|

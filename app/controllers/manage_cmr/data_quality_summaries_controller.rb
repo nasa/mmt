@@ -10,7 +10,7 @@ class DataQualitySummariesController < ManageCmrController
   def index
     permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
 
-    response = echo_client.get_data_quality_summary_definition_name_guids(token_with_client_id, current_provider_guid)
+    response = echo_client.get_data_quality_summary_definition_name_guids(token, current_provider_guid)
 
     summary_guids = []
     # No ruby idioms exist that will allow us to ensure this is a list, because it
@@ -29,7 +29,7 @@ class DataQualitySummariesController < ManageCmrController
 
     summary_list = []
     summary_guids.each do |guid|
-      summary_list << echo_client.get_data_quality_summary_definition(token_with_client_id, guid)
+      summary_list << echo_client.get_data_quality_summary_definition(token, guid)
     end
 
     summary_list.sort_by! { |summary| summary.parsed_body.fetch('Name', '').downcase }
@@ -58,7 +58,7 @@ class DataQualitySummariesController < ManageCmrController
   def create
     @summary = generate_payload
 
-    response = echo_client.create_data_quality_summary_definition(token_with_client_id, @summary)
+    response = echo_client.create_data_quality_summary_definition(token, @summary)
 
     if response.error?
       Rails.logger.error("Create Data Quality Summary Error: #{response.inspect}")
@@ -73,7 +73,7 @@ class DataQualitySummariesController < ManageCmrController
   def update
     @summary = generate_payload
 
-    response = echo_client.update_data_quality_summary_definition(token_with_client_id, @summary)
+    response = echo_client.update_data_quality_summary_definition(token, @summary)
 
     if response.error?
       Rails.logger.error("Update Data Quality Summary Error: #{response.inspect}")
@@ -86,7 +86,7 @@ class DataQualitySummariesController < ManageCmrController
   end
 
   def destroy
-    response = echo_client.remove_data_quality_summary_definition(token_with_client_id, params[:id])
+    response = echo_client.remove_data_quality_summary_definition(token, params[:id])
 
     if response.error?
       Rails.logger.error("Delete Data Quality Summary Error: #{response.inspect}")
@@ -110,7 +110,7 @@ class DataQualitySummariesController < ManageCmrController
   end
 
   def set_summary
-    result = echo_client.get_data_quality_summary_definition(token_with_client_id, params[:id])
+    result = echo_client.get_data_quality_summary_definition(token, params[:id])
 
     @summary = result.parsed_body unless result.error?
   end

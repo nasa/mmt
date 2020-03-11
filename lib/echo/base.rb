@@ -1,10 +1,13 @@
 module Echo
   class Base
+    include Cmr::Util
+
     NGINX_TIMEOUT = 300
 
-    def initialize(url, wsdl)
+    def initialize(url, wsdl, client_id)
       @url = url
       @wsdl = wsdl
+      @client_id = client_id
     end
 
     def connection
@@ -39,11 +42,13 @@ module Echo
       begin
         msg_hash = Hash.send('from_xml', echo_response.body)
         if echo_response.error?
-          token_val = msg_hash.dig('Envelope', 'Body', 'Fault', 'detail','AuthorizationFault','Token')
-          msg_hash.dig('Envelope', 'Body', 'Fault', 'detail','AuthorizationFault').delete('Token') if token_val.present?
+          token_val = msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault', 'Token')
+          msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault').delete('Token') if token_val.present?
+          msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault')['Token-snippet'] = truncate_token(token_val) if token_val.present?
+          
           Rails.logger.error "SOAP Response Error: #{msg_hash.inspect}"
         end
-        
+
         Rails.logger.info "SOAP Response: #{url} result : Headers: #{echo_response.headers} - Body Size (bytes): #{echo_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(echo_response.body.to_s)} - Status: #{echo_response.status} - Time: #{Time.now.to_s(:log_time)}"
 
       rescue => e
@@ -65,6 +70,17 @@ module Echo
       end
     end
 
+    def payload_token(token)
+      return nil if token.blank? # better to return '' or nil ???
+
+      if is_urs_token?(token)
+        # passing the URS token to CMR requires the client id
+        "#{token}:#{@client_id}"
+      else
+        token
+      end
+    end
+
     # sets the timeout used for faraday connections
     def timeout=(value)
       Rails.logger.info("Setting #{self.class} timeout to #{value}")
@@ -74,8 +90,7 @@ module Echo
 
     # returns the timeouts used by faraday connections
     def timeout
-      return connection.options[:timeout]
+      connection.options[:timeout]
     end
-
   end
 end

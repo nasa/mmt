@@ -7,7 +7,7 @@ module EchoSoap
     # Dont bother searching if the provided information is nil
     return {} if provider_guid.nil?
 
-    @result ||= echo_client.get_provider_names(token_with_client_id, provider_guid)
+    @result ||= echo_client.get_provider_names(token, provider_guid)
 
     # The result is nil if there is nothing to return
     return @result.parsed_body.fetch('Item', {}) if @result.success?
@@ -20,7 +20,7 @@ module EchoSoap
     # Dont bother searching if the provided information is nil
     return {} if provider_id.nil?
 
-    @result ||= echo_client.get_provider_names(token_with_client_id, nil)
+    @result ||= echo_client.get_provider_names(token, nil)
 
     # The result is nil if there is nothing to return
     if @result.success?
@@ -56,7 +56,7 @@ module EchoSoap
   end
 
   def set_summaries
-    response = echo_client.get_data_quality_summary_definition_name_guids(token_with_client_id, current_provider_guid)
+    response = echo_client.get_data_quality_summary_definition_name_guids(token, current_provider_guid)
 
     summary_guids = []
     # No ruby idioms exist that will allow us to ensure this is a list, because it
@@ -75,7 +75,7 @@ module EchoSoap
 
     @summaries = []
     summary_guids.each do |guid|
-      @summaries << echo_client.get_data_quality_summary_definition(token_with_client_id, guid)
+      @summaries << echo_client.get_data_quality_summary_definition(token, guid)
     end
 
     @summaries.sort_by! { |summary| summary.parsed_body.fetch('Name', '').downcase }

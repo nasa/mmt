@@ -21,12 +21,13 @@ module Cmr
     def truncate_token(token)
       return nil if token.nil?
 
-      token_parts = token.split(':')
-      if is_urs_token?(token_parts.first)
-        token_parts.map { |token_part| token_part.truncate([token_part.length / 4 + 3, 8].max) }.join(':')
+      # the URS token should have the client id after the ':', but we don't care about that
+      token_part = token.split(':').first
+      if is_urs_token?(token_part)
+        token_part.truncate([token_part.length / 4, 8].max, omission: '')
       else
         # launchpad tokens should not have a client_id
-        token_parts.first.truncate(50)
+        token_part.truncate(50, omission: '')
       end
     end
   end

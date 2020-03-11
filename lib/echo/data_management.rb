@@ -9,7 +9,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetDataQualitySummaryDefinition, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:guid, guid)
       end
 
@@ -24,7 +24,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetDataQualitySummaryDefinitionNameGuids, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:providerGuid, provider_guid)
       end
 
@@ -39,7 +39,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:CreateDataQualitySummaryDefinition, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:dataQualitySummaryDefinition) do
           builder.ns3(:Summary, payload.fetch('Summary')) if payload.key?('Summary')
           builder.ns3(:Name, payload.fetch('Name')) if payload.key?('Name')
@@ -58,7 +58,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:UpdateDataQualitySummaryDefinitions, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:dataQualitySummaryDefinitions) do
           builder.ns3(:Item) do
             builder.ns3(:Guid, payload.fetch('Guid')) if payload.key?('Guid')
@@ -79,7 +79,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:RemoveDataQualitySummaryDefinitions, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
 
         builder.ns2(:guids) do
           Array.wrap(guids).each do |g|
@@ -98,7 +98,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetDataQualitySummaryAssignments, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:catalogItemGuid, catalog_item_guid)
       end
 
@@ -112,7 +112,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:CreateDataQualitySummaryAssignment, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:providerGuid, provider_guid)
         builder.ns2(:dataQualitySummaryAssignment) do
           builder.ns3(:DefinitionGuid, definition_guid)
@@ -130,7 +130,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:RemoveDataQualitySummaryAssignments, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
 
         builder.ns2(:guids) do
           Array.wrap(guids).each do |g|
@@ -144,11 +144,11 @@ module Echo
       make_request(@url, payload)
     end
 
-    def get_order_options(token, guids = nil)
+    def get_order_options(echo_provider_token, guids = nil)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetCatalogItemOptionDefinitions2, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
 
         if guids.nil?
           # Providing nil will return all order options (NOT an empty string, only nil)
@@ -172,7 +172,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:SetCatalogItemOptionDefinitionsDeprecated, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:optionGuids) do
           Array.wrap(guids).each do |guid|
             builder.ns3(:Item, guid)
