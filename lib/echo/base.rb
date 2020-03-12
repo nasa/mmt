@@ -45,7 +45,7 @@ module Echo
           token_val = msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault', 'Token')
           msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault').delete('Token') if token_val.present?
           msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault')['Token-snippet'] = truncate_token(token_val) if token_val.present?
-          
+
           Rails.logger.error "SOAP Response Error: #{msg_hash.inspect}"
         end
 
@@ -71,7 +71,7 @@ module Echo
     end
 
     def payload_token(token)
-      return nil if token.blank? # better to return '' or nil ???
+      return nil if token.blank?
 
       if is_urs_token?(token)
         # passing the URS token to CMR requires the client id
