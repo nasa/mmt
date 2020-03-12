@@ -1,27 +1,28 @@
-describe 'Creating Email Subscriptions' do
+describe 'Creating Subscriptions' do
   before do
     login
   end
 
-  context 'when email subscriptions is turned on' do
-    context 'when visiting the new email subscription form' do
+  context 'when subscriptions is turned on' do
+    context 'when visiting the new subscription form' do
       before do
-        allow_any_instance_of(EmailSubscriptionPolicy).to receive(:create?).and_return(true)
+        allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
+        allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
 
-        visit new_email_subscription_path
+        visit new_subscription_path
       end
 
-      it 'displays the new email subscription form' do
-        expect(page).to have_content('New MMT_2 Email Subscription')
+      it 'displays the new subscription form' do
+        expect(page).to have_content('New MMT_2 Subscription')
 
         expect(page).to have_field('Description', type: 'textarea')
         expect(page).to have_field('Query', type: 'textarea')
         expect(page).to have_field('Subscriber', type: 'select')
       end
 
-      context 'when submitting an invalid empty email subscription form', js: true do
+      context 'when submitting an invalid empty subscription form', js: true do
         before do
-          within '.email-subscription-form' do
+          within '.subscription-form' do
             click_on 'Submit'
           end
         end
@@ -52,33 +53,33 @@ describe 'Creating Email Subscriptions' do
           end
         end
 
-        context 'when submitting an email subscription that succeeds' do
+        context 'when submitting an subscription that succeeds' do
           before do
             # TODO: we are mocking this because there is no live endpoint yet
             success_response_body = '{"revision_id":1,"concept_id":"ES1200000000-MMT"}'
             success_response = cmr_success_response(success_response_body)
-            allow_any_instance_of(Cmr::CmrClient).to receive(:create_email_subscription).and_return(success_response)
+            allow_any_instance_of(Cmr::CmrClient).to receive(:create_subscription).and_return(success_response)
 
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do
-              within '.email-subscription-form' do
+              within '.subscription-form' do
                 click_on 'Submit'
               end
             end
           end
 
           it 'creates the subscription' do
-            expect(page).to have_content('Email Subscription was successfully created.')
+            expect(page).to have_content('Subscription was successfully created.')
           end
         end
 
-        context 'when submitting an email subscription that fails' do
+        context 'when submitting an subscription that fails' do
           before do
             error_response_body = '{"errors":["some error message"]}'
             error_response = cmr_fail_response(JSON.parse(error_response_body))
-            allow_any_instance_of(Cmr::CmrClient).to receive(:create_email_subscription).and_return(error_response)
+            allow_any_instance_of(Cmr::CmrClient).to receive(:create_subscription).and_return(error_response)
 
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do
-              within '.email-subscription-form' do
+              within '.subscription-form' do
                 click_on 'Submit'
               end
             end
@@ -101,9 +102,9 @@ describe 'Creating Email Subscriptions' do
     end
   end
 
-  context 'when email subscriptions is turned off' do
+  context 'when subscriptions is turned off' do
     before do
-      allow(Mmt::Application.config).to receive(:email_subscriptions_enabled).and_return(false)
+      allow(Mmt::Application.config).to receive(:subscriptions_enabled).and_return(false)
     end
 
     context 'when visiting the Manage Cmr page' do
@@ -111,24 +112,26 @@ describe 'Creating Email Subscriptions' do
         visit manage_cmr_path
       end
 
-      it 'does not display the Email Subcriptions callout box' do
-        expect(page).to have_no_css('h3.eui-callout-box__title', text: 'Email Subscriptions')
+      it 'does not display the Subscriptions callout box' do
+        expect(page).to have_no_css('h3.eui-callout-box__title', text: 'Subscriptions')
       end
     end
 
-    context 'when visiting the new email subscription form' do
+    context 'when visiting the new subscription form' do
       before do
-        visit new_email_subscription_path
+        visit new_subscription_path
       end
 
-      it 'displays the Manage Cmr page with a warning message' do
+      it 'displays the Manage Cmr page' do
+        # Need to use the next line instead of the following line if js: true is on for these tests
+        # expect(page).to have_css('h2.current', text: 'MANAGE CMR')
         expect(page).to have_css('h2.current', text: 'Manage CMR')
 
         expect(page).to have_css('h3.eui-callout-box__title', text: 'Permissions & Groups')
         expect(page).to have_css('h3.eui-callout-box__title', text: 'Orders')
       end
 
-      it 'does not display the new email subscription form' do
+      it 'does not display the new subscription form' do
         expect(page).to have_no_field('Description')
         expect(page).to have_no_field('Query')
         expect(page).to have_no_field('Subscriber')

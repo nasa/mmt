@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   post '/invite_user' => 'groups#invite', as: 'invite_user'
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
 
-  resources :email_subscriptions, only: [:new, :create]
+  resources :subscriptions, only: [:index, :new, :create]
 
   post '/bulk_updates/check_task_name' => 'bulk_updates#check_task_name'
   resources :bulk_updates, only: [:index, :show, :create] do

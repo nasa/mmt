@@ -63,12 +63,15 @@
       </div>
     </section>
 
-    <% if Rails.configuration.email_subscriptions_enabled %>
+    <% if Rails.configuration.subscriptions_enabled %>
       <section class="eui-callout-box">
         <div class="eui-callout-box-content">
-          <h3 class="eui-callout-box__title">Email Subscriptions</h3>
-          <% if policy(:email_subscription).create? %>
-            <p><%= link_to 'Create an Email Subscription', new_email_subscription_path %></p>
+          <h3 class="eui-callout-box__title">Subscriptions</h3>
+          <% if policy(:subscription).index? %>
+          <p><%= link_to 'View Subscriptions', subscriptions_path %></p>
+          <% end %>
+          <% if policy(:subscription).create? %>
+            <p><%= link_to 'Create an Subscription', new_subscription_path %></p>
           <% end %>
         </div>
       </section>

@@ -1,29 +1,44 @@
-class EmailSubscriptionsController < ManageCmrController
+class SubscriptionsController < ManageCmrController
   include UrsUserEndpoints
 
-  before_action :email_subscriptions_enabled?
+  RESULTS_PER_PAGE = 25
+  before_action :subscriptions_enabled?
+
+  def index
+    authorize :subscription
+    subscription_response = cmr_client.get_subscriptions()
+
+    if subscription_response.success?
+      @subscriptions = subscription_response.body['items']
+    else
+      # TODO: when we have a live endpoint, we should log the error and provide
+      # an appropriate error message to the user with subscription_response.error_message
+      flash[:error] = subscription_response.body['errors'].first
+      @subscriptions = []
+    end
+    @subscriptions = Kaminari.paginate_array(@subscriptions, total_count: @subscriptions.count).page(params.fetch('page', 1)).per(RESULTS_PER_PAGE)
+  end
 
   def new
+    authorize :subscription
     @subscription = {}
-    authorize @subscription, policy_class: EmailSubscriptionPolicy
     @subscriber = []
 
-    add_breadcrumb 'New', new_email_subscription_path
+    add_breadcrumb 'New', new_subscription_path
   end
 
   def create
+    authorize :subscription
     # query should be passed as `metadata`
     # subscriber urs_uid should be passed as `user_id`
     # subscriber email should be passed as `email_address`
     @subscription = subscription_params
-    authorize @subscription, policy_class: EmailSubscriptionPolicy
     # add email from user_id
     @subscription['email_address'] = get_subscriber_email(@subscription['user_id'])
 
-    subscription_response = cmr_client.create_email_subscription(@subscription, token)
+    subscription_response = cmr_client.create_subscription(@subscription, token)
     if subscription_response.success?
-      # TODO: there is no show page yet, but we should redirect to a show view when it is available
-      redirect_to manage_cmr_path, flash: { success: 'Email Subscription was successfully created.'}
+      redirect_to subscriptions_path, flash: { success: 'Subscription was successfully created.'}
     else
       # TODO: when we have a live endpoint, we should log the error and provide
       # an appropriate error message to the user with subscription_response.error_message
@@ -40,8 +55,8 @@ class EmailSubscriptionsController < ManageCmrController
     params.require(:subscription).permit(:description, :metadata, :user_id, :email_address) # :subscriber_email)
   end
 
-  def email_subscriptions_enabled?
-    redirect_to manage_cmr_path unless Rails.configuration.email_subscriptions_enabled
+  def subscriptions_enabled?
+    redirect_to manage_cmr_path unless Rails.configuration.subscriptions_enabled
   end
 
   def get_subscriber(subscriber_id)
