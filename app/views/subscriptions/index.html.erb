@@ -34,8 +34,6 @@
               <!-- TODO: Update this path to the correct path -->
               <% if policy(:subscription).edit? %>
                 <td><%= link_to 'Edit', subscriptions_path %></td>
-              <% else %>
-                <td></td>
               <% end %>
               <% if policy(:subscription).destroy? %>
                 <td>

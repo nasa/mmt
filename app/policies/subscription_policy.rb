@@ -9,19 +9,30 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def create?
-    user_has_provider_permission_to(user: user.user, action: 'create', target: 'EMAIL_SUBSCRIPTION_MANAGEMENT', token: user.token)
+    @create.nil? ? fetch_granted_permissions(action: 'create') : @create
     # TODO: use `caller_locations.first.label` when adding another acl check
   end
 
   def update?
-    user_has_provider_permission_to(user: user.user, action: 'update', target: 'EMAIL_SUBSCRIPTION_MANAGEMENT', token: user.token)
+    @update.nil? ? fetch_granted_permissions(action: 'update') : @update
   end
 
   def index?
-    user_has_provider_permission_to(user: user.user, action: 'read', target: 'EMAIL_SUBSCRIPTION_MANAGEMENT', token: user.token)
+    @read.nil? ? fetch_granted_permissions(action: 'read') : @read
   end
 
   def destroy?
-    user_has_provider_permission_to(user: user.user, action: 'delete', target: 'EMAIL_SUBSCRIPTION_MANAGEMENT', token: user.token)
+    @delete.nil? ? fetch_granted_permissions(action: 'delete') : @delete
+  end
+
+  # We may need to check these acls many times on a page.  This lets us only hit
+  # cmr once per page.
+  def fetch_granted_permissions(action:)
+    permissions = granted_permissions_for_user(user: user.user, type: 'provider', target: 'EMAIL_SUBSCRIPTION_MANAGEMENT', token: user.token)
+    @read = permissions.include?('read')
+    @create = permissions.include?('create')
+    @update = permissions.include?('update')
+    @delete = permissions.include?('delete')
+    instance_variable_get("@#{action}")
   end
 end

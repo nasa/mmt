@@ -26,7 +26,7 @@ describe 'Viewing a list of subscriptions' do
 
         it 'displays the dummy subscription' do
           expect(page).to have_link('Create a Subscription')
-          expect(page).to have_content('Showing 1 Subscription')
+          expect(page).to have_content('Showing all 2 Subscriptions')
 
           within '.subscriptions-table' do
             expect(page).to have_content('Description')
@@ -51,7 +51,7 @@ describe 'Viewing a list of subscriptions' do
 
         it 'displays the dummy subscription and links' do
           expect(page).to have_link('Create a Subscription')
-          expect(page).to have_content('Showing 1 Subscription')
+          expect(page).to have_content('Showing all 2 Subscriptions')
 
           within '.subscriptions-table' do
             expect(page).to have_content('Description')

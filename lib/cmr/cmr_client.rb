@@ -548,7 +548,7 @@ module Cmr
 
       # the structure of the success and failure responses are unclear at this point
       # so they will change
-      success_response_body =  '{"items":[{"description":"It is a subscription", "user_id":"fake_user_id", "email_address":"fake@fake.fake", "collection_concept_id":"C1200000000-FAKE", "metadata":"thing=stuff&&stuff_id=stuff&&stuff_color=more_stuff"}]}'
+      success_response_body =  '{"items":[{"description":"It is a subscription", "user_id":"fake_user_id", "email_address":"fake@fake.fake", "collection_concept_id":"C1200000000-FAKE", "metadata":"thing=stuff&&stuff_id=stuff&&stuff_color=more_stuff"},{"description":"It is a second subscription", "user_id":"fake_user_id", "email_address":"fake2@fake.fake", "collection_concept_id":"C1200000001-FAKE", "metadata":"thing=stuff&&stuff_id=stuff2&&stuff_color=more_stuff2"}]}'
       Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(success_response_body)))
 
       # This error response is provided for viewing and testing a failure
