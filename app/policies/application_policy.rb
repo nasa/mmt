@@ -65,4 +65,15 @@ class ApplicationPolicy
   def token
     user.token
   end
+
+  # We may need to check these acls many times on a page.  This lets us only hit
+  # cmr once per page.
+  def fetch_granted_permissions(action:, user:, type:, target:, token:)
+    permissions = granted_permissions_for_user(user: user, type: type, target: target, token: token)
+    @read = permissions.include?('read')
+    @create = permissions.include?('create')
+    @update = permissions.include?('update')
+    @delete = permissions.include?('delete')
+    instance_variable_get("@#{action}")
+  end
 end
