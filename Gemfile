@@ -9,7 +9,7 @@ gem 'sprockets', '~> 3.7.0'
 # Use SCSS for stylesheets
 gem 'bourbon'
 gem 'neat', '~> 1.7.2'
-gem 'sass-rails', '~> 5.0'
+gem 'sassc-rails'
 
 # Use Autoprefixer for prefixing styles
 gem 'autoprefixer-rails'
