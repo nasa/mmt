@@ -11,11 +11,11 @@ module Echo
     # operation also allows a provider to cancel specific order line items. If
     # all order line items are cancelled, the whole provider order will be
     # automatically cancelled.
-    def accept_provider_order_cancellation(token, order_guid, provider_tracking_id, catalog_items, status_message)
+    def accept_provider_order_cancellation(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:AcceptProviderOrderCancellation, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
         builder.ns2(:orderGuid, order_guid)
         builder.ns2(:providerTrackingId, provider_tracking_id)
         builder.ns2(:catalogItemGuids) do
@@ -34,11 +34,11 @@ module Echo
     # Allows a provider to close a provider order. It also allows a provider
     # to close specific order line items. If all the order line items are
     # closed, the whole provider order will be automatically closed.
-    def close_provider_order(token, order_guid, provider_tracking_id, catalog_items, status_message)
+    def close_provider_order(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:CloseProviderOrder, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, echo_provider_token)
         builder.ns2(:orderGuid, order_guid)
         builder.ns2(:providerTrackingId, provider_tracking_id)
         builder.ns2(:catalogItemGuids) do

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe Echo::Client do
-  let(:echo_client) { Echo::Client.new('http://example.com', Rails.configuration.services['echo_soap']['services']) }
+  let(:echo_client) { Echo::Client.new('http://example.com', Rails.configuration.services['echo_soap']['services'], Rails.configuration.services['urs']['mmt_proposal_mode']['test']['https://sit.urs.earthdata.nasa.gov']) }
 
-  context 'Echo Client' do
+  context 'Echo Client timeouts' do
     it 'echo_client delegates have assigned timeouts' do
       echo_client.timeout = 50
       sum = 0

@@ -685,7 +685,7 @@ module Cmr
           req.headers['Echo-token'] = 'mock-echo-system-token'
           req.body = '{"provider-id": "' + provider_id + '", "short-name": "' + provider_id + '", "cmr-only": true}'
         end
-        puts "recreate provider in CMR ingest: #{resp.body}"
+        # puts "recreate provider in CMR ingest: #{resp.body}"
         # Recreate provider in Mock Echo
         resp = connection.post do |req|
           req.url('http://localhost:3008/providers')
@@ -693,7 +693,7 @@ module Cmr
           req.headers['Echo-token'] = 'mock-echo-system-token'
           req.body = '[{"provider":{"id":"' + guid + '","provider_id":"' + provider_id + '"}}]'
         end
-        puts "recreate provider in mock echo: #{resp.body}"
+        # puts "recreate provider in mock echo: #{resp.body}"
 
         # Create provider acl group
         group_resp = connection.post do |req|
@@ -704,7 +704,7 @@ module Cmr
         end
         # get the new provider group's concept id
         group_concept_id = JSON.parse(group_resp.body)['concept_id']
-        puts "group added for recreated provider. concept: #{group_concept_id}; response: #{group_resp.body}"
+        # puts "group added for recreated provider. concept: #{group_concept_id}; response: #{group_resp.body}"
 
         # add typical user to new provider group
         connection.post do |req|

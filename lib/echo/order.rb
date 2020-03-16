@@ -2,11 +2,11 @@ module Echo
   class Order
     def initialize(client: nil, echo_provider_token: nil, guid: nil, response: nil)
       @client = client
-      @token = echo_provider_token
+      @echo_provider_token = echo_provider_token
 
       if response.nil?
         Rails.logger.info "Starting individual get_orders request sent at Time #{Time.now.to_i} with guid #{guid}"
-        order_response = @client.get_orders(@token, guid)
+        order_response = @client.get_orders(@echo_provider_token, guid)
         Rails.logger.info "Response from individual get_orders request received at Time #{Time.now.to_i}"
 
         if order_response.success?
@@ -109,7 +109,7 @@ module Echo
     def cached_owner
       Rails.cache.fetch("owners.#{owner_guid}", expires_in: Rails.configuration.orders_user_cache_expiration ) do
         Rails.logger.info "Cache-miss - Starting get_user_names request sent at Time #{Time.now.to_i} with owner_guid #{owner_guid}"
-        result = @client.get_user_names(@token, owner_guid).parsed_body
+        result = @client.get_user_names(@echo_provider_token, owner_guid).parsed_body
         Rails.logger.info "Response from get_user_names request received at Time #{Time.now.to_i}"
         result
       end
