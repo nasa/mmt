@@ -143,15 +143,17 @@ module FormHelper
   end
 
   # RAILS5.1 -- datetime_field_tag returns a datetime_local instead of date_time
-  # datetime_local doesn't support UTC.  
-  ## def mmt_datetime_field_tag(name, dt, options)
+  # datetime_local doesn't support UTC and is supported in some, but not all
+  # browsers.  custom-datetimes are managed by datepicker.coffee and
+  # datepicker.scss and are unrelated to the deprecated html datetime input type
   def mmt_datetime_field_tag(name, dt, options)
-    datetime_field_tag(name,dt,options).gsub('datetime-local','datetime').html_safe
+    datetime_field_tag(name,dt,options).gsub('datetime-local','custom-datetime').html_safe
   end
+
   def mmt_extended_datetime_field_tag(name, dt, cls, placeholder, data)
-    datetime_field_tag(name,dt,cls, placeholder, data).gsub('datetime-local','datetime').html_safe
+    datetime_field_tag(name,dt,cls, placeholder, data).gsub('datetime-local','custom-datetime').html_safe
   end
-  
+
   def mmt_datetime(options)
     options[:name] = add_pipes(options[:name])
 
@@ -166,9 +168,8 @@ module FormHelper
       placeholder: "YYYY-MM-DDTHH:MM:SSZ",
       data: { level: remove_pipes(options[:prefix]) }
     )
-    
-    # TODO -- gsub reverts to the pre-Rails 5.1 behavior of using datetime,  instead of datetime-local See MMT-2060
-    mmt_label(options) + mmt_help_icon(options) + datetime_html.gsub('datetime-local','datetime').html_safe
+
+    mmt_label(options) + mmt_help_icon(options) + datetime_html.gsub('datetime-local','custom-datetime').html_safe
   end
 
   def mmt_number(options)
