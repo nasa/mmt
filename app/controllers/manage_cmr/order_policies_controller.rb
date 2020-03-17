@@ -52,7 +52,7 @@ class OrderPoliciesController < ManageCmrController
   end
 
   def destroy
-    response = echo_client.remove_provider_policies(token_with_client_id, current_provider_guid)
+    response = echo_client.remove_provider_policies(token, current_provider_guid)
 
     if response.error?
       Rails.logger.error("Delete Order Policies Error: #{response.inspect}")
@@ -65,7 +65,7 @@ class OrderPoliciesController < ManageCmrController
   end
 
   def test_endpoint_connection
-    response = echo_client.test_endpoint_connection(token_with_client_id, current_provider_guid)
+    response = echo_client.test_endpoint_connection(token, current_provider_guid)
 
     message = if response.error?
                 response.error_message
@@ -80,7 +80,7 @@ class OrderPoliciesController < ManageCmrController
 
   def set_policy
     # Get the provider's policies (will only ever be one)
-    result = echo_client.get_providers_policies(token_with_client_id, current_provider_guid)
+    result = echo_client.get_providers_policies(token, current_provider_guid)
 
     # Check for an error OR nil, rather than returning an empty list or error it returns nil
     @policy = result.parsed_body.fetch('Item', {}) unless result.error? || result.parsed_body.fetch('Item', {}).fetch('xsi:nil', 'false') == 'true'
@@ -138,6 +138,6 @@ class OrderPoliciesController < ManageCmrController
   end
 
   def upsert_policy
-    echo_client.set_provider_policies(token_with_client_id, current_provider_guid, generate_upsert_payload)
+    echo_client.set_provider_policies(token, current_provider_guid, generate_upsert_payload)
   end
 end

@@ -18,7 +18,7 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
     error_count = 0
 
     params.fetch('catalog_item_guid_toList', []).each do |catalog_item_guid|
-      response = echo_client.create_data_quality_summary_assignment(token_with_client_id, current_provider_guid, params.fetch('definition_guid', nil), catalog_item_guid)
+      response = echo_client.create_data_quality_summary_assignment(token, current_provider_guid, params.fetch('definition_guid', nil), catalog_item_guid)
 
       success_count += 1 unless response.error?
       error_count += 1 if response.error?
@@ -47,7 +47,7 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
       # Pull out the guid of the data quality summary definition
       assignments = begin
         # Nothing, or an error returned from the ECHO API would prevent relavant data from being available
-        assignment = echo_client.get_data_quality_summary_assignments(token_with_client_id, collection_guid)
+        assignment = echo_client.get_data_quality_summary_assignments(token, collection_guid)
 
         Array.wrap(assignment.parsed_body.fetch('Item', []))
       rescue
@@ -61,7 +61,7 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
       collection['data_quality_summaries'] = []
 
       assignments.each do |assignment_body|
-        definition_details = echo_client.get_data_quality_summary_definition(token_with_client_id, assignment_body.fetch('DefinitionGuid', nil))
+        definition_details = echo_client.get_data_quality_summary_definition(token, assignment_body.fetch('DefinitionGuid', nil))
         next if definition_details.error?
 
         # Pull out the body so that we can append to it
@@ -86,7 +86,7 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
     error_count = 0
 
     params.fetch('data_quality_summary_assignment', []).each do |assignment|
-      response = echo_client.remove_data_quality_summary_assignments(token_with_client_id, assignment)
+      response = echo_client.remove_data_quality_summary_assignments(token, assignment)
 
       success_count += 1 unless response.error?
       error_count += 1 if response.error?

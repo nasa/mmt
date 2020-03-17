@@ -278,20 +278,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :token
 
-  def token_with_client_id
-    if Rails.env.development? && params[:controller] == 'collections' && params[:action] == 'show'
-      # in development, only for download_xml links, we need to use the tokens created on local cmr setup
-      'ABC-2'
-    else
-      services = Rails.configuration.services
-      config = services['earthdata'][Rails.configuration.cmr_env]
-      mmt_mode = Rails.configuration.proposal_mode ? 'mmt_proposal_mode' : 'mmt_proper'
-      client_id = services['urs'][mmt_mode][Rails.env.to_s][config['urs_root']]
-
-      "#{token}:#{client_id}"
-    end
-  end
-  helper_method :token_with_client_id
 
   def echo_provider_token
     set_provider_context_token if session[:echo_provider_token].nil?
@@ -368,7 +354,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_provider_context_token
-    session[:echo_provider_token] = echo_client.get_provider_context_token(token_with_client_id, behalfOfProvider: current_user.provider_id).parsed_body
+    session[:echo_provider_token] = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id).parsed_body
   end
 
   # Custom error messaging for Pundit

@@ -10,7 +10,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetProviderNames, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
 
         if guids.nil?
           # Providing nil will return all providers (NOT an empty string, only nil)
@@ -35,7 +35,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:GetProvidersPolicies, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
 
         builder.ns2(:providerGuids) do
           [*guids].each do |g|
@@ -58,7 +58,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:SetProviderPolicies, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:providerGuid, provider_guid)
         builder.ns2(:policies) do
           builder.ns3(:EndPoint, payload.fetch(:EndPoint))
@@ -108,7 +108,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:RemoveProviderPolicies, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:providerGuid, provider_guid)
       end
 
@@ -121,7 +121,7 @@ module Echo
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:TestEndpointConnection, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, token)
+        builder.ns2(:token, payload_token(token))
         builder.ns2(:providerGuid, provider_guid)
       end
 

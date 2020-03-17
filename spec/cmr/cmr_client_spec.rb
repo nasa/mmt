@@ -37,30 +37,28 @@ describe Cmr::Client do
 
     context 'error logging' do
       let(:collection_search_url) { 'http://localhost:3003/collections.umm-json' }
+      let(:test_urs_token) { "#{Faker::Lorem.characters(number: 40)}:client_id" }
+      # should mirror how the token is shortened
+      let(:test_urs_snippet) { test_urs_token.truncate([40 / 4, 8].max, omission: '') }
 
-      before { allow_any_instance_of(Cmr::BaseClient).to receive(:token_header).with('bad-bad-bad-token-bad-bad-bad-token:somethingsomethingso').and_return('Echo-Token' => 'bad-bad-bad-token-bad-bad-bad-token:somethingsomethingso') }
+      before { allow_any_instance_of(Cmr::BaseClient).to receive(:token_header).with(test_urs_token).and_return('Echo-Token' => test_urs_token) }
 
       it '`clean_inspect` does not contain the full token' do
-        response = cmr_client.get_collections({ 'short_name' => 'term' }, 'bad-bad-bad-token-bad-bad-bad-token:somethingsomethingso')
+        response = cmr_client.get_collections({ 'short_name' => 'term' }, test_urs_token)
 
         expect(response.clean_inspect).to include('Echo-Token-snippet')
-        expect(response.clean_inspect).to include('bad-bad-...:somet...')
+        expect(response.clean_inspect).to include(test_urs_snippet)
 
         expect(response.clean_inspect).not_to include('"Echo-Token"=>')
-        # TODO: we should not be logging the full token, but it comes back with
-        # the cmr response body. the message containing tokens may change with CMR-5274
-        # expect(response.clean_inspect).not_to include('bad-bad-bad-token-bad-bad-bad-token:somethingsomethingso')
+        expect(response.clean_inspect).not_to include(test_urs_token)
       end
 
       it 'the first error logging only contains the response body' do
-        # TODO: we should not be logging the full token, but it comes back with
-        # the cmr response body. the message containing tokens may change with CMR-5274
-
         # for testing logs, we need to put the expectation before the message is logged
         # the first error logging happens in base_client, with just the response body
         expect(Rails.logger).to receive(:error).with("Cmr::CmrClient Response Error: \"{\\\"errors\\\":[\\\"Token does not exist\\\"]}\"")
 
-        response = cmr_client.get_collections_by_post({ 'short_name' => 'term' }, 'bad-bad-bad-token-bad-bad-bad-token:somethingsomethingso')
+        response = cmr_client.get_collections_by_post({ 'short_name' => 'term' }, test_urs_token)
       end
     end
   end

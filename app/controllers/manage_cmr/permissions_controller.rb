@@ -41,7 +41,7 @@ class PermissionsController < ManageCmrController
   def new
     @permission = {}
 
-    add_breadcrumb 'New', new_permissions_path
+    add_breadcrumb 'New', new_permission_path
   end
 
   def create

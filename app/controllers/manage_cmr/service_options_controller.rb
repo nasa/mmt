@@ -60,7 +60,7 @@ class ServiceOptionsController < ManageCmrController
   def update
     @service_option = generate_payload
 
-    response = echo_client.update_service_option(token_with_client_id, @service_option)
+    response = echo_client.update_service_option(token, @service_option)
 
     if response.error?
       Rails.logger.error("Update Service Option Error: #{response.inspect}")
@@ -73,7 +73,7 @@ class ServiceOptionsController < ManageCmrController
   end
 
   def destroy
-    response = echo_client.remove_service_option(token_with_client_id, params[:id])
+    response = echo_client.remove_service_option(token, params[:id])
 
     if response.error?
       Rails.logger.error("Delete Service Option Error: #{response.inspect}")
