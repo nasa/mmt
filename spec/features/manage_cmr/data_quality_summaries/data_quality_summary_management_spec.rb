@@ -53,7 +53,7 @@ describe 'Viewing Data Quality Summaries' do
     context 'when setting the value of the WYSIWYG using the api' do
       before do
         # Field is hidden because of the WYSIWYG so we'll need to use js to interact with it
-        page.execute_script("$('#summary').redactor('code.set', '<p>Maecenas faucibus mollis interdum.</p>')")
+        page.execute_script("$('#summary').val('<p>Maecenas faucibus mollis interdum.</p>')")
       end
 
       it 'sets the value of the hidden field correctly' do
