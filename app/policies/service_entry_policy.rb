@@ -9,14 +9,14 @@ class ServiceEntryPolicy < ApplicationPolicy
   end
 
   def create?
-    user_has_provider_permission_to(user: user.user, action: 'create', target: 'EXTENDED_SERVICE', token: user.token)
+    @create.nil? ? fetch_granted_permissions(action: 'create', user: user.user, type: 'provider', target: 'EXTENDED_SERVICE', token: user.token) : @create
   end
 
   def update?
-    user_has_provider_permission_to(user: user.user, action: 'update', target: 'EXTENDED_SERVICE', token: user.token)
+    @update.nil? ? fetch_granted_permissions(action: 'update', user: user.user, type: 'provider', target: 'EXTENDED_SERVICE', token: user.token) : @update
   end
 
   def destroy?
-    user_has_provider_permission_to(user: user.user, action: 'delete', target: 'EXTENDED_SERVICE', token: user.token)
+    @delete.nil? ? fetch_granted_permissions(action: 'delete', user: user.user, type: 'provider', target: 'EXTENDED_SERVICE', token: user.token) : @delete
   end
 end

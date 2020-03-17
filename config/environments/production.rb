@@ -131,8 +131,8 @@ Rails.application.configure do
   # Feature toggle for approver workflow in MMT.
   config.mmt_approver_workflow_enabled = false
 
-  # Feature toggle for email subscriptions in MMT
-  config.email_subscriptions_enabled = false
+  # Feature toggle for subscriptions in MMT
+  config.subscriptions_enabled = false
 
   config.cmr_env = 'ops'
   config.echo_env = 'ops'

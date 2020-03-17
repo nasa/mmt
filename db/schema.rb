@@ -87,5 +87,4 @@ ActiveRecord::Schema.define(version: 2020_03_02_154436) do
     t.string "provider_id"
     t.text "available_providers"
   end
-
 end

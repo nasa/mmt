@@ -1,8 +1,8 @@
 <div class="row row-content">
   <section>
-    <h2>New <span class="provider-context"><%= current_user.provider_id %></span> Email Subscription</h2>
+    <h2>New <span class="provider-context"><%= current_user.provider_id %></span> Subscription</h2>
 
-    <%= form_tag(email_subscriptions_path, method: :post, class: 'email-subscription-form') %>
+    <%= form_tag(subscriptions_path, method: :post, class: 'subscription-form') do %>
       <fieldset>
         <div class="row">
           <%= label_tag('subscription[description]', 'Description', class: 'eui-required-o') %>
@@ -32,7 +32,6 @@
         <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'new-subscription-submit' %>
         <%= link_to 'Cancel', :back, class: 'eui-btn' %>
       </fieldset>
-    <%# end %>
-
+    <% end %>
   </section>
 </div>

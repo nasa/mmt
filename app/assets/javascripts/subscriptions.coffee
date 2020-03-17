@@ -1,8 +1,8 @@
 $(document).ready ->
-  if $('.email-subscription-form').length > 0
+  if $('.subscription-form').length > 0
 
     # Validate email subscription form
-    $('.email-subscription-form').validate
+    $('.subscription-form').validate
       rules:
         'subscription[description]':
           required: true

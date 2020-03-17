@@ -123,4 +123,15 @@ module PermissionChecking
       []
     end
   end
+  
+  def granted_permissions_for_user(user:, target:, type:, token:, specific_provider: nil)
+    granted_permissions = permissions_for_target(user: user, target: target, type: type, token: token, specific_provider: specific_provider)
+
+    log_target = "#{type.capitalize} #{target}"
+    log_target += " for #{specific_provider || user.provider_id}" if type == 'provider'
+
+    Rails.logger.debug "#{user.urs_uid} has #{granted_permissions} permissions on #{log_target}"
+
+    granted_permissions
+  end
 end
