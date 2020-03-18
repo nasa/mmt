@@ -25,7 +25,7 @@ describe 'Viewing a list of subscriptions' do
         end
 
         it 'displays the dummy subscription' do
-          expect(page).to have_link('Create a Subscription')
+          expect(page).to have_no_link('Create a Subscription')
           expect(page).to have_content('Showing all 2 Subscriptions')
 
           within '.subscriptions-table' do
@@ -46,6 +46,7 @@ describe 'Viewing a list of subscriptions' do
         before do
           allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(true)
           allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
+          allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
           visit subscriptions_path
         end
 

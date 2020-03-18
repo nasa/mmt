@@ -2,7 +2,9 @@
   <section>
     <h2><%= current_user.provider_id %> Subscriptions</h2>
 
-    <%= link_to 'Create a Subscription', new_subscription_path, class: 'eui-btn--blue space-bot' %>
+    <% if policy(:subscription).create? %>
+      <%= link_to 'Create a Subscription', new_subscription_path, class: 'eui-btn--blue space-bot' %>
+    <% end %>
 
     <% if @subscriptions.any? %>
       <p><%= page_entries_info @subscriptions, entry_name: 'Subscription' %></p>
