@@ -129,7 +129,7 @@ Rails.application.configure do
   config.templates_enabled = true
 
   # Feature toggle for approver workflow in MMT.
-  config.mmt_approver_workflow_enabled = false
+  config.mmt_approver_workflow_enabled = true
 
   # Feature toggle for subscriptions in MMT
   config.subscriptions_enabled = false
