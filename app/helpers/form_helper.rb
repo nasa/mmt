@@ -144,8 +144,10 @@ module FormHelper
 
   # RAILS5.1 -- datetime_field_tag returns a datetime_local instead of date_time
   # datetime_local doesn't support UTC and is supported in some, but not all
-  # browsers.  custom-datetimes are managed by datepicker.coffee and
-  # datepicker.scss and are unrelated to the deprecated html datetime input type
+  # browsers.  custom-datetimes are picked up by the datepicker code and are
+  # unrelated to the deprecated html datetime input type. That code is managed
+  # by datepicker.coffee, components/_date-picker.scss and
+  # overrides/_datepicker.scss.
   def mmt_datetime_field_tag(name, dt, options)
     datetime_field_tag(name,dt,options).gsub('datetime-local','custom-datetime').html_safe
   end
