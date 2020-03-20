@@ -116,8 +116,8 @@ module Cmr
         # There should not be tokens in these errors, so we can skip them.
         next if error.is_a?(Hash)
 
-        # Match something that contains Token [<token>] and replace it where $1 = the first 6 chars of <token>
-        error.gsub!(/Token \[(.*)\]/) { |s| "Token beginning with #{truncate_token($1)}" }
+        # Match something that contains Token [<token>] and replace it where $1 = the first few chars of <token>
+        error.gsub!(/Token \[(.*?)\]/) { |s| "Token beginning with #{truncate_token($1)}" }
       end
 
       input_errors

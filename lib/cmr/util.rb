@@ -21,7 +21,7 @@ module Cmr
     def truncate_token(token)
       return nil if token.nil?
 
-      # the URS token should have the client id after the ':', but we don't care about that
+      # the URS token should have the client id after the ':', but we don't care about outputting that
       token_part = token.split(':').first
       if is_urs_token?(token_part)
         token_part.truncate([token_part.length / 4, 8].max, omission: '')
