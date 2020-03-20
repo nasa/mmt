@@ -719,7 +719,7 @@ $(document).ready ->
   $('.metadata-form, .umm-form').on 'blur', '.validate', ->
     visitField($(this).attr('id'))
     # if the field is a datepicker, and the datepicker is still open, don't validate yet
-    return if $(this).attr('type') == 'datetime' and $('.datepicker:visible').length > 0
+    return if $(this).attr('type') == 'custom-datetime' and $('.datepicker:visible').length > 0
     validateFromFormChange()
 
   # 'blur' functionality for select2 fields
