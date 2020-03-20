@@ -168,11 +168,11 @@ module Echo
     end
 
     # Deprecates an order so it can be deleted
-    def deprecate_order_options(token, guids)
+    def deprecate_order_options(echo_provider_token, guids)
       builder = Builder::XmlMarkup.new
 
       builder.ns2(:SetCatalogItemOptionDefinitionsDeprecated, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
-        builder.ns2(:token, payload_token(token))
+        builder.ns2(:token, echo_provider_token)
         builder.ns2(:optionGuids) do
           Array.wrap(guids).each do |guid|
             builder.ns3(:Item, guid)

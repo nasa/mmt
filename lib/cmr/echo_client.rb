@@ -12,30 +12,30 @@ module Cmr
       get('/legacy-services/rest/providers.json')
     end
 
-    def create_order_option(order_option, token)
+    def create_order_option(order_option, echo_provider_token)
       url = '/legacy-services/rest/option_definitions'
       content_type = { 'Content-Type' => 'application/json' }
       body = { 'option_definition' => order_option }
-      echo_security_token = { 'Echo-Token' => token }
+      echo_security_token = { 'Echo-Token' => echo_provider_token }
       post(url, body.to_json, content_type.merge(echo_security_token))
     end
 
-    def get_order_option(id, token)
+    def get_order_option(id, echo_provider_token)
       url = "/legacy-services/rest/option_definitions/#{id}"
-      get(url, {}, { 'Echo-Token' => token })
+      get(url, {}, { 'Echo-Token' => echo_provider_token })
     end
 
-    def delete_order_option(id, token)
+    def delete_order_option(id, echo_provider_token)
       url = "/legacy-services/rest/option_definitions/#{id}"
-      delete(url, nil, nil, { 'Echo-Token' => token })
+      delete(url, nil, nil, { 'Echo-Token' => echo_provider_token })
     end
 
-    def get_order_option_assignments(options, token)
+    def get_order_option_assignments(options, echo_provider_token)
       url = '/legacy-services/rest/catalog_item_option_assignments.json'
-      get(url, options, { 'Echo-Token' => token })
+      get(url, options, { 'Echo-Token' => echo_provider_token })
     end
 
-    def add_order_option_assignments(id, order_option, token)
+    def add_order_option_assignments(id, order_option, echo_provider_token)
       url = "/legacy-services/rest/catalog_item_option_assignments"
       content_type = { 'Content-Type' => 'application/json' }
       body = {
@@ -44,13 +44,13 @@ module Cmr
               'option_definition_id' => order_option
           }
       }
-      echo_security_token = { 'Echo-Token' => token }
+      echo_security_token = { 'Echo-Token' => echo_provider_token }
       post(url, body.to_json, content_type.merge(echo_security_token))
     end
 
-    def delete_order_option_assignments(option_assignment_guid, token)
+    def delete_order_option_assignments(option_assignment_guid, echo_provider_token)
       url = "/legacy-services/rest/catalog_item_option_assignments/#{option_assignment_guid}"
-      delete(url, nil, nil, { 'Echo-Token' => token })
+      delete(url, nil, nil, { 'Echo-Token' => echo_provider_token })
     end
   end
 end
