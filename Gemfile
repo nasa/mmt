@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.2.4'
+gem 'rails', '~> 5.2.4'
 
 # deployment support
 gem 'sprockets', '~> 3.7.0'
@@ -30,7 +30,7 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'sdoc', group: :doc
 
 # Use Unicorn as the app server
 gem 'unicorn'
