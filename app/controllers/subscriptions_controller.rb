@@ -33,10 +33,8 @@ class SubscriptionsController < ManageCmrController
     # subscriber urs_uid should be passed as `user_id`
     # subscriber email should be passed as `email_address`
     @subscription = subscription_params
-    # add email from user_id
-    @subscription['email_address'] = get_subscriber_email(@subscription['user_id'])
 
-    subscription_response = cmr_client.create_subscription(@subscription, token)
+    subscription_response = cmr_client.ingest_subscription(reformat_subscription_params_for_submission.to_json, current_user.provider_id, "mmt_subscription_#{SecureRandom.uuid}", token)
     if subscription_response.success?
       redirect_to subscriptions_path, flash: { success: 'Subscription was successfully created.'}
     else
@@ -52,7 +50,7 @@ class SubscriptionsController < ManageCmrController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:description, :metadata, :user_id, :email_address) # :subscriber_email)
+    params.require(:subscription).permit(:name, :concept_id, :metadata, :user_id, :email_address) # :subscriber_email)
   end
 
   def subscriptions_enabled?
@@ -78,5 +76,15 @@ class SubscriptionsController < ManageCmrController
   def get_subscriber_email(subscriber_id)
     subscriber = get_subscriber(subscriber_id).fetch(0, {})
     subscriber.fetch('email_address', nil)
+  end
+
+  def reformat_subscription_params_for_submission
+    {
+      'Name' => @subscription['name'],
+      'SubscriberId' => @subscription['user_id'],
+      'EmailAddress' => get_subscriber_email(@subscription['user_id']),
+      'Query' => @subscription['metadata'],
+      'CollectionConceptId' => @subscription['concept_id']
+    }
   end
 end

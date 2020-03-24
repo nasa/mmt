@@ -18,3 +18,15 @@
 .eui-btn--link {
   padding: 0;
 }
+
+// These are use on the subscription page to make input/textarea placeholders
+// look the same.
+textarea::-moz-placeholder {
+  color: #95a5a6;
+  font-weight: 100; 
+}
+textarea::-webkit-input-placeholder {
+  color: #95a5a6;
+  font-weight: 100; 
+}
+

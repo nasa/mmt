@@ -281,6 +281,33 @@ module Cmr
       put(url, metadata, headers.merge(token_header(token)))
     end
 
+### Subscriptions ###
+
+    # Create and update
+    def ingest_subscription(subscription, provider_id, native_id, token)
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3002/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
+            else
+              "/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
+            end
+      headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json' }
+
+      put(url, subscription, headers.merge(token_header(token)))
+    end
+
+    def delete_subscription(provider_id, native_id, token)
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3002/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
+            else
+              "/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
+            end
+      headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json' }
+
+      delete(url, {}, nil, headers.merge(token_header(token)))
+    end
+
+#####################
+
     def delete_variable(provider_id, native_id, token)
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
@@ -522,24 +549,7 @@ module Cmr
       get(url, options, headers.merge(token_header(token)))
     end
 
-    ### Subscriptions
-
-    def create_subscription(subscription, token)
-      # TODO: this is a stubbed success response because we do not have the cmr
-      # endpoint available yet. We should update this to be a real cmr call
-      # when the update becomes available
-      # NOTE: for development we will need to add the users to local cmr's urs
-      # see add_group_members
-
-      # the structure of the success and failure responses are unclear at this point
-      # so they will change
-      success_response_body = '{"revision_id":1,"concept_id":"ES1200000000-MMT"}'
-      Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(success_response_body)))
-
-      # This error response is provided for viewing and testing a failure
-      # error_response_body = '{"errors":["some error message"]}'
-      # Cmr::Response.new(Faraday::Response.new(status: 400, body: JSON.parse(error_response_body)))
-    end
+    ### Subscription search
 
     def get_subscriptions(options = {}, token = nil)
       # TODO: this is a stubbed success response because we do not have the cmr

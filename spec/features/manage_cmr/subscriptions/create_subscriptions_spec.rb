@@ -15,7 +15,7 @@ describe 'Creating Subscriptions' do
       it 'displays the new subscription form' do
         expect(page).to have_content('New MMT_2 Subscription')
 
-        expect(page).to have_field('Description', type: 'textarea')
+        expect(page).to have_field('Subscription Name', type: 'textarea')
         expect(page).to have_field('Query', type: 'textarea')
         expect(page).to have_field('Subscriber', type: 'select')
       end
@@ -28,19 +28,21 @@ describe 'Creating Subscriptions' do
         end
 
         it 'displays validation errors within the form' do
-          expect(page).to have_content('Description is required.')
+          expect(page).to have_content('Name is required.')
           expect(page).to have_content('Query is required.')
           expect(page).to have_content('Subscriber is required.')
+          expect(page).to have_content('Collection Concept ID is required.')
         end
       end
 
       context 'when submitting the form without errors', js: true do
-        let(:description) { 'Exciting Subscription with Important Data' }
-        let(:query)       { 'collection_concept_id=C1234-MMT_2&downloadable=true' }
+        let(:name) { "Exciting Subscription with Important Data #{SecureRandom.uuid}" }
+        let(:query) { 'collection_concept_id=C1234-MMT_2&downloadable=true' }
+        let(:collection_concept_id) { 'C1234-MMT_2' }
 
         before do
-          fill_in 'Description', with: description
           fill_in 'Query', with: query
+          fill_in 'Collection Concept ID', with: collection_concept_id
 
           VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
             within '.subscriber-group' do
@@ -53,13 +55,11 @@ describe 'Creating Subscriptions' do
           end
         end
 
-        context 'when submitting an subscription that succeeds' do
+        context 'when submitting a subscription that succeeds' do
+          # TODO: When we have access to a read endpoint, we should delete the
+          # subscription created in this test.
           before do
-            # TODO: we are mocking this because there is no live endpoint yet
-            success_response_body = '{"revision_id":1,"concept_id":"ES1200000000-MMT"}'
-            success_response = cmr_success_response(success_response_body)
-            allow_any_instance_of(Cmr::CmrClient).to receive(:create_subscription).and_return(success_response)
-
+            fill_in 'Subscription Name', with: name
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do
               within '.subscription-form' do
                 click_on 'Submit'
@@ -72,12 +72,14 @@ describe 'Creating Subscriptions' do
           end
         end
 
-        context 'when submitting an subscription that fails' do
+        context 'when submitting a subscription that fails' do
+          # Generating a genuine failure by violating uniqueness constraints
+          # in the CMR.
+          let(:name2) { 'Exciting Subscription with Important Data4' }
           before do
-            error_response_body = '{"errors":["some error message"]}'
-            error_response = cmr_fail_response(JSON.parse(error_response_body))
-            allow_any_instance_of(Cmr::CmrClient).to receive(:create_subscription).and_return(error_response)
+            @ingest_response, _concept_response = cmr_client.ingest_subscription({ 'Name' => name2, 'Query' => query, 'CollectionConceptId' => collection_concept_id, 'SubscriberId' => 'fake', 'EmailAddress' => 'fake@fake.fake'}.to_json, 'MMT_2', 'test_native_id', 'token')
 
+            fill_in 'Subscription Name', with: name2
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do
               within '.subscription-form' do
                 click_on 'Submit'
@@ -85,12 +87,17 @@ describe 'Creating Subscriptions' do
             end
           end
 
+          # Clean up the one made before the test.
+          after do
+            cmr_client.delete_subscription('MMT_2', 'test_native_id', 'token').inspect
+          end
+
           it 'fails to create the subscription' do
-            expect(page).to have_content('some error message')
+            expect(page).to have_content('The Provider Id [MMT_2] and Subscription Name [Exciting Subscription with Important Data4] combination must be unique for a given native-id')
           end
 
           it 'repopulates the form with the entered values' do
-            expect(page).to have_field('Description', with: description)
+            expect(page).to have_field('Subscription Name', with: name2)
             expect(page).to have_field('Query', with: query)
 
             within '.select2-container' do
@@ -132,7 +139,7 @@ describe 'Creating Subscriptions' do
       end
 
       it 'does not display the new subscription form' do
-        expect(page).to have_no_field('Description')
+        expect(page).to have_no_field('Name')
         expect(page).to have_no_field('Query')
         expect(page).to have_no_field('Subscriber')
       end
