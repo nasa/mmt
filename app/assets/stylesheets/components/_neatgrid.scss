@@ -1,15 +1,9 @@
 /*  Neatgrid -- Replacement for Neat Gem v1.7.4  
-This file provides 2 replacement functions that provide
+This file contains 2 replacement functions that provide
 the essential Neat capabilities for working with a CSS grid.
 Neat is no longer maintained, but documentation can 
 be found at https://neat.bourbon.io/docs/1.7.4/  */
 
-$max-width: 1200px;
-$border-box-sizing: true;
-$default-feature: min-width;
-$parent-columns: 12;
-$container-display-table: false ;
-$layout-direction: LTR;
 $fg-max-columns: 12;
 $fg-column: 4.235801032em;
 $fg-gutter: 1.618em;

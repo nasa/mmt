@@ -98,7 +98,7 @@
   .info {
     float: left;
     display: block;
-    margin-right: neat-gutter-width($fg-max-columns);
+    margin-right: neat-gutter-width();
     width: neat-span-width(10);
     margin-right: 0
   }
