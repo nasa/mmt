@@ -5,10 +5,16 @@
 .order-policy {
 
   .content-box {
-    @include span-columns(4);
+    float: left;
+    display: block;
+    margin-right: neat-gutter-width();
+    width: neat-span-width(4);
     background-color: $light-blue;
     padding: 10px;
     overflow: scroll;
+    &:last-child {
+      margin-right: 0;
+    }
 
     h3 {
       margin-top: 0;

@@ -17,7 +17,10 @@ as well as the sidebar in Variables preview
 */
 
 .geographic-coverage, .umm-preview-sidebar {
-  @include span-columns(4);
+  float: left;
+  display: block;
+  margin-right: neat-gutter-width();
+  width: neat-span-width(4);
   background: $light-blue;
   padding: 0;
   border-bottom-left-radius: 5px;
@@ -28,6 +31,10 @@ as well as the sidebar in Variables preview
   word-wrap: break-word;
   word-break: break-word;
 
+  &:last-child {
+    margin-right: 0;
+  }
+  
   section {
     padding: 0 1em;
   }

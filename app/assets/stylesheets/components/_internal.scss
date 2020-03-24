@@ -25,14 +25,27 @@
   }
 
   .collection-basics {
-    @include span-columns(12);
+    float: left;
+    display: block;
+    margin-right: neat-gutter-width();
+    width: neat-span-width(12);
+    
+    &:last-child {
+      margin-right: 0;
+    }
   }
 
   .collection-details {
-    @include span-columns(4);
+    float: left;
+    display: block;
+    margin-right: neat-gutter-width();
+    width: neat-span-width(4);
     padding: 1em;
     height: 175px;
     background: rgba($true-black,0.5);
+    &:last-child {
+      margin-right:0;
+    }
 
     .badge {
       a:link,

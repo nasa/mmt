@@ -193,9 +193,6 @@ GEM
     multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (1.2.0)
-    neat (1.7.4)
-      bourbon (>= 4.0)
-      sass (>= 3.3)
     nio4r (2.5.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
@@ -243,9 +240,6 @@ GEM
     rainbow (3.0.0)
     raindrops (0.19.0)
     rake (13.0.1)
-    rb-fsevent (0.10.3)
-    rb-inotify (0.10.1)
-      ffi (~> 1.0)
     rdoc (6.2.1)
     regexp_parser (1.6.0)
     rgeo (0.6.0)
@@ -279,11 +273,6 @@ GEM
     ruby-saml (1.11.0)
       nokogiri (>= 1.5.10)
     rubyzip (2.0.0)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
     sassc (2.2.1)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -377,7 +366,6 @@ DEPENDENCIES
   mini_racer
   momentjs-rails
   multi_xml
-  neat (~> 1.7.2)
   pg
   pundit
   rack_session_access

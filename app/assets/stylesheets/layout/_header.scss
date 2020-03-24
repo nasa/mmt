@@ -5,11 +5,12 @@
 // todo: needs heavy refactoring.
 
 header.mmt-header {
-  @include row();
+  display: block;
   background-image: linear-gradient($ocean-blue, darken($ocean-blue, 2%));
   color: white;
   padding: 0.5em 3.75em;
   box-shadow: 0 3px 3px rgba($true-black, 0.15);
+  @include clearfix;
 
   a:link,
   a:visited {
@@ -43,10 +44,11 @@ header.mmt-header {
   ------------------------------------------*/
 
   .header-tools {
-    @include row();
+    display: block;
     text-align: right;
     margin-top: .5em;
     margin-bottom: .5em;
+    @include clearfix;
 
     #help {
       display: none; // Change to display: block when help feature is added and remove margin-top on #search
@@ -72,9 +74,9 @@ header.mmt-header {
   ------------------------------------------*/
 
   .eui-masthead-logo {
-    @include row();
     display: block;
     padding: 1em 0;
+    @include clearfix;
 
     // EUI Candidate
     // Temporary nesting due to specificity battle with EUI
@@ -110,13 +112,14 @@ header.mmt-header {
   ------------------------------------------*/
 
   #user-info {
-    @include row();
+    display: block;
     display: inline-flex;
     font-size: 0.8em;
     background-color: var(--proposal-mode-background-color, lighten($ocean-blue, 10%));
     padding: .2em .6em .3em .6em;
     border-radius: 5px;
     margin-bottom: 1em;
+    @include clearfix;
 
     #profile-link {
       .prof-link-container {

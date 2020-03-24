@@ -20,12 +20,12 @@
  *= require jquery-ui/tooltip
  */
 
+@import "components/neatgrid";
 @import "config/colors";
 
 @import "redactor/redactor";
 @import "vendor/vendor";
 @import "bourbon";
-@import "neat";
 @import "font-awesome";
 
 @import "base/elements";

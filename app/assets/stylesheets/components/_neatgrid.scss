@@ -1,0 +1,26 @@
+/*  Neatgrid -- Replacement for Neat Gem v1.7.4  
+This file provides 2 replacement functions that provide
+the essential Neat capabilities for working with a CSS grid.
+Neat is no longer maintained, but documentation can 
+be found at https://neat.bourbon.io/docs/1.7.4/  */
+
+$max-width: 1200px;
+$border-box-sizing: true;
+$default-feature: min-width;
+$parent-columns: 12;
+$container-display-table: false ;
+$layout-direction: LTR;
+$fg-max-columns: 12;
+$fg-column: 4.235801032em;
+$fg-gutter: 1.618em;
+
+@function neat-span-width($columns, $container-columns: $fg-max-columns) {
+  $width: $columns * $fg-column + ($columns - 1) * $fg-gutter;
+  $container-width: $container-columns * $fg-column + ($container-columns - 1) * $fg-gutter;
+  @return percentage($width / $container-width);
+}
+
+@function neat-gutter-width($container-columns: $fg-max-columns, $gutter: $fg-gutter) {
+  $container-width: $container-columns * $fg-column + ($container-columns - 1) * $fg-gutter;
+  @return percentage($gutter / $container-width);
+}
