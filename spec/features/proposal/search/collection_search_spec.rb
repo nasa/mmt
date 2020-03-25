@@ -48,6 +48,22 @@ describe 'Searching for published collections in proposal mode', js: true do
         click_on short_name
       end
 
+      context 'when clicking the Available Formats download link' do
+        before do
+          click_on 'Available Formats'
+        end
+
+        it 'shows the download selections' do
+          expect(page).to have_link('NATIVE', href: download_collection_xml_path(@ingest_response['concept-id'], 'native'))
+          expect(page).to have_link('ATOM', href: download_collection_xml_path(@ingest_response['concept-id'], 'atom'))
+          expect(page).to have_link('ECHO 10', href: download_collection_xml_path(@ingest_response['concept-id'], 'echo10'))
+          expect(page).to have_link('ISO 19115 (MENDS)', href: download_collection_xml_path(@ingest_response['concept-id'], 'iso'))
+          expect(page).to have_link('ISO 19115 (SMAP)', href: download_collection_xml_path(@ingest_response['concept-id'], 'iso19115'))
+          expect(page).to have_link('DIF 9', href: download_collection_xml_path(@ingest_response['concept-id'], 'dif'))
+          expect(page).to have_link('DIF 10', href: download_collection_xml_path(@ingest_response['concept-id'], 'dif10'))
+        end
+      end
+
       it 'displays the collection preview page' do
         within '#collection-general-overview' do
           expect(page).to have_content("Short Name: #{short_name}", normalize_ws: true)
@@ -64,8 +80,6 @@ describe 'Searching for published collections in proposal mode', js: true do
       end
 
       it 'does not display the actions for collections in MMT proper' do
-        # TODO when we have the actions for collections added in Draft MMT
-        # we should change the text for this test and add those checks here
         within '.action' do
           expect(page).to have_no_link('Edit Collection Record')
           expect(page).to have_no_link('Clone Collection Record')

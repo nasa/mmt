@@ -1,7 +1,3 @@
-# MMT-43 MMT-44
-
-require 'rails_helper'
-
 describe 'Downloading Collection XML', js: true do
   context 'when viewing the collection preview page' do
     before do
