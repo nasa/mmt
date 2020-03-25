@@ -62,6 +62,23 @@ describe 'Searching for published collections in proposal mode', js: true do
           expect(page).to have_link('DIF 9', href: download_collection_xml_path(@ingest_response['concept-id'], 'dif'))
           expect(page).to have_link('DIF 10', href: download_collection_xml_path(@ingest_response['concept-id'], 'dif10'))
         end
+
+        context 'when trying to download data' do
+          before do
+            @file = "#{Rails.root}/#{@ingest_response['concept-id']}.native"
+            click_on 'NATIVE'
+          end
+
+          after do
+            # Seems to need a brief (>0.01) pause to actually find the file.
+            sleep(0.1)
+            FileUtils.rm @file if File.exist?(@file)
+          end
+
+          it 'downloads the file' do
+            expect(File.exist?(@file))
+          end
+        end
       end
 
       it 'displays the collection preview page' do
