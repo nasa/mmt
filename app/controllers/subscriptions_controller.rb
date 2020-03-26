@@ -38,7 +38,8 @@ class SubscriptionsController < ManageCmrController
     if subscription_response.success?
       redirect_to subscriptions_path, flash: { success: 'Subscription was successfully created.'}
     else
-      flash[:error] = subscription_response.clean_inspect
+      Rails.logger.error("Creating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
+      flash[:error] = subscription_response.error_message
 
       set_previously_selected_subscriber(@subscription['user_id'])
       render :new
