@@ -38,9 +38,7 @@ class SubscriptionsController < ManageCmrController
     if subscription_response.success?
       redirect_to subscriptions_path, flash: { success: 'Subscription was successfully created.'}
     else
-      # TODO: when we have a live endpoint, we should log the error and provide
-      # an appropriate error message to the user with subscription_response.error_message
-      flash[:error] = subscription_response.body['errors'].first
+      flash[:error] = subscription_response.clean_inspect
 
       set_previously_selected_subscriber(@subscription['user_id'])
       render :new
@@ -50,7 +48,7 @@ class SubscriptionsController < ManageCmrController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:name, :concept_id, :metadata, :user_id, :email_address) # :subscriber_email)
+    params.require(:subscription).permit(:name, :concept_id, :metadata, :user_id)
   end
 
   def subscriptions_enabled?

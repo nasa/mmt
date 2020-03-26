@@ -28,7 +28,7 @@ describe 'Creating Subscriptions' do
         end
 
         it 'displays validation errors within the form' do
-          expect(page).to have_content('Name is required.')
+          expect(page).to have_content('Subscription Name is required.')
           expect(page).to have_content('Query is required.')
           expect(page).to have_content('Subscriber is required.')
           expect(page).to have_content('Collection Concept ID is required.')
@@ -139,7 +139,7 @@ describe 'Creating Subscriptions' do
       end
 
       it 'does not display the new subscription form' do
-        expect(page).to have_no_field('Name')
+        expect(page).to have_no_field('Subscription Name')
         expect(page).to have_no_field('Query')
         expect(page).to have_no_field('Subscriber')
       end
