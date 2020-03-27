@@ -32,9 +32,15 @@ class SubscriptionsController < ManageCmrController
     @subscription = cmr_formatted_subscription_params
     user = get_subscriber(@subscription['SubscriberId']).fetch(0, {})
     @user = "#{user['first_name']} #{user['last_name']}"
+<<<<<<< HEAD
     @subscription_concept_id = @subscription['id']
 
     add_breadcrumb @subscription['id'].to_s
+=======
+    @subscription_concept_id = params[:id]
+
+    add_breadcrumb @subscription['concept_id'].to_s
+>>>>>>> 797f975f... MMT-2094 show and delete working, need to add tests
   end
 
   def create
