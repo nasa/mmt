@@ -1,4 +1,4 @@
-describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: true, js: true do
+describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: true do
   before do
     set_as_proposal_mode_mmt(with_draft_approver_acl: true)
   end

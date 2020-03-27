@@ -1,12 +1,12 @@
-describe 'Collection Draft Proposal Update', reset_provider: true, js: true do
+describe 'Collection Draft Proposal Update', reset_provider: true do
   before do
-    login
+    real_login(method: 'urs')
   end
 
   context 'when updating an existing collection draft proposal' do
     before do
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:full_collection_draft_proposal)
+      @collection_draft_proposal = create(:full_collection_draft_proposal, user: get_user)
     end
 
     context 'when updating data' do
@@ -40,7 +40,7 @@ describe 'Collection Draft Proposal Update', reset_provider: true, js: true do
   end
 
   context 'when creating a metadata update request' do
-    context 'when searching for collections' do
+    context 'when searching for collections', js: true do
       before do
         set_as_proposal_mode_mmt(with_draft_user_acl: true)
         visit manage_collection_proposals_path

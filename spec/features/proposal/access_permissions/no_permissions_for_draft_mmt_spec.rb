@@ -13,7 +13,7 @@ describe 'No Permissions for Non-NASA Draft MMT', reset_provider: true do
     # work once and normally redirects to the internal landing page and in this
     # mode is the manage collection proposals page. However, the user will be blocked
     # and logged out. Since the real login method will work once, we should mock
-    # the internal landing page to be the one we wish to visit
+    # the internal landing page to redirect to the page we wish to test
 
     context 'when visiting the Manage Collection Proposals page' do
       before do
@@ -136,6 +136,29 @@ describe 'No Permissions for Non-NASA Draft MMT', reset_provider: true do
       context 'when visiting the show page for a collection draft proposal' do
         before do
           allow_any_instance_of(ApplicationController).to receive(:internal_landing_page).and_return(collection_draft_proposal_path(@blocked_collection_draft_proposal))
+
+          real_login(method: 'urs')
+        end
+
+        it 'diplays the landing page with the appropriate error message' do
+          expect(page).to have_content('ABOUT THE METADATA MANAGEMENT TOOL FOR NON-NASA USERS')
+          within 'header.mmt-header' do
+            expect(page).to have_content('NON-NASA USERS')
+            expect(page).to have_link('Login with Earthdata Login', href: login_path(login_method: 'urs'))
+
+            expect(page).to have_no_link('Login with Launchpad')
+          end
+
+          within '.eui-banner--danger' do
+            expect(page).to have_content('It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users. Please try again or contact Earthdata Support.')
+            expect(page).to have_link('Earthdata Support', href: 'mailto:support@earthdata.nasa.gov')
+          end
+        end
+      end
+
+      context 'when visiting the collection draft proposal index page' do
+        before do
+          allow_any_instance_of(ApplicationController).to receive(:internal_landing_page).and_return(collection_draft_proposals_path)
 
           real_login(method: 'urs')
         end

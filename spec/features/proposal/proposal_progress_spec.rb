@@ -1,9 +1,9 @@
 describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
   context 'when viewing the progress page as a user' do
     before do
-      login
+      real_login(method: 'urs')
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:empty_collection_draft_proposal)
+      @collection_draft_proposal = create(:empty_collection_draft_proposal, user: get_user)
     end
 
     context 'when viewing an incomplete proposal in work' do

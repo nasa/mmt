@@ -14,7 +14,7 @@ describe 'Non-NASA Draft User Permissions for Draft MMT', reset_provider: true d
     end
 
     before do
-      login
+      real_login(method: 'urs')
     end
 
     context 'when visiting the Manage Collection Proposals page' do
@@ -42,7 +42,7 @@ describe 'Non-NASA Draft User Permissions for Draft MMT', reset_provider: true d
 
     context 'when there are collection draft proposals' do
       before do
-        @collection_draft_proposal = create(:full_collection_draft_proposal, proposal_short_name: 'Example Proposal Short Name', proposal_entry_title: 'Example Proposal Title')
+        @collection_draft_proposal = create(:full_collection_draft_proposal, proposal_short_name: 'Example Proposal Short Name', proposal_entry_title: 'Example Proposal Title', user: get_user)
       end
 
       context 'when visiting the show page for a collection draft proposal' do

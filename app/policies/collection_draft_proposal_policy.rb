@@ -3,64 +3,82 @@
 # :nodoc:
 class CollectionDraftProposalPolicy < ApplicationPolicy
   def publish?
+    # this action should not be available for proposals in Draft MMT (proposal mode)
     false
   end
 
-  def show?
-    verify_proposal_mode_and_all_user_actions
+  def index?
+    # the controller action is only for non_nasa_users, but if an approver
+    # somehow gets here, that should be allowed
+    either_non_nasa_user_or_approver?
+  end
+
+  def queued_index?
+    # the controller action is only for approvers
+    approver?
+  end
+
+  def in_work_index?
+    # the controller action is only for approvers
+    approver?
   end
 
   def new?
     create?
   end
 
+  def create?
+    either_non_nasa_user_or_approver?
+  end
+
+  def show?
+    # proposal owners and approvers are allowed this action
+    approver_or_proposal_owner?
+  end
+
   def edit?
+    # proposal owners and approvers are allowed this action
     update?
   end
 
-  def create?
-    verify_proposal_mode_and_all_user_actions
-  end
-
   def update?
-    verify_proposal_mode_and_all_user_actions
+    # proposal owners and approvers are allowed this action
+    approver_or_proposal_owner?
   end
 
   def destroy?
-    verify_proposal_mode_and_all_user_actions
+    # proposal owners and approvers are allowed this action
+    approver_or_proposal_owner?
   end
 
   def submit?
-    verify_proposal_mode_and_all_user_actions
+    # proposal owners and approvers are allowed this action
+    approver_or_proposal_owner?
   end
 
   def rescind?
-    verify_proposal_mode_and_all_user_actions
+    # proposal owners and approvers are allowed this action
+    approver_or_proposal_owner?
   end
 
   def progress?
-    verify_proposal_mode_and_all_user_actions
+    # proposal owners and approvers are allowed this action
+    approver_or_proposal_owner?
   end
 
   def approve?
-    verify_mode_and_approver
+    # the controller action is only for approvers
+    approver?
   end
 
   def reject?
-    verify_mode_and_approver
+    # the controller action is only for approvers
+    approver?
   end
 
   private
 
-  def verify_proposal_mode_and_all_user_actions
-    proposal_mode_enabled? && either_non_nasa_user_or_approver?
-  end
-
-  def verify_mode_and_approver
-    proposal_mode_enabled? && approver?
-  end
-
-  def proposal_mode_enabled?
-    Rails.configuration.proposal_mode
+  def approver_or_proposal_owner?
+    approver? || (non_nasa_user? && user.user == target.user)
   end
 end
