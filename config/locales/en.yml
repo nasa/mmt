@@ -246,6 +246,19 @@ en:
           create:
             success: "Collection Metadata Successfully Published!"
             error: "Collection metadata was not successfully published."
+    subscriptions:
+      create:
+        flash:
+          success: "Subscription Created Successfully!"
+          error: "Subscription was not created successfully"
+      update:
+        flash:
+          success: "Subscription Updated Successfully!"
+          error: "Subscription was not updated successfully"
+      destroy:
+        flash:
+          success: "Subscription Deleted Successfully!"
+          error: "Subscription was not deleted successfully"
   views:
     pagination:
       first: "First"

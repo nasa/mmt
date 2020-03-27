@@ -27,22 +27,50 @@ class SubscriptionsController < ManageCmrController
     add_breadcrumb 'New', new_subscription_path
   end
 
+  def show
+    authorize :subscription
+    @subscription = cmr_formatted_subscription_params
+    user = get_subscriber(@subscription['SubscriberId']).fetch(0, {})
+    @user = "#{user['first_name']} #{user['last_name']}"
+    @subscription_concept_id = params[:id]
+
+    add_breadcrumb @subscription['concept_id'].to_s
+  end
+
   def create
     authorize :subscription
     # query should be passed as `metadata`
     # subscriber urs_uid should be passed as `user_id`
     # subscriber email should be passed as `email_address`
     @subscription = subscription_params
+    reformated_subscription = reformat_subscription_params_for_submission
+    native_id = "mmt_subscription_#{SecureRandom.uuid}"
 
-    subscription_response = cmr_client.ingest_subscription(reformat_subscription_params_for_submission.to_json, current_user.provider_id, "mmt_subscription_#{SecureRandom.uuid}", token)
+    subscription_response = cmr_client.ingest_subscription(reformated_subscription.to_json, current_user.provider_id, native_id, token)
     if subscription_response.success?
-      redirect_to subscriptions_path, flash: { success: 'Subscription was successfully created.'}
+      flash[:success] = I18n.t('controllers.subscriptions.create.flash.success')
+      redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'], subscription: reformated_subscription, native_id: native_id)
     else
       Rails.logger.error("Creating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
-      flash[:error] = subscription_response.error_message
+      flash[:error] = subscription_response.error_message(i18n: I18n.t('controllers.subscriptions.create.flash.success'))
 
       set_previously_selected_subscriber(@subscription['user_id'])
       render :new
+    end
+  end
+
+  def destroy
+    authorize :subscription
+
+    subscription = cmr_formatted_subscription_params
+    delete_response = cmr_client.delete_subscription(current_user.provider_id, subscription['native_id'], token)
+    if delete_response.success?
+      flash[:success] = I18n.t('controllers.subscriptions.destroy.flash.success')
+      redirect_to subscriptions_path
+    else
+      Rails.logger.error("Failed to delete a subscription.  CMR Response: #{delete_response.clean_inspect}")
+      flash[:error] = delete_response.error_message(i18n: I18n.t('controllers.subscriptions.destroy.flash.error'))
+      redirect_to subscription_path(subscription[:id], subscription: subscription, native_id: subscription['native_id'])
     end
   end
 
@@ -50,6 +78,11 @@ class SubscriptionsController < ManageCmrController
 
   def subscription_params
     params.require(:subscription).permit(:name, :concept_id, :metadata, :user_id)
+  end
+
+  # This method should be temporary until we have a read endpoint
+  def cmr_formatted_subscription_params
+    params.require(:subscription).permit(:Name, :CollectionConceptId, :Query, :SubscriberId, :EmailAddress).merge(params.permit(:id, :native_id))
   end
 
   def subscriptions_enabled?
