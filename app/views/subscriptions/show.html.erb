@@ -4,7 +4,11 @@
     <p>Collection Concept ID: <%= @subscription.fetch('CollectionConceptId') %></p>
     <p>Query: <%= @subscription.fetch('Query') %></p>
 
+<<<<<<< HEAD
     <h3>Subscriber</h3>
+=======
+    <h3>Subscriber(s)</h3>
+>>>>>>> 946c6b29... MMT-2094 adding delete subscriptions
     <table class="space-top space-bot" id="subscribers">
       <thead>
         <tr>
@@ -22,16 +26,28 @@
       </tbody>
     </table>
     <% if policy(:subscription).edit? %>
+<<<<<<< HEAD
       <%= link_to 'Edit', edit_subscription_path(@subscription['id'], subscription: @subscription, native_id: @subscription['native_id']), class: 'eui-btn' %>
     <% end %>
     <% if policy(:subscription).destroy? %>
       <%= link_to 'Delete', '#delete-subscription-modal', class: 'display-modal eui-btn eui-btn--red' %>
       <div id='delete-subscription-modal' class="eui-modal-content">
+=======
+      <%= link_to 'Edit', subscriptions_path, class: 'eui-btn' %>
+    <% end %>
+    <% if policy(:subscription).destroy? %>
+      <%= link_to 'Delete', '#delete-group-modal', class: 'display-modal eui-btn eui-btn--red' %>
+      <div id='delete-group-modal' class="eui-modal-content">
+>>>>>>> 946c6b29... MMT-2094 adding delete subscriptions
         <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
         <p>Are you sure you want to delete this subscription?</p>
         <p>
           <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+<<<<<<< HEAD
           <%= link_to 'Yes', subscription_path(@subscription['id'], subscription: @subscription, native_id: @subscription['native_id']), method: :delete, class: 'eui-btn--blue spinner' %>
+=======
+          <%= link_to 'Yes', subscription_path(@subscription_concept_id, subscription: @subscription, native_id: @subscription['native_id']), method: :delete, class: 'eui-btn--blue spinner' %>
+>>>>>>> 946c6b29... MMT-2094 adding delete subscriptions
         </p>
       </div>
     <% end %>

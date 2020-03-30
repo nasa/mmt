@@ -20,7 +20,7 @@ describe 'When Viewing Subscription Show Page' do
       expect(page).to have_content(@subscription['Name'])
       expect(page).to have_content(@subscription['Query'])
       expect(page).to have_content(@subscription['CollectionConceptId'])
-      within '#subscriber' do
+      within '#subscribers' do
         expect(page).to have_content(@subscription['SubscriberId'])
         expect(page).to have_content(@subscription['EmailAddress'])
         expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
@@ -32,7 +32,7 @@ describe 'When Viewing Subscription Show Page' do
       expect(page).to have_no_link('Delete')
     end
   end
-
+  
   context 'when visiting the show page with update/delete access' do
     before do
       allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(true)
@@ -50,7 +50,7 @@ describe 'When Viewing Subscription Show Page' do
       expect(page).to have_content(@subscription['Name'])
       expect(page).to have_content(@subscription['Query'])
       expect(page).to have_content(@subscription['CollectionConceptId'])
-      within '#subscriber' do
+      within '#subscribers' do
         expect(page).to have_content(@subscription['SubscriberId'])
         expect(page).to have_content(@subscription['EmailAddress'])
         expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
