@@ -1,8 +1,5 @@
 describe 'Proposal access in Draft MMT', reset_provider: true do
   before do
-    # we need to login once with another user to populate the database
-    # login(real_login: true, admin: true)
-    User.from_urs_uid('adminuser')
     set_as_proposal_mode_mmt
     visit manage_collection_proposals_path
   end
@@ -18,10 +15,9 @@ describe 'Proposal access in Draft MMT', reset_provider: true do
     end
 
     before do
-      # visit logout_path
+      # we need to create another user in the database for others' proposals
+      User.from_urs_uid('adminuser')
       real_login(method: 'urs')
-      # the proposal sometimes defaults the user_id to 1, so we want to make it something different
-      # create(:full_collection_draft_proposal, user_id: 5)
       @their_proposal = create(:full_collection_draft_proposal, proposal_short_name: 'Their Example Proposal 1', version: '5', proposal_entry_title: 'Their Example Title 1', user: get_user(admin: true))
       create(:full_collection_draft_proposal, proposal_short_name: 'Their Example Proposal 2', version: '5', proposal_entry_title: 'Their Example Title 2', user: get_user(admin: true))
 
@@ -35,10 +31,10 @@ describe 'Proposal access in Draft MMT', reset_provider: true do
         end
 
         it 'shows the correct proposals' do
+          expect(page).to have_content('My Example Proposal 1')
+
           expect(page).to have_no_content('Their Example Proposal 1')
           expect(page).to have_no_content('Their Example Proposal 2')
-
-          expect(page).to have_content('My Example Proposal 1')
         end
       end
 
