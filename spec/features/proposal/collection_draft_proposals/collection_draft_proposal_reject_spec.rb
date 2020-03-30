@@ -1,6 +1,6 @@
 describe 'Collection Draft Proposal Reject', js: true do
   before do
-    login
+    real_login(method: 'urs')
   end
 
   context 'when viewing a submitted proposal as an approver' do
@@ -134,7 +134,7 @@ describe 'Collection Draft Proposal Reject', js: true do
   context 'when viewing a submitted proposal as a user' do
     before do
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:full_collection_draft_proposal)
+      @collection_draft_proposal = create(:full_collection_draft_proposal, user: get_user)
       mock_submit(@collection_draft_proposal)
       visit collection_draft_proposal_path(@collection_draft_proposal)
     end
