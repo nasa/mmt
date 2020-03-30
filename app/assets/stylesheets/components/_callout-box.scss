@@ -6,7 +6,7 @@
   float: left;
   display: block;
   margin-right: neat-gutter-width();
-  width: neat-span-width(4);
+  width: neat-width-of-columns(4);
   box-sizing: border-box;
   background-color: $white;
   margin-left: 0;
@@ -99,7 +99,7 @@
     float: left;
     display: block;
     margin-right: neat-gutter-width();
-    width: neat-span-width(10);
+    width: neat-width-of-columns(10);
     margin-right: 0
   }
   
@@ -111,7 +111,7 @@
     float: left;
     display: block;
     margin-right: neat-gutter-width();
-    width: neat-span-width(2);
+    width: neat-width-of-columns(2);
     text-align: center;
     background-image: asset-url('comment.png');
     background-size: 2.25em;

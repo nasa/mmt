@@ -8,7 +8,7 @@ $fg-max-columns: 12;
 $fg-column: 4.235801032em;
 $fg-gutter: 1.618em;
 
-@function neat-span-width($columns, $container-columns: $fg-max-columns) {
+@function neat-width-of-columns($columns, $container-columns: $fg-max-columns) {
   $width: $columns * $fg-column + ($columns - 1) * $fg-gutter;
   $container-width: $container-columns * $fg-column + ($container-columns - 1) * $fg-gutter;
   @return percentage($width / $container-width);
@@ -19,11 +19,11 @@ $fg-gutter: 1.618em;
   @return percentage($gutter / $container-width);
 }
 
-@mixin  neat_span($span_columns: $fg-max-columns) {
+@mixin  neat-span-of-columns($span_columns: $fg-max-columns) {
  float: left;
  display: block;
  margin-right: neat-gutter-width();
- width: neat-span-width($span_columns);
+ width: neat-width-of-columns($span_columns);
 
  &:last-child {
  margin-right: 0;

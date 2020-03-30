@@ -35,31 +35,31 @@ section {
 // END NOTE
 
 .col-1 { 
-  @include neat_span(1)
+  @include neat-span-of-columns(1)
 }
 .col-2 { 
-  @include neat_span(2)
+  @include neat-span-of-columns(2)
 }
 .col-3 { 
-  @include neat_span(3)
+  @include neat-span-of-columns(3)
 }
 .col-4 { 
-  @include neat_span(4)
+  @include neat-span-of-columns(4)
 }
 .col-5 { 
-  @include neat_span(5)
+  @include neat-span-of-columns(5)
 }
 .col-6 { 
-  @include neat_span(6)
+  @include neat-span-of-columns(6)
 }
 .col-7 { 
-  @include neat_span(7)
+  @include neat-span-of-columns(7)
 }
 .col-8 { 
-  @include neat_span(8)
+  @include neat-span-of-columns(8)
 }
 .col-9 { 
-  @include neat_span(9)
+  @include neat-span-of-columns(9)
 }
 
 .content {

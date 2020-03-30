@@ -20,7 +20,7 @@ as well as the sidebar in Variables preview
   float: left;
   display: block;
   margin-right: neat-gutter-width();
-  width: neat-span-width(4);
+  width: neat-width-of-columns(4);
   background: $light-blue;
   padding: 0;
   border-bottom-left-radius: 5px;

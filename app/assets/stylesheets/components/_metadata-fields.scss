@@ -33,7 +33,7 @@
     float: left;
     display: block;
     margin-right: neat-gutter-width();
-    width: neat-span-width(4);
+    width: neat-width-of-columns(4);
     margin-right: 0;
     margin-bottom: 0.625em;
     min-height: 3.2em;
@@ -60,7 +60,7 @@
   float: left;
   display: block;
   margin-right: neat-gutter-width();
-  width: neat-span-width(8);
+  width: neat-width-of-columns(8);
   padding-top: 0 !important;
   &:last-child {
     margin-right:0;
@@ -77,7 +77,7 @@
     float: left;
     display: block;
     margin-right: neat-gutter-width();
-    width: neat-span-width(12);
+    width: neat-width-of-columns(12);
     &:last-child {
       margin-right:0;
     }

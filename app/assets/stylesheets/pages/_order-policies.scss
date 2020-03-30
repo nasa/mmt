@@ -8,7 +8,7 @@
     float: left;
     display: block;
     margin-right: neat-gutter-width();
-    width: neat-span-width(4);
+    width: neat-width-of-columns(4);
     background-color: $light-blue;
     padding: 10px;
     overflow: scroll;
