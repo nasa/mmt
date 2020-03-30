@@ -1,4 +1,4 @@
-describe 'Deleting Subscriptions' do
+describe 'When Viewing Subscription Show Page' do
   before do
     login
     allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
