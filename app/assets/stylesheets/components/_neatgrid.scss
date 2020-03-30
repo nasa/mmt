@@ -18,3 +18,14 @@ $fg-gutter: 1.618em;
   $container-width: $container-columns * $fg-column + ($container-columns - 1) * $fg-gutter;
   @return percentage($gutter / $container-width);
 }
+
+@mixin  neat_span($span_columns: $fg-max-columns) {
+ float: left;
+ display: block;
+ margin-right: neat-gutter-width();
+ width: neat-span-width($span_columns);
+
+ &:last-child {
+ margin-right: 0;
+ }
+}

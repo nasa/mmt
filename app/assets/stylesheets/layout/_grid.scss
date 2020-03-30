@@ -35,92 +35,31 @@ section {
 // END NOTE
 
 .col-1 { 
-  float: left;
-  display: block;
-  margin-right: neat-gutter-width();
-  width: neat-span-width(1);
-  
-  &:last-child {
-  margin-right: 0;
-  }
+  @include neat_span(1)
 }
 .col-2 { 
-  float: left;
-  display: block;
-  margin-right: neat-gutter-width();
-  width: neat-span-width(2);
-  
-  &:last-child {
-  margin-right: 0;
-  }
+  @include neat_span(2)
 }
 .col-3 { 
-  float: left;
-  display: block;
-  margin-right: neat-gutter-width();
-  width: neat-span-width(3);
-  
-  &:last-child {
-  margin-right: 0;
-  }
+  @include neat_span(3)
 }
 .col-4 { 
-  float: left;
-  display: block;
-  margin-right: neat-gutter-width();
-  width: neat-span-width(4);
-  &:last-child {
-  margin-right: 0;
-  }
+  @include neat_span(4)
 }
 .col-5 { 
-  float: left;
-  display: block;
-  margin-right: neat-gutter-width();
-  width: neat-span-width(5);
-  &:last-child {
-  margin-right: 0;
-  }
+  @include neat_span(5)
 }
 .col-6 { 
-  float: left;
-  display: block;
-  margin-right: neat-gutter-width();
-  width: neat-span-width(6);
-  
-  &:last-child {
-  margin-right: 0;
-  }
+  @include neat_span(6)
 }
 .col-7 { 
-  float: left;
-  display: block;
-  margin-right: neat-gutter-width();
-  width: neat-span-width(7);
-  
-  &:last-child {
-  margin-right: 0;
-  }
+  @include neat_span(7)
 }
 .col-8 { 
-  float: left;
-  display: block;
-  margin-right: neat-gutter-width();
-  width: neat-span-width(8);
-  
-  &:last-child {
-  margin-right: 0;
-  }
+  @include neat_span(8)
 }
 .col-9 { 
-  float: left;
-  display: block;
-  margin-right: neat-gutter-width();
-  width: neat-span-width(9);
-  
-  &:last-child {
-  margin-right: 0;
-  }
+  @include neat_span(9)
 }
 
 .content {
