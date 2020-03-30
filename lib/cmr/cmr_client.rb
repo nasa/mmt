@@ -288,7 +288,7 @@ module Cmr
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             else
-              "ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
+              "/ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             end
       headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json' }
 
@@ -299,7 +299,7 @@ module Cmr
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             else
-              "ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
+              "/ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             end
       headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json' }
 
