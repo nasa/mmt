@@ -6,21 +6,35 @@ namespace :cmr do
   jar_name = 'cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar'
   url_source = "https://maven.earthdata.nasa.gov/repository/mmt/#{jar_name}"
 
-  desc 'Fetch lattest jar'
+  desc 'Fetch lattest CMR jar from the maven repository'
   task :fetch do
-    # make a backup copy the old jar if it exists 
+    # make a backup copy of the old jar if it exists, and a backup of the backup 
     cmd_backup = 'cd cmr ; '\
       "if [ -a \"#{jar_name}\" ] ; then "\
         'echo Backup jar... ; '\
+        "mv -fv #{jar_name}.last #{jar_name}.oldest ; "\
         "mv -fv #{jar_name} #{jar_name}.last ; "\
       'fi'
     puts %x( #{cmd_backup} )
     
-    # download a new jar
+    # download a new jar to a temp location and rename it if successfull
     puts 'Download jar...'
     cmd_fetch = 'cd cmr ; '\
-      "curl #{url_source} > #{jar_name}"
+      'curl '\
+        '--connect-timeout 20 '\
+        "#{url_source} > #{jar_name}.tmp && mv #{jar_name}.tmp #{jar_name}"
     puts %x( #{cmd_fetch} )
+
+    # restore if error, as defined by there not being a jar
+    cmd_restore = 'cd cmr ; '\
+      "if [ -a \"#{jar_name}\" ] ; then "\
+        "rm #{jar_name}.oldest ; "\
+      'else '\
+        "mv -f #{jar_name}.last #{jar_name} ;"\
+        "mv -f #{jar_name}.oldest #{jar_name}.last ;"\
+        "rm #{jar_name}.tmp ;"\
+      'fi'
+    puts %x( #{cmd_restore} )
     puts 'Done'
   end
 
