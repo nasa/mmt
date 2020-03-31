@@ -32,9 +32,9 @@ class SubscriptionsController < ManageCmrController
     @subscription = cmr_formatted_subscription_params
     user = get_subscriber(@subscription['SubscriberId']).fetch(0, {})
     @user = "#{user['first_name']} #{user['last_name']}"
-    @subscription_concept_id = params[:id]
+    @subscription_concept_id = @subscription['id']
 
-    add_breadcrumb @subscription['concept_id'].to_s
+    add_breadcrumb @subscription['id'].to_s
   end
 
   def create
