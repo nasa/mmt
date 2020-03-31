@@ -5,8 +5,9 @@
 // todo: refactor these styles
 
 nav {
-  @include row();
+  display: block;
   margin-bottom: 0;
+  @include clearfix;
 
   h2 {
     float: left;

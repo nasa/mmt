@@ -4,11 +4,16 @@
 
 
 article {
-  @include row();
+  display: block;
+  @include clearfix;
 
   &.row-content {
-    @include outer-container;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    @include clearfix;
   }
+  
 }
 
 // START NOTE: Will be refactored to .container after all pages have been established.
@@ -21,27 +26,54 @@ main.dashboard {
 }
 
 section {
-  @include outer-container;
+  max-width:1200px;
+  margin-left: auto;
+  margin-right: auto;
+  @include clearfix;
 }
 
 // END NOTE
 
-.col-1 { @include span-columns(1); }
-.col-2 { @include span-columns(2); }
-.col-3 { @include span-columns(3); }
-.col-4 { @include span-columns(4); }
-.col-5 { @include span-columns(5); }
-.col-6 { @include span-columns(6); }
-.col-7 { @include span-columns(7); }
-.col-8 { @include span-columns(8); }
-.col-9 { @include span-columns(9); }
+.col-1 { 
+  @include neat-span-of-columns(1)
+}
+.col-2 { 
+  @include neat-span-of-columns(2)
+}
+.col-3 { 
+  @include neat-span-of-columns(3)
+}
+.col-4 { 
+  @include neat-span-of-columns(4)
+}
+.col-5 { 
+  @include neat-span-of-columns(5)
+}
+.col-6 { 
+  @include neat-span-of-columns(6)
+}
+.col-7 { 
+  @include neat-span-of-columns(7)
+}
+.col-8 { 
+  @include neat-span-of-columns(8)
+}
+.col-9 { 
+  @include neat-span-of-columns(9)
+}
 
 .content {
-  @include outer-container;
+  max-width:1200px;
+  margin-left: auto;
+  margin-right: auto;
+  @include clearfix;
 }
 
 .wide-content {
-  @include outer-container(1440px);
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  @include clearfix;
 
   .content {
     // need to override the other outer-container
@@ -59,9 +91,10 @@ section {
 }
 
 .row {
-  @include row();
+  display: block;
   position: relative;
   padding: 0;
+  @include clearfix;
 
   &.row-content {
     background: $white;

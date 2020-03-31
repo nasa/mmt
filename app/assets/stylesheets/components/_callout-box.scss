@@ -3,13 +3,21 @@
 \* ===================================================== */
 
 .eui-callout-box {
-  @include span-columns(4);
+  float: left;
+  display: block;
+  margin-right: neat-gutter-width();
+  width: neat-width-of-columns(4);
   box-sizing: border-box;
   background-color: $white;
   margin-left: 0;
   margin-right: 5%;
   max-width: 294px; // Max width to handle rows with less than 3 callout boxes
   min-height: 400px;
+  
+}
+
+.eui-callout-box:last-child {
+  margin-right: 0;
 }
 
 .eui-callout-box {
@@ -59,7 +67,10 @@
   }
 
   li {
-    @include outer-container;
+    max-width:1200px;
+    margin-left: auto;
+    margin-right: auto;
+    @include clearfix;
 
     &:first-child {
       padding-top: 0;
@@ -85,18 +96,31 @@
   }
 
   .info {
-    @include span-columns(10);
-    @include omega();
+    float: left;
+    display: block;
+    margin-right: neat-gutter-width();
+    width: neat-width-of-columns(10);
+    margin-right: 0
+  }
+  
+  .info:last_child {
+    margin-right: 0
   }
 
   .comments {
-    @include span-columns(2);
+    float: left;
+    display: block;
+    margin-right: neat-gutter-width();
+    width: neat-width-of-columns(2);
     text-align: center;
     background-image: asset-url('comment.png');
     background-size: 2.25em;
     background-repeat: no-repeat;
     height: 2.75em;
     background-position: center;
+    &:last-child {
+      margin-right:0;
+    }
 
     p {
       margin-top: 0.4375em;

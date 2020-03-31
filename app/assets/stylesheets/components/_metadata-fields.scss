@@ -30,10 +30,16 @@
   }
 
   li {
-    @include span-columns(4);
+    float: left;
+    display: block;
+    margin-right: neat-gutter-width();
+    width: neat-width-of-columns(4);
     margin-right: 0;
     margin-bottom: 0.625em;
     min-height: 3.2em;
+    &:last-child {
+      margin-right:0;
+    }
   }
 
   .status {
@@ -51,8 +57,14 @@
 }
 
 .preview {
-  @include span-columns(8);
+  float: left;
+  display: block;
+  margin-right: neat-gutter-width();
+  width: neat-width-of-columns(8);
   padding-top: 0 !important;
+  &:last-child {
+    margin-right:0;
+  }
 
   ul {
     padding-left: 0;
@@ -62,7 +74,13 @@
   & .preview {
     // we want the top level preview class to have the appropriate width adjustment, but don't need all
     // nested elements with preview class to be further narrowed
-    @include span-columns(12);
+    float: left;
+    display: block;
+    margin-right: neat-gutter-width();
+    width: neat-width-of-columns(12);
+    &:last-child {
+      margin-right:0;
+    }
   }
 }
 
