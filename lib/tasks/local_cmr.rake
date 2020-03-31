@@ -3,6 +3,27 @@ require 'test_cmr/load_data.rb'
 namespace :cmr do
   include Cmr
 
+  jar_name = 'cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar'
+  url_source = "https://maven.earthdata.nasa.gov/repository/mmt/#{jar_name}"
+
+  desc 'Fetch lattest jar'
+  task :fetch do
+    # make a backup copy the old jar if it exists 
+    cmd_backup = 'cd cmr ; '\
+      "if [ -a \"#{jar_name}\" ] ; then "\
+        'echo Backup jar... ; '\
+        "mv -fv #{jar_name} #{jar_name}.last ; "\
+      'fi'
+    puts %x( #{cmd_backup} )
+    
+    # download a new jar
+    puts 'Download jar...'
+    cmd_fetch = 'cd cmr ; '\
+      "curl #{url_source} > #{jar_name}"
+    puts %x( #{cmd_fetch} )
+    puts 'Done'
+  end
+
   desc 'Save collection data from CMR'
   task :save_data do
     cmr = Cmr::Local.new
@@ -14,19 +35,25 @@ namespace :cmr do
     cmr = Cmr::Local.new
     cmr.load_data
 
-    puts "Local CMR downloaded on: #{File.ctime('cmr/cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar')}"
+    puts "Local CMR downloaded on: #{File.ctime('cmr/' + jar_name)}"
   end
 
   desc 'Start local CMR'
   task start: [:stop] do
-    # Process.spawn('cd cmr; java -XX:-OmitStackTraceInFastThrow -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr_logs.log &')
+    # Process.spawn("cd cmr; java -XX:-OmitStackTraceInFastThrow -classpath ./#{jar_name} cmr.dev_system.runner > cmr_logs.log &")
 
     # `-DCMR_DEV_SYSTEM_REDIS_TYPE=external` was added when CMR made a change to use Redis
     # we may be able to remove it when they adjust the uberjar configuration
-    Process.spawn('cd cmr; nohup java -DCMR_DEV_SYSTEM_REDIS_TYPE=external -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner > cmr.log 2>&1 &')
+    cmd = 'cd cmr ; '\
+      'nohup java '\
+        '-DCMR_DEV_SYSTEM_REDIS_TYPE=external '\
+        "-classpath ./#{jar_name} "\
+        'cmr.dev_system.runner '\
+        '> cmr.log 2>&1 &'
+    Process.spawn( "#{cmd}" )
 
     # this command was necessary when there was an issue with jRuby in CMR accessing our gems
-    # Process.spawn('cd cmr; unset GEM_HOME; unset GEM_PATH; echo `env`; nohup java -classpath ./cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar cmr.dev_system.runner&')
+    # Process.spawn("cd cmr; unset GEM_HOME; unset GEM_PATH; echo `env`; nohup java -classpath ./#{jar_name} cmr.dev_system.runner&")
     puts 'Cmr is starting up'
   end
 
