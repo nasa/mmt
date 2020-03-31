@@ -6,7 +6,7 @@ module Proposal
     before_action :ensure_non_nasa_draft_permissions
 
     def show
-      authorize CollectionDraftProposal, policy_class: ManageCollectionProposalPolicy
+      authorize :manage_collection_proposal
 
       # If you change this number you must also change it in the corresponding test file - features/manage_collections/open_drafts_spec.rb.
       @proposal_display_max_count = 5

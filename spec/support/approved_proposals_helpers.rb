@@ -50,6 +50,7 @@ module Helpers
           "updated_at": default_time,
           "status_history": params[:status_history] || {"submitted":{"username":"Test User1","action_date":"2019-11-25 13:59"},"approved":{"username":"Test User1","action_date":"2019-11-25T08:59:50.748-05:00"}},
           "request_type": params[:request_type] || 'create',
+          "submitter_id": 'testuser',
           "draft": params[:draft] || collection_one.merge('ShortName' => short_name, 'Version' => params[:version] || '1', 'EntryTitle' => entry_title)
         }
       end
