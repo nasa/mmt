@@ -1,11 +1,12 @@
 module Proposal
+
   class ManageCollectionProposalsController < ManageMetadataController
     skip_before_action :provider_set?
 
     before_action :ensure_non_nasa_draft_permissions
 
     def show
-      authorize CollectionDraftProposal, policy_class: CollectionDraftProposalPolicy
+      authorize :manage_collection_proposal
 
       # If you change this number you must also change it in the corresponding test file - features/manage_collections/open_drafts_spec.rb.
       @proposal_display_max_count = 5
@@ -21,8 +22,8 @@ module Proposal
                                  .order('updated_at DESC')
                                  .limit(@proposal_display_max_count + 1)
       else
-        @proposals =
-          CollectionDraftProposal.order('updated_at DESC')
+        @proposals = current_user.collection_draft_proposals
+                                 .order('updated_at DESC')
                                  .limit(@proposal_display_max_count + 1)
       end
     end

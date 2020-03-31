@@ -1,13 +1,13 @@
-describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
+describe 'Viewing Unsubmitted Collection Draft Proposals' do
   before do
-    login
+    real_login(method: 'urs')
     set_as_proposal_mode_mmt(with_draft_user_acl: true)
   end
 
   context 'when viewing the metadata' do
     before do
-      draft = create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Proposal Title')
-      visit collection_draft_proposal_path(draft)
+      proposal = create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Proposal Title', user: get_user)
+      visit collection_draft_proposal_path(proposal)
     end
 
     it 'displays the current proposal status' do
@@ -33,8 +33,8 @@ describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
 
   context 'when viewing incomplete metadata' do
     before do
-      draft = create(:empty_collection_draft_proposal)
-      visit collection_draft_proposal_path(draft)
+      proposal = create(:empty_collection_draft_proposal, user: get_user)
+      visit collection_draft_proposal_path(proposal)
     end
 
     context 'when trying to submit it' do

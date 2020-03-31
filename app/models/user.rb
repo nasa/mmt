@@ -1,7 +1,12 @@
 class User < ApplicationRecord
   serialize :available_providers, JSON
 
-  has_many :drafts
+  has_many :collection_drafts
+  has_many :service_drafts
+  has_many :variable_drafts
+
+  has_many :collection_draft_proposals
+  has_many :collection_templates
 
   def self.from_urs_uid(uid)
     return nil if uid.nil?

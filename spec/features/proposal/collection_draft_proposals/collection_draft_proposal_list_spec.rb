@@ -1,15 +1,15 @@
-describe 'Viewing Collection Draft Proposals Index Pages', js: true do
+describe 'Viewing Collection Draft Proposals Index Pages', reset_provider: true do
   context 'when logged in as a user' do
     before do
-      login
-      mock_urs_get_users
+      real_login(method: 'urs')
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      create(:full_collection_draft_proposal, proposal_short_name: 'M Example Proposal', version: '5', proposal_entry_title: 'M Example Title')
-      create(:full_collection_draft_proposal, proposal_short_name: 'N Example Proposal', version: '5', proposal_entry_title: 'N Example Title')
-      create(:full_collection_draft_proposal, proposal_short_name: 'O Example Proposal', version: '5', proposal_entry_title: 'O Example Title')
-      create(:full_collection_draft_proposal, proposal_short_name: 'P Example Proposal', version: '5', proposal_entry_title: 'P Example Title')
-      create(:full_collection_draft_proposal, proposal_short_name: 'A Example Proposal', version: '5', proposal_entry_title: 'A Example Title')
-      mock_submit(create(:full_collection_draft_proposal, proposal_short_name: 'Z Example Proposal', version: '', proposal_entry_title: 'Z Example Title', proposal_request_type: 'delete'))
+      create(:full_collection_draft_proposal, proposal_short_name: 'M Example Proposal', version: '5', proposal_entry_title: 'M Example Title', user: get_user)
+      create(:full_collection_draft_proposal, proposal_short_name: 'N Example Proposal', version: '5', proposal_entry_title: 'N Example Title', user: get_user)
+      create(:full_collection_draft_proposal, proposal_short_name: 'O Example Proposal', version: '5', proposal_entry_title: 'O Example Title', user: get_user)
+      create(:full_collection_draft_proposal, proposal_short_name: 'P Example Proposal', version: '5', proposal_entry_title: 'P Example Title', user: get_user)
+      create(:full_collection_draft_proposal, proposal_short_name: 'A Example Proposal', version: '5', proposal_entry_title: 'A Example Title', user: get_user)
+      mock_urs_get_users
+      mock_submit(create(:full_collection_draft_proposal, proposal_short_name: 'Z Example Proposal', version: '', proposal_entry_title: 'Z Example Title', proposal_request_type: 'delete', user: get_user))
     end
 
     context 'while on the index page' do
@@ -189,12 +189,12 @@ describe 'Viewing Collection Draft Proposals Index Pages', js: true do
 
   context 'when logged in as an approver' do
     before do
-      login
+      real_login(method: 'urs')
       mock_urs_get_users
       set_as_proposal_mode_mmt(with_draft_approver_acl: true)
       4.times { create(:full_collection_draft_proposal) }
-      create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Title')
-      mock_submit(create(:full_collection_draft_proposal, proposal_short_name: 'A Second Example Proposal', version: '', proposal_entry_title: 'A Second Example Title', proposal_request_type: 'delete'))
+      create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Title', user: get_user)
+      mock_submit(create(:full_collection_draft_proposal, proposal_short_name: 'A Second Example Proposal', version: '', proposal_entry_title: 'A Second Example Title', proposal_request_type: 'delete', user: get_user))
     end
 
     context 'while on the in work index page' do

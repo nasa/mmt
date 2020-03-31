@@ -40,6 +40,14 @@ module Helpers
       body
     end
 
+    def get_user(admin: false)
+      if admin
+        User.from_urs_uid('adminuser')
+      else
+        User.from_urs_uid('testuser')
+      end
+    end
+
     def login_admin(provider: 'MMT_2', providers: 'MMT_2')
       login(admin: true, provider: provider, providers: providers)
     end

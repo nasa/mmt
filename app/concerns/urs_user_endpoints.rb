@@ -33,7 +33,7 @@ module UrsUserEndpoints
   def retrieve_urs_users(uids)
     # retrieves users from urs with all available attributes
     # uid, first_name, last_name, and email_address along with others we dont usually use
-    return [] if uids.blank?
+    return [] if uids.reject(&:nil?).blank?
 
     users_response = cmr_client.get_urs_users(uids)
 

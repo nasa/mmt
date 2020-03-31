@@ -9,7 +9,8 @@ module Proposal
     before_action(only: [:submit, :rescind, :progress, :approve, :reject]) { set_resource }
 
     def index
-      working_proposals = resource_class.all
+      working_proposals = current_user.send(plural_resource_name)
+      authorize working_proposals
       set_urs_user_hash(working_proposals)
       sort_for_index(working_proposals)
 
@@ -19,6 +20,7 @@ module Proposal
 
     def queued_index
       working_proposals = resource_class.where('proposal_status != ?', 'in_work')
+      authorize working_proposals
       set_urs_user_hash(working_proposals)
       sort_for_index(working_proposals)
 
@@ -29,6 +31,7 @@ module Proposal
 
     def in_work_index
       working_proposals = resource_class.where('proposal_status = ?', 'in_work')
+      authorize working_proposals
       set_urs_user_hash(working_proposals)
       sort_for_index(working_proposals)
 
@@ -218,9 +221,15 @@ module Proposal
 
     # Custom error messaging for Pundit
     def user_not_authorized(exception)
-      clear_session_and_token_data
+      flash[:error] = I18n.t("collection_draft_proposal_policy.#{exception.query}", scope: 'pundit', default: :default)
 
-      redirect_to root_url, flash: { error: "It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users. Please try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." }
+      if exception.query == 'new?' || exception.query == 'create?'
+        # the user has no permissions to access proposal mode
+        clear_session_and_token_data
+        redirect_to root_url
+      else
+        redirect_to manage_collection_proposals_path
+      end
     end
 
     # Fetch e-mails of users who are not the current user from URS to send them

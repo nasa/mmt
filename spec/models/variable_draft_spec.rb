@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe VariableDraft do
   # display_entry_title method
   it '"display_entry_title" returns a draft title if available' do

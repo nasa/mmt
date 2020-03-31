@@ -4,7 +4,7 @@ describe 'Proposals listed on the Manage Collection Proposals page', js: true do
   context 'when viewing the manage proposals page as a user' do
     before do
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      login
+      real_login(method: 'urs')
     end
 
     context 'when no proposals exist' do
@@ -21,9 +21,9 @@ describe 'Proposals listed on the Manage Collection Proposals page', js: true do
 
     context 'when there are proposals' do
       before do
-        4.times { create(:full_collection_draft_proposal) }
-        create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Title')
-        create(:full_collection_draft_proposal, proposal_short_name: 'An Second Example Proposal', version: '')
+        4.times { create(:full_collection_draft_proposal, user: get_user) }
+        create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Title', user: get_user)
+        create(:full_collection_draft_proposal, proposal_short_name: 'An Second Example Proposal', version: '', user: get_user)
 
         visit manage_collection_proposals_path
       end

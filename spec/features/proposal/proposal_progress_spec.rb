@@ -1,9 +1,9 @@
 describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
   context 'when viewing the progress page as a user' do
     before do
-      login
+      real_login(method: 'urs')
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:empty_collection_draft_proposal)
+      @collection_draft_proposal = create(:empty_collection_draft_proposal, user: get_user)
     end
 
     context 'when viewing an incomplete proposal in work' do
@@ -581,9 +581,9 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
     # This works through enough of the workflow to verify that the helpers in
     # the controller are storing the time in a way that is retrievable
     before do
-      login
+      real_login(method: 'urs')
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:full_collection_draft_proposal)
+      @collection_draft_proposal = create(:full_collection_draft_proposal, user: get_user)
       visit progress_collection_draft_proposal_path(@collection_draft_proposal)
     end
 

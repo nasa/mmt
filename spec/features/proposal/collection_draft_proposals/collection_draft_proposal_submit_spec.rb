@@ -1,13 +1,13 @@
 # Running reset provider in order to verify approvers get emails when proposals are submitted
 describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, js: true do
   before do
-    login
+    real_login(method: 'urs')
   end
 
   context 'when submitting a validated proposal' do
     before do
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:full_collection_draft_proposal)
+      @collection_draft_proposal = create(:full_collection_draft_proposal, user: get_user)
       visit collection_draft_proposal_path(@collection_draft_proposal)
     end
 
@@ -150,7 +150,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
   context 'when viewing a submitted proposal as a user' do
     before do
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:full_collection_draft_proposal)
+      @collection_draft_proposal = create(:full_collection_draft_proposal, user: get_user)
       mock_submit(@collection_draft_proposal)
       visit collection_draft_proposal_path(@collection_draft_proposal)
     end
@@ -201,7 +201,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
   context 'when looking at a delete metadata request' do
     before do
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:full_collection_draft_proposal, proposal_request_type: 'delete')
+      @collection_draft_proposal = create(:full_collection_draft_proposal, proposal_request_type: 'delete', user: get_user)
       mock_submit(@collection_draft_proposal)
       visit collection_draft_proposal_path(@collection_draft_proposal)
       @short_name = @collection_draft_proposal.draft['ShortName']
@@ -239,7 +239,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
     before do
       # Testing bad data, do not change this to use the mock methods.
       set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:empty_collection_draft_proposal)
+      @collection_draft_proposal = create(:empty_collection_draft_proposal, user: get_user)
       @collection_draft_proposal.proposal_status = 'submitted'
       @collection_draft_proposal.save
     end

@@ -230,12 +230,12 @@ class BaseDraftsController < DraftsController
         # no flash message because it will be handled by the show view and params we are passing
         redirect_to send("#{resource_name}_path", get_resource, not_authorized_request_params: request.params)
       else
-        flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
+        flash[:error] = I18n.t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
 
         redirect_to send("manage_#{plural_published_resource_name}_path")
       end
     else
-      flash[:error] = t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
+      flash[:error] = I18n.t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
 
       redirect_to send("manage_#{plural_published_resource_name}_path")
     end
