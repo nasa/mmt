@@ -39,9 +39,6 @@ class SubscriptionsController < ManageCmrController
 
   def create
     authorize :subscription
-    # query should be passed as `metadata`
-    # subscriber urs_uid should be passed as `user_id`
-    # subscriber email should be passed as `email_address`
     @subscription = subscription_params
     reformated_subscription = reformat_subscription_params_for_submission
     native_id = "mmt_subscription_#{SecureRandom.uuid}"
@@ -52,7 +49,7 @@ class SubscriptionsController < ManageCmrController
       redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'], subscription: reformated_subscription, native_id: native_id)
     else
       Rails.logger.error("Creating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
-      flash[:error] = subscription_response.error_message(i18n: I18n.t('controllers.subscriptions.create.flash.success'))
+      flash[:error] = subscription_response.error_message(i18n: I18n.t('controllers.subscriptions.create.flash.error'))
 
       set_previously_selected_subscriber(@subscription['user_id'])
       render :new
@@ -80,6 +77,7 @@ class SubscriptionsController < ManageCmrController
     params.require(:subscription).permit(:name, :concept_id, :metadata, :user_id)
   end
 
+  # TODO: Remove this when we have search
   # This method should be temporary until we have a read endpoint
   def cmr_formatted_subscription_params
     params.require(:subscription).permit(:Name, :CollectionConceptId, :Query, :SubscriberId, :EmailAddress).merge(params.permit(:id, :native_id))
@@ -111,6 +109,10 @@ class SubscriptionsController < ManageCmrController
   end
 
   def reformat_subscription_params_for_submission
+    # CMR expects these parameters in 'ThisCase'.  In this iteration,
+    # we need to pass the Name (of the subscription), the user's urs as SubscriberId
+    # and their email address as EmailAddress, the Query as a single string aside
+    # from the CollectionConceptId whish is being seperated.  
     {
       'Name' => @subscription['name'],
       'SubscriberId' => @subscription['user_id'],
