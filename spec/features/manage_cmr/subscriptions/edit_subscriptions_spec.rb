@@ -61,7 +61,7 @@ describe 'Edit/Updating Subscriptions' do
         expect(page).to have_content(@subscription['Name'])
         expect(page).to have_content(@new_query)
         expect(page).to have_content(@subscription['CollectionConceptId'])
-        within '#subscribers' do
+        within '#subscriber' do
           expect(page).to have_content(@subscription['SubscriberId'])
           expect(page).to have_content(@subscription['EmailAddress'])
           expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
