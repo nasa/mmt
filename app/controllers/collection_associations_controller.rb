@@ -23,7 +23,7 @@ class CollectionAssociationsController < CmrSearchController
 
     association_response = cmr_client.get_collections_by_post(search_params, token)
 
-    if association_response.error?
+    if association_response.success?
       association_count = association_response.body['hits']
       association_results = association_response.body['items']
     else
