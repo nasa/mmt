@@ -6,8 +6,12 @@ namespace :cmr do
   jar_name = 'cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar'
   url_source = "https://maven.earthdata.nasa.gov/repository/mmt/#{jar_name}"
 
-  desc 'Fetch lattest CMR jar from the maven repository'
+  desc 'Fetch latest CMR jar from the maven repository'
   task :fetch do
+    # use puts %x() to run commands and not Process.spawn(), which returns
+    # imediatly, because curl can take a while and we want to see the output
+    # from standard out.
+    
     # make a backup copy of the old jar if it exists, and a backup of the backup 
     cmd_backup = 'cd cmr ; '\
       "if [ -a \"#{jar_name}\" ] ; then "\

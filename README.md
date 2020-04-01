@@ -81,6 +81,9 @@ If you need to stop the server from running, hit `Ctrl + C` and the server will 
 In order to use a local copy of the CMR you will need to download the latest file, set an environment variable, and run a rake task to set required permissions and ingest some data.
 
 #### 1. Downloading the CMR file
+If access to https://maven.earthdata.nasa.gov is possible, then the rake command `rake cmr:fetch` can be used to download the latest CMR jar. This task put the jar file in the `cmr` directory.
+If this task fails for some reason, such as the maven repository is down, you can follow the instructions below to download and install manually from Bamboo:
+
 Go to https://ci.earthdata.nasa.gov/browse/CN2-CSN2/latestSuccessful/artifact/, and download the `cmr-dev-system-uberjar.jar` file.
   * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO NOT rename the file.**
 
