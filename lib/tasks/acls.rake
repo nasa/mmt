@@ -71,6 +71,29 @@ namespace :acls do
     end
   end
 
+  namespace :subscriptions do
+    desc 'Creates a group and grants permission for managing subscriptions'
+    task :full_acls, [:username] => :environment do |_task, args|
+      # Create the group
+      Rake::Task['acls:groups:create'].invoke('Subscription Management', 'Group Created for Subscription Management', args.username, 'MMT_2')
+
+      group_id = get_group_concept_from_name(group_name: 'Subscription Management')
+
+      provider_perm = {
+        'group_permissions' => [{
+          'group_id' => group_id,
+          'permissions' => ['create', 'read', 'update', 'delete']
+        }],
+        'provider_identity' => {
+          'target' => 'EMAIL_SUBSCRIPTION_MANAGEMENT',
+          'provider_id' => 'MMT_2'
+        }
+      }
+
+      print_result(cmr_client.add_group_permissions(provider_perm, get_acls_token(admin: true)), '`Subscription Management` permissions added to the group.')
+    end
+  end
+
   namespace :proposal_mode do
     desc 'Creates a group and grants permission for Non-NASA Draft User'
     task :draft_user, [:username] => :environment do |_task, args|
