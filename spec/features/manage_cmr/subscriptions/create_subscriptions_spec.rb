@@ -7,7 +7,7 @@ describe 'Creating Subscriptions' do
     context 'when visiting the new subscription form' do
       before do
         allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
-        allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
+        allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
 
         visit new_subscription_path
       end
@@ -68,7 +68,7 @@ describe 'Creating Subscriptions' do
           end
 
           it 'creates the subscription' do
-            expect(page).to have_content('Subscription was successfully created.')
+            expect(page).to have_content('Subscription Created Successfully!')
           end
         end
 
@@ -77,7 +77,7 @@ describe 'Creating Subscriptions' do
           # in the CMR.
           let(:name2) { 'Exciting Subscription with Important Data4' }
           before do
-            @ingest_response, _concept_response = cmr_client.ingest_subscription({ 'Name' => name2, 'Query' => query, 'CollectionConceptId' => collection_concept_id, 'SubscriberId' => 'fake', 'EmailAddress' => 'fake@fake.fake'}.to_json, 'MMT_2', 'test_native_id', 'token')
+            @ingest_response, _subscription = publish_new_subscription(name: name2, query: query, collection_concept_id: collection_concept_id, native_id: 'test_native_id')
 
             fill_in 'Subscription Name', with: name2
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do

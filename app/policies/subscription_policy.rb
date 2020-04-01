@@ -18,6 +18,10 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def index?
+    show?
+  end
+
+  def show?
     @read.nil? ? fetch_granted_permissions(action: 'read', user: user.user, type: 'provider', target: 'EMAIL_SUBSCRIPTION_MANAGEMENT', token: user.token) : @read
   end
 
