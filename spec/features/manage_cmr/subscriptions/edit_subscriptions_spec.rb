@@ -35,14 +35,6 @@ describe 'Edit/Updating Subscriptions' do
       end
     end
 
-    it 'has the right fields' do
-      expect(page).to have_content('Edit MMT_2 Subscription')
-      expect(page).to have_field('Subscription Name', with: @subscription['Name'])
-      expect(page).to have_field('Query', with: @subscription['Query'])
-      expect(page).to have_field('Subscriber', with: @subscription['SubscriberId'])
-      expect(page).to have_field('Collection Concept ID', with: @subscription['CollectionConceptId'])
-    end
-
     context 'when making a valid modification to a subscription' do
       before do
         @new_query = 'A Different Query'
@@ -71,6 +63,9 @@ describe 'Edit/Updating Subscriptions' do
 
     context 'when making an invalid modification to a subscription' do
       before do
+        # Making a second subscription and then trying to rename the first one
+        # to the name of the second one. CMR enforces unique names, so this
+        # results in an error message.
         @new_name = 'A Different Query'
         fill_in 'Subscription Name', with: @new_name
         @second_native_id = 'test_edit_id_2'

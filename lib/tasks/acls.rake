@@ -75,7 +75,10 @@ namespace :acls do
     desc 'Creates a group and grants permission for managing subscriptions'
     task :full_acls, [:username] => :environment do |_task, args|
       # Create the group
-      Rake::Task['acls:groups:create'].invoke('Subscription Management', 'Group Created for Subscription Management', args.username, 'MMT_2')
+      # CMR does not currently enforce ACLs on subscriptions, but including
+      # typical here may make a change to that less noticable. typical is the
+      # user that owns the token we pass in dev/test.
+      Rake::Task['acls:groups:create'].invoke('Subscription Management', 'Group Created for Subscription Management', [args.username, 'typical'], 'MMT_2')
 
       group_id = get_group_concept_from_name(group_name: 'Subscription Management')
 
