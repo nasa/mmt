@@ -6,7 +6,7 @@
       <%= link_to 'Add Collection Associations', send("new_#{lower_resource_name}_collection_association_path", resource_id), class: 'eui-btn--blue space-bot' %>
     <% end %>
 
-    <% if @associations.any? && not_variable? %>
+    <% if @associations.any? %>
       <p>
         <%= page_entries_info @associations, entry_name: 'Collection Association' %>
       </p>

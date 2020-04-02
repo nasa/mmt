@@ -33,16 +33,20 @@ class CollectionAssociationsController < CmrSearchController
       flash[:error] = "An error occurred while trying to retrieve associations for this #{lower_resource_name}. Please try again before contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}"
     end
 
+    # Variables can only be associated with one collection. We should hide
+    # the button if we know that the variable record already has an association.
     @can_associate = not_variable? || association_results.blank?
     @associations = Kaminari.paginate_array(association_results, total_count: association_count).page(page).per(RESULTS_PER_PAGE)
   end
 
   def new
+    # Variables can only be associated with one collection. If a variable is
+    # already associated with a collection, do not let the user try to add more.
+    # Services, do not have the same restriction.
     @previously_associated_collections = get_all_collection_associations
     if variable? && @previously_associated_collections.present?
       flash[:error] = "This #{lower_resource_name} already has a Collection Association. To change the association, you must first remove the existing collection association."
       redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id)
-      return
     end
 
     add_breadcrumb 'New', send("new_#{lower_resource_name}_collection_association_path", resource_id)
@@ -51,6 +55,8 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   def create
+    # The form is slightly different for variables. Despite only accepting one
+    # association, the collection id for variables still needs to be in an array
     association_response = if variable?
                              cmr_client.send("add_collection_assocations_to_#{lower_resource_name}", resource_id, [params[:selected_collection]], token)
                            else
