@@ -166,10 +166,10 @@ class CollectionsController < ManageCollectionsController
   end
 
   def proposal_mode_enabled?
-    if params['action'] == 'show'
+    if %w[show download_xml].include?(params['action'])
       # actions available in both dMMT and MMT
       multi_mode_actions_allowed?
-    elsif %w[create_delete_proposal create_update_proposal download_xml].include?(params['action'])
+    elsif %w[create_delete_proposal create_update_proposal].include?(params['action'])
       # actions available in dMMT to users and approvers
       proposal_mode_all_user_actions_allowed?
     else
