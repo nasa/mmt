@@ -3,6 +3,7 @@ class SubscriptionsController < ManageCmrController
 
   RESULTS_PER_PAGE = 25
   before_action :subscriptions_enabled?
+  before_action :add_top_level_breadcrumbs
 
   def index
     authorize :subscription
@@ -29,7 +30,7 @@ class SubscriptionsController < ManageCmrController
 
   def show
     authorize :subscription
-    @subscription = cmr_formatted_subscription_params
+    @subscription = subscription_params.merge(params.permit(:id, :native_id))
     user = get_subscriber(@subscription['SubscriberId']).fetch(0, {})
     @user = "#{user['first_name']} #{user['last_name']}"
     @subscription_concept_id = @subscription['id']
@@ -37,29 +38,58 @@ class SubscriptionsController < ManageCmrController
     add_breadcrumb @subscription['id'].to_s
   end
 
+  def edit
+    authorize :subscription
+
+    @subscription = subscription_params.merge(params.permit(:id, :native_id))
+    set_previously_selected_subscriber(@subscription['SubscriberId'])
+
+    add_breadcrumb @subscription['id'].to_s, subscription_path(@subscription['id'], subscription: @subscription, native_id: @subscription['native_id'])
+  end
+
   def create
     authorize :subscription
     @subscription = subscription_params
-    reformated_subscription = reformat_subscription_params_for_submission
+    @subscription['EmailAddress'] = get_subscriber_email(@subscription['SubscriberId'])
     native_id = "mmt_subscription_#{SecureRandom.uuid}"
 
-    subscription_response = cmr_client.ingest_subscription(reformated_subscription.to_json, current_user.provider_id, native_id, token)
+    subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, native_id, token)
     if subscription_response.success?
       flash[:success] = I18n.t('controllers.subscriptions.create.flash.success')
-      redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'], subscription: reformated_subscription, native_id: native_id)
+      redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'], subscription: @subscription, native_id: native_id)
     else
       Rails.logger.error("Creating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
       flash[:error] = subscription_response.error_message(i18n: I18n.t('controllers.subscriptions.create.flash.error'))
 
-      set_previously_selected_subscriber(@subscription['user_id'])
+      set_previously_selected_subscriber(@subscription['SubscriberId'])
       render :new
+    end
+  end
+
+  def update
+    authorize :subscription
+    @subscription = subscription_params
+    @subscription['EmailAddress'] = get_subscriber_email(@subscription['SubscriberId'])
+    native_id = params.permit(:native_id)['native_id']
+
+    subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, native_id, token)
+    if subscription_response.success?
+      flash[:success] = I18n.t('controllers.subscriptions.update.flash.success')
+      redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'], subscription: @subscription, native_id: native_id)
+    else
+      concept_id = params.permit(:id)['id']
+      Rails.logger.error("Updating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
+      flash[:error] = subscription_response.error_message(i18n: I18n.t('controllers.subscriptions.update.flash.success'))
+
+      set_previously_selected_subscriber(@subscription['SubscriberId'])
+      redirect_to edit_subscription_path(concept_id, subscription: @subscription, native_id: native_id)
     end
   end
 
   def destroy
     authorize :subscription
 
-    subscription = cmr_formatted_subscription_params
+    subscription = subscription_params.merge(params.permit(:id, :native_id))
     delete_response = cmr_client.delete_subscription(current_user.provider_id, subscription['native_id'], token)
     if delete_response.success?
       flash[:success] = I18n.t('controllers.subscriptions.destroy.flash.success')
@@ -74,13 +104,7 @@ class SubscriptionsController < ManageCmrController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:name, :concept_id, :metadata, :user_id)
-  end
-
-  # TODO: Remove this when we have search
-  # This method should be temporary until we have a read endpoint
-  def cmr_formatted_subscription_params
-    params.require(:subscription).permit(:Name, :CollectionConceptId, :Query, :SubscriberId, :EmailAddress).merge(params.permit(:id, :native_id))
+    params.require(:subscription).permit(:Name, :CollectionConceptId, :Query, :SubscriberId, :EmailAddress)
   end
 
   def subscriptions_enabled?
@@ -108,17 +132,7 @@ class SubscriptionsController < ManageCmrController
     subscriber.fetch('email_address', nil)
   end
 
-  def reformat_subscription_params_for_submission
-    # CMR expects these parameters in 'ThisCase'.  In this iteration,
-    # we need to pass the Name (of the subscription), the user's urs as SubscriberId
-    # and their email address as EmailAddress, the Query as a single string aside
-    # from the CollectionConceptId whish is being seperated.  
-    {
-      'Name' => @subscription['name'],
-      'SubscriberId' => @subscription['user_id'],
-      'EmailAddress' => get_subscriber_email(@subscription['user_id']),
-      'Query' => @subscription['metadata'],
-      'CollectionConceptId' => @subscription['concept_id']
-    }
+  def add_top_level_breadcrumbs
+    add_breadcrumb 'Subscriptions', subscriptions_path
   end
 end

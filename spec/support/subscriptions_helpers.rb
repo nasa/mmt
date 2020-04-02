@@ -7,7 +7,7 @@ module Helpers
         'CollectionConceptId' => collection_concept_id || 'C0000-TEST',
         'Query' => query || 'field=Test_Query',
         'SubscriberId' => subscriber_id || 'rarxd5taqea',
-        'EmailAddress' => email_address || 'fake@fake.fake'
+        'EmailAddress' => email_address || 'uozydogeyyyujukey@tjbh.eyyy'
       }
 
       ingest_response = cmr_client.ingest_subscription(subscription.to_json, provider, native_id || "mmt_subscription_#{random}", 'token')

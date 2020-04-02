@@ -3,39 +3,7 @@
     <h2>New <span class="provider-context"><%= current_user.provider_id %></span> Subscription</h2>
 
     <%= form_tag(subscriptions_path, method: :post, class: 'subscription-form') do %>
-      <fieldset>
-        <div class="row">
-          <%= label_tag('subscription[name]', 'Subscription Name', class: 'eui-required-o') %>
-        </div>
-        <div class="row">
-          <%= text_area_tag('subscription[name]', @subscription['name'], cols: 30, rows: 3, class: 'required textcounter', maxlength: 255) %>
-        </div>
-      </fieldset>
-      
-      <fieldset>
-        <div class="row">
-          <%= label_tag('subscription[concept_id]', 'Collection Concept ID', class: 'eui-required-o') %>
-        </div>
-        <div class="row">
-          <%= text_field_tag('subscription[concept_id]', @subscription['concept_id'], class: 'required full-width', placeholder: 'Enter a ConceptID for a single collection. (Example: C1234567-PODAAC)') %>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div class="row">
-          <%= label_tag('subscription[metadata]', 'Query', class: 'eui-required-o') %>
-        </div>
-        <div class="row">
-          <%= text_area_tag('subscription[metadata]', @subscription['metadata'], cols: 30, rows: 3, class: 'required textcounter', maxlength: 40_000, placeholder: 'Enter the CMR query parameters for the subscription. (Examples: Platform[]=1B&platform[]=2B, or bounding_box=-10,-5,10,5, or attribute[]=float,PERCENTAGE,25.5,30)') %>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div class="row space-bot subscriber-group">
-          <%= label_tag('subscriber', 'Subscriber', class: 'eui-required-o') %>
-          <%= select_tag 'subscription[user_id]', options_for_select(@subscriber), id: 'subscriber', class: 'urs_autocomplete', multiple: false %>
-        </div>
-      </fieldset>
+      <%= render partial: 'subscriptions/forms/subscription_fields' %>
 
       <fieldset>
         <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'new-subscription-submit' %>
