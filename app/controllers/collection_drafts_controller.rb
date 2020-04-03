@@ -175,7 +175,7 @@ class CollectionDraftsController < BaseDraftsController
     JSON::Validator.register_format_validator('date-time', date_time_format_proc)
 
     errors = Array.wrap(JSON::Validator.fully_validate(@json_schema, get_resource.draft))
-    errors = validate_parameter_ranges(errors, get_resource.draft)
+    errors = validate_paired_fields(errors, get_resource.draft)
     errors_before_generate = validate_picklists(errors, get_resource.draft)
     errors_before_generate.map { |error| generate_show_errors(error) }.flatten
   end
@@ -232,22 +232,90 @@ class CollectionDraftsController < BaseDraftsController
       'is an invalid format'
     when /must be a valid URI/
       'is an invalid URI'
-    when /larger than/
-      'is larger than ParameterRangeBegin'
+    when /larger than ParameterRangeEnd/
+      'is larger than ParameterRangeEnd'
+    when /larger than MaximumValue/
+      'is larger than MaximumValue'
+    when /later than EndDate/
+      'is later than the End Date'
+    when /later than Ending/
+      'is later than the Ending Date Time'
     end
   end
 
   def validate_parameter_ranges(errors, metadata)
-    Array.wrap(metadata['AdditionalAttributes']).each do |attribute|
+    Array.wrap(metadata['AdditionalAttributes'])&.each_with_index do |attribute, index|
       non_range_types = %w(STRING BOOLEAN)
       unless non_range_types.include?(attribute['DataType'])
         range_begin = attribute['ParameterRangeBegin']
         range_end = attribute['ParameterRangeEnd']
 
         if range_begin && range_end && range_begin >= range_end
-          error = "The property '#/AdditionalAttributes/0/ParameterRangeBegin' was larger than ParameterRangeEnd"
+          error = "The property '#/AdditionalAttributes/#{index}/ParameterRangeBegin' was larger than ParameterRangeEnd"
           errors << error
         end
+      end
+    end
+
+    errors
+  end
+
+  def validate_paired_fields(errors, metadata)
+    errors = validate_parameter_ranges(errors, metadata)
+    errors = validate_project_paired_dates(errors, metadata)
+    errors = validate_temporal_paired_dates(errors, metadata)
+    validate_tiling_identification_systems_paired_fields(errors, metadata)
+  end
+
+  def validate_project_paired_dates(errors, metadata)
+    projects = metadata['Projects']
+    projects&.each_with_index do |project, index|
+      start_date = project['StartDate']
+      end_date = project['EndDate']
+
+      if start_date && end_date && start_date > end_date
+        error = "The property '#/Projects/#{index}/StartDate' is later than EndDate"
+        errors << error
+      end
+    end
+
+    errors
+  end
+
+  def validate_temporal_paired_dates(errors, metadata)
+    extents = metadata['TemporalExtents']
+    extents&.each_with_index do |extent, temporal_index|
+      range_date_times = extent['RangeDateTimes']
+      range_date_times&.each_with_index do |range_date_time, time_index|
+        start_date = range_date_time['BeginningDateTime']
+        end_date = range_date_time['EndingDateTime']
+
+        if start_date && end_date && start_date > end_date
+          error = "The property '#/TemporalExtents/#{temporal_index}/RangeDateTimes/#{time_index}/BeginningDateTime' is later than EndDate"
+          errors << error
+        end
+      end
+    end
+
+    errors
+  end
+
+  def validate_tiling_identification_systems_paired_fields(errors, metadata)
+    tiling_systems = metadata['TilingIdentificationSystems']
+    tiling_systems&.each_with_index do |system, index|
+      coordinate1_min = system.fetch('Coordinate1', {}).fetch('MinimumValue', nil)
+      coordinate1_max = system.fetch('Coordinate1', {}).fetch('MaximumValue', nil)
+      coordinate2_min = system.fetch('Coordinate2', {}).fetch('MinimumValue', nil)
+      coordinate2_max = system.fetch('Coordinate2', {}).fetch('MaximumValue', nil)
+
+      if coordinate1_min && coordinate1_max && coordinate1_min > coordinate1_max
+        error = "The property '#/TilingIdentificationSystems/#{index}/Coordinate1/MinimumValue' is larger than MaximumValue"
+        errors << error
+      end
+
+      if coordinate2_min && coordinate2_max && coordinate2_min > coordinate2_max
+        error = "The property '#/TilingIdentificationSystems/#{index}/Coordinate2/MinimumValue' is larger than MaximumValue"
+        errors << error
       end
     end
 

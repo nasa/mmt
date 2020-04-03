@@ -615,4 +615,111 @@ describe 'Data validation for a collection draft form', js: true do
       end
     end
   end
+
+  context 'when validating paired fields' do
+    context 'when validating the projects start and end dates' do
+      before do
+        visit edit_collection_draft_path(@draft, form: 'acquisition_information')
+        click_on 'Expand All'
+      end
+
+      context 'when the user has entered incorrectly formatted data' do
+        before do
+          fill_in 'Start Date', with: 'invalid'
+          fill_in 'End Date', with: '2015-08-01T00:00:00Z'
+
+          # click outside field to close datepicker
+          find('#draft_projects_0_campaigns_0').click
+        end
+
+        it 'does not display the "start after end" error' do
+          expect(page).to have_content('Start Date is an incorrect format')
+          expect(page).to have_no_content('Start Date must be earlier than the End Date')
+        end
+      end
+
+      context 'when the user has entered data in only one field' do
+        before do
+          fill_in 'Start Date', with: '2015-08-01T00:00:00Z'
+
+          # click outside field to close datepicker
+          find('#draft_projects_0_campaigns_0').click
+        end
+
+        it 'does not display the "start after end" error' do
+          expect(page).to have_no_content('Start Date must be earlier than the End Date')
+          expect(page).to have_field('Start Date', with: '2015-08-01T00:00:00Z')
+        end
+      end
+
+      context 'when the user has entered a start date that is after an end date' do
+        before do
+          fill_in 'Start Date', with: '2016-08-01T00:00:00Z'
+          fill_in 'End Date', with: '2015-08-01T00:00:00Z'
+
+          # click outside field to close datepicker
+          find('#draft_projects_0_campaigns_0').click
+        end
+
+        it 'displays the correct error message' do
+          expect(page).to have_content('Start Date must be earlier than the End Date')
+        end
+
+        context 'when the error occurs in the second project' do
+          before do
+            click_on 'Add another Project'
+
+            within '#draft_projects_1' do
+              fill_in 'Start Date', with: '2016-08-01T00:00:00Z'
+              fill_in 'End Date', with: '2015-08-01T00:00:00Z'
+
+              # click outside field to close datepicker
+              find('#draft_projects_1_campaigns_0').click
+            end
+          end
+
+          it 'displays the error message in the second project' do
+            within '#draft_projects_1' do
+              expect(page).to have_content('Start Date must be earlier than the End Date')
+            end
+          end
+
+          context 'when the error is not present in the first project, but is in the second' do
+            before do
+              # Making the second project closed the first one and the 'expand
+              # all' button has already been pressed, so it's 'collapse all' now
+              click_on 'Collapse All'
+              click_on 'Expand All'
+              within '#draft_projects_0' do
+                fill_in 'Start Date', with: '2014-08-01T00:00:00Z'
+
+                # click outside field to close datepicker
+                find('#draft_projects_0_campaigns_0').click
+              end
+            end
+
+            it 'displays the error only in the second project' do
+              within '#draft_projects_0' do
+                expect(page).to have_field('Start Date', with: '2014-08-01T00:00:00Z')
+                expect(page).to have_no_content('Start Date must be earlier than the End Date')                
+              end
+
+              within '#draft_projects_1' do
+                expect(page).to have_field('Start Date', with: '2016-08-01T00:00:00Z')
+                expect(page).to have_content('Start Date must be earlier than the End Date')
+              end
+            end
+          end
+        end
+      end
+    end
+
+    context 'when validating the temporal range date times' do
+      # basic test
+    end
+
+    context 'when validating the tiling identification min and max fields' do
+      # basic test
+    end
+  end
 end

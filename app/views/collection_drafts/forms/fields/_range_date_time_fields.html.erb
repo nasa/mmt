@@ -1,4 +1,4 @@
-<div class="row sub-fields">
+<div class="row sub-fields parent-pair">
 
   <div class="col-6">
     <!-- BeginningDateTime -->
@@ -10,7 +10,7 @@
       help: 'definitions/RangeDateTimeType/properties/BeginningDateTime',
       validate: true,
       always_required: true,
-      classes: 'mmt-date-time'
+      classes: 'mmt-date-time lesser-pair'
     ) %>
   </div>
 
@@ -23,7 +23,7 @@
       value: range_date_time['EndingDateTime'],
       help: 'definitions/RangeDateTimeType/properties/EndingDateTime',
       validate: true,
-      classes: 'mmt-date-time'
+      classes: 'mmt-date-time greater-pair'
     ) %>
   </div>
 

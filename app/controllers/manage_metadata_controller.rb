@@ -308,7 +308,7 @@ class ManageMetadataController < ApplicationController
   )
   SPATIAL_INFORMATION_FIELDS = %w(
     SpatialExtent
-    TilingIdentificationSystem
+    TilingIdentificationSystems
     SpatialInformation
     LocationKeywords
   )
