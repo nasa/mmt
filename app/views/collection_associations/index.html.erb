@@ -2,7 +2,9 @@
   <section>
     <h2><%= @resource['Name'] %> Collection Associations</h2>
 
-    <%= link_to 'Add Collection Associations', send("new_#{lower_resource_name}_collection_association_path", resource_id), class: 'eui-btn--blue space-bot' %>
+    <% if @can_associate %>
+      <%= link_to 'Add Collection Associations', send("new_#{lower_resource_name}_collection_association_path", resource_id), class: 'eui-btn--blue space-bot' %>
+    <% end %>
 
     <% if @associations.any? %>
       <p>

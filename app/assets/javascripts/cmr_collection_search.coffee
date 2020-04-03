@@ -122,9 +122,13 @@ $(document).ready ->
         error.insertAfter(element.closest('fieldset'))
 
       rules:
+        'selected_collection':
+          required: true
         'selected_collections[]':
           required: true
 
       messages:
+        'selected_collection':
+          required: 'You must select a collection.'
         'selected_collections[]':
           required: 'You must select at least 1 collection.'
