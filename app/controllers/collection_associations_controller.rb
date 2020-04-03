@@ -58,7 +58,7 @@ class CollectionAssociationsController < CmrSearchController
     # The form is slightly different for variables. Despite only accepting one
     # association, the collection id for variables still needs to be in an array
     association_response = if variable?
-                             cmr_client.send("add_collection_assocations_to_#{lower_resource_name}", resource_id, [params[:selected_collection]], token)
+                             cmr_client.send("add_collection_assocations_to_#{lower_resource_name}", resource_id, Array.wrap(params[:selected_collection]), token)
                            else
                              cmr_client.send("add_collection_assocations_to_#{lower_resource_name}", resource_id, params[:selected_collections], token)
                            end

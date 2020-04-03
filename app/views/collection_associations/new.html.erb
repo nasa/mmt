@@ -2,15 +2,7 @@
   <section>
     <h2><%= current_user.provider_id %> <%= resource_name %> Collection Association Search</h2>
     <%= render partial: 'cmr_search/shared/search_form', locals: { submit_path: send("new_#{lower_resource_name}_collection_association_path", @concept_id) } %>
-
-    <% if not_variable? %>
-      <p><span class="fa fa-info-circle"></span> Disabled rows in the results below represent collections that are already associated with this <%= lower_resource_name %>.</p>
-
-      <%= render partial: 'cmr_search/shared/search_results', locals: { collections: @collections, ignored_concept_ids: @previously_associated_collections, submit_path: send("#{lower_resource_name}_collection_associations_path", @concept_id), submit_text: 'Submit' } %>
-    <% else %> 
-      <p><span class="fa fa-info-circle"></span> Variables can only be associated with a single collection.</p>
-
-      <%= render partial: 'cmr_search/shared/search_results', locals: { collections: @collections, ignored_concept_ids: @previously_associated_collections, submit_path: send("#{lower_resource_name}_collection_associations_path", @concept_id), submit_text: 'Submit', use_radio_buttons: true } %>
-    <% end %>
+    <p><span class="fa fa-info-circle"></span> <%= variable? ? 'Variables can only be associated with a single collection.' : "Disabled rows in the results below represent collections that are already associated with this #{lower_resource_name}." %></p>
+    <%= render partial: 'cmr_search/shared/search_results', locals: { collections: @collections, ignored_concept_ids: @previously_associated_collections, submit_path: send("#{lower_resource_name}_collection_associations_path", @concept_id), submit_text: 'Submit', use_radio_buttons: variable? ? true : false } %>
   </section>
 </div>
