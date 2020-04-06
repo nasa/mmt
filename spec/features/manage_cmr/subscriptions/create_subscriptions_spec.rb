@@ -15,7 +15,8 @@ describe 'Creating Subscriptions' do
       it 'displays the new subscription form' do
         expect(page).to have_content('New MMT_2 Subscription')
 
-        expect(page).to have_field('Subscription Name', type: 'textarea')
+        expect(page).to have_field('Subscription Name', type: 'text')
+        expect(page).to have_field('Collection Concept ID', type: 'text')
         expect(page).to have_field('Query', type: 'textarea')
         expect(page).to have_field('Subscriber', type: 'select')
       end
