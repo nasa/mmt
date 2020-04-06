@@ -3,7 +3,7 @@
     <%= label_tag('subscription[Name]', 'Subscription Name', class: 'eui-required-o') %>
   </div>
   <div class="row">
-    <%= text_area_tag('subscription[Name]', @subscription['Name'], cols: 30, rows: 3, class: 'required textcounter', maxlength: 255) %>
+    <%= text_field_tag('subscription[Name]', @subscription['Name'], cols: 30, rows: 3, class: 'required full-width textcounter', maxlength: 80) %>
   </div>
 </fieldset>
 
