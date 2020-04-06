@@ -271,10 +271,10 @@ class ManageMetadataController < ApplicationController
     Abstract
     Purpose
     DataLanguage
+    DOI
   )
   COLLECTION_CITATIONS_FIELDS = %w(
     CollectionCitations
-    DOI
   )
   DATA_IDENTIFICATION_FIELDS = %w(
     DataDates
