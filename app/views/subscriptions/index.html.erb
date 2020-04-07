@@ -28,14 +28,14 @@
           <% @subscriptions.each_with_index do |subscription, index| %>
             <tr>
               <td>
-                <%= subscription['description'] %>
+                <%= link_to subscription['Name'], subscription_path(subscription['ConceptId']) %>
               </td>
               <!-- TODO: need to put a limit or char cutoff for query? -->
-              <td><%= subscription['metadata'] %></td>
-              <td><%= subscription['email_address'] %></td>
+              <td><%= subscription['Query'] %></td>
+              <td><%= subscription['EmailAddress'] %></td>
               <!-- TODO: Update this path to the correct path -->
               <% if policy(:subscription).edit? %>
-                <td><%= link_to 'Edit', subscriptions_path %></td>
+                <td><%= link_to 'Edit', edit_subscription_path(subscription['ConceptId']) %></td>
               <% end %>
               <% if policy(:subscription).destroy? %>
                 <td>
@@ -46,7 +46,7 @@
                     <p>
                       <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
                       <!-- TODO: Update this path to the correct path -->
-                      <%= link_to 'Yes', subscriptions_path, class: 'eui-btn--blue' %>
+                      <%= link_to 'Yes', subscriptions_path(subscription['ConceptId']), method: :delete, class: 'eui-btn--blue' %>
                     </p>
                   </div>
                 </td>
