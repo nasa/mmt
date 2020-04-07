@@ -4,7 +4,7 @@ class SubscriptionsController < ManageCmrController
   RESULTS_PER_PAGE = 25
   before_action :subscriptions_enabled?
   before_action :add_top_level_breadcrumbs
-  before_action :fetch_native_id, only: %i[update destroy]
+  before_action :fetch_subscription, only: %i[show edit update destroy]
 
   def index
     authorize :subscription
@@ -34,36 +34,16 @@ class SubscriptionsController < ManageCmrController
   def show
     authorize :subscription
 
-    concept_id = params.permit(:id)['id']
-    subscription_response = cmr_client.get_concept(concept_id, token, {})
-    if subscription_response.success?
-      @subscription = subscription_response.body
-      @subscription['id'] = concept_id
-      user = get_subscriber(@subscription['SubscriberId']).fetch(0, {})
-      @user = "#{user['first_name']} #{user['last_name']}"
-      add_breadcrumb @subscription['id'].to_s
-    else
-      Rails.logger.info("Could not find subscription: #{subscription_response.clean_inspect}")
-      flash[:error] = subscription_response.error_message
-      redirect_to subscriptions_path
-    end
+    user = get_subscriber(@subscription['SubscriberId']).fetch(0, {})
+    @user = "#{user['first_name']} #{user['last_name']}"
+    add_breadcrumb @concept_id.to_s
   end
 
   def edit
     authorize :subscription
 
-    concept_id = params.permit(:id)['id']
-    subscription_response = cmr_client.get_concept(concept_id, token, {})
-    if subscription_response.success?
-      @subscription = subscription_response.body
-      @subscription['id'] = concept_id
-      set_previously_selected_subscriber(@subscription['SubscriberId'])
-      add_breadcrumb @subscription['id'].to_s, subscription_path(@subscription['id'])
-    else
-      Rails.logger.info("Could not find subscription: #{subscription_response.clean_inspect}")
-      flash[:error] = subscription_response.error_message
-      redirect_to subscription_path(concept_id)
-    end
+    set_previously_selected_subscriber(@subscription['SubscriberId'])
+    add_breadcrumb @concept_id.to_s, subscription_path(@concept_id)
   end
 
   def create
@@ -75,6 +55,10 @@ class SubscriptionsController < ManageCmrController
     subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, native_id, token)
     if subscription_response.success?
       flash[:success] = I18n.t('controllers.subscriptions.create.flash.success')
+
+      # Hitting CMR too quickly in dev environment.
+      sleep(1) if Rails.env.development?
+
       redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'])
     else
       Rails.logger.error("Creating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
@@ -87,18 +71,22 @@ class SubscriptionsController < ManageCmrController
 
   def update
     authorize :subscription
-    @subscription = subscription_params
-    @subscription['EmailAddress'] = get_subscriber_email(@subscription['SubscriberId'])
+    new_subscription = subscription_params
+    new_subscription['EmailAddress'] = get_subscriber_email(new_subscription['SubscriberId'])
 
-    subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, @native_id, token)
+    subscription_response = cmr_client.ingest_subscription(new_subscription.to_json, current_user.provider_id, @native_id, token)
     if subscription_response.success?
       flash[:success] = I18n.t('controllers.subscriptions.update.flash.success')
+
+      # Hitting CMR too quickly in dev environment.
+      sleep(1) if Rails.env.development?
+
       redirect_to subscription_path(@concept_id)
     else
       Rails.logger.error("Updating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
       flash[:error] = subscription_response.error_message(i18n: I18n.t('controllers.subscriptions.update.flash.success'))
 
-      set_previously_selected_subscriber(@subscription['SubscriberId'])
+      set_previously_selected_subscriber(new_subscription['SubscriberId'])
       redirect_to edit_subscription_path(@concept_id)
     end
   end
@@ -109,6 +97,10 @@ class SubscriptionsController < ManageCmrController
     delete_response = cmr_client.delete_subscription(current_user.provider_id, @native_id, token)
     if delete_response.success?
       flash[:success] = I18n.t('controllers.subscriptions.destroy.flash.success')
+
+      # Hitting CMR too quickly in dev environment.
+      sleep(1) if Rails.env.development?
+
       redirect_to subscriptions_path
     else
       Rails.logger.error("Failed to delete a subscription.  CMR Response: #{delete_response.clean_inspect}")
@@ -152,9 +144,18 @@ class SubscriptionsController < ManageCmrController
     add_breadcrumb 'Subscriptions', subscriptions_path
   end
 
-  def fetch_native_id
+  def fetch_subscription
     @concept_id = params.permit(:id)['id']
-    subscription_search_response = cmr_client.get_subscriptions({ 'ConceptId' => @concept_id }, token)
-    @native_id = subscription_search_response.body['items'].first['native_id'] if subscription_search_response.success?
+    options = { 'ConceptId' => @concept_id }
+    subscription_response = cmr_client.get_subscriptions(options, token)
+    if subscription_response.success? && subscription_response.body['hits'] == 1
+      @subscription = subscription_response.body['items'].first['umm']
+      @native_id = subscription_response.body['items'].first['meta']['native-id']
+    else
+      Rails.logger.info("Could not find subscription: #{subscription_response.clean_inspect}")
+      flash[:error] = subscription_response.error_message
+      redirect_to subscriptions_path
+      return
+    end
   end
 end

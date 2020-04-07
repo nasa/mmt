@@ -10,6 +10,10 @@
       <p><%= page_entries_info @subscriptions, entry_name: 'Subscription' %></p>
     <% end %>
 
+    <p>
+      <em><span class="fa fa-info-circle"></span> Subscription operations may take some time. If you are not seeing what you expect below, please <%= link_to 'refresh the page', 'javascript:history.go(0)', class: 'eui-btn--link link-lift' %>.</em>
+    </p>
+
     <table class="subscriptions-table">
       <thead>
         <tr>
@@ -42,11 +46,11 @@
                   <%= link_to 'Delete', "#delete-subscription-modal-#{index}", class: 'display-modal' %>
                   <div id="delete-subscription-modal-<%= index %>" class="eui-modal-content">
                     <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                      <p>Are you sure you want to delete the subscription named '<%= subscription['description'] %>'?</p>
+                      <p>Are you sure you want to delete the subscription named '<%= subscription['Name'] %>'?</p>
                     <p>
                       <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
                       <!-- TODO: Update this path to the correct path -->
-                      <%= link_to 'Yes', subscriptions_path(subscription['ConceptId']), method: :delete, class: 'eui-btn--blue' %>
+                      <%= link_to 'Yes', subscription_path(subscription['ConceptId']), method: :delete, class: 'eui-btn--blue' %>
                     </p>
                   </div>
                 </td>
