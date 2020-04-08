@@ -46,7 +46,7 @@ class ServiceOptionsController < ManageCmrController
     response = echo_client.create_service_option(echo_provider_token, @service_option)
 
     if response.error?
-      Rails.logger.error("Create Service Option Error: #{response.inspect}")
+      Rails.logger.error("Create Service Option Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
 
       render :new
@@ -63,7 +63,7 @@ class ServiceOptionsController < ManageCmrController
     response = echo_client.update_service_option(token, @service_option)
 
     if response.error?
-      Rails.logger.error("Update Service Option Error: #{response.inspect}")
+      Rails.logger.error("Update Service Option Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
 
       render :edit
@@ -76,7 +76,7 @@ class ServiceOptionsController < ManageCmrController
     response = echo_client.remove_service_option(token, params[:id])
 
     if response.error?
-      Rails.logger.error("Delete Service Option Error: #{response.inspect}")
+      Rails.logger.error("Delete Service Option Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
     else
       flash[:success] = 'Service Option successfully deleted'

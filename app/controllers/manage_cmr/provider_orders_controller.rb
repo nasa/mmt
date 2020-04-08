@@ -48,7 +48,7 @@ class ProviderOrdersController < ManageCmrController
         Rails.logger.info "#{method.capitalize} Provider Order(s) Success!"
         flash[:success] = "#{'Item'.pluralize(catalog_items.count)} successfully #{method}"
       else
-        Rails.logger.error "#{method.capitalize} Provider Order Error: #{result.inspect}"
+        Rails.logger.error "#{method.capitalize} Provider Order Error: #{result.clean_inspect}"
         flash[:error] = result.error_message
       end
 
@@ -70,7 +70,7 @@ class ProviderOrdersController < ManageCmrController
       end
 
       if response.error?
-        Rails.logger.error "Resubmit Provider Order Error: #{response.inspect}"
+        Rails.logger.error "Resubmit Provider Order Error: #{response.clean_inspect}"
         flash[:error] = response.error_message
 
         @provider_order = generate_provider_order(params['id'])
@@ -146,7 +146,7 @@ class ProviderOrdersController < ManageCmrController
 
       order
     else
-      Rails.logger.error("Generate Provider Order Error: #{order_response.inspect}")
+      Rails.logger.error("Generate Provider Order Error: #{order_response.clean_inspect}")
       error_message = order_response.error_message || 'Could not load a provider order due to an unspecified error.'
       { 'error' => error_message }
     end
