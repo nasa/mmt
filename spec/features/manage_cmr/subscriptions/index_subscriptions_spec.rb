@@ -3,6 +3,19 @@ describe 'Viewing a list of subscriptions' do
     login
   end
 
+  before(:all) do
+    _ingest_response, @search_response, @subscription = publish_new_subscription
+    _ingest_response2, @search_response2, @subscription2 = publish_new_subscription
+    
+    wait_for_cmr
+  end
+
+  after(:all) do
+    delete_response1 = cmr_client.delete_subscription('MMT_2', @search_response.body['items'].first['meta']['native-id'], 'token')
+    delete_response2 = cmr_client.delete_subscription('MMT_2', @search_response2.body['items'].first['meta']['native-id'], 'token')
+    raise unless delete_response1.success? && delete_response2.success?
+  end
+
   context 'when the user has read access' do
     before do
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
@@ -17,54 +30,65 @@ describe 'Viewing a list of subscriptions' do
         expect(page).to have_css('h2.current', text: 'Manage CMR')
         expect(page).to have_content('View Subscriptions')
       end
+    end
 
-      # The two tests in this context need to be revised when we have real endpoints
-      context 'when viewing the index page' do
-        before do
-          visit subscriptions_path
-        end
-
-        it 'displays the dummy subscription' do
-          expect(page).to have_no_link('Create a Subscription')
-          expect(page).to have_content('Showing all 2 Subscriptions')
-
-          within '.subscriptions-table' do
-            expect(page).to have_content('Description')
-            expect(page).to have_content('Query')
-            expect(page).to have_content('Subscribers')
-            expect(page).to have_content('Actions')
-            expect(page).to have_content('It is a subscription')
-            expect(page).to have_content('thing=stuff&&stuff_id=stuff&&stuff_color=more_stuff')
-            expect(page).to have_content('fake@fake.fake')
-            expect(page).to have_no_link('Edit')
-            expect(page).to have_no_link('Delete')
-          end
-        end
+    context 'when viewing the index page' do
+      before do
+        visit subscriptions_path
       end
 
-      context 'when viewing the index page with full permissions' do
-        before do
-          allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(true)
-          allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
-          allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
-          visit subscriptions_path
+      it 'displays sample subscriptions' do
+        expect(page).to have_no_link('Create a Subscription')
+        expect(page).to have_content('Showing all 2 Subscriptions')
+
+        within '.subscriptions-table' do
+          expect(page).to have_content('Name')
+          expect(page).to have_content('Query')
+          expect(page).to have_content('Collection Concept Id')
+          expect(page).to have_content('Subscribers')
+          expect(page).to have_content('Actions')
+          expect(page).to have_content(@subscription['Name'])
+          expect(page).to have_content(@subscription['Query'])
+          expect(page).to have_content(@subscription['EmailAddress'])
+          expect(page).to have_content(@subscription['CollectionConceptId'])
+          expect(page).to have_content(@subscription2['CollectionConceptId'])
+          expect(page).to have_content(@subscription2['EmailAddress'])
+          expect(page).to have_content(@subscription2['Name'])
+          expect(page).to have_content(@subscription2['Query'])
+          expect(page).to have_no_link('Edit')
+          expect(page).to have_no_link('Delete')
         end
+      end
+    end
 
-        it 'displays the dummy subscription and links' do
-          expect(page).to have_link('Create a Subscription')
-          expect(page).to have_content('Showing all 2 Subscriptions')
+    context 'when viewing the index page with full permissions' do
+      before do
+        allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(true)
+        allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
+        allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
+        visit subscriptions_path
+      end
 
-          within '.subscriptions-table' do
-            expect(page).to have_content('Description')
-            expect(page).to have_content('Query')
-            expect(page).to have_content('Subscribers')
-            expect(page).to have_content('Actions')
-            expect(page).to have_content('It is a subscription')
-            expect(page).to have_content('thing=stuff&&stuff_id=stuff&&stuff_color=more_stuff')
-            expect(page).to have_content('fake@fake.fake')
-            expect(page).to have_link('Edit')
-            expect(page).to have_link('Delete')
-          end
+      it 'displays sample subscriptions and links' do
+        expect(page).to have_link('Create a Subscription')
+        expect(page).to have_content('Showing all 2 Subscriptions')
+
+        within '.subscriptions-table' do
+          expect(page).to have_content('Name')
+          expect(page).to have_content('Query')
+          expect(page).to have_content('Collection Concept Id')
+          expect(page).to have_content('Subscribers')
+          expect(page).to have_content('Actions')
+          expect(page).to have_content(@subscription['Name'])
+          expect(page).to have_content(@subscription['Query'])
+          expect(page).to have_content(@subscription['EmailAddress'])
+          expect(page).to have_content(@subscription['CollectionConceptId'])
+          expect(page).to have_content(@subscription2['CollectionConceptId'])
+          expect(page).to have_content(@subscription2['EmailAddress'])
+          expect(page).to have_content(@subscription2['Name'])
+          expect(page).to have_content(@subscription2['Query'])
+          expect(page).to have_link('Edit')
+          expect(page).to have_link('Delete')
         end
       end
     end

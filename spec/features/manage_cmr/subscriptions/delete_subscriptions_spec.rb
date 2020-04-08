@@ -10,10 +10,10 @@ describe 'Deleting Subscriptions' do
     before do
       # make a record
       @native_id = 'test_native_id'
-      @ingest_response, @subscription = publish_new_subscription(native_id: @native_id)
+      @ingest_response, _search_response, _subscription = publish_new_subscription(native_id: @native_id)
       # go to show page
       VCR.use_cassette('urs/rarxd5taqea', record: :none) do
-        visit subscription_path(@ingest_response['concept_id'], subscription: @subscription, native_id: @native_id)
+        visit subscription_path(@ingest_response['concept_id'])
       end
     end
 
@@ -31,6 +31,8 @@ describe 'Deleting Subscriptions' do
       context 'when clicking yes' do
         before do
           click_on 'Yes'
+
+          wait_for_cmr
         end
 
         it 'deletes a subscription' do

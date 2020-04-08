@@ -68,6 +68,14 @@ describe 'Creating Subscriptions' do
             end
           end
 
+          after do
+            allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
+            visit subscriptions_path
+
+            click_on 'Delete'
+            click_on 'Yes'
+          end
+
           it 'creates the subscription' do
             expect(page).to have_content('Subscription Created Successfully!')
           end
@@ -78,7 +86,8 @@ describe 'Creating Subscriptions' do
           # in the CMR.
           let(:name2) { 'Exciting Subscription with Important Data4' }
           before do
-            @ingest_response, _subscription = publish_new_subscription(name: name2, query: query, collection_concept_id: collection_concept_id, native_id: 'test_native_id')
+            @native_id_failure = 'test_native_id'
+            @ingest_response, _search_response, _subscription = publish_new_subscription(name: name2, query: query, collection_concept_id: collection_concept_id, native_id: @native_id_failure)
 
             fill_in 'Subscription Name', with: name2
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do
@@ -90,7 +99,7 @@ describe 'Creating Subscriptions' do
 
           # Clean up the one made before the test.
           after do
-            cmr_client.delete_subscription('MMT_2', 'test_native_id', 'token').inspect
+            cmr_client.delete_subscription('MMT_2', @native_id_failure, 'token').inspect
           end
 
           it 'fails to create the subscription' do

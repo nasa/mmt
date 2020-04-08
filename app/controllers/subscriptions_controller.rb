@@ -8,7 +8,7 @@ class SubscriptionsController < ManageCmrController
 
   def index
     authorize :subscription
-    subscription_response = cmr_client.get_subscriptions({'provider_id' => current_user.provider_id}, token)
+    subscription_response = cmr_client.get_subscriptions({ 'provider_id' => current_user.provider_id }, token)
     if subscription_response.success?
       @subscriptions = subscription_response.body['items'].map do |item|
         subscription = item['umm']
@@ -57,7 +57,7 @@ class SubscriptionsController < ManageCmrController
       flash[:success] = I18n.t('controllers.subscriptions.create.flash.success')
 
       # Hitting CMR too quickly in dev environment.
-      sleep(1) if Rails.env.development?
+      sleep(1) if Rails.env.development? || Rails.env.test?
 
       redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'])
     else
@@ -71,23 +71,24 @@ class SubscriptionsController < ManageCmrController
 
   def update
     authorize :subscription
-    new_subscription = subscription_params
-    new_subscription['EmailAddress'] = get_subscriber_email(new_subscription['SubscriberId'])
+    # Overwrite the old subscription with the new values
+    @subscription = subscription_params
+    @subscription['EmailAddress'] = get_subscriber_email(@subscription['SubscriberId'])
 
-    subscription_response = cmr_client.ingest_subscription(new_subscription.to_json, current_user.provider_id, @native_id, token)
+    subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, @native_id, token)
     if subscription_response.success?
       flash[:success] = I18n.t('controllers.subscriptions.update.flash.success')
 
       # Hitting CMR too quickly in dev environment.
-      sleep(1) if Rails.env.development?
+      sleep(1) if Rails.env.development? || Rails.env.test?
 
       redirect_to subscription_path(@concept_id)
     else
       Rails.logger.error("Updating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
       flash[:error] = subscription_response.error_message(i18n: I18n.t('controllers.subscriptions.update.flash.success'))
 
-      set_previously_selected_subscriber(new_subscription['SubscriberId'])
-      redirect_to edit_subscription_path(@concept_id)
+      set_previously_selected_subscriber(@subscription['SubscriberId'])
+      render :edit
     end
   end
 
@@ -99,7 +100,7 @@ class SubscriptionsController < ManageCmrController
       flash[:success] = I18n.t('controllers.subscriptions.destroy.flash.success')
 
       # Hitting CMR too quickly in dev environment.
-      sleep(1) if Rails.env.development?
+      sleep(1) if Rails.env.development? || Rails.env.test?
 
       redirect_to subscriptions_path
     else

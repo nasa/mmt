@@ -9,10 +9,10 @@ describe 'When Viewing Subscription Show Page' do
     before do
       # make a record
       native_id = 'test_native_id'
-      @ingest_response, @subscription = publish_new_subscription(native_id: native_id)
+      @ingest_response, _concept_response, @subscription = publish_new_subscription(native_id: native_id)
       # go to show page
       VCR.use_cassette('urs/rarxd5taqea', record: :none) do
-        visit subscription_path(@ingest_response['concept_id'], subscription: @subscription, native_id: native_id)
+        visit subscription_path(@ingest_response['concept_id'])
       end
     end
 
@@ -39,10 +39,10 @@ describe 'When Viewing Subscription Show Page' do
       allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
       # make a record
       native_id = 'test_native_id'
-      @ingest_response, @subscription = publish_new_subscription(native_id: native_id)
+      @ingest_response, _concept_response, @subscription = publish_new_subscription(native_id: native_id)
       # go to show page
       VCR.use_cassette('urs/rarxd5taqea', record: :none) do
-        visit subscription_path(@ingest_response['concept_id'], subscription: @subscription, native_id: native_id)
+        visit subscription_path(@ingest_response['concept_id'])
       end
     end
 

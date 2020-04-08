@@ -17,7 +17,8 @@
     <table class="subscriptions-table">
       <thead>
         <tr>
-          <th>Description</th>
+          <th>Name</th>
+          <th>Collection Concept Id</th>
           <th>Query</th>
           <th>Subscribers</th>
           <th colspan="2">Actions</th>
@@ -34,6 +35,7 @@
               <td>
                 <%= link_to subscription['Name'], subscription_path(subscription['ConceptId']) %>
               </td>
+              <td><%= subscription['CollectionConceptId'] %></td>
               <!-- TODO: need to put a limit or char cutoff for query? -->
               <td><%= subscription['Query'] %></td>
               <td><%= subscription['EmailAddress'] %></td>

@@ -3,11 +3,10 @@ describe 'Edit/Updating Subscriptions' do
     login
     allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
     allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
-    allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
     allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(true)
     # make a record
     @native_id = 'test_native_id'
-    @ingest_response, @subscription = publish_new_subscription(native_id: @native_id)
+    @ingest_response, _search_response, @subscription = publish_new_subscription(native_id: @native_id)
   end
 
   context 'when visiting the show page and clicking the edit button' do
@@ -31,7 +30,7 @@ describe 'Edit/Updating Subscriptions' do
     before do
       # go to show page
       VCR.use_cassette('urs/rarxd5taqea', record: :none) do
-        visit edit_subscription_path(@ingest_response['concept_id'], subscription: @subscription, native_id: @native_id)
+        visit edit_subscription_path(@ingest_response['concept_id'])
       end
     end
 
@@ -70,11 +69,17 @@ describe 'Edit/Updating Subscriptions' do
         fill_in 'Subscription Name', with: @new_name
         @second_native_id = 'test_edit_id_2'
 
-        @ingest_response, @subscription = publish_new_subscription(name: @new_name, native_id: @second_native_id)
+        _ingest_response, _search_response, _subscription = publish_new_subscription(name: @new_name, native_id: @second_native_id)
 
         VCR.use_cassette('urs/rarxd5taqea', record: :none) do
           click_on 'Submit'
         end
+      end
+
+      after do
+        cmr_client.delete_subscription('MMT_2', @second_native_id, 'token')
+        
+        wait_for_cmr
       end
 
       it 'fails and repopulates the form' do
