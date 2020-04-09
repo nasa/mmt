@@ -8,6 +8,8 @@ describe 'Viewing a list of subscriptions' do
     _ingest_response2, @search_response2, @subscription2 = publish_new_subscription
   end
 
+  # TODO: using reset_provider may be cleaner than these after blocks,
+  # but does not currently work. Reinvestigate after CMR-6310
   after(:all) do
     delete_response1 = cmr_client.delete_subscription('MMT_2', @search_response.body['items'].first['meta']['native-id'], 'token')
     delete_response2 = cmr_client.delete_subscription('MMT_2', @search_response2.body['items'].first['meta']['native-id'], 'token')
@@ -125,6 +127,8 @@ describe 'Viewing a list of subscriptions' do
       visit subscriptions_path
     end
 
+    # TODO: using reset_provider may be cleaner than these after blocks,
+    # but does not currently work. Reinvestigate after CMR-6310
     after do
       delete_response1 = cmr_client.delete_subscription('MMT_2', @search_response.body['items'].first['meta']['native-id'], 'token')
       delete_response2 = cmr_client.delete_subscription('MMT_1', @search_response2.body['items'].first['meta']['native-id'], 'token')

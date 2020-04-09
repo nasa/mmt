@@ -9,6 +9,8 @@ describe 'Edit/Updating Subscriptions' do
     @native_id = search_response.body['items'].first['meta']['native-id']
   end
 
+  # TODO: using reset_provider may be cleaner than these after blocks,
+  # but does not currently work. Reinvestigate after CMR-6310
   after do
     delete_response = cmr_client.delete_subscription('MMT_2', @native_id, 'token')
 
@@ -82,6 +84,8 @@ describe 'Edit/Updating Subscriptions' do
         end
       end
 
+      # TODO: using reset_provider may be cleaner than these after blocks,
+      # but does not currently work. Reinvestigate after CMR-6310
       after do
         delete_response = cmr_client.delete_subscription('MMT_2', @second_native_id, 'token')
 

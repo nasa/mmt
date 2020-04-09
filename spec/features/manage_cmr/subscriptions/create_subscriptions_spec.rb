@@ -68,6 +68,8 @@ describe 'Creating Subscriptions' do
             end
           end
 
+          # TODO: using reset_provider may be cleaner than these after blocks,
+          # but does not currently work. Reinvestigate after CMR-6310
           after do
             native_id = cmr_client.get_subscriptions({'Name' => name}, 'token').body['items'].first['meta']['native-id']
             delete_response = cmr_client.delete_subscription('MMT_2', native_id, 'token')
@@ -95,7 +97,8 @@ describe 'Creating Subscriptions' do
             end
           end
 
-          # Clean up the one made before the test.
+          # TODO: using reset_provider may be cleaner than these after blocks,
+          # but does not currently work. Reinvestigate after CMR-6310
           after do
             delete_response = cmr_client.delete_subscription('MMT_2', @native_id_failure, 'token')
             raise unless delete_response.success?
