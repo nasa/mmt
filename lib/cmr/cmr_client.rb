@@ -553,7 +553,7 @@ module Cmr
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3003/subscriptions.umm_json'
             else
-              '/search/subscriptions.json'
+              '/search/subscriptions.umm_json'
             end
       get(url, options, token_header(token))
     end

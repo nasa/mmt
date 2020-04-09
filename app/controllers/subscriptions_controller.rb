@@ -1,5 +1,6 @@
 class SubscriptionsController < ManageCmrController
   include UrsUserEndpoints
+  include CMRSubscriptions
 
   RESULTS_PER_PAGE = 25
   before_action :subscriptions_enabled?
@@ -55,11 +56,7 @@ class SubscriptionsController < ManageCmrController
     subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, native_id, token)
     if subscription_response.success?
       flash[:success] = I18n.t('controllers.subscriptions.create.flash.success')
-
-      # Hitting CMR too quickly in dev environment.
-      sleep(1) if Rails.env.development? || Rails.env.test?
-
-      redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'])
+      redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'], revision_id: subscription_response.parsed_body['result']['revision_id'])
     else
       Rails.logger.error("Creating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
       flash[:error] = subscription_response.error_message(i18n: I18n.t('controllers.subscriptions.create.flash.error'))
@@ -78,11 +75,7 @@ class SubscriptionsController < ManageCmrController
     subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, @native_id, token)
     if subscription_response.success?
       flash[:success] = I18n.t('controllers.subscriptions.update.flash.success')
-
-      # Hitting CMR too quickly in dev environment.
-      sleep(1) if Rails.env.development? || Rails.env.test?
-
-      redirect_to subscription_path(@concept_id)
+      redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'], revision_id: subscription_response.parsed_body['result']['revision_id'])
     else
       Rails.logger.error("Updating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
       flash[:error] = subscription_response.error_message(i18n: I18n.t('controllers.subscriptions.update.flash.success'))
@@ -98,10 +91,6 @@ class SubscriptionsController < ManageCmrController
     delete_response = cmr_client.delete_subscription(current_user.provider_id, @native_id, token)
     if delete_response.success?
       flash[:success] = I18n.t('controllers.subscriptions.destroy.flash.success')
-
-      # Hitting CMR too quickly in dev environment.
-      sleep(1) if Rails.env.development? || Rails.env.test?
-
       redirect_to subscriptions_path
     else
       Rails.logger.error("Failed to delete a subscription.  CMR Response: #{delete_response.clean_inspect}")
@@ -146,15 +135,18 @@ class SubscriptionsController < ManageCmrController
   end
 
   def fetch_subscription
-    @concept_id = params.permit(:id)['id']
-    options = { 'ConceptId' => @concept_id }
-    subscription_response = cmr_client.get_subscriptions(options, token)
-    if subscription_response.success? && subscription_response.body['hits'] == 1
-      @subscription = subscription_response.body['items'].first['umm']
-      @native_id = subscription_response.body['items'].first['meta']['native-id']
+    permitted_params = params.permit(:id, :revision_id)
+    @concept_id = permitted_params['id']
+
+    subscription = get_latest_revision(@concept_id, permitted_params['revision_id'] || 0)
+
+    if subscription
+      @subscription = subscription['umm']
+      @native_id = subscription['meta']['native-id']
+      @revision_id = subscription['meta']['revision-id']
     else
-      Rails.logger.info("Could not find subscription: #{subscription_response.clean_inspect}")
-      flash[:error] = subscription_response.error_message
+      Rails.logger.info("Could not find subscription after trying to get the latest revision, before #{params.permit(:action)['action']}")
+      flash[:error] = 'This subscription is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this subscription.'
       redirect_to subscriptions_path
       return
     end

@@ -31,8 +31,6 @@ describe 'Deleting Subscriptions' do
       context 'when clicking yes' do
         before do
           click_on 'Yes'
-
-          wait_for_cmr
         end
 
         it 'deletes a subscription' do

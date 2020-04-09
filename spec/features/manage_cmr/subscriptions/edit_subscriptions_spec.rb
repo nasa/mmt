@@ -5,8 +5,8 @@ describe 'Edit/Updating Subscriptions' do
     allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
     allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(true)
     # make a record
-    @native_id = 'test_native_id'
-    @ingest_response, _search_response, @subscription = publish_new_subscription(native_id: @native_id)
+    @ingest_response, search_response, @subscription = publish_new_subscription
+    @native_id = search_response.body['items'].first['meta']['native-id']
   end
 
   after do

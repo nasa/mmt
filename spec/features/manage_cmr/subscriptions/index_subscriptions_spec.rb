@@ -6,8 +6,6 @@ describe 'Viewing a list of subscriptions' do
   before(:all) do
     _ingest_response, @search_response, @subscription = publish_new_subscription
     _ingest_response2, @search_response2, @subscription2 = publish_new_subscription
-
-    wait_for_cmr
   end
 
   after(:all) do
@@ -123,7 +121,6 @@ describe 'Viewing a list of subscriptions' do
       _ingest_response, @search_response, @subscription = publish_new_subscription
       _ingest_response2, @search_response2, @subscription2 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake')
 
-      wait_for_cmr
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
       visit subscriptions_path
     end
