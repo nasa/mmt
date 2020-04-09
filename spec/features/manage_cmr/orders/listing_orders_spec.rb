@@ -257,7 +257,7 @@ describe 'Searching Orders' do
       end
 
       it 'has a descriptive error message' do
-        expect(page).to have_content('Token [xxx] has expired.')
+        expect(page).to have_content('Token beginning with TextShou has expired.')
       end
     end
 
