@@ -2,7 +2,7 @@
   <section>
     <h2><%= @subscription.fetch('Name')%></h2>
     <p>Collection Concept ID: <%= @subscription.fetch('CollectionConceptId') %></p>
-    <p>Query: <%= @subscription.fetch('Query') %></p>
+    <p class='query-wrap'>Query: <%= @subscription.fetch('Query') %></p>
 
     <h3>Subscriber</h3>
     <table class="space-top space-bot" id="subscriber">

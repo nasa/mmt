@@ -363,3 +363,20 @@ ul.sub-field {
 .proposal-reject-button {
   margin-right: .625em
 }
+
+.subscriptions-table{
+  .wrapping-div {
+    word-wrap: break-word;
+    overflow-wrap:break-word;
+  }
+  .wrapping-td {
+    max-width:25em;
+  }
+  
+  width: 100%
+}
+
+.query-wrap {
+  word-wrap: break-word;
+  overflow-wrap:break-word;
+}
