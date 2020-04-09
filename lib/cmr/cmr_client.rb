@@ -550,7 +550,6 @@ module Cmr
     end
 
     def get_subscriptions(options = {}, token = nil)
-      # search collections via GET
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3003/subscriptions.umm_json'
             else
