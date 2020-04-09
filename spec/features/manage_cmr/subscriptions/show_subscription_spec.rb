@@ -8,12 +8,18 @@ describe 'When Viewing Subscription Show Page' do
   context 'when visiting the show page with read access' do
     before do
       # make a record
-      native_id = 'test_native_id'
-      @ingest_response, _concept_response, @subscription = publish_new_subscription(native_id: native_id)
+      @native_id = 'test_native_id'
+      @ingest_response, _concept_response, @subscription = publish_new_subscription(native_id: @native_id)
       # go to show page
       VCR.use_cassette('urs/rarxd5taqea', record: :none) do
         visit subscription_path(@ingest_response['concept_id'])
       end
+    end
+
+    after do
+      delete_response = cmr_client.delete_subscription('MMT_2', @native_id, 'token')
+
+      raise unless delete_response.success?
     end
 
     it 'has the correct information' do

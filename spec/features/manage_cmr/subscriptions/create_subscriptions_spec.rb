@@ -69,11 +69,9 @@ describe 'Creating Subscriptions' do
           end
 
           after do
-            allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
-            visit subscriptions_path
-
-            click_on 'Delete'
-            click_on 'Yes'
+            native_id = cmr_client.get_subscriptions({'Name' => name}, 'token').body['items'].first['meta']['native-id']
+            delete_response = cmr_client.delete_subscription('MMT_2', native_id, 'token')
+            raise unless delete_response.success?
           end
 
           it 'creates the subscription' do
@@ -99,7 +97,8 @@ describe 'Creating Subscriptions' do
 
           # Clean up the one made before the test.
           after do
-            cmr_client.delete_subscription('MMT_2', @native_id_failure, 'token').inspect
+            delete_response = cmr_client.delete_subscription('MMT_2', @native_id_failure, 'token')
+            raise unless delete_response.success?
           end
 
           it 'fails to create the subscription' do

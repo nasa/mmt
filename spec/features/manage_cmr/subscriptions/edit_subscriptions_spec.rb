@@ -9,10 +9,16 @@ describe 'Edit/Updating Subscriptions' do
     @ingest_response, _search_response, @subscription = publish_new_subscription(native_id: @native_id)
   end
 
+  after do
+    delete_response = cmr_client.delete_subscription('MMT_2', @native_id, 'token')
+
+    raise unless delete_response.success?
+  end
+
   context 'when visiting the show page and clicking the edit button' do
     before do
       VCR.use_cassette('urs/rarxd5taqea', record: :none) do
-        visit subscription_path(@ingest_response['concept_id'], subscription: @subscription, native_id: @native_id)
+        visit subscription_path(@ingest_response['concept_id'])
         click_on 'Edit'
       end
     end
@@ -77,9 +83,9 @@ describe 'Edit/Updating Subscriptions' do
       end
 
       after do
-        cmr_client.delete_subscription('MMT_2', @second_native_id, 'token')
-        
-        wait_for_cmr
+        delete_response = cmr_client.delete_subscription('MMT_2', @second_native_id, 'token')
+
+        raise unless delete_response.success?
       end
 
       it 'fails and repopulates the form' do
