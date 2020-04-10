@@ -1,6 +1,6 @@
 <%= @user[:name] %>,
 <% env = Rails.configuration.cmr_env %>
-<% if env != 'ops'%>
+<% if env.downcase != 'ops'%>
 <%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated' : "published to the CMR (#{env.upcase})"}. Your collection's concept ID is #{@concept_id}." %>
 <% else %>
 <%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated' : 'published to the CMR'}. Your collection's concept ID is #{@concept_id}." %>
