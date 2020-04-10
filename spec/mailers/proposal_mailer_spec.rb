@@ -154,8 +154,8 @@ describe ProposalMailer do
 
       it 'renders the new metadata submitted notice including short name + version' do
         expect(mail.html_part.body).to have_content("#{proposal.draft['ShortName']}_#{proposal.draft['Version']} Submitted")
-        expect(mail.html_part.body).to have_content("#{approver[:name]}, A collection metadata proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been submitted in #{Rails.configuration.cmr_env.upcase} by #{user[:name]} for review.", normalize_ws: true)
-        expect(mail.text_part.body).to have_content("#{approver[:name]}, A collection metadata proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been submitted in #{Rails.configuration.cmr_env.upcase} by #{user[:name]} for review.", normalize_ws: true)
+        expect(mail.html_part.body).to have_content("#{approver[:name]}, A collection metadata proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been submitted by #{user[:name]} for review.", normalize_ws: true)
+        expect(mail.text_part.body).to have_content("#{approver[:name]}, A collection metadata proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been submitted by #{user[:name]} for review.", normalize_ws: true)
       end
 
       it 'renders the link to the collection' do

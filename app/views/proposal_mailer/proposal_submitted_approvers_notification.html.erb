@@ -1,4 +1,4 @@
-<h1 class="styled-heading"><%= "#{@short_name}_#{@version} Submitted in #{Rails.configuration.cmr_env.upcase}" %></h1>
+<h1 class="styled-heading"><%= "#{@short_name}_#{@version} Submitted" %></h1>
 
 
 <div class="email-message">
@@ -6,7 +6,7 @@
     <%= @approver[:name] %>,
   </p>
   <p>
-    <%= "A collection metadata proposal #{@short_name}_#{@version} has been submitted in #{Rails.configuration.cmr_env.upcase} by #{@user[:name]} for review." %>
+    <%= "A collection metadata proposal #{@short_name}_#{@version} has been submitted by #{@user[:name]} for review." %>
   </p>
   <div class="center">
     <%= link_to 'View Collection Metadata Proposal', collection_draft_proposal_url(@id), class: 'btn btn-blue' %>
