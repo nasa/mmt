@@ -7,7 +7,7 @@ class ProposalMailer < ApplicationMailer
 
     email_subject = "New #{request_type.titleize} Collection Request Submitted in Metadata Management Tool"
 
-    email_subject = add_env_if_needed(email_subject)
+    email_subject = email_subject + env_if_needed
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -20,7 +20,7 @@ class ProposalMailer < ApplicationMailer
 
     email_subject = "#{request_type.titleize} Collection Request Approved in Metadata Management Tool"
 
-    email_subject = add_env_if_needed(email_subject)
+    email_subject = email_subject + env_if_needed
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -35,7 +35,7 @@ class ProposalMailer < ApplicationMailer
 
     email_subject = "#{@request_type.titleize} Collection Request Published in Metadata Management Tool"
 
-    email_subject = add_env_if_needed(email_subject)
+    email_subject = email_subject + env_if_needed
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -51,7 +51,7 @@ class ProposalMailer < ApplicationMailer
 
     email_subject = "#{@request_type.titleize} Collection Proposal Rejected in Metadata Management Tool"
 
-    email_subject = add_env_if_needed(email_subject)
+    email_subject = email_subject + env_if_needed
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -66,7 +66,7 @@ class ProposalMailer < ApplicationMailer
 
     email_subject = "New #{@request_type.titleize} Collection Proposal Submitted in Metadata Management Tool"
 
-    email_subject = add_env_if_needed(email_subject)
+    email_subject = email_subject + env_if_needed
 
     mail(to: "#{@approver[:name]} <#{@approver[:email]}>", subject: email_subject)
   end

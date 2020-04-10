@@ -1,10 +1,6 @@
 <%= @user[:name] %>,
-<% env = Rails.configuration.cmr_env.upcase %>
-<% if env != 'OPS'%>
-<%= "The collection metadata record #{@short_name}_#{@version} has been successfully #{@request_type == 'delete' ? "deleted from the CMR (#{env})" : "published to the CMR (#{env}). The collection's concept ID is #{@concept_id}."}" %>
-<% else %>
-<%= "The collection metadata record #{@short_name}_#{@version} has been successfully #{@request_type == 'delete' ? 'deleted from the CMR' : "published to the CMR. The collection's concept ID is #{@concept_id}."}" %>
-<% end %>
+<% env_if_needed = Rails.env.production? ? nil : " (#{Rails.env})" %>
+<%= "The collection metadata record #{@short_name}_#{@version} has been successfully #{@request_type == 'delete' ? "deleted from the CMR#{env_if_needed}" : "published to the CMR#{env_if_needed}. The collection's concept ID is #{@concept_id}."}" %>
 <% unless @request_type == 'delete' %>
 View Collection: <%= collection_url(@concept_id, revision_id: @revision_id) %>
 <% end %>
