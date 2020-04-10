@@ -98,8 +98,8 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
             it 'sends emails' do
               # Expect 3 emails because of the mock call above; 1 to submitter and 2 to approvers
               expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 3)
-              expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/has been submitted in/)
-              expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/has been submitted in/)
+              expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/has been submitted by/)
+              expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/has been submitted by/)
             end
           end
         end
