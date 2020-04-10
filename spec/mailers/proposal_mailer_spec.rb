@@ -10,7 +10,7 @@ describe ProposalMailer do
       let(:mail) { described_class.proposal_submitted_notification(user, short_name, version, id, request_type) }
 
       it 'renders the subject' do
-        expect(mail.subject).to eq('New Create Collection Request Submitted in Metadata Management Tool')
+        expect(mail.subject).to eq('New Create Collection Request Submitted in Metadata Management Tool (test)')
       end
 
       it 'renders the receiver email' do
@@ -42,7 +42,7 @@ describe ProposalMailer do
       let(:mail) { described_class.proposal_approved_notification(user, short_name, version, id, request_type) }
 
       it 'renders the subject' do
-        expect(mail.subject).to eq('Create Collection Request Approved in Metadata Management Tool')
+        expect(mail.subject).to eq('Create Collection Request Approved in Metadata Management Tool (test)')
       end
 
       it 'renders the receiver email' do
@@ -72,7 +72,7 @@ describe ProposalMailer do
       let(:mail) { described_class.proposal_published_notification(user, cmr_response_body, proposal) }
 
       it 'renders the subject' do
-        expect(mail.subject).to eq('Create Collection Request Published in Metadata Management Tool')
+        expect(mail.subject).to eq('Create Collection Request Published in Metadata Management Tool (test)')
       end
 
       it 'renders the receiver email' do
@@ -85,8 +85,8 @@ describe ProposalMailer do
 
       it 'renders the new metadata submitted notice including short name + version' do
         expect(mail.html_part.body).to have_content("#{proposal['draft']['ShortName']}_#{proposal['draft']['Version']} Created")
-        expect(mail.html_part.body).to have_content("#{user[:name]}, The collection metadata record #{proposal['draft']['ShortName']}_#{proposal['draft']['Version']} has been successfully published to the CMR. The collection's concept ID is #{cmr_response_body['concept-id']}", normalize_ws: true)
-        expect(mail.text_part.body).to have_content("#{user[:name]}, The collection metadata record #{proposal['draft']['ShortName']}_#{proposal['draft']['Version']} has been successfully published to the CMR. The collection's concept ID is #{cmr_response_body['concept-id']}", normalize_ws: true)
+        expect(mail.html_part.body).to have_content("#{user[:name]}, The collection metadata record #{proposal['draft']['ShortName']}_#{proposal['draft']['Version']} has been successfully published to the CMR (test). The collection's concept ID is #{cmr_response_body['concept-id']}", normalize_ws: true)
+        expect(mail.text_part.body).to have_content("#{user[:name]}, The collection metadata record #{proposal['draft']['ShortName']}_#{proposal['draft']['Version']} has been successfully published to the CMR (test). The collection's concept ID is #{cmr_response_body['concept-id']}", normalize_ws: true)
       end
 
       it 'renders the link to the collection' do
@@ -105,7 +105,7 @@ describe ProposalMailer do
       let(:mail) { described_class.proposal_rejected_notification(user, proposal) }
 
       it 'renders the subject' do
-        expect(mail.subject).to eq('Create Collection Proposal Rejected in Metadata Management Tool')
+        expect(mail.subject).to eq('Create Collection Proposal Rejected in Metadata Management Tool (test)')
       end
 
       it 'renders the receiver email' do
@@ -141,7 +141,7 @@ describe ProposalMailer do
       let(:mail) { described_class.proposal_submitted_approvers_notification(approver, proposal, user) }
 
       it 'renders the subject' do
-        expect(mail.subject).to eq('New Create Collection Proposal Submitted in Metadata Management Tool')
+        expect(mail.subject).to eq('New Create Collection Proposal Submitted in Metadata Management Tool (test)')
       end
 
       it 'renders the receiver email' do
