@@ -12,7 +12,8 @@
     <%= label_tag('subscription[CollectionConceptId]', 'Collection Concept ID', class: 'eui-required-o') %>
   </div>
   <div class="row">
-    <%= text_field_tag('subscription[CollectionConceptId]', @subscription['CollectionConceptId'], class: 'required full-width', placeholder: 'Enter a ConceptID for a single collection. (Example: C1234567-PODAAC)') %>
+    <p class="form-description">Enter a Concept ID for a single collection. (Example: C1234567-PODAAC)</p>
+    <%= text_field_tag('subscription[CollectionConceptId]', @subscription['CollectionConceptId'], class: 'required full-width') %>
   </div>
 </fieldset>
 
@@ -21,7 +22,8 @@
     <%= label_tag('subscription[Query]', 'Query', class: 'eui-required-o') %>
   </div>
   <div class="row">
-    <%= text_area_tag('subscription[Query]', @subscription['Query'], cols: 30, rows: 3, class: 'required textcounter', maxlength: 40_000, placeholder: 'Enter the CMR query parameters for the subscription. (Examples: Platform[]=1B&platform[]=2B, or bounding_box=-10,-5,10,5, or attribute[]=float,PERCENTAGE,25.5,30)') %>
+    <p class="form-description">Enter the CMR query parameters for the subscription. (Examples: Platform[]=1B&platform[]=2B, or bounding_box=-10,-5,10,5, or attribute[]=float,PERCENTAGE,25.5,30) Note: Do not include the Collection Concept ID in the query as it has already been specified in the field above.</p>
+    <%= text_area_tag('subscription[Query]', @subscription['Query'], cols: 30, rows: 3, class: 'required textcounter', maxlength: 40_000) %>
   </div>
 </fieldset>
 
