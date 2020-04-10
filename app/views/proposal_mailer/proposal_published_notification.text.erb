@@ -1,6 +1,6 @@
 <%= @user[:name] %>,
 <% env = Rails.configuration.cmr_env %>
-<% if env != 'ops'%>
+<% if env.downcase != 'ops'%>
 <%= "The collection metadata record #{@short_name}_#{@version} has been successfully #{@request_type == 'delete' ? "deleted from the CMR (#{env.upcase})" : "published to the CMR (#{env.upcase}). The collection's concept ID is #{@concept_id}."}" %>
 <% else %>
 <%= "The collection metadata record #{@short_name}_#{@version} has been successfully #{@request_type == 'delete' ? 'deleted from the CMR' : "published to the CMR. The collection's concept ID is #{@concept_id}."}" %>

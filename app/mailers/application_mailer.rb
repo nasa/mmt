@@ -4,7 +4,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def add_env_if_needed(email_subject)
     env = Rails.configuration.cmr_env
-    if env != 'ops'
+    if env.downcase != 'ops'
       email_subject = email_subject + " (#{env.upcase})"
     end
   end
