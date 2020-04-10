@@ -1,8 +1,4 @@
 <%= @user[:name] %>,
-<% env = Rails.configuration.cmr_env.upcase %>
-<% if env != 'OPS'%>
-<%= "Your variable metadata record #{@short_name} has been successfully #{ @is_update ? 'updated' : "published to the CMR (#{env})"}. Your variable's concept ID is #{@concept_id}." %>
-<% else %>
-<%= "Your variable metadata record #{@short_name} has been successfully #{ @is_update ? 'updated' : 'published to the CMR'}. Your variable's concept ID is #{@concept_id}." %>
-<% end %>
+<% env_if_needed = Rails.env.production? ? nil : " (#{Rails.env})" %>
+<%= "Your variable metadata record #{@short_name} has been successfully #{ @is_update ? 'updated' : "published to the CMR#{env_if_needed}"}. Your variable's concept ID is #{@concept_id}." %>
 View Variable: <%= variable_url(@concept_id, revision_id: @revision_id) %>

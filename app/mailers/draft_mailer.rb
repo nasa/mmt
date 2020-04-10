@@ -13,7 +13,7 @@ class DraftMailer < ApplicationMailer
       email_subject = 'New Record Published in Metadata Management Tool'
     end
 
-    email_subject = add_env_if_needed(email_subject)
+    email_subject = email_subject + env_if_needed
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -31,7 +31,7 @@ class DraftMailer < ApplicationMailer
       email_subject = 'New Variable Record Published in Metadata Management Tool'
     end
 
-    email_subject = add_env_if_needed(email_subject)
+    email_subject = email_subject + env_if_needed
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -49,7 +49,7 @@ class DraftMailer < ApplicationMailer
       email_subject = 'New Service Record Published in Metadata Management Tool'
     end
 
-    email_subject = add_env_if_needed(email_subject)
+    email_subject = email_subject + env_if_needed
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end

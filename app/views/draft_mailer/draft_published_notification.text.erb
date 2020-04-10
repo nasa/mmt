@@ -1,8 +1,4 @@
 <%= @user[:name] %>,
-<% env = Rails.configuration.cmr_env.upcase %>
-<% if env != 'OPS'%>
-<%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated' : "published to the CMR (#{env})"}. Your collection's concept ID is #{@concept_id}." %>
-<% else %>
-<%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated' : 'published to the CMR'}. Your collection's concept ID is #{@concept_id}." %>
-<% end %>
+<% env_if_needed = Rails.env.production? ? nil : " (#{Rails.env})" %>
+<%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated' : "published to the CMR #{env_if_needed}"}. Your collection's concept ID is #{@concept_id}." %>
 View Collection: <%= collection_url(@concept_id, revision_id: @revision_id) %>
