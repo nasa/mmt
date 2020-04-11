@@ -53,8 +53,8 @@ describe 'When publishing collection draft proposals', js: true do
           it 'sends an e-mail' do
             # Expecting identical e-mails to the user and approver
             expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 2)
-            expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/deleted from the CMR (test)/)
-            expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/deleted from the CMR (test)/)
+            expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/deleted from the CMR \(test\)/)
+            expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/deleted from the CMR \(test\)/)
           end
         end
 
@@ -81,8 +81,8 @@ describe 'When publishing collection draft proposals', js: true do
           it 'sends an e-mail' do
             # Expecting identical e-mails to the user and approver
             expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 2)
-            expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/deleted from the CMR (test)/)
-            expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/deleted from the CMR (test)/)
+            expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/deleted from the CMR \(test\)/)
+            expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/deleted from the CMR \(test\)/)
           end
         end
       end
@@ -134,9 +134,9 @@ describe 'When publishing collection draft proposals', js: true do
       it 'sends an e-mail' do
         # Expecting identical e-mails to the user and approver
         expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 2)
-        expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/published to the CMR (test). The collection's concept ID is/)
+        expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/published to the CMR \(test\). The collection's concept ID is/)
         # &#39; = ' in html
-        expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/published to the CMR (test). The collection&#39;s concept ID is/)
+        expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/published to the CMR \(test\). The collection&#39;s concept ID is/)
       end
 
       it 'creates a new record' do
