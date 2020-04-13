@@ -1,6 +1,5 @@
 <%= @user[:name] %>,
-<% env_if_needed = Rails.env.production? ? nil : " (#{Rails.env})" %>
-<%= "The collection metadata record #{@short_name}_#{@version} has been successfully #{@request_type == 'delete' ? "deleted from the CMR#{env_if_needed}" : "published to the CMR#{env_if_needed}. The collection's concept ID is #{@concept_id}."}" %>
+<%= "The collection metadata record #{@short_name}_#{@version} has been successfully #{@request_type == 'delete' ? "deleted from the CMR#{@email_env_note}" : "published to the CMR#{@email_env_note}. The collection's concept ID is #{@concept_id}."}" %>
 <% unless @request_type == 'delete' %>
 View Collection: <%= collection_url(@concept_id, revision_id: @revision_id) %>
 <% end %>
