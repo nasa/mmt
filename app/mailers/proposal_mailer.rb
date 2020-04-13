@@ -5,9 +5,7 @@ class ProposalMailer < ApplicationMailer
     @version = version
     @id = id
 
-    email_subject = "New #{request_type.titleize} Collection Request Submitted in Metadata Management Tool"
-
-    email_subject = email_subject + @email_env_note
+    email_subject = "New #{request_type.titleize} Collection Request Submitted in Metadata Management Tool #{@email_env_note}"
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -18,9 +16,7 @@ class ProposalMailer < ApplicationMailer
     @version = version
     @id = id
 
-    email_subject = "#{request_type.titleize} Collection Request Approved in Metadata Management Tool"
-
-    email_subject = email_subject + @email_env_note
+    email_subject = "#{request_type.titleize} Collection Request Approved in Metadata Management Tool #{@email_env_note}"
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -33,9 +29,16 @@ class ProposalMailer < ApplicationMailer
     @revision_id = cmr_response_body['revision-id'].to_i
     @request_type = proposal['request_type']
 
-    email_subject = "#{@request_type.titleize} Collection Request Published in Metadata Management Tool"
+    @request_specific_message = case @request_type
+                                  when 'delete'
+                                      'deleted from'
+                                  when 'update'
+                                      'updated in'
+                                  when 'create'
+                                      'published to'
+                                  end
 
-    email_subject = email_subject + @email_env_note
+    email_subject = "#{@request_type.titleize} Collection Request Published in Metadata Management Tool #{@email_env_note}"
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -49,9 +52,7 @@ class ProposalMailer < ApplicationMailer
     @rejected_note = proposal.approver_feedback['note']
     @request_type = proposal.request_type
 
-    email_subject = "#{@request_type.titleize} Collection Proposal Rejected in Metadata Management Tool"
-
-    email_subject = email_subject + @email_env_note
+    email_subject = "#{@request_type.titleize} Collection Proposal Rejected in Metadata Management Tool #{@email_env_note}"
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -64,9 +65,7 @@ class ProposalMailer < ApplicationMailer
     @id = proposal.id
     @request_type = proposal.request_type
 
-    email_subject = "New #{@request_type.titleize} Collection Proposal Submitted in Metadata Management Tool"
-
-    email_subject = email_subject + @email_env_note
+    email_subject = "New #{@request_type.titleize} Collection Proposal Submitted in Metadata Management Tool #{@email_env_note}"
 
     mail(to: "#{@approver[:name]} <#{@approver[:email]}>", subject: email_subject)
   end

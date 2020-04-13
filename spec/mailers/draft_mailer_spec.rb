@@ -60,8 +60,8 @@ describe DraftMailer do
 
       it 'renders the record updated notice including short name + version' do
         expect(mail.html_part.body).to have_content("#{short_name}_#{version} Updated")
-        expect(mail.html_part.body).to have_content("#{user[:name]}, Your collection metadata record #{short_name}_#{version} has been successfully updated.", normalize_ws: true)
-        expect(mail.text_part.body).to have_content("#{user[:name]}, Your collection metadata record #{short_name}_#{version} has been successfully updated.", normalize_ws: true)
+        expect(mail.html_part.body).to have_content("#{user[:name]}, Your collection metadata record #{short_name}_#{version} has been successfully updated in the CMR (test).", normalize_ws: true)
+        expect(mail.text_part.body).to have_content("#{user[:name]}, Your collection metadata record #{short_name}_#{version} has been successfully updated in the CMR (test).", normalize_ws: true)
       end
 
       it 'renders the concept id' do

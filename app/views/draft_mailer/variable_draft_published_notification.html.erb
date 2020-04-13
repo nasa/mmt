@@ -10,7 +10,7 @@
     <%= @user[:name] %>,
   </p>
   <p>
-    <%= "Your variable metadata record #{@short_name} has been successfully #{ @is_update ? 'updated' : "published to the CMR#{@email_env_note}"}. Your variable's concept ID is #{@concept_id}." %>
+    <%= "Your variable metadata record #{@short_name} has been successfully #{ @is_update ? 'updated in' : 'published to'} the CMR #{@email_env_note}. Your variable's concept ID is #{@concept_id}." %>
   </p>
   <div class="center">
     <%= link_to 'View Variable', variable_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>
