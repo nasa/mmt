@@ -1,0 +1,33 @@
+<fieldset>
+  <div class="row">
+    <%= label_tag('subscription[Name]', 'Subscription Name', class: 'eui-required-o') %>
+  </div>
+  <div class="row">
+    <%= text_field_tag('subscription[Name]', @subscription['Name'], cols: 30, rows: 3, class: 'required full-width textcounter', maxlength: 80) %>
+  </div>
+</fieldset>
+
+<fieldset>
+  <div class="row">
+    <%= label_tag('subscription[CollectionConceptId]', 'Collection Concept ID', class: 'eui-required-o') %>
+  </div>
+  <div class="row">
+    <%= text_field_tag('subscription[CollectionConceptId]', @subscription['CollectionConceptId'], class: 'required full-width', placeholder: 'Enter a ConceptID for a single collection. (Example: C1234567-PODAAC)') %>
+  </div>
+</fieldset>
+
+<fieldset>
+  <div class="row">
+    <%= label_tag('subscription[Query]', 'Query', class: 'eui-required-o') %>
+  </div>
+  <div class="row">
+    <%= text_area_tag('subscription[Query]', @subscription['Query'], cols: 30, rows: 3, class: 'required textcounter', maxlength: 40_000, placeholder: 'Enter the CMR query parameters for the subscription. (Examples: Platform[]=1B&platform[]=2B, or bounding_box=-10,-5,10,5, or attribute[]=float,PERCENTAGE,25.5,30)') %>
+  </div>
+</fieldset>
+
+<fieldset>
+  <div class="row space-bot subscriber-group">
+    <%= label_tag('subscriber', 'Subscriber', class: 'eui-required-o') %>
+    <%= select_tag 'subscription[SubscriberId]', options_for_select(@subscriber), id: 'subscriber', class: 'urs_autocomplete', multiple: false %>
+  </div>
+</fieldset>

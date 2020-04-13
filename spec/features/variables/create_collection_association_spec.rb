@@ -104,24 +104,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
         end
 
         it 'displays an appropriate error message' do
-          expect(page).to have_content('You must select at least 1 collection.')
-        end
-      end
-
-      context 'When submitting the form with both AMSR-E records selected' do
-        before do
-          within '#collections-select' do
-            find("input[value='#{@collection_ingest_response1['concept-id']}']").set(true)
-            find("input[value='#{@collection_ingest_response2['concept-id']}']").set(true)
-
-            click_button 'Submit'
-
-            wait_for_cmr
-          end
-        end
-
-        it 'shows a failure message' do
-          expect(page).to have_content('Only one collection allowed in the list because a variable can only be associated with one collection.')
+          expect(page).to have_content('You must select a collection.')
         end
       end
 
@@ -138,6 +121,29 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
 
         it 'shows a success message' do
           expect(page).to have_content('Collection Associations Created Successfully!')
+        end
+
+        context 'when attempting to access the page to add another collection' do
+          before do
+            wait_for_cmr
+
+            visit new_variable_collection_association_path(@variable_ingest_response['concept-id'])
+          end
+
+          it 'displays an error message and redirects' do
+            expect(page).to have_content('This variable already has a Collection Association. To change the association, you must first remove the existing collection association.')
+            within '#collection-associations' do
+              expect(page).to have_selector('tbody > tr', count: 1)
+
+              within 'tbody tr:nth-child(1)' do
+                expect(page).to have_content('MODIS-I Water Traveler')
+              end
+
+              expect(page).to have_no_content('MODIS-I Water Skipper')
+              expect(page).to have_no_content('AQUA Not MODIS-I')
+              expect(page).to have_no_link('Add Collection Association')
+            end
+          end
         end
 
         context 'When viewing the associated collections page' do
@@ -157,6 +163,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
 
               expect(page).to have_no_content('MODIS-I Water Skipper')
               expect(page).to have_no_content('AQUA Not MODIS-I')
+              expect(page).to have_no_link('Add Collection Association')
             end
           end
         end
