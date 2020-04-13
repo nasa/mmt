@@ -9,9 +9,8 @@
   <p>
     <%= @user[:name] %>,
   </p>
-<% env_if_needed = Rails.env.production? ? nil : " (#{Rails.env})" %>
   <p>
-    <%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated' : "published to the CMR#{env_if_needed}"}. Your collection's concept ID is #{@concept_id}." %>
+    <%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated' : "published to the CMR#{@email_env_note}"}. Your collection's concept ID is #{@concept_id}." %>
   </p>
   <div class="center">
     <%= link_to 'View Collection', collection_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>

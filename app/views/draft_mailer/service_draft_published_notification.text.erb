@@ -1,4 +1,3 @@
 <%= @user[:name] %>,
-<% env_if_needed = Rails.env.production? ? nil : " (#{Rails.env})" %>
-<%= "Your service metadata record #{@short_name} has been successfully #{ @is_update ? 'updated' : "published to the CMR#{env_if_needed}"}. Your service's concept ID is #{@concept_id}." %>
+<%= "Your service metadata record #{@short_name} has been successfully #{ @is_update ? 'updated' : "published to the CMR#{@email_env_note}"}. Your service's concept ID is #{@concept_id}." %>
 View Service: <%= service_url(@concept_id, revision_id: @revision_id) %>
