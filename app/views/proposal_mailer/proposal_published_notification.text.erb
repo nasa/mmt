@@ -1,5 +1,5 @@
 <%= @user[:name] %>,
-<%= "The collection metadata record #{@short_name}_#{@version} has been successfully #{@request_specific_message} the CMR #{@email_env_note}. The collection's concept ID is #{@concept_id}." %>
+<%= "The collection metadata record #{@short_name}_#{@version} has been successfully #{@request_specific_message} the CMR#{@email_env_note}. The collection's concept ID is #{@concept_id}." %>
 <% unless @request_type == 'delete' %>
 View Collection: <%= collection_url(@concept_id, revision_id: @revision_id) %>
 <% end %>
