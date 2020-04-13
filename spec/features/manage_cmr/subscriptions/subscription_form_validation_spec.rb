@@ -46,6 +46,8 @@ describe 'Subscription Form Validation', js: true do
         let(:invalid_query_structure) { 'thisisabadquery123456$#*(@notlookingforanything' }
 
         before do
+          # need to input the query before filling in other fields because otherwise
+          # clicking the submit button doesn't actually submit but only causes a blur
           fill_in 'Query', with: invalid_query_structure
           fill_in 'Name', with: name
           fill_in 'Collection Concept ID', with: collection_concept_id
@@ -68,6 +70,8 @@ describe 'Subscription Form Validation', js: true do
         let(:invalid_query_params) { '?something=something&random_param[]=zyxw' }
 
         before do
+          # need to input the query before filling in other fields because otherwise
+          # clicking the submit button doesn't actually submit but only causes a blur
           fill_in 'Query', with: invalid_query_params
           fill_in 'Name', with: name
           fill_in 'Collection Concept ID', with: collection_concept_id
@@ -90,6 +94,8 @@ describe 'Subscription Form Validation', js: true do
         let(:invalid_query_with_collection_concept_id) { '?collection_concept_id=C1234-MMT_2&point=100,20&downloadable=true&day_night_flag=night' }
 
         before do
+          # need to input the query before filling in other fields because otherwise
+          # clicking the submit button doesn't actually submit but only causes a blur
           fill_in 'Query', with: invalid_query_with_collection_concept_id
           fill_in 'Name', with: name
           fill_in 'Collection Concept ID', with: collection_concept_id

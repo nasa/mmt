@@ -75,7 +75,10 @@ $(document).ready ->
         else
           error.insertAfter(element)
 
-
+    # whether because of this additional validation function or otherwise,
+    # clicking into a field that requires validation (and maybe entering something),
+    # then clicking the submit button tends to to actually submit but blur and
+    # validate only the field that was in focus, not all fields
     # method for validating query
     $.validator.addMethod 'isValidQuery', (value, elem, params) ->
       query = value
