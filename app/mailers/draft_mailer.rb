@@ -8,12 +8,10 @@ class DraftMailer < ApplicationMailer
     @revision_id = revision_id.to_i
     @is_update = @revision_id > 1
     if @is_update
-      email_subject = 'Record Updated in Metadata Management Tool'
+      email_subject = "Record Updated in Metadata Management Tool #{@email_env_note}"
     else
-      email_subject = 'New Record Published in Metadata Management Tool'
+      email_subject = "New Record Published in Metadata Management Tool #{@email_env_note}"
     end
-
-    email_subject = email_subject + @email_env_note
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -26,12 +24,10 @@ class DraftMailer < ApplicationMailer
     @revision_id = revision_id.to_i
     @is_update = @revision_id > 1
     if @is_update
-      email_subject = 'Variable Record Updated in Metadata Management Tool'
+      email_subject = "Variable Record Updated in Metadata Management Tool #{@email_env_note}"
     else
-      email_subject = 'New Variable Record Published in Metadata Management Tool'
+      email_subject = "New Variable Record Published in Metadata Management Tool #{@email_env_note}"
     end
-
-    email_subject = email_subject + @email_env_note
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
@@ -44,12 +40,10 @@ class DraftMailer < ApplicationMailer
     @revision_id = revision_id.to_i
     @is_update = @revision_id > 1
     if @is_update
-      email_subject = 'Service Record Updated in Metadata Management Tool'
+      email_subject = "Service Record Updated in Metadata Management Tool #{@email_env_note}"
     else
-      email_subject = 'New Service Record Published in Metadata Management Tool'
+      email_subject = "New Service Record Published in Metadata Management Tool #{@email_env_note}"
     end
-
-    email_subject = email_subject + @email_env_note
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
