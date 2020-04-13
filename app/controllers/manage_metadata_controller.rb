@@ -271,10 +271,10 @@ class ManageMetadataController < ApplicationController
     Abstract
     Purpose
     DataLanguage
+    DOI
   )
   COLLECTION_CITATIONS_FIELDS = %w(
     CollectionCitations
-    DOI
   )
   DATA_IDENTIFICATION_FIELDS = %w(
     DataDates
@@ -308,7 +308,7 @@ class ManageMetadataController < ApplicationController
   )
   SPATIAL_INFORMATION_FIELDS = %w(
     SpatialExtent
-    TilingIdentificationSystem
+    TilingIdentificationSystems
     SpatialInformation
     LocationKeywords
   )

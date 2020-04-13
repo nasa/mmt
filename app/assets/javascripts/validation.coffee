@@ -192,11 +192,15 @@ $(document).ready ->
       # we only want this simple message instead of the raw message:
       # 'should have property TotalCollectionFileSizeUnit when property TotalCollectionFileSize is present'
       when 'dependencies' then "#{field} is required"
-      when 'not_unique' then "#{field} must be unique within a provider context"
+      when 'notUnique' then "#{field} must be unique within a provider context"
       # Using an alternate keyword allows skipping some checks associated with
       # required fields that are problematic because the field is not in the schema
       # This error message should appear when a template name is not provided by the user
-      when 'must_exist' then "#{field} is required"
+      when 'mustExist' then "#{field} is required"
+      # These two rules are business logic not captured in the schema, but are
+      # enforced in the CMR.
+      when 'startAfterEnd' then "#{field} must be earlier than the #{error.pairedField}"
+      when 'minGreaterThanMax' then "#{field} must be smaller than the #{error.pairedField}"
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
@@ -591,6 +595,7 @@ $(document).ready ->
     errors = validatePicklistValues(errors)
 
     template_error = validateTemplateName(errors)
+    validatePairedFields(errors)
 
     inlineErrors = []
     summaryErrors = []
@@ -641,7 +646,47 @@ $(document).ready ->
 
     valid
 
+  # These errors are not captured in the schema, they are business logic being
+  # enforced in the CMR. Since we cannot publish records with these conditions,
+  # we should provide that feedback to the user.
+  validatePairedFields = (errors) ->
+    # if we are on the page with one of the paired fields...
+    parent = $('#temporal-extents, #projects, #tiling-identification-system')
+    if parent.length > 0
+      # for each lesser pair tag, we should expect a greater pair tag...
+      parent.find('.lesser-pair').each ->
+        greaterPair = $(this).closest('.parent-pair').find('.greater-pair')
+        # if both the lesser and greater have values and the lesser is larger
+        # then there is an error
+        if $(this).val() && greaterPair.val() && $(this).val() > greaterPair.val()
+          id = $(this).attr('id')
+          # Populate the dataPath, pairedField, and keyword from the specific
+          # case we are in.
+          [dataPath, pairedField, keyword] = switch
+            when /draft_temporal_extents_(\d*)_range_date_times_(\d*)_beginning_date_time/.test id
+              [_, index1, index2] = id.match /temporal_extents_(\d*)_range_date_times_(\d*)_beginning_date_time/
+              ["/TemporalExtents/#{index1}/RangeDateTimes/#{index2}/BeginningDateTime", 'Ending Date Time', 'startAfterEnd']
+            when /draft_projects_(\d*)_start_date/.test id
+              [_, index] = id.match /projects_(\d*)_start_date/
+              ["/Projects/#{index}/StartDate", 'End Date', 'startAfterEnd']
+            when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/.test id
+              [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
+              ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue", 'Maximum Value', 'minGreaterThanMax']
+  
+          # The other errors which are likely to occur here are required errors
+          # (which means we shouldn't be here because it is blank), and format
+          # errors. We don't need to tell the user about this error if they are
+          # not entering data in the right format (e.g. NaN or NaDate)
+          unless errors.filter( (error) -> error.dataPath == dataPath).length > 0
+            error = 
+              keyword: keyword
+              dataPath: dataPath
+              schemaPath: '' # necessary to not throw errors in getErrorDetails
+              params: {}
+              pairedField: pairedField
 
+            errors.push(error)
+  
   validateTemplateName = (errors) ->
     if $('#draft_template_name').length > 0
       error = null
@@ -651,7 +696,7 @@ $(document).ready ->
           title: 'Draft Template Name'
           params: {}
           dataPath: '/TemplateName'
-          keyword: 'must_exist'
+          keyword: 'mustExist'
           schemaPath: '' # these errors need this to not throw errors in getErrorDetails
       else if globalTemplateNames.indexOf($('#draft_template_name').val()) isnt -1
         error =
@@ -659,7 +704,7 @@ $(document).ready ->
           title: 'Draft Template Name'
           params: {}
           dataPath: '/TemplateName'
-          keyword: 'not_unique'
+          keyword: 'notUnique'
           schemaPath: '' # these errors need this to not throw errors in getErrorDetails
       if error
         errors.push(error)
