@@ -1,3 +1,7 @@
+# TODO: When CMR-6310 has been finished, we should add a test for viewing the 
+# subscription page with no subscriptions. Until we have the provider reset,
+# that test would be flaky and fail intermittently because of CMR's update time.
+
 describe 'Viewing a list of subscriptions' do
   before do
     login
@@ -41,7 +45,7 @@ describe 'Viewing a list of subscriptions' do
       # only 2 subscriptions on them, but if the subscription tests are run
       # together, CMR does not always finish deleting subscriptions from other
       # tests before starting this one, so it fails at the commented out line.
-      it 'displays sample subscriptions' do
+      it 'displays expected subscriptions without edit or delete' do
         expect(page).to have_no_link('Create a Subscription')
         # expect(page).to have_content('Showing all 2 Subscriptions')
 
@@ -77,7 +81,7 @@ describe 'Viewing a list of subscriptions' do
       # only 2 subscriptions on them, but if the subscription tests are run
       # together, CMR does not always finish deleting subscriptions from other
       # tests before starting this one, so it fails at the commented out line.
-      it 'displays sample subscriptions and links' do
+      it 'displays expected subscriptions and edit and delete links' do
         expect(page).to have_link('Create a Subscription')
         # expect(page).to have_content('Showing all 2 Subscriptions')
 

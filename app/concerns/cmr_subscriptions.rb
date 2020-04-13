@@ -1,6 +1,9 @@
 module CMRSubscriptions
   extend ActiveSupport::Concern
 
+  # This is derived from a similar method found in the cmr_collections_helper
+  # Subscriptions face a similar challenge where without something like this,
+  # MMT can try to load the page without finding the user's new content.
   def get_latest_revision(concept_id, revision_id)
     attempts = 0
     while attempts < 20

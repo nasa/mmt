@@ -11,7 +11,7 @@ class SubscriptionsController < ManageCmrController
     authorize :subscription
     subscription_response = cmr_client.get_subscriptions({ 'provider_id' => current_user.provider_id }, token)
     if subscription_response.success?
-      @subscriptions = subscription_response.body['items'].map do |item|
+      @subscriptions = subscription_response.body.fetch('items', []).map do |item|
         subscription = item['umm']
         subscription['ConceptId'] = item['meta']['concept-id']
         subscription
@@ -55,8 +55,9 @@ class SubscriptionsController < ManageCmrController
 
     subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, native_id, token)
     if subscription_response.success?
+      subscription_response_result = subscription_response.parsed_body.fetch('result', {})
       flash[:success] = I18n.t('controllers.subscriptions.create.flash.success')
-      redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'], revision_id: subscription_response.parsed_body['result']['revision_id'])
+      redirect_to subscription_path(subscription_response_result.fetch('concept_id', ''), revision_id: subscription_response_result.fetch('revision_id', ''))
     else
       Rails.logger.error("Creating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
       flash[:error] = subscription_response.error_message(i18n: I18n.t('controllers.subscriptions.create.flash.error'))
@@ -74,8 +75,9 @@ class SubscriptionsController < ManageCmrController
 
     subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, @native_id, token)
     if subscription_response.success?
+      subscription_response_result = subscription_response.parsed_body.fetch('result', {})
       flash[:success] = I18n.t('controllers.subscriptions.update.flash.success')
-      redirect_to subscription_path(subscription_response.parsed_body['result']['concept_id'], revision_id: subscription_response.parsed_body['result']['revision_id'])
+      redirect_to subscription_path(subscription_response_result.fetch('concept_id', ''), revision_id: subscription_response_result.fetch('revision_id', ''))
     else
       Rails.logger.error("Updating a subscription failed with CMR Response: #{subscription_response.clean_inspect}")
       flash[:error] = subscription_response.error_message(i18n: I18n.t('controllers.subscriptions.update.flash.success'))
@@ -141,9 +143,9 @@ class SubscriptionsController < ManageCmrController
     subscription = get_latest_revision(@concept_id, permitted_params['revision_id'] || 0)
 
     if subscription
-      @subscription = subscription['umm']
-      @native_id = subscription['meta']['native-id']
-      @revision_id = subscription['meta']['revision-id']
+      @subscription = subscription.fetch('umm', {})
+      @native_id = subscription.fetch('meta', {}).fetch('native-id', '')
+      @revision_id = subscription.fetch('meta', {}).fetch('revision-id', '')
     else
       Rails.logger.info("Could not find subscription after trying to get the latest revision, before #{params.permit(:action)['action']}")
       flash[:error] = 'This subscription is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this subscription.'

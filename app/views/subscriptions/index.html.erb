@@ -11,7 +11,7 @@
     <% end %>
 
     <p>
-      <em><span class="fa fa-info-circle"></span> Subscription operations may take some time. If you are not seeing what you expect below, please <%= link_to 'refresh the page', 'javascript:history.go(0)', class: 'eui-btn--link link-lift' %>.</em>
+      <em><span class="fa fa-info-circle"></span> Subscription operations run periodically throughout each day. Email notifications are sent if new data matching your query is available.</em>
     </p>
 
     <table class="subscriptions-table">
@@ -38,14 +38,12 @@
                 </div>
               </td>
               <td><%= subscription['CollectionConceptId'] %></td>
-              <!-- TODO: need to put a limit or char cutoff for query? -->
               <td class='wrapping-td'>
                 <div class='wrapping-div'>
                   <%= subscription['Query'].truncate(200) %>
                 </div>
               </td>
               <td><%= subscription['EmailAddress'] %></td>
-              <!-- TODO: Update this path to the correct path -->
               <% if policy(:subscription).edit? %>
                 <td><%= link_to 'Edit', edit_subscription_path(subscription['ConceptId']) %></td>
               <% end %>
@@ -57,7 +55,6 @@
                       <p>Are you sure you want to delete the subscription named '<%= subscription['Name'] %>'?</p>
                     <p>
                       <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                      <!-- TODO: Update this path to the correct path -->
                       <%= link_to 'Yes', subscription_path(subscription['ConceptId']), method: :delete, class: 'eui-btn--blue' %>
                     </p>
                   </div>
