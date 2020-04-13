@@ -45,7 +45,7 @@ describe 'Viewing a list of subscriptions' do
       # only 2 subscriptions on them, but if the subscription tests are run
       # together, CMR does not always finish deleting subscriptions from other
       # tests before starting this one, so it fails at the commented out line.
-      it 'displays expected subscriptions without edit or delete' do
+      it 'displays expected subscriptions without edit or delete links' do
         expect(page).to have_no_link('Create a Subscription')
         # expect(page).to have_content('Showing all 2 Subscriptions')
 
