@@ -1,3 +1,3 @@
 <%= @user[:name] %>,
-<%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated in' : 'published to'} the CMR #{@email_env_note}. Your collection's concept ID is #{@concept_id}." %>
+<%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated in' : 'published to'} the CMR#{@email_env_note}. Your collection's concept ID is #{@concept_id}." %>
 View Collection: <%= collection_url(@concept_id, revision_id: @revision_id) %>
