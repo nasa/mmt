@@ -25,6 +25,7 @@ module DraftsHelper
     ['Active', 'ACTIVE'],
     ['Planned', 'PLANNED'],
     ['Complete', 'COMPLETE'],
+    ['Deprecated', 'DEPRECATED'],
     ['Not Applicable', 'NOT APPLICABLE'],
     ['Not Provided', 'NOT PROVIDED']
   ]

@@ -10,10 +10,15 @@
       <p><%= page_entries_info @subscriptions, entry_name: 'Subscription' %></p>
     <% end %>
 
+    <p>
+      <em><span class="fa fa-info-circle"></span> Subscription operations run periodically throughout each day. Email notifications are sent if new data matching your query is available.</em>
+    </p>
+
     <table class="subscriptions-table">
       <thead>
         <tr>
-          <th>Description</th>
+          <th>Name</th>
+          <th>Collection Concept Id</th>
           <th>Query</th>
           <th>Subscribers</th>
           <th colspan="2">Actions</th>
@@ -27,26 +32,30 @@
         <% else %>
           <% @subscriptions.each_with_index do |subscription, index| %>
             <tr>
-              <td>
-                <%= subscription['description'] %>
+              <td class='wrapping-td'>
+                <div class='wrapping-div'>
+                  <%= link_to subscription['Name'], subscription_path(subscription['ConceptId']) %>
+                </div>
               </td>
-              <!-- TODO: need to put a limit or char cutoff for query? -->
-              <td><%= subscription['metadata'] %></td>
-              <td><%= subscription['email_address'] %></td>
-              <!-- TODO: Update this path to the correct path -->
+              <td><%= subscription['CollectionConceptId'] %></td>
+              <td class='wrapping-td'>
+                <div class='wrapping-div'>
+                  <%= subscription['Query'].truncate(200) %>
+                </div>
+              </td>
+              <td><%= subscription['EmailAddress'] %></td>
               <% if policy(:subscription).edit? %>
-                <td><%= link_to 'Edit', subscriptions_path %></td>
+                <td><%= link_to 'Edit', edit_subscription_path(subscription['ConceptId']) %></td>
               <% end %>
               <% if policy(:subscription).destroy? %>
                 <td>
                   <%= link_to 'Delete', "#delete-subscription-modal-#{index}", class: 'display-modal' %>
                   <div id="delete-subscription-modal-<%= index %>" class="eui-modal-content">
                     <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                      <p>Are you sure you want to delete the subscription named '<%= subscription['description'] %>'?</p>
+                      <p>Are you sure you want to delete the subscription named '<%= subscription['Name'] %>'?</p>
                     <p>
                       <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                      <!-- TODO: Update this path to the correct path -->
-                      <%= link_to 'Yes', subscriptions_path, class: 'eui-btn--blue' %>
+                      <%= link_to 'Yes', subscription_path(subscription['ConceptId']), method: :delete, class: 'eui-btn--blue' %>
                     </p>
                   </div>
                 </td>

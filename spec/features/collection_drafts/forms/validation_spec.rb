@@ -615,4 +615,140 @@ describe 'Data validation for a collection draft form', js: true do
       end
     end
   end
+
+  context 'when validating paired fields' do
+    context 'when validating the projects start and end dates' do
+      before do
+        visit edit_collection_draft_path(@draft, form: 'acquisition_information')
+        click_on 'Expand All'
+      end
+
+      context 'when the user has entered incorrectly formatted data' do
+        before do
+          fill_in 'Start Date', with: 'invalid'
+          fill_in 'End Date', with: '2015-08-01T00:00:00Z'
+
+          # click outside field to close datepicker
+          find('#draft_projects_0_campaigns_0').click
+        end
+
+        it 'does not display the "start after end" error' do
+          expect(page).to have_content('Start Date is an incorrect format')
+          expect(page).to have_no_content('Start Date must be earlier than the End Date')
+        end
+      end
+
+      context 'when the user has entered data in only one field' do
+        before do
+          fill_in 'Start Date', with: '2015-08-01T00:00:00Z'
+
+          # click outside field to close datepicker
+          find('#draft_projects_0_campaigns_0').click
+        end
+
+        it 'does not display the "start after end" error' do
+          expect(page).to have_no_content('Start Date must be earlier than the End Date')
+          expect(page).to have_field('Start Date', with: '2015-08-01T00:00:00Z')
+        end
+      end
+
+      context 'when the user has entered a start date that is after an end date' do
+        before do
+          fill_in 'Start Date', with: '2016-08-01T00:00:00Z'
+          fill_in 'End Date', with: '2015-08-01T00:00:00Z'
+
+          # click outside field to close datepicker
+          find('#draft_projects_0_campaigns_0').click
+        end
+
+        it 'displays the correct error message' do
+          expect(page).to have_content('Start Date must be earlier than the End Date')
+        end
+
+        context 'when the error occurs in the second project' do
+          before do
+            click_on 'Add another Project'
+
+            within '#draft_projects_1' do
+              fill_in 'Start Date', with: '2016-08-01T00:00:00Z'
+              fill_in 'End Date', with: '2015-08-01T00:00:00Z'
+
+              # click outside field to close datepicker
+              find('#draft_projects_1_campaigns_0').click
+            end
+          end
+
+          it 'displays the error message in the second project' do
+            within '#draft_projects_1' do
+              expect(page).to have_content('Start Date must be earlier than the End Date')
+            end
+          end
+
+          context 'when the error is not present in the first project, but is in the second' do
+            before do
+              # Making the second project closed the first one and the 'expand
+              # all' button has already been pressed, so it's 'collapse all' now
+              click_on 'Collapse All'
+              click_on 'Expand All'
+              within '#draft_projects_0' do
+                fill_in 'Start Date', with: '2014-08-01T00:00:00Z'
+
+                # click outside field to close datepicker
+                find('#draft_projects_0_campaigns_0').click
+              end
+            end
+
+            it 'displays the error only in the second project' do
+              within '#draft_projects_0' do
+                expect(page).to have_field('Start Date', with: '2014-08-01T00:00:00Z')
+                expect(page).to have_no_content('Start Date must be earlier than the End Date')                
+              end
+
+              within '#draft_projects_1' do
+                expect(page).to have_field('Start Date', with: '2016-08-01T00:00:00Z')
+                expect(page).to have_content('Start Date must be earlier than the End Date')
+              end
+            end
+          end
+        end
+      end
+    end
+
+    context 'when validating the temporal range date times' do
+      before do
+        visit edit_collection_draft_path(@draft, form: 'temporal_information')
+        click_on 'Expand All'
+
+        choose 'draft_temporal_extents_0_temporal_range_type_RangeDateTime'
+        fill_in 'Beginning Date Time', with: '2016-08-01T00:00:00Z'
+        fill_in 'Ending Date Time', with: '2015-08-01T00:00:00Z'
+
+        # click outside field to close datepicker
+        find('#draft_temporal_extents_0_precision_of_seconds').click
+      end
+
+      it 'displays the correct error' do
+        expect(page).to have_field('Beginning Date Time', with: '2016-08-01T00:00:00Z')
+        expect(page).to have_content('Beginning Date Time must be earlier than the Ending Date Time')
+      end
+    end
+
+    context 'when validating the tiling identification min and max fields' do
+      before do
+        visit edit_collection_draft_path(@draft, form: 'spatial_information')
+        click_on 'Expand All'
+
+        within '#draft_tiling_identification_systems_0_coordinate_1' do
+          fill_in 'Minimum Value', with: '2.0'
+          fill_in 'Maximum Value', with: '1.0'
+        end
+        find('#draft_tiling_identification_systems_0_tiling_identification_system_name').click
+      end
+
+      it 'displays the correct error' do
+        expect(page).to have_field('Minimum Value', with: '2.0')
+        expect(page).to have_content('Minimum Value must be smaller than the Maximum Value')
+      end
+    end
+  end
 end

@@ -1,4 +1,4 @@
-<div class="row sub-fields">
+<div class="row sub-fields parent-pair">
   <div class="col-6">
     <!-- MinimumValue -->
     <%= mmt_text_field(
@@ -7,7 +7,7 @@
       prefix: name_prefix,
       value: tiling_coordinate['MinimumValue'],
       validate: true,
-      classes: 'mmt-number'
+      classes: 'mmt-number lesser-pair'
      ) %>
   </div>
   <div class="col-6">
@@ -18,7 +18,7 @@
       prefix: name_prefix,
       value: tiling_coordinate['MaximumValue'],
       validate: true,
-      classes: 'mmt-number'
+      classes: 'mmt-number greater-pair'
      ) %>
   </div>
 </div>
