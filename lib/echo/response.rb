@@ -55,7 +55,7 @@ module Echo
       doc = Nokogiri.XML(clean_response.env[:body])
       doc.traverse do |node|
         node.content = node.content.gsub(/Token \[(.*?)\]/) { |s| "Token beginning with #{truncate_token($1)}" } if node.text?
-        node.content = "Token beginning with #{truncate_token(node.content)}" if node.name == 'Token'
+        node.content = "Token beginning with #{truncate_token(node.content.strip)}" if node.name == 'Token'
       end
       clean_response.env[:body] = doc.to_xml(:save_with => Nokogiri::XML::Node::SaveOptions::AS_XML | Nokogiri::XML::Node::SaveOptions::NO_DECLARATION).strip
       clean_response.inspect
