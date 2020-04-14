@@ -549,21 +549,13 @@ module Cmr
       get(url, options, headers.merge(token_header(token)))
     end
 
-    ### Subscription search
-
     def get_subscriptions(options = {}, token = nil)
-      # TODO: this is a stubbed success response because we do not have the cmr
-      # endpoint available yet. We should update this to be a real cmr call
-      # when the update becomes available
-
-      # the structure of the success and failure responses are unclear at this point
-      # so they will change
-      success_response_body =  '{"items":[{"description":"It is a subscription", "user_id":"fake_user_id", "email_address":"fake@fake.fake", "collection_concept_id":"C1200000000-FAKE", "metadata":"thing=stuff&&stuff_id=stuff&&stuff_color=more_stuff"},{"description":"It is a second subscription", "user_id":"fake_user_id", "email_address":"fake2@fake.fake", "collection_concept_id":"C1200000001-FAKE", "metadata":"thing=stuff&&stuff_id=stuff2&&stuff_color=more_stuff2"}]}'
-      Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(success_response_body)))
-
-      # This error response is provided for viewing and testing a failure
-      # error_response_body = '{"errors":["some error message"]}'
-      # Cmr::Response.new(Faraday::Response.new(status: 400, body: JSON.parse(error_response_body)))
+      url = if Rails.env.development? || Rails.env.test?
+              'http://localhost:3003/subscriptions.umm_json'
+            else
+              '/search/subscriptions.umm_json'
+            end
+      get(url, options, token_header(token))
     end
 
     private

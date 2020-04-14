@@ -2,7 +2,7 @@
   <section>
     <h2>Edit <span class="provider-context"><%= current_user.provider_id %></span> Subscription</h2>
 
-    <%= form_tag(subscription_path(@subscription['id'], native_id: @subscription['native_id']), method: :put, class: 'subscription-form') do %>
+    <%= form_tag(subscription_path(@concept_id), method: :put, class: 'subscription-form') do %>
       <%= render partial: 'subscriptions/forms/subscription_fields' %>
 
       <fieldset>

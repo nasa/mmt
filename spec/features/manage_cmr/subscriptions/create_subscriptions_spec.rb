@@ -68,6 +68,14 @@ describe 'Creating Subscriptions' do
             end
           end
 
+          # TODO: using reset_provider may be cleaner than these after blocks,
+          # but does not currently work. Reinvestigate after CMR-6310
+          after do
+            native_id = cmr_client.get_subscriptions({'Name' => name}, 'token').body['items'].first['meta']['native-id']
+            delete_response = cmr_client.delete_subscription('MMT_2', native_id, 'token')
+            raise unless delete_response.success?
+          end
+
           it 'creates the subscription' do
             expect(page).to have_content('Subscription Created Successfully!')
           end
@@ -78,7 +86,8 @@ describe 'Creating Subscriptions' do
           # in the CMR.
           let(:name2) { 'Exciting Subscription with Important Data4' }
           before do
-            @ingest_response, _subscription = publish_new_subscription(name: name2, query: query, collection_concept_id: collection_concept_id, native_id: 'test_native_id')
+            @native_id_failure = 'test_native_id'
+            @ingest_response, _search_response, _subscription = publish_new_subscription(name: name2, query: query, collection_concept_id: collection_concept_id, native_id: @native_id_failure)
 
             fill_in 'Subscription Name', with: name2
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do
@@ -88,9 +97,11 @@ describe 'Creating Subscriptions' do
             end
           end
 
-          # Clean up the one made before the test.
+          # TODO: using reset_provider may be cleaner than these after blocks,
+          # but does not currently work. Reinvestigate after CMR-6310
           after do
-            cmr_client.delete_subscription('MMT_2', 'test_native_id', 'token').inspect
+            delete_response = cmr_client.delete_subscription('MMT_2', @native_id_failure, 'token')
+            raise unless delete_response.success?
           end
 
           it 'fails to create the subscription' do
