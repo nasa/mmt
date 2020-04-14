@@ -1,4 +1,4 @@
-# TODO: When CMR-6310 has been finished, we should add a test for viewing the 
+# TODO: When CMR-6310 has been finished, we should add a test for viewing the
 # subscription page with no subscriptions. Until we have the provider reset,
 # that test would be flaky and fail intermittently because of CMR's update time.
 
@@ -125,7 +125,7 @@ describe 'Viewing a list of subscriptions' do
   context 'when there are subscriptions for multiple providers' do
     before do
       _ingest_response, @search_response, @subscription = publish_new_subscription
-      _ingest_response2, @search_response2, @subscription2 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake')
+      _ingest_response2, @search_response2, @subscription2 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake', query: 'polygon=10,10,30,10,30,20,10,20,10,10&equator_crossing_longitude=0,10')
 
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
       visit subscriptions_path

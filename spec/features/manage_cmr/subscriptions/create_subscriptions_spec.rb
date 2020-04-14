@@ -12,33 +12,9 @@ describe 'Creating Subscriptions' do
         visit new_subscription_path
       end
 
-      it 'displays the new subscription form' do
-        expect(page).to have_content('New MMT_2 Subscription')
-
-        expect(page).to have_field('Subscription Name', type: 'text')
-        expect(page).to have_field('Collection Concept ID', type: 'text')
-        expect(page).to have_field('Query', type: 'textarea')
-        expect(page).to have_field('Subscriber', type: 'select')
-      end
-
-      context 'when submitting an invalid empty subscription form', js: true do
-        before do
-          within '.subscription-form' do
-            click_on 'Submit'
-          end
-        end
-
-        it 'displays validation errors within the form' do
-          expect(page).to have_content('Subscription Name is required.')
-          expect(page).to have_content('Query is required.')
-          expect(page).to have_content('Subscriber is required.')
-          expect(page).to have_content('Collection Concept ID is required.')
-        end
-      end
-
       context 'when submitting the form without errors', js: true do
         let(:name) { "Exciting Subscription with Important Data #{SecureRandom.uuid}" }
-        let(:query) { 'collection_concept_id=C1234-MMT_2&downloadable=true' }
+        let(:query) { 'point=100,20&attribute\[\]=float,X\Y\Z,7&instrument\[\]=1B&cloud_cover=-70.0,120.0&equator_crossing_date=2000-01-01T10:00:00Z,2010-03-10T12:00:00Z&cycle[]=1&passes[0][pass]=1&passes[0][tiles]=1L,2F' }
         let(:collection_concept_id) { 'C1234-MMT_2' }
 
         before do
