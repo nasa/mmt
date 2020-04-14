@@ -651,9 +651,9 @@ $(document).ready ->
   # The tiling identification systems coordinates, however need to be converted
   # to numbers in order to be properly compared.
   pairedFieldComparison = (lesser, greater) ->
-    if isNaN(+lesser) && isNaN(+greater)
+    if isNaN(lesser) && isNaN(greater)
       return lesser > greater
-    else if !isNaN(+lesser) && !isNaN(+greater)
+    else if !isNaN(lesser) && !isNaN(greater)
       return parseFloat(lesser) > parseFloat(greater)
     else
       return false
