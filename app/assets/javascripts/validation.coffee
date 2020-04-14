@@ -646,6 +646,18 @@ $(document).ready ->
 
     valid
 
+  # Some of the fields are numerical and others are not. The dates that are
+  # being validated here have rigid structures and can be validated as strings.
+  # The tiling identification systems coordinates, however need to be converted
+  # to numbers in order to be properly compared.
+  pairedFieldComparison = (lesser, greater) ->
+    if isNaN(lesser) && isNaN(greater)
+      return lesser > greater
+    else if !isNaN(lesser) && !isNaN(greater)
+      return parseFloat(lesser) > parseFloat(greater)
+    else
+      return false
+
   # These errors are not captured in the schema, they are business logic being
   # enforced in the CMR. Since we cannot publish records with these conditions,
   # we should provide that feedback to the user.
@@ -658,7 +670,7 @@ $(document).ready ->
         greaterPair = $(this).closest('.parent-pair').find('.greater-pair')
         # if both the lesser and greater have values and the lesser is larger
         # then there is an error
-        if $(this).val() && greaterPair.val() && $(this).val() > greaterPair.val()
+        if $(this).val() && greaterPair.val() && pairedFieldComparison($(this).val(), greaterPair.val())
           id = $(this).attr('id')
           # Populate the dataPath, pairedField, and keyword from the specific
           # case we are in.

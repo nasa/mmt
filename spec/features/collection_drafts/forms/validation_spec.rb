@@ -739,14 +739,14 @@ describe 'Data validation for a collection draft form', js: true do
         click_on 'Expand All'
 
         within '#draft_tiling_identification_systems_0_coordinate_1' do
-          fill_in 'Minimum Value', with: '2.0'
-          fill_in 'Maximum Value', with: '1.0'
+          fill_in 'Minimum Value', with: '13.0'
+          fill_in 'Maximum Value', with: '2.0'
         end
         find('#draft_tiling_identification_systems_0_tiling_identification_system_name').click
       end
 
       it 'displays the correct error' do
-        expect(page).to have_field('Minimum Value', with: '2.0')
+        expect(page).to have_field('Minimum Value', with: '13.0')
         expect(page).to have_content('Minimum Value must be smaller than the Maximum Value')
       end
     end
