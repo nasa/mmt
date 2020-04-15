@@ -17,6 +17,7 @@
   'equator_crossing_date',
   'updated_since',
   'revision_date',
+  'created_at',
   'production_date',
   'cloud_cover',
   'platform',
@@ -33,6 +34,7 @@
   'provider',
   'native_id',
   'short_name',
+  'version',
   'entry_title',
   'temporal',
   'cycle',
@@ -82,7 +84,7 @@ $(document).ready ->
     # method for validating query
     $.validator.addMethod 'isValidQuery', (value, elem, params) ->
       query = value
-      queryRgx = /^\??(([\[\]\\\w]+)=[\\\.\-\:\,\%\+\*\w]+&?)+$/
+      queryRgx = /^\??(([\[\]\\\w]+)=[ \\\.\-\:\,\%\+\*\w]+&?)+$/
 
       return false if queryRgx.test(query) == false
 
@@ -91,7 +93,8 @@ $(document).ready ->
       for part in parts
         # remove the beginning ? if it was provided
         # some parameters can have brackets or escapes before the brackets. we are only checking what is before the bracket
-        parameter = part.replace(/^\?/, '').split('=')[0].split('[')[0].split('\\')[0]
+        # cmr search parameters are case insensitive
+        parameter = part.replace(/^\?/, '').split('=')[0].split('[')[0].split('\\')[0].toLowerCase()
 
         # is the parameter listed in the CMR docs?
         return false if validGranuleQueryParameters.indexOf(parameter) == -1
