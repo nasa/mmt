@@ -496,6 +496,7 @@ class CollectionDraftsController < BaseDraftsController
 
   def generate_model_error
     return unless get_resource.errors.any?
+
     get_resource.errors.full_messages.reject(&:blank?).map(&:downcase).join(', ')
   end
 
@@ -503,7 +504,7 @@ class CollectionDraftsController < BaseDraftsController
     return if validate_metadata.blank?
 
     action = resource_name == 'collection_draft_proposal' ? 'submitted for review' : 'published'
-    flash[:error] = "This collection can't be #{action}."
+    flash[:error] = "This collection can not be #{action}."
     redirect_to send("#{resource_name}_path", get_resource) and return
   end
 end

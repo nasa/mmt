@@ -1,6 +1,3 @@
-include DraftsHelper
-include ActionView::Helpers::NumberHelper
-
 describe 'Publishing collection draft records', js: true do
   before do
     login
@@ -8,16 +5,12 @@ describe 'Publishing collection draft records', js: true do
 
   context 'when publishing a collection draft record' do
     before do
-      # ActionMailer::Base.deliveries.clear
+      @email_count = ActionMailer::Base.deliveries.count
 
       draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
       visit collection_draft_path(draft)
       click_on 'Publish'
     end
-
-    # after do
-    #   ActionMailer::Base.deliveries.clear
-    # end
 
     it 'displays a confirmation message' do
       expect(page).to have_content('Collection Draft Published Successfully!')
@@ -44,9 +37,9 @@ describe 'Publishing collection draft records', js: true do
       end
     end
 
-    # it 'sends the user a notification email' do
-    #   expect(ActionMailer::Base.deliveries.count).to eq(1)
-    # end
+    it 'sends the user a notification email' do
+      expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 1)
+    end
 
     context 'when searching for the published record' do
       before do
@@ -145,6 +138,20 @@ describe 'Publishing collection draft records', js: true do
         expect(page).to have_link('Spatial Extent', href: edit_collection_draft_path(draft, 'spatial_information'))
         expect(page).to have_content('Orbit Parameters must be defined for a collection whose granule spatial representation is ORBIT.')
       end
+    end
+  end
+
+  context 'when publishing a record that was valid when the page loaded, but not when the user tried to publish' do
+    before do
+      draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
+      visit collection_draft_path(draft)
+      draft.draft['Version'] = ''
+      draft.save
+      click_on 'Publish'
+    end
+
+    it 'displays an error message' do
+      expect(page).to have_content('This collection can not be published')
     end
   end
 end

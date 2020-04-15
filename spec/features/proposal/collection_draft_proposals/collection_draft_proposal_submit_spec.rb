@@ -116,6 +116,20 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
       end
     end
 
+    context 'when the collection is valid on page load, but not when the user tries to submit it' do
+      before do
+        @collection_draft_proposal.draft['Version'] = ''
+        @collection_draft_proposal.save
+
+        click_on 'Submit'
+        click_on 'Yes'
+      end
+
+      it 'displays an error message' do
+        expect(page).to have_content('This collection can not be submitted for review')
+      end
+    end
+
     context 'when the submission fails' do
       before do
         # After loading the page, manipulate the state of the proposal so that
