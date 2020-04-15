@@ -177,6 +177,7 @@ RSpec.configure do |config|
   config.include Helpers::AjaxHelpers
   config.include Helpers::BulkUpdateHelper
   config.include Helpers::CmrHelper
+  config.include Helpers::EchoHelper
   config.include Helpers::CollectionAssociationHelper
   config.include Helpers::ConceptHelper
   config.include Helpers::ConfigurationHelpers

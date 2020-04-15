@@ -3,6 +3,8 @@ require 'libxml_to_hash'
 module Echo
   # Custom response wrapper for Echo to handle parsing the body appropriately
   class Response
+    include Cmr::Util
+
     def initialize(faraday_response)
       @response = faraday_response
     end
@@ -43,7 +45,20 @@ module Echo
     end
 
     def error_message
-      parsed_body.fetch('faultstring', nil)
+      doc = Nokogiri.XML(body)
+      element = doc.at("faultstring")
+      element.nil? ? nil : element.content.gsub(/Token \[(.*?)\]/) { |s| "Token beginning with #{truncate_token($1)}" }
+    end
+
+    def clean_inspect
+      clean_response = faraday_response.deep_dup
+      doc = Nokogiri.XML(clean_response.env[:body])
+      doc.traverse do |node|
+        node.content = node.content.gsub(/Token \[(.*?)\]/) { |s| "Token beginning with #{truncate_token($1)}" } if node.text?
+        node.content = "Token beginning with #{truncate_token(node.content.strip)}" if node.name == 'Token'
+      end
+      clean_response.env[:body] = doc.to_xml(:save_with => Nokogiri::XML::Node::SaveOptions::AS_XML | Nokogiri::XML::Node::SaveOptions::NO_DECLARATION).strip
+      clean_response.inspect
     end
 
     def error_code

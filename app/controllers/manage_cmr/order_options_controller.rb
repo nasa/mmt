@@ -15,7 +15,7 @@ class OrderOptionsController < ManageCmrController
                           # Retreive the order options and sort by name, ignoring case
                           Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
                         else
-                          Rails.logger.error("Retrieve Order Options List Error: #{order_options_response.inspect}")
+                          Rails.logger.error("Retrieve Order Options List Error: #{order_options_response.clean_inspect}")
                           []
                         end
 
@@ -96,7 +96,7 @@ class OrderOptionsController < ManageCmrController
     # the user tries to rename it something that already exists.
     unless soap_xml_response.success?
       if soap_xml_response.error_code != 'OptionDefAlreadyDeprecated'
-        Rails.logger.error("Deprecate Order Options to Update Error: #{soap_xml_response.inspect}")
+        Rails.logger.error("Deprecate Order Options to Update Error: #{soap_xml_response.clean_inspect}")
         flash[:error] = soap_xml_response.error_message
         render :edit and return
       end

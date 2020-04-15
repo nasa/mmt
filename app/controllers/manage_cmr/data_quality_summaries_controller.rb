@@ -61,7 +61,7 @@ class DataQualitySummariesController < ManageCmrController
     response = echo_client.create_data_quality_summary_definition(token, @summary)
 
     if response.error?
-      Rails.logger.error("Create Data Quality Summary Error: #{response.inspect}")
+      Rails.logger.error("Create Data Quality Summary Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
 
       render :new
@@ -76,7 +76,7 @@ class DataQualitySummariesController < ManageCmrController
     response = echo_client.update_data_quality_summary_definition(token, @summary)
 
     if response.error?
-      Rails.logger.error("Update Data Quality Summary Error: #{response.inspect}")
+      Rails.logger.error("Update Data Quality Summary Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
 
       render :edit
@@ -89,7 +89,7 @@ class DataQualitySummariesController < ManageCmrController
     response = echo_client.remove_data_quality_summary_definition(token, params[:id])
 
     if response.error?
-      Rails.logger.error("Delete Data Quality Summary Error: #{response.inspect}")
+      Rails.logger.error("Delete Data Quality Summary Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
     else
       flash[:success] = 'Data Quality Summary successfully deleted'
