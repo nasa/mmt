@@ -21,9 +21,9 @@ describe 'Subscription Form Validation', js: true do
 
         expect(page).to have_field('Subscription Name', type: 'text')
         expect(page).to have_field('Collection Concept ID', type: 'text')
-        expect(page).to have_content('Enter a Concept ID for a single collection. (Example: C1234567-PODAAC)')
+        expect(page).to have_css('.form-description', text: 'Enter a Concept ID for a single collection. (Example: C1234567-PODAAC)')
         expect(page).to have_field('Query', type: 'textarea')
-        expect(page).to have_content('Enter the CMR query parameters for the subscription. (Examples: Platform[]=1B&platform[]=2B, or bounding_box=-10,-5,10,5, or attribute[]=float,PERCENTAGE,25.5,30) Note: Do not include the Collection Concept ID in the query as it has already been specified in the field above.')
+        expect(page).to have_css('.form-description', text: 'Enter the CMR query parameters for the subscription. (Examples: Platform[]=1B&platform[]=2B, or bounding_box=-10,-5,10,5, or attribute[]=float,PERCENTAGE,25.5,30) Note: Do not include the Collection Concept ID in the query as it has already been specified in the field above.')
         expect(page).to have_field('Subscriber', type: 'select')
       end
 
@@ -109,6 +109,32 @@ describe 'Subscription Form Validation', js: true do
           expect(page).to have_content('Query must be a valid CMR granule search query.')
           expect(page).to have_content('Subscriber is required.')
 
+          expect(page).to have_no_content('Subscription Name is required.')
+          expect(page).to have_no_content('Collection Concept ID is required.')
+        end
+      end
+
+      context 'when submitting a valid query' do
+        # TODO: might want to randomly generate a query based off of the
+        # allowed parameters and allowed special characters for this test
+        let(:valid_query) { '?bounding_box=-10,-5,10,5&Platform[]=1B&platform[]=NASA GLOBAL HAWK 872 AIRCRAFT&version=1&attribute\[\]=string,MISSION_NAME,Big Island\, HI&created_at[]=2015-01-01T10:00:00Z' }
+
+        before do
+          # need to input the query before filling in other fields because otherwise
+          # clicking the submit button doesn't actually submit but only causes a blur
+          fill_in 'Query', with: valid_query
+          fill_in 'Name', with: name
+          fill_in 'Collection Concept ID', with: collection_concept_id
+
+          within '.subscription-form' do
+            click_on 'Submit'
+          end
+        end
+
+        it 'displays the proper validation errors withing the form' do
+          expect(page).to have_content('Subscriber is required.')
+
+          expect(page).to have_no_content('Query must be a valid CMR granule search query.')
           expect(page).to have_no_content('Subscription Name is required.')
           expect(page).to have_no_content('Collection Concept ID is required.')
         end
