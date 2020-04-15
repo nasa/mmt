@@ -80,7 +80,7 @@ module Proposal
         @first_stage = 'In Work'
 
         # This applies the same validation as is applied on the preview/show page
-        show_view_setup
+        collection_validation_setup
         load_umm_c_schema
         @errors = validate_metadata
       else
