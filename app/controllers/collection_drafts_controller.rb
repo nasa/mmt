@@ -3,7 +3,9 @@ class CollectionDraftsController < BaseDraftsController
   include DraftsHelper
   include ControlledKeywords
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
-  before_action :load_umm_c_schema, only: [:new, :edit, :show]
+  before_action :load_umm_c_schema, only: [:new, :edit, :show, :publish]
+  before_action :collection_validation_setup, only: [:show, :publish]
+  before_action :verify_valid_metadata, only: [:publish]
 
   layout 'collection_preview', only: [:show]
 
@@ -20,7 +22,6 @@ class CollectionDraftsController < BaseDraftsController
   def show
     super
 
-    show_view_setup
     @errors = validate_metadata
   end
 
@@ -481,7 +482,7 @@ class CollectionDraftsController < BaseDraftsController
     load_data_contacts_schema if @form == 'data_contacts'
   end
 
-  def show_view_setup
+  def collection_validation_setup
     set_platform_short_names
     set_instrument_short_names
     set_temporal_keywords
@@ -496,5 +497,13 @@ class CollectionDraftsController < BaseDraftsController
   def generate_model_error
     return unless get_resource.errors.any?
     get_resource.errors.full_messages.reject(&:blank?).map(&:downcase).join(', ')
+  end
+
+  def verify_valid_metadata
+    return if validate_metadata.blank?
+
+    action = resource_name == 'collection_draft_proposal' ? 'submitted for review' : 'published'
+    flash[:error] = "This collection can't be #{action}."
+    redirect_to send("#{resource_name}_path", get_resource) and return
   end
 end
