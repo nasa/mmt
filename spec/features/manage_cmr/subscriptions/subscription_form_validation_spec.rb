@@ -57,7 +57,7 @@ describe 'Subscription Form Validation', js: true do
           end
         end
 
-        it 'displays the proper validation errors withing the form' do
+        it 'displays the proper validation errors within the form' do
           expect(page).to have_content('Query must be a valid CMR granule search query.')
           expect(page).to have_content('Subscriber is required.')
 
@@ -81,7 +81,7 @@ describe 'Subscription Form Validation', js: true do
           end
         end
 
-        it 'displays the proper validation errors withing the form' do
+        it 'displays the proper validation errors within the form' do
           expect(page).to have_content('Query must be a valid CMR granule search query.')
           expect(page).to have_content('Subscriber is required.')
 
@@ -105,7 +105,7 @@ describe 'Subscription Form Validation', js: true do
           end
         end
 
-        it 'displays the proper validation errors withing the form' do
+        it 'displays the proper validation errors within the form' do
           expect(page).to have_content('Query must be a valid CMR granule search query.')
           expect(page).to have_content('Subscriber is required.')
 
@@ -131,7 +131,7 @@ describe 'Subscription Form Validation', js: true do
           end
         end
 
-        it 'displays the proper validation errors withing the form' do
+        it 'displays the proper validation errors within the form' do
           expect(page).to have_content('Subscriber is required.')
 
           expect(page).to have_no_content('Query must be a valid CMR granule search query.')
