@@ -1,7 +1,3 @@
-# MMT-290, MMT-297
-
-require 'rails_helper'
-
 describe 'Spatial information form', js: true do
   before do
     login
@@ -770,6 +766,334 @@ describe 'Spatial information form', js: true do
           expect(page).to have_field('Value', with: 'domain value 1')
         end
 
+        expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
+      end
+    end
+  end
+end
+
+describe 'Spatial information form when draft has no spatial coverage type', js: true do
+  before do
+    login
+    draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
+    # The collection draft created from that factory has spatial_coverage_type
+    # with horizontal, and horizontal data filled in. With the changes in
+    # MMT-2186, the page should load with the horizontal data visible even after
+    # removing the spatial coverage type
+    draft.draft['SpatialExtent']['SpatialCoverageType'] = nil
+    draft.save
+    visit edit_collection_draft_path(draft, form: 'spatial_information')
+
+    click_on 'Expand All'
+  end
+
+  it 'displays the horizontal spatial extent data' do
+    within '.spatial-extent' do
+      expect(page).to have_field('Spatial Coverage Type', with: '')
+      # Horizontal
+      expect(page).to have_field('Zone Identifier', with: 'Zone ID')
+      within '.geometry' do
+        expect(page).to have_checked_field('Cartesian')
+        expect(page).to have_no_checked_field('Geodetic')
+        # BoundingRectangles
+        within '.multiple.bounding-rectangles' do
+          within '.multiple-item-0' do
+            expect(page).to have_field('West', with: '-180.0')
+            expect(page).to have_field('North', with: '90.0')
+            expect(page).to have_field('East', with: '180.0')
+            expect(page).to have_field('South', with: '-90.0')
+          end
+          within '.multiple-item-1' do
+            expect(page).to have_field('West', with: '-96.9284587')
+            expect(page).to have_field('North', with: '58.968602')
+            expect(page).to have_field('East', with: '-56.9284587')
+            expect(page).to have_field('South', with: '18.968602')
+          end
+        end
+      end
+      within '.resolution-and-coordinate-system' do
+        expect(page).to have_field('Description', with: 'ResolutionAndCoordinateSystem Description')
+        expect(page).to have_field('Horizontal Datum Name', with: 'HorizontalDatumName Text')
+        expect(page).to have_field('Ellipsoid Name', with: 'EllipsoidName Text')
+        expect(page).to have_field('Semi Major Axis', with: '1.0')
+        expect(page).to have_field('Denominator Of Flattening Ratio', with: '1.0')
+        expect(page).to have_checked_field('Horizontal Data Resolution')
+        within '.horizontal-data-resolution' do
+          expect(page).to have_checked_field('Point Resolution')
+          expect(page).to have_checked_field('Point')
+
+          expect(page).to have_checked_field('Varies Resolution')
+          expect(page).to have_checked_field('Varies')
+
+          within '.horizontal-data-resolution-fields.non-gridded-resolutions' do
+            expect(page).to have_field('X Dimension', with: '1')
+            expect(page).to have_field('Y Dimension', with: '2')
+            expect(page).to have_field('Unit', with: 'Meters')
+            expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
+            expect(page).to have_field('Scan Direction', with: 'Cross Track')
+          end
+          within '.horizontal-data-resolution-fields.non-gridded-range-resolutions' do
+            expect(page).to have_field('Minimum X Dimension', with: '3')
+            expect(page).to have_field('Maximum X Dimension', with: '5')
+            expect(page).to have_field('Minimum Y Dimension', with: '4')
+            expect(page).to have_field('Maximum Y Dimension', with: '6')
+            expect(page).to have_field('Unit', with: 'Meters')
+            expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
+            expect(page).to have_field('Scan Direction', with: 'Cross Track')
+          end
+          within '.horizontal-data-resolution-fields.gridded-resolutions' do
+            within '.multiple-item-0' do
+              expect(page).to have_field('X Dimension', with: '7')
+              expect(page).to have_field('Unit', with: 'Meters')
+            end
+            within '.multiple-item-1' do
+              expect(page).to have_field('Y Dimension', with: '8')
+              expect(page).to have_field('Unit', with: 'Decimal Degrees')
+            end
+          end
+          within '.horizontal-data-resolution-fields.gridded-range-resolutions' do
+            expect(page).to have_field('Minimum X Dimension', with: '9')
+            expect(page).to have_field('Maximum X Dimension', with: '10')
+            expect(page).to have_field('Unit', with: 'Meters')
+          end
+          within '.horizontal-data-resolution-fields.generic-resolutions' do
+            expect(page).to have_field('X Dimension', with: '11')
+            expect(page).to have_field('Unit', with: 'Decimal Degrees')
+          end
+        end
+      end
+      expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
+    end
+  end
+
+  context 'when changing to a set containing horizontal and another type' do
+    before do
+      select 'Horizontal and Vertical', from: 'Spatial Coverage Type'
+    end
+
+    it 'retains the horizontal data' do
+      within '.spatial-extent' do
+        expect(page).to have_field('Spatial Coverage Type', with: 'HORIZONTAL_VERTICAL')
+        # Horizontal
+        expect(page).to have_field('Zone Identifier', with: 'Zone ID')
+        within '.geometry' do
+          expect(page).to have_checked_field('Cartesian')
+          expect(page).to have_no_checked_field('Geodetic')
+          # BoundingRectangles
+          within '.multiple.bounding-rectangles' do
+            within '.multiple-item-0' do
+              expect(page).to have_field('West', with: '-180.0')
+              expect(page).to have_field('North', with: '90.0')
+              expect(page).to have_field('East', with: '180.0')
+              expect(page).to have_field('South', with: '-90.0')
+            end
+            within '.multiple-item-1' do
+              expect(page).to have_field('West', with: '-96.9284587')
+              expect(page).to have_field('North', with: '58.968602')
+              expect(page).to have_field('East', with: '-56.9284587')
+              expect(page).to have_field('South', with: '18.968602')
+            end
+          end
+        end
+        within '.resolution-and-coordinate-system' do
+          expect(page).to have_field('Description', with: 'ResolutionAndCoordinateSystem Description')
+          expect(page).to have_field('Horizontal Datum Name', with: 'HorizontalDatumName Text')
+          expect(page).to have_field('Ellipsoid Name', with: 'EllipsoidName Text')
+          expect(page).to have_field('Semi Major Axis', with: '1.0')
+          expect(page).to have_field('Denominator Of Flattening Ratio', with: '1.0')
+          expect(page).to have_checked_field('Horizontal Data Resolution')
+          within '.horizontal-data-resolution' do
+            expect(page).to have_checked_field('Point Resolution')
+            expect(page).to have_checked_field('Point')
+
+            expect(page).to have_checked_field('Varies Resolution')
+            expect(page).to have_checked_field('Varies')
+
+            within '.horizontal-data-resolution-fields.non-gridded-resolutions' do
+              expect(page).to have_field('X Dimension', with: '1')
+              expect(page).to have_field('Y Dimension', with: '2')
+              expect(page).to have_field('Unit', with: 'Meters')
+              expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
+              expect(page).to have_field('Scan Direction', with: 'Cross Track')
+            end
+            within '.horizontal-data-resolution-fields.non-gridded-range-resolutions' do
+              expect(page).to have_field('Minimum X Dimension', with: '3')
+              expect(page).to have_field('Maximum X Dimension', with: '5')
+              expect(page).to have_field('Minimum Y Dimension', with: '4')
+              expect(page).to have_field('Maximum Y Dimension', with: '6')
+              expect(page).to have_field('Unit', with: 'Meters')
+              expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
+              expect(page).to have_field('Scan Direction', with: 'Cross Track')
+            end
+            within '.horizontal-data-resolution-fields.gridded-resolutions' do
+              within '.multiple-item-0' do
+                expect(page).to have_field('X Dimension', with: '7')
+                expect(page).to have_field('Unit', with: 'Meters')
+              end
+              within '.multiple-item-1' do
+                expect(page).to have_field('Y Dimension', with: '8')
+                expect(page).to have_field('Unit', with: 'Decimal Degrees')
+              end
+            end
+            within '.horizontal-data-resolution-fields.gridded-range-resolutions' do
+              expect(page).to have_field('Minimum X Dimension', with: '9')
+              expect(page).to have_field('Maximum X Dimension', with: '10')
+              expect(page).to have_field('Unit', with: 'Meters')
+            end
+            within '.horizontal-data-resolution-fields.generic-resolutions' do
+              expect(page).to have_field('X Dimension', with: '11')
+              expect(page).to have_field('Unit', with: 'Decimal Degrees')
+            end
+          end
+        end
+        # Vertical
+        within '.vertical-spatial-domains' do
+          expect(page).to have_field('Type', with: '')
+          expect(page).to have_field('Value', with: '')
+        end
+        expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
+      end
+    end
+
+    context 'after filling in vertical data, switching clears the horizontal data' do
+      before do
+        within '.vertical-spatial-domains' do
+          select 'Atmosphere Layer', from: 'Type'
+          fill_in 'Value', with: '1.0'
+        end
+
+        # Switching to Vertical should clear the non-vertical spatial extents,
+        # so the horizontal fields should be empty and the vertical fields
+        # should still be populated
+        select 'Vertical', from: 'Spatial Coverage Type'
+        select 'Horizontal and Vertical', from: 'Spatial Coverage Type'
+      end
+
+      it 'retains the vertical data' do
+        within '.vertical-spatial-domains' do
+          expect(page).to have_field('Type', with: 'Atmosphere Layer')
+          expect(page).to have_field('Value', with: '1.0')
+        end
+      end
+
+      it 'clears the horizontal data' do
+        expect(page).to have_field('Zone Identifier', with: '')
+        within '.geometry' do
+          expect(page).to have_no_checked_field('Cartesian')
+          expect(page).to have_no_checked_field('Geodetic')
+          expect(page).to have_no_checked_field('BoundingRectangles')
+        end
+        within '.resolution-and-coordinate-system' do
+          expect(page).to have_field('Description', with: '')
+          expect(page).to have_field('Horizontal Datum Name', with: '')
+          expect(page).to have_field('Ellipsoid Name', with: '')
+          expect(page).to have_field('Semi Major Axis', with: '')
+          expect(page).to have_field('Denominator Of Flattening Ratio', with: '')
+          expect(page).to have_no_checked_field('Horizontal Data Resolution')
+          expect(page).to have_no_checked_field('Local Coordinate System')
+        end
+      end
+    end
+  end
+
+  context 'when making a change without selecting a spatial coverage type' do
+    before do
+      fill_in 'Zone Identifier', with: 'New Text'
+
+      # This save changes the number from the factory (e.g. 1) to a float (1.0)
+      within '.nav-top' do
+        click_on 'Save'
+      end
+
+      click_on 'Expand All'
+    end
+
+    it 'saves the change' do
+      within '.spatial-extent' do
+        expect(page).to have_field('Zone Identifier', with: 'New Text')
+      end
+    end
+
+    it 'does not populate the spatial coverage type' do
+      within '.spatial-extent' do
+        expect(page).to have_field('Spatial Coverage Type', with: '')
+      end
+    end
+
+    it 'saves the rest of the fields' do
+      within '.spatial-extent' do
+        # Horizontal
+        within '.geometry' do
+          expect(page).to have_checked_field('Cartesian')
+          expect(page).to have_no_checked_field('Geodetic')
+          # BoundingRectangles
+          within '.multiple.bounding-rectangles' do
+            within '.multiple-item-0' do
+              expect(page).to have_field('West', with: '-180.0')
+              expect(page).to have_field('North', with: '90.0')
+              expect(page).to have_field('East', with: '180.0')
+              expect(page).to have_field('South', with: '-90.0')
+            end
+            within '.multiple-item-1' do
+              expect(page).to have_field('West', with: '-96.9284587')
+              expect(page).to have_field('North', with: '58.968602')
+              expect(page).to have_field('East', with: '-56.9284587')
+              expect(page).to have_field('South', with: '18.968602')
+            end
+          end
+        end
+        within '.resolution-and-coordinate-system' do
+          expect(page).to have_field('Description', with: 'ResolutionAndCoordinateSystem Description')
+          expect(page).to have_field('Horizontal Datum Name', with: 'HorizontalDatumName Text')
+          expect(page).to have_field('Ellipsoid Name', with: 'EllipsoidName Text')
+          expect(page).to have_field('Semi Major Axis', with: '1.0')
+          expect(page).to have_field('Denominator Of Flattening Ratio', with: '1.0')
+          expect(page).to have_checked_field('Horizontal Data Resolution')
+          # Horizontal Data Resolution
+          within '.horizontal-data-resolution' do
+            expect(page).to have_checked_field('Point Resolution')
+            expect(page).to have_checked_field('Point')
+
+            expect(page).to have_checked_field('Varies Resolution')
+            expect(page).to have_checked_field('Varies')
+
+            within '.horizontal-data-resolution-fields.non-gridded-resolutions' do
+              expect(page).to have_field('X Dimension', with: '1.0')
+              expect(page).to have_field('Y Dimension', with: '2.0')
+              expect(page).to have_field('Unit', with: 'Meters')
+              expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
+              expect(page).to have_field('Scan Direction', with: 'Cross Track')
+            end
+            within '.horizontal-data-resolution-fields.non-gridded-range-resolutions' do
+              expect(page).to have_field('Minimum X Dimension', with: '3.0')
+              expect(page).to have_field('Maximum X Dimension', with: '5.0')
+              expect(page).to have_field('Minimum Y Dimension', with: '4.0')
+              expect(page).to have_field('Maximum Y Dimension', with: '6.0')
+              expect(page).to have_field('Unit', with: 'Meters')
+              expect(page).to have_field('Viewing Angle Type', with: 'At Nadir')
+              expect(page).to have_field('Scan Direction', with: 'Cross Track')
+            end
+            within '.horizontal-data-resolution-fields.gridded-resolutions' do
+              within '.multiple-item-0' do
+                expect(page).to have_field('X Dimension', with: '7.0')
+                expect(page).to have_field('Unit', with: 'Meters')
+              end
+              within '.multiple-item-1' do
+                expect(page).to have_field('Y Dimension', with: '8.0')
+                expect(page).to have_field('Unit', with: 'Decimal Degrees')
+              end
+            end
+            within '.horizontal-data-resolution-fields.gridded-range-resolutions' do
+              expect(page).to have_field('Minimum X Dimension', with: '9.0')
+              expect(page).to have_field('Maximum X Dimension', with: '10.0')
+              expect(page).to have_field('Unit', with: 'Meters')
+            end
+            within '.horizontal-data-resolution-fields.generic-resolutions' do
+              expect(page).to have_field('X Dimension', with: '11.0')
+              expect(page).to have_field('Unit', with: 'Decimal Degrees')
+            end
+          end
+        end
         expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
       end
     end

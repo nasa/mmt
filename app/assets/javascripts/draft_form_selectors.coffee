@@ -72,35 +72,44 @@ $(document).ready ->
       when 'PeriodicDateTime'
         $parent.siblings('.temporal-range-type.periodic-date-time').show()
 
+  clearFieldsInClass = (fieldsToBeCleared) ->
+    fieldsToBeCleared.find('input, select').not('input[type="radio"]').val ''
+    fieldsToBeCleared.find('input[type="radio"]').prop 'checked', false 
+    fieldsToBeCleared.find("input[type='checkbox']").prop 'checked', false
+    fieldsToBeCleared.find("input[type='checkbox']").change()
+
   # Handle SpatialCoverageType selector
   $('.spatial-coverage-type-select').change ->
     $parent = $(this).parents('.spatial-coverage-type-group')
 
     $parent.siblings('.spatial-coverage-type').hide()
 
-    # Clear all fields except radio buttons
-    $parent.siblings('.spatial-coverage-type').find('input, select').not('input[type="radio"]').val ''
-    # Uncheck radio buttons
-    $parent.siblings('.spatial-coverage-type').find('input[type="radio"]').prop 'checked', false
-
-    # Hide geographic and local coordinate system fields
-    $parent.siblings().find('.horizontal-data-resolution-fields').hide()
-    $parent.siblings().find('.local-coordinate-system-fields').hide()
+    unless $(this).val().indexOf('HORIZONTAL') > -1
+      $parent.siblings().find('.horizontal-data-resolution-fields').hide()
+      $parent.siblings().find('.local-coordinate-system-fields').hide()
 
     switch $(this).val()
+      when ''
+        clearFieldsInClass($parent.siblings('.spatial-coverage-type'))
       when 'HORIZONTAL'
+        clearFieldsInClass($parent.siblings('.spatial-coverage-type').not('.horizontal'))
         $parent.siblings('.spatial-coverage-type.horizontal').show()
       when 'VERTICAL'
+        clearFieldsInClass($parent.siblings('.spatial-coverage-type').not('.vertical'))
         $parent.siblings('.spatial-coverage-type.vertical').show()
       when 'ORBITAL'
+        clearFieldsInClass($parent.siblings('.spatial-coverage-type').not('.orbit'))
         $parent.siblings('.spatial-coverage-type.orbit').show()
       when 'HORIZONTAL_VERTICAL'
+        clearFieldsInClass($parent.siblings('.spatial-coverage-type').not('.horizontal, .vertical'))
         $parent.siblings('.spatial-coverage-type.horizontal').show()
         $parent.siblings('.spatial-coverage-type.vertical').show()
       when 'ORBITAL_VERTICAL'
+        clearFieldsInClass($parent.siblings('.spatial-coverage-type').not('.orbit, .vertical'))
         $parent.siblings('.spatial-coverage-type.orbit').show()
         $parent.siblings('.spatial-coverage-type.vertical').show()
       when 'HORIZONTAL_ORBITAL'
+        clearFieldsInClass($parent.siblings('.spatial-coverage-type').not('.horizontal, .orbit'))
         $parent.siblings('.spatial-coverage-type.horizontal').show()
         $parent.siblings('.spatial-coverage-type.orbit').show()
       when 'HORIZONTAL_VERTICAL_ORBITAL'
