@@ -15,7 +15,7 @@
 
 
   <!-- HorizontalSpatialDomain -->
-  <div class="spatial-coverage-type horizontal" style="<%= 'display: none;' unless spatial_coverage_type.to_s.include? 'HORIZONTAL' %>">
+  <div class="spatial-coverage-type horizontal" style="<%= 'display: none;' unless spatial_coverage_type&.include?('HORIZONTAL') || spatial_extent.fetch('HorizontalSpatialDomain', nil) %>">
     <%= mmt_label(
       name: 'horizontal_spatial_domain',
       title: 'Horizontal Spatial Domain',
@@ -35,7 +35,7 @@
 
 
   <!-- OrbitParameters -->
-  <div class="spatial-coverage-type orbit" style="<%= 'display: none;' unless spatial_coverage_type.to_s.include? 'ORBITAL' %>">
+  <div class="spatial-coverage-type orbit" style="<%= 'display: none;' unless spatial_coverage_type&.include?('ORBITAL') || spatial_extent.fetch('OrbitParameters', nil) %>">
     <%= mmt_label(
       name: 'orbit_parameters',
       title: 'Orbit Parameters',
@@ -55,7 +55,7 @@
 
 
   <!-- VerticalSpatialDomains -->
-  <div class="spatial-coverage-type vertical" style="<%= 'display: none;' unless spatial_coverage_type.to_s.include? 'VERTICAL' %>">
+  <div class="spatial-coverage-type vertical" style="<%= 'display: none;' unless spatial_coverage_type&.include?('VERTICAL') || spatial_extent.fetch('VerticalSpatialDomains', nil) %>">
     <%= render partial: 'collection_drafts/forms/type', locals: {
         type: 'vertical_spatial_domain',
         values: spatial_extent['VerticalSpatialDomains'] || [{}],
