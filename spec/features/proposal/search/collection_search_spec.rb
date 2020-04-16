@@ -59,7 +59,6 @@ describe 'Searching for published collections in proposal mode', js: true do
           expect(page).to have_link('ECHO 10', href: download_collection_xml_path(@ingest_response['concept-id'], 'echo10'))
           expect(page).to have_link('ISO 19115 (MENDS)', href: download_collection_xml_path(@ingest_response['concept-id'], 'iso'))
           expect(page).to have_link('ISO 19115 (SMAP)', href: download_collection_xml_path(@ingest_response['concept-id'], 'iso19115'))
-          expect(page).to have_link('DIF 9', href: download_collection_xml_path(@ingest_response['concept-id'], 'dif'))
           expect(page).to have_link('DIF 10', href: download_collection_xml_path(@ingest_response['concept-id'], 'dif10'))
         end
 

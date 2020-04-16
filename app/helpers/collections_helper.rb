@@ -2,7 +2,6 @@ module CollectionsHelper
   DOWNLOAD_XML_OPTIONS = [
     { format: 'native',   title: 'NATIVE' },
     { format: 'atom',     title: 'ATOM' },
-    { format: 'dif',      title: 'DIF 9' },
     { format: 'dif10',    title: 'DIF 10' },
     { format: 'echo10',   title: 'ECHO 10' },
     { format: 'iso',      title: 'ISO 19115 (MENDS)' },
