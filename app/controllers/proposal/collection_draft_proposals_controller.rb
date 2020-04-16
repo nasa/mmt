@@ -7,6 +7,11 @@ module Proposal
 
     before_action :ensure_non_nasa_draft_permissions
     before_action(only: [:submit, :rescind, :progress, :approve, :reject]) { set_resource }
+    before_action(only: [:submit]) do
+      load_umm_c_schema
+      collection_validation_setup
+      verify_valid_metadata
+    end
 
     def index
       working_proposals = current_user.send(plural_resource_name)
@@ -75,7 +80,7 @@ module Proposal
         @first_stage = 'In Work'
 
         # This applies the same validation as is applied on the preview/show page
-        show_view_setup
+        collection_validation_setup
         load_umm_c_schema
         @errors = validate_metadata
       else
