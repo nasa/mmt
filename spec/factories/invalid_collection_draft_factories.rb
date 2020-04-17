@@ -295,6 +295,49 @@ FactoryBot.define do
       )
     }
   end
+
+  factory :collection_multiple_item_invalid_ingest_error, class: CollectionDraft do
+    draft_type { 'CollectionDraft' }
+    native_id { 'invalid_ingest_draft_id' }
+    provider_id { 'MMT_2' }
+    draft {
+      all_required_fields.merge(
+        'SpatialExtent' => {
+          'SpatialCoverageType' => 'HORIZONTAL',
+          'HorizontalSpatialDomain' => {
+            'Geometry' => {
+              'CoordinateSystem' => 'CARTESIAN',
+              "GPolygons": [
+                {
+                  "Boundary": {
+                    "Points": [
+                      {
+                        "Longitude": 1.0,
+                        "Latitude": 1.0
+                      },
+                      {
+                        "Longitude": 5.0,
+                        "Latitude": 5.0
+                      },
+                      {
+                        "Longitude": 1.0,
+                        "Latitude": 5.0
+                      },
+                      {
+                        "Longitude": 10.0,
+                        "Latitude": 1.0
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          'GranuleSpatialRepresentation' => 'ORBIT'
+        }
+      )
+    }
+  end
 end
 
 def all_required_fields
