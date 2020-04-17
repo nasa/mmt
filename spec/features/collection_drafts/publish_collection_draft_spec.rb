@@ -156,8 +156,15 @@ describe 'Publishing collection draft records', js: true do
     it 'displays the error returned from CMR' do
       within 'section.errors' do
         expect(page).to have_content('This draft has the following errors:')
-        expect(page).to have_link('G Polygons 1', href: edit_collection_draft_path(draft, 'spatial_information'))
-        expect(page).to have_content('Spatial validation error: Polygon boundary was not closed. The last point must be equal to the first point.')
+        within '.ingest-error-0' do
+          expect(page).to have_link('G Polygons 1', href: edit_collection_draft_path(draft, 'spatial_information'))
+          expect(page).to have_content('Spatial validation error: Polygon boundary was not closed. The last point must be equal to the first point.')
+        end
+
+        within '.ingest-error-1' do
+          expect(page).to have_link('G Polygons 2', href: edit_collection_draft_path(draft, 'spatial_information'))
+          expect(page).to have_content('Spatial validation error: Polygon boundary was not closed. The last point must be equal to the first point.')
+        end
       end
     end
   end

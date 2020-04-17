@@ -329,11 +329,33 @@ FactoryBot.define do
                       }
                     ]
                   }
+                },
+                {
+                  "Boundary": {
+                    "Points": [
+                      {
+                        "Longitude": 1.0,
+                        "Latitude": 1.0
+                      },
+                      {
+                        "Longitude": 5.0,
+                        "Latitude": 5.0
+                      },
+                      {
+                        "Longitude": 1.0,
+                        "Latitude": 5.0
+                      },
+                      {
+                        "Longitude": 10.0,
+                        "Latitude": 1.0
+                      }
+                    ]
+                  }
                 }
               ]
             }
           },
-          'GranuleSpatialRepresentation' => 'ORBIT'
+          'GranuleSpatialRepresentation' => 'CARTESIAN'
         }
       )
     }
