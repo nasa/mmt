@@ -153,4 +153,15 @@ class SubscriptionsController < ManageCmrController
       return
     end
   end
+
+  # Subscriptions pages authorize to display, so if a user winds up in a place
+  # where they are not allowed to return to the referrer, we need to direct them
+  # some place they can actually load. Observed case: changing providers to a
+  # provider in which they did not have permissions.
+  def user_not_authorized(exception)
+    policy_name = exception.policy.class.to_s.underscore
+
+    flash[:error] = I18n.t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
+    redirect_to(policy(:subscription).index? ? subscriptions_path : manage_cmr_path)
+  end
 end
