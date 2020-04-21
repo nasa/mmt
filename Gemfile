@@ -1,12 +1,20 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+# We have not investigated the cost of moving to rails 6, but expect it to make
+# more breaking changes.  Rails 5 is still supported.
 gem 'rails', '~> 5.2.4'
+# Rails currently limits all of the action*/active* gems
+# activesupport limits tzinfo
 
 # deployment support
+# Sprockets is locked to ~> 3.7.0 because the extra work to update to 4.0.0 was
+# dissuasive the last time we updated it. There are instructions to construct
+# the necessary manifest file in sprockets' repo.
 gem 'sprockets', '~> 3.7.0'
 
 # Use SCSS for stylesheets
+# bourbon is soft locked by thor. Thor is currently being held below 1 by figaro
 gem 'bourbon'
 gem 'sassc-rails'
 
@@ -17,7 +25,7 @@ gem 'autoprefixer-rails'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2.0'
+gem 'coffee-rails'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'mini_racer', platforms: :ruby
@@ -35,6 +43,8 @@ gem 'sdoc', group: :doc
 gem 'unicorn'
 
 gem 'faraday'
+# Currently limiting faraday.
+# Requires multipart-post (1 major behind)
 gem 'faraday_middleware', '<= 0.9.0'
 
 gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
@@ -87,6 +97,7 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
+  # Outdated because version 4.0 removed rails 5 support
   gem 'web-console'
 
   # better error handling
