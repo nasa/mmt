@@ -1,5 +1,5 @@
 module Cmr
-  Faraday.register_middleware(:response,
+  Faraday::Response.register_middleware(
                               logging: Cmr::ClientMiddleware::LoggingMiddleware,
                               errors: Cmr::ClientMiddleware::ErrorMiddleware,
                               events: Cmr::ClientMiddleware::EventMiddleware)

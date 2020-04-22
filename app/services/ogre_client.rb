@@ -1,7 +1,6 @@
 class OgreClient
   # Register custom middleware
-  Faraday.register_middleware(:response,
-                              logging: Cmr::ClientMiddleware::LoggingMiddleware)
+  Faraday::Response.register_middleware(logging: Cmr::ClientMiddleware::LoggingMiddleware)
 
   OGRE_URL = ENV['ogre_url']
 
