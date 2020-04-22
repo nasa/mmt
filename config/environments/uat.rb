@@ -109,7 +109,7 @@ Rails.application.configure do
   config.mmt_approver_workflow_enabled = true
 
   # Feature toggle for subscriptions in MMT
-  config.subscriptions_enabled = false
+  config.subscriptions_enabled = true
 
   config.cmr_env = 'uat'
   config.echo_env = 'uat'
