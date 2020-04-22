@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3011/permissions?user_id=adminuser&provider=MMT_2&target=NON_NASA_DRAFT_APPROVER
+    uri: http://localhost:3011/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=adminuser
     body:
       encoding: US-ASCII
       string: ''
@@ -39,7 +39,7 @@ http_interactions:
   recorded_at: Fri, 15 Nov 2019 13:42:18 GMT
 - request:
     method: get
-    uri: http://localhost:3011/permissions?user_id=adminuser&system_object=ANY_ACL
+    uri: http://localhost:3011/permissions?system_object=ANY_ACL&user_id=adminuser
     body:
       encoding: US-ASCII
       string: ''
@@ -76,7 +76,7 @@ http_interactions:
   recorded_at: Fri, 15 Nov 2019 13:42:18 GMT
 - request:
     method: get
-    uri: http://localhost:3011/acls?include_full_acl=true&identity_type=system&page_size=50
+    uri: http://localhost:3011/acls?identity_type=system&include_full_acl=true&page_size=50
     body:
       encoding: US-ASCII
       string: ''
@@ -237,7 +237,7 @@ http_interactions:
   recorded_at: Fri, 15 Nov 2019 13:42:18 GMT
 - request:
     method: get
-    uri: http://localhost:3011/groups?provider=CMR&page_size=25&page_num=1
+    uri: http://localhost:3011/groups?page_num=1&page_size=25&provider=CMR
     body:
       encoding: US-ASCII
       string: ''

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3011/permissions?user_id=testuser&provider=MMT_2&target=NON_NASA_DRAFT_APPROVER
+    uri: http://localhost:3011/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
     body:
       encoding: US-ASCII
       string: ''
