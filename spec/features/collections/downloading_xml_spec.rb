@@ -20,7 +20,6 @@ describe 'Downloading Collection XML', js: true do
         expect(page).to have_link('ECHO 10', href: download_collection_xml_path(@concept_id, 'echo10'))
         expect(page).to have_link('ISO 19115 (MENDS)', href: download_collection_xml_path(@concept_id, 'iso'))
         expect(page).to have_link('ISO 19115 (SMAP)', href: download_collection_xml_path(@concept_id, 'iso19115'))
-        expect(page).to have_link('DIF 9', href: download_collection_xml_path(@concept_id, 'dif'))
         expect(page).to have_link('DIF 10', href: download_collection_xml_path(@concept_id, 'dif10'))
       end
 
