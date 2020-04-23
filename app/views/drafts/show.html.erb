@@ -83,7 +83,7 @@
               <% @ingest_errors.each do |error| %>
                 <li>
                   <% if error[:field] && error[:page] %>
-                    <%= link_to name_to_title(error[:field]), send("edit_#{published_resource_name}_draft_path", id: get_resource, form: error[:page]) %>
+                    <%= link_to name_to_title(error[:field].to_s), send("edit_#{published_resource_name}_draft_path", id: get_resource, form: error[:page]) %>
                   <% else %>
                     <%= "#{error[:field]}," if error[:field] %>
                   <% end %>

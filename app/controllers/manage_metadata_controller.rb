@@ -205,10 +205,19 @@ class ManageMetadataController < ApplicationController
         path = error['path'].nil? ? [nil] : Array.wrap(error['path'])
         error = error['errors'].nil? ? error : error['errors'].first
 
+        # Display the parent field when the error occurs in a multiple field
+        # e.g. g-polygons 0 instead of just 0.
+        field = if path.length > 2 && path.last.is_a?(Numeric)
+                  # Display the error 1-indexed, like the forms
+                  path[-2] + " #{path.last + 1}"
+                else
+                  path.last
+                end
+
         # only show the feedback module link if the error is 500
         request_id = nil unless response.status == 500
         {
-          field: path.last,
+          field: field,
           top_field: path.first,
           page: get_page(path),
           error: error,

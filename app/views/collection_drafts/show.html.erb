@@ -64,10 +64,10 @@
           <div class="eui-banner__message">
             <h4><i class="fa fa-exclamation-triangle"></i> This draft has the following errors:</h4>
             <ul class="no-bullet">
-              <% @ingest_errors.each do |error| %>
-                <li>
+              <% @ingest_errors.each_with_index do |error, index| %>
+                <li class="ingest-error-<%= index %>">
                   <% if error[:field] && error[:page] %>
-                    <%= link_to name_to_title(error[:field]), edit_collection_draft_path(get_resource, error[:page]) %>
+                    <%= link_to name_to_title(error[:field].to_s), edit_collection_draft_path(get_resource, error[:page]) %>
                   <% else %>
                     <%= "#{error[:field]}," if error[:field] %>
                   <% end %>

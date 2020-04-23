@@ -141,6 +141,34 @@ describe 'Publishing collection draft records', js: true do
     end
   end
 
+  context 'when publishing a draft with data that will return a CMR ingest error in a field which is an array (e.g. polygons)' do
+    let(:draft) { create(:collection_multiple_item_invalid_ingest_error, user: User.where(urs_uid: 'testuser').first) }
+
+    before do
+      visit collection_draft_path(draft)
+      click_on 'Publish'
+    end
+
+    it 'displays a generic error message' do
+      expect(page).to have_content('Collection Draft was not published successfully')
+    end
+
+    it 'displays the error returned from CMR' do
+      within 'section.errors' do
+        expect(page).to have_content('This draft has the following errors:')
+        within '.ingest-error-0' do
+          expect(page).to have_link('G Polygons 1', href: edit_collection_draft_path(draft, 'spatial_information'))
+          expect(page).to have_content('Spatial validation error: Polygon boundary was not closed. The last point must be equal to the first point.')
+        end
+
+        within '.ingest-error-1' do
+          expect(page).to have_link('G Polygons 2', href: edit_collection_draft_path(draft, 'spatial_information'))
+          expect(page).to have_content('Spatial validation error: Polygon boundary was not closed. The last point must be equal to the first point.')
+        end
+      end
+    end
+  end
+
   context 'when publishing a record that was valid when the page loaded, but not when the user tried to publish' do
     before do
       draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
