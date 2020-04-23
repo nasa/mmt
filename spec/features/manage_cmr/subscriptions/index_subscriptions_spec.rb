@@ -156,3 +156,38 @@ describe 'Viewing a list of subscriptions' do
     end
   end
 end
+
+describe 'when switching providers on the subscription index page' do
+  context 'when the user does not have subscription management permissions in the new provider', js: true do
+    before do
+      login(provider: 'MMT_2', providers: %w[MMT_1 MMT_2])
+
+      @group_concept, @permission_concept = prepare_subscription_permissions(%w[read])
+      visit subscriptions_path
+
+      click_on 'profile-link'
+      click_on 'Change Provider'
+      select 'MMT_1', from: 'select_provider'
+      wait_for_jQuery
+    end
+
+    # TODO: Remove when reset provider works
+    after do
+      delete_group(concept_id: @group_concept)
+      remove_group_permissions(@permission_concept)
+    end
+
+    it 'has an error message' do
+      expect(page).to have_content('You are not permitted to perform this action.')
+    end
+
+    it 'arrives at the manage CMR page' do
+      expect(page).to have_content('Provider Information')
+      expect(page).to have_content('Permissions & Groups')
+      expect(page).to have_content('Orders')
+      expect(page).to have_content('Data Quality Summaries')
+      expect(page).to have_content('Service Management')
+      expect(page).to have_content('Subscriptions')
+    end
+  end
+end
