@@ -43,9 +43,7 @@ gem 'sdoc', group: :doc
 gem 'unicorn'
 
 gem 'faraday'
-# Currently limiting faraday.
-# Requires multipart-post (1 major behind)
-gem 'faraday_middleware', '< 1.0.0.rc'
+gem 'faraday_middleware'
 
 gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
 gem 'bootstrap3-datetimepicker-rails'
