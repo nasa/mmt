@@ -30,6 +30,14 @@ describe 'Collection Permissions form', js: true do
       expect(page).to have_field('granule_access_value[max_value]', disabled: true)
       expect(page).to have_field('granule_access_value[include_undefined_value]', disabled: true)
 
+      expect(page).to have_field('collection_temporal_filter[start_date]')
+      expect(page).to have_field('collection_temporal_filter[stop_date]')
+      expect(page).to have_field('collection_temporal_filter[mask]')
+
+      expect(page).to have_field('granule_temporal_filter[start_date]', disabled: true)
+      expect(page).to have_field('granule_temporal_filter[stop_date]', disabled: true)
+      expect(page).to have_field('granule_temporal_filter[mask]', disabled: true)
+
       expect(page).to have_field('Search', type: 'select', visible: false)
       expect(page).to have_field('Search and Order', type: 'select', visible: false)
     end
@@ -44,6 +52,12 @@ describe 'Collection Permissions form', js: true do
           expect(page).to have_field('granule_access_value[min_value]', disabled: false)
           expect(page).to have_field('granule_access_value[max_value]', disabled: false)
           expect(page).to have_field('granule_access_value[include_undefined_value]', disabled: false)
+        end
+
+        within '#granule-temporal-filter-container' do
+          expect(page).to have_field('granule_temporal_filter[start_date]', disabled: false)
+          expect(page).to have_field('granule_temporal_filter[stop_date]', disabled: false)
+          expect(page).to have_field('granule_temporal_filter[mask]', disabled: false)
         end
       end
     end
@@ -125,10 +139,16 @@ describe 'Collection Permissions form', js: true do
         within '#collection-access-constraints-container' do
           fill_in('Maximum Value', with: 5)
         end
+        within '#collection-temporal-filter-container' do
+          choose('Contains')
+        end
 
         check('Granules')
         within '#granule-access-constraints-container' do
           fill_in('Minimum Value', with: 0)
+        end
+        within '#granule-temporal-filter-container' do
+          choose('Disjoint')
         end
 
         click_on 'Submit'
@@ -140,6 +160,13 @@ describe 'Collection Permissions form', js: true do
         end
         within '#granule-access-constraints-container' do
           expect(page).to have_content('Minimum and Maximum values must be specified together.')
+        end
+
+        within '#collection-temporal-filter-container' do
+          expect(page).to have_content('Start Date, Stop Date, and Mask must be specified together.')
+        end
+        within '#granule-temporal-filter-container' do
+          expect(page).to have_content('Start Date, Stop Date, and Mask must be specified together.')
         end
       end
     end
@@ -166,6 +193,32 @@ describe 'Collection Permissions form', js: true do
         end
         within '#granule-access-constraints-container' do
           expect(page).to have_content('Maximum value must be greater than or equal to Minimum value.')
+        end
+      end
+    end
+
+    context 'when attempting to submit a collection permission with incorrect Start and Stop Dates' do
+      before do
+        within '#collection-temporal-filter-container' do
+          fill_in 'Start Date', with: '2020-04-27T00:00:00Z'
+          fill_in 'Stop Date', with: '2020-03-01T00:00:00Z'
+          choose 'Contains'
+        end
+
+        check('Granules')
+        within '#granule-temporal-filter-container' do
+          fill_in 'Start Date', with: '2020-04-27T00:00:00Z'
+          fill_in 'Stop Date', with: '2020-03-01T00:00:00Z'
+          choose 'Disjoint'
+        end
+      end
+
+      it 'displays the appropriate validation errors for the Start and Stop Date fields' do
+        within '#collection-temporal-filter-container' do
+          expect(page).to have_content('Start Date must be earlier than Stop Date.')
+        end
+        within '#granule-temporal-filter-container' do
+          expect(page).to have_content('Start Date must be earlier than Stop Date.')
         end
       end
     end

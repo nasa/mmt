@@ -25,6 +25,43 @@ module PermissionsHelper
     filters.join(' ')
   end
 
+  def display_temporal_filters(temporal)
+    return unless temporal.any?
+
+    filters = ['that have a start and end date']
+
+    # contains means start and end are within the values of the acl
+    # disjoint means they are outside of that range
+    # intersect means need to overlap in some way
+    filters << case temporal['mask']
+               when 'contains'
+                 'contained within'
+               when 'intersect'
+                 'having some overlap with'
+               when 'disjoint'
+                 'outside of'
+               end
+
+    filters << "the date range #{temporal['start_date']} to #{temporal['stop_date']}"
+
+    filters.join(' ')
+  end
+
+  def display_filters(access_value, temporal)
+    access_constraint_text = display_access_constraints(access_value)
+    temporal_text = display_temporal_filters(temporal)
+
+    if access_constraint_text.blank? && temporal_text.blank?
+      return
+    elsif access_constraint_text.blank?
+      temporal_text
+    elsif temporal_text.blank?
+      access_constraint_text
+    else
+      "#{access_constraint_text} and #{temporal_text}"
+    end
+  end
+
   def collection_constraint_summary(permission)
     collection_applicable = permission.fetch('catalog_item_identity', {}).fetch('collection_applicable', false)
 
@@ -39,7 +76,8 @@ module PermissionsHelper
                               'grants its assigned groups access to all of its collections'
                             end
 
-      sentence_fragments << display_access_constraints(permission_collection_access_constraints(permission))
+      sentence_fragments <<
+        display_filters(permission_collection_access_constraints(permission), permission_collection_temporal_filters(permission))
     else
       sentence_fragments << 'does not grant access to collections'
     end
@@ -57,7 +95,8 @@ module PermissionsHelper
     if granule_applicable
       sentence_fragments << 'grants its assigned groups access to granules'
 
-      sentence_fragments << display_access_constraints(permission_granule_access_constraints(permission))
+      sentence_fragments <<
+        display_filters(permission_granule_access_constraints(permission), permission_granule_temporal_filters(permission))
 
       sentence_fragments << if collection_concept_ids.any?
                               "that belong to the #{pluralize(collection_concept_ids.count, 'selected collection')}"
@@ -65,7 +104,8 @@ module PermissionsHelper
                               'that belong to any of its collections'
                             end
 
-      sentence_fragments << display_access_constraints(permission_collection_access_constraints(permission))
+      sentence_fragments <<
+        display_filters(permission_collection_access_constraints(permission), permission_collection_temporal_filters(permission))
     else
       sentence_fragments << 'does not grant access to granules'
     end
@@ -108,6 +148,14 @@ module PermissionsHelper
 
   def permission_granule_access_constraints(permission)
     permission.fetch('catalog_item_identity', {}).fetch('granule_identifier', {}).fetch('access_value', {})
+  end
+
+  def permission_collection_temporal_filters(permission)
+    permission.fetch('catalog_item_identity', {}).fetch('collection_identifier', {}).fetch('temporal', {})
+  end
+
+  def permission_granule_temporal_filters(permission)
+    permission.fetch('catalog_item_identity', {}).fetch('granule_identifier', {}).fetch('temporal', {})
   end
 
   def permission_provider(permission)

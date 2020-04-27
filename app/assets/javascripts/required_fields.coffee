@@ -70,10 +70,10 @@ $(document).ready ->
     if $fields.length > 0
       # get any values from the fields at the current data-level
       fieldsWithValues = $fields.filter ->
-        if this.type == 'radio' || this.type == 'checkbox'
-          this.checked
+        if $(this).type == 'radio' || $(this).type == 'checkbox'
+          $(this).prop('checked')
         else
-          this.value
+          $(this).val() != ''
 
       # If the current data-level is the same as the topRequiredDataLevel (this appears to be critical to how variable/service drafts get required icons)
       # or if the current data-level is a top level required field

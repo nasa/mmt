@@ -42,7 +42,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
     # Initialize the assignments array for the view
     @assignments = []
 
-    assignments_response = echo_client.get_service_option_assignments_by_service(echo_provider_token, params['service_entries_toList'])
+    assignments_response = echo_client.get_service_option_assignments_by_service(echo_provider_token, service_option_assignment_params['service_entries_toList'])
 
     if assignments_response.success?
       service_option_associations = Array.wrap(assignments_response.parsed_body(parser: 'libxml').fetch('Item', []))
