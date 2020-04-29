@@ -70,10 +70,14 @@ $(document).ready ->
     if $fields.length > 0
       # get any values from the fields at the current data-level
       fieldsWithValues = $fields.filter ->
-        if $(this).type == 'radio' || $(this).type == 'checkbox'
-          $(this).prop('checked')
+        # TODO: I wanted to change this filtering to use jQuery to be more
+        # consistent with what we use everywhere else. That proved problematic
+        # for our Service Organization tests (service_organizations_form_nav_spec)
+        # we should revisit this with UMM-S upgrade to v1.3, MMT-2237
+        if this.type == 'radio' || this.type == 'checkbox'
+          this.checked
         else
-          $(this).val() != ''
+          this.value
 
       # If the current data-level is the same as the topRequiredDataLevel (this appears to be critical to how variable/service drafts get required icons)
       # or if the current data-level is a top level required field
