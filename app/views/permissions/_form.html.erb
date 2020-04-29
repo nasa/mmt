@@ -60,23 +60,23 @@
 </fieldset>
 
 <fieldset>
-  <h3>Access Constraint Filter</h3>
+  <h4>Access Constraint Filter</h4>
 
   <div class="row">
     <div class="col-6">
-      <div id="collection-access-constraints-container">
+      <div id="collection-access-constraints-container" class="grouped-fields-parent">
         <h4 class="space-bot"><i class="eui-icon eui-collection"></i> Collections</h4>
-        <div class="row min-max-row">
-          <div class="col-6 min-max-col">
-            <%= label_tag 'collection_access_value[min_value]', 'Minimum Value' %>
-            <%= text_field_tag 'collection_access_value[min_value]', permission_collection_access_constraints(@permission)['min_value'], class: 'full-width min-max-value collection-access-value-group' %>
+        <div class="row">
+          <div class="col-6">
+            <%= label_tag 'collection_access_value[min_value]', 'Minimum Value', class: 'grouped-field-label' %>
+            <%= text_field_tag 'collection_access_value[min_value]', permission_collection_access_constraints(@permission)['min_value'], class: 'full-width min-max-value collection-access-value-group grouped-field' %>
           </div>
-          <div class="col-6 min-max-col">
-            <%= label_tag 'collection_access_value[max_value]', 'Maximum Value' %>
-            <%= text_field_tag 'collection_access_value[max_value]', permission_collection_access_constraints(@permission)['max_value'], class: 'full-width min-max-value collection-access-value-group' %>
+          <div class="col-6">
+            <%= label_tag 'collection_access_value[max_value]', 'Maximum Value', class: 'grouped-field-label' %>
+            <%= text_field_tag 'collection_access_value[max_value]', permission_collection_access_constraints(@permission)['max_value'], class: 'full-width min-max-value collection-access-value-group grouped-field' %>
           </div>
         </div>
-        <div class="row checkbox-group">
+        <div class="row checkbox-group space-top">
           <div class="col-6">
           <%= label_tag 'collection_access_value[include_undefined_value]' do %>
             <%= check_box_tag 'collection_access_value[include_undefined_value]', true, permission_collection_access_constraints(@permission)['include_undefined_value'] %>
@@ -84,25 +84,25 @@
           <% end %>
           </div>
           <div class="col-6 align-r">
-            <%= button_tag 'Clear Collection Filters', class: 'eui-btn eui-btn--sm clear-filters', data: { container: 'collection-access-constraints-container' } %>
+            <%= button_tag 'Clear Collection Access Constraint Filter', class: 'eui-btn eui-btn--sm clear-filters', data: { container: 'collection-access-constraints-container' } %>
           </div>
         </div>
       </div>
     </div>
     <div class="col-6">
-      <div id="granule-access-constraints-container">
+      <div id="granule-access-constraints-container" class="grouped-fields-parent">
         <h4 class="space-bot"><i class="eui-icon eui-granule"></i> Granules</h4>
-        <div class="row min-max-row">
-          <div class="col-6 min-max-col">
-            <%= label_tag 'granule_access_value[min_value]', 'Minimum Value' %>
-            <%= text_field_tag 'granule_access_value[min_value]', permission_granule_access_constraints(@permission)['min_value'], class: 'full-width min-max-value granule-access-value-group' %>
+        <div class="row">
+          <div class="col-6">
+            <%= label_tag 'granule_access_value[min_value]', 'Minimum Value', class: 'grouped-field-label' %>
+            <%= text_field_tag 'granule_access_value[min_value]', permission_granule_access_constraints(@permission)['min_value'], class: 'full-width min-max-value granule-access-value-group grouped-field' %>
           </div>
-          <div class="col-6 min-max-col">
-            <%= label_tag 'granule_access_value[max_value]', 'Maximum Value' %>
-            <%= text_field_tag 'granule_access_value[max_value]', permission_granule_access_constraints(@permission)['max_value'], class: 'full-width min-max-value granule-access-value-group' %>
+          <div class="col-6">
+            <%= label_tag 'granule_access_value[max_value]', 'Maximum Value', class: 'grouped-field-label' %>
+            <%= text_field_tag 'granule_access_value[max_value]', permission_granule_access_constraints(@permission)['max_value'], class: 'full-width min-max-value granule-access-value-group grouped-field' %>
           </div>
         </div>
-        <div class="row checkbox-group">
+        <div class="row checkbox-group space-top">
           <div class="col-6">
           <%= label_tag 'granule_access_value[include_undefined_value]' do %>
             <%= check_box_tag 'granule_access_value[include_undefined_value]', true, permission_granule_access_constraints(@permission)['include_undefined_value'] %>
@@ -110,12 +110,129 @@
           <% end %>
           </div>
           <div class="col-6 align-r">
-            <%= button_tag 'Clear Granule Filters', class: 'eui-btn eui-btn--sm clear-filters', data: { container: 'granule-access-constraints-container' } %>
+            <%= button_tag 'Clear Granule Access Constraint Filter', class: 'eui-btn eui-btn--sm clear-filters', data: { container: 'granule-access-constraints-container' } %>
           </div>
         </div>
       </div>
     </div>
   </div>
+</fieldset>
+
+<fieldset>
+  <h4>Temporal Filter</h4>
+
+  <div class="row">
+    <div class="col-6">
+      <div id="collection-temporal-filter-container">
+        <div class="grouped-fields-parent">
+          <h4 class="space-bot"><i class="eui-icon eui-collection"></i> Collections</h4>
+
+          <div class="row">
+            <div class="col-6">
+              <%= label_tag 'collection_temporal_filter[start_date]', 'Start Date', class: 'grouped-field-label' %>
+              <%= datetime_field_tag('collection_temporal_filter[start_date]', permission_collection_temporal_filters(@permission)['start_date'], class: 'full-width datetimepicker grouped-field', placeholder: 'YYYY-MM-DDTHH:MM:SSZ', data: { 'date-min-date' => false }).gsub('datetime-local','datetime').html_safe %>
+            </div>
+            <div class="col-6">
+              <%= label_tag 'collection_temporal_filter[stop_date]', 'Stop Date', class: 'grouped-field-label' %>
+              <%= datetime_field_tag('collection_temporal_filter[stop_date]', permission_collection_temporal_filters(@permission)['stop_date'], class: 'full-width datetimepicker grouped-field', placeholder: 'YYYY-MM-DDTHH:MM:SSZ', data: { 'date-min-date' => false }).gsub('datetime-local','datetime').html_safe %>
+            </div>
+          </div>
+
+          <div class="row space-top">
+            <div class="col-6">
+              <div class="row radio-group">
+                <div class="col-4 align-c">
+                  <%= label_tag 'collection_temporal_filter[mask]', 'Mask', class: 'grouped-field-label' %>
+                </div>
+
+                <div class="col-8">
+                  <div class="row">
+                    <%= label_tag 'collection_temporal_filter_mask_intersect' do %>
+                    <%= radio_button_tag 'collection_temporal_filter[mask]', 'intersect', permission_collection_temporal_filters(@permission)['mask'] == 'intersect', class: 'grouped-field' %>
+                    Intersect
+                    <% end %>
+                  </div>
+                  <div class="row">
+                    <%= label_tag 'collection_temporal_filter_mask_contains' do %>
+                    <%= radio_button_tag 'collection_temporal_filter[mask]', 'contains', permission_collection_temporal_filters(@permission)['mask'] == 'contains', class: 'grouped-field' %>
+                    Contains
+                    <% end %>
+                  </div>
+                  <div class="row">
+                    <%= label_tag 'collection_temporal_filter_mask_disjoint' do %>
+                    <%= radio_button_tag 'collection_temporal_filter[mask]', 'disjoint', permission_collection_temporal_filters(@permission)['mask'] == 'disjoint', class: 'grouped-field' %>
+                    Disjoint
+                    <% end %>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-6 align-r">
+              <%= button_tag 'Clear Collection Temporal Filter', class: 'eui-btn eui-btn--sm clear-filters', data: { container: 'collection-temporal-filter-container' } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-6">
+      <div id="granule-temporal-filter-container">
+        <div class="grouped-fields-parent">
+          <h4 class="space-bot"><i class="eui-icon eui-granule"></i> Granules</h4>
+
+          <div class="row">
+            <div class="col-6">
+              <%= label_tag 'granule_temporal_filter[start_date]', 'Start Date', class: 'grouped-field-label' %>
+              <%= datetime_field_tag('granule_temporal_filter[start_date]', permission_granule_temporal_filters(@permission)['start_date'], class: 'full-width datetimepicker grouped-field', placeholder: 'YYYY-MM-DDTHH:MM:SSZ', data: { 'date-min-date' => false }).gsub('datetime-local','datetime').html_safe %>
+            </div>
+            <div class="col-6">
+              <%= label_tag 'granule_temporal_filter[stop_date]', 'Stop Date', class: 'grouped-field-label' %>
+              <%= datetime_field_tag('granule_temporal_filter[stop_date]', permission_granule_temporal_filters(@permission)['stop_date'], class: 'full-width datetimepicker grouped-field', placeholder: 'YYYY-MM-DDTHH:MM:SSZ', data: { 'date-min-date' => false }).gsub('datetime-local','datetime').html_safe %>
+            </div>
+          </div>
+
+          <div class="row space-top">
+            <div class="col-6">
+              <div class="row radio-group">
+                <div class="col-4 align-c">
+                  <%= label_tag 'granule_temporal_filter[mask]', 'Mask', class: 'grouped-field-label' %>
+                </div>
+
+                <div class="col-8">
+                  <div class="row">
+                    <%= label_tag 'granule_temporal_filter_mask_intersect' do %>
+                    <%= radio_button_tag 'granule_temporal_filter[mask]', 'intersect', permission_granule_temporal_filters(@permission)['mask'] == 'intersect', class: 'grouped-field' %>
+                    Intersect
+                    <% end %>
+                  </div>
+                  <div class="row">
+                    <%= label_tag 'granule_temporal_filter_mask_contains' do %>
+                    <%= radio_button_tag 'granule_temporal_filter[mask]', 'contains', permission_granule_temporal_filters(@permission)['mask'] == 'contains', class: 'grouped-field' %>
+                    Contains
+                    <% end %>
+                  </div>
+                  <div class="row">
+                    <%= label_tag 'granule_temporal_filter_mask_disjoint' do %>
+                    <%= radio_button_tag 'granule_temporal_filter[mask]', 'disjoint', permission_granule_temporal_filters(@permission)['mask'] == 'disjoint', class: 'grouped-field' %>
+                    Disjoint
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 align-r">
+              <%= button_tag 'Clear Granule Temporal Filter', class: 'eui-btn eui-btn--sm clear-filters', data: { container: 'granule-temporal-filter-container' } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </fieldset>
 
 <fieldset>

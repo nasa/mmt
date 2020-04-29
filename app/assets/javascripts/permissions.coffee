@@ -1,12 +1,14 @@
 # Handle the enabling and disabling of the granule
-# access constraints form fields
+# access constraints and temporal filter form fields
 handleGranuleConstraintState = (granulesEnabled) ->
-  $('#granule-access-constraints-container :input').attr('disabled', !granulesEnabled)
+  $('#granule-access-constraints-container :input').prop('disabled', !granulesEnabled)
+  $('#granule-temporal-filter-container :input').prop('disabled', !granulesEnabled)
   $('#granule-access-constraints-container').toggleClass('disabled', !granulesEnabled)
+  $('#granule-temporal-filter-container').toggleClass('disabled', !granulesEnabled)
 
 # Handle the hiding and showing of the collection chooser
 handleCollectionOptions = (selectedCollections) ->
-  $('#chooser-widget :input').attr('disabled', !selectedCollections)
+  $('#chooser-widget :input').prop('disabled', !selectedCollections)
 
   if selectedCollections
     $('#chooser-widget').fadeIn(100)
@@ -118,42 +120,67 @@ $(document).ready ->
 
     # 'Clear Collection/Granule Filters'
     $('.clear-filters').on 'click', (event) ->
-      $('#' + $(this).data('container') + ' :input').val('')
-      $('#' + $(this).data('container') + ' :checkbox').attr('checked', false)
+      $containerId = $(this).data('container')
+      # clear values (not radio buttons)
+      $("##{$containerId} :input").not("input[type='radio']").val('')
+      # clear checkboxes or radio buttons
+      $("##{$containerId} input:checkbox").prop('checked', false)
+      $("##{$containerId} input:radio").prop('checked', false)
+
+      # remove validation errors and required icons
+      $("##{$containerId} label").removeClass 'eui-required-o'
+      $("##{$containerId} .eui-banner--danger.validation-error").remove()
 
       event.preventDefault()
 
-    # add or remove required icons for access value min and max fields if at least one has an input value
-    $('.min-max-value').on 'blur', ->
-      $currentAccessVal = $(this)
-      $currentCol = $currentAccessVal.closest('.min-max-col')
-      $otherAccessVal = $currentCol.siblings('.min-max-col').find('.min-max-value')
+    # add or remove required icons for grouped fields that are conditionally
+    # required - they are not required for the form to be valid, but if one of
+    # them is populated, they are all required together
+    # access constraint min and max values, temporal filters all fields
+    $('.grouped-field').on  'blur', ->
+      $currentField = $(this)
+      $groupedFieldsParent = $currentField.closest('.grouped-fields-parent')
+      $groupedFieldLabels = $groupedFieldsParent.find('.grouped-field-label')
+      $groupedFields = $groupedFieldsParent.find('.grouped-field')
 
-      $currentLabel = $("label[for='" + $currentAccessVal.attr('id') + "']")
-      $otherLabel = $("label[for='" + $otherAccessVal.attr('id') + "']")
+      $fieldsWithValues = $groupedFields.filter ->
+        if $(this).prop('type') == 'radio'
+          $(this).prop('checked')
+        else
+          $(this).val() != ''
 
-      if $currentAccessVal.val() == '' && $otherAccessVal.val() == ''
-        # both inputs are empty so are not required
-        $currentLabel.removeClass 'eui-required-o'
-        $otherLabel.removeClass 'eui-required-o'
+      if $fieldsWithValues.length > 0
+        # at least one field in the group has a value
+        $groupedFieldLabels.addClass 'eui-required-o'
       else
-        # at least one input is not empty, so both should be required
-        $currentLabel.addClass 'eui-required-o'
-        $otherLabel.addClass 'eui-required-o'
+        # no values in the group
+        $groupedFieldLabels.removeClass 'eui-required-o'
+
+    # for some reason jQuery seems to be misbehaving with the mask radio buttons
+    # with `prop('checked')` BUT NOT for required icons that uses `filter()`.
+    # therefore, it may be more consistent if we have a method to check the
+    # radio buttons with filter()
+    areMaskFieldsChecked = ($maskRadioButtons) ->
+      checkedField = $maskRadioButtons.filter ->
+        $(this).prop('checked')
+
+      if checkedField.length > 0 then true else false
 
     # Validate new permissions form with jquery validation plugin
     $('.permission-form').validate
       errorPlacement: (error, element) ->
-        if element.attr('id') == 'search_groups_' || element.attr('id') == 'search_and_order_groups_'
-          # error placement is trickier with the groups because of select2 and the table
-          # placing it after the table
+        if element.prop('id') == 'search_groups_' || element.prop('id') == 'search_and_order_groups_'
+          # error placement is trickier with the groups because of select2 and
+          # the table so we place it after the table
           error.addClass('full-width')
           $table = element.closest('table')
           error.insertAfter($table)
         else if element.hasClass('min-max-value')
-          $row = element.closest('.min-max-row')
           error.addClass('full-width')
-          error.insertAfter($row)
+          error.insertAfter(element.closest('.row'))
+        else if element.hasClass('grouped-field')
+          error.addClass('full-width')
+          error.insertAfter(element.closest('.grouped-fields-parent'))
         else if element.is(':checkbox')
           error.insertAfter(element.closest('.checkbox-group'))
         else
@@ -173,26 +200,52 @@ $(document).ready ->
             $('input[name=collection_option]:checked').val() == 'selected' && $('#collectionsChooser_toList').find('option').length == 0 && $('.hidden-collection').length == 0
         'collection_access_value[min_value]':
           required: (element) ->
-            # field should be required if min has a value
+            # if min or max has a value, the other one is required
             $('#collection_access_value_max_value').val() != ''
           number: true
         'collection_access_value[max_value]':
           required: (element) ->
-            # field should be required if max has a value
+            # if min or max has a value, the other one is required
             $('#collection_access_value_min_value').val() != ''
           number: true
           greaterThanOrEqual: $('#collection_access_value_min_value')
         'granule_access_value[min_value]':
           required: (element) ->
-            # field should be required if max has a value
+            # if min or max has a value, the other one is required
             $('#granule_access_value_max_value').val() != ''
           number: true
         'granule_access_value[max_value]':
           required: (element) ->
-            # field should be required if min has a value
+            # if min or max has a value, the other one is required
             $('#granule_access_value_min_value').val() != ''
           number: true
           greaterThanOrEqual: $('#granule_access_value_min_value')
+        'collection_temporal_filter[start_date]':
+          # if any temporal field has a value, the others are required also
+          startBeforeStop: $('#collection_temporal_filter_stop_date')
+          required: (element) ->
+            $('#collection_temporal_filter_stop_date').val() != '' || areMaskFieldsChecked($('input[name="collection_temporal_filter[mask]"]'))
+        'collection_temporal_filter[stop_date]':
+          # if any temporal field has a value, the others are required also
+          required: (element) ->
+            $('#collection_temporal_filter_start_date').val() != '' || areMaskFieldsChecked($('input[name="collection_temporal_filter[mask]"]'))
+        'collection_temporal_filter[mask]':
+          # if any temporal field has a value, the others are required also
+          required: (element) ->
+            $('#collection_temporal_filter_start_date').val() != '' || $('#collection_temporal_filter_stop_date').val() != ''
+        'granule_temporal_filter[start_date]':
+          # if any temporal field has a value, the others are required also
+          startBeforeStop: $('#granule_temporal_filter_stop_date')
+          required: (element) ->
+            $('#granule_temporal_filter_stop_date').val() != '' || areMaskFieldsChecked($('input[name="granule_temporal_filter[mask]"]'))
+        'granule_temporal_filter[stop_date]':
+          # if any temporal field has a value, the others are required also
+          required: (element) ->
+            $('#granule_temporal_filter_start_date').val() != '' || areMaskFieldsChecked($('input[name="granule_temporal_filter[mask]"]'))
+        'granule_temporal_filter[mask]':
+          # if any temporal field has a value, the others are required also
+          required: (element) ->
+            $('#granule_temporal_filter_start_date').val() != '' || $('#granule_temporal_filter_stop_date').val() != ''
         'search_groups[]':
           required: (element) ->
             # field is required if the other field has no value/selection
@@ -221,6 +274,20 @@ $(document).ready ->
         'granule_access_value[max_value]':
           required: 'Minimum and Maximum values must be specified together.'
           greaterThanOrEqual: 'Maximum value must be greater than or equal to Minimum value.'
+        'collection_temporal_filter[start_date]':
+          required: 'Start Date, Stop Date, and Mask must be specified together.'
+          startBeforeStop: 'Start Date must be earlier than Stop Date.'
+        'collection_temporal_filter[stop_date]':
+          required: 'Start Date, Stop Date, and Mask must be specified together.'
+        'collection_temporal_filter[mask]':
+          required: 'Start Date, Stop Date, and Mask must be specified together.'
+        'granule_temporal_filter[start_date]':
+          required: 'Start Date, Stop Date, and Mask must be specified together.'
+          startBeforeStop: 'Start Date must be earlier than Stop Date.'
+        'granule_temporal_filter[stop_date]':
+          required: 'Start Date, Stop Date, and Mask must be specified together.'
+        'granule_temporal_filter[mask]':
+          required: 'Start Date, Stop Date, and Mask must be specified together.'
         'search_groups[]':
           required: 'Please specify at least one Search group or one Search & Order group.'
         'search_and_order_groups[]':
@@ -230,7 +297,9 @@ $(document).ready ->
         # this should make it so only one message is shown for each group of elements
         permission_group: 'search_groups[] search_and_order_groups[]'
         collection_access_value_group: 'collection_access_value[min_value] collection_access_value[max_value]'
+        collection_temporal_filter_group: 'collection_temporal_filter[start_date] collection_temporal_filter[stop_date] collection_temporal_filter[mask]'
         graunle_access_value_group: 'granule_access_value[min_value] granule_access_value[max_value]'
+        granule_temporal_filter_group: 'granule_temporal_filter[start_date] granule_temporal_filter[stop_date] granule_temporal_filter[mask]'
         applies_to: 'collection_applicable granule_applicable'
 
     $.validator.addMethod 'greaterThanOrEqual', (value, elem, arg) ->
@@ -242,7 +311,13 @@ $(document).ready ->
 
       return true if value == '' || minimum == ''
       parseFloat(value) >= parseFloat(minimum)
-    , 'Maximum value must be greater than or equal to Minimum value.' # default message
+
+    $.validator.addMethod 'startBeforeStop', (value, elem, arg) ->
+      # ensure that the start_date is before stop_date
+      $stop_date = arg
+
+      return true if value == '' || $stop_date.val() == ''
+      Date.parse(value) < Date.parse($stop_date.val())
 
     visitedPermissionGroupSelect = []
 

@@ -35,12 +35,22 @@ describe 'Collection Permissions', reset_provider: true, js: true do
         fill_in('Maximum Value', with: 25)
         check('Include Undefined')
       end
+      within '#collection-temporal-filter-container' do
+        fill_in('Start Date', with: '2020-03-01T00:00:00Z')
+        fill_in('Stop Date', with: '2020-04-27T00:00:00Z')
+        choose('Contains')
+      end
 
       check('Granules')
       within '#granule-access-constraints-container' do
         fill_in('Minimum Value', with: 1.1)
         fill_in('Maximum Value', with: 8.8)
         check('Include Undefined')
+      end
+      within '#granule-temporal-filter-container' do
+        fill_in('Start Date', with: '2020-03-01T00:00:00Z')
+        fill_in('Stop Date', with: '2020-04-27T00:00:00Z')
+        choose('Intersect')
       end
 
       within '#permission-form-groups-table' do
@@ -62,11 +72,17 @@ describe 'Collection Permissions', reset_provider: true, js: true do
       within '#collection-constraint-summary' do
         expect(page).to have_content('between 5.0 and 25.0')
         expect(page).to have_content('(or are undefined)')
+
+        expect(page).to have_content('contained within')
+        expect(page).to have_content('the date range 2020-03-01T00:00:00Z to 2020-04-27T00:00:00Z')
       end
 
       within '#granule-constraint-summary' do
         expect(page).to have_content('between 1.1 and 8.8')
         expect(page).to have_content('(or are undefined)')
+
+        expect(page).to have_content('having some overlap with')
+        expect(page).to have_content('the date range 2020-03-01T00:00:00Z to 2020-04-27T00:00:00Z')
       end
 
       within '#permission-groups-table' do
@@ -100,12 +116,18 @@ describe 'Collection Permissions', reset_provider: true, js: true do
               'min_value': 5.0,
               'max_value': 55.0,
               'include_undefined_value': true
+            },
+            'temporal': {
+              'start_date': '2020-03-01T00:00:00Z',
+              'stop_date': '2020-04-27T00:00:00Z',
+              'mask': 'disjoint'
             }
           }
         }
       }
 
       @collection_permission_for_edit = cmr_client.add_group_permissions(previous_collection_permission, 'access_token').body
+
       # while we can use stubbed groups for collection permissions, it seems
       # that we need to have ingested collections to create a collection
       # permission if it has selected collections
@@ -132,6 +154,12 @@ describe 'Collection Permissions', reset_provider: true, js: true do
 
         expect(page).to have_no_css('#collectionsChooser')
 
+        within '#collection-access-constraints-container' do
+          expect(page).to have_field('collection_access_value[min_value]', with: '5.0')
+          expect(page).to have_field('collection_access_value[max_value]', with: '55.0')
+          expect(page).to have_field('collection_access_value[include_undefined_value]', checked: true)
+        end
+
         within '#search_groups_cell' do
           expect(page).to have_css('li.select2-selection__choice', text: 'All Guest Users')
         end
@@ -151,6 +179,11 @@ describe 'Collection Permissions', reset_provider: true, js: true do
             fill_in('Minimum Value', with: 1.1)
             fill_in('Maximum Value', with: 8.8)
           end
+          within '#granule-temporal-filter-container' do
+            fill_in('Start Date', with: '2020-03-01T00:00:00Z')
+            fill_in('Stop Date', with: '2020-04-27T00:00:00Z')
+            choose('Disjoint')
+          end
 
           select('Group 2', from: 'Search and Order')
 
@@ -168,6 +201,9 @@ describe 'Collection Permissions', reset_provider: true, js: true do
 
           within '#granule-constraint-summary' do
             expect(page).to have_content('between 1.1 and 8.8')
+
+            expect(page).to have_content('outside of')
+            expect(page).to have_content('the date range 2020-03-01T00:00:00Z to 2020-04-27T00:00:00Z')
           end
 
           within '#permission-groups-table' do

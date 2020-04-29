@@ -10,10 +10,8 @@ class PermissionsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
-    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
-
     # Default the page to 1
-    page = permitted.fetch('page', 1)
+    page = params.fetch('page', 1)
 
     @opts = {
       'provider'         => current_user.provider_id,
@@ -103,9 +101,9 @@ class PermissionsController < ManageCmrController
 
   def update
     @permission = {}
-    @permission_concept_id = params[:id]
-    permission_provider = params[:permission_provider]
-    @revision_id = params[:revision_id]
+    @permission_concept_id = collection_permission_params[:id]
+    permission_provider = collection_permission_params[:permission_provider]
+    @revision_id = collection_permission_params[:revision_id]
     next_revision_id = "#{@revision_id.to_i + 1}"
 
     @permission = construct_request_object(permission_provider)
@@ -148,12 +146,28 @@ class PermissionsController < ManageCmrController
 
   private
 
+  def collection_permission_params
+    # because there are nested params, when they go through strong parameters
+    # the nested params become a ActionController Parameters object
+    # so when grabbing the nested params we need to call to_h on them or some
+    # hash methods will cause an error
+    params.permit(:id, :permission_provider, :revision_id, :permission_name,
+                  :collection_applicable, :granule_applicable, :collection_option,
+                  collectionsChooser_toList: [], hidden_collections: [],
+                  collection_access_value: [ :min_value, :max_value, :include_undefined_value ],
+                  granule_access_value: [ :min_value, :max_value, :include_undefined_value ],
+                  collection_temporal_filter: [ :start_date, :stop_date, :mask ],
+                  granule_temporal_filter: [ :start_date, :stop_date, :mask ],
+                  search_groups: [], search_and_order_groups: [],
+                  hidden_search_groups: [], hidden_search_and_order_groups: []
+    )
+  end
+
   def set_collection_permission
     @permission = {}
     @permission_concept_id = params[:id]
 
     permission_response = cmr_client.get_permission(@permission_concept_id, token)
-
     if permission_response.success?
       @permission = permission_response.body
 
@@ -258,28 +272,30 @@ class PermissionsController < ManageCmrController
   end
 
   def construct_request_object(provider)
-    collection_applicable = params[:collection_applicable] == 'true'
+    collection_applicable = collection_permission_params[:collection_applicable] == 'true'
 
-    granule_applicable = params[:granule_applicable] == 'true'
+    granule_applicable = collection_permission_params[:granule_applicable] == 'true'
 
     req_obj = {
       'group_permissions' => [],
       'catalog_item_identity' => {
-        'name'                  => params[:permission_name],
+        'name'                  => collection_permission_params[:permission_name],
         'provider_id'           => provider,
         'granule_applicable'    => granule_applicable,
         'collection_applicable' => collection_applicable
       }
     }
 
-    collection_access_constraints = safe_hash(:collection_access_value).delete_if { |_key, value| value.blank? }
+    collection_access_constraints = collection_permission_params[:collection_access_value].to_h.delete_if { |_key, value| value.blank? }
 
-    if params.fetch(:collectionsChooser_toList, []).any? || params.fetch(:hidden_collections, []).any? || collection_access_constraints.any?
+    collection_temporal_filter = collection_permission_params[:collection_temporal_filter].to_h.delete_if { |_key, value| value.blank? }
+
+    if collection_permission_params.fetch(:collectionsChooser_toList, []).any? || collection_permission_params.fetch(:hidden_collections, []).any? || collection_access_constraints.any?
       # Create an empty hash for the nested key that we'll populate below
       req_obj['catalog_item_identity']['collection_identifier'] = {}
 
       # Selected collections as well as hidden collections
-      selected_collections = params.fetch(:collectionsChooser_toList, []) + params.fetch(:hidden_collections, [])
+      selected_collections = collection_permission_params.fetch(:collectionsChooser_toList, []) + collection_permission_params.fetch(:hidden_collections, [])
 
       if selected_collections.any?
         req_obj['catalog_item_identity']['collection_identifier'] = {
@@ -290,26 +306,36 @@ class PermissionsController < ManageCmrController
       if collection_access_constraints.any?
         req_obj['catalog_item_identity']['collection_identifier']['access_value'] = hydrate_constraint_values(collection_access_constraints)
       end
+
+      if collection_temporal_filter.any?
+        req_obj['catalog_item_identity']['collection_identifier']['temporal'] = collection_temporal_filter
+      end
     end
 
     if granule_applicable
-      granule_access_constraints = safe_hash(:granule_access_value).delete_if { |_key, value| value.blank? }
+      granule_access_constraints = collection_permission_params[:granule_access_value].to_h.delete_if { |_key, value| value.blank? }
 
       if granule_access_constraints.any?
         req_obj['catalog_item_identity']['granule_identifier'] = {
           'access_value' => hydrate_constraint_values(granule_access_constraints)
         }
       end
+
+      granule_temporal_filter = collection_permission_params[:granule_temporal_filter].to_h.delete_if { |_key, value| value.blank? }
+
+      if granule_temporal_filter.any?
+        req_obj['catalog_item_identity']['granule_identifier']['temporal'] = granule_temporal_filter
+      end
     end
 
-    search_groups = params[:search_groups] || []
-    search_and_order_groups = params[:search_and_order_groups] || []
+    search_groups = collection_permission_params[:search_groups] || []
+    search_and_order_groups = collection_permission_params[:search_and_order_groups] || []
 
     # Append any groups with search access that the user does not have access to see
-    search_groups += params.fetch(:hidden_search_groups, [])
+    search_groups += collection_permission_params.fetch(:hidden_search_groups, [])
 
     # Append any groups with search and order access that the user does not have access to see
-    search_and_order_groups += params.fetch(:hidden_search_and_order_groups, [])
+    search_and_order_groups += collection_permission_params.fetch(:hidden_search_and_order_groups, [])
 
     search_groups.each do |search_group|
       # we are preventing a user from selecting a group for both search AND search & order

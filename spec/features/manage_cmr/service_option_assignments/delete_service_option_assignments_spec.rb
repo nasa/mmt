@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Deleting a Service Option Assignment', reset_provider: true, js: true do
   before :all do
     # create a group
