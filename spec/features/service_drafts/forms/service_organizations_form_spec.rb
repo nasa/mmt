@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service Organizations Form', js: true do
   before do
     login
@@ -7,21 +5,45 @@ describe 'Service Organizations Form', js: true do
     visit edit_service_draft_path(draft, 'service_organizations')
   end
 
-  context 'when submitting the form' do
+  context 'when submitting the form with contact information' do
     before do
-      add_service_organizations
+      add_service_organizations(with_contact_info: true)
 
       within '.nav-top' do
         click_on 'Save'
       end
     end
 
-    it 'displays a confirmation message' do
-      expect(page).to have_content('Service Draft Updated Successfully!')
+    context 'when viewing the form' do
+      include_examples 'Service Organizations Form with Contact Information and confirmation'
+    end
+  end
+
+  context 'when submitting the form with contact groups' do
+    before do
+      add_service_organizations(with_contact_groups: true)
+
+      within '.nav-top' do
+        click_on 'Save'
+      end
     end
 
     context 'when viewing the form' do
-      include_examples 'Service Organizations Form'
+      include_examples 'Service Organizations Form with Contact Groups and confirmation'
+    end
+  end
+
+  context 'when submitting the form with contact persons' do
+    before do
+      add_service_organizations(with_contact_persons: true)
+
+      within '.nav-top' do
+        click_on 'Save'
+      end
+    end
+
+    context 'when viewing the form' do
+      include_examples 'Service Organizations Form with Contact Persons and confirmation'
     end
   end
 end
