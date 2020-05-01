@@ -23,7 +23,7 @@ describe 'Collection Permissions', reset_provider: true, js: true do
   end
 
   context 'when creating a new collection permission with complete information' do
-    let(:new_collection_permission_name) { 'New Collection Permission 01' }
+    let(:new_collection_permission_name) { "New Collection Permission #{Faker::Number.number(digits: 4)}" }
     before do
       visit new_permission_path
 
@@ -89,6 +89,60 @@ describe 'Collection Permissions', reset_provider: true, js: true do
         expect(page).to have_content('All Guest Users')
         expect(page).to have_content('All Registered Users')
         expect(page).to have_content('Group 1')
+      end
+    end
+  end
+
+  context 'when creating a collection permission with temporal filters but no access constraints' do
+    let(:new_collection_permission_name) { "New Collection Permission with Temporal but no Access Constraint Filters #{Faker::Number.number(digits: 4)}" }
+    before do
+      visit new_permission_path
+
+      fill_in('Name', with: new_collection_permission_name)
+
+      within '#collection-temporal-filter-container' do
+        fill_in('Start Date', with: '2020-03-01T00:00:00Z')
+        fill_in('Stop Date', with: '2020-04-27T00:00:00Z')
+        choose('Contains')
+      end
+
+      check('Granules')
+      within '#granule-temporal-filter-container' do
+        fill_in('Start Date', with: '2020-03-01T00:00:00Z')
+        fill_in('Stop Date', with: '2020-04-27T00:00:00Z')
+        choose('Disjoint')
+      end
+
+      within '#permission-form-groups-table' do
+        select('All Guest Users', from: 'Search')
+        select('All Registered Users', from: 'Search and Order')
+      end
+
+      click_on 'Submit'
+
+      wait_for_cmr
+    end
+
+    it 'successfully creates the collection permission and redirects to the show page and displaying the collection permission information' do
+      expect(page).to have_content('Collection Permission was successfully created.')
+
+      expect(page).to have_content(new_collection_permission_name)
+
+      within '#collection-constraint-summary' do
+        expect(page).to have_content('This permission does not grant access to collections.')
+      end
+
+      within '#granule-constraint-summary' do
+        expect(page).to have_content('outside of')
+        expect(page).to have_content('the date range 2020-03-01T00:00:00Z to 2020-04-27T00:00:00Z')
+        
+        expect(page).to have_content('contained within')
+        expect(page).to have_content('the date range 2020-03-01T00:00:00Z to 2020-04-27T00:00:00Z')
+      end
+
+      within '#permission-groups-table' do
+        expect(page).to have_content('All Guest Users')
+        expect(page).to have_content('All Registered Users')
       end
     end
   end
