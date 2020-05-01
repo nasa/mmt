@@ -290,7 +290,7 @@ class PermissionsController < ManageCmrController
 
     collection_temporal_filter = collection_permission_params[:collection_temporal_filter].to_h.delete_if { |_key, value| value.blank? }
 
-    if collection_permission_params.fetch(:collectionsChooser_toList, []).any? || collection_permission_params.fetch(:hidden_collections, []).any? || collection_access_constraints.any?
+    if collection_permission_params.fetch(:collectionsChooser_toList, []).any? || collection_permission_params.fetch(:hidden_collections, []).any? || collection_access_constraints.any? || collection_temporal_filter.any?
       # Create an empty hash for the nested key that we'll populate below
       req_obj['catalog_item_identity']['collection_identifier'] = {}
 
@@ -315,16 +315,19 @@ class PermissionsController < ManageCmrController
     if granule_applicable
       granule_access_constraints = collection_permission_params[:granule_access_value].to_h.delete_if { |_key, value| value.blank? }
 
-      if granule_access_constraints.any?
-        req_obj['catalog_item_identity']['granule_identifier'] = {
-          'access_value' => hydrate_constraint_values(granule_access_constraints)
-        }
-      end
-
       granule_temporal_filter = collection_permission_params[:granule_temporal_filter].to_h.delete_if { |_key, value| value.blank? }
 
-      if granule_temporal_filter.any?
-        req_obj['catalog_item_identity']['granule_identifier']['temporal'] = granule_temporal_filter
+      if granule_access_constraints.any? || granule_temporal_filter.any?
+        # Create an empty hash for the nested key we'll populate below
+        req_obj['catalog_item_identity']['granule_identifier'] = {}
+
+        if granule_access_constraints.any?
+          req_obj['catalog_item_identity']['granule_identifier']['access_value'] = hydrate_constraint_values(granule_access_constraints)
+        end
+
+        if granule_temporal_filter.any?
+          req_obj['catalog_item_identity']['granule_identifier']['temporal'] = granule_temporal_filter
+        end
       end
     end
 
