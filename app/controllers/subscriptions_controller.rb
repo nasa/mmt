@@ -104,6 +104,22 @@ class SubscriptionsController < ManageCmrController
     end
   end
 
+  def test_subscription
+    authorize :subscription
+
+    subscription = subscription_params
+    render plain: 'This query cannot be tested because it is missing a parameter, please make sure all of the fields are filled in.' and return if subscription['SubscriberId'].blank? || subscription['CollectionConceptId'].blank? || subscription['Query'].blank?
+
+    collections_permission_response = cmr_client.check_user_permissions({ concept_id: subscription['CollectionConceptId'], user_id: subscription['SubscriberId'] }, token)
+    render plain: "An error occurred while checking the user's permissions: #{collections_permission_response.error_message}." and return unless collections_permission_response.success?
+    render plain: 'The subscriber does not have access to the specified collection.' and return unless JSON.parse(collections_permission_response.body)[subscription['CollectionConceptId']].include?('read')
+
+    granule_search_response = cmr_client.test_query(prepare_query_for_test(subscription['CollectionConceptId'], subscription['Query']), token)
+    render plain: "An error occurred while searching for granules: #{granule_search_response.error_message}." and return unless granule_search_response.success?
+    granules_found = granule_search_response.body['hits']
+    render plain: "#{granules_found} granules related to this query were updated over the last 30 days.  Assuming an even distribution of granule updates across that time, this would have generated #{emails_per_day(granules_found)} emails per day."
+  end
+
   private
 
   def subscription_params
@@ -166,5 +182,23 @@ class SubscriptionsController < ManageCmrController
 
     flash[:error] = I18n.t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
     redirect_to(policy(:subscription).index? ? subscriptions_path : manage_cmr_path)
+  end
+
+  def prepare_query_for_test(concept_id, query)
+    # revision_date[]=<some date>, is the same as updated_since=<same date>
+    # except that it does not cause CMR to return an error if the query contains
+    # updated_since already.
+    query.slice!(0) if query[0] == '?'
+
+    prepend = "collection_concept_id=#{concept_id}&sort_key[]=revision_date&revision_date[]=#{DateTime.parse(30.days.ago.to_s).strftime('%FT%TZ')},"
+    "#{prepend}&#{query}"
+  end
+
+  def emails_per_day(granules)
+    if granules > 720
+      24 * 3600 / Rails.configuration.cmr_email_frequency.to_i
+    else
+      granules / 30.0 * 3600 / Rails.configuration.cmr_email_frequency.to_i
+    end
   end
 end

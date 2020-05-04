@@ -8,6 +8,8 @@
       <fieldset>
         <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'update-subscription-submit' %>
         <%= link_to 'Cancel', :back, class: 'eui-btn' %>
+        <%= link_to 'Test Subscription', '#test-subscription-modal', class: 'eui-btn display-modal test-subscription' %>
+        <%= render partial: 'test_subscription_modal' %>
       </fieldset>
     <% end %>
   </section>

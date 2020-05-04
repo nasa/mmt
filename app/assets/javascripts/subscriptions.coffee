@@ -100,3 +100,27 @@ $(document).ready ->
         return false if validGranuleQueryParameters.indexOf(parameter) == -1
 
       true
+
+  $('#subscriber').on 'change', ->
+    if $('#subscriber-error').length > 0
+      $('#subscriber').valid()
+
+  $('.test-subscription').on 'click', ->
+    $('.status-text').text('Creating an estimate from available data...')
+    $('.results-text').text('')
+    if $('.subscription-form').valid()
+      $.ajax '/test_subscription',
+        method: 'POST'
+        data:
+          subscription:
+            CollectionConceptId: $('#subscription_CollectionConceptId').val()
+            Query: $('#subscription_Query').val()
+            SubscriberId: $('#subscriber').val()
+        success: (data) ->
+          $('.status-text').text('Estimate Done!')
+          $('.results-text').text(data)
+        fail: (data) ->
+          $('.status-text').text('Estimate failed')
+          $('.results-text').text(data)
+    else
+      $('.status-text').text('Please enter a valid subscription and try again.')
