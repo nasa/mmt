@@ -3,7 +3,7 @@
     <h2>Edit <span class="provider-context"><%= current_user.provider_id %></span> Subscription</h2>
 
     <%= form_tag(subscription_path(@concept_id), method: :put, class: 'subscription-form edit-subscription-form') do %>
-      <%= render partial: 'subscription_fields', locals: { edit: true } %>
+      <%= render partial: 'subscription_fields', locals: { edit_form: true } %>
 
       <fieldset>
         <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'update-subscription-submit' %>

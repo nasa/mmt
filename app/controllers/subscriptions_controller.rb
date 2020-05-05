@@ -70,6 +70,8 @@ class SubscriptionsController < ManageCmrController
   def update
     authorize :subscription
     # Overwrite the old subscription with the new values
+    # Per business rules, only the Query and Name are allowed to be updated for
+    # a subscription. As of MMT-2093, CMR does not enforce this.
     subscription_from_form = subscription_params
     @subscription['Query'] = subscription_from_form['Query']
     @subscription['Name'] = subscription_from_form['Name']

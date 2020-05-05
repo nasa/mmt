@@ -3,7 +3,7 @@
     <h2>New <span class="provider-context"><%= current_user.provider_id %></span> Subscription</h2>
 
     <%= form_tag(subscriptions_path, method: :post, class: 'subscription-form') do %>
-      <%= render partial: 'subscription_fields', locals: { edit: false } %>
+      <%= render partial: 'subscription_fields', locals: { edit_form: false } %>
 
       <fieldset>
         <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'new-subscription-submit' %>
