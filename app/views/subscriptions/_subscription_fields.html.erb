@@ -13,7 +13,11 @@
   </div>
   <div class="row">
     <p class="form-description">Enter a Concept ID for a single collection. (Example: C1234567-PODAAC)</p>
-    <%= text_field_tag('subscription[CollectionConceptId]', @subscription['CollectionConceptId'], class: 'required full-width') %>
+    <% if edit %>
+      <%= text_field_tag('subscription[CollectionConceptId]', @subscription['CollectionConceptId'], class: 'required full-width disabled', disabled: 'disabled') %>
+    <% else %>
+      <%= text_field_tag('subscription[CollectionConceptId]', @subscription['CollectionConceptId'], class: 'required full-width') %>
+    <% end %>
   </div>
 </fieldset>
 
@@ -30,6 +34,10 @@
 <fieldset>
   <div class="row space-bot subscriber-group">
     <%= label_tag('subscriber', 'Subscriber', class: 'eui-required-o') %>
-    <%= select_tag 'subscription[SubscriberId]', options_for_select(@subscriber), id: 'subscriber', class: 'urs_autocomplete', multiple: false %>
+    <% if edit %>
+      <%= select_tag 'subscription[SubscriberId]', options_for_select(@subscriber), id: 'subscriber', class: 'urs_autocomplete disabled', multiple: false, disabled: 'disabled' %>    
+    <% else %>
+      <%= select_tag 'subscription[SubscriberId]', options_for_select(@subscriber), id: 'subscriber', class: 'urs_autocomplete', multiple: false %>
+    <% end %>
   </div>
 </fieldset>

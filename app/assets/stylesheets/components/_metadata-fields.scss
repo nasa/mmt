@@ -100,3 +100,13 @@
     width: 70%;
   }
 }
+
+.edit-subscription-form {
+  
+  .disabled {
+    border: 1px solid #000
+  }
+  .select2-selection__rendered {
+    color: #8888 !important
+  }
+}
