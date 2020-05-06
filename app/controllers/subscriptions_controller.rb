@@ -195,10 +195,11 @@ class SubscriptionsController < ManageCmrController
   end
 
   def emails_per_day(granules)
-    if granules > 720
-      24 * 3600 / Rails.configuration.cmr_email_frequency.to_i
+    # If granules > seconds in 30 days / e-mail increment, return max per day
+    if granules > 2_592_000 / Rails.configuration.cmr_email_frequency
+      24 * 3600 / Rails.configuration.cmr_email_frequency.round(2)
     else
-      granules / 30.0 * 3600 / Rails.configuration.cmr_email_frequency.to_i
+      (granules / 30.0 * 3600 / Rails.configuration.cmr_email_frequency).round(2)
     end
   end
 end

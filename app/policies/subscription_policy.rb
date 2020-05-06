@@ -30,6 +30,6 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def test_subscription?
-    create?
+    create? || update?
   end
 end

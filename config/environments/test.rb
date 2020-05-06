@@ -84,5 +84,5 @@ Rails.application.configure do
 
   # config.colorize_logging = false
 
-  config.cmr_email_frequency = ENV['cmr_email_frequency']
+  config.cmr_email_frequency = ENV['cmr_email_frequency'].to_i
 end

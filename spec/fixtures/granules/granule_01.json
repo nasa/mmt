@@ -43,7 +43,7 @@
   },
   "ProviderDates": [
     {
-      "Date": "2013-08-19T11:26:28.000Z",
+      "Date": "2016-08-19T11:26:28.000Z",
       "Type": "Insert"
     },
     {
@@ -62,7 +62,7 @@
         "IdentifierType": "ProducerGranuleId"
       }
     ],
-    "ProductionDateTime": "2013-08-13T13:44:16.000Z",
+    "ProductionDateTime": "2016-08-13T13:44:16.000Z",
     "ArchiveAndDistributionInformation": [
       {
         "Name": "Not provided",
@@ -73,8 +73,8 @@
   },
   "TemporalExtent": {
     "RangeDateTime": {
-      "BeginningDateTime": "2013-08-09T00:00:00.000Z",
-      "EndingDateTime": "2013-08-09T00:00:00.000Z"
+      "BeginningDateTime": "2015-08-09T00:00:00.000Z",
+      "EndingDateTime": "2016-07-09T00:00:00.000Z"
     }
   },
   "GranuleUR": "8046d7eb-0ce7-48f5-921a-a1600f41c5b2",

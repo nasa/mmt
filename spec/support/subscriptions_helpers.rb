@@ -29,5 +29,16 @@ module Helpers
 
       [group_response['concept_id'], permission_response['concept_id']]
     end
+
+    def ingest_granules(collection_entry_title, count, provider = 'MMT_2')
+      granule_json = JSON.parse(File.read('spec/fixtures/granules/granule_01.json'))
+      count.times do
+        id = SecureRandom.uuid
+        granule_json['CollectionReference'] = { 'EntryTitle' => collection_entry_title }
+        granule_json['GranuleUR'] = id
+        response = cmr_client.ingest_granule(granule_json.to_json, provider, "testing_subscription_#{id}")
+        puts response.clean_inspect unless response.success?
+      end
+    end
   end
 end
