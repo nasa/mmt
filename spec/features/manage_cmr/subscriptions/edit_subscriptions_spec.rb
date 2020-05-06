@@ -29,8 +29,8 @@ describe 'Edit/Updating Subscriptions' do
       expect(page).to have_content('Edit MMT_2 Subscription')
       expect(page).to have_field('Subscription Name', with: @subscription['Name'])
       expect(page).to have_field('Query', with: @subscription['Query'])
-      expect(page).to have_field('Subscriber', with: @subscription['SubscriberId'])
-      expect(page).to have_field('Collection Concept ID', with: @subscription['CollectionConceptId'])
+      expect(page).to have_field('Subscriber', with: @subscription['SubscriberId'], disabled: true)
+      expect(page).to have_field('Collection Concept ID', with: @subscription['CollectionConceptId'], disabled: true)
     end
   end
 
@@ -96,8 +96,8 @@ describe 'Edit/Updating Subscriptions' do
         expect(page).to have_content('Edit MMT_2 Subscription')
         expect(page).to have_field('Subscription Name', with: @new_name)
         expect(page).to have_field('Query', with: @subscription['Query'])
-        expect(page).to have_field('Subscriber', with: @subscription['SubscriberId'])
-        expect(page).to have_field('Collection Concept ID', with: @subscription['CollectionConceptId'])
+        expect(page).to have_field('Subscriber', with: @subscription['SubscriberId'], disabled: true)
+        expect(page).to have_field('Collection Concept ID', with: @subscription['CollectionConceptId'], disabled: true)
       end
 
       it 'displays an error message from CMR' do

@@ -100,3 +100,12 @@
     width: 70%;
   }
 }
+
+.edit-subscription-form {
+  .select2-selection__rendered {
+    opacity: 0.4
+  }
+  .select2-selection--single {
+    border: 1px solid #ddd
+  }
+}
