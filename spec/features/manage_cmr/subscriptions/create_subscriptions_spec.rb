@@ -33,10 +33,12 @@ describe 'Creating Subscriptions' do
         end
 
         context 'when submitting a subscription that succeeds' do
-          # TODO: When we have access to a read endpoint, we should delete the
-          # subscription created in this test.
           before do
             fill_in 'Subscription Name', with: name
+            # This is necessary to load the delete button for the subscription
+            # clean up.
+            # TODO: Remove when we can reset_provider
+            allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do
               within '.subscription-form' do
                 click_on 'Submit'
@@ -47,9 +49,8 @@ describe 'Creating Subscriptions' do
           # TODO: using reset_provider may be cleaner than these after blocks,
           # but does not currently work. Reinvestigate after CMR-6310
           after do
-            native_id = cmr_client.get_subscriptions({'Name' => name}, 'token').body['items'].first['meta']['native-id']
-            delete_response = cmr_client.delete_subscription('MMT_2', native_id, 'token')
-            raise unless delete_response.success?
+            click_on 'Delete'
+            click_on 'Yes'
           end
 
           it 'creates the subscription' do
