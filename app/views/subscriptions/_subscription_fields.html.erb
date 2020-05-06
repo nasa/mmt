@@ -14,6 +14,7 @@
   <div class="row">
     <p class="form-description <%= "#{'disabled' if edit_form}" %>">Enter a Concept ID for a single collection. (Example: C1234567-PODAAC)</p>
     <%= text_field_tag('subscription[CollectionConceptId]', @subscription['CollectionConceptId'], class: "required full-width #{'disabled' if edit_form}", disabled: edit_form) %>
+    <p class="form-description <%= "#{'disabled' if edit_form}" %>">The Collection Concept Id cannot be modified after subscription creation.</p>
   </div>
 </fieldset>
 
@@ -31,5 +32,6 @@
   <div class="row space-bot subscriber-group">
     <%= label_tag('subscriber', 'Subscriber', class: "eui-required-o #{'disabled' if edit_form}") %>
     <%= select_tag 'subscription[SubscriberId]', options_for_select(@subscriber), id: 'subscriber', class: "urs_autocomplete #{'disabled' if edit_form}", multiple: false, disabled: edit_form %>    
+    <p class="form-description <%= "#{'disabled' if edit_form}" %>">The Subscriber cannot be modified after subscription creation.</p>
   </div>
 </fieldset>
