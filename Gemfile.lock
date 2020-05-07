@@ -187,15 +187,9 @@ GEM
     mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-<<<<<<< HEAD
-    mini_racer (0.2.8)
-      libv8 (>= 6.9.411)
-    minitest (5.14.1)
-=======
     mini_racer (0.2.10)
       libv8 (> 7.3)
-    minitest (5.14.0)
->>>>>>> MMT-2219: add ability to create a new tools draft record (#559)
+    minitest (5.14.1)
     momentjs-rails (2.20.1)
       railties (>= 3.1)
     multi_json (1.14.1)
