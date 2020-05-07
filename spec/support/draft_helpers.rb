@@ -366,7 +366,7 @@ module Helpers
     end
 
     def add_contact_mechanisms
-      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_contact_information' do
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_contact_mechanisms' do
         within '.multiple.contact-mechanisms' do
           select 'Email', from: 'Type'
           fill_in 'Value', with: 'example@example.com'

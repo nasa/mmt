@@ -35,16 +35,16 @@ module Helpers
       end
     end
 
-    def add_service_organizations
+    def add_service_organizations(with_contact_info: false, with_contact_groups: false, with_contact_persons: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UmmSDraftHelpers#add_service_organizations' do
         within '.multiple.service-organizations > .multiple-item-0' do
           select 'DEVELOPER', from: 'Roles', match: :first
           select 'PUBLISHER', from: 'Roles', match: :first
           select 'AARHUS-HYDRO', from: 'Short Name'
 
-          add_service_contact_information
-          add_service_contact_groups
-          add_service_contact_persons
+          add_service_contact_information if with_contact_info
+          add_service_contact_groups if with_contact_groups
+          add_service_contact_persons if with_contact_persons
         end
       end
     end
