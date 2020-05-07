@@ -134,6 +134,9 @@ Rails.application.configure do
   # Feature toggle for subscriptions in MMT
   config.subscriptions_enabled = true
 
+  # Feature toggle for UMM-T
+  config.umm_t_enabled = false
+
   config.cmr_env = 'ops'
   config.echo_env = 'ops'
   config.urs_register_url = 'https://urs.earthdata.nasa.gov/users/new'

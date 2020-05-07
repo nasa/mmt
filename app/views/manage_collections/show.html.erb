@@ -4,34 +4,34 @@
       <h3 class="eui-callout-box__title">Create Collection Record</h3>
       <div class="eui-callout-box__list">
         <div class="question-group">
-        <% if Rails.configuration.templates_enabled %>
-          <%= form_tag(make_new_draft_manage_collections_path, method: :post, id: 'new-draft-form') do %>
-            <div class="make-draft-radio">
-              <p class="radio-group">
-                <%= radio_button_tag("base", "blank", true, class: 'draft-base-select')%>
-                <label for="base_blank">Create From Blank Draft</label>
-              </p>
-              <p class="radio-group">
-                <%= radio_button_tag("base", "template", false, class: 'draft-base-select')%>
-                <label for="base_template">Create From Template</label>
-              </p>
+          <% if Rails.configuration.templates_enabled %>
+            <%= form_tag(make_new_draft_manage_collections_path, method: :post, id: 'new-draft-form') do %>
+              <div class="make-draft-radio">
+                <p class="radio-group">
+                  <%= radio_button_tag("base", "blank", true, class: 'draft-base-select')%>
+                  <label for="base_blank">Create From Blank Draft</label>
+                </p>
+                <p class="radio-group">
+                  <%= radio_button_tag("base", "template", false, class: 'draft-base-select')%>
+                  <label for="base_template">Create From Template</label>
+                </p>
+              </div>
+                <p>
+                <%= select_tag(
+                  'template_id',
+                  options_for_select(@templates),
+                  prompt: 'Select Template Name',
+                  class: 'template-select',
+                  style: 'display:none;'
+                ) %>
+                </p>
+                <%= submit_tag 'Create New Record', { class: 'draft eui-btn--blue submit' } %>
+            <% end %>
+          <% else %>
+            <div class="row">
+              <%= link_to 'Create New Record', new_collection_draft_path, class: 'eui-btn--blue submit' %>
             </div>
-              <p>
-              <%= select_tag(
-                'template_id',
-                options_for_select(@templates),
-                prompt: 'Select Template Name',
-                class: 'template-select',
-                style: 'display:none;'
-              ) %>
-              </p>
-              <%= submit_tag 'Create New Record', { class: 'draft eui-btn--blue submit' } %>
           <% end %>
-        <% else %>
-          <div class="row">
-            <%= link_to 'Create New Record', new_collection_draft_path, class: 'eui-btn--blue submit' %>
-          </div>
-        <% end %>
         </div>
         <div class="question-group">
           <div class="row">

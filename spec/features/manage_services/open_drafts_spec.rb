@@ -1,10 +1,10 @@
 describe 'Drafts listed on the Manage Services page' do
-  draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_variables_controller
+  draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_services_controller
 
   before do
     @other_user_id = User.create(urs_uid: 'adminuser').id
-
     @current_user_id = User.create(urs_uid: 'testuser').id
+
     login
   end
 
@@ -32,6 +32,8 @@ describe 'Drafts listed on the Manage Services page' do
     end
 
     it 'displays all the drafts' do
+      expect(page).to have_content('MMT_2 Service Drafts')
+
       within '.open-drafts' do
         expect(page).to have_content('<Blank Name>', count: 4)
       end

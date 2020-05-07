@@ -11,6 +11,9 @@ $(document).ready ->
   isUmmVarForm = ->
     $('.umm-form.variable-form').length > 0
 
+  isUmmTForm = ->
+    $('.umm-form.tool-form').length > 0
+
   getPageJson = ->
     if isMetadataForm()
       json = JSON.parse($('.metadata-form').find('input, textarea, select').filter ->
@@ -332,6 +335,8 @@ $(document).ready ->
       id = "service_draft_draft_#{path}"
     else if isUmmVarForm()
       id = "variable_draft_draft_#{path}"
+    else if isUmmTForm()
+      id = "tool_draft_draft_#{path}"
     # remove last index from id for Roles errors
     if /roles_0$/.test(id)
       id = id.slice(0, id.length - 2)
@@ -684,13 +689,13 @@ $(document).ready ->
             when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/.test id
               [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
               ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue", 'Maximum Value', 'minGreaterThanMax']
-  
+
           # The other errors which are likely to occur here are required errors
           # (which means we shouldn't be here because it is blank), and format
           # errors. We don't need to tell the user about this error if they are
           # not entering data in the right format (e.g. NaN or NaDate)
           unless errors.filter( (error) -> error.dataPath == dataPath).length > 0
-            error = 
+            error =
               keyword: keyword
               dataPath: dataPath
               schemaPath: '' # necessary to not throw errors in getErrorDetails
@@ -698,7 +703,7 @@ $(document).ready ->
               pairedField: pairedField
 
             errors.push(error)
-  
+
   validateTemplateName = (errors) ->
     if $('#draft_template_name').length > 0
       error = null
