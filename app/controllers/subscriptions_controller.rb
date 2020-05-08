@@ -108,14 +108,14 @@ class SubscriptionsController < ManageCmrController
     authorize :subscription
 
     subscription = subscription_params
-    render plain: 'This query cannot be tested because it is missing a parameter, please make sure all of the fields are filled in.' and return if subscription['SubscriberId'].blank? || subscription['CollectionConceptId'].blank? || subscription['Query'].blank?
+    render plain: 'This query cannot be tested because it is missing a parameter, please make sure all of the fields are filled in.', status: :bad_request and return if subscription['SubscriberId'].blank? || subscription['CollectionConceptId'].blank? || subscription['Query'].blank?
 
     collections_permission_response = cmr_client.check_user_permissions({ concept_id: subscription['CollectionConceptId'], user_id: subscription['SubscriberId'] }, token)
-    render plain: "An error occurred while checking the user's permissions: #{collections_permission_response.error_message}." and return unless collections_permission_response.success?
-    render plain: 'The subscriber does not have access to the specified collection.' and return unless JSON.parse(collections_permission_response.body)[subscription['CollectionConceptId']].include?('read')
+    render plain: "An error occurred while checking the user's permissions: #{collections_permission_response.error_message}", status: :internal_server_error and return unless collections_permission_response.success?
+    render plain: 'The subscriber does not have access to the specified collection.', status: :unauthorized and return unless JSON.parse(collections_permission_response.body)[subscription['CollectionConceptId']].include?('read')
 
     granule_search_response = cmr_client.test_query(prepare_query_for_test(subscription['CollectionConceptId'], subscription['Query']), token)
-    render plain: "An error occurred while searching for granules: #{granule_search_response.error_message}." and return unless granule_search_response.success?
+    render plain: "An error occurred while searching for granules: #{granule_search_response.error_message}", status: :internal_server_error and return unless granule_search_response.success?
     granules_found = granule_search_response.body['hits']
     render plain: "#{granules_found} granules related to this query were updated over the last 30 days.  Assuming an even distribution of granule updates across that time, this would have generated #{emails_per_day(granules_found)} emails per day."
   end
@@ -186,12 +186,19 @@ class SubscriptionsController < ManageCmrController
 
   def prepare_query_for_test(concept_id, query)
     # revision_date[]=<some date>, is the same as updated_since=<same date>
-    # except that it does not cause CMR to return an error if the query contains
-    # updated_since already.
+    # if both a revision_date and updated_since are passed, CMR uses the more
+    # restrictive, but if two sets of revision dates are passed, both are
+    # permitted.
     query.slice!(0) if query[0] == '?'
+    terms = query.split('&')
+    terms.select! do |term|
+      subterms = term.split('=')
+      !subterms[0].include?('updated_since') && !subterms[0].include?('revision_date')
+    end
+    edited_query = terms.join('&')
 
-    prepend = "collection_concept_id=#{concept_id}&sort_key[]=revision_date&revision_date[]=#{DateTime.parse(30.days.ago.to_s).strftime('%FT%TZ')},"
-    "#{prepend}&#{query}"
+    prepend = "collection_concept_id=#{concept_id}&sort_key[]=revision_date&updated_since=#{DateTime.parse(30.days.ago.to_s).strftime('%FT%TZ')}"
+    "#{prepend}&#{edited_query}"
   end
 
   def emails_per_day(granules)

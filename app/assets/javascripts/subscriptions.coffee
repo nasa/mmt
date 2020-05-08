@@ -119,8 +119,9 @@ $(document).ready ->
         success: (data) ->
           $('.status-text').text('Estimate Done!')
           $('.results-text').text(data)
-        fail: (data) ->
-          $('.status-text').text('Estimate failed')
-          $('.results-text').text(data)
+        error: (response) ->
+          console.log(response)
+          $('.status-text').text('Estimate failed.')
+          $('.results-text').text(response.responseText)
     else
       $('.status-text').text('Please enter a valid subscription and try again.')

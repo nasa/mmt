@@ -8,7 +8,7 @@ module Helpers
     end
 
     # Publishes a collection draft and returns the new created collection as well as the most recent draft
-    def publish_collection_draft(revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil, version: nil, collection_data_type: nil)
+    def publish_collection_draft(revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil, version: nil, collection_data_type: nil, suppress_concept_query_error: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_collection_draft' do
         user = User.where(urs_uid: 'testuser').first
 
@@ -65,7 +65,10 @@ module Helpers
 
         concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
 
-        raise Array.wrap(concept_response.body['errors']).join(' /// ') if concept_response.body.key?('errors')
+        # suppress_concept_query_error flag is useful when ingesting into a prov
+        # which does not have public all collection search.
+        # Subscription test-query tests use this flag to ingest in NSIDC_ECS
+        raise Array.wrap(concept_response.body['errors']).join(' /// ') if concept_response.body.key?('errors') unless suppress_concept_query_error
 
         # If the test needs an unpublished draft as well, we'll create it and return it here
         if include_new_draft
