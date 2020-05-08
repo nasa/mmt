@@ -38,6 +38,7 @@ class ToolDraftsController < BaseDraftsController
       whitelisted[:draft] = params[:tool_draft][:draft]
     end
 
+    # TODO: when working update ticket, investigate if we can use `.to_h` here
     permitted.to_unsafe_h # need to understand what this is doing more, think related to nested parameters not permitted.
   end
 end

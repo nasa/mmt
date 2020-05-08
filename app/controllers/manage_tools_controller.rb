@@ -7,7 +7,7 @@ class ManageToolsController < ManageMetadataController
     @draft_display_max_count = 5
 
     @drafts = ToolDraft.where(provider_id: current_user.provider_id)
-                          .order('updated_at DESC')
-                          .limit(@draft_display_max_count + 1)
+                       .order('updated_at DESC')
+                       .limit(@draft_display_max_count + 1)
   end
 end

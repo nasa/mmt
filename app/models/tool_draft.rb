@@ -1,7 +1,5 @@
 # :nodoc:
 class ToolDraft < Draft
-  # before_save :set_searchable_fields
-
   delegate :forms, to: :class
 
   class << self
@@ -37,10 +35,4 @@ class ToolDraft < Draft
   def display_entry_title
     entry_title || '<Untitled Tool Record>'
   end
-
-  # TODO: not sure about this yet
-  # def set_searchable_fields
-  #   self.short_name = draft['Name']
-  #   self.entry_title = draft['LongName']
-  # end
 end

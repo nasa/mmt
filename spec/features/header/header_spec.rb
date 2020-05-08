@@ -6,14 +6,14 @@ describe 'Header' do
     Rails.configuration.umm_var_version = "vnd.nasa.cmr.umm+json; version=3.45"
     @original_s_config = Rails.configuration.umm_s_version
     Rails.configuration.umm_s_version = "vnd.nasa.cmr.umm+json; version=4.56"
-    @original_s_config = Rails.configuration.umm_t_version
+    @original_t_config = Rails.configuration.umm_t_version
     Rails.configuration.umm_t_version = "vnd.nasa.cmr.umm+json; version=5.67"
   end
 
   after :all do
     Rails.configuration.umm_c_version = @original_c_config
-    Rails.configuration.umm_s_version = @original_s_config
     Rails.configuration.umm_var_version = @original_var_config
+    Rails.configuration.umm_s_version = @original_s_config
     Rails.configuration.umm_t_version = @original_t_config
   end
 
