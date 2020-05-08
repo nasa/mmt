@@ -120,7 +120,6 @@ $(document).ready ->
           $('.status-text').text('Estimate Done!')
           $('.results-text').text(data)
         error: (response) ->
-          console.log(response)
           $('.status-text').text('Estimate failed.')
           $('.results-text').text(response.responseText)
     else

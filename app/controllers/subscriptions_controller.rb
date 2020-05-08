@@ -2,6 +2,7 @@ class SubscriptionsController < ManageCmrController
   include UrsUserEndpoints
   include CMRSubscriptions
 
+  DAY_IN_SECONDS = 86_400
   RESULTS_PER_PAGE = 25
   before_action :subscriptions_enabled?
   before_action :add_top_level_breadcrumbs
@@ -195,16 +196,15 @@ class SubscriptionsController < ManageCmrController
       subterms = term.split('=')
       !subterms[0].include?('updated_since') && !subterms[0].include?('revision_date')
     end
-    edited_query = terms.join('&')
 
     prepend = "collection_concept_id=#{concept_id}&sort_key[]=revision_date&updated_since=#{DateTime.parse(30.days.ago.to_s).strftime('%FT%TZ')}"
-    "#{prepend}&#{edited_query}"
+    "#{prepend}&#{terms.join('&')}"
   end
 
   def emails_per_day(granules)
     # If granules > seconds in 30 days / e-mail increment, return max per day
-    if granules > 2_592_000 / Rails.configuration.cmr_email_frequency
-      24 * 3600 / Rails.configuration.cmr_email_frequency.round(2)
+    if granules > DAY_IN_SECONDS * 30 / Rails.configuration.cmr_email_frequency
+      (DAY_IN_SECONDS / Rails.configuration.cmr_email_frequency).round(2)
     else
       (granules / 30.0 * 3600 / Rails.configuration.cmr_email_frequency).round(2)
     end
