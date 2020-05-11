@@ -119,6 +119,10 @@ Rails.application.configure do
 
   config.colorize_logging = false
 
+  # Rails 5 CSRF improvements
+  config.action_controller.per_form_csrf_tokens = true
+  config.action_controller.forgery_protection_origin_check = true
+
   # Google Tag Manager ID for EOSDIS usage stats
   config.tag_manager_id = 'GTM-WNP7MLF'
 end
