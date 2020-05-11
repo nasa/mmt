@@ -29,7 +29,7 @@ class SubscriptionPolicy < ApplicationPolicy
     @delete.nil? ? fetch_granted_permissions(action: 'delete', user: user.user, type: 'provider', target: 'EMAIL_SUBSCRIPTION_MANAGEMENT', token: user.token) : @delete
   end
 
-  def test_subscription?
+  def estimate_notifications?
     create? || update?
   end
 end

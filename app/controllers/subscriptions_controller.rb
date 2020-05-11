@@ -105,7 +105,7 @@ class SubscriptionsController < ManageCmrController
     end
   end
 
-  def test_subscription
+  def estimate_notifications
     authorize :subscription
 
     subscription = subscription_params
@@ -118,7 +118,15 @@ class SubscriptionsController < ManageCmrController
     granule_search_response = cmr_client.test_query(prepare_query_for_test(subscription['CollectionConceptId'], subscription['Query']), token)
     render plain: "An error occurred while searching for granules: #{granule_search_response.error_message}", status: :internal_server_error and return unless granule_search_response.success?
     granules_found = granule_search_response.body['hits']
-    render plain: "#{granules_found} granules related to this query were updated over the last 30 days.  Assuming an even distribution of granule updates across that time, this would have generated #{emails_per_day(granules_found)} emails per day."
+    frequency = (Rails.configuration.cmr_email_frequency / 3600.0).ceil(2)
+    frequency = frequency.to_i if frequency.to_i == frequency.to_f
+    return_json = {
+      'granules' => granules_found,
+      # in hours
+      'frequency' => "#{frequency} #{frequency > 1 ? 'hours' : 'hour'}",
+      'estimate' => emails_per_day(granules_found)
+    }.to_json
+    render json: return_json
   end
 
   private
@@ -197,16 +205,20 @@ class SubscriptionsController < ManageCmrController
       !subterms[0].include?('updated_since') && !subterms[0].include?('revision_date')
     end
 
-    prepend = "collection_concept_id=#{concept_id}&sort_key[]=revision_date&updated_since=#{DateTime.parse(30.days.ago.to_s).strftime('%FT%TZ')}"
+    prepend = "collection_concept_id=#{concept_id}&updated_since=#{30.days.ago.strftime('%FT%TZ')}"
     "#{prepend}&#{terms.join('&')}"
   end
 
+  # Wild guess at emails per day based on the assumption that the granules are
+  # evenly distributed over the time period.
   def emails_per_day(granules)
     # If granules > seconds in 30 days / e-mail increment, return max per day
     if granules > DAY_IN_SECONDS * 30 / Rails.configuration.cmr_email_frequency
-      (DAY_IN_SECONDS / Rails.configuration.cmr_email_frequency).round(2)
+      (DAY_IN_SECONDS / Rails.configuration.cmr_email_frequency).ceil
     else
-      (granules / 30.0 * 3600 / Rails.configuration.cmr_email_frequency).round(2)
+      # if there aren't enough granules to saturate the bins, each granule is
+      # generating an e-mail.
+      (granules / 30.0).ceil
     end
   end
 end

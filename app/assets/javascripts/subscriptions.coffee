@@ -105,11 +105,12 @@ $(document).ready ->
     if $('#subscriber-error').length > 0
       $('#subscriber').valid()
 
-  $('.test-subscription').on 'click', ->
+  $('.estimate-notifications').on 'click', ->
     $('.status-text').text('Creating an estimate from available data...')
-    $('.results-text').text('')
+    $('.results-text').hide()
+    $('.error-text').hide()
     if $('.subscription-form').valid()
-      $.ajax '/test_subscription',
+      $.ajax '/estimate_notifications',
         method: 'POST'
         data:
           subscription:
@@ -118,9 +119,13 @@ $(document).ready ->
             SubscriberId: $('#subscriber').val()
         success: (data) ->
           $('.status-text').text('Estimate Done!')
-          $('.results-text').text(data)
+          $('.estimate-text').text("Estimate: #{data['estimate']} notification#{if data['estimate'] == 1 then '' else 's'}/day")
+          $('.granules-count-text').text("#{data['granules']} granules related to this query were added or updated over the last 30 days.")
+          $('.frequency-text').text("Notification service checks for new or updated granules once every #{data['frequency']}.")
+          $('.results-text').show()
         error: (response) ->
           $('.status-text').text('Estimate failed.')
-          $('.results-text').text(response.responseText)
+          $('.error-text').text(response.responseText)
+          $('.error-text').show()          
     else
       $('.status-text').text('Please enter a valid subscription and try again.')
