@@ -101,5 +101,9 @@ Rails.application.configure do
 
   config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
 
-  config.cmr_email_frequency = ENV['cmr_email_frequency'].to_i
+  config.cmr_email_frequency = if ENV['cmr_email_frequency']
+                                 ENV['cmr_email_frequency'].to_i
+                               else
+                                 3600
+                               end
 end
