@@ -82,10 +82,6 @@ Rails.application.configure do
 
   config.middleware.use RackSessionAccess::Middleware
   
-  # Rails 5 CSRF improvements
-  config.action_controller.per_form_csrf_tokens = true
-  config.action_controller.forgery_protection_origin_check = true
-
 
   # config.colorize_logging = false
 end

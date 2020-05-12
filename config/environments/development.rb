@@ -101,8 +101,5 @@ Rails.application.configure do
 
   config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
 
-  # Rails 5 CSRF improvements
-  config.action_controller.per_form_csrf_tokens = true
-  config.action_controller.forgery_protection_origin_check = true
 
 end
