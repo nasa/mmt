@@ -118,7 +118,7 @@ Rails.application.configure do
   config.tophat_url = 'https://cdn.uat.earthdata.nasa.gov/tophat2/tophat2.js'
 
   config.colorize_logging = false
-  
+
   # Google Tag Manager ID for EOSDIS usage stats
   config.tag_manager_id = 'GTM-WNP7MLF'
 end

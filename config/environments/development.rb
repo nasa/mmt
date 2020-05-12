@@ -101,5 +101,4 @@ Rails.application.configure do
 
   config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
 
-
 end

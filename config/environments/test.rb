@@ -81,7 +81,6 @@ Rails.application.configure do
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
 
   config.middleware.use RackSessionAccess::Middleware
-  
 
   # config.colorize_logging = false
 end
