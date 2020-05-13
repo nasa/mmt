@@ -31,12 +31,8 @@ describe 'Spatial information form', js: true do
           choose 'Horizontal Data Resolution'
           within '.horizontal-data-resolution-fields' do
             check 'Point Resolution'
-            within '.horizontal-data-resolution-fields.point-resolution' do
-              choose 'Point'
-            end
 
             check 'Varies Resolution'
-            choose 'Varies'
 
             check 'Gridded Resolutions'
             within '.horizontal-data-resolution-fields.gridded-resolutions' do

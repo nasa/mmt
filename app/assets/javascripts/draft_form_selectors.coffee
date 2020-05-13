@@ -38,7 +38,7 @@ $(document).ready ->
     $allSiblings = $(coordinateSystemType).siblings('.horizontal-data-resolution-fields, .local-coordinate-system-fields')
 
     # Clear all fields (except for radio buttons)
-    $allSiblings.find('input, select, textarea').not("input[type='radio']").val ''
+    $allSiblings.find('input, select, textarea').not("input[type='radio']").not('.checkbox-with-value').val ''
     # Uncheck all radio buttons
     $allSiblings.find("input[type='radio']").prop 'checked', false
     # Clear required labels

@@ -729,12 +729,8 @@ def collection_one
             'DenominatorOfFlatteningRatio': 1.0
           },
           'HorizontalDataResolution': {
-            'VariesResolution': {
-              'HorizontalResolutionProcessingLevelEnum': 'Varies'
-            },
-            'PointResolution': {
-              'HorizontalResolutionProcessingLevelEnum': 'Point'
-            },
+            'VariesResolution': 'Varies',
+            'PointResolution': 'Point',
             'NonGriddedResolutions': [{
               'XDimension': 1,
               'YDimension': 2,
