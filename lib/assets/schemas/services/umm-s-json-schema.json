@@ -62,11 +62,35 @@
           },
           "minItems": 0
         },
+        "SupportedReformattings": {
+          "description": "The project element describes the list of format name combinations which explicitly state which re-formatting options are available. These are entered as pairs of values, e.g. if NetCDF-3 -> NetCDF-4 is a valid supported reformatting, these two values would be entered as a pair.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SupportedReformattingsPairType"
+          },
+          "minItems": 0
+        },
         "MaxGranules": {
-          "description": "This field indicates the maximum number of granules which this service can download with one request.",
+          "description": "This field indicates the maximum number of granules which this service can process with one request.",
           "type": "number"
         }
       }
+    },
+    "SupportedReformattingsPairType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This object describes the supported reformatting pairs, e.g. NetCDF4 -> COG.",
+      "properties": {
+        "SupportedInputFormat": {
+          "description": "This element is used to identify the name of the supported input format in the pair.",
+          "$ref": "#/definitions/SupportedFormatTypeEnum"
+        },
+        "SupportedOutputFormat": {
+          "description": "This element is used to identify the name of the supported output format in the pair.",
+          "$ref": "#/definitions/SupportedFormatTypeEnum"
+        }
+      },
+      "required": ["SupportedInputFormat", "SupportedOutputFormat"]
     },
     "SupportedProjectionType": {
       "type": "object",
@@ -95,8 +119,8 @@
           "type": "number"
         },
         "ProjectionAuthority": {
-          "description": "This element is used to identify the authority, expressed as the EPSG code, for the list of supported input projection types",
-          "$ref": "#/definitions/CRSIdentifierTypeEnum"
+          "description": "This element is used to identify the authority, expressed as the authority code, for the list of supported projection types.",
+          "type": "string"
         },
         "ProjectionUnit": {
           "description": "This element is used to identify the projection unit of measurement.",
@@ -128,7 +152,143 @@
     "SupportedFormatTypeEnum": {
      "description": "This element contains a list of file formats supported by the service.",
      "type": "string",
-     "enum": ["HDF4", "HDF5", "HDF-EOS", "HDF-EOS2", "HDF-EOS5", "NETCDF-3", "NETCDF-4", "GEOTIFF", "GEOTIFFINT16", "GEOTIFFFLOAT32", "XML", "ASCII", "BINARY", "ICARTT", "PNG", "JPEG", "GIF", "TIFF", "XLSX", "JSON", "CSV", "KML", "PNG24", "BMP"]
+     "enum": ["HDF4", "HDF5", "HDF-EOS", "HDF-EOS2", "HDF-EOS5", "NETCDF-3", "NETCDF-4", "GEOTIFF", "GEOTIFFINT16", "GEOTIFFFLOAT32", "XML", "ASCII", "BINARY", "ICARTT", "PNG", "JPEG", "GIF", "TIFF", "XLSX", "JSON", "CSV", "KML", "PNG24", "BMP", "ZARR"]
+    },
+    "URLType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Represents the Internet site where you can directly access the back-end service.",
+      "properties": {
+        "Description": {
+          "description": "Description of the web page at this URL.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "URLContentType": {
+            "description": "A keyword describing the distinct content type of the online resource to this resource. (e.g., 'DATACENTER URL', 'DATA CONTACT URL', 'DISTRIBUTION URL').",
+            "$ref": "#/definitions/URLContentTypeEnum"
+        },
+        "Type": {
+            "description": "A keyword describing the type of the online resource to this resource. This helps the GUI to know what to do with this resource. (e.g., 'GET DATA', 'GET SERVICE', 'GET VISUALIZATION').",
+            "$ref": "#/definitions/RelatedUrlTypeEnum"
+        },
+        "Subtype": {
+            "description": "A keyword describing the subtype of the online resource to this resource. This further helps the GUI to know what to do with this resource. (e.g., 'MEDIA', 'BROWSE', 'OPENDAP', 'OPENSEARCH', 'WEB COVERAGE SERVICES', 'WEB FEATURE SERVICES', 'WEB MAPPING SERVICES', 'SSW', 'ESI').",
+            "$ref": "#/definitions/RelatedURLSubTypeEnum"
+        },
+        "URLValue": {
+          "description": "The URL for the relevant web page (e.g., the URL of the responsible organization's home page, the URL of the collection landing page, the URL of the download site for the collection).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      }
+    },
+    "URLContentTypeEnum": {
+      "type": "string",
+      "enum": ["DistributionURL"]
+    },
+    "RelatedURLContentTypeEnum": {
+      "type": "string",
+      "enum": ["CollectionURL", "PublicationURL", "VisualizationURL"]
+    },
+    "RelatedUrlTypeEnum": {
+      "type": "string",
+      "enum": ["GET DATA", "GET SERVICE", "GET RELATED VISUALIZATION", "DATA SET LANDING PAGE", "DOI",
+               "EXTENDED METADATA", "PROFESSIONAL HOME PAGE", "PROJECT HOME PAGE", "VIEW RELATED INFORMATION",
+               "HOME PAGE"]
+    },
+    "RelatedURLSubTypeEnum": {
+      "type": "string",
+      "enum": ["DATACAST URL", "EARTHDATA SEARCH", "ECHO", "EDG", "EOSDIS DATA POOL", "GDS", "GIOVANNI", "KML",
+               "LAADS", "LANCE", "LAS", "MIRADOR", "MODAPS", "NOAA CLASS", "ON-LINE ARCHIVE", "REVERB",
+               "ACCESS MAP VIEWER", "ACCESS MOBILE APP", "ACCESS WEB SERVICE", "DIF", "MAP SERVICE", "NOMADS",
+               "OPENDAP DATA", "OPENDAP DATA (DODS)", "OPENDAP DIRECTORY (DODS)", "OpenSearch", "SERF", "SOFTWARE PACKAGE",
+               "SSW", "SUBSETTER", "THREDDS CATALOG", "THREDDS DATA", "THREDDS DIRECTORY", "TOOL", "WEB COVERAGE SERVICE (WCS)",
+               "WEB FEATURE SERVICE (WFS)", "WEB MAP FOR TIME SERIES", "WEB MAP SERVICE (WMS)", "WORKFLOW (SERVICE CHAIN)",
+               "GIBS", "MAP", "ALGORITHM THEORETICAL BASIS DOCUMENT", "CALIBRATION DATA DOCUMENTATION", "DATA QUALITY",
+               "CASE STUDY", "DATA USAGE", "DELIVERABLES CHECKLIST", "GENERAL DOCUMENTATION", "HOW-TO", "PI DOCUMENTATION",
+               "PROCESSING HISTORY", "PRODUCTION VERSION HISTORY", "PRODUCT QUALITY ASSESSMENT", "PRODUCT USAGE",
+               "PRODUCT HISTORY", "PUBLICATIONS", "RADIOMETRIC AND GEOMETRIC CALIBRATION METHODS", "READ-ME",
+               "RECIPE", "REQUIREMENTS AND DESIGN", "SCIENCE DATA PRODUCT SOFTWARE DOCUMENTATION",
+               "SCIENCE DATA PRODUCT VALIDATION", "USER FEEDBACK", "USER'S GUIDE"]
+    },
+    "RelatedUrlType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Represents Internet sites that contain information related to the data, as well as related Internet sites such as project home pages, related data archives/servers, metadata extensions, online software packages, web mapping services, and calibration/validation data.",
+      "properties": {
+        "Description": {
+          "description": "Description of the web page at this URL.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "URLContentType": {
+            "description": "A keyword describing the distinct content type of the online resource to this resource. (e.g., 'DATACENTER URL', 'DATA CONTACT URL', 'DISTRIBUTION URL').",
+            "$ref": "#/definitions/RelatedURLContentTypeEnum"
+        },
+        "Type": {
+            "description": "A keyword describing the type of the online resource to this resource. This helps the GUI to know what to do with this resource. (e.g., 'GET DATA', 'GET SERVICE', 'GET VISUALIZATION').",
+            "$ref": "#/definitions/RelatedUrlTypeEnum"
+        },
+        "Subtype": {
+            "description": "A keyword describing the subtype of the online resource to this resource. This further helps the GUI to know what to do with this resource. (e.g., 'MEDIA', 'BROWSE', 'OPENDAP', 'OPENSEARCH', 'WEB COVERAGE SERVICES', 'WEB FEATURE SERVICES', 'WEB MAPPING SERVICES', 'SSW', 'ESI').",
+            "$ref": "#/definitions/RelatedURLSubTypeEnum"
+        },
+        "URL": {
+          "description": "The URL for the relevant web page (e.g., the URL of the responsible organization's home page, the URL of the collection landing page, the URL of the download site for the collection).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      },
+      "required": ["URL", "URLContentType", "Type"]
+    },
+    "OnlineResourceType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Describes the online resource pertaining to the data.",
+      "properties": {
+        "Linkage": {
+          "description": "The URL of the website related to the online resource.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "Protocol": {
+          "description": "The protocol of the linkage for the online resource, such as https, svn, ftp, etc.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "ApplicationProfile": {
+          "description": "The application profile holds the name of the application that can service the data. For example if the URL points to a word document, then the applicationProfile is MS-Word.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "Name": {
+          "description": "The name of the online resource.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "Description": {
+          "description": "The description of the online resource.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "Function": {
+          "description": "The function of the online resource. In ISO where this class originated the valid values are: download, information, offlineAccess, order, and search.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      },
+      "required": ["Linkage", "Name", "Description"]
     },
     "ServiceKeywordType": {
       "type": "object",
@@ -177,23 +337,9 @@
           "description": "This is the long name of the service organization.",
            "$ref": "#/definitions/LongNameType"
         },
-        "ContactGroups": {
-          "description": "This is the contact groups of the service organization.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ContactGroupType"
-          }
-        },
-        "ContactPersons": {
-          "description": "This is the contact persons of the service organization.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ContactPersonType"
-          }
-        },
-        "ContactInformation": {
-          "description": "This is the contact information of the service organization.",
-          "$ref": "#/definitions/ContactInformationType"
+        "OnlineResource": {
+          "description": "This is the URL of the service organization.",
+          "$ref": "#/definitions/OnlineResourceType"
         }
       },
       "required": ["Roles", "ShortName"]
@@ -268,7 +414,7 @@
           "description": "A URL associated with the contact, e.g., the home page for the service provider which is responsible for the service.",
           "type": "array",
           "items": {
-            "$ref": "umm-cmn-json-schema.json#/definitions/RelatedUrlType"
+            "$ref": "#/definitions/RelatedUrlType"
           },
           "minItems": 0
         },
@@ -339,7 +485,7 @@
     "ServiceTypeEnum": {
       "description": "This element is used to identify the type of the service.",
       "type": "string",
-      "enum": ["OPeNDAP", "THREDDS", "WEB SERVICES", "ESI", "ECHO ORDERS", "WCS", "WMS", "SOFTWARE PACKAGE", "TOOL", "WEB PORTAL", "International Web Portal", "MODEL", "NOT PROVIDED"]
+      "enum": ["OPeNDAP", "THREDDS", "WEB SERVICES", "ESI", "ECHO ORDERS", "WCS", "WMS", "WMTS", "EGI - No Processing", "SOFTWARE PACKAGE", "TOOL", "WEB PORTAL", "International Web Portal", "MODEL", "NOT PROVIDED"]
     },
     "ServiceQualityType": {
       "type": "object",
@@ -377,62 +523,29 @@
       "maxLength": 4000
     },
     "UseConstraintsType": {
+      "type": "object",
+      "additionalProperties": false,
       "description": "Information on how the item (service, software, or tool) may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 20000
+      "properties": {
+        "LicenseUrl": {
+          "description": "The web address of the license associated with the service.",
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 1024
+        },
+        "LicenseText": {
+          "description": "The text of the license associated with the service.",
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 20000
+        }
+      }
     },
     "AncillaryKeywordsType": {
       "description": "Words or phrases to further describe the service, software, or tool.",
       "type": "string",
       "minLength": 1,
       "maxLength": 1024
-    },
-    "PlatformType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "This element describes the platform information.",
-      "properties": {
-        "ShortName": {
-          "description": "The short name of the platform associated with the service.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "LongName": {
-          "description": "The long name of the platform associated with the service.",
-          "type": "string",
-          "minLength": 0,
-          "maxLength": 1024
-        },
-        "Instruments": {
-          "description": "Associates the instrument/sensor that is supported by the service, software, or tool.",
-          "type": "array",
-          "items": {
-              "$ref": "#/definitions/InstrumentType"
-          },
-        "minItems": 0
-        }
-      }
-    },
-    "InstrumentType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "This element describes instrument information.",
-      "properties": {
-        "ShortName": {
-          "description": "The short name of the instrument associated with the service.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 80
-        },
-        "LongName": {
-          "description": "The long name of the instrument associated with the service.",
-          "type": "string",
-          "minLength": 0,
-          "maxLength": 1024
-        }
-      }
     },
     "ServiceContactRoleEnum": {
       "description": "Defines the possible values of a service provider role.",
@@ -493,7 +606,7 @@
         "OperationName": {
           "description": "This element contains the name of the operation(s) made possible via this service.",
           "type": "string",
-          "enum": ["GetCapabilities", "DescribeCoverage", "GetCoverage", "GetMap", "GetLegendGraphic", "GetFeatureInfo", "DescribeFeatureType", "GetPropertyValue", "GetFeature", "GetFeatureWithLock", "LockFeature", "Transaction", "CreateStoredQuery", "DropStoredQuery", "ListStoredQueries", "DescribeStoredQueries", "SPATIAL_SUBSETTING", "TEMPORAL_SUBSETTING", "VARIABLE_SUBSETTING", "VARIABLE_AGGREGATION" ]
+          "enum": ["GetCapabilities", "DescribeCoverage", "GetCoverage", "GetMap", "GetLegendGraphic", "GetTile", "GetFeatureInfo", "DescribeFeatureType", "GetPropertyValue", "GetFeature", "GetFeatureWithLock", "LockFeature", "Transaction", "CreateStoredQuery", "DropStoredQuery", "ListStoredQueries", "DescribeStoredQueries", "SPATIAL_SUBSETTING", "TEMPORAL_SUBSETTING", "VARIABLE_SUBSETTING", "VARIABLE_AGGREGATION" ]
         },
         "DistributedComputingPlatform": {
           "description": "This element contains the distributed computing platform (protocol) for the operation(s) made possible via this service.",
@@ -625,7 +738,6 @@
           "description": "The resource type of the layer, feature type or coverage available from the service.",
           "type": "string",
           "enum": ["Map", "Variable", "Granule", "Collection", "Virtual"]
-          /* seems to be a problem with the enum not  defined  in a separate type */
         },
         "DataResourceSpatialExtent": {
           "description": "The spatial extent of the coverage available from the service. These are coordinate pairs which describe either the point, line string, or polygon representing the spatial extent. The bounding box is described by the west, south, east and north ordinates",
@@ -742,7 +854,7 @@
     "SpatialBoundingBoxType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "The bounding box consists of west bounding, south bounding, east bounding and north bounding cordinates amd the CRS identifier.",
+      "description": "The bounding box consists of west bounding, south bounding, east bounding and north bounding coordinates and the CRS identifier.",
       "properties": {
         "CRSIdentifier": {
           "description": "The CRS identifier of the bounding box.",
@@ -790,7 +902,7 @@
     "AxisType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "The axis consisists of an extent and grid information.",
+      "description": "The axis consists of an extent and grid information.",
       "properties": {
         "AxisLabel": {
           "description": "The axis label of the general grid.",
@@ -910,16 +1022,15 @@
         }
       }
     },
-
     "DataResourceSpatialTypeEnum": {
       "description": "The spatial extent of the layer, feature type or coverage available from the service. These are coordinate pairs which describe either the point, line string, boundingbox, general grid, or polygon representing the spatial extent.",
       "type": "string",
       "enum": ["SPATIAL_POINT", "SPATIAL_LINE_STRING", "BOUNDING_BOX", "SPATIAL_POLYGON", "GENERAL_GRID"]
     },
     "CRSIdentifierTypeEnum": {
-      "description": "The CRS Identifier of the spatial extent, expressed as the EPSG code.",
+      "description": "The CRS Identifier of the spatial extent, expressed as a code.",
       "type": "string",
-      "enum": ["4326", "3395", "3785", "9807", "2000.63", "2163", "3408", "3410", "6931", "6933", "3411", "9822", "54003", "54004", "54008", "54009", "26917", "900913"]
+      "enum": ["EPSG:4326", "EPSG:3395", "EPSG:3785", "EPSG:9807", "EPSG:2000.63", "EPSG:2163", "EPSG:3408", "EPSG:3410", "EPSG:6931", "EPSG:6933", "EPSG:3411", "EPSG:9822", "EPSG:54003", "EPSG:54004", "EPSG:54008", "EPSG:54009", "EPSG:26917", "EPSG:900913", "Other"]
     },
     "DataResourceTemporalTypeEnum": {
       "description": "The temporal extent of the layer, feature type or coverage available from the service.",
@@ -958,32 +1069,31 @@
         "$ref": "#/definitions/ServiceTypeEnum"
       },
       "Version": {
-        "description": "The edition or version of the service, software, or tool.",
+        "description": "The edition or version of the service.",
         "type": "string",
         "minLength": 1,
         "maxLength": 20
+      },
+      "VersionDescription": {
+        "description": "This field provides users with information on what changes were included in the most recent version.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1024
+      },
+      "LastUpdatedDate": {
+        "description": "This element describes the latest date when the service was most recently pushed to production for support and maintenance. ",
+        "format": "date-time",
+        "type": "string"
+      },
+      "URL": {
+        "description": "This element contains important information about the universal resource locator (URL) for the service.",
+        "$ref": "#/definitions/URLType"
       },
       "Description": {
         "description": "A brief description of the service.",
         "type": "string",
         "minLength": 1,
         "maxLength": 1024
-      },
-      "RelatedURLs": {
-        "description": "This element contains important information about the universal resource locator (URL) for the service.",
-        "type": "array",
-        "items": {
-            "$ref": "umm-cmn-json-schema.json#/definitions/RelatedUrlType"
-        },
-        "minItems": 1
-      },
-      "ScienceKeywords": {
-        "description": "Allows for the specification of Earth Science keywords that are representative of the service, software, or tool being described. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).",
-        "type": "array",
-        "items": {
-            "$ref": "umm-cmn-json-schema.json#/definitions/ScienceKeywordType"
-        },
-      "minItems": 0
       },
       "ServiceKeywords": {
         "description": "Allows for the specification of Earth Science Service keywords that are representative of the service, software, or tool being described. The controlled vocabulary for Service Keywords is maintained in the Keyword Management System (KMS).",
@@ -1014,14 +1124,6 @@
         "items": {
           "$ref": "#/definitions/ContactPersonType"
         }
-      },
-      "Platforms": {
-        "description": "Associates the satellite/platform that is supported by the service, software, or tool.",
-        "type": "array",
-        "items": {
-            "$ref": "#/definitions/PlatformType"
-        },
-      "minItems": 0
       },
       "ServiceQuality": {
         "description": "Information about the quality of the service, software, or tool, or any quality assurance procedures followed in development.",
@@ -1061,8 +1163,8 @@
       "LongName",
       "Type",
       "Version",
+      "URL",
       "Description",
-      "RelatedURLs",
       "ServiceKeywords",
       "ServiceOrganizations"
     ]
