@@ -111,22 +111,28 @@ class SubscriptionsController < ManageCmrController
     subscription = subscription_params
     render plain: 'This query cannot be tested because it is missing a parameter, please make sure all of the fields are filled in.', status: :bad_request and return if subscription['SubscriberId'].blank? || subscription['CollectionConceptId'].blank? || subscription['Query'].blank?
 
-    collections_permission_response = cmr_client.check_user_permissions({ concept_id: subscription['CollectionConceptId'], user_id: subscription['SubscriberId'] }, token)
-    render plain: "An error occurred while checking the user's permissions: #{collections_permission_response.error_message}", status: :internal_server_error and return unless collections_permission_response.success?
-    render plain: 'The subscriber does not have access to the specified collection.', status: :unauthorized and return unless JSON.parse(collections_permission_response.body)[subscription['CollectionConceptId']].include?('read')
+    collection_permission_response = cmr_client.check_user_permissions({ concept_id: subscription['CollectionConceptId'], user_id: subscription['SubscriberId'] }, token)
+    if collection_permission_response.success? && JSON.parse(collection_permission_response.body)[subscription['CollectionConceptId']].include?('read')
+      granule_search_response = cmr_client.test_query(prepare_query_for_test(subscription['CollectionConceptId'], subscription['Query']), token)
 
-    granule_search_response = cmr_client.test_query(prepare_query_for_test(subscription['CollectionConceptId'], subscription['Query']), token)
-    render plain: "An error occurred while searching for granules: #{granule_search_response.error_message}", status: :internal_server_error and return unless granule_search_response.success?
-    granules_found = granule_search_response.body['hits']
-    frequency = (Rails.configuration.cmr_email_frequency / 3600.0).ceil(2)
-    frequency = frequency.to_i if frequency.to_i == frequency.to_f
-    return_json = {
-      'granules' => granules_found,
-      # in hours
-      'frequency' => "#{frequency} #{frequency > 1 ? 'hours' : 'hour'}",
-      'estimate' => emails_per_day(granules_found)
-    }.to_json
-    render json: return_json
+      if granule_search_response.success?
+        granules_found = granule_search_response.body['hits']
+        frequency = (Rails.configuration.cmr_email_frequency / 3600.0).ceil(2)
+        frequency = frequency.to_i if frequency.to_i == frequency.to_f
+        return_json = {
+          'estimate' => "Estimate: #{emails_per_day(granules_found)} #{'notification'.pluralize(emails_per_day(granules_found))}/day",
+          'granules' => "#{granules_found} granules related to this query were added or updated over the last 30 days.",
+          'frequency' => "Notification service checks for new or updated granules once every #{frequency} #{frequency > 1 ? 'hours' : 'hour'}."
+        }.to_json
+        render json: return_json
+      else
+        render plain: "An error occurred while searching for granules: #{granule_search_response.error_message}", status: :internal_server_error
+      end
+    elsif collection_permission_response.success?
+      render plain: 'The subscriber does not have access to the specified collection.', status: :unauthorized
+    else
+      render plain: "An error occurred while checking the user's permissions: #{collection_permission_response.error_message}", status: :internal_server_error
+    end
   end
 
   private

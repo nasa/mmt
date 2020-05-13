@@ -119,9 +119,9 @@ $(document).ready ->
             SubscriberId: $('#subscriber').val()
         success: (data) ->
           $('.status-text').text('Estimate Done!')
-          $('.estimate-text').text("Estimate: #{data['estimate']} notification#{if data['estimate'] == 1 then '' else 's'}/day")
-          $('.granules-count-text').text("#{data['granules']} granules related to this query were added or updated over the last 30 days.")
-          $('.frequency-text').text("Notification service checks for new or updated granules once every #{data['frequency']}.")
+          $('.estimate-text').text(data['estimate'])
+          $('.granules-count-text').text(data['granules'])
+          $('.frequency-text').text(data['frequency'])
           $('.results-text').show()
         error: (response) ->
           $('.status-text').text('Estimate failed.')

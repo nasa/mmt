@@ -145,9 +145,5 @@ Rails.application.configure do
   # Google Tag Manager ID for EOSDIS usage stats
   config.tag_manager_id = 'GTM-WNP7MLF'
 
-  config.cmr_email_frequency = if ENV['cmr_email_frequency']
-                                 ENV['cmr_email_frequency'].to_i
-                               else
-                                 3600
-                               end
+  config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
 end

@@ -36,7 +36,6 @@ describe 'Testing Queries when creating', js: true do
       VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
         within '.subscriber-group' do
           all('.select2-container .select2-selection').first.click
-          # page.find('.select2-selection--single').click
         end
         page.find('.select2-search__field').native.send_keys('rarxd5taqea')
 
@@ -47,13 +46,13 @@ describe 'Testing Queries when creating', js: true do
     context 'when the query starts with a "?"' do
       before do
         @granules_in_test = 40
-        ingest_granules(@concept_response.body['EntryTitle'], @granules_in_test, 'MMT_2')
+        ingest_granules(collection_entry_title: @concept_response.body['EntryTitle'], count: @granules_in_test, provider: 'MMT_2')
         wait_for_cmr
         fill_in 'Query', with: '?day_night_flag=day&updated_since=2020-05-06T16:23:09Z&production_date[]=2000-01-01T10:00:00Z,2021-03-10T12:00:00Z'
         click_on 'Estimate Notification Frequency'
       end
 
-      it 'can succeed' do
+      it 'displays the right number of e-mails' do
         expect(page).to have_content('Estimate Done')
         expect(page).to have_content("Estimate: #{(@granules_in_test / 30.0).ceil} notifications/day")
         expect(page).to have_content('How was this estimate generated?')
@@ -97,7 +96,7 @@ describe 'Testing Queries when creating', js: true do
       context 'when fewer than one granule per day are found' do
         before do
           @granules_in_test = 20
-          ingest_granules(@concept_response.body['EntryTitle'], @granules_in_test, 'MMT_2')
+          ingest_granules(collection_entry_title: @concept_response.body['EntryTitle'], count: @granules_in_test, provider: 'MMT_2')
           wait_for_cmr
           click_on 'Estimate Notification Frequency'
         end
@@ -139,7 +138,6 @@ describe 'Testing Queries when creating', js: true do
       VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
         within '.subscriber-group' do
           all('.select2-container .select2-selection').first.click
-          # page.find('.select2-selection--single').click
         end
         page.find('.select2-search__field').native.send_keys('rarxd5taqea')
 
@@ -197,60 +195,11 @@ describe 'Testing Queries when editing', js: true do
       fill_in 'Query', with: 'day_night_flag=day&updated_since=2020-05-06T16:23:09Z&production_date[]=2000-01-01T10:00:00Z,2021-03-10T12:00:00Z'
     end
 
-    context 'when the query starts with a "?"' do
-      before do
-        @granules_in_test = 40
-        ingest_granules(@concept_response.body['EntryTitle'], @granules_in_test, 'MMT_2')
-        wait_for_cmr
-        fill_in 'Query', with: '?day_night_flag=day&updated_since=2020-05-06T16:23:09Z&production_date[]=2000-01-01T10:00:00Z,2021-03-10T12:00:00Z'
-        click_on 'Estimate Notification Frequency'
-      end
-
-      it 'can succeed' do
-        expect(page).to have_content('Estimate Done')
-        expect(page).to have_content("Estimate: #{(@granules_in_test / 30.0).ceil} notifications/day")
-        expect(page).to have_content('How was this estimate generated?')
-        expect(page).to have_content("#{@granules_in_test} granules related to this query were added or updated over the last 30 days.")
-        expect(page).to have_content("Notification service checks for new or updated granules once every #{@frequency}.")
-        expect(page).to have_content('Estimate assumes an even distribution of new or updated granules over a period of time.')
-      end
-    end
-
-    context 'when there is an error communicating with CMR' do
-      before do
-        cmr_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse('{"errors": ["One of parameters [user_type] or [user_id] are required."]}'), response_headers: {}))
-        allow_any_instance_of(Cmr::CmrClient).to receive(:check_user_permissions).and_return(cmr_response)
-        click_on 'Estimate Notification Frequency'
-      end
-
-      it 'displays an error message on the modal' do
-        expect(page).to have_content("An error occurred while checking the user's permissions: One of parameters [user_type] or [user_id] are required.")
-      end
-    end
-
     context 'when the test succeeds' do
-      context 'when more than max granules are found' do
-        before do
-          @granules_in_test = 5_000_000
-          allow_any_instance_of(Cmr::CmrClient).to receive(:test_query).and_return(Cmr::Response.new(Faraday::Response.new(status: 200, body: { 'hits' => @granules_in_test } )))
-          click_on 'Estimate Notification Frequency'
-        end
-
-        it 'displays the right count of e-mails' do
-          granule_count = (24 * 3600 / Rails.configuration.cmr_email_frequency).ceil
-          expect(page).to have_content('Estimate Done')
-          expect(page).to have_content("Estimate: #{granule_count} notifications/day")
-          expect(page).to have_content('How was this estimate generated?')
-          expect(page).to have_content("#{@granules_in_test} granules related to this query were added or updated over the last 30 days.")
-          expect(page).to have_content("Notification service checks for new or updated granules once every #{@frequency}.")
-          expect(page).to have_content('Estimate assumes an even distribution of new or updated granules over a period of time.')
-        end
-      end
-
       context 'when fewer than one granule per day is found' do
         before do
           @granules_in_test = 20
-          ingest_granules(@concept_response.body['EntryTitle'], @granules_in_test, 'MMT_2')
+          ingest_granules(collection_entry_title: @concept_response.body['EntryTitle'], count: @granules_in_test, provider: 'MMT_2')
           wait_for_cmr
           click_on 'Estimate Notification Frequency'
         end
@@ -264,43 +213,6 @@ describe 'Testing Queries when editing', js: true do
           expect(page).to have_content('Estimate assumes an even distribution of new or updated granules over a period of time.')
         end
       end
-
-      context 'when no granules are found' do
-        before do
-          click_on 'Estimate Notification Frequency'
-        end
-
-        it 'displays the right amount of e-mails' do
-          expect(page).to have_content('Estimate Done')
-          expect(page).to have_content("Estimate: 0 notifications/day")
-          expect(page).to have_content('How was this estimate generated?')
-          expect(page).to have_content("0 granules related to this query were added or updated over the last 30 days.")
-          expect(page).to have_content("Notification service checks for new or updated granules once every #{@frequency}.")
-          expect(page).to have_content('Estimate assumes an even distribution of new or updated granules over a period of time.')
-        end
-      end
-    end
-  end
-
-  context 'when the user does not have permissions to view a collection' do
-    before do
-      @ingest_response2, _concept_response = publish_collection_draft(provider_id: 'NSIDC_ECS', suppress_concept_query_error: true)
-      @ingest_subscription_response2, @search_response2, _subscription = publish_new_subscription(collection_concept_id: @ingest_response2['concept-id'])
-      VCR.use_cassette('urs/rarxd5taqea', record: :none) do
-        visit edit_subscription_path(@ingest_subscription_response2['concept_id'])
-      end
-
-      click_on 'Estimate Notification Frequency'
-    end
-
-    after do
-      delete_response = cmr_client.delete_subscription('MMT_2', @search_response2.body['items'].first['meta']['native-id'], 'token')
-
-      raise unless delete_response.success?
-    end
-
-    it 'displays the correct error message to the user' do
-      expect(page).to have_content("Estimate failed.\nThe subscriber does not have access to the specified collection.")
     end
   end
 end
