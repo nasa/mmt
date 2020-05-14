@@ -74,6 +74,20 @@ module Cmr
       get(url, options, token_header(token))
     end
 
+    # CMR can accept up to 500k characters to this GET endpoint, but advises
+    # using the POST end point if you think you will need > 6k. We are using the
+    # GET endpoint because the subscription service in CMR is currently using it
+    # when CMR changes, we should update to the POST.
+    def test_query(query, token, headers = {})
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3003/granules.umm_json?#{query}"
+            else
+              "/search/granules.umm_json?#{query}"
+            end
+
+      get(url, nil, headers.merge(token_header(token)))
+    end
+
     def add_collection_assocations_to_variable(concept_id, collection_ids, token)
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/variables/#{concept_id}/associations"
@@ -304,6 +318,20 @@ module Cmr
       headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json' }
 
       delete(url, {}, nil, headers.merge(token_header(token)))
+    end
+
+    # MMT does not need to ingest granules in any environment that is not dev or
+    # test.
+    def ingest_granule(metadata, provider_id, native_id)
+      return unless Rails.env.development? || Rails.env.test?
+
+      url = "http://localhost:3002/providers/#{provider_id}/granules/#{encode_if_needed(native_id)}"
+      headers = {
+        'Accept' => 'application/json',
+        'Content-Type' =>  "application/vnd.nasa.cmr.umm+json; version=1.6; charset=utf-8"
+      }
+
+      put(url, metadata, headers.merge(token_header('token')))
     end
 
 #####################

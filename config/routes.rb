@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   get '/accept_invite/:token' => 'groups#accept_invite', as: 'accept_invite'
 
   resources :subscriptions
+  post 'estimate_notifications' => 'subscriptions#estimate_notifications'
 
   post '/bulk_updates/check_task_name' => 'bulk_updates#check_task_name'
   resources :bulk_updates, only: [:index, :show, :create] do

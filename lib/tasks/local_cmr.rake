@@ -227,4 +227,19 @@ namespace :cmr do
       puts "Done!"
     end
   end
+
+  namespace :subscriptions do
+    desc 'Add a specified number of granules to a specified collection'
+    task :add_granules, [:collection_entry_title, :provider, :iterations, :path_to_granule_json] => :environment do |_task, args|
+      granule_json = JSON.parse(File.read(args.path_to_granule_json))
+      args.iterations.to_i.times do
+        id = SecureRandom.uuid
+        granule_json['CollectionReference'] = { 'EntryTitle' => args.collection_entry_title }
+        granule_json['GranuleUR'] = id
+        response = cmr_client.ingest_granule(granule_json.to_json, args.provider, "testing_subscription_#{id}")
+        puts response.clean_inspect unless response.success?
+      end
+      puts "Done!"
+    end
+  end
 end

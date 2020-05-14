@@ -100,3 +100,32 @@ $(document).ready ->
         return false if validGranuleQueryParameters.indexOf(parameter) == -1
 
       true
+
+  $('#subscriber').on 'change', ->
+    if $('#subscriber-error').length > 0
+      $('#subscriber').valid()
+
+  $('.estimate-notifications').on 'click', ->
+    $('.status-text').text('Creating an estimate from available data...')
+    $('.results-text').hide()
+    $('.error-text').hide()
+    if $('.subscription-form').valid()
+      $.ajax '/estimate_notifications',
+        method: 'POST'
+        data:
+          subscription:
+            CollectionConceptId: $('#subscription_CollectionConceptId').val()
+            Query: $('#subscription_Query').val()
+            SubscriberId: $('#subscriber').val()
+        success: (data) ->
+          $('.status-text').text('Estimate Done!')
+          $('.estimate-text').text(data['estimate'])
+          $('.granules-count-text').text(data['granules'])
+          $('.frequency-text').text(data['frequency'])
+          $('.results-text').show()
+        error: (response) ->
+          $('.status-text').text('Estimate failed.')
+          $('.error-text').text(response.responseText)
+          $('.error-text').show()          
+    else
+      $('.status-text').text('Please enter a valid subscription and try again.')

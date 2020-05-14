@@ -2,6 +2,7 @@ class SubscriptionsController < ManageCmrController
   include UrsUserEndpoints
   include CMRSubscriptions
 
+  DAY_IN_SECONDS = 86_400
   RESULTS_PER_PAGE = 25
   before_action :subscriptions_enabled?
   before_action :add_top_level_breadcrumbs
@@ -104,6 +105,36 @@ class SubscriptionsController < ManageCmrController
     end
   end
 
+  def estimate_notifications
+    authorize :subscription
+
+    subscription = subscription_params
+    render plain: 'This query cannot be tested because it is missing a parameter, please make sure all of the fields are filled in.', status: :bad_request and return if subscription['SubscriberId'].blank? || subscription['CollectionConceptId'].blank? || subscription['Query'].blank?
+
+    collection_permission_response = cmr_client.check_user_permissions({ concept_id: subscription['CollectionConceptId'], user_id: subscription['SubscriberId'] }, token)
+    if collection_permission_response.success? && JSON.parse(collection_permission_response.body)[subscription['CollectionConceptId']].include?('read')
+      granule_search_response = cmr_client.test_query(prepare_query_for_test(subscription['CollectionConceptId'], subscription['Query']), token)
+
+      if granule_search_response.success?
+        granules_found = granule_search_response.body['hits']
+        frequency = (Rails.configuration.cmr_email_frequency / 3600.0).ceil(2)
+        frequency = frequency.to_i if frequency.to_i == frequency.to_f
+        return_json = {
+          'estimate' => "Estimate: #{emails_per_day(granules_found)} #{'notification'.pluralize(emails_per_day(granules_found))}/day",
+          'granules' => "#{granules_found} granules related to this query were added or updated over the last 30 days.",
+          'frequency' => "Notification service checks for new or updated granules once every #{frequency} #{frequency > 1 ? 'hours' : 'hour'}."
+        }.to_json
+        render json: return_json
+      else
+        render plain: "An error occurred while searching for granules: #{granule_search_response.error_message}", status: :internal_server_error
+      end
+    elsif collection_permission_response.success?
+      render plain: 'The subscriber does not have access to the specified collection.', status: :unauthorized
+    else
+      render plain: "An error occurred while checking the user's permissions: #{collection_permission_response.error_message}", status: :internal_server_error
+    end
+  end
+
   private
 
   def subscription_params
@@ -166,5 +197,34 @@ class SubscriptionsController < ManageCmrController
 
     flash[:error] = I18n.t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
     redirect_to(policy(:subscription).index? ? subscriptions_path : manage_cmr_path)
+  end
+
+  def prepare_query_for_test(concept_id, query)
+    # revision_date[]=<some date>, is the same as updated_since=<same date>
+    # if both a revision_date and updated_since are passed, CMR uses the more
+    # restrictive, but if two sets of revision dates are passed, both are
+    # permitted.
+    query.slice!(0) if query[0] == '?'
+    terms = query.split('&')
+    terms.select! do |term|
+      subterms = term.split('=')
+      !subterms[0].include?('updated_since') && !subterms[0].include?('revision_date')
+    end
+
+    prepend = "collection_concept_id=#{concept_id}&updated_since=#{30.days.ago.strftime('%FT%TZ')}"
+    "#{prepend}&#{terms.join('&')}"
+  end
+
+  # Wild guess at emails per day based on the assumption that the granules are
+  # evenly distributed over the time period.
+  def emails_per_day(granules)
+    # If granules > seconds in 30 days / e-mail increment, return max per day
+    if granules > DAY_IN_SECONDS * 30 / Rails.configuration.cmr_email_frequency
+      (DAY_IN_SECONDS / Rails.configuration.cmr_email_frequency).ceil
+    else
+      # if there aren't enough granules to saturate the bins, each granule is
+      # generating an e-mail.
+      (granules / 30.0).ceil
+    end
   end
 end

@@ -8,6 +8,7 @@
       <fieldset>
         <%= submit_tag 'Submit', class: 'eui-btn--blue', id: 'new-subscription-submit' %>
         <%= link_to 'Cancel', :back, class: 'eui-btn' %>
+        <%= render partial: 'estimate_notifications_modal' %>
       </fieldset>
     <% end %>
   </section>

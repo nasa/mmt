@@ -83,4 +83,6 @@ Rails.application.configure do
   config.middleware.use RackSessionAccess::Middleware
 
   # config.colorize_logging = false
+
+  config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
 end

@@ -1,0 +1,86 @@
+{
+  "MeasuredParameters": [
+    {
+      "ParameterName": "Granule QA",
+      "QAFlags": {
+        "AutomaticQualityFlag": "Passed",
+        "AutomaticQualityFlagExplanation": "All data passed during checkout"
+      }
+    }
+  ],
+  "AccessConstraints": {
+    "Value": 1
+  },
+  "SpatialExtent": {
+    "HorizontalSpatialDomain": {
+      "Geometry": {
+        "GPolygons": [
+          {
+            "Boundary": {
+              "Points": [
+                {
+                  "Longitude": 1,
+                  "Latitude": 1
+                },
+                {
+                  "Longitude": 5,
+                  "Latitude": 1
+                },
+                {
+                  "Longitude": 1,
+                  "Latitude": 5
+                },
+                {
+                  "Longitude": 1,
+                  "Latitude": 1
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "ProviderDates": [
+    {
+      "Date": "2016-08-19T11:26:28.000Z",
+      "Type": "Insert"
+    },
+    {
+      "Date": "2016-10-25T12:05:00.000Z",
+      "Type": "Update"
+    }
+  ],
+  "CollectionReference": {
+    "EntryTitle": "IceBridge DMS L0 Camera Calibration V001"
+  },
+  "DataGranule": {
+    "DayNightFlag": "Day",
+    "Identifiers": [
+      {
+        "Identifier": "CAL_IIR_L2_Swath_Exp-Beta-V3-30.2013-08-09T18-00-00Z.hdf",
+        "IdentifierType": "ProducerGranuleId"
+      }
+    ],
+    "ProductionDateTime": "2016-08-13T13:44:16.000Z",
+    "ArchiveAndDistributionInformation": [
+      {
+        "Name": "Not provided",
+        "Size": 0.09390926,
+        "SizeUnit": "MB"
+      }
+    ]
+  },
+  "TemporalExtent": {
+    "RangeDateTime": {
+      "BeginningDateTime": "2015-08-09T00:00:00.000Z",
+      "EndingDateTime": "2016-07-09T00:00:00.000Z"
+    }
+  },
+  "GranuleUR": "8046d7eb-0ce7-48f5-921a-a1600f41c5b2",
+  "MetadataSpecification": {
+    "URL": "https://cdn.earthdata.nasa.gov/umm/granule/v1.6",
+    "Name": "UMM-G",
+    "Version": "1.6"
+  }
+}
