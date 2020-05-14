@@ -14,7 +14,6 @@ gem 'rails', '~> 5.2.4'
 gem 'sprockets', '~> 3.7.0'
 
 # Use SCSS for stylesheets
-# bourbon is soft locked by thor. Thor is currently being held below 1 by figaro
 gem 'bourbon'
 gem 'sassc-rails'
 
