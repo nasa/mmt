@@ -483,7 +483,7 @@ class UmmFormElement < UmmForm
   # Return this form element for display within a form
   def render_markup
     capture do
-      # Determine the class to use fo rendering this element
+      # Determine the class to use for rendering this element
       element_class = form_fragment.fetch('type', 'UmmTextField')
       form_element = element_class.constantize.new(form_section_json: form_fragment, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
 
