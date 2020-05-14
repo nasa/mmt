@@ -12,11 +12,13 @@ FactoryBot.define do
     # Empty draft
     provider_id { 'MMT_2' }
     draft_type { 'CollectionDraft' }
+    draft { {} }
   end
 
   factory :mmt_1_collection_draft, class: CollectionDraft do
     provider_id { 'MMT_1' }
     draft_type { 'CollectionDraft' }
+    draft { {} }
   end
 
   # Will trigger required fields error for data identification required fields

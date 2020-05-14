@@ -1,0 +1,96 @@
+{
+  "forms": [
+    {
+      "id": "tool_information",
+      "title": "Tool Information",
+      "items": [
+        {
+          /* Tool Information */
+          "type": "open_accordion",
+          "title": "Tool Information",
+          "noHelp": true,
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "Name", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "LongName", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Type", "field": true, "type": "UmmSelect"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Version", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "VersionDescription", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  // this has a format of 'date-time', as we have in collections
+                  // need to get this to use the date picker
+                  "type": "section",
+                  "items": [{"key": "LastUpdatedDate", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "Description", "type": "UmmTextarea", "field": true}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "DOI", "field": true}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
