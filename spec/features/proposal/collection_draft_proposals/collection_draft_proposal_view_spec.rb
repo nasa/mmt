@@ -29,6 +29,10 @@ describe 'Viewing Unsubmitted Collection Draft Proposals' do
     it 'has a delete link' do
       expect(page).to have_link('Delete Collection Draft Proposal')
     end
+
+    it 'does not have the metadata download option' do
+      expect(page).to have_no_content('Metadata Download:')
+    end
   end
 
   context 'when viewing incomplete metadata' do
@@ -44,6 +48,45 @@ describe 'Viewing Unsubmitted Collection Draft Proposals' do
 
       it 'cannot be submitted yet' do
         expect(page).to have_content('This proposal is not ready to be submitted. Please use the progress indicators on the proposal preview page to address incomplete or invalid fields.')
+      end
+    end
+  end
+
+  context 'when viewing proposals in different states' do
+    before do
+      @proposal = create(:full_collection_draft_proposal, proposal_short_name: 'An Example Proposal', version: '5', proposal_entry_title: 'An Example Proposal Title', user: get_user)
+    end
+
+    context 'when viewing submitted proposals' do
+      before do
+        mock_submit(@proposal)
+        visit collection_draft_proposal_path(@proposal)
+      end
+
+      it 'does not have the metadata download option' do
+        expect(page).to have_no_content('Metadata Download:')
+      end
+    end
+
+    context 'when viewing approved proposals' do
+      before do
+        mock_approve(@proposal)
+        visit collection_draft_proposal_path(@proposal)
+      end
+
+      it 'does not have the metadata download option' do
+        expect(page).to have_no_content('Metadata Download:')
+      end
+    end
+
+    context 'when viewing rejected proposals' do
+      before do
+        mock_reject(@proposal)
+        visit collection_draft_proposal_path(@proposal)
+      end
+
+      it 'does not have the metadata download option' do
+        expect(page).to have_no_content('Metadata Download:')
       end
     end
   end
