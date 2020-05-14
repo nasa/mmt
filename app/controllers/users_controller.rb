@@ -126,6 +126,7 @@ class UsersController < ApplicationController
     # Stores additional information in the session pertaining to the user
     store_profile(profile)
     Rails.logger.debug "Successful URS Login by user #{authenticated_urs_uid}" if session[:login_method] == 'urs'
+    Rails.logger.info "Successful URS Login by user #{authenticated_urs_uid}" if Rails.configuration.proposal_mode
     log_urs_session_keys
     log_all_session_keys
 
