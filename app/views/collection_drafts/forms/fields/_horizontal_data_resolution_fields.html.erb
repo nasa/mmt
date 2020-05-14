@@ -12,55 +12,29 @@
 
     <div class="horizontal-data-resolution-group">
       <div class="checkbox-group">
-        <%= check_box_tag(name_to_param("#{name_prefix}|point_resolution|_checkbox"), nil, point_resolution_checked, class: 'horizontal-data-resolution-picker point-resolution show-hide-checkbox', name: nil) %>
+        <%= check_box_tag(name_to_param("#{name_prefix}|point_resolution|"), 'Point', point_resolution_checked, class: 'horizontal-data-resolution-picker point-resolution checkbox-with-value') %>
         <%= mmt_label(
-          name: 'point_resolution_checkbox',
+          name: 'point_resolution',
           title: 'Point Resolution',
           prefix: name_prefix
         ) %>
-
-        <!-- PointResolution -->
-        <div class="row sub-fields horizontal-data-resolution-fields point-resolution" style="<%= 'display: none;' unless point_resolution_checked %>">
-          <label>Horizontal Resolution Processing Level Enum</label>
-          <%= mmt_help_icon(
-            title: 'Horizontal Resolution Processing Level Enum',
-            help: 'definitions/HorizontalDataResolutionPointType/properties/HorizontalResolutionProcessingLevelEnum'
-          ) %>
-          <div class="row">
-            <%= radio_button_tag(name_to_param("#{name_prefix}|point_resolution|_|horizontal_resolution_processing_level_enum|"), 'Point', horizontal_data_resolution.fetch('PointResolution', {}).fetch('HorizontalResolutionProcessingLevelEnum', nil) == 'Point', class: 'point-resolution-select validate', data: { level: remove_pipes("#{name_prefix}|point_resolution") } ) %>
-            <%= mmt_label(
-              name: 'point_resolution_horizontal_resolution_processing_level_enum_Point',
-              title: 'Point',
-              prefix: name_prefix
-            ) %>
-          </div>
-        </div>
+        <%= mmt_help_icon(
+          title: 'Point Resolution',
+          help: 'definitions/HorizontalDataResolutionPointType'
+        ) %>
       </div>
 
       <div class="checkbox-group">
-        <%= check_box_tag(name_to_param("#{name_prefix}|varies_resolution|_checkbox"), nil, varies_resolution_checked, class: 'horizontal-data-resolution-picker varies-resolution show-hide-checkbox', name: nil) %>
+        <%= check_box_tag(name_to_param("#{name_prefix}|varies_resolution|"), 'Varies', varies_resolution_checked, class: 'horizontal-data-resolution-picker varies-resolution checkbox-with-value') %>
         <%= mmt_label(
-          name: 'varies_resolution_checkbox',
+          name: 'varies_resolution',
           title: 'Varies Resolution',
           prefix: name_prefix
         ) %>
-
-        <!-- VariesResolution -->
-        <div class="row sub-fields horizontal-data-resolution-fields varies-resolution" style="<%= 'display: none;' unless varies_resolution_checked %>">
-          <label>Horizontal Resolution Processing Level Enum</label>
-          <%= mmt_help_icon(
-            title: 'Horizontal Resolution Processing Level Enum',
-            help: 'definitions/HorizontalDataResolutionVariesType/properties/HorizontalResolutionProcessingLevelEnum'
-          ) %>
-          <div class="row">
-            <%= radio_button_tag(name_to_param("#{name_prefix}|varies_resolution|_|horizontal_resolution_processing_level_enum|"), 'Varies', horizontal_data_resolution.fetch('VariesResolution', {}).fetch('HorizontalResolutionProcessingLevelEnum', nil) == 'Varies', class: 'varies-resolution-select validate', data: { level: remove_pipes("#{name_prefix}|varies_resolution") } ) %>
-            <%= mmt_label(
-              name: 'varies_resolution_horizontal_resolution_processing_level_enum_Varies',
-              title: 'Varies',
-              prefix: name_prefix
-            ) %>
-          </div>
-        </div>
+        <%= mmt_help_icon(
+          title: 'Varies Resolution',
+          help: 'definitions/HorizontalDataResolutionVariesType'
+        ) %>
       </div>
 
       <div class="checkbox-group">

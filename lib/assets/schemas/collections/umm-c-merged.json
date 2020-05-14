@@ -91,7 +91,7 @@
       "minItems": 0
     },
     "CollectionProgress": {
-      "description": "This element describes the production status of the data set. There are five choices for Data Providers: PLANNED refers to data sets to be collected in the future and are thus unavailable at the present time. For Example: The Hydro spacecraft has not been launched, but information on planned data sets may be available. ACTIVE refers to data sets currently in production or data that is continuously being collected or updated. For Example: data from the AIRS instrument on Aqua is being collected continuously. COMPLETE refers to data sets in which no updates or further data collection will be made. For Example: Nimbus-7 SMMR data collection has been completed. DEPRECATED refers to data sets that have been retired, but still can be retrieved. Usually newer products exist that replace the retired data set. NOT APPLICABLE refers to data sets in which a collection progress is not applicable such as a calibration collection. There is a fifth value of NOT PROVIDED that should not be used by a data provider. It is currently being used as a value when a correct translation cannot be done with the current valid values, or when the value is not provided by the data provider.",
+      "description": "This element describes the production status of the data set. There are five choices for Data Providers: PLANNED refers to data sets to be collected in the future and are thus unavailable at the present time. For Example: The Hydro spacecraft has not been launched, but information on planned data sets may be available. ACTIVE refers to data sets currently in production or data that is continuously being collected or updated. For Example: data from the AIRS instrument on Aqua is being collected continuously. COMPLETE refers to data sets in which no updates or further data collection will be made. For Example: Nimbus-7 SMMR data collection has been completed. DEPRECATED refers to data sets that have been retired, but still can be retrieved. Usually newer products exist that replace the retired data set. NOT APPLICABLE refers to data sets in which a collection progress is not applicable such as a calibration collection. There is a sixth value of NOT PROVIDED that should not be used by a data provider. It is currently being used as a value when a correct translation cannot be done with the current valid values, or when the value is not provided by the data provider.",
       "$ref": "#/definitions/CollectionProgressEnum"
     },
     "Quality": {
@@ -908,27 +908,13 @@
     },
     "HorizontalDataResolutionVariesType": {
       "description": "Varies Resolution object describes a data product that has a number of resolution values.",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "HorizontalResolutionProcessingLevelEnum": {
-          "description": "Horizontal Resolution Level describes if the data product has a number of undefined resolution values.",
-          "type": "string",
-          "enum": ["Varies"]
-        }
-      }
+      "type": "string",
+      "enum": ["Varies"]
     },
     "HorizontalDataResolutionPointType": {
       "description": "Point Resolution object describes a data product that is from a point source.",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "HorizontalResolutionProcessingLevelEnum": {
-          "description": "Horizontal Resolution Level describes if the data product is from a point source.",
-          "type": "string",
-          "enum": ["Point"]
-        }
-      }
+      "type": "string",
+      "enum": ["Point"]
     },
     "HorizontalDataResolutionNonGriddedType": {
       "description": "Non Gridded Resolutions object describes resolution data for non gridded data products.",
@@ -1085,7 +1071,7 @@
     "HorizontalDataResolutionUnitEnum": {
       "description": "Units of measure used for the geodetic latitude and longitude resolution values (e.g., decimal degrees).",
       "type": "string",
-      "enum": ["Decimal Degrees", "Kilometers", "Meters"]
+      "enum": ["Decimal Degrees", "Kilometers", "Meters", "Statute Miles", "Nautical Miles", "Not provided"]
     },
     "HorizontalResolutionViewingAngleType": {
       "description": "This element describes the angle of the measurement with respect to the instrument that give an understanding of the specified resolution.",
@@ -1121,7 +1107,7 @@
       "enum": ["SCIENCE_QUALITY", "NEAR_REAL_TIME", "OTHER"]
     },
     "CollectionProgressEnum": {
-      "description": "This element describes the production status of the data set. There are five choices for Data Providers: PLANNED refers to data sets to be collected in the future and are thus unavailable at the present time. For Example: The Hydro spacecraft has not been launched, but information on planned data sets may be available. ACTIVE refers to data sets currently in production or data that is continuously being collected or updated. For Example: data from the AIRS instrument on Aqua is being collected continuously. COMPLETE refers to data sets in which no updates or further data collection will be made. For Example: Nimbus-7 SMMR data collection has been completed. DEPRECATED refers to data sets that have been retired, but still can be retrieved. Usually newer products exist that replace the retired data set. NOT APPLICABLE refers to data sets in which a collection progress is not applicable such as a calibration collection. There is a fifth value of NOT PROVIDED that should not be used by a data provider. It is currently being used as a value when a correct translation cannot be done with the current valid values, or when the value is not provided by the data provider.",
+      "description": "This element describes the production status of the data set. There are five choices for Data Providers: PLANNED refers to data sets to be collected in the future and are thus unavailable at the present time. For Example: The Hydro spacecraft has not been launched, but information on planned data sets may be available. ACTIVE refers to data sets currently in production or data that is continuously being collected or updated. For Example: data from the AIRS instrument on Aqua is being collected continuously. COMPLETE refers to data sets in which no updates or further data collection will be made. For Example: Nimbus-7 SMMR data collection has been completed. DEPRECATED refers to data sets that have been retired, but still can be retrieved. Usually newer products exist that replace the retired data set. NOT APPLICABLE refers to data sets in which a collection progress is not applicable such as a calibration collection. There is a sixth value of NOT PROVIDED that should not be used by a data provider. It is currently being used as a value when a correct translation cannot be done with the current valid values, or when the value is not provided by the data provider.",
       "type": "string",
       "enum": ["ACTIVE", "PLANNED", "COMPLETE", "DEPRECATED", "NOT APPLICABLE", "NOT PROVIDED"]
     },

@@ -45,13 +45,11 @@ describe 'Spatial information preview' do
 
           within '.point_resolution' do
             expect(page).to have_content('Point Resolution')
-            expect(page).to have_content('Horizontal Resolution Processing Level Enum')
             expect(page).to have_content('Point')
           end
 
           within '.varies_resolution' do
             expect(page).to have_content('Varies Resolution')
-            expect(page).to have_content('Horizontal Resolution Processing Level Enum')
             expect(page).to have_content('Varies')
           end
 
