@@ -135,7 +135,7 @@ class ManageProposalController < ManageMetadataController
 
     if cmr_response.success?
       flash[:success] = I18n.t('controllers.manage_proposal.publish_proposal.flash.create.success')
-      Rails.logger.info("Audit Log: Proposal #{proposal['entry_title']} was published by #{current_user.urs_uid} in provider: #{provider} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
+      Rails.logger.info("Audit Log: #{proposal['request_type'].titleize} Proposal #{proposal['entry_title']} was published by #{current_user.urs_uid} in provider: #{provider} by proposal with short name: #{proposal['short_name']} and id: #{proposal['id']}")
 
       submitter_from_proposal_response = submitter_from_proposal(proposal)
       # Submitter email
