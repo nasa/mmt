@@ -16,6 +16,11 @@ namespace :sloc do
     if cloc.empty?
       puts 'run brew cloc before using this feature'
     else
+      # exclude Markdown, Dockerfiles and Shell scripts because they are not 
+      # contributing maintance of code and not code itself
+      # exclude directories which do not have application code. Test code is not
+      # considered application code. Reports and documentation also do not meet
+      # the threshhold.
    	  shell_cmd = 'cloc ' \
         '--exclude-lang=Markdown,Dockerfile,"Bourne Shell" ' \
         '--exclude-dir=cmr,coverage,doc,log,spec,stubs,test_cmr,tmp,vendor ' \
