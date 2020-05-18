@@ -2,12 +2,9 @@
   // Load json-schema for field validation
   var globalJsonSchema = <%= raw @schema.parsed_json.to_json %>;
 
-  <% if @current_form == 'service_keywords' %>
+  <% if @current_form == 'descriptive_keywords' %>
     // Setup Service Keywords
     setupServiceKeywords(<%= raw @service_keywords.to_json %>, { field_prefix: '<%= resource_name %>/draft' });
-  <% elsif ['science_keywords', 'science_and_ancillary_keywords'].include? @current_form %>
-    // Setup Science Keywords
-    setupScienceKeywords(<%= raw @science_keywords.to_json %>, { field_prefix: '<%= resource_name %>/draft' });
   <% end %>
 
   <% if controller_name == 'service_drafts' %>

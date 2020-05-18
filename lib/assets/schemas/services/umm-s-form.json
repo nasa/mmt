@@ -334,25 +334,34 @@
                   "items": [
                     {
                       "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "/Name", "field": true}]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "col-6",
+                          "items": [{"key": "/Protocol", "field": true}]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
                       "items": [
                         {
                           "key": "/Linkage",
                           "field": true
                         },
                         {
-                          "key": "/Protocol",
+                          "key": "/Description",
+                          "type": "UmmTextarea",
                           "field": true
                         },
                         {
                           "key": "/ApplicationProfile",
-                          "field": true
-                        },
-                        {
-                          "key": "/Name",
-                          "field": true
-                        },
-                        {
-                          "key": "/Description",
                           "field": true
                         },
                         {
