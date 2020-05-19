@@ -205,7 +205,7 @@ class UmmForm < JsonObj
   # * +path+ - The path to find the information for this element within the schema
   def help_icon(path)
     link_to('#help-modal', class: 'display-modal') do
-      concat content_tag(:i, nil, class: 'eui-icon eui-fa-info-circle', data: { 'help-path': path })
+      concat content_tag(:i, nil, class: 'eui-icon eui-fa-info-circle', data: { 'help-path': path, 'override-help': override_help })
       concat content_tag(:span, "Help modal for #{title}", class: 'is-invisible')
     end
   end
@@ -220,6 +220,15 @@ class UmmForm < JsonObj
     path.pop if path.last == 'properties'
     path.pop if path.last == 'items'
     "properties/#{path.join('/')}"
+  end
+
+  def override_help
+    return nil unless parsed_json['override_help_path']
+
+    schema_chunk = @schema.parsed_json['definitions']
+    parsed_json['override_help_path'].split('/').each do |key|
+      schema_chunk = schema_chunk[key]
+    end
   end
 
   # Get the value for the provided key from the provided object

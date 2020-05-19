@@ -104,7 +104,7 @@
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "/URLContentType", "field": true, "type": "UmmSelect"}]
+                  "items": [{"key": "/URLContentType", "field": true, "type": "UmmSelect", "htmlClass": "url-content-type-select"}]
                 }
               ]
             },
@@ -115,7 +115,7 @@
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "/Type", "field": true, "type": "UmmSelect"}]
+                  "items": [{"key": "/Type", "field": true, "type": "UmmSelect", "htmlClass": "url-type-select"}]
                 }
               ]
             },
@@ -126,7 +126,7 @@
                 {
                   "type": "section",
                   "htmlClass": "row",
-                  "items": [{"key": "/Subtype", "field": true, "type": "UmmSelect"}]
+                  "items": [{"key": "/Subtype", "field": true, "type": "UmmSelect", "htmlClass": "url-subtype-select"}]
                 }
               ]
             },
@@ -491,6 +491,7 @@
                         {
                           "key": "/SupportedInputFormat",
                           "type": "UmmSelect",
+                          "override_help": "SupportedReformattingsPairType/properties/SupportedInputFormat/description",
                           "field": true
                         }
                       ]
@@ -502,6 +503,7 @@
                         {
                           "key": "/SupportedOutputFormat",
                           "type": "UmmSelect",
+                          "override_help": "SupportedReformattingsPairType/properties/SupportedInputFormat/description",
                           "field": true
                         }
                       ]
@@ -1407,74 +1409,6 @@
               "type": "section",
               "htmlClass": "row",
               "items": [{"key": "/URL", "field": true, "htmlClass": "url"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row sub-fields get-data-fields",
-          "label": "Get Data",
-          "key": "/GetData/properties",
-          "items": [
-            {
-              "type": "section",
-              "items": [{"key": "/Format", "field": true, "type": "UmmSelect"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/Size", "field": true}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/Unit", "field": true, "type": "UmmSelect"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/Fees", "field": true}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/Checksum", "field": true}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row sub-fields get-service-fields",
-          "label": "Get Service",
-          "key": "/GetService/properties",
-          "items": [
-            {
-              "type": "section",
-              "items": [{"key": "/MimeType", "field": true, "type": "UmmSelect"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/Protocol", "field": true, "type": "UmmSelect"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/FullName", "field": true, "autocomplete": true}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/DataID", "field": true}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/DataType", "field": true}]
-            },
-            {
-              "type": "UmmMultiItem",
-              "key": "/URI",
-              "multiType": "URI",
-              "field": true,
-              "items": [
-                {
-                  "type": "section",
-                  "items": [{"key": "/index_id", "noLabel": true, "htmlClass": "half-width uri"}]
-                }
-              ]
             }
           ]
         }

@@ -302,24 +302,6 @@ module DraftsHelper
         }
       }
     },
-    'DataCenterURL' => {
-      'text' => 'Data Center URL',
-      'types' => {
-        'HOME PAGE' => {
-          'text' => 'Home Page',
-          'subtypes' => []
-        }
-      }
-    },
-    'DataContactURL' => {
-      'text' => 'Data Contact URL',
-      'types' => {
-        'HOME PAGE' => {
-          'text' => 'Home Page',
-          'subtypes' => []
-        }
-      }
-    },
     'DistributionURL' => {
       'text' => 'Distribution URL',
       'types' => {
@@ -364,6 +346,7 @@ module DraftsHelper
             ['Thredds Catalog', 'THREDDS CATALOG'],
             ['Thredds Data', 'THREDDS DATA'],
             ['Thredds Directory', 'THREDDS DIRECTORY'],
+            ['Tool'], ['TOOL'],
             ['Web Coverage Service (WCS)', 'WEB COVERAGE SERVICE (WCS)'],
             ['Web Feature Service (WFS)', 'WEB FEATURE SERVICE (WFS)'],
             ['Web Map For Time Series', 'WEB MAP FOR TIME SERIES'],
@@ -543,15 +526,10 @@ module DraftsHelper
   URLContentTypeMap = url_content_type_map.deep_dup
   # UMM-S v1.1 added TOOL to GET SERVICE subtypes
   umm_s_url_content_type_map = url_content_type_map_for_umm_s.deep_dup
-  umm_s_url_content_type_map['DistributionURL']['types']['GET SERVICE']['subtypes'] << ['Tool','TOOL']
-  umm_s_url_content_type_map['DistributionURL']['types']['GET SERVICE']['subtypes'].sort!
   UMMSURLContentTypeMap = umm_s_url_content_type_map
   URLContentTypeOptions = [
     ['Collection URL', 'CollectionURL'],
     ['Publication URL', 'PublicationURL'],
-    ['Data Center URL', 'DataCenterURL'],
-    ['Distribution URL', 'DistributionURL'],
-    ['Data Contact URL', 'DataContactURL'],
     ['Visualization URL', 'VisualizationURL']
   ]
   URLContentTypeRelatedURLsOptions = [
@@ -580,13 +558,10 @@ module DraftsHelper
     ['View Related Information', 'VIEW RELATED INFORMATION']
   ]
   UMMSURLTypeOptions = [
-    ['Get Data', 'GET DATA'],
     ['Data Set Landing Page', 'DATA SET LANDING PAGE'],
     ['DOI', 'DOI'],
     ['Extended Metadata', 'EXTENDED METADATA'],
     ['Get Related Visualization', 'GET RELATED VISUALIZATION'],
-    ['Get Service', 'GET SERVICE'],
-    ['Home Page', 'HOME PAGE'],
     ['Professional Home Page', 'PROFESSIONAL HOME PAGE'],
     ['Project Home Page', 'PROJECT HOME PAGE'],
     ['View Related Information', 'VIEW RELATED INFORMATION']
@@ -719,6 +694,7 @@ module DraftsHelper
     ['Threads Catalog', 'THREADS CATALOG'],
     ['Threads Data', 'THREADS DATA'],
     ['Thredds Directory', 'THREDDS DIRECTORY'],
+    ['Tool', 'TOOL'],
     ['User Feedback', 'USER FEEDBACK'],
     ['Web Coverage Service (WCS)', 'WEB COVERAGE SERVICE (WCS)'],
     ['Web Feature Service (WFS)', 'WEB FEATURE SERVICE (WFS)'],

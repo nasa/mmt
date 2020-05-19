@@ -48,7 +48,7 @@ module Mmt
     # Versions of UMM for the different metadata types MMT is on
     config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.15.2'
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.6'
-    config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.2'
+    config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.3'
 
     # Is this the Proposal Mode version of MMT?
     config.proposal_mode = false
