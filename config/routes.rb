@@ -194,6 +194,8 @@ Rails.application.routes.draw do
 
   post 'set_provider' => 'users#set_provider', as: 'set_provider'
   get 'refresh_providers' => 'users#refresh_providers', as: 'refresh_user_providers'
+  
+  post 'crpt' => 'users#crpt', as: :crpt
 
   root 'welcome#index'
 

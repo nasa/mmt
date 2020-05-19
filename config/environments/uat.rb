@@ -111,6 +111,9 @@ Rails.application.configure do
   # Feature toggle for subscriptions in MMT
   config.subscriptions_enabled = true
 
+  # Feature toggle for Content Security Policy (CSP) logging.
+  config.csplog_enabled = false
+
   config.cmr_env = 'uat'
   config.echo_env = 'uat'
   config.urs_register_url = 'https://uat.urs.earthdata.nasa.gov/users/new'

@@ -1,4 +1,6 @@
 # :nodoc:
+require 'browser'
+
 class UsersController < ApplicationController
   include ProviderContextRedirector
 
@@ -7,6 +9,8 @@ class UsersController < ApplicationController
   skip_before_action :provider_set?
   skip_before_action :proposal_mode_enabled?
   skip_before_action :proposal_approver_permissions
+  skip_before_action :verify_authenticity_token, only: :crpt
+  
 
   def login
     session[:last_point] = request.referrer
@@ -112,6 +116,13 @@ class UsersController < ApplicationController
 
       redirect_to root_url, flash: { error: "#{association_response.error_message(i18n: I18n.t('controllers.users.associate_urs_and_launchpad_ids.flash.error'))}.\nPlease try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
     end
+  end
+
+  def crpt
+    report = JSON.parse(request.body.read)['csp-report']
+    browser = Browser.new(request.headers['User-Agent'], accept_language: "en-us")
+    Rails.logger.debug("CSP violation_report | violated_directive=#{report['violated-directive']}|effective-directive=#{report['effective-directive']}|disposition=#{report['disposition']}|blocked-uri=#{report['blocked-uri']}|document-uri=#{report['document-uri']}|source-file=#{report['source-file']}|line-number=#{report['line-number']}|column-number=#{report['column-number']}|status-code=#{report['status-code']}|referrer=#{report['referrer']}|browser=#{browser.name}|browser_version=#{browser.full_version}|MMT_version=#{Rails.configuration.version}")
+    head :ok
   end
 
   private
