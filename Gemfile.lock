@@ -89,6 +89,7 @@ GEM
     bourbon (6.0.0)
       thor (~> 0.19)
     breadcrumbs_on_rails (3.0.1)
+    browser (4.1.0)
     builder (3.2.4)
     byebug (11.0.1)
     capybara (3.31.0)
@@ -342,6 +343,7 @@ DEPENDENCIES
   bootstrap3-datetimepicker-rails
   bourbon
   breadcrumbs_on_rails
+  browser
   builder
   byebug
   capybara

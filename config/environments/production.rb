@@ -141,6 +141,10 @@ Rails.application.configure do
   config.tophat_url = 'https://cdn.earthdata.nasa.gov/tophat2/tophat2.js'
 
   config.colorize_logging = false
+  
+  # Feature toggle for Content Security Policy (CSP) logging.
+  config.csplog_enabled = false
+
 
   # Google Tag Manager ID for EOSDIS usage stats
   config.tag_manager_id = 'GTM-WNP7MLF'
