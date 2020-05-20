@@ -41,6 +41,13 @@ module Helpers
           select 'DEVELOPER', from: 'Roles', match: :first
           select 'PUBLISHER', from: 'Roles', match: :first
           select 'AARHUS-HYDRO', from: 'Short Name'
+        end
+
+        click_on 'Add another Service Organization'
+        within '.multiple.service-organizations > .multiple-item-1' do
+          select 'DEVELOPER', from: 'Roles', match: :first
+          select 'PUBLISHER', from: 'Roles', match: :first
+          select 'AARHUS-HYDRO', from: 'Short Name'
           within '.online-resource' do
             fill_in 'Name', with: 'ORN Text'
             fill_in 'Protocol', with: 'ORP Text'
