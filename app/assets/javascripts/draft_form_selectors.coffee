@@ -267,7 +267,7 @@ $(document).ready ->
       $subtypeSelect.append($("<option />").val('').text('Select Subtype'))
             
   # Update all the url content type select fields on page load
-  $('.related-url-content-type-select').each ->
+  $('.related-url-content-type-select, .url-content-type-select').each ->
     handleContentTypeSelect($(this))
 
   # Handle AdditionalAttributes type select

@@ -45,4 +45,10 @@ describe 'Valid Service Draft Service Keywords Preview' do
       end
     end
   end
+  
+  it 'displays the correct progress indicators for non required fields' do
+    within '#descriptive_keywords-progress .progress-indicators' do
+      expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.ancillary-keywords')
+    end
+  end
 end

@@ -92,19 +92,19 @@ describe 'Service Identification Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Related URLs')
+          expect(page).to have_content('Descriptive Keywords')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Related URLs')
+          expect(page).to have_content('Descriptive Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
       end
     end
@@ -112,7 +112,7 @@ describe 'Service Identification Form Navigation', js: true do
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Related URLs', from: 'Save & Jump To:'
+          select 'Descriptive Keywords', from: 'Save & Jump To:'
         end
       end
 
@@ -123,19 +123,19 @@ describe 'Service Identification Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Related URLs')
+          expect(page).to have_content('Descriptive Keywords')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Related URLs')
+          expect(page).to have_content('Descriptive Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
       end
     end

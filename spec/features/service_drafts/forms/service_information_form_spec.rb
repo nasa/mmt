@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service Information Form', js: true do
   before do
     login
@@ -9,11 +7,23 @@ describe 'Service Information Form', js: true do
 
   context 'when submitting the form' do
     before do
-      fill_in 'Name', with: 'Service Name'
-      fill_in 'Long Name', with: 'Long Service Name'
-      select 'NOT PROVIDED', from: 'Type'
-      fill_in 'Version', with: '1.0'
-      fill_in 'Description', with: 'Description of the test service'
+      within '#service-information' do
+        fill_in 'Name', with: 'Service Name'
+        fill_in 'Long Name', with: 'Long Service Name'
+        select 'NOT PROVIDED', from: 'Type'
+        fill_in 'Version', with: '1.0'
+        fill_in 'Version Description', with: 'Description of the Current Version'
+        fill_in 'Last Updated Date', with: '2020-05-20T00:00:00.000Z'
+        fill_in 'Description', with: 'Description of the test service'
+      end
+
+      within '#url' do
+        fill_in 'Description', with: 'Description of primary url'
+        select 'DistributionURL', from: 'Url Content Type'
+        select 'Get Service', from: 'Type'
+        select 'Subsetter', from: 'Subtype'
+        fill_in 'Url Value', with: 'httpx://testurl.earthdata.nasa.gov'
+      end
 
       within '.nav-top' do
         click_on 'Save'

@@ -107,9 +107,15 @@ FactoryBot.define do
       'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')}_#{Faker::Number.number(digits: 19)}",
       'Type': 'NOT PROVIDED',
       'Version': '1.0',
+      'VersionDescription': 'Description of the Current Version',
+      'LastUpdatedDate': '2020-05-20T00:00:00.000Z',
       'Description': 'Description of the test service',
       'URL': {
-
+        'Description': 'Description of primary url',
+        'URLContentType': 'DistributionURL',
+        'Type': 'GET SERVICE',
+        'Subtype': 'SUBSETTER',
+        'URLValue': 'httpx://testurl.earthdata.nasa.gov'
       },
       'ServiceQuality': {
         'QualityFlag': 'Reviewed',

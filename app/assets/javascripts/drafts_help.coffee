@@ -63,6 +63,7 @@ $(document).ready ->
       when 'UOMLabel' then 'UOM Label'
       when 'AvgCompressionRateASCII' then 'Avg Compression Rate ASCII'
       when 'AvgCompressionRateNetCDF4' then 'Avg Compression Rate NetCDF4'
+      when 'URL Value' then 'URL Value'
       else title.replace( /([A-Z])/g, " $1" )
 
     newTitle

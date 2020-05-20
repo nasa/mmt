@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe 'Acquisition Information Form Navigation', js: true do
+describe 'Descriptive Keywords Form Navigation', js: true do
   before do
     login
   end
@@ -8,48 +6,43 @@ describe 'Acquisition Information Form Navigation', js: true do
   context 'When viewing the form with no stored values' do
     before do
       draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_service_draft_path(draft, 'acquisition_information')
+      visit edit_service_draft_path(draft, 'descriptive_keywords')
     end
 
-    it 'displays the correct prompt value for all select elements' do
+    it 'displays the correct title' do
       within '.umm-form' do
-        expect(page).to have_select('service_draft_draft_platforms_0_short_name', selected: 'Select a Short Name')
-        expect(page).to have_select('service_draft_draft_platforms_0_instruments_0_short_name', selected: 'Select a Short Name')
-      end
-    end
-
-    it 'displays the correct title and description' do
-      within '.umm-form' do
-        expect(page).to have_content('Platforms')
+        expect(page).to have_content('Service Keywords')
       end
     end
 
     it 'displays the form title in the breadcrumbs' do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Service Drafts')
-        expect(page).to have_content('Acquisition Information')
+        expect(page).to have_content('Descriptive Keywords')
       end
     end
 
-    it 'has 0 required fields' do
-      expect(page).to have_no_selector('label.eui-required-o')
+    it 'has 1 required fields' do
+      expect(page).to have_selector('label.eui-required-o', count: 1)
     end
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
       within '.nav-top' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
       end
 
       within '.nav-bottom' do
-        expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+        expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
       end
     end
 
-    context 'When clicking `Previous` without making any changes' do
+    context 'When clicking `Next` without making any changes' do
       before do
         within '.nav-top' do
-          click_button 'Previous'
+          click_button 'Next'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -59,29 +52,30 @@ describe 'Acquisition Information Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Science and Ancillary Keywords')
+          expect(page).to have_content('Service Organizations')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Science Keywords')
-          expect(page).to have_content('Ancillary Keywords')
+          expect(page).to have_content('Service Organizations')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_and_ancillary_keywords')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
         end
       end
     end
 
-    context 'When clicking `Next` without making any changes' do
+    context 'When clicking `Previous` without making any changes' do
       before do
         within '.nav-top' do
-          click_button 'Next'
+          click_button 'Previous'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -91,19 +85,19 @@ describe 'Acquisition Information Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Service Organizations')
+          expect(page).to have_content('Service Identification')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Service Organizations')
+          expect(page).to have_content('Service Quality')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_identification')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_identification')
         end
       end
     end
@@ -113,6 +107,8 @@ describe 'Acquisition Information Form Navigation', js: true do
         within '.nav-top' do
           select 'Service Organizations', from: 'Save & Jump To:'
         end
+
+        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -141,14 +137,16 @@ describe 'Acquisition Information Form Navigation', js: true do
   end
 
   context 'When viewing the form with stored values' do
-    let(:draft) { create(:full_service_draft, user: User.where(urs_uid: 'testuser').first) }
+    let(:draft) {
+      create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
+    }
 
     before do
-      visit edit_service_draft_path(draft, 'acquisition_information')
+      visit edit_service_draft_path(draft, 'descriptive_keywords')
     end
 
     context 'when viewing the form' do
-      include_examples 'Acquisition Information Form'
+      include_examples 'Service Keywords Form'
     end
 
     context 'When clicking `Save` without making any changes' do
@@ -169,24 +167,24 @@ describe 'Acquisition Information Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Acquisition Information')
+          expect(page).to have_content('Descriptive Keywords')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Platforms')
+          expect(page).to have_content('Service Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
       end
 
       context 'when viewing the form' do
-        include_examples 'Acquisition Information Form'
+        include_examples 'Service Keywords Form'
       end
     end
   end

@@ -14,17 +14,10 @@ describe 'Invalid Service Draft Descriptive Keywords Preview' do
     end
   end
 
-  it 'displays the correct status icon' do
-    within '#descriptive_keywords-progress' do
-      within '.status' do
-        expect(page).to have_content('Service Keywords is incomplete')
-      end
-    end
-  end
-
   it 'displays the correct progress indicators for required fields' do
     within '#descriptive_keywords-progress .progress-indicators' do
       expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.service-keywords')
+      expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.ancillary-keywords')
     end
   end
 
@@ -44,15 +37,8 @@ describe 'Invalid Service Draft Descriptive Keywords Preview' do
   it 'displays the correct status icon' do
     within '#descriptive_keywords-progress' do
       within '.status' do
-        expect(page).to have_content('Science and Ancillary Keywords is incomplete')
+        expect(page).to have_content('Descriptive Keywords is incomplete')
       end
-    end
-  end
-
-  it 'displays the correct progress indicators for non required fields' do
-    within '#descriptive_keywords-progress .progress-indicators' do
-      expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.science-keywords')
-      expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.ancillary-keywords')
     end
   end
 end
