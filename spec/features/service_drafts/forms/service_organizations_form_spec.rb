@@ -7,7 +7,7 @@ describe 'Service Organizations Form', js: true do
 
   context 'when submitting the form with contact information' do
     before do
-      add_service_organizations(with_contact_info: true)
+      add_service_organizations
 
       within '.nav-top' do
         click_on 'Save'
@@ -15,35 +15,7 @@ describe 'Service Organizations Form', js: true do
     end
 
     context 'when viewing the form' do
-      include_examples 'Service Organizations Form with Contact Information and confirmation'
-    end
-  end
-
-  context 'when submitting the form with contact groups' do
-    before do
-      add_service_organizations(with_contact_groups: true)
-
-      within '.nav-top' do
-        click_on 'Save'
-      end
-    end
-
-    context 'when viewing the form' do
-      include_examples 'Service Organizations Form with Contact Groups and confirmation'
-    end
-  end
-
-  context 'when submitting the form with contact persons' do
-    before do
-      add_service_organizations(with_contact_persons: true)
-
-      within '.nav-top' do
-        click_on 'Save'
-      end
-    end
-
-    context 'when viewing the form' do
-      include_examples 'Service Organizations Form with Contact Persons and confirmation'
+      include_examples 'Service Organizations Full Form'
     end
   end
 end

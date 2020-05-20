@@ -35,16 +35,20 @@ module Helpers
       end
     end
 
-    def add_service_organizations(with_contact_info: false, with_contact_groups: false, with_contact_persons: false)
+    def add_service_organizations
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UmmSDraftHelpers#add_service_organizations' do
         within '.multiple.service-organizations > .multiple-item-0' do
           select 'DEVELOPER', from: 'Roles', match: :first
           select 'PUBLISHER', from: 'Roles', match: :first
           select 'AARHUS-HYDRO', from: 'Short Name'
-
-          add_service_contact_information if with_contact_info
-          add_service_contact_groups if with_contact_groups
-          add_service_contact_persons if with_contact_persons
+          within '.online-resource' do
+            fill_in 'Name', with: 'ORN Text'
+            fill_in 'Protocol', with: 'ORP Text'
+            fill_in 'Linkage', with: 'ORL Text'
+            fill_in 'Description', with: 'ORD Text'
+            fill_in 'Application Profile', with: 'ORAP Text'
+            fill_in 'Function', with: 'ORF Text'
+          end
         end
       end
     end
@@ -110,37 +114,18 @@ module Helpers
           click_on 'Add another Related Url'
           within '.multiple.related-urls> .multiple-item-1' do
             fill_in 'Description', with: 'Related URL 2 Description'
-            select 'Distribution URL', from: 'Url Content Type'
-            select 'Get Service', from: 'Type'
-            select 'DIF', from: 'Subtype'
+            select 'Publication URL', from: 'Url Content Type'
+            select 'View Related Information', from: 'Type'
+            select 'Read Me', from: 'Subtype'
             fill_in 'Url', with: 'https://example.com/'
-
-            select 'Not provided', from: 'Mime Type'
-            select 'HTTPS', from: 'Protocol'
-            fill_in 'Full Name', with: 'Service Name'
-            fill_in 'Data ID', with: 'data_id'
-            fill_in 'Data Type', with: 'data type'
-            within '.multiple.uri' do
-              find('input.uri').set('uri1')
-              click_on 'Add another Uri'
-              within '.multiple-item-1' do
-                find('input.uri').set('uri2')
-              end
-            end
           end
           click_on 'Add another Related Url'
           within '.multiple.related-urls > .multiple-item-2' do
             fill_in 'Description', with: 'Related URL 3 Description'
-            select 'Distribution URL', from: 'Url Content Type'
-            select 'Get Data', from: 'Type'
-            select 'Earthdata Search', from: 'Subtype'
+            select 'Visualization URL', from: 'Url Content Type'
+            select 'Get Related Visualization', from: 'Type'
+            select 'GIOVANNI', from: 'Subtype'
             fill_in 'Url', with: 'https://search.earthdata.nasa.gov/'
-
-            select 'ascii', from: 'Format'
-            fill_in 'Size', with: '42'
-            select 'KB', from: 'Unit'
-            fill_in 'Fees', with: '0'
-            fill_in 'Checksum', with: 'sdfgfgksghafgsdvbasf'
           end
         end
       end

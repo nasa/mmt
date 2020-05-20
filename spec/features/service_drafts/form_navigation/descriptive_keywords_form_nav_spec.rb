@@ -146,7 +146,7 @@ describe 'Descriptive Keywords Form Navigation', js: true do
     end
 
     context 'when viewing the form' do
-      include_examples 'Service Keywords Form'
+      include_examples 'Descriptive Keywords Form'
     end
 
     context 'When clicking `Save` without making any changes' do
@@ -184,7 +184,7 @@ describe 'Descriptive Keywords Form Navigation', js: true do
       end
 
       context 'when viewing the form' do
-        include_examples 'Service Keywords Form'
+        include_examples 'Descriptive Keywords Form'
       end
     end
   end

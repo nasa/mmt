@@ -230,6 +230,7 @@
     {
       "id": "descriptive_keywords",
       "title": "Descriptive Keywords",
+      "expandable": true,
       "items": [
         {
           /* ServiceKeywords */
@@ -330,7 +331,7 @@
                   "type": "open_accordion",
                   "label": "Online Resource",
                   "key": "/OnlineResource/properties",
-                  "htmlClass": "row sub-fields",
+                  "htmlClass": "row sub-fields online-resource",
                   "items": [
                     {
                       "type": "section",

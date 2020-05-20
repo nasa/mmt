@@ -16,7 +16,7 @@ describe 'Options Form', js: true do
         fill_in 'Projection Longitude Of Center', with: 10
         fill_in 'Projection False Easting', with: 10
         fill_in 'Projection False Northing', with: 10
-        select '4326', from: 'Projection Authority'
+        fill_in 'Projection Authority', with: '4326'
         select 'Degrees', from: 'Projection Unit'
         select 'World Geodetic System (WGS) 1984', from: 'Projection Datum Name'
       end
@@ -28,7 +28,7 @@ describe 'Options Form', js: true do
           fill_in 'Projection Longitude Of Center', with: 10
           fill_in 'Projection False Easting', with: 10
           fill_in 'Projection False Northing', with: 10
-          select '4326', from: 'Projection Authority'
+          fill_in 'Projection Authority', with: '4326'
           select 'Degrees', from: 'Projection Unit'
           select 'World Geodetic System (WGS) 1984', from: 'Projection Datum Name'
         end
@@ -41,7 +41,7 @@ describe 'Options Form', js: true do
           fill_in 'Projection Longitude Of Center', with: 10
           fill_in 'Projection False Easting', with: 10
           fill_in 'Projection False Northing', with: 10
-          select '26917', from: 'Projection Authority'
+          fill_in 'Projection Authority', with: '26917'
           select 'Meters', from: 'Projection Unit'
           select 'North American Datum (NAD) 1983', from: 'Projection Datum Name'
         end

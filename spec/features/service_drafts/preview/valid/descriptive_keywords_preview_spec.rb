@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe 'Valid Service Draft Service Keywords Preview' do
+describe 'Valid Service Draft Descriptive Keywords Preview' do
   let(:service_draft) { create(:full_service_draft, user: User.where(urs_uid: 'testuser').first) }
 
   before do
@@ -8,24 +6,24 @@ describe 'Valid Service Draft Service Keywords Preview' do
     visit service_draft_path(service_draft)
   end
 
-  context 'When examing the Service Keywords section' do
+  context 'When examining the Service Keywords section' do
     it 'displays the form title as an edit link' do
-      within '#service_keywords-progress' do
-        expect(page).to have_link('Service Keywords', href: edit_service_draft_path(service_draft, 'service_keywords'))
+      within '#descriptive_keywords-progress' do
+        expect(page).to have_link('Descriptive Keywords', href: edit_service_draft_path(service_draft, 'descriptive_keywords'))
       end
     end
   end
 
-  it 'displays the corrent status icon' do
-    within '#service_keywords-progress' do
+  it 'displays the correct status icon' do
+    within '#descriptive_keywords-progress' do
       within '.status' do
-        expect(page).to have_content('Service Keywords is valid')
+        expect(page).to have_content('Descriptive Keywords is valid')
       end
     end
   end
 
   it 'displays the correct progress indicators for required fields' do
-    within '#service_keywords-progress .progress-indicators' do
+    within '#descriptive_keywords-progress .progress-indicators' do
       expect(page).to have_css('.eui-icon.eui-required.icon-green.service-keywords')
     end
   end
@@ -45,7 +43,7 @@ describe 'Valid Service Draft Service Keywords Preview' do
       end
     end
   end
-  
+
   it 'displays the correct progress indicators for non required fields' do
     within '#descriptive_keywords-progress .progress-indicators' do
       expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.ancillary-keywords')

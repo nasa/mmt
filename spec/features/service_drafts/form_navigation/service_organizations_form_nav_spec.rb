@@ -14,9 +14,6 @@ describe 'Service Organizations Form Navigation', js: true do
     it 'displays the correct prompt value for all select elements' do
       within '.umm-form' do
         expect(page).to have_select('service_draft_draft_service_organizations_0_short_name', selected: 'Select a Short Name')
-        expect(page).to have_select('service_draft_draft_service_organizations_0_contact_groups_0_contact_information_contact_mechanisms_0_type', selected: 'Select a Type')
-        expect(page).to have_select('service_draft_draft_service_organizations_0_contact_groups_0_contact_information_addresses_0_country', selected: 'Select a Country')
-        expect(page).to have_select('service_draft_draft_service_organizations_0_contact_groups_0_contact_information_related_urls_0_url_content_type', selected: 'Select a Url Content Type')
       end
     end
 
@@ -63,19 +60,15 @@ describe 'Service Organizations Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Acquisition Information')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Platforms')
+          expect(page).to have_content('Descriptive Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
       end
     end
