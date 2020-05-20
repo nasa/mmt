@@ -69,7 +69,7 @@
                   type from 'datetime-local' to 'custom-datetime'
                   */
                   "type": "section",
-                  "items": [{"key": "LastUpdatedDate", "field": true}]
+                  "items": [{"key": "LastUpdatedDate", "type": "CustomDateTime", "field": true}]
                 }
               ]
             },

@@ -6,7 +6,7 @@
 ################################################################################
 
 $(document).ready ->
-  $('.metadata-form').on 'focus', 'input[type="custom-datetime"]', ->
+  $('.metadata-form, .umm-form').on 'focus', 'input[type="custom-datetime"]', ->
     pickerOpts =
       startView: 2
       format: 'yyyy-mm-dd'
