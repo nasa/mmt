@@ -67,6 +67,10 @@ en:
           flash:
             success: 'Tool Draft Created Successfully!'
             error: 'Tool Draft was not created successfully'
+        update:
+          flash:
+            success: 'Tool Draft Updated Successfully!'
+            error: 'Tool Draft was not updated successfully'
       collection_drafts:
         create:
           flash:

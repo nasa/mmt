@@ -5,15 +5,23 @@
   <% if @current_form == 'service_keywords' %>
     // Setup Service Keywords
     setupServiceKeywords(<%= raw @service_keywords.to_json %>, { field_prefix: '<%= resource_name %>/draft' });
+  <% elsif @current_form == 'descriptive_keywords' && controller_name == 'tool_drafts' %>
+    // Setup Tool Keywords
+    setupToolKeywords(<%= raw @tool_keywords.to_json %>, { field_prefix: '<%= resource_name %>/draft' })
   <% elsif ['science_keywords', 'science_and_ancillary_keywords'].include? @current_form %>
     // Setup Science Keywords
     setupScienceKeywords(<%= raw @science_keywords.to_json %>, { field_prefix: '<%= resource_name %>/draft' });
   <% end %>
 
+  <%# TODO: add tool drafts mappings  %>
   <% if controller_name == 'service_drafts' %>
-    var urlContentTypeMap = <%= raw DraftsHelper::UMMSURLContentTypeMap.to_json %>;
+    var urlContentTypeMap = <%= raw RelatedUrlsHelper::UMMSRelatedURLContentTypeMap.to_json %>;
+  <% elsif controller_name == 'tool_drafts' && @current_form == 'related_urls' %>
+  var urlContentTypeMap = <%= raw RelatedUrlsHelper::UMMTRelatedURLContentTypeMap.to_json %>;
+  <% elsif controller_name == 'tool_drafts' && @current_form == 'tool_information' %>
+  var urlContentTypeMap = <%= raw RelatedUrlsHelper::UMMTURLContentTypeMap.to_json %>;
   <% else %>
-    var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
+    var urlContentTypeMap = <%= raw RelatedUrlsHelper::UMMCRelatedURLContentTypeMap.to_json %>;
   <% end %>
 
   <% if @current_form == 'measurement_identifiers' %>

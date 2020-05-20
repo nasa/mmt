@@ -1,8 +1,8 @@
 ################################################################################
 # date pickers are used throughout our draft forms (e.g. temporal information) #
 # if you are looking for the UI objects controlling the selection of dates in  #
-# the CMR search related fields (e.g. bulk updates), you should look in the    #
-# datetimepicker files (e.g. datetimepicker.coffee)                            #
+# the CMR search related fields (e.g. bulk updates) or Manage Cmr forms, you   #
+# should look in the datetimepicker files (e.g. datetimepicker.coffee)         #
 ################################################################################
 
 $(document).ready ->

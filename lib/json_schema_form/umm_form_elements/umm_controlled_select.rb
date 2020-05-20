@@ -26,7 +26,10 @@ class UmmControlledSelect < UmmSelect
   end
 
   # load select options in from ControlledKeywords
+  # TODO: update options for T (add new options, update choosing)
+  # TODO: add cases for URL
   def ui_options
+    # byebug
     case controlled_keyword
     when 'platforms'
       grouped_options_for_select(set_platform_types, element_value)
@@ -36,12 +39,24 @@ class UmmControlledSelect < UmmSelect
       options_for_select(set_data_centers, element_value)
     when 'country'
       options_for_select(set_country_codes, element_value)
-    when 'related_url_content_type'
-      options_for_select(DraftsHelper::URLContentTypeOptions, element_value)
-    when 'related_url_type'
-      options_for_select(DraftsHelper::UMMSURLTypeOptions, element_value)
-    when 'related_url_subtype'
-      options_for_select(DraftsHelper::UMMSURLSubtypeOptions, element_value)
+    when 'umm_s_related_url_content_type'
+      options_for_select(RelatedUrlsHelper::RelatedURLContentTypeOptions, element_value)
+    when 'umm_s_related_url_type'
+      options_for_select(RelatedUrlsHelper::UMMSRelatedURLTypeOptions, element_value)
+    when 'umm_s_related_url_subtype'
+      options_for_select(RelatedUrlsHelper::UMMSRelatedURLSubtypeOptions, element_value)
+    when 'umm_t_related_url_content_type'
+      options_for_select(RelatedUrlsHelper::UMMTRelatedURLContentTypeOptions, element_value)
+    when 'umm_t_related_url_type'
+      options_for_select(RelatedUrlsHelper::UMMTRelatedURLTypeOptions, element_value)
+    when 'umm_t_related_url_subtype'
+      options_for_select(RelatedUrlsHelper::UMMTRelatedURLSubtypeOptions, element_value)
+    when 'umm_t_url_content_type'
+      options_for_select(RelatedUrlsHelper::UMMTURLContentTypeOptions, element_value)
+    when 'umm_t_url_type'
+      options_for_select(RelatedUrlsHelper::UMMTURLTypeOptions, element_value)
+    when 'umm_t_url_subtype'
+      options_for_select(RelatedUrlsHelper::UMMTURLSubtypeOptions, element_value)
     when 'measurement_context_medium'
       options_for_select(set_measurement_names.keys, element_value)
     when 'measurement_object'

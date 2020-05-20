@@ -29,6 +29,8 @@ $(document).ready ->
       else if isUmmVarForm()
         json = json.VariableDraft?.Draft or {}
         fixAvgCompressionRates(json)
+      else if isUmmTForm()
+        json = json.ToolDraft?.Draft or {}
 
     json = {} unless json?
 

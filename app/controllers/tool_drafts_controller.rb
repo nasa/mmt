@@ -1,9 +1,20 @@
 # :nodoc:
 class ToolDraftsController < BaseDraftsController
-  # include ControlledKeywords
+  include ControlledKeywords
   before_action :umm_t_enabled?
 
-  before_action :set_schema, only: [:new, :create]
+  before_action :set_schema, only: [:new, :create, :edit, :update]
+  before_action :set_form, only: [:edit, :update]
+  before_action :set_current_form, only: [:edit]
+
+  def edit
+    super
+
+    if @current_form == 'descriptive_keywords'
+      # for v1.0, tool keywords are selected from same set as service keywords
+      set_tool_keywords
+    end
+  end
 
   private
 
@@ -25,7 +36,7 @@ class ToolDraftsController < BaseDraftsController
 
   def set_current_form
     # @current_form = params[:form] ||
-    @current_form = @json_form.forms.first.parsed_json['id']
+    @current_form = params[:form] || @json_form.forms.first.parsed_json['id']
   end
 
   def tool_draft_params
