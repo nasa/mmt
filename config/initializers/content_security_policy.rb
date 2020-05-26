@@ -4,22 +4,30 @@
 # For further information see the following documentation
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 
-# Rails.application.config.content_security_policy do |policy|
-#   policy.default_src :self, :https
-#   policy.font_src    :self, :https, :data
-#   policy.img_src     :self, :https, :data
-#   policy.object_src  :none
-#   policy.script_src  :self, :https
-#   policy.style_src   :self, :https
 
-#   # Specify URI for violation reports
-#   # policy.report_uri "/csp-violation-report-endpoint"
-# end
+if Rails.configuration.csplog_enabled 
+  # Report CSP violations to a specified URI
+  Rails.application.config.content_security_policy_report_only = true
 
-# If you are using UJS then enable automatic nonce generation
-# Rails.application.config.content_security_policy_nonce_generator = -> request { SecureRandom.base64(16) }
-
-# Report CSP violations to a specified URI
-# For further information see the following documentation:
-# https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only
-# Rails.application.config.content_security_policy_report_only = true
+  Rails.application.config.content_security_policy do |policy|
+  ##  Enable all directives supported by Rails 5.2
+    policy.base_uri :self, :https
+    policy.child_src :self, :https
+    policy.connect_src :self, :https
+    policy.default_src :self, :https, :http
+    policy.font_src :self, :https, :http, :data
+    policy.form_action :self, :https
+    policy.frame_ancestors :self, :https
+    policy.frame_src :self, :https
+    policy.img_src :self, :https, :http
+    policy.manifest_src :self, :https, :http
+    policy.media_src :self, :https
+    policy.object_src :none
+    policy.script_src :self, :https, :http
+    policy.style_src :self, :https, :http
+    policy.worker_src :self, :https
+    
+    # Specify URI for violation reports
+    policy.report_uri "/report_csp_violation"
+  end
+end
