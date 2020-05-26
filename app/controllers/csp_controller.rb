@@ -1,5 +1,10 @@
 class CspController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :report_csp_violation
+  skip_before_action :ensure_user_is_logged_in
+  skip_before_action :setup_query
+  skip_before_action :provider_set?
+  skip_before_action :proposal_mode_enabled?
+  skip_before_action :proposal_approver_permissions
 
   # Logs Content Security Policy (CSP) violation reports that are received from the user's browser.  
   def report_csp_violation
