@@ -122,6 +122,7 @@ $(document).ready ->
           $('.estimate-text').text(data['estimate'])
           $('.granules-count-text').text(data['granules'])
           $('.frequency-text').text(data['frequency'])
+          $('.query-text').text("Query: #{$('#subscription_Query').val()}.")
           $('.results-text').show()
         error: (response) ->
           $('.status-text').text('Estimate failed.')
