@@ -53,11 +53,11 @@
         "minLength": 1,
         "maxLength": 1024
       },
-      "RelatedUrls": {
+      "RelatedURLs": {
         "description": "A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/RelatedUrlType"
+          "$ref": "#/definitions/RelatedURLType"
         },
         "minItems": 0
       },
@@ -172,14 +172,6 @@
       "MetadataSpecification"
     ],
   "definitions": {
-    "URLMimeTypeEnum": {
-      "type": "string",
-      "enum": ["application/json", "application/xml", "application/x-netcdf", "application/gml+xml",
-               "application/vnd.google-earth.kml+xml", "image/gif", "image/tiff", "image/bmp", "text/csv",
-               "text/xml", "application/pdf", "application/x-hdf", "application/xhdf5",
-               "application/octet-stream", "application/vnd.google-earth.kmz", "image/jpeg", "image/png",
-               "image/vnd.collada+xml", "text/html", "text/plain", "Not provided"]
-    },
     "URLType": {
       "type": "object",
       "additionalProperties": false,
@@ -228,7 +220,7 @@
       "type": "string",
       "enum": ["CollectionURL", "PublicationURL", "VisualizationURL"]
     },
-    "RelatedUrlTypeEnum": {
+    "RelatedURLTypeEnum": {
       "type": "string",
       "enum": ["DATA SET LANDING PAGE", "EXTENDED METADATA", "PROFESSIONAL HOME PAGE", "PROJECT HOME PAGE", "VIEW RELATED INFORMATION", "BROWSE", "GET RELATED VISUALIZATION"]
     },
@@ -243,7 +235,7 @@
                "SCIENCE DATA PRODUCT VALIDATION", "USER FEEDBACK PAGE", "USER'S GUIDE", "GIOVANNI",
                "MAP", "WORLDVIEW"]
     },
-    "RelatedUrlType": {
+    "RelatedURLType": {
       "type": "object",
       "additionalProperties": false,
       "description": "Represents Internet sites that contain information related to the data, as well as related Internet sites such as project home pages, related data archives/servers, metadata extensions, online software packages, web mapping services, and calibration/validation data.",
@@ -260,7 +252,7 @@
         },
         "Type": {
           "description": "A keyword describing the type of the online resource to this resource. This helps the GUI to know what to do with this resource. (e.g., 'GET RELATED VISUALIZATION').",
-          "$ref": "#/definitions/RelatedUrlTypeEnum"
+          "$ref": "#/definitions/RelatedURLTypeEnum"
         },
         "Subtype": {
           "description": "A keyword describing the subtype of the online resource to this resource. This further helps the GUI to know what to do with this resource. (e.g., 'DATA RECIPE', 'SCIENCE DATA PRODUCT VALIDATION', 'GIOVANNI').",
@@ -568,7 +560,7 @@
       "additionalProperties": false,
       "description": "Information on how the downloadable tool or web user interface may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness.",
       "properties": {
-        "LicenseUrl": {
+        "LicenseURL": {
           "description": "The web address of the license associated with the tool.",
           "type": "string",
           "minLength": 0,

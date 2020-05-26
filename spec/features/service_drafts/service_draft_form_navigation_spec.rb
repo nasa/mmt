@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service Draft form navigation' do
   let(:form_titles) { ['Service Information', 'Service Identification', 'Related URL', 'Service Keywords', 'Science and Ancillary Keywords', 'Acquisition Information', 'Service Organizations', 'Service Contacts', 'Options', 'Operation Metadata'] }
 

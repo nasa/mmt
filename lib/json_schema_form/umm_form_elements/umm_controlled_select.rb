@@ -1,6 +1,4 @@
-# UmmControlledSelect is used for a select field,
-# but one that has controlled keywords as options
-
+# UmmControlledSelect is used for a select field, that has controlled keywords as options
 
 # :nodoc:
 class UmmControlledSelect < UmmSelect
@@ -11,9 +9,11 @@ class UmmControlledSelect < UmmSelect
   end
 
   def select_class
-    select2_class = !controlled_keyword.include?('related_url')
+    select2_class = !controlled_keyword.include?('related_url') && !controlled_keyword.include?('url_')
     short_name_class = !controlled_keyword.include?('related_url') && !controlled_keyword.include?('measurement')
-    "validate #{'select2-select' if select2_class} #{controlled_keyword.dasherize.singularize}#{'-short-name' if short_name_class}-select"
+    keyword_class = parsed_json['htmlClass'] || "#{controlled_keyword.dasherize.singularize}#{'-short-name' if short_name_class}-select"
+
+    "validate #{'select2-select' if select2_class} #{keyword_class}"
   end
 
   def element_properties(element)
@@ -22,14 +22,11 @@ class UmmControlledSelect < UmmSelect
     # Prevent children of this class from adding further properties
     return properties unless self.class.to_s == 'UmmControlledSelect'
 
+    # add a prompt, replace classes with select_class
     properties.merge(prompt: "Select a #{title}", class: select_class)
   end
 
-  # load select options in from ControlledKeywords
-  # TODO: update options for T (add new options, update choosing)
-  # TODO: add cases for URL
   def ui_options
-    # byebug
     case controlled_keyword
     when 'platforms'
       grouped_options_for_select(set_platform_types, element_value)

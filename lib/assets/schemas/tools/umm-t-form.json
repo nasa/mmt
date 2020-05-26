@@ -61,14 +61,8 @@
                   "items": [{"key": "Type", "field": true, "type": "UmmSelect"}]
                 },
                 {
-                  /*
-                  this has a format of 'date-time', as we have in collections
-                  need to get this to use the date picker
-                  looked into just adding a class for picker, but
-                  need to use datetime_field_tag helper, then change input
-                  type from 'datetime-local' to 'custom-datetime'
-                  */
                   "type": "section",
+                  "htmlClass": "col-6",
                   "items": [{"key": "LastUpdatedDate", "type": "CustomDateTime", "field": true}]
                 }
               ]
@@ -97,7 +91,6 @@
               "type": "open_accordion",
               "title": "URL",
               "key": "URL/properties",
-              //"htmlClass": "eui-required-o",
               "help": "URL",
               "items": [
                 {
@@ -116,7 +109,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_related_url_content_type", "htmlClass": "related-url-content-type-select"}]
+                      "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_url_content_type", "htmlClass": "url-content-type-select"}]
                     }
                   ]
                 },
@@ -126,7 +119,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/Type", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_url_type", "htmlClass": "related-url-type-select"}]
+                      "items": [{"key": "/Type", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_url_type", "htmlClass": "url-type-select"}]
                     }
                   ]
                 },
@@ -136,7 +129,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/Subtype", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_url_subtype", "htmlClass": "related-url-subtype-select"}]
+                      "items": [{"key": "/Subtype", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_url_subtype", "htmlClass": "url-subtype-select"}]
                     }
                   ]
                 },
@@ -491,7 +484,7 @@
                     {
                       "type": "section",
                       "htmlClass": "col-4",
-                      "items": [{"key": "/ShortName", "type": "UmmControlledSelect", "controlledKeyword": "data_centers"}]
+                      "items": [{"key": "/ShortName", "type": "UmmControlledSelect", "controlledKeyword": "data_centers", "htmlClass": "data-center-short-name-select tool-organization-short-name"}]
                     },
                     {
                       "type": "section",
@@ -506,7 +499,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/URLValue", "field": true}]
+                      "items": [{"key": "/URLValue", "field": true, "htmlClass": "tool-organization-url-value"}]
                     }
                   ]
                 }

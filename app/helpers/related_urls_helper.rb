@@ -86,6 +86,10 @@ module RelatedUrlsHelper
     'VisualizationURL' => {
       'text' => 'Visualization URL',
       'types' => {
+        'BROWSE' => {
+          'text' => 'Browse',
+          'subtypes' => []
+        },
         'GET RELATED VISUALIZATION' => {
           'text' => 'Get Related Visualization',
           'subtypes' => [
