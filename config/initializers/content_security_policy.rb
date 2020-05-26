@@ -28,6 +28,6 @@ if Rails.configuration.csplog_enabled
     policy.worker_src :self, :https
     
     # Specify URI for violation reports
-    policy.report_uri "/crpt"
+    policy.report_uri "/report_csp_violation"
   end
 end
