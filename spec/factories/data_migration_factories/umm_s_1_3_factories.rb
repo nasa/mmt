@@ -1,3 +1,6 @@
+# Factories necessary for UMM-S 1.2 => 1.3 tests to work without significant
+# maintenance
+
 FactoryBot.define do
   factory :full_service_draft_1_2, class: ServiceDraft do
     native_id { 'full_service_draft_native_id' }

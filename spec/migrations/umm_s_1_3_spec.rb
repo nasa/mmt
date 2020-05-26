@@ -9,9 +9,9 @@ describe 'Migration tests for UMM-S v1.2 => 1.3' do
       UmmS13DataMigration.new.up
     end
 
-    after :all do
-      ServiceDraft.delete([@draft.id, @empty_draft.id, @partial_draft.id])
-    end
+  #  after :all do
+  #    ServiceDraft.delete([@draft.id, @empty_draft.id, @partial_draft.id])
+  #  end
 
     it 'has removed platforms and science keywords' do
       expect(Draft.find(@draft.id).draft.keys.include?('Platforms')).to eq(false)

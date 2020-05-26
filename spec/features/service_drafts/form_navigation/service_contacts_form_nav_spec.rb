@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service Contacts Form Navigation', js: true do
   before do
     login

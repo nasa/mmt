@@ -222,6 +222,9 @@ class UmmForm < JsonObj
     "properties/#{path.join('/')}"
   end
 
+  # Expects the value to be a path to the correct description
+  # This is necessary when there is a shared class that should have different
+  # descriptions, e.g. SupportedFormatTypeEnum in UMM-S 1.3
   def override_help
     return nil unless parsed_json['override_help_path']
 

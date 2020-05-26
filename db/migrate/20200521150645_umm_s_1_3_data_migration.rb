@@ -4,18 +4,21 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
     drafts = ServiceDraft.where.not(draft: {})
 
     drafts.each do |draft|
-      metadata = draft.draft
-      metadata = make_url_for_1_3(metadata)
-      metadata = adjust_use_contraints_for_1_3(metadata)
-      metadata = move_contacts_from_organizations(metadata)
-      metadata = create_online_resource(metadata)
-      draft.draft = adjust_crs_identifier_for_1_3(metadata)
+      begin
+        metadata = draft.draft
+        metadata = make_url_for_1_3(metadata)
+        metadata = adjust_use_contraints_for_1_3(metadata)
+        metadata = move_contacts_from_organizations(metadata)
+        metadata = create_online_resource(metadata)
+        draft.draft = adjust_crs_identifier_for_1_3(metadata)
+      rescue TypeError
+        Rails.logger.error("Data for draft #{draft.id} was not properly formatted and could not be migrated: #{draft.draft}")
+      end
 
       draft.draft.delete('Platforms')
       draft.draft.delete('ScienceKeywords')
 
       draft.save
-      puts draft.draft
     end
   end
 
@@ -101,7 +104,7 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
     return draft unless draft['ServiceOrganizations']
 
     draft['ServiceOrganizations'].each do |organization|
-      next unless organization['ContactInformation']
+      next unless organization['ContactInformation'] && organization['ContactInformation'].is_a?(Hash)
 
       related_urls = organization.delete('ContactInformation').fetch('RelatedUrls', [])&.select { |url| url['URLContentType'] == 'DataCenterURL' }
       next unless related_urls.present?

@@ -1,5 +1,6 @@
 # :nodoc:
 class CustomDateTime < UmmFormElement
+  # Uses the datepicker.coffee to generate the same date picker as UMM-C forms
   def render_markup
     props = element_properties(schema_fragment)
     datetime_field_tag(

@@ -70,10 +70,7 @@ $(document).ready ->
 
   getSchemaProperties = (path) ->
     schema = globalJsonSchema
-    for x in path
-      schema = (schema[x])
-      console.log(schema)
-      console.log(x)
+    schema = (schema[x]) for x in path
     schema
 
   getDescription = (path) ->

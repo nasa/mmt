@@ -31,14 +31,9 @@
               ]
             },
             {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "col-6",
-                  "items": [{"key": "Type", "field": true, "type": "UmmSelect"}]
-                },
+            "type": "section",
+            "htmlClass": "row",
+            "items": [
                 {
                   "type": "section",
                   "htmlClass": "col-6",
@@ -57,14 +52,18 @@
               ]
             },
             {
-            "type": "section",
-            "htmlClass": "row",
-            "items": [
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
                 {
-                  // this has a format of 'date-time', as we have in collections
-                  // need to get this to use the date picker
                   "type": "section",
-                  "items": [{"key": "LastUpdatedDate", "type": "CustomDateTime", "field": true}]
+                  "htmlClass": "col-6",
+                  "items": [{"key": "Type", "field": true, "type": "UmmSelect"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-6",
+                  "items": [{"key": "LastUpdatedDate", "type": "CustomDateTime", "field": true, "htmlClass": "datetime-with-border"}]
                 }
               ]
             },
@@ -77,72 +76,67 @@
                   "items": [{"key": "Description", "type": "UmmTextarea", "field": true}]
                 }
               ]
-            }       
+            },
+            {
+              "type": "open_accordion",
+              "title": "URL",
+              "key": "URL/properties",
+              "help": "URL",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/Description", "field": true}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/URLContentType", "field": true, "type": "UmmSelect", "htmlClass": "url-content-type-select"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/Type", "field": true, "type": "UmmSelect", "htmlClass": "url-type-select"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/Subtype", "field": true, "type": "UmmSelect", "htmlClass": "url-subtype-select"}]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [
+                    {
+                      "type": "section",
+                      "items": [{"key": "/URLValue", "field": true}]
+                    }
+                  ]
+                }
+              ]
+            }   
           ]
-        },
-        {
-          "title": "URL",
-          "help": "URL",
-          "type": "open_accordion",
-          "key": "URL/properties",
-          "items": [
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [{"key": "/Description", "type": "UmmTextarea", "field": true}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [{"key": "/URLContentType", "field": true, "type": "UmmSelect", "htmlClass": "url-content-type-select"}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [{"key": "/Type", "field": true, "type": "UmmSelect", "htmlClass": "url-type-select"}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [{"key": "/Subtype", "field": true, "type": "UmmSelect", "htmlClass": "url-subtype-select"}]
-                }
-              ]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [{"key": "/URLValue", "field": true}]
-                }
-              ]
-            }
-          ]
-        } 
+        }
       ]
     },
     {
