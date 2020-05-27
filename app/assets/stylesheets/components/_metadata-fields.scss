@@ -116,4 +116,14 @@
   font-weight: bold;
 }
 
+.query-text-large {
+  overflow-y: scroll;
+  resize: none;
+}
+
+.query-title {
+  margin-block-end: 0px;
+  margin-inline-end: 0px;
+}
+
 // End Subscription Form
