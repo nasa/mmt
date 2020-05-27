@@ -5,8 +5,7 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
 
     drafts.each do |draft|
       begin
-        metadata = draft.draft
-        metadata = make_url_for_1_3(metadata)
+        metadata = make_url_for_1_3(draft.draft)
         metadata = adjust_use_contraints_for_1_3(metadata)
         metadata = move_contacts_from_organizations(metadata)
         metadata = create_online_resource(metadata)
@@ -26,8 +25,7 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
     drafts = ServiceDraft.where.not(draft: {})
 
     drafts.each do |draft|
-      metadata = draft.draft
-      metadata = make_related_urls_for_1_2(metadata)
+      metadata = make_related_urls_for_1_2(draft.draft)
       metadata = adjust_use_contraints_for_1_2(metadata)
       metadata = create_contact_information_from_online_resource(metadata)
       metadata = adjust_crs_identifier_for_1_2(metadata)
