@@ -11,7 +11,7 @@ describe 'Service draft permissions' do
     create(:full_service_draft, draft_entry_title: long_name, draft_short_name: name, provider_id: provider)
   end
 
-  let(:draft) { Draft.first }
+  let(:draft) { ServiceDraft.first }
 
   context 'when the draft provider is in the users available providers', js: true do
     before do

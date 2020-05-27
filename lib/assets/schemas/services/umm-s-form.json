@@ -855,7 +855,7 @@
           "label": "Contact Groups",
           "help": "ContactGroups",
           "multiType": "ContactGroups",
-          "key": "/ContactGroups/items/properties/index_id",
+          "key": "ContactGroups/items/properties/index_id",
           "items": [
             {
               "type": "section",
@@ -878,7 +878,7 @@
           "type": "UmmMultiItems",
           "label": "Contact Persons",
           "multiType": "ContactPersons",
-          "key": "/ContactPersons/items/properties/index_id",
+          "key": "ContactPersons/items/properties/index_id",
           "items": [
             {
               "type": "section",

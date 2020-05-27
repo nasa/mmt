@@ -14,7 +14,7 @@ describe 'Service Information Form', js: true do
         fill_in 'Version', with: '1.0'
         fill_in 'Version Description', with: 'Description of the Current Version'
         fill_in 'Last Updated Date', with: '2020-05-20T00:00:00.000Z'
-        fill_in 'Description', with: 'Description of the test service'
+        fill_in 'service_draft_draft_description', with: 'Description of the test service'
       end
 
       within '#url' do

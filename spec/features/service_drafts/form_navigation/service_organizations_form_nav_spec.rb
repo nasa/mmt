@@ -152,44 +152,5 @@ describe 'Service Organizations Form Navigation', js: true do
     context 'when viewing the form' do
       include_examples 'Service Organizations Full Form'
     end
-
-    context 'When clicking `Save` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Save'
-        end
-      end
-
-      it 'saves the draft without making any changes' do
-        expect(draft.draft).to eq(Draft.last.draft)
-      end
-
-      it 'saves the draft and reloads the form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Service Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Service Organizations')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Service Organizations')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
-        end
-      end
-
-      context 'when viewing the form' do
-        include_examples 'Service Organizations Full Form'
-      end
-    end
   end
 end

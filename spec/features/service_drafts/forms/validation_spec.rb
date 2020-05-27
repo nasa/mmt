@@ -66,7 +66,7 @@ describe 'Service Drafts Forms Field Validations', js: true do
             fill_in 'Long Name', with: 'Test Service Long Name'
             select 'NOT PROVIDED', from: 'Type'
             fill_in 'Version', with: '1.0'
-            fill_in 'Description', with: 'Service Description'
+            fill_in 'service_draft_draft_description', with: 'Service Description'
           end
 
           within '.nav-top' do

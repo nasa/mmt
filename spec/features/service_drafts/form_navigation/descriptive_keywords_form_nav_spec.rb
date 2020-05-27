@@ -148,44 +148,5 @@ describe 'Descriptive Keywords Form Navigation', js: true do
     context 'when viewing the form' do
       include_examples 'Descriptive Keywords Form'
     end
-
-    context 'When clicking `Save` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Save'
-        end
-      end
-
-      it 'saves the draft without making any changes' do
-        expect(draft.draft).to eq(Draft.last.draft)
-      end
-
-      it 'saves the draft and reloads the form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Service Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Descriptive Keywords')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Service Keywords')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
-        end
-      end
-
-      context 'when viewing the form' do
-        include_examples 'Descriptive Keywords Form'
-      end
-    end
   end
 end
