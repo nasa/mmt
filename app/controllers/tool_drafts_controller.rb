@@ -10,10 +10,7 @@ class ToolDraftsController < BaseDraftsController
   def edit
     super
 
-    if @current_form == 'descriptive_keywords'
-      # for v1.0, tool keywords are selected from same set as service keywords
-      set_tool_keywords
-    end
+    set_tool_keywords if @current_form == 'descriptive_keywords'
   end
 
   private
@@ -35,7 +32,6 @@ class ToolDraftsController < BaseDraftsController
   end
 
   def set_current_form
-    # @current_form = params[:form] ||
     @current_form = params[:form] || @json_form.forms.first.parsed_json['id']
   end
 
@@ -46,10 +42,11 @@ class ToolDraftsController < BaseDraftsController
     # If the form isn't empty, only permit whitelisted attributes
     permitted = params.require(:tool_draft).permit(:draft_type).tap do |whitelisted|
       # Allows for any nested key within the draft hash
-      whitelisted[:draft] = params[:tool_draft][:draft]
+      whitelisted[:draft] = params[:tool_draft][:draft].permit!
     end
 
     # TODO: when working update ticket, investigate if we can use `.to_h` here
-    permitted.to_unsafe_h # need to understand what this is doing more, think related to nested parameters not permitted.
+    permitted.to_h
+    # permitted.to_unsafe_h # need to understand what this is doing more, think related to nested parameters not permitted.
   end
 end

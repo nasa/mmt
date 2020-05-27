@@ -83,65 +83,65 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "DOI", "field": true}]
+                  "items": [{"key": "DOI", "field": true, "label": "DOI"}]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "open_accordion",
+          "title": "URL",
+          "key": "URL/properties",
+          "help": "URL",
+          "items": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/Description", "field": true}]
                 }
               ]
             },
             {
-              "type": "open_accordion",
-              "title": "URL",
-              "key": "URL/properties",
-              "help": "URL",
+              "type": "section",
+              "htmlClass": "row",
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Description", "field": true}]
-                    }
-                  ]
-                },
+                  "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_url_content_type", "htmlClass": "url-content-type-select", "label": "URL Content Type"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_url_content_type", "htmlClass": "url-content-type-select"}]
-                    }
-                  ]
-                },
+                  "items": [{"key": "/Type", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_url_type", "htmlClass": "url-type-select"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Type", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_url_type", "htmlClass": "url-type-select"}]
-                    }
-                  ]
-                },
+                  "items": [{"key": "/Subtype", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_url_subtype", "htmlClass": "url-subtype-select"}]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Subtype", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_url_subtype", "htmlClass": "url-subtype-select"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/URLValue", "field": true}]
-                    }
-                  ]
+                  "items": [{"key": "/URLValue", "field": true, "label": "URL Value"}]
                 }
               ]
             }
@@ -150,7 +150,6 @@
       ]
     },
     {
-      // straight copied from S, check if this works
       "id": "related_urls",
       "title": "Related URLs",
       "expandable": true,
@@ -187,7 +186,7 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_related_url_content_type", "htmlClass": "related-url-content-type-select"}]
+                      "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_t_related_url_content_type", "htmlClass": "related-url-content-type-select", "label": "URL Content Type"}]
                     }
                   ]
                 },
@@ -220,7 +219,7 @@
                     {
                       "type": "section",
                       "htmlClass": "row",
-                      "items": [{"key": "/URL", "field": true, "htmlClass": "url"}]
+                      "items": [{"key": "/URL", "field": true, "htmlClass": "url", "label": "URL"}]
                     }
                   ]
                 }
@@ -385,9 +384,22 @@
               "items": [{"type": "UmmTextarea", "key": "AccessConstraints", "field": true}]
             },
             {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [{"type": "UmmTextarea", "key": "UseConstraints", "field": true}]
+              "type": "accordion",
+              "help": "UseConstraints",
+              "title": "Use Constraints",
+              "key": "UseConstraints/properties",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"key": "/LicenseURL", "field": true, "label": "License URL"}]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "row",
+                  "items": [{"type": "UmmTextarea", "key": "/LicenseText", "field": true}]
+                }
+              ]
             }
           ]
         }
@@ -499,7 +511,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/URLValue", "field": true, "htmlClass": "tool-organization-url-value"}]
+                      "items": [{"key": "/URLValue", "field": true, "htmlClass": "tool-organization-url-value", "label": "URL Value"}]
                     }
                   ]
                 }

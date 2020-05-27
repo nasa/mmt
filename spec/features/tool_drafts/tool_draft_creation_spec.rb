@@ -16,7 +16,10 @@ describe 'Tool Draft creation' do
     end
 
     it 'renders the "Tool Information" form' do
-      within '.umm-form fieldset h3' do
+      within 'header .collection-basics > h2' do
+        expect(page).to have_content('Tool Information')
+      end
+      within '.umm-form #tool-information h3' do
         expect(page).to have_content('Tool Information')
       end
     end

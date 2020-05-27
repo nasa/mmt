@@ -33,9 +33,9 @@ FactoryBot.define do
         'Description': 'Description of the factory made tool.',
         'DOI': 'https://doi.org/10.1234/SOMEDAAC/5678',
         'URL': {
+          'Description': 'Access the WRS-2 Path/Row to Latitude/Longitude Converter.',
           'URLContentType': 'DistributionURL',
           'Type': 'DOWNLOAD SOFTWARE',
-          'Description': 'Access the WRS-2 Path/Row to Latitude/Longitude Converter.',
           'URLValue': 'http://www.scp.byu.edu/software/slice_response/Xshape_temp.html'
         },
         'RelatedURLs': [
@@ -86,12 +86,28 @@ FactoryBot.define do
             'SoftwareLanguageVersion': 'Chicken Chicken Chicken Chicken'
           }
         ],
+        'Quality': {
+          'QualityFlag': 'Reviewed',
+          'Traceability': 'traceability',
+          'Lineage': 'lineage'
+        },
+        'AccessConstraints': 'access constraint 1',
+        'UseConstraints': {
+          'LicenseURL': 'tool.license.boo',
+          'LicenseText': 'license text text license'
+        },
         'ToolKeywords': [
           {
             'ToolCategory': 'EARTH SCIENCE SERVICES',
-            'ToolTopic': 'DATA MANAGEMENT/DATA HANDLING',
-            'ToolTerm': 'DATA INTEROPERABILITY',
-            'ToolSpecificTerm': 'DATA REFORMATTING'
+            'ToolTopic': 'DATA ANALYSIS AND VISUALIZATION',
+            'ToolTerm': 'GEOGRAPHIC INFORMATION SYSTEMS',
+            'ToolSpecificTerm': 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+          },
+          {
+            'ToolCategory': 'EARTH SCIENCE SERVICES',
+            'ToolTopic': 'DATA ANALYSIS AND VISUALIZATION',
+            'ToolTerm': 'GEOGRAPHIC INFORMATION SYSTEMS',
+            'ToolSpecificTerm': 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS'
           }
         ],
         'AncillaryKeywords': ['Ancillary keyword 1', 'Ancillary keyword 2'],
@@ -149,7 +165,7 @@ FactoryBot.define do
         ],
         'ContactPersons': [
           {
-            'Roles': ['DEVELOPER'],
+            'Roles': ['DEVELOPER', 'SERVICE PROVIDER'],
             'ContactInformation': {
               'ContactMechanisms': [
                 {
@@ -179,6 +195,15 @@ FactoryBot.define do
             'LastName': 'Last 2'
           }
         ],
+        'SearchAction': {
+          'SearchActionElement': "A little chant may not seem like a real spell, but it can still bring magickal results if you put your heart into it. Use this spell when you are looking for something you've misplaced in your home. You just need a white candle.
+            Light the candle, and put it in a holder that is easy to carry. Begin to walk from room to room with it, repeating the following:
+            I need what I seek
+            Give me a peek
+            Draw my eyes
+            For my prize.
+            Let your eyes wander around until you feel drawn to the spot where your missing item is hiding."
+        },
         'MetadataSpecification': {
           'URL': 'https://cdn.earthdata.nasa.gov/umm/tool/v1.0',
           'Name': 'UMM-T',

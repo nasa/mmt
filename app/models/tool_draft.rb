@@ -2,7 +2,7 @@
 class ToolDraft < Draft
   delegate :forms, to: :class
 
-  after_save :set_metadata_specification
+  before_save :set_metadata_specification
 
   class << self
     def forms
@@ -43,6 +43,16 @@ class ToolDraft < Draft
   def set_metadata_specification
     # this is a hidden fieldset added to UMM-T to document the metadata version
     # and specs that should be autopopulated
-    # we should try to populate these values from the schema enums
+    # TODO: we should try to populate these values from the schema enums
+    # MetadataSpecification
+    metadata_specification = {
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/tool/v1.0',
+      'Name' => 'UMM-T',
+      'Version' => '1.0'
+    }
+
+    unless self.draft['MetadataSpecification'] == metadata_specification
+      self.draft['MetadataSpecification'] = metadata_specification
+    end
   end
 end

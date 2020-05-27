@@ -93,9 +93,9 @@ module RelatedUrlsHelper
         'GET RELATED VISUALIZATION' => {
           'text' => 'Get Related Visualization',
           'subtypes' => [
-            ['GIOVANNI', 'GIOVANNI'],
-            ['MAP', 'MAP'],
-            ['WORLDVIEW', 'WORLDVIEW']
+            ['Giovanni', 'GIOVANNI'],
+            ['Map', 'MAP'],
+            ['Worldview', 'WORLDVIEW']
           ]
         }
       }
@@ -239,8 +239,8 @@ module RelatedUrlsHelper
           'text' => 'Get Related Visualization',
           'subtypes' => [
             ['GIBS', 'GIBS'],
-            ['GIOVANNI', 'GIOVANNI'],
-            ['MAP', 'MAP']
+            ['Giovanni', 'GIOVANNI'],
+            ['Map', 'MAP']
           ]
         }
       }
@@ -392,8 +392,8 @@ module RelatedUrlsHelper
         'GET RELATED VISUALIZATION' => {
           'text' => 'Get Related Visualization',
           'subtypes' => [
-            ['GIOVANNI', 'GIOVANNI'],
-            ['MAP', 'MAP'],
+            ['Giovanni', 'GIOVANNI'],
+            ['Map', 'MAP'],
             ['Worldview', 'WORLDVIEW']
           ]
         }
@@ -510,7 +510,7 @@ module RelatedUrlsHelper
     ['Live Access Server (LAS)', 'LIVE ACCESS SERVER (LAS)'],
     ['Map Service', 'MAP SERVICE'],
     ['Map Viewer', 'MAP VIEWER'],
-    ['MAP', 'MAP'],
+    ['Map', 'MAP'],
     ['Micro Article', 'MICRO ARTICLE'],
     ['Mirador', 'MIRADOR'],
     ['Mobile App', 'MOBILE APP'],
@@ -575,7 +575,7 @@ module RelatedUrlsHelper
     ['LANCE', 'LANCE'],
     ['LAS', 'LAS'],
     ['Map Service', 'MAP SERVICE'],
-    ['MAP', 'MAP'],
+    ['Map', 'MAP'],
     ['Mirador', 'MIRADOR'],
     ['MODAPS', 'MODAPS'],
     ['NOAA Class', 'NOAA CLASS'],
@@ -628,7 +628,7 @@ module RelatedUrlsHelper
     ['How To', 'HOW-TO'],
     ['Important Notice', 'IMPORTANT NOTICE'],
     ['Instrument/Sensor Calibration Documentation', 'INSTRUMENT/SENSOR CALIBRATION DOCUMENTATION'],
-    ['MAP', 'MAP'],
+    ['Map', 'MAP'],
     ['Micro Article', 'MICRO ARTICLE'],
     ['PI Documentation', 'PI DOCUMENTATION'],
     ['Processing History', 'PROCESSING HISTORY'],

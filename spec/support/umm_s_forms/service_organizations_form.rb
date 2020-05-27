@@ -5,9 +5,9 @@ shared_examples_for 'Service Organizations Full Form' do
       expect(page).to have_field('Short Name', with: 'AARHUS-HYDRO')
       expect(page).to have_field('Long Name', with: 'Hydrogeophysics Group, Aarhus University ', readonly: true)
 
-      contact_information_assertions
-      contact_groups_assertions
-      contact_persons_assertions
+      service_contact_information_assertions
+      service_contact_groups_assertions
+      service_contact_persons_assertions
     end
   end
 end
