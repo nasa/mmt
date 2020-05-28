@@ -54,18 +54,18 @@ describe 'Searching for published collections in proposal mode', js: true do
         end
 
         it 'shows the download selections' do
-          expect(page).to have_link('NATIVE', href: download_collection_xml_path(@ingest_response['concept-id'], 'native'))
+          #expect(page).to have_link('NATIVE', href: download_collection_xml_path(@ingest_response['concept-id'], 'native'))
           expect(page).to have_link('ATOM', href: download_collection_xml_path(@ingest_response['concept-id'], 'atom'))
           expect(page).to have_link('ECHO 10', href: download_collection_xml_path(@ingest_response['concept-id'], 'echo10'))
-          expect(page).to have_link('ISO 19115 (MENDS)', href: download_collection_xml_path(@ingest_response['concept-id'], 'iso'))
-          expect(page).to have_link('ISO 19115 (SMAP)', href: download_collection_xml_path(@ingest_response['concept-id'], 'iso19115'))
+          expect(page).to have_link('ISO 19115 (MENDS)', href: download_collection_xml_path(@ingest_response['concept-id'], 'iso19115'))
+          expect(page).to have_link('ISO 19115 (SMAP)', href: download_collection_xml_path(@ingest_response['concept-id'], 'iso-smap'))
           expect(page).to have_link('DIF 10', href: download_collection_xml_path(@ingest_response['concept-id'], 'dif10'))
         end
 
         context 'when trying to download data' do
           before do
-            @file = "#{Rails.root}/#{@ingest_response['concept-id']}.native"
-            click_on 'NATIVE'
+            @file = "#{Rails.root}/#{@ingest_response['concept-id']}.echo10"
+            click_on 'ECHO 10'
           end
 
           after do

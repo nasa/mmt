@@ -136,6 +136,21 @@ class CollectionsController < ManageCollectionsController
       @provider_id = meta['provider-id']
       @num_granules = meta['granule-count']
 
+      # set up the @download_xml_options so that the Native format is specified and appears first
+      @download_xml_options = CollectionsHelper::DOWNLOAD_XML_OPTIONS.deep_dup
+      native_format = meta['format']
+      if native_format.present?
+        @download_xml_options.each do |download_option|
+          # gsub here is needed because of the iso-smap and application/iso:smap+xml format options
+          if native_format.gsub(':','').include?(download_option[:format].gsub('-', ''))
+            download_option[:title].concat(' (Native)') 
+            @download_xml_options.delete(download_option)
+            @download_xml_options.unshift(download_option)
+            break
+          end
+        end
+      end
+
       @old_revision = !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s ? true : false
 
       # set accept content-type as umm-json with our current umm-c version
