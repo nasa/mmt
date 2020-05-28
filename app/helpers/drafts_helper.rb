@@ -344,6 +344,15 @@ module DraftsHelper
 
   def titleize_form_name(form_name)
     return 'Related URLs' if form_name == 'related_urls'
+    return 'Compatibility and Usability' if form_name == 'compatibility_and_usability'
     form_name.titleize
+  end
+
+  # this method is used for UMM-T draft tests, but can't be put in the spec
+  # helpers for context/scope reasons
+  def get_next_form(name, forms, direction)
+    delta = direction == 'Next' ? 1 : -1
+    index = forms.index(name)
+    forms[index + delta] || forms.first
   end
 end

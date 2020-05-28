@@ -10,7 +10,7 @@ describe 'Compatibility and Usability Form', js: true do
   context 'when viewing the form with no values' do
     it 'displays the correct title' do
       within 'header .collection-basics > h2' do
-        expect(page).to have_content('Compatibility And Usability')
+        expect(page).to have_content('Compatibility and Usability')
       end
     end
 

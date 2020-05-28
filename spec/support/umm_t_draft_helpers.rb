@@ -87,7 +87,6 @@ module Helpers
             fill_in 'State / Province', with: 'MD'
             fill_in 'Postal Code', with: '20771'
           end
-
         end
       end
     end
