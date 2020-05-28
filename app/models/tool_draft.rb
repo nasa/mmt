@@ -42,7 +42,6 @@ class ToolDraft < Draft
 
   def set_metadata_specification
     # this is a hidden fieldset added to UMM-T to document the metadata version
-    # and specs that should be autopopulated
     # TODO: we should try to populate these values from the schema enums
     # MetadataSpecification
     metadata_specification = {

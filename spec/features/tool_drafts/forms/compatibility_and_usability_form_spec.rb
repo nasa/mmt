@@ -157,6 +157,10 @@ describe 'Compatibility and Usability Form', js: true do
         expect(page).to have_field('License URL', with: 'tool.license.boo')
         expect(page).to have_field('License Text', with: 'license text text license')
       end
+
+      it 'displays the correct number of required fields' do
+        expect(page).to have_selector('label.eui-required-o', count: 1)
+      end
     end
   end
 end

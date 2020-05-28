@@ -55,6 +55,10 @@ describe 'Smart Handoff Information Form', js: true do
 
         expect(page).to have_field('Search Action Element', with: search_text)
       end
+
+      it 'displays the correct number of required fields' do
+        expect(page).to have_no_selector('label.eui-required-o')
+      end
     end
   end
 end

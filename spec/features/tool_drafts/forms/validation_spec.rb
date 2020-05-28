@@ -108,7 +108,7 @@ describe 'Tool Draft Forms Field Validation', js: true do
     end
   end
 
-  context 'when only filling out some of the required fields of an unrequired field' do
+  context 'when only filling out some of the required subfields of an unrequired field' do
     before do
       visit edit_tool_draft_path(empty_draft, 'tool_contacts')
 

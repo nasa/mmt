@@ -1,4 +1,4 @@
-describe 'Tool Information Form' do
+describe 'Tool Information Form', js: true do
   let(:tool_name) { 'Testing Form Tool Name' }
   let(:tool_long_name) { 'Testing Form Tool Long Name' }
 
@@ -8,7 +8,7 @@ describe 'Tool Information Form' do
     visit edit_tool_draft_path(draft, 'tool_information')
   end
 
-  context 'when viewing the form with no values', js: true do
+  context 'when viewing the form with no values' do
     it 'displays the correct title' do
       within 'header .collection-basics > h2' do
         expect(page).to have_content('Tool Information')
@@ -90,6 +90,10 @@ describe 'Tool Information Form' do
           expect(page).to have_select('Type', selected: 'Download Software')
           expect(page).to have_field('URL Value', with: 'http://www.scp.byu.edu/software/slice_response/Xshape_temp.html')
         end
+      end
+
+      it 'displays the correct number of required fields' do
+        expect(page).to have_selector('label.eui-required-o', count: 8)
       end
     end
   end

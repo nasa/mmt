@@ -286,7 +286,6 @@ $(document).ready ->
     $(summary).insertAfter('.nav-top')
 
   getErrorDetails = (error) ->
-    console.log "error:", JSON.stringify(error)
     if error.keyword == 'additionalProperties'
       # ignore/suppress errors with keyword additionalProperties
       # since we control the forms, we should not be sending properties not

@@ -27,7 +27,7 @@ describe 'Descriptive Keywords Form', js: true do
     end
 
     it 'displays the correct number of required fields' do
-      expect(page).to have_no_selector('label.eui-required-o')
+      expect(page).to have_selector('label.eui-required-o', count: 1)
     end
 
     it 'displays the correct buttons to add another element' do
@@ -80,6 +80,9 @@ describe 'Descriptive Keywords Form', js: true do
         end
       end
 
+      it 'displays the correct number of required fields' do
+        expect(page).to have_selector('label.eui-required-o', count: 1)
+      end
     end
   end
 end

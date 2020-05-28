@@ -1,7 +1,6 @@
 include DraftsHelper
 
 describe 'Tool Draft form navigation', js: true do
-  form_titles = ['Tool Information', 'Related URLs', 'Compatibility and Usability', 'Descriptive Keywords', 'Tool Organizations', 'Tool Contacts', 'Smart Handoff Information']
   form_names = %w[tool_information related_urls compatibility_and_usability descriptive_keywords tool_organizations tool_contacts smart_handoff_information]
 
   context 'when visiting the edit page for a full tool draft' do
@@ -130,7 +129,7 @@ describe 'Tool Draft form navigation', js: true do
       end
     end
 
-    context 'when clicking the "Next" button to navigate through forms' do
+    context 'when clicking the "Next" button at the top to navigate through forms' do
       form_names.size.times do |index|
         # Note - randomization causes test result order to not agree with forms order.
         current_form_name = form_names[index]
@@ -189,7 +188,7 @@ describe 'Tool Draft form navigation', js: true do
       end
     end
 
-    context 'when clicking the "Previous" button to navigate through forms' do
+    context 'when clicking the "Previous" button at the bottom to navigate through forms' do
       form_names.size.times do |index|
         # Note - randomization causes test result order to not agree with forms order.
         current_form_name = form_names[index]
@@ -201,7 +200,7 @@ describe 'Tool Draft form navigation', js: true do
           before do
             visit edit_tool_draft_path(full_draft, current_form_name)
 
-            within '.nav-top' do
+            within '.nav-bottom' do
               click_on 'Previous'
             end
           end

@@ -9,9 +9,6 @@ FactoryBot.define do
     entry_title { nil }
   end
 
-  # factory :invalid_tool_draft, class: ToolDraft do
-  # end
-
   factory :full_tool_draft, class: ToolDraft do
     transient do
       draft_short_name { nil }

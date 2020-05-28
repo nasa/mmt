@@ -86,6 +86,10 @@ describe 'Related URLs form', js: true do
           expect(page).to have_field('URL', with: 'algorithms.org')
         end
       end
+
+      it 'displays the correct number of required fields' do
+        expect(page).to have_selector('label.eui-required-o', count: 6)
+      end
     end
   end
 end

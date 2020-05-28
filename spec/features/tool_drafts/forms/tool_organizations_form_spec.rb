@@ -84,6 +84,10 @@ describe 'Tool Organizations Form', js: true do
           end
         end
       end
+
+      it 'displays the correct number of required fields' do
+        expect(page).to have_selector('label.eui-required-o', count: 4)
+      end
     end
   end
 end

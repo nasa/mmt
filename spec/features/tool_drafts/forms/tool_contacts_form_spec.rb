@@ -81,6 +81,10 @@ describe 'Tool Contacts Form', js: true do
           tool_contact_persons_assertions
         end
       end
+
+      it 'displays the correct number of required fields' do
+        expect(page).to have_selector('label.eui-required-o', count: 16)
+      end
     end
   end
 end

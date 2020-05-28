@@ -154,7 +154,7 @@
       "title": "Related URLs",
       "expandable": true,
       "items": [
-        // Related URLs
+        /* Related URLs */
         {
           "type": "open_accordion",
           "help": "RelatedURLs",
@@ -426,7 +426,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "ToolKeywords", "field": true, "type": "UmmToolKeywordPicker", "noLabel": true}]
+                      "items": [{"key": "ToolKeywords", "field": true, "type": "UmmToolKeywordPicker"}]
                     }
                   ]
                 }

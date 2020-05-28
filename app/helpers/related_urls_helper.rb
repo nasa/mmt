@@ -1,5 +1,5 @@
 module RelatedUrlsHelper
-  # pull out DistributionURL to be able to add to diff types?
+  # TODO: need to refactor the mappings
   url_content_type_map_for_umm_t = {
     'DistributionURL' => {
       'text' => 'Distribution URL',
@@ -23,8 +23,6 @@ module RelatedUrlsHelper
     }
   }
 
-  # pull out PublicationURL
-  # pull out VisualizationURL
   related_url_content_type_map_for_umm_t = {
     'CollectionURL' => {
       'text' => 'Collection URL',
@@ -401,6 +399,8 @@ module RelatedUrlsHelper
     }
   }
 
+  # TODO: need to verify if all these options are necessary if they get changed
+  # by our coffee files through the mappings.
   UMMCRelatedURLContentTypeMap = related_url_content_type_map.deep_dup
   # UMM-S v1.1 added TOOL to GET SERVICE subtypes
   umm_s_related_url_content_type_map = related_url_content_type_map_for_umm_s.deep_dup
