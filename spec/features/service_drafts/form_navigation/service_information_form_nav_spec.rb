@@ -156,5 +156,9 @@ describe 'Service Information Form Navigation', js: true do
     context 'when viewing the form' do
       include_examples 'Service Information Form'
     end
+
+    it 'displays the correct number of required fields' do
+      expect(page).to have_selector('label.eui-required-o', count: 5)
+    end
   end
 end

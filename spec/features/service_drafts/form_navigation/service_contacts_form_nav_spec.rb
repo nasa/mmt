@@ -143,5 +143,11 @@ describe 'Service Contacts Form Navigation', js: true do
     context 'when viewing the form' do
       include_examples 'Service Contacts Form'
     end
+
+    it 'displays the correct number of required fields' do
+      # 2 each for 4 groups + 2 each for 4 mechanisms total +
+      # 3 each for 6 relatedurls
+      expect(page).to have_selector('label.eui-required-o', count: 34)
+    end
   end
 end

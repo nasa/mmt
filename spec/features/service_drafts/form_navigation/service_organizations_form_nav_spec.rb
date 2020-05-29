@@ -150,5 +150,10 @@ describe 'Service Organizations Form Navigation', js: true do
     context 'when viewing the form' do
       include_examples 'Service Organizations Full Form'
     end
+
+    it 'displays the correct number of required fields' do
+      # 2 from each organization + 3 from the one online resource
+      expect(page).to have_selector('label.eui-required-o', count: 7)
+    end
   end
 end

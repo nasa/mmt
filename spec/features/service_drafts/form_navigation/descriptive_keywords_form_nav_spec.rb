@@ -148,5 +148,11 @@ describe 'Service Descriptive Keywords Form Navigation', js: true do
     context 'when viewing the form' do
       include_examples 'Descriptive Keywords Form'
     end
+
+    # TODO: commenting out because this is failing due to bug MMT-2269
+    # uncomment this test when that bug is fixed.
+    # it 'displays the correct number of required fields' do
+    #   expect(page).to have_selector('label.eui-required-o', count: 1)
+    # end
   end
 end

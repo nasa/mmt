@@ -150,5 +150,10 @@ describe 'Service Operation Metadata Form Navigation', js: true do
     context 'when viewing the form' do
       include_examples 'Operation Metadata Form with General Grid'
     end
+
+    it 'displays the correct number of required fields' do
+      # 5 each for 2 parameters, 4 each for 2 axis, 3 in the top level field
+      expect(page).to have_selector('label.eui-required-o', count: 21)
+    end
   end
 end

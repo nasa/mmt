@@ -390,7 +390,28 @@
               "items": [
                 {
                   "type": "section",
-                  "$ref": "#/definitions/ContactGroups"
+                  "items": [
+                    {
+                      "type": "UmmMultiItems",
+                      "label": "Contact Groups",
+                      "help": "ContactGroups",
+                      "multiType": "ContactGroups",
+                      "key": "ContactGroups/items/properties/index_id",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [{"key": "/Roles", "type": "UmmMultiSelect"}]
+                        },
+                        {
+                          "type": "section",
+                          "items": [{"key": "/GroupName"}]
+                        },
+                        {
+                          "$ref": "#/definitions/ContactInformation"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -408,7 +429,44 @@
               "items": [
                 {
                   "type": "section",
-                  "$ref": "#/definitions/ContactPersons"
+                  "items": [
+                    {
+                      "type": "UmmMultiItems",
+                      "label": "Contact Persons",
+                      "multiType": "ContactPersons",
+                      "key": "ContactPersons/items/properties/index_id",
+                      "items": [
+                        {
+                          "type": "section",
+                          "items": [{"key": "/Roles", "type": "UmmMultiSelect"}]
+                        },
+                        {
+                          "type": "section",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "htmlClass": "col-4",
+                              "items": [{"key": "/FirstName"}]
+                            },
+                            {
+                              "type": "section",
+                              "htmlClass": "col-4",
+                              "items": [{"key": "/MiddleName"}]
+                            },
+                            {
+                              "type": "section",
+                              "htmlClass": "col-4",
+                              "items": [{"key": "/LastName"}]
+                            }
+                          ]
+                        },
+                        {
+                          "$ref": "#/definitions/ContactInformation"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -843,70 +901,6 @@
               "type": "section",
               "htmlClass": "col-6",
               "items": [{"key": "/ProjectionDatumName", "field": true, "type": "UmmSelect"}]
-            }
-          ]
-        }
-      ]
-    },
-    "ContactGroups": {
-      "items": [
-        {
-          "type": "UmmMultiItems",
-          "label": "Contact Groups",
-          "help": "ContactGroups",
-          "multiType": "ContactGroups",
-          "key": "ContactGroups/items/properties/index_id",
-          "items": [
-            {
-              "type": "section",
-              "items": [{"key": "/Roles", "type": "UmmMultiSelect"}]
-            },
-            {
-              "type": "section",
-              "items": [{"key": "/GroupName"}]
-            },
-            {
-              "$ref": "#/definitions/ContactInformation"
-            }
-          ]
-        }
-      ]
-    },
-    "ContactPersons": {
-      "items": [
-        {
-          "type": "UmmMultiItems",
-          "label": "Contact Persons",
-          "multiType": "ContactPersons",
-          "key": "ContactPersons/items/properties/index_id",
-          "items": [
-            {
-              "type": "section",
-              "items": [{"key": "/Roles", "type": "UmmMultiSelect"}]
-            },
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "htmlClass": "col-4",
-                  "items": [{"key": "/FirstName"}]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "col-4",
-                  "items": [{"key": "/MiddleName"}]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "col-4",
-                  "items": [{"key": "/LastName"}]
-                }
-              ]
-            },
-            {
-              "$ref": "#/definitions/ContactInformation"
             }
           ]
         }
