@@ -54,6 +54,7 @@ describe 'Testing Queries when creating', js: true do
 
       it 'displays the right number of e-mails' do
         expect(page).to have_content('Estimate Done')
+        expect(page).to have_content('Query: ?day_night_flag=day&updated_since=2020-05-06T16:23:09Z&production_date[]=2000-01-01T10:00:00Z,2021-03-10T12:00:00Z')
         expect(page).to have_content("Estimate: #{(@granules_in_test / 30.0).ceil} notifications/day")
         expect(page).to have_content('How was this estimate generated?')
         expect(page).to have_content("#{@granules_in_test} granules related to this query were added or updated over the last 30 days.")
@@ -206,6 +207,7 @@ describe 'Testing Queries when editing', js: true do
 
         it 'displays the right amount of e-mails' do
           expect(page).to have_content('Estimate Done')
+          expect(page).to have_content('Query: day_night_flag=day&updated_since=2020-05-06T16:23:09Z&production_date[]=2000-01-01T10:00:00Z,2021-03-10T12:00:00Z')
           expect(page).to have_content('Estimate: 1 notification/day')
           expect(page).to have_content('How was this estimate generated?')
           expect(page).to have_content("#{@granules_in_test} granules related to this query were added or updated over the last 30 days.")
