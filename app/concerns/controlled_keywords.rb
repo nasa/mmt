@@ -59,6 +59,21 @@ module ControlledKeywords
     @service_keywords = keywords
   end
 
+  # for UMM-T v 1.0, Tool Keywords are using the same set of Service Keywords
+  # this is supposed to change in the future
+  def set_tool_keywords
+    keywords = fetch_science_keywords
+    if keywords.key? 'category'
+      keywords['category'].each do |category|
+        if category['value'] == 'EARTH SCIENCE'
+          keywords['category'].delete(category)
+          break
+        end
+      end
+    end
+    @tool_keywords = keywords
+  end
+
   def set_location_keywords
     response = cmr_client.get_controlled_keywords('spatial_keywords')
     @location_keywords = if response.success?

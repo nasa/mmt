@@ -2,12 +2,14 @@
 class ToolDraft < Draft
   delegate :forms, to: :class
 
+  before_save :set_metadata_specification
+
   class << self
     def forms
       []
     end
 
-    # TODO: for cloning
+    # TODO: for cloning or editing published records
     # def create_from_tool(tool, user, native_id)
     #   if native_id
     #     # Edited record
@@ -34,5 +36,22 @@ class ToolDraft < Draft
 
   def display_entry_title
     entry_title || '<Untitled Tool Record>'
+  end
+
+  private
+
+  def set_metadata_specification
+    # this is a hidden fieldset added to UMM-T to document the metadata version
+    # TODO: we should try to populate these values from the schema enums
+    # MetadataSpecification
+    metadata_specification = {
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/tool/v1.0',
+      'Name' => 'UMM-T',
+      'Version' => '1.0'
+    }
+
+    unless self.draft['MetadataSpecification'] == metadata_specification
+      self.draft['MetadataSpecification'] = metadata_specification
+    end
   end
 end

@@ -206,7 +206,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "ScienceKeywords", "field": true, "type": "UmmScienceKeywordPicker"}]
+                      "items": [{"key": "ScienceKeywords", "field": true, "type": "UmmScienceKeywordPicker", "noLabel": true}]
                     }
                   ]
                 }
@@ -415,7 +415,7 @@
           "type": "open_accordion",
           "title": "Options",
           "key": "ServiceOptions/properties",
-          "noHelp": "true",
+          "noHelp": true,
           "items": [
             {
               "type": "section",
@@ -1328,7 +1328,7 @@
             {
               "type": "section",
               "htmlClass": "row",
-              "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_content_type", "htmlClass": "related-url-content-type-select"}]
+              "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_s_related_url_content_type", "htmlClass": "related-url-content-type-select"}]
             }
           ]
         },
@@ -1339,7 +1339,7 @@
             {
               "type": "section",
               "htmlClass": "row",
-              "items": [{"key": "/Type", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_type", "htmlClass": "related-url-type-select"}]
+              "items": [{"key": "/Type", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_s_related_url_type", "htmlClass": "related-url-type-select"}]
             }
           ]
         },
@@ -1350,7 +1350,7 @@
             {
               "type": "section",
               "htmlClass": "row",
-              "items": [{"key": "/Subtype", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "related_url_subtype", "htmlClass": "related-url-subtype-select"}]
+              "items": [{"key": "/Subtype", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_s_related_url_subtype", "htmlClass": "related-url-subtype-select"}]
             }
           ]
         },

@@ -6,6 +6,9 @@ picker = undefined
 @setupServiceKeywords = (data, options = {}) ->
   picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'service', keywordLengthMinimum: 2}, options))
 
+@setupToolKeywords = (data, options = {}) ->
+  picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'tool', keywordLengthMinimum: 2}, options))
+
 @setupLocationKeywords = (data, options = {}) ->
   picker = new NestedItemPicker('.eui-nested-item-picker', $.extend({}, {data: data, data_type: 'location', keywordLengthMinimum: 2}, options))
 
@@ -23,7 +26,7 @@ preparePickerValidation = (showErrors = true) ->
     emptyElement = $("#empty_#{pickerFieldId()}")
 
     # Copy the attributes from our hidden field
-    attributes = emptyElement.prop("attributes");
+    attributes = emptyElement.prop("attributes")
 
     # Set each of the attributes from our container onto our hidden element
     $.each attributes, () ->
@@ -64,6 +67,10 @@ $(document).ready ->
       addKeyword 'service'
       resetPicker()
 
+    $('.add-tool-keyword').on 'click', ->
+      addKeyword 'tool'
+      resetPicker()
+
     $('.add-location-keyword').on 'click', ->
       addKeyword 'location'
       resetPicker()
@@ -83,11 +90,13 @@ $(document).ready ->
       fieldPrefixId = picker.options.field_prefix.replace('/', '_')
       scienceKeywordFields = ['category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3', 'detailed_variable']
       serviceKeywordFields = ['service_category', 'service_topic', 'service_term', 'service_specific_term']
+      ToolKeywordFields = ['tool_category', 'tool_topic', 'tool_term', 'tool_specific_term']
       locationKeywordFields = ['category', 'type', 'subregion_1', 'subregion_2', 'subregion_3', 'detailed_location']
 
       keywordFields = switch picker.options.data_type
         when 'science' then scienceKeywordFields
         when 'service' then serviceKeywordFields
+        when 'tool' then ToolKeywordFields
         when 'location' then locationKeywordFields
 
       timeStamp = Date.now()
@@ -122,10 +131,10 @@ $(document).ready ->
 
     resetPicker = ->
       # Reset picker to top level
-      $('.add-science-keyword, .add-service-keyword, .add-location-keyword').attr 'disabled', 'true'
+      $('.add-science-keyword, .add-service-keyword, .add-tool-keyword, .add-location-keyword').attr 'disabled', 'true'
       picker.resetPicker()
 
-    $('.selected-science-keywords, .selected-service-keywords, .selected-location-keywords').on 'click', '.remove', ->
+    $('.selected-science-keywords, .selected-service-keywords, .selected-tool-keywords, .selected-location-keywords').on 'click', '.remove', ->
       # The item being removed
       keywordsListItem = $(this).parent()
 
@@ -145,9 +154,9 @@ $(document).ready ->
 
       # science keywords must be at least 3 levels deep, location keywords 2
       if selectionLevel > picker.options.keywordLengthMinimum
-        $('.add-science-keyword, .add-service-keyword, .add-location-keyword').removeAttr 'disabled'
+        $('.add-science-keyword, .add-service-keyword, .add-tool-keyword, .add-location-keyword').removeAttr 'disabled'
       else
-        $('.add-science-keyword, .add-service-keyword, .add-location-keyword').attr 'disabled', true
+        $('.add-science-keyword, .add-service-keyword, .add-tool-keyword, .add-location-keyword').attr 'disabled', true
 
     $('div.eui-nested-item-picker').on 'click', '.item-parent', ->
       checkSelectionLevel()
@@ -163,9 +172,9 @@ $(document).ready ->
       # science keywords must be at least 3 levels deep, location keywords 2
       selectionLowerBound = if picker.options.data_type == 'science' then 4 else 3
       if $this.hasClass('final-option-selected')
-        $('.add-science-keyword, .add-service-keyword, .add-location-keyword').removeAttr 'disabled'
+        $('.add-science-keyword, .add-service-keyword, .add-tool_keyword, .add-location-keyword').removeAttr 'disabled'
       else if $('.eui-item-path li').length < selectionLowerBound
-        $('.add-science-keyword, .add-service-keyword, .add-location-keyword').attr 'disabled', true
+        $('.add-science-keyword, .add-service-keyword, .add-tool-keyword, .add-location-keyword').attr 'disabled', true
 
     # Science keyword searching
     getKeywords = (json, keyword = []) ->
@@ -197,7 +206,7 @@ $(document).ready ->
       queryTokenizer: Bloodhound.tokenizers.nonword,
       local: getKeywords(picker.currentData)
 
-    $('#science-keyword-search, #service-keyword-search, #location-keyword-search').on 'click', ->
+    $('#science-keyword-search, #service-keyword-search, #tool-keyword-search, #location-keyword-search').on 'click', ->
       typeaheadSource.clear()
       typeaheadSource.local = getKeywords(picker.currentData)
       typeaheadSource.initialize(true)
@@ -215,8 +224,8 @@ $(document).ready ->
     $(document).on 'click', 'li.item a, ul.eui-item-path li', ->
       typeaheadSource.clear()
       # destroy typeahead
-      $('#science-keyword-search, #service-keyword-search, #location-keyword-search').val('')
-      $('#science-keyword-search, #service-keyword-search, #location-keyword-search').typeahead('destroy')
+      $('#science-keyword-search, #service-keyword-search, #tool-keyword-search, #location-keyword-search').val('')
+      $('#science-keyword-search, #service-keyword-search, #tool-keyword-search, #location-keyword-search').typeahead('destroy')
 
     $(document).on 'typeahead:beforeselect', (e, suggestion) ->
       # Add keyword, selected items + suggestion
@@ -230,6 +239,8 @@ $(document).ready ->
         addKeyword('science', keyword)
       else if picker.options.data_type == 'service'
         addKeyword('service', keyword)
+      else if picker.options.data_type == 'tool'
+        addKeyword('tool', keyword)
       else if picker.options.data_type == 'location'
         addKeyword('location', keyword)
 

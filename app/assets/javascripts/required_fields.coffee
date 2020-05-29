@@ -25,6 +25,8 @@ $(document).ready ->
       topRequiredDataLevel = 'service_draft_draft_'
     else if $('.umm-form.variable-form').length > 0
       topRequiredDataLevel = 'variable_draft_draft_'
+    else if $('.umm-form.tool-form').length > 0
+      topRequiredDataLevel = 'tool_draft_draft_'
     else if $('.metadata-form').length > 0
       topRequiredDataLevel = 'draft_'
 
@@ -134,17 +136,20 @@ $(document).ready ->
 
   # add class `eui-required-o` to labels of required fields (have the class `required`)
   addRequiredFields = (fields) ->
+    # console.log "adding required icons to these fields", fields
     requiredLabels = []
-    # debugger
     $(fields).each (index, field) ->
       $label = getLabels(field)
       if $label.hasClass('required')
         requiredLabels.push($label[0])
 
+    # console.log "requiredLabels", requiredLabels
+    # console.log "$(requiredLabels)", $(requiredLabels)
     $(requiredLabels).addClass('eui-required-o')
 
   # add eui-required-o to labels matching the level
   addRequiredLabels = (level) ->
+    # console.log "adding required icon to labels at this level that hasClass required", level
     label = $("label[for=#{level}]")
     if label.hasClass('required')
       label.addClass('eui-required-o')

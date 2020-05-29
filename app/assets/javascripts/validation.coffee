@@ -23,12 +23,16 @@ $(document).ready ->
       json = $('.umm-form').find('input, textarea, select').filter ->
         return this.value
       json = JSON.parse(json.serializeJSON())
+
       if isUmmSForm()
         json = json.ServiceDraft?.Draft or {}
         fixServicesKeys(json)
       else if isUmmVarForm()
         json = json.VariableDraft?.Draft or {}
         fixAvgCompressionRates(json)
+      else if isUmmTForm()
+        json = json.ToolDraft?.Draft or {}
+        fixToolKeys(json)
 
     json = {} unless json?
 
@@ -73,6 +77,12 @@ $(document).ready ->
                       ax.Extent.UOMLabel = ax.Extent.UomLabel
                       delete ax.Extent.UomLabel
 
+  # fix keys from the serialized page json that don't match the schema
+  fixToolKeys = (json) ->
+    if json?.URL?.UrlValue?
+      json.URL.URLValue = json.URL.UrlValue
+      delete json.URL.UrlValue
+
   # This fixes AvgCompressionRateASCII and AvgCompressionRateNetCDF4 in the page json
   fixAvgCompressionRates = (json) ->
     if json?.SizeEstimation?.AvgCompressionRateAscii?
@@ -89,6 +99,8 @@ $(document).ready ->
       json?.ProcessingLevel = {} unless json?.ProcessingLevel?
     else if isUmmSForm()
       json?.RelatedURLs = [] unless json?.RelatedURLs?
+    else if isUmmTForm()
+      json?.URL = {} unless json?.URL
 
   fixNumbers = (json) ->
     if isMetadataForm()

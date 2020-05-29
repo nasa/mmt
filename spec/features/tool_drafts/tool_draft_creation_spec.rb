@@ -16,7 +16,10 @@ describe 'Tool Draft creation' do
     end
 
     it 'renders the "Tool Information" form' do
-      within '.umm-form fieldset h3' do
+      within 'header .collection-basics > h2' do
+        expect(page).to have_content('Tool Information')
+      end
+      within '.umm-form #tool-information h3' do
         expect(page).to have_content('Tool Information')
       end
     end
@@ -32,10 +35,9 @@ describe 'Tool Draft creation' do
         click_on 'Yes'
       end
 
-      # TODO: this can only work when edit actually works
-      it 'displays a confirmation message' # do
-      #   expect(page).to have_content('Tool Draft Created Successfully!')
-      # end
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Tool Draft Created Successfully!')
+      end
 
       # TODO: this requires the show path, MMT-2226
       # context "when accessing a tool draft's json" do

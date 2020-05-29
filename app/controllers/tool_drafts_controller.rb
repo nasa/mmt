@@ -1,9 +1,17 @@
 # :nodoc:
 class ToolDraftsController < BaseDraftsController
-  # include ControlledKeywords
+  include ControlledKeywords
   before_action :umm_t_enabled?
 
-  before_action :set_schema, only: [:new, :create]
+  before_action :set_schema, only: [:new, :create, :edit, :update]
+  before_action :set_form, only: [:edit, :update]
+  before_action :set_current_form, only: [:edit]
+
+  def edit
+    super
+
+    set_tool_keywords if @current_form == 'descriptive_keywords'
+  end
 
   private
 
@@ -24,8 +32,7 @@ class ToolDraftsController < BaseDraftsController
   end
 
   def set_current_form
-    # @current_form = params[:form] ||
-    @current_form = @json_form.forms.first.parsed_json['id']
+    @current_form = params[:form] || @json_form.forms.first.parsed_json['id']
   end
 
   def tool_draft_params
@@ -35,10 +42,11 @@ class ToolDraftsController < BaseDraftsController
     # If the form isn't empty, only permit whitelisted attributes
     permitted = params.require(:tool_draft).permit(:draft_type).tap do |whitelisted|
       # Allows for any nested key within the draft hash
-      whitelisted[:draft] = params[:tool_draft][:draft]
+      whitelisted[:draft] = params[:tool_draft][:draft].permit!
     end
 
     # TODO: when working update ticket, investigate if we can use `.to_h` here
-    permitted.to_unsafe_h # need to understand what this is doing more, think related to nested parameters not permitted.
+    permitted.to_h
+    # permitted.to_unsafe_h # need to understand what this is doing more, think related to nested parameters not permitted.
   end
 end

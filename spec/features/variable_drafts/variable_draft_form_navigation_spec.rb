@@ -1,7 +1,7 @@
 describe 'Variable Draft form navigation' do
   let(:form_titles) { ['Variable Information', 'Fill Values', 'Dimensions', 'Variable Characteristics', 'Science Keywords', 'Sets'] }
 
-  context 'when visiting the edit page for a variable draft' do
+  context 'when visiting the edit page for a new variable draft' do
     before do
       login
 

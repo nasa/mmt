@@ -48,50 +48,58 @@
         "$ref": "#/definitions/URLType"
       },
       "DOI": {
-          "description": "The Digital Object Identifier (DOI) of the web user interface or downloadable tool.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 1024
+        "description": "The Digital Object Identifier (DOI) of the web user interface or downloadable tool.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1024
+      },
+      "RelatedURLs": {
+        "description": "A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.",
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/RelatedURLType"
+        },
+        "minItems": 0
       },
       "SupportedOutputFormats": {
-          "description": "The project element describes the list of output format names supported by the web user interface or downloadable tool.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SupportedFormatTypeEnum"
-          },
-          "minItems": 0
+        "description": "The project element describes the list of output format names supported by the web user interface or downloadable tool.",
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/SupportedFormatTypeEnum"
+        },
+        "minItems": 0
       },
       "SupportedInputFormats": {
-          "description": "The project element describes the list of input format names supported by the web user interface or downloadable tool.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SupportedFormatTypeEnum"
-          },
-          "minItems": 0
+        "description": "The project element describes the list of input format names supported by the web user interface or downloadable tool.",
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/SupportedFormatTypeEnum"
+        },
+        "minItems": 0
       },
       "SupportedOperatingSystems": {
-          "description": "The operating system(s) and associated version supported by the downloadable tool.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SupportedOperatingSystemType"
-          },
-          "minItems": 0
+        "description": "The operating system(s) and associated version supported by the downloadable tool.",
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/SupportedOperatingSystemType"
+        },
+        "minItems": 0
       },
       "SupportedBrowsers": {
-          "description": "The browser(s) and associated version supported by the web user interface.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SupportedBrowserType"
-          },
-          "minItems": 0
+        "description": "The browser(s) and associated version supported by the web user interface.",
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/SupportedBrowserType"
+        },
+        "minItems": 0
       },
       "SupportedSoftwareLanguages": {
-          "description": "The programming language(s) and associated version supported by the downloadable tool.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SupportedSoftwareLanguageType"
-          },
-          "minItems": 0
+        "description": "The programming language(s) and associated version supported by the downloadable tool.",
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/SupportedSoftwareLanguageType"
+        },
+        "minItems": 0
       },
       "ToolKeywords": {
         "description": "Allows for the specification of Earth Science keywords that are representative of the service, software, or tool being described. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).",
@@ -99,7 +107,7 @@
         "items": {
             "$ref": "#/definitions/ToolKeywordType"
         },
-      "minItems": 0
+        "minItems": 1
       },
       "Organizations": {
         "description": "The tool provider, or organization, or institution responsible for developing, archiving, and/or distributing the web user interface, software, or tool.",
@@ -107,7 +115,7 @@
         "items": {
             "$ref": "#/definitions/OrganizationType"
         },
-      "minItems": 1
+        "minItems": 1
       },
       "Quality": {
         "description": "Information about the quality of the downloadable tool or web user interface. This would include information about any quality assurance procedures followed in development. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved.",
@@ -148,7 +156,7 @@
         "$ref": "#/definitions/SearchActionType"
       },
       "MetadataSpecification": {
-        "description": "Requires the user to add in schema information into every tool record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema.",
+        "description": "Requires the client, or user, to add in schema information into every tool record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema.",
         "$ref": "#/definitions/MetadataSpecificationType"
       }
     },
@@ -164,24 +172,7 @@
       "MetadataSpecification"
     ],
   "definitions": {
-    "SupportedFormatTypeEnum": {
-     "description": "This element contains a list of file formats supported by the tool.",
-     "type": "string",
-     "enum": ["HDF4", "HDF5", "HDF-EOS", "HDF-EOS2", "HDF-EOS5", "NETCDF-3", "NETCDF-4", "GEOTIFF", "GEOTIFFINT16", "GEOTIFFFLOAT32", "XML", "ASCII", "BINARY", "ICARTT", "PNG", "JPEG", "GIF", "TIFF", "XLSX", "JSON", "CSV", "KML", "PNG24", "BMP"]
-    },
-    "URLMimeTypeEnum": {
-      "type": "string",
-      "enum": ["application/json", "application/xml", "application/x-netcdf", "application/gml+xml",
-               "application/vnd.google-earth.kml+xml", "image/gif", "image/tiff", "image/bmp", "text/csv",
-               "text/xml", "application/pdf", "application/x-hdf", "application/xhdf5",
-               "application/octet-stream", "application/vnd.google-earth.kmz", "image/jpeg", "image/png",
-               "image/vnd.collada+xml", "text/html", "text/plain", "Not provided"]
-    },
-    "GetDataTypeFormatEnum": {
-      "type": "string",
-      "enum": ["ascii", "binary", "GRIB", "BUFR", "HDF4", "HDF5", "HDF-EOS4", "HDF-EOS5", "jpeg", "png", "tiff", "geotiff", "kml", "Not provided"]
-    },
-     "URLType": {
+    "URLType": {
       "type": "object",
       "additionalProperties": false,
       "description": "Represents the Internet site where you can directly access the tool or web user interface.",
@@ -193,16 +184,16 @@
           "maxLength": 4000
         },
         "URLContentType": {
-            "description": "A keyword describing the distinct content type of the online resource to this resource. (e.g., 'DATACENTER URL', 'DATA CONTACT URL', 'DISTRIBUTION URL').",
-            "$ref": "#/definitions/URLContentTypeEnum"
+          "description": "A keyword describing the distinct content type of the online resource to this resource. (e.g., 'DistributionURL').",
+          "$ref": "#/definitions/URLContentTypeEnum"
         },
         "Type": {
-            "description": "A keyword describing the type of the online resource to this resource. This helps the GUI to know what to do with this resource. (e.g., 'GET DATA', 'GET SERVICE', 'GET VISUALIZATION').",
-            "$ref": "#/definitions/URLTypeEnum"
+          "description": "A keyword describing the type of the online resource to this resource. This helps the GUI to know what to do with this resource. (e.g., 'DOWNLOAD SOFTWARE').",
+          "$ref": "#/definitions/URLTypeEnum"
         },
         "Subtype": {
-            "description": "A keyword describing the subtype of the online resource to this resource. This further helps the GUI to know what to do with this resource. (e.g., 'MEDIA', 'BROWSE', 'OPENDAP', 'OPENSEARCH', 'WEB COVERAGE SERVICES', 'WEB FEATURE SERVICES', 'WEB MAPPING SERVICES', 'SSW', 'ESI').",
-            "$ref": "#/definitions/RelatedURLSubTypeEnum"
+          "description": "A keyword describing the subtype of the online resource to this resource. This further helps the GUI to know what to do with this resource. (e.g., 'MAP VIEWER', 'SIMPLE SUBSET WIZARD (SSW)').",
+          "$ref": "#/definitions/URLSubTypeEnum"
         },
         "URLValue": {
           "description": "The URL for the relevant online resource where you can directly access the downloadable tool or web user interface.",
@@ -210,7 +201,8 @@
           "minLength": 1,
           "maxLength": 1024
         }
-      }
+      },
+      "required": ["URLContentType", "Type", "URLValue"]
     },
     "URLContentTypeEnum": {
       "type": "string",
@@ -220,32 +212,30 @@
       "type": "string",
       "enum": ["GOTO WEB TOOL", "DOWNLOAD SOFTWARE"]
     },
+    "URLSubTypeEnum": {
+      "type": "string",
+      "enum": ["MOBILE APP", "LIVE ACCESS SERVER (LAS)", "MAP VIEWER", "SIMPLE SUBSET WIZARD (SSW)", "SUBSETTER"]
+    },
     "RelatedURLContentTypeEnum": {
       "type": "string",
       "enum": ["CollectionURL", "PublicationURL", "VisualizationURL"]
     },
-    "RelatedUrlTypeEnum": {
+    "RelatedURLTypeEnum": {
       "type": "string",
-      "enum": ["GET DATA", "GET SERVICE", "GET RELATED VISUALIZATION", "DATA SET LANDING PAGE", "DOI",
-               "EXTENDED METADATA", "PROFESSIONAL HOME PAGE", "PROJECT HOME PAGE", "VIEW RELATED INFORMATION",
-               "HOME PAGE"]
+      "enum": ["DATA SET LANDING PAGE", "EXTENDED METADATA", "PROFESSIONAL HOME PAGE", "PROJECT HOME PAGE", "VIEW RELATED INFORMATION", "BROWSE", "GET RELATED VISUALIZATION"]
     },
     "RelatedURLSubTypeEnum": {
       "type": "string",
-      "enum": ["DATACAST URL", "EARTHDATA SEARCH", "ECHO", "EDG", "EOSDIS DATA POOL", "GDS", "GIOVANNI", "KML",
-               "LAADS", "LANCE", "LAS", "MIRADOR", "MODAPS", "NOAA CLASS", "ON-LINE ARCHIVE", "REVERB",
-               "ACCESS MAP VIEWER", "ACCESS MOBILE APP", "ACCESS WEB SERVICE", "DIF", "MAP SERVICE", "NOMADS",
-               "OPENDAP DATA", "OPENDAP DATA (DODS)", "OPENDAP DIRECTORY (DODS)", "OpenSearch", "SERF", "SOFTWARE PACKAGE",
-               "SSW", "SUBSETTER", "THREDDS CATALOG", "THREDDS DATA", "THREDDS DIRECTORY", "TOOL", "WEB COVERAGE SERVICE (WCS)",
-               "WEB FEATURE SERVICE (WFS)", "WEB MAP FOR TIME SERIES", "WEB MAP SERVICE (WMS)", "WORKFLOW (SERVICE CHAIN)",
-               "GIBS", "MAP", "ALGORITHM THEORETICAL BASIS DOCUMENT", "CALIBRATION DATA DOCUMENTATION", "DATA QUALITY",
-               "CASE STUDY", "DATA USAGE", "DELIVERABLES CHECKLIST", "GENERAL DOCUMENTATION", "HOW-TO", "PI DOCUMENTATION",
-               "PROCESSING HISTORY", "PRODUCTION VERSION HISTORY", "PRODUCT QUALITY ASSESSMENT", "PRODUCT USAGE",
-               "PRODUCT HISTORY", "PUBLICATIONS", "RADIOMETRIC AND GEOMETRIC CALIBRATION METHODS", "READ-ME",
-               "RECIPE", "REQUIREMENTS AND DESIGN", "SCIENCE DATA PRODUCT SOFTWARE DOCUMENTATION",
-               "SCIENCE DATA PRODUCT VALIDATION", "USER FEEDBACK", "USER'S GUIDE"]
+      "enum": ["ALGORITHM DOCUMENTATION", "ALGORITHM THEORETICAL BASIS DOCUMENT (ATBD)", "ANOMALIES",
+               "CASE STUDY", "DATA CITATION POLICY", "DATA QUALITY", "DATA RECIPE", "DELIVERABLES CHECKLIST",
+               "GENERAL DOCUMENTATION", "HOW-TO", "IMPORTANT NOTICE", "INSTRUMENT/SENSOR CALIBRATION DOCUMENTATION",
+               "MICRO ARTICLE", "PI DOCUMENTATION", "PROCESSING HISTORY", "PRODUCT HISTORY",
+               "PRODUCT QUALITY ASSESSMENT", "PRODUCT USAGE", "PRODUCTION HISTORY", "PUBLICATIONS",
+               "READ-ME", "REQUIREMENTS AND DESIGN", "SCIENCE DATA PRODUCT SOFTWARE DOCUMENTATION",
+               "SCIENCE DATA PRODUCT VALIDATION", "USER FEEDBACK PAGE", "USER'S GUIDE", "GIOVANNI",
+               "MAP", "WORLDVIEW"]
     },
-    "RelatedUrlType": {
+    "RelatedURLType": {
       "type": "object",
       "additionalProperties": false,
       "description": "Represents Internet sites that contain information related to the data, as well as related Internet sites such as project home pages, related data archives/servers, metadata extensions, online software packages, web mapping services, and calibration/validation data.",
@@ -257,110 +247,25 @@
           "maxLength": 4000
         },
         "URLContentType": {
-            "description": "A keyword describing the distinct content type of the online resource to this resource. (e.g., 'DATACENTER URL', 'DATA CONTACT URL', 'DISTRIBUTION URL').",
-            "$ref": "#/definitions/RelatedURLContentTypeEnum"
+          "description": "A keyword describing the distinct content type of the online resource to this resource. (e.g., 'VisualizationURL').",
+          "$ref": "#/definitions/RelatedURLContentTypeEnum"
         },
         "Type": {
-            "description": "A keyword describing the type of the online resource to this resource. This helps the GUI to know what to do with this resource. (e.g., 'GET DATA', 'GET SERVICE', 'GET VISUALIZATION').",
-            "$ref": "#/definitions/RelatedUrlTypeEnum"
+          "description": "A keyword describing the type of the online resource to this resource. This helps the GUI to know what to do with this resource. (e.g., 'GET RELATED VISUALIZATION').",
+          "$ref": "#/definitions/RelatedURLTypeEnum"
         },
         "Subtype": {
-            "description": "A keyword describing the subtype of the online resource to this resource. This further helps the GUI to know what to do with this resource. (e.g., 'MEDIA', 'BROWSE', 'OPENDAP', 'OPENSEARCH', 'WEB COVERAGE SERVICES', 'WEB FEATURE SERVICES', 'WEB MAPPING SERVICES', 'SSW', 'ESI').",
-            "$ref": "#/definitions/RelatedURLSubTypeEnum"
+          "description": "A keyword describing the subtype of the online resource to this resource. This further helps the GUI to know what to do with this resource. (e.g., 'DATA RECIPE', 'SCIENCE DATA PRODUCT VALIDATION', 'GIOVANNI').",
+          "$ref": "#/definitions/RelatedURLSubTypeEnum"
         },
-        "URLValue": {
+        "URL": {
           "description": "The URL for the relevant web page (e.g., the URL of the responsible organization's home page, the URL of the collection landing page, the URL of the download site for the collection).",
           "type": "string",
           "minLength": 1,
           "maxLength": 1024
-        },
-        "GetData": {
-               "description": "The data distribution information for the relevant web page (e.g., browse, media).",
-               "$ref": "#/definitions/GetDataType"
-        },
-        "GetService": {
-            "description": "The service distribution for the relevant web page (e.g., OPeNDAP, OpenSearch, WCS, WFS, WMS).",
-            "$ref": "#/definitions/GetServiceType"
         }
       },
       "required": ["URL", "URLContentType", "Type"]
-    },
-    "GetDataType": {
-        "description": "Represents the information needed for a DistributionURL where data is retrieved.",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-            "Format": {
-                "description": "The format of the data.",
-                "$ref": "#/definitions/GetDataTypeFormatEnum"
-            },
-            "Size": {
-                "description": "The size of the data.",
-               "type": "number"
-            },
-            "Unit": {
-                "description": "Unit of information, together with Size determines total size in bytes of the data.",
-                "type": "string",
-                "enum": ["KB", "MB", "GB", "TB", "PB"]
-            },
-            "Fees": {
-                "description": "The fee for ordering the collection data.  The fee is entered as a number, in US Dollars.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 80
-            },
-            "Checksum": {
-                "description": "The checksum, usually a SHA1 or md5 checksum for the data file.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 50
-            }
-        },
-        "required": ["Format", "Size", "Unit"]
-    },
-    "GetServiceType": {
-        "description": "Represents a Service through a URL where the service will act on data and return the result to the caller.",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-            "MimeType": {
-                "description": "The mime type of the service.",
-                "$ref": "#/definitions/URLMimeTypeEnum"
-            },
-            "Protocol": {
-                "description": "The protocol of the service.",
-                "type": "string",
-                "enum": ["HTTP", "HTTPS", "FTP", "FTPS", "Not provided"]
-            },
-            "FullName": {
-                "description": "The full name of the service.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 80
-            },
-            "DataID": {
-                "description": "The data identifier of the data provided by the service. Typically, this is a file name.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 80
-            },
-            "DataType": {
-                "description": "The data type of the data provided by the service.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 80
-            },
-            "URI": {
-                "description": "The URI of the data provided by the service.",
-                "type": "array",
-                "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 1024
-                },
-                "minItems": 1
-            }
-        }
     },
     "SupportedOperatingSystemType": {
       "type": "object",
@@ -371,13 +276,13 @@
           "description": "The short name of the operating system associated with the downloadable tool.",
           "type": "string",
           "minLength": 1,
-          "maxLength": 80
+          "maxLength": 1024
         },
         "OperatingSystemVersion": {
           "description": "The version of the operating system associated with the downloadable tool.",
           "type": "string",
           "minLength": 0,
-          "maxLength": 1024
+          "maxLength": 80
         }
       }
     },
@@ -408,7 +313,7 @@
         "SoftwareLanguageName": {
           "description": "The short name of the programming language associated with the downloadable tool.",
           "type": "string",
-          "minLength": 1,
+          "minLength": 0,
           "maxLength": 1024
         },
         "SoftwareLanguageVersion": {
@@ -546,14 +451,6 @@
       "additionalProperties": false,
       "description": "Defines the contact information of a downloadable tool or web user interface.",
       "properties": {
-        "RelatedUrls": {
-          "description": "A URL associated with the contact, e.g., the home page for the service provider which is responsible for the service.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RelatedUrlType"
-          },
-          "minItems": 0
-        },
         "ServiceHours": {
           "description": "Time period when the contact answers questions or provides services.",
           "type": "string",
@@ -663,7 +560,7 @@
       "additionalProperties": false,
       "description": "Information on how the downloadable tool or web user interface may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness.",
       "properties": {
-        "LicenseUrl": {
+        "LicenseURL": {
           "description": "The web address of the license associated with the tool.",
           "type": "string",
           "minLength": 0,
@@ -771,5 +668,4 @@
       "required": ["URL", "Name", "Version"]
     }
   }
-   
-  }
+}
