@@ -49,6 +49,17 @@ setDataCenterLongNameAndUrl = (dataCenterShortNameSelect, action) ->
       enableAndSelectOption($urlTypeElement, 'first')
 
     $shortNameSelect.blur() if action == 'select'
+  else if $shortNameSelect.hasClass('tool-organization-short-name')
+    # Tool Organization, which does not have RelatedURLs but has a URLValue
+    $multipleItem = $shortNameSelect.closest('.multiple-item')
+    $urlElement = $multipleItem.find('.tool-organization-url-value')
+
+    if url?
+      $urlElement.val(url)
+      $urlElement.attr('readonly', true)
+    else
+      $urlElement.val('')
+      $urlElement.attr('readonly', false)
   else
     # Collection Drafts form for Data Centers
     $multipleItem = $shortNameSelect.closest('.multiple-item')

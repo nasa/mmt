@@ -114,6 +114,9 @@ Rails.application.configure do
   # Feature toggle for Content Security Policy (CSP) logging.
   config.csplog_enabled = false
 
+  # Feature toggle for UMM-T
+  config.umm_t_enabled = false
+
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
@@ -124,6 +127,6 @@ Rails.application.configure do
 
   # Google Tag Manager ID for EOSDIS usage stats
   config.tag_manager_id = 'GTM-WNP7MLF'
-  
+
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
 end

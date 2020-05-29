@@ -1,11 +1,9 @@
-require 'rails_helper'
-
 describe 'Service Draft creation' do
   before do
     login
   end
 
-  context 'when creating a new service draft from scratch' do
+  context 'when creating a brand new service draft' do
     before do
       visit new_service_draft_path
     end
@@ -38,7 +36,7 @@ describe 'Service Draft creation' do
         expect(page).to have_content('Service Draft Created Successfully!')
       end
 
-      context 'when accessing a service draft\'s json' do
+      context "when accessing a service draft's json" do
         before do
           visit service_draft_path(ServiceDraft.first, format: 'json')
         end

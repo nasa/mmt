@@ -3,18 +3,25 @@
     <% if !Rails.configuration.proposal_mode %>
       <h2 class="<%= 'current' if current_manage_title == 'manage_collections' %>">
         <%= link_to 'Manage Collections', manage_collections_path %>
-        <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_c_version)}" %></span>
+        <span class="eui-badge--sm umm-version-label"><%= display_version(Rails.configuration.umm_c_version) %></span>
       </h2>
 
       <h2 class="<%= 'current' if current_manage_title == 'manage_variables' %>">
         <%= link_to 'Manage Variables', manage_variables_path %>
-        <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_var_version)}" %></span>
+        <span class="eui-badge--sm umm-version-label"><%= display_version(Rails.configuration.umm_var_version) %></span>
       </h2>
 
       <% if Rails.configuration.umm_s_enabled %>
         <h2 class="<%= 'current' if current_manage_title == 'manage_services' %>">
           <%= link_to 'Manage Services', manage_services_path %>
-          <span class="eui-badge--sm umm-version-label"><%= "#{display_version(Rails.configuration.umm_s_version)}" %></span>
+          <span class="eui-badge--sm umm-version-label"><%= display_version(Rails.configuration.umm_s_version) %></span>
+        </h2>
+      <% end %>
+
+      <% if Rails.configuration.umm_t_enabled %>
+        <h2 class="<%= 'current' if current_manage_title == 'manage_tools' %>">
+          <%= link_to 'Manage Tools', manage_tools_path %>
+          <span class="eui-badge--sm umm-version-label"><%= display_version(Rails.configuration.umm_t_version) %></span>
         </h2>
       <% end %>
 

@@ -5,6 +5,7 @@ FactoryBot.define do
     end
 
     draft_type { 'CollectionDraftProposal' }
+    draft { {} }
     request_type { draft_request_type }
   end
 end

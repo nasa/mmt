@@ -3,7 +3,7 @@ module ManageMetadataHelper
   # lists of controllers to make checking which resource_type and current title easier
   # we only need to add controllers that don't inherit from manage_variables or
   # manage_services
-  VARIABLE_CONTROLLERS = %w[
+  VARIABLES_CONTROLLERS = %w[
     manage_variables
     variables
     variable_drafts
@@ -16,12 +16,22 @@ module ManageMetadataHelper
     service_drafts
   ]
 
+  TOOLS_CONTROLLERS = %w[
+    manage_tools
+    tools
+    tool_drafts
+  ]
+
   def is_variable_controller?
-    (VARIABLE_CONTROLLERS & controller.lookup_context.prefixes).any? || (controller.lookup_context.prefixes.include?('collection_associations') && params[:variable_id])
+    (VARIABLES_CONTROLLERS & controller.lookup_context.prefixes).any? || (controller.lookup_context.prefixes.include?('collection_associations') && params[:variable_id])
   end
 
   def is_services_controller?
     (SERVICES_CONTROLLERS & controller.lookup_context.prefixes).any? || (controller.lookup_context.prefixes.include?('collection_associations') && params[:service_id])
+  end
+
+  def is_tools_controller?
+    (TOOLS_CONTROLLERS & controller.lookup_context.prefixes).any?
   end
 
   def is_collection_draft_proposal_controller?
@@ -44,6 +54,8 @@ module ManageMetadataHelper
       'manage_variables'
     elsif is_services_controller?
       'manage_services'
+    elsif is_tools_controller?
+      'manage_tools'
     else
       # default, including collection drafts and everything under manage collections
       'manage_collections'

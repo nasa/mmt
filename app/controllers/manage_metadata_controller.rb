@@ -12,6 +12,8 @@ class ManageMetadataController < ApplicationController
                    metadata['Name'] || '<Blank Name>'
                  elsif type.downcase.include? 'service'
                    metadata['Name'] || '<Blank Name>'
+                 elsif type.downcase.include? 'tool'
+                   metadata['Name'] || '<Blank Name>'
                  end
 
     version = metadata.fetch('Version', '')

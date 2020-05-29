@@ -11,6 +11,9 @@ $(document).ready ->
   isUmmVarForm = ->
     $('.umm-form.variable-form').length > 0
 
+  isUmmTForm = ->
+    $('.umm-form.tool-form').length > 0
+
   getPageJson = ->
     if isMetadataForm()
       json = JSON.parse($('.metadata-form').find('input, textarea, select').filter ->
@@ -20,12 +23,16 @@ $(document).ready ->
       json = $('.umm-form').find('input, textarea, select').filter ->
         return this.value
       json = JSON.parse(json.serializeJSON())
+
       if isUmmSForm()
         json = json.ServiceDraft?.Draft or {}
         fixServicesKeys(json)
       else if isUmmVarForm()
         json = json.VariableDraft?.Draft or {}
         fixAvgCompressionRates(json)
+      else if isUmmTForm()
+        json = json.ToolDraft?.Draft or {}
+        fixToolKeys(json)
 
     json = {} unless json?
 
@@ -70,6 +77,12 @@ $(document).ready ->
                       ax.Extent.UOMLabel = ax.Extent.UomLabel
                       delete ax.Extent.UomLabel
 
+  # fix keys from the serialized page json that don't match the schema
+  fixToolKeys = (json) ->
+    if json?.URL?.UrlValue?
+      json.URL.URLValue = json.URL.UrlValue
+      delete json.URL.UrlValue
+
   # This fixes AvgCompressionRateASCII and AvgCompressionRateNetCDF4 in the page json
   fixAvgCompressionRates = (json) ->
     if json?.SizeEstimation?.AvgCompressionRateAscii?
@@ -86,6 +99,8 @@ $(document).ready ->
       json?.ProcessingLevel = {} unless json?.ProcessingLevel?
     else if isUmmSForm()
       json?.RelatedURLs = [] unless json?.RelatedURLs?
+    else if isUmmTForm()
+      json?.URL = {} unless json?.URL
 
   fixNumbers = (json) ->
     if isMetadataForm()
@@ -332,6 +347,8 @@ $(document).ready ->
       id = "service_draft_draft_#{path}"
     else if isUmmVarForm()
       id = "variable_draft_draft_#{path}"
+    else if isUmmTForm()
+      id = "tool_draft_draft_#{path}"
     # remove last index from id for Roles errors
     if /roles_0$/.test(id)
       id = id.slice(0, id.length - 2)
@@ -684,13 +701,13 @@ $(document).ready ->
             when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/.test id
               [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
               ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue", 'Maximum Value', 'minGreaterThanMax']
-  
+
           # The other errors which are likely to occur here are required errors
           # (which means we shouldn't be here because it is blank), and format
           # errors. We don't need to tell the user about this error if they are
           # not entering data in the right format (e.g. NaN or NaDate)
           unless errors.filter( (error) -> error.dataPath == dataPath).length > 0
-            error = 
+            error =
               keyword: keyword
               dataPath: dataPath
               schemaPath: '' # necessary to not throw errors in getErrorDetails
@@ -698,7 +715,7 @@ $(document).ready ->
               pairedField: pairedField
 
             errors.push(error)
-  
+
   validateTemplateName = (errors) ->
     if $('#draft_template_name').length > 0
       error = null

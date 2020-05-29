@@ -148,13 +148,15 @@ module FormHelper
   # unrelated to the deprecated html datetime input type. That code is managed
   # by datepicker.coffee, components/_date-picker.scss and
   # overrides/_datepicker.scss.
-  def mmt_datetime_field_tag(name, dt, options)
-    datetime_field_tag(name,dt,options).gsub('datetime-local','custom-datetime').html_safe
+  def mmt_datetime_field_tag(name, value, options)
+    options[:placeholder] = 'YYYY-MM-DDTHH:MM:SSZ'
+    datetime_field_tag(name, value, options).gsub('datetime-local', 'custom-datetime').html_safe
   end
+
   def mmt_extended_datetime_field_tag(name, dt, cls, placeholder, data)
-    datetime_field_tag(name,dt,cls, placeholder, data).gsub('datetime-local','custom-datetime').html_safe
+    datetime_field_tag(name, dt, cls, placeholder, data).gsub('datetime-local', 'custom-datetime').html_safe
   end
-  
+
   def mmt_datetime(options)
     options[:name] = add_pipes(options[:name])
 
@@ -166,7 +168,7 @@ module FormHelper
       name_to_param(options[:prefix] + options[:name]),
       options[:value],
       class: classes.join(' '),
-      placeholder: "YYYY-MM-DDTHH:MM:SSZ",
+      placeholder: 'YYYY-MM-DDTHH:MM:SSZ',
       data: { level: remove_pipes(options[:prefix]) }
     )
 

@@ -1,11 +1,11 @@
 # Groups of assertions use in UMM-S form tests
 
-def contact_groups_assertions
+def service_contact_groups_assertions
   within '.multiple.contact-groups > .multiple-item-0' do
     expect(page).to have_select('Roles', selected: ['TECHNICAL CONTACT', 'SCIENCE CONTACT'])
     expect(page).to have_field('Group Name', with: 'Group 1')
 
-    contact_information_assertions
+    service_contact_information_assertions
   end
   within '.multiple.contact-groups > .multiple-item-1' do
     expect(page).to have_select('Roles', selected: ['SERVICE PROVIDER CONTACT'])
@@ -13,14 +13,14 @@ def contact_groups_assertions
   end
 end
 
-def contact_persons_assertions
+def service_contact_persons_assertions
   within '.multiple.contact-persons > .multiple-item-0' do
     expect(page).to have_select('Roles', selected: ['SERVICE PROVIDER'])
     expect(page).to have_field('First Name', with: 'First')
     expect(page).to have_field('Middle Name', with: 'Middle')
     expect(page).to have_field('Last Name', with: 'Last')
 
-    contact_information_assertions
+    service_contact_information_assertions
   end
   within '.multiple.contact-persons > .multiple-item-1' do
     expect(page).to have_select('Roles', selected: ['DEVELOPER'])
@@ -28,7 +28,7 @@ def contact_persons_assertions
   end
 end
 
-def contact_information_assertions
+def service_contact_information_assertions
   within all('.contact-information').first do
     expect(page).to have_field('Service Hours', with: '9-6, M-F')
     expect(page).to have_field('Contact Instruction', with: 'Email only')

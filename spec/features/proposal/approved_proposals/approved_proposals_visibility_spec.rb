@@ -25,9 +25,12 @@ describe 'Viewing the Approved Proposals page', js: true do
     end
 
     it 'cannot reach the approved_proposals page' do
+      expect(page).to have_no_link('Manage Collection Proposals')
+
       expect(page).to have_link('Manage Collections')
       expect(page).to have_link('Manage Variables')
       expect(page).to have_link('Manage Services')
+      expect(page).to have_link('Manage Tools')
       expect(page).to have_link('Manage CMR')
       expect(page).to have_link('Manage Proposals')
 
@@ -44,11 +47,13 @@ describe 'Viewing the Approved Proposals page', js: true do
     end
 
     it 'cannot reach the approved_proposals page' do
+      expect(page).to have_no_link('Manage Proposals')
+
       expect(page).to have_link('Manage Collections')
       expect(page).to have_link('Manage Variables')
       expect(page).to have_link('Manage Services')
+      expect(page).to have_link('Manage Tools')
       expect(page).to have_link('Manage CMR')
-      expect(page).to have_no_link('Manage Proposals')
 
       within 'main header' do
         expect(page).to have_css('h2.current', text: 'MANAGE COLLECTIONS')

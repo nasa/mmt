@@ -62,6 +62,15 @@ en:
           flash:
             success: 'Service Draft Deleted Successfully!'
             error: 'Service Draft was not deleted successfully'
+      tool_drafts:
+        create:
+          flash:
+            success: 'Tool Draft Created Successfully!'
+            error: 'Tool Draft was not created successfully'
+        update:
+          flash:
+            success: 'Tool Draft Updated Successfully!'
+            error: 'Tool Draft was not updated successfully'
       collection_drafts:
         create:
           flash:
@@ -311,6 +320,14 @@ en:
       create?: 'You must have a provider context selected to create new Service Drafts.'
       update?: 'It appears that you do not have the correct provider context selected or are not permitted to update the Service Draft for this provider.'
       destroy?: 'It appears that you do not have the correct provider context selected or are not permitted to delete the Service Draft for this provider.'
+    tool_draft_policy:
+      # show and edit messages are used when the user does not have the provider in their available_providers
+      show?: 'It appears you do not have access to view the Tool Draft for this provider. <br />If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.'
+      edit?: 'It appears you do not have access to edit the Tool Draft for this provider. <br />If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.'
+      new?: 'You must have a provider context selected to create new Tool Drafts.'
+      create?: 'You must have a provider context selected to create new Tool Drafts.'
+      update?: 'It appears that you do not have the correct provider context selected or are not permitted to update the Tool Draft for this provider.'
+      destroy?: 'It appears that you do not have the correct provider context selected or are not permitted to delete the Tool Draft for this provider.'
     collection_draft_policy:
       # show and edit messages are used when the user does not have the provider in their available_providers
       show?: 'It appears you do not have access to view the Collection Draft for this provider. <br />If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.'
