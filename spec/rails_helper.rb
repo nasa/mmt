@@ -193,6 +193,7 @@ RSpec.configure do |config|
   config.include Helpers::SearchHelpers
   config.include Helpers::SubscriptionHelpers
   config.include Helpers::UmmSDraftHelpers
+  config.include Helpers::UmmTDraftHelpers
   config.include Helpers::UserHelpers
 
   # Precompile assets before running the test suite

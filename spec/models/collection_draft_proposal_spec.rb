@@ -247,7 +247,7 @@ describe CollectionDraftProposal do
     end
 
     it 'creating a draft proposal without a proposal_status should fail to save' do
-      collection_draft_proposal = CollectionDraftProposal.create(request_type: 'create', proposal_status: nil)
+      collection_draft_proposal = CollectionDraftProposal.create(draft: {}, request_type: 'create', proposal_status: nil)
       # AASM is actually populating the proposal status during the creation.
       # Set it to nil and try to save, the validation should stop it.
       collection_draft_proposal.proposal_status = nil
@@ -258,7 +258,7 @@ describe CollectionDraftProposal do
     end
 
     it '"change_status_to_done" updates the status history and status of a proposal' do
-      collection_draft_proposal = CollectionDraftProposal.create(request_type: 'create', proposal_status: 'approved')
+      collection_draft_proposal = CollectionDraftProposal.create(draft: {}, request_type: 'create', proposal_status: 'approved')
       collection_draft_proposal.change_status_to_done('Test User')
       proposal = CollectionDraftProposal.find(collection_draft_proposal.id)
 
@@ -277,10 +277,10 @@ describe CollectionDraftProposal do
     # not be possible if the other actions are successfully blocked
 
     it 'creating a draft proposal should fail to save' do
-      collection_draft_proposal = CollectionDraftProposal.create(request_type: 'create')
+      collection_draft_proposal = CollectionDraftProposal.create(draft: {}, request_type: 'create')
       expect(collection_draft_proposal.id).to be(nil)
 
-      expect { CollectionDraftProposal.create!(request_type: 'create') }.to raise_error(ActiveRecord::RecordNotSaved)
+      expect { CollectionDraftProposal.create!(draft: {}, request_type: 'create') }.to raise_error(ActiveRecord::RecordNotSaved)
     end
 
     it 'saving a draft proposal should fail' do

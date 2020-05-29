@@ -1,5 +1,5 @@
 <% always_required = options[:always_required] || false %>
-<% url_content_type_options = options.fetch(:url_content_type_options, DraftsHelper::URLContentTypeOptions) %>
+<% url_content_type_options = options.fetch(:url_content_type_options, RelatedUrlsHelper::RelatedURLContentTypeOptions) %>
 
 
 <div class="row sub-fields">
@@ -32,7 +32,7 @@
         title: 'Type',
         prefix: name_prefix,
         value: related_url['Type'],
-        options: DraftsHelper::UMMCURLTypeOptions,
+        options: RelatedUrlsHelper::UMMCRelatedURLTypeOptions,
         help: 'definitions/RelatedUrlType/properties/Type',
         required_level: options[:required_level],
         required: true,
@@ -44,7 +44,7 @@
         title: 'Subtype',
         prefix: name_prefix,
         value: related_url['Subtype'],
-        options: DraftsHelper::UMMCURLSubtypeOptions,
+        options: RelatedUrlsHelper::UMMCRelatedURLSubtypeOptions,
         help: 'definitions/RelatedUrlType/properties/Subtype',
         required_level: options[:required_level],
         classes: 'related-url-subtype-select'

@@ -122,6 +122,17 @@ $(document).ready ->
           $('.estimate-text').text(data['estimate'])
           $('.granules-count-text').text(data['granules'])
           $('.frequency-text').text(data['frequency'])
+          query_text = $('#subscription_Query').val()
+          if (query_text.length > 300)  # more than 300 chars gets a text box
+            $('.query-text-large').text(query_text)
+            $('.query-text-small').hide()
+            $('.query-title').show()
+            $('.query-text-large').show()
+          else
+            $('.query-text-small').text("Query: #{query_text}")
+            $('.query-text-small').show()
+            $('.query-title').hide()
+            $('.query-text-large').hide()
           $('.results-text').show()
         error: (response) ->
           $('.status-text').text('Estimate failed.')

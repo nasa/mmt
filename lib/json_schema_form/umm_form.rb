@@ -343,7 +343,7 @@ class UmmFormAccordion < UmmForm
       end)
 
       concat content_tag(:h3, title, class: 'header-title')
-      concat help_icon(help_path)
+      concat help_icon(help_path) unless parsed_json['noHelp']
     end
   end
 

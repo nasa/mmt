@@ -51,7 +51,7 @@
         // Load json-schema for field validation
         var globalJsonSchema = <%= raw @json_schema.to_json %>;
 
-        var urlContentTypeMap = <%= raw DraftsHelper::URLContentTypeMap.to_json %>;
+        var urlContentTypeMap = <%= raw RelatedUrlsHelper::UMMCRelatedURLContentTypeMap.to_json %>;
 
         var globalTemplateNames = <%= sanitize @template_names.to_json %>;
       </script>
