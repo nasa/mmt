@@ -115,7 +115,7 @@ Rails.application.configure do
   config.csplog_enabled = false
 
   # Feature toggle for UMM-T
-  config.umm_t_enabled = false
+  config.umm_t_enabled = true
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
