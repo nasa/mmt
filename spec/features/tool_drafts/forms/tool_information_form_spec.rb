@@ -1,4 +1,4 @@
-describe 'Tool Information Form', js: true do
+describe 'Tool Drafts Tool Information Form', js: true do
   let(:tool_name) { 'Testing Form Tool Name' }
   let(:tool_long_name) { 'Testing Form Tool Long Name' }
 

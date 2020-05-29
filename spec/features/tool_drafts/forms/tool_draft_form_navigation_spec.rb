@@ -1,6 +1,6 @@
 include DraftsHelper
 
-describe 'Tool Draft form navigation', js: true do
+describe 'Tool Drafts form navigation', js: true do
   form_names = %w[tool_information related_urls compatibility_and_usability descriptive_keywords tool_organizations tool_contacts smart_handoff_information]
 
   context 'when visiting the edit page for a full tool draft' do
@@ -22,7 +22,6 @@ describe 'Tool Draft form navigation', js: true do
           before do
             select next_form_title, from: 'next-section-top'
 
-            # wait_for_jQuery
             expect(page).to have_content(next_form_title)
           end
 

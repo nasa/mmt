@@ -1,4 +1,4 @@
-describe 'Smart Handoff Information Form', js: true do
+describe 'Tool Drafts Smart Handoff Information Form', js: true do
   before do
     login
     draft = create(:empty_tool_draft, user: User.where(urs_uid: 'testuser').first)

@@ -1,5 +1,5 @@
-# TODO need to scope these functions to the window in order to be available for other
-# files (related_urls). Should this be kept, or move that functionality back into this file?
+# need to scope these functions to the window in order to be available for other
+# form selection files (related_urls)
 @enableField = (field) ->
   $(field).prop 'disabled', false
   $(field).removeClass('disabled')
