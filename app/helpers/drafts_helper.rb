@@ -530,6 +530,9 @@ module DraftsHelper
   URLContentTypeOptions = [
     ['Collection URL', 'CollectionURL'],
     ['Publication URL', 'PublicationURL'],
+    ['Data Center URL', 'DataCenterURL'],
+    ['Distribution URL', 'DistributionURL'],
+    ['Data Contact URL', 'DataContactURL'],
     ['Visualization URL', 'VisualizationURL']
   ]
   URLContentTypeRelatedURLsOptions = [
@@ -556,6 +559,11 @@ module DraftsHelper
     ['Project Home Page', 'PROJECT HOME PAGE'],
     ['Use Service API', 'USE SERVICE API'],
     ['View Related Information', 'VIEW RELATED INFORMATION']
+  ]
+  UMMSRelatedURLContentTypeOptions = [
+    ['Collection URL', 'CollectionURL'],
+    ['Publication URL', 'PublicationURL'],
+    ['Visualization URL', 'VisualizationURL']
   ]
   UMMSURLTypeOptions = [
     ['Data Set Landing Page', 'DATA SET LANDING PAGE'],

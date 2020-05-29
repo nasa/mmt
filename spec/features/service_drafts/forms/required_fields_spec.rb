@@ -1,4 +1,4 @@
-describe 'Conditionally required fields', js: true do
+describe 'Conditionally required fields for Service forms', js: true do
   before do
     login
   end

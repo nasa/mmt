@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service Draft creation' do
   before do
     login

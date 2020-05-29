@@ -1,4 +1,4 @@
-describe 'Descriptive Keywords Form Navigation', js: true do
+describe 'Service Descriptive Keywords Form Navigation', js: true do
   before do
     login
   end

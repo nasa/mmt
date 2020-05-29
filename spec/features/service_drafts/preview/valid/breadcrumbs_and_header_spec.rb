@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service drafts valid breadcrumbs and header' do
   before do
     login

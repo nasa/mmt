@@ -37,7 +37,7 @@ class UmmControlledSelect < UmmSelect
     when 'country'
       options_for_select(set_country_codes, element_value)
     when 'related_url_content_type'
-      options_for_select(DraftsHelper::URLContentTypeOptions, element_value)
+      options_for_select(DraftsHelper::UMMSRelatedURLContentTypeOptions, element_value)
     when 'related_url_type'
       options_for_select(DraftsHelper::UMMSURLTypeOptions, element_value)
     when 'related_url_subtype'

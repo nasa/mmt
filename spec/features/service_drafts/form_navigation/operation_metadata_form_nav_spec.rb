@@ -1,4 +1,4 @@
-describe 'Operation Metadata Form Navigation', js: true do
+describe 'Service Operation Metadata Form Navigation', js: true do
   before do
     login
   end

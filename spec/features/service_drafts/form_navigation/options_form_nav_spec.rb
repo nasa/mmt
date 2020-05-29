@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service Options Form Navigation', js: true do
   before do
     login
