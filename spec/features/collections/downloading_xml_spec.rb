@@ -15,7 +15,6 @@ describe 'Downloading Collection XML', js: true do
       end
 
       it 'shows the download selections' do
-        #expect(page).to have_link('NATIVE', href: download_collection_xml_path(@concept_id, 'native'))
         expect(page).to have_link('ATOM', href: download_collection_xml_path(@concept_id, 'atom'))
         expect(page).to have_link('ECHO 10', href: download_collection_xml_path(@concept_id, 'echo10'))
         expect(page).to have_link('ISO 19115 (MENDS)', href: download_collection_xml_path(@concept_id, 'iso19115'))
@@ -45,9 +44,15 @@ describe 'Downloading Collection XML', js: true do
   context 'when viewing the collection preview page for an iso-smap collection' do
     before do
       login
+      visit manage_collections_path
+      
+      short_name = 'SPL4SMAU'
+      fill_in 'keyword', with: short_name
+      click_on 'Search Collections'
+      expect(page).to have_content(short_name)
 
-      @concept_id = 'C1200000089-LARC'
-      visit collection_path(@concept_id)
+      click_on short_name
+      @concept_id = current_path.split('/').last
     end
 
     context 'when clicking the Available Formats download link' do
@@ -56,7 +61,6 @@ describe 'Downloading Collection XML', js: true do
       end
 
       it 'shows the download selections' do
-        #expect(page).to have_link('NATIVE', href: download_collection_xml_path(@concept_id, 'native'))
         expect(page).to have_link('ISO 19115 (SMAP) (Native)', href: download_collection_xml_path(@concept_id, 'iso-smap'))
         expect(page).to have_link('ATOM', href: download_collection_xml_path(@concept_id, 'atom'))
         expect(page).to have_link('ECHO 10', href: download_collection_xml_path(@concept_id, 'echo10'))

@@ -54,7 +54,6 @@ describe 'Searching for published collections in proposal mode', js: true do
         end
 
         it 'shows the download selections' do
-          #expect(page).to have_link('NATIVE', href: download_collection_xml_path(@ingest_response['concept-id'], 'native'))
           expect(page).to have_link('ATOM', href: download_collection_xml_path(@ingest_response['concept-id'], 'atom'))
           expect(page).to have_link('ECHO 10', href: download_collection_xml_path(@ingest_response['concept-id'], 'echo10'))
           expect(page).to have_link('ISO 19115 (MENDS)', href: download_collection_xml_path(@ingest_response['concept-id'], 'iso19115'))
