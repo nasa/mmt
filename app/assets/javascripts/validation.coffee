@@ -82,6 +82,10 @@ $(document).ready ->
     if json?.URL?.UrlValue?
       json.URL.URLValue = json.URL.UrlValue
       delete json.URL.UrlValue
+    # fix RelatedUrls to RelatedURLs
+    if json?.RelatedUrls?
+      json.RelatedURLs = json.RelatedUrls
+      delete json.RelatedUrls
 
   # This fixes AvgCompressionRateASCII and AvgCompressionRateNetCDF4 in the page json
   fixAvgCompressionRates = (json) ->
