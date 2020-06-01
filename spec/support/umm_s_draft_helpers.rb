@@ -131,7 +131,7 @@ module Helpers
             fill_in 'Description', with: 'Related URL 3 Description'
             select 'Visualization URL', from: 'Url Content Type'
             select 'Get Related Visualization', from: 'Type'
-            select 'GIOVANNI', from: 'Subtype'
+            select 'Giovanni', from: 'Subtype'
             fill_in 'Url', with: 'https://search.earthdata.nasa.gov/'
           end
         end
