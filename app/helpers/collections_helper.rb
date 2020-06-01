@@ -1,11 +1,12 @@
 module CollectionsHelper
   DOWNLOAD_XML_OPTIONS = [
-    { format: 'native',   title: 'NATIVE' },
     { format: 'atom',     title: 'ATOM' },
     { format: 'dif10',    title: 'DIF 10' },
     { format: 'echo10',   title: 'ECHO 10' },
-    { format: 'iso',      title: 'ISO 19115 (MENDS)' },
-    { format: 'iso19115', title: 'ISO 19115 (SMAP)' }
+    # Fixed the ISO formats due to MMT-2268. Both 'iso' and 'iso19115' refer to 'application/iso19115+xml' for MENDS.
+    # For SMAP the correct format is 'iso-smap' which refers to 'application/iso:smap+xml'.
+    { format: 'iso19115', title: 'ISO 19115 (MENDS)' },
+    { format: 'iso-smap', title: 'ISO 19115 (SMAP)' }
   ]
 
   def render_change_provider_collection_action_link(collection_action, concept_id, revision_id = nil)

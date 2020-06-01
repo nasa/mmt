@@ -109,66 +109,124 @@ describe 'Tool Draft Forms Field Validation', js: true do
   end
 
   context 'when only filling out some of the required subfields of an unrequired field' do
-    before do
-      visit edit_tool_draft_path(empty_draft, 'tool_contacts')
+    context 'when on the Tool Contacts Form' do
+      before do
+        visit edit_tool_draft_path(empty_draft, 'tool_contacts')
 
-      click_on 'Expand All'
+        click_on 'Expand All'
 
-      within '#contact-groups' do
-        fill_in 'Value', with: 'who'
+        within '#contact-groups' do
+          fill_in 'Value', with: 'who'
+        end
+      end
+
+      context "when clicking 'Done' to submit the form" do
+        before do
+          within '.nav-top' do
+            click_on 'Done'
+          end
+        end
+
+        context "when clicking 'No' to stay on the form" do
+          before do
+            click_on 'No'
+          end
+
+          it 'displays validation errors' do
+            expect(page).to have_css('.eui-banner--danger', count: 4)
+
+            within '.summary-errors' do
+              expect(page).to have_content('This draft has the following errors:')
+              expect(page).to have_content('Roles is required')
+              expect(page).to have_content('Group Name is required')
+              expect(page).to have_content('Type is required')
+            end
+
+            expect(page).to have_css('#tool_draft_draft_contact_groups_0_roles_error', text: 'Roles is required')
+            expect(page).to have_css('#tool_draft_draft_contact_groups_0_group_name_error', text: 'Group Name is required')
+            expect(page).to have_css('#tool_draft_draft_contact_groups_0_contact_information_contact_mechanisms_0_type_error', text: 'Type is required')
+          end
+
+          context 'when removing the value from the required field of an unrequired field' do
+            before do
+              within '#contact-groups' do
+                fill_in 'Value', with: ''
+              end
+            end
+
+            it 'does not display any validation errors' do
+              expect(page).to have_no_css('.eui-banner--danger')
+            end
+          end
+        end
+
+        # TODO requires show page
+        # context "when clicking 'Yes' to go to the show page" do
+        #   before do
+        #     click_on 'Yes'
+        #   end
+        #
+        #   it 'displays an invalid progress circle' do
+        #     expect(page).to have_css('i.icon-red.contact-groups')
+        #   end
+        # end
       end
     end
 
-    context "when clicking 'Done' to submit the form" do
+    context 'when on the Related URLs form' do
       before do
-        within '.nav-top' do
-          click_on 'Done'
-        end
+        visit edit_tool_draft_path(empty_draft, 'related_urls')
+
+        fill_in 'URL', with: 'example.com'
       end
 
-      context "when clicking 'No' to stay on the form" do
+      context "when clicking 'Done' to submit the form" do
         before do
-          click_on 'No'
+          within '.nav-top' do
+            click_on 'Done'
+          end
         end
 
-        it 'displays validation errors' do
-          expect(page).to have_css('.eui-banner--danger', count: 4)
-
-          within '.summary-errors' do
-            expect(page).to have_content('This draft has the following errors:')
-            expect(page).to have_content('Roles is required')
-            expect(page).to have_content('Group Name is required')
-            expect(page).to have_content('Type is required')
+        context "when clicking 'No' to stay on the form" do
+          before do
+            click_on 'No'
           end
 
-          expect(page).to have_css('#tool_draft_draft_contact_groups_0_roles_error', text: 'Roles is required')
-          expect(page).to have_css('#tool_draft_draft_contact_groups_0_group_name_error', text: 'Group Name is required')
-          expect(page).to have_css('#tool_draft_draft_contact_groups_0_contact_information_contact_mechanisms_0_type_error', text: 'Type is required')
-        end
+          it 'displays validation errors' do
+            expect(page).to have_css('.eui-banner--danger', count: 3)
 
-        context 'when removing the value from the required field of an unrequired field' do
-          before do
-            within '#contact-groups' do
-              fill_in 'Value', with: ''
+            within '.summary-errors' do
+              expect(page).to have_content('This draft has the following errors:')
+              expect(page).to have_content('URL Content Type is required')
+              expect(page).to have_content('Type is required', count: 2) # other error gets picked up too
+            end
+
+            expect(page).to have_css('#tool_draft_draft_related_urls_0_url_content_type_error', text: 'URL Content Type is required')
+            expect(page).to have_css('#tool_draft_draft_related_urls_0_type_error', text: 'Type is required')
+          end
+
+          context 'when removing the value from the required field of an unrequired field' do
+            before do
+              fill_in 'URL', with: ''
+            end
+
+            it 'does not display any validation errors' do
+              expect(page).to have_no_css('.eui-banner--danger')
             end
           end
-
-          it 'does not display any validation errors' do
-            expect(page).to have_no_css('.eui-banner--danger')
-          end
         end
-      end
 
-      # TODO requires show page
-      # context "when clicking 'Yes' to go to the show page" do
-      #   before do
-      #     click_on 'Yes'
-      #   end
-      #
-      #   it 'displays an invalid progress circle' do
-      #     expect(page).to have_css('i.icon-red.contact-groups')
-      #   end
-      # end
+        # TODO requires show page
+        # context "when clicking 'Yes' to go to the show page" do
+        #   before do
+        #     click_on 'Yes'
+        #   end
+        #
+        #   it 'displays an invalid progress circle' do
+        #     expect(page).to have_css('i.icon-red.related-urls')
+        #   end
+        # end
+      end
     end
   end
 end
