@@ -11,6 +11,11 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
         metadata = create_online_resource(metadata)
         draft.draft = adjust_crs_identifier_for_1_3(metadata)
       rescue TypeError
+        # Some misformed records were causing issues with migrations because
+        # they had arrays where they should never have arrays. These could cause
+        # the whole migration to fail. If any such records exist in other envs
+        # this log should provide us enough information to decide what to do
+        # with them.
         Rails.logger.error("Data for draft #{draft.id} was not properly formatted and could not be migrated: #{draft.draft}")
       end
 
@@ -44,6 +49,8 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
 
   def make_url_for_1_3(draft)
     related_urls = draft.delete('RelatedURLs') || []
+    # The url is being set as the first relatedurl with a contenttype of
+    # distributionurl. All other relatedurls are being lost going up.
     related_urls = related_urls.select { |related_url| related_url['URLContentType'] == 'DistributionURL' }
     return draft if related_urls.blank?
 
@@ -71,6 +78,8 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
     draft
   end
 
+  # Use constraints is being broken into two fields; url and text. Any existing
+  # data can go into the text field.
   def adjust_use_contraints_for_1_3(draft)
     return draft unless draft['UseConstraints']
 
@@ -78,6 +87,8 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
     draft
   end
 
+  # If there is any data in the use constraints, save one field. Text is
+  # preferred to the url.
   def adjust_use_contraints_for_1_2(draft)
     return draft unless draft['UseConstraints']
 
@@ -89,15 +100,22 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
   def move_contacts_from_organizations(draft)
     return draft unless draft['ServiceOrganizations']
 
+    # Select all of the service organizations that have groups/persons, then
+    # gather all of them into one array (map). This generates an array of arrays
+    # of groups, so you can flatten it to get an array of groups.
     nested_contact_groups = draft['ServiceOrganizations'].select { |organization| organization['ContactGroups'] }.map { |organization| organization.delete('ContactGroups') }.flatten
     nested_contact_persons = draft['ServiceOrganizations'].select { |organization| organization['ContactPersons'] }.map { |organization| organization.delete('ContactPersons') }.flatten
     return draft unless nested_contact_groups.present? || nested_contact_persons.present?
 
+    # Add the nested groups/persons to the top level field.
     draft['ContactGroups'] = draft.fetch('ContactGroups', []) + nested_contact_groups
     draft['ContactPersons'] = draft.fetch('ContactPersons', []) + nested_contact_persons
+    # Without any way of tracing the groups/persons back to their original data
+    # centers, this part of the migration cannot be unwound.
     draft
   end
 
+  # Converts the first DataCenterUrl to an online resource
   def create_online_resource(draft)
     return draft unless draft['ServiceOrganizations']
 
@@ -118,6 +136,8 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
     draft
   end
 
+  # All of the other contact information is lost, but we can reconstruct a
+  # related url from the online resource
   def create_contact_information_from_online_resource(draft)
     return draft unless draft['ServiceOrganizations']
 
@@ -136,12 +156,16 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
     draft
   end
 
+  # In this update all of the enums here had EPSG appended to the front of them
   def adjust_crs_identifier_for_1_3(draft)
     return draft unless draft.fetch('OperationMetadata', nil)
 
     draft['OperationMetadata'].each do |operation_metadata|
+      # Dig through each operation metadata to find if the spatial extent exists
       next unless operation_metadata.fetch('CoupledResource', {}).fetch('DataResource', {}).fetch('DataResourceSpatialExtent', nil)
 
+      # If the spatial extent exists, two of the options can have the field that
+      # needs to be modified.
       if operation_metadata['CoupledResource']['DataResource']['DataResourceSpatialExtent']['GeneralGrid'] && (crs_identifier = operation_metadata['CoupledResource']['DataResource']['DataResourceSpatialExtent']['GeneralGrid']['CRSIdentifier'])
         operation_metadata['CoupledResource']['DataResource']['DataResourceSpatialExtent']['GeneralGrid']['CRSIdentifier'] = "EPSG:#{crs_identifier}"
       elsif operation_metadata['CoupledResource']['DataResource']['DataResourceSpatialExtent']['SpatialBoundingBox'] && (crs_identifier = operation_metadata['CoupledResource']['DataResource']['DataResourceSpatialExtent']['SpatialBoundingBox']['CRSIdentifier'])
@@ -151,12 +175,19 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
     draft
   end
 
+  # Most of the data can be retained by removing the prepended EPSG, but new
+  # options cannot be converted backwards.
   def adjust_crs_identifier_for_1_2(draft)
     return draft unless draft.fetch('OperationMetadata', nil)
 
     draft['OperationMetadata'].each do |operation_metadata|
+      # Dig through each operation metadata to find if the spatial extent exists
       next unless operation_metadata.fetch('CoupledResource', {}).fetch('DataResource', {}).fetch('DataResourceSpatialExtent', nil)
 
+      # If the spatial extent exists, two of the options can have the field that
+      # needs to be modified.
+      # Additionally, an 'Other' option was added. If it has been chosen, it
+      # needs to be removed.
       if operation_metadata['CoupledResource']['DataResource']['DataResourceSpatialExtent']['GeneralGrid'] && (crs_identifier = operation_metadata['CoupledResource']['DataResource']['DataResourceSpatialExtent']['GeneralGrid']['CRSIdentifier'])
         operation_metadata['CoupledResource']['DataResource']['DataResourceSpatialExtent']['GeneralGrid']['CRSIdentifier'] = crs_identifier.include?('EPSG:') ? crs_identifier.gsub('EPSG:', '') : nil
       elsif operation_metadata['CoupledResource']['DataResource']['DataResourceSpatialExtent']['SpatialBoundingBox'] && (crs_identifier = operation_metadata['CoupledResource']['DataResource']['DataResourceSpatialExtent']['SpatialBoundingBox']['CRSIdentifier'])
@@ -167,12 +198,14 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
   end
 
   def adjust_service_type_for_1_2(draft)
+    # These enums don't exist in v1.2, so revert them to a more generic choice
     draft['Type'] = 'WEB SERVICES' if draft['Type'] == 'EGI - No Processing'
     draft['Type'] = 'WMS' if draft['Type'] == 'WMTS'
     draft
   end
 
   def remove_zarr_from_formats_for_1_2(draft)
+    # Zarr was not a valid choice, so it needs to be removed from these formats
     return draft unless draft['ServiceOptions'] && (draft['ServiceOptions']['SupportedInputFormats'] || draft['ServiceOptions']['SupportedOutputFormats'])
 
     draft['ServiceOptions']['SupportedInputFormats'].delete('ZARR')
@@ -180,6 +213,9 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
     draft
   end
 
+  # This field is controlled in 1.2, but not in 1.3. Going backwards needs to
+  # reinstate that control or void the field. Each draft can have multiple of
+  # either or both the input and output projections which house this field.
   def validate_projection_authority(draft)
     crs_identifier = ["4326", "3395", "3785", "9807", "2000.63", "2163", "3408", "3410", "6931",
      "6933", "3411", "9822", "54003", "54004", "54008", "54009", "26917", "900913"].freeze
@@ -199,6 +235,7 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
     draft
   end
 
+  # This option was not valid in 1.2, do it should be removed when going down.
   def validate_operation_name(draft)
     return draft unless draft['OperationMetadata']
 
@@ -208,6 +245,7 @@ class UmmS13DataMigration < ActiveRecord::Migration[5.2]
     draft
   end
 
+  # This option was not valid in 1.2, do it should be removed when going down.
   def remove_supported_reformattings(draft)
     return draft unless draft['ServiceOptions']
 
