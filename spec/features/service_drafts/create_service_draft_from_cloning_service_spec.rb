@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Creating a service draft from cloning a service', reset_provider: true, js: true do
   before :all do
     @ingest_response, _concept_response = publish_service_draft

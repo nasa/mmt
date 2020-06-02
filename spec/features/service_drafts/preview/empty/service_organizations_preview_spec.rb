@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Empty Service Draft Service Organizations Preview' do
   let(:service_draft) { create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first) }
 

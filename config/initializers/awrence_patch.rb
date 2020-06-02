@@ -22,6 +22,7 @@ class Hash
     uom_label
     avg_compression_rate_ascii
     avg_compression_rate_net_cdf4
+    url_value
   )
 
   def camelize(snake_word, first_upper = true)
@@ -44,6 +45,7 @@ class Hash
       return 'DataResourceDOI' if snake_word == 'data_resource_doi'
       return 'AvgCompressionRateASCII' if snake_word == 'avg_compression_rate_ascii'
       return 'AvgCompressionRateNetCDF4' if snake_word == 'avg_compression_rate_net_cdf4'
+      return 'URLValue' if snake_word == 'url_value'
       return snake_word.upcase
     end
 

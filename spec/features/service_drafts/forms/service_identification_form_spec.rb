@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service Identification Form', js: true do
   before do
     login
@@ -16,7 +14,8 @@ describe 'Service Identification Form', js: true do
 
       fill_in 'service_draft_draft_access_constraints', with: 'access constraint 1'
 
-      fill_in 'service_draft_draft_use_constraints', with: 'use constraint 1'
+      fill_in 'License Url', with: 'LicenseUrl Text'
+      fill_in 'License Text', with: 'LicenseText Text'
 
       within '.nav-top' do
         click_on 'Save'

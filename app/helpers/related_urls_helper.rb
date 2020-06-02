@@ -189,7 +189,7 @@ module RelatedUrlsHelper
             ['EDG', 'EDG'],
             ['EOSDIS Data Pool', 'EOSDIS DATA POOL'],
             ['GDS', 'GDS'],
-            ['GIOVANNI', 'GIOVANNI'],
+            ['Giovanni', 'GIOVANNI'],
             ['KML', 'KML'],
             ['LAADS', 'LAADS'],
             ['LANCE', 'LANCE'],
@@ -221,6 +221,7 @@ module RelatedUrlsHelper
             ['Thredds Catalog', 'THREDDS CATALOG'],
             ['Thredds Data', 'THREDDS DATA'],
             ['Thredds Directory', 'THREDDS DIRECTORY'],
+            ['Tool','TOOL'],
             ['Web Coverage Service (WCS)', 'WEB COVERAGE SERVICE (WCS)'],
             ['Web Feature Service (WFS)', 'WEB FEATURE SERVICE (WFS)'],
             ['Web Map For Time Series', 'WEB MAP FOR TIME SERIES'],
@@ -340,7 +341,7 @@ module RelatedUrlsHelper
             ['Direct Download', 'DIRECT DOWNLOAD'],
             ['Earthdata Search', 'Earthdata Search'],
             ['EOSDIS Data Pool', 'EOSDIS DATA POOL'],
-            ['GIOVANNI', 'GIOVANNI'],
+            ['Giovanni', 'GIOVANNI'],
             ['GoLIVE Portal', 'GoLIVE Portal'],
             ['IceBridge Portal', 'IceBridge Portal'],
             ['LAADS', 'LAADS'],
@@ -402,11 +403,7 @@ module RelatedUrlsHelper
   # TODO: need to verify if all these options are necessary if they get changed
   # by our coffee files through the mappings.
   UMMCRelatedURLContentTypeMap = related_url_content_type_map.deep_dup
-  # UMM-S v1.1 added TOOL to GET SERVICE subtypes
-  umm_s_related_url_content_type_map = related_url_content_type_map_for_umm_s.deep_dup
-  umm_s_related_url_content_type_map['DistributionURL']['types']['GET SERVICE']['subtypes'] << ['Tool','TOOL']
-  umm_s_related_url_content_type_map['DistributionURL']['types']['GET SERVICE']['subtypes'].sort!
-  UMMSRelatedURLContentTypeMap = umm_s_related_url_content_type_map
+  UMMSRelatedURLContentTypeMap = related_url_content_type_map_for_umm_s
   UMMTURLContentTypeMap = url_content_type_map_for_umm_t
   UMMTRelatedURLContentTypeMap = related_url_content_type_map_for_umm_t
 
@@ -415,6 +412,11 @@ module RelatedUrlsHelper
     ['Data Center URL', 'DataCenterURL'],
     ['Data Contact URL', 'DataContactURL'],
     ['Distribution URL', 'DistributionURL'],
+    ['Publication URL', 'PublicationURL'],
+    ['Visualization URL', 'VisualizationURL']
+  ]
+  UMMSRelatedURLContentTypeOptions = [
+    ['Collection URL', 'CollectionURL'],
     ['Publication URL', 'PublicationURL'],
     ['Visualization URL', 'VisualizationURL']
   ]

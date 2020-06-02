@@ -1,4 +1,4 @@
-describe 'Operation Metadata Form', js: true do
+describe 'Service Operation Metadata Form', js: true do
   before do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)

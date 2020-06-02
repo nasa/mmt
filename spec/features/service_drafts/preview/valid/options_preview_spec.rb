@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Valid Service Draft Options Preview' do
   let(:service_draft) { create(:full_service_draft, user: User.where(urs_uid: 'testuser').first) }
 

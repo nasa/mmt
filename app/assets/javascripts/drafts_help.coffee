@@ -4,6 +4,7 @@ $(document).ready ->
     # get path from data-help-path attribute
     # properties/EntryId
     # definitions/ProcessingLevelType/properties/ProcessingLevelDescription
+    overrideHelp = $(element.target).data('overrideHelp')
     helpPath = $(element.target).data('helpPath').split('/')
     title = fixTitle(helpPath[helpPath.length - 1])
     minItems = getMinItems(helpPath)
@@ -11,7 +12,7 @@ $(document).ready ->
     minLength = getMinLength(helpPath)
     maxLength = getMaxLength(helpPath)
     pattern = getPattern(helpPath)
-    description = getDescription(helpPath)
+    description = overrideHelp || getDescription(helpPath)
     format = getFormat(helpPath)
 
     # Set the field title and description
@@ -65,6 +66,7 @@ $(document).ready ->
       when 'UOMLabel' then 'UOM Label'
       when 'AvgCompressionRateASCII' then 'Avg Compression Rate ASCII'
       when 'AvgCompressionRateNetCDF4' then 'Avg Compression Rate NetCDF4'
+      when 'URL Value' then 'URL Value'
       else title.replace( /([A-Z])/g, " $1" )
 
     newTitle

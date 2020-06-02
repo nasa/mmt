@@ -220,7 +220,7 @@ $(document).ready ->
         id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, targetIndex)
         $(field).attr 'id', id
 
-        if $('.metadata-form').length > 0
+        if $('.metadata-form, .umm-form').length > 0
           dataLevel = $(field).attr('data-level')
           dataLevel = dataLevel.slice(0, idIndex) + dataLevel.slice(idIndex).replace(multipleIndex, targetIndex)
           # TODO for some reason, incrementing on the page does not happen without the .attr call,

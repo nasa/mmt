@@ -205,7 +205,7 @@ class UmmForm < JsonObj
   # * +path+ - The path to find the information for this element within the schema
   def help_icon(path)
     link_to('#help-modal', class: 'display-modal') do
-      concat content_tag(:i, nil, class: 'eui-icon eui-fa-info-circle', data: { 'help-path': path })
+      concat content_tag(:i, nil, class: 'eui-icon eui-fa-info-circle', data: { 'help-path': path, 'override-help': override_help })
       concat content_tag(:span, "Help modal for #{title}", class: 'is-invisible')
     end
   end
@@ -220,6 +220,18 @@ class UmmForm < JsonObj
     path.pop if path.last == 'properties'
     path.pop if path.last == 'items'
     "properties/#{path.join('/')}"
+  end
+
+  # Expects the value to be a path to the correct description
+  # This is necessary when there is a shared class that should have different
+  # descriptions, e.g. SupportedFormatTypeEnum in UMM-S 1.3
+  def override_help
+    return nil unless parsed_json['override_help_path']
+
+    schema_chunk = @schema.parsed_json['definitions']
+    parsed_json['override_help_path'].split('/').each do |key|
+      schema_chunk = schema_chunk[key]
+    end
   end
 
   # Get the value for the provided key from the provided object
@@ -483,7 +495,7 @@ class UmmFormElement < UmmForm
   # Return this form element for display within a form
   def render_markup
     capture do
-      # Determine the class to use fo rendering this element
+      # Determine the class to use for rendering this element
       element_class = form_fragment.fetch('type', 'UmmTextField')
       form_element = element_class.constantize.new(form_section_json: form_fragment, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
 

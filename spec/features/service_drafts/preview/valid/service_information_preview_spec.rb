@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Valid Service Draft Service Information Preview' do
   let(:service_draft) { create(:full_service_draft, draft_entry_title: 'Volume mixing ratio of sum of peroxynitrates in air', draft_short_name: 'PNs_LIF', user: User.where(urs_uid: 'testuser').first) }
   let(:draft) { service_draft.draft }

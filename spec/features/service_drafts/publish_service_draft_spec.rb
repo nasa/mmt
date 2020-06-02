@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Publishing service draft records' do
   context 'when publishing a service draft record' do
     before do

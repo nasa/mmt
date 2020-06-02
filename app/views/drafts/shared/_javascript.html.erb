@@ -2,7 +2,7 @@
   // Load json-schema for field validation
   var globalJsonSchema = <%= raw @schema.parsed_json.to_json %>;
 
-  <% if @current_form == 'service_keywords' %>
+  <% if @current_form == 'descriptive_keywords' && controller_name == 'service_drafts' %>
     setupServiceKeywords(<%= raw @service_keywords.to_json %>, { field_prefix: '<%= resource_name %>/draft' });
   <% elsif @current_form == 'descriptive_keywords' && controller_name == 'tool_drafts' %>
     setupToolKeywords(<%= raw @tool_keywords.to_json %>, { field_prefix: '<%= resource_name %>/draft' })
