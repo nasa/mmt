@@ -1,5 +1,5 @@
 describe 'Service Draft form navigation' do
-  let(:form_titles) { ['Service Information', 'Service Identification', 'Related URL', 'Service Keywords', 'Science and Ancillary Keywords', 'Acquisition Information', 'Service Organizations', 'Service Contacts', 'Options', 'Operation Metadata'] }
+  let(:form_titles) { ['Service Information', 'Service Identification', 'Descriptive Keywords', 'Service Organizations', 'Service Contacts', 'Options', 'Operation Metadata'] }
 
   context 'when visiting the edit page for a service draft' do
     before do
@@ -14,7 +14,7 @@ describe 'Service Draft form navigation' do
         expect(page).to have_content('New')
       end
 
-      within '.umm-form fieldset h3' do
+      within first('.umm-form fieldset h3') do
         expect(page).to have_content('Service Information')
       end
     end

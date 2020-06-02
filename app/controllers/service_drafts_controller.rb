@@ -12,12 +12,7 @@ class ServiceDraftsController < BaseDraftsController
 
   def edit
     super
-
-    if @current_form == 'service_keywords'
-      set_service_keywords
-    elsif @current_form == 'science_and_ancillary_keywords'
-      set_science_keywords
-    end
+    set_service_keywords if @current_form == 'descriptive_keywords'
   end
 
   private
