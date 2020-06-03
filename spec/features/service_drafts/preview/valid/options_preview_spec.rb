@@ -14,7 +14,7 @@ describe 'Valid Service Draft Options Preview' do
     end
   end
 
-  it 'displays the corrent status icon' do
+  it 'displays the correct status icon' do
     within '#options-progress' do
       within '.status' do
         expect(page).to have_content('Options is valid')

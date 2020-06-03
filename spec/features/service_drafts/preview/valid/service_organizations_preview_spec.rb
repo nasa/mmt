@@ -14,7 +14,7 @@ describe 'Valid Service Draft Service Organizations Preview' do
     end
   end
 
-  it 'displays the corrent status icon' do
+  it 'displays the correct status icon' do
     within '#service_organizations-progress' do
       within '.status' do
         expect(page).to have_content('Service Organizations is valid')
@@ -28,55 +28,14 @@ describe 'Valid Service Draft Service Organizations Preview' do
     end
   end
 
-  it 'displays the stored values correctly within the preview' do
+  include_examples 'Service Organizations Full Preview'
+
+  it 'has a link to edit the service organizations' do
     within '.umm-preview.service_organizations' do
       expect(page).to have_css('.umm-preview-field-container', count: 1)
 
       within '#service_draft_draft_service_organizations_preview' do
         expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_organizations', anchor: 'service_draft_draft_service_organizations'))
-
-        within '.service-organizations-cards' do
-          within all('li.card')[0] do
-            within '.card-header' do
-              expect(page).to have_content('AARHUS-HYDRO')
-              expect(page).to have_content('Multiple Roles')
-              expect(page).to have_content('DEVELOPER')
-              expect(page).to have_content('PUBLISHER')
-            end
-          end
-
-          within all('.card-body')[0] do
-            within '.card-body-details-full' do
-              expect(page).to have_content('Hydrogeophysics Group, Aarhus University')
-            end
-          end
-
-          # Second organization
-          within all('li.card')[1] do
-            within '.card-header' do
-              expect(page).to have_content('AARHUS-HYDRO')
-              expect(page).to have_content('Multiple Roles')
-              expect(page).to have_content('DEVELOPER')
-              expect(page).to have_content('PUBLISHER')
-            end
-          end
-
-          within all('.card-body')[1] do
-            within '.card-body-details-full' do
-              expect(page).to have_content('Hydrogeophysics Group, Aarhus University')
-            end
-          end
-
-          # Second organization's online resource
-          within all('.card-body')[2] do
-            expect(page).to have_content('ORN Text')
-            expect(page).to have_content('ORD Text')
-            expect(page).to have_link('ORL Text')
-            expect(page).to have_content('Protocol: ORP Text')
-            expect(page).to have_content('Application Profile: ORAP Text')
-            expect(page).to have_content('Function: ORF Text')
-          end
-        end
       end
     end
   end

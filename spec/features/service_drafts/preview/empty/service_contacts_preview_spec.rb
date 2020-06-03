@@ -14,7 +14,7 @@ describe 'Empty Service Draft Service Contacts Preview' do
     end
   end
 
-  it 'displays the corrent status icon' do
+  it 'displays the correct status icon' do
     within '#service_contacts-progress' do
       within '.status' do
         expect(page).to have_content('Service Contacts is valid')

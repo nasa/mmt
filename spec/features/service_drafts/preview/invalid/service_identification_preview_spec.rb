@@ -15,7 +15,7 @@ describe 'Invalid Service Draft Service Identification Preview' do
     end
   end
 
-  it 'displays the corrent status icon' do
+  it 'displays the correct status icon' do
     within '#service_identification-progress' do
       within '.status' do
         expect(page).to have_content('Service Identification is incomplete')

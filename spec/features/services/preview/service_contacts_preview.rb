@@ -1,42 +1,15 @@
-describe 'Valid Service Draft Service Contacts Preview' do
-  let(:service_draft) { create(:full_service_draft, user: User.where(urs_uid: 'testuser').first) }
-  let(:draft) { service_draft.draft }
-
+describe 'Valid Service Draft Service Identification Preview' do
   before do
     login
-    visit service_draft_path(service_draft)
-  end
-
-  context 'When examining the Service Contacts section' do
-    it 'displays the form title as an edit link' do
-      within '#service_contacts-progress' do
-        expect(page).to have_link('Service Contacts', href: edit_service_draft_path(service_draft, 'service_contacts'))
-      end
-    end
-  end
-
-  it 'displays the correct status icon' do
-    within '#service_contacts-progress' do
-      within '.status' do
-        expect(page).to have_content('Service Contacts is valid')
-      end
-    end
-  end
-
-  it 'displays the correct progress indicators for non required fields' do
-    within '#service_contacts-progress .progress-indicators' do
-      expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.contact-groups')
-      expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.contact-persons')
-    end
+    ingest_response, @concept_response = publish_service_draft
+    visit service_path(ingest_response['concept-id'])
   end
 
   it 'displays the stored values correctly within the preview' do
     within '.umm-preview.service_contacts' do
       expect(page).to have_css('.umm-preview-field-container', count: 2)
 
-      within '#service_draft_draft_contact_groups_preview' do
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_contacts', anchor: 'service_draft_draft_contact_groups'))
-
+      within '.contact-group-cards' do
         # First card 'stack'
         within all('.card')[0] do
           # Header and badge
@@ -50,15 +23,15 @@ describe 'Valid Service Draft Service Contacts Preview' do
           # Front card; Group name, first address and contact mechanisms
           within all('.card-body')[0] do
             within '.card-body-details' do
-              expect(page).to have_css('h6', text: draft['ContactGroups'][0]['GroupName'])
+              expect(page).to have_css('h6', text: @concept_response.body['ContactGroups'][0]['GroupName'])
               # Capybara does not see the <br> in the address
               expect(page).to have_css('p', text: "300 E Street SouthwestRoom 203Address line 3Washington, DC 20546")
             end
 
             within '.card-body-aside' do
-              expect(page).to have_css('h6', text: draft['ContactGroups'][0]['ContactInformation']['ServiceHours'])
-              expect(page).to have_link(draft['ContactGroups'][0]['ContactInformation']['ContactMechanisms'][0]['Type'], href: "mailto:#{draft['ContactGroups'][0]['ContactInformation']['ContactMechanisms'][0]['Value']}")
-              expect(page).to have_link(draft['ContactGroups'][0]['ContactInformation']['ContactMechanisms'][1]['Type'], href: "mailto:#{draft['ContactGroups'][0]['ContactInformation']['ContactMechanisms'][1]['Value']}")
+              expect(page).to have_css('h6', text: @concept_response.body['ContactGroups'][0]['ContactInformation']['ServiceHours'])
+              expect(page).to have_link(@concept_response.body['ContactGroups'][0]['ContactInformation']['ContactMechanisms'][0]['Type'], href: "mailto:#{@concept_response.body['ContactGroups'][0]['ContactInformation']['ContactMechanisms'][0]['Value']}")
+              expect(page).to have_link(@concept_response.body['ContactGroups'][0]['ContactInformation']['ContactMechanisms'][1]['Type'], href: "mailto:#{@concept_response.body['ContactGroups'][0]['ContactInformation']['ContactMechanisms'][1]['Value']}")
             end
           end
 
@@ -75,11 +48,11 @@ describe 'Valid Service Draft Service Contacts Preview' do
           within all('.card-body')[2] do
             within '.card-body-details-full' do
               expect(page).to have_css('h6', text: 'Contact Details')
-              expect(page).to have_css('p', text: draft['ContactGroups'][0]['ContactInformation']['ConctactInstruction'])
+              expect(page).to have_css('p', text: @concept_response.body['ContactGroups'][0]['ContactInformation']['ConctactInstruction'])
             end
           end
 
-          related_urls = draft['ContactGroups'][0]['ContactInformation']['RelatedUrls']
+          related_urls = @concept_response.body['ContactGroups'][0]['ContactInformation']['RelatedUrls']
           # Fourth card; RelatedUrl 1
           within all('.card-body')[3] do
             within '.card-body-details-full' do
@@ -113,7 +86,7 @@ describe 'Valid Service Draft Service Contacts Preview' do
           end
 
           within '.card-body-details' do
-            expect(page).to have_css('h6', text: draft['ContactGroups'][1]['GroupName'])
+            expect(page).to have_css('h6', text: @concept_response.body['ContactGroups'][1]['GroupName'])
             expect(page).to have_css('p', text: 'This contact group does not have any addresses listed.')
           end
 
@@ -123,9 +96,7 @@ describe 'Valid Service Draft Service Contacts Preview' do
         end
       end
 
-      within '#service_draft_draft_contact_persons_preview' do
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_contacts', anchor: 'service_draft_draft_contact_persons'))
-
+      within '.contact-person-cards' do
         # First card 'stack'
         within all('.card')[0] do
           # Header and badge
@@ -137,15 +108,15 @@ describe 'Valid Service Draft Service Contacts Preview' do
           # Front card; Group name, first address and contact mechanisms
           within all('.card-body')[0] do
             within '.card-body-details' do
-              expect(page).to have_css('h6', text: "#{draft['ContactPersons'][0]['FirstName']} #{draft['ContactPersons'][0]['MiddleName']} #{draft['ContactPersons'][0]['LastName']}")
+              expect(page).to have_css('h6', text: "#{@concept_response.body['ContactPersons'][0]['FirstName']} #{@concept_response.body['ContactPersons'][0]['MiddleName']} #{@concept_response.body['ContactPersons'][0]['LastName']}")
               # Capybara does not see the <br> in the address
               expect(page).to have_css('p', text: "300 E Street SouthwestRoom 203Address line 3Washington, DC 20546")
             end
 
             within '.card-body-aside' do
-              expect(page).to have_css('h6', text: draft['ContactPersons'][0]['ContactInformation']['ServiceHours'])
-              expect(page).to have_link(draft['ContactPersons'][0]['ContactInformation']['ContactMechanisms'][0]['Type'], href: "mailto:#{draft['ContactPersons'][0]['ContactInformation']['ContactMechanisms'][0]['Value']}")
-              expect(page).to have_link(draft['ContactPersons'][0]['ContactInformation']['ContactMechanisms'][1]['Type'], href: "mailto:#{draft['ContactPersons'][0]['ContactInformation']['ContactMechanisms'][1]['Value']}")
+              expect(page).to have_css('h6', text: @concept_response.body['ContactPersons'][0]['ContactInformation']['ServiceHours'])
+              expect(page).to have_link(@concept_response.body['ContactPersons'][0]['ContactInformation']['ContactMechanisms'][0]['Type'], href: "mailto:#{@concept_response.body['ContactPersons'][0]['ContactInformation']['ContactMechanisms'][0]['Value']}")
+              expect(page).to have_link(@concept_response.body['ContactPersons'][0]['ContactInformation']['ContactMechanisms'][1]['Type'], href: "mailto:#{@concept_response.body['ContactPersons'][0]['ContactInformation']['ContactMechanisms'][1]['Value']}")
             end
           end
 
@@ -162,11 +133,11 @@ describe 'Valid Service Draft Service Contacts Preview' do
           within all('.card-body')[2] do
             within '.card-body-details-full' do
               expect(page).to have_css('h6', text: 'Contact Details')
-              expect(page).to have_css('p', text: draft['ContactPersons'][0]['ContactInformation']['ConctactInstruction'])
+              expect(page).to have_css('p', text: @concept_response.body['ContactPersons'][0]['ContactInformation']['ConctactInstruction'])
             end
           end
 
-          related_urls = draft['ContactPersons'][0]['ContactInformation']['RelatedUrls']
+          related_urls = @concept_response.body['ContactPersons'][0]['ContactInformation']['RelatedUrls']
           # Fourth card; RelatedUrl 1
           within all('.card-body')[3] do
             within '.card-body-details-full' do
@@ -200,7 +171,7 @@ describe 'Valid Service Draft Service Contacts Preview' do
           end
 
           within '.card-body-details' do
-            expect(page).to have_css('h6', text: draft['ContactPersons'][1]['GroupName'])
+            expect(page).to have_css('h6', text: @concept_response.body['ContactPersons'][1]['GroupName'])
             expect(page).to have_css('p', text: 'This contact person does not have any addresses listed.')
           end
 

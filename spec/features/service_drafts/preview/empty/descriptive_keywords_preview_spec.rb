@@ -14,7 +14,7 @@ describe 'Empty Service Draft Descriptive Keywords Preview' do
     end
   end
 
-  it 'displays the corrent status icon' do
+  it 'displays the correct status icon' do
     within '#descriptive_keywords-progress' do
       within '.status' do
         expect(page).to have_content('Descriptive Keywords is incomplete')
