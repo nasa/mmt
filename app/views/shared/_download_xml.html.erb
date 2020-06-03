@@ -3,8 +3,8 @@
     <h4>Download Metadata</h4>
     <p>Available Formats:</p>
     <p>
-      <% CollectionsHelper::DOWNLOAD_XML_OPTIONS.each do |download_option| %>
-        <%= ' | ' unless download_option == CollectionsHelper::DOWNLOAD_XML_OPTIONS.first %>
+      <% download_xml_options.each do |download_option| %>
+        <%= ' | ' unless download_option == download_xml_options.first %>
         <%= render_collection_download_xml_link(download_option[:format], download_option[:title], concept_id, revision_id) %>
       <% end %>
     </p>

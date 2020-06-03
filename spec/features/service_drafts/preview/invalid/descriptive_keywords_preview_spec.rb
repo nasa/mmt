@@ -22,20 +22,14 @@ describe 'Invalid Service Draft Descriptive Keywords Preview' do
   end
 
   it 'displays the stored values correctly within the preview' do
-    within '.umm-preview.descriptive_keywords' do
-      expect(page).to have_css('.umm-preview-field-container', count: 2)
+    within '.umm-preview.service_keywords' do
+      expect(page).to have_css('.umm-preview-field-container', count: 1)
 
       within '#service_draft_draft_service_keywords_preview' do
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'descriptive_keywords', anchor: 'service_draft_draft_service_keywords'))
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_keywords', anchor: 'service_draft_draft_service_keywords'))
 
         keyword_parts = page.all('ul.arrow-tag-group-list').first.all('li.arrow-tag-group-item')
         expect(keyword_parts[0]).to have_content('EARTH SCIENCE SERVICES')
-      end
-
-      within '#service_draft_draft_ancillary_keywords_preview' do
-        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'descriptive_keywords', anchor: 'service_draft_draft_ancillary_keywords'))
-
-        expect(page).to have_css('h6', text: 'Ancillary Keyword 1')
       end
     end
   end
