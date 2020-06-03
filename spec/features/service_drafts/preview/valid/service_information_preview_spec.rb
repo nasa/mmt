@@ -34,7 +34,7 @@ describe 'Valid Service Draft Service Information Preview' do
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.service_information' do
-        expect(page).to have_css('.umm-preview-field-container', count: 5)
+        expect(page).to have_css('.umm-preview-field-container', count: 8)
 
         within '#service_draft_draft_name_preview' do
           expect(page).to have_css('h5', text: 'Name')
@@ -64,11 +64,40 @@ describe 'Valid Service Draft Service Information Preview' do
           expect(page).to have_css('p', text: draft['Version'])
         end
 
+        within '#service_draft_draft_version_description_preview' do
+          expect(page).to have_css('h5', text: 'Version Description')
+          expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_version_description'))
+
+          expect(page).to have_css('p', text: draft['VersionDescription'])
+        end
+
+        within '#service_draft_draft_last_updated_date_preview' do
+          expect(page).to have_css('h5', text: 'Last Updated Date')
+          expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_last_updated_date'))
+
+          expect(page).to have_css('p', text: draft['LastUpdatedDate'])
+        end
+
         within '#service_draft_draft_description_preview' do
           expect(page).to have_css('h5', text: 'Description')
           expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_description'))
 
           expect(page).to have_css('p', text: draft['Description'])
+        end
+
+        within '#service_draft_draft_url_preview' do
+          expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_url'))
+
+          within '.card-header' do
+            expect(page).to have_css('h5', text: 'DistributionURL')
+          end
+
+          within '.card-body' do
+            expect(page).to have_css('p', text: 'Description')
+            expect(page).to have_link(nil, href: 'httpx://testurl.earthdata.nasa.gov')
+            expect(page).to have_css('li', text: 'GET SERVICE')
+            expect(page).to have_css('li', text: 'SUBSETTER')
+          end
         end
       end
     end

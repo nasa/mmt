@@ -34,7 +34,7 @@ describe 'Invalid Service Draft Service Information Preview' do
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.service_information' do
-        expect(page).to have_css('.umm-preview-field-container', count: 5)
+        expect(page).to have_css('.umm-preview-field-container', count: 8)
 
         within '#service_draft_draft_name_preview' do
           expect(page).to have_css('h5', text: 'Name')

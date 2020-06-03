@@ -5,7 +5,7 @@ describe 'Valid Service Service Organizations Preview', reset_provider: true do
     visit service_path(ingest_response['concept-id'])
   end
 
-  context 'When examing the Service Organizations section' do
+  context 'When examining the Service Organizations section' do
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.service_organizations' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)

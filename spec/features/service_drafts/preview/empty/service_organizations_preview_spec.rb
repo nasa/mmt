@@ -6,7 +6,7 @@ describe 'Empty Service Draft Service Organizations Preview' do
     visit service_draft_path(service_draft)
   end
 
-  context 'When examing the Service Organizations section' do
+  context 'When examining the Service Organizations section' do
     it 'displays the form title as an edit link' do
       within '#service_organizations-progress' do
         expect(page).to have_link('Service Organizations', href: edit_service_draft_path(service_draft, 'service_organizations'))

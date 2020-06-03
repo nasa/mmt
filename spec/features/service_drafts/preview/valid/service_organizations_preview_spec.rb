@@ -6,7 +6,7 @@ describe 'Valid Service Draft Service Organizations Preview' do
     visit service_draft_path(service_draft)
   end
 
-  context 'When examing the Service Organizations section' do
+  context 'When examining the Service Organizations section' do
     it 'displays the form title as an edit link' do
       within '#service_organizations-progress' do
         expect(page).to have_link('Service Organizations', href: edit_service_draft_path(service_draft, 'service_organizations'))
@@ -37,13 +37,44 @@ describe 'Valid Service Draft Service Organizations Preview' do
 
         within '.service-organizations-cards' do
           within all('li.card')[0] do
-            # TODO MMT-1997 revisit this test to add in online resources
             within '.card-header' do
               expect(page).to have_content('AARHUS-HYDRO')
               expect(page).to have_content('Multiple Roles')
               expect(page).to have_content('DEVELOPER')
               expect(page).to have_content('PUBLISHER')
             end
+          end
+
+          within all('.card-body')[0] do
+            within '.card-body-details-full' do
+              expect(page).to have_content('Hydrogeophysics Group, Aarhus University')
+            end
+          end
+
+          # Second organization
+          within all('li.card')[1] do
+            within '.card-header' do
+              expect(page).to have_content('AARHUS-HYDRO')
+              expect(page).to have_content('Multiple Roles')
+              expect(page).to have_content('DEVELOPER')
+              expect(page).to have_content('PUBLISHER')
+            end
+          end
+
+          within all('.card-body')[1] do
+            within '.card-body-details-full' do
+              expect(page).to have_content('Hydrogeophysics Group, Aarhus University')
+            end
+          end
+
+          # Second organization's online resource
+          within all('.card-body')[2] do
+            expect(page).to have_content('ORN Text')
+            expect(page).to have_content('ORD Text')
+            expect(page).to have_link('ORL Text')
+            expect(page).to have_content('Protocol: ORP Text')
+            expect(page).to have_content('Application Profile: ORAP Text')
+            expect(page).to have_content('Function: ORF Text')
           end
         end
       end
