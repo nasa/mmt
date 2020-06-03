@@ -10,8 +10,7 @@ $(document).ready ->
 
   $('#search').submit ->
     # The full search box might be up when clicking on Search
-    # so remove the lightbox
-    $('#lightbox').remove()
+    # so remove the lightboxlightbox').remove()
 
   # Basic lightbox functionality
   lightbox = (height) ->
@@ -70,6 +69,10 @@ $(document).ready ->
     $('dropdown-caret').css 'visibility': 'rotate(0deg)'
     $('#keyword').focus()
 
+  # Search radio buttons should be invisible for proposal mode
+  $('.search-disabled-radio-buttons').css 'display': 'none'
+  $('.search-enabled-radio-buttons').css 'display': 'block'
+    
 
   $(document).mouseup (e) ->
     container = $('.search-dropdown, .quick-search')
