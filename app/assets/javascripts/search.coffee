@@ -10,7 +10,8 @@ $(document).ready ->
 
   $('#search').submit ->
     # The full search box might be up when clicking on Search
-    # so remove the lightboxlightbox').remove()
+    # so remove the lightbox
+    lightbox').remove()
 
   # Basic lightbox functionality
   lightbox = (height) ->
