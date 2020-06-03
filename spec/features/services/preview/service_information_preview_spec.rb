@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Valid Service Service Information Preview', reset_provider: true do
   before do
     login

@@ -6,11 +6,7 @@ describe 'Empty Service Draft Descriptive Keywords Preview' do
     visit service_draft_path(service_draft)
   end
 
-<<<<<<< HEAD
   context 'When examining the Service Keywords section' do
-=======
-  context 'When examing the Service Keywords section' do
->>>>>>> 258b1b617a8cebb37b071b51c596d50622f5fbe9
     it 'displays the form title as an edit link' do
       within '#descriptive_keywords-progress' do
         expect(page).to have_link('Descriptive Keywords', href: edit_service_draft_path(service_draft, 'descriptive_keywords'))
@@ -18,11 +14,7 @@ describe 'Empty Service Draft Descriptive Keywords Preview' do
     end
   end
 
-<<<<<<< HEAD
   it 'displays the correct status icon' do
-=======
-  it 'displays the corrent status icon' do
->>>>>>> 258b1b617a8cebb37b071b51c596d50622f5fbe9
     within '#descriptive_keywords-progress' do
       within '.status' do
         expect(page).to have_content('Descriptive Keywords is incomplete')
@@ -36,7 +28,6 @@ describe 'Empty Service Draft Descriptive Keywords Preview' do
     end
   end
 
-<<<<<<< HEAD
   it 'displays the stored values correctly within the preview' do
     within '.umm-preview.descriptive_keywords' do
       expect(page).to have_css('.umm-preview-field-container', count: 2)
@@ -54,20 +45,6 @@ describe 'Empty Service Draft Descriptive Keywords Preview' do
       end
     end
   end
-=======
-# TODO: MMT-1997 needs to update the preview to fix this test.
-#  it 'displays the stored values correctly within the preview' do
-#    within '.umm-preview.service_keywords' do
-#      expect(page).to have_css('.umm-preview-field-container', count: 1)
-#
-#      within '#service_draft_draft_service_keywords_preview' do
-#        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_keywords', anchor: 'service_draft_draft_service_keywords'))
-#
-#        expect(page).to have_css('p', text: 'No value for Service Keywords provided.')
-#      end
-#    end
-#  end
->>>>>>> 258b1b617a8cebb37b071b51c596d50622f5fbe9
 
   it 'displays the correct progress indicators for non required fields' do
     within '#descriptive_keywords-progress .progress-indicators' do
