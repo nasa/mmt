@@ -1,6 +1,8 @@
 # Renders cards for Service Organizations
 
 # :nodoc:
+# TODO: MMT-2267 Abstract these and tool preview elements to minimize repeated
+# code
 class UmmPreviewServiceOrganizations < UmmPreviewElement
   def render
     capture do

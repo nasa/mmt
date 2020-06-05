@@ -1,6 +1,8 @@
 # Renders cards for Service Contacts
 
 # :nodoc:
+# TODO: MMT-2267 Abstract these and tool preview elements to minimize repeated
+# code
 class UmmPreviewServiceContacts < UmmPreviewElement
   def render
     capture do

@@ -30,6 +30,8 @@ describe 'Valid Service Draft Service Contacts Preview' do
     end
   end
 
+  # TODO: MMT-2267 These examples can be reworked to share code with the
+  # published record tests.
   it 'displays the stored values correctly within the preview' do
     within '.umm-preview.service_contacts' do
       expect(page).to have_css('.umm-preview-field-container', count: 2)

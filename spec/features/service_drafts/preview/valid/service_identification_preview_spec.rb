@@ -30,7 +30,9 @@ describe 'Valid Service Draft Service Identification Preview' do
       expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.use-constraints')
     end
   end
-  
+
+  # TODO: MMT-2267 These examples can be reworked to share code with the
+  # published record tests.
   it 'displays the stored values correctly within the preview' do
     within '.umm-preview.service_identification' do
       # Grouped fields cause n + 1 preview containers
