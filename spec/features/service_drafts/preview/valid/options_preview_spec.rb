@@ -6,7 +6,7 @@ describe 'Valid Service Draft Options Preview' do
     visit service_draft_path(service_draft)
   end
 
-  context 'When examing the Options section' do
+  context 'When examining the Options section' do
     it 'displays the form title as an edit link' do
       within '#options-progress' do
         expect(page).to have_link('Options', href: edit_service_draft_path(service_draft, 'options'))
@@ -14,7 +14,7 @@ describe 'Valid Service Draft Options Preview' do
     end
   end
 
-  it 'displays the corrent status icon' do
+  it 'displays the correct status icon' do
     within '#options-progress' do
       within '.status' do
         expect(page).to have_content('Options is valid')

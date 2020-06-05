@@ -75,7 +75,9 @@ FactoryBot.define do
       },
       'AncillaryKeywords': Array.wrap(1030.times { 'k' }),
       'AccessConstraints': Array.wrap(1030.times { 'c' }),
-      'UseConstraints': Array.wrap(1030.times { 't' }),
+      'UseConstraints': {
+        'LicenseUrl': Array.wrap(1030.times { 'c' })
+      },
       'ContactGroups': [
         {
           'GroupName': 'Missing Roles'

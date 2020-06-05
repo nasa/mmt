@@ -12,7 +12,7 @@ describe 'Empty Variable Draft Set Preview' do
       end
     end
 
-    it 'displays the corrent status icon' do
+    it 'displays the correct status icon' do
       within '#sets-progress' do
         within '.status' do
           expect(page).to have_content('Sets is incomplete')
