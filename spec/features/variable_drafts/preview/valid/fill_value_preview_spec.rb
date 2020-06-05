@@ -12,7 +12,7 @@ describe 'Valid Variable Draft Fill Value Preview' do
       end
     end
 
-    it 'displays the corrent status icon' do
+    it 'displays the correct status icon' do
       within '#fill_values-progress' do
         within '.status' do
           expect(page).to have_content('Fill Values is valid')
