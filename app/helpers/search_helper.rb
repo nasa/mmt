@@ -65,10 +65,10 @@ module SearchHelper
   end
   
   def proposal_mode_short_dropdown
-     'search-dropdown-short' if Rails.configuration.proposal_mode
+     ' search-dropdown-short' if Rails.configuration.proposal_mode
   end
   
   def proposal_mode_button_visibility
-     Rails.configuration.proposal_mode ? "search-disabled-radio-buttons" : "search-enabled-radio-buttons"
+     Rails.configuration.proposal_mode ? " search-disabled-radio-buttons" : " search-enabled-radio-buttons"
   end
 end
