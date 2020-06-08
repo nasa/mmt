@@ -1,5 +1,5 @@
 describe 'Drafts listed on the Manage Tools page' do
-  draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_services_controller
+  draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_tools_controller
 
   before do
     @other_user_id = User.create(urs_uid: 'adminuser').id
