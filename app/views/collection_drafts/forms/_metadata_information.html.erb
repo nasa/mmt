@@ -41,7 +41,7 @@
     ) %>
     <div class="eui-accordion__icon" tabindex="0">
       <i class="eui-icon eui-fa-chevron-circle-down"></i>
-      <span class="eui-sr-only">Toggle Metadata Dates</span>
+      <h3><span class="eui-sr-only">Toggle Metadata Dates</span></h3>
     </div>
   </div>
   <div class="eui-accordion__body">
@@ -63,10 +63,11 @@
 </fieldset>
 
 <!-- DirectoryNames -->
-<fieldset class="eui-accordion is-closed" id="directory-names">
+
+<!-- fieldset class="eui-accordion is-closed" id="directory-names">
   <div class="eui-accordion__header">
     <h3 class="eui-accordion__title">Directory Names</h3>
-    <%= mmt_help_icon(
+    < %= mmt_help_icon(
       title: 'Directory Names',
       help: 'properties/DirectoryNames',
       help_url: 'Directory+Name'
@@ -80,7 +81,7 @@
     <div class="row">
       <div class="col-12">
         <div class="row sub-fields">
-          <%= render partial: 'collection_drafts/forms/type', locals: {
+          < %= render partial: 'collection_drafts/forms/type', locals: {
               type: 'directory_name',
               values: draft.draft['DirectoryNames'] || [{}],
               name_prefix: 'draft_|directory_names|_',
@@ -90,4 +91,4 @@
       </div>
     </div>
   </div>
-</fieldset>
+</fieldset -->

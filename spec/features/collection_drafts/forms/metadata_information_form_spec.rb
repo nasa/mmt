@@ -1,7 +1,5 @@
 # MMT-288 MMT-295
 
-require 'rails_helper'
-
 describe 'Metadata Information form', js: true do
   before do
     login
@@ -21,21 +19,30 @@ describe 'Metadata Information form', js: true do
 
       add_metadata_dates
 
-      within '#directory-names' do
-        fill_in 'Short Name', with: 'Short Directory 1'
-        fill_in 'Long Name', with: 'Long Directory 1'
-        click_on 'Add another Directory Name'
-        within '.multiple-item-1' do
-          fill_in 'Short Name', with: 'Short Directory 2'
-          fill_in 'Long Name', with: 'Long Directory 2'
-        end
-      end
+      # Christian's comment-out; no longer should be testing form filling for Dir Names
+      # within '#directory-names' do
+      #   fill_in 'Short Name', with: 'Short Directory 1'
+      #   fill_in 'Long Name', with: 'Long Directory 1'
+      #   click_on 'Add another Directory Name'
+      #   within '.multiple-item-1' do
+      #     fill_in 'Short Name', with: 'Short Directory 2'
+      #     fill_in 'Long Name', with: 'Long Directory 2'
+      #   end
+      # end
 
       within '.nav-top' do
         click_on 'Save'
       end
       # output_schema_validation Draft.first.draft
       click_on 'Expand All'
+    end
+
+    # Christian's example; verifying successful removal of Directory Names fields
+    it "should not contain Directory Names section" do
+      expect(page).not_to have_css('#directory-names')
+      expect(page).not_to have_content('Directory Names')
+      expect(page).not_to have_field('Short Name')
+      expect(page).not_to have_field('Long Name')
     end
 
     it 'displays a confirmation message' do
@@ -56,15 +63,16 @@ describe 'Metadata Information form', js: true do
         end
       end
 
-      within '#directory-names' do
-        expect(page).to have_field('Short Name', with: 'Short Directory 1')
-        expect(page).to have_field('Long Name', with: 'Long Directory 1')
-
-        within '.multiple-item-1' do
-          expect(page).to have_field('Short Name', with: 'Short Directory 2')
-          expect(page).to have_field('Long Name', with: 'Long Directory 2')
-        end
-      end
+      # Christian's comment-out; no longer should be testing form filling for Dir Names
+      # within '#directory-names' do
+      #   expect(page).to have_field('Short Name', with: 'Short Directory 1')
+      #   expect(page).to have_field('Long Name', with: 'Long Directory 1')
+      #
+      #   within '.multiple-item-1' do
+      #     expect(page).to have_field('Short Name', with: 'Short Directory 2')
+      #     expect(page).to have_field('Long Name', with: 'Long Directory 2')
+      #   end
+      # end
     end
   end
 end

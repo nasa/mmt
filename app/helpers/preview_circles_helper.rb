@@ -9,10 +9,10 @@ module PreviewCirclesHelper
         required: false,
         anchor: 'metadata-dates'
       },
-      'DirectoryNames' => {
-        required: false,
-        anchor: 'directory-names'
-      }
+      # 'DirectoryNames' => {
+      #   required: false,
+      #   anchor: 'directory-names'
+      # }
     },
     'collection_information' => {
       'ShortName' => {
