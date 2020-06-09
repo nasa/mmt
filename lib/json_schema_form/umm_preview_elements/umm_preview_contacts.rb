@@ -3,14 +3,15 @@
 # :nodoc:
 # TODO: MMT-2267 Abstract these and tool preview elements to minimize repeated
 # code
-class UmmPreviewServiceContacts < UmmPreviewElement
+class UmmPreviewContacts < UmmPreviewElement
   def render
     capture do
       render_preview_link_to_draft_form unless draft_id.nil?
+
       type = 'group' if contact_group?
       type = 'person' if contact_person?
+
       concat(content_tag(:ul, class: "contact-#{type}-cards cards") do
-        # Array.wrap(data).each_with_index do |contact, index|
         Array.wrap(element_value).each_with_index do |contact, index|
           concat(content_tag(:li, class: 'card') do
             concat render_card_header(contact, index, type)

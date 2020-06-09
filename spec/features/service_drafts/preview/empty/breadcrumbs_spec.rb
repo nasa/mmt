@@ -1,8 +1,9 @@
-describe 'Service drafts empty breadcrumbs' do
+describe 'Service Drafts empty breadcrumbs' do
+  let(:service_draft) { create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first) }
+
   before do
     login
-    @draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
-    visit service_draft_path(@draft)
+    visit service_draft_path(service_draft)
   end
 
   context 'when viewing the breadcrumbs' do
