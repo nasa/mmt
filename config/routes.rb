@@ -115,7 +115,7 @@ Rails.application.routes.draw do
     end
   end
   #TODO: remove only when :show :destroy are supported
-  resources :tool_drafts, controller: 'tool_drafts', draft_type: 'ToolDraft', only: [:index, :new, :create, :edit, :update, :show] do
+  resources :tool_drafts, controller: 'tool_drafts', draft_type: 'ToolDraft', only: [:index, :new, :create, :edit, :update, :show, :destroy] do
     member do
       get :edit, path: 'edit(/:form)'
     end

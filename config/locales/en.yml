@@ -282,6 +282,8 @@ en:
     service_draft:
       delete: "Delete %{model}"
       publish: "Publish %{model}"
+    tool_draft:
+      delete: "Delete %{model}"
     page_entries_info:
       one_page:
         display_entries:
