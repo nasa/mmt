@@ -37,8 +37,7 @@ class UmmPreviewURL < UmmPreviewElement
             concat content_tag(:li, url_type(metadata), class: 'arrow-tag-group-item')
             concat content_tag(:li, url_subtype(metadata), class: 'arrow-tag-group-item') if url_subtype(metadata)
           elsif url_subtype(metadata)
-            # TODO: should other url type and subtype be displayed in the keyword way also, or only the above?
-            # this also means that Type is not rendered
+            # TODO this should be modified in MMT-2281 so Type is shown
             concat content_tag(:li, url_subtype(metadata), class: 'arrow-tag-group-item')
           elsif url_type(metadata)
             concat content_tag(:li, url_type(metadata), class: 'arrow-tag-group-item')

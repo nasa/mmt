@@ -71,6 +71,10 @@ en:
           flash:
             success: 'Tool Draft Updated Successfully!'
             error: 'Tool Draft was not updated successfully'
+        destroy:
+          flash:
+            success: 'Tool Draft Deleted Successfully!'
+            error: 'Tool Draft was not deleted successfully'
       collection_drafts:
         create:
           flash:

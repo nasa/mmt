@@ -10,7 +10,9 @@ describe 'Invalid Tool Draft Smart Handoff Information Preview' do
 
     context 'when examining the metadata preview section' do
       it 'does not display the Smart Handoff Information in the preview' do
+        # Business rules indicate Smart Handoff Information not to be displayed
         expect(page).to have_no_css('.umm-preview.smart_handoff_information')
+        expect(page).to have_no_css('h4', text: 'Smart Handoff Information')
       end
     end
   end
