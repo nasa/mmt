@@ -61,7 +61,7 @@
           </p>
         </div>
       <% else %>
-        <% unless resource_name == 'ToolDraft' %>
+        <% unless resource_name == 'tool_draft' %>
           <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), send("#{plural_published_resource_name}_path", id: get_resource), method: :post, class: 'eui-btn--blue spinner' %>
         <% end %>
       <% end %>
