@@ -33,13 +33,11 @@
                 </p>
               </li>
             <% end %>
-            <!-- TODO: for index
-            <%# if @drafts.size > @draft_display_max_count %>
+            <% if @drafts.size > @draft_display_max_count %>
               <li>
-                <%#= link_to 'More', tool_drafts_path %>
+                <%= link_to 'More', tool_drafts_path %>
               </li>
-            <%# end %>
-          -->
+            <% end %>
           </ul>
         </div>
       </div>
