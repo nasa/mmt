@@ -63,4 +63,14 @@ module SearchHelper
       DateTime.parse(revision_date).to_s(:date)
     end
   end
+  
+  # search dropdown is smaller if radio buttons are hidden in DMMT
+  def proposal_mode_short_dropdown
+     ' search-dropdown-short' if Rails.configuration.proposal_mode
+  end
+  
+  # search radio buttons are hidden in DMMT, visible in MMT
+  def proposal_mode_button_visibility
+     Rails.configuration.proposal_mode ? " search-disabled-radio-buttons" : " search-enabled-radio-buttons"
+  end
 end

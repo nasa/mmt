@@ -33,6 +33,14 @@ describe 'Viewing Unsubmitted Collection Draft Proposals' do
     it 'does not have the metadata download option' do
       expect(page).to have_no_content('Metadata Download:')
     end
+    
+    it 'has a hidden search dropdown in proposal mode' do
+      within '.quick-search' do
+        expect(page).to have_css('.search-dropdown-short')
+        expect(page).to have_css('.search-disabled-radio-buttons')
+      end
+    end
+
   end
 
   context 'when viewing incomplete metadata' do
