@@ -61,7 +61,9 @@
           </p>
         </div>
       <% else %>
-        <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), send("#{plural_published_resource_name}_path", id: get_resource), method: :post, class: 'eui-btn--blue spinner' %>
+        <% unless resource_name == 'ToolDraft' %>
+          <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), send("#{plural_published_resource_name}_path", id: get_resource), method: :post, class: 'eui-btn--blue spinner' %>
+        <% end %>
       <% end %>
       <%= link_to I18n.t("helpers.#{resource_name}.delete", model: resource_name.titleize), "#delete-draft-modal", class: 'display-modal' %>
       <div id="delete-draft-modal" class="eui-modal-content">
