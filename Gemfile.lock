@@ -1,7 +1,7 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 9b5c23e5510237605e4a1ad6ac8376480da88419
-  ref: 9b5c23e5510
+  revision: c6de9ab2a0e1893483e9fd530b4623db97096469
+  ref: c6de9ab2a0e
   specs:
     cmr_metadata_preview (0.2.1)
       georuby
@@ -368,7 +368,7 @@ DEPENDENCIES
   pg
   pundit
   rack_session_access
-  rails (~> 5.2.4.3)
+  rails (~> 5.2.4)
   rails-controller-testing
   rspec-rails
   rspec_junit_formatter
