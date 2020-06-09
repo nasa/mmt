@@ -9,10 +9,11 @@ describe 'Removed field', js: true do
     within '.nav-top' do
       click_on "Save"
     end
+    @draft1 = CollectionDraft.first
   end
 
-  it 'collection draft should still contain DirectoryNames' do
-    draft = CollectionDraft.first
-    expect(draft.draft.keys).to include('DirectoryNames')
+  it 'collection draft should contain the same DirectoryNames' do
+    @draft2 = CollectionDraft.first
+    expect(@draft2.draft['DirectoryNames']).to eql(@draft1.draft['DirectoryNames'])
   end
 end
