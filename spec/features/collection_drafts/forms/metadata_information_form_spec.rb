@@ -26,7 +26,7 @@ describe 'Metadata Information form', js: true do
       click_on 'Expand All'
     end
 
-    # Christian's example; verifying successful removal of Directory Names fields
+    # Business rules require not displaying Directory Names fields to users
     it "should not contain Directory Names section" do
       expect(page).to have_no_css('#directory-names')
       expect(page).to have_no_content('Directory Names')
