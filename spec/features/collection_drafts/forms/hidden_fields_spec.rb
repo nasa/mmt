@@ -4,12 +4,12 @@ describe 'Removed field', js: true do
   before do
     login
     visit edit_collection_draft_path(draft_before_save)
+    within '.nav-top' do
+      click_on 'Save'
+    end
   end
 
   it 'collection draft should contain the same DirectoryNames' do
-    within '.nav-top' do
-      click_on "Save"
-    end
     draft_after_save = CollectionDraft.first
     expect(draft_after_save.draft['DirectoryNames']).to eql(draft_before_save.draft['DirectoryNames'])
   end
