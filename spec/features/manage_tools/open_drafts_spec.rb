@@ -65,21 +65,21 @@ describe 'Drafts listed on the Manage Tools page' do
       it 'the Tool Drafts index page is displayed with all open drafts for the provider' do
         expect(page).to have_content('<Blank Name>', count: (draft_display_max_count * 2))
       end
-# TODO: add test when index view is supported
-#       context 'when "<Blank Name>" is clicked on' do
-#         before do
-#           click_on '<Blank Name>', match: :first
-#         end
-#
-#         it 'the draft is opened for view/edit' do
-#           within '.eui-breadcrumbs' do
-#             expect(page).to have_content('Tool Drafts')
-#           end
-#
-#           expect(page).to have_css('p', text: 'No value for Name provided.')
-#           expect(page).to have_css('p', text: 'No value for Long Name provided.')
-#         end
-#       end
+
+      context 'when "<Blank Name>" is clicked on' do
+        before do
+          click_on '<Blank Name>', match: :first
+        end
+
+        it 'the draft is opened for view/edit' do
+          within '.eui-breadcrumbs' do
+            expect(page).to have_content('Tool Drafts')
+          end
+
+          expect(page).to have_css('p', text: 'No value for Name provided.')
+          expect(page).to have_css('p', text: 'No value for Long Name provided.')
+        end
+      end
     end
   end
 end

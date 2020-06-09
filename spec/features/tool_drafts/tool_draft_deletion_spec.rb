@@ -16,11 +16,11 @@ describe 'Tool draft deletion', js: true do
     end
 
     # needs the index page
-    # it 'displays a confirmation message and returns to the drafts index page' do
-    #   expect(page).to have_content('Tool Draft Deleted Successfully!')
-    #
-    #   expect(page).to have_content('MMT_2 Tool Drafts')
-    # end
+    it 'displays a confirmation message and returns to the drafts index page' do
+      expect(page).to have_content('Tool Draft Deleted Successfully!')
+
+      expect(page).to have_content('MMT_2 Tool Drafts')
+    end
   end
 
   context 'when cancelling the deletion of a single draft' do

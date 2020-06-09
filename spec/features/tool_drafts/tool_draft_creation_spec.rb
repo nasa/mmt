@@ -29,7 +29,7 @@ describe 'Tool Draft creation' do
         fill_in 'tool_draft_draft_name', with: 'test tool draft'
 
         within '.nav-top' do
-          click_on 'Save' # TODO: in MMT-2226, change this to 'Done'
+          click_on 'Done'
         end
 
         click_on 'Yes'
@@ -39,16 +39,15 @@ describe 'Tool Draft creation' do
         expect(page).to have_content('Tool Draft Created Successfully!')
       end
 
-      # TODO: this requires the show path, MMT-2226
-      # context "when accessing a tool draft's json" do
-      #   before do
-      #     visit tool_draft_path(ToolDraft.first, format: 'json')
-      #   end
-      #
-      #   it 'displays json' do
-      #     expect(page).to have_content("{\n  \"Name\": \"test service draft\"\n}")
-      #   end
-      # end
+      context "when accessing a tool draft's json" do
+        before do
+          visit tool_draft_path(ToolDraft.first, format: 'json')
+        end
+
+        it 'displays json' do
+          expect(page).to have_content("{\n  \"Name\": \"test tool draft\",\n  \"MetadataSpecification\": {\n    \"URL\": \"https://cdn.earthdata.nasa.gov/umm/tool/v1.0\",\n    \"Name\": \"UMM-T\",\n    \"Version\": \"1.0\"\n  }\n}")
+        end
+      end
     end
   end
 end
