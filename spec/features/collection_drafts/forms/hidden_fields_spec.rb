@@ -5,14 +5,14 @@ describe 'Removed field', js: true do
     login
     draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
     visit collection_draft_path(draft)
+
+    within '.col-3' do
+      click_on "Save"
+    end
   end
 
-
-  context 'when field was avaiable' do
-
-    it 'collection draft should still contain DirectoryNames' do
-      draft = CollectionDraft.first
-      expect(draft.draft.keys).to include('DirectoryNames')
-    end
+  it 'collection draft should still contain DirectoryNames' do
+    draft = CollectionDraft.first
+    expect(draft.draft.keys).to include('DirectoryNames')
   end
 end
