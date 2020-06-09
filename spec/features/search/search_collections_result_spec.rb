@@ -110,7 +110,7 @@ describe 'Searching published collections', js: true, reset_provider: true do
     end
 
     it 'displays the query and collection results' do
-      expect(page).to have_collection_search_query(28, 'Provider Id: LARC')
+      expect(page).to have_collection_search_query(29, 'Provider Id: LARC')
     end
 
     it 'displays expected data' do

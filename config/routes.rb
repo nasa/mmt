@@ -114,6 +114,12 @@ Rails.application.routes.draw do
       get :edit, path: 'edit(/:form)'
     end
   end
+  #TODO: remove only when :show :destroy are supported
+  resources :tool_drafts, controller: 'tool_drafts', draft_type: 'ToolDraft', only: [:index, :new, :create, :edit, :update] do
+    member do
+      get :edit, path: 'edit(/:form)'
+    end
+  end
 
   resources :collection_drafts, controller: 'collection_drafts', draft_type: 'CollectionDraft', as: 'collection_drafts' do
     member do
@@ -160,8 +166,9 @@ Rails.application.routes.draw do
 
   resource :manage_collections, only: :show
   post 'manage_collections/make_new_draft' => 'manage_collections#make_new_draft', as: 'make_new_draft_manage_collections'
-  resource :manage_variables, only: :show
+  resource :manage_variables, only: :show, controller: 'manage_variables'
   resource :manage_services, only: :show, controller: 'manage_services'
+  resource :manage_tools, only: :show, controller: 'manage_tools'
   resource :manage_cmr, only: :show, controller: 'manage_cmr'
   resource :manage_proposals, only: :show, controller: 'manage_proposal'
   post '/manage_proposal/publish_proposal' => 'manage_proposal#publish_proposal', as: 'publish_proposal_manage_proposal'
@@ -195,6 +202,8 @@ Rails.application.routes.draw do
 
   post 'set_provider' => 'users#set_provider', as: 'set_provider'
   get 'refresh_providers' => 'users#refresh_providers', as: 'refresh_user_providers'
+  
+  post 'report_csp_violation' => 'csp#report_csp_violation', as: :report_csp_violation
 
   root 'welcome#index'
 

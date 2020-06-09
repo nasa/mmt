@@ -614,6 +614,7 @@ module Cmr
 
             content_type = 'application/echo10+xml'
             content_type = 'application/dif10+xml' if data['type'] == 'dif10'
+            content_type = 'application/iso:smap+xml' if data['type'] == 'iso-smap'
             req.headers['Content-Type'] = content_type
             req.headers['Echo-token'] = 'mock-echo-system-token'
             req.body = data['metadata']

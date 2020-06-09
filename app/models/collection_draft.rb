@@ -68,6 +68,13 @@ class CollectionDraft < Draft
     entry_title || '<Untitled Collection Record>'
   end
 
+  def set_searchable_fields
+    # redefining the method as these fields are different for collection drafts
+    # than the other draft types
+    self.short_name = draft['ShortName']
+    self.entry_title = draft['EntryTitle']
+  end
+
   def update_draft(params, editing_user_id)
     if params
       # RAILS 5.1 This is simpler than permit with a full json structure for collection
@@ -75,12 +82,6 @@ class CollectionDraft < Draft
       case params
       when ActionController::Parameters
         params = params.permit!.to_h
-      end
-
-      # pull out searchable fields if provided
-      if params['short_name']
-        self.entry_title = params['entry_title'].empty? ? nil : params['entry_title']
-        self.short_name = params['short_name'].empty? ? nil : params['short_name']
       end
 
       if params['template_name']

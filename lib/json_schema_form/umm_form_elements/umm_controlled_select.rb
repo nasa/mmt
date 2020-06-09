@@ -1,6 +1,4 @@
-# UmmControlledSelect is used for a select field,
-# but one that has controlled keywords as options
-
+# UmmControlledSelect is used for a select field, that has controlled keywords as options
 
 # :nodoc:
 class UmmControlledSelect < UmmSelect
@@ -11,9 +9,11 @@ class UmmControlledSelect < UmmSelect
   end
 
   def select_class
-    select2_class = !controlled_keyword.include?('related_url')
+    select2_class = !controlled_keyword.include?('related_url') && !controlled_keyword.include?('url_')
     short_name_class = !controlled_keyword.include?('related_url') && !controlled_keyword.include?('measurement')
-    "validate #{'select2-select' if select2_class} #{controlled_keyword.dasherize.singularize}#{'-short-name' if short_name_class}-select"
+    keyword_class = parsed_json['htmlClass'] || "#{controlled_keyword.dasherize.singularize}#{'-short-name' if short_name_class}-select"
+
+    "validate #{'select2-select' if select2_class} #{keyword_class}"
   end
 
   def element_properties(element)
@@ -22,10 +22,10 @@ class UmmControlledSelect < UmmSelect
     # Prevent children of this class from adding further properties
     return properties unless self.class.to_s == 'UmmControlledSelect'
 
+    # add a prompt, replace classes with select_class
     properties.merge(prompt: "Select a #{title}", class: select_class)
   end
 
-  # load select options in from ControlledKeywords
   def ui_options
     case controlled_keyword
     when 'platforms'
@@ -36,12 +36,24 @@ class UmmControlledSelect < UmmSelect
       options_for_select(set_data_centers, element_value)
     when 'country'
       options_for_select(set_country_codes, element_value)
-    when 'related_url_content_type'
-      options_for_select(DraftsHelper::URLContentTypeOptions, element_value)
-    when 'related_url_type'
-      options_for_select(DraftsHelper::UMMSURLTypeOptions, element_value)
-    when 'related_url_subtype'
-      options_for_select(DraftsHelper::UMMSURLSubtypeOptions, element_value)
+    when 'umm_s_related_url_content_type'
+      options_for_select(RelatedUrlsHelper::UMMSRelatedURLContentTypeOptions, element_value)
+    when 'umm_s_related_url_type'
+      options_for_select(RelatedUrlsHelper::UMMSRelatedURLTypeOptions, element_value)
+    when 'umm_s_related_url_subtype'
+      options_for_select(RelatedUrlsHelper::UMMSRelatedURLSubtypeOptions, element_value)
+    when 'umm_t_related_url_content_type'
+      options_for_select(RelatedUrlsHelper::UMMTRelatedURLContentTypeOptions, element_value)
+    when 'umm_t_related_url_type'
+      options_for_select(RelatedUrlsHelper::UMMTRelatedURLTypeOptions, element_value)
+    when 'umm_t_related_url_subtype'
+      options_for_select(RelatedUrlsHelper::UMMTRelatedURLSubtypeOptions, element_value)
+    when 'umm_t_url_content_type'
+      options_for_select(RelatedUrlsHelper::UMMTURLContentTypeOptions, element_value)
+    when 'umm_t_url_type'
+      options_for_select(RelatedUrlsHelper::UMMTURLTypeOptions, element_value)
+    when 'umm_t_url_subtype'
+      options_for_select(RelatedUrlsHelper::UMMTURLSubtypeOptions, element_value)
     when 'measurement_context_medium'
       options_for_select(set_measurement_names.keys, element_value)
     when 'measurement_object'

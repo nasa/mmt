@@ -1,11 +1,11 @@
 # Groups of assertions use in UMM-S form tests
 
-def contact_groups_assertions
+def service_contact_groups_assertions
   within '.multiple.contact-groups > .multiple-item-0' do
     expect(page).to have_select('Roles', selected: ['TECHNICAL CONTACT', 'SCIENCE CONTACT'])
     expect(page).to have_field('Group Name', with: 'Group 1')
 
-    contact_information_assertions
+    service_contact_information_assertions
   end
   within '.multiple.contact-groups > .multiple-item-1' do
     expect(page).to have_select('Roles', selected: ['SERVICE PROVIDER CONTACT'])
@@ -13,14 +13,14 @@ def contact_groups_assertions
   end
 end
 
-def contact_persons_assertions
+def service_contact_persons_assertions
   within '.multiple.contact-persons > .multiple-item-0' do
     expect(page).to have_select('Roles', selected: ['SERVICE PROVIDER'])
     expect(page).to have_field('First Name', with: 'First')
     expect(page).to have_field('Middle Name', with: 'Middle')
     expect(page).to have_field('Last Name', with: 'Last')
 
-    contact_information_assertions
+    service_contact_information_assertions
   end
   within '.multiple.contact-persons > .multiple-item-1' do
     expect(page).to have_select('Roles', selected: ['DEVELOPER'])
@@ -28,7 +28,7 @@ def contact_persons_assertions
   end
 end
 
-def contact_information_assertions
+def service_contact_information_assertions
   within all('.contact-information').first do
     expect(page).to have_field('Service Hours', with: '9-6, M-F')
     expect(page).to have_field('Contact Instruction', with: 'Email only')
@@ -82,31 +82,17 @@ def contact_information_assertions
     end
     within '.multiple.related-urls> .multiple-item-1' do
       expect(page).to have_field('Description', with: 'Related URL 2 Description')
-      expect(page).to have_field('Url Content Type', with: 'DistributionURL')
-      expect(page).to have_field('Type', with: 'GET SERVICE')
-      expect(page).to have_field('Subtype', with: 'DIF')
+      expect(page).to have_field('Url Content Type', with: 'PublicationURL')
+      expect(page).to have_field('Type', with: 'VIEW RELATED INFORMATION')
+      expect(page).to have_field('Subtype', with: 'READ-ME')
       expect(page).to have_field('Url', with: 'https://example.com/')
-
-      expect(page).to have_field('Mime Type', with: 'Not provided')
-      expect(page).to have_field('Protocol', with: 'HTTPS')
-      expect(page).to have_field('Full Name', with: 'Service Name')
-      expect(page).to have_field('Data ID', with: 'data_id')
-      expect(page).to have_field('Data Type', with: 'data type')
-      expect(page).to have_selector('input.uri[value="uri1"]')
-      expect(page).to have_selector('input.uri[value="uri2"]')
     end
     within '.multiple.related-urls > .multiple-item-2' do
       expect(page).to have_field('Description', with: 'Related URL 3 Description')
-      expect(page).to have_field('Url Content Type', with: 'DistributionURL')
-      expect(page).to have_field('Type', with: 'GET DATA')
-      expect(page).to have_field('Subtype', with: 'EARTHDATA SEARCH')
+      expect(page).to have_field('Url Content Type', with: 'VisualizationURL')
+      expect(page).to have_field('Type', with: 'GET RELATED VISUALIZATION')
+      expect(page).to have_field('Subtype', with: 'GIOVANNI')
       expect(page).to have_field('Url', with: 'https://search.earthdata.nasa.gov/')
-
-      expect(page).to have_field('Format', with: 'ascii')
-      expect(page).to have_field('Size', with: '42.0')
-      expect(page).to have_field('Unit', with: 'KB')
-      expect(page).to have_field('Fees', with: '0')
-      expect(page).to have_field('Checksum', with: 'sdfgfgksghafgsdvbasf')
     end
   end
 end

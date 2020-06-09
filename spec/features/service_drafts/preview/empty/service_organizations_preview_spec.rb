@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Empty Service Draft Service Organizations Preview' do
   let(:service_draft) { create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first) }
 
@@ -8,7 +6,7 @@ describe 'Empty Service Draft Service Organizations Preview' do
     visit service_draft_path(service_draft)
   end
 
-  context 'When examing the Service Organizations section' do
+  context 'When examining the Service Organizations section' do
     it 'displays the form title as an edit link' do
       within '#service_organizations-progress' do
         expect(page).to have_link('Service Organizations', href: edit_service_draft_path(service_draft, 'service_organizations'))
@@ -16,7 +14,7 @@ describe 'Empty Service Draft Service Organizations Preview' do
     end
   end
 
-  it 'displays the corrent status icon' do
+  it 'displays the correct status icon' do
     within '#service_organizations-progress' do
       within '.status' do
         expect(page).to have_content('Service Organizations is incomplete')

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Create new draft from service', reset_provider: true do
   context 'when editing a published service' do
     before do

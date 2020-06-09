@@ -1,13 +1,13 @@
-describe 'Variable Drafts Forms Field Validations', js: true do
+describe 'Variable Draft Forms Field Validation', js: true do
+  let(:draft) { create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first) }
+
   before do
     login
-
-    @draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
   end
 
   context 'required fields' do
     before do
-      visit edit_variable_draft_path(@draft)
+      visit edit_variable_draft_path(draft)
     end
 
     context 'when trying to submit a form with required fields' do
@@ -138,7 +138,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
     context 'when only filling out some of the required subfields of a required field' do
       before do
-        visit edit_variable_draft_path(@draft, 'sets')
+        visit edit_variable_draft_path(draft, 'sets')
 
         fill_in 'Name', with: 'Set name'
 
@@ -170,7 +170,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
     context 'when only filling out some of the required subfields of a required field' do
       before do
-        visit edit_variable_draft_path(@draft, 'dimensions')
+        visit edit_variable_draft_path(draft, 'dimensions')
 
         fill_in 'Name', with: 'dim name'
 
@@ -202,7 +202,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
   context 'number fields' do
     before do
-      visit edit_variable_draft_path(@draft)
+      visit edit_variable_draft_path(draft)
     end
 
     context 'when entering text into a number field' do
@@ -259,7 +259,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
   context 'number fields with names that break text transformation conventions' do
     before do
-      visit edit_variable_draft_path(@draft, 'size_estimation')
+      visit edit_variable_draft_path(draft, 'size_estimation')
     end
 
     context 'when entering text into a number field' do
@@ -308,7 +308,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
   context 'multiple fieldsets' do
     before do
-      visit edit_variable_draft_path(@draft, 'dimensions')
+      visit edit_variable_draft_path(draft, 'dimensions')
     end
 
     context 'when adding a new set of multiple fields' do
@@ -328,7 +328,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
   context 'entering multiple simple fields' do
     before do
-      visit edit_variable_draft_path(@draft, 'variable_characteristics')
+      visit edit_variable_draft_path(draft, 'variable_characteristics')
     end
 
     context 'when entering invalid data' do
@@ -372,7 +372,7 @@ describe 'Variable Drafts Forms Field Validations', js: true do
 
   context 'multiple simple fields' do
     before do
-      visit edit_variable_draft_path(@draft, 'variable_characteristics')
+      visit edit_variable_draft_path(draft, 'variable_characteristics')
     end
 
     context 'when entering one field' do

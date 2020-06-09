@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service Organizations Form Navigation', js: true do
   before do
     login
@@ -14,9 +12,6 @@ describe 'Service Organizations Form Navigation', js: true do
     it 'displays the correct prompt value for all select elements' do
       within '.umm-form' do
         expect(page).to have_select('service_draft_draft_service_organizations_0_short_name', selected: 'Select a Short Name')
-        expect(page).to have_select('service_draft_draft_service_organizations_0_contact_groups_0_contact_information_contact_mechanisms_0_type', selected: 'Select a Type')
-        expect(page).to have_select('service_draft_draft_service_organizations_0_contact_groups_0_contact_information_addresses_0_country', selected: 'Select a Country')
-        expect(page).to have_select('service_draft_draft_service_organizations_0_contact_groups_0_contact_information_related_urls_0_url_content_type', selected: 'Select a Url Content Type')
       end
     end
 
@@ -63,19 +58,15 @@ describe 'Service Organizations Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Acquisition Information')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Platforms')
+          expect(page).to have_content('Descriptive Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('acquisition_information')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
       end
     end
@@ -160,43 +151,9 @@ describe 'Service Organizations Form Navigation', js: true do
       include_examples 'Service Organizations Full Form'
     end
 
-    context 'When clicking `Save` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Save'
-        end
-      end
-
-      it 'saves the draft without making any changes' do
-        expect(draft.draft).to eq(Draft.last.draft)
-      end
-
-      it 'saves the draft and reloads the form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Service Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Service Organizations')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Service Organizations')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_organizations')
-        end
-      end
-
-      context 'when viewing the form' do
-        include_examples 'Service Organizations Full Form'
-      end
+    it 'displays the correct number of required fields' do
+      # 2 from each organization + 3 from the one online resource
+      expect(page).to have_selector('label.eui-required-o', count: 7)
     end
   end
 end

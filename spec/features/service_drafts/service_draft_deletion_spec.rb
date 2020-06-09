@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service draft deletion', js: true do
   before do
     login

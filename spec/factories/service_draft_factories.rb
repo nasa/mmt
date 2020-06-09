@@ -75,7 +75,9 @@ FactoryBot.define do
       },
       'AncillaryKeywords': Array.wrap(1030.times { 'k' }),
       'AccessConstraints': Array.wrap(1030.times { 'c' }),
-      'UseConstraints': Array.wrap(1030.times { 't' }),
+      'UseConstraints': {
+        'LicenseUrl': Array.wrap(1030.times { 'c' })
+      },
       'ContactGroups': [
         {
           'GroupName': 'Missing Roles'
@@ -107,31 +109,26 @@ FactoryBot.define do
       'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')}_#{Faker::Number.number(digits: 19)}",
       'Type': 'NOT PROVIDED',
       'Version': '1.0',
+      'VersionDescription': 'Description of the Current Version',
+      'LastUpdatedDate': '2020-05-20T00:00:00.000Z',
       'Description': 'Description of the test service',
-      'RelatedURLs': [
-        {
-          'Description': 'Test related url',
-          'URLContentType': 'DistributionURL',
-          'Type': 'GET SERVICE',
-          'Subtype': 'SOFTWARE PACKAGE',
-          'URL': 'nasa.gov',
-          'GetService': {
-            'MimeType': 'application/json',
-            'Protocol': 'HTTP',
-            'FullName': 'Test Service',
-            'DataID': 'Test data',
-            'DataType': 'Test data type',
-            'URI': ['Test URI 1', 'Test URI 2']
-          }
-        }
-      ],
+      'URL': {
+        'Description': 'Description of primary url',
+        'URLContentType': 'DistributionURL',
+        'Type': 'GET SERVICE',
+        'Subtype': 'SUBSETTER',
+        'URLValue': 'httpx://testurl.earthdata.nasa.gov'
+      },
       'ServiceQuality': {
         'QualityFlag': 'Reviewed',
         'Traceability': 'traceability',
         'Lineage': 'lineage'
       },
       'AccessConstraints': 'access constraint 1',
-      'UseConstraints': 'use constraint 1',
+      'UseConstraints': {
+        'LicenseUrl': 'LicenseUrl Text',
+        'LicenseText': 'LicenseText Text'
+      },
       'ServiceKeywords': [
         {
           'ServiceCategory': 'EARTH SCIENCE SERVICES',
@@ -140,243 +137,26 @@ FactoryBot.define do
           'ServiceSpecificTerm': 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
         }
       ],
-      'ScienceKeywords': [
-        {
-          'Category': 'EARTH SCIENCE',
-          'Topic': 'SOLID EARTH',
-          'Term': 'ROCKS/MINERALS/CRYSTALS',
-          'VariableLevel1': 'SEDIMENTARY ROCKS',
-          'VariableLevel2': 'SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES',
-          'VariableLevel3': 'LUMINESCENCE'
-        }
-      ],
       'AncillaryKeywords': ['Ancillary keyword 1', 'Ancillary keyword 2'],
       'ServiceOrganizations': [
         {
           'Roles': ['DEVELOPER', 'PUBLISHER'],
           'ShortName': 'AARHUS-HYDRO',
           'LongName': 'Hydrogeophysics Group, Aarhus University ',
-          'ContactGroups': [
-            {
-              'Roles': ['SCIENCE CONTACT', 'TECHNICAL CONTACT'],
-              'GroupName': 'Group 1',
-              'ContactInformation': {
-                'ServiceHours': '9-6, M-F',
-                'ContactInstruction': 'Email only',
-                'ContactMechanisms': [
-                  {
-                    'Type': 'Email',
-                    'Value': 'example@example.com'
-                  }, {
-                    'Type': 'Email',
-                    'Value': 'example2@example.com'
-                  }
-                ],
-                'Addresses': [
-                  {
-                    'StreetAddresses': ['300 E Street Southwest', 'Room 203', 'Address line 3'],
-                    'City': 'Washington',
-                    'StateProvince': 'DC',
-                    'PostalCode': '20546',
-                    'Country': 'United States'
-                  },
-                  {
-                    'StreetAddresses': ['8800 Greenbelt Road'],
-                    'City': 'Greenbelt',
-                    'StateProvince': 'MD',
-                    'PostalCode': '20771',
-                    'Country': 'United States'
-                  }
-                ],
-                'RelatedUrls': [
-                  {
-                    'Description': 'Related URL 1 Description',
-                    'URLContentType': 'CollectionURL',
-                    'Type': 'DATA SET LANDING PAGE',
-                    'URL': 'http://example.com/'
-                  },
-                  {
-                    'Description': 'Related URL 2 Description',
-                    'URLContentType': 'DistributionURL',
-                    'Type': 'GET SERVICE',
-                    'Subtype': 'DIF',
-                    'URL': 'https://example.com/',
-                    'GetService': {
-                      'MimeType': 'Not provided',
-                      'Protocol': 'HTTPS',
-                      'FullName': 'Service Name',
-                      'DataID': 'data_id',
-                      'DataType': 'data type',
-                      'URI': ['uri1', 'uri2']
-                    }
-                  },
-                  {
-                    'Description': 'Related URL 3 Description',
-                    'URLContentType': 'DistributionURL',
-                    'Type': 'GET DATA',
-                    'Subtype': 'EARTHDATA SEARCH',
-                    'URL': 'https://search.earthdata.nasa.gov/',
-                    'GetData': {
-                      'Format': 'ascii',
-                      'Size': 42.0,
-                      'Unit': 'KB',
-                      'Fees': '0',
-                      'Checksum': 'sdfgfgksghafgsdvbasf'
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              'Roles': ['SERVICE PROVIDER CONTACT'],
-              'GroupName': 'Group 2'
-            }
-          ],
-          'ContactPersons': [
-            {
-              'Roles': ['SERVICE PROVIDER'],
-              'FirstName': 'First',
-              'MiddleName': 'Middle',
-              'LastName': 'Last',
-              'ContactInformation': {
-                'ServiceHours': '9-6, M-F',
-                'ContactInstruction': 'Email only',
-                'ContactMechanisms': [
-                  {
-                    'Type': 'Email',
-                    'Value': 'example@example.com'
-                  }, {
-                    'Type': 'Email',
-                    'Value': 'example2@example.com'
-                  }
-                ],
-                'Addresses': [
-                  {
-                    'StreetAddresses': ['300 E Street Southwest', 'Room 203', 'Address line 3'],
-                    'City': 'Washington',
-                    'StateProvince': 'DC',
-                    'PostalCode': '20546',
-                    'Country': 'United States'
-                  },
-                  {
-                    'StreetAddresses': ['8800 Greenbelt Road'],
-                    'City': 'Greenbelt',
-                    'StateProvince': 'MD',
-                    'PostalCode': '20771',
-                    'Country': 'United States'
-                  }
-                ],
-                'RelatedUrls': [
-                  {
-                    'Description': 'Related URL 1 Description',
-                    'URLContentType': 'CollectionURL',
-                    'Type': 'DATA SET LANDING PAGE',
-                    'URL': 'http://example.com/'
-                  },
-                  {
-                    'Description': 'Related URL 2 Description',
-                    'URLContentType': 'DistributionURL',
-                    'Type': 'GET SERVICE',
-                    'Subtype': 'DIF',
-                    'URL': 'https://example.com/',
-                    'GetService': {
-                      'MimeType': 'Not provided',
-                      'Protocol': 'HTTPS',
-                      'FullName': 'Service Name',
-                      'DataID': 'data_id',
-                      'DataType': 'data type',
-                      'URI': ['uri1', 'uri2']
-                    }
-                  },
-                  {
-                    'Description': 'Related URL 3 Description',
-                    'URLContentType': 'DistributionURL',
-                    'Type': 'GET DATA',
-                    'Subtype': 'EARTHDATA SEARCH',
-                    'URL': 'https://search.earthdata.nasa.gov/',
-                    'GetData': {
-                      'Format': 'ascii',
-                      'Size': 42.0,
-                      'Unit': 'KB',
-                      'Fees': '0',
-                      'Checksum': 'sdfgfgksghafgsdvbasf'
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              'Roles': ['DEVELOPER'],
-              'LastName': 'Last 2'
-            }
-          ],
-          'ContactInformation': {
-            'ServiceHours': '9-6, M-F',
-            'ContactInstruction': 'Email only',
-            'ContactMechanisms': [
-              {
-                'Type': 'Email',
-                'Value': 'example@example.com'
-              }, {
-                'Type': 'Email',
-                'Value': 'example2@example.com'
-              }
-            ],
-            'Addresses': [
-              {
-                'StreetAddresses': ['300 E Street Southwest', 'Room 203', 'Address line 3'],
-                'City': 'Washington',
-                'StateProvince': 'DC',
-                'PostalCode': '20546',
-                'Country': 'United States'
-              },
-              {
-                'StreetAddresses': ['8800 Greenbelt Road'],
-                'City': 'Greenbelt',
-                'StateProvince': 'MD',
-                'PostalCode': '20771',
-                'Country': 'United States'
-              }
-            ],
-            'RelatedUrls': [
-              {
-                'Description': 'Related URL 1 Description',
-                'URLContentType': 'CollectionURL',
-                'Type': 'DATA SET LANDING PAGE',
-                'URL': 'http://example.com/'
-              },
-              {
-                'Description': 'Related URL 2 Description',
-                'URLContentType': 'DistributionURL',
-                'Type': 'GET SERVICE',
-                'Subtype': 'DIF',
-                'URL': 'https://example.com/',
-                'GetService': {
-                  'MimeType': 'Not provided',
-                  'Protocol': 'HTTPS',
-                  'FullName': 'Service Name',
-                  'DataID': 'data_id',
-                  'DataType': 'data type',
-                  'URI': ['uri1', 'uri2']
-                }
-              },
-              {
-                'Description': 'Related URL 3 Description',
-                'URLContentType': 'DistributionURL',
-                'Type': 'GET DATA',
-                'Subtype': 'EARTHDATA SEARCH',
-                'URL': 'https://search.earthdata.nasa.gov/',
-                'GetData': {
-                  'Format': 'ascii',
-                  'Size': 42.0,
-                  'Unit': 'KB',
-                  'Fees': '0',
-                  'Checksum': 'sdfgfgksghafgsdvbasf'
-                }
-              }
-            ]
+        },
+        {
+          'Roles': ['DEVELOPER', 'PUBLISHER'],
+          'ShortName': 'AARHUS-HYDRO',
+          'LongName': 'Hydrogeophysics Group, Aarhus University ',
+          'OnlineResource': {
+            'Name': 'ORN Text',
+            'Protocol': 'ORP Text',
+            'Linkage': 'ORL Text',
+            'Description': 'ORD Text',
+            'ApplicationProfile': 'ORAP Text',
+            'Function': 'ORF Text'
           }
-        }
+        },
       ],
       'ContactGroups': [
         {
@@ -419,32 +199,17 @@ FactoryBot.define do
               },
               {
                 'Description': 'Related URL 2 Description',
-                'URLContentType': 'DistributionURL',
-                'Type': 'GET SERVICE',
-                'Subtype': 'DIF',
-                'URL': 'https://example.com/',
-                'GetService': {
-                  'MimeType': 'Not provided',
-                  'Protocol': 'HTTPS',
-                  'FullName': 'Service Name',
-                  'DataID': 'data_id',
-                  'DataType': 'data type',
-                  'URI': ['uri1', 'uri2']
-                }
+                'URLContentType': 'PublicationURL',
+                'Type': 'VIEW RELATED INFORMATION',
+                'Subtype': 'READ-ME',
+                'URL': 'https://example.com/'
               },
               {
                 'Description': 'Related URL 3 Description',
-                'URLContentType': 'DistributionURL',
-                'Type': 'GET DATA',
-                'Subtype': 'EARTHDATA SEARCH',
-                'URL': 'https://search.earthdata.nasa.gov/',
-                'GetData': {
-                  'Format': 'ascii',
-                  'Size': 42.0,
-                  'Unit': 'KB',
-                  'Fees': '0',
-                  'Checksum': 'sdfgfgksghafgsdvbasf'
-                }
+                'URLContentType': 'VisualizationURL',
+                'Type': 'GET RELATED VISUALIZATION',
+                'Subtype': 'GIOVANNI',
+                'URL': 'https://search.earthdata.nasa.gov/'
               }
             ]
           }
@@ -497,32 +262,17 @@ FactoryBot.define do
               },
               {
                 'Description': 'Related URL 2 Description',
-                'URLContentType': 'DistributionURL',
-                'Type': 'GET SERVICE',
-                'Subtype': 'DIF',
-                'URL': 'https://example.com/',
-                'GetService': {
-                  'MimeType': 'Not provided',
-                  'Protocol': 'HTTPS',
-                  'FullName': 'Service Name',
-                  'DataID': 'data_id',
-                  'DataType': 'data type',
-                  'URI': ['uri1', 'uri2']
-                }
+                'URLContentType': 'PublicationURL',
+                'Type': 'VIEW RELATED INFORMATION',
+                'Subtype': 'READ-ME',
+                'URL': 'https://example.com/'
               },
               {
                 'Description': 'Related URL 3 Description',
-                'URLContentType': 'DistributionURL',
-                'Type': 'GET DATA',
-                'Subtype': 'EARTHDATA SEARCH',
-                'URL': 'https://search.earthdata.nasa.gov/',
-                'GetData': {
-                  'Format': 'ascii',
-                  'Size': 42.0,
-                  'Unit': 'KB',
-                  'Fees': '0',
-                  'Checksum': 'sdfgfgksghafgsdvbasf'
-                }
+                'URLContentType': 'VisualizationURL',
+                'Type': 'GET RELATED VISUALIZATION',
+                'Subtype': 'GIOVANNI',
+                'URL': 'https://search.earthdata.nasa.gov/'
               }
             ]
           }
@@ -530,31 +280,6 @@ FactoryBot.define do
         {
           'Roles': ['DEVELOPER'],
           'LastName': 'Last 2'
-        }
-      ],
-      'Platforms': [
-        {
-          'ShortName': 'A340-600',
-          'LongName': 'Airbus A340-600',
-          'Instruments': [
-            {
-              'ShortName': 'ATM',
-              'LongName': 'Airborne Topographic Mapper'
-            },
-            {
-              'ShortName': 'LVIS',
-              'LongName': 'Land, Vegetation, and Ice Sensor'
-            }
-          ]
-        },
-        {
-          'ShortName': 'DMSP 5B/F3',
-          'LongName': 'Defense Meteorological Satellite Program-F3',
-          'Instruments': [
-            {
-              'ShortName': 'ACOUSTIC SOUNDERS'
-            }
-          ]
         }
       ],
       'OperationMetadata': [
@@ -581,7 +306,7 @@ FactoryBot.define do
               'DataResourceSpatialType': 'GENERAL_GRID',
               'DataResourceSpatialExtent': {
                 'GeneralGrid': {
-                  'CRSIdentifier': '26917',
+                  'CRSIdentifier': 'EPSG:26917',
                   'Axis': [
                     {
                       'AxisLabel': 'x',
@@ -689,6 +414,12 @@ FactoryBot.define do
         'InterpolationTypes': ['Bicubic Interpolation', 'Bilinear Interpolation'],
         'SupportedInputFormats': ['HDF-EOS2', 'HDF-EOS5'],
         'SupportedOutputFormats': ['HDF-EOS2', 'HDF-EOS5'],
+        'SupportedReformattings': [
+          {
+            'SupportedInputFormat': 'HDF-EOS2',
+            'SupportedOutputFormat': 'HDF-EOS5'
+          }
+        ],
         'MaxGranules': 50.0
       }
     }}

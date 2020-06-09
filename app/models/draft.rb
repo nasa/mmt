@@ -6,8 +6,9 @@ class Draft < ApplicationRecord
 
   serialize :draft, JSON
 
-  after_create :set_native_id
   before_create :default_values
+  after_create :set_native_id
+  before_save :set_searchable_fields
 
   self.inheritance_column = :draft_type
 
@@ -28,6 +29,11 @@ class Draft < ApplicationRecord
   def set_user_and_provider(user)
     self.user = user
     self.provider_id = user.provider_id if provider_required?
+  end
+
+  def set_searchable_fields
+    self.short_name = draft['Name']
+    self.entry_title = draft['LongName']
   end
 
   private

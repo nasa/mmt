@@ -5,6 +5,11 @@ Rails.application.configure do
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
+  ##############################################################################
+  # need cache_classes to be true when trying to access the manage proposals   #
+  # page in dev, but it should generally be false for ease of development on   #
+  # any other page                                                             #
+  ##############################################################################
 
   # eager load on boot to avoid a Rails hang when using mmt/dmmt in the same rails app
   # as we do in testing.
@@ -94,6 +99,12 @@ Rails.application.configure do
 
   # Feature toggle for subscriptions in MMT
   config.subscriptions_enabled = true
+
+  # Feature toggle for Content Security Policy (CSP) logging.
+  config.csplog_enabled = true
+
+  # Feature toggle for UMM-T
+  config.umm_t_enabled = true
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'

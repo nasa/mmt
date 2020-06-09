@@ -134,6 +134,9 @@ Rails.application.configure do
   # Feature toggle for subscriptions in MMT
   config.subscriptions_enabled = true
 
+  # Feature toggle for UMM-T
+  config.umm_t_enabled = false
+
   config.cmr_env = 'ops'
   config.echo_env = 'ops'
   config.urs_register_url = 'https://urs.earthdata.nasa.gov/users/new'
@@ -141,6 +144,10 @@ Rails.application.configure do
   config.tophat_url = 'https://cdn.earthdata.nasa.gov/tophat2/tophat2.js'
 
   config.colorize_logging = false
+  
+  # Feature toggle for Content Security Policy (CSP) logging.
+  config.csplog_enabled = false
+
 
   # Google Tag Manager ID for EOSDIS usage stats
   config.tag_manager_id = 'GTM-WNP7MLF'

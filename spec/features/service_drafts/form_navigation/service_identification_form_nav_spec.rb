@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service Identification Form Navigation', js: true do
   before do
     login
@@ -92,19 +90,19 @@ describe 'Service Identification Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Related URLs')
+          expect(page).to have_content('Descriptive Keywords')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Related URLs')
+          expect(page).to have_content('Descriptive Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
       end
     end
@@ -112,7 +110,7 @@ describe 'Service Identification Form Navigation', js: true do
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Related URLs', from: 'Save & Jump To:'
+          select 'Descriptive Keywords', from: 'Save & Jump To:'
         end
       end
 
@@ -123,19 +121,19 @@ describe 'Service Identification Form Navigation', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Related URLs')
+          expect(page).to have_content('Descriptive Keywords')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Related URLs')
+          expect(page).to have_content('Descriptive Keywords')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('related_urls')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('descriptive_keywords')
         end
       end
     end
@@ -153,46 +151,8 @@ describe 'Service Identification Form Navigation', js: true do
       include_examples 'Service Identification Form'
     end
 
-    context 'When clicking `Save` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Save'
-        end
-        click_on 'Expand All'
-      end
-
-      it 'saves the draft without making any changes' do
-        expect(draft.draft).to eq(Draft.last.draft)
-      end
-
-      it 'saves the draft and reloads the form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Service Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Service Drafts')
-          expect(page).to have_content('Service Identification')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Service Quality')
-          expect(page).to have_content('Access Constraints')
-          expect(page).to have_content('Use Constraints')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_identification')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('service_identification')
-        end
-      end
-
-      context 'when viewing the form' do
-        include_examples 'Service Identification Form'
-      end
+    it 'displays the correct number of required fields' do
+      expect(page).to have_selector('label.eui-required-o', count: 1)
     end
   end
 end

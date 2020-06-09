@@ -20,7 +20,7 @@ shared_examples_for 'Operation Metadata Form with General Grid' do
 
     expect(page).to have_field('Data Resource Spatial Type', with: 'GENERAL_GRID')
     within '.data-resource-spatial-extent.general-grid' do
-      expect(page).to have_field('CRS Identifier', with: '26917')
+      expect(page).to have_field('CRS Identifier', with: 'EPSG:26917')
 
       within '.multiple.axes' do
         within '.multiple-item-0' do
@@ -259,7 +259,7 @@ shared_examples_for 'Operation Metadata Form with a Spatial Bounding Box' do
     expect(page).to have_field('Data Resource Source Type', with: 'Map')
 
     expect(page).to have_field('Data Resource Spatial Type', with: 'BOUNDING_BOX')
-    expect(page).to have_field('CRS Identifier', with: '3408')
+    expect(page).to have_field('CRS Identifier', with: 'EPSG:3408')
     expect(page).to have_field('West Bounding Coordinate', with: '-5.0')
     expect(page).to have_field('East Bounding Coordinate', with: '5.0')
     expect(page).to have_field('South Bounding Coordinate', with: '-10.0')

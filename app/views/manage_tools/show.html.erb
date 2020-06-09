@@ -1,0 +1,46 @@
+<main class="dashboard" role="main">
+  <article id="metadata" class="row-content flex-row--start" role="article">
+    <section class="eui-callout-box col-left">
+      <h3 class="eui-callout-box__title ocean-blue">Create Tool Record</h3>
+      <div class="eui-callout-box__list">
+        <div class="question-group">
+          <%= link_to 'Create New Record', new_tool_draft_path, class: 'eui-btn--blue submit' %>
+        </div>
+        <!--
+        <div class="question-group">
+          <div class="row">
+            <p><strong>OR</strong> use the <a id="search-focus" href="#">search</a> in the top right corner to find published tools to clone or edit.</p>
+          </div>
+        </div> -->
+      </div>
+    </section>
+
+    <section class="eui-callout-box col-left">
+      <div class="open-drafts">
+        <h3 class="eui-callout-box__title ocean-blue"><%= current_user.provider_id %> Tool Drafts</h2>
+        <div class="eui-callout-box__list">
+          <ul>
+            <% unless @drafts.any? %>
+              <%= current_user.provider_id %> has no drafts to display.
+            <% end %>
+            <% @drafts[0..@draft_display_max_count-1].each do |draft| %>
+              <li>
+                <p class="drafts">
+                  <%= time_tag draft.updated_at, draft.updated_at.to_s(:date) %> |
+                  <%= link_to draft.display_short_name, tool_draft_path(draft), title: draft.display_short_name %>
+                  <br>
+                  <%= content_tag(:span, draft.display_entry_title, title: draft.display_entry_title) %>
+                </p>
+              </li>
+            <% end %>
+            <% if @drafts.size > @draft_display_max_count %>
+              <li>
+                <%= link_to 'More', tool_drafts_path %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </article>
+</main>

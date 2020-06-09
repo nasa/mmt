@@ -313,6 +313,10 @@ class ApplicationController < ActionController::Base
     @user_has_approver_permissions = is_non_nasa_draft_approver?(user: current_user, token: token)
   end
 
+  ###
+  # Feature Toggles for before actions
+  ###
+
   def proposal_mode_enabled?
     # If draft only then all regular mmt actions should be blocked
     redirect_to manage_collection_proposals_path if Rails.configuration.proposal_mode
@@ -341,6 +345,12 @@ class ApplicationController < ActionController::Base
   def mmt_approver_workflow_enabled?
     redirect_to manage_collections_path unless Rails.configuration.mmt_approver_workflow_enabled
   end
+
+  def umm_t_enabled?
+    redirect_to manage_collections_path unless Rails.configuration.umm_t_enabled
+  end
+
+  ###
 
   def authenticated_urs_uid
     session[:urs_uid]

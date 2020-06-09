@@ -61,11 +61,13 @@ describe 'Service Drafts Forms Field Validations', js: true do
 
       context 'when the fields are filled' do
         before do
-          fill_in 'Name', with: 'short_name'
-          fill_in 'Long Name', with: 'Test Service Long Name'
-          select 'NOT PROVIDED', from: 'Type'
-          fill_in 'Version', with: '1.0'
-          fill_in 'Description', with: 'Service Description'
+          within '#service-information' do
+            fill_in 'Name', with: 'short_name'
+            fill_in 'Long Name', with: 'Test Service Long Name'
+            select 'NOT PROVIDED', from: 'Type'
+            fill_in 'Version', with: '1.0'
+            fill_in 'service_draft_draft_description', with: 'Service Description'
+          end
 
           within '.nav-top' do
             click_on 'Save'
@@ -124,10 +126,9 @@ describe 'Service Drafts Forms Field Validations', js: true do
 
     context 'when only filling out some of the required subfields of a required field' do
       before do
-        visit edit_service_draft_path(draft, 'related_urls')
-        click_on 'Expand All'
+        visit edit_service_draft_path(draft, 'service_organizations')
 
-        fill_in 'Url', with: 'http://example.com'
+        select 'ESA/ED', from: 'Short Name'
 
         within '.nav-top' do
           click_on 'Done'
@@ -136,8 +137,7 @@ describe 'Service Drafts Forms Field Validations', js: true do
       end
 
       it 'displays validation errors' do
-        expect(page).to have_content('Url Content Type is required')
-        expect(page).to have_content('Type is required')
+        expect(page).to have_content('Roles is required')
       end
 
       context 'when viewing the show page' do
@@ -149,7 +149,7 @@ describe 'Service Drafts Forms Field Validations', js: true do
         end
 
         it 'displays an invalid progress circle' do
-          expect(page).to have_css('i.icon-red.related-urls')
+          expect(page).to have_css('i.icon-red.service-organizations')
         end
       end
     end

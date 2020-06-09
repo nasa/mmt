@@ -1,7 +1,5 @@
 # :nodoc:
 class ServiceDraft < Draft
-  before_save :set_searchable_fields
-
   delegate :forms, to: :class
 
   class << self
@@ -35,10 +33,5 @@ class ServiceDraft < Draft
 
   def display_entry_title
     entry_title || '<Untitled Service Record>'
-  end
-
-  def set_searchable_fields
-    self.short_name = draft['Name']
-    self.entry_title = draft['LongName']
   end
 end

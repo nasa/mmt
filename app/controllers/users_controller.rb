@@ -1,4 +1,5 @@
 # :nodoc:
+
 class UsersController < ApplicationController
   include ProviderContextRedirector
 
@@ -7,6 +8,7 @@ class UsersController < ApplicationController
   skip_before_action :provider_set?
   skip_before_action :proposal_mode_enabled?
   skip_before_action :proposal_approver_permissions
+  
 
   def login
     session[:last_point] = request.referrer
@@ -125,7 +127,7 @@ class UsersController < ApplicationController
     Rails.logger.debug '>>>>> running store_profile'
     # Stores additional information in the session pertaining to the user
     store_profile(profile)
-    Rails.logger.debug "Successful URS Login by user #{authenticated_urs_uid}" if session[:login_method] == 'urs'
+    Rails.logger.info "Successful URS Login by user #{authenticated_urs_uid}" if session[:login_method] == 'urs'
     log_urs_session_keys
     log_all_session_keys
 
