@@ -1,18 +1,19 @@
-describe 'Tool Search Results sorting', reset_provider: true, js: true do
+describe 'Tool Search Results sorting', js: true do
   context 'when sorting search tools results' do
     before :all do
-      publish_tool_draft(name: 'First!')
+      @mmt_2_native_ids = []
+      _ingest_response, _search_response, @mmt_2_native_ids[@mmt_2_native_ids.count] = publish_tool_draft(name: 'First!')
       sleep 1
-      publish_tool_draft(name: '000_Adder Tool Name')
-      publish_tool_draft(name: 'ZZebra Tool Name')
+      _ingest_response, _search_response, @mmt_2_native_ids[@mmt_2_native_ids.count] = publish_tool_draft(name: '000_Adder Tool Name')
+      _ingest_response, _search_response, @mmt_2_native_ids[@mmt_2_native_ids.count] = publish_tool_draft(name: 'ZZebra Tool Name')
 
-      publish_tool_draft(name: "LarcSortTest #{Faker::Number.number(digits: 6)}", provider_id: 'LARC')
-      publish_tool_draft(name: "SedacSortTest #{Faker::Number.number(digits: 6)}", provider_id: 'SEDAC')
+      _ingest_response, _search_response, @larc_native_id = publish_tool_draft(name: "LarcSortTest #{Faker::Number.number(digits: 6)}", provider_id: 'LARC')
+      _ingest_response, _search_response, @sedac_native_id = publish_tool_draft(name: "SedacSortTest #{Faker::Number.number(digits: 6)}", provider_id: 'SEDAC')
 
-      publish_tool_draft(long_name: '.. Agouti Tool Long Name')
-      publish_tool_draft(long_name: 'ZZebra Tool Long Name')
+      _ingest_response, _search_response, @mmt_2_native_ids[@mmt_2_native_ids.count] = publish_tool_draft(long_name: '.. Agouti Tool Long Name')
+      _ingest_response, _search_response, @mmt_2_native_ids[@mmt_2_native_ids.count] = publish_tool_draft(long_name: 'ZZebra Tool Long Name')
       sleep 1
-      publish_tool_draft(name: 'Last!')
+      _ingest_response, _search_response, @mmt_2_native_ids[@mmt_2_native_ids.count] = publish_tool_draft(name: 'Last!')
     end
 
     before do
@@ -21,6 +22,18 @@ describe 'Tool Search Results sorting', reset_provider: true, js: true do
       visit manage_tools_path
 
       click_on 'Search Tools'
+    end
+
+    after :all do
+      @mmt_2_native_ids.each do |native_id|
+        delete_response = cmr_client.delete_tool('MMT_2', native_id, 'token')
+
+        raise unless delete_response.success?
+      end
+      delete_response1 = cmr_client.delete_tool('LARC', @larc_native_id, 'token')
+      delete_response2 = cmr_client.delete_tool('SEDAC', @sedac_native_id, 'token')
+
+      raise unless delete_response1.success? && delete_response2.success?
     end
 
     context 'when sorting by Name' do

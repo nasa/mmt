@@ -362,6 +362,8 @@ def publish_tool_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_nam
     #  ToolDraft.create_from_tool(concept_response.body, user, draft_attributes[:native_id])
     #end
 
-    [ingest_response.body, concept_response]
+    # TODO: Do not need to return native_id when the provider reset works
+    # correctly.
+    [ingest_response.body, concept_response, draft_attributes[:native_id]]
   end
 end

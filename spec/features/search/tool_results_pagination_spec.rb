@@ -1,13 +1,28 @@
-describe 'Search Services Results Pagination', reset_provider: true, js: true do
+describe 'Search Tools Results Pagination', js: true do
   before :all do
-    5.times { |i| publish_tool_draft(name: "nasa.tool.00#{i}") }
+    # TODO: Saving off the native ids and manually deleting them can be removed
+    # when the provider reset works properly.
+    @native_ids = []
+    5.times do |i|
+      _ingest_response, _search_response, @native_ids[@native_ids.count] = publish_tool_draft(name: "nasa.tool.00#{i}")
+    end
 
-    30.times { |i| publish_tool_draft(name: "test.00#{i}") }
+    30.times do |i|
+      _ingest_response, _search_response, @native_ids[@native_ids.count] = publish_tool_draft(name: "test.00#{i}") 
+    end
   end
 
   before do
     login
     visit manage_tools_path
+  end
+
+  after :all do
+    @native_ids.each do |native_id|
+      delete_response = cmr_client.delete_tool('MMT_2', native_id, 'token')
+
+      raise unless delete_response.success?
+    end
   end
 
   context 'when viewing tool search results with multiple pages' do

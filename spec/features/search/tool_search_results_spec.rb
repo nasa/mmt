@@ -1,18 +1,27 @@
-describe 'Searching published tools', reset_provider: true, js: true do
+describe 'Searching published tools', js: true do
   number = Faker::Number.number(digits: 6)
   tool_name = "Tool #{number}"
   long_name = "Long Detailed Description of Tool #{number}"
 
   before :all do
-    @ingest_response, _concept_response = publish_tool_draft(name: tool_name, long_name: long_name)
+    @native_ids = []
+    _ingest_response, _search_response, @native_ids[@native_ids.count] = publish_tool_draft(name: tool_name, long_name: long_name)
 
-    10.times { publish_tool_draft }
+    10.times { _ingest_response, _search_response, @native_ids[@native_ids.count] = publish_tool_draft }
   end
 
   before do
     login
 
     visit manage_tools_path
+  end
+
+  after :all do
+    @native_ids.each do |native_id|
+      delete_response = cmr_client.delete_tool('MMT_2', native_id, 'token')
+
+      raise unless delete_response.success?
+    end
   end
 
   context 'when searching tools by name' do
