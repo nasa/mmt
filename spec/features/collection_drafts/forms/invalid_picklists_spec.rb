@@ -551,7 +551,6 @@ describe 'Invalid picklists', js: true do
 
     context 'when the Temporal Keywords field only has one invalid option' do
       before do
-        byebug
         draft = Draft.first
         draft_metadata = draft.draft
         draft_metadata['TemporalKeywords'] = ['Keyword 1']
