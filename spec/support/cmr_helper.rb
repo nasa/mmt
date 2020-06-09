@@ -21,6 +21,22 @@ module Helpers
       end
     end
 
+    # Clear the CMR cache. Necessary for Subscription ACLs in tests, might be for others
+    # this is used in our CMR startup script extensively
+    def clear_cache
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::CmrHelper#clear_cache' do
+        cache_conn_1 = Faraday.new(url: 'http://localhost:2999')
+        cache_response_1 = cache_conn_1.post('clear-cache')
+
+        Rails.logger.error "Error clearing port 2999 cache: [#{cache_response_1.status}] #{cache_response_1.body}" unless cache_response_1.success?
+
+        cache_conn_2 = Faraday.new(url: 'http://localhost:3011')
+        cache_response_2 = cache_conn_2.post('caches/clear-cache?token=mock-echo-system-token')
+
+        Rails.logger.error "Error clearing port 3011 cache: [#{cache_response_2.status}] #{cache_response_2.body}" unless cache_response_1.success?
+      end
+    end
+
     def cmr_success_response(response_body)
       Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(response_body)))
     end

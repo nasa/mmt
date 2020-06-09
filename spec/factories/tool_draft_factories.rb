@@ -18,6 +18,12 @@ FactoryBot.define do
     provider_id { 'MMT_2' }
     draft_type { 'ToolDraft' }
 
+    # To make the fields Invalid, most of the string fields had to be given
+    # data with a length greater than the schema allows
+    # other fields (URL, Related URL, Organizations, Contacts, Quality) had
+    # multiple required/conditionally required subfields and were left incomplete
+    # fields with enums (Formats, URL, Related URL) can be given data not in the enum
+    # Tool Keywords has fewer than the required hierarcy levels
     draft do
       {
         'Name': draft_short_name || Faker::Lorem.characters(number: 95),

@@ -4,6 +4,21 @@ describe 'Creating Subscriptions' do
   end
 
   context 'when subscriptions is turned on' do
+    before :all do
+      @subscriptions_group = create_group(members: ['testuser', 'typical'])
+      # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
+      @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+
+      clear_cache
+    end
+
+    after :all do
+      remove_group_permissions(@subscriptions_permissions['concept_id'])
+      delete_group(concept_id: @subscriptions_group['concept_id'])
+
+      clear_cache
+    end
+
     context 'when visiting the new subscription form' do
       before do
         allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
@@ -24,7 +39,6 @@ describe 'Creating Subscriptions' do
           VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
             within '.subscriber-group' do
               all('.select2-container .select2-selection').first.click
-              # page.find('.select2-selection--single').click
             end
             page.find('.select2-search__field').native.send_keys('rarxd5taqea')
 

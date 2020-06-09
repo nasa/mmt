@@ -1,12 +1,31 @@
-describe 'Testing Queries when creating', js: true do
+describe 'Testing Queries when creating Subscriptions', js: true do
+  before :all do
+    @subscriptions_group = create_group(members: ['testuser', 'typical'])
+    # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
+    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+
+    clear_cache
+  end
+
+  after :all do
+    remove_group_permissions(@subscriptions_permissions['concept_id'])
+    delete_group(concept_id: @subscriptions_group['concept_id'])
+
+    clear_cache
+  end
+
   before do
     login
+
     allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
     allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
+
     @ingest_response, @concept_response = publish_collection_draft
+
     frequency = (Rails.configuration.cmr_email_frequency / 3600.0).ceil(2)
     frequency = frequency.to_i if frequency.to_i == frequency.to_f
     @frequency = "#{frequency} #{frequency > 1 ? 'hours' : 'hour'}"
+
     visit new_subscription_path
   end
 
@@ -155,16 +174,34 @@ describe 'Testing Queries when creating', js: true do
 end
 
 describe 'Testing Queries when editing', js: true do
+  before :all do
+    @subscriptions_group = create_group(members: ['testuser', 'typical'])
+    # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
+    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+
+    clear_cache
+  end
+
+  after :all do
+    remove_group_permissions(@subscriptions_permissions['concept_id'])
+    delete_group(concept_id: @subscriptions_group['concept_id'])
+
+    clear_cache
+  end
+
   before do
     login
     allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(false)
     allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(true)
     allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
+
     frequency = (Rails.configuration.cmr_email_frequency / 3600.0).ceil(2)
     frequency = frequency.to_i if frequency.to_i == frequency.to_f
     @frequency = "#{frequency} #{frequency > 1 ? 'hours' : 'hour'}"
+
     @ingest_response, @concept_response = publish_collection_draft
     @ingest_subscription_response, @search_response, _subscription = publish_new_subscription(collection_concept_id: @ingest_response['concept-id'])
+
     VCR.use_cassette('urs/rarxd5taqea', record: :none) do
       visit edit_subscription_path(@ingest_subscription_response['concept_id'])
     end
