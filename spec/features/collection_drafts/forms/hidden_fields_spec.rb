@@ -4,9 +4,9 @@ describe 'Removed field', js: true do
   before do
     login
     draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
-    visit collection_draft_path(draft)
+    visit edit_collection_draft_path(draft)
 
-    within '.col-3' do
+    within '.nav-top' do
       click_on "Save"
     end
   end
