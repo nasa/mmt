@@ -90,11 +90,11 @@
       "fields": [
         {
           "key": "ContactGroups",
-          "type": "UmmPreviewServiceContacts",
+          "type": "UmmPreviewContacts",
           "hideFieldTitle": true
         }, {
           "key": "ContactPersons",
-          "type": "UmmPreviewServiceContacts",
+          "type": "UmmPreviewContacts",
           "hideFieldTitle": true
         }
       ]

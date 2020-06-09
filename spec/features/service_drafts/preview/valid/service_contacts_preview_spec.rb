@@ -69,7 +69,7 @@ describe 'Valid Service Draft Service Contacts Preview' do
             within '.card-body-details-full' do
               expect(page).to have_css('h6', text: 'Additional Address')
               # Capybara does not see the <br> in the address
-              expect(page).to have_css('p', text: "8800 Greenbelt RoadGreenbelt, MD 20771")
+              expect(page).to have_css('p', text: '8800 Greenbelt RoadGreenbelt, MD 20771')
             end
           end
 
@@ -141,7 +141,7 @@ describe 'Valid Service Draft Service Contacts Preview' do
             within '.card-body-details' do
               expect(page).to have_css('h6', text: "#{draft['ContactPersons'][0]['FirstName']} #{draft['ContactPersons'][0]['MiddleName']} #{draft['ContactPersons'][0]['LastName']}")
               # Capybara does not see the <br> in the address
-              expect(page).to have_css('p', text: "300 E Street SouthwestRoom 203Address line 3Washington, DC 20546")
+              expect(page).to have_css('p', text: '300 E Street SouthwestRoom 203Address line 3Washington, DC 20546')
             end
 
             within '.card-body-aside' do

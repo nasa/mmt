@@ -115,7 +115,7 @@ Rails.application.routes.draw do
     end
   end
   #TODO: remove only when :show :destroy are supported
-  resources :tool_drafts, controller: 'tool_drafts', draft_type: 'ToolDraft', only: [:index, :new, :create, :edit, :update] do
+  resources :tool_drafts, controller: 'tool_drafts', draft_type: 'ToolDraft', only: [:index, :new, :create, :edit, :update, :show] do
     member do
       get :edit, path: 'edit(/:form)'
     end
@@ -202,7 +202,7 @@ Rails.application.routes.draw do
 
   post 'set_provider' => 'users#set_provider', as: 'set_provider'
   get 'refresh_providers' => 'users#refresh_providers', as: 'refresh_user_providers'
-  
+
   post 'report_csp_violation' => 'csp#report_csp_violation', as: :report_csp_violation
 
   root 'welcome#index'

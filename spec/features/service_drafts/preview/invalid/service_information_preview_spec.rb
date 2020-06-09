@@ -29,6 +29,7 @@ describe 'Invalid Service Draft Service Information Preview' do
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.type')
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version')
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.description')
+        # TODO: needs url icon
       end
     end
 
@@ -70,6 +71,8 @@ describe 'Invalid Service Draft Service Information Preview' do
 
           expect(page).to have_css('p', text: draft['Description'])
         end
+
+        # TODO: needs URL?
       end
     end
   end
