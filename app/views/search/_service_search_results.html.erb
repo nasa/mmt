@@ -1,5 +1,5 @@
 <div class="pagination-summary">
-  <%= page_entries_info services, entry_name: 'service' %>
+  <%= page_entries_info records, entry_name: 'service' %>
 </div>
 
 <table id="search-results">
@@ -20,14 +20,14 @@
       </tr>
     <% end %>
 
-    <% if services.blank? %>
+    <% if records.blank? %>
       <tr>
         <td colspan="4">
           No services found.
         </td>
       </tr>
     <% else %>
-      <% services.each do |service| %>
+      <% records.each do |service| %>
         <tr class='<%= cycle("alt", "") %>'>
           <td>
             <%= link_to service.fetch('umm', {})['Name'], service_path(service.fetch('meta', {})['concept-id']) %>
@@ -47,4 +47,4 @@
   </tbody>
 </table>
 
-<%= paginate services %>
+<%= paginate records %>

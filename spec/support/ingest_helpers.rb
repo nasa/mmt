@@ -305,3 +305,63 @@ module Helpers
     end
   end
 end
+
+# Publish a tool draft
+def publish_tool_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false)
+  ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_tool_draft' do
+    user = User.where(urs_uid: 'testuser').first
+
+    #
+    # Set attributes to create a draft
+    #
+    # Default draft attributes
+    draft_attributes = {
+      user: user,
+      provider_id: provider_id,
+      native_id: native_id || Faker::Crypto.md5
+    }
+
+    # Conditional additions to the draft attribute
+    draft_attributes[:draft_short_name] = name unless name.blank?
+    draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
+    draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
+    # Create a new draft with the provided attributes
+    # NOTE: We don't save the draft object, there is no reason to hit the database
+    # here knowing that we're going to delete it as soon as it's published anyway
+    draft = build(:full_tool_draft, draft_attributes)
+
+    #
+    # ingest the draft, the specified number of times
+    #
+    # Only return the most recent concept
+    ingest_response = nil
+
+    revision_count.times do |i|
+      # number the revision long names if the option is specified
+      draft.draft['LongName'] = "#{draft_attributes[:draft_entry_title]} -- revision 0#{i + 1}" if number_revision_long_names
+
+      ingest_response = cmr_client.ingest_tool(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+    end
+
+    # Synchronous way of waiting for CMR to complete the ingest work
+    wait_for_cmr
+
+    # Retrieve the concept from CMR so that we can create a new draft, if test requires it
+    concept_id = ingest_response.body['concept-id']
+    revision_id = ingest_response.body['revision-id']
+    content_type = "application/#{Rails.configuration.umm_t_version}; charset=utf-8"
+
+    concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
+
+    raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+
+    # If the test needs an unpublished draft as well, we'll create it and return it here
+    # TODO: MMT-2228
+    #if include_new_draft
+    #  # Create a new draft (same as editing a tool)
+    #  ToolDraft.create_from_tool(concept_response.body, user, draft_attributes[:native_id])
+    #end
+
+    [ingest_response.body, concept_response]
+  end
+end

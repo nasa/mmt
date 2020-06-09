@@ -32,7 +32,7 @@
       background-color: $steel-blue;
       padding: 5px 10px 2px 15px;
       margin-top: -4px;
-      height: 85px;
+      height: 105px;
       max-width: 385px;
       @media not all and (min-resolution:.001dpcm){
         @supports (-webkit-appearance:none) {
@@ -69,18 +69,10 @@
       background-color: $steel-blue;
       border-right: 1px solid $dolphin-grey;
       border-bottom: 1px solid $steel-blue;
-
-      .collection-text {
-        padding-right: 0px;
-      }
-
-      .variable-text {
-        padding-right: 12px;
-      }
-
-      .service-text {
-        padding-right: 19px;
-      }
+    }
+    
+    #search-submit-button {
+      width: 11.92em; //172px
     }
 
     .dropdown-button {
@@ -206,4 +198,9 @@
       white-space: normal;
     }
   }
+}
+
+.label-wrapper {
+  white-space: nowrap;
+  float: left;
 }

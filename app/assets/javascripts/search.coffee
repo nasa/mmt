@@ -45,18 +45,28 @@ $(document).ready ->
         $searchButtonSpan.text('Search Variables').addClass('variable-text')
       when 'services'
         $searchButtonSpan.text('Search Services').addClass('service-text')
+      when 'tools' 
+        $searchButtonSpan.text('Search Tools').addClass('tool-text')
       else
         $searchButtonSpan.text('Search Collections').addClass('collection-text')
 
 
   $('#record_type_collections').on 'click', ->
-    $("#search-submit-button-text").text('Search Collections').addClass('collection-text').removeClass('variable-text service-text')
+    console.log('Collection clicked')
+    $("#search-submit-button-text").text('Search Collections').addClass('collection-text').removeClass('variable-text service-text tool-text')
 
   $('#record_type_variables').on 'click', ->
-    $("#search-submit-button-text").text('Search Variables').addClass('variable-text').removeClass('collection-text service-text')
+    console.log('Var clicked')
+    $("#search-submit-button-text").text('Search Variables').addClass('variable-text').removeClass('collection-text service-text tool-text')
 
   $('#record_type_services').on 'click', ->
-    $("#search-submit-button-text").text('Search Services').addClass('service-text').removeClass('collection-text variable-text')
+    console.log('Serv clicked')
+    $("#search-submit-button-text").text('Search Services').addClass('service-text').removeClass('collection-text variable-text tool-text')
+
+  $('#record_type_tools').on 'click', ->
+    console.log('Tool clicked')
+    $("#search-submit-button-text").text('Search Tools').addClass('tool-text').removeClass('collection-text variable-text service-text')
+
 
   # Change focus of cursor when search link is clicked on Manage Collections, Manage Variables, or Manage Services pages.
   $('#search-focus').on 'click', ->

@@ -8,34 +8,14 @@
         record_type: @record_type
       } %>
     </div>
-
-    <% if @record_type == 'collections' %>
-      <div id="collection-search-results">
-        <%= render partial: 'collection_search_results', locals: {
-          collections: @records,
-          query: @query,
-          errors: @errors,
-          record_type: @record_type
-        } %>
-      </div>
-    <% elsif @record_type == 'variables' %>
-      <div id="variable-search-results">
-        <%= render partial: 'variable_search_results', locals: {
-          variables: @records,
-          query: @query,
-          errors: @errors,
-          record_type: @record_type
-        } %>
-      </div>
-    <% elsif @record_type == 'services' %>
-      <div id="service-search-results">
-        <%= render partial: 'service_search_results', locals: {
-          services: @records,
-          query: @query,
-          errors: @errors,
-          record_type: @record_type
-        } %>
-      </div>
-    <% end %>
+    
+    <div id="<%= @record_type.singularize %>-search-results">
+      <%= render partial: "#{@record_type.singularize}_search_results", locals: {
+        records: @records,
+        query: @query,
+        errors: @errors,
+        record_type: @record_type
+      } %>
+    </div>
   </section>
 </div>

@@ -1,5 +1,5 @@
 <div class="pagination-summary">
-  <%= page_entries_info records, entry_name: 'variable' %>
+  <%= page_entries_info records, entry_name: 'tool' %>
 </div>
 
 <table id="search-results">
@@ -12,7 +12,6 @@
     </tr>
   </thead>
   <tbody>
-
     <% errors.each do |error| %>
       <tr>
         <td colspan="4">
@@ -24,24 +23,25 @@
     <% if records.blank? %>
       <tr>
         <td colspan="4">
-          No variables found.
+          No tools found.
         </td>
       </tr>
     <% else %>
-
-      <% records.each do |variable| %>
+      <% records.each do |tool| %>
         <tr class='<%= cycle("alt", "") %>'>
           <td>
-            <%= link_to variable.fetch('umm', {})['Name'], variable_path(variable.fetch('meta', {})['concept-id']) %>
+            <%= tool.fetch('umm')['LongName'] %>
+            <% # link_to tool.fetch('umm', {})['Name'], tool_path(tool.fetch('meta', {})['concept-id']) 
+            %>
           </td>
           <td>
-            <%= variable.fetch('umm')['LongName'] %>
+            <%= tool.fetch('umm')['LongName'] %>
           </td>
           <td>
-            <%= variable.fetch('meta')['provider-id'] %>
+            <%= tool.fetch('meta')['provider-id'] %>
           </td>
           <td>
-            <%= display_last_modified(variable) %>
+            <%= display_last_modified(tool) %>
           </td>
         </tr>
       <% end %>
