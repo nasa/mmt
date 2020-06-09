@@ -1,19 +1,16 @@
 # MMT-1571
-
 describe 'Removed field', js: true do
+  let(:draft_before_save) { create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first) }
   before do
     login
-    draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
-    @draft1 = CollectionDraft.first
-    visit edit_collection_draft_path(draft)
-
-    within '.nav-top' do
-      click_on "Save"
-    end
+    visit edit_collection_draft_path(draft_before_save)
   end
 
   it 'collection draft should contain the same DirectoryNames' do
-    draft2 = CollectionDraft.first
-    expect(draft2.draft['DirectoryNames']).to eql(@draft1.draft['DirectoryNames'])
+    within '.nav-top' do
+      click_on "Save"
+    end
+    draft_after_save = CollectionDraft.first
+    expect(draft_after_save.draft['DirectoryNames']).to eql(draft_before_save.draft['DirectoryNames'])
   end
 end
