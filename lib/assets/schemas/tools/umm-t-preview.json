@@ -1,0 +1,148 @@
+{
+  "forms": [
+    {
+      "id": "tool_information",
+      "title": "Tool Information",
+      "fields": [
+        {
+          "key": "Name"
+        }, {
+          "key": "LongName"
+        }, {
+          "key": "Type"
+        }, {
+          "key": "Version"
+        }, {
+          "key": "VersionDescription"
+        }, {
+          "key": "LastUpdatedDate"
+        }, {
+          "key": "Description"
+        }, {
+          "key": "DOI",
+          "title": "DOI"
+        }, {
+          "key": "URL",
+          "title": "URL",
+          "type": "UmmPreviewURL"
+        }
+      ]
+    }, {
+      "id": "related_urls",
+      "title": "Related URLs",
+      "fields": [
+        {
+          "key": "RelatedURLs",
+          "title": "Related URLs",
+          "hideFieldTitle": true,
+          "type": "UmmPreviewURL"
+        }
+      ]
+    }, {
+      "id": "compatibility_and_usability",
+      "title": "Compatibility and Usability",
+      "fields": [
+        {
+          "type": "UmmPreviewMultiItem",
+          "key": "SupportedInputFormats/index_id"
+        }, {
+          "type": "UmmPreviewMultiItem",
+          "key": "SupportedOutputFormats/index_id"
+        }, {
+          "key": "SupportedOperatingSystems/index_id",
+          "type": "UmmPreviewMultiItems",
+          "fields": [
+            {
+              "key": "/OperatingSystemName"
+            }, {
+              "key": "/OperatingSystemVersion"
+            }
+          ]
+        }, {
+          "key": "SupportedBrowsers/index_id",
+          "type": "UmmPreviewMultiItems",
+          "fields": [
+            {
+              "key": "/BrowserName"
+            }, {
+              "key": "/BrowserVersion"
+            }
+          ]
+        }, {
+          "key": "SupportedSoftwareLanguages/index_id",
+          "type": "UmmPreviewMultiItems",
+          "fields": [
+            {
+              "key": "/SoftwareLanguageName"
+            }, {
+              "key": "/SoftwareLanguageVersion"
+            }
+          ]
+        }, {
+          "key": "Quality",
+          "type": "UmmPreviewGroupedField",
+          "fields": [
+            {
+              "key": "/QualityFlag"
+            }, {
+              "key": "/Traceability"
+            }, {
+              "key": "/Lineage"
+            }
+          ]
+        }, {
+          "key": "AccessConstraints"
+        }, {
+          "key": "UseConstraints",
+          "type": "UmmPreviewGroupedField",
+          "fields": [
+            {
+              "key": "/LicenseURL"
+            },
+            {
+              "key": "/LicenseText"
+            }
+          ]
+        }
+      ]
+    }, {
+       "id": "descriptive_keywords",
+	     "title": "Descriptive Keywords",
+	     "fields": [
+        {
+          "key": "ToolKeywords",
+          "type": "UmmPreviewToolKeyword",
+          "hideFieldTitle": true
+        }, {
+          "key": "AncillaryKeywords/index_id",
+          "type": "UmmPreviewMultiItem"
+        }
+      ]
+    }, {
+      "id": "tool_organizations",
+      "title": "Tool Organizations",
+      "fields": [
+        {
+          "key": "Organizations",
+          "type": "UmmPreviewToolOrganizations",
+          "hideFieldTitle": true
+        }
+      ]
+    }, {
+      "id": "tool_contacts",
+      "title": "Tool Contacts",
+      "fields": [
+        {
+          "key": "ContactGroups",
+          "type": "UmmPreviewContacts",
+          "hideFieldTitle": true
+        },
+        {
+          "key": "ContactPersons",
+          "type": "UmmPreviewContacts",
+          "hideFieldTitle": true
+        }
+      ]
+    }
+  ]
+}

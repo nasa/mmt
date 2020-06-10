@@ -106,5 +106,12 @@ module Helpers
         return acl_response.success?
       end
     end
+
+    # grabs an existing ACL. can be helpful for debugging tests where permissions
+    # seem to be an issue
+    def fetch_acl(concept_id)
+      acl_response = cmr_client.get_permission(concept_id, 'token')
+      acl_response.body
+    end
   end
 end

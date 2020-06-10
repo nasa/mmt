@@ -13,28 +13,65 @@
         }, {
           "key": "Version"
         }, {
+          "key": "VersionDescription"  
+        }, {
+          "key": "LastUpdatedDate"  
+        }, {
           "key": "Description"
+        }, {
+          "key": "URL",
+          "title": "URL",
+          "hideFieldTitle": true,
+          "type": "UmmPreviewURL"
         }
       ]
     }, {
-      "id": "related_urls",
-      "title": "Related URLs",
+      "id": "service_identification",
+      "title": "Service Identification",
       "fields": [
         {
-          "key": "RelatedURLs",
-          "title": "Related URLs",
-          "hideFieldTitle": true,
-          "type": "UmmPreviewRelatedURL"
+          "key": "ServiceQuality",
+          "type": "UmmPreviewGroupedField",
+          "fields": [
+            {
+              "key": "/QualityFlag"
+            },
+            {
+              "key": "/Traceability"
+            },
+            {
+              "key": "/Lineage"
+            }
+          ]
+        },
+        {
+          "key": "AccessConstraints"
+        },
+        {
+          "key": "UseConstraints",
+          "type": "UmmPreviewGroupedField",
+          "fields": [
+            {
+              "key": "/LicenseUrl"
+            },
+            {
+              "key": "/LicenseText"
+            }
+          ]
         }
       ]
-    }, {
-      "id": "service_keywords",
-      "title": "Service Keywords",
+    },{
+      "id": "descriptive_keywords",
+      "title": "Descriptive Keywords",
       "fields": [
         {
           "key": "ServiceKeywords",
           "type": "UmmPreviewServiceKeyword",
           "hideFieldTitle": true
+        },
+        {
+          "key": "AncillaryKeywords/index_id",
+          "type": "UmmPreviewMultiItem"
         }
       ]
     }, {
@@ -44,6 +81,20 @@
         {
           "key": "ServiceOrganizations",
           "type": "UmmPreviewServiceOrganizations",
+          "hideFieldTitle": true
+        }
+      ]
+    }, {
+      "id": "service_contacts",
+      "title": "Service Contacts",
+      "fields": [
+        {
+          "key": "ContactGroups",
+          "type": "UmmPreviewContacts",
+          "hideFieldTitle": true
+        }, {
+          "key": "ContactPersons",
+          "type": "UmmPreviewContacts",
           "hideFieldTitle": true
         }
       ]

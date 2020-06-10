@@ -6,7 +6,7 @@ describe 'Valid Service Draft Operation Metadata Preview' do
     visit service_draft_path(service_draft)
   end
 
-  context 'When examing the Operation Metadata section' do
+  context 'When examining the Operation Metadata section' do
     it 'displays the form title as an edit link' do
       within '#operation_metadata-progress' do
         expect(page).to have_link('Operation Metadata', href: edit_service_draft_path(service_draft, 'operation_metadata'))
@@ -14,7 +14,7 @@ describe 'Valid Service Draft Operation Metadata Preview' do
     end
   end
 
-  it 'displays the corrent status icon' do
+  it 'displays the correct status icon' do
     within '#operation_metadata-progress' do
       within '.status' do
         expect(page).to have_content('Operation Metadata is valid')
