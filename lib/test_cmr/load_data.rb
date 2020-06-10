@@ -60,7 +60,7 @@ module Cmr
       until cmr_up
         begin
           cmr_up = yield
-        rescue Faraday::Error::ConnectionFailed
+        rescue Faraday::ConnectionFailed
           puts 'CMR is still starting, please wait...'
           sleep 5
         end

@@ -162,7 +162,7 @@ To insert a sample draft with every field completed:
 
 * If you receive a error from running `rake cmr:start_and_load` like
 
-    Faraday::Error::ConnectionFailed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
+    Faraday::ConnectionFailed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
 
 Try the following steps:
 

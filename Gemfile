@@ -1,9 +1,16 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4.3'
+# We have not investigated the cost of moving to rails 6, but expect it to make
+# more breaking changes.  Rails 5 is still supported.
+gem 'rails', '~> 5.2.4'
+# Rails currently limits all of the action*/active* gems
+# activesupport limits tzinfo
 
 # deployment support
+# Sprockets is locked to ~> 3.7.0 because the extra work to update to 4.0.0 was
+# dissuasive the last time we updated it. There are instructions to construct
+# the necessary manifest file in sprockets' repo.
 gem 'sprockets', '~> 3.7.0'
 
 # Use SCSS for stylesheets
@@ -17,7 +24,7 @@ gem 'autoprefixer-rails'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2.0'
+gem 'coffee-rails'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'mini_racer', platforms: :ruby
@@ -26,7 +33,7 @@ gem 'mini_racer', platforms: :ruby
 gem 'jquery-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', group: :doc
@@ -35,7 +42,7 @@ gem 'sdoc', group: :doc
 gem 'unicorn'
 
 gem 'faraday'
-gem 'faraday_middleware', '<= 0.9.0'
+gem 'faraday_middleware'
 
 gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
 gem 'bootstrap3-datetimepicker-rails'
@@ -71,7 +78,7 @@ gem 'browser'
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
 # make sure to delete the local config when done making changes to merge into master
 # bundle config --delete local.cmr_metadata_preview
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '9b5c23e5510'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: 'c6de9ab2a0e'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -89,6 +96,7 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
+  # Outdated because version 4.0 removed rails 5 support
   gem 'web-console'
 
   # better error handling

@@ -1,7 +1,5 @@
 # This test validates that a draft from the draft factory validates on each form.
 
-require 'rails_helper'
-
 include DraftsHelper
 
 validation_element_display_selector_string = '.validation-error'

@@ -21,10 +21,10 @@ class MiddlewareHealthcheck
         cmr_client.timeout = 10
         begin
           launchpad_healthy = cmr_client.launchpad_healthcheck.body == 'OK'.freeze
-        rescue Faraday::Error::TimeoutError
+        rescue Faraday::TimeoutError
           Rails.logger.error "Faraday timeout healthcheck error: #{e}"
           launchpad_healthy = false
-        rescue Faraday::Error::ConnectionFailed
+        rescue Faraday::ConnectionFailed
           Rails.logger.error "Faraday connection failed healthcheck error: #{e}"
           launchpad_healthy = false
         rescue StandardError => e
