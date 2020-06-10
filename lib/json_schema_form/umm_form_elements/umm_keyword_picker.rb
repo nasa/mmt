@@ -59,4 +59,9 @@ class UmmKeywordPicker < UmmFormElement
   def keyword_string(keywords)
     keywords.map { |_key, value| value }.join(' > ')
   end
+
+  def render_hidden_validation_element
+    # Element that holds all attributes for a hidden input that is used for form validation within its data attributes
+    concat content_tag(:span, nil, element_properties(schema_fragment).deep_merge(id: "empty_#{idify_property_name}", data: { id: idify_property_name, name: keyify_property_name }))
+  end
 end
