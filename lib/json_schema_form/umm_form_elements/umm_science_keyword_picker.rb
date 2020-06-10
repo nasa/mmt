@@ -38,8 +38,7 @@ class UmmScienceKeywordPicker < UmmKeywordPicker
         end
       end)
 
-      # Element that holds all attributes for a hidden input that is used for form validation within it's data attributes
-      concat content_tag(:span, nil, element_properties(schema_fragment).deep_merge(id: "empty_#{idify_property_name}", data: { id: idify_property_name, name: keyify_property_name }))
+      render_hidden_validation_element
     end
   end
 end

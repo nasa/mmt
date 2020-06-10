@@ -90,13 +90,13 @@ $(document).ready ->
       fieldPrefixId = picker.options.field_prefix.replace('/', '_')
       scienceKeywordFields = ['category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3', 'detailed_variable']
       serviceKeywordFields = ['service_category', 'service_topic', 'service_term', 'service_specific_term']
-      ToolKeywordFields = ['tool_category', 'tool_topic', 'tool_term', 'tool_specific_term']
+      toolKeywordFields = ['tool_category', 'tool_topic', 'tool_term', 'tool_specific_term']
       locationKeywordFields = ['category', 'type', 'subregion_1', 'subregion_2', 'subregion_3', 'detailed_location']
 
       keywordFields = switch picker.options.data_type
         when 'science' then scienceKeywordFields
         when 'service' then serviceKeywordFields
-        when 'tool' then ToolKeywordFields
+        when 'tool' then toolKeywordFields
         when 'location' then locationKeywordFields
 
       timeStamp = Date.now()
@@ -152,7 +152,7 @@ $(document).ready ->
     checkSelectionLevel = ->
       selectionLevel = $('.eui-item-path li').length
 
-      # science keywords must be at least 3 levels deep, location keywords 2
+      # science keywords must be at least 3 levels deep, all others 2
       if selectionLevel > picker.options.keywordLengthMinimum
         $('.add-science-keyword, .add-service-keyword, .add-tool-keyword, .add-location-keyword').removeAttr 'disabled'
       else
@@ -169,7 +169,7 @@ $(document).ready ->
     $('.eui-nested-item-picker').on 'click', '.final-option', ->
       $this = $(this)
 
-      # science keywords must be at least 3 levels deep, location keywords 2
+      # science keywords must be at least 3 levels deep, all others 2
       selectionLowerBound = if picker.options.data_type == 'science' then 4 else 3
       if $this.hasClass('final-option-selected')
         $('.add-science-keyword, .add-service-keyword, .add-tool_keyword, .add-location-keyword').removeAttr 'disabled'

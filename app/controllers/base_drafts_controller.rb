@@ -203,7 +203,6 @@ class BaseDraftsController < DraftsController
   # the method "#{resource_name}_params" to limit permitted
   # parameters for the individual model.
   def resource_params
-    # @resource_params ||= params
     @resource_params ||= send("#{resource_name}_params")
   end
 
