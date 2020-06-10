@@ -6,26 +6,18 @@
     <div class="search-dropdown<%= dropdown_size_modification %>">
       <fieldset class="radio-buttons<%= proposal_mode_button_visibility %>">
         <div class="row">
-          <span class="label-wrapper">
-            <%= radio_button_tag(:record_type, 'collections', resource_type == 'collections') %>
-            <%= label_tag(:record_type_collections, 'Collections') %>
-          </span>
+          <%= radio_button_tag(:record_type, 'collections', resource_type == 'collections') %>
+          <%= label_tag(:record_type_collections, 'Collections') %>
 
-          <span class="label-wrapper">
-            <%= radio_button_tag(:record_type, 'variables', resource_type == 'variables') %>
-            <%= label_tag(:record_type_variables, 'Variables') %>
-          </span>
+          <%= radio_button_tag(:record_type, 'variables', resource_type == 'variables') %>
+          <%= label_tag(:record_type_variables, 'Variables') %>
 
-          <span class="label-wrapper">
-            <%= radio_button_tag(:record_type, 'services', resource_type == 'services') %>
-            <%= label_tag(:record_type_services, 'Services') %>
-          </span>
+          <%= radio_button_tag(:record_type, 'services', resource_type == 'services') %>
+          <%= label_tag(:record_type_services, 'Services') %>
 
           <% if Rails.configuration.umm_t_enabled %>
-            <span class="label-wrapper">
-              <%= radio_button_tag(:record_type, 'tools', resource_type == 'tools') %>
-              <%= label_tag(:record_type_tools, 'Tools') %>
-            </span>
+            <%= radio_button_tag(:record_type, 'tools', resource_type == 'tools') %>
+            <%= label_tag(:record_type_tools, 'Tools') %>
           <% end %>
         </div>
       </fieldset>
