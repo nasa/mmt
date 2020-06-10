@@ -1,5 +1,5 @@
-# MMT-1571
-describe 'Removed field', js: true do
+
+describe 'Removed field' do
   let(:draft_before_save) { create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first) }
   before do
     login

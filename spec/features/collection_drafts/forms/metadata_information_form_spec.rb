@@ -1,4 +1,3 @@
-# MMT-288 MMT-295
 
 describe 'Metadata Information form', js: true do
   before do
