@@ -14,7 +14,7 @@ describe 'Empty Tool Draft Related URL Preview' do
         end
       end
 
-      it 'displays the corrent status icon' do
+      it 'displays the correct status icon' do
         within '#related_urls-progress' do
           within '.status' do
             expect(page).to have_css('.eui-icon.icon-green.eui-check', text: 'Related URLs is valid')

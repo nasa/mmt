@@ -14,7 +14,7 @@ describe 'Empty Tool Draft Compatibility and Usability Preview' do
         end
       end
 
-      it 'displays the corrent status icon' do
+      it 'displays the correct status icon' do
         within '#compatibility_and_usability-progress' do
           within '.status' do
             expect(page).to have_css('.eui-icon.icon-green.eui-check', text: 'Compatibility and Usability is valid')
