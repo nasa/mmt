@@ -41,7 +41,6 @@ class ProviderIdentityPermissionsController < ManageCmrController
     @group_id = params[:id]
     @group = {}
     group_provider_permissions_list = get_permissions_for_identity_type(type: 'provider')
-    byebug
     # assemble provider permissions for the table of checkboxes
     @group_provider_permissions, @revision_ids = assemble_permissions_for_table(permissions: group_provider_permissions_list, type: 'provider', group_id: @group_id)
 

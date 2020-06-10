@@ -1,5 +1,5 @@
 <div class="pagination-summary">
-  <%= page_entries_info records, entry_name: 'variable' %>
+  <%= page_entries_info records, entry_name: record_type.singularize %>
 </div>
 
 <table id="search-results">
@@ -12,7 +12,6 @@
     </tr>
   </thead>
   <tbody>
-
     <% errors.each do |error| %>
       <tr>
         <td colspan="4">
@@ -24,24 +23,28 @@
     <% if records.blank? %>
       <tr>
         <td colspan="4">
-          No variables found.
+          <%= "No #{record_type} found." %>"
         </td>
       </tr>
     <% else %>
-
-      <% records.each do |variable| %>
+      <% records.each do |record| %>
         <tr class='<%= cycle("alt", "") %>'>
           <td>
-            <%= link_to variable.fetch('umm', {})['Name'], variable_path(variable.fetch('meta', {})['concept-id']) %>
+            <% #TODO: MMT-2226/2225 remove this if/else when tool_path exists  %>
+            <% if record_type == 'tools' %>
+              <%= record.fetch('umm')['Name'] %>
+            <% else %>
+              <%= link_to record.fetch('umm', {})['Name'], send("#{record_type.singularize}_path", record.fetch('meta', {})['concept-id']) %>
+            <% end %>
           </td>
           <td>
-            <%= variable.fetch('umm')['LongName'] %>
+            <%= record.fetch('umm')['LongName'] %>
           </td>
           <td>
-            <%= variable.fetch('meta')['provider-id'] %>
+            <%= record.fetch('meta')['provider-id'] %>
           </td>
           <td>
-            <%= display_last_modified(variable) %>
+            <%= display_last_modified(record) %>
           </td>
         </tr>
       <% end %>

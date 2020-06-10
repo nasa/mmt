@@ -52,19 +52,15 @@ $(document).ready ->
 
 
   $('#record_type_collections').on 'click', ->
-    console.log('Collection clicked')
     $("#search-submit-button-text").text('Search Collections').addClass('collection-text').removeClass('variable-text service-text tool-text')
 
   $('#record_type_variables').on 'click', ->
-    console.log('Var clicked')
     $("#search-submit-button-text").text('Search Variables').addClass('variable-text').removeClass('collection-text service-text tool-text')
 
   $('#record_type_services').on 'click', ->
-    console.log('Serv clicked')
     $("#search-submit-button-text").text('Search Services').addClass('service-text').removeClass('collection-text variable-text tool-text')
 
   $('#record_type_tools').on 'click', ->
-    console.log('Tool clicked')
     $("#search-submit-button-text").text('Search Tools').addClass('tool-text').removeClass('collection-text variable-text service-text')
 
 

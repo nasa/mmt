@@ -3,8 +3,8 @@
   <div class="quick-search">
     <%= text_field_tag('keyword', @query['keyword'], placeholder: 'Enter Search Term') %>
     <button id="search-submit-button" type="button" name="full_search" class="eui-btn--blue"><i class="eui-icon eui-fa-search"></i><span id="search-submit-button-text"></span></button><a href="#" id="search-drop" class="dropdown-button"><i id="search-drop-caret" class="fa fa-caret-down" aria-hidden="true"></i></a>
-    <div class="search-dropdown<%= proposal_mode_short_dropdown%>">
-      <fieldset class="radio-buttons<%= proposal_mode_button_visibility%>">
+    <div class="search-dropdown<%= dropdown_size_modification %>">
+      <fieldset class="radio-buttons<%= proposal_mode_button_visibility %>">
         <div class="row">
           <span class="label-wrapper">
             <%= radio_button_tag(:record_type, 'collections', resource_type == 'collections') %>

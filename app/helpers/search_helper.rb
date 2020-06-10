@@ -63,12 +63,16 @@ module SearchHelper
       DateTime.parse(revision_date).to_s(:date)
     end
   end
-  
-  # search dropdown is smaller if radio buttons are hidden in DMMT
-  def proposal_mode_short_dropdown
-     ' search-dropdown-short' if Rails.configuration.proposal_mode
+
+  def dropdown_size_modification
+    # search dropdown is smaller if radio buttons are hidden in DMMT
+    return ' search-dropdown-short' if Rails.configuration.proposal_mode
+
+    # TODO: Make this a permanent change when the UMM-T toggle is removed.
+    # search dropdown is wider if tools radio button is enabled
+    ' search-dropdown-wide' if Rails.configuration.umm_t_enabled
   end
-  
+
   # search radio buttons are hidden in DMMT, visible in MMT
   def proposal_mode_button_visibility
      Rails.configuration.proposal_mode ? " search-disabled-radio-buttons" : " search-enabled-radio-buttons"

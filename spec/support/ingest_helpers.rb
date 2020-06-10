@@ -173,7 +173,7 @@ module Helpers
     end
 
     # Publish a service draft
-    def publish_service_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false)
+    def publish_service_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_service_draft' do
         user = User.where(urs_uid: 'testuser').first
 
@@ -189,7 +189,6 @@ module Helpers
 
         # Conditional additions to the draft attribute
         draft_attributes[:draft_short_name] = name unless name.blank?
-        draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
         draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
         # Create a new draft with the provided attributes
         # NOTE: We don't save the draft object, there is no reason to hit the database
@@ -269,7 +268,7 @@ module Helpers
         ingest_response.body
       end
     end
-    
+
     def publish_new_subscription(name: nil, collection_concept_id: nil, query: nil, subscriber_id: nil, email_address: nil, provider: 'MMT_2', native_id: nil, revision: 1)
       random = SecureRandom.uuid
       subscription = {
@@ -307,7 +306,7 @@ module Helpers
 end
 
 # Publish a tool draft
-def publish_tool_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false)
+def publish_tool_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false)
   ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_tool_draft' do
     user = User.where(urs_uid: 'testuser').first
 
@@ -323,7 +322,6 @@ def publish_tool_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_nam
 
     # Conditional additions to the draft attribute
     draft_attributes[:draft_short_name] = name unless name.blank?
-    draft_attributes[:draft_science_keywords] = science_keywords unless science_keywords.blank?
     draft_attributes[:draft_entry_title] = long_name unless long_name.blank?
     # Create a new draft with the provided attributes
     # NOTE: We don't save the draft object, there is no reason to hit the database
