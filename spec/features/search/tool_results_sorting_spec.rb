@@ -1,3 +1,7 @@
+# If there is an issue where the tests start failing locally and the screenshots
+# show "Error: Concept with concept-id [id] and revision-id [id] does not exist."
+# this is because the MMT_2 provider was deleted while it had tools. Restart CMR
+# and rerun the test. This comment should be removed when provider reset works.
 describe 'Tool Search Results sorting', js: true do
   context 'when sorting search tools results' do
     before :all do
@@ -47,7 +51,7 @@ describe 'Tool Search Results sorting', js: true do
 
       it 'sorts the result by Name Asc' do
         within '#search-results tbody tr:nth-child(1)' do
-          expect(page).to have_content('000_Adder Ser Name')
+          expect(page).to have_content('000_Adder Tool Name')
         end
       end
 
@@ -62,7 +66,7 @@ describe 'Tool Search Results sorting', js: true do
 
         it 'sorts the results by Name Desc' do
           within '#search-results tbody tr:nth-child(1)' do
-            expect(page).to have_content('ZZebra Ser Name')
+            expect(page).to have_content('ZZebra Tool Name')
           end
         end
       end
@@ -79,7 +83,7 @@ describe 'Tool Search Results sorting', js: true do
 
       it 'sorts the result by Long Name Asc' do
         within '#search-results tbody tr:nth-child(1)' do
-          expect(page).to have_content('.. Agouti Ser Long Name')
+          expect(page).to have_content('.. Agouti Tool Long Name')
         end
       end
 
@@ -94,7 +98,7 @@ describe 'Tool Search Results sorting', js: true do
 
         it 'sorts the results by Long Name Desc' do
           within '#search-results tbody tr:nth-child(1)' do
-            expect(page).to have_content('ZZebra Ser Long Name')
+            expect(page).to have_content('ZZebra Tool Long Name')
           end
         end
       end

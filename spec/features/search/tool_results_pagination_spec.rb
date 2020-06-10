@@ -1,3 +1,7 @@
+# If there is an issue where the tests start failing locally and the screenshots
+# show "Error: Concept with concept-id [id] and revision-id [id] does not exist."
+# this is because the MMT_2 provider was deleted while it had tools. Restart CMR
+# and rerun the test. This comment should be removed when provider reset works.
 describe 'Search Tools Results Pagination', js: true do
   before :all do
     # TODO: Saving off the native ids and manually deleting them can be removed

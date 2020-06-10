@@ -30,7 +30,7 @@
       <% records.each do |tool| %>
         <tr class='<%= cycle("alt", "") %>'>
           <td>
-            <%= tool.fetch('umm')['LongName'] %>
+            <%= tool.fetch('umm')['Name'] %>
             <% # link_to tool.fetch('umm', {})['Name'], tool_path(tool.fetch('meta', {})['concept-id']) 
             %>
           </td>
