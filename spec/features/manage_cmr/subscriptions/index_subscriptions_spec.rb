@@ -3,26 +3,40 @@
 # that test would be flaky and fail intermittently because of CMR's update time.
 
 describe 'Viewing a list of subscriptions' do
-  before do
-    login
-  end
+  before :all do
+    @subscriptions_group = create_group(members: ['testuser', 'typical'])
+    # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
+    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_2')
 
-  before(:all) do
+    clear_cache
+
     _ingest_response, @search_response, @subscription = publish_new_subscription
     _ingest_response2, @search_response2, @subscription2 = publish_new_subscription
   end
 
-  # TODO: using reset_provider may be cleaner than these after blocks,
-  # but does not currently work. Reinvestigate after CMR-6310
-  after(:all) do
+  after :all do
+    # TODO: using reset_provider may be cleaner than these after blocks,
+    # but does not currently work. Reinvestigate after CMR-6310
     delete_response1 = cmr_client.delete_subscription('MMT_2', @search_response.body['items'].first['meta']['native-id'], 'token')
     delete_response2 = cmr_client.delete_subscription('MMT_2', @search_response2.body['items'].first['meta']['native-id'], 'token')
     raise unless delete_response1.success? && delete_response2.success?
+
+    remove_group_permissions(@subscriptions_permissions['concept_id'])
+    delete_group(concept_id: @subscriptions_group['concept_id'])
+
+    clear_cache
+  end
+
+  before do
+    login
   end
 
   context 'when the user has read access' do
     before do
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
+      
+      allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(false)
+      allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(false)
     end
 
     context 'when viewing the manage CMR page' do

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Groups Associated Permissions', reset_provider: true do
   context 'when creating a new group with an associated collection permission' do
     before do
