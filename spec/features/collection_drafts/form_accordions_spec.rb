@@ -114,8 +114,8 @@ describe 'Draft form accordions', js: true do
       end
 
       it 'collapses all the accordions on the page' do
-        expect(page).to have_css('.eui-accordion', count: 3)
-        expect(page).to have_css('.eui-accordion.is-closed', count: 3)
+        expect(page).to have_css('.eui-accordion', count: 2)
+        expect(page).to have_css('.eui-accordion.is-closed', count: 2)
       end
     end
   end
@@ -128,9 +128,6 @@ describe 'Draft form accordions', js: true do
         find('.eui-accordion__header').click
       end
       within '#metadata-dates.eui-accordion' do
-        find('.eui-accordion__header').click
-      end
-      within '#directory-names.eui-accordion' do
         find('.eui-accordion__header').click
       end
     end
