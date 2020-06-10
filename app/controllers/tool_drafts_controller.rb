@@ -3,9 +3,10 @@ class ToolDraftsController < BaseDraftsController
   include ControlledKeywords
   before_action :umm_t_enabled?
 
-  before_action :set_schema, only: [:new, :create, :edit, :update]
-  before_action :set_form, only: [:edit, :update]
+  before_action :set_schema, only: [:new, :create, :edit, :update, :show]
+  before_action :set_form, only: [:edit, :update, :show]
   before_action :set_current_form, only: [:edit]
+  before_action :set_preview, only: [:show]
 
   def edit
     super
@@ -35,6 +36,15 @@ class ToolDraftsController < BaseDraftsController
     @current_form = params[:form] || @json_form.forms.first.parsed_json['id']
   end
 
+  def set_preview
+    @preview = UmmPreview.new(
+      schema_type: published_resource_name,
+      preview_filename: 'umm-t-preview.json',
+      data: get_resource.draft,
+      draft_id: get_resource.id
+    )
+  end
+
   def tool_draft_params
     # Allow for completely empty forms to be saved
     return {} unless params.key?(:tool_draft)
@@ -42,11 +52,11 @@ class ToolDraftsController < BaseDraftsController
     # If the form isn't empty, only permit whitelisted attributes
     permitted = params.require(:tool_draft).permit(:draft_type).tap do |whitelisted|
       # Allows for any nested key within the draft hash
+      # TODO: we should find a way to run through the schema and only whitelist
+      # keys that exist in the schema.
       whitelisted[:draft] = params[:tool_draft][:draft].permit!
     end
 
-    # TODO: when working update ticket, investigate if we can use `.to_h` here
     permitted.to_h
-    # permitted.to_unsafe_h # need to understand what this is doing more, think related to nested parameters not permitted.
   end
 end

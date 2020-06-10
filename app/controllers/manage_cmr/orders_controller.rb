@@ -19,7 +19,7 @@ class OrdersController < ManageCmrController
       add_breadcrumb @order.guid, order_path(@order.guid)
       render :show
     end
-  rescue Faraday::Error::TimeoutError
+  rescue Faraday::TimeoutError
     flash.now[:alert] = "The order request #{request.uuid} timed out retrieving results.  Limit your search criteria and try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}."
     render :index
   end
@@ -59,7 +59,7 @@ class OrdersController < ManageCmrController
         render :search
       end
     end
-  rescue Faraday::Error::TimeoutError
+  rescue Faraday::TimeoutError
     flash.now[:alert] = "The order request #{request.uuid} timed out retrieving results.  Limit your search criteria and try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}."
     render :index
   end

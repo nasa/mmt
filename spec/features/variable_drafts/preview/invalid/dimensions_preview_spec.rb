@@ -12,7 +12,7 @@ describe 'Invalid Variable Draft Dimensions Preview' do
       end
     end
 
-    it 'displays the corrent status icon' do
+    it 'displays the correct status icon' do
       within '#dimensions-progress' do
         within '.status' do
           expect(page).to have_content('Dimensions is incomplete')

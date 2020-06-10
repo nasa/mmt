@@ -1,7 +1,7 @@
 describe 'Service draft deletion', js: true do
+  let(:draft) { create(:full_service_draft, user: User.where(urs_uid: 'testuser').first) }
   before do
     login
-    draft = create(:full_service_draft, user: User.where(urs_uid: 'testuser').first)
     visit service_draft_path(draft)
   end
 

@@ -199,8 +199,12 @@ Add an entry to the vhost file for the site and use ProxyPass to send the reques
 		SSLCertificateFile /etc/apache2/ssl/mmt.localtest.earthdata.nasa.gov.crt
 		SSLCertificateKeyFile /etc/apache2/ssl/mmt.localtest.earthdata.nasa.gov.key
 
+		RequestHeader set X-Forwarded-Proto https
+		ProxyPreserveHost On
 		ProxyPass / http://127.0.0.1:3000/
 		ProxyPassReverse / http://mmt.localtest.earthdata.nasa.gov/
+		ProxyPassReverseCookiePath / /
+
 	</VirtualHost>
 
 

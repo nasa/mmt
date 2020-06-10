@@ -10,7 +10,7 @@ describe Echo::Order do
     let(:order) { Echo::Order.new(client: echo_client, echo_provider_token: 'token', guid: 'order_guid_here') }
 
     before do
-      order_response = Echo::Response.new(Faraday::Response.new(body: order_response_body, status: 200))
+      order_response = Echo::Response.new(Faraday::Response.new(response_body: order_response_body, status: 200))
       allow_any_instance_of(Echo::OrderManagement).to receive(:get_orders).and_return(order_response)
     end
 
@@ -43,7 +43,7 @@ describe Echo::Order do
     end
 
     it 'parses the owner' do
-      user_response = Echo::Response.new(Faraday::Response.new(body: user_response_body, status: 200))
+      user_response = Echo::Response.new(Faraday::Response.new(response_body: user_response_body, status: 200))
       allow_any_instance_of(Echo::UserService).to receive(:get_user_names).and_return(user_response)
 
       expect(order.owner).to eq('test_user')
@@ -116,7 +116,7 @@ describe Echo::Order do
     end
 
     it 'parses the owner' do
-      user_response = Echo::Response.new(Faraday::Response.new(body: user_response_body, status: 200))
+      user_response = Echo::Response.new(Faraday::Response.new(response_body: user_response_body, status: 200))
       allow_any_instance_of(Echo::UserService).to receive(:get_user_names).and_return(user_response)
 
       expect(order.owner).to eq('test_user')

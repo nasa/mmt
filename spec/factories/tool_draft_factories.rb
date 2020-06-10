@@ -9,6 +9,96 @@ FactoryBot.define do
     entry_title { nil }
   end
 
+  factory :invalid_tool_draft, class: ToolDraft do
+    transient do
+      draft_short_name { nil }
+      draft_entry_title { nil }
+    end
+
+    provider_id { 'MMT_2' }
+    draft_type { 'ToolDraft' }
+
+    # To make the fields Invalid, most of the string fields had to be given
+    # data with a length greater than the schema allows
+    # other fields (URL, Related URL, Organizations, Contacts, Quality) had
+    # multiple required/conditionally required subfields and were left incomplete
+    # fields with enums (Formats, URL, Related URL) can be given data not in the enum
+    # Tool Keywords has fewer than the required hierarcy levels
+    draft do
+      {
+        'Name': draft_short_name || Faker::Lorem.characters(number: 95),
+        'LongName': draft_short_name || Faker::Lorem.characters(number: 1050),
+        'Type': 'INVALID',
+        'Version': "#{Faker::Number.number(digits: 25)}",
+        'VersionDescription': Faker::Lorem.characters(number: 1050),
+        'LastUpdatedDate': 'abcdefg',
+        'Description': Faker::Lorem.characters(number: 1050),
+        'DOI': Faker::Lorem.characters(number: 1050),
+        'URL': {
+          'URLContentType': 'INVALID',
+          'Type': 'INVALID'
+        },
+        'RelatedURLs': [
+          {
+            'Description': 'Test related url',
+            'URLContentType': 'DistributionURL',
+            'Type': 'GET SERVICE',
+            'Subtype': 'SOFTWARE PACKAGE'
+          }
+        ],
+        'SupportedInputFormats': ['BlackThroatedGreen'],
+        'SupportedOutputFormats': ['YellowWarbler'],
+        'SupportedOperatingSystems': [
+          {
+            'OperatingSystemVersion': 10.times { 'Puppy Linux' }
+          }
+        ],
+        'SupportedBrowsers': [
+          {
+            'BrowserVersion': 18.times { 'Retawq' }
+          }
+        ],
+        'SupportedSoftwareLanguages': [
+          {
+            'SoftwareLanguageVersion': 15.times { 'Chicken' }
+          }
+        ],
+        'Quality': {
+          'Traceability': 'traceability'
+        },
+        'AccessConstraints': Faker::Lorem.characters(number: 4040),
+        'UseConstraints': {
+          'LicenseURL': Faker::Lorem.characters(number: 1040)
+        },
+        'ToolKeywords': [
+          {
+            'ToolCategory': 'EARTH SCIENCE SERVICES'
+          }
+        ],
+        'AncillaryKeywords': Array.wrap(Faker::Lorem.characters(number: 1040)),
+        'Organizations': [
+          {
+            'ShortName': 'DOI/USGS/CMG/WHSC',
+            'LongName': 'Woods Hole Science Center, Coastal and Marine Geology, U.S. Geological Survey, U.S. Department of the Interior'
+          }
+        ],
+        'ContactGroups': [
+          {
+            'GroupName': 'Missing Roles'
+          }
+        ],
+        'ContactPersons': [
+          {
+            'FirstName': 'Missing Roles'
+          }
+        ],
+        'SearchAction': {
+          'SearchActionElement': Faker::Lorem.characters(number: 5000)
+        }
+      }
+    end
+  end
+
   factory :full_tool_draft, class: ToolDraft do
     transient do
       draft_short_name { nil }

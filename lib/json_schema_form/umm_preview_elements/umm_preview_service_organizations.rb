@@ -1,220 +1,71 @@
 # Renders cards for Service Organizations
 
 # :nodoc:
-class UmmPreviewServiceOrganizations < UmmPreviewElement
-  def render
-    capture do
-      render_preview_link_to_draft_form unless draft_id.nil?
-      
-      concat(content_tag(:ul, class: 'service-organizations-cards cards') do
-        # Array.wrap(data).each_with_index do |service_organization, index|
-        Array.wrap(element_value).each_with_index do |service_organization, index|
-          concat(content_tag(:li, class: 'card') do
-            concat render_card_header(service_organization, index)
-            concat render_card_body(service_organization)
-          end)
-        end
-      end)
-    end
-  end
-
-  def render_card_header(service_organization, index)
-    title = service_organization.fetch('ShortName', "Service Organization #{index + 1}")
-
-    content_tag(:div, class: 'card-header') do
-      concat content_tag(:h5, title, title: title, class: 'card-header-title')
-      concat roles_badge(service_organization.fetch('Roles', []))
-    end
-  end
-
-  def roles_badge(roles)
-    capture do
-      if roles.size == 1
-        concat content_tag(:span, roles.first, class: 'card-header-badge')
-      elsif roles.size > 1
-        concat(content_tag(:a, class: 'webui-popover-link card-header-badge', href: 'javascript:void(0)') do
-          concat 'Multiple Roles'
-          concat content_tag(:i, nil, class: 'fa fa-plus')
-        end)
-
-        concat(content_tag(:div, class: 'webui-popover-content') do
-          roles.each do |role|
-            concat content_tag(:p, role)
-          end
-        end)
-      end
-    end
-  end
+class UmmPreviewServiceOrganizations < UmmPreviewOrganizations
+# TODO: MMT-2267 Abstract these and tool preview elements to minimize repeated
+# code
 
   def render_card_body(service_organization)
     capture do
-      contact_info = service_organization.fetch('ContactInformation', {})
       concat(content_tag(:div, class: 'card-body active') do
-        concat(content_tag(:div, class: 'card-body-details') do
+        concat(content_tag(:div, class: 'card-body-details-full') do
           concat content_tag(:h6, service_organization['LongName']) if service_organization['LongName']
-
-          concat render_address(contact_info.fetch('Addresses', []).first)
-        end)
-
-        concat(content_tag(:div, class: 'card-body-aside') do
-          concat content_tag(:h6, contact_info['ServiceHours'])
-          concat render_contact_mechanisms(contact_info.fetch('ContactMechanisms', []))
         end)
       end)
 
-      if contact_info['Addresses'] && contact_info['Addresses'].count > 1
-        contact_info['Addresses'].drop(1).each do |address|
-          concat(content_tag(:div, class: 'card-body') do
-            concat(content_tag(:div, class: 'card-body-details-full') do
-              concat content_tag(:h6, 'Additional Address')
-              concat render_address(address)
-            end)
-          end)
-        end
-      end
+      concat render_online_resource(service_organization['OnlineResource'])
 
-      if contact_info['ContactInstruction']
+      concat render_card_navigation(service_organization['OnlineResource'])
+    end
+  end
+
+  def render_online_resource(online_resource)
+    capture do
+      if online_resource
         concat(content_tag(:div, class: 'card-body') do
-          concat(content_tag(:div, class: 'card-body-details-full') do
-            concat content_tag(:h6, 'Contact Details')
-            concat content_tag(:p, contact_info['ContactInstruction'])
+          concat(content_tag(:div, class: 'card-body-details') do
+            concat content_tag(:p, online_resource['Name']) if online_resource['Name']
+            concat content_tag(:p, online_resource['Description']) if online_resource['Description']
+
+            concat(if online_resource['Linkage']
+                     link_to online_resource['Linkage'], online_resource['Linkage'], title: online_resource.fetch('Name', 'Online Resource Linkage')
+                   else
+                     'Not provided'
+                   end)
+          end)
+
+          concat(content_tag(:div, class: 'card-body-aside') do
+            concat content_tag(:p, "Protocol: #{online_resource['Protocol']}")
+            concat content_tag(:p, "Application Profile: #{online_resource['ApplicationProfile']}")
+            concat content_tag(:p, "Function: #{online_resource['Function']}")
           end)
         end)
       end
-
-      concat render_related_urls(contact_info)
-
-      concat render_card_navigation(contact_info)
     end
   end
 
-  def render_address(address)
+  def render_card_navigation(online_resource)
     capture do
-      if address.blank?
-        concat content_tag(:p, 'This service organization does not have any addresses listed.', class: 'empty-section')
-      else
-        street_addresses = address.fetch('StreetAddresses', [])
-        concat(content_tag(:p) do
-          street_addresses.each do |street_address|
-            concat street_address
-            concat tag(:br)
-          end
-          concat "#{address['City']}," if address['City']
-          concat " #{address['StateProvince']}"
-          concat " #{address['PostalCode']}"
-        end)
-      end
-    end
-  end
-
-  def render_contact_mechanisms(contact_mechanisms)
-    capture do
-      if contact_mechanisms.blank?
-        concat content_tag(:p, 'This service organization does not have any contact mechanisms listed.', class: 'empty-section')
-      else
-        concat(content_tag(:ul) do
-          contact_mechanisms.each do |mechanism|
-            type = mechanism['Type']
-            value = mechanism['Value']
-            concat(content_tag(:li) do
-              if ['Direct Line', 'Fax', 'Mobile', 'TDD/TTY Phone', 'Telephone', 'U.S. toll free'].include? type
-                concat content_tag(:i, nil, class: 'fa fa-phone-square')
-                concat value
-              elsif type == 'Email'
-                concat content_tag(:i, nil, class: 'fa fa-envelope')
-                concat content_tag(:a, 'Email', href: "mailto:#{value}", title: value)
-              elsif type == 'Twitter'
-                concat content_tag(:i, nil, class: 'fa fa-twitter-square')
-                concat display_value_or_add_popover(value)
-              elsif type == 'Facebook'
-                concat content_tag(:i, nil, class: 'fa fa-facebook-square')
-                concat display_value_or_add_popover(value)
-              elsif type == 'Fax'
-                concat content_tag(:i, class: 'fa fa-fax')
-                concat value
-              else
-                concat content_tag(:i, class: 'fa fa-bullhorn')
-                concat value
-              end
+      if online_resource
+        content_tag(:div, class: 'card-navigation') do
+          concat(content_tag(:ul) do
+            concat(content_tag(:li, class: 'card-navigation-control') do
+              concat content_tag(:a, content_tag(:i, nil, class: 'fa fa-chevron-left'), href: '', class: 'card-navigation-control-back')
             end)
-          end
-        end)
-      end
-    end
-  end
 
-  def display_value_or_add_popover(value, max_length: 14)
-    # If length isnt a concern just return the user provided value
-    return value if value.length <= max_length
-
-    # Otherwise use a popover
-    capture do
-      concat link_to(truncate(value, length: max_length),
-                     'javascript:void(0)',
-                     class: 'webui-popover-link')
-      concat content_tag(:div, value, class: 'webui-popover-content')
-    end
-  end
-
-  def render_related_urls(contact_info)
-    capture do
-      if contact_info['RelatedUrls']
-        contact_info['RelatedUrls'].each do |related_url|
-          concat(content_tag(:div, class: 'card-body') do
-            concat(content_tag(:div, class: 'card-body-details-full') do
-              concat content_tag(:p, related_url['Description']) if related_url['Description']
-
-              concat(if related_url['URL']
-                       link_to related_url['URL'], related_url['URL'], title: related_url.fetch('URLContentType', 'Related URL')
-                     else
-                       'Not provided'
-                     end)
-
-              concat(content_tag(:ul, class: 'arrow-tag-group-list') do
-                if ['GET SERVICE', 'GET DATA'].include? related_url['Type']
-                  concat content_tag(:li, related_url['Type'], class: 'arrow-tag-group-item')
-                  concat content_tag(:li, related_url['Subtype'], class: 'arrow-tag-group-item') if related_url['Subtype']
-                elsif related_url['Subtype']
-                  concat content_tag(:li, related_url['Subtype'], class: 'arrow-tag-group-item')
-                elsif related_url['Type']
-                  concat content_tag(:li, related_url['Type'], class: 'arrow-tag-group-item')
-                end
-              end)
-            end)
-          end)
-        end
-      end
-    end
-  end
-
-  def render_card_navigation(contact_info)
-    capture do
-      content_tag(:div, class: 'card-navigation') do
-        concat(content_tag(:ul) do
-          concat(content_tag(:li, class: 'card-navigation-control') do
-            concat content_tag(:a, content_tag(:i, nil, class: 'fa fa-chevron-left'), href: '', class: 'card-navigation-control-back')
-          end)
-
-          number_circles = 0
-          number_circles += contact_info.fetch('Addresses', []).size - 1
-          number_circles += contact_info.fetch('RelatedUrls', []).size
-          number_circles += 1 if contact_info['ContactInstruction']
-
-          concat(content_tag(:li, class: 'card-navigation-pagination') do
-            concat content_tag(:i, nil, class: 'fa fa-circle')
-
-            number_circles.times do
+            concat(content_tag(:li, class: 'card-navigation-pagination') do
+              concat content_tag(:i, nil, class: 'fa fa-circle')
               # Have to put whitespace in to space out the navigation circles
               # Surely there is a better solution to this
               concat ' '
               concat content_tag(:i, nil, class: 'fa fa-circle-o')
-            end
-          end)
+            end)
 
-          concat(content_tag(:li, class: 'card-navigation-control') do
-            concat content_tag(:a, content_tag(:i, nil, class: 'fa fa-chevron-right'), href: '', class: 'card-navigation-control-forward')
+            concat(content_tag(:li, class: 'card-navigation-control') do
+              concat content_tag(:a, content_tag(:i, nil, class: 'fa fa-chevron-right'), href: '', class: 'card-navigation-control-forward')
+            end)
           end)
-        end)
+        end
       end
     end
   end

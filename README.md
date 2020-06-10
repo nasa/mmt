@@ -162,7 +162,7 @@ To insert a sample draft with every field completed:
 
 * If you receive a error from running `rake cmr:start_and_load` like
 
-    Faraday::Error::ConnectionFailed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
+    Faraday::ConnectionFailed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
 
 Try the following steps:
 
@@ -262,20 +262,32 @@ Replacing URS_USERNAME with your own username. An example:
 From here I'm able to visit `/provider_identity_permissions` and see my newly created group. Clicking on it allows me to grant myself Provider Level Access to the necessary targets for testing.
 
 ### Draft MMT
-The Draft MMT is intended for Non-NASA Users to propose new metadata records or changes to existing records in the CMR.
+The Draft MMT is intended for Non-NASA Users to propose new metadata records or changes to existing records in the CMR.  There are several steps required to run a local version of Draft MMT.
 
-Changing to the Draft MMT (aka proposal mode) is controlled the `proposal_mode` environment variable in your `application.yml` file.
+1. Enable https connections to the Draft MMT.     See the directions for configuring https [here](doc/local_https_setup.md)
 
-Access to the Draft MMT is controlled by the Non-NASA Draft User and Non-NASA Draft Approver ACLs. There is a rake task that will create the group and assign the ACL for you (make sure you use your own username):
+2. Configure MMT to use the https connection.  In your application.yml file, make sure that `urs_login_callback_url`   is set to `https://mmt.localtest.earthdata.nasa.gov/urs_login_callback_url`.  
 
-    rake acls:proposal_mode:draft_user[URS_USERNAME]
+3. Create ACLs to give yourself permission to use Draft MMT. Access to the Draft MMT is controlled by the Non-NASA Draft User and Non-NASA Draft Approver ACLs. There is a rake task that will create the group and assign the ACL for you (make sure you use your own username):
 
+    
+    $ rake acls:proposal_mode:draft_user[URS_USERNAME]
+    
 or
-
-    rake acls:proposal_mode:draft_approver[URS_USERNAME]
-
+    
+    $ rake acls:proposal_mode:draft_approver[URS_USERNAME]
+    
   * make sure you use your own username
-  * make sure that `proposal_mode` is set to 'false' in your `application.yml` file when you run this rake task. If you see `NotAllowedError: A requested action is not allowed in the current configuration.` when running this rake task, you missed this step.
+  ***NOTE: Make sure that `proposal_mode` is set to 'false' in your `application.yml` file when you run this rake task. If you see `NotAllowedError: A requested action is not allowed in the current configuration.` when running this rake task, you missed this step.***
+
+4. Change the app to the Draft MMT (aka proposal mode) by changing the `proposal_mode` environment variable in your `application.yml` file. Set `proposal_mode` to `true`.
+
+
+5. Start the MMT app as usual with `bin/rails server -p 3000`  
+
+6. Direct your browser to https://mmt.localtest.earthdata.nasa.gov .   Note that some browsers will give you a warning about the self-signed certificate that was created in step 1.  In that case,  use the browser controls to allow the certificate. 
+
+7. To return to normal MMT mode,  set `proposal_mode` to `false` in the application.yml file and restart the app. 
 
 ### Replicating SIT Collections Locally
 Often we need collections to exist in our local CMR that already exist in SIT for the purposes of sending collection ids (concept ids) as part of a payload to the ECHO API that doesn't run locally, but instead on testbed. In order to do this the collection concept ids have to match those on SIT so we cannot simply download and ingest them. A rake task exists to replicate collections locally for this purpose.

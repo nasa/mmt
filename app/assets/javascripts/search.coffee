@@ -70,6 +70,10 @@ $(document).ready ->
     $('dropdown-caret').css 'visibility': 'rotate(0deg)'
     $('#keyword').focus()
 
+  # Search radio buttons should be hidden in DMMT, visible in MMT mode.
+  $('.search-disabled-radio-buttons').css 'display': 'none'
+  $('.search-enabled-radio-buttons').css 'display': 'block'
+    
 
   $(document).mouseup (e) ->
     container = $('.search-dropdown, .quick-search')

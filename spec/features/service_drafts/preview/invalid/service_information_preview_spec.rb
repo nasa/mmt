@@ -14,7 +14,7 @@ describe 'Invalid Service Draft Service Information Preview' do
       end
     end
 
-    it 'displays the corrent status icon' do
+    it 'displays the correct status icon' do
       within '#service_information-progress' do
         within '.status' do
           expect(page).to have_content('Service Information is incomplete')
@@ -29,12 +29,13 @@ describe 'Invalid Service Draft Service Information Preview' do
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.type')
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version')
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.description')
+        # TODO: needs url icon
       end
     end
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.service_information' do
-        expect(page).to have_css('.umm-preview-field-container', count: 5)
+        expect(page).to have_css('.umm-preview-field-container', count: 8)
 
         within '#service_draft_draft_name_preview' do
           expect(page).to have_css('h5', text: 'Name')
@@ -70,6 +71,8 @@ describe 'Invalid Service Draft Service Information Preview' do
 
           expect(page).to have_css('p', text: draft['Description'])
         end
+
+        # TODO: needs URL?
       end
     end
   end
