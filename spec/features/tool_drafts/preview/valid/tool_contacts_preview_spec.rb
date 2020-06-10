@@ -8,6 +8,28 @@ describe 'Valid Tool Draft Tool Contacts Preview' do
   end
 
   context 'when examining the Tool Contacts sections' do
+    context 'when examining the progress circles section' do
+      it 'displays the form title as an edit link' do
+        within '#tool_contacts-progress' do
+          expect(page).to have_link('Tool Contacts', href: edit_tool_draft_path(tool_draft, 'tool_contacts'))
+        end
+      end
+
+      it 'displays the correct status icon' do
+        within '#tool_contacts-progress' do
+          within '.status' do
+            expect(page).to have_css('.eui-icon.icon-green.eui-check', text: 'Tool Contacts is valid')
+          end
+        end
+      end
+
+      it 'displays the correct progress indicators for non required fields' do
+        within '#tool_contacts-progress .progress-indicators' do
+          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.contact-groups')
+          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.contact-persons')
+        end
+      end
+    end
 
     context 'when examining the metadata preview section' do
       it 'displays the stored values correctly within the preview' do

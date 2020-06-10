@@ -8,6 +8,35 @@ describe 'Invalid Tool Draft Tool Information Preview' do
   end
 
   context 'when examining the Tool Information sections' do
+    context 'when examining the progress circles section' do
+      it 'displays the form title as an edit link' do
+        within '#tool_information-progress' do
+          expect(page).to have_link('Tool Information', href: edit_tool_draft_path(tool_draft, 'tool_information'))
+        end
+      end
+
+      it 'displays the correct status icon' do
+        within '#tool_information-progress' do
+          within '.status' do
+            expect(page).to have_css('.eui-icon.icon-green.eui-fa-circle-o', text: 'Tool Information is incomplete')
+          end
+        end
+      end
+
+      it 'displays the correct progress indicators for invalid fields' do
+        within '#tool_information-progress .progress-indicators' do
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.name')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.long-name')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version-description')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.type')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.last-updated-date')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.description')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.doi')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.url')
+        end
+      end
+    end
 
     context 'when examining the metadata preview section' do
       it 'displays the stored values correctly within the preview' do

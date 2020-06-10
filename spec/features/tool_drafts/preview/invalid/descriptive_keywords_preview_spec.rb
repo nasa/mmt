@@ -8,6 +8,33 @@ describe 'Inalid Tool Draft Descriptive Keywords Preview' do
   end
 
   context 'when examining the Descriptive Keywords sections' do
+    context 'when examining the progress circles section' do
+      it 'displays the form title as an edit link' do
+        within '#descriptive_keywords-progress' do
+          expect(page).to have_link('Descriptive Keywords', href: edit_tool_draft_path(tool_draft, 'descriptive_keywords'))
+        end
+      end
+
+      it 'displays the correct status icon' do
+        within '#descriptive_keywords-progress' do
+          within '.status' do
+            expect(page).to have_css('.eui-icon.icon-green.eui-fa-circle-o', text: 'Descriptive Keywords is incomplete')
+          end
+        end
+      end
+
+      it 'displays the correct progress indicators for invalid fields' do
+        within '#descriptive_keywords-progress .progress-indicators' do
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.tool-keywords')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.ancillary-keywords')
+        end
+      end
+
+      it 'displays the correct progress indicators for non required fields' do
+        within '#descriptive_keywords-progress .progress-indicators' do
+        end
+      end
+    end
 
     context 'when examining the metadata preview section' do
       it 'displays the stored values correctly within the preview' do

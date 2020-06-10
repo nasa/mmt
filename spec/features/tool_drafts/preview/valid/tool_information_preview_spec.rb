@@ -8,6 +8,38 @@ describe 'Valid Tool Draft Tool Information Preview' do
   end
 
   context 'when examining the Tool Information sections' do
+    context 'when examining the progress circles section' do
+      it 'displays the form title as an edit link' do
+        within '#tool_information-progress' do
+          expect(page).to have_link('Tool Information', href: edit_tool_draft_path(tool_draft, 'tool_information'))
+        end
+      end
+
+      it 'displays the correct status icon' do
+        within '#tool_information-progress' do
+          within '.status' do
+            expect(page).to have_css('.eui-icon.icon-green.eui-check', text: 'Tool Information is valid')
+          end
+        end
+      end
+
+      it 'displays the correct progress indicators for required fields' do
+        within '#tool_information-progress .progress-indicators' do
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.name')
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.long-name')
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.type')
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.version')
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.description')
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.url')
+        end
+      end
+
+      it 'displays the correct progress indicators for non required fields' do
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.version-description')
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.last-updated-date')
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.doi')
+      end
+    end
 
     context 'when examining the metadata preview section' do
       it 'displays the stored values correctly within the preview' do
