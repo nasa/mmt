@@ -82,8 +82,9 @@ describe 'Valid Tool Draft Tool Information Preview' do
             within '.card-body' do
               expect(page).to have_css('p', text: 'Access the WRS-2 Path/Row to Latitude/Longitude Converter.')
               expect(page).to have_link(nil, href: 'http://www.scp.byu.edu/software/slice_response/Xshape_temp.html')
-              expect(page).to have_css('li', text: 'DOWNLOAD SOFTWARE')
-            end
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'DOWNLOAD SOFTWARE')
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'MOBILE APP')
+             end
           end
         end
       end

@@ -27,7 +27,7 @@ describe 'Valid Tool Draft Related URL Preview' do
                 within '.card-body' do
                   expect(page).to have_css('p', text: 'Test related url')
                   expect(page).to have_link(nil, href: 'nasa.gov')
-                  # expect(page).to have_css('li', text: 'GET RELATED VISUALIZATION') # Not rendered... see comments in preview class
+                  expect(page).to have_css('li.arrow-tag-group-item', text: 'GET RELATED VISUALIZATION') #type; uncommented by CT
                   expect(page).to have_css('li.arrow-tag-group-item', text: 'MAP')
                 end
               end
@@ -40,7 +40,7 @@ describe 'Valid Tool Draft Related URL Preview' do
                 within '.card-body' do
                   expect(page).to have_css('p', text: 'Test another related url')
                   expect(page).to have_link(nil, href: 'algorithms.org')
-                  # expect(page).to have_css('li', text: 'VIEW RELATED INFORMATION') # Not rendered... see comments in preview class
+                  expect(page).to have_css('li.arrow-tag-group-item', text: 'VIEW RELATED INFORMATION')
                   expect(page).to have_css('li.arrow-tag-group-item', text: 'ALGORITHM DOCUMENTATION')
                 end
               end
