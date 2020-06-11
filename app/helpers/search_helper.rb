@@ -73,8 +73,15 @@ module SearchHelper
     ' search-dropdown-wide' if Rails.configuration.umm_t_enabled
   end
 
+  # TODO: Make this a permanent change when the UMM-T toggle is removed.
+  def search_field_size_modification
+    return if Rails.configuration.proposal_mode
+
+    'search-field-wide' if Rails.configuration.umm_t_enabled
+  end
+
   # search radio buttons are hidden in DMMT, visible in MMT
   def proposal_mode_button_visibility
-     Rails.configuration.proposal_mode ? " search-disabled-radio-buttons" : " search-enabled-radio-buttons"
+    Rails.configuration.proposal_mode ? " search-disabled-radio-buttons" : " search-enabled-radio-buttons"
   end
 end

@@ -1,7 +1,7 @@
 <%= form_tag(search_path, method: "get", enforce_utf8: false, id: 'search-form', role: 'search') do %>
   <input type="hidden" name="search_type" id="search_type" value="full_search">
   <div class="quick-search">
-    <%= text_field_tag('keyword', @query['keyword'], placeholder: 'Enter Search Term') %>
+    <%= text_field_tag('keyword', @query['keyword'], placeholder: 'Enter Search Term', class: search_field_size_modification) %>
     <button id="search-submit-button" type="button" name="full_search" class="eui-btn--blue"><i class="eui-icon eui-fa-search"></i><span id="search-submit-button-text"></span></button><a href="#" id="search-drop" class="dropdown-button"><i id="search-drop-caret" class="fa fa-caret-down" aria-hidden="true"></i></a>
     <div class="search-dropdown<%= dropdown_size_modification %>">
       <fieldset class="radio-buttons<%= proposal_mode_button_visibility %>">
