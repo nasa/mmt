@@ -33,14 +33,11 @@ class UmmPreviewURL < UmmPreviewElement
         concat content_tag(:p, metadata['Description']) if metadata['Description']
         concat(get_url(metadata))
         concat(content_tag(:ul, class: 'arrow-tag-group-list') do
-          if ['GET SERVICE', 'GET DATA'].include? url_type(metadata)
+          if url_type(metadata)
             concat content_tag(:li, url_type(metadata), class: 'arrow-tag-group-item')
-            concat content_tag(:li, url_subtype(metadata), class: 'arrow-tag-group-item') if url_subtype(metadata)
-          elsif url_subtype(metadata)
-            # TODO this should be modified in MMT-2281 so Type is shown
+          end
+          if url_subtype(metadata)
             concat content_tag(:li, url_subtype(metadata), class: 'arrow-tag-group-item')
-          elsif url_type(metadata)
-            concat content_tag(:li, url_type(metadata), class: 'arrow-tag-group-item')
           end
         end)
       end)
