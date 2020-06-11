@@ -8,6 +8,34 @@ describe 'Invalid Tool Draft Compatibility and Usability Preview' do
   end
 
   context 'when examing the Compatibility and Usability sections' do
+    context 'when examining the progress circles section' do
+      it 'displays the form title as an edit link' do
+        within '#compatibility_and_usability-progress' do
+          expect(page).to have_link('Compatibility and Usability', href: edit_tool_draft_path(tool_draft, 'compatibility_and_usability'))
+        end
+      end
+
+      it 'displays the correct status icon' do
+        within '#compatibility_and_usability-progress' do
+          within '.status' do
+            expect(page).to have_css('.eui-icon.icon-green.eui-fa-circle-o', text: 'Compatibility and Usability is incomplete')
+          end
+        end
+      end
+
+      it 'displays the correct progress indicators for non required fields' do
+        within '#compatibility_and_usability-progress .progress-indicators' do
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.supported-input-formats')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.supported-output-formats')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.supported-operating-systems')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.supported-browsers')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.supported-software-languages')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.quality')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.access-constraints')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.use-constraints')
+        end
+      end
+    end
 
     context 'when examining the metadata preview section' do
       it 'displays the stored values correctly within the preview' do
