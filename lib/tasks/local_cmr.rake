@@ -165,7 +165,7 @@ namespace :cmr do
       begin
         puts "\nCompiling CoffeeScript..."
 
-        required_js_assets = %w(cards preview)
+        required_js_assets = %w(cards preview table_of_contents)
 
         files_to_compile = []
 
