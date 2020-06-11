@@ -9,13 +9,15 @@
       } %>
     </div>
     
-    <div id="<%= @record_type.singularize %>-search-results">
-      <%= render partial: "#{@record_type == 'collections' ? 'collection_' : ''}search_results", locals: {
-        records: @records,
-        query: @query,
-        errors: @errors,
-        record_type: @record_type
-      } %>
-    </div>
+    <% if @record_type %>
+      <div id="<%= @record_type&.singularize %>-search-results">
+        <%= render partial: "#{@record_type == 'collections' ? 'collection_' : ''}search_results", locals: {
+          records: @records,
+          query: @query,
+          errors: @errors,
+          record_type: @record_type
+        } %>
+      </div>
+    <% end %>
   </section>
 </div>
