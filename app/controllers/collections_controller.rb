@@ -5,6 +5,8 @@ class CollectionsController < ManageCollectionsController
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
+  CONFIRMATION_TEXT = 'I want to delete this collection and all associated granules.'.freeze
+
   layout 'collection_preview', only: [:show]
 
   add_breadcrumb 'Collections' # there is no collections index action, so not providing a link
@@ -36,6 +38,11 @@ class CollectionsController < ManageCollectionsController
   end
 
   def destroy
+    if @num_granules > 0 && params['confirmation-text'] != CONFIRMATION_TEXT
+      flash[:error] = 'Collection was not deleted because incorrect confirmation text was provided.'
+      render :show and return
+    end
+
     provider_id = @revisions.first['meta']['provider-id']
     delete_response = cmr_client.delete_collection(provider_id, @native_id, token)
     if delete_response.success?
