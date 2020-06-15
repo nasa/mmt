@@ -188,7 +188,9 @@ namespace :cmr do
 
           puts "\nCompressing..."
 
-          compressed_file = Uglifier.compile(js_to_uglify + contents, harmony: true)
+          #enable the next line if you need to compile JavaScript v6 code
+          #compressed_file = Uglifier.compile(js_to_uglify + contents, harmony: true)
+          compressed_file = Uglifier.compile(js_to_uglify + contents)
 
           puts "\nWriting to disk..."
           directory = File.dirname(js_asset_output_file)
