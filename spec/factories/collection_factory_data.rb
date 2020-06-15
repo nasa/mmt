@@ -879,6 +879,7 @@ def collection_one
         {
           'Format' => 'jpeg',
           'FormatType' => 'Supported',
+          'FormatDescription' => 'A format description',
           'AverageFileSize' => 3,
           'AverageFileSizeUnit' => 'MB',
           'TotalCollectionFileSize' => 99,
