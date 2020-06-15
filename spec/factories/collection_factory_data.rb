@@ -869,6 +869,7 @@ def collection_one
         {
           'Format' => 'kml',
           'FormatType' => 'Native',
+          'FormatDescription' => 'A format description',
           'AverageFileSize' => 2,
           'AverageFileSizeUnit' => 'MB',
           'TotalCollectionFileSize' => 25,
@@ -889,6 +890,7 @@ def collection_one
         {
           'Format' => 'tiff',
           'FormatType' => 'Native',
+          'FormatDescription' => 'A format description',
           'Media' => [
             'disc', 'file', 'online'
           ],

@@ -575,6 +575,7 @@ module Helpers
         within '.multiple.file-archive-informations' do
           fill_in 'Format', with: 'jpeg'
           select 'Native', from: 'Format Type'
+          fill_in 'Format Description', with: 'a format description'
           fill_in 'Average File Size', with: '2'
           select 'MB', from: 'Average File Size Unit'
           fill_in 'Total Collection File Size', with: '15'
@@ -585,6 +586,7 @@ module Helpers
           within first('.multiple-item-1') do
             fill_in 'Format', with: 'kml'
             select 'Native', from: 'Format Type'
+            fill_in 'Format Description', with: 'a format description'
             fill_in 'Average File Size', with: '10'
             select 'MB', from: 'Average File Size Unit'
             script = '$("#draft_archive_and_distribution_information_file_archive_information_1_ByDate").click();'
@@ -595,6 +597,7 @@ module Helpers
         within '.multiple.file-distribution-informations' do
           fill_in 'Format', with: 'binary'
           select 'Supported', from: 'Format Type'
+          fill_in 'Format Description', with: 'a format description'
           within '.multiple.simple-multiple.media' do
             within '.multiple-item-0' do
               find('.media').set 'disc'
