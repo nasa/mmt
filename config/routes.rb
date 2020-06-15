@@ -115,7 +115,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :tool_drafts, controller: 'tool_drafts', draft_type: 'ToolDraft' do
+  resources :tool_drafts, controller: 'tool_drafts', draft_type: 'ToolDraft', only: [:new, :create, :edit, :update, :show, :destroy] do
     member do
       get :edit, path: 'edit(/:form)'
     end

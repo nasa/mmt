@@ -21,6 +21,7 @@ describe 'Tool draft deletion', js: true do
 
       expect(page).to have_content('MMT_2 Tool Drafts')
     end
+>>>>>>> 55159c8bb1dfa7cd78d006d978fdfbfaa733ac31
   end
 
   context 'when cancelling the deletion of a single draft' do
