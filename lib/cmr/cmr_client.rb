@@ -586,6 +586,52 @@ module Cmr
       get(url, options, token_header(token))
     end
 
+    ################ UMM-T #######################
+
+    def get_tools(options = {}, token = nil)
+      url = if Rails.env.development? || Rails.env.test?
+              'http://localhost:3003/tools.umm_json'
+            else
+              '/search/tools.umm_json'
+            end
+
+      get(url, options, token_header(token))
+    end
+
+    def ingest_tool(metadata, provider_id, native_id, token, content_type = nil)
+      # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3002/providers/#{provider_id}/tools/#{encode_if_needed(native_id)}"
+            else
+              "/ingest/providers/#{provider_id}/tools/#{encode_if_needed(native_id)}"
+            end
+
+      headers = {
+        'Accept' => 'application/json',
+        'Content-Type' => "application/#{Rails.configuration.umm_t_version}; charset=utf-8"
+      }
+
+      # content_type is passed if we are reverting to a revision with a different format
+      headers['Content-Type'] = content_type if content_type
+
+      put(url, metadata, headers.merge(token_header(token)))
+    end
+
+    def delete_tool(provider_id, native_id, token)
+      # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3002/providers/#{provider_id}/tools/#{encode_if_needed(native_id)}"
+            else
+              "/ingest/providers/#{provider_id}/tools/#{encode_if_needed(native_id)}"
+            end
+      headers = {
+        'Accept' => 'application/json'
+      }
+      delete(url, {}, nil, headers.merge(token_header(token)))
+    end
+
+    ############### End UMM-T ####################
+
     private
 
     def valid_uri?(uri)
