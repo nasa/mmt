@@ -2,11 +2,11 @@
 # subscription page with no subscriptions. Until we have the provider reset,
 # that test would be flaky and fail intermittently because of CMR's update time.
 
-describe 'Viewing a list of subscriptions' do
+describe 'Viewing a list of subscriptions with read permissions' do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['read', 'update'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_2')
 
     clear_cache
 
@@ -34,7 +34,6 @@ describe 'Viewing a list of subscriptions' do
   context 'when the user has read access' do
     before do
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
-      
       allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(false)
       allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(false)
     end
@@ -122,6 +121,9 @@ describe 'Viewing a list of subscriptions' do
 
   context 'when the user does not have read access' do
     before do
+      # Granting read permission in CMR for verifying proper ingest, so we need
+      # to return false for this test
+      allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(false)
       visit subscriptions_path
     end
 
@@ -138,6 +140,12 @@ describe 'Viewing a list of subscriptions' do
 
   context 'when there are subscriptions for multiple providers' do
     before do
+      @subscriptions_group = create_group(provider_id: 'MMT_1', members: ['testuser', 'typical'])
+      # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
+      @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['read', 'update'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_1')
+
+      clear_cache
+
       _ingest_response, @search_response, @subscription = publish_new_subscription
       _ingest_response2, @search_response2, @subscription2 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake', query: 'polygon=10,10,30,10,30,20,10,20,10,10&equator_crossing_longitude=0,10')
 
@@ -151,6 +159,11 @@ describe 'Viewing a list of subscriptions' do
       delete_response1 = cmr_client.delete_subscription('MMT_2', @search_response.body['items'].first['meta']['native-id'], 'token')
       delete_response2 = cmr_client.delete_subscription('MMT_1', @search_response2.body['items'].first['meta']['native-id'], 'token')
       raise unless delete_response1.success? && delete_response2.success?
+
+      remove_group_permissions(@subscriptions_permissions['concept_id'])
+      delete_group(concept_id: @subscriptions_group['concept_id'])
+
+      clear_cache
     end
 
     it 'only shows the subscriptions for the current provider' do
