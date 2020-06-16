@@ -167,7 +167,7 @@ describe 'Search bar and dropdown behavior', js: true do
               expect(page).to have_css('h2.current', text: 'MANAGE COLLECTIONS')
             end
           end
-            
+
           it 'has a visible search dropdown in normal mmt mode' do
             within '.quick-search' do
               click_on 'search-drop'
@@ -175,7 +175,6 @@ describe 'Search bar and dropdown behavior', js: true do
               expect(page).not_to have_css('.search-dropdown-short')
             end
           end
-
         end
 
         context 'when submitting a variables search by variable name' do

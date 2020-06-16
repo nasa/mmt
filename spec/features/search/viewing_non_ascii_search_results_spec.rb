@@ -1,7 +1,3 @@
-# MMT-485
-
-require 'rails_helper'
-
 describe 'Viewing non-ASCII collection search results', js: true do
   let(:short_name) { 'dif10_datasetéñ1' }
   let(:entry_title) { 'DIF10_datasét1' }
