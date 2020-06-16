@@ -45,10 +45,9 @@ $(document).ready ->
   # fix keys from the serialized page json that don't match the schema
   fixServicesKeys = (json) ->
     if isUmmSForm()
-      # fix RelatedUrls to RelatedURLs
-      if json?.RelatedUrls?
-        json.RelatedURLs = json.RelatedUrls
-        delete json.RelatedUrls
+      if json?.URL?.UrlValue?
+        json.URL.URLValue = json.URL.UrlValue
+        delete json.URL.UrlValue
       # Operation Metadata has DataResourceDOI, CRSIdentifier, and UOMLabel
       # that need to be fixed
       if json?.OperationMetadata?

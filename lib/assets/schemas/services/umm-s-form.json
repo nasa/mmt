@@ -99,36 +99,6 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/URLContentType", "field": true, "type": "UmmSelect", "htmlClass": "url-content-type-select"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Type", "field": true, "type": "UmmSelect", "htmlClass": "url-type-select"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Subtype", "field": true, "type": "UmmSelect", "htmlClass": "url-subtype-select"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
                       "items": [{"key": "/URLValue", "field": true}]
                     }
                   ]
@@ -554,9 +524,9 @@
                       "htmlClass": "col-6",
                       "items": [
                         {
-                          "key": "/SupportedOutputFormat",
-                          "type": "UmmSelect",
-                          "override_help": "SupportedReformattingsPairType/properties/SupportedInputFormat/description",
+                          "key": "/SupportedOutputFormats",
+                          "type": "UmmMultiSelect",
+                          "override_help": "SupportedReformattingsPairType/properties/SupportedOutputFormats/description",
                           "field": true
                         }
                       ]
