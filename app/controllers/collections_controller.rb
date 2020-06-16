@@ -5,7 +5,7 @@ class CollectionsController < ManageCollectionsController
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
-  CONFIRMATION_TEXT = 'I want to delete this collection and all associated granules.'.freeze
+  CONFIRMATION_TEXT = 'I want to delete this collection and all associated granules'.freeze
 
   layout 'collection_preview', only: [:show]
 

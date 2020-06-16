@@ -67,13 +67,13 @@ describe 'Delete collection', js: true do
       it 'displays the correct warning text and has a confirmation text field' do
         expect(page).to have_content('This collection has 1 associated granule.')
         expect(page).to have_content('Deleting this collection will delete all associated granules.')
-        expect(page).to have_content("Please confirm that you wish to continue by entering 'I want to delete this collection and all associated granules.' below.")
+        expect(page).to have_content("Please confirm that you wish to continue by entering 'I want to delete this collection and all associated granules' below.")
         expect(page).to have_field('confirmation-text')
       end
 
       context 'when the user provides the correct confirmation text' do
         before do
-          fill_in 'confirmation-text', with: 'I want to delete this collection and all associated granules.'
+          fill_in 'confirmation-text', with: 'I want to delete this collection and all associated granules'
           click_on 'Delete Collection'
         end
 
@@ -123,13 +123,13 @@ describe 'Delete collection', js: true do
         it 'displays the correct warning text and has a confirmation text field' do
           expect(page).to have_content('This collection has 1 associated granule.')
           expect(page).to have_content('Deleting this collection will delete all associated granules.')
-          expect(page).to have_content("Please confirm that you wish to continue by entering 'I want to delete this collection and all associated granules.' below.")
+          expect(page).to have_content("Please confirm that you wish to continue by entering 'I want to delete this collection and all associated granules' below.")
           expect(page).to have_field('confirmation-text')
         end
 
         context 'when the user provides the correct confirmation text' do
           before do
-            fill_in 'confirmation-text', with: 'I want to delete this collection and all associated granules.'
+            fill_in 'confirmation-text', with: 'I want to delete this collection and all associated granules'
             click_on 'Delete Collection'
           end
 
