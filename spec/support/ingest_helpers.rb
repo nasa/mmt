@@ -269,7 +269,7 @@ module Helpers
         ingest_response.body
       end
     end
-    
+
     def publish_new_subscription(name: nil, collection_concept_id: nil, query: nil, subscriber_id: nil, email_address: nil, provider: 'MMT_2', native_id: nil, revision: 1)
       random = SecureRandom.uuid
       subscription = {

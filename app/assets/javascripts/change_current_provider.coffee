@@ -92,7 +92,10 @@ $(document).ready ->
 
       success: (data, status, xhr) ->
         # Click the link that the user needs
-        $(link)[0].click()
+        if $('.collection-granule-count').text() && $('.collection-granule-count').text() != 'Granules (0)'
+          $('#display-granules-modal').click()
+        else 
+          $(link)[0].click()
 
   # Change current provider
   $('#change-current-provider-banner-link').on 'click', (element) ->
