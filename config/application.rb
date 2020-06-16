@@ -46,7 +46,7 @@ module Mmt
     config.services = YAML.load_file(Rails.root.join('config/services.yml'))
 
     # Versions of UMM for the different metadata types MMT is on
-    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.15.2'
+    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.15.3'
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.6'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.3'
     config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.0'
@@ -67,16 +67,16 @@ module Mmt
 
     # Caches user information in orders for the specified period of time
     config.orders_user_cache_expiration = 15.minutes
-    
+
     # Make `form_with` generate non-remote forms.
     config.action_view.form_with_generates_remote_forms = false
-    
+
     # Store boolean values are in sqlite3 databases as 1 and 0 instead of 't' and
     # 'f' after migrating old data.
     config.active_record.sqlite3.represent_boolean_as_integer = true
-  
+
     # Don't require `belongs_to` associations by default. In Rails 5 default was changed to true.
-    config.active_record.belongs_to_required_by_default = false  
+    config.active_record.belongs_to_required_by_default = false
 
     def load_version
       version_file = "#{config.root}/version.txt"
