@@ -69,6 +69,10 @@ describe 'Delete collection', js: true do
         expect(page).to have_content('Deleting this collection will delete all associated granules.')
         expect(page).to have_content("Please confirm that you wish to continue by entering 'I want to delete this collection and all associated granules' below.")
         expect(page).to have_field('confirmation-text')
+        within '#granules-modal' do
+          expect(page).to have_link('Cancel', href: 'javascript:void(0);')
+          expect(page).to have_link('Close', href: 'javascript:void(0);')
+        end
       end
 
       context 'when the user provides the correct confirmation text' do
@@ -146,6 +150,32 @@ describe 'Delete collection', js: true do
 
           it 'does not delete the record' do
             expect(page).to have_content('Collection was not deleted because incorrect confirmation text was provided.')
+          end
+        end
+
+        context 'when the user cancels from the delete confirmation modal' do
+          before do
+            click_on 'Cancel'
+          end
+
+          it 'refreshes the page' do
+            within '.eui-badge--sm.daac' do
+              expect(page).to have_content('MMT_2')
+            end
+          end
+        end
+
+        context 'when the user closes the delete confirmation modal' do
+          before do
+            within '#granules-modal' do
+              click_on 'Close'
+            end
+          end
+
+          it 'refreshes the page' do
+            within '.eui-badge--sm.daac' do
+              expect(page).to have_content('MMT_2')
+            end
           end
         end
       end
