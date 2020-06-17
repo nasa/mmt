@@ -71,6 +71,8 @@ module ManageMetadataHelper
       'variables'
     when is_services_controller?
       'services'
+    when is_tools_controller?
+      'tools'
     else
       # default
       'collections'

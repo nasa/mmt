@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Searching published variables', reset_provider: true, js: true do
   variable_name = "Absorption Band Test Search Var #{Faker::Number.number(digits: 6)}"
   long_name = "Long Detailed Description of Absorption Band Test Search Var #{Faker::Number.number(digits: 6)}"
