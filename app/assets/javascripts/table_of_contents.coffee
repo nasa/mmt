@@ -25,13 +25,9 @@ createTableOfContentsFromAccordians = (tag) ->
         title: 'Jump to ' + topic
         text: topic)
       toc.children('ul').append $('<li>').append(link)
-      return
     $('#' + toc_identifier + ' > button').click ->
       $(this).next().toggle 'slow'
-      return
-  return
 
 $(document).ready ->
   createTableOfContentsFromAccordians 'additional-information'
-  return
 
