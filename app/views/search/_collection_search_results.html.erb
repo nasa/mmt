@@ -1,5 +1,5 @@
 <div class="pagination-summary">
-  <%= page_entries_info collections, entry_name: 'collection' %>
+  <%= page_entries_info records, entry_name: 'collection' %>
 </div>
 
 <table id="search-results">
@@ -27,7 +27,7 @@
       </tr>
     <% end %>
 
-    <% if collections.blank? %>
+    <% if records.blank? %>
       <tr>
         <td colspan="6">
           No collections found.
@@ -35,7 +35,7 @@
       </tr>
     <% else %>
 
-      <% collections.each do |collection| %>
+      <% records.each do |collection| %>
         <tr class='<%= cycle("alt", "") %>'>
           <td>
             <%= link_to collection.fetch('umm', {})['short-name'], collection_path(collection.fetch('meta', {})['concept-id']) %>
@@ -66,4 +66,4 @@
   </tbody>
 </table>
 
-<%= paginate collections %>
+<%= paginate records %>
