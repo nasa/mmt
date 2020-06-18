@@ -123,6 +123,7 @@ FactoryBot.define do
           'Description': 'Access the WRS-2 Path/Row to Latitude/Longitude Converter.',
           'URLContentType': 'DistributionURL',
           'Type': 'DOWNLOAD SOFTWARE',
+          'Subtype': 'MOBILE APP', 
           'URLValue': 'http://www.scp.byu.edu/software/slice_response/Xshape_temp.html'
         },
         'RelatedURLs': [
