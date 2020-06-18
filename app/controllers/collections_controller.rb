@@ -1,11 +1,10 @@
 class CollectionsController < ManageCollectionsController
   include ManageMetadataHelper
   include CMRCollectionsHelper
+  include CollectionsHelper
 
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
-
-  CONFIRMATION_TEXT = 'I want to delete this collection and all associated granules'.freeze
 
   layout 'collection_preview', only: [:show]
 
@@ -38,7 +37,7 @@ class CollectionsController < ManageCollectionsController
   end
 
   def destroy
-    if @num_granules > 0 && params['confirmation-text'] != CONFIRMATION_TEXT
+    if @num_granules > 0 && params['confirmation-text'] != DELETE_CONFIRMATION_TEXT
       flash[:error] = 'Collection was not deleted because incorrect confirmation text was provided.'
       render :show and return
     end
