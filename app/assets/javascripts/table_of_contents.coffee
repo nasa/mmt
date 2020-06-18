@@ -16,7 +16,7 @@ createTableOfContentsFromAccordians = (tag) ->
       title: 'Show/Hide Table of Contents'
       text: 'Table of Contents')
     toc.append '<ul>'
-    $('.eui-accordion__title').each (i) ->
+    $('.eui-accordion__title').each () ->
       topic = $(this).text().replace(/[^\w]/g, ' ')
       topic_name = topic.replace(/\s/g, '_')
       $(this).parent().prepend $('<a/>', name: topic_name)
