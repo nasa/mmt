@@ -10,9 +10,7 @@
     setupScienceKeywords(<%= raw @science_keywords.to_json %>, { field_prefix: '<%= resource_name %>/draft' });
   <% end %>
 
-  <% if controller_name == 'service_drafts' %>
-    var urlContentTypeMap = <%= raw RelatedUrlsHelper::UMMSRelatedURLContentTypeMap.to_json %>;
-  <% elsif controller_name == 'tool_drafts' && @current_form == 'related_urls' %>
+  <% if controller_name == 'tool_drafts' && @current_form == 'related_urls' %>
     var urlContentTypeMap = <%= raw RelatedUrlsHelper::UMMTRelatedURLContentTypeMap.to_json %>;
   <% elsif controller_name == 'tool_drafts' && @current_form == 'tool_information' %>
     var urlContentTypeMap = <%= raw RelatedUrlsHelper::UMMTURLContentTypeMap.to_json %>;

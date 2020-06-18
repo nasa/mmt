@@ -52,7 +52,7 @@
           "type": "UmmPreviewGroupedField",
           "fields": [
             {
-              "key": "/LicenseUrl"
+              "key": "/LicenseURL"
             },
             {
               "key": "/LicenseText"

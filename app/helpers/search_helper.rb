@@ -77,7 +77,7 @@ module SearchHelper
   def search_field_size_modification
     return if Rails.configuration.proposal_mode
 
-    'search-field-wide' if Rails.configuration.umm_t_enabled
+    ' search-field-wide' if Rails.configuration.umm_t_enabled
   end
 
   # search radio buttons are hidden in DMMT, visible in MMT

@@ -88,7 +88,6 @@ class UmmJsonForm < JsonFile
 
     # Convert ruby style form element names (example_string) to UMM preferred PascalCase (ExampleString) using the Awrence gem
     input['draft'] = input['draft'].to_camel_keys
-    input['draft'] = fix_draft_for_umm_s_1_3(input['draft'])
     Rails.logger.debug "After CamelKeys: #{input.inspect}"
 
     # Convert RelatedUrls to RelatedURLs for the top level field
@@ -119,16 +118,6 @@ class UmmJsonForm < JsonFile
     Rails.logger.debug "After Removing Blanks (full Sanitization): #{input.inspect}"
 
     input
-  end
-
-  # TODO: Remove when UMM_S 1.3.2 is implemented.
-  # Tools and Services have different capitalizations of 'LicenseURL' and this
-  # should allow UMM_S to save the correct field.
-  def fix_draft_for_umm_s_1_3(draft)
-    return draft unless @schema.file_path.include?('services') && draft.fetch('UseConstraints', {}).fetch('LicenseURL', nil)
-
-    draft['UseConstraints']['LicenseUrl'] = draft['UseConstraints'].delete('LicenseURL')
-    draft
   end
 
   # Sets default values for those not present in the fragment that are part of the supplied form
