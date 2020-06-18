@@ -7,7 +7,7 @@ module CMRSubscriptions
   def get_latest_revision(concept_id, revision_id)
     attempts = 0
     while attempts < 20
-      revisions_response = cmr_client.get_subscriptions({ concept_id: concept_id, all_revisions: true }, token)
+      revisions_response = cmr_client.get_subscriptions({ concept_id: concept_id }, token)
 
       revisions = if revisions_response.success?
                     revisions_response.body.fetch('items', [])
