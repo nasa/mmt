@@ -45,16 +45,14 @@ describe 'Delete collection', js: true do
   end
 
   context 'when viewing a published collection with granules' do
-    let(:short_name) { 'MIRCCMF' }
     before do
-      # Set the users provider to be LARC, in order to see collection with granules
-      login(provider: 'LARC', providers: %w[MMT_2 LARC])
-      visit manage_collections_path
+      login
+      collection_title = SecureRandom.uuid
+      collection_ingest_response, _collection_concept_response = publish_collection_draft(entry_title: collection_title)
+      _granule_ingest_response, _granule_concept_response = ingest_granules(collection_entry_title: collection_title, count: 1)
+      wait_for_cmr # improves reliabliity of finding granules for collection
 
-      fill_in 'keyword', with: short_name
-      click_on 'Search Collections'
-
-      click_on short_name
+      visit collection_path(collection_ingest_response['concept-id'])
     end
 
     it 'displays the number of granules' do
@@ -66,23 +64,50 @@ describe 'Delete collection', js: true do
         click_on 'Delete Collection Record'
       end
 
-      it 'does not allow the user to delete the collection' do
-        expect(page).to have_content('This collection cannot be deleted using the MMT because it has associated granules. Use the CMR API to delete the collection and its granules.')
+      it 'displays the correct warning text and has a confirmation text field' do
+        expect(page).to have_content('This collection has 1 associated granule.')
+        expect(page).to have_content('Deleting this collection will delete all associated granules.')
+        expect(page).to have_content("Please confirm that you wish to continue by entering 'I want to delete this collection and all associated granules' below.")
+        expect(page).to have_field('confirmation-text')
+        within '#granules-modal' do
+          expect(page).to have_link('Cancel', href: 'javascript:void(0);')
+          expect(page).to have_link('Close', href: 'javascript:void(0);')
+        end
+      end
+
+      context 'when the user provides the correct confirmation text' do
+        before do
+          fill_in 'confirmation-text', with: 'I want to delete this collection and all associated granules'
+          click_on 'Delete Collection'
+        end
+
+        it 'deletes the record' do
+          expect(page).to have_content('Collection Deleted Successfully!')
+        end
+      end
+
+      context 'when the user provides the incorrect confirmation text' do
+        before do
+          fill_in 'confirmation-text', with: 'Incorrect confirmation text'
+          click_on 'Delete Collection'
+        end
+
+        it 'does not delete the record' do
+          expect(page).to have_content('Collection was not deleted because incorrect confirmation text was provided.')
+        end
       end
     end
   end
 
   context 'when switching provider context while deleting' do
-    let(:short_name) { 'MIRCCMF' }
     before do
-      # Set the user's provider to be MMT_2
-      login(provider: 'MMT_2', providers: %w[MMT_2 LARC])
-      visit manage_collections_path
+      login(provider: 'LARC', providers: %w[MMT_2 LARC])
+      collection_title = SecureRandom.uuid
+      collection_ingest_response, _collection_concept_response = publish_collection_draft(entry_title: collection_title)
+      _granule_ingest_response, _granule_concept_response = ingest_granules(collection_entry_title: collection_title, count: 1)
+      wait_for_cmr # improves reliabliity of finding granules for collection
 
-      fill_in 'keyword', with: short_name
-      click_on 'Search Collections'
-
-      click_on short_name
+      visit collection_path(collection_ingest_response['concept-id'])
     end
 
     context 'when clicking the delete link' do
@@ -90,8 +115,69 @@ describe 'Delete collection', js: true do
         click_on 'Delete Collection Record'
       end
 
-      it 'does not allow the user to delete the collection' do
-        expect(page).to have_content('This collection cannot be deleted using the MMT because it has associated granules. Use the CMR API to delete the collection and its granules.')
+      it 'displays the provider context switch modal' do
+        expect(page).to have_content('Deleting this collection requires you change your provider context to MMT_2. Would you like to change your provider context and perform this action?')
+      end
+
+      context 'when changing provider context' do
+        before do
+          find('.not-current-provider-link').click
+        end
+
+        it 'displays the correct warning text and has a confirmation text field' do
+          expect(page).to have_content('This collection has 1 associated granule.')
+          expect(page).to have_content('Deleting this collection will delete all associated granules.')
+          expect(page).to have_content("Please confirm that you wish to continue by entering 'I want to delete this collection and all associated granules' below.")
+          expect(page).to have_field('confirmation-text')
+        end
+
+        context 'when the user provides the correct confirmation text' do
+          before do
+            fill_in 'confirmation-text', with: 'I want to delete this collection and all associated granules'
+            click_on 'Delete Collection'
+          end
+
+          it 'deletes the record' do
+            expect(page).to have_content('Collection Deleted Successfully!')
+          end
+        end
+
+        context 'when the user provides the incorrect confirmation text' do
+          before do
+            fill_in 'confirmation-text', with: 'Incorrect confirmation text'
+            click_on 'Delete Collection'
+          end
+
+          it 'does not delete the record' do
+            expect(page).to have_content('Collection was not deleted because incorrect confirmation text was provided.')
+          end
+        end
+
+        context 'when the user cancels from the delete confirmation modal' do
+          before do
+            click_on 'Cancel'
+          end
+
+          it 'refreshes the page' do
+            within '.eui-badge--sm.daac' do
+              expect(page).to have_content('MMT_2')
+            end
+          end
+        end
+
+        context 'when the user closes the delete confirmation modal' do
+          before do
+            within '#granules-modal' do
+              click_on 'Close'
+            end
+          end
+
+          it 'refreshes the page' do
+            within '.eui-badge--sm.daac' do
+              expect(page).to have_content('MMT_2')
+            end
+          end
+        end
       end
     end
   end
