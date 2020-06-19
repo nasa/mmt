@@ -24,6 +24,7 @@ describe 'Archive And Distribution Information form', js: true do
         within first('.multiple-item-0') do
           expect(page).to have_field('Format', with: 'jpeg')
           expect(page).to have_field('Format Type', with: 'Native')
+          expect(page).to have_field('Format Description', with: 'A format description')
           expect(page).to have_field('Average File Size', with: '2')
           expect(page).to have_field('Average File Size Unit', with: 'MB')
           expect(page).to have_field('Total Collection File Size', with: '15')
@@ -33,6 +34,7 @@ describe 'Archive And Distribution Information form', js: true do
         within first('.multiple-item-1') do
           expect(page).to have_field('Format', with: 'kml')
           expect(page).to have_field('Format Type', with: 'Native')
+          expect(page).to have_field('Format Description', with: 'A format description')
           expect(page).to have_field('Average File Size', with: '10')
           expect(page).to have_field('Average File Size Unit', with: 'MB')
           expect(page).to have_field('Total Collection File Size Begin Date', with: '2015-07-01T00:00:00Z')
@@ -43,6 +45,7 @@ describe 'Archive And Distribution Information form', js: true do
         within first('.multiple-item-0') do
           expect(page).to have_field('Format', with: 'binary')
           expect(page).to have_field('Format Type', with: 'Supported')
+          expect(page).to have_field('Format Description', with: 'A format description')
           expect(page).to have_field('draft_archive_and_distribution_information_file_distribution_information_0_media_0', with: 'disc')
           expect(page).to have_field('draft_archive_and_distribution_information_file_distribution_information_0_media_1', with: 'file')
           expect(page).to have_field('Average File Size', with: '1')

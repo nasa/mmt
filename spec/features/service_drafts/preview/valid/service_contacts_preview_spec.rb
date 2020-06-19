@@ -88,6 +88,10 @@ describe 'Valid Service Draft Service Contacts Preview' do
               expect(page).to have_css('p', text: related_urls[0]['Description'])
               expect(page).to have_css('p', text: related_urls[0]['Value'])
             end
+            within 'ul.arrow-tag-group-list' do
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'DATA SET LANDING PAGE')
+              expect(page).to have_css('li.arrow-tag-group-item', count: 1)
+            end
           end
 
           # Fifth card; RelatedUrl 2
@@ -96,6 +100,10 @@ describe 'Valid Service Draft Service Contacts Preview' do
               expect(page).to have_css('p', text: related_urls[1]['Description'])
               expect(page).to have_css('p', text: related_urls[1]['Value'])
             end
+            within 'ul.arrow-tag-group-list' do
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'VIEW RELATED INFORMATION')
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'READ-ME')
+            end
           end
 
           # Sixth card; RelatedUrl 3
@@ -103,6 +111,10 @@ describe 'Valid Service Draft Service Contacts Preview' do
             within '.card-body-details-full' do
               expect(page).to have_css('p', text: related_urls[2]['Description'])
               expect(page).to have_css('p', text: related_urls[2]['Value'])
+            end
+            within 'ul.arrow-tag-group-list' do
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'GET RELATED VISUALIZATION')
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'GIOVANNI')
             end
           end
         end
@@ -175,6 +187,10 @@ describe 'Valid Service Draft Service Contacts Preview' do
               expect(page).to have_css('p', text: related_urls[0]['Description'])
               expect(page).to have_css('p', text: related_urls[0]['Value'])
             end
+            within 'ul.arrow-tag-group-list' do
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'DATA SET LANDING PAGE')
+              expect(page).to have_css('li.arrow-tag-group-item', count: 1)
+            end
           end
 
           # Fifth card; RelatedUrl 2
@@ -183,6 +199,10 @@ describe 'Valid Service Draft Service Contacts Preview' do
               expect(page).to have_css('p', text: related_urls[1]['Description'])
               expect(page).to have_css('p', text: related_urls[1]['Value'])
             end
+            within 'ul.arrow-tag-group-list' do
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'VIEW RELATED INFORMATION')
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'READ-ME')
+            end
           end
 
           # Sixth card; RelatedUrl 3
@@ -190,6 +210,10 @@ describe 'Valid Service Draft Service Contacts Preview' do
             within '.card-body-details-full' do
               expect(page).to have_css('p', text: related_urls[2]['Description'])
               expect(page).to have_css('p', text: related_urls[2]['Value'])
+            end
+            within 'ul.arrow-tag-group-list' do
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'GET RELATED VISUALIZATION')
+              expect(page).to have_css('li.arrow-tag-group-item', text: 'GIOVANNI')
             end
           end
         end

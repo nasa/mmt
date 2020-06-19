@@ -25,6 +25,23 @@
           ) %>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-6">
+      <!-- Format Description -->
+      <%= mmt_text_field(
+            name: 'format_description',
+            title: 'Format Description',
+            prefix: name_prefix,
+            value: file_archive_information['FormatDescription'],
+            help: 'definitions/FileArchiveInformationType/anyOf/0/properties/FormatDescription',
+            validate: true,
+          ) %>
+    </div>
+  </div>
+
+
+
   <div class="row">
     <div class="col-6">
       <!-- Average File Size -->

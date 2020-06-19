@@ -181,13 +181,11 @@ class UmmPreviewContacts < UmmPreviewElement
                      end)
 
               concat(content_tag(:ul, class: 'arrow-tag-group-list') do
-                if ['GET SERVICE', 'GET DATA'].include? related_url['Type']
+                if related_url['Type']
                   concat content_tag(:li, related_url['Type'], class: 'arrow-tag-group-item')
-                  concat content_tag(:li, related_url['Subtype'], class: 'arrow-tag-group-item') if related_url['Subtype']
-                elsif related_url['Subtype']
+                end
+                if related_url['Subtype']
                   concat content_tag(:li, related_url['Subtype'], class: 'arrow-tag-group-item')
-                elsif related_url['Type']
-                  concat content_tag(:li, related_url['Type'], class: 'arrow-tag-group-item')
                 end
               end)
             end)

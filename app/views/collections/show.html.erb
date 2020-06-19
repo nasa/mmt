@@ -70,7 +70,7 @@
             <% end %>
 
             <% if current_provider?(@provider_id) %>
-              <%= link_to 'Delete Collection Record', "#delete-record-modal", class: 'display-modal delete-collection eui-btn--link bar-after' %>
+              <%= link_to 'Delete Collection Record', "#delete-record-modal", class: 'display-modal delete-collection delete-collection-in-current-provider eui-btn--link bar-after' %>
             <% elsif available_provider?(@provider_id) %>
               <%= link_to 'Delete Collection Record', '#not-current-provider-modal', class: 'display-modal delete-collection not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'delete-collection' } %>
             <% end %>
@@ -115,11 +115,17 @@
           <!-- Hidden link to allow modal to be shown -->
           <a href="#granules-modal" id="display-granules-modal" class="display-modal is-invisible"></a>
           <div id="granules-modal" class="eui-modal-content">
-            <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-            <p>This collection cannot be deleted using the MMT because it has associated granules.  Use the CMR API to delete the collection and its granules.</p>
-            <p>
-              <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
-            </p>
+            <a href=<%=current_provider?(@provider_id) ? "javascript:void(0);" : collection_path %> class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+            <p>This collection has <%= @num_granules %> associated <%= 'granule'.pluralize(@num_granules) %>.</p> 
+            <p id="danger-warning">Deleting this collection will delete all associated granules.</p> 
+            <p>Please confirm that you wish to continue by entering '<%= CollectionsHelper::DELETE_CONFIRMATION_TEXT %>' below.</p>
+            <%= form_tag(collection_path, method: :delete, class: 'granules-confirmation-form') do %>
+              <%= text_field_tag('confirmation-text', nil, class: 'full-width') %>
+              <p>
+                <a href=<%=current_provider?(@provider_id) ? "javascript:void(0);" : collection_path %> class="eui-btn modal-close">Cancel</a>
+                <%= submit_tag 'Delete Collection', class: 'eui-btn--red spinner' %>
+              </p>
+            <% end %>
           </div>
           <%= render partial: 'shared/download_xml', locals: {
             concept_id: @concept_id,
