@@ -6,8 +6,8 @@ FROM centos:centos7
 
 # Get java, epel, whatnot
 RUN yum install -y epel-release \
-#                   https://rpm.nodesource.com/pub_8.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm \
-                   https://yum.postgresql.org/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm \
+                  https://rpm.nodesource.com/pub_8.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm \
+                  https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
  && yum --enablerepo=updates clean metadata \
  && yum install -y bzip2 \
                    chromedriver \
@@ -24,7 +24,7 @@ RUN yum install -y epel-release \
                    libicu-devel \
                    libxml2-devel \
                    make \
-#                   nodejs \
+                   nodejs \
                    openssl-devel \
                    postgresql96-devel \
                    readline-devel \
@@ -32,6 +32,7 @@ RUN yum install -y epel-release \
                    tar \
                    which \
                    xorg-x11-server-Xvfb \
+                   yarn \
  && yum install -y  \
   tmux \
   tree \
