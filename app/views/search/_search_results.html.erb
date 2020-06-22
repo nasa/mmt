@@ -30,12 +30,7 @@
       <% records.each do |record| %>
         <tr class='<%= cycle("alt", "") %>'>
           <td>
-            <% #TODO: MMT-2226/2225 remove this if/else when tool_path exists  %>
-            <% if record_type == 'tools' %>
-              <%= record.fetch('umm')['Name'] %>
-            <% else %>
-              <%= link_to record.fetch('umm', {})['Name'], send("#{record_type.singularize}_path", record.fetch('meta', {})['concept-id']) %>
-            <% end %>
+            <%= link_to record.fetch('umm', {})['Name'], send("#{record_type.singularize}_path", record.fetch('meta', {})['concept-id']) %>
           </td>
           <td>
             <%= record.fetch('umm')['LongName'] %>
