@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Services breadcrumbs and header' do
   before :all do
     @ingest_response, _concept_response = publish_service_draft(name: 'Service Name')

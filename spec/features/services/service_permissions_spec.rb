@@ -1,7 +1,5 @@
-require 'rails_helper'
-
 describe 'Services permissions', reset_provider: true, js: true do
-  modal_text = 'requires you change your provider context to MMT_2'
+  let(:modal_text) { 'requires you change your provider context to MMT_2' }
 
   context 'when viewing a service' do
     before do

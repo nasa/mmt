@@ -1,0 +1,23 @@
+
+<% if @is_update %>
+  <h1 class="styled-heading"><%= "#{@short_name} Updated" %></h1>
+<% else %>
+  <h1 class="styled-heading"><%= "#{@short_name} Published" %></h1>
+<% end %>
+
+<div class="email-message">
+  <p>
+    <%= @user[:name] %>,
+  </p>
+  <p>
+    <%= "Your tool metadata record #{@short_name} has been successfully #{ @is_update ? 'updated in' : 'published to'} the CMR#{@email_env_note}. Your tool's concept ID is #{@concept_id}." %>
+  </p>
+  <div class="center">
+    <%# TODO: uncomment when show page %>
+    <%#= link_to 'View Tool', tool_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>
+  </div>
+</div>
+
+<div class="email-footer">
+  <img src="https://cdn.earthdata.nasa.gov/eui/latest/docs/assets/ed-logos/meatball.png" alt="Meatball" class="image-center" />
+</div>

@@ -47,4 +47,20 @@ class DraftMailer < ApplicationMailer
 
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
+
+  def tool_draft_published_notification(user, concept_id, revision_id, short_name)
+    @user = user
+    @concept_id = concept_id
+    @short_name = short_name
+
+    @revision_id = revision_id.to_i
+    @is_update = @revision_id > 1
+    if @is_update
+      email_subject = "Tool Record Updated in Metadata Management Tool#{@email_env_note}"
+    else
+      email_subject = "New Tool Record Published in Metadata Management Tool#{@email_env_note}"
+    end
+
+    mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
+  end
 end
