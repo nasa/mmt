@@ -13,8 +13,7 @@
     <%= "Your tool metadata record #{@short_name} has been successfully #{ @is_update ? 'updated in' : 'published to'} the CMR#{@email_env_note}. Your tool's concept ID is #{@concept_id}." %>
   </p>
   <div class="center">
-    <%# TODO: uncomment when show page %>
-    <%#= link_to 'View Tool', tool_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>
+    <%= link_to 'View Tool', tool_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>
   </div>
 </div>
 
