@@ -53,20 +53,17 @@
   <div class="row row-content">
     <section class="action">
       <% if @json_form.invalid_keys(ignore_required_fields: false).any? %>
-        <% unless resource_name == 'tool_draft' %>
-          <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
-          <div id="invalid-draft-modal" class="eui-modal-content">
-            <p>This <%= published_resource_name %> draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
-            <p>
-              <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
-            </p>
-          </div>
-        <% end %>
+        <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
+        <div id="invalid-draft-modal" class="eui-modal-content">
+          <p>This <%= published_resource_name %> draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
+          <p>
+            <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
+          </p>
+        </div>
       <% else %>
-        <% unless resource_name == 'tool_draft' %>
-          <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), send("#{plural_published_resource_name}_path", id: get_resource), method: :post, class: 'eui-btn--blue spinner' %>
-        <% end %>
+        <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), send("#{plural_published_resource_name}_path", id: get_resource), method: :post, class: 'eui-btn--blue spinner' %>
       <% end %>
+
       <%= link_to I18n.t("helpers.#{resource_name}.delete", model: resource_name.titleize), "#delete-draft-modal", class: 'display-modal' %>
       <div id="delete-draft-modal" class="eui-modal-content">
         <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
