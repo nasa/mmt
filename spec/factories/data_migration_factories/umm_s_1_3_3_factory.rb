@@ -1,97 +1,12 @@
 FactoryBot.define do
-  factory :empty_service_draft, class: ServiceDraft do
-    provider_id { 'MMT_2' }
-    draft_type { 'ServiceDraft' }
-
-    draft { {} }
-
-    short_name { nil }
-    entry_title { nil }
-  end
-
-  factory :invalid_service_draft, class: ServiceDraft do
-    transient do
-      draft_short_name { nil }
-      draft_entry_title { nil }
-    end
-
-    provider_id { 'MMT_2' }
-    draft_type { 'ServiceDraft' }
-
-    # The goal is to make the progress circles turn red. In some cases this
-    # means entering data that is too long (e.g. description). Enum fields (e.g.
-    # Type) have invalid values. Service Keywords are too short. Fields like URL
-    # are missing required fields.
-    draft {{
-      'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(digits: 90)}",
-      'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(1000, omission: '')}_#{Faker::Number.number(digits: 1100)}",
-      'Type': 'INVALID',
-      'Version': '1.12345678987654321012345',
-      'Description': 1030.times { 's' },
-      'URL': {
-        'Description': 'Needs a URL'
-      },
-      'ServiceKeywords': [
-        {
-          'ServiceCategory': 'EARTH SCIENCE SERVICES'
-        }
-      ],
-      'ServiceOrganizations': [
-        {
-          'ShortName': 'DOI/USGS/CMG/WHSC',
-          'LongName': 'Woods Hole Science Center, Coastal and Marine Geology, U.S. Geological Survey, U.S. Department of the Interior'
-        }
-      ],
-      'Platforms': [
-        {
-          'ShortName': 81.times { 'a' }
-        }
-      ],
-      'ServiceQuality': {
-        # conditionally requires 'QualityFlag'
-        'Traceability': 'some quality metric'
-      },
-      'OperationMetadata': {
-        'OperationName': 'BadOperationMetadataName',
-        'DistributedComputingPlatform': ['BADCOMPUTINGPLATFORM']
-      },
-      'ServiceOptions': {
-        'SubsetTypes': ['BadType']
-      },
-      'AncillaryKeywords': Array.wrap(1030.times { 'k' }),
-      'AccessConstraints': Array.wrap(1030.times { 'c' }),
-      'UseConstraints': {
-        'LicenseURL': Array.wrap(1030.times { 'c' })
-      },
-      'ContactGroups': [
-        {
-          'GroupName': 'Missing Roles'
-        }
-      ],
-      'ContactPersons': [
-        {
-          'FirstName': 'Missing Roles'
-        }
-      ]
-    }}
-
-    short_name { nil }
-    entry_title { nil }
-  end
-
-  factory :full_service_draft, class: ServiceDraft do
-    transient do
-      draft_short_name { nil }
-      draft_entry_title { nil }
-    end
-
+  factory :full_service_draft_1_3_3, class: ServiceDraft do
     native_id { 'full_service_draft_native_id' }
     provider_id { 'MMT_2' }
     draft_type { 'ServiceDraft' }
 
     draft {{
-      'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location.truncate(10, omission: '')}_#{Faker::Number.number(digits: 9)}",
-      'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')}_#{Faker::Number.number(digits: 19)}",
+      'Name': "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location.truncate(10, omission: '')}_#{Faker::Number.number(digits: 9)}",
+      'LongName': "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(100, omission: '')}_#{Faker::Number.number(digits: 19)}",
       'Type': 'NOT PROVIDED',
       'Version': '1.0',
       'VersionDescription': 'Description of the Current Version',
@@ -396,8 +311,8 @@ FactoryBot.define do
           }
         ],
         'InterpolationTypes': ['Bicubic Interpolation', 'Bilinear Interpolation'],
-        'SupportedInputFormats': ['HDF-EOS2', 'HDF-EOS5'],
-        'SupportedOutputFormats': ['HDF-EOS2', 'HDF-EOS5'],
+        'SupportedInputFormats': ['HDF-EOS2', 'HDF-EOS5', 'GEOJSON'],
+        'SupportedOutputFormats': ['HDF-EOS2', 'HDF-EOS5', 'WKT'],
         'SupportedReformattings': [
           {
             'SupportedInputFormat': 'HDF-EOS2',
@@ -406,6 +321,28 @@ FactoryBot.define do
           {
             'SupportedInputFormat': 'HDF-EOS2',
             'SupportedOutputFormats': ['HDF-EOS2', 'HDF-EOS']
+          },
+          {
+            'SupportedInputFormat': 'GEOJSON',
+            'SupportedOutputFormats': ['HDF-EOS2', 'HDF-EOS']
+          },
+          {
+            'SupportedInputFormat': 'HDF-EOS2',
+            'SupportedOutputFormats': ['GEOJSON', 'Shapefile']
+          },
+          {
+            'SupportedInputFormat': 'HDF-EOS2',
+            'SupportedOutputFormats': ['ASCII', 'Shapefile']
+          },
+          {
+            'SupportedInputFormat': 'HDF-EOS2'
+          },
+          {
+            'SupportedOutputFormats': ['ASCII']
+          },
+          {
+            'SupportedInputFormat': 'GEOJSON',
+            'SupportedOutputFormats': ['GEOJSON', 'Shapefile']
           }
         ],
         'MaxGranules': 50.0

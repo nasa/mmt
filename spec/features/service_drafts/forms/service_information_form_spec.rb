@@ -19,9 +19,6 @@ describe 'Service Information Form', js: true do
 
       within '#url' do
         fill_in 'Description', with: 'Description of primary url'
-        select 'DistributionURL', from: 'Url Content Type'
-        select 'Get Service', from: 'Type'
-        select 'Subsetter', from: 'Subtype'
         fill_in 'Url Value', with: 'httpx://testurl.earthdata.nasa.gov'
       end
 

@@ -29,7 +29,7 @@ describe 'Service Information Form Navigation', js: true do
     end
 
     it 'has 5 required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 5)
+      expect(page).to have_selector('label.eui-required-o', count: 6)
     end
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
@@ -158,7 +158,7 @@ describe 'Service Information Form Navigation', js: true do
     end
 
     it 'displays the correct number of required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 5)
+      expect(page).to have_selector('label.eui-required-o', count: 6)
     end
   end
 end

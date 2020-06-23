@@ -66,7 +66,7 @@ describe 'Invalid Service Draft Service Identification Preview' do
 
         expect(page).to have_css('h5', text: 'License Url')
         expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_identification', anchor: 'service_draft_draft_use_constraints_license_url'))
-        expect(page).to have_css('p', text: draft['UseConstraints']['LicenseUrl'])
+        expect(page).to have_css('p', text: draft['UseConstraints']['LicenseURL'])
 
         expect(page).to have_css('h5', text: 'License Text')
         expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_identification', anchor: 'service_draft_draft_use_constraints_license_text'))

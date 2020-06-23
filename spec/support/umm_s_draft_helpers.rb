@@ -112,27 +112,29 @@ module Helpers
             fill_in 'Postal Code', with: '20771'
           end
 
-          within '.multiple.related-urls > .multiple-item-0' do
-            fill_in 'Description', with: 'Related URL 1 Description'
-            select 'Collection URL', from: 'Url Content Type'
-            select 'Data Set Landing Page', from: 'Type'
-            fill_in 'Url', with: 'http://example.com/'
+          within '.multiple.online-resources > .multiple-item-0' do
+            fill_in 'Name', with: 'ORN1 Text'
+            fill_in 'Protocol', with: 'ORP1 Text'
+            fill_in 'Linkage', with: 'ORL1 Text'
+            fill_in 'Description', with: 'ORD1 Text'
+            fill_in 'Application Profile', with: 'ORAP1 Text'
+            fill_in 'Function', with: 'ORF1 Text'
           end
-          click_on 'Add another Related Url'
-          within '.multiple.related-urls> .multiple-item-1' do
-            fill_in 'Description', with: 'Related URL 2 Description'
-            select 'Publication URL', from: 'Url Content Type'
-            select 'View Related Information', from: 'Type'
-            select 'Read Me', from: 'Subtype'
-            fill_in 'Url', with: 'https://example.com/'
+
+          click_on 'Add another Online Resource'
+          within '.multiple.online-resources > .multiple-item-1' do
+            fill_in 'Name', with: 'ORN2 Text'
+            fill_in 'Protocol', with: 'ORP2 Text'
+            fill_in 'Linkage', with: 'ORL2 Text'
+            fill_in 'Description', with: 'ORD2 Text'
+            fill_in 'Application Profile', with: 'ORAP2 Text'
+            fill_in 'Function', with: 'ORF2 Text'
           end
-          click_on 'Add another Related Url'
-          within '.multiple.related-urls > .multiple-item-2' do
-            fill_in 'Description', with: 'Related URL 3 Description'
-            select 'Visualization URL', from: 'Url Content Type'
-            select 'Get Related Visualization', from: 'Type'
-            select 'Giovanni', from: 'Subtype'
-            fill_in 'Url', with: 'https://search.earthdata.nasa.gov/'
+          click_on 'Add another Online Resource'
+          within '.multiple.online-resources > .multiple-item-2' do
+            fill_in 'Name', with: 'ORN3 Text'
+            fill_in 'Description', with: 'ORD3 Text'
+            fill_in 'Linkage', with: 'ORL3 Text'
           end
         end
       end

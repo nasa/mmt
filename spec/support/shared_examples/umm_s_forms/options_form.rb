@@ -39,6 +39,11 @@ shared_examples_for 'Options Form' do
     expect(page).to have_select('Supported Input Formats', selected: ['HDF-EOS2', 'HDF-EOS5'])
     expect(page).to have_select('Supported Output Formats', selected: ['HDF-EOS2', 'HDF-EOS5'])
 
+    within '.supported-reformattings' do
+      expect(page).to have_select('Supported Input Format', selected: 'HDF-EOS2')
+      expect(page).to have_select('Supported Output Formats', selected: ['HDF-EOS2', 'HDF-EOS'])
+    end
+
     expect(page).to have_field('Max Granules', with: '50.0')
   end
 end

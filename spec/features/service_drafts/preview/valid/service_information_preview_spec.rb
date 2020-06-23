@@ -32,74 +32,44 @@ describe 'Valid Service Draft Service Information Preview' do
       end
     end
 
-    # TODO: MMT-2267 These examples can be reworked to share code with the
-    # published record tests.
-    it 'displays the stored values correctly within the preview' do
+    include_examples 'Service Information Full Preview' do
+      let(:draft) { service_draft.draft }
+    end
+
+    it 'displays links to edit/update the data' do
       within '.umm-preview.service_information' do
-        expect(page).to have_css('.umm-preview-field-container', count: 8)
+        expect(page).to have_css('.umm-preview-field-container', count: 10)
 
         within '#service_draft_draft_name_preview' do
-          expect(page).to have_css('h5', text: 'Name')
           expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_name'))
-
-          expect(page).to have_css('p', text: draft['Name'])
         end
 
         within '#service_draft_draft_long_name_preview' do
-          expect(page).to have_css('h5', text: 'Long Name')
           expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_long_name'))
-
-          expect(page).to have_css('p', text: draft['LongName'])
         end
 
         within '#service_draft_draft_type_preview' do
-          expect(page).to have_css('h5', text: 'Type')
           expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_type'))
-
-          expect(page).to have_css('p', text: draft['Type'])
         end
 
         within '#service_draft_draft_version_preview' do
-          expect(page).to have_css('h5', text: 'Version')
           expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_version'))
-
-          expect(page).to have_css('p', text: draft['Version'])
         end
 
         within '#service_draft_draft_version_description_preview' do
-          expect(page).to have_css('h5', text: 'Version Description')
           expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_version_description'))
-
-          expect(page).to have_css('p', text: draft['VersionDescription'])
         end
 
         within '#service_draft_draft_last_updated_date_preview' do
-          expect(page).to have_css('h5', text: 'Last Updated Date')
           expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_last_updated_date'))
-
-          expect(page).to have_css('p', text: draft['LastUpdatedDate'])
         end
 
         within '#service_draft_draft_description_preview' do
-          expect(page).to have_css('h5', text: 'Description')
           expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_description'))
-
-          expect(page).to have_css('p', text: draft['Description'])
         end
 
         within '#service_draft_draft_url_preview' do
           expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_url'))
-
-          within '.card-header' do
-            expect(page).to have_css('h5', text: 'DistributionURL')
-          end
-
-          within '.card-body' do
-            expect(page).to have_css('p', text: 'Description')
-            expect(page).to have_link(nil, href: 'httpx://testurl.earthdata.nasa.gov')
-            expect(page).to have_css('li', text: 'GET SERVICE')
-            expect(page).to have_css('li', text: 'SUBSETTER')
-          end
         end
       end
     end

@@ -29,13 +29,13 @@ describe 'Invalid Service Draft Service Information Preview' do
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.type')
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version')
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.description')
-        # TODO: needs url icon
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.url')
       end
     end
 
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.service_information' do
-        expect(page).to have_css('.umm-preview-field-container', count: 8)
+        expect(page).to have_css('.umm-preview-field-container', count: 10)
 
         within '#service_draft_draft_name_preview' do
           expect(page).to have_css('h5', text: 'Name')
@@ -72,7 +72,12 @@ describe 'Invalid Service Draft Service Information Preview' do
           expect(page).to have_css('p', text: draft['Description'])
         end
 
-        # TODO: needs URL?
+        within '#service_draft_draft_url_preview' do
+          expect(page).to have_css('h5', text: 'Description')
+          expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_url'))
+
+          expect(page).to have_css('p', text: draft['URL']['Description'])
+        end
       end
     end
   end

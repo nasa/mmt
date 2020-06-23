@@ -52,10 +52,16 @@ describe 'Service Options Form', js: true do
 
       select 'HDF-EOS2', from: 'Supported Input Formats'
       select 'HDF-EOS5', from: 'Supported Input Formats'
-      select 'HDF-EOS2', from: 'Supported Output Formats'
-      select 'HDF-EOS5', from: 'Supported Output Formats'
+      select 'HDF-EOS2', from: 'service_draft_draft_service_options_supported_output_formats'
+      select 'HDF-EOS5', from: 'service_draft_draft_service_options_supported_output_formats'
 
       fill_in 'Max Granules', with: 50
+
+      within '.supported-reformattings' do
+        select 'HDF-EOS2', from: 'Supported Input Format'
+        select 'HDF-EOS2', from: 'Supported Output Formats'
+        select 'HDF-EOS', from: 'Supported Output Formats'
+      end
 
       within '.nav-top' do
         click_on 'Save'
