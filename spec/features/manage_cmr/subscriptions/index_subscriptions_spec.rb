@@ -80,41 +80,37 @@ describe 'Viewing a list of subscriptions' do
         end
       end
     end
+  end
 
-    context 'when viewing the index page with full permissions' do
-      before do
-        allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(true)
-        allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(true)
-        allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
-        allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
-        visit subscriptions_path
-      end
+  context 'when viewing the index page with full permissions' do
+    before do
+      visit subscriptions_path
+    end
 
-      # These tests can be improved when we can reset_provider. They should have
-      # only 2 subscriptions on them, but if the subscription tests are run
-      # together, CMR does not always finish deleting subscriptions from other
-      # tests before starting this one, so it fails at the commented out line.
-      it 'displays expected subscriptions and edit and delete links' do
-        expect(page).to have_link('Create a Subscription')
-        # expect(page).to have_content('Showing all 2 Subscriptions')
+    # These tests can be improved when we can reset_provider. They should have
+    # only 2 subscriptions on them, but if the subscription tests are run
+    # together, CMR does not always finish deleting subscriptions from other
+    # tests before starting this one, so it fails at the commented out line.
+    it 'displays expected subscriptions and edit and delete links' do
+      expect(page).to have_link('Create a Subscription')
+      # expect(page).to have_content('Showing all 2 Subscriptions')
 
-        within '.subscriptions-table' do
-          expect(page).to have_content('Name')
-          expect(page).to have_content('Query')
-          expect(page).to have_content('Collection Concept Id')
-          expect(page).to have_content('Subscribers')
-          expect(page).to have_content('Actions')
-          expect(page).to have_content(@subscription['Name'])
-          expect(page).to have_content(@subscription['Query'])
-          expect(page).to have_content(@subscription['EmailAddress'])
-          expect(page).to have_content(@subscription['CollectionConceptId'])
-          expect(page).to have_content(@subscription2['CollectionConceptId'])
-          expect(page).to have_content(@subscription2['EmailAddress'])
-          expect(page).to have_content(@subscription2['Name'])
-          expect(page).to have_content(@subscription2['Query'])
-          expect(page).to have_link('Edit')
-          expect(page).to have_link('Delete')
-        end
+      within '.subscriptions-table' do
+        expect(page).to have_content('Name')
+        expect(page).to have_content('Query')
+        expect(page).to have_content('Collection Concept Id')
+        expect(page).to have_content('Subscribers')
+        expect(page).to have_content('Actions')
+        expect(page).to have_content(@subscription['Name'])
+        expect(page).to have_content(@subscription['Query'])
+        expect(page).to have_content(@subscription['EmailAddress'])
+        expect(page).to have_content(@subscription['CollectionConceptId'])
+        expect(page).to have_content(@subscription2['CollectionConceptId'])
+        expect(page).to have_content(@subscription2['EmailAddress'])
+        expect(page).to have_content(@subscription2['Name'])
+        expect(page).to have_content(@subscription2['Query'])
+        expect(page).to have_link('Edit')
+        expect(page).to have_link('Delete')
       end
     end
   end
