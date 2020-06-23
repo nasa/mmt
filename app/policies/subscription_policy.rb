@@ -38,6 +38,6 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def estimate_notifications?
-    create? || update?
+    update?
   end
 end
