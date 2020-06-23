@@ -6,7 +6,7 @@ describe 'Invalid Tool Draft Related URL Preview' do
     visit tool_draft_path(tool_draft)
   end
 
-  context 'when examing the Related URL sections' do
+  context 'when examining the Related URL sections' do
     context 'when examining the progress circles section' do
       it 'displays the form title as an edit link' do
         within '#related_urls-progress' do

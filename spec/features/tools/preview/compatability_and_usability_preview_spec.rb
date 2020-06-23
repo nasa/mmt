@@ -15,7 +15,7 @@ describe 'Valid Tool Draft Compatibility and Usability Preview' do
     raise unless delete_response.success?
   end
 
-  context 'when examing the Compatibility and Usability sections' do
+  context 'when examining the Compatibility and Usability sections' do
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.compatibility_and_usability' do
         expect(page).to have_css('h4', text: 'Compatibility and Usability')

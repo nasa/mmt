@@ -41,7 +41,7 @@ describe 'Viewing a service' do
     end
 
     context 'when visiting the show page of a non-existent service' do
-      # This test should be revisited with MMT-1559. MMT-1557 made a change that if a concept cannot be retrieved to compare UMM Versions, editing is not allowed so we are only showing a page notifying the user the version cannot be confirmed
+      # This test should be revisited with MMT-2301. MMT-1557 made a change that if a concept cannot be retrieved to compare UMM Versions, editing is not allowed so we are only showing a page notifying the user the version cannot be confirmed
       before do
         visit service_path('fake-concept-id')
       end
