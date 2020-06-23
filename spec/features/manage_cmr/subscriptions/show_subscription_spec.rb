@@ -16,8 +16,6 @@ describe 'When Viewing Subscriptions' do
 
   before do
     login
-    #allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
-    #allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
   end
 
   context 'when visiting the show page' do
