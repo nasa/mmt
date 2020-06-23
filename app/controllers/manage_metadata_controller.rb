@@ -191,6 +191,8 @@ class ManageMetadataController < ApplicationController
     end
   end
 
+  # TODO: look into refactoring these repetitive methods for V/S/T with
+  # metaprogramming and add sufficient comments to explain
   def set_tool
     @concept_id = params[:tool_id] || params[:id]
     @revision_id = params[:revision_id]
