@@ -15,7 +15,7 @@ describe 'Valid Tool Related URL Preview' do
     raise unless delete_response.success?
   end
 
-  context 'when examing the Related URL section' do
+  context 'when examining the Related URL section' do
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.related_urls' do
         expect(page).to have_css('h4', text: 'Related URLs')

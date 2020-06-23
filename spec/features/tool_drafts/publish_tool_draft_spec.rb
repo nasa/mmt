@@ -22,7 +22,7 @@ describe 'Publishing tool draft records' do
       click_on 'Publish Tool Draft'
     end
 
-    it 'displaysa message to the user' do
+    it 'displays a message to the user' do
       expect(page).to have_content(incomplete_message)
     end
   end

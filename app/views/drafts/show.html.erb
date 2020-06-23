@@ -23,7 +23,7 @@
     </p>
   </div>
 <% elsif @unsupported_version %>
-  <%# with MMT-1559 see if this can be refactored into a partial %>
+  <%# with MMT-2301 see if this can be refactored into a partial %>
   <div class="eui-banner--warn">
     <p class="eui-banner__message">
       <%= "Associated Published Record version is unsupported. Editing this #{resource_name.titleize} is currently unavailable." %>
@@ -36,7 +36,7 @@
     </p>
   </div>
 <% elsif @unconfirmed_version %>
-  <%# with MMT-1559 see if this can be refactored into a partial %>
+  <%# with MMT-2301 see if this can be refactored into a partial %>
   <div class="eui-banner--warn">
     <p class="eui-banner__message">
       <%= "We cannot confirm the UMM version of the published record associated with this #{resource_name.titleize}." %>

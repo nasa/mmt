@@ -1,4 +1,4 @@
-# These tests should be revisited and revised with MMT-1559, including looking at visiting the clone url directly when on the wrong provider and when the version cannot be confirmed
+# These tests should be revisited and revised with MMT-2301, including looking at visiting the clone url directly when on the wrong provider and when the version cannot be confirmed
 # describe 'Variables published at UMM Version higher than MMT supports', reset_provider: true do
 #   before :all do
 #     @ingest_response = publish_variable_v1_2_draft

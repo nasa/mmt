@@ -2,7 +2,7 @@
 # MMT supports. If there are no higher versions, this test cannot be run and
 # may need to stay commented out, and reinstated when there are higher versions.
 
-# These tests should be revisited and revised with MMT-1559, including looking at visiting the clone url directly when on the wrong provider and when the version cannot be confirmed
+# These tests should be revisited and revised with MMT-2301, including looking at visiting the clone url directly when on the wrong provider and when the version cannot be confirmed
 # describe 'Services published at UMM Version higher than MMT supports', reset_provider: true do
 #   before :all do
 #     @ingest_response = publish_service_v1_2_draft
