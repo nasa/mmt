@@ -1,4 +1,4 @@
-describe 'Creating Subscriptions' do
+allow_any_instance_ofdescribe 'Creating Subscriptions' do
   before do
     login
   end
@@ -21,9 +21,6 @@ describe 'Creating Subscriptions' do
 
     context 'when visiting the new subscription form' do
       before do
-        allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
-        allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
-
         visit new_subscription_path
       end
 
@@ -52,7 +49,6 @@ describe 'Creating Subscriptions' do
             # This is necessary to load the delete button for the subscription
             # clean up.
             # TODO: Remove when we can reset_provider
-            allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do
               within '.subscription-form' do
                 click_on 'Submit'

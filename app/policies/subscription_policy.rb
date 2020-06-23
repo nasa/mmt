@@ -18,7 +18,6 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def create?
-    # TODO: use `caller_locations.first.label` when adding another acl check
     update?
   end
 
@@ -27,7 +26,7 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def index?
-    show? || update?
+    show?
   end
 
   def show?

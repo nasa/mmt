@@ -31,12 +31,10 @@ describe 'Viewing a list of subscriptions' do
     login
   end
 
-  context 'when the user has read access' do
+  context 'when the user has read access and not update access' do
     before do
-      allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
+      # Update is needed because both Create and Edit are checked in the code
       allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(false)
-      #allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(false)
-      #allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(false)
     end
 
     context 'when viewing the manage CMR page' do
@@ -126,7 +124,6 @@ describe 'Viewing a list of subscriptions' do
       # Granting read permission in CMR for verifying proper ingest, so we need
       # to return false for this test
       allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(false)
-      allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(false)
       visit subscriptions_path
     end
 

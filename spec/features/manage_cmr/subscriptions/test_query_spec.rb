@@ -191,9 +191,7 @@ describe 'Testing Queries when editing', js: true do
 
   before do
     login
-    allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(false)
     allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(true)
-    allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
 
     frequency = (Rails.configuration.cmr_email_frequency / 3600.0).ceil(2)
     frequency = frequency.to_i if frequency.to_i == frequency.to_f

@@ -16,9 +16,6 @@ describe 'Edit/Updating Subscriptions' do
 
   before do
     login
-    allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
-    allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
-    allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(true)
     # make a record
     @ingest_response, search_response, @subscription = publish_new_subscription
     @native_id = search_response.body['items'].first['meta']['native-id']
