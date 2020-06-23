@@ -1,4 +1,4 @@
-allow_any_instance_ofdescribe 'Creating Subscriptions' do
+describe 'Creating Subscriptions' do
   before do
     login
   end
