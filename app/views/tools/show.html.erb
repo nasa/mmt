@@ -6,24 +6,26 @@
 <% if @user_permissions == 'none' %>
   <div class="eui-banner--danger">
     <p class="eui-banner__message">
-      <%= "You don't have the appropriate permissions to #{tool_action_text(@record_action)} this tool." %>
+      <%= "You don't have the appropriate permissions to #{@record_action} this tool." %>
     </p>
   </div>
   <div class="no-access">
     <h3 class="access-title">Access Denied</h3>
     <p class="access-message">
-      It appears you do not have access to <%= tool_action_text(@record_action) %> this content.<br />
+      It appears you do not have access to <%= @record_action %> this content.<br />
       If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
     </p>
   </div>
 <% elsif @user_permissions == 'wrong_provider' %>
   <div class="eui-banner--warn">
     <p class="eui-banner__message">
-      <%= link_to("You need to change your current provider to #{tool_action_text(@record_action)} this tool. Click here to change your provider.",
+      <%= link_to("You need to change your current provider to #{@record_action} this tool. Click here to change your provider.",
         "#", id: "change-current-provider-banner-link",
         data: { "provider": @provider_id, action_link: "change-provider-tool-#{@record_action}" }) %>
     </p>
-    <%= render_change_provider_tool_action_link(@record_action, @concept_id, @revision_id) %>
+    <%# TODO: this method does not exist yet. It should be created and used when %>
+    <%# additional actions are added to published Tool records %>
+    <%#= render_change_provider_tool_action_link(@record_action, @concept_id, @revision_id) %>
   </div>
 <% end %>
 
@@ -82,8 +84,12 @@
   <div class="row row-content">
     <section class="action">
       <p>
+        <%# TODO: All links commented out and disabled links added for MMT-2238 %>
+        <%# links should be re-enabled with the appropriate ticket %>
+
+        <%= link_to 'Edit Tool Record', '#', class: 'eui-btn--link disabled bar-after' %>
         <%# if @unsupported_version %>
-          <%#= link_to 'Edit Tool Record', '#', class: 'disabled bar-after' %>
+          <%#= link_to 'Edit Tool Record', '#', class: 'eui-btn--link disabled bar-after' %>
         <%# else %>
           <%# if current_provider?(@provider_id) %>
             <%#= link_to 'Edit Tool Record', edit_tool_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
@@ -92,14 +98,17 @@
           <%# end %>
         <%# end %>
 
+        <%= link_to 'Clone Tool Record', '#', class: 'eui-btn--link bar-after disabled' %>
         <%# if current_provider?(@provider_id) %>
           <%#= link_to 'Clone Tool Record', clone_tool_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
         <%# elsif available_provider?(@provider_id) %>
           <%#= link_to 'Clone Tool Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'clone-tool' } %>
         <%# end %>
 
+        <%= link_to 'Download JSON', '#', class: 'eui-btn--link disabled' %>
         <%#= link_to 'Download JSON', download_json_tool_path(@concept_id, revision_id: @revision_id), class: 'eui-btn--link', target: '_blank' %>
 
+        <%= link_to 'Delete Tool Record', '#', class: 'display-modal delete-tool eui-btn--link bar-before disabled' %>
         <%# if current_provider?(@provider_id) %>
           <%#= link_to 'Delete Tool Record', "#delete-record-modal", class: 'display-modal delete-tool eui-btn--link bar-before' %>
         <%# elsif available_provider?(@provider_id) %>
@@ -126,7 +135,8 @@
         } %>
       </p>
       <p>
-        <%#= link_to "Revisions (#{@revisions.size})", tool_revisions_path, class: 'eui-btn--link' %>
+        <%= link_to 'Revisions', '#', class: 'eui-btn--link disabled' %>
+        <%#= link_to "Revisions (#{@revisions.size})", tool_revisions_path, class: 'eui-btn--link disabled' %>
       </p>
     </section>
 
