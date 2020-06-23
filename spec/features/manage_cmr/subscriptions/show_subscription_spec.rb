@@ -2,7 +2,7 @@ describe 'When Viewing Subscriptions' do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
 
     clear_cache
   end

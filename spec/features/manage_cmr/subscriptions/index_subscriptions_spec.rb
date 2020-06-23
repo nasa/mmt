@@ -6,7 +6,7 @@ describe 'Viewing a list of subscriptions' do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['read', 'update'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['read', 'update'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
 
     clear_cache
 
@@ -34,8 +34,9 @@ describe 'Viewing a list of subscriptions' do
   context 'when the user has read access' do
     before do
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
-      allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(false)
-      allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(false)
+      allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(false)
+      #allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(false)
+      #allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(false)
     end
 
     context 'when viewing the manage CMR page' do
@@ -85,6 +86,7 @@ describe 'Viewing a list of subscriptions' do
     context 'when viewing the index page with full permissions' do
       before do
         allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(true)
+        allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(true)
         allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
         allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
         visit subscriptions_path
@@ -124,6 +126,7 @@ describe 'Viewing a list of subscriptions' do
       # Granting read permission in CMR for verifying proper ingest, so we need
       # to return false for this test
       allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(false)
+      allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(false)
       visit subscriptions_path
     end
 
@@ -142,7 +145,7 @@ describe 'Viewing a list of subscriptions' do
     before do
       @subscriptions_group = create_group(provider_id: 'MMT_1', members: ['testuser', 'typical'])
       # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-      @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['read', 'update'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_1')
+      @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['read', 'update'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_1')
 
       clear_cache
 

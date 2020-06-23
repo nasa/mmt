@@ -8,7 +8,7 @@ module ProviderIdentityPermissionsHelper
   DATA_QUALITY_SUMMARY_ASSIGNMENT_PERMISSIONS = %w[create delete].freeze
   DATA_QUALITY_SUMMARY_DEFINITION_PERMISSIONS = %w[create update delete].freeze
   DATASET_INFORMATION_PERMISSIONS = %w[read].freeze
-  EMAIL_SUBSCRIPTION_MANAGEMENT_PERMISSIONS = %w[create read update delete].freeze
+  SUBSCRIPTION_MANAGEMENT_PERMISSIONS = %w[read update].freeze
   EXTENDED_SERVICE_PERMISSIONS = %w[create update delete].freeze
   GROUP_PERMISSIONS = %w[create read].freeze
   INGEST_MANAGEMENT_ACL_PERMISSIONS = %w[read update].freeze
@@ -39,7 +39,7 @@ module ProviderIdentityPermissionsHelper
     ['Data Quality Summary Assignments', 'DATA_QUALITY_SUMMARY_ASSIGNMENT'],
     ['Data Quality Summary Definitions', 'DATA_QUALITY_SUMMARY_DEFINITION'],
     ['Dataset Information', 'DATASET_INFORMATION'],
-    ['Email Subscription Management', 'EMAIL_SUBSCRIPTION_MANAGEMENT'],
+    ['Subscription Management', 'SUBSCRIPTION_MANAGEMENT'],
     ['Extended Services', 'EXTENDED_SERVICE'],
     ['Groups', 'GROUP'],
     ['Ingest Operations', 'INGEST_MANAGEMENT_ACL'],
