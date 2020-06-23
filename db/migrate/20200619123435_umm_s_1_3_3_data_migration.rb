@@ -3,7 +3,7 @@ class UmmS133DataMigration < ActiveRecord::Migration[5.2]
     drafts = ServiceDraft.where.not(draft: {})
 
     drafts.each do |draft|
-      metadata = convert_reformatting_outputs_1_3_2(draft.draft)
+      metadata = convert_reformatting_outputs_1_3_1(draft.draft)
       metadata = up_capitalize_license_url(metadata)
       metadata = service_contacts_add_online_resources(metadata)
       draft.draft = remove_url_fields(metadata)
@@ -28,7 +28,7 @@ class UmmS133DataMigration < ActiveRecord::Migration[5.2]
 
   # 1.3.1 changed Reformattings from 1 => 1 to 1 => many inputs to outputs
   # Since we are skipping 1.3.1, we need to account for this change here
-  def convert_reformatting_outputs_1_3_2(draft)
+  def convert_reformatting_outputs_1_3_1(draft)
     return draft unless (reformattings = draft.fetch('ServiceOptions', {}).fetch('SupportedReformattings', nil))
 
     reformattings.each do |reformatting|
@@ -155,9 +155,9 @@ class UmmS133DataMigration < ActiveRecord::Migration[5.2]
         # URLContentType and Type reverted in the same way that CMR reverted
         related_urls.push(
           {
+            'Description' => resource['Description'],
             'URL' => resource['Linkage'],
             'URLContentType' => 'CollectionURL',
-            'Description' => resource['Description'],
             'Type' => 'PROJECT HOME PAGE'
           })
       end
