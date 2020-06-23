@@ -84,12 +84,15 @@ namespace :acls do
       # user that owns the token we pass in dev/test.
       Rake::Task['acls:groups:create'].invoke('Subscription Management', 'Group Created for Subscription Management', [args.username, 'typical'], 'MMT_2')
 
+      cmr = Cmr::Local.new
+      cmr.clear_cache
+
       group_id = get_group_concept_from_name(group_name: 'Subscription Management')
 
       provider_perm = {
         'group_permissions' => [{
           'group_id' => group_id,
-          'permissions' => ['create', 'read', 'update', 'delete']
+          'permissions' => ['read', 'update']
         }],
         'provider_identity' => {
           'target' => 'SUBSCRIPTION_MANAGEMENT',
