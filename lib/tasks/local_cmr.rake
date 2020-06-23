@@ -153,6 +153,9 @@ namespace :cmr do
         File.join(Rails.root.to_s, 'vendor', 'assets', 'javascripts', 'eui-1.0.0', 'eui.js')
       ]
 
+      # TODO: move to version 3 of jquery
+      # it is not currently understood how this section works to select jquery
+      # currently the preview gem is not running with version 3, but 1
       jquery = Rails.application.config.assets.paths.select { |p| p.to_s.include?('jquery-rails') }
       dependencies.unshift(File.join(jquery.first, 'jquery.js')) if jquery.any?
 
@@ -165,7 +168,7 @@ namespace :cmr do
       begin
         puts "\nCompiling CoffeeScript..."
 
-        required_js_assets = %w(cards preview)
+        required_js_assets = %w(cards preview table_of_contents)
 
         files_to_compile = []
 
@@ -187,7 +190,9 @@ namespace :cmr do
           contents = `cat #{files_to_compile.join(' ')} | coffee -c --stdio`
 
           puts "\nCompressing..."
-
+          
+          #uncomment the following if you need to compile with JS 6
+          #compressed_file = Uglifier.compile(js_to_uglify + contents, harmony: true)
           compressed_file = Uglifier.compile(js_to_uglify + contents)
 
           puts "\nWriting to disk..."

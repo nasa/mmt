@@ -1,4 +1,5 @@
 module CollectionsHelper
+  DELETE_CONFIRMATION_TEXT = 'I want to delete this collection and all associated granules'.freeze
   DOWNLOAD_XML_OPTIONS = [
     { format: 'atom',     title: 'ATOM' },
     { format: 'dif10',    title: 'DIF 10' },

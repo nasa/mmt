@@ -1,5 +1,5 @@
 $(document).ready ->
-  $('.delete-collection').on 'click', (e) ->
+  $('.delete-collection-in-current-provider').on 'click', (e) ->
     count = $('.collection-granule-count').text()
     if count != 'Granules (0)'
       e.stopImmediatePropagation()
