@@ -26,6 +26,8 @@ class UmmS133DataMigration < ActiveRecord::Migration[5.2]
     end
   end
 
+########### Up Helpers ###########
+
   # 1.3.1 changed Reformattings from 1 => 1 to 1 => many inputs to outputs
   # Since we are skipping 1.3.1, we need to account for this change here
   def convert_reformatting_outputs_1_3_1(draft)
@@ -40,6 +42,44 @@ class UmmS133DataMigration < ActiveRecord::Migration[5.2]
     draft['ServiceOptions']['SupportedReformattings'] = reformattings
     draft
   end
+
+  # UseConstraints::LicenseUrl => UseConstraints::LicenseURL
+  def up_capitalize_license_url(draft)
+    return draft unless draft.fetch('UseConstraints', {}).fetch('LicenseUrl', nil)
+
+    draft['UseConstraints']['LicenseURL'] = draft['UseConstraints'].delete('LicenseUrl')
+    draft
+  end
+
+  # 1.3.2 removed the typeing fields from URL top level field
+  def remove_url_fields(draft)
+    return draft unless draft['URL']
+
+    draft['URL'].delete('URLContentType')
+    draft['URL'].delete('Type')
+    draft['URL'].delete('Subtype')
+
+    draft
+  end
+
+  def convert_related_urls_to_online_resources(service_contacts)
+    service_contacts.each do |contact|
+      next unless (related_urls = contact.fetch('ContactInformation', {}).delete('RelatedUrls'))
+
+      online_resources = []
+      related_urls.each do |url|
+        online_resources.push({
+          'Linkage' => url['URL'],
+          'Name' => url['Type'],
+          'Description' => url['Description']
+          })
+        end
+        contact['ContactInformation']['OnlineResources'] = online_resources
+      end
+      service_contacts
+    end
+
+########### Down Helpers ###########
 
   # Convert 1 => X reformattings into X 1 => 1 reformattings
   def convert_reformatting_outputs_1_3_0(draft)
@@ -73,13 +113,6 @@ class UmmS133DataMigration < ActiveRecord::Migration[5.2]
     draft
   end
 
-  # UseConstraints::LicenseUrl => UseConstraints::LicenseURL
-  def up_capitalize_license_url(draft)
-    return draft unless draft.fetch('UseConstraints', {}).fetch('LicenseUrl', nil)
-
-    draft['UseConstraints']['LicenseURL'] = draft['UseConstraints'].delete('LicenseUrl')
-    draft
-  end
 
   # UseConstraints::LicenseURL => UseConstraints::LicenseUrl
   def down_capitalize_license_url(draft)
@@ -89,16 +122,6 @@ class UmmS133DataMigration < ActiveRecord::Migration[5.2]
     draft
   end
 
-  # 1.3.2 removed the typeing fields from URL top level field
-  def remove_url_fields(draft)
-    return draft unless draft['URL']
-
-    draft['URL'].delete('URLContentType')
-    draft['URL'].delete('Type')
-    draft['URL'].delete('Subtype')
-
-    draft
-  end
 
   # Can add back some of the type information when reverting to 1.3.0
   def add_url_fields(draft)
@@ -127,23 +150,6 @@ class UmmS133DataMigration < ActiveRecord::Migration[5.2]
     draft['ContactPersons'] = convert_online_resources_to_related_urls(draft['ContactPersons']) if draft['ContactPersons']
 
     draft
-  end
-
-  def convert_related_urls_to_online_resources(service_contacts)
-    service_contacts.each do |contact|
-      next unless (related_urls = contact.fetch('ContactInformation', {}).delete('RelatedUrls'))
-
-      online_resources = []
-      related_urls.each do |url|
-        online_resources.push({
-          'Linkage' => url['URL'],
-          'Name' => url['Type'],
-          'Description' => url['Description']
-        })
-      end
-      contact['ContactInformation']['OnlineResources'] = online_resources
-    end
-    service_contacts
   end
 
   def convert_online_resources_to_related_urls(service_contacts)

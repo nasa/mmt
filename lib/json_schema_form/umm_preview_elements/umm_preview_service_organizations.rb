@@ -2,9 +2,7 @@
 
 # :nodoc:
 class UmmPreviewServiceOrganizations < UmmPreviewOrganizations
-  include OnlineResourceHelper
-
-  def render_card_body(service_organization)
+  def render_card_body(service_organization, index)
     capture do
       concat(content_tag(:div, class: 'card-body active') do
         concat(content_tag(:div, class: 'card-body-details-full') do
@@ -12,7 +10,7 @@ class UmmPreviewServiceOrganizations < UmmPreviewOrganizations
         end)
       end)
 
-      concat render_online_resource(service_organization['OnlineResource'])
+      concat UmmPreviewOnlineResource.new(schema_type: schema_type, preview_json: {}, data: data, form_id: form_id, key: "#{full_key}/index_id/OnlineResource", draft_id: draft_id, options: options.merge('indexes' => [index])).render
 
       concat render_card_navigation(service_organization['OnlineResource'])
     end

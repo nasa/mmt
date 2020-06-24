@@ -11,7 +11,7 @@ class UmmPreviewOrganizations < UmmPreviewElement
         Array.wrap(element_value).each_with_index do |organization, index|
           concat(content_tag(:li, class: 'card') do
             concat render_card_header(organization, index)
-            concat render_card_body(organization)
+            concat render_card_body(organization, index)
           end)
         end
       end)

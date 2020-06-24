@@ -2,8 +2,6 @@
 
 # :nodoc:
 class UmmPreviewContacts < UmmPreviewElement
-  include OnlineResourceHelper
-
   def render
     capture do
       render_preview_link_to_draft_form unless draft_id.nil?
@@ -15,7 +13,7 @@ class UmmPreviewContacts < UmmPreviewElement
         Array.wrap(element_value).each_with_index do |contact, index|
           concat(content_tag(:li, class: 'card') do
             concat render_card_header(contact, index, type)
-            concat render_card_body(contact, type)
+            concat render_card_body(contact, index, type)
           end)
         end
       end)
@@ -50,7 +48,7 @@ class UmmPreviewContacts < UmmPreviewElement
     end
   end
 
-  def render_card_body(contact, type)
+  def render_card_body(contact, index, type)
     capture do
       contact_info = contact.fetch('ContactInformation', {})
       concat(content_tag(:div, class: 'card-body active') do
@@ -93,7 +91,7 @@ class UmmPreviewContacts < UmmPreviewElement
       end
 
       # Used in UMM-S
-      concat render_online_resource(contact_info['OnlineResources'])
+      concat UmmPreviewOnlineResource.new(schema_type: schema_type, preview_json: {}, data: data, form_id: form_id, key: "#{full_key}/index_id/ContactInformation", draft_id: draft_id, options: options.merge('indexes' => [index])).render
 
       concat render_card_navigation(contact_info)
     end
