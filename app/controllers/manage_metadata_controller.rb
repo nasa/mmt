@@ -233,6 +233,8 @@ class ManageMetadataController < ApplicationController
       break if latest && meta.fetch('revision-id', 0) >= @revision_id.to_i && meta['concept-id'] == @concept_id
       attempts += 1
       sleep 0.05
+      # TODO when/if we refactor these V/S/T methods, make sure the logging is accurate for record type being retrieved
+      Rails.logger.info("Retrieving a Tool record in set_tool_information. Need to loop, about to try attempt number #{attempts}")
     end
 
     if latest.blank?
