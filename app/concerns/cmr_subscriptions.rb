@@ -9,17 +9,13 @@ module CMRSubscriptions
     while attempts < 20
       revisions_response = cmr_client.get_subscriptions({ concept_id: concept_id }, token)
 
-      revisions = if revisions_response.success?
-                    revisions_response.body.fetch('items', [])
-                  else
-                    []
-                  end
-      revisions.select! { |revision| revision['meta']['deleted'] == false }
-      revisions.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
+      revision = if revisions_response.success? && revisions_response.body['items'].present?
+                   revisions_response.body['items'].first.fetch('meta', {}).fetch('revision-id', nil)
+                 else
+                   nil
+                 end
 
-      latest = revisions.first
-
-      return latest if latest.present? && latest['meta']['revision-id'].to_s >= revision_id.to_s
+      return revisions_response.body['items'].first if revision && revision.to_s >= revision_id.to_s
 
       attempts += 1
       sleep 0.05
