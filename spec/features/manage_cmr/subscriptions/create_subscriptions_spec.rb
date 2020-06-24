@@ -46,9 +46,7 @@ describe 'Creating Subscriptions' do
         context 'when submitting a subscription that succeeds' do
           before do
             fill_in 'Subscription Name', with: name
-            # This is necessary to load the delete button for the subscription
-            # clean up.
-            # TODO: Remove when we can reset_provider
+            # TODO: Remove when we can reset_provider - CMR-6332
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do
               within '.subscription-form' do
                 click_on 'Submit'
