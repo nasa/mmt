@@ -7,7 +7,6 @@ describe 'Testing Queries when editing', js: true do
     clear_cache
 
     @ingest_response, @concept_response = publish_collection_draft
-    #wait_for_cmr # is this needed, test over and over
     @ingest_subscription_response, @search_response, _subscription = publish_new_subscription(collection_concept_id: @ingest_response['concept-id'])
   end
 
