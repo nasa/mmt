@@ -2,7 +2,7 @@ describe 'When Viewing Subscriptions' do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
 
     clear_cache
   end
@@ -16,8 +16,6 @@ describe 'When Viewing Subscriptions' do
 
   before do
     login
-    allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
-    allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
   end
 
   context 'when visiting the show page' do
@@ -37,8 +35,8 @@ describe 'When Viewing Subscriptions' do
 
     context 'when the user has read access only' do
       before do
-        allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(false)
-        allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(false)
+        #update grants both :edit and :delete
+        allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(false)
 
         # go to show page
         VCR.use_cassette('urs/rarxd5taqea', record: :none) do
@@ -65,8 +63,6 @@ describe 'When Viewing Subscriptions' do
 
     context 'when visiting the show page with update/delete access' do
       before do
-        allow_any_instance_of(SubscriptionPolicy).to receive(:edit?).and_return(true)
-        allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
         # go to show page
         VCR.use_cassette('urs/rarxd5taqea', record: :none) do
           visit subscription_path(@ingest_response['concept_id'])

@@ -2,11 +2,14 @@ class SubscriptionsController < ManageCmrController
   include UrsUserEndpoints
   include CMRSubscriptions
 
-  DAY_IN_SECONDS = 86_400
-  RESULTS_PER_PAGE = 25
   before_action :subscriptions_enabled?
   before_action :add_top_level_breadcrumbs
   before_action :fetch_subscription, only: %i[show edit update destroy]
+
+  skip_before_action :proposal_approver_permissions, only: [:estimate_notifications]
+
+  DAY_IN_SECONDS = 86_400
+  RESULTS_PER_PAGE = 25
 
   def index
     authorize :subscription

@@ -2,7 +2,7 @@ describe 'Deleting Subscriptions' do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
 
     clear_cache
   end
@@ -16,9 +16,6 @@ describe 'Deleting Subscriptions' do
 
   before do
     login
-    allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
-    allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
-    allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
   end
 
   context 'when visiting the show page' do
