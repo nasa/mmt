@@ -25,6 +25,20 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-6">
+      <!-- Format Description -->
+      <%= mmt_text_field(
+            name: 'format_description',
+            title: 'Format Description',
+            prefix: name_prefix,
+            value: file_distribution_information['FormatDescription'],
+            help: 'definitions/FileDistributionInformationType/anyOf/0/properties/FormatDescription',
+            validate: true,
+          ) %>
+    </div>
+  </div>
+
   <fieldset class="eui-accordion is-open" id="media">
     <div class="eui-accordion__header">
       <h3 class="eui-accordion__title">Media</h3>

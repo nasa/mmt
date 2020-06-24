@@ -7,7 +7,7 @@ describe 'Creating Subscriptions' do
     before :all do
       @subscriptions_group = create_group(members: ['testuser', 'typical'])
       # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-      @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'EMAIL_SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+      @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
 
       clear_cache
     end
@@ -21,9 +21,6 @@ describe 'Creating Subscriptions' do
 
     context 'when visiting the new subscription form' do
       before do
-        allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
-        allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(true)
-
         visit new_subscription_path
       end
 
@@ -49,10 +46,7 @@ describe 'Creating Subscriptions' do
         context 'when submitting a subscription that succeeds' do
           before do
             fill_in 'Subscription Name', with: name
-            # This is necessary to load the delete button for the subscription
-            # clean up.
-            # TODO: Remove when we can reset_provider
-            allow_any_instance_of(SubscriptionPolicy).to receive(:destroy?).and_return(true)
+            # TODO: Remove when we can reset_provider - CMR-6332
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do
               within '.subscription-form' do
                 click_on 'Submit'
