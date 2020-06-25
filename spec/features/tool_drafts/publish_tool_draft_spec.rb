@@ -1,10 +1,17 @@
 describe 'Publishing tool draft records' do
   context 'when publishing a tool draft record' do
     let(:tool_draft) { create(:full_tool_draft, user: User.where(urs_uid: 'testuser').first) }
+    let(:native_id) { tool_draft.native_id }
     before do
       login
       visit tool_draft_path(tool_draft)
       click_on 'Publish Tool Draft'
+    end
+
+    after do
+      delete_response = cmr_client.delete_tool('MMT_2', native_id, 'token')
+
+      raise unless delete_response.success?
     end
 
     it 'displays a confirmation message' do
