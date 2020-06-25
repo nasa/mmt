@@ -26,7 +26,7 @@ describe 'Searching published services', reset_provider: true, js: true do
     end
 
     it 'displays expected Name, Long Name, Provider, and Last Modified values' do
-      expect(page).to have_content(service_name)
+      expect(page).to have_link(service_name)
       expect(page).to have_content(long_name)
       expect(page).to have_content('MMT_2')
       expect(page).to have_content(today_string)
@@ -44,7 +44,7 @@ describe 'Searching published services', reset_provider: true, js: true do
     end
 
     it 'displays expected Name, Long Name, Provider, and Last Modified values' do
-      expect(page).to have_content(service_name)
+      expect(page).to have_link(service_name)
       expect(page).to have_content(long_name)
       expect(page).to have_content('MMT_2')
       expect(page).to have_content(today_string)
@@ -63,7 +63,7 @@ describe 'Searching published services', reset_provider: true, js: true do
     end
 
     it 'displays expected data' do
-      expect(page).to have_content(service_name)
+      expect(page).to have_link(service_name)
       expect(page).to have_content(long_name)
       expect(page).to have_content('MMT_2')
       expect(page).to have_content(today_string)

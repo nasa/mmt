@@ -6,7 +6,7 @@ describe 'Empty Tool Draft Compatibility and Usability Preview' do
     visit tool_draft_path(tool_draft)
   end
 
-  context 'when examing the Compatibility and Usability sections' do
+  context 'when examining the Compatibility and Usability sections' do
     context 'when examining the progress circles section' do
       it 'displays the form title as an edit link' do
         within '#compatibility_and_usability-progress' do

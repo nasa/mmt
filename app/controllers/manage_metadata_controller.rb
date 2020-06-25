@@ -191,6 +191,60 @@ class ManageMetadataController < ApplicationController
     end
   end
 
+  # TODO: look into refactoring these repetitive methods for V/S/T with
+  # metaprogramming and add sufficient comments to explain
+  def set_tool
+    @concept_id = params[:tool_id] || params[:id]
+    @revision_id = params[:revision_id]
+
+    # retrieve the variable metadata with the current umm_t version
+    headers = { 'Accept' => "application/#{Rails.configuration.umm_t_version}; charset=utf-8" }
+    tool_concept_response = cmr_client.get_concept(@concept_id, token, headers, @revision_id)
+
+    @tool = if tool_concept_response.success?
+              tool_concept_response.body
+            else
+              Rails.logger.error("Error retrieving concept for Tool #{@concept_id} in `set_tool`: #{tool_concept_response.clean_inspect}")
+              {}
+            end
+  end
+
+  def set_tool_information
+    # search for tool by concept id to get the native_id and provider_id
+    # if the tool is not found, try again because CMR might be a little slow to index if it is a newly published record
+    attempts = 0
+    while attempts < 20
+      tools_search_response = cmr_client.get_tools(concept_id: @concept_id, all_revisions: true)
+
+      tool_data = if tools_search_response.success?
+                    tools_search_response.body.fetch('items', [])
+                  else
+                    []
+                  end
+      tool_data.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
+
+      @revisions = tool_data
+      latest = tool_data.first
+      meta = latest.nil? ? {} : latest.fetch('meta', {})
+
+      @old_revision = !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s ? true : false
+
+      break if latest && !@revision_id
+      break if latest && meta.fetch('revision-id', 0) >= @revision_id.to_i && meta['concept-id'] == @concept_id
+      attempts += 1
+      sleep 0.05
+      # TODO when/if we refactor these V/S/T methods, make sure the logging is accurate for record type being retrieved
+      Rails.logger.info("Retrieving a Tool record in set_tool_information. Need to loop, about to try attempt number #{attempts}")
+    end
+
+    if latest.blank?
+      Rails.logger.error("Error searching for Tool #{@concept_id} in `set_tool_information`: #{tools_search_response.clean_inspect}")
+    else
+      @provider_id = meta['provider-id']
+      @native_id = meta['native-id']
+    end
+  end
+
   def generate_ingest_errors(response)
     errors = response.errors
     request_id = response.cmr_request_header

@@ -6,7 +6,7 @@ describe 'Valid Tool Draft Related URL Preview' do
     visit tool_draft_path(tool_draft)
   end
 
-  context 'when examing the Related URL sections' do
+  context 'when examining the Related URL sections' do
     context 'when examining the progress circles section' do
       it 'displays the form title as an edit link' do
         within '#related_urls-progress' do
@@ -48,7 +48,7 @@ describe 'Valid Tool Draft Related URL Preview' do
                 within '.card-body' do
                   expect(page).to have_css('p', text: 'Test related url')
                   expect(page).to have_link(nil, href: 'nasa.gov')
-                  expect(page).to have_css('li.arrow-tag-group-item', text: 'GET RELATED VISUALIZATION') #type; uncommented by CT
+                  expect(page).to have_css('li.arrow-tag-group-item', text: 'GET RELATED VISUALIZATION')
                   expect(page).to have_css('li.arrow-tag-group-item', text: 'MAP')
                 end
               end
