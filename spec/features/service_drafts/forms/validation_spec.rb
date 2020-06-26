@@ -68,6 +68,10 @@ describe 'Service Drafts Forms Field Validations', js: true do
             fill_in 'Version', with: '1.0'
             fill_in 'service_draft_draft_description', with: 'Service Description'
           end
+          
+          within '#url' do
+            fill_in 'URL Value', with: 'an URL'
+          end
 
           within '.nav-top' do
             click_on 'Save'
