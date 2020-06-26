@@ -2,7 +2,7 @@
 
 # :nodoc:
 class UmmPreviewToolOrganizations < UmmPreviewOrganizations
-  def render_card_body(tool_organization)
+  def render_card_body(tool_organization, _index)
     capture do
       concat(content_tag(:div, class: 'card-body active') do
         concat(content_tag(:div, class: 'card-body-details') do

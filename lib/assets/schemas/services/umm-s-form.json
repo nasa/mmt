@@ -99,36 +99,6 @@
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/URLContentType", "field": true, "type": "UmmSelect", "htmlClass": "url-content-type-select"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Type", "field": true, "type": "UmmSelect", "htmlClass": "url-type-select"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Subtype", "field": true, "type": "UmmSelect", "htmlClass": "url-subtype-select"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
                       "items": [{"key": "/URLValue", "field": true}]
                     }
                   ]
@@ -201,7 +171,7 @@
               "htmlClass": "row",
               "items": [
                 {
-                  "key": "/LicenseUrl",
+                  "key": "/LicenseURL",
                   "field": true
                 }
               ]
@@ -326,46 +296,7 @@
                   "label": "Online Resource",
                   "key": "/OnlineResource/properties",
                   "htmlClass": "row sub-fields online-resource",
-                  "items": [
-                    {
-                      "type": "section",
-                      "htmlClass": "row",
-                      "items": [
-                        {
-                          "type": "section",
-                          "htmlClass": "col-6",
-                          "items": [{"key": "/Name", "field": true}]
-                        },
-                        {
-                          "type": "section",
-                          "htmlClass": "col-6",
-                          "items": [{"key": "/Protocol", "field": true}]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "section",
-                      "items": [
-                        {
-                          "key": "/Linkage",
-                          "field": true
-                        },
-                        {
-                          "key": "/Description",
-                          "type": "UmmTextarea",
-                          "field": true
-                        },
-                        {
-                          "key": "/ApplicationProfile",
-                          "field": true
-                        },
-                        {
-                          "key": "/Function",
-                          "field": true
-                        }
-                      ]
-                    }
-                  ]
+                  "$ref": "#/definitions/OnlineResourceProperties"
                 }
               ]
             }
@@ -554,9 +485,9 @@
                       "htmlClass": "col-6",
                       "items": [
                         {
-                          "key": "/SupportedOutputFormat",
-                          "type": "UmmSelect",
-                          "override_help": "SupportedReformattingsPairType/properties/SupportedInputFormat/description",
+                          "key": "/SupportedOutputFormats",
+                          "type": "UmmMultiSelect",
+                          "override_help": "SupportedReformattingsPairType/properties/SupportedOutputFormats/description",
                           "field": true
                         }
                       ]
@@ -936,10 +867,10 @@
         },
         {
           "type": "UmmMultiItems",
-          "key": "/RelatedUrls/items/properties/index_id",
-          "multiType": "RelatedUrls",
-          "label": "Related URLs",
-          "$ref": "#/definitions/RelatedURLProperties"
+          "key": "/OnlineResources/items/properties/index_id",
+          "multiType": "OnlineResources",
+          "label": "Online Resources",
+          "$ref": "#/definitions/OnlineResourceProperties"
         }
       ]
     },
@@ -1344,7 +1275,7 @@
         }
       ]
     },
-    "RelatedURLProperties": {
+    "OnlineResourceProperties": {
       "items": [
         {
           "type": "section",
@@ -1352,52 +1283,35 @@
           "items": [
             {
               "type": "section",
-              "htmlClass": "row",
-              "items": [{"key": "/Description", "type": "UmmTextarea", "field": true}]
+              "htmlClass": "col-6",
+              "items": [{"key": "/Name", "field": true}]
+            },
+            {
+              "type": "section",
+              "htmlClass": "col-6",
+              "items": [{"key": "/Protocol", "field": true}]
             }
           ]
         },
         {
           "type": "section",
-          "htmlClass": "row",
           "items": [
             {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_s_related_url_content_type", "htmlClass": "related-url-content-type-select"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
+              "key": "/Linkage",
+              "field": true
+            },
             {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [{"key": "/Type", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_s_related_url_type", "htmlClass": "related-url-type-select"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
+              "key": "/Description",
+              "type": "UmmTextarea",
+              "field": true
+            },
             {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [{"key": "/Subtype", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_s_related_url_subtype", "htmlClass": "related-url-subtype-select"}]
-            }
-          ]
-        },
-        {
-          "type": "section",
-          "htmlClass": "row",
-          "items": [
+              "key": "/ApplicationProfile",
+              "field": true
+            },
             {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [{"key": "/URL", "field": true, "htmlClass": "url"}]
+              "key": "/Function",
+              "field": true
             }
           ]
         }

@@ -21,8 +21,16 @@
         }, {
           "key": "URL",
           "title": "URL",
-          "hideFieldTitle": true,
-          "type": "UmmPreviewURL"
+          "type": "UmmPreviewGroupedField",
+          "fields": [
+            {
+              "key": "/Description"
+            },
+            {
+              "key": "/URLValue",
+              "type": "UmmPreviewLink"
+            }
+          ]
         }
       ]
     }, {
@@ -52,7 +60,7 @@
           "type": "UmmPreviewGroupedField",
           "fields": [
             {
-              "key": "/LicenseUrl"
+              "key": "/LicenseURL"
             },
             {
               "key": "/LicenseText"

@@ -1,8 +1,6 @@
 # Renders cards for Service Contacts
 
 # :nodoc:
-# TODO: MMT-2267 Abstract these and tool preview elements to minimize repeated
-# code
 class UmmPreviewContacts < UmmPreviewElement
   def render
     capture do
@@ -15,7 +13,7 @@ class UmmPreviewContacts < UmmPreviewElement
         Array.wrap(element_value).each_with_index do |contact, index|
           concat(content_tag(:li, class: 'card') do
             concat render_card_header(contact, index, type)
-            concat render_card_body(contact, type)
+            concat render_card_body(contact, index, type)
           end)
         end
       end)
@@ -50,7 +48,7 @@ class UmmPreviewContacts < UmmPreviewElement
     end
   end
 
-  def render_card_body(contact, type)
+  def render_card_body(contact, index, type)
     capture do
       contact_info = contact.fetch('ContactInformation', {})
       concat(content_tag(:div, class: 'card-body active') do
@@ -92,7 +90,8 @@ class UmmPreviewContacts < UmmPreviewElement
         end)
       end
 
-      concat render_related_urls(contact_info)
+      # Used in UMM-S
+      concat UmmPreviewOnlineResource.new(schema_type: schema_type, preview_json: {}, data: data, form_id: form_id, key: "#{full_key}/index_id/ContactInformation", draft_id: draft_id, options: options.merge('indexes' => [index])).render
 
       concat render_card_navigation(contact_info)
     end
@@ -166,35 +165,6 @@ class UmmPreviewContacts < UmmPreviewElement
     end
   end
 
-  def render_related_urls(contact_info)
-    capture do
-      if contact_info['RelatedUrls']
-        contact_info['RelatedUrls'].each do |related_url|
-          concat(content_tag(:div, class: 'card-body') do
-            concat(content_tag(:div, class: 'card-body-details-full') do
-              concat content_tag(:p, related_url['Description']) if related_url['Description']
-
-              concat(if related_url['URL']
-                       link_to related_url['URL'], related_url['URL'], title: related_url.fetch('URLContentType', 'Related URL')
-                     else
-                       'Not provided'
-                     end)
-
-              concat(content_tag(:ul, class: 'arrow-tag-group-list') do
-                if related_url['Type']
-                  concat content_tag(:li, related_url['Type'], class: 'arrow-tag-group-item')
-                end
-                if related_url['Subtype']
-                  concat content_tag(:li, related_url['Subtype'], class: 'arrow-tag-group-item')
-                end
-              end)
-            end)
-          end)
-        end
-      end
-    end
-  end
-
   def render_card_navigation(contact_info)
     capture do
       content_tag(:div, class: 'card-navigation') do
@@ -205,7 +175,7 @@ class UmmPreviewContacts < UmmPreviewElement
 
           number_circles = 0
           number_circles += contact_info.fetch('Addresses', []).size - 1 if contact_info['Addresses']
-          number_circles += contact_info.fetch('RelatedUrls', []).size if contact_info['RelatedUrls']
+          number_circles += contact_info.fetch('OnlineResources', []).size
           number_circles += 1 if contact_info['ContactInstruction']
 
           concat(content_tag(:li, class: 'card-navigation-pagination') do

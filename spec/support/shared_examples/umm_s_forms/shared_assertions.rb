@@ -74,25 +74,27 @@ def service_contact_information_assertions
       expect(page).to have_field('Country', with: 'United States')
     end
 
-    within '.multiple.related-urls > .multiple-item-0' do
-      expect(page).to have_field('Description', with: 'Related URL 1 Description')
-      expect(page).to have_field('Url Content Type', with: 'CollectionURL')
-      expect(page).to have_field('Type', with: 'DATA SET LANDING PAGE')
-      expect(page).to have_field('Url', with: 'http://example.com/')
+
+    within '.multiple.online-resources > .multiple-item-0' do
+      expect(page).to have_field('Name', with: 'ORN1 Text')
+      expect(page).to have_field('Protocol', with: 'ORP1 Text')
+      expect(page).to have_field('Linkage', with: 'ORL1 Text')
+      expect(page).to have_field('Description', with: 'ORD1 Text')
+      expect(page).to have_field('Application Profile', with: 'ORAP1 Text')
+      expect(page).to have_field('Function', with: 'ORF1 Text')
     end
-    within '.multiple.related-urls> .multiple-item-1' do
-      expect(page).to have_field('Description', with: 'Related URL 2 Description')
-      expect(page).to have_field('Url Content Type', with: 'PublicationURL')
-      expect(page).to have_field('Type', with: 'VIEW RELATED INFORMATION')
-      expect(page).to have_field('Subtype', with: 'READ-ME')
-      expect(page).to have_field('Url', with: 'https://example.com/')
+    within '.multiple.online-resources > .multiple-item-1' do
+      expect(page).to have_field('Name', with: 'ORN2 Text')
+      expect(page).to have_field('Protocol', with: 'ORP2 Text')
+      expect(page).to have_field('Linkage', with: 'ORL2 Text')
+      expect(page).to have_field('Description', with: 'ORD2 Text')
+      expect(page).to have_field('Application Profile', with: 'ORAP2 Text')
+      expect(page).to have_field('Function', with: 'ORF2 Text')
     end
-    within '.multiple.related-urls > .multiple-item-2' do
-      expect(page).to have_field('Description', with: 'Related URL 3 Description')
-      expect(page).to have_field('Url Content Type', with: 'VisualizationURL')
-      expect(page).to have_field('Type', with: 'GET RELATED VISUALIZATION')
-      expect(page).to have_field('Subtype', with: 'GIOVANNI')
-      expect(page).to have_field('Url', with: 'https://search.earthdata.nasa.gov/')
+    within '.multiple.online-resources > .multiple-item-2' do
+      expect(page).to have_field('Name', with: 'ORN3 Text')
+      expect(page).to have_field('Description', with: 'ORD3 Text')
+      expect(page).to have_field('Linkage', with: 'ORL3 Text')
     end
   end
 end

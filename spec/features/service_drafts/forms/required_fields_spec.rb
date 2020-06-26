@@ -12,7 +12,7 @@ describe 'Conditionally required fields for Service forms', js: true do
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.eui-required-o', count: 5)
+        expect(page).to have_css('label.eui-required-o', count: 6)
       end
     end
 
@@ -59,7 +59,7 @@ describe 'Conditionally required fields for Service forms', js: true do
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.eui-required-o', count: 5)
+        expect(page).to have_css('label.eui-required-o', count: 6)
       end
     end
 

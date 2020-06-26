@@ -2,10 +2,7 @@
 
 # :nodoc:
 class UmmPreviewServiceOrganizations < UmmPreviewOrganizations
-# TODO: MMT-2267 Abstract these and tool preview elements to minimize repeated
-# code
-
-  def render_card_body(service_organization)
+  def render_card_body(service_organization, index)
     capture do
       concat(content_tag(:div, class: 'card-body active') do
         concat(content_tag(:div, class: 'card-body-details-full') do
@@ -13,34 +10,9 @@ class UmmPreviewServiceOrganizations < UmmPreviewOrganizations
         end)
       end)
 
-      concat render_online_resource(service_organization['OnlineResource'])
+      concat UmmPreviewOnlineResource.new(schema_type: schema_type, preview_json: {}, data: data, form_id: form_id, key: "#{full_key}/index_id/OnlineResource", draft_id: draft_id, options: options.merge('indexes' => [index])).render
 
       concat render_card_navigation(service_organization['OnlineResource'])
-    end
-  end
-
-  def render_online_resource(online_resource)
-    capture do
-      if online_resource
-        concat(content_tag(:div, class: 'card-body') do
-          concat(content_tag(:div, class: 'card-body-details') do
-            concat content_tag(:p, online_resource['Name']) if online_resource['Name']
-            concat content_tag(:p, online_resource['Description']) if online_resource['Description']
-
-            concat(if online_resource['Linkage']
-                     link_to online_resource['Linkage'], online_resource['Linkage'], title: online_resource.fetch('Name', 'Online Resource Linkage')
-                   else
-                     'Not provided'
-                   end)
-          end)
-
-          concat(content_tag(:div, class: 'card-body-aside') do
-            concat content_tag(:p, "Protocol: #{online_resource['Protocol']}")
-            concat content_tag(:p, "Application Profile: #{online_resource['ApplicationProfile']}")
-            concat content_tag(:p, "Function: #{online_resource['Function']}")
-          end)
-        end)
-      end
     end
   end
 
