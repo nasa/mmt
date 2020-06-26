@@ -45,6 +45,9 @@ $(document).ready ->
   # fix keys from the serialized page json that don't match the schema
   fixServicesKeys = (json) ->
     if isUmmSForm()
+      if json?.RelatedUrls?
+        json.RelatedURLs = json.RelatedUrls
+        delete json.RelatedUrls
       if json?.URL?.UrlValue?
         json.URL.URLValue = json.URL.UrlValue
         delete json.URL.UrlValue
@@ -101,7 +104,7 @@ $(document).ready ->
     if isMetadataForm()
       json?.ProcessingLevel = {} unless json?.ProcessingLevel?
     else if isUmmSForm()
-      json?.RelatedURLs = [] unless json?.RelatedURLs?
+      json?.URL = {} unless json?.URL
     else if isUmmTForm()
       json?.URL = {} unless json?.URL
 
