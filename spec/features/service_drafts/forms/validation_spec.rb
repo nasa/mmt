@@ -68,9 +68,9 @@ describe 'Service Drafts Forms Field Validations', js: true do
             fill_in 'Version', with: '1.0'
             fill_in 'service_draft_draft_description', with: 'Service Description'
           end
-          
+
           within '#url' do
-            fill_in 'URL Value', with: 'an URL'
+            fill_in 'URL Value', with: 'https://search.earthdata.nasa.gov'
           end
 
           within '.nav-top' do
@@ -89,6 +89,7 @@ describe 'Service Drafts Forms Field Validations', js: true do
           expect(page).to have_field('Type', with: 'NOT PROVIDED')
           expect(page).to have_field('Version', with: '1.0')
           expect(page).to have_field('Description', with: 'Service Description')
+          expect(page).to have_field('URL Value', with: 'https://search.earthdata.nasa.gov')
         end
       end
     end
