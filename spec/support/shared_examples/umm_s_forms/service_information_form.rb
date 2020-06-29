@@ -12,7 +12,7 @@ shared_examples_for 'Service Information Form' do
 
     within '#url' do
       expect(page).to have_field('Description', with: 'Description of primary url')
-      expect(page).to have_field('Url Value', with: 'httpx://testurl.earthdata.nasa.gov')
+      expect(page).to have_field('URL Value', with: 'httpx://testurl.earthdata.nasa.gov')
     end
   end
 end

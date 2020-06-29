@@ -101,7 +101,7 @@ $(document).ready ->
     if isMetadataForm()
       json?.ProcessingLevel = {} unless json?.ProcessingLevel?
     else if isUmmSForm()
-      json?.RelatedURLs = [] unless json?.RelatedURLs?
+      json?.URL = {} unless json?.URL
     else if isUmmTForm()
       json?.URL = {} unless json?.URL
 

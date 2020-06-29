@@ -76,35 +76,35 @@
                   "items": [{"key": "Description", "type": "UmmTextarea", "field": true}]
                 }
               ]
-            },
+            }   
+          ]
+        },
+        {
+          "type": "open_accordion",
+          "title": "URL",
+          "key": "URL/properties",
+          "help": "URL",
+          "items": [
             {
-              "type": "open_accordion",
-              "title": "URL",
-              "key": "URL/properties",
-              "help": "URL",
+              "type": "section",
+              "htmlClass": "row",
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Description", "field": true}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/URLValue", "field": true}]
-                    }
-                  ]
+                  "items": [{"key": "/Description", "field": true}]
                 }
               ]
-            }   
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{"key": "/URLValue", "field": true, "label": "URL Value"}]
+                }
+              ]
+            }
           ]
         }
       ]
