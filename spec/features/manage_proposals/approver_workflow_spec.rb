@@ -49,6 +49,9 @@ describe 'When going through the whole collection proposal approver workflow', j
           wait_for_cmr
           fill_in 'keyword', with: 'MMT_2'
           click_on 'Search Collections'
+          page.save_screenshot('search1.png',full: true)
+          wait_for_cmr
+          page.save_screenshot('search2.png',full: true)
         end
 
         it 'can find the record in CMR' do
@@ -73,6 +76,7 @@ describe 'When going through the whole collection proposal approver workflow', j
         end
         click_on 'Submit for Review'
         click_on 'Yes'
+        wait_for_cmr
         click_on 'Approve Update Request'
         click_on 'Yes'
         # Workflow is in mmt proper, so switch back
@@ -153,7 +157,7 @@ describe 'When going through the whole collection proposal approver workflow', j
 
       context 'when visiting the deleted collection' do
         before do
-          visit collection_path(@ingest_response['concept-id'])
+          visit collection_path(@ingest_response['concept-id'],revision_id: 2)
         end
 
         it 'cannot find the record in CMR' do

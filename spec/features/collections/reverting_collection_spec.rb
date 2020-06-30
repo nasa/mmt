@@ -67,9 +67,8 @@ describe 'Reverting to previous collections', js: true do
 
       click_on 'Delete Collection Record'
       click_on 'Yes'
-
-      wait_for_jQuery
       wait_for_cmr
+      visit  collection_revisions_path(id: ingest_response['concept-id']) 
     end
 
     it 'displays the correct phrasing for reverting records' do
@@ -80,7 +79,7 @@ describe 'Reverting to previous collections', js: true do
       before do
         click_on 'Reinstate'
         click_on 'Yes'
-
+        
         wait_for_jQuery
         wait_for_cmr
       end
