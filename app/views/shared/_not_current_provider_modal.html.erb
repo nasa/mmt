@@ -31,6 +31,10 @@
       <%= link_to 'Yes', clone_service_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-service-link' %>
       <%= link_to 'Yes', service_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-service-link' %>
       <%= link_to 'Yes', service_collection_associations_path(options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-manage-service-associations-link' %>
+    <% elsif options[:tool] %>
+      <%= link_to 'Yes', edit_tool_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-tool-link' %>
+      <%#= link_to 'Yes', clone_tool_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-tool-link' %>
+      <%#= link_to 'Yes', tool_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-tool-link' %>
     <% end %>
 
     <% if options[:draft] %>
@@ -40,6 +44,9 @@
       <% elsif options[:service] %>
         <%= link_to 'Yes', service_draft_path(options[:draft_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-view-draft-link' %>
         <%= link_to 'Yes', edit_service_draft_path(options[:draft_id], form: options[:draft_form]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-draft-link' %>
+      <% elsif options[:tool] %>
+        <%= link_to 'Yes', tool_draft_path(options[:draft_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-view-draft-link' %>
+        <%= link_to 'Yes', edit_tool_draft_path(options[:draft_id], form: options[:draft_form]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-draft-link' %>
       <% else %>
         <%= link_to 'Yes', collection_draft_path(options[:draft_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-view-draft-link' %>
         <%= link_to 'Yes', edit_collection_draft_path(options[:draft_id], form: options[:draft_form]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-draft-link' %>

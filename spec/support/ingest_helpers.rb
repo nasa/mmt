@@ -319,11 +319,10 @@ module Helpers
 
 
         # If the test needs an unpublished draft as well, we'll create it and return it here
-        # TODO: MMT-2228
-        #if include_new_draft
-        #  # Create a new draft (same as editing a tool)
-        #  ToolDraft.create_from_tool(concept_response.body, user, draft_attributes[:native_id])
-        #end
+        if include_new_draft
+          # Create a new draft (same as editing a tool)
+          ToolDraft.create_from_tool(concept_response.body, user, draft_attributes[:native_id])
+        end
 
         # TODO: Do not need to return native_id after CMR-6332.
         [ingest_response.body, concept_response, draft_attributes[:native_id]]
