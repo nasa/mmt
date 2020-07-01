@@ -19,7 +19,7 @@ describe 'Service Information Form', js: true do
 
       within '#url' do
         fill_in 'Description', with: 'Description of primary url'
-        fill_in 'Url Value', with: 'httpx://testurl.earthdata.nasa.gov'
+        fill_in 'URL Value', with: 'httpx://testurl.earthdata.nasa.gov'
       end
 
       within '.nav-top' do

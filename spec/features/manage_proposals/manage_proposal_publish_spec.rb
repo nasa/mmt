@@ -38,18 +38,15 @@ describe 'When publishing collection draft proposals', js: true do
           before do
             mock_update_proposal_status
             click_on 'Yes'
-            wait_for_cmr
           end
 
           it 'generates a success message' do
-            wait_for_cmr
-            wait_for_jQuery
             expect(page).to have_content('Collection Metadata Deleted Successfully!')
           end
 
           it 'cannot find the record' do
             visit collection_path(@ingest_response['concept-id'])
-            wait_for_cmr
+
             expect(page).to have_content('This collection is not available. It is either being published right now, does not exist, or you have insufficient permissions to view this collection.')
           end
 

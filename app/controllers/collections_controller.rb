@@ -47,7 +47,7 @@ class CollectionsController < ManageCollectionsController
     if delete_response.success?
       flash[:success] = I18n.t('controllers.collections.destroy.flash.success')
       Rails.logger.info("Audit Log: Collection with native_id #{@native_id} was deleted for #{provider_id} by #{session[:urs_uid]}")
-      redirect_to collection_revisions_path(id: delete_response.body['concept-id'])
+      redirect_to collection_revisions_path(id: delete_response.body['concept-id'], revision_id: delete_response.body['revision-id'], deleted: true)
     else
       Rails.logger.error("Delete Collection Error: #{delete_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to delete Collection #{@concept_id} with native_id #{@native_id} in provider #{provider_id} but encountered an error.")
@@ -164,7 +164,10 @@ class CollectionsController < ManageCollectionsController
       # but if we are reverting, we should get the collection in it's native format, so set content-type appropriately
       content_type = 'application/metadata+xml; charset=utf-8' if params[:action] == 'revert'
 
-      collection_response = cmr_client.get_concept(@concept_id, token, { 'Accept' => content_type }, select_revision)
+      collection_response = cmr_client.get_concept(@concept_id, token, { 'Accept' => content_type }, @revision_id)
+      if (params[:deleted] == 'true')  &&  (collection_response.body['errors'].first.include? "represents a deleted concept and does not contain metadata")
+        collection_response = cmr_client.get_concept(@concept_id, token, { 'Accept' => content_type }, select_revision)
+      end
 
       if collection_response.success?
         @collection = collection_response.body
@@ -200,10 +203,7 @@ class CollectionsController < ManageCollectionsController
   end
   
   def select_revision
-    return @revision_id if !@revision_id.blank?
-    
-    selected = @revisions.select {|r| r.fetch('meta')['deleted'] == false }.first
+    selected = @revisions.select {|r| r.fetch('meta')['revision-id'] && r.fetch('meta')['deleted'] == false &&  r.fetch('meta')['revision-id'].to_i < @revision_id.to_i}.first
     selected.blank? ?  nil : selected.fetch('meta')['revision-id']
   end
-  
 end

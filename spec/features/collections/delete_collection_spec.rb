@@ -26,28 +26,19 @@ describe 'Delete collection', js: true do
           within '#delete-record-modal' do
             click_on 'Yes'
           end
-          wait_for_cmr
         end
 
         it 'redirects to the revisions page and displays a confirmation message' do
           expect(page).to have_content('Collection Deleted Successfully!')
-        end
 
-        context 'when viewing the revisions page' do
-          before do
-            visit collection_revisions_path(@ingest_response['concept-id'])
+          expect(page).to have_content('Revision History')
+          expect(page).to have_selector('tbody > tr', count: 2)
+
+          within first('tbody > tr') do
+            expect(page).to have_content('Deleted')
           end
-          
-          it 'displays the revision history' do
-            expect(page).to have_content('Revision History')
-            expect(page).to have_selector('tbody > tr', count: 2)
 
-            within first('tbody > tr') do
-              expect(page).to have_content('Deleted')
-            end
-
-            expect(page).to have_content('Reinstate', count: 1)
-          end
+          expect(page).to have_content('Reinstate', count: 1)
         end
       end
     end

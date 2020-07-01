@@ -54,7 +54,6 @@ describe 'Bulk Updating Instruments' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
         click_on 'Yes'
-        wait_for_cmr
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
@@ -85,7 +84,6 @@ describe 'Bulk Updating Instruments' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@find_and_remove_ingest_response['concept-id'])
-          wait_for_cmr
         end
 
         it 'does not display the removed instrument' do
@@ -160,7 +158,6 @@ describe 'Bulk Updating Instruments' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
         click_on 'Yes'
-        wait_for_cmr
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last

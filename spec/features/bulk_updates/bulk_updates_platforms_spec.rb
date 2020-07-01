@@ -55,7 +55,6 @@ describe 'Bulk updating Platforms' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
         click_on 'Yes'
-        wait_for_cmr
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
@@ -158,7 +157,6 @@ describe 'Bulk updating Platforms' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
         click_on 'Yes'
-        wait_for_cmr
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
@@ -270,7 +268,6 @@ describe 'Bulk updating Platforms' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
         click_on 'Yes'
-        wait_for_cmr
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last

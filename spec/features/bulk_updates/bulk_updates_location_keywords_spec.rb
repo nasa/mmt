@@ -57,7 +57,6 @@ describe 'Bulk updating Location Keywords' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
         click_on 'Yes'
-        wait_for_cmr
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
@@ -91,7 +90,7 @@ describe 'Bulk updating Location Keywords' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@find_and_remove_ingest_response['concept-id'])
-          wait_for_cmr
+
           find('.tab-label', text: 'Additional Information').click
         end
 
@@ -153,7 +152,6 @@ describe 'Bulk updating Location Keywords' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
         click_on 'Yes'
-        wait_for_cmr
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
@@ -256,7 +254,6 @@ describe 'Bulk updating Location Keywords' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
         click_on 'Yes'
-        wait_for_cmr
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
@@ -296,9 +293,7 @@ describe 'Bulk updating Location Keywords' do
         before do
           visit collection_path(@find_and_replace_ingest_response['concept-id'])
 
-          wait_for_cmr
           find('.tab-label', text: 'Additional Information').click
-          wait_for_cmr
         end
 
         it 'displays the new keyword' do
@@ -365,7 +360,6 @@ describe 'Bulk updating Location Keywords' do
       before(:each, bulk_update_step_2: true) do
         click_on 'Submit'
         click_on 'Yes'
-        wait_for_cmr
 
         # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
@@ -399,7 +393,6 @@ describe 'Bulk updating Location Keywords' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@clear_all_and_replace_ingest_response['concept-id'])
-          wait_for_cmr
 
           find('.tab-label', text: 'Additional Information').click
         end
