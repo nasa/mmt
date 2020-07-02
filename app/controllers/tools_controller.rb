@@ -2,7 +2,7 @@
 class ToolsController < BasePublishedRecordController
   include ManageMetadataHelper
 
-  before_action :set_tool, only: [:show] #, :edit, :clone, :destroy, :revisions, :revert, :download_json]
+  before_action :set_tool, only: [:show, :download_json] #, :edit, :clone, :destroy, :revisions, :revert]
   before_action :set_schema, only: [:show] #, :edit, :clone, :destroy]
   # before_action :ensure_supported_version, only: [:show, :edit]
   # before_action :ensure_correct_provider, only: [:edit, :clone, :destroy]

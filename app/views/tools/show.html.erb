@@ -105,8 +105,7 @@
           <%#= link_to 'Clone Tool Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'clone-tool' } %>
         <%# end %>
 
-        <%= link_to 'Download JSON', '#', class: 'eui-btn--link disabled' %>
-        <%#= link_to 'Download JSON', download_json_tool_path(@concept_id, revision_id: @revision_id), class: 'eui-btn--link', target: '_blank' %>
+        <%= link_to 'Download JSON', download_json_tool_path(@concept_id, revision_id: @revision_id), class: 'eui-btn--link', target: '_blank' %>
 
         <%= link_to 'Delete Tool Record', '#', class: 'display-modal delete-tool eui-btn--link bar-before disabled' %>
         <%# if current_provider?(@provider_id) %>
