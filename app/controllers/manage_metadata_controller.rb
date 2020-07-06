@@ -75,10 +75,12 @@ class ManageMetadataController < ApplicationController
     return if @unconfirmed_version
 
     config_resource_version = case published_resource_name
-                              when 'service'
-                                'umm_s_version'
                               when 'variable'
                                 'umm_var_version'
+                              when 'service'
+                                'umm_s_version'
+                              when 'tool'
+                                'umm_t_version'
                               end
     mmt_resource_version = parse_umm_version_number(Rails.configuration.send(config_resource_version))
 
@@ -207,6 +209,8 @@ class ManageMetadataController < ApplicationController
               Rails.logger.error("Error retrieving concept for Tool #{@concept_id} in `set_tool`: #{tool_concept_response.clean_inspect}")
               {}
             end
+            
+    set_tool_information
   end
 
   def set_tool_information

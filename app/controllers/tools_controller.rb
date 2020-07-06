@@ -2,10 +2,10 @@
 class ToolsController < BasePublishedRecordController
   include ManageMetadataHelper
 
-  before_action :set_tool, only: [:show] #, :edit, :clone, :destroy, :revisions, :revert, :download_json]
-  before_action :set_schema, only: [:show] #, :edit, :clone, :destroy]
-  # before_action :ensure_supported_version, only: [:show, :edit]
-  # before_action :ensure_correct_provider, only: [:edit, :clone, :destroy]
+  before_action :set_tool, only: [:show, :edit] #, :clone, :destroy, :revisions, :revert, :download_json]
+  before_action :set_schema, only: [:show, :edit] #, :clone, :destroy]
+  before_action :ensure_supported_version, only: [:show, :edit]
+  before_action :ensure_correct_provider, only: [:edit] #, :clone, :destroy]
   before_action :set_preview, only: [:show]
 
   # If clone is not defined like this performing the clone action leads to a `action not found error`

@@ -72,6 +72,8 @@ $(document).ready ->
         "Managing this variable's collection associations"
       when 'manage-service-associations'
         "Managing this service's collection associations"
+      when 'edit-tool'
+        'Editing this tool'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
