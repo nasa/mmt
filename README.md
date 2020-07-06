@@ -1,5 +1,5 @@
 # Metadata Management Tool Application
-The Metadata Management Tool is a web application to assist users in managing metadata on various Nasa.gov applications.
+The Metadata Management Tool (MMT) and Draft Metadata Management Tool (dMMT) are web applications designed to assist users in managing metadata and interfacing with the CMR. The user’s guide for MMT can be found [here](https://wiki.earthdata.nasa.gov/display/ED/Metadata+Management+Tool+%28MMT%29+User%27s+Guide "MMT User Guide") and the user’s guide for dMMT can be found [here](https://wiki.earthdata.nasa.gov/display/ED/Draft+MMT+%28dMMT%29+User%27s+Guide "dMMT User Guide"). Release notes for these applications can be found [here](https://wiki.earthdata.nasa.gov/display/ED/MMT+Release+Notes "Release Notes").
 
 ## Getting Started
 
