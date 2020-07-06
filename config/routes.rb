@@ -103,7 +103,7 @@ Rails.application.routes.draw do
   get '/services/:id/clone' => 'services#clone', as: 'clone_service'
   get '/services/:id/download_json(/:revision_id)' => 'services#download_json', as: 'download_json_service'
 
-  resources :tools, only: [:show, :create]
+  resources :tools, only: [:show, :create, :edit]
   get '/tools/:id/download_json(/:revision_id)' => 'tools#download_json', as: 'download_json_tool'
 
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do

@@ -84,20 +84,18 @@
   <div class="row row-content">
     <section class="action">
       <p>
+        <% if @unsupported_version %>
+          <%= link_to 'Edit Tool Record', '#', class: 'eui-btn--link disabled bar-after' %>
+        <% else %>
+          <% if current_provider?(@provider_id) %>
+            <%= link_to 'Edit Tool Record', edit_tool_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
+          <% elsif available_provider?(@provider_id) %>
+            <%= link_to 'Edit Tool Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'edit-tool' } %>
+          <% end %>
+        <% end %>
+
         <%# TODO: All links commented out and disabled links added for MMT-2238 %>
         <%# links should be re-enabled with the appropriate ticket %>
-
-        <%= link_to 'Edit Tool Record', '#', class: 'eui-btn--link disabled bar-after' %>
-        <%# if @unsupported_version %>
-          <%#= link_to 'Edit Tool Record', '#', class: 'eui-btn--link disabled bar-after' %>
-        <%# else %>
-          <%# if current_provider?(@provider_id) %>
-            <%#= link_to 'Edit Tool Record', edit_tool_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
-          <%# elsif available_provider?(@provider_id) %>
-            <%#= link_to 'Edit Tool Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'edit-tool' } %>
-          <%# end %>
-        <%# end %>
-
         <%= link_to 'Clone Tool Record', '#', class: 'eui-btn--link bar-after disabled' %>
         <%# if current_provider?(@provider_id) %>
           <%#= link_to 'Clone Tool Record', clone_tool_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
@@ -123,7 +121,7 @@
             <%#= link_to 'Yes', tool_path, method: :delete, class: 'eui-btn--blue spinner' %>
           </p>
         </div> -->
-        <%#= render partial: 'shared/not_current_provider_modal', locals: {
+        <%= render partial: 'shared/not_current_provider_modal', locals: {
           options: {
             tool: @tool,
             concept_id: @concept_id,

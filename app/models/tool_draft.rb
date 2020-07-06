@@ -9,25 +9,24 @@ class ToolDraft < Draft
       []
     end
 
-    # TODO: for cloning or editing published records
-    # def create_from_tool(tool, user, native_id)
-    #   if native_id
-    #     # Edited record
-    #     draft = self.find_or_initialize_by(native_id: native_id)
-    #     draft.entry_title = tool['LongName']
-    #     draft.short_name = tool['Name']
-    #   else
-    #     # Cloned Record
-    #     draft = self.new
-    #     tool.delete('Name')
-    #     tool.delete('LongName')
-    #   end
-    #
-    #   draft.set_user_and_provider(user)
-    #   draft.draft = tool
-    #   draft.save
-    #   draft
-    # end
+    def create_from_tool(tool, user, native_id)
+      if native_id
+        # Edited record
+        draft = self.find_or_initialize_by(native_id: native_id)
+        draft.entry_title = tool['LongName']
+        draft.short_name = tool['Name']
+      # else
+      #   # Cloned Record
+      #   draft = self.new
+      #   tool.delete('Name')
+      #   tool.delete('LongName')
+      end
+
+      draft.set_user_and_provider(user)
+      draft.draft = tool
+      draft.save
+      draft
+    end
   end
 
   def display_short_name
