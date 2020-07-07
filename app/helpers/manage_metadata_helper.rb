@@ -80,7 +80,7 @@ module ManageMetadataHelper
   end
 
   def display_header_subtitle(metadata, type)
-    return unless ['variable', 'service', 'tool'].include?(type.downcase)
+    return unless ['variable', 'service', 'tool'].any? { |type_fragment| type.downcase.include?(type_fragment) }
 
     metadata['LongName'] || 'Long Name Not Provided'
   end
