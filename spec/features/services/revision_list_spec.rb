@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Service revision list', reset_provider: true, js: true do
   context 'when viewing a published service' do
     before do
