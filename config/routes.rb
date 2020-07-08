@@ -105,6 +105,7 @@ Rails.application.routes.draw do
 
   resources :tools, only: [:show, :create, :edit]
   get '/tools/:id/clone' => 'tools#clone', as: 'clone_tool'
+  get '/tools/:id/revisions' => 'tools#revisions', as: 'tool_revisions'
 
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
