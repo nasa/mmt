@@ -59,6 +59,8 @@ gem 'kaminari'
 gem 'momentjs-rails' # js lib for dates
 gem 'pundit'
 
+gem 'nokogiri-diff', '~> 0.2.0' # for comparing xml documents
+
 gem 'activerecord-import' # bulk insertion of data
 
 gem 'activerecord-session_store'
