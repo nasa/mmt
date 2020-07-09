@@ -2,10 +2,11 @@ require 'libxml_to_hash'
 
 namespace :collection do
   desc 'Translate a collection from native format to UMM JSON and back to native format'
-  task :translate, [:file, :format, :version] => :environment do |_task, args|
-    args.with_defaults(version: '1.15.3')
+  task :translate, [:file, :format, :disp, :version] => :environment do |_task, args|
+    args.with_defaults(:version => '1.15.3')
+    args.with_defaults(:disp => 'show')
 
-    puts 'INVALID FORMAT' if !args.format.eql?('echo10' && 'dif10' && 'iso19115')
+    puts 'FORMAT INVALID' unless args.format == ('echo10' || 'dif10' || 'iso19115')
 
     filename = args.file.split('/')[-1]
     puts "\nTranslating #{filename} to UMM JSON..."
@@ -27,11 +28,12 @@ namespace :collection do
     # nokogiri output
     o = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks }
     c = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks }
-
-    o.diff(c, {:added => true, :removed => true}) do |change,node|
-      next if path_leads_to_list?(node.parent.path, native_original_hash, native_converted_hash)
-      puts "#{change}: " + node.parent.path
-    end
+    # puts args.display, args.display.class
+      o.diff(c, {:added => true, :removed => true}) do |change,node|
+        next if path_leads_to_list?(node.parent.path, native_original_hash, native_converted_hash)
+          puts("#{change}: #{node.to_xml}".ljust(60) + node.parent.path) if args.disp.eql? 'show'
+          puts("#{change}: ". + node.parent.path) if args.disp.eql? 'hide'
+      end
 
     # find differences
     dif_hash = find_difference_bt_hashes(native_original_hash, native_converted_hash)
