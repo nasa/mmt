@@ -74,6 +74,8 @@ $(document).ready ->
         "Managing this service's collection associations"
       when 'edit-tool'
         'Editing this tool'
+      when 'clone-tool'
+        'Cloning this tool'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)

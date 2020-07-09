@@ -23,9 +23,7 @@
         "#", id: "change-current-provider-banner-link",
         data: { "provider": @provider_id, action_link: "change-provider-tool-#{@record_action}" }) %>
     </p>
-    <%# TODO: this method does not exist yet. It should be created and used when %>
-    <%# additional actions are added to published Tool records %>
-    <%#= render_change_provider_tool_action_link(@record_action, @concept_id, @revision_id) %>
+    <%= render_change_provider_tool_action_link(@record_action, @concept_id, @revision_id) %>
   </div>
 <% end %>
 
@@ -94,14 +92,11 @@
           <% end %>
         <% end %>
 
-        <%# TODO: All links commented out and disabled links added for MMT-2238 %>
-        <%# links should be re-enabled with the appropriate ticket %>
-        <%= link_to 'Clone Tool Record', '#', class: 'eui-btn--link bar-after disabled' %>
-        <%# if current_provider?(@provider_id) %>
-          <%#= link_to 'Clone Tool Record', clone_tool_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
-        <%# elsif available_provider?(@provider_id) %>
-          <%#= link_to 'Clone Tool Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'clone-tool' } %>
-        <%# end %>
+        <% if current_provider?(@provider_id) %>
+          <%= link_to 'Clone Tool Record', clone_tool_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
+        <% elsif available_provider?(@provider_id) %>
+          <%= link_to 'Clone Tool Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: 'clone-tool' } %>
+        <% end %>
 
         <%= link_to 'Download JSON', download_json_tool_path(@concept_id, revision_id: @revision_id), class: 'eui-btn--link', target: '_blank' %>
 
@@ -132,8 +127,7 @@
         } %>
       </p>
       <p>
-        <%= link_to 'Revisions', '#', class: 'eui-btn--link disabled' %>
-        <%#= link_to "Revisions (#{@revisions.size})", tool_revisions_path, class: 'eui-btn--link disabled' %>
+        <%= link_to "Revisions (#{@revisions.size})", tool_revisions_path, class: 'eui-btn--link' %>
       </p>
     </section>
 
