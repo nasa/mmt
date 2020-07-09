@@ -153,11 +153,11 @@ namespace :cmr do
         File.join(Rails.root.to_s, 'vendor', 'assets', 'javascripts', 'eui-1.0.0', 'eui.js')
       ]
 
-      # TODO: move to version 3 of jquery
-      # it is not currently understood how this section works to select jquery
-      # currently the preview gem is not running with version 3, but 1
+      # Find the path to jquery
       jquery = Rails.application.config.assets.paths.select { |p| p.to_s.include?('jquery-rails') }
-      dependencies.unshift(File.join(jquery.first, 'jquery.js')) if jquery.any?
+      # Include a specific file. jquery-rails has files for each major version
+      # stored in the above location
+      dependencies.unshift(File.join(jquery.first, 'jquery3.js')) if jquery.any?
 
       js_to_uglify = dependencies.sort.map do |file|
         puts "- Reading #{file}"
