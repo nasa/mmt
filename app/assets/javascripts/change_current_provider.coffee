@@ -76,6 +76,8 @@ $(document).ready ->
         'Editing this tool'
       when 'clone-tool'
         'Cloning this tool'
+      when 'delete-tool'
+        'Deleting this tool'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)

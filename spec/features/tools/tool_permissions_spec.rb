@@ -9,7 +9,7 @@ describe 'Tools permissions', reset_provider: true, js: true do
     context "when the tool's provider is in the users available providers" do
       before :all do
         @ingested_tool, _concept_response, @native_id_1 = publish_tool_draft
-#        @ingested_tool_for_delete_modal, _concept_response, _native_id_2 = publish_tool_draft
+        @ingested_tool_for_delete_modal, _concept_response, _native_id_2 = publish_tool_draft
       end
 
       after :all do
@@ -85,45 +85,53 @@ describe 'Tools permissions', reset_provider: true, js: true do
       end
 
 # TODO: Uncomment in MMT-2229
-#      context 'when clicking the delete link' do
-#        context 'when the tool has no associated collections' do
-#          before do
-#            visit tool_path(@ingested_tool_for_delete_modal['concept-id'])
-#
-#            click_on 'Delete Tool Record'
-#          end
-#
-#          it 'displays a modal informing the user they need to switch providers' do
-#            expect(page).to have_content("Deleting this tool #{modal_text}")
-#          end
-#
-#          it 'does not display a message about collection associations that will also be deleted' do
-#            expect(page).to have_no_content('This tool is associated with')
-#            expect(page).to have_no_content('collections. Deleting this tool will also delete the collection associations')
-#          end
-#        end
-#
-#        context 'when deleting the tool' do
-#          before do
-#            ingested_tool_to_delete, _concept_response = publish_tool_draft
-#
-#            visit tool_path(ingested_tool_to_delete['concept-id'])
-#
-#            click_on 'Delete Tool Record'
-#
-#            find('.not-current-provider-link').click
-#            wait_for_jQuery
-#          end
-#
-#          it 'switches the provider context' do
-#            expect(User.first.provider_id).to eq('MMT_2')
-#          end
-#
-#          it 'deletes the record' do
-#            expect(page).to have_content('Tool Deleted Successfully!')
-#          end
-#        end
-#      end
+      context 'when clicking the delete link' do
+        
+        before do
+          login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
+          visit tool_path(@ingested_tool_for_delete_modal['concept-id'])
+
+          click_on 'Delete Tool Record'
+        end
+
+        it 'displays a modal informing the user they need to switch providers' do
+          expect(page).to have_content("Deleting this tool #{modal_text}")
+        end
+
+        context 'when clicking Yes' do
+          before do
+            find('.not-current-provider-link').click
+            wait_for_jQuery
+          end
+
+          it 'switches the provider context' do
+            expect(User.first.provider_id).to eq('MMT_2')
+          end
+  
+          it 'deletes the record' do
+            expect(page).to have_content('Tool Deleted Successfully!')
+          end
+        end
+
+        #context 'when deleting the tool' do
+        #  before do
+        #    visit tool_path(@ingested_tool_for_delete_modal['concept-id'])
+
+        #    click_on 'Delete Tool Record'
+
+        #    find('.not-current-provider-link').click
+        #    wait_for_jQuery
+        #  end
+
+        #  it 'switches the provider context' do
+        #    expect(User.first.provider_id).to eq('MMT_2')
+        #  end
+
+        #  it 'deletes the record' do
+        #    expect(page).to have_content('Tool Deleted Successfully!')
+        #  end
+        #end
+      end
 
       context 'when trying to visit the action paths directly' do
         context 'when visiting the edit path directly' do
