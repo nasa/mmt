@@ -23,6 +23,10 @@ class CollectionsController < ManageCollectionsController
     end
   end
 
+  def loss_report
+    render 'errors/internal_server_error'
+  end
+
   def edit
     draft = CollectionDraft.create_from_collection(@collection, current_user, @native_id)
     Rails.logger.info("Audit Log: Collection Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
@@ -149,7 +153,7 @@ class CollectionsController < ManageCollectionsController
         @download_xml_options.each do |download_option|
           # gsub here is needed because of the iso-smap and application/iso:smap+xml format options
           if native_format.gsub(':','').include?(download_option[:format].gsub('-', ''))
-            download_option[:title].concat(' (Native)') 
+            download_option[:title].concat(' (Native)')
             @download_xml_options.delete(download_option)
             @download_xml_options.unshift(download_option)
             break
@@ -201,7 +205,7 @@ class CollectionsController < ManageCollectionsController
       super
     end
   end
-  
+
   def select_revision
     selected = @revisions.select {|r| r.fetch('meta')['revision-id'] && r.fetch('meta')['deleted'] == false &&  r.fetch('meta')['revision-id'].to_i < @revision_id.to_i}.first
     selected.blank? ?  nil : selected.fetch('meta')['revision-id']

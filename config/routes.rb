@@ -69,6 +69,7 @@ Rails.application.routes.draw do
   get '/collections/:id/download_xml/:format(/:revision_id)' => 'collections#download_xml', as: 'download_collection_xml'
   get '/collections/:id/create_delete_proposal' => 'collections#create_delete_proposal', as: 'create_delete_proposal_collection'
   get '/collections/:id/create_update_proposal' => 'collections#create_update_proposal', as: 'create_update_proposal_collection'
+  get 'collections/:id/loss' => 'collections#loss_report'
 
   resource :variable_generation_processes_search, only: [:new]
 
