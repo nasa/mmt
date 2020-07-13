@@ -23,10 +23,6 @@ class CollectionsController < ManageCollectionsController
     end
   end
 
-  def loss_report
-    render 'collection_drafts/loss_report'
-  end
-
   def edit
     draft = CollectionDraft.create_from_collection(@collection, current_user, @native_id)
     Rails.logger.info("Audit Log: Collection Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
@@ -117,6 +113,12 @@ class CollectionsController < ManageCollectionsController
     Rails.logger.info("Audit Log: Update Collection Proposal Request for #{proposal.entry_title} with concept #{@concept_id} was created by #{current_user.urs_uid}")
     flash[:success] = I18n.t('controllers.collections.update_proposal.flash.success')
     redirect_to collection_draft_proposal_path(proposal)
+  end
+
+  def loss_report
+    # When a user wants to use MMT to edit metadata that currently exists in a non-UMM form,
+    # it's important that they're able to see if any data loss occurs in the translation to umm.
+    # This method is needed to reference the appropriate helper and view for the lossiness report
   end
 
   private
