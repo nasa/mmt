@@ -1,0 +1,23 @@
+<table id="search-results">
+  <thead>
+    <tr>
+      <th class="w40"><%= 'Alteration' %></th>
+      <th class="w40"><%= 'Path' %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% orig,conv = prepare_collections('C1200000085-NSIDC_ECS', 'echo10', '1.15.3') %>
+    <% orig = Nokogiri::XML(orig) { |config| config.strict.noblanks } %>
+    <% conv = Nokogiri::XML(conv) { |config| config.strict.noblanks } %>
+    <% orig.diff(conv, {:added => true, :removed => true}) do |change,node| %>
+      <tr class='<%= cycle("alt", "") %>'>
+        <td>
+          <%= change %>
+        </td>
+        <td>
+          <%= node.parent.path %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

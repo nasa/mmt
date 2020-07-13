@@ -24,7 +24,7 @@ class CollectionsController < ManageCollectionsController
   end
 
   def loss_report
-    render 'errors/internal_server_error'
+    render 'collection_drafts/loss_report'
   end
 
   def edit

@@ -73,6 +73,8 @@ gem 'aasm'
 
 gem 'browser'
 
+gem 'nokogiri-diff', '~> 0.2.0' # for comparing xml documents
+
 # collections metadata preview
 # run this command to work from a local copy of the gem's repo
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
