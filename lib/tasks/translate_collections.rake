@@ -89,8 +89,12 @@ namespace :collection do
       elsif conv_path.include? "[]"
         path = conv_path
       else
-        path = org_path #arbitrary
+        path = org_path
       end
+
+      # the get_dir method includes a clause that 'tags' array-containing fields with '[]'
+      # eg. '/Collection/Contacts/Contact[]/OrganizationEmails/Email'
+      # the following lines show how this 'tagging' is used to identify an array in a given directory
 
       if path.include? "[]"
         path = path.split "[]"
@@ -102,35 +106,22 @@ namespace :collection do
     paths
   end
 
-  def compare_arrays(diff_hash, original_hash, converted_hash)
-    dif_hash = diff_hash.clone
-    original = original_hash.clone
-    converted = converted_hash.clone
+  def compare_arrays(dif_hash, original, converted)
     paths = get_list_paths(dif_hash, original, converted)
 
     paths.each do |path|
       org_array = hash_navigation(path, original)
-      org_arr = org_array.clone
       conv_array = hash_navigation(path, converted)
-      conv_arr = conv_array.clone
 
-      org_arr = Array.wrap(org_arr) unless org_arr.is_a?(Array)
+      org_array.is_a?(Array) ? org_arr = Array.wrap(org_array) : org_arr = org_array.clone
       org_array = Array.wrap(org_array) unless org_array.is_a?(Array)
-      conv_arr = Array.wrap(conv_arr) unless conv_arr.is_a?(Array)
+      conv_array.is_a?(Array) ? conv_arr = Array.wrap(conv_array) : conv_arr = conv_array.clone
       conv_array = Array.wrap(conv_array) unless conv_array.is_a?(Array)
 
       for conv_item in conv_array
         for org_item in org_array
           if org_item.eql? conv_item
             org_arr.delete(org_item)
-            break
-          end
-        end
-      end
-
-      for org_item in org_array
-        for conv_item in conv_array
-          if org_item.eql? conv_item
             conv_arr.delete(conv_item)
             break
           end
@@ -144,7 +135,7 @@ namespace :collection do
 
       conv_arr.each do |item|
         path_with_index = path + "[#{conv_array.index(item)}]"
-        puts "+: " + path_with_index #THIS INDEX DOESN'T MAKE SENSE
+        puts "+: " + path_with_index
       end
     end
   end
@@ -175,8 +166,7 @@ namespace :collection do
       return missing
     else
       org.each do |org_key,org_value|
-        conv_value = conv[org_key]
-        if conv.key? org_key
+        if (conv_value = conv[org_key])
           if conv_value.eql? org_value
             next
           elsif org_value.is_a?(Hash) && conv_value.is_a?(Hash)
@@ -204,8 +194,7 @@ namespace :collection do
     iterable = hash_or_arr.clone
     dir = String.new
     if iterable.is_a? Hash
-      unless iterable.key(value).nil?
-        matching_key = iterable.key(value)
+      if (matching_key = iterable.key(value))
         dir += '/' + matching_key
         iterable.delete(matching_key)
         return dir
