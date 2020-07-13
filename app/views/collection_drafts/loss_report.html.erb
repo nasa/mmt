@@ -1,21 +1,32 @@
 <table id="search-results">
   <thead>
     <tr>
-      <th class="w40"><%= 'Alteration' %></th>
-      <th class="w40"><%= 'Path' %></th>
+      <th class="w10"><%= 'Alteration' %></th>
+      <th class="w70"><%= 'Path' %></th>
     </tr>
   </thead>
   <tbody>
-    <% orig,conv = prepare_collections('C1200000085-NSIDC_ECS', 'echo10', '1.15.3') %>
+    <% orig,conv,orig_h,conv_h = prepare_collections('C1200000085-NSIDC_ECS', 'echo10', '1.15.3') %>
     <% orig = Nokogiri::XML(orig) { |config| config.strict.noblanks } %>
     <% conv = Nokogiri::XML(conv) { |config| config.strict.noblanks } %>
     <% orig.diff(conv, {:added => true, :removed => true}) do |change,node| %>
+    <% next if path_leads_to_list?(node.parent.path, orig_h, conv_h) %>
       <tr class='<%= cycle("alt", "") %>'>
         <td>
           <%= change %>
         </td>
         <td>
           <%= node.parent.path %>
+        </td>
+      </tr>
+    <% end %>
+    <% compare_arrays(orig_h, conv_h).each do |item| %>
+      <tr class='<%= cycle("alt", "") %>'>
+        <td>
+          <%= item[0] %>
+        </td>
+        <td>
+          <%= item[1] %>
         </td>
       </tr>
     <% end %>

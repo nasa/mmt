@@ -7,7 +7,7 @@ module LossReportHelper
     translated_collection_umm = cmr_client.translate_collection(original_collection_xml.body, "application/#{format}+xml", "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", skip_validation=true)
     translated_collection_xml = cmr_client.translate_collection(translated_collection_umm.body.to_json, "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", "application/#{format}+xml",  skip_validation=true)
     translated_collection_hash = Hash.from_xml(translated_collection_xml.body)
-    return original_collection_xml.body, translated_collection_xml.body 
+    return original_collection_xml.body, translated_collection_xml.body, original_collection_hash, translated_collection_hash
   end
 
   def path_leads_to_list?(path, org_hash, conv_hash)
@@ -73,11 +73,13 @@ module LossReportHelper
     paths
   end
 
-  def compare_arrays(diff_hash, original_hash, converted_hash)
-    dif_hash = diff_hash.clone
+  def compare_arrays(original_hash, converted_hash, dh=false)
+    dh ? dif_hash = dh.clone : dif_hash = find_difference_bt_hashes(original_hash, converted_hash).clone
     original = original_hash.clone
     converted = converted_hash.clone
     paths = get_list_paths(dif_hash, original, converted)
+
+    output = Array.new
 
     paths.each do |path|
       org_array = hash_navigation(path, original)
@@ -111,13 +113,18 @@ module LossReportHelper
       org_arr.each do |item|
         path_with_index = path + "[#{org_array.index(item)}]"
         puts "-: ".ljust(60) + path_with_index
+        loss_item = ['-', path_with_index]
+        output << loss_item
       end
 
       conv_arr.each do |item|
         path_with_index = path + "[#{conv_array.index(item)}]"
         puts "+: ".ljust(60) + path_with_index #THIS INDEX DOESN'T MAKE SENSE
+        loss_item = ['+', path_with_index]
+        output << loss_item
       end
     end
+    output
   end
 
   def find_difference_bt_hash_arrays(org_arr, conv_arr)
