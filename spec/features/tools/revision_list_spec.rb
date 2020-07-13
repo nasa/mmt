@@ -1,7 +1,11 @@
 describe 'Tool revision list', reset_provider: true, js: true do
   context 'when viewing a published tool' do
     before :all do
-      @ingest_response, @concept_response, @native_id = publish_tool_draft(revision_count: 2)
+      # CMR does not return revisions sorted by revision_id. It sorts
+      # by name first (and maybe other things). If the sort_key is working
+      # correctly, the last revision (c_test_01), should be visible on the page
+      _ingest_response, _concept_response, @native_id = publish_tool_draft(revision_count: 10, name: 'b_test_01')
+      @ingest_response, @concept_response, _native_id = publish_tool_draft(native_id: @native_id, name: 'c_test_01')
     end
 
     # TODO: remove after CMR-6332
@@ -18,7 +22,7 @@ describe 'Tool revision list', reset_provider: true, js: true do
     end
 
     it 'displays the number of revisions' do
-      expect(page).to have_content('Revisions (2)')
+      expect(page).to have_content('Revisions (10)')
     end
 
     context 'when clicking on the revision link' do
@@ -36,11 +40,15 @@ describe 'Tool revision list', reset_provider: true, js: true do
       end
 
       it 'displays when the revision was made' do
-        expect(page).to have_content(today_string, count: 2)
+        expect(page).to have_content(today_string, count: 10)
       end
 
       it 'displays what user made the revision' do
-        expect(page).to have_content('typical', count: 2)
+        expect(page).to have_content('typical', count: 10)
+      end
+
+      it 'displays the most recent revisions' do
+        expect(page).to have_content('11 - Published')
       end
 
 #      TODO: Uncomment in MMT-2233
