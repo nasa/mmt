@@ -9,12 +9,10 @@ describe 'Tools permissions', reset_provider: true, js: true do
     context "when the tool's provider is in the users available providers" do
       before :all do
         @ingested_tool, _concept_response, @native_id_1 = publish_tool_draft
-        @ingested_tool_for_delete_modal, _concept_response, _native_id_2 = publish_tool_draft
       end
 
       after :all do
         delete_response = cmr_client.delete_tool('MMT_2', @native_id_1, 'token')
-        # Second tool should be deleted in the delete test
 
         raise unless delete_response.success?
       end
@@ -86,6 +84,7 @@ describe 'Tools permissions', reset_provider: true, js: true do
 
       context 'when clicking the delete link' do
         before do
+          @ingested_tool_for_delete_modal, _concept_response, @native_id_2 = publish_tool_draft
           login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
           visit tool_path(@ingested_tool_for_delete_modal['concept-id'])
 
@@ -102,8 +101,11 @@ describe 'Tools permissions', reset_provider: true, js: true do
             wait_for_jQuery
           end
 
-          it 'switches the provider context and deletes the record' do
+          it 'switches the provider context' do
             expect(User.first.provider_id).to eq('MMT_2')
+          end
+
+          it 'deletes the record' do
             expect(page).to have_content('Tool Deleted Successfully!')
           end
         end
