@@ -5,8 +5,8 @@ describe 'Service revision list', reset_provider: true, js: true do
       # by name first (and maybe other things). If the sort_key is working
       # correctly, the last revision (c_test_01), should be visible on the page
       native_id = 'service_revision_native_id'
-      _ingest_response, _concept_response, @native_id = publish_service_draft(native_id: native_id, revision_count: 10, name: 'b_test_01')
-      @ingest_response, @concept_response, _native_id = publish_service_draft(native_id: native_id, name: 'c_test_01')
+      _ingest_response, _concept_response = publish_service_draft(native_id: native_id, revision_count: 10, name: 'b_test_01')
+      @ingest_response, @concept_response = publish_service_draft(native_id: native_id, name: 'c_test_01')
     end
 
     before do
