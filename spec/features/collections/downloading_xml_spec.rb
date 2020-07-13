@@ -26,16 +26,17 @@ describe 'Downloading Collection XML', js: true do
         before do
           @file = "#{Rails.root}/#{@concept_id}.echo10"
           click_on 'ECHO 10'
+
+          # Seems to need a brief (>0.01) pause to actually find the file.
+          sleep(0.1)
         end
 
         after do
-          # Seems to need a brief (>0.01) pause to actually find the file.
-          sleep(0.1)
           FileUtils.rm @file if File.exist?(@file)
         end
 
         it 'downloads the file' do
-          expect(File.exist?(@file))
+          expect(File.exist?(@file)).to eq(true)
         end
       end
     end
@@ -45,7 +46,7 @@ describe 'Downloading Collection XML', js: true do
     before do
       login
       visit manage_collections_path
-      
+
       short_name = 'SPL4SMAU'
       fill_in 'keyword', with: short_name
       click_on 'Search Collections'
@@ -76,16 +77,17 @@ describe 'Downloading Collection XML', js: true do
         before do
           @file = "#{Rails.root}/#{@concept_id}.iso-smap"
           click_on 'ISO 19115 (SMAP) (Native)'
+
+          # Seems to need a brief (>0.01) pause to actually find the file.
+          sleep(0.1)
         end
 
         after do
-          # Seems to need a brief (>0.01) pause to actually find the file.
-          sleep(0.1)
           FileUtils.rm @file if File.exist?(@file)
         end
 
         it 'downloads the file' do
-          expect(File.exist?(@file))
+          expect(File.exist?(@file)).to eq(true)
         end
       end
     end
