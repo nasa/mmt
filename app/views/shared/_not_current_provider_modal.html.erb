@@ -34,7 +34,7 @@
     <% elsif options[:tool] %>
       <%= link_to 'Yes', edit_tool_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-tool-link' %>
       <%= link_to 'Yes', clone_tool_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-tool-link' %>
-      <%#= link_to 'Yes', tool_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-tool-link' %>
+      <%= link_to 'Yes', tool_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-tool-link' %>
     <% end %>
 
     <% if options[:draft] %>

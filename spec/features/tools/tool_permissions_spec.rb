@@ -84,9 +84,7 @@ describe 'Tools permissions', reset_provider: true, js: true do
         end
       end
 
-# TODO: Uncomment in MMT-2229
       context 'when clicking the delete link' do
-        
         before do
           login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
           visit tool_path(@ingested_tool_for_delete_modal['concept-id'])
@@ -104,33 +102,11 @@ describe 'Tools permissions', reset_provider: true, js: true do
             wait_for_jQuery
           end
 
-          it 'switches the provider context' do
+          it 'switches the provider context and deletes the record' do
             expect(User.first.provider_id).to eq('MMT_2')
-          end
-  
-          it 'deletes the record' do
             expect(page).to have_content('Tool Deleted Successfully!')
           end
         end
-
-        #context 'when deleting the tool' do
-        #  before do
-        #    visit tool_path(@ingested_tool_for_delete_modal['concept-id'])
-
-        #    click_on 'Delete Tool Record'
-
-        #    find('.not-current-provider-link').click
-        #    wait_for_jQuery
-        #  end
-
-        #  it 'switches the provider context' do
-        #    expect(User.first.provider_id).to eq('MMT_2')
-        #  end
-
-        #  it 'deletes the record' do
-        #    expect(page).to have_content('Tool Deleted Successfully!')
-        #  end
-        #end
       end
 
       context 'when trying to visit the action paths directly' do
