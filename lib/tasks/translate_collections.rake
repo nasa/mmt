@@ -6,7 +6,7 @@ namespace :collection do
     args.with_defaults(:version => '1.15.3')
     args.with_defaults(:disp => 'show')
 
-    puts 'FORMAT INVALID' unless args.format == ('echo10' || 'dif10' || 'iso19115')
+    puts 'FORMAT INVALID' unless args.format.eql? ('echo10' || 'dif10' || 'iso19115')
 
     filename = args.file.split('/')[-1]
     puts "\nTranslating #{filename} to UMM JSON..."
@@ -15,25 +15,25 @@ namespace :collection do
     native_original_hash = Hash.from_xml(native_original_xml)
 
     #translate to UMM
-    umm = cmr_client.translate_collection(native_original_xml, "application/#{args.format}+xml", "application/vnd.nasa.cmr.umm+json;version=#{args.version}", skip_validation=true )
-    umm_json = umm.body.to_json
-    umm.success? ? puts("\nsuccessful translation to UMM") : puts("\nUMM translation failure")
+    umm_response = cmr_client.translate_collection(native_original_xml, "application/#{args.format}+xml", "application/vnd.nasa.cmr.umm+json;version=#{args.version}", skip_validation=true )
+    umm_json = umm_response.body.to_json
+    umm_response.success? ? puts("\nsuccessful translation to UMM") : abort("\nUMM translation failure")
 
     # translate back to native
     back_to_native = cmr_client.translate_collection(umm_json, "application/vnd.nasa.cmr.umm+json;version=#{args.version}", "application/#{args.format}+xml", skip_validation=true )
     native_converted_hash = Hash.from_xml(back_to_native.body)
     native_converted_xml = back_to_native.body
-    back_to_native.success? ? puts("successful translation to native format \n\n") : puts("Native format translation failure \n\n")
+    back_to_native.success? ? puts("successful translation to native format \n\n") : abort("Native format translation failure \n\n")
 
     # nokogiri output
-    o = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks }
-    c = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks }
-    # puts args.display, args.display.class
-      o.diff(c, {:added => true, :removed => true}) do |change,node|
-        next if path_leads_to_list?(node.parent.path, native_original_hash, native_converted_hash)
-          puts("#{change}: #{node.to_xml}".ljust(60) + node.parent.path) if args.disp.eql? 'show'
-          puts("#{change}: ". + node.parent.path) if args.disp.eql? 'hide'
-      end
+    nokogiri_original = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks }
+    nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks }
+
+    nokogiri_original.diff(nokogiri_converted, {:added => true, :removed => true}) do |change,node|
+      next if path_leads_to_list?(node.parent.path, native_original_hash, native_converted_hash)
+        puts("#{change}: #{node.to_xml}".ljust(60) + node.parent.path) if args.disp.eql? 'show'
+        puts("#{change}: ". + node.parent.path) if args.disp.eql? 'hide'
+    end
 
     # find differences
     dif_hash = find_difference_bt_hashes(native_original_hash, native_converted_hash)
@@ -45,9 +45,7 @@ namespace :collection do
     org_hash_path = hash_navigation(path, org_hash)
     conv_hash_path = hash_navigation(path, conv_hash)
 
-    if org_hash_path == 'flag' || conv_hash_path == 'flag'
-      return false
-    end
+    return false if org_hash_path == false || conv_hash_path == false
 
     if path.include?("[") && path.include?("]")
       bool = true
@@ -69,7 +67,7 @@ namespace :collection do
         if !key.empty? && hash.is_a?(Hash)
           hash = hash[key]
         elsif hash.is_a? Array
-          return 'flag'
+          return false
         end
       end
     else

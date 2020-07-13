@@ -7,6 +7,9 @@
 # Ignore bundler config.
 /.bundle
 
+# Ignore package-lock.json
+package-lock.json
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
