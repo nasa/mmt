@@ -10,18 +10,19 @@
 
 <!-- Scripts that should be loaded in the footer to allow for faster page loads -->
 <% unless Rails.env.test? %>
-<script id="feedback-tag" src="https://fbm.earthdata.nasa.gov/for/MMT/feedback.js"></script>
-<script type="text/javascript">
-  (function() {
-    var initFeedback = function() {
-      window.feedback.init({showIcon: false});
-    }
-    if (window.feedback) {
-      initFeedback();
-    }
-    else {
-      document.getElementById('feedback-tag').onload = initFeedback;
-    }
-  })();
-</script>
+  <% byebug %>
+  <script id="feedback-tag" src="https://fbm.earthdata.nasa.gov/for/<%= Rails.configuration.proposal_mode ? 'Draft%20MMT' : 'MMT' %>/feedback.js"></script>
+  <script type="text/javascript">
+    (function() {
+      var initFeedback = function() {
+        window.feedback.init({showIcon: false});
+      }
+      if (window.feedback) {
+        initFeedback();
+      }
+      else {
+        document.getElementById('feedback-tag').onload = initFeedback;
+      }
+    })();
+  </script>
 <% end %>
