@@ -176,7 +176,7 @@ describe 'Tools permissions', reset_provider: true, js: true do
 
     context 'when the tools provider is not in the users available providers' do
       before do
-        @ingested_not_available_provider_tool, _concept_response, @native_id_3 = publish_tool_draft(provider_id: 'SEDAC')
+        @ingested_not_available_provider_tool, _concept_response = publish_tool_draft(provider_id: 'SEDAC')
 
         visit tool_path(@ingested_not_available_provider_tool['concept-id'])
       end
