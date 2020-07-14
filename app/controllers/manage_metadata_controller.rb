@@ -110,7 +110,7 @@ class ManageMetadataController < ApplicationController
     # if the variable is not found, try again because CMR might be a little slow to index if it is a newly published record
     attempts = 0
     while attempts < 20
-      variables_search_response = cmr_client.get_variables(concept_id: @concept_id, all_revisions: true)
+      variables_search_response = cmr_client.get_variables(concept_id: @concept_id, all_revisions: true, sort_key: '-revision_date')
 
       variable_data = if variables_search_response.success?
                         variables_search_response.body.fetch('items', [])
@@ -163,7 +163,7 @@ class ManageMetadataController < ApplicationController
     # if the service is not found, try again because CMR might be a little slow to index if it is a newly published record
     attempts = 0
     while attempts < 20
-      services_search_response = cmr_client.get_services(concept_id: @concept_id, all_revisions: true)
+      services_search_response = cmr_client.get_services(concept_id: @concept_id, all_revisions: true, sort_key: '-revision_date')
 
       service_data = if services_search_response.success?
                        services_search_response.body.fetch('items', [])
@@ -218,7 +218,7 @@ class ManageMetadataController < ApplicationController
     # if the tool is not found, try again because CMR might be a little slow to index if it is a newly published record
     attempts = 0
     while attempts < 20
-      tools_search_response = cmr_client.get_tools(concept_id: @concept_id, all_revisions: true)
+      tools_search_response = cmr_client.get_tools(concept_id: @concept_id, all_revisions: true, sort_key: '-revision_date')
 
       tool_data = if tools_search_response.success?
                     tools_search_response.body.fetch('items', [])
