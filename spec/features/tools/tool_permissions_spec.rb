@@ -181,13 +181,6 @@ describe 'Tools permissions', reset_provider: true, js: true do
         visit tool_path(@ingested_not_available_provider_tool['concept-id'])
       end
 
-      # Remove this section after CMR-6332 is resolved
-      after do
-        delete_response = cmr_client.delete_tool('SEDAC', @native_id_3, 'token')
-
-        raise unless delete_response.success?
-      end
-
       it 'does not display the action links' do
         expect(page).to have_no_link('Edit Tool Record')
         expect(page).to have_no_link('Clone Tool Record')
