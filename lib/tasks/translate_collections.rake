@@ -6,7 +6,7 @@ namespace :collection do
     args.with_defaults(:version => '1.15.3')
     args.with_defaults(:disp => 'show')
 
-    puts 'FORMAT INVALID' unless args.format.eql? ('echo10' || 'dif10' || 'iso19115')
+    abort 'FORMAT INVALID' unless args.format.eql? ('echo10' || 'dif10' || 'iso19115')
 
     filename = args.file.split('/')[-1]
     puts "\nTranslating #{filename} to UMM JSON..."
@@ -42,6 +42,7 @@ namespace :collection do
   end
 
   def path_leads_to_list?(path, org_hash, conv_hash)
+    # this method takes a path string (and the full original and converted hashes) and outputs true if the path string contains a list; else false
     org_hash_path = hash_navigation(path, org_hash)
     conv_hash_path = hash_navigation(path, conv_hash)
 
@@ -61,6 +62,8 @@ namespace :collection do
   end
 
   def hash_navigation(dir, hash)
+    # Passed a path string and the hash being navigated. This method parses the path string and
+    # returns the hash at the end of the path
     dir = dir.split("/")
     if dir.is_a? Array
       dir.each do |key|
@@ -77,6 +80,8 @@ namespace :collection do
   end
 
   def get_list_paths(dif_hash, original, converted)
+    # arguments: differences hash, the original hash, and converted hash
+    # Using these 3 hashses, all paths that lead to a list are returned as an array of path strings
     values_list = hash_to_list_of_values(dif_hash)
     paths = Array.new
 
@@ -107,6 +112,10 @@ namespace :collection do
   end
 
   def compare_arrays(dif_hash, original, converted)
+    # arguments: differences hash, the original hash, and converted hash
+    # each path that leads to an array is used to navigate to that array and
+    # subsequently compare the arrays in the original and converted hashes.
+    # there is no usable ouput; there is printing to the terminal
     paths = get_list_paths(dif_hash, original, converted)
 
     paths.each do |path|
@@ -141,6 +150,8 @@ namespace :collection do
   end
 
   def find_difference_bt_hash_arrays(org_arr, conv_arr)
+    # array inputs; the output is an array that contains the items in the original array
+    # that were not found in the converted array
     org = org_arr.clone
     conv = conv_arr.clone
     missing = Array.new
@@ -161,6 +172,9 @@ namespace :collection do
   end
 
   def find_difference_bt_hashes(org, conv)
+    # input is the original hash and the converted hash; the output is the
+    # 'differences hash' which represents the items in the original hash that were
+    # not found in the converted hash
     missing = Hash.new
     if org.eql? conv
       return missing
@@ -191,6 +205,8 @@ namespace :collection do
   end
 
   def get_dir(value, hash_or_arr)
+    # passing the sought-after value and the hash or array being parsed
+    # output: a single string representing the path to the value arg passed to this method
     iterable = hash_or_arr.clone
     dir = String.new
     if iterable.is_a? Hash
@@ -221,7 +237,6 @@ namespace :collection do
           dir += get_dir(value,item)
           return dir
         elsif item.is_a?(Array) && array_to_list_of_values(item).include?(value)
-          puts "\n\n\n\n\n\n\n\n USED THIS SECTION \n\n\n\n\n\n\n\n\n\n\n\n"
           dir += get_dir(value,item) + "[]"
           return dir
         end
@@ -231,6 +246,7 @@ namespace :collection do
   end
 
   def hash_to_list_of_values(hash)
+    # converts a highly nested hash to a list of all its values
     list = Array.new
     for val in hash.values
       if val.is_a? Hash
@@ -245,6 +261,7 @@ namespace :collection do
   end
 
   def array_to_list_of_values(array)
+    #converts a highly nested array to a list of all its values
     ls = Array.new
     for item in array
       if item.is_a? Hash
