@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Delete tool', reset_provider: true, js: true do
   before :all do
     @ingested_tool, _concept_response, _native_id_1 = publish_tool_draft
@@ -7,6 +5,7 @@ describe 'Delete tool', reset_provider: true, js: true do
     @ingested_tool_for_delete_messages, _concept_response, @native_id_2 = publish_tool_draft
   end
 
+  # Remove this section after CMR-6332 is resolved
   after :all do
     delete_response = cmr_client.delete_tool('MMT_2', @native_id_2, 'token')
     # First tool should be deleted in the delete test

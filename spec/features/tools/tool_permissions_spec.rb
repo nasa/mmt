@@ -93,6 +93,10 @@ describe 'Tools permissions', reset_provider: true, js: true do
 
         it 'displays a modal informing the user they need to switch providers' do
           expect(page).to have_content("Deleting this tool #{modal_text}")
+
+          # Remove this section after CMR-6332 is resolved
+          delete_response = cmr_client.delete_tool('MMT_2', @native_id_2, 'token')
+          raise unless delete_response.success?
         end
 
         context 'when clicking Yes' do
@@ -172,16 +176,22 @@ describe 'Tools permissions', reset_provider: true, js: true do
 
     context 'when the tools provider is not in the users available providers' do
       before do
-        @ingested_not_available_provider_tool, _concept_response = publish_tool_draft(provider_id: 'SEDAC')
+        @ingested_not_available_provider_tool, _concept_response, @native_id_3 = publish_tool_draft(provider_id: 'SEDAC')
 
         visit tool_path(@ingested_not_available_provider_tool['concept-id'])
+      end
+
+      # Remove this section after CMR-6332 is resolved
+      after do
+        delete_response = cmr_client.delete_tool('SEDAC', @native_id_3, 'token')
+
+        raise unless delete_response.success?
       end
 
       it 'does not display the action links' do
         expect(page).to have_no_link('Edit Tool Record')
         expect(page).to have_no_link('Clone Tool Record')
-#       TODO: Uncomment in MMT-2229
-#        expect(page).to have_no_link('Delete Tool Record')
+        expect(page).to have_no_link('Delete Tool Record')
       end
 
       context 'when trying to visit the action paths directly' do
