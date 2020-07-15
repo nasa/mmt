@@ -10,7 +10,6 @@
 
 <!-- Scripts that should be loaded in the footer to allow for faster page loads -->
 <% unless Rails.env.test? %>
-  <% byebug %>
   <script id="feedback-tag" src="https://fbm.earthdata.nasa.gov/for/<%= Rails.configuration.proposal_mode ? 'Draft%20MMT' : 'MMT' %>/feedback.js"></script>
   <script type="text/javascript">
     (function() {
