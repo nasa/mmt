@@ -60,3 +60,4 @@ nohup.out
 
 #ignore package
 package-lock.json
+package.json

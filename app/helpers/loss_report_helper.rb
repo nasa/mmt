@@ -3,10 +3,15 @@ module LossReportHelper
   def prepare_collections(concept_id, format, umm_c_version)
     # TODO: need to add exception handling for get_concept, translate_collection
     original_collection_native_xml = cmr_client.get_concept(concept_id,token, {})
+    # concept ID and format can be scalped from headers etc
     original_collection_native_hash = Hash.from_xml(original_collection_native_xml.body)
     translated_collection_umm_json = cmr_client.translate_collection(original_collection_native_xml.body, "application/#{format}+xml", "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", skip_validation=true)
     translated_collection_native_xml = cmr_client.translate_collection(translated_collection_umm_json.body.to_json, "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", "application/#{format}+xml",  skip_validation=true)
     translated_collection_native_hash = Hash.from_xml(translated_collection_native_xml.body)
+    # File.write('/Users/ctrummer/Documents/devtesting/o_'+concept_id+'.json', JSON.pretty_generate(original_collection_native_hash))
+    # File.write('/Users/ctrummer/Documents/devtesting/c_'+concept_id+'.json', JSON.pretty_generate(translated_collection_native_hash))
+    # File.write('/Users/ctrummer/Documents/devtesting/o_'+concept_id+'.xml', original_collection_native_xml.body)
+    # File.write('/Users/ctrummer/Documents/devtesting/c_'+concept_id+'.xml', translated_collection_native_xml.body)
     return original_collection_native_xml.body, translated_collection_native_xml.body, original_collection_native_hash, translated_collection_native_hash
   end
 
@@ -15,13 +20,11 @@ module LossReportHelper
     org_hash_path = hash_navigation(path, org_hash)
     conv_hash_path = hash_navigation(path, conv_hash)
 
-    return false if org_hash_path == false || conv_hash_path == false
-
     if path.include?("[") && path.include?("]")
       bool = true
     elsif org_hash_path.is_a?(Hash) && conv_hash_path.is_a?(Hash)
-      org_hash_path.keys.each { |key| bool = true; break if org_hash_path[key].is_a?(Array) }
-      conv_hash_path.keys.each { |key| bool = true; break if conv_hash_path[key].is_a?(Array) }
+      bool = true if org_hash_path.keys.length == 1 && org_hash_path[org_hash_path.keys[0]].is_a?(Array)
+      bool = true if conv_hash_path.keys.length == 1 && conv_hash_path[conv_hash_path.keys[0]].is_a?(Array)
     elsif org_hash_path.is_a?(Array) || conv_hash_path.is_a?(Array)
       bool = true
     else
@@ -33,13 +36,13 @@ module LossReportHelper
   def hash_navigation(dir, hash)
     # Passed a path string and the hash being navigated. This method parses the path string and
     # returns the hash at the end of the path
-    dir = dir.split("/")
+    dir = dir.split '/'
     if dir.is_a? Array
       dir.each do |key|
         if !key.empty? && hash.is_a?(Hash)
           hash = hash[key]
         elsif hash.is_a? Array
-          return false
+          return hash
         end
       end
     else
@@ -80,6 +83,44 @@ module LossReportHelper
     paths
   end
 
+  def array_comparison(path, original_hash, converted_hash)
+    # this is a 'less iterative' version of compare_arrays. Args: a single path, the original hash, and the converted hash.
+    # Rather than finding all the array paths and using those to find the array differences, the array paths are individually
+    # supplied by the nokogiri gem; this reduces redundancy
+    org_array = hash_navigation(path, original_hash)
+    conv_array = hash_navigation(path, converted_hash)
+
+    org_array.is_a?(Array) ? org_arr = org_array.clone : org_arr = Array.wrap(org_array)
+    org_array = Array.wrap(org_array) unless org_array.is_a?(Array)
+    conv_array.is_a?(Array) ? conv_arr = conv_array.clone : conv_arr = Array.wrap(conv_array)
+    conv_array = Array.wrap(conv_array) unless conv_array.is_a?(Array)
+
+    for conv_item in conv_array
+      for org_item in org_array
+        if org_item.eql? conv_item
+          org_arr.delete(org_item)
+          conv_arr.delete(conv_item)
+          break
+        end
+      end
+    end
+
+    output = Array.new
+    org_arr.each do |item|
+      path_with_index = path + "[#{org_array.index(item)}]"
+      loss_item = ['-', item, path_with_index]
+      output << loss_item
+    end
+
+
+    conv_arr.each do |item|
+      path_with_index = path + "[#{conv_array.index(item)}]"
+      loss_item = ['+', item, path_with_index]
+      output << loss_item
+    end
+    output
+  end
+
   def compare_arrays(original_hash, converted_hash, dh=false)
     # arguments: differences hash, the original hash, and converted hash
     # each path that leads to an array is used to navigate to that array and
@@ -94,12 +135,12 @@ module LossReportHelper
     output = Array.new
 
     paths.each do |path|
-      org_array = hash_navigation(path, original)
-      conv_array = hash_navigation(path, converted)
+      org_array = hash_navigation(path, original_hash)
+      conv_array = hash_navigation(path, converted_hash)
 
-      org_array.is_a?(Array) ? org_arr = Array.wrap(org_array) : org_arr = org_array.clone
+      org_array.is_a?(Array) ? org_arr = org_array.clone : org_arr = Array.wrap(org_array)
       org_array = Array.wrap(org_array) unless org_array.is_a?(Array)
-      conv_array.is_a?(Array) ? conv_arr = Array.wrap(conv_array) : conv_arr = conv_array.clone
+      conv_array.is_a?(Array) ? conv_arr = conv_array.clone : conv_arr = Array.wrap(conv_array)
       conv_array = Array.wrap(conv_array) unless conv_array.is_a?(Array)
 
       for conv_item in conv_array
@@ -121,7 +162,7 @@ module LossReportHelper
 
       conv_arr.each do |item|
         path_with_index = path + "[#{conv_array.index(item)}]"
-        puts "+: ".ljust(60) + path_with_index #THIS INDEX DOESN'T MAKE SENSE
+        puts "+: ".ljust(60) + path_with_index
         loss_item = ['+', path_with_index]
         output << loss_item
       end
