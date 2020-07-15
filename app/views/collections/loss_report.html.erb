@@ -11,19 +11,6 @@
     <% orig = Nokogiri::XML(orig) { |config| config.strict.noblanks } %>
     <% conv = Nokogiri::XML(conv) { |config| config.strict.noblanks } %>
     <% ignored_paths = Array.new %>
-    <!-- SPACER -------------------------------------------- -->
-    <tr class='<%= cycle("alt", "") %>'>
-      <td>
-        <%= 'NOKOGIRI + FAST COMPARISON   ' %>
-      </td>
-      <td>
-        <%= '   ' %>
-      </td>
-      <td>
-        <%= '   ' %>
-      </td>
-    </tr>
-    <!-- SPACER -------------------------------------------- -->
     <% counter = 0 %>
     <% orig.diff(conv, {:added => true, :removed => true}) do |change,node| %>
       <% if node.parent.path.include?('[') && !ignored_paths.include?(node.parent.path.split('[')[0]) %>
@@ -58,80 +45,6 @@
         </tr>
         <% counter += 1%>
       <% end %>
-    <% end %>
-    <!-- SPACER -------------------------------------------- -->
-    <tr class='<%= cycle("alt", "") %>'>
-      <td>
-        <%= 'NOKOGIRI + EXPENSIVE COMPARISON   ' %>
-      </td>
-      <td>
-        <%= '   ' %>
-      </td>
-      <td>
-        <%= '   ' %>
-      </td>
-    </tr>
-    <!-- SPACER -------------------------------------------- -->
-    <% counter = 0 %>
-    <% orig.diff(conv, {:added => true, :removed => true}) do |change,node| %>
-    <% next if path_leads_to_list?(node.parent.path, orig_h, conv_h) %>
-      <tr class='<%= cycle("alt", "") %>'>
-        <td>
-          <%= change %>
-        </td>
-        <td>
-          <%= counter %>
-          <%= node %>
-        </td>
-        <td>
-          <%= node.parent.path %>
-        </td>
-      </tr>
-      <% counter += 1%>
-    <% end %>
-    <% compare_arrays(orig_h, conv_h).each do |item| %>
-      <tr class='<%= cycle("alt", "") %>'>
-        <td>
-          <%= item[0] %>
-        </td>
-        <td>
-          <%= counter %>
-        </td>
-        <td>
-          <%= item[1] %>
-        </td>
-      </tr>
-      <% counter += 1%>
-    <% end %>
-    <!-- SPACER -------------------------------------------- -->
-    <tr class='<%= cycle("alt", "") %>'>
-      <td>
-        <%= 'ONLY NOKOGIRI ' %>
-      </td>
-      <td>
-        <%= '   ' %>
-      </td>
-      <td>
-        <%= '   ' %>
-      </td>
-    </tr>
-    <!-- SPACER -------------------------------------------- -->
-    <% counter = 0 %>
-    <% orig.diff(conv, {:added => true, :removed => true}) do |change,node| %>
-    <% next if path_leads_to_list?(node.parent.path, orig_h, conv_h) %>
-      <tr class='<%= cycle("alt", "") %>'>
-        <td>
-          <%= change %>
-        </td>
-        <td>
-          <%= counter %>
-          <%= node.to_html %>
-        </td>
-        <td>
-          <%= node.parent.path %>
-        </td>
-      </tr>
-      <% counter += 1%>
     <% end %>
   </tbody>
 </table>

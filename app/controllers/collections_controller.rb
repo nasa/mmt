@@ -119,6 +119,9 @@ class CollectionsController < ManageCollectionsController
     # When a user wants to use MMT to edit metadata that currently exists in a non-UMM form,
     # it's important that they're able to see if any data loss occurs in the translation to umm.
     # This method is needed to reference the appropriate helper and view for the lossiness report
+    concept_id = params[:id]
+    collection_response = cmr_client.get_concept(concept_id, token, {})
+    render txt: collection_response.body
   end
 
   private
