@@ -32,13 +32,14 @@ namespace :collection do
     ignored_paths = Array.new
 
     nokogiri_original.diff(nokogiri_converted, {:added => true, :removed => true}) do |change,node|
-      if node.parent.path.include?('[') && !ignored_paths.include?(node.parent.path.split('[')[0])
-        ignored_paths << node.parent.path.split('[')[0]
-        array_comparison(node.parent.path.split('[')[0], native_original_hash, native_converted_hash).each do |item|
+      split_path = node.parent.path.split('[')
+      if node.parent.path.include?('[') && !ignored_paths.include?(split_path[0])
+        ignored_paths << split_path[0]
+        array_comparison(split_path[0], native_original_hash, native_converted_hash).each do |item|
           puts("#{item[0]}: #{item[1]}".ljust(60) + item[2]) if args.disp.eql? 'show'
           puts("#{item[0]}: ". + item[2]) if args.disp.eql? 'hide'
         end
-      elsif !ignored_paths.include?(node.parent.path.split('[')[0]) && !path_leads_to_list?(node.parent.path, native_original_hash, native_converted_hash)
+      elsif !ignored_paths.include?(split_path[0]) && !path_leads_to_list?(node.parent.path, native_original_hash, native_converted_hash)
         puts("#{change}: #{node.to_xml}".ljust(60) + node.parent.path) if args.disp.eql? 'show'
         puts("#{change}: ". + node.parent.path) if args.disp.eql? 'hide'
       end
@@ -82,9 +83,7 @@ namespace :collection do
   end
 
   def array_comparison(path, original_hash, converted_hash)
-    # this is a 'less iterative' version of compare_arrays. Args: a single path, the original hash, and the converted hash.
-    # Rather than finding all the array paths and using those to find the array differences, the array paths are individually
-    # supplied by the nokogiri gem; this reduces redundancy
+
     org_array = hash_navigation(path, original_hash)
     conv_array = hash_navigation(path, converted_hash)
 
@@ -92,6 +91,10 @@ namespace :collection do
     org_array = Array.wrap(org_array) unless org_array.is_a?(Array)
     conv_array.is_a?(Array) ? conv_arr = conv_array.clone : conv_arr = Array.wrap(conv_array)
     conv_array = Array.wrap(conv_array) unless conv_array.is_a?(Array)
+
+    # org_arr and conv_arr are copies of org_array and conv_array, respectively.
+    # The *_arr values are edited during the comparison between the org_array and conv_array arrays
+    # and so the *_array arrays are used to maintained a full version of each array for indexing the items in the following lines.
 
     for conv_item in conv_array
       for org_item in org_array
