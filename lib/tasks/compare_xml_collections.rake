@@ -54,6 +54,9 @@ namespace :collection do
     if path.include?("[") && path.include?("]")
       bool = true
     elsif org_hash_path.is_a?(Hash) && conv_hash_path.is_a?(Hash)
+      # the number of keys must be 1 because all arrays in echo10, dif10, and iso19115 are tagged similar to:
+      # <Contacts><Contact>contact</Contact></Contacts> and so all array-containing tags will be the plural
+      # of the array name.
       bool = true if org_hash_path.keys.length == 1 && org_hash_path[org_hash_path.keys[0]].is_a?(Array)
       bool = true if conv_hash_path.keys.length == 1 && conv_hash_path[conv_hash_path.keys[0]].is_a?(Array)
     elsif org_hash_path.is_a?(Array) || conv_hash_path.is_a?(Array)
@@ -68,16 +71,12 @@ namespace :collection do
     # Passed a path string and the hash being navigated. This method parses the path string and
     # returns the hash at the end of the path
     dir = dir.split '/'
-    if dir.is_a? Array
-      dir.each do |key|
-        if !key.empty? && hash.is_a?(Hash)
-          hash = hash[key]
-        elsif hash.is_a? Array
-          return hash
-        end
+    dir.each do |key|
+      if !key.empty? && hash.is_a?(Hash)
+        hash = hash[key]
+      elsif hash.is_a? Array
+        return hash
       end
-    else
-      hash = hash[dir]
     end
     hash
   end
