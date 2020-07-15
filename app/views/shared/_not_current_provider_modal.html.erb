@@ -14,6 +14,8 @@
         <%= link_to 'Yes', revert_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: "not-current-provider-revert-link#{'-' + modal_index.to_s if modal_index}" %>
       <% elsif options[:service] %>
         <%= link_to 'Yes', revert_service_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: "not-current-provider-revert-link#{'-' + modal_index.to_s if modal_index}" %>
+      <% elsif options[:tool] %>
+        <%= link_to 'Yes', revert_tool_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: "not-current-provider-revert-link#{'-' + modal_index.to_s if modal_index}" %>
       <% else %>
         <%= link_to 'Yes', revert_collection_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-revert-link' %>
       <% end %>

@@ -205,6 +205,10 @@ en:
       clone:
         flash:
           notice: 'Records must have a unique Name and Long Name within a provider. Click here to enter a new Name and Long Name.'
+      revert:
+        flash:
+          success: 'Tool Revision Created Successfully!'
+          error: 'Tool revision was not created successfully'
     collection_associations:
       destroy:
         flash:
