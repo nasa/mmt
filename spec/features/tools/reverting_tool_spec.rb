@@ -10,7 +10,6 @@ describe 'Reverting to previous tools', reset_provider: true, js: true do
   after :all do
     delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
     delete_response2 = cmr_client.delete_tool('MMT_2', @native_id2, 'token')
-    # First tool should be deleted in the delete test
 
     raise unless delete_response.success? && delete_response2.success?
   end
