@@ -53,8 +53,9 @@ describe 'Deleting Subscriptions' do
 
     context 'when failing to delete a subscription' do
       before do
-        # Generate an error message by deleting it underneath the 'user'
-        cmr_client.delete_subscription('MMT_2', @native_id, 'token')
+        error_body = "{'message': 'Concept with native-id [test_native_id] and concept-id [#{@ingest_response['concept_id']}] is already deleted.'}"
+        error_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(error_body), response_headers: {}))
+        allow_any_instance_of(Cmr::CmrClient).to receive(:delete_subscription).and_return(error_response)
         click_on 'Delete'
 
         VCR.use_cassette('urs/rarxd5taqea', record: :none) do
