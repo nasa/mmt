@@ -128,9 +128,9 @@ describe 'Reverting to previous tools', reset_provider: true, js: true do
 
   context 'when the latest revision is a deleted tool' do
     before do
-      ingest_response, _concept_response, @native_id = publish_tool_draft
+      ingest_response, _concept_response, @native_id3 = publish_tool_draft
 
-      cmr_client.delete_tool('MMT_2', @native_id, 'token')
+      cmr_client.delete_tool('MMT_2', @native_id3, 'token')
       wait_for_cmr
 
       visit tool_revisions_path(ingest_response['concept-id'])
@@ -151,7 +151,7 @@ describe 'Reverting to previous tools', reset_provider: true, js: true do
 
       # TODO: remove after CMR-6332
       after do
-        delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
+        delete_response = cmr_client.delete_tool('MMT_2', @native_id3, 'token')
 
         raise unless delete_response.success?
       end
