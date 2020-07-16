@@ -4,7 +4,7 @@ describe 'Reverting to previous tools', reset_provider: true, js: true do
     @simple_revert_ingest_response, @simple_revert_concept_response, @native_id = publish_tool_draft(revision_count: 2)
 
     # tool for reverting tool with many revisions
-    @multiple_revisions_ingest_response, @multiple_revisions_concept_response, @native_id2 = publish_tool_draft(revision_count: 4, long_name: 'Reverting Services Test', number_revision_long_names: true)
+    @multiple_revisions_ingest_response, @multiple_revisions_concept_response, @native_id2 = publish_tool_draft(revision_count: 4, long_name: 'Reverting Tools Test', number_revision_long_names: true)
   end
 
   after :all do
@@ -57,7 +57,7 @@ describe 'Reverting to previous tools', reset_provider: true, js: true do
 
         it 'displays all the correct revision information' do
           within 'main header' do
-            expect(page).to have_content('Reverting Services Test -- revision 04')
+            expect(page).to have_content('Reverting Tools Test -- revision 04')
           end
 
           expect(page).to have_content('Published', count: 1)
@@ -89,7 +89,7 @@ describe 'Reverting to previous tools', reset_provider: true, js: true do
 
             it 'reverts the tool to the correct revision and displays the correct revision information and switches provider context' do
               within 'main header' do
-                expect(page).to have_content('Reverting Services Test -- revision 01')
+                expect(page).to have_content('Reverting Tools Test -- revision 01')
               end
 
               expect(page).to have_content('Published', count: 1)
