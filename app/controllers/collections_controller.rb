@@ -2,6 +2,7 @@ class CollectionsController < ManageCollectionsController
   include ManageMetadataHelper
   include CMRCollectionsHelper
   include CollectionsHelper
+  include LossReportHelper
 
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
@@ -120,8 +121,10 @@ class CollectionsController < ManageCollectionsController
     # it's important that they're able to see if any data loss occurs in the translation to umm.
     # This method is needed to reference the appropriate helper and view for the lossiness report
     concept_id = params[:id]
-    collection_response = cmr_client.get_concept(concept_id, token, {})
-    render txt: collection_response.body
+    respond_to do |format|
+      format.any {render plain: loss_report_output(concept_id, hide_items=false, disp='text') }
+      format.json { render json: JSON.pretty_generate(loss_report_output(concept_id, hide_items=false, disp='json')) }
+    end
   end
 
   private

@@ -6,6 +6,7 @@
       <th class="w40"><%= 'Path' %></th>
     </tr>
   </thead>
+
   <tbody>
     <% orig,conv,orig_h,conv_h = prepare_collections('C1200000063-LARC', 'echo10', '1.15.3') %>
     <% orig = Nokogiri::XML(orig) { |config| config.strict.noblanks } %>
