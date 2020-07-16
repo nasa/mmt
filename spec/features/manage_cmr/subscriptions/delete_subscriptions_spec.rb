@@ -53,12 +53,20 @@ describe 'Deleting Subscriptions' do
 
     context 'when failing to delete a subscription' do
       before do
-        error_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: {'errors' => ["Concept with native-id [test_native_id] and concept-id [#{@ingest_response['concept_id']}] is already deleted."] }, response_headers: {}))
-        allow_any_instance_of(Cmr::CmrClient).to receive(:delete_subscription).and_return(error_response)
         click_on 'Delete'
 
-        VCR.use_cassette('urs/rarxd5taqea', record: :none) do
+        # Using 'allow_any_instance_of' causes the after delete to fail as well.
+        # Need localhost to mock the CMR delete response to be an error.
+        VCR.configure do |c|
+          c.ignore_localhost = false
+        end
+
+        VCR.use_cassette('subscriptions/failed_delete', erb: { concept_id: @ingest_response['concept_id'] }) do
           click_on 'Yes'
+        end
+
+        VCR.configure do |c|
+          c.ignore_localhost = true
         end
       end
 
