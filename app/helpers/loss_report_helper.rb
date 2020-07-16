@@ -53,11 +53,13 @@ module LossReportHelper
         end
       end
     end
+
     if disp == 'text'
       return comparison_string
     elsif disp == 'json'
       return comparison_hash
     end
+    
   end
 
   def hash_map(hash)
