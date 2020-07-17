@@ -1,0 +1,7 @@
+<% unless @old_revision %>
+  <% if current_provider?(@provider_id) %>
+    <%= link_to 'Manage Collection Associations', send("#{@published_resource_name}_collection_associations_path", @concept_id), class: 'eui-btn--link bar-before' %>
+  <% elsif available_provider?(@provider_id) %>
+    <%= link_to 'Manage Collection Associations', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-before', data: { 'provider': @provider_id, record_action: "manage-#{@published_resource_name}-associations" } %>
+  <% end %>
+<% end %>

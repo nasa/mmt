@@ -1,6 +1,6 @@
 <% content_for :header_title do %>
-  <h2><%= fetch_entry_id(@tool, 'tools') %></h2>
-  <p class="subtitle"><%= display_header_subtitle(@tool, 'tool') %></p>
+  <h2><%= fetch_entry_id(get_resource, @published_resource_name) %></h2>
+  <p class="subtitle"><%= display_header_subtitle(get_resource, @published_resource_name) %></p>
 <% end %>
 
 <% if @errors && !@errors.empty? %>
@@ -31,14 +31,14 @@
     <section class="errors">
       <div class="eui-banner--danger">
         <p class="eui-banner__message">
-          <i class="fa fa-exclamation-triangle"></i> This tool could not be updated. You may <%= link_to 'edit', edit_tool_path(revision_id: @revision_id) %> the tool to resolve these issues.
+          <i class="fa fa-exclamation-triangle"></i> This <%= @published_resource_name %> could not be updated. You may <%= link_to 'edit', send("edit_@published_resource_name_path", revision_id: @revision_id) %> the <%= @published_resource_name %> to resolve these issues.
         </p>
       </div>
     </section>
   <% end %>
   <div class="row">
     <section>
-      <table id="tool-revisions-table">
+      <table id="<%= @published_resource_name %>-revisions-table">
         <thead>
         <tr>
           <th>Description</th>
@@ -58,10 +58,10 @@
                   Deleted
                 <% elsif index == 0 %>
                   Published
-                  <%= link_to 'View', tool_path(revision_id: revision_id), title: title %>
+                  <%= link_to 'View', send("#{@published_resource_name}_path", revision_id: revision_id), title: title %>
                 <% else %>
                   Revision
-                  <%= link_to 'View', tool_path(revision_id: revision_id), title: title %>
+                  <%= link_to 'View', send("#{@published_resource_name}_path", revision_id: revision_id), title: title %>
                 <% end %>
               </td>
               <td>
@@ -74,11 +74,11 @@
                 <% if @revisions.first['meta']['deleted'] == true %>
                   <% phrase = 'Reinstate' %>
                   <% confirm_phrase = 'Are you sure you want to reinstate this record?' %>
-                  <% action = 'reinstate-tool' %>
+                  <% action = "reinstate-#{@published_resource_name}" %>
                 <% else %>
                   <% phrase = 'Revert to this Revision' %>
                   <% confirm_phrase = 'Are you sure you want to revert to this revision?' %>
-                  <% action = 'revert-tool' %>
+                  <% action = "revert-#{@published_resource_name}" %>
                 <% end %>
 
                 <% unless index == 0 || revision['meta']['deleted'] == true %>
@@ -92,14 +92,14 @@
                     <p><%= confirm_phrase %></p>
                     <p>
                       <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                      <%= link_to 'Yes', revert_tool_path(revision_id: revision_id), class: 'eui-btn--blue spinner' %>
+                      <%= link_to 'Yes', send("revert_#{@published_resource_name}_path", revision_id: revision_id), class: 'eui-btn--blue spinner' %>
                     </p>
                   </div>
                   <%= render partial: "shared/not_current_provider_modal", locals: {
                     modal_index: revision_id,
                     options: {
                       revisions: true,
-                      tool: @tool,
+                      @published_resource_name.to_sym => get_resource,
                       concept_id: @concept_id,
                       revision_id: revision_id
                     }

@@ -1,0 +1,15 @@
+<% if @unconfirmed_version %>
+  <%# with MMT-2301 see if this can be refactored into a partial. Also we should determine if we want not show any of the metadata record, or to show the preview but prevent certain links from working %>
+  <div class="eui-banner--warn">
+    <p class="eui-banner__message">
+      <%= "We cannot confirm the UMM version of this #{@published_resource_name}." %>
+    </p>
+  </div>
+  <div class="no-access">
+    <h3 class="access-title">Unconfirmed UMM Version</h3>
+    <p class="access-message">
+      <%= "It appears we currently cannot confirm the UMM version of this #{@published_resource_name}. In order to prevent unintentional data loss, editing this #{@published_resource_name} is currently unavailable." %>
+      Please try again or contact <%= mail_to('support@earthdata.nasa.gov', 'Earthdata Support') %>
+    </p>
+  </div>
+<% end %>

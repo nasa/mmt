@@ -2,7 +2,7 @@
 class VariablesController < BasePublishedRecordController
   include ManageMetadataHelper
 
-  before_action :set_variable, only: [:show, :edit, :clone, :destroy, :revisions, :revert, :download_json]
+  before_action :set_metadata, only: [:show, :edit, :clone, :destroy, :revisions, :revert, :download_json]
   before_action :set_schema, only: [:show, :edit, :clone, :destroy]
   before_action :set_form, only: [:show, :edit, :clone, :destroy]
   before_action :ensure_supported_version, only: [:show, :edit]

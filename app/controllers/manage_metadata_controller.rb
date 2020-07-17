@@ -193,42 +193,51 @@ class ManageMetadataController < ApplicationController
     end
   end
 
-  # TODO: look into refactoring these repetitive methods for V/S/T with
-  # metaprogramming and add sufficient comments to explain
-  def set_tool
-    @concept_id = params[:tool_id] || params[:id]
+  def set_metadata
+    @metadata_type = params[:controller]
+    @concept_id = params["#{@metadata_type.singularize}_id".to_sym] || params[:id]
     @revision_id = params[:revision_id]
 
-    # retrieve the variable metadata with the current umm_t version
-    headers = { 'Accept' => "application/#{Rails.configuration.umm_t_version}; charset=utf-8" }
-    tool_concept_response = cmr_client.get_concept(@concept_id, token, headers, @revision_id)
+    # retrieve the metadata with the current umm version
+    metadata_version = if @metadata_type == 'variables'
+                         Rails.configuration.umm_var_version
+                       elsif @metadata_type == 'services'
+                         Rails.configuration.umm_s_version
+                       elsif @metadata_type == 'tools'
+                         Rails.configuration.umm_t_version
+                       end
 
-    @tool = if tool_concept_response.success?
-              tool_concept_response.body
-            else
-              Rails.logger.error("Error retrieving concept for Tool #{@concept_id} in `set_tool`: #{tool_concept_response.clean_inspect}")
-              {}
-            end
-            
-    set_tool_information
+    headers = { 'Accept' => "application/#{metadata_version}; charset=utf-8" }
+    concept_response = cmr_client.get_concept(@concept_id, token, headers, @revision_id)
+
+    metadata = if concept_response.success?
+                 concept_response.body
+               else
+                 Rails.logger.error("Error retrieving concept for #{@metadata_type} #{@concept_id} in `set_tool`: #{concept_response.clean_inspect}")
+                 {}
+               end
+    instance_variable_set("@#{resource_name}", metadata)
+    published_resource_name
+
+    set_metadata_information
   end
 
-  def set_tool_information
-    # search for tool by concept id to get the native_id and provider_id
-    # if the tool is not found, try again because CMR might be a little slow to index if it is a newly published record
+  def set_metadata_information
+    # search for metadata record by concept id to get the native_id and provider_id
+    # if the metadata record is not found, try again because CMR might be a little slow to index if it is a newly published record
     attempts = 0
     while attempts < 20
-      tools_search_response = cmr_client.get_tools(concept_id: @concept_id, all_revisions: true, sort_key: '-revision_date')
+      search_response = cmr_client.send("get_#{@metadata_type}", concept_id: @concept_id, all_revisions: true, sort_key: '-revision_date')
 
-      tool_data = if tools_search_response.success?
-                    tools_search_response.body.fetch('items', [])
-                  else
-                    []
-                  end
-      tool_data.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
+      data = if search_response.success?
+               search_response.body.fetch('items', [])
+             else
+               []
+             end
+      data.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
 
-      @revisions = tool_data
-      latest = tool_data.first
+      @revisions = data
+      latest = data.first
       meta = latest.nil? ? {} : latest.fetch('meta', {})
 
       @old_revision = !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s ? true : false
@@ -238,14 +247,15 @@ class ManageMetadataController < ApplicationController
       attempts += 1
       sleep 0.05
       # TODO when/if we refactor these V/S/T methods, make sure the logging is accurate for record type being retrieved
-      Rails.logger.info("Retrieving a Tool record in set_tool_information. Need to loop, about to try attempt number #{attempts}")
+      Rails.logger.info("Retrieving a #{@metadata_type} record in set_metadata_information. Need to loop, about to try attempt number #{attempts}")
     end
 
     if latest.blank?
-      Rails.logger.error("Error searching for Tool #{@concept_id} in `set_tool_information`: #{tools_search_response.clean_inspect}")
+      Rails.logger.error("Error searching for #{@metadata_type} #{@concept_id} in `set_metadata_information`: #{search_response.clean_inspect}")
     else
       @provider_id = meta['provider-id']
       @native_id = meta['native-id']
+      @num_associated_collections = cmr_client.get_collections_by_post({ "#{@metadata_type}_concept_id".to_sym => @concept_id }, token).body.fetch('items', []).size if ['variable', 'service'].include?(@metadata_type)
     end
   end
 
