@@ -5,14 +5,14 @@ module LossReportHelper
     orig = Nokogiri::XML(orig) { |config| config.strict.noblanks }
     conv = Nokogiri::XML(conv) { |config| config.strict.noblanks }
 
-    ignored_paths = Array.new
+    ignored_paths = Array.new # This array is used to keep track of the paths that lead to arrays that have already been mapped
     comparison_string = String.new if disp == 'text'
     comparison_hash = Hash.new if disp == 'json'
 
     counter = 1
-    orig.diff(conv, {:added => true, :removed => true}) do |change,node|
+    orig.diff(conv, {:added => true, :removed => true}) do |change,node| 
       split_path = node.parent.path.split('[')
-      if node.parent.path.include?('[') && !ignored_paths.include?(split_path[0])
+      if node.parent.path.include?('[') && !ignored_paths.include?(split_path[0])  #
         ignored_paths << split_path[0]
         array_comparison(split_path[0], orig_h, conv_h).each do |item|
           if disp == 'text'
@@ -59,7 +59,7 @@ module LossReportHelper
     elsif disp == 'json'
       return comparison_hash
     end
-    
+
   end
 
   def hash_map(hash)
