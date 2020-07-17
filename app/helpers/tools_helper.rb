@@ -9,4 +9,9 @@ module ToolsHelper
       link_to('Delete Service', tool_path(concept_id), method: :delete, class: 'is-invisible', id: 'change-provider-tool-delete')
     end
   end
+
+  # Simplifies shared code between V/S/T
+  def tool_action_text(tool_action)
+    tool_action
+  end
 end

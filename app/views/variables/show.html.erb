@@ -38,5 +38,13 @@
     </section>
 
     <%= render partial: 'shared/schema_preview' %>
+    
+    <% if @published_resource_name == 'variable' %>
+      <aside class="umm-preview-sidebar">
+        <% @preview.sidebars.each do |sidebar| %>
+          <%= sidebar.render_sidebar %>
+        <% end %>
+      </aside>
+    <% end %>
   </div>
 <% end %>

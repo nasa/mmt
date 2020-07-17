@@ -124,29 +124,30 @@ describe 'Variables permissions', js: true do
             expect(page).to have_no_content('This variable is associated with')
             expect(page).to have_no_content('collections. Deleting this variable will also delete the collection associations')
           end
+        end
 
-          context 'when the variable has an associated collection' do
-            before :all do
-              ingested_collection_1, concept_response_1 = publish_collection_draft
+        context 'when the variable has an associated collection' do
+          before :all do
+            ingested_collection1, _concept_response1 = publish_collection_draft
 
-              create_variable_collection_association(@ingested_variable_for_delete_modal['concept-id'],
-                                                     ingested_collection_1['concept-id'])
-            end
+            response = create_variable_collection_association(@ingested_variable_for_delete_modal['concept-id'],
+                                                   ingested_collection1['concept-id'])
+            puts response
+          end
 
-            before do
-              visit variable_path(@ingested_variable_for_delete_modal['concept-id'])
+          before do
+            visit variable_path(@ingested_variable_for_delete_modal['concept-id'])
 
-              click_on 'Delete Variable Record'
-            end
+            click_on 'Delete Variable Record'
+          end
 
-            it 'displays a modal informing the user they need to switch providers' do
-              expect(page).to have_content(modal_text)
-            end
+          it 'displays a modal informing the user they need to switch providers' do
+            expect(page).to have_content(modal_text)
+          end
 
-            it 'informs the user of the number of collection associations that will also be deleted' do
-              # 2 associations created
-              expect(page).to have_content('This variable is associated with 1 collections. Deleting this variable will also delete the collection associations')
-            end
+          it 'informs the user of the number of collection associations that will also be deleted' do
+            # 1 association created
+            expect(page).to have_content('This variable is associated with 1 collections. Deleting this variable will also delete the collection associations')
           end
         end
 

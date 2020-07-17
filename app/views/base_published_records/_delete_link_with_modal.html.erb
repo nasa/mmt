@@ -1,7 +1,7 @@
 <% if current_provider?(@provider_id) %>
   <%= link_to "Delete #{@published_resource_name.capitalize} Record", "#delete-record-modal", class: "display-modal delete-#{@published_resource_name} eui-btn--link bar-before" %>
 <% elsif available_provider?(@provider_id) %>
-  <%= link_to "Delete #{@published_resource_name.capitalize} Record", '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-before', data: { 'provider': @provider_id, record_action: "delete-#{@published_resource_name}" } %>
+  <%= link_to "Delete #{@published_resource_name.capitalize} Record", '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-before', data: { 'provider': @provider_id, record_action: "delete-#{@published_resource_name}", num_associated_collections: "#{@num_associated_collections}" } %>
 <% end %>
 
 <div id="delete-record-modal" class="eui-modal-content">

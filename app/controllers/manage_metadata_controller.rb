@@ -255,7 +255,7 @@ class ManageMetadataController < ApplicationController
     else
       @provider_id = meta['provider-id']
       @native_id = meta['native-id']
-      @num_associated_collections = cmr_client.get_collections_by_post({ "#{@metadata_type}_concept_id".to_sym => @concept_id }, token).body.fetch('items', []).size if ['variable', 'service'].include?(@metadata_type)
+      @num_associated_collections = cmr_client.get_collections_by_post({ "#{@metadata_type.singularize}_concept_id".to_sym => @concept_id }, token).body.fetch('items', []).size if ['variables', 'services'].include?(@metadata_type)
     end
   end
 
