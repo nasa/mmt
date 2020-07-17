@@ -78,6 +78,12 @@ $(document).ready ->
         'Cloning this tool'
       when 'delete-tool'
         'Deleting this tool'
+      when 'reinstate-tool'
+        action = 'revert'
+        'Reinstating this tool'
+      when 'revert-tool'
+        action = 'revert'
+        'Reverting this tool'
 
     $link.data('type', action)
     $modal.find('span.provider').text(provider)
