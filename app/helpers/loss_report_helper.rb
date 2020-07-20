@@ -1,65 +1,53 @@
 module LossReportHelper
 
   def loss_report_output(concept_id, hide_items=true, disp='text')
-    orig,conv,orig_h,conv_h = prepare_collections(concept_id, 'echo10', '1.15.3')
+    # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
+    orig,conv,orig_h,conv_h,ct = prepare_collections(concept_id, '1.15.3')
+
     orig = Nokogiri::XML(orig) { |config| config.strict.noblanks }
     conv = Nokogiri::XML(conv) { |config| config.strict.noblanks }
 
     ignored_paths = Array.new # This array is used to keep track of the paths that lead to arrays that have already been mapped
     comparison_string = String.new if disp == 'text'
     comparison_hash = Hash.new if disp == 'json'
+    comparison_string += (ct + "\n\n")
 
     counter = 1
-    orig.diff(conv, {:added => true, :removed => true}) do |change,node| 
-      split_path = node.parent.path.split('[')
-      if node.parent.path.include?('[') && !ignored_paths.include?(split_path[0])  #
-        ignored_paths << split_path[0]
-        array_comparison(split_path[0], orig_h, conv_h).each do |item|
-          if disp == 'text'
-            comparison_string += "#{counter}. #{item[0]}: #{item[1]}".ljust(60) + item[2] + "\n" if hide_items == false
-            comparison_string += "#{counter}. #{item[0]}: ".ljust(2) + item[2] + "\n" if hide_items == true
-          elsif disp == 'json'
-            comparison_hash["#{counter}. #{item[0]}: #{item[2]}"] = item[1]
-          end
+    orig.diff(conv, {:added => true, :removed => true}) do |change,node|
+      element = node.to_xml
+      path = node.parent.path
+      split_path = path.split('[')[0]
+
+      if path.include?('[') && !ignored_paths.include?(split_path)
+        ignored_paths << split_path
+        array_comparison(split_path, orig_h, conv_h).each do |item|
+          add_to_report(counter, item[0], item[1], item[2], hide_items, disp, comparison_hash, comparison_string)
           counter += 1
         end
-      elsif !ignored_paths.include?(split_path[0]) && !path_leads_to_list?(node.parent.path, orig_h, conv_h)
-        element = node.to_xml
-        path = node.parent.path
-        if disp == 'text'
-          if element.include?('<' && '</' && '>')
-            element = Hash.from_xml(element)
-            hash_map(element).each do |item|
-              comparison_string += "#{counter}. #{change}: #{item['value']}".ljust(60) + path + '/' + item['path'] + "\n" if hide_items == false
-              comparison_string += "#{counter}. #{change}: ".ljust(2) + path + '/' + item['path'] + "\n" if hide_items == true
-              counter += 1
-            end
-          else
-            comparison_string += "#{counter}. #{change}: #{element}".ljust(60) + path + "\n" if hide_items == false
-            comparison_string += "#{counter}. #{change}: ".ljust(2) + path + "\n" if hide_items == true
+      elsif !ignored_paths.include?(split_path) && !path_leads_to_list?(path, orig_h, conv_h)
+        if is_xml? node
+          element = Hash.from_xml(element)
+          hash_map(element).each do |item|
+            add_to_report(counter, change, item['value'], path +'/'+ item['path'], hide_items, disp, comparison_hash, comparison_string)
             counter += 1
           end
-        elsif disp == 'json'
-          if element.include?('<' && '</' && '>')
-            element = Hash.from_xml(element)
-            hash_map(element).each do |item|
-              comparison_hash["#{counter}. #{change}: #{path + '/' + item['path']}"] = item['value']
-              counter += 1
-            end
-          else
-            comparison_hash["#{counter}. #{change}: #{path}"] = element
-            counter += 1
-          end
+        else
+          add_to_report(counter, change, element, path, hide_items, disp, comparison_hash, comparison_string)
+          counter += 1
         end
       end
-    end
 
-    if disp == 'text'
-      return comparison_string
-    elsif disp == 'json'
-      return comparison_hash
     end
+    if disp == 'text' then return comparison_string
+    elsif disp == 'json' then return comparison_hash end
+  end
 
+  def add_to_report(counter, change, element, path, hide_items, disp, comparison_hash, comparison_string)
+    # this function serves to preclude complex nests from forming in loss_report_output the
+    # following 'if' structure is intended to increase readability by eliminating nests
+    return comparison_string.concat("#{counter}. #{change}: #{element}".ljust(60) + path + "\n") if hide_items == false && disp == 'text'
+    return comparison_string.concat("#{counter}. #{change}: ".ljust(2) + path + "\n") if hide_items == true && disp == 'text'
+    return comparison_hash["#{counter}. #{change}: #{path}"] = element if disp == 'json'
   end
 
   def hash_map(hash)
@@ -77,36 +65,37 @@ module LossReportHelper
     buckets
   end
 
-  def prepare_collections(concept_id, format, umm_c_version)
+  def is_xml?(node)
+    if node.to_xml.include?('<' && '</' && '>') then return true
+    else return false end
+  end
+
+  def prepare_collections(concept_id, umm_c_version)
     # TODO: need to add exception handling for get_concept, translate_collection
     original_collection_native_xml = cmr_client.get_concept(concept_id,token, {})
-    # concept ID and format can be scalped from headers etc
+    content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
     original_collection_native_hash = Hash.from_xml(original_collection_native_xml.body)
-    translated_collection_umm_json = cmr_client.translate_collection(original_collection_native_xml.body, "application/#{format}+xml", "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", skip_validation=true)
-    translated_collection_native_xml = cmr_client.translate_collection(translated_collection_umm_json.body.to_json, "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", "application/#{format}+xml",  skip_validation=true)
+    translated_collection_umm_json = cmr_client.translate_collection(original_collection_native_xml.body, content_type, "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", skip_validation=true)
+    translated_collection_native_xml = cmr_client.translate_collection(translated_collection_umm_json.body.to_json, "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", content_type,  skip_validation=true)
     translated_collection_native_hash = Hash.from_xml(translated_collection_native_xml.body)
-    # File.write('/Users/ctrummer/Documents/devtesting/o_'+concept_id+'.json', JSON.pretty_generate(original_collection_native_hash))
-    # File.write('/Users/ctrummer/Documents/devtesting/c_'+concept_id+'.json', JSON.pretty_generate(translated_collection_native_hash))
-    # File.write('/Users/ctrummer/Documents/devtesting/o_'+concept_id+'.xml', original_collection_native_xml.body)
-    # File.write('/Users/ctrummer/Documents/devtesting/c_'+concept_id+'.xml', translated_collection_native_xml.body)
-    return original_collection_native_xml.body, translated_collection_native_xml.body, original_collection_native_hash, translated_collection_native_hash
+    return original_collection_native_xml.body, translated_collection_native_xml.body, original_collection_native_hash, translated_collection_native_hash, content_type
   end
 
   def path_leads_to_list?(path, org_hash, conv_hash)
     # this method takes a path string (and the full original and converted hashes) and outputs true if the path string contains a list; else false
-    org_hash_path = hash_navigation(path, org_hash)
-    conv_hash_path = hash_navigation(path, conv_hash)
+    org_hash = hash_navigation(path, org_hash)
+    conv_hash = hash_navigation(path, conv_hash)
 
     if path.include?("[") && path.include?("]")
       bool = true
-    elsif org_hash_path.is_a?(Hash) && conv_hash_path.is_a?(Hash)
+    elsif org_hash.is_a?(Hash) && conv_hash.is_a?(Hash)
       # the number of keys must be 1 because all arrays in echo10, dif10, and iso19115 are tagged similar to:
       # <Contacts><Contact>contact</Contact></Contacts> and so all array-containing tags will be the plural
-      # of the array name. This clause serves to idenitfy array-containing tags when their paths aren't properly
+      # of the array name. This clause serves to identify array-containing tags when their paths aren't properly
       # displayed by nokogiri
-      bool = true if org_hash_path.keys.length == 1 && org_hash_path[org_hash_path.keys[0]].is_a?(Array)
-      bool = true if conv_hash_path.keys.length == 1 && conv_hash_path[conv_hash_path.keys[0]].is_a?(Array)
-    elsif org_hash_path.is_a?(Array) || conv_hash_path.is_a?(Array)
+      bool = true if org_hash.keys.length == 1 && org_hash[org_hash.keys[0]].is_a?(Array)
+      bool = true if conv_hash.keys.length == 1 && conv_hash[conv_hash.keys[0]].is_a?(Array)
+    elsif org_hash.is_a?(Array) || conv_hash.is_a?(Array)
       bool = true
     else
       bool = false
@@ -114,15 +103,14 @@ module LossReportHelper
     bool
   end
 
-  def hash_navigation(dir, hash)
+  def hash_navigation(path, hash)
     # Passed a path string and the hash being navigated. This method parses the path string and
-    # returns the hash at the end of the path
-    dir = dir.split '/'
-    dir.each do |key|
-      if !key.empty? && hash.is_a?(Hash)
-        hash = hash[key]
-      elsif hash.is_a? Array
+    # returns the hash/value at the end of the path
+    path.split('/').each do |key|
+      if hash.is_a? Array
         return hash
+      elsif hash.key?(key) && hash.is_a?(Hash)
+        hash = hash[key]
       end
     end
     hash
@@ -130,40 +118,38 @@ module LossReportHelper
 
   def array_comparison(path, original_hash, converted_hash)
 
-    org_array = hash_navigation(path, original_hash)
-    conv_array = hash_navigation(path, converted_hash)
+    pretranslation_array = hash_navigation(path, original_hash)
+    post_translation_array = hash_navigation(path, converted_hash)
 
-    org_array.is_a?(Array) ? org_arr = org_array.clone : org_arr = Array.wrap(org_array)
-    org_array = Array.wrap(org_array) unless org_array.is_a?(Array)
-    conv_array.is_a?(Array) ? conv_arr = conv_array.clone : conv_arr = Array.wrap(conv_array)
-    conv_array = Array.wrap(conv_array) unless conv_array.is_a?(Array)
+    pretranslation_array.is_a?(Array) ? lost_items_arr = pretranslation_array.clone : lost_items_arr = Array.wrap(pretranslation_array)
+    pretranslation_array = Array.wrap(pretranslation_array) unless pretranslation_array.is_a?(Array)
+    post_translation_array.is_a?(Array) ? added_itmes_arr = post_translation_array.clone : added_itmes_arr = Array.wrap(post_translation_array)
+    post_translation_array = Array.wrap(post_translation_array) unless post_translation_array.is_a?(Array)
 
     # org_arr and conv_arr are copies of org_array and conv_array, respectively.
     # The *_arr values are edited during the comparison between the org_array and conv_array arrays
     # and so the *_array arrays are used to maintained a full version of each array for indexing the items in the following lines.
 
-    for conv_item in conv_array
-      for org_item in org_array
+    for conv_item in post_translation_array
+      for org_item in pretranslation_array
         if org_item.eql? conv_item
-          org_arr.delete(org_item)
-          conv_arr.delete(conv_item)
+          lost_items_arr.delete(org_item)
+          added_itmes_arr.delete(conv_item)
           break
         end
       end
     end
 
     output = Array.new
-    org_arr.each do |item|
-      path_with_index = path + "[#{org_array.index(item)}]"
-      loss_item = ['-', item, path_with_index]
-      output << loss_item
+    lost_items_arr.each do |item|
+      path_with_index = path + "[#{pretranslation_array.index(item)}]"
+      output << ['-', item, path_with_index]
     end
 
 
-    conv_arr.each do |item|
-      path_with_index = path + "[#{conv_array.index(item)}]"
-      loss_item = ['+', item, path_with_index]
-      output << loss_item
+    added_itmes_arr.each do |item|
+      path_with_index = path + "[#{post_translation_array.index(item)}]"
+      output << ['+', item, path_with_index]
     end
     output
   end
