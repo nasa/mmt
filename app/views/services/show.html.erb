@@ -3,24 +3,24 @@
   <p class="subtitle"><%= display_header_subtitle(get_resource, @published_resource_name) %></p>
 <% end %>
 
-<%= render partial: 'base_published_records/direct_access_without_permissions' %>
-<%= render partial: 'base_published_records/unsupported_version' %>
-<%= render partial: 'base_published_records/unconfirmed_version' %>
+<%= render partial: 'base_published_record/direct_access_without_permissions' %>
+<%= render partial: 'base_published_record/unsupported_version' %>
+<%= render partial: 'base_published_record/unconfirmed_version' %>
 
 <% if @user_permissions != 'none' && !@unconfirmed_version %>
-  <%= render partial: 'base_published_records/old_revision' %>
-  <%= render partial: 'base_published_records/existing_draft' %>
+  <%= render partial: 'base_published_record/old_revision' %>
+  <%= render partial: 'base_published_record/existing_draft' %>
 
   <div class="row row-content">
     <section class="action">
       <p>
-        <%= render partial: 'base_published_records/edit_link' %>
-        <%= render partial: 'base_published_records/clone_link' %>
+        <%= render partial: 'base_published_record/edit_link' %>
+        <%= render partial: 'base_published_record/clone_link' %>
 
         <%= link_to 'Download JSON', send("download_json_#{@published_resource_name}_path", @concept_id, revision_id: @revision_id), class: 'eui-btn--link', target: '_blank' %>
 
-        <%= render partial: 'base_published_records/delete_link_with_modal' %>
-        <%= render partial: 'base_published_records/manage_collection_associations' %>
+        <%= render partial: 'base_published_record/delete_link_with_modal' %>
+        <%= render partial: 'base_published_record/manage_collection_associations' %>
 
         <%= render partial: 'shared/not_current_provider_modal', locals: {
           options: {
