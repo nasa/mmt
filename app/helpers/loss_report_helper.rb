@@ -10,7 +10,8 @@ module LossReportHelper
     ignored_paths = Array.new # This array is used to keep track of the paths that lead to arrays that have already been mapped
     comparison_string = String.new if disp == 'text'
     comparison_hash = Hash.new if disp == 'json'
-    comparison_string += (ct + "\n\n")
+    comparison_hash['format'] = ct
+    comparison_string += (ct + "\n\n") if disp == 'text'
 
     counter = 1
     orig.diff(conv, {:added => true, :removed => true}) do |change,node|
@@ -25,7 +26,7 @@ module LossReportHelper
           counter += 1
         end
       elsif !ignored_paths.include?(split_path) && !path_leads_to_list?(path, orig_h, conv_h)
-        if is_xml? node
+        if is_xml?(node)
           element = Hash.from_xml(element)
           hash_map(element).each do |item|
             add_to_report(counter, change, item['value'], path +'/'+ item['path'], hide_items, disp, comparison_hash, comparison_string)
@@ -105,9 +106,9 @@ module LossReportHelper
 
   def hash_navigation(path, hash)
     # Passed a path string and the hash being navigated. This method parses the path string and
-    # returns the hash/value at the end of the path
+    # returns the array/value at the end of the path
     path.split('/').each do |key|
-      if hash.is_a? Array
+      if hash.is_a?(Array)
         return hash
       elsif hash.key?(key) && hash.is_a?(Hash)
         hash = hash[key]
@@ -118,21 +119,23 @@ module LossReportHelper
 
   def array_comparison(path, original_hash, converted_hash)
 
-    pretranslation_array = hash_navigation(path, original_hash)
+    pre_translation_array = hash_navigation(path, original_hash)
     post_translation_array = hash_navigation(path, converted_hash)
 
-    pretranslation_array.is_a?(Array) ? lost_items_arr = pretranslation_array.clone : lost_items_arr = Array.wrap(pretranslation_array)
-    pretranslation_array = Array.wrap(pretranslation_array) unless pretranslation_array.is_a?(Array)
+    # in the case that a one-item array is parsed as a regular key-value pair instead of an array, an Array wrapper is placed around key-val pair
+    # so that the following for loops can be executed without error
+    pre_translation_array.is_a?(Array) ? lost_items_arr = pre_translation_array.clone : lost_items_arr = Array.wrap(pre_translation_array)
+    pre_translation_array = Array.wrap(pre_translation_array)
     post_translation_array.is_a?(Array) ? added_itmes_arr = post_translation_array.clone : added_itmes_arr = Array.wrap(post_translation_array)
-    post_translation_array = Array.wrap(post_translation_array) unless post_translation_array.is_a?(Array)
+    post_translation_array = Array.wrap(post_translation_array)
 
-    # org_arr and conv_arr are copies of org_array and conv_array, respectively.
-    # The *_arr values are edited during the comparison between the org_array and conv_array arrays
-    # and so the *_array arrays are used to maintained a full version of each array for indexing the items in the following lines.
+    # as defined above, the lost_items_arr and added_itmes_arr are copies of pre_translation_array and post_translation_array, respectively.
+    # The *_arr values are edited during the comparison between the pre_translation_array and post_translation_array arrays
+    # and so the *_array arrays are used to maintain a full version of each array for indexing the items in the following lines.
 
     for conv_item in post_translation_array
-      for org_item in pretranslation_array
-        if org_item.eql? conv_item
+      for org_item in pre_translation_array
+        if org_item == conv_item
           lost_items_arr.delete(org_item)
           added_itmes_arr.delete(conv_item)
           break
@@ -142,7 +145,7 @@ module LossReportHelper
 
     output = Array.new
     lost_items_arr.each do |item|
-      path_with_index = path + "[#{pretranslation_array.index(item)}]"
+      path_with_index = path + "[#{pre_translation_array.index(item)}]"
       output << ['-', item, path_with_index]
     end
 
