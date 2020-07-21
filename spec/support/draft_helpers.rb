@@ -47,7 +47,10 @@ module Helpers
         find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: value).click
       end
     end
-    
+
+    # Bamboo started failing some tests where it seemed that the select2 was not
+    # opening properly. This is notably slower, so it should only be used when
+    # necessary.
     def add_data_center_with_retry(value)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_data_center_with_retry' do
         find('.select2-container .select2-selection').click
