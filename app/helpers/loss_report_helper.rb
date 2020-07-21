@@ -11,6 +11,7 @@ module LossReportHelper
     #   orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks }
     #   conv = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks }
     # end
+    
     # orig_xml = orig_xml.split('<?xml version="1.0" encoding="UTF-8"?>')[-1]
     # conv_xml = conv_xml.split('<?xml version="1.0" encoding="UTF-8"?>')[-1]
 
