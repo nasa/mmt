@@ -58,12 +58,10 @@
                   Deleted
                 <% elsif index == 0 %>
                   Published
-                  <%# Uncomment in MMT-2232 %>
-                  <%#= link_to 'View', tool_path(revision_id: revision_id), title: title %>
+                  <%= link_to 'View', tool_path(revision_id: revision_id), title: title %>
                 <% else %>
                   Revision
-                  <%# Uncomment in MMT-2232 %>
-                  <%#= link_to 'View', tool_path(revision_id: revision_id), title: title %>
+                  <%= link_to 'View', tool_path(revision_id: revision_id), title: title %>
                 <% end %>
               </td>
               <td>
@@ -84,21 +82,20 @@
                 <% end %>
 
                 <% unless index == 0 || revision['meta']['deleted'] == true %>
-                  <%# Uncomment in MMT-2233 %>
-                  <%# if current_provider?(@provider_id) %>
-                    <%#= link_to phrase, "#revert-revisions-modal-#{revision_id}", class: 'display-modal' %>
-                  <%# elsif available_provider?(@provider_id) %>
-                    <%#= link_to phrase, "#not-current-provider-modal-#{revision_id}", class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: action } %>
-                  <%# end %>
-                  <!-- <div id="revert-revisions-modal-<%#= revision_id %>" class="eui-modal-content">
+                  <% if current_provider?(@provider_id) %>
+                    <%= link_to phrase, "#revert-revisions-modal-#{revision_id}", class: 'display-modal' %>
+                  <% elsif available_provider?(@provider_id) %>
+                    <%= link_to phrase, "#not-current-provider-modal-#{revision_id}", class: 'display-modal not-current-provider', data: { 'provider': @provider_id, record_action: action } %>
+                  <% end %>
+                  <div id="revert-revisions-modal-<%= revision_id %>" class="eui-modal-content">
                     <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-                    <p><%#= confirm_phrase %></p>
+                    <p><%= confirm_phrase %></p>
                     <p>
                       <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                      <%#= link_to 'Yes', revert_tool_path(revision_id: revision_id), class: 'eui-btn--blue spinner' %>
+                      <%= link_to 'Yes', revert_tool_path(revision_id: revision_id), class: 'eui-btn--blue spinner' %>
                     </p>
                   </div>
-                  <%#= render partial: "shared/not_current_provider_modal", locals: {
+                  <%= render partial: "shared/not_current_provider_modal", locals: {
                     modal_index: revision_id,
                     options: {
                       revisions: true,
@@ -107,7 +104,6 @@
                       revision_id: revision_id
                     }
                   } %>
-                  </div> -->
                 <% end %>
               </td>
             </tr>

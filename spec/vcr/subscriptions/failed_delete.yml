@@ -1,0 +1,398 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/users?uids%5B%5D=rarxd5taqea
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.11
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      server:
+      - nginx/1.10.2
+      date:
+      - Tue, 02 May 2017 18:45:16 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - close
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      etag:
+      - W/"a0ea6aa58a4b79e873d6cb66d9d5bfb7"
+      cache-control:
+      - max-age=0, private, must-revalidate
+      x-request-id:
+      - 37c1c4e1-f4a7-4af5-a94b-0b51d798342b
+      x-runtime:
+      - '0.024303'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"rarxd5taqea","first_name":"Rvrhzxhtra","last_name":"Vetxvbpmxf","email_address":"uozydogeyyyujukey@tjbh.eyyy","country":"Macedonia","study_area":null,"registered_date":"2012-08-29T11:02:42.000Z","allow_auth_app_emails":true}]}'
+    http_version:
+  recorded_at: Tue, 02 May 2017 18:45:16 GMT
+- request:
+    method: delete
+    uri: http://localhost:3002/providers/MMT_2/subscriptions/test_native_id
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Content-Type:
+      - application/vnd.nasa.cmr.umm+json
+      Client-Id:
+      - MMT
+      Echo-Token:
+      - ABC-2
+  response:
+    status:
+      code: 500
+      message: OK
+    headers:
+      date:
+      - Thu, 16 Jul 2020 17:19:54 GMT
+      content-type:
+      - application/xml
+      cmr-request-id:
+      - 88dd6d01-aa41-46fc-828d-705d7dec1bbb
+      x-request-id:
+      - 88dd6d01-aa41-46fc-828d-705d7dec1bbb
+      content-length:
+      - '148'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"errors" => ["Concept with native-id [test_native_id] and concept-id
+        [<%= concept_id %>] is already deleted."] }'
+    http_version:
+  recorded_at: Thu, 16 Jul 2020 17:19:54 GMT
+- request:
+    method: get
+    uri: http://localhost:3011/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Echo-Token:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 16 Jul 2020 17:30:49 GMT
+      cmr-request-id:
+      - 866be3e9-3242-45b5-9d0c-bd8df58c0ccf
+      x-request-id:
+      - 866be3e9-3242-45b5-9d0c-bd8df58c0ccf
+      vary:
+      - Accept-Encoding, User-Agent
+      content-length:
+      - '30'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+    http_version:
+  recorded_at: Thu, 16 Jul 2020 17:30:49 GMT
+- request:
+    method: get
+    uri: http://localhost:3003/subscriptions.umm_json?concept_id=<%= concept_id %>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Client-Id:
+      - MMT
+      Echo-Token:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 16 Jul 2020 17:30:49 GMT
+      content-type:
+      - application/vnd.nasa.cmr.umm_results+json;version=1.0; charset=utf-8
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Timed-Out, CMR-Shapefile-Original-Point-Count,
+        CMR-Shapefile-Simplified-Point-Count
+      access-control-allow-origin:
+      - "*"
+      cmr-hits:
+      - '1'
+      cmr-took:
+      - '10'
+      cmr-request-id:
+      - ea5ee97c-0b1f-493d-87da-48a3816d4030
+      x-request-id:
+      - ea5ee97c-0b1f-493d-87da-48a3816d4030
+      content-length:
+      - '553'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"hits":1,"took":10,"items":[{"meta":{"revision-id":14,"deleted":false,"format":"application/vnd.nasa.cmr.umm+json","provider-id":"MMT_2","user-id":"typical","native-id":"test_native_id","concept-id":"<%= concept_id %>","revision-date":"2020-07-16T17:30:48Z","concept-type":"subscription"},"umm":{"Name":"Test_Subscription_38f5c2b5-4192-4866-bcd4-413452e27b65","CollectionConceptId":"C520536-TEST","Query":"bounding_box=-10,-5,10,5&attribute\\[\\]=float,PERCENTAGE,25.5,30","SubscriberId":"rarxd5taqea","EmailAddress":"uozydogeyyyujukey@tjbh.eyyy"}}]}'
+    http_version:
+  recorded_at: Thu, 16 Jul 2020 17:30:49 GMT
+- request:
+    method: get
+    uri: http://localhost:3011/permissions?provider=MMT_2&target=SUBSCRIPTION_MANAGEMENT&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Echo-Token:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 16 Jul 2020 17:30:49 GMT
+      cmr-request-id:
+      - 0daa280f-6586-46b6-b186-bffcb8409009
+      x-request-id:
+      - 0daa280f-6586-46b6-b186-bffcb8409009
+      vary:
+      - Accept-Encoding, User-Agent
+      content-length:
+      - '45'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"SUBSCRIPTION_MANAGEMENT":["read","update"]}'
+    http_version:
+  recorded_at: Thu, 16 Jul 2020 17:30:49 GMT
+- request:
+    method: get
+    uri: http://localhost:3011/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Echo-Token:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 16 Jul 2020 17:30:49 GMT
+      cmr-request-id:
+      - 380e3f0f-b47d-4b32-9317-f28a2141f249
+      x-request-id:
+      - 380e3f0f-b47d-4b32-9317-f28a2141f249
+      vary:
+      - Accept-Encoding, User-Agent
+      content-length:
+      - '30'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+    http_version:
+  recorded_at: Thu, 16 Jul 2020 17:30:49 GMT
+- request:
+    method: get
+    uri: http://localhost:3011/permissions?system_object=ANY_ACL&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Echo-Token:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 16 Jul 2020 17:30:49 GMT
+      cmr-request-id:
+      - 2e2d7e7c-57f1-41e1-b8c6-7daedce0a6da
+      x-request-id:
+      - 2e2d7e7c-57f1-41e1-b8c6-7daedce0a6da
+      vary:
+      - Accept-Encoding, User-Agent
+      content-length:
+      - '20'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"ANY_ACL":["read"]}'
+    http_version:
+  recorded_at: Thu, 16 Jul 2020 17:30:49 GMT
+- request:
+    method: get
+    uri: http://localhost:3011/permissions?provider=MMT_2&target=PROVIDER_OBJECT_ACL&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Echo-Token:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 16 Jul 2020 17:30:49 GMT
+      cmr-request-id:
+      - 24edd338-d818-4bad-9c2f-26aa216b5d48
+      x-request-id:
+      - 24edd338-d818-4bad-9c2f-26aa216b5d48
+      vary:
+      - Accept-Encoding, User-Agent
+      content-length:
+      - '59'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"PROVIDER_OBJECT_ACL":["read","create","update","delete"]}'
+    http_version:
+  recorded_at: Thu, 16 Jul 2020 17:30:49 GMT
+- request:
+    method: get
+    uri: http://localhost:3003/subscriptions.umm_json?concept_id=<%= concept_id %>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Client-Id:
+      - MMT
+      Echo-Token:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 16 Jul 2020 17:30:49 GMT
+      content-type:
+      - application/vnd.nasa.cmr.umm_results+json;version=1.0; charset=utf-8
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Timed-Out, CMR-Shapefile-Original-Point-Count,
+        CMR-Shapefile-Simplified-Point-Count
+      access-control-allow-origin:
+      - "*"
+      cmr-hits:
+      - '1'
+      cmr-took:
+      - '11'
+      cmr-request-id:
+      - f64a50a3-8a1d-4bfc-be6e-23ed95ce6d73
+      x-request-id:
+      - f64a50a3-8a1d-4bfc-be6e-23ed95ce6d73
+      content-length:
+      - '553'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"hits":1,"took":10,"items":[{"meta":{"revision-id":14,"deleted":false,"format":"application/vnd.nasa.cmr.umm+json","provider-id":"MMT_2","user-id":"typical","native-id":"test_native_id","concept-id":"<%= concept_id %>","revision-date":"2020-07-16T17:30:48Z","concept-type":"subscription"},"umm":{"Name":"Test_Subscription_38f5c2b5-4192-4866-bcd4-413452e27b65","CollectionConceptId":"C520536-TEST","Query":"bounding_box=-10,-5,10,5&attribute\\[\\]=float,PERCENTAGE,25.5,30","SubscriberId":"rarxd5taqea","EmailAddress":"uozydogeyyyujukey@tjbh.eyyy"}}]}'
+    http_version:
+  recorded_at: Thu, 16 Jul 2020 17:30:49 GMT
+- request:
+    method: get
+    uri: http://localhost:3011/permissions?provider=MMT_2&target=SUBSCRIPTION_MANAGEMENT&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Echo-Token:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 16 Jul 2020 17:30:49 GMT
+      cmr-request-id:
+      - 9faa6495-6144-42e8-9624-beed6443069a
+      x-request-id:
+      - 9faa6495-6144-42e8-9624-beed6443069a
+      vary:
+      - Accept-Encoding, User-Agent
+      content-length:
+      - '45'
+      server:
+      - Jetty(9.4.z-SNAPSHOT)
+    body:
+      encoding: UTF-8
+      string: '{"SUBSCRIPTION_MANAGEMENT":["read","update"]}'
+    http_version:
+  recorded_at: Thu, 16 Jul 2020 17:30:49 GMT
+recorded_with: VCR 5.1.0

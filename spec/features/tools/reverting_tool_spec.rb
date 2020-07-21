@@ -1,19 +1,26 @@
-describe 'Reverting to previous services', reset_provider: true, js: true do
+describe 'Reverting to previous tools', reset_provider: true, js: true do
   before :all do
-    # service for simple reverting service test
-    @simple_revert_ingest_response, @simple_revert_concept_response = publish_service_draft(revision_count: 2)
+    # tool for simple reverting tool test
+    @simple_revert_ingest_response, @simple_revert_concept_response, @native_id = publish_tool_draft(revision_count: 2)
 
-    # service for reverting service with many revisions
-    @multiple_revisions_ingest_response, @multiple_revisions_concept_response = publish_service_draft(revision_count: 4, long_name: 'Reverting Services Test', number_revision_long_names: true)
+    # tool for reverting tool with many revisions
+    @multiple_revisions_ingest_response, @multiple_revisions_concept_response, @native_id2 = publish_tool_draft(revision_count: 4, long_name: 'Reverting Tools Test', number_revision_long_names: true)
+  end
+
+  after :all do
+    delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
+    delete_response2 = cmr_client.delete_tool('MMT_2', @native_id2, 'token')
+
+    raise unless delete_response.success? && delete_response2.success?
   end
 
   before do
     login
   end
 
-  context 'when the latest revision is a published service' do
+  context 'when the latest revision is a published tool' do
     before do
-      visit service_path(@simple_revert_ingest_response['concept-id'])
+      visit tool_path(@simple_revert_ingest_response['concept-id'])
 
       click_on 'Revisions'
     end
@@ -22,7 +29,7 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
       expect(page).to have_content('Revert to this Revision', count: 1)
     end
 
-    context 'when reverting the service' do
+    context 'when reverting the tool' do
       before do
         click_on 'Revert to this Revision'
         click_on 'Yes'
@@ -45,12 +52,12 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
         before do
           login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
 
-          visit service_revisions_path(@multiple_revisions_ingest_response['concept-id'])
+          visit tool_revisions_path(@multiple_revisions_ingest_response['concept-id'])
         end
 
         it 'displays all the correct revision information' do
           within 'main header' do
-            expect(page).to have_content('Reverting Services Test -- revision 04')
+            expect(page).to have_content('Reverting Tools Test -- revision 04')
           end
 
           expect(page).to have_content('Published', count: 1)
@@ -60,9 +67,9 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
 
         context 'when reverting to the earliest revision' do
           before do
-            visit service_revisions_path(@multiple_revisions_ingest_response['concept-id'])
+            visit tool_revisions_path(@multiple_revisions_ingest_response['concept-id'])
 
-            within '#service-revisions-table tbody tr:last-child' do
+            within '#tool-revisions-table tbody tr:last-child' do
               # make sure we are clicking on the correct link
               expect(page).to have_content('1 - Revision')
 
@@ -71,7 +78,7 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
           end
 
           it 'displays a modal informing the user they need to switch providers' do
-            expect(page).to have_content('Reverting this service requires you change your provider context to MMT_2')
+            expect(page).to have_content('Reverting this tool requires you change your provider context to MMT_2')
           end
 
           context 'when clicking Yes' do
@@ -80,9 +87,9 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
               wait_for_jQuery
             end
 
-            it 'reverts the service to the correct revision and displays the correct revision information and switches provider context' do
+            it 'reverts the tool to the correct revision and displays the correct revision information and switches provider context' do
               within 'main header' do
-                expect(page).to have_content('Reverting Services Test -- revision 01')
+                expect(page).to have_content('Reverting Tools Test -- revision 01')
               end
 
               expect(page).to have_content('Published', count: 1)
@@ -96,7 +103,7 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
       end
     end
 
-    context 'when reverting the service fails ingestion into CMR' do
+    context 'when reverting the tool fails ingestion into CMR' do
       before do
         # Do something to the revision so it fails
         # Add a new field to the metadata, similar to a field name changing
@@ -119,30 +126,34 @@ describe 'Reverting to previous services', reset_provider: true, js: true do
     end
   end
 
-  context 'when the latest revision is a deleted service' do
+  context 'when the latest revision is a deleted tool' do
     before do
-      ingest_response, _concept_response = publish_service_draft
+      ingest_response, _concept_response, @native_id3 = publish_tool_draft
 
-      visit service_path(ingest_response['concept-id'])
-
-      click_on 'Delete Service Record'
-      click_on 'Yes'
-
-      wait_for_jQuery
+      cmr_client.delete_tool('MMT_2', @native_id3, 'token')
       wait_for_cmr
+
+      visit tool_revisions_path(ingest_response['concept-id'])
     end
 
     it 'displays the correct phrasing for reverting records' do
       expect(page).to have_content('Reinstate', count: 1)
     end
 
-    context 'when reverting the service' do
+    context 'when reverting the tool' do
       before do
         click_on 'Reinstate'
         click_on 'Yes'
 
         wait_for_jQuery
         wait_for_cmr
+      end
+
+      # TODO: remove after CMR-6332
+      after do
+        delete_response = cmr_client.delete_tool('MMT_2', @native_id3, 'token')
+
+        raise unless delete_response.success?
       end
 
       it 'displays all the correct revision information' do

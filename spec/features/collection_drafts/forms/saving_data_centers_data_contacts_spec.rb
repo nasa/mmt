@@ -66,7 +66,7 @@ describe 'Saving Data Contacts and Data Centers', js: true do
 
           within '.multiple.data-centers > .multiple-item-1' do
             select 'Originator', from: 'Role'
-            add_data_center('ESA/ED')
+            add_data_center_with_retry('ESA/ED')
           end
 
           within '.nav-top' do
