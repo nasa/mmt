@@ -47,6 +47,18 @@ module Helpers
         find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: value).click
       end
     end
+    
+    def add_data_center_with_retry(value)
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_data_center_with_retry' do
+        find('.select2-container .select2-selection').click
+        begin
+          find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: value)
+        rescue Capybara::ElementNotFound
+          find('.select2-container .select2-selection').click
+        end
+        find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: value).click
+      end
+    end
 
     def add_person
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#add_person' do

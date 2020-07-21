@@ -290,6 +290,12 @@ describe 'Data validation for a collection draft form', js: true do
         fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-07-01T00:00:00Z'
       end
 
+      # Bamboo spontaneously started failling this test with the apparent
+      # cause being that 'done' was not being clicked.  Clicking something
+      # outside of the datepicker widget allows the done click to be
+      # processed correctly. Previously, it looks like the click for done
+      # was only exiting the single date time field.
+      find('#draft_temporal_extents_0_precision_of_seconds').click
       within '.nav-top' do
         click_on 'Done'
       end
