@@ -2,16 +2,37 @@ module LossReportHelper
 
   def loss_report_output(concept_id, hide_items=true, disp='text')
     # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
-    orig,conv,orig_h,conv_h,ct = prepare_collections(concept_id, '1.15.3')
+    orig_xml,conv_xml,orig_h,conv_h,content_type = prepare_collections(concept_id, '1.15.3')
 
-    orig = Nokogiri::XML(orig) { |config| config.strict.noblanks }
-    conv = Nokogiri::XML(conv) { |config| config.strict.noblanks }
+    # if content_type.include?('dif10')
+    #   orig = Nokogiri::XML(orig_h.to_xml({dasherize: false, skip_types: true, skip_instruct: true})) { |config| config.strict.noblanks } .search('DIF').first.dup
+    #   conv = Nokogiri::XML(conv_h.to_xml({dasherize: false, skip_types: true, skip_instruct: true})) { |config| config.strict.noblanks } .search('DIF').first.dup
+    # else
+    #   orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks }
+    #   conv = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks }
+    # end
+    # orig_xml = orig_xml.split('<?xml version="1.0" encoding="UTF-8"?>')[-1]
+    # conv_xml = conv_xml.split('<?xml version="1.0" encoding="UTF-8"?>')[-1]
+
+    orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks }
+    conv = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks }
+
+
 
     ignored_paths = Array.new # This array is used to keep track of the paths that lead to arrays that have already been mapped
     comparison_string = String.new if disp == 'text'
     comparison_hash = Hash.new if disp == 'json'
-    comparison_hash['format'] = ct
-    comparison_string += (ct + "\n\n") if disp == 'text'
+
+    # comparison_hash['orig'] = hash_map(orig_h) if disp == 'json'
+    # comparison_hash['orig'] = orig_h if disp == 'json'
+    # comparison_hash['conv'] = conv_h if disp == 'json'
+    comparison_string += orig_xml +"\n\n\n\n\n\n" + orig_h.to_xml({dasherize: false, skip_types: true, skip_instruct: true}) if disp == 'text'
+
+    comparison_hash['format'] = content_type if disp == 'json'
+    comparison_string += (content_type + "\n\n") if disp == 'text'
+
+    # p = '/DIF/Related_RL/Related_UR'
+    # comparison_string += (p+':  path_leads_to_list? => ' + path_leads_to_list?(p, orig_h, conv_h).to_s + "\n")
 
     counter = 1
     orig.diff(conv, {:added => true, :removed => true}) do |change,node|
@@ -19,25 +40,32 @@ module LossReportHelper
       path = node.parent.path
       split_path = path.split('[')[0]
 
-      if path.include?('[') && !ignored_paths.include?(split_path)
-        ignored_paths << split_path
-        array_comparison(split_path, orig_h, conv_h).each do |item|
-          add_to_report(counter, item[0], item[1], item[2], hide_items, disp, comparison_hash, comparison_string)
-          counter += 1
-        end
-      elsif !ignored_paths.include?(split_path) && !path_leads_to_list?(path, orig_h, conv_h)
-        if is_xml?(node)
-          element = Hash.from_xml(element)
-          hash_map(element).each do |item|
-            add_to_report(counter, change, item['value'], path +'/'+ item['path'], hide_items, disp, comparison_hash, comparison_string)
-            counter += 1
-          end
-        else
-          add_to_report(counter, change, element, path, hide_items, disp, comparison_hash, comparison_string)
-          counter += 1
-        end
-      end
+      # comparison_string += (path + "\n") if disp == 'text'
 
+      # if path_leads_to_list?(path, orig_h, conv_h) && !ignored_paths.include?(split_path)
+      #   ignored_paths << split_path
+      #   array_comparison(split_path, orig_h, conv_h).each do |item|
+      #     add_to_report(counter, 'c'+item[0], item[1], item[2], hide_items, disp, comparison_hash, comparison_string)
+      #     counter += 1
+      #   end
+      #   # path += ' identified as a list'
+      # elsif !ignored_paths.include?(split_path)
+      #   if is_xml?(node) #Possibly use the nokogiri #xml? method
+      #     # path += ' needs hash mapping'
+      #     element = Hash.from_xml(element)
+      #     hash_map(element).each do |item|
+      #       add_to_report(counter, 'ct'+change, item['value'], path +'/'+ item['path'], hide_items, disp, comparison_hash, comparison_string)
+      #       counter += 1
+      #     end
+      #   else
+      #     # path += ' pure nokogiri'
+      #     add_to_report(counter, change, element, path, hide_items, disp, comparison_hash, comparison_string)
+      #     counter += 1
+      #   end
+      # end
+
+      add_to_report(counter, change, element, path, hide_items, disp, comparison_hash, comparison_string)
+      counter += 1
     end
     if disp == 'text' then return comparison_string
     elsif disp == 'json' then return comparison_hash end
@@ -46,9 +74,15 @@ module LossReportHelper
   def add_to_report(counter, change, element, path, hide_items, disp, comparison_hash, comparison_string)
     # this function serves to preclude complex nests from forming in loss_report_output the
     # following 'if' structure is intended to increase readability by eliminating nests
-    return comparison_string.concat("#{counter}. #{change}: #{element}".ljust(60) + path + "\n") if hide_items == false && disp == 'text'
-    return comparison_string.concat("#{counter}. #{change}: ".ljust(2) + path + "\n") if hide_items == true && disp == 'text'
+    return comparison_string.concat("#{counter}.".ljust(4)+"#{change}: #{element}".ljust(60) + path + "\n") if hide_items == false && disp == 'text'
+    return comparison_string.concat("#{counter}.".ljust(4)+"#{change}: ".ljust(3) + path + "\n") if hide_items == true && disp == 'text'
     return comparison_hash["#{counter}. #{change}: #{path}"] = element if disp == 'json'
+  end
+
+  def change_path(path)
+    arr = path.split('/*')
+    arr[0] = '/DIF'
+    arr.join
   end
 
   def hash_map(hash)
@@ -87,6 +121,8 @@ module LossReportHelper
     org_hash = hash_navigation(path, org_hash)
     conv_hash = hash_navigation(path, conv_hash)
 
+    # if path == '/DIF/Related-URL' then byebug end
+
     if path.include?("[") && path.include?("]")
       bool = true
     elsif org_hash.is_a?(Hash) && conv_hash.is_a?(Hash)
@@ -101,6 +137,7 @@ module LossReportHelper
     else
       bool = false
     end
+    # if bool == nil then bool = 'flag' end #THIS NEEDS TO BE EVALUATED
     bool
   end
 
