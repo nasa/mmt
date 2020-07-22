@@ -4,70 +4,75 @@ module LossReportHelper
     # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
     orig_xml,conv_xml,orig_h,conv_h,content_type = prepare_collections(concept_id, '1.15.3')
 
-    # if content_type.include?('dif10')
-    #   orig = Nokogiri::XML(orig_h.to_xml({dasherize: false, skip_types: true, skip_instruct: true})) { |config| config.strict.noblanks } .search('DIF').first.dup
-    #   conv = Nokogiri::XML(conv_h.to_xml({dasherize: false, skip_types: true, skip_instruct: true})) { |config| config.strict.noblanks } .search('DIF').first.dup
-    # else
-    #   orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks }
-    #   conv = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks }
-    # end
-    
-    # orig_xml = orig_xml.split('<?xml version="1.0" encoding="UTF-8"?>')[-1]
-    # conv_xml = conv_xml.split('<?xml version="1.0" encoding="UTF-8"?>')[-1]
-
-    orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks }
-    conv = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks }
-
-
+    if content_type.include?('dif10')
+      orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks } .remove_namespaces!
+      conv = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks } .remove_namespaces!
+    else
+      orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks }
+      conv = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks }
+    end
 
     ignored_paths = Array.new # This array is used to keep track of the paths that lead to arrays that have already been mapped
     comparison_string = String.new if disp == 'text'
     comparison_hash = Hash.new if disp == 'json'
 
     # comparison_hash['orig'] = hash_map(orig_h) if disp == 'json'
-    # comparison_hash['orig'] = orig_h if disp == 'json'
+    comparison_hash['orig'] = orig_h if disp == 'json'
     # comparison_hash['conv'] = conv_h if disp == 'json'
-    comparison_string += orig_xml +"\n\n\n\n\n\n" + orig_h.to_xml({dasherize: false, skip_types: true, skip_instruct: true}) if disp == 'text'
+    comparison_string += orig_xml if disp == 'text'
+
+    # p = '/DIF'
+    # comparison_string += path_leads_to_list?(p, orig_h, conv_h).to_s + "\n\n" if disp == 'text'
 
     comparison_hash['format'] = content_type if disp == 'json'
     comparison_string += (content_type + "\n\n") if disp == 'text'
 
-    # p = '/DIF/Related_RL/Related_UR'
-    # comparison_string += (p+':  path_leads_to_list? => ' + path_leads_to_list?(p, orig_h, conv_h).to_s + "\n")
-
     counter = 1
     orig.diff(conv, {:added => true, :removed => true}) do |change,node|
       element = node.to_xml
-      path = node.parent.path
-      split_path = path.split('[')[0]
-
+      path = node.parent.path.split('[')[0]
       # comparison_string += (path + "\n") if disp == 'text'
 
-      # if path_leads_to_list?(path, orig_h, conv_h) && !ignored_paths.include?(split_path)
-      #   ignored_paths << split_path
-      #   array_comparison(split_path, orig_h, conv_h).each do |item|
-      #     add_to_report(counter, 'c'+item[0], item[1], item[2], hide_items, disp, comparison_hash, comparison_string)
-      #     counter += 1
-      #   end
-      #   # path += ' identified as a list'
-      # elsif !ignored_paths.include?(split_path)
-      #   if is_xml?(node) #Possibly use the nokogiri #xml? method
-      #     # path += ' needs hash mapping'
-      #     element = Hash.from_xml(element)
-      #     hash_map(element).each do |item|
-      #       add_to_report(counter, 'ct'+change, item['value'], path +'/'+ item['path'], hide_items, disp, comparison_hash, comparison_string)
-      #       counter += 1
-      #     end
-      #   else
-      #     # path += ' pure nokogiri'
-      #     add_to_report(counter, change, element, path, hide_items, disp, comparison_hash, comparison_string)
-      #     counter += 1
-      #   end
-      # end
+      # needs to check for lists that pass the first if condition but should be evaluated by the elsif (ie. Related_URL)
+      # figure out why some elements are not evaluating true at the first if (ie. Extended_Metadata)
 
-      add_to_report(counter, change, element, path, hide_items, disp, comparison_hash, comparison_string)
+      if path_leads_to_list?(path, orig_h, conv_h) && !ignored_paths.include?(path) # all lists
+        ignored_paths << path
+        array_comparison(path, orig_h, conv_h).each do |item|
+          add_to_report(counter, 'c'+item[0], item[1], item[2], hide_items, disp, comparison_hash, comparison_string)
+          counter += 1
+        end
+      elsif !ignored_paths.include?(path) # nokogiri
+        if is_xml?(node) #Possibly use the nokogiri #xml? method
+          element = Hash.from_xml(element)
+
+          hash_map(element).each do |item|
+            if path_leads_to_list?(path +'/'+ item['path'], orig_h, conv_h) && !ignored_paths.include?(path +'/'+ item['path']) # all lists
+              ignored_paths << path +'/'+ item['path']
+              array_comparison(path +'/'+ item['path'], orig_h, conv_h).each do |item|
+                add_to_report(counter, 'cc'+item[0], item[1], item[2], hide_items, disp, comparison_hash, comparison_string)
+                counter += 1
+              end
+            else
+              add_to_report(counter, 'ct'+change, item['value'], path +'/'+ item['path'], hide_items, disp, comparison_hash, comparison_string)
+              counter += 1
+            end
+
+          end
+        else
+          add_to_report(counter, change, element, path, hide_items, disp, comparison_hash, comparison_string)
+          counter += 1
+        end
+      end
+    end
+
+    counter = 0
+    comparison_string += "\n\n\n\n" if disp == 'text'
+    orig.diff(conv, {:added => true, :removed => true}) do |change,node|
+      add_to_report(counter, change, node.to_xml, node.parent.path, false, disp, comparison_hash, comparison_string)
       counter += 1
     end
+
     if disp == 'text' then return comparison_string
     elsif disp == 'json' then return comparison_hash end
   end
@@ -123,7 +128,7 @@ module LossReportHelper
     conv_hash = hash_navigation(path, conv_hash)
 
     # if path == '/DIF/Related-URL' then byebug end
-
+    bool = false
     if path.include?("[") && path.include?("]")
       bool = true
     elsif org_hash.is_a?(Hash) && conv_hash.is_a?(Hash)
