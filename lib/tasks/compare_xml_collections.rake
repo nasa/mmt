@@ -25,9 +25,13 @@ namespace :collection do
     native_converted_hash = Hash.from_xml(back_to_native.body)
     native_converted_xml = back_to_native.body
 
-    # nokogiri output
-    nokogiri_original = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks } .remove_namespaces!
-    nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks } .remove_namespaces!
+    if args.format == 'dif10'
+      nokogiri_original = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks } .remove_namespaces!
+      nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks } .remove_namespaces!
+    else
+      nokogiri_original = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks }
+      nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks }
+    end
 
     ignored_paths = Array.new
 
