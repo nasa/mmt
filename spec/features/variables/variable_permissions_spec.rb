@@ -12,6 +12,7 @@ describe 'Variables permissions', js: true do
       before :all do
         @ingested_variable, _concept_response = publish_variable_draft
         @ingested_variable_for_delete_modal, _concept_response = publish_variable_draft
+        @ingested_variable_with_no_association, _concept_response = publish_variable_draft
       end
 
       before do
@@ -111,7 +112,7 @@ describe 'Variables permissions', js: true do
       context 'when clicking the delete link' do
         context 'when the variable has no associated collections' do
           before do
-            visit variable_path(@ingested_variable_for_delete_modal['concept-id'])
+            visit variable_path(@ingested_variable_with_no_association['concept-id'])
 
             click_on 'Delete Variable Record'
           end
@@ -132,7 +133,6 @@ describe 'Variables permissions', js: true do
 
             response = create_variable_collection_association(@ingested_variable_for_delete_modal['concept-id'],
                                                    ingested_collection1['concept-id'])
-            puts response
           end
 
           before do
