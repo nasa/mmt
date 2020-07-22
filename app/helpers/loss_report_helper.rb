@@ -17,12 +17,12 @@ module LossReportHelper
     comparison_hash = Hash.new if disp == 'json'
 
     # comparison_hash['orig'] = hash_map(orig_h) if disp == 'json'
-    comparison_hash['orig'] = orig_h if disp == 'json'
+    # comparison_hash['orig'] = orig_h if disp == 'json'
     # comparison_hash['conv'] = conv_h if disp == 'json'
-    comparison_string += orig_xml if disp == 'text'
+    # comparison_string += orig_xml if disp == 'text'
 
     # p = '/DIF'
-    # comparison_string += path_leads_to_list?(p, orig_h, conv_h).to_s + "\n\n" if disp == 'text'
+    # comparison_string += path_leads_to_array?(p, orig_h, conv_h).to_s + "\n\n" if disp == 'text'
 
     comparison_hash['format'] = content_type if disp == 'json'
     comparison_string += (content_type + "\n\n") if disp == 'text'
@@ -33,10 +33,10 @@ module LossReportHelper
       path = node.parent.path.split('[')[0]
       # comparison_string += (path + "\n") if disp == 'text'
 
-      # needs to check for lists that pass the first if condition but should be evaluated by the elsif (ie. Related_URL)
-      # figure out why some elements are not evaluating true at the first if (ie. Extended_Metadata)
+      # need to check for lists in hash_map obj
+      # need to solve problem where noko cherry picks an item out of a list (giving no indication it is a list; ie. Extended_metadata, related_URL)
 
-      if path_leads_to_list?(path, orig_h, conv_h) && !ignored_paths.include?(path) # all lists
+      if path_leads_to_array?(path, orig_h, conv_h) && !ignored_paths.include?(path) # all lists
         ignored_paths << path
         array_comparison(path, orig_h, conv_h).each do |item|
           add_to_report(counter, 'c'+item[0], item[1], item[2], hide_items, disp, comparison_hash, comparison_string)
@@ -47,12 +47,19 @@ module LossReportHelper
           element = Hash.from_xml(element)
 
           hash_map(element).each do |item|
-            if path_leads_to_list?(path +'/'+ item['path'], orig_h, conv_h) && !ignored_paths.include?(path +'/'+ item['path']) # all lists
-              ignored_paths << path +'/'+ item['path']
-              array_comparison(path +'/'+ item['path'], orig_h, conv_h).each do |item|
-                add_to_report(counter, 'cc'+item[0], item[1], item[2], hide_items, disp, comparison_hash, comparison_string)
-                counter += 1
+            if path_leads_to_array?(path +'/'+ item['path'], orig_h, conv_h) && !ignored_paths.include?(path +'/'+ item['path']) # all lists
+              # hash_navigation(path+'/'+ item['path'], orig_h).is_a?(Array) ? arr_path = hash_navigation(path+'/'+ item['path'], orig_h, return_path=true) : arr_path = hash_navigation(path+'/'+ item['path'], conv_h, return_path=true)
+              arr_path = hash_navigation(path +'/'+ item['path'],orig_h,return_path=true) if hash_navigation(path +'/'+ item['path'], orig_h).is_a?(Array)
+              arr_path = hash_navigation(path +'/'+ item['path'],conv_h,return_path=true) if hash_navigation(path +'/'+ item['path'], conv_h).is_a?(Array)
+
+              if !ignored_paths.include?(arr_path)
+                ignored_paths << arr_path
+                array_comparison(arr_path, orig_h, conv_h).each do |item|
+                  add_to_report(counter, 'cc'+item[0], item[1], item[2], hide_items, disp, comparison_hash, comparison_string)
+                  counter += 1
+                end
               end
+
             else
               add_to_report(counter, 'ct'+change, item['value'], path +'/'+ item['path'], hide_items, disp, comparison_hash, comparison_string)
               counter += 1
@@ -67,11 +74,11 @@ module LossReportHelper
     end
 
     counter = 0
-    comparison_string += "\n\n\n\n" if disp == 'text'
-    orig.diff(conv, {:added => true, :removed => true}) do |change,node|
-      add_to_report(counter, change, node.to_xml, node.parent.path, false, disp, comparison_hash, comparison_string)
-      counter += 1
-    end
+    comparison_string += "\n\n\n\n#{JSON.pretty_generate(orig_h)}\n\n\n\n#{JSON.pretty_generate(conv_h)}" if disp == 'text'
+    # orig.diff(conv, {:added => true, :removed => true}) do |change,node|
+    #   add_to_report(counter, change, node.to_xml, node.parent.path, false, disp, comparison_hash, comparison_string)
+    #   counter += 1
+    # end
 
     if disp == 'text' then return comparison_string
     elsif disp == 'json' then return comparison_hash end
@@ -83,12 +90,6 @@ module LossReportHelper
     return comparison_string.concat("#{counter}.".ljust(4)+"#{change}: #{element}".ljust(60) + path + "\n") if hide_items == false && disp == 'text'
     return comparison_string.concat("#{counter}.".ljust(4)+"#{change}: ".ljust(3) + path + "\n") if hide_items == true && disp == 'text'
     return comparison_hash["#{counter}. #{change}: #{path}"] = element if disp == 'json'
-  end
-
-  def change_path(path)
-    arr = path.split('/*')
-    arr[0] = '/DIF'
-    arr.join
   end
 
   def hash_map(hash)
@@ -122,7 +123,7 @@ module LossReportHelper
     return original_collection_native_xml.body, translated_collection_native_xml.body, original_collection_native_hash, translated_collection_native_hash, content_type
   end
 
-  def path_leads_to_list?(path, org_hash, conv_hash)
+  def path_leads_to_array?(path, org_hash, conv_hash)
     # this method takes a path string (and the full original and converted hashes) and outputs true if the path string contains a list; else false
     org_hash = hash_navigation(path, org_hash)
     conv_hash = hash_navigation(path, conv_hash)
@@ -147,17 +148,23 @@ module LossReportHelper
     bool
   end
 
-  def hash_navigation(path, hash)
+  def hash_navigation(path, hash, return_path=false)
     # Passed a path string and the hash being navigated. This method parses the path string and
     # returns the array/value at the end of the path
+    current_path = String.new
     path.split('/').each do |key|
       if hash.is_a?(Array)
-        return hash
+        return hash if return_path == false
+        return current_path if return_path == true
       elsif hash.key?(key) && hash.is_a?(Hash)
+        current_path += "/#{key}"
         hash = hash[key]
+      elsif !hash.key?(key) && key != ''
+        return path_exists = false
       end
     end
-    hash
+    return hash if return_path == false
+    return current_path if return_path == true
   end
 
   def array_comparison(path, original_hash, converted_hash)
@@ -165,35 +172,16 @@ module LossReportHelper
     pre_translation_array = hash_navigation(path, original_hash)
     post_translation_array = hash_navigation(path, converted_hash)
 
-    # in the case that a one-item array is parsed as a regular key-value pair instead of an array, an Array wrapper is placed around key-val pair
-    # so that the following for loops can be executed without error
-    pre_translation_array.is_a?(Array) ? lost_items_arr = pre_translation_array.clone : lost_items_arr = Array.wrap(pre_translation_array)
-    pre_translation_array = Array.wrap(pre_translation_array)
-    post_translation_array.is_a?(Array) ? added_itmes_arr = post_translation_array.clone : added_itmes_arr = Array.wrap(post_translation_array)
-    post_translation_array = Array.wrap(post_translation_array)
-
-    # as defined above, the lost_items_arr and added_itmes_arr are copies of pre_translation_array and post_translation_array, respectively.
-    # The *_arr values are edited during the comparison between the pre_translation_array and post_translation_array arrays
-    # and so the *_array arrays are used to maintain a full version of each array for indexing the items in the following lines.
-
-    for conv_item in post_translation_array
-      for org_item in pre_translation_array
-        if org_item == conv_item
-          lost_items_arr.delete(org_item)
-          added_itmes_arr.delete(conv_item)
-          break
-        end
-      end
-    end
+    pre_translation_array == false ? pre_translation_array = Array.new : pre_translation_array = Array.wrap(pre_translation_array)
+    post_translation_array == false ? post_translation_array = Array.new : post_translation_array = Array.wrap(post_translation_array)
 
     output = Array.new
-    lost_items_arr.each do |item|
+    (pre_translation_array - post_translation_array).each do |item|
       path_with_index = path + "[#{pre_translation_array.index(item)}]"
       output << ['-', item, path_with_index]
     end
 
-
-    added_itmes_arr.each do |item|
+    (post_translation_array - pre_translation_array).each do |item|
       path_with_index = path + "[#{post_translation_array.index(item)}]"
       output << ['+', item, path_with_index]
     end
