@@ -1,4 +1,4 @@
-describe 'Creating Subscriptions' do
+describe 'Creating Subscriptions', reset_provider: true do
   before do
     login
   end
@@ -54,13 +54,6 @@ describe 'Creating Subscriptions' do
             end
           end
 
-          # TODO: using reset_provider may be cleaner than these after blocks,
-          # but does not currently work. Reinvestigate after CMR-6310
-          after do
-            click_on 'Delete'
-            click_on 'Yes'
-          end
-
           it 'creates the subscription' do
             expect(page).to have_content('Subscription Created Successfully!')
           end
@@ -80,13 +73,6 @@ describe 'Creating Subscriptions' do
                 click_on 'Submit'
               end
             end
-          end
-
-          # TODO: using reset_provider may be cleaner than these after blocks,
-          # but does not currently work. Reinvestigate after CMR-6310
-          after do
-            delete_response = cmr_client.delete_subscription('MMT_2', @native_id_failure, 'token')
-            raise unless delete_response.success?
           end
 
           it 'fails to create the subscription' do

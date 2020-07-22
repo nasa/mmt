@@ -1,13 +1,6 @@
-describe 'Downloading Tool JSON', js: true do
+describe 'Downloading Tool JSON', reset_provider: true, js: true do
   before :all do
     @ingest_response, _concept_response, @native_id = publish_tool_draft
-  end
-
-  # TODO: remove after CMR-6332
-  after :all do
-    delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
-
-    raise unless delete_response.success?
   end
 
   context 'when viewing the tool preview page' do

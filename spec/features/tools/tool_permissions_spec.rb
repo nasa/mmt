@@ -93,10 +93,6 @@ describe 'Tools permissions', reset_provider: true, js: true do
 
         it 'displays a modal informing the user they need to switch providers' do
           expect(page).to have_content("Deleting this tool #{modal_text}")
-
-          # Remove this section after CMR-6332 is resolved
-          delete_response = cmr_client.delete_tool('MMT_2', @native_id_2, 'token')
-          raise unless delete_response.success?
         end
 
         context 'when clicking Yes' do

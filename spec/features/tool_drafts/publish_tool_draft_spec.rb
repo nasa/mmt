@@ -8,12 +8,6 @@ describe 'Publishing tool draft records' do
       click_on 'Publish Tool Draft'
     end
 
-    after do
-      delete_response = cmr_client.delete_tool('MMT_2', native_id, 'token')
-
-      raise unless delete_response.success?
-    end
-
     it 'displays a confirmation message' do
       expect(page).to have_content('Tool Draft Published Successfully!')
     end
