@@ -26,8 +26,8 @@ namespace :collection do
     native_converted_xml = back_to_native.body
 
     # nokogiri output
-    nokogiri_original = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks }
-    nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks }
+    nokogiri_original = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks } .remove_namespaces!
+    nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks } .remove_namespaces!
 
     ignored_paths = Array.new
 
@@ -36,12 +36,20 @@ namespace :collection do
       if node.parent.path.include?('[') && !ignored_paths.include?(split_path[0])
         ignored_paths << split_path[0]
         array_comparison(split_path[0], native_original_hash, native_converted_hash).each do |item|
-          puts("#{item[0]}: #{item[1]}".ljust(60) + item[2]) if args.disp.eql? 'show'
-          puts("#{item[0]}: ". + item[2]) if args.disp.eql? 'hide'
+          puts("#{item[0]}: #{item[1]}".ljust(60) + item[2]) if args.disp == 'show'
+          puts("#{item[0]}: " + item[2]) if args.disp == 'hide'
         end
       elsif !ignored_paths.include?(split_path[0]) && !path_leads_to_list?(node.parent.path, native_original_hash, native_converted_hash)
-        puts("#{change}: #{node.to_xml}".ljust(60) + node.parent.path) if args.disp.eql? 'show'
-        puts("#{change}: ". + node.parent.path) if args.disp.eql? 'hide'
+        if is_xml?(node)
+          element = Hash.from_xml(node.to_xml)
+          hash_map(element).each do |item|
+            puts("#{change}: #{item['value']}".ljust(60) + node.parent.path+'/'+item['path']) if args.disp == 'show'
+            puts("#{change}: " + node.parent.path+'/'+item['path']) if args.disp == 'hide'
+          end
+        else
+          puts("#{change}: #{node.to_xml}".ljust(60) + node.parent.path) if args.disp == 'show'
+          puts("#{change}: " + node.parent.path) if args.disp == 'hide'
+        end
       end
     end
   end
@@ -68,6 +76,11 @@ namespace :collection do
     bool
   end
 
+  def is_xml?(node)
+    if node.to_xml.include?('<' && '</' && '>') then return true
+    else return false end
+  end
+
   def hash_navigation(path, hash)
     # Passed a path string and the hash being navigated. This method parses the path string and
     # returns the array/value at the end of the path
@@ -79,6 +92,21 @@ namespace :collection do
       end
     end
     hash
+  end
+
+  def hash_map(hash)
+    buckets = Array.new
+    hash.each do |key,val|
+      if val.is_a? Hash
+        hash_map(val).each do |item|
+          item['path'] = key + '/' + item['path']
+          buckets << item
+        end
+      else
+        buckets << {'path'=> key, 'value'=> val}
+      end
+    end
+    buckets
   end
 
   def array_comparison(path, original_hash, converted_hash)
