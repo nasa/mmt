@@ -1,0 +1,11 @@
+<div class="eui-banner--warn">
+  <p class="eui-banner__message">
+    <%= "Associated Published Record version is unsupported. Editing this #{resource_name.titleize} is currently unavailable." %>
+  </p>
+</div>
+<div class="no-access">
+  <h3 class="access-title">Published Version Unsupported</h3>
+  <p class="access-message">
+    <%= "This #{resource_name.titleize} has an associated #{published_resource_name.titleize} that has been published to the CMR at a higher UMM version than what MMT currently supports. In order to prevent unintentional data loss, editing this #{resource_name.titleize} is currently unavailable." %>
+  </p>
+</div>

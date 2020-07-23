@@ -130,13 +130,12 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   def set_resource
-    if params[:variable_id]
-      set_variable
-      @resource = @variable
-    elsif params[:service_id]
-      set_service
-      @resource = @service
-    end
+    set_metadata
+    @resource = if params[:variable_id]
+                  @variable
+                elsif params[:service_id]
+                  @service
+                end
   end
 
   def resource_name

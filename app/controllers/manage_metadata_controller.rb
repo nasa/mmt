@@ -51,7 +51,7 @@ class ManageMetadataController < ApplicationController
   end
 
   def parse_umm_version_number(umm_version_string)
-    umm_version_string.split('version=').last.split(';').first.to_f
+    umm_version_string.split('version=').last.split(';').first
   end
 
   def get_latest_record_version(concept_id)
@@ -88,8 +88,17 @@ class ManageMetadataController < ApplicationController
   end
 
   def set_metadata
-    @metadata_type = params[:controller]
-    @concept_id = params["#{@metadata_type.singularize}_id".to_sym] || params[:id]
+    # Parsing the concept-id to find the metadata type because a variety of
+    # locations call this method and the only thing they have in common is that
+    # they have a concept_id
+    @metadata_type = if params.keys.include?('variable_id') || (params[:id] && params[:id].split('-')[0].include?('V'))
+                       'variables'
+                     elsif params.keys.include?('service_id') || (params[:id] && params[:id].split('-')[0].include?('S'))
+                       'services'
+                     elsif params.keys.include?('tool_id') || (params[:id] && params[:id].split('-')[0].include?('TL'))
+                       'tools'
+                     end
+    @concept_id = params["#{@metadata_type&.singularize}_id".to_sym] || params[:id]
     @revision_id = params[:revision_id]
 
     # retrieve the metadata with the current umm version
@@ -110,8 +119,9 @@ class ManageMetadataController < ApplicationController
                  Rails.logger.error("Error retrieving concept for #{@metadata_type} #{@concept_id} in `set_tool`: #{concept_response.clean_inspect}")
                  {}
                end
-    instance_variable_set("@#{resource_name}", metadata)
-    published_resource_name
+    instance_variable_set("@#{@metadata_type.singularize}", metadata)
+    # Set an instance variable as setup for the show and revisions page
+    published_resource_name unless params[:controller] == 'collection_associations'
 
     set_metadata_information
   end
