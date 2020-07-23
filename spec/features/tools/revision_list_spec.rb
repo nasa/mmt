@@ -1,18 +1,24 @@
-describe 'Service revision list', reset_provider: true, js: true do
-  context 'when viewing a published service' do
+describe 'Tool revision list', reset_provider: true, js: true do
+  context 'when viewing a published tool' do
     before :all do
       # CMR does not return revisions sorted by revision_id. It sorts
       # by name first (and maybe other things). If the sort_key is working
       # correctly, the last revision (c_test_01), should be visible on the page
-      native_id = 'service_revision_native_id'
-      _ingest_response, _concept_response = publish_service_draft(native_id: native_id, revision_count: 10, name: 'b_test_01')
-      @ingest_response, @concept_response = publish_service_draft(native_id: native_id, name: 'c_test_01')
+      _ingest_response, _concept_response, @native_id = publish_tool_draft(revision_count: 10, name: 'b_test_01')
+      @ingest_response, @concept_response, _native_id = publish_tool_draft(native_id: @native_id, name: 'c_test_01')
+    end
+
+    # TODO: remove after CMR-6332
+    after :all do
+      delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
+
+      raise unless delete_response.success?
     end
 
     before do
       login
 
-      visit service_path(@ingest_response['concept-id'])
+      visit tool_path(@ingest_response['concept-id'])
     end
 
     it 'displays the number of revisions' do
@@ -29,7 +35,7 @@ describe 'Service revision list', reset_provider: true, js: true do
         expect(page).to have_content('Revision History')
       end
 
-      it 'displays the service long name' do
+      it 'displays the tool long name' do
         expect(page).to have_content(@concept_response.body['LongName'])
       end
 
@@ -50,7 +56,7 @@ describe 'Service revision list', reset_provider: true, js: true do
       end
 
       context 'when viewing an old revision' do
-        link_text = 'You are viewing an older revision of this service. Click here to view the latest published version.'
+        link_text = 'You are viewing an older revision of this tool. Click here to view the latest published version.'
         before do
           all('a', text: 'View').last.click
         end
@@ -75,13 +81,13 @@ describe 'Service revision list', reset_provider: true, js: true do
       end
     end
 
-    context 'when searching for the service' do
+    context 'when searching for the tool' do
       before do
-        full_search(record_type: 'Services', keyword: @concept_response.body['LongName'], provider: 'MMT_2')
+        full_search(record_type: 'Tools', keyword: @concept_response.body['LongName'], provider: 'MMT_2')
       end
 
       it 'only displays the latest revision' do
-        within '#service-search-results' do
+        within '#tool-search-results' do
           expect(page).to have_content(@concept_response.body['LongName'], count: 1)
         end
       end

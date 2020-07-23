@@ -27,7 +27,7 @@ describe 'Data Centers form' do
 
         within '#draft_data_centers_1' do
           select 'Originator', from: 'Role'
-          add_data_center('ESA/ED')
+          add_data_center_with_retry('ESA/ED')
           add_contact_information(type: 'data_center', single: false, button_type: 'Data Center')
         end
 
