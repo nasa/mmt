@@ -14,10 +14,8 @@ module LossReportHelper
 
     #write files to test that all changes are being found with opendiff
     dir = '/Users/ctrummer/Documents/devtesting'
-    o = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks } .remove_namespaces!
-    c = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks } .remove_namespaces!
-    File.write("#{dir}/o_#{concept_id}.xml", o.to_xml)
-    File.write("#{dir}/c_#{concept_id}.xml", c.to_xml)
+    File.write("#{dir}/o_#{concept_id}.xml", orig.to_xml)
+    File.write("#{dir}/c_#{concept_id}.xml", conv.to_xml)
 
     arr_paths = Array.new # This array is used to keep track of the paths that lead to arrays that have already been mapped
     text_output = String.new if disp == 'text'
@@ -185,6 +183,7 @@ module LossReportHelper
     return original_collection_native_xml.body, translated_collection_native_xml.body, original_collection_native_hash, translated_collection_native_hash, content_type
   end
 
+
   def hash_navigation(path, hash)
     # Passed a path string and the hash being navigated. This method parses the path string and
     # returns the array/value at the end of the path
@@ -210,14 +209,17 @@ module LossReportHelper
     post_translation_array == false ? post_translation_array = Array.new : post_translation_array = Array.wrap(post_translation_array)
 
     output = Array.new
-
     (pre_translation_array - post_translation_array).each do |item|
       path_with_index = path + "[#{pre_translation_array.index(item)}]"
+      # the following line is used to eliminate indexing confusion when there is more than one occurrence of a particular item in an array
+      pre_translation_array[pre_translation_array.index(item)] = item.to_s + 'item indexed'
       output << ['-', item, path_with_index]
     end
 
     (post_translation_array - pre_translation_array).each do |item|
       path_with_index = path + "[#{post_translation_array.index(item)}]"
+      # the following line is used to eliminate indexing confusion when there is more than one occurrence of a particular item in an array
+      post_translation_array[post_translation_array.index(item)] = item.to_s + 'item indexed'
       output << ['+', item, path_with_index]
     end
     output
