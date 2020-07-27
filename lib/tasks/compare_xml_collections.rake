@@ -25,7 +25,7 @@ namespace :collection do
     native_converted_hash = Hash.from_xml(back_to_native.body)
     native_converted_xml = back_to_native.body
 
-    if args.format == 'dif10'
+    if args.format == 'dif10' || args.format == 'iso19115'
       nokogiri_original = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks } .remove_namespaces!
       nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks } .remove_namespaces!
     else
@@ -114,42 +114,27 @@ namespace :collection do
   end
 
   def array_comparison(path, original_hash, converted_hash)
-
     pre_translation_array = hash_navigation(path, original_hash)
     post_translation_array = hash_navigation(path, converted_hash)
 
-    # in the case that a one-item array is parsed as a regular key-value pair instead of an array, an Array wrapper is placed around key-val pair
-    # so that the following for loops can be executed without error
-    pre_translation_array.is_a?(Array) ? lost_items_arr = pre_translation_array.clone : lost_items_arr = Array.wrap(pre_translation_array)
-    pre_translation_array = Array.wrap(pre_translation_array)
-    post_translation_array.is_a?(Array) ? added_itmes_arr = post_translation_array.clone : added_itmes_arr = Array.wrap(post_translation_array)
-    post_translation_array = Array.wrap(post_translation_array)
-
-    # as defined above, the lost_items_arr and added_itmes_arr are copies of pre_translation_array and post_translation_array, respectively.
-    # The *_arr values are edited during the comparison between the pre_translation_array and post_translation_array arrays
-    # and so the *_array arrays are used to maintain a full version of each array for indexing the items in the following lines.
-
-    for conv_item in post_translation_array
-      for org_item in pre_translation_array
-        if org_item == conv_item
-          lost_items_arr.delete(org_item)
-          added_itmes_arr.delete(conv_item)
-          break
-        end
-      end
-    end
+    pre_translation_array == false ? pre_translation_array = Array.new : pre_translation_array = Array.wrap(pre_translation_array)
+    post_translation_array == false ? post_translation_array = Array.new : post_translation_array = Array.wrap(post_translation_array)
 
     output = Array.new
-    lost_items_arr.each do |item|
+    (pre_translation_array - post_translation_array).each do |item|
       path_with_index = path + "[#{pre_translation_array.index(item)}]"
+      # the following line is used to eliminate indexing confusion when there is more than one occurrence of a particular item in an array
+      pre_translation_array[pre_translation_array.index(item)] = item.to_s + 'item indexed'
       output << ['-', item, path_with_index]
     end
 
-
-    added_itmes_arr.each do |item|
+    (post_translation_array - pre_translation_array).each do |item|
       path_with_index = path + "[#{post_translation_array.index(item)}]"
+      # the following line is used to eliminate indexing confusion when there is more than one occurrence of a particular item in an array
+      post_translation_array[post_translation_array.index(item)] = item.to_s + 'item indexed'
       output << ['+', item, path_with_index]
     end
     output
   end
+
 end
