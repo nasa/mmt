@@ -2,7 +2,14 @@ module LossReportHelper
 
   def loss_report_output(concept_id, hide_items=true, disp='text')
     # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
-    orig_xml,conv_xml,orig_h,conv_h,content_type = prepare_collections(concept_id, '1.15.3')
+
+    # prepare_collections returns false when the cmr_client endpoints are unsuccessfully executed
+    if (collections = prepare_collections(concept_id, '1.15.3'))
+      orig_xml,conv_xml,orig_h,conv_h,content_type = collections
+    else
+      return "Failure to get_concept or translate_collection" if disp == 'text'
+      return {"error"=>"Failure to get_concept or translate_collection"} if disp == 'json'
+    end
 
     if content_type.include?('iso') || content_type.include?('dif')
       orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks } .remove_namespaces!
@@ -29,8 +36,6 @@ module LossReportHelper
     json_output['format'] = content_type if disp == 'json'
     text_output += (content_type + "\n\n") if disp == 'text'
 
-    # text_output += top_level_arr_path('/Collection/OnlineResources/OnlineResource', orig_h, conv_h).to_s+"\n"
-
     orig.diff(conv, {:added => true, :removed => true}) do |change,node|
       element = node.to_xml
       path = node.parent.path.split('[')[0]
@@ -50,7 +55,7 @@ module LossReportHelper
 
         arr_paths << arr_path
         array_comparison(arr_path, orig_h, conv_h).each do |item| # all lists
-          add_to_report('ar'+item[0], item[1], item[2], hide_items, disp, json_output, text_output)
+          add_to_report(item[0], item[1], item[2], hide_items, disp, json_output, text_output)
         end
 
         # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
@@ -82,7 +87,7 @@ module LossReportHelper
 
                 arr_paths << arr_path
                 array_comparison(arr_path, orig_h, conv_h).each do |item|
-                  add_to_report('na'+item[0], item[1], item[2], hide_items, disp, json_output, text_output)
+                  add_to_report(item[0], item[1], item[2], hide_items, disp, json_output, text_output)
                 end
 
                 # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
@@ -91,7 +96,7 @@ module LossReportHelper
 
               end
             elsif path_not_checked?("#{path}/#{item['path']}", arr_paths)
-              add_to_report('hn'+change, item['value'], "#{path}/#{item['path']}", hide_items, disp, json_output, text_output)
+              add_to_report(change, item['value'], "#{path}/#{item['path']}", hide_items, disp, json_output, text_output)
             end
 
               # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
@@ -99,8 +104,10 @@ module LossReportHelper
               # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
 
           end
+        elsif (attr,val = is_attribute?(node))
+          add_to_report(change, val, "#{path}/#{attr}" , hide_items, disp, json_output, text_output)
         else
-          add_to_report('ng'+change, element, path, hide_items, disp, json_output, text_output)
+          add_to_report(change, element, path, hide_items, disp, json_output, text_output)
 
           # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
           puts "arr_paths: #{arr_paths}"
@@ -109,8 +116,18 @@ module LossReportHelper
         end
       end
     end
-    if disp == 'text' then return text_output
-    elsif disp == 'json' then return json_output end
+    return text_output if disp == 'text'
+    return json_output if disp == 'json'
+  end
+
+  def is_attribute?(node)
+    if node.to_xml.include?('=') && !node.to_xml.include?(' = ')
+      attr_val = Array.new
+      node.to_xml.split('=').each {|item| attr_val << item.strip.delete('\\"')}
+      attr_val
+    else
+      false
+    end
   end
 
   def path_not_checked?(arr_path, arr_paths)
@@ -146,11 +163,12 @@ module LossReportHelper
 
   def add_to_report(change, element, path, hide_items, disp, json_output, text_output)
     @counter ||= 0 and @counter += 1
-
     # this function serves to preclude complex nests from forming in loss_report_output the
     # following 'if' structure is intended to increase readability by eliminating nests
     return text_output.concat("#{@counter}.".ljust(4)+"#{change}: #{element}".ljust(60) + path + "\n") if hide_items == false && disp == 'text'
+    # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
     puts "#{@counter}.".ljust(4)+"#{change}: ".ljust(3) + path; return text_output.concat("#{@counter}.".ljust(4)+"#{change}: ".ljust(3) + path + "\n") if hide_items == true && disp == 'text'
+    # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
     return json_output["#{@counter}. #{change}: #{path}"] = element if disp == 'json'
   end
 
@@ -175,10 +193,13 @@ module LossReportHelper
   def prepare_collections(concept_id, umm_c_version)
     # TODO: need to add exception handling for get_concept, translate_collection
     original_collection_native_xml = cmr_client.get_concept(concept_id,token, {})
+    return false if !original_collection_native_xml.success?
     content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
     original_collection_native_hash = Hash.from_xml(original_collection_native_xml.body)
     translated_collection_umm_json = cmr_client.translate_collection(original_collection_native_xml.body, content_type, "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", skip_validation=true)
-    translated_collection_native_xml = cmr_client.translate_collection(translated_collection_umm_json.body.to_json, "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", content_type,  skip_validation=true)
+    return false if !translated_collection_umm_json.success?
+    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(translated_collection_umm_json.body), "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", content_type,  skip_validation=true)
+    return false if !translated_collection_native_xml.success?
     translated_collection_native_hash = Hash.from_xml(translated_collection_native_xml.body)
     return original_collection_native_xml.body, translated_collection_native_xml.body, original_collection_native_hash, translated_collection_native_hash, content_type
   end
