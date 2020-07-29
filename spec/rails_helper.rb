@@ -189,12 +189,14 @@ RSpec.configure do |config|
   config.include Helpers::GroupHelper
   config.include Helpers::IngestHelpers
   config.include Helpers::Instrumentation
+  config.include Helpers::LossReportSamplesHelper
   config.include Helpers::ProposalStatusHelper
   config.include Helpers::SearchHelpers
   config.include Helpers::SubscriptionHelpers
   config.include Helpers::UmmSDraftHelpers
   config.include Helpers::UmmTDraftHelpers
   config.include Helpers::UserHelpers
+
 
   # Precompile assets before running the test suite
   # config.before(:suite) do
