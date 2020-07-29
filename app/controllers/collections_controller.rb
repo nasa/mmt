@@ -122,7 +122,7 @@ class CollectionsController < ManageCollectionsController
     # This method is needed to reference the appropriate helper and view for the lossiness report
     concept_id = params[:id]
     respond_to do |format|
-      format.text {render plain: loss_report_output(concept_id, hide_items=true, disp='text') }
+      format.text { render plain: loss_report_output(concept_id, hide_items=true, disp='text') }
       format.json { render json: JSON.pretty_generate(loss_report_output(concept_id, hide_items=false, disp='json')) }
     end
   end

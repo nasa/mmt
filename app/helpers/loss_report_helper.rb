@@ -1,5 +1,17 @@
 module LossReportHelper
 
+  def cmr_client
+    Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
+  end
+
+  def token
+    if session[:login_method] == 'launchpad'
+      session[:launchpad_cookie]
+    elsif session[:login_method] == 'urs'
+      session[:access_token]
+    end
+  end
+
   def loss_report_output(concept_id, hide_items=true, disp='text')
     # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
 
@@ -7,7 +19,7 @@ module LossReportHelper
     if (collections = prepare_collections(concept_id, '1.15.3'))
       orig_xml,conv_xml,orig_h,conv_h,content_type = collections
     else
-      return "Failure to get_concept or translate_collection" if disp == 'text'
+      return 'Failure to get_concept or translate_collection' if disp == 'text'
       return {"error"=>"Failure to get_concept or translate_collection"} if disp == 'json'
     end
 
@@ -41,78 +53,27 @@ module LossReportHelper
       path = node.parent.path.split('[')[0]
       arr_path = top_level_arr_path(path, orig_h, conv_h)
 
-      # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-      puts "---------------------------------------------------------------------------------"
-      puts "arr_path: #{arr_path} ... node.parent.path: #{node.parent.path} ... path: #{path}"
-      # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-
       if arr_path && path_not_checked?(arr_path, arr_paths)
-
-        # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-        puts "** path 1"
-        puts "ar path_not_checked?(arr_path,arr_paths): #{path_not_checked?(arr_path,arr_paths).to_s}"
-        # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-
         arr_paths << arr_path
-        array_comparison(arr_path, orig_h, conv_h).each do |item| # all lists
-          add_to_report(item[0], item[1], item[2], hide_items, disp, json_output, text_output)
-        end
-
-        # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-        puts "arr_paths: #{arr_paths}"
-        # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-
+        array_comparison(arr_path, orig_h, conv_h).each { |item| add_to_report(item[0], item[1], item[2], hide_items, disp, json_output, text_output) }
       elsif path_not_checked?(path, arr_paths) # nokogiri
-
-        # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-        puts "** path 2"
-        puts "path_not_checked?(path,arr_paths): #{path_not_checked?(path,arr_paths).to_s}"
-        # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-
         if is_xml?(node)
           element = Hash.from_xml(element)
           hash_map(element).each do |item|
             arr_path = top_level_arr_path("#{path}/#{item['path']}", orig_h, conv_h)
-
-            # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-            puts "path_not_checked?('path/item['path']}, arr_paths): #{path_not_checked?("#{path}/#{item['path']}", arr_paths)}"
-            # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-
             if arr_path && path_not_checked?("#{path}/#{item['path']}", arr_paths) # all list
               if path_not_checked?(arr_path, arr_paths)
-
-                # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-                puts "na path_not_checked?(arr_path, arr_paths): #{path_not_checked?(arr_path, arr_paths)}"
-                # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-
                 arr_paths << arr_path
-                array_comparison(arr_path, orig_h, conv_h).each do |item|
-                  add_to_report(item[0], item[1], item[2], hide_items, disp, json_output, text_output)
-                end
-
-                # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-                puts "arr_paths: #{arr_paths}"
-                # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-
+                array_comparison(arr_path, orig_h, conv_h).each { |item| add_to_report(item[0], item[1], item[2], hide_items, disp, json_output, text_output) }
               end
             elsif path_not_checked?("#{path}/#{item['path']}", arr_paths)
               add_to_report(change, item['value'], "#{path}/#{item['path']}", hide_items, disp, json_output, text_output)
             end
-
-              # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-              puts "arr_paths: #{arr_paths}"
-              # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-
           end
         elsif (attr,val = is_attribute?(node))
           add_to_report(change, val, "#{path}/#{attr}" , hide_items, disp, json_output, text_output)
         else
           add_to_report(change, element, path, hide_items, disp, json_output, text_output)
-
-          # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-          puts "arr_paths: #{arr_paths}"
-          # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-
         end
       end
     end
@@ -120,7 +81,15 @@ module LossReportHelper
     return json_output if disp == 'json'
   end
 
+  def is_xml?(node)
+    # checks if the node being passed is xml
+    # may be beneficial to add more checks
+    node.to_xml.include?('<' && '</' && '>') ? true : false
+  end
+
   def is_attribute?(node)
+    # this method checks if the node being passed is an attribute change;
+    # TODO: it may be beneficial to add more conditions to improve accuracy
     if node.to_xml.include?('=') && !node.to_xml.include?(' = ')
       attr_val = Array.new
       node.to_xml.split('=').each {|item| attr_val << item.strip.delete('\\"')}
@@ -131,20 +100,19 @@ module LossReportHelper
   end
 
   def path_not_checked?(arr_path, arr_paths)
-    arr_paths.each do |path|
-      if arr_path.include?(path)
-        return false
-      end
-    end
+    # this method checks the arr_paths array to see if the path being added to
+    # the report has already been previously evaluated and added
+    arr_paths.each { |path| return false if arr_path.include?(path) }
     true
   end
 
   def top_level_arr_path(path, orig_h, conv_h)
+    # if an array is passed that passes through an array ie. /Contacts/Contact[0]/Role/Name
+    # this method would return /Contacts/Contact because Contact is the outermost array (or false if the path doesn't contain an array)
     pre_translation_array, pre_translation_path = hash_navigation(path, orig_h)
     post_translation_array, post_translation_path = hash_navigation(path, conv_h)
 
     return false if pre_translation_array == false && post_translation_array == false
-
     return pre_translation_path if pre_translation_array.is_a?(Array)
     return post_translation_path if post_translation_array.is_a?(Array)
 
@@ -153,11 +121,10 @@ module LossReportHelper
     # of the array name. This clause serves to identify array-containing tags when their paths aren't properly
     # displayed by nokogiri
     if pre_translation_array.is_a?(Hash) && pre_translation_array.keys.length == 1 && pre_translation_array[pre_translation_array.keys[0]].is_a?(Array)
-      return pre_translation_path + "/#{pre_translation_array.keys[0]}"
+      return "#{pre_translation_path}/#{pre_translation_array.keys[0]}"
     elsif post_translation_array.is_a?(Hash) && post_translation_array.keys.length == 1 && post_translation_array[post_translation_array.keys[0]].is_a?(Array)
-      return post_translation_path + "/#{post_translation_array.keys[0]}"
+      return "#{post_translation_path}/#{post_translation_array.keys[0]}"
     end
-
     path_contains_array = false
   end
 
@@ -166,9 +133,7 @@ module LossReportHelper
     # this function serves to preclude complex nests from forming in loss_report_output the
     # following 'if' structure is intended to increase readability by eliminating nests
     return text_output.concat("#{@counter}.".ljust(4)+"#{change}: #{element}".ljust(60) + path + "\n") if hide_items == false && disp == 'text'
-    # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
-    puts "#{@counter}.".ljust(4)+"#{change}: ".ljust(3) + path; return text_output.concat("#{@counter}.".ljust(4)+"#{change}: ".ljust(3) + path + "\n") if hide_items == true && disp == 'text'
-    # FOR TROUBLESHOOTING -------------------------------------------------------------------------------------
+    return text_output.concat("#{@counter}.".ljust(4)+"#{change}: ".ljust(3) + path + "\n") if hide_items == true && disp == 'text'
     return json_output["#{@counter}. #{change}: #{path}"] = element if disp == 'json'
   end
 
@@ -185,21 +150,18 @@ module LossReportHelper
     buckets
   end
 
-  def is_xml?(node)
-    if node.to_xml.include?('<' && '</' && '>') then return true
-    else return false end
-  end
-
   def prepare_collections(concept_id, umm_c_version)
-    # TODO: need to add exception handling for get_concept, translate_collection
     original_collection_native_xml = cmr_client.get_concept(concept_id,token, {})
     return false if !original_collection_native_xml.success?
+
     content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
     original_collection_native_hash = Hash.from_xml(original_collection_native_xml.body)
     translated_collection_umm_json = cmr_client.translate_collection(original_collection_native_xml.body, content_type, "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", skip_validation=true)
     return false if !translated_collection_umm_json.success?
+
     translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(translated_collection_umm_json.body), "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", content_type,  skip_validation=true)
     return false if !translated_collection_native_xml.success?
+
     translated_collection_native_hash = Hash.from_xml(translated_collection_native_xml.body)
     return original_collection_native_xml.body, translated_collection_native_xml.body, original_collection_native_hash, translated_collection_native_hash, content_type
   end
