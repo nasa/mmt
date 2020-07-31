@@ -1,6 +1,5 @@
-require 'rails_helper'
 
-describe 'Displaying the comparison report in browser', js: true do
+describe 'Displaying the comparison report in browser' do
 
   context 'when accessing the comparison report' do
 

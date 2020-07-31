@@ -12,29 +12,29 @@ module LossReportHelper
     end
   end
 
-  def loss_report_output(concept_id, hide_items=true, disp='text')
+  def loss_report_output(hide_items=true, disp='text')
     # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
 
-    # prepare_collections returns false when the cmr_client endpoints are unsuccessfully executed
-    if (collections = prepare_collections(concept_id, '1.15.3'))
-      orig_xml,conv_xml,orig_h,conv_h,content_type = collections
+    # @collection_error is true if there is an error in the translation that is performed by prepare_collections in the collections_controller
+    if !@collection_error
+      orig_xml,conv_xml = @original_collection_native_xml, @translated_collection_native_xml
+      orig_h,conv_h  = @original_collection_native_hash, @translated_collection_native_hash
     else
       return 'Failure to get_concept or translate_collection' if disp == 'text'
       return {"error"=>"Failure to get_concept or translate_collection"} if disp == 'json'
     end
 
-    if content_type.include?('iso') || content_type.include?('dif')
+    # ISO and DIF collections (in XML form) contain namespaces that cause errors in the below comparison.
+    # Specifically, when nodes are evaluated individually, (their namespace definitions remaining at the top of the xml)
+    # their prefixes are undefined in the scope of the evaluation and therefore raise errors. Removing the namespaces
+    # eliminates this issue.
+    if @content_type.include?('iso') || @content_type.include?('dif')
       orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks } .remove_namespaces!
       conv = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks } .remove_namespaces!
     else
       orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks }
       conv = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks }
     end
-
-    #write files to test that all changes are being found with opendiff
-    dir = '/Users/ctrummer/Documents/devtesting'
-    File.write("#{dir}/o_#{concept_id}.xml", orig.to_xml)
-    File.write("#{dir}/c_#{concept_id}.xml", conv.to_xml)
 
     arr_paths = Array.new # This array is used to keep track of the paths that lead to arrays that have already been mapped
     text_output = String.new if disp == 'text'
@@ -45,8 +45,8 @@ module LossReportHelper
     # json_output['conv'] = conv_h if disp == 'json'
     # text_output += orig_xml if disp == 'text'
 
-    json_output['format'] = content_type if disp == 'json'
-    text_output += (content_type + "\n\n") if disp == 'text'
+    json_output['format'] = @content_type if disp == 'json'
+    text_output += (@content_type + "\n\n") if disp == 'text'
 
     orig.diff(conv, {:added => true, :removed => true}) do |change,node|
       element = node.to_xml
@@ -149,23 +149,6 @@ module LossReportHelper
     end
     buckets
   end
-
-  def prepare_collections(concept_id, umm_c_version)
-    original_collection_native_xml = cmr_client.get_concept(concept_id,token, {})
-    return false if !original_collection_native_xml.success?
-
-    content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
-    original_collection_native_hash = Hash.from_xml(original_collection_native_xml.body)
-    translated_collection_umm_json = cmr_client.translate_collection(original_collection_native_xml.body, content_type, "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", skip_validation=true)
-    return false if !translated_collection_umm_json.success?
-
-    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(translated_collection_umm_json.body), "application/vnd.nasa.cmr.umm+json;version=#{umm_c_version}", content_type,  skip_validation=true)
-    return false if !translated_collection_native_xml.success?
-
-    translated_collection_native_hash = Hash.from_xml(translated_collection_native_xml.body)
-    return original_collection_native_xml.body, translated_collection_native_xml.body, original_collection_native_hash, translated_collection_native_hash, content_type
-  end
-
 
   def hash_navigation(path, hash)
     # Passed a path string and the hash being navigated. This method parses the path string and

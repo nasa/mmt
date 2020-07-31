@@ -5,6 +5,7 @@ class CollectionsController < ManageCollectionsController
   include LossReportHelper
 
   before_action :set_collection
+  before_action :prepare_translated_collections
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
   layout 'collection_preview', only: [:show]
@@ -120,10 +121,9 @@ class CollectionsController < ManageCollectionsController
     # When a user wants to use MMT to edit metadata that currently exists in a non-UMM form,
     # it's important that they're able to see if any data loss occurs in the translation to umm.
     # This method is needed to reference the appropriate helper and view for the lossiness report
-    concept_id = params[:id]
     respond_to do |format|
-      format.text { render plain: loss_report_output(concept_id, hide_items=true, disp='text') }
-      format.json { render json: JSON.pretty_generate(loss_report_output(concept_id, hide_items=false, disp='json')) }
+      format.text { render plain: loss_report_output(hide_items=true, disp='text') }
+      format.json { render json: JSON.pretty_generate(loss_report_output(hide_items=false, disp='json')) }
     end
   end
 
@@ -137,6 +137,27 @@ class CollectionsController < ManageCollectionsController
     set_user_permissions
 
     render :show
+  end
+
+  def prepare_translated_collections
+    original_collection_native_xml = cmr_client.get_concept(params[:id],token, {})
+    original_collection_native_xml.success? ? @collection_error = false : @collection_error = true
+
+    @content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
+    @collection_error = true if @content_type.include?('application/vnd.nasa.cmr.umm+json;version=')
+
+    @original_collection_native_hash = Hash.from_xml(original_collection_native_xml.body)
+
+    translated_collection_umm_json = cmr_client.translate_collection(original_collection_native_xml.body, @content_type, "application/#{Rails.configuration.umm_c_version}; charset=utf-8", skip_validation=true)
+    @collection_error = true if !translated_collection_umm_json.success?
+
+    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(translated_collection_umm_json.body), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", @content_type,  skip_validation=true)
+    @collection_error = true if !translated_collection_native_xml.success?
+
+    @translated_collection_native_hash = Hash.from_xml(translated_collection_native_xml.body)
+
+    @original_collection_native_xml = original_collection_native_xml.body
+    @translated_collection_native_xml = translated_collection_native_xml.body
   end
 
   def set_collection

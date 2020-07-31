@@ -629,7 +629,13 @@ module Helpers
             }
           }
         },
-        "25. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/organisationName/CharacterString" => "NSIDC DAAC > National Snow and Ice Data Center DAAC", "26. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/contactInfo/CI_Contact/address/CI_Address/electronicMailAddress/CharacterString" => "nsidc@nsidc.org", "27. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/contactInfo/CI_Contact/onlineResource/CI_OnlineResource/linkage/URL" => "http://nsidc.org/daac/", "28. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/role/CI_RoleCode" => "pointOfContact", "29. +: /DS_Series/seriesMetadata/MI_Metadata/contact/href" => "#alaskaSARContact", "30. -: /DS_Series/seriesMetadata/MI_Metadata/dateStamp/Date" => "2016-04-29", "31. +: /DS_Series/seriesMetadata/MI_Metadata/dateStamp/Date" => "2013-01-02"
+        "25. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/organisationName/CharacterString" => "NSIDC DAAC > National Snow and Ice Data Center DAAC",
+        "26. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/contactInfo/CI_Contact/address/CI_Address/electronicMailAddress/CharacterString" => "nsidc@nsidc.org",
+        "27. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/contactInfo/CI_Contact/onlineResource/CI_OnlineResource/linkage/URL" => "http://nsidc.org/daac/",
+        "28. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/role/CI_RoleCode" => "pointOfContact",
+        "29. +: /DS_Series/seriesMetadata/MI_Metadata/contact/href" => "#alaskaSARContact",
+        "30. -: /DS_Series/seriesMetadata/MI_Metadata/dateStamp/Date" => "2016-04-29",
+        "31. +: /DS_Series/seriesMetadata/MI_Metadata/dateStamp/Date" => "2013-01-02"
       }
     end
 
