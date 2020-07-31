@@ -145,15 +145,10 @@ class CollectionsController < ManageCollectionsController
 
     @content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
     @collection_error = true if @content_type.include?('application/vnd.nasa.cmr.umm+json;version=')
-
     @original_collection_native_hash = Hash.from_xml(original_collection_native_xml.body)
 
-    translated_collection_umm_json = cmr_client.translate_collection(original_collection_native_xml.body, @content_type, "application/#{Rails.configuration.umm_c_version}; charset=utf-8", skip_validation=true)
-    @collection_error = true if !translated_collection_umm_json.success?
-
-    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(translated_collection_umm_json.body), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", @content_type,  skip_validation=true)
+    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", @content_type,  skip_validation=true)
     @collection_error = true if !translated_collection_native_xml.success?
-
     @translated_collection_native_hash = Hash.from_xml(translated_collection_native_xml.body)
 
     @original_collection_native_xml = original_collection_native_xml.body

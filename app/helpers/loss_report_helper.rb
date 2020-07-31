@@ -51,12 +51,12 @@ module LossReportHelper
       if arr_path && path_not_checked?(arr_path, arr_paths)
         arr_paths << arr_path
         array_comparison(arr_path, orig_h, conv_h).each { |item| add_to_report(item[0], item[1], item[2], hide_items, disp, json_output, text_output) }
-      elsif path_not_checked?(path, arr_paths) # nokogiri
+      elsif path_not_checked?(path, arr_paths) 
         if is_xml?(node)
           element = Hash.from_xml(element)
           hash_map(element).each do |item|
             arr_path = top_level_arr_path("#{path}/#{item['path']}", orig_h, conv_h)
-            if arr_path && path_not_checked?("#{path}/#{item['path']}", arr_paths) # all list
+            if arr_path && path_not_checked?("#{path}/#{item['path']}", arr_paths)
               if path_not_checked?(arr_path, arr_paths)
                 arr_paths << arr_path
                 array_comparison(arr_path, orig_h, conv_h).each { |item| add_to_report(item[0], item[1], item[2], hide_items, disp, json_output, text_output) }
