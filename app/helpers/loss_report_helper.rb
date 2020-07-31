@@ -40,11 +40,6 @@ module LossReportHelper
     text_output = String.new if disp == 'text'
     json_output = Hash.new if disp == 'json'
 
-    # json_output['orig'] = hash_map(orig_h) if disp == 'json'
-    # json_output['orig'] = orig_h if disp == 'json'
-    # json_output['conv'] = conv_h if disp == 'json'
-    # text_output += orig_xml if disp == 'text'
-
     json_output['format'] = @content_type if disp == 'json'
     text_output += (@content_type + "\n\n") if disp == 'text'
 
