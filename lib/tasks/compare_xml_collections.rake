@@ -25,7 +25,7 @@ namespace :collection do
     native_converted_hash = Hash.from_xml(back_to_native.body)
     native_converted_xml = back_to_native.body
 
-    if args.format == 'dif10' || args.format == 'iso19115'
+    if args.format.include?('dif') || args.format.include?('iso')
       nokogiri_original = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks } .remove_namespaces!
       nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks } .remove_namespaces!
     else
@@ -33,85 +33,124 @@ namespace :collection do
       nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks }
     end
 
-    ignored_paths = Array.new
+    arr_paths = Array.new # This array is used to keep track of the paths that lead to arrays that have already been mapped
+    text_output = String.new
 
     nokogiri_original.diff(nokogiri_converted, {:added => true, :removed => true}) do |change,node|
-      split_path = node.parent.path.split('[')
-      if node.parent.path.include?('[') && !ignored_paths.include?(split_path[0])
-        ignored_paths << split_path[0]
-        array_comparison(split_path[0], native_original_hash, native_converted_hash).each do |item|
-          puts("#{item[0]}: #{item[1]}".ljust(60) + item[2]) if args.disp == 'show'
-          puts("#{item[0]}: " + item[2]) if args.disp == 'hide'
-        end
-      elsif !ignored_paths.include?(split_path[0]) && !path_leads_to_list?(node.parent.path, native_original_hash, native_converted_hash)
+      element = node.to_xml
+      path = node.parent.path.split('[')[0]
+      arr_path = top_level_arr_path(path, native_original_hash, native_converted_hash)
+
+      if arr_path && path_not_checked?(arr_path, arr_paths)
+        arr_paths << arr_path
+        array_comparison(arr_path, native_original_hash, native_converted_hash).each { |item| add_to_report(item[0], item[1], item[2], args.disp) }
+      elsif path_not_checked?(path, arr_paths)
         if is_xml?(node)
-          element = Hash.from_xml(node.to_xml)
+          element = Hash.from_xml(element)
           hash_map(element).each do |item|
-            puts("#{change}: #{item['value']}".ljust(60) + node.parent.path+'/'+item['path']) if args.disp == 'show'
-            puts("#{change}: " + node.parent.path+'/'+item['path']) if args.disp == 'hide'
+            arr_path = top_level_arr_path("#{path}/#{item['path']}", native_original_hash, native_converted_hash)
+            if arr_path && path_not_checked?("#{path}/#{item['path']}", arr_paths)
+              if path_not_checked?(arr_path, arr_paths)
+                arr_paths << arr_path
+                array_comparison(arr_path, native_original_hash, native_converted_hash).each { |item| add_to_report(item[0], item[1], item[2], args.disp) }
+              end
+            elsif path_not_checked?("#{path}/#{item['path']}", arr_paths)
+              add_to_report(change, item['value'], "#{path}/#{item['path']}", args.disp)
+            end
           end
+        elsif (attr,val = is_attribute?(node))
+          add_to_report(change, val, "#{path}/#{attr}" , args.disp)
         else
-          puts("#{change}: #{node.to_xml}".ljust(60) + node.parent.path) if args.disp == 'show'
-          puts("#{change}: " + node.parent.path) if args.disp == 'hide'
+          add_to_report(change, element, path, args.disp)
         end
       end
     end
   end
 
-  def path_leads_to_list?(path, org_hash, conv_hash)
-    # this method takes a path string (and the full original and converted hashes) and outputs true if the path string contains a list; else false
-    org_hash = hash_navigation(path, org_hash)
-    conv_hash = hash_navigation(path, conv_hash)
-
-    if path.include?("[") && path.include?("]")
-      bool = true
-    elsif org_hash.is_a?(Hash) && conv_hash.is_a?(Hash)
-      # the number of keys must be 1 because all arrays in echo10, dif10, and iso19115 are tagged similar to:
-      # <Contacts><Contact>contact</Contact></Contacts> and so all array-containing tags will be the plural
-      # of the array name. This clause serves to identify array-containing tags when their paths aren't properly
-      # displayed by nokogiri
-      bool = true if org_hash.keys.length == 1 && org_hash[org_hash.keys[0]].is_a?(Array)
-      bool = true if conv_hash.keys.length == 1 && conv_hash[conv_hash.keys[0]].is_a?(Array)
-    elsif org_hash.is_a?(Array) || conv_hash.is_a?(Array)
-      bool = true
-    else
-      bool = false
-    end
-    bool
+  def add_to_report(change, element, path, display)
+    @counter ||= 0 and @counter += 1
+    # this function serves to preclude complex nests from forming in loss_report_output the
+    # following 'if' structure is intended to increase readability by eliminating nests
+    puts "#{@counter}.".ljust(4)+"#{change}: #{element}".ljust(60) + path + "\n" if display == 'show'
+    puts "#{@counter}.".ljust(4)+"#{change}: ".ljust(3) + path + "\n" if display == 'hide'
   end
 
   def is_xml?(node)
-    if node.to_xml.include?('<' && '</' && '>') then return true
-    else return false end
+    # checks if the node being passed is xml
+    # may be beneficial to add more checks
+    node.to_xml.include?('<' && '</' && '>') ? true : false
+  end
+
+  def is_attribute?(node)
+    # this method checks if the node being passed is an attribute change;
+    # TODO: it may be beneficial to add more conditions to improve accuracy
+    if node.to_xml.include?('=') && !node.to_xml.include?(' = ')
+      attr_val = Array.new
+      node.to_xml.split('=').each {|item| attr_val << item.strip.delete('\\"')}
+      attr_val
+    else
+      false
+    end
+  end
+
+  def path_not_checked?(arr_path, arr_paths)
+    # this method checks the arr_paths array to see if the path being added to
+    # the report has already been previously evaluated and added
+    arr_paths.each { |path| return false if arr_path.include?(path) }
+    true
+  end
+
+  def top_level_arr_path(path, orig_h, conv_h)
+    # if an array is passed that passes through an array ie. /Contacts/Contact[0]/Role/Name
+    # this method would return /Contacts/Contact because Contact is the outermost array (or false if the path doesn't contain an array)
+    pre_translation_array, pre_translation_path = hash_navigation(path, orig_h)
+    post_translation_array, post_translation_path = hash_navigation(path, conv_h)
+
+    return false if pre_translation_array == false && post_translation_array == false
+    return pre_translation_path if pre_translation_array.is_a?(Array)
+    return post_translation_path if post_translation_array.is_a?(Array)
+
+    # the number of keys must be 1 because all arrays in echo10, dif10, and iso19115 are tagged similar to:
+    # <Contacts><Contact>contact</Contact></Contacts> and so all array-containing tags will be the plural
+    # of the array name. This clause serves to identify array-containing tags when their paths aren't properly
+    # displayed by nokogiri
+    if pre_translation_array.is_a?(Hash) && pre_translation_array.keys.length == 1 && pre_translation_array[pre_translation_array.keys[0]].is_a?(Array)
+      return "#{pre_translation_path}/#{pre_translation_array.keys[0]}"
+    elsif post_translation_array.is_a?(Hash) && post_translation_array.keys.length == 1 && post_translation_array[post_translation_array.keys[0]].is_a?(Array)
+      return "#{post_translation_path}/#{post_translation_array.keys[0]}"
+    end
+    path_contains_array = false
   end
 
   def hash_navigation(path, hash)
-    # Passed a path string and the hash being navigated. This method parses the path string and
-    # returns the array/value at the end of the path
-    path.split('/').each do |key|
-      if hash.is_a?(Array)
-        return hash
-      elsif hash.key?(key) && hash.is_a?(Hash)
-        hash = hash[key]
-      end
-    end
-    hash
-  end
+     # Passed a path string and the hash being navigated. This method parses the path string and
+     # returns the array/value at the end of the path
+     current_path = String.new
+     path.split('/').each do |key|
+       if hash.is_a?(Array)
+         return hash, current_path
+       elsif hash.key?(key) && hash.is_a?(Hash)
+         current_path += "/#{key}"
+         hash = hash[key]
+       elsif !hash.key?(key) && key != ''
+         return path_exists = false, "#{current_path}/#{key}"
+       end
+     end
+     return hash, current_path
+   end
 
-  def hash_map(hash)
-    buckets = Array.new
-    hash.each do |key,val|
-      if val.is_a? Hash
-        hash_map(val).each do |item|
-          item['path'] = key + '/' + item['path']
-          buckets << item
-        end
-      else
-        buckets << {'path'=> key, 'value'=> val}
-      end
-    end
-    buckets
-  end
+   def hash_map(hash)
+     buckets = Array.new
+     hash.each do |key,val|
+       if val.is_a? Hash then hash_map(val).each do |item|
+         item['path'] = key + '/' + item['path']
+         buckets << item end
+       else
+         buckets << {'path'=> key, 'value'=> val}
+       end
+     end
+     buckets
+   end
 
   def array_comparison(path, original_hash, converted_hash)
     pre_translation_array = hash_navigation(path, original_hash)
@@ -124,14 +163,14 @@ namespace :collection do
     (pre_translation_array - post_translation_array).each do |item|
       path_with_index = path + "[#{pre_translation_array.index(item)}]"
       # the following line is used to eliminate indexing confusion when there is more than one occurrence of a particular item in an array
-      pre_translation_array[pre_translation_array.index(item)] = item.to_s + 'item indexed'
+      pre_translation_array[pre_translation_array.index(item)] = item.to_s + ' item indexed'
       output << ['-', item, path_with_index]
     end
 
     (post_translation_array - pre_translation_array).each do |item|
       path_with_index = path + "[#{post_translation_array.index(item)}]"
       # the following line is used to eliminate indexing confusion when there is more than one occurrence of a particular item in an array
-      post_translation_array[post_translation_array.index(item)] = item.to_s + 'item indexed'
+      post_translation_array[post_translation_array.index(item)] = item.to_s + ' item indexed'
       output << ['+', item, path_with_index]
     end
     output
