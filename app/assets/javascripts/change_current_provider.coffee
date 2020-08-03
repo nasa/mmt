@@ -96,7 +96,7 @@ $(document).ready ->
         # Click the link that the user needs
         if linkType == 'delete-collection' && $('.collection-granule-count').text() != 'Granules (0)'
           $('#display-granules-modal').click()
-        else 
+        else
           $(link)[0].click()
 
   # Change current provider

@@ -1,0 +1,16 @@
+
+<div id="loss-report-modal" >
+  <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+  <div>
+    <h4>Data Loss Warning</h4>
+    <p>This collection possesses a non-UMM native format and could experience data loss while being translated to UMM. Would you like to view a loss report before you begin editing?</p>
+    <p>
+      <%= link_to 'Yes', loss_report_collections_path(options[:concept_id], format: 'json'), class: 'eui-btn--blue' %>
+      <% if false#current_provider?(@provider_id) %>
+        <%= link_to 'No', edit_collection_path(revision_id: @revision_id), class: 'eui-btn' %>
+      <% elsif true #available_provider?(@provider_id) %>
+        <%= link_to 'No', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn', data: { provider: @provider_id, record_action: 'edit-collection' } %>
+      <% end %>
+    </p>
+  </div>
+</div>
