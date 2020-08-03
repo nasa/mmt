@@ -57,13 +57,14 @@
       <section class="action wide-content">
         <div class="wide-content-inside">
           <p>
-            <!-- Not functional
+            <!-- Using a link -->
             <% if !@revisions.first.fetch('meta', {})['format'].include?('umm') && current_provider?(@provider_id) %>
-              <%= link_to 'View Loss', "#delete-record-modal", class: 'display-modal delete-collection delete-collection-in-current-provider eui-btn--link bar-after' %>
+              <%= link_to 'View Data Loss Report', loss_report_collections_path(@concept_id, format: 'json'), class: 'eui-btn--link bar-after' %>
             <% elsif !@revisions.first.fetch('meta', {})['format'].include?('umm') && available_provider?(@provider_id) %>
-              <%= link_to 'Delete Collection Record', '#not-current-provider-modal', class: 'display-modal delete-collection not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'delete-collection' } %>
+              <%= link_to 'View Data Loss Report', '#not-current-provider-modal', class: 'display-modal delete-collection not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'delete-collection' } %>
             <% end %>
 
+            <!-- Using a modal -->
             <% if !@revisions.first.fetch('meta', {})['format'].include?('umm') %>
               <%= link_to 'Edit Collection Record', '#loss-report-modal', class: 'display-modal loss-report eui-btn--link bar-after' %>
             <% else %>
@@ -72,7 +73,7 @@
               <% elsif available_provider?(@provider_id) %>
                 <%= link_to 'Edit Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'edit-collection' } %>
               <% end %>
-            <% end %> -->
+            <% end %>
 
             <% if current_provider?(@provider_id) %>
               <%= link_to 'Clone Collection Record', clone_collection_path, class: 'eui-btn--link bar-after' %>
