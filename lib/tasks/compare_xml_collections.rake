@@ -35,7 +35,6 @@ namespace :collection do
     end
 
     arr_paths = Array.new # This array is used to keep track of the paths that lead to arrays that have already been mapped
-    text_output = String.new
 
     nokogiri_original.diff(nokogiri_converted, {:added => true, :removed => true}) do |change,node|
       element = node.to_xml
