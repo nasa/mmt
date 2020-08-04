@@ -25,6 +25,7 @@ namespace :collection do
     native_converted_hash = Hash.from_xml(back_to_native.body)
     native_converted_xml = back_to_native.body
 
+
     if args.format.include?('dif') || args.format.include?('iso')
       nokogiri_original = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks } .remove_namespaces!
       nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks } .remove_namespaces!
@@ -175,5 +176,4 @@ namespace :collection do
     end
     output
   end
-
 end
