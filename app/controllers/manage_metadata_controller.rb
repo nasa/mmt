@@ -116,7 +116,7 @@ class ManageMetadataController < ApplicationController
     metadata = if concept_response.success?
                  concept_response.body
                else
-                 Rails.logger.error("Error retrieving concept for #{@metadata_type} #{@concept_id} in `set_tool`: #{concept_response.clean_inspect}")
+                 Rails.logger.error("Error retrieving concept for #{@metadata_type} #{@concept_id} in `set_metadata`: #{concept_response.clean_inspect}")
                  {}
                end
     instance_variable_set("@#{@metadata_type.singularize}", metadata)
@@ -127,6 +127,7 @@ class ManageMetadataController < ApplicationController
   end
 
   def set_metadata_information
+    # this process was suggested/requested by the CMR team: 
     # search for metadata record by concept id to get the native_id and provider_id
     # if the metadata record is not found, try again because CMR might be a little slow to index if it is a newly published record
     attempts = 0
@@ -150,7 +151,6 @@ class ManageMetadataController < ApplicationController
       break if latest && meta.fetch('revision-id', 0) >= @revision_id.to_i && meta['concept-id'] == @concept_id
       attempts += 1
       sleep 0.05
-      # TODO when/if we refactor these V/S/T methods, make sure the logging is accurate for record type being retrieved
       Rails.logger.info("Retrieving a #{@metadata_type} record in set_metadata_information. Need to loop, about to try attempt number #{attempts}")
     end
 
