@@ -5,12 +5,17 @@
     <h4>Data Loss Warning</h4>
     <p>This collection possesses a non-UMM native format and could experience data loss while being translated to UMM. Would you like to view a loss report before you begin editing?</p>
     <p>
-      <%= link_to 'Yes', loss_report_collections_path(options[:concept_id], format: 'json'), class: 'eui-btn--blue' %>
-      <% if current_provider?(@provider_id) %>
-        <%= link_to 'No', edit_collection_path(revision_id: @revision_id), class: 'eui-btn' %>
-      <% elsif available_provider?(@provider_id) %>
-        <%= link_to 'No', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn', data: { provider: @provider_id, record_action: 'edit-collection' } %>
+      <% if current_provider?(options[:provider_id]) %>
+        <%= link_to 'Yes', loss_report_collections_path(options[:concept_id], format: 'json'), class: 'modal-close eui-btn--blue', target: :_blank %>
+        <%= link_to 'No', edit_collection_path(revision_id: options[:revision_id]), class: 'modal-close eui-btn' %>
+      <% elsif available_provider?(options[:provider_id]) %>
+        <%= link_to 'Yes', loss_report_collections_path(options[:concept_id], format: 'json'), class: 'loss-report eui-btn--blue', target: :_blank %>
+        <%= link_to 'No', '#', class: 'loss-report eui-btn', data: {}%>
+      <% else %>
+        <%= link_to 'Yes', loss_report_collections_path(options[:concept_id], format: 'json'), class: 'modal-close eui-btn--blue', target: :_blank %>
+        <a href="javascript:void(0)" class="modal-close eui-btn">No</a>
       <% end %>
+      <%= link_to 'Invisible Link', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn is-invisible', id: 'loss-report-to-edit-collection', data: { provider: @provider_id, record_action: 'edit-collection' } %>
     </p>
   </div>
 </div>

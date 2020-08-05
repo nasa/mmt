@@ -4,6 +4,10 @@ $(document).ready ->
     overlay: 0.6
     closeButton: '.modal-close'
 
+  $('a.loss-report').on 'click', (element) ->
+    $('#loss-report-modal').hide()
+    $('#loss-report-to-edit-collection').click()
+
   # Handle not-current-provider-modal
   $('a.not-current-provider').on 'click', (element) ->
     provider = $(element.target).data('provider')
