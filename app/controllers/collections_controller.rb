@@ -120,10 +120,13 @@ class CollectionsController < ManageCollectionsController
   def loss_report
     # When a user wants to use MMT to edit metadata that currently exists in a non-UMM form,
     # it's important that they're able to see if any data loss occurs in the translation to umm.
-    # This method is needed to reference the appropriate helper and view for the lossiness report
+    # This method is needed to reference the appropriate helper and view for the lossiness report.
+    # If compared_collections is false, the error message will appear. Note that compared_collections
+    # is false when the cmr calls aren't successful.
+    compared_collections = prepare_translated_collections
     respond_to do |format|
-      format.text { render plain: loss_report_output(hide_items=true, disp='text') }
-      format.json { render json: JSON.pretty_generate(loss_report_output(hide_items=false, disp='json')) }
+      format.text { render plain: JSON.pretty_generate(@collection) + (compared_collections ? loss_report_output(compared_collections, hide_items: true, display: 'text') : 'Failure to get_concept or translate_collection' )}
+      format.json { render json: JSON.pretty_generate(compared_collections ? loss_report_output(compared_collections, hide_items: false, display: 'json') : {"error"=>"Failure to get_concept or translate_collection"}) }
     end
   end
 
@@ -141,18 +144,21 @@ class CollectionsController < ManageCollectionsController
 
   def prepare_translated_collections
     original_collection_native_xml = cmr_client.get_concept(params[:id],token, {})
-    original_collection_native_xml.success? ? @collection_error = false : @collection_error = true
+    return false if !original_collection_native_xml.success?
 
-    @content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
-    @collection_error = true if @content_type.include?('application/vnd.nasa.cmr.umm+json;version=')
-    @original_collection_native_hash = Hash.from_xml(original_collection_native_xml.body)
+    content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
+    return false if content_type.include?('application/vnd.nasa.cmr.umm+json;version=')
 
-    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", @content_type,  skip_validation=true)
-    @collection_error = true if !translated_collection_native_xml.success?
-    @translated_collection_native_hash = Hash.from_xml(translated_collection_native_xml.body)
+    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type,  skip_validation=true)
+    return false if !translated_collection_native_xml.success?
 
-    @original_collection_native_xml = original_collection_native_xml.body
-    @translated_collection_native_xml = translated_collection_native_xml.body
+    return {
+      original_collection_native_xml: original_collection_native_xml.body,
+      translated_collection_native_xml: translated_collection_native_xml.body,
+      original_collection_native_hash: Hash.from_xml(original_collection_native_xml.body),
+      translated_collection_native_hash: Hash.from_xml(translated_collection_native_xml.body),
+      native_format: content_type
+    }
   end
 
   def set_collection
