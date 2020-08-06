@@ -75,7 +75,7 @@ module LossReportHelper
   def is_xml?(element)
     # checks if the element being passed is xml
     # may be beneficial to add more checks
-    element.include?('<' && '</' && '>') ? true : false
+    element.include?('<' && '</' && '>') 
   end
 
   def is_attribute?(element)
