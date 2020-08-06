@@ -1,4 +1,5 @@
 class ProposalMailer < ApplicationMailer
+  DMMT_USER_GUIDE_URL = "https://wiki.earthdata.nasa.gov/display/ED/Draft+MMT+%28dMMT%29+User%27s+Guide"
   def proposal_submitted_notification(user, short_name, version, id, request_type)
     @user = user
     @short_name = short_name
@@ -48,9 +49,12 @@ class ProposalMailer < ApplicationMailer
     @short_name = proposal.draft['ShortName']
     @version = proposal.draft['Version']
     @id = proposal.id
-    @rejected_reasons = proposal.approver_feedback['reasons'].join(', ')
+    rejected_reasons = proposal.approver_feedback['reasons']&.join(', ')
+    @reasons_text = " for the following reasons: '#{rejected_reasons}'" if rejected_reasons
+    @dmmt_user_guide_url = DMMT_USER_GUIDE_URL unless rejected_reasons
     @rejected_note = proposal.approver_feedback['note']
     @request_type = proposal.request_type
+    
 
     email_subject = "#{@request_type.titleize} Collection Proposal Rejected in Metadata Management Tool#{@email_env_note}"
 

@@ -11,7 +11,7 @@
 
   <p class="timeline-information"><%= information %>&nbsp</p>
 
-  <% if rejection_reasons %>
+  <% if rejection_reasons || rejection_note %>
     <p class="timeline-information">
       <span class="timeline-rejection-information">Reason(s): <%= rejection_reasons.to_sentence %></span>
       <span class="timeline-rejection-information">Note: <%= rejection_note %></span>

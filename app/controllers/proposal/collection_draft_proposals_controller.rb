@@ -182,6 +182,9 @@ module Proposal
     def reject
       authorize get_resource
 
+      # params[:rejection] == {'note' => ''} when the form is submitted blank,
+      # so delete the key if there is no content
+      params[:rejection].delete('note') if params[:rejection]['note'].blank?
       get_resource.approver_feedback = params[:rejection]
       get_resource.add_status_history('rejected', session[:name])
 
