@@ -1,6 +1,6 @@
 module LossReportHelper
 
-  def loss_report_output(compared_collections: compared_collections, hide_items: true, display: 'text')
+  def loss_report_output(compared_collections:, hide_items: true, display: 'text')
     # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
     # this display feature could be a good candidate for dependency injection
 
@@ -23,10 +23,12 @@ module LossReportHelper
     arr_paths = Array.new
 
     if display == 'text'
-      text_output = String.new and json_output = nil
+      text_output = String.new
+      json_output = nil
       text_output += (compared_collections[:native_format] + "\n\n")
     elsif display == 'json'
-      json_output = Hash.new and text_output = nil
+      json_output = Hash.new
+      text_output = nil
       json_output['format'] = compared_collections[:native_format]
     end
 

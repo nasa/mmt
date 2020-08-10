@@ -129,7 +129,7 @@ class CollectionsController < ManageCollectionsController
         format.json { render json: JSON.pretty_generate(compared_collections) }
       else
         format.text { render plain: loss_report_output(compared_collections: compared_collections, hide_items: true, display: 'text') }
-        format.json { render json: JSON.pretty_generate(loss_report_output(compared_collections: compared_collections, hide_items: false, display: 'json')) }
+        format.json { render json: JSON.pretty_generate(loss_report_output(compared_collections: compared_collections, display: 'json')) }
       end
     end
   end
