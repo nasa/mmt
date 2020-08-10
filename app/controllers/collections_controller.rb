@@ -5,7 +5,7 @@ class CollectionsController < ManageCollectionsController
   include LossReportHelper
 
   before_action :set_collection
-  before_action :prepare_translated_collections
+  before_action :prepare_translated_collections, only: [:loss_report]
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
   layout 'collection_preview', only: [:show]

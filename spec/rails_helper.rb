@@ -189,7 +189,6 @@ RSpec.configure do |config|
   config.include Helpers::GroupHelper
   config.include Helpers::IngestHelpers
   config.include Helpers::Instrumentation
-  config.include Helpers::LossReportSamplesHelper
   config.include Helpers::ProposalStatusHelper
   config.include Helpers::SearchHelpers
   config.include Helpers::SubscriptionHelpers
