@@ -4,6 +4,9 @@ $(document).ready ->
     overlay: 0.6
     closeButton: '.modal-close'
 
+  $('a.modal-close-link').on 'click', (element) ->
+    $('#close-loss-report-modal').click()
+
   $('a.loss-report').on 'click', (element) ->
     $('#loss-report-modal').hide()
     $('#loss-report-to-edit-collection').click()
