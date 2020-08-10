@@ -5,7 +5,6 @@ class CollectionsController < ManageCollectionsController
   include LossReportHelper
 
   before_action :set_collection
-  before_action :prepare_translated_collections
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
 
   layout 'collection_preview', only: [:show]
@@ -125,8 +124,13 @@ class CollectionsController < ManageCollectionsController
     # is false when the cmr calls aren't successful.
     compared_collections = prepare_translated_collections
     respond_to do |format|
-      format.text { render plain: JSON.pretty_generate(@collection) + (compared_collections ? loss_report_output(compared_collections, hide_items: true, display: 'text') : 'Failure to get_concept or translate_collection' )}
-      format.json { render json: JSON.pretty_generate(compared_collections ? loss_report_output(compared_collections, hide_items: false, display: 'json') : {"error"=>"Failure to get_concept or translate_collection"}) }
+      if compared_collections[:error]
+        format.text { render plain: compared_collections[:error] }
+        format.json { render json: JSON.pretty_generate(compared_collections) }
+      else
+        format.text { render plain: loss_report_output(compared_collections: compared_collections, hide_items: true, display: 'text') }
+        format.json { render json: JSON.pretty_generate(loss_report_output(compared_collections: compared_collections, hide_items: false, display: 'json')) }
+      end
     end
   end
 
@@ -144,13 +148,13 @@ class CollectionsController < ManageCollectionsController
 
   def prepare_translated_collections
     original_collection_native_xml = cmr_client.get_concept(params[:id],token, {})
-    return false if !original_collection_native_xml.success?
+    return { error: 'Failed to retrieve collection from CMR' } unless original_collection_native_xml.success?
 
     content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
-    return false if content_type.include?('application/vnd.nasa.cmr.umm+json;version=')
+    return { error: 'This collection is already in UMM format so there is no loss report' } if content_type.include?('application/vnd.nasa.cmr.umm+json')
 
     translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type,  skip_validation=true)
-    return false if !translated_collection_native_xml.success?
+    return { error: 'Failed to translate collection from UMM back to native format' } unless translated_collection_native_xml.success?
 
     return {
       original_collection_native_xml: original_collection_native_xml.body,

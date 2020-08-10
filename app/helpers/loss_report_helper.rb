@@ -1,6 +1,6 @@
 module LossReportHelper
 
-  def loss_report_output(compared_collections, hide_items: true, display: 'text')
+  def loss_report_output(compared_collections: compared_collections, hide_items: true, display: 'text')
     # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
     # this display feature could be a good candidate for dependency injection
 
@@ -19,13 +19,14 @@ module LossReportHelper
       conv = Nokogiri::XML(compared_collections[:translated_collection_native_xml]) { |config| config.strict.noblanks }
     end
 
-    arr_paths = Array.new # This array is used to keep track of the paths that lead to arrays that have already been mapped
+    # This array is used to keep track of the paths that lead to arrays that have already been mapped
+    arr_paths = Array.new
 
     if display == 'text'
-      text_output = String.new
+      text_output = String.new and json_output = nil
       text_output += (compared_collections[:native_format] + "\n\n")
     elsif display == 'json'
-      json_output = Hash.new
+      json_output = Hash.new and text_output = nil
       json_output['format'] = compared_collections[:native_format]
     end
 
@@ -45,10 +46,10 @@ module LossReportHelper
       elsif path_not_checked?(path, arr_paths)
         # this layer of if/else separates items that contain xml (this is a nokogiri oddity that occurs where
         # Nokogiri does not directly map to an item that is changed thus it still contains xml - this is the
-        # purpose of hash_map), items that represent xml attribute changes, and normal changes.
+        # purpose of hash_values_and_paths), items that represent xml attribute changes, and normal changes.
         if is_xml?(element)
           element = Hash.from_xml(element)
-          hash_map(element).each do |item|
+          hash_values_and_paths(element).each do |item|
             arr_path = top_level_arr_path("#{path}/#{item['path']}", orig_h, conv_h)
             # this layer of if/else structure is used to separately evaluate implicit array changes in the xml.
             # This is why arr_path will evaluate true if the element in question is an array
@@ -75,7 +76,7 @@ module LossReportHelper
   def is_xml?(element)
     # checks if the element being passed is xml
     # may be beneficial to add more checks
-    element.include?('<' && '</' && '>') 
+    element.include?('<' && '</' && '>')
   end
 
   def is_attribute?(element)
@@ -103,7 +104,10 @@ module LossReportHelper
     pre_translation_array, pre_translation_path = hash_navigation(path, orig_h)
     post_translation_array, post_translation_path = hash_navigation(path, conv_h)
 
-    return false if pre_translation_array == false && post_translation_array == false
+    # the following line handles a scenario where hash_navigation returns false for both pre_ and post_translation_arrays
+    # which means that the path passed does not exist in the original or converted collections
+    return path_exists = false if pre_translation_array == false && post_translation_array == false
+
     return pre_translation_path if pre_translation_array.is_a?(Array)
     return post_translation_path if post_translation_array.is_a?(Array)
 
@@ -128,10 +132,10 @@ module LossReportHelper
     return json_output["#{@counter}. #{change}: #{path}"] = element if display == 'json'
   end
 
-  def hash_map(hash)
+  def hash_values_and_paths(hash)
     buckets = Array.new
     hash.each do |key,val|
-      if val.is_a? Hash then hash_map(val).each do |item|
+      if val.is_a? Hash then hash_values_and_paths(val).each do |item|
         item['path'] = key + '/' + item['path']
         buckets << item end
       else
