@@ -678,6 +678,8 @@ module Cmr
         end
 
         guid = "prov-guid-#{Time.now.to_i}"
+        # Wait for the cascade delete to finish or else we may create races in CMR
+        wait_for_indexing
 
         # Recreate provider in Ingest
         resp = connection.post do |req|
