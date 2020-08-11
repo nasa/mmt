@@ -1,6 +1,6 @@
 module LossReportHelper
 
-  def loss_report_output(compared_collections:, hide_items: true, display: 'text')
+  def loss_report_output(compared_collections:, hide_items:, display: 'text')
     # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
     # this display feature could be a good candidate for dependency injection
 
