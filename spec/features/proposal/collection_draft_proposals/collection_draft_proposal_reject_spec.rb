@@ -22,6 +22,7 @@ describe 'Collection Draft Proposal Reject', js: true do
 
     context 'when the rejecting the proposal' do
       before do
+        mock_urs_get_users
         click_on 'Reject Proposal Submission'
       end
 
@@ -35,18 +36,50 @@ describe 'Collection Draft Proposal Reject', js: true do
 
       context 'when attempting to reject without entering feedback' do
         before do
+          mock_urs_get_users
           within '#reject-submission-modal' do
             click_on 'Reject'
           end
         end
 
-        it 'can succeed' do
+        it 'rejects the proposal' do
+          expect(page).to have_content('Draft Proposal Submission')
+          expect(page).to have_content('Rejected')
+        end
+      end
+
+      context 'when attempting to reject the proposal with partial feedback' do
+        context 'with a note and no reason' do
+          before do
+            fill_in 'Note', with: 'There are many reasons for rejecting this submission'
+            within '#reject-submission-modal' do
+              click_on 'Reject'
+            end
+          end
+
+          it 'rejects the proposal' do
+            expect(page).to have_content('Draft Proposal Submission')
+            expect(page).to have_content('Rejected')
+          end
+        end
+
+        context 'with a reason and no note' do
+          before do
+            select 'Broken Links', from: 'proposal-rejection-reasons'
+            within '#reject-submission-modal' do
+              click_on 'Reject'
+            end
+          end
+
+          it 'rejects the proposal' do
+            expect(page).to have_content('Draft Proposal Submission')
+            expect(page).to have_content('Rejected')
+          end
         end
       end
 
       context 'when rejecting the proposal with feedback' do
         before do
-          mock_urs_get_users
           @email_count = ActionMailer::Base.deliveries.count
           within '#reject-submission-modal' do
             select 'Broken Links', from: 'proposal-rejection-reasons'

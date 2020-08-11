@@ -116,7 +116,7 @@ describe ProposalMailer do
         expect(mail.from).to eq(['no-reply@earthdata.nasa.gov'])
       end
 
-      it 'renders the new metadata submitted notice including short name + version' do
+      it 'renders the new metadata rejected notice including short name + version' do
         expect(mail.html_part.body).to have_content("#{proposal.draft['ShortName']}_#{proposal.draft['Version']} Rejected")
         expect(mail.html_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected for the following reasons: '#{proposal.approver_feedback['reasons'].join(', ')}'", normalize_ws: true)
         expect(mail.text_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected for the following reasons: '#{proposal.approver_feedback['reasons'].join(', ')}'", normalize_ws: true)
@@ -128,6 +128,59 @@ describe ProposalMailer do
         expect(mail.html_part.body).to have_link('Revise and Resubmit Collection Metadata Proposal', href: collection_draft_proposal_url(proposal.id))
         # link renders as text in text format email
         expect(mail.text_part.body).to have_content(collection_draft_proposal_url(proposal.id))
+      end
+    end
+
+    context 'when rejecting a record with no feedback' do
+      proposal = CollectionDraftProposal.new
+      proposal.draft = { 'ShortName': 'CIESIN_SEDAC_EPI_2010', 'Version': '1' }
+      proposal.approver_feedback = {}
+      proposal.request_type = 'Create'
+      proposal.id = 1
+      let(:mail) { described_class.proposal_rejected_notification(user, proposal) }
+
+      it 'renders the new metadata rejected notice including short name + version' do
+        expect(mail.html_part.body).to have_content("#{proposal.draft['ShortName']}_#{proposal.draft['Version']} Rejected")
+        expect(mail.html_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected", normalize_ws: true)
+        expect(mail.text_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected", normalize_ws: true)
+        expect(mail.html_part.body).to have_content("Please consult the dMMT User's Guide for information on CMR metadata best practices.")
+        expect(mail.text_part.body).to have_content("Please consult the dMMT User's Guide for information on CMR metadata best practices.")
+      end
+    end
+
+    context 'when rejecting a record with partial feedback' do
+      context 'when rejecting a record with a reason and no note' do
+        proposal = CollectionDraftProposal.new
+        proposal.draft = { 'ShortName': 'CIESIN_SEDAC_EPI_2010', 'Version': '1' }
+        proposal.request_type = 'Create'
+        proposal.id = 1
+        proposal.approver_feedback = { 'reasons': ['Test Reason Text'] }
+        let(:mail) { described_class.proposal_rejected_notification(user, proposal) }
+
+        it 'renders the new metadata rejected notice including short name + version' do
+          expect(mail.html_part.body).to have_content("#{proposal.draft['ShortName']}_#{proposal.draft['Version']} Rejected")
+          expect(mail.html_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected for the following reasons: '#{proposal.approver_feedback['reasons'].join(', ')}'", normalize_ws: true)
+          expect(mail.text_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected for the following reasons: '#{proposal.approver_feedback['reasons'].join(', ')}'", normalize_ws: true)
+          expect(mail.html_part.body).to have_content("Please consult the dMMT User's Guide for information on CMR metadata best practices.")
+          expect(mail.text_part.body).to have_content("Please consult the dMMT User's Guide for information on CMR metadata best practices.")
+        end
+      end
+
+      context 'when rejecting a record with a note and no reason' do
+        proposal = CollectionDraftProposal.new
+        proposal.draft = { 'ShortName': 'CIESIN_SEDAC_EPI_2010', 'Version': '1' }
+        proposal.request_type = 'Create'
+        proposal.id = 1
+        proposal.approver_feedback = { 'note': 'Test Note Text' }
+        let(:mail) { described_class.proposal_rejected_notification(user, proposal) }
+
+        it 'renders the new metadata rejected notice including short name + version' do
+          expect(mail.html_part.body).to have_content("#{proposal.draft['ShortName']}_#{proposal.draft['Version']} Rejected")
+          expect(mail.html_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected", normalize_ws: true)
+          expect(mail.text_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected", normalize_ws: true)
+          expect(mail.html_part.body).to have_content("Additional feedback was provided: '#{proposal.approver_feedback['note']}'")
+          expect(mail.text_part.body).to have_content("Additional feedback was provided: '#{proposal.approver_feedback['note']}'")
+        end
       end
     end
 

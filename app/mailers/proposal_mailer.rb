@@ -51,10 +51,9 @@ class ProposalMailer < ApplicationMailer
     @id = proposal.id
     rejected_reasons = proposal.approver_feedback['reasons']&.join(', ')
     @reasons_text = " for the following reasons: '#{rejected_reasons}'" if rejected_reasons
-    @dmmt_user_guide_url = DMMT_USER_GUIDE_URL unless rejected_reasons
+    @dmmt_user_guide_url = DMMT_USER_GUIDE_URL
     @rejected_note = proposal.approver_feedback['note']
     @request_type = proposal.request_type
-    
 
     email_subject = "#{@request_type.titleize} Collection Proposal Rejected in Metadata Management Tool#{@email_env_note}"
 
