@@ -40,7 +40,9 @@ describe 'Viewing a variable' do
 
     context 'when visiting the show page of a non-existent variable' do
       before do
-        visit variable_path('Vfake-concept-id')
+        # This fake concept-id still needs to have a 'V' to get parsed through
+        # set-metadata correctly.
+        visit variable_path('Var-fake-concept-id')
       end
 
       it 'displays the variable show page with no data' do
