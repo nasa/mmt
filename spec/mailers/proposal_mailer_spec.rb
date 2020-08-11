@@ -144,7 +144,7 @@ describe ProposalMailer do
         expect(mail.html_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected", normalize_ws: true)
         expect(mail.text_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected", normalize_ws: true)
         expect(mail.html_part.body).to have_content("Please consult the dMMT User's Guide for information on CMR metadata best practices.")
-        expect(mail.text_part.body).to have_content("Please consult the dMMT User's Guide for information on CMR metadata best practices.")
+        expect(mail.text_part.body).to have_content('Please consult https://wiki.earthdata.nasa.gov/display/ED/Draft+MMT+%28dMMT%29+User%27s+Guide for information on CMR metadata best practices.')
       end
     end
 
@@ -162,7 +162,7 @@ describe ProposalMailer do
           expect(mail.html_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected for the following reasons: '#{proposal.approver_feedback['reasons'].join(', ')}'", normalize_ws: true)
           expect(mail.text_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected for the following reasons: '#{proposal.approver_feedback['reasons'].join(', ')}'", normalize_ws: true)
           expect(mail.html_part.body).to have_content("Please consult the dMMT User's Guide for information on CMR metadata best practices.")
-          expect(mail.text_part.body).to have_content("Please consult the dMMT User's Guide for information on CMR metadata best practices.")
+          expect(mail.text_part.body).to have_content('Please consult https://wiki.earthdata.nasa.gov/display/ED/Draft+MMT+%28dMMT%29+User%27s+Guide for information on CMR metadata best practices.')
         end
       end
 
