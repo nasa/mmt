@@ -1,22 +1,22 @@
 module LossReportHelper
 
-  def loss_report_output(compared_collections:, hide_items:, display:)
+  def loss_report_output(translated_collections:, hide_items:, display:)
     # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
     # this display feature could be a good candidate for dependency injection
 
-    orig_h = compared_collections[:original_collection_native_hash]
-    conv_h = compared_collections[:translated_collection_native_hash]
+    orig_h = translated_collections[:original_collection_native_hash]
+    conv_h = translated_collections[:translated_collection_native_hash]
 
     # ISO and DIF collections (in XML form) contain namespaces that cause errors in the below comparison.
     # Specifically, when nodes are evaluated individually, (their namespace definitions remaining at the top of the xml)
     # their prefixes are undefined in the scope of the evaluation and therefore raise errors. Removing the namespaces
     # eliminates this issue.
-    if compared_collections[:native_format].include?('iso') || compared_collections[:native_format].include?('dif')
-      orig = Nokogiri::XML(compared_collections[:original_collection_native_xml]) { |config| config.strict.noblanks }.remove_namespaces!
-      conv = Nokogiri::XML(compared_collections[:translated_collection_native_xml]) { |config| config.strict.noblanks }.remove_namespaces!
+    if translated_collections[:native_format].include?('iso') || translated_collections[:native_format].include?('dif')
+      orig = Nokogiri::XML(translated_collections[:original_collection_native_xml]) { |config| config.strict.noblanks }.remove_namespaces!
+      conv = Nokogiri::XML(translated_collections[:translated_collection_native_xml]) { |config| config.strict.noblanks }.remove_namespaces!
     else
-      orig = Nokogiri::XML(compared_collections[:original_collection_native_xml]) { |config| config.strict.noblanks }
-      conv = Nokogiri::XML(compared_collections[:translated_collection_native_xml]) { |config| config.strict.noblanks }
+      orig = Nokogiri::XML(translated_collections[:original_collection_native_xml]) { |config| config.strict.noblanks }
+      conv = Nokogiri::XML(translated_collections[:translated_collection_native_xml]) { |config| config.strict.noblanks }
     end
 
     # This array is used to keep track of the paths that lead to arrays that have already been mapped
@@ -25,11 +25,11 @@ module LossReportHelper
     if display == 'text'
       text_output = String.new
       json_output = nil
-      text_output += (compared_collections[:native_format] + "\n\n")
+      text_output += (translated_collections[:native_format] + "\n\n")
     elsif display == 'json'
       json_output = Hash.new
       text_output = nil
-      json_output['format'] = compared_collections[:native_format]
+      json_output['format'] = translated_collections[:native_format]
     end
 
     # Below is the Nokogiri#diff method that is used to compare Nokogiri::XML objects.
