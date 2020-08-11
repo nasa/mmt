@@ -1,4 +1,4 @@
-describe 'When Viewing Subscriptions' do
+describe 'When Viewing Subscriptions', reset_provider: true do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
@@ -23,14 +23,6 @@ describe 'When Viewing Subscriptions' do
       # make a record
       @ingest_response, search_response, @subscription = publish_new_subscription(native_id: @native_id)
       @native_id = search_response.body['items'].first['meta']['native-id']
-    end
-
-    # TODO: using reset_provider may be cleaner than these after blocks,
-    # but does not currently work. Reinvestigate after CMR-6310
-    after :all do
-      delete_response = cmr_client.delete_subscription('MMT_2', @native_id, 'token')
-
-      raise unless delete_response.success?
     end
 
     context 'when the user has read access only' do

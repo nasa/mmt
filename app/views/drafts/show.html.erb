@@ -23,32 +23,9 @@
     </p>
   </div>
 <% elsif @unsupported_version %>
-  <%# with MMT-2301 see if this can be refactored into a partial %>
-  <div class="eui-banner--warn">
-    <p class="eui-banner__message">
-      <%= "Associated Published Record version is unsupported. Editing this #{resource_name.titleize} is currently unavailable." %>
-    </p>
-  </div>
-  <div class="no-access">
-    <h3 class="access-title">Published Version Unsupported</h3>
-    <p class="access-message">
-      <%= "This #{resource_name.titleize} has an associated #{published_resource_name.titleize} that has been published to the CMR at a higher UMM version than what MMT currently supports. In order to prevent unintentional data loss, editing this #{resource_name.titleize} is currently unavailable." %>
-    </p>
-  </div>
+  <%= render partial: 'drafts/shared/unsupported_version' %>
 <% elsif @unconfirmed_version %>
-  <%# with MMT-2301 see if this can be refactored into a partial %>
-  <div class="eui-banner--warn">
-    <p class="eui-banner__message">
-      <%= "We cannot confirm the UMM version of the published record associated with this #{resource_name.titleize}." %>
-    </p>
-  </div>
-  <div class="no-access">
-    <h3 class="access-title">Unconfirmed UMM Version</h3>
-    <p class="access-message">
-      <%= "It appears we currently cannot confirm the UMM version of the published record associated with this #{resource_name.titleize}. In order to prevent unintentional data loss, editing this #{resource_name.titleize} is currently unavailable." %>
-      Please try again or contact <%= mail_to('support@earthdata.nasa.gov', 'Earthdata Support') %>
-    </p>
-  </div>
+  <%= render partial: 'drafts/shared/unconfirmed_version' %>
 <% else %>
   <div class="row row-content">
     <section class="action">

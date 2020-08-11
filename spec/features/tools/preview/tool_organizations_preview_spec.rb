@@ -1,4 +1,4 @@
-describe 'Valid Tool Tool Organizations Preview' do
+describe 'Valid Tool Tool Organizations Preview', reset_provider: true do
   before :all do
     @ingest_response, _concept_response, @native_id = publish_tool_draft
   end
@@ -6,13 +6,6 @@ describe 'Valid Tool Tool Organizations Preview' do
   before do
     login
     visit tool_path(@ingest_response['concept-id'])
-  end
-
-  # TODO: remove after CMR-6332
-  after :all do
-    delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
-
-    raise unless delete_response.success?
   end
 
   context 'when examining the Tool Organizations section' do
