@@ -40,7 +40,9 @@ describe 'Viewing a service' do
 
     context 'when visiting the show page of a non-existent service' do
       before do
-        visit service_path('Sfake-concept-id')
+        # This fake concept-id still needs to have a 'S' to get parsed through
+        # set_metadata correctly.
+        visit service_path('Service-fake-concept-id')
       end
 
       it 'displays the service show page with no data' do
