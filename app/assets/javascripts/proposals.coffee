@@ -9,6 +9,8 @@ $(document).ready ->
       # validate or revalidate on close
       $(this).valid()
 
+    # The jquery validation below is not sufficient to drive the error displays
+    # so changing the note should trigger a class change on the reasons select2
     $('#rejection_note').change ->
       if $('#rejection_note').val()
         $('#proposal-rejection-reasons').addClass('required')
@@ -32,7 +34,7 @@ $(document).ready ->
         'rejection[reasons]':
           required:
             depends:
-              -> $('#rejection-note').val().length > 0
+              -> $('#rejection-note').val()
         'rejection[note]':
           required: 
             depends:
@@ -44,6 +46,7 @@ $(document).ready ->
           required: 'Note is required'
           
     updateRequiredIcons = -> 
+      # display required icons iff there is data in a field
       if $('#rejection_note').val() || $('#proposal-rejection-reasons').val().length > 0
         $('label[for=rejection_reasons]').addClass('eui-required-o')
         $('label[for=rejection_note]').addClass('eui-required-o')
