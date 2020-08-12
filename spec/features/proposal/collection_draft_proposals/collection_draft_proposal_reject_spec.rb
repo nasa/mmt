@@ -108,7 +108,7 @@ describe 'Collection Draft Proposal Reject', js: true do
             end
           end
 
-          it 'does not rejects the proposal' do
+          it 'does not reject the proposal' do
             expect(page).to have_content('Note is required')
           end
         end

@@ -72,7 +72,6 @@ class ProposalMailerPreview < ActionMailer::Preview
     user = { name: 'Captain Planet', email: 'supergreen@bluemarble.com' }
     proposal = CollectionDraftProposal.new
     proposal.draft = { 'ShortName' => 'CIESIN_SEDAC_EPI_2010', 'Version' => '2010' }
-    # Every possible reason and a long note to show a 'worst case scenario' kind of e-mail
     proposal.approver_feedback = {}
 
     proposal.request_type = 'create'
