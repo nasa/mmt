@@ -22,7 +22,6 @@ describe 'Collection Draft Proposal Reject', js: true do
 
     context 'when the rejecting the proposal' do
       before do
-        mock_urs_get_users
         click_on 'Reject Proposal Submission'
       end
 
@@ -52,14 +51,56 @@ describe 'Collection Draft Proposal Reject', js: true do
         context 'with a note and no reason' do
           before do
             fill_in 'Note', with: 'There are many reasons for rejecting this submission'
+            find('label[for=rejection_note]').click
+
             within '#reject-submission-modal' do
               click_on 'Reject'
             end
           end
 
-          it 'rejects the proposal' do
-            expect(page).to have_content('Draft Proposal Submission')
-            expect(page).to have_content('Rejected')
+          it 'does not reject the proposal' do
+            expect(page).to have_content('Reason(s) are required')
+          end
+
+          context 'when adding a reason' do
+            before do
+              select 'Broken Links', from: 'proposal-rejection-reasons'
+              find('label[for=rejection_note]').click
+
+              within '#reject-submission-modal' do
+                VCR.use_cassette('urs/proposal_email_fetch/proposal_approval') do
+                  click_on 'Reject'
+                end
+              end
+            end
+
+            it 'can reject the record' do
+              within '#proposal-status-display' do
+                expect(page).to have_content('Draft Proposal Submission')
+                expect(page).to have_content('Rejected')
+              end
+            end
+          end
+
+          context 'when removing the note' do
+            before do
+              fill_in 'Note', with: ''
+
+              find('label[for=rejection_note]').click
+
+              within '#reject-submission-modal' do
+                VCR.use_cassette('urs/proposal_email_fetch/proposal_approval') do
+                  click_on 'Reject'
+                end
+              end
+            end
+
+            it 'can reject the record' do
+              within '#proposal-status-display' do
+                expect(page).to have_content('Draft Proposal Submission')
+                expect(page).to have_content('Rejected')
+              end
+            end
           end
         end
 
@@ -71,9 +112,8 @@ describe 'Collection Draft Proposal Reject', js: true do
             end
           end
 
-          it 'rejects the proposal' do
-            expect(page).to have_content('Draft Proposal Submission')
-            expect(page).to have_content('Rejected')
+          it 'does not rejects the proposal' do
+            expect(page).to have_content('Note is required')
           end
         end
       end
@@ -84,8 +124,11 @@ describe 'Collection Draft Proposal Reject', js: true do
           within '#reject-submission-modal' do
             select 'Broken Links', from: 'proposal-rejection-reasons'
             fill_in 'Note', with: 'There are many reasons for rejecting this submission'
+            find('label[for=rejection_note]').click
 
-            click_on 'Reject'
+            VCR.use_cassette('urs/proposal_email_fetch/proposal_approval') do
+              click_on 'Reject'
+            end
           end
         end
 
@@ -129,7 +172,11 @@ describe 'Collection Draft Proposal Reject', js: true do
         select 'Broken Links', from: 'proposal-rejection-reasons'
         fill_in 'Note', with: 'There are many reasons for rejecting this submission'
 
-        click_on 'Reject'
+        find('label[for=rejection_note]').click
+
+        within '#reject-submission-modal' do
+          click_on 'Reject'
+        end
       end
 
       it 'provides an error message' do

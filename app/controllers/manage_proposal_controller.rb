@@ -24,6 +24,7 @@ class ManageProposalController < ManageMetadataController
     dmmt_response = if Rails.env.test?
                       cmr_client.dmmt_get_approved_proposals(token, request)
                     else
+                      puts ">>>>>>>>>> #{token}"
                       cmr_client.dmmt_get_approved_proposals(token)
                     end
 
