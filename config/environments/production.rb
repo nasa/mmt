@@ -135,7 +135,7 @@ Rails.application.configure do
   config.subscriptions_enabled = true
 
   # Feature toggle for UMM-T
-  config.umm_t_enabled = false
+  config.umm_t_enabled = true
 
   config.cmr_env = 'ops'
   config.echo_env = 'ops'

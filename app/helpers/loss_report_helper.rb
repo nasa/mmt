@@ -1,93 +1,92 @@
 module LossReportHelper
 
-  def cmr_client
-    Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
-  end
-
-  def token
-    if session[:login_method] == 'launchpad'
-      session[:launchpad_cookie]
-    elsif session[:login_method] == 'urs'
-      session[:access_token]
-    end
-  end
-
-  def loss_report_output(hide_items=true, disp='text')
+  def loss_report_output(translated_collections:, hide_items:, display:)
     # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
+    # this display feature could be a good candidate for dependency injection
 
-    # @collection_error is true if there is an error in the translation that is performed by prepare_collections in the collections_controller
-    if !@collection_error
-      orig_xml,conv_xml = @original_collection_native_xml, @translated_collection_native_xml
-      orig_h,conv_h  = @original_collection_native_hash, @translated_collection_native_hash
-    else
-      return 'Failure to get_concept or translate_collection' if disp == 'text'
-      return {"error"=>"Failure to get_concept or translate_collection"} if disp == 'json'
-    end
+    orig_h = translated_collections[:original_collection_native_hash]
+    conv_h = translated_collections[:translated_collection_native_hash]
 
     # ISO and DIF collections (in XML form) contain namespaces that cause errors in the below comparison.
     # Specifically, when nodes are evaluated individually, (their namespace definitions remaining at the top of the xml)
     # their prefixes are undefined in the scope of the evaluation and therefore raise errors. Removing the namespaces
     # eliminates this issue.
-    if @content_type.include?('iso') || @content_type.include?('dif')
-      orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks } .remove_namespaces!
-      conv = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks } .remove_namespaces!
+    if translated_collections[:native_format].include?('iso') || translated_collections[:native_format].include?('dif')
+      orig = Nokogiri::XML(translated_collections[:original_collection_native_xml]) { |config| config.strict.noblanks }.remove_namespaces!
+      conv = Nokogiri::XML(translated_collections[:translated_collection_native_xml]) { |config| config.strict.noblanks }.remove_namespaces!
     else
-      orig = Nokogiri::XML(orig_xml) { |config| config.strict.noblanks }
-      conv = Nokogiri::XML(conv_xml) { |config| config.strict.noblanks }
+      orig = Nokogiri::XML(translated_collections[:original_collection_native_xml]) { |config| config.strict.noblanks }
+      conv = Nokogiri::XML(translated_collections[:translated_collection_native_xml]) { |config| config.strict.noblanks }
     end
 
-    arr_paths = Array.new # This array is used to keep track of the paths that lead to arrays that have already been mapped
-    text_output = String.new if disp == 'text'
-    json_output = Hash.new if disp == 'json'
+    # This array is used to keep track of the paths that lead to arrays that have already been mapped
+    arr_paths = Array.new
 
-    json_output['format'] = @content_type if disp == 'json'
-    text_output += (@content_type + "\n\n") if disp == 'text'
+    if display == 'text'
+      text_output = String.new
+      json_output = nil
+      text_output += (translated_collections[:native_format] + "\n\n")
+    elsif display == 'json'
+      json_output = Hash.new
+      text_output = nil
+      json_output['format'] = translated_collections[:native_format]
+    end
 
+    # Below is the Nokogiri#diff method that is used to compare Nokogiri::XML objects.
+    # The 'change' item is either '+' or '-'; the 'node' item is the Nokogiri::XML::Node object
     orig.diff(conv, {:added => true, :removed => true}) do |change,node|
+
       element = node.to_xml
       path = node.parent.path.split('[')[0]
       arr_path = top_level_arr_path(path, orig_h, conv_h)
 
+      # the first layer of the following if/else structure is used to separately evaluate explicit array changes.
+      # This is why arr_path will evaluate true if the element in question is an array
       if arr_path && path_not_checked?(arr_path, arr_paths)
         arr_paths << arr_path
-        array_comparison(arr_path, orig_h, conv_h).each { |item| add_to_report(item[0], item[1], item[2], hide_items, disp, json_output, text_output) }
-      elsif path_not_checked?(path, arr_paths) 
-        if is_xml?(node)
+        array_comparison(arr_path, orig_h, conv_h).each { |item| add_to_report(item[0], item[1], item[2], hide_items, display, json_output, text_output) }
+      elsif path_not_checked?(path, arr_paths)
+        # this layer of if/else separates items that contain xml (this is a nokogiri oddity that occurs where
+        # Nokogiri does not directly map to an item that is changed thus it still contains xml - this is the
+        # purpose of hash_values_and_paths), items that represent xml attribute changes, and normal changes.
+        if is_xml?(element)
           element = Hash.from_xml(element)
-          hash_map(element).each do |item|
+          hash_values_and_paths(element).each do |item|
             arr_path = top_level_arr_path("#{path}/#{item['path']}", orig_h, conv_h)
+            # this layer of if/else structure is used to separately evaluate implicit array changes in the xml.
+            # This is why arr_path will evaluate true if the element in question is an array
             if arr_path && path_not_checked?("#{path}/#{item['path']}", arr_paths)
               if path_not_checked?(arr_path, arr_paths)
                 arr_paths << arr_path
-                array_comparison(arr_path, orig_h, conv_h).each { |item| add_to_report(item[0], item[1], item[2], hide_items, disp, json_output, text_output) }
+                array_comparison(arr_path, orig_h, conv_h).each { |item| add_to_report(item[0], item[1], item[2], hide_items, display, json_output, text_output) }
               end
             elsif path_not_checked?("#{path}/#{item['path']}", arr_paths)
-              add_to_report(change, item['value'], "#{path}/#{item['path']}", hide_items, disp, json_output, text_output)
+              add_to_report(change, item['value'], "#{path}/#{item['path']}", hide_items, display, json_output, text_output)
             end
           end
-        elsif (attr,val = is_attribute?(node))
-          add_to_report(change, val, "#{path}/#{attr}" , hide_items, disp, json_output, text_output)
+        elsif (attr,val = is_attribute?(element))
+          add_to_report(change, val, "#{path}/#{attr}" , hide_items, display, json_output, text_output)
         else
-          add_to_report(change, element, path, hide_items, disp, json_output, text_output)
+          add_to_report(change, element, path, hide_items, display, json_output, text_output)
         end
       end
     end
-    return text_output if disp == 'text'
-    return json_output if disp == 'json'
+    return text_output if display == 'text'
+    return json_output if display == 'json'
   end
 
-  def is_xml?(node)
-    # checks if the node being passed is xml
+  def is_xml?(element)
+    # checks if the element being passed is xml
     # may be beneficial to add more checks
-    node.to_xml.include?('<' && '</' && '>') ? true : false
+    element.include?('<' && '</' && '>')
   end
 
-  def is_attribute?(node)
-    # this method checks if the node being passed is an attribute change;
+  def is_attribute?(element)
+    # this method checks if the element being passed is an attribute change;
     # TODO: it may be beneficial to add more conditions to improve accuracy
-    if node.to_xml.include?('=') && !node.to_xml.include?(' = ')
+    if element.include?('=') && !element.include?(' = ')
       attr_val = Array.new
-      node.to_xml.split('=').each {|item| attr_val << item.strip.delete('\\"')}
+      element.split('=').each {|item| attr_val << item.strip.delete('\\"')}
       attr_val
     else
       false
@@ -107,7 +106,10 @@ module LossReportHelper
     pre_translation_array, pre_translation_path = hash_navigation(path, orig_h)
     post_translation_array, post_translation_path = hash_navigation(path, conv_h)
 
-    return false if pre_translation_array == false && post_translation_array == false
+    # the following line handles a scenario where hash_navigation returns false for both pre_ and post_translation_arrays
+    # which means that the path passed does not exist in the original or converted collections
+    return path_exists = false if pre_translation_array == false && post_translation_array == false
+
     return pre_translation_path if pre_translation_array.is_a?(Array)
     return post_translation_path if post_translation_array.is_a?(Array)
 
@@ -123,19 +125,19 @@ module LossReportHelper
     path_contains_array = false
   end
 
-  def add_to_report(change, element, path, hide_items, disp, json_output, text_output)
+  def add_to_report(change, element, path, hide_items, display, json_output, text_output)
     @counter ||= 0 and @counter += 1
     # this function serves to preclude complex nests from forming in loss_report_output the
     # following 'if' structure is intended to increase readability by eliminating nests
-    return text_output.concat("#{@counter}.".ljust(4)+"#{change}: #{element}".ljust(60) + path + "\n") if hide_items == false && disp == 'text'
-    return text_output.concat("#{@counter}.".ljust(4)+"#{change}: ".ljust(3) + path + "\n") if hide_items == true && disp == 'text'
-    return json_output["#{@counter}. #{change}: #{path}"] = element if disp == 'json'
+    return text_output.concat("#{@counter}.".ljust(4)+"#{change}: #{element}".ljust(60) + path + "\n") if hide_items == false && display == 'text'
+    return text_output.concat("#{@counter}.".ljust(4)+"#{change}: ".ljust(3) + path + "\n") if hide_items == true && display == 'text'
+    return json_output["#{@counter}. #{change}: #{path}"] = element if display == 'json'
   end
 
-  def hash_map(hash)
+  def hash_values_and_paths(hash)
     buckets = Array.new
     hash.each do |key,val|
-      if val.is_a? Hash then hash_map(val).each do |item|
+      if val.is_a? Hash then hash_values_and_paths(val).each do |item|
         item['path'] = key + '/' + item['path']
         buckets << item end
       else

@@ -11,8 +11,8 @@ namespace :cmr do
     # use puts %x() to run commands and not Process.spawn(), which returns
     # imediatly, because curl can take a while and we want to see the output
     # from standard out.
-    
-    # make a backup copy of the old jar if it exists, and a backup of the backup 
+
+    # make a backup copy of the old jar if it exists, and a backup of the backup
     cmd_backup = 'cd cmr ; '\
       "if [ -a \"#{jar_name}\" ] ; then "\
         'echo Backup jar... ; '\
@@ -20,7 +20,7 @@ namespace :cmr do
         "mv -fv #{jar_name} #{jar_name}.last ; "\
       'fi'
     puts %x( #{cmd_backup} )
-    
+
     # download a new jar to a temp location and rename it if successfull
     puts 'Download jar...'
     cmd_fetch = 'cd cmr ; '\
@@ -153,11 +153,11 @@ namespace :cmr do
         File.join(Rails.root.to_s, 'vendor', 'assets', 'javascripts', 'eui-1.0.0', 'eui.js')
       ]
 
-      # TODO: move to version 3 of jquery
-      # it is not currently understood how this section works to select jquery
-      # currently the preview gem is not running with version 3, but 1
+      # Find the path to jquery
       jquery = Rails.application.config.assets.paths.select { |p| p.to_s.include?('jquery-rails') }
-      dependencies.unshift(File.join(jquery.first, 'jquery.js')) if jquery.any?
+      # Include a specific file. jquery-rails has files for each major version
+      # stored in the above location
+      dependencies.unshift(File.join(jquery.first, 'jquery3.js')) if jquery.any?
 
       js_to_uglify = dependencies.sort.map do |file|
         puts "- Reading #{file}"

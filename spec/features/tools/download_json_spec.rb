@@ -1,19 +1,26 @@
-describe 'Downloading Service JSON', js: true do
+describe 'Downloading Tool JSON', js: true do
   before :all do
-    @ingest_response, _concept_response = publish_service_draft
+    @ingest_response, _concept_response, @native_id = publish_tool_draft
   end
 
-  context 'when viewing the service preview page' do
+  # TODO: remove after CMR-6332
+  after :all do
+    delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
+
+    raise unless delete_response.success?
+  end
+
+  context 'when viewing the tool preview page' do
     before do
       login
 
-      visit service_path(@ingest_response['concept-id'])
+      visit tool_path(@ingest_response['concept-id'])
     end
 
     it 'renders the download link' do
-      expect(page).to have_link('Download JSON', href: download_json_service_path(@ingest_response['concept-id']))
+      expect(page).to have_link('Download JSON', href: download_json_tool_path(@ingest_response['concept-id']))
     end
-    
+
     context 'when downloading the json' do
       before do
         @file = "#{Rails.root}/#{@ingest_response['concept-id']}.json"

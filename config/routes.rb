@@ -69,7 +69,8 @@ Rails.application.routes.draw do
   get '/collections/:id/download_xml/:format(/:revision_id)' => 'collections#download_xml', as: 'download_collection_xml'
   get '/collections/:id/create_delete_proposal' => 'collections#create_delete_proposal', as: 'create_delete_proposal_collection'
   get '/collections/:id/create_update_proposal' => 'collections#create_update_proposal', as: 'create_update_proposal_collection'
-  get '/collections/:id/loss' => 'collections#loss_report', as: 'loss_report_collections'
+  get '/collections/:id/loss_report' => 'collections#loss_report', as: 'loss_report_collections'
+
 
   resource :variable_generation_processes_search, only: [:new]
 
@@ -104,7 +105,11 @@ Rails.application.routes.draw do
   get '/services/:id/clone' => 'services#clone', as: 'clone_service'
   get '/services/:id/download_json(/:revision_id)' => 'services#download_json', as: 'download_json_service'
 
-  resources :tools, only: [:show, :create, :edit]
+  resources :tools, only: [:show, :create, :edit, :destroy]
+  get '/tools/:id/clone' => 'tools#clone', as: 'clone_tool'
+  get '/tools/:id/revisions' => 'tools#revisions', as: 'tool_revisions'
+  get '/tools/:id/download_json(/:revision_id)' => 'tools#download_json', as: 'download_json_tool'
+  get '/tools/:id/revert/:revision_id' => 'tools#revert', as: 'revert_tool'
 
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do

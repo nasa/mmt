@@ -53,13 +53,28 @@ describe 'Deleting Subscriptions' do
 
     context 'when failing to delete a subscription' do
       before do
-        # Generate an error message by deleting it underneath the 'user'
-        cmr_client.delete_subscription('MMT_2', @native_id, 'token')
         click_on 'Delete'
 
-        VCR.use_cassette('urs/rarxd5taqea', record: :none) do
+        # Using 'allow_any_instance_of' causes the after delete to fail as well.
+        # Need localhost to mock the CMR delete response to be an error.
+        VCR.configure do |c|
+          c.ignore_localhost = false
+        end
+
+        VCR.use_cassette('subscriptions/failed_delete', erb: { concept_id: @ingest_response['concept_id'] }) do
           click_on 'Yes'
         end
+
+        VCR.configure do |c|
+          c.ignore_localhost = true
+        end
+      end
+
+      # TODO: Remove after CMR-6332
+      after do
+        delete_response = cmr_client.delete_subscription('MMT_2', @native_id, 'token')
+
+        raise unless delete_response.success?
       end
 
       it 'fails to delete the record' do
