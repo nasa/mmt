@@ -51,7 +51,6 @@ describe 'Collection Draft Proposal Reject', js: true do
         context 'with a note and no reason' do
           before do
             fill_in 'Note', with: 'There are many reasons for rejecting this submission'
-            find('label[for=rejection_note]').click
 
             within '#reject-submission-modal' do
               click_on 'Reject'
@@ -65,10 +64,9 @@ describe 'Collection Draft Proposal Reject', js: true do
           context 'when adding a reason' do
             before do
               select 'Broken Links', from: 'proposal-rejection-reasons'
-              find('label[for=rejection_note]').click
 
               within '#reject-submission-modal' do
-                VCR.use_cassette('urs/proposal_email_fetch/proposal_approval') do
+                VCR.use_cassette('urs/proposal_email_fetch/proposal_urs_ids') do
                   click_on 'Reject'
                 end
               end
@@ -86,10 +84,8 @@ describe 'Collection Draft Proposal Reject', js: true do
             before do
               fill_in 'Note', with: ''
 
-              find('label[for=rejection_note]').click
-
               within '#reject-submission-modal' do
-                VCR.use_cassette('urs/proposal_email_fetch/proposal_approval') do
+                VCR.use_cassette('urs/proposal_email_fetch/proposal_urs_ids') do
                   click_on 'Reject'
                 end
               end
@@ -126,7 +122,7 @@ describe 'Collection Draft Proposal Reject', js: true do
             fill_in 'Note', with: 'There are many reasons for rejecting this submission'
             find('label[for=rejection_note]').click
 
-            VCR.use_cassette('urs/proposal_email_fetch/proposal_approval') do
+            VCR.use_cassette('urs/proposal_email_fetch/proposal_urs_ids') do
               click_on 'Reject'
             end
           end
@@ -169,10 +165,8 @@ describe 'Collection Draft Proposal Reject', js: true do
         mock_publish(@collection_draft_proposal)
         click_on 'Reject Proposal Submission'
 
-        select 'Broken Links', from: 'proposal-rejection-reasons'
         fill_in 'Note', with: 'There are many reasons for rejecting this submission'
-
-        find('label[for=rejection_note]').click
+        select 'Broken Links', from: 'proposal-rejection-reasons'
 
         within '#reject-submission-modal' do
           click_on 'Reject'
