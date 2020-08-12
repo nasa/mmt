@@ -19,8 +19,9 @@
 
         <%= link_to 'Download JSON', send("download_json_#{@published_resource_name}_path", @concept_id, revision_id: @revision_id), class: 'eui-btn--link', target: '_blank' %>
 
-        <%= render partial: 'base_published_record/delete_link_with_modal' %>
-
+        <%= render partial: 'base_published_record/delete_link' %>
+        
+        <%= render partial: 'base_published_record/delete_modal' %>
         <%= render partial: 'shared/not_current_provider_modal', locals: {
           options: {
             @published_resource_name.to_sym => get_resource,
