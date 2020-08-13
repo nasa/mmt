@@ -57,7 +57,7 @@
       <section class="action wide-content">
         <div class="wide-content-inside">
           <p>
-            <% if !@revisions.first.fetch('meta', {})['format'].include?('umm') %>
+            <% if !@revisions.first.fetch('meta', {})['format'].include?('umm') && (current_provider?(@provider_id) || available_provider?(@provider_id)) %>
               <%= link_to 'Edit Collection Record', '#loss-report-modal', class: 'display-modal eui-btn--link bar-after' %>
             <% else %>
               <% if current_provider?(@provider_id) %>

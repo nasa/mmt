@@ -1,4 +1,3 @@
-
 <div id="loss-report-modal" class="eui-modal-content" >
   <a href="javascript:void(0);" class="modal-close float-r" id="close-loss-report-modal"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
   <div>
@@ -6,14 +5,13 @@
     <p>This collection possesses a non-UMM native format and could experience data loss while being translated to UMM. Would you like to view a loss report before you begin editing?</p>
     <p>
       <% if current_provider?(options[:provider_id]) %>
-        <%= link_to 'No', edit_collection_path(revision_id: options[:revision_id]), class: 'eui-btn modal-close-link' %>
-        <%= link_to 'Yes', loss_report_collections_path(options[:concept_id], format: 'json'), class: 'eui-btn--blue modal-close-link', target: :_blank %>
+        <%= link_to 'View Loss Report', loss_report_collections_path(options[:concept_id], format: 'json'), class: 'eui-btn--light-blue', target: :_blank %>
+        <%= link_to 'Edit Collection', edit_collection_path(revision_id: options[:revision_id]), class: 'eui-btn--blue modal-close-link' %>
+        <%= link_to 'Cancel', 'javascript:void(0);', class: 'eui-btn modal-close-link' %>
       <% elsif available_provider?(options[:provider_id]) %>
-        <%= link_to 'No', '#', class: 'eui-btn loss-report', data: {}%>
-        <%= link_to 'Yes', loss_report_collections_path(options[:concept_id], format: 'json'), class: 'eui-btn--blue loss-report', target: :_blank %>
-      <% else %>
-        <a href="javascript:void(0)" class="eui-btn modal-close-link">No</a>
-        <%= link_to 'Yes', loss_report_collections_path(options[:concept_id], format: 'json'), class: 'eui-btn--blue modal-close-link', target: :_blank %>
+        <%= link_to 'View Loss Report', loss_report_collections_path(options[:concept_id], format: 'json'), class: 'eui-btn--light-blue loss-report', target: :_blank %>
+        <%= link_to 'Edit Collection', '#', class: 'eui-btn--blue loss-report' %>
+        <%= link_to 'Cancel', 'javascript:void(0);', class: 'eui-btn modal-close-link' %>
       <% end %>
       <%= link_to 'Invisible Link', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn is-invisible', id: 'loss-report-to-edit-collection', data: { provider: @provider_id, record_action: 'edit-collection' } %>
     </p>
