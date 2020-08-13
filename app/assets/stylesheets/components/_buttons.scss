@@ -28,15 +28,15 @@
   }
 }
 
-.eui-btn--light-blue {
+.eui-btn--steel-blue {
   @extend .eui-btn;
 
-  background-color: $sky-blue;
+  background-color: $steel-blue;
   color: $white !important;
   padding: 0.5em 1em;
 
   &:hover {
-    background-color: darken($sky-blue, 6%);
+    background-color: darken($steel-blue, 6%);
   }
 }
 
