@@ -28,19 +28,6 @@
   }
 }
 
-.eui-btn--blue {
-  @extend .eui-btn;
-
-  background-color: $ocean-blue;
-  color: $white !important;
-  padding: 0.5em 1em;
-  margin-right: 0.625em;
-
-  &:hover {
-    background-color: darken($ocean-blue, 6%);
-  }
-}
-
 .eui-btn--light-blue {
   @extend .eui-btn;
 

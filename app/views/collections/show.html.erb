@@ -57,7 +57,8 @@
       <section class="action wide-content">
         <div class="wide-content-inside">
           <p>
-            <% if !@revisions.first.fetch('meta', {})['format'].include?('umm') && (current_provider?(@provider_id) || available_provider?(@provider_id)) %>
+            <% native_format = @revisions.first.fetch('meta', {})['format'] %>
+            <% if !native_format.include?('umm') && (current_provider?(@provider_id) || available_provider?(@provider_id)) %>
               <%= link_to 'Edit Collection Record', '#loss-report-modal', class: 'display-modal eui-btn--link bar-after' %>
             <% else %>
               <% if current_provider?(@provider_id) %>
@@ -119,11 +120,9 @@
           <%= render partial: 'shared/loss_report_modal', locals: {
             options: {
               provider_id: @provider_id,
-              collection: @collection,
+              native_format: native_format,
               concept_id: @concept_id,
-              revision_id: @revision_id,
-              draft: @draft,
-              draft_id: @draft.try(:id) }
+              revision_id: @revision_id }
             } %>
           <!-- Hidden link to allow modal to be shown -->
           <a href="#granules-modal" id="display-granules-modal" class="display-modal is-invisible"></a>
