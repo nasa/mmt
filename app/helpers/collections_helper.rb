@@ -41,4 +41,14 @@ module CollectionsHelper
       content_tag(:span, 'NRT', class: 'eui-badge nrt')
     end
   end
+
+  def edsc_url
+    if Rails.env.production?
+      'https://search.earthdata.nasa.gov/search'
+    elsif Rails.env.sit?
+      'https://search.sit.earthdata.nasa.gov/search'
+    elsif Rails.env.uat?
+      'https://search.uat.earthdata.nasa.gov/search'
+    end
+  end
 end
