@@ -43,12 +43,16 @@ module CollectionsHelper
   end
 
   def edsc_url
+    config_services = Rails.configuration.services
     if Rails.env.production?
-      'https://search.earthdata.nasa.gov/search'
-    elsif Rails.env.sit?
-      'https://search.sit.earthdata.nasa.gov/search'
+      config_services.dig('earthdata', 'ops', 'edsc_root')
+    elsif Rails.env.sit? || Rails.env.development? || Rails.env.test?
+      # by directing development and test evironments to the edsc sit environment, there
+      # are occasionally situations where the keywords aren't congruent with those in sit
+      # and so no matches may be found in edsc
+      config_services.dig('earthdata', 'sit', 'edsc_root')
     elsif Rails.env.uat?
-      'https://search.uat.earthdata.nasa.gov/search'
+      config_services.dig('earthdata', 'uat', 'edsc_root')
     end
   end
 end
