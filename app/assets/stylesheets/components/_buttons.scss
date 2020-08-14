@@ -40,6 +40,10 @@
   }
 }
 
+.button-spacing {
+  margin-right: 1em;
+}
+
 button {
   &:disabled {
     background-color: lighten($dolphin-grey, 10%);

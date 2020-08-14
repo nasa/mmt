@@ -23,32 +23,42 @@ describe 'loss report modal', js: true do
       end
 
       context 'when the "Edit Collection" button is clicked' do
-        it 'does not display the not-current-provider-modal' do
+        before do
           within '#loss-report-modal' do
             click_on 'Edit Collection'
           end
-
+        end
+        it 'does not display the not-current-provider-modal' do
+          expect(page).to have_content('Metadata Fields')
+          expect(page).to have_content('Collection Information')
+          expect(page).to have_content('Acquisition Information')
+          expect(page).to have_content('Data Contacts')
+          expect(page).to have_content('Metadata Information')
           expect(page).to have_no_css('#not-current-provider-modal')
         end
       end
 
       context 'when the "View Loss Report" button is clicked' do
-        it 'does not display display the not-current-provider-modal and does not close the loss-report-modal' do
+        before do
           within '#loss-report-modal' do
             click_on 'View Loss Report'
           end
-
+        end
+        it 'does not display the not-current-provider-modal and does not close the loss-report-modal' do
           expect(page).to have_no_css('#not-current-provider-modal')
           expect(page).to have_css('#loss-report-modal')
         end
       end
 
       context 'when the "Cancel" button is clicked' do
-        it 'does not display display the not-current-provider-modal and closes loss-report-modal' do
+        before do
           within '#loss-report-modal' do
             click_on 'Cancel'
           end
-
+        end
+        it 'does not display the not-current-provider-modal and closes loss-report-modal' do
+          expect(page).to have_no_content('Metadata Preview')
+          expect(page).to have_link('Edit Collection Record', href: '#loss-report-modal')
           expect(page).to have_no_css('#not-current-provider-modal')
           expect(page).to have_no_css('#loss-report-modal')
         end
@@ -73,13 +83,13 @@ describe 'loss report modal', js: true do
       end
 
       context 'when the "Edit Collection" button is clicked' do
-        it 'displays the not-current-provider-modal' do
+        before do
           within '#loss-report-modal' do
             click_on 'Edit Collection'
           end
-
+        end
+        it 'displays the not-current-provider-modal' do
           expect(page).to have_css('#not-current-provider-modal')
-
           within '#not-current-provider-modal' do
             expect(page).to have_link('Yes', href: '#')
             expect(page).to have_link('No', href: 'javascript:void(0)')
@@ -88,22 +98,24 @@ describe 'loss report modal', js: true do
       end
 
       context 'when the "View Loss Report" button is clicked' do
-        it 'does not display the not-current-provider-modal and does not close the loss-report-modal' do
+        before do
           within '#loss-report-modal' do
             click_on 'View Loss Report'
           end
-
+        end
+        it 'does not display the not-current-provider-modal and does not close the loss-report-modal' do
           expect(page).to have_css('#loss-report-modal')
           expect(page).to have_no_css('#not-current-provider-modal')
         end
       end
 
       context 'when the "Cancel" button is clicked' do
-        it 'does not display display the not-current-provider-modal and closes loss-report-modal' do
+        before do
           within '#loss-report-modal' do
             click_on 'Cancel'
           end
-
+        end
+        it 'does not display the not-current-provider-modal and closes loss-report-modal' do
           expect(page).to have_no_css('#not-current-provider-modal')
           expect(page).to have_no_css('#loss-report-modal')
         end
