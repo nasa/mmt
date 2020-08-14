@@ -194,9 +194,9 @@ module Proposal
 
         submitter_from_resource_response = submitter_from_resource
         # User e-mail
-        ProposalMailer.proposal_rejected_notification(submitter_from_resource_response, get_resource).deliver_now if submitter_from_resource_response
+        ProposalMailer.proposal_rejected_notification(user: submitter_from_resource_response, proposal: get_resource, approver: false).deliver_now if submitter_from_resource_response
         # Approver e-mail
-        ProposalMailer.proposal_rejected_notification(get_user_info, get_resource).deliver_now
+        ProposalMailer.proposal_rejected_notification(user: get_user_info, proposal: get_resource, approver: true).deliver_now
       else
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully attempted to reject #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.reject.flash.error")

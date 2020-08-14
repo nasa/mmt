@@ -102,7 +102,7 @@ describe ProposalMailer do
       proposal.approver_feedback = { 'reasons': ['Test Reason Text'], 'note': 'Test Note Text' }
       proposal.request_type = 'Create'
       proposal.id = 1
-      let(:mail) { described_class.proposal_rejected_notification(user, proposal) }
+      let(:mail) { described_class.proposal_rejected_notification(user: user, proposal: proposal, approver: false) }
 
       it 'renders the subject' do
         expect(mail.subject).to eq('Create Collection Proposal Rejected in Metadata Management Tool (test)')
@@ -122,6 +122,8 @@ describe ProposalMailer do
         expect(mail.text_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected for the following reasons: '#{proposal.approver_feedback['reasons'].join(', ')}'", normalize_ws: true)
         expect(mail.html_part.body).to have_content("Additional feedback was provided: '#{proposal.approver_feedback['note']}'")
         expect(mail.text_part.body).to have_content("Additional feedback was provided: '#{proposal.approver_feedback['note']}'")
+        expect(mail.html_part.body).to have_content("Please consult the dMMT User's Guide for information on CMR metadata best practices.")
+        expect(mail.text_part.body).to have_content('Please consult https://wiki.earthdata.nasa.gov/display/ED/Draft+MMT+%28dMMT%29+User%27s+Guide for information on CMR metadata best practices.')
       end
 
       it 'renders the link to the collection' do
@@ -137,14 +139,12 @@ describe ProposalMailer do
       proposal.approver_feedback = {}
       proposal.request_type = 'Create'
       proposal.id = 1
-      let(:mail) { described_class.proposal_rejected_notification(user, proposal) }
+      let(:mail) { described_class.proposal_rejected_notification(user: user, proposal: proposal, approver: true) }
 
-      it 'renders the new metadata rejected notice including short name + version' do
+      it 'renders the new metadata rejected notice including short name + version and user guide link' do
         expect(mail.html_part.body).to have_content("#{proposal.draft['ShortName']}_#{proposal.draft['Version']} Rejected")
         expect(mail.html_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected", normalize_ws: true)
         expect(mail.text_part.body).to have_content("#{user[:name]}, The collection draft proposal #{proposal.draft['ShortName']}_#{proposal.draft['Version']} has been reviewed and rejected", normalize_ws: true)
-        expect(mail.html_part.body).to have_content("Please consult the dMMT User's Guide for information on CMR metadata best practices.")
-        expect(mail.text_part.body).to have_content('Please consult https://wiki.earthdata.nasa.gov/display/ED/Draft+MMT+%28dMMT%29+User%27s+Guide for information on CMR metadata best practices.')
       end
     end
 

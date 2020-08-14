@@ -8,13 +8,17 @@
   <p>
     <%= "The collection draft proposal #{@short_name}_#{@version} has been reviewed and rejected#{@reasons_text}." %>
   </p>
-  <p>
-    <% if @rejected_note %>
-      <%= simple_format("Additional feedback was provided: '#{@rejected_note}'") %>
-    <% else %>
+  <% if @rejected_note %>
+    <p>
+      <%= simple_format("Additional feedback was provided: '#{@rejected_note}'") if @rejected_note %>
+    </p>
+  <% end %>
+  <% if @dmmt_user_guide_url %>
+    <p>
       <%= "Please consult the " %><%= link_to("dMMT User's Guide", @dmmt_user_guide_url) %><%= " for information on CMR metadata best practices." %>
-    <% end %>
-  </p>
+    </p>
+  <% end %>
+
   <div class="center">
     <%= link_to 'Revise and Resubmit Collection Metadata Proposal', collection_draft_proposal_url(@id), class: 'btn btn-blue' %>
   </div>

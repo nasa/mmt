@@ -4,8 +4,8 @@
 
 <% if @rejected_note %>
   <%= simple_format("Additional feedback was provided: '#{@rejected_note}'") %>
-<% else %>
-  <%= "Please consult #{@dmmt_user_guide_url} for information on CMR metadata best practices." %>
 <% end %>
+<%= "Please consult #{@dmmt_user_guide_url} for information on CMR metadata best practices." if @dmmt_user_guide_url %>
+
 
 View Collection: <%= collection_draft_proposal_url(@id) %>
