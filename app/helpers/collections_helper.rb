@@ -48,8 +48,9 @@ module CollectionsHelper
       config_services.dig('earthdata', 'ops', 'edsc_root')
     elsif Rails.env.sit? || Rails.env.development? || Rails.env.test?
       # by directing development and test evironments to the edsc sit environment, there
-      # are occasionally situations where the keywords aren't congruent with those in sit
-      # and so no matches may be found in edsc
+      # are often situations where the keywords in dev or test aren't congruent with those in sit
+      # and so no matches may be found in edsc. For instance, if this was directed to prod
+      # instead, all keywords would be found
       config_services.dig('earthdata', 'sit', 'edsc_root')
     elsif Rails.env.uat?
       config_services.dig('earthdata', 'uat', 'edsc_root')
