@@ -64,7 +64,7 @@ module Cmr
     end
 
     def request(method, url, params, body, headers)
-      Rails.logger.info "#{self.class} Request #{method} #{url} - Body: #{body} - Time: #{Time.now.to_s(:log_time)}"
+      Rails.logger.info "#{self.class} Request #{method} #{url} - Body: #{parse_string_for_tokens(body)} - Time: #{Time.now.to_s(:log_time)}"
 
       faraday_response = connection.send(method, url, params) do |req|
         unless self.class == UrsClient || self.class == LaunchpadClient
@@ -148,6 +148,12 @@ module Cmr
 
         conn.adapter Faraday.default_adapter
       end
+    end
+
+    def parse_string_for_tokens(body)
+      return body unless body.is_a?(String)
+
+      body.gsub(/token=([\w\-_]+)(&?)/) { |s| "token_beginning_with=#{truncate_token($1)}#{$2}" }
     end
   end
 end
