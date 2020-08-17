@@ -8,7 +8,7 @@ describe 'loss report modal', js: true do
     context 'when provider context does not need to be changed' do
 
       before do
-        login(provider: 'SEDAC', providers: %w[SEDAC LARC])
+        login(provider: 'SEDAC', providers: %w[SEDAC])
         visit collection_path(concept_id)
         click_on 'Edit Collection Record'
       end
