@@ -37,6 +37,15 @@ module Helpers
       end
     end
 
+    def reindex_permitted_groups
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::CmrHelper#reindex_permitted_groups' do
+        reindex_conn = Faraday.new(url: 'http://localhost:3002')
+        reindex_resp = reindex_conn.post('jobs/reindex-collection-permitted-groups?token=mock-echo-system-token')
+
+        Rails.logger.error "Error reindexing groups on port 3002: [#{reindex_resp.status}] #{reindex_resp.body}" unless reindex_resp.success?
+      end
+    end
+
     def cmr_success_response(response_body)
       Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(response_body)))
     end

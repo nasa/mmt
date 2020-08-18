@@ -25,7 +25,7 @@ module Cmr
     end
 
     def get_collections_by_post(query, token = nil, response_format = 'umm-json')
-      # search collections via POST
+      # search collections via POST, with sort key default
       defaults = {
         'sort_key' => 'entry_title'
       }
@@ -73,7 +73,7 @@ module Cmr
       get(url, options, token_header(token))
     end
 
-    def search_collections(options, token)
+    def search_collections(options = {}, token)
       # search collections via GET, using `.json` extension
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3003/collections.json'
@@ -181,6 +181,62 @@ module Cmr
         get(url)
       end
       response
+    end
+
+    def get_tag(tag_key)
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3003/tags/#{tag_key}"
+            else
+              "/search/tags/#{tag_key}"
+            end
+      # needs to be specified or the error will can come back as xml
+      headers = { 'Content-Type' => 'application/json' }
+
+      # tag Read doesn't seem to require tokens
+      get(url, {}, headers)
+    end
+
+    def get_tags(options)
+      url = if Rails.env.development? || Rails.env.test?
+              'http://localhost:3003/tags'
+            else
+              '/search/tags'
+            end
+      # needs to be specified or the error will can come back as xml
+      headers = { 'Content-Type' => 'application/json' }
+
+      # tag Read doesn't seem to require tokens
+      get(url, options, headers)
+    end
+
+    # TODO: need to be able to create and associate tags for tests
+    # MMT does not allow users to create and associate tags, but we need to
+    # have these methods for testing purposes
+    def create_tag(tag_key, token, description = nil)
+      url = 'http://localhost:3003/tags'
+      body = { tag_key: tag_key }
+      body[:description] = description unless description.nil?
+      headers = { 'Content-Type' => 'application/json' }
+      # need to use 'access_token_admin'
+      post(url, body.to_json, headers.merge(token_header(token)))
+    end
+
+    def associate_tag_by_collection_concept_id(tag_key, collection_id, token)
+      url = "http://localhost:3003/tags/#{tag_key}/associations"
+      # body = [{ concept_id: collection_id }]
+      body = [{ concept_id: collection_id }]
+      headers = { 'Content-Type' => 'application/json' }
+      # need to use 'access_token_admin'
+      post(url, body.to_json, headers.merge(token_header(token)))
+    end
+    def associate_tag_by_collection_short_name(tag_key, short_name, token)
+      url = "http://localhost:3003/tags/#{tag_key}/associations/by_query"
+      # body = [{ concept_id: collection_id }]
+      # body = [{ concept_id: collection_id }]
+      body = { condition: { short_name: short_name } }
+      headers = { 'Content-Type' => 'application/json' }
+      # need to use 'access_token_admin'
+      post(url, body.to_json, headers.merge(token_header(token)))
     end
 
     ### Providers, via CMR Ingest and CMR Search

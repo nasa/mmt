@@ -74,3 +74,9 @@
     background: lighten($light-grey, 3%)
   }
 }
+
+.eui-modal-content {
+  .eui-banner--danger {
+    margin-top: 20px;
+  }
+}

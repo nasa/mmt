@@ -64,6 +64,22 @@ module SearchHelper
     end
   end
 
+  def display_tag_count(record)
+    tag_keys = record.fetch('added_fields', {}).fetch('tags', {})&.keys
+    tag_count = tag_keys.nil? ? 0 : tag_keys.count
+
+    if tag_count > 0
+      content_tag(:div) do
+        concat(link_to(tag_count, '#tags-modal', class: 'col-tag-key-link display-modal', data: { 'col_tag_keys': "#{record.fetch('meta', {})['concept-id']}-tag-keys" }))
+        concat(content_tag(:span) do
+          hidden_field_tag "#{record.fetch('meta', {})['concept-id']}-tag-keys[]", tag_keys
+        end)
+      end
+    else
+      tag_count
+    end
+  end
+
   def dropdown_size_modification
     # search dropdown is smaller if radio buttons are hidden in DMMT
     return ' search-dropdown-short' if Rails.configuration.proposal_mode

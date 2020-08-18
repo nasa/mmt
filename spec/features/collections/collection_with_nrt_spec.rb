@@ -1,13 +1,11 @@
 describe 'Collections with NEAR_REAL_TIME' do
-  before do
-    login
-    ingest_response, @concept_response = publish_collection_draft
-    visit collection_path(ingest_response['concept-id'])
+  before(:all) do
+    @ingest_response, _concept_response = publish_collection_draft(collection_data_type: 'NEAR_REAL_TIME')
   end
 
-  context 'When viewing a collection draft with NEAR_REAL_TIME' do
+  context 'When viewing a collection with NEAR_REAL_TIME' do
     before do
-      ingest_response, _concept_response = publish_collection_draft(collection_data_type: 'NEAR_REAL_TIME')
+      login
       visit collection_path(ingest_response['concept-id'])
     end
 
