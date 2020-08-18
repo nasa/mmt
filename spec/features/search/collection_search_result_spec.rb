@@ -197,8 +197,7 @@ describe 'Searching published collections', js: true, reset_provider: true do
         end
 
         it 'displays the tags modal with the correct tag information' do
-          wait_for_jQuery
-          within '#tags-modal ul' do
+          within '#tags-modal' do
             expect(page).to have_content("Tag Key: #{search_tag_1_key}")
             expect(page).to have_content("Description: #{search_tag_1_description}")
           end
@@ -248,15 +247,13 @@ describe 'Searching published collections', js: true, reset_provider: true do
         end
 
         it 'displays the tags modal with an error message' do
-          wait_for_jQuery
-          within '#tags-modal .eui-banner--danger' do
-            expect(page).to have_content('There was an error retrieving Tag information: this is a tags retrieval failure response')
+          within '#tags-modal' do
+            expect(page).to have_css('.eui-banner--danger', text: 'There was an error retrieving Tag information: this is a tags retrieval failure response')
           end
         end
 
         it 'displays the tags modal with the tag keys but no description' do
-          wait_for_jQuery
-          within '#tags-modal ul' do
+          within '#tags-modal' do
             expect(page).to have_content("Tag Key: #{search_tag_1_key}")
             expect(page).to have_content('Description: Not retrieved')
           end

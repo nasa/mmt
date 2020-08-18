@@ -137,6 +137,6 @@ $(document).ready ->
         error: (response) ->
           $('.status-text').text('Estimate failed.')
           $('.error-text').text(response.responseText)
-          $('.error-text').show()          
+          $('.error-text').show()
     else
       $('.status-text').text('Please enter a valid subscription and try again.')

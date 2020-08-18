@@ -3,7 +3,7 @@ module Helpers
     def setup_tag_permissions
       # this method is necessary because the local cmr system token is not
       # automatically provided the system Tags ACL
-      # this can be removed after CMR-XXXX is worked
+      # this can be removed after CMR-6654 is worked
       sys_admin_group_concept = group_concept_from_name('Administrators_2', 'access_token_admin')
 
       permission_params = {

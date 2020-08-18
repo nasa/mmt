@@ -29,7 +29,7 @@ module Helpers
     end
 
     def finished_all_jQuery_requests?
-      puts "checking jQuery requests. no active calls? #{page.evaluate_script('jQuery.active').zero?}"
+      # puts "checking jQuery requests. no active calls? #{page.evaluate_script('jQuery.active').zero?}"
       page.execute_script('return !!window.jQuery && jQuery.active === 0')
     end
   end

@@ -16,7 +16,7 @@ describe 'Search bar and dropdown behavior', js: true do
             "user-id": 'testuser',
             "native-id": 'mmt_collection_113',
             "concept-id": 'C1200056652-MMT_2',
-            "revision-date": '2016-01-06T21:32:30Z',
+            "revision-date": '2020-01-06T21:32:30Z',
             "concept-type": 'collection'
           },
           "umm": {
@@ -27,6 +27,52 @@ describe 'Search bar and dropdown behavior', js: true do
           }
         }
       ]
+    }.to_json
+  end
+
+  # TODO: this was added because we need a second .json search for tags
+  # when CMR-6655 is worked and we have only one search, this can be removed
+  let(:collection_search_json_response) do
+    {
+      "feed": {
+        "updated": "2020-01-06T21:32:30Z",
+        "id": "http://localhost:3003/collections.json?concept_id=C1200000015-SEDAC&include_tags=%2A&revision_id",
+        "title": "ECHO dataset metadata",
+        "entry": [
+          {
+            "granule_count": 0,
+            "time_start": "1970-01-01T00:00:00.000Z",
+            "boxes": [ "-90 -180 90 180" ],
+            "online_access_flag": false,
+            "has_transforms": false,
+            # "tags" : {
+            #   "org.geoss.geoss_data-core" : { },
+            #   "org.scar.amd" : { }
+            # },
+            "id": "C1200056652-MMT_2",
+            "browse_flag": false,
+            "has_temporal_subsetting": false,
+            "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "coordinate_system": "CARTESIAN",
+            "original_format": "application/vnd.nasa.cmr.umm+json",
+            "data_center": "MMT_2",
+            "has_spatial_subsetting": false,
+            "archive_center": "WDC/PALEOCLIMATOLOGY, BOULDER",
+            "links": [ {
+              "rel": "http://esipfed.org/ns/fedsearch/1.1/documentation#",
+              "hreflang": "en-US",
+              "href": "http://www.example.com/example.html"
+            } ],
+            "dataset_id": "11,000 Year Sunspot Number Reconstruction",
+            "title": entry_title,
+            "has_variables": false,
+            "organizations": [ "WDC/PALEOCLIMATOLOGY, BOULDER" ],
+            "short_name": short_name,
+            "has_formats": false,
+            "version_id": "223"
+          }
+        ]
+      }
     }.to_json
   end
 
@@ -93,6 +139,11 @@ describe 'Search bar and dropdown behavior', js: true do
 
     collections_response = cmr_success_response(collection_search_response)
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
+
+    # TODO: this was added because we need a second .json search for tags
+    # when CMR-6655 is worked and we have only one search, this can be removed
+    collections_json_response = cmr_success_response(collection_search_json_response)
+    allow_any_instance_of(Cmr::CmrClient).to receive(:search_collections).and_return(collections_json_response)
 
     variables_response = cmr_success_response(variable_search_response)
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_variables).and_return(variables_response)

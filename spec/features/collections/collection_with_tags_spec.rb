@@ -1,4 +1,4 @@
-describe 'Collections with Tags', js: true, reset_provider: true do
+describe 'Collections with Tags', js: true do
   tag_1_key = 'tag.collection.example.01'
   tag_1_description = 'This is sample tag #1'
   tag_2_key = 'tag.collection.example.02'
@@ -18,10 +18,6 @@ describe 'Collections with Tags', js: true, reset_provider: true do
     associate_tag_to_collection_by_short_name(tag_1_key, short_name)
     associate_tag_to_collection_by_short_name(tag_2_key, short_name)
   end
-
-  # after(:all) do
-  #   # delete the tags?
-  # end
 
   context 'when viewing a collection with tags' do
     before do

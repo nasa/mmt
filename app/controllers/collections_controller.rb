@@ -213,6 +213,8 @@ class CollectionsController < ManageCollectionsController
   def set_tags
     @num_tags = 0
 
+    # TODO: when CMR-6655 is worked we should have all this tag information in the
+    # .umm-json response
     collection_json_response = cmr_client.search_collections({ concept_id: @concept_id, revision_id: @revision_id, include_tags: '*' }, token)
     if collection_json_response.success?
       @tag_keys = collection_json_response.body.fetch('feed', {}).fetch('entry', []).first['tags']&.keys || []
