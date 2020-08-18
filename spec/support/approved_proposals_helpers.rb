@@ -64,14 +64,14 @@ module Helpers
       dmmt_response = if succeed
                         cmr_success_response({'body' => nil}.to_json)
                       else
-                        cmr_fail_response({ 'body' => "Proposal with id: #{id} could not be found or altered" }.to_json, :bad_request)
+                        cmr_fail_response({ 'body' => "Proposal with id: #{id} could not be found or altered" }.to_json, 400)
                       end
       allow_any_instance_of(Cmr::DmmtClient).to receive(:dmmt_update_proposal_status).and_return(dmmt_response)
     end
 
     # Default for mocked proposals is to use id 1.
     def mock_proposal_delete_failure_after_publish(id = 1)
-      dmmt_response = cmr_fail_response({ 'body' => "Proposal with id: #{id} could not be deleted, but has been marked done." }.to_json, :bad_request)
+      dmmt_response = cmr_fail_response({ 'body' => "Proposal with id: #{id} could not be deleted, but has been marked done." }.to_json, 400)
       allow_any_instance_of(Cmr::DmmtClient).to receive(:dmmt_update_proposal_status).and_return(dmmt_response)
     end
 
