@@ -67,4 +67,16 @@ class ProposalMailerPreview < ActionMailer::Preview
 
     ProposalMailer.proposal_rejected_notification(user, proposal)
   end
+
+  def new_proposal_rejected_without_feedback_notification
+    user = { name: 'Captain Planet', email: 'supergreen@bluemarble.com' }
+    proposal = CollectionDraftProposal.new
+    proposal.draft = { 'ShortName' => 'CIESIN_SEDAC_EPI_2010', 'Version' => '2010' }
+    proposal.approver_feedback = {}
+
+    proposal.request_type = 'create'
+    proposal.id = 1
+
+    ProposalMailer.proposal_rejected_notification(user, proposal)
+  end
 end
