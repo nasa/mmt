@@ -31,6 +31,7 @@ describe 'Deleting old proposals via rake task' do
     end
 
     after do
+      # Rake tasks can only be invoked once by default. Reenable for other test.
       Rake::Task['delete_proposals:expired_proposals'].reenable
     end
 
@@ -50,7 +51,7 @@ describe 'Deleting old proposals via rake task' do
       Rake::Task['delete_proposals:expired_proposals'].reenable
     end
 
-    it 'deletes 5 proposals' do
+    it 'deletes one proposal in each state' do
       expect(CollectionDraftProposal.count).to eq(1)
     end
   end
