@@ -9,11 +9,10 @@
       <% if current_provider?(options[:provider_id]) %>
         <%= link_to 'Edit Collection', edit_collection_path(revision_id: options[:revision_id]), class: 'eui-btn--blue modal-close button-spacing' %>
       <% elsif available_provider?(options[:provider_id]) %>
-        <%= link_to 'Edit Collection', '#', class: 'eui-btn--blue loss-report button-spacing' %>
+        <%= link_to 'Edit Collection', '#not-current-provider-modal', class: 'eui-btn--blue loss-report button-spacing display-modal not-current-provider', data: { provider: options[:provider_id], record_action: 'edit-collection' } %>
       <% end %>
 
       <%= link_to 'Cancel', 'javascript:void(0);', class: 'eui-btn modal-close' %>
-      <%= link_to 'Invisible Link', '#not-current-provider-modal', class: 'display-modal not-current-provider is-invisible', id: 'loss-report-to-edit-collection', data: { provider: options[:provider_id], record_action: 'edit-collection' } %>
     </p>
   </div>
 </div>
