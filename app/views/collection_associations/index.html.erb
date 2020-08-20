@@ -56,7 +56,7 @@
           <div id='delete-associations-modal' class="eui-modal-content">
             <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
             <% if @variable %>
-              <p>Deleting a variable association will also delete the associated variable. If you wish to associate this variable to a different collection, before deleting this association, you should <%= link_to "clone", send("clone_variable_path", id: params[:variable_id], revision_id: @revision_id) %> the associated variable and associate the clone to the correct collection.</p>
+              <p>Deleting a variable association will also delete the associated variable. If you wish to associate this variable to a different collection, before deleting this association, you should <%= link_to "clone", send("clone_variable_path", id: params[:variable_id], revision_id: @revision_id), target: :_blank %> the associated variable and associate the clone to the correct collection.</p>
             <% end %>
             <p><%= "Are you sure you want to delete the selected collection #{association_text.downcase}" %>?</p>
             <p>
