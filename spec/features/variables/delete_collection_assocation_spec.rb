@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Deleting Variable Collection Associations', js: true, reset_provider: true do
   before do
     login
@@ -13,12 +11,12 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
     @ingest_response1, _concept_response1 = publish_collection_draft(entry_title: 'MODIS-I Water Traveler')
   end
 
-  context 'When viewing the associated collections page' do
+  context 'When viewing the associated collection page' do
     before do
       visit variable_collection_associations_path(@variable_ingest_response['concept-id'])
     end
 
-    it 'shows the associated collections' do
+    it 'shows the associated collection' do
       within '#collection-associations' do
         expect(page).to have_selector('tbody > tr', count: 1)
 
@@ -32,11 +30,11 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
       before do
         find("input[value='#{@ingest_response1['concept-id']}']").set(true)
 
-        click_link 'Delete Selected Associations'
+        click_link 'Delete Selected Association'
       end
 
       it 'displays an appropriate confirmation message' do
-        expect(page).to have_content('Are you sure you want to delete the selected collection associations')
+        expect(page).to have_content('Are you sure you want to delete the selected collection association')
       end
 
       context 'When clicking Yes on the confirmation dialog' do
@@ -45,7 +43,7 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
         end
 
         it 'removes the association' do
-          expect(page).to have_content('Collection Associations Deleted Successfully!')
+          expect(page).to have_content('Collection Association Deleted Successfully!')
         end
 
         context 'When clicking the refresh link' do
@@ -58,7 +56,7 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
           it 'reloads the page and displays no associations' do
             within '#collection-associations' do
               expect(page).to have_selector('tbody > tr', count: 1)
-              expect(page).to have_content('No Collection Associations found.')
+              expect(page).to have_content('No Collection Association found.')
 
               expect(page).to have_no_content('MODIS-I Water Skipper')
               expect(page).to have_no_content('MODIS-I Water Traveler')
