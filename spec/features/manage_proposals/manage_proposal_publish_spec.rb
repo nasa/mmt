@@ -1,7 +1,6 @@
 describe 'When publishing collection draft proposals', js: true do
   before do
     login(real_login: true)
-    mock_urs_get_users
     allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
     mock_urs_get_users
   end
@@ -83,6 +82,13 @@ describe 'When publishing collection draft proposals', js: true do
             expect(ActionMailer::Base.deliveries.count).to eq(@email_count + 2)
             expect(ActionMailer::Base.deliveries.last.body.parts[0].body.raw_source).to match(/deleted from the CMR \(test\)/)
             expect(ActionMailer::Base.deliveries.last.body.parts[1].body.raw_source).to match(/deleted from the CMR \(test\)/)
+          end
+        end
+
+        context 'when dMMT can update the proposal status, but cannot delete the record' do
+          before do
+            mock_proposal_delete_failure_after_publish
+            click_on 'Yes'
           end
         end
       end
