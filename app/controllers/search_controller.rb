@@ -69,7 +69,7 @@ class SearchController < ManageMetadataController
 
   def get_collection_search_results(query)
     # TODO: when CMR-6655 is worked we should be able to just do one search
-    # umm_json results
+    # umm_json results so this can be streamlined in MMT-2359
     umm_json_query = query.dup
     umm_json_query['include_granule_counts'] = true
     umm_json_results = cmr_client.get_collections(umm_json_query, token)

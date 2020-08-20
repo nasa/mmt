@@ -5,7 +5,7 @@ class CollectionsController < ManageCollectionsController
 
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
-  before_action :set_tags, only: [:show]
+  before_action :set_tags, only: [:show, :destroy]
 
   layout 'collection_preview', only: [:show]
 
@@ -125,6 +125,8 @@ class CollectionsController < ManageCollectionsController
 
     set_user_permissions
 
+    set_tags
+
     render :show
   end
 
@@ -214,10 +216,11 @@ class CollectionsController < ManageCollectionsController
     @num_tags = 0
 
     # TODO: when CMR-6655 is worked we should have all this tag information in the
-    # .umm-json response
+    # .umm-json response, and this can be streamlined in MMT-2359
     collection_json_response = cmr_client.search_collections({ concept_id: @concept_id, revision_id: @revision_id, include_tags: '*' }, token)
+    # puts "collection_json_response\n#{collection_json_response.inspect}"
     if collection_json_response.success?
-      @tag_keys = collection_json_response.body.fetch('feed', {}).fetch('entry', []).first['tags']&.keys || []
+      @tag_keys = collection_json_response.body.fetch('feed', {}).fetch('entry', []).fetch(0, {})['tags']&.keys || []
       @num_tags = @tag_keys.count
 
       unless @tag_keys.blank?

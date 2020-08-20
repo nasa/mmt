@@ -1,5 +1,12 @@
 class TagsController < ManageMetadataController
-  # what actions need to be skipped?
+  # this controller is used by an ajax call and another controller action, so
+  # many of our normal before actions can be skipped
+  skip_before_action :setup_query
+  skip_before_action :refresh_urs_if_needed
+  skip_before_action :refresh_launchpad_if_needed
+  skip_before_action :provider_set?
+  skip_before_action :proposal_mode_enabled?
+  skip_before_action :proposal_approver_permissions
 
   def index
     tag_keys = params[:tag_key]
@@ -13,23 +20,5 @@ class TagsController < ManageMetadataController
 
       render json: { error: cmr_tag_response.error_message(i18n: I18n.t('controllers.tags.index.error')) }, status: cmr_tag_response.status
     end
-  end
-
-  # Not needed at the moment - was used for initial implementation retrieving
-  # tags one at a time.
-  def show
-    tag_key = params[:id]
-
-    cmr_tag_response = cmr_client.get_tag(tag_key)
-
-    tag_response = if cmr_tag_response.success?
-                     cmr_tag_response.body
-                   else
-                     Rails.logger.error("Retrieve Tag #{tag_key} Error: #{cmr_tag_response.clean_inspect}")
-
-                     { error: cmr_tag_response.error_message(i18n: I18n.t('controllers.tags.show.error')) }
-                   end
-
-    render json: tag_response
   end
 end

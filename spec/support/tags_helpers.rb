@@ -3,7 +3,7 @@ module Helpers
     def setup_tag_permissions
       # this method is necessary because the local cmr system token is not
       # automatically provided the system Tags ACL
-      # this can be removed after CMR-6654 is worked
+      # this can be removed with MMT-2360 after CMR-6654 is worked
       sys_admin_group_concept = group_concept_from_name('Administrators_2', 'access_token_admin')
 
       permission_params = {
@@ -29,19 +29,17 @@ module Helpers
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::TagsHelpers#create_tags' do
         response = cmr_client.create_tag(tag_key, 'access_token_admin', description)
         puts response.clean_inspect unless response.success?
+
+        wait_for_cmr
       end
     end
 
-    def associate_tag_to_collection(tag_key, concept_id)
-      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::TagsHelpers#associate_tag_to_collection' do
-        response = cmr_client.associate_tag_by_collection_concept_id(tag_key, concept_id, 'access_token_admin')
-        puts response.clean_inspect unless response.success?
-      end
-    end
     def associate_tag_to_collection_by_short_name(tag_key, short_name)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::TagsHelpers#associate_tag_to_collection' do
         response = cmr_client.associate_tag_by_collection_short_name(tag_key, short_name, 'access_token_admin')
         puts response.clean_inspect unless response.success?
+
+        wait_for_cmr
       end
     end
   end

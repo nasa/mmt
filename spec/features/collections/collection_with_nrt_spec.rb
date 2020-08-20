@@ -6,7 +6,7 @@ describe 'Collections with NEAR_REAL_TIME' do
   context 'When viewing a collection with NEAR_REAL_TIME' do
     before do
       login
-      visit collection_path(ingest_response['concept-id'])
+      visit collection_path(@ingest_response['concept-id'])
     end
 
     it 'displays the NRT badge' do

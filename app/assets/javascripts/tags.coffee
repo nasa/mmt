@@ -1,19 +1,28 @@
 $(document).ready ->
+  # these methods are used in the collection search results table for displaying
+  # tag information in the #tags-modal
+  # tags on the collection show page are handled in a helper file
+
+  constructSingleTag = (tagKey, tagDescription, defaultDescription) ->
+    outer = $('<p/>')
+
+    keyLine = $('<li/>',
+      html: "<strong>Tag Key:</strong> #{tagKey}"
+    )
+    descriptionLine = $('<li/>',
+      html: "<strong>Description:</strong> #{tagDescription || defaultDescription}"
+    )
+
+    outer.append(keyLine)
+    outer.append(descriptionLine)
+
+    outer
+
   constructTagsInfo = (tagData) ->
     $tagDisplay = $('<ul/>')
     for tag in tagData
-      outer = $('<p/>')
-
-      keyLine = $('<li/>',
-        html: "<strong>Tag Key:</strong> #{tag.tag_key}"
-      )
-      descriptionLine = $('<li/>',
-        html: "<strong>Description:</strong> #{tag.description || 'Not provided'}"
-      )
-
-      outer.append(keyLine)
-      outer.append(descriptionLine)
-      $tagDisplay.append(outer)
+      tagGroup = constructSingleTag(tag.tag_key, tag.description, 'Not provided')
+      $tagDisplay.append(tagGroup)
 
     $tagDisplay
 
@@ -28,18 +37,8 @@ $(document).ready ->
 
     tagList = $('<ul/>')
     for tagKey in tagKeys
-      outer = $('<p/>')
-
-      keyLine = $('<li/>',
-        html: "<strong>Tag Key:</strong> #{tagKey}"
-      )
-      descriptionLine = $('<li/>',
-        html: "<strong>Description:</strong> Not retrieved"
-      )
-
-      outer.append(keyLine)
-      outer.append(descriptionLine)
-      $tagDisplay.append(outer)
+      tagGroup = constructSingleTag(tagKey, null, 'Not retrieved')
+      $tagDisplay.append(tagGroup)
 
     $tagDisplay
 
@@ -61,32 +60,3 @@ $(document).ready ->
       error: (xhr, status, error) ->
         tagDisplay = constructTagsInfoWithErrors(tagKeys, xhr.responseJSON)
         $('#tags-modal > .tag-keys-display').html(tagDisplay)
-
-    # this was the first implementation, retrieving tags individually
-    # tagKeyObj = {}
-    # ajax call to get tag description if there is one
-    # $.each tagKeys, (index, element) ->
-    #   $.ajax
-    #     url: "/tags/#{element}"
-    #     # method: 'get'
-    #     # contentType: 'application/json'
-    #     dataType: 'json'
-    #     async: false # comment about why needed
-    #     # TODO test if can do the search with all tags together
-    #     # if so, can create another method to insert html to call
-    #
-    #     success: (data, status, xhr) ->
-    #       console.log "got tag! ", data
-    #       tagKeyObj[element] = data
-    #     # error: (xhr, status, error) ->
-
-    # console.log "tagKeyObj after getting info: ", JSON.stringify(tagKeyObj)
-    # debugger
-
-    # have tag keys and descriptions in json
-    # use not provided, or issue grabbing from cmr
-      # TODO: ___ ask Alicia about how to display
-
-    # construct text from tag keys and description
-
-    # replace .tag-keys-display text w/ tag keys info

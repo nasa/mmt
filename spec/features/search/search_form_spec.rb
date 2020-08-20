@@ -45,10 +45,6 @@ describe 'Search bar and dropdown behavior', js: true do
             "boxes": [ "-90 -180 90 180" ],
             "online_access_flag": false,
             "has_transforms": false,
-            # "tags" : {
-            #   "org.geoss.geoss_data-core" : { },
-            #   "org.scar.amd" : { }
-            # },
             "id": "C1200056652-MMT_2",
             "browse_flag": false,
             "has_temporal_subsetting": false,

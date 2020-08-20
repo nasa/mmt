@@ -42,6 +42,8 @@ module CollectionsHelper
     end
   end
 
+  # this displays tag information in the #tags-modal on the collection show page
+  # tags for collection search results are handled in a coffeescript file
   def display_collection_tag_info(tags_info:, num_tags:, tags_error:, tag_keys:)
     if num_tags == 0
       # there are no tags, or there was an issue retrieving the collection tag

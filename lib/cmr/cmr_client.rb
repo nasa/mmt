@@ -209,7 +209,6 @@ module Cmr
       get(url, options, headers)
     end
 
-    # TODO: need to be able to create and associate tags for tests
     # MMT does not allow users to create and associate tags, but we need to
     # have these methods for testing purposes
     def create_tag(tag_key, token, description = nil)
@@ -221,21 +220,11 @@ module Cmr
       post(url, body.to_json, headers.merge(token_header(token)))
     end
 
-    def associate_tag_by_collection_concept_id(tag_key, collection_id, token)
-      url = "http://localhost:3003/tags/#{tag_key}/associations"
-      # body = [{ concept_id: collection_id }]
-      body = [{ concept_id: collection_id }]
-      headers = { 'Content-Type' => 'application/json' }
-      # need to use 'access_token_admin'
-      post(url, body.to_json, headers.merge(token_header(token)))
-    end
     def associate_tag_by_collection_short_name(tag_key, short_name, token)
       url = "http://localhost:3003/tags/#{tag_key}/associations/by_query"
-      # body = [{ concept_id: collection_id }]
-      # body = [{ concept_id: collection_id }]
       body = { condition: { short_name: short_name } }
       headers = { 'Content-Type' => 'application/json' }
-      # need to use 'access_token_admin'
+
       post(url, body.to_json, headers.merge(token_header(token)))
     end
 

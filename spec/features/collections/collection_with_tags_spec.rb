@@ -2,7 +2,7 @@ describe 'Collections with Tags', js: true do
   tag_1_key = 'tag.collection.example.01'
   tag_1_description = 'This is sample tag #1'
   tag_2_key = 'tag.collection.example.02'
-  short_name = 'Tagging Collection Example Collection'
+  short_name = "Tagging Collection Example Collection #{Faker::Number.number(digits: 6)}"
 
   before(:all) do
     # ingest collection
