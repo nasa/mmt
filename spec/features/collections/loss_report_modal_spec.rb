@@ -58,7 +58,7 @@ describe 'loss report modal', js: true do
             click_on 'Cancel'
           end
         end
-        it 'closes loss-report-modal and does not display the not-current-provider-modal' do
+        it 'closes loss-report-modal and does not open the not-current-provider-modal' do
           expect(page).to have_no_content('Metadata Preview')
           expect(page).to have_link('Edit Collection Record', href: '#loss-report-modal')
           expect(page).to have_no_css('#not-current-provider-modal')
@@ -79,7 +79,7 @@ describe 'loss report modal', js: true do
         within '#loss-report-modal' do
           expect(page).to have_content("The native format of this collection is ECHO10. Editing this record using the MMT will convert it to UMM-JSON, which may result in data loss. Select 'View Loss Report' to see how the conversion will affect this record.")
           expect(page).to have_link('View Loss Report', href: loss_report_collections_path(concept_id, format: 'json'))
-          expect(page).to have_link('Edit Collection', href: '#')
+          expect(page).to have_link('Edit Collection', href: '#not-current-provider-modal')
           expect(page).to have_link('Cancel', href: 'javascript:void(0);')
         end
       end
