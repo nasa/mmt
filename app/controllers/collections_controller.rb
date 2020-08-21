@@ -168,7 +168,7 @@ class CollectionsController < ManageCollectionsController
       content_type = 'application/metadata+xml; charset=utf-8' if params[:action] == 'revert'
 
       collection_response = cmr_client.get_concept(@concept_id, token, { 'Accept' => content_type }, @revision_id)
-      if (params[:deleted] == 'true')  &&  (collection_response.body['errors'].first.include? "represents a deleted concept and does not contain metadata")
+      if (params[:deleted] == 'true') && (collection_response.body['errors'].first.include? 'represents a deleted concept and does not contain metadata')
         collection_response = cmr_client.get_concept(@concept_id, token, { 'Accept' => content_type }, select_revision)
       end
 
@@ -220,7 +220,7 @@ class CollectionsController < ManageCollectionsController
     collection_json_response = cmr_client.search_collections({ concept_id: @concept_id, revision_id: @revision_id, include_tags: '*' }, token)
     # puts "collection_json_response\n#{collection_json_response.inspect}"
     if collection_json_response.success?
-      @tag_keys = collection_json_response.body.fetch('feed', {}).fetch('entry', []).fetch(0, {})['tags']&.keys || []
+      @tag_keys = collection_json_response.body.dig('feed', 'entry', 0, 'tags')&.keys || []
       @num_tags = @tag_keys.count
 
       unless @tag_keys.blank?

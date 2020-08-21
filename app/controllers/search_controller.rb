@@ -93,8 +93,8 @@ class SearchController < ManageMetadataController
   def collate_collection_results(umm_json_results, json_results)
     # should have successful results from both searches
     umm_json_results.body['items'].each_with_index do |collection, index|
-      json_collection = json_results.body.fetch('feed', {}).fetch('entry', [])[index]
-      next unless collection.fetch('meta', {})['concept-id'] == json_collection['id']
+      json_collection = json_results.body.dig('feed', 'entry', index)
+      next unless collection.fetch('meta', {})['concept-id'] == json_collection.fetch('id', nil)
 
       collection['added_fields'] ||= {}
       collection['added_fields']['tags'] = json_collection['tags']

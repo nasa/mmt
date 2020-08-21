@@ -65,8 +65,8 @@ module SearchHelper
   end
 
   def display_tag_count(record)
-    tag_keys = record.fetch('added_fields', {}).fetch('tags', {})&.keys
-    tag_count = tag_keys.nil? ? 0 : tag_keys.count
+    tag_keys = record.dig('added_fields', 'tags')&.keys
+    tag_count = tag_keys&.count || 0
 
     if tag_count > 0
       content_tag(:div) do
