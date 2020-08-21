@@ -120,7 +120,7 @@ class CollectionsController < ManageCollectionsController
     # When a user wants to use MMT to edit metadata that currently exists in a non-UMM form,
     # it's important that they're able to see if any data loss occurs in the translation to umm.
     # This method is needed to reference the appropriate helper and view for the lossiness report.
-    # If translated_collections contains an :error field, the error message will appear. 
+    # If translated_collections contains an :error field, the error message will appear.
 
     # this checks the 'hide_items' url parameter that is can be manually added. Its primary use is for developers
     # that need to debug using the text_output

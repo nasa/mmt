@@ -64,12 +64,12 @@
         }
       }
     }
-    .search-dropdown-short {   /* smaller dropdown if radio buttons are hidden in DMMT */ 
+    .search-dropdown-short {   /* smaller dropdown if radio buttons are hidden in DMMT */
       width: 100%;
       height: 45px;
     }
-    
-    .search-dropdown-wide {   /* wider dropdown if UMM-T is enabled */ 
+
+    .search-dropdown-wide {   /* wider dropdown if UMM-T is enabled */
       right: 0px; // causes dropdown width to extend to the left
       max-width: 440px;
     }
@@ -79,12 +79,12 @@
       border-right: 1px solid $dolphin-grey;
       border-bottom: 1px solid $steel-blue;
     }
-    
+
     #search-submit-button {
       text-align: left;
       width: 172px; // 11.92em
     }
-    
+
     .search-field-wide {
       width: 241px;
     }
