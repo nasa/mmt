@@ -8,13 +8,6 @@ describe 'Tools breadcrumbs and header', reset_provider: true do
     visit tool_path(@ingest_response['concept-id'])
   end
 
-  # TODO: remove after CMR-6332
-  after :all do
-    delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
-
-    raise unless delete_response.success?
-  end
-
   context 'when viewing the breadcrumbs' do
     it 'displays the Tool Name' do
       within '.eui-breadcrumbs' do

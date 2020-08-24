@@ -1,8 +1,4 @@
-# If there is an issue where the tests start failing locally and the screenshots
-# show "Error: Concept with concept-id [id] and revision-id [id] does not exist."
-# this is because the MMT_2 provider was deleted while it had tools. Restart CMR
-# and rerun the test. This file should be updated after CMR-6332.
-describe 'Tool Search Results sorting', js: true do
+describe 'Tool Search Results sorting', reset_provider: true, js: true do
   context 'when sorting search tools results' do
     before :all do
       @mmt_2_native_ids = []
@@ -26,18 +22,6 @@ describe 'Tool Search Results sorting', js: true do
       visit manage_tools_path
 
       click_on 'Search Tools'
-    end
-
-    after :all do
-      @mmt_2_native_ids.each do |native_id|
-        delete_response = cmr_client.delete_tool('MMT_2', native_id, 'token')
-
-        raise unless delete_response.success?
-      end
-      delete_response1 = cmr_client.delete_tool('LARC', @larc_native_id, 'token')
-      delete_response2 = cmr_client.delete_tool('SEDAC', @sedac_native_id, 'token')
-
-      raise unless delete_response1.success? && delete_response2.success?
     end
 
     context 'when sorting by Name' do

@@ -406,7 +406,7 @@ describe 'Search bar and dropdown behavior', js: true do
 
       context 'from a Variable page' do
         before do
-          visit variable_path('1234')
+          visit variable_path('V1234')
         end
 
         it 'displays search options for variables' do

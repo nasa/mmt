@@ -1,7 +1,11 @@
 <%= @user[:name] %>,
 
-<%= "The collection draft proposal #{@short_name}_#{@version} has been reviewed and rejected for the following reasons: '#{@rejected_reasons}'." %>
+<%= "The collection draft proposal #{@short_name}_#{@version} has been reviewed and rejected#{@reasons_text}." %>
 
-<%= "Additional feedback was provided: '#{@rejected_note}'" %>
+<% if @rejected_note %>
+  <%= simple_format("Additional feedback was provided: '#{@rejected_note}'") %>
+<% end %>
+<%= "Please consult #{@dmmt_user_guide_url} for information on CMR metadata best practices." if @dmmt_user_guide_url %>
+
 
 View Collection: <%= collection_draft_proposal_url(@id) %>

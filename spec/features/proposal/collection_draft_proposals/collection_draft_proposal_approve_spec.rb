@@ -27,7 +27,7 @@ describe 'Collection Draft Proposal Approve', js: true do
 
       context 'when clicking Yes' do
         before do
-          VCR.use_cassette('urs/proposal_email_fetch/proposal_approval') do
+          VCR.use_cassette('urs/proposal_email_fetch/proposal_urs_ids') do
             click_on 'Yes'
           end
         end

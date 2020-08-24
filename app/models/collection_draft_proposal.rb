@@ -13,7 +13,8 @@ class CollectionDraftProposal < CollectionDraft
   before_create :proposal_mode_enabled?
   before_save :proposal_mode_enabled?
   before_update :proposal_mode_enabled?
-  before_destroy :proposal_mode_enabled?
+  # Need to bypass this before action to delete when publishing while in dev
+  before_destroy :proposal_mode_enabled? unless Rails.env.development? || Rails.env.test?
 
   serialize :status_history, JSON
   serialize :approver_feedback, JSON
