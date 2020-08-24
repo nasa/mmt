@@ -5,6 +5,7 @@ class CollectionsController < ManageCollectionsController
 
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
+  before_action :set_tags, only: [:show, :destroy]
 
   layout 'collection_preview', only: [:show]
 
@@ -124,6 +125,8 @@ class CollectionsController < ManageCollectionsController
 
     set_user_permissions
 
+    set_tags
+
     render :show
   end
 
@@ -149,7 +152,7 @@ class CollectionsController < ManageCollectionsController
         @download_xml_options.each do |download_option|
           # gsub here is needed because of the iso-smap and application/iso:smap+xml format options
           if native_format.gsub(':','').include?(download_option[:format].gsub('-', ''))
-            download_option[:title].concat(' (Native)') 
+            download_option[:title].concat(' (Native)')
             @download_xml_options.delete(download_option)
             @download_xml_options.unshift(download_option)
             break
@@ -165,7 +168,7 @@ class CollectionsController < ManageCollectionsController
       content_type = 'application/metadata+xml; charset=utf-8' if params[:action] == 'revert'
 
       collection_response = cmr_client.get_concept(@concept_id, token, { 'Accept' => content_type }, @revision_id)
-      if (params[:deleted] == 'true')  &&  (collection_response.body['errors'].first.include? "represents a deleted concept and does not contain metadata")
+      if (params[:deleted] == 'true') && (collection_response.body['errors'].first.include? 'represents a deleted concept and does not contain metadata')
         collection_response = cmr_client.get_concept(@concept_id, token, { 'Accept' => content_type }, select_revision)
       end
 
@@ -173,6 +176,7 @@ class CollectionsController < ManageCollectionsController
         @collection = collection_response.body
         @collection_format = collection_response.headers.fetch('content-type', '')
       else
+        Rails.logger.error("Error retrieving collection #{@concept_id} in `set_collection`: #{collection_response.clean_inspect}")
         set_collection_error_data
       end
     else
@@ -180,6 +184,7 @@ class CollectionsController < ManageCollectionsController
       # Take the user to a blank page with a message the collection doesn't exist yet,
       # eventually auto refreshing the page would be cool
       set_collection_error_data
+      # there is no latest, so error logging happens in `get_revisions`
     end
   end
 
@@ -201,9 +206,37 @@ class CollectionsController < ManageCollectionsController
       super
     end
   end
-  
+
   def select_revision
-    selected = @revisions.select {|r| r.fetch('meta')['revision-id'] && r.fetch('meta')['deleted'] == false &&  r.fetch('meta')['revision-id'].to_i < @revision_id.to_i}.first
+    selected = @revisions.select { |r| r.fetch('meta')['revision-id'] && r.fetch('meta')['deleted'] == false && r.fetch('meta')['revision-id'].to_i < @revision_id.to_i }.first
     selected.blank? ?  nil : selected.fetch('meta')['revision-id']
+  end
+
+  def set_tags
+    @num_tags = 0
+
+    # TODO: when CMR-6655 is worked we should have all this tag information in the
+    # .umm-json response, and this can be streamlined in MMT-2359
+    collection_json_response = cmr_client.search_collections({ concept_id: @concept_id, revision_id: @revision_id, include_tags: '*' }, token)
+    # puts "collection_json_response\n#{collection_json_response.inspect}"
+    if collection_json_response.success?
+      @tag_keys = collection_json_response.body.dig('feed', 'entry', 0, 'tags')&.keys || []
+      @num_tags = @tag_keys.count
+
+      unless @tag_keys.blank?
+        cmr_tag_response = cmr_client.get_tags({ tag_key: @tag_keys })
+        if cmr_tag_response.success?
+          @tags_info = cmr_tag_response.body['items']
+        else
+          Rails.logger.error("Retrieve Tag #{@tag_keys} Error: #{cmr_tag_response.clean_inspect}")
+
+          @tags_error = cmr_tag_response.error_message(i18n: I18n.t('controllers.collections.set_tags.get_tags.error'))
+        end
+      end
+    else
+      Rails.logger.error("Error searching for collection #{@concept_id} revision #{@revision_id || 'no revision provided'} in `set_tags`: #{collection_json_response.clean_inspect}")
+      # if this call failed, num_tags will be 0 and we will display this flash message
+      flash[:error] = "There was an error retrieving Tags for this Collection: #{collection_json_response.error_message(i18n: I18n.t('controllers.collections.set_tags.search_collections.error'))}"
+    end
   end
 end

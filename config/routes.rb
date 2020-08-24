@@ -62,6 +62,8 @@ Rails.application.routes.draw do
 
   resource :bulk_updates_search, only: [:new]
 
+  resources :tags, only: [:index, :show], constraints: { id: /[^\/]+/ }
+
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'

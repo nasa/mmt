@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe Echo::Order do
   let(:user_response_body) { "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetUserNamesResponse xmlns:ns2=\"http://echo.nasa.gov/echo/v10\" xmlns:ns3=\"http://echo.nasa.gov/echo/v10/types\" xmlns:ns4=\"http://echo.nasa.gov/echo/v10/faults\"><ns2:result><ns3:Item><ns3:Name>test_user</ns3:Name><ns3:Guid>owner_guid_here</ns3:Guid></ns3:Item></ns2:result></ns2:GetUserNamesResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>" }
 
