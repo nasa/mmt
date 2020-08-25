@@ -14,7 +14,11 @@
     <% end %>
 
     <p>
-      <em><span class="fa fa-info-circle"></span><%= ' Each variable can only be associated with a single collection.' if @variable %> Association operations may take some time. If you are not seeing what you expect below, please <%= link_to 'refresh the page', 'javascript:history.go(0)', class: 'eui-btn--link' %>.</em>
+      <em>
+        <span class="fa fa-info-circle"></span>
+        <%= ' Each variable can only be associated with a single collection.' if @variable %>
+         Association operations may take some time. If you are not seeing what you expect below, please <%= link_to 'refresh the page', 'javascript:history.go(0)', class: 'eui-btn--link link-lift' %>.
+      </em>
     </p>
 
     <%= form_tag(send("#{lower_resource_name}_collection_associations_path", resource_id), method: :delete, id: "delete-#{lower_resource_name}-collection-associations-form") do %>
@@ -56,7 +60,9 @@
           <div id='delete-associations-modal' class="eui-modal-content">
             <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
             <% if @variable %>
-              <p>Deleting a variable association will also delete the associated variable. If you wish to associate this variable to a different collection, before deleting this association, you should <%= link_to "clone the associated variable", send("clone_variable_path", id: params[:variable_id], revision_id: @revision_id), target: :_blank %> and associate the clone to the correct collection.</p>
+              <p>Deleting a variable association will also delete the associated variable. If you wish to associate this variable to a different collection, before deleting this association, you should <%= link_to "clone the associated variable", send("clone_variable_path", id: params[:variable_id], revision_id: @revision_id), target: :_blank %> and associate the clone to the correct collection.
+                <%= " If you have any questions or need any help, please contact "%> <%= mail_to('support@earthdata.nasa.gov', 'Earthdata Support') %>.
+              </p>
             <% end %>
             <p><%= "Are you sure you want to delete the selected collection #{association_text.downcase}" %>?</p>
             <p>

@@ -35,6 +35,8 @@ describe 'Deleting Variable Collection Associations', js: true, reset_provider: 
 
       it 'displays an appropriate warning about association cascade deleting a variable' do
         expect(page).to have_content('Deleting a variable association will also delete the associated variable. If you wish to associate this variable to a different collection, before deleting this association, you should clone the associated variable and associate the clone to the correct collection.')
+        expect(page).to have_content('If you have any questions or need any help, please contact')
+        expect(page).to have_link('Earthdata Support')
       end
 
       it 'displays an appropriate confirmation message' do
