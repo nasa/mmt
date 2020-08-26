@@ -42,21 +42,6 @@ module CollectionsHelper
     end
   end
 
-  def edsc_url
-    config_services = Rails.configuration.services
-    if Rails.env.production?
-      config_services.dig('earthdata', 'ops', 'edsc_root')
-    elsif Rails.env.sit? || Rails.env.development? || Rails.env.test?
-      # by directing development and test evironments to the edsc sit environment, there
-      # are often situations where the keywords in dev or test aren't congruent with those in sit
-      # and so no matches may be found in edsc. For instance, if this was directed to prod
-      # instead, all keywords would be found
-      config_services.dig('earthdata', 'sit', 'edsc_root')
-    elsif Rails.env.uat?
-      config_services.dig('earthdata', 'uat', 'edsc_root')
-    end
-  end
-
   # this displays tag information in the #tags-modal on the collection show page
   # tags for collection search results are handled in a coffeescript file
   def display_collection_tag_info(tags_info:, num_tags:, tags_error:, tag_keys:)
