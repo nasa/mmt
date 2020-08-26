@@ -29,6 +29,10 @@ describe 'Create and edit a draft from a Dif 10 collection with location keyword
       before do
         click_on 'Edit Collection Record'
 
+        within '#loss-report-modal' do
+          click_on 'Edit Collection'
+        end
+        
         within '.metadata' do
           click_on 'Spatial Information', match: :first
         end

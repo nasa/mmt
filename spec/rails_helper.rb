@@ -196,6 +196,7 @@ RSpec.configure do |config|
   config.include Helpers::UmmTDraftHelpers
   config.include Helpers::UserHelpers
 
+
   # Precompile assets before running the test suite
   # config.before(:suite) do
   #   Rails.application.load_tasks

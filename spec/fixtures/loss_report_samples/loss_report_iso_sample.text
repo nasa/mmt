@@ -1,0 +1,33 @@
+application/iso:smap+xml
+
+1.  -: /DS_Series/schemaLocation
+2.  -: /DS_Series/seriesMetadata/MI_Metadata/fileIdentifier/FileName
+3.  -: /DS_Series/seriesMetadata/MI_Metadata/characterSet/MD_CharacterSetCode
+4.  -: /DS_Series/seriesMetadata/MI_Metadata/hierarchyLevel/MD_ScopeCode
+5.  +: /DS_Series/seriesMetadata/MI_Metadata/contentInfo/MD_ImageDescription/attributeDescription
+6.  +: /DS_Series/seriesMetadata/MI_Metadata/contentInfo/MD_ImageDescription/contentType
+7.  +: /DS_Series/seriesMetadata/MI_Metadata/contentInfo/MD_ImageDescription/processingLevelCode/MD_Identifier/code/CharacterString
+8.  +: /DS_Series/seriesMetadata/MI_Metadata/contentInfo/MD_ImageDescription/processingLevelCode/MD_Identifier/codeSpace/CharacterString
+9.  -: /DS_Series/seriesMetadata/MI_Metadata/metadataStandardName/CharacterString
+10. +: /DS_Series/seriesMetadata/MI_Metadata/dataQualityInfo/DQ_DataQuality/scope/DQ_Scope/level/MD_ScopeCode
+11. +: /DS_Series/seriesMetadata/MI_Metadata/acquisitionInformation/MI_AcquisitionInformation/platform/EOS_Platform/id
+12. +: /DS_Series/seriesMetadata/MI_Metadata/acquisitionInformation/MI_AcquisitionInformation/platform/EOS_Platform/identifier/MD_Identifier/code/CharacterString
+13. +: /DS_Series/seriesMetadata/MI_Metadata/acquisitionInformation/MI_AcquisitionInformation/platform/EOS_Platform/identifier/MD_Identifier/codeSpace/CharacterString
+14. +: /DS_Series/seriesMetadata/MI_Metadata/acquisitionInformation/MI_AcquisitionInformation/platform/EOS_Platform/description/CharacterString
+15. +: /DS_Series/seriesMetadata/MI_Metadata/acquisitionInformation/MI_AcquisitionInformation/platform/EOS_Platform/instrument/nilReason
+16. -: /DS_Series/seriesMetadata/MI_Metadata/metadataStandardVersion/CharacterString
+17. -: /DS_Series/seriesMetadata/MI_Metadata/identificationInfo[0]
+18. -: /DS_Series/seriesMetadata/MI_Metadata/identificationInfo[1]
+19. -: /DS_Series/seriesMetadata/MI_Metadata/identificationInfo[2]
+20. -: /DS_Series/seriesMetadata/MI_Metadata/identificationInfo[3]
+21. -: /DS_Series/seriesMetadata/MI_Metadata/identificationInfo[4]
+22. -: /DS_Series/seriesMetadata/MI_Metadata/identificationInfo[5]
+23. +: /DS_Series/seriesMetadata/MI_Metadata/identificationInfo[0]
+24. +: /DS_Series/seriesMetadata/MI_Metadata/identificationInfo[1]
+25. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/organisationName/CharacterString
+26. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/contactInfo/CI_Contact/address/CI_Address/electronicMailAddress/CharacterString
+27. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/contactInfo/CI_Contact/onlineResource/CI_OnlineResource/linkage/URL
+28. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/role/CI_RoleCode
+29. +: /DS_Series/seriesMetadata/MI_Metadata/contact/href
+30. -: /DS_Series/seriesMetadata/MI_Metadata/dateStamp/Date
+31. +: /DS_Series/seriesMetadata/MI_Metadata/dateStamp/Date
