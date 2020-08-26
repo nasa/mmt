@@ -60,7 +60,7 @@ $(document).ready ->
         'Cloning this service'
       when 'delete-variable'
         if associatedCollections > 0
-          "This variable is associated with #{associatedCollections} collections. Deleting this variable will also delete the collection associations, and"
+          "This variable is associated with #{associatedCollections} collections. Deleting this variable will also delete the collection association, and"
         else
           'Deleting this variable'
       when 'delete-service'
@@ -68,8 +68,8 @@ $(document).ready ->
           "This service is associated with #{associatedCollections} collections. Deleting this service will also delete the collection associations, and"
         else
           'Deleting this service'
-      when 'manage-variable-associations'
-        "Managing this variable's collection associations"
+      when 'manage-variable-association'
+        "Managing this variable's collection association"
       when 'manage-service-associations'
         "Managing this service's collection associations"
       when 'edit-tool'
@@ -106,7 +106,7 @@ $(document).ready ->
         # Click the link that the user needs
         if linkType == 'delete-collection' && $('.collection-granule-count').text() != 'Granules (0)'
           $('#display-granules-modal').click()
-        else 
+        else
           $(link)[0].click()
 
   # Change current provider
