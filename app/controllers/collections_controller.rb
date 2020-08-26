@@ -158,20 +158,36 @@ class CollectionsController < ManageCollectionsController
   end
 
   def prepare_translated_collections
-    original_collection_native_xml = cmr_client.get_concept(params[:id],token, {})
-    return { error: 'Failed to retrieve collection from CMR' } unless original_collection_native_xml.success?
+    cmr_response_original = cmr_client.get_concept(params[:id],token, {})
+    return { error: 'Failed to retrieve collection from CMR' } unless cmr_response_original.success?
 
-    content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
+    content_type = cmr_response_original.headers.fetch('content-type').split(';')[0]
     return { error: 'This collection is already in UMM format so there is no loss report' } if content_type.include?('application/vnd.nasa.cmr.umm+json')
 
-    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type,  skip_validation=true)
-    return { error: 'Failed to translate collection from UMM back to native format' } unless translated_collection_native_xml.success?
+    cmr_response_translated = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type,  skip_validation=true)
+    return { error: 'Failed to translate collection from UMM back to native format' } unless cmr_response_translated.success?
+
+    # ISO and DIF collections (in XML form) contain namespaces that cause errors when passed to loss_report_helper.rb.
+    # Specifically, when nodes are evaluated individually, (their namespace definitions remaining at the top of the xml)
+    # their prefixes are undefined in the scope of the evaluation and therefore raise errors. Removing the namespaces
+    # eliminates this issue.
+    if content_type.include?('iso') || content_type.include?('dif')
+      original_collection_native_xml = Nokogiri::XML(cmr_response_original.body) { |config| config.strict.noblanks }.remove_namespaces!
+      translated_collection_native_xml = Nokogiri::XML(cmr_response_translated.body) { |config| config.strict.noblanks }.remove_namespaces!
+    else
+      original_collection_native_xml = Nokogiri::XML(cmr_response_original.body) { |config| config.strict.noblanks }
+      translated_collection_native_xml = Nokogiri::XML(cmr_response_translated.body) { |config| config.strict.noblanks }
+    end
+
+    # remove comments
+    original_collection_native_xml.xpath('//comment()').remove
+    original_collection_native_xml.xpath('//comment()').remove
 
     return {
-      original_collection_native_xml: original_collection_native_xml.body,
-      translated_collection_native_xml: translated_collection_native_xml.body,
-      original_collection_native_hash: Hash.from_xml(original_collection_native_xml.body),
-      translated_collection_native_hash: Hash.from_xml(translated_collection_native_xml.body),
+      original_collection_native_xml: original_collection_native_xml,
+      translated_collection_native_xml: translated_collection_native_xml,
+      original_collection_native_hash: Hash.from_xml(original_collection_native_xml.to_xml),
+      translated_collection_native_hash: Hash.from_xml(translated_collection_native_xml.to_xml),
       native_format: content_type
     }
   end

@@ -6,16 +6,18 @@ namespace :collection do
     args.with_defaults(:version => '1.15.3')
     args.with_defaults(:disp => 'show')
 
-    abort 'FORMAT INVALID' unless args.format == 'echo10' || args.format == 'dif10' || args.format == 'iso19115'
+    abort 'FORMAT INVALID' unless args.format == 'echo10' || args.format == 'dif10' || args.format == 'iso19115' || args.format == 'iso:smap'
 
     filename = args.file.split('/')[-1]
     puts "\nTranslating #{filename} to UMM JSON..."
 
-    native_original_xml = File.read(args.file)
-    native_original_hash = Hash.from_xml(native_original_xml)
+    # remove comments and unnecessary whitespace
+    native_original_xml = Nokogiri::XML(File.read(args.file)) { |config| config.strict.noblanks }
+    native_original_xml.xpath('//comment()').remove
+    native_original_hash = Hash.from_xml(native_original_xml.to_xml)
 
     #translate to UMM
-    umm_response = cmr_client.translate_collection(native_original_xml, "application/#{args.format}+xml", "application/vnd.nasa.cmr.umm+json;version=#{args.version}", skip_validation=true )
+    umm_response = cmr_client.translate_collection(native_original_xml.to_xml, "application/#{args.format}+xml", "application/vnd.nasa.cmr.umm+json;version=#{args.version}", skip_validation=true )
     umm_response.success? ? puts("\nsuccessful translation to UMM") : abort("\nUMM translation failure")
     umm_json = umm_response.body.to_json
 
@@ -27,10 +29,10 @@ namespace :collection do
 
 
     if args.format.include?('dif') || args.format.include?('iso')
-      nokogiri_original = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks } .remove_namespaces!
+      nokogiri_original = Nokogiri::XML(native_original_xml.to_xml) { |config| config.strict.noblanks } .remove_namespaces!
       nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks } .remove_namespaces!
     else
-      nokogiri_original = Nokogiri::XML(native_original_xml) { |config| config.strict.noblanks }
+      nokogiri_original = Nokogiri::XML(native_original_xml.to_xml) { |config| config.strict.noblanks }
       nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks }
     end
 
