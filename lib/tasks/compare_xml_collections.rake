@@ -12,12 +12,12 @@ namespace :collection do
     puts "\nTranslating #{filename} to UMM JSON..."
 
     # remove comments and unnecessary whitespace
-    native_original_xml = Nokogiri::XML(File.read(args.file)) { |config| config.strict.noblanks }
-    native_original_xml.xpath('//comment()').remove
-    native_original_hash = Hash.from_xml(native_original_xml.to_xml)
+    native_original_xml_noko = Nokogiri::XML(File.read(args.file)) { |config| config.strict.noblanks }
+    native_original_xml_noko_obj.xpath('//comment()').remove
+    native_original_hash = Hash.from_xml(native_original_xml_noko_obj.to_xml)
 
     #translate to UMM
-    umm_response = cmr_client.translate_collection(native_original_xml.to_xml, "application/#{args.format}+xml", "application/vnd.nasa.cmr.umm+json;version=#{args.version}", skip_validation=true )
+    umm_response = cmr_client.translate_collection(native_original_xml_noko_obj.to_xml, "application/#{args.format}+xml", "application/vnd.nasa.cmr.umm+json;version=#{args.version}", skip_validation=true )
     umm_response.success? ? puts("\nsuccessful translation to UMM") : abort("\nUMM translation failure:\n#{umm_response.body}")
     umm_json = umm_response.body.to_json
 
@@ -29,10 +29,10 @@ namespace :collection do
 
 
     if args.format.include?('dif') || args.format.include?('iso')
-      nokogiri_original = Nokogiri::XML(native_original_xml.to_xml) { |config| config.strict.noblanks } .remove_namespaces!
+      nokogiri_original = Nokogiri::XML(native_original_xml_noko_obj.to_xml) { |config| config.strict.noblanks } .remove_namespaces!
       nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks } .remove_namespaces!
     else
-      nokogiri_original = Nokogiri::XML(native_original_xml.to_xml) { |config| config.strict.noblanks }
+      nokogiri_original = Nokogiri::XML(native_original_xml_noko_obj.to_xml) { |config| config.strict.noblanks }
       nokogiri_converted = Nokogiri::XML(native_converted_xml) { |config| config.strict.noblanks }
     end
 

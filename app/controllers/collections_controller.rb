@@ -172,22 +172,22 @@ class CollectionsController < ManageCollectionsController
     # their prefixes are undefined in the scope of the evaluation and therefore raise errors. Removing the namespaces
     # eliminates this issue.
     if content_type.include?('iso') || content_type.include?('dif')
-      original_collection_native_xml = Nokogiri::XML(cmr_response_original.body) { |config| config.strict.noblanks }.remove_namespaces!
-      translated_collection_native_xml = Nokogiri::XML(cmr_response_translated.body) { |config| config.strict.noblanks }.remove_namespaces!
+      original_collection_native_xml_noko_obj = Nokogiri::XML(cmr_response_original.body) { |config| config.strict.noblanks }.remove_namespaces!
+      translated_collection_native_xml_noko_obj = Nokogiri::XML(cmr_response_translated.body) { |config| config.strict.noblanks }.remove_namespaces!
     else
-      original_collection_native_xml = Nokogiri::XML(cmr_response_original.body) { |config| config.strict.noblanks }
-      translated_collection_native_xml = Nokogiri::XML(cmr_response_translated.body) { |config| config.strict.noblanks }
+      original_collection_native_xml_noko_obj = Nokogiri::XML(cmr_response_original.body) { |config| config.strict.noblanks }
+      translated_collection_native_xml_noko_obj = Nokogiri::XML(cmr_response_translated.body) { |config| config.strict.noblanks }
     end
 
     # remove comments
-    original_collection_native_xml.xpath('//comment()').remove
-    original_collection_native_xml.xpath('//comment()').remove
+    original_collection_native_xml_noko_obj.xpath('//comment()').remove
+    translated_collection_native_xml_noko_obj.xpath('//comment()').remove
 
     return {
-      original_collection_native_xml: original_collection_native_xml,
-      translated_collection_native_xml: translated_collection_native_xml,
-      original_collection_native_hash: Hash.from_xml(original_collection_native_xml.to_xml),
-      translated_collection_native_hash: Hash.from_xml(translated_collection_native_xml.to_xml),
+      original_collection_native_xml: original_collection_native_xml_noko_obj,
+      translated_collection_native_xml: translated_collection_native_xml_noko_obj,
+      original_collection_native_hash: Hash.from_xml(original_collection_native_xml_noko_obj.to_xml),
+      translated_collection_native_hash: Hash.from_xml(translated_collection_native_xml_noko_obj.to_xml),
       native_format: content_type
     }
   end
