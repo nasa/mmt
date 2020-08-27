@@ -23,6 +23,8 @@ module Helpers
       reindex_permitted_groups
       wait_for_cmr
       clear_cache
+
+      response.body['concept_id']
     end
 
     def create_tags(tag_key, description = nil)
