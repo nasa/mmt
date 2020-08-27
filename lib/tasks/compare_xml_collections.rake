@@ -6,7 +6,7 @@ namespace :collection do
     args.with_defaults(:version => '1.15.3')
     args.with_defaults(:disp => 'show')
 
-    abort 'FORMAT INVALID' unless args.format == 'echo10' || args.format == 'dif10' || args.format == 'iso19115' || args.format == 'iso:smap'
+    abort 'FORMAT NOT SUPPORTED' unless args.format == 'echo10' || args.format == 'dif10' || args.format == 'iso19115' || args.format == 'iso:smap'
 
     filename = args.file.split('/')[-1]
     puts "\nTranslating #{filename} to UMM JSON..."
@@ -18,12 +18,12 @@ namespace :collection do
 
     #translate to UMM
     umm_response = cmr_client.translate_collection(native_original_xml.to_xml, "application/#{args.format}+xml", "application/vnd.nasa.cmr.umm+json;version=#{args.version}", skip_validation=true )
-    umm_response.success? ? puts("\nsuccessful translation to UMM") : abort("\nUMM translation failure")
+    umm_response.success? ? puts("\nsuccessful translation to UMM") : abort("\nUMM translation failure:\n#{umm_response.body}")
     umm_json = umm_response.body.to_json
 
     # translate back to native
     back_to_native = cmr_client.translate_collection(umm_json, "application/vnd.nasa.cmr.umm+json;version=#{args.version}", "application/#{args.format}+xml", skip_validation=true )
-    back_to_native.success? ? puts("successful translation to native format \n\n") : abort("Native format translation failure \n\n")
+    back_to_native.success? ? puts("successful translation to native format \n\n") : abort("Native format translation failure:\n#{back_to_native.body} \n\n")
     native_converted_hash = Hash.from_xml(back_to_native.body)
     native_converted_xml = back_to_native.body
 

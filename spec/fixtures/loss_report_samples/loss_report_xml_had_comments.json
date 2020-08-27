@@ -1,7 +1,7 @@
 {
   "format": "application/iso:smap+xml",
   "1. -: /DS_Series/schemaLocation": "http://www.isotc211.org/2005/gmi http://cdn.earthdata.nasa.gov/iso/schema/1.0/ISO19115-2_EOS.xsd",
-  "2. -: /DS_Series/seriesMetadata/MI_Metadata/fileIdentifier/FileName": "L4_SM_aup",
+  "2. -: /DS_Series/seriesMetadata/MI_Metadata/fileIdentifier/CharacterString": "L3_SM_P",
   "3. -: /DS_Series/seriesMetadata/MI_Metadata/characterSet/MD_CharacterSetCode": "utf8",
   "4. -: /DS_Series/seriesMetadata/MI_Metadata/hierarchyLevel/MD_ScopeCode": "series",
   "5. +: /DS_Series/seriesMetadata/MI_Metadata/contentInfo/MD_ImageDescription/attributeDescription": null,
@@ -10,7 +10,7 @@
   "8. +: /DS_Series/seriesMetadata/MI_Metadata/contentInfo/MD_ImageDescription/processingLevelCode/MD_Identifier/codeSpace/CharacterString": "gov.nasa.esdis.umm.processinglevelid",
   "9. -: /DS_Series/seriesMetadata/MI_Metadata/metadataStandardName/CharacterString": "ISO 19115-2 Geographic information - Metadata - Part 2: Extensions for imagery and gridded data",
   "10. +: /DS_Series/seriesMetadata/MI_Metadata/dataQualityInfo/DQ_DataQuality/scope/DQ_Scope/level/MD_ScopeCode": "series",
-  "11. +: /DS_Series/seriesMetadata/MI_Metadata/acquisitionInformation/MI_AcquisitionInformation/platform/EOS_Platform/id": "d5bf7368f-c756-491f-b199-667c3bca4650",
+  "11. +: /DS_Series/seriesMetadata/MI_Metadata/acquisitionInformation/MI_AcquisitionInformation/platform/EOS_Platform/id": "dd4f50672-cb88-466b-be80-91b370c32568",
   "12. +: /DS_Series/seriesMetadata/MI_Metadata/acquisitionInformation/MI_AcquisitionInformation/platform/EOS_Platform/identifier/MD_Identifier/code/CharacterString": "Not provided",
   "13. +: /DS_Series/seriesMetadata/MI_Metadata/acquisitionInformation/MI_AcquisitionInformation/platform/EOS_Platform/identifier/MD_Identifier/codeSpace/CharacterString": "gov.nasa.esdis.umm.platformshortname",
   "14. +: /DS_Series/seriesMetadata/MI_Metadata/acquisitionInformation/MI_AcquisitionInformation/platform/EOS_Platform/description/CharacterString": "Not provided",
@@ -21,12 +21,12 @@
       "citation": {
         "CI_Citation": {
           "title": {
-            "CharacterString": "SMAP L4 Global 3-hourly 9 km Surface and Rootzone Soil Moisture Analysis Update"
+            "CharacterString": "SMAP L3 Radiometer Global Daily 36 km EASE-Grid Soil Moisture"
           },
           "date": {
             "CI_Date": {
               "date": {
-                "Date": "2016-04-29"
+                "Date": "2016-03-31"
               },
               "dateType": {
                 "CI_DateTypeCode": "revision"
@@ -34,16 +34,16 @@
             }
           },
           "edition": {
-            "CharacterString": "Vv2010"
+            "CharacterString": "R13"
           },
           "identifier": [
             {
               "MD_Identifier": {
                 "code": {
-                  "CharacterString": "SPL4SMAU"
+                  "CharacterString": "SPL3SMP"
                 },
                 "codeSpace": {
-                  "CharacterString": "http://gmao.gsfc.nasa.gov"
+                  "CharacterString": "smap.jpl.nasa.gov"
                 },
                 "description": {
                   "CharacterString": "The ECS Short Name"
@@ -53,7 +53,7 @@
             {
               "MD_Identifier": {
                 "code": {
-                  "CharacterString": "002"
+                  "CharacterString": "003"
                 },
                 "codeSpace": {
                   "CharacterString": "gov.nasa.esdis"
@@ -66,13 +66,13 @@
             {
               "MD_Identifier": {
                 "code": {
-                  "Anchor": "doi:10.5067/JJY2V0GJNFRZ"
+                  "Anchor": "doi:10.5067/7MINGFDCZTES"
                 },
                 "codeSpace": {
                   "CharacterString": "gov.nasa.esdis"
                 },
                 "description": {
-                  "CharacterString": "A Digital Object Identifier (DOI) that provides a persistent interoperable means to locate the SMAP Level 4 Radar data product."
+                  "CharacterString": "A Digital Object Identifier (DOI)"
                 }
               }
             }
@@ -81,7 +81,7 @@
             {
               "CI_ResponsibleParty": {
                 "organisationName": {
-                  "CharacterString": "National Aeronautics and Space Administration"
+                  "CharacterString": "National Aeronautics and Space Administration (NASA)"
                 },
                 "role": {
                   "CI_RoleCode": "resourceProvider"
@@ -91,7 +91,7 @@
             {
               "CI_ResponsibleParty": {
                 "organisationName": {
-                  "CharacterString": "Global Modeling and Assimilation Office"
+                  "CharacterString": "Jet Propulsion Laboratory"
                 },
                 "role": {
                   "CI_RoleCode": "originator"
@@ -102,26 +102,19 @@
           "presentationForm": {
             "CI_PresentationFormCode": "documentDigital"
           },
-          "series": {
-            "CI_Series": {
-              "name": {
-                "CharacterString": "L4_SM"
-              }
-            }
-          },
           "otherCitationDetails": {
-            "CharacterString": "The first Validated Release of the SMAP Level 4 Science Processing Software."
+            "CharacterString": "The Calibration and Validation Version 2 Release of the SMAP Level 3 Daily Global Composite Passive Soil Moisture Science Processing Software."
           }
         }
       },
       "abstract": {
-        "CharacterString": "The SMAP L4_SM data product provides global, 3-hourly surface and root zone soil moisture at 9 km resolution. The L4_SM data product consists of three Collections: geophysical, analysis update and land-model-constants."
+        "CharacterString": "Daily global composite of up-to 15 half-orbit L2_SM_P soil moisture estimates based on radiometer brightness temperature measurements acquired by the SMAP radiometer during descending half-orbits at approximately 6 AM local solar time."
       },
       "purpose": {
-        "CharacterString": "The SMAP L4_SM data product provides spatially and temporally complete surface and root zone soil moisture information for science and applications users."
+        "CharacterString": "The SMAP L3_SM_P algorithm provides daily global composite of soil moistures based on radiometer data on a 36 km grid."
       },
       "credit": {
-        "CharacterString": "The software that generates the L4_SM data product and the data system that automates its production were designed and implemented at the NASA Global Modeling and Assimilation Office, Goddard Space Flight Center, Greenbelt, Maryland, USA."
+        "CharacterString": "The software that generates the Level 3 Soil Moisture Passive product and the data system that automates its production were designed and implemented at the Jet Propulsion Laboratory, California Institute of Technology in Pasadena, California."
       },
       "status": {
         "MD_ProgressCode": "onGoing"
@@ -129,7 +122,7 @@
       "pointOfContact": {
         "CI_ResponsibleParty": {
           "organisationName": {
-            "CharacterString": "PVC"
+            "CharacterString": "EDF_DEV02"
           },
           "role": {
             "CI_RoleCode": "distributor"
@@ -139,10 +132,10 @@
       "resourceMaintenance": {
         "MD_MaintenanceInformation": {
           "maintenanceAndUpdateFrequency": {
-            "MD_MaintenanceFrequencyCode": "As Needed"
+            "MD_MaintenanceFrequencyCode": "asNeeded"
           },
           "dateOfNextUpdate": {
-            "Date": "2016-11-01"
+            "Date": "2017-04-01"
           },
           "updateScope": {
             "MD_ScopeCode": "series"
@@ -155,7 +148,7 @@
             "CharacterString": "HDF5"
           },
           "version": {
-            "CharacterString": "Version 1.8.9"
+            "CharacterString": "1.8.13"
           }
         }
       },
@@ -167,10 +160,31 @@
                 "CharacterString": "EARTH SCIENCE > LAND SURFACE > SOILS > SOIL MOISTURE/WATER CONTENT"
               },
               {
-                "CharacterString": "EARTH SCIENCE > LAND SURFACE > SOILS > SOIL MOISTURE/WATER CONTENT > NONE > NONE > SURFACE SOIL MOISTURE"
+                "CharacterString": "EARTH SCIENCE > CLIMATE INDICATORS > LAND SURFACE/AGRICULTURE INDICATORS > SOIL MOISTURE"
               },
               {
-                "CharacterString": "EARTH SCIENCE > LAND SURFACE > SOILS > SOIL MOISTURE/WATER CONTENT > NONE > NONE > ROOT ZONE SOIL MOISTURE"
+                "CharacterString": "EARTH SCIENCE > SPECTRAL/ENGINEERING > MICROWAVE > BRIGHTNESS TEMPERATURE"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > TERRESTRIAL HYDROSPHERE > SNOW/ICE > FREEZE/THAW"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > CRYOSPHERE > SNOW/ICE > FREEZE/THAW"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > BIOSPHERE > VEGETATION > PLANT CHARACTERISTICS > VEGETATION WATER CONTENT"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > LAND SURFACE > SURFACE RADIATIVE PROPERTIES > ALBEDO"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > LAND SURFACE > TOPOGRAPHY > SURFACE ROUGHNESS"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > LAND SURFACE > SURFACE RADIATIVE PROPERTIES > ALBEDO"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > TERRESTRIAL HYDROSPHERE> SNOW/ICE > FREEZE/THAW"
               }
             ],
             "type": {
@@ -182,7 +196,7 @@
                   "CharacterString": "NASA/GCMD Earth Science Keywords"
                 },
                 "date": {
-                  "nilReason": "missing"
+                  "nilReason": "unknown"
                 }
               }
             }
@@ -191,7 +205,7 @@
         {
           "MD_Keywords": {
             "keyword": {
-              "CharacterString": "Earth Remote Sensing Instruments > Active Remote Sensing > NONE > SMAP L-BAND RADAR > SMAP L-Band Radar"
+              "CharacterString": "Earth Remote Sensing Instruments > Passive Remote Sensing > Spectrometers/Radiometers > Imaging Spectrometers/Radiometers > SMAP L-BAND RADIOMETER > SMAP L-Band Radiometer"
             },
             "type": {
               "MD_KeywordTypeCode": "theme"
@@ -202,7 +216,7 @@
                   "CharacterString": "NASA/GCMD Earth Science Keywords"
                 },
                 "date": {
-                  "nilReason": "missing"
+                  "nilReason": "unknown"
                 }
               }
             }
@@ -222,7 +236,7 @@
                   "CharacterString": "NASA/GCMD Earth Science Keywords"
                 },
                 "date": {
-                  "nilReason": "missing"
+                  "nilReason": "unknown"
                 }
               }
             }
@@ -242,7 +256,7 @@
                   "CharacterString": "NASA/GCMD Earth Science Keywords"
                 },
                 "date": {
-                  "nilReason": "missing"
+                  "nilReason": "unknown"
                 }
               }
             }
@@ -266,6 +280,16 @@
           }
         }
       },
+      "spatialRepresentationType": {
+        "MD_SpatialRepresentationTypeCode": "grid"
+      },
+      "spatialResolution": {
+        "MD_Resolution": {
+          "distance": {
+            "Distance": "36"
+          }
+        }
+      },
       "language": {
         "CharacterString": "eng"
       },
@@ -281,7 +305,7 @@
       "extent": {
         "EX_Extent": {
           "description": {
-            "CharacterString": "Global land excluding inland water and permanent ice."
+            "CharacterString": "Soil moisture is retrieved over land targets on the descending (AM) SMAP half-orbits when the SMAP spacecraft is travelling from North to South, while the SMAP instruments are operating in the nominal mode. Retrievals are performed but flagged as questionable over urban areas, mountainous areas with high elevation variability, and areas with high ( > 5 kg/m**2) vegetation water content; for retrievals using the high-resolution radar, cells in the nadir region are also flagged. Retrievals are inhibited for permanent snow/ice, frozen ground, and excessive static or transient open water in the cell, and for excessive RFI in the sensor data."
           },
           "geographicElement": {
             "EX_GeographicBoundingBox": {
@@ -289,16 +313,16 @@
                 "Boolean": "1"
               },
               "westBoundLongitude": {
-                "Decimal": "-180"
+                "Decimal": "-180.00"
               },
               "eastBoundLongitude": {
-                "Decimal": "180"
+                "Decimal": "180.00"
               },
               "southBoundLatitude": {
-                "Decimal": "-85.04456"
+                "Decimal": "-85.0445"
               },
               "northBoundLatitude": {
-                "Decimal": "85.04456"
+                "Decimal": "85.0445"
               }
             }
           },
@@ -307,8 +331,8 @@
               "extent": {
                 "TimePeriod": {
                   "id": "swathTemporalExtent",
-                  "beginPosition": "2015-03-31T01:30:00.000Z",
-                  "endPosition": "2021-01-01T01:29:59.999Z"
+                  "beginPosition": "2015-03-31T00:00:00.000Z",
+                  "endPosition": "2020-12-31T00:00:00.000Z"
                 }
               }
             }
@@ -322,12 +346,12 @@
       "citation": {
         "CI_Citation": {
           "title": {
-            "CharacterString": "Soil Moisture Active Passive Mission Level 4 Surface and Root Zone Soil Moisture (L4_SM) Product Specification Document"
+            "CharacterString": "Product Specification Document for the SMAP Level 3 Passive Soil Moisture Product (L3_SM_P)"
           },
           "date": {
             "CI_Date": {
               "date": {
-                "Date": "2015-10-31"
+                "Date": "2013-02-08"
               },
               "dateType": {
                 "CI_DateTypeCode": "publication"
@@ -335,38 +359,34 @@
             }
           },
           "edition": {
-            "CharacterString": "1.4"
+            "CharacterString": "1.0"
           },
           "identifier": {
             "MD_Identifier": {
               "code": {
-                "CharacterString": "L4_SM"
+                "CharacterString": "L3_SM_P"
               },
               "codeSpace": {
-                "CharacterString": "http://gmao.gsfc.nasa.gov"
+                "CharacterString": "smap.jpl.nasa.gov"
               },
               "description": {
-                "CharacterString": "A short name used by the Soil Moisture Active Passive (SMAP) mission to identify the Level 4 Radar product."
+                "CharacterString": "Short name used by the Soil Moisture Active Passive (SMAP) mission to identify the Level 3 Passive Soil Moisture product."
               }
             }
           },
           "presentationForm": {
             "CI_PresentationFormCode": "documentDigital"
-          },
-          "series": {
-            "CI_Series": {
-              "name": {
-                "CharacterString": "L4_SM"
-              }
-            }
           }
         }
       },
       "abstract": {
-        "CharacterString": "The SMAP L4_SM data product provides global, 3-hourly surface and root zone soil moisture at 9 km resolution. The L4_SM data product consists of three Collections: geophysical, analysis update and land-model-constants."
+        "CharacterString": "The Product Specification Document that fully describes the content and format of this data product."
       },
       "language": {
         "CharacterString": "eng"
+      },
+      "characterSet": {
+        "MD_CharacterSetCode": "utf8"
       }
     }
   },
@@ -380,7 +400,7 @@
           "date": {
             "CI_Date": {
               "date": {
-                "DateTime": "2016-09-12T11:50:19.050Z"
+                "DateTime": "2016-06-20T08:47:09.888Z"
               },
               "dateType": {
                 "CI_DateTypeCode": "revision"
@@ -397,7 +417,7 @@
           "aggregateDataSetIdentifier": {
             "MD_Identifier": {
               "code": {
-                "CharacterString": "SMAP L4 Global 3-hourly 9 km Surface and Rootzone Soil Moisture Analysis Update V002"
+                "CharacterString": "SMAP L3 Radiometer Global Daily 36 km EASE-Grid Soil Moisture V003"
               }
             }
           },
@@ -419,7 +439,7 @@
           "date": {
             "CI_Date": {
               "date": {
-                "DateTime": "2016-09-08T09:16:24.835Z"
+                "DateTime": "2016-06-16T15:01:42.772Z"
               },
               "dateType": {
                 "CI_DateTypeCode": "creation"
@@ -449,7 +469,7 @@
           "date": {
             "CI_Date": {
               "date": {
-                "DateTime": "2016-09-12T11:50:19.050Z"
+                "DateTime": "2016-06-20T08:47:09.888Z"
               },
               "dateType": {
                 "CI_DateTypeCode": "revision"
@@ -479,7 +499,7 @@
           "date": {
             "CI_Date": {
               "date": {
-                "DateTime": "2016-09-12T11:50:19.050Z"
+                "DateTime": "2016-06-20T08:47:09.888Z"
               },
               "dateType": {
                 "CI_DateTypeCode": "revision"
@@ -489,7 +509,7 @@
           "identifier": {
             "MD_Identifier": {
               "code": {
-                "CharacterString": "SPL4SMAU"
+                "CharacterString": "SPL3SMP.003"
               }
             }
           }
@@ -511,13 +531,13 @@
       "citation": {
         "CI_Citation": {
           "title": {
-            "CharacterString": "SMAP L4 Global 3-hourly 9 km Surface and Rootzone Soil Moisture Analysis Update"
+            "CharacterString": "SMAP L3 Radiometer Global Daily 36 km EASE-Grid Soil Moisture"
           },
           "date": [
             {
               "CI_Date": {
                 "date": {
-                  "DateTime": "2016-04-29T00:00:00.000Z"
+                  "DateTime": "2016-03-31T00:00:00.000Z"
                 },
                 "dateType": {
                   "CI_DateTypeCode": "revision"
@@ -527,7 +547,7 @@
             {
               "CI_Date": {
                 "date": {
-                  "DateTime": "2016-09-12T11:50:19.050Z"
+                  "DateTime": "2016-06-20T08:47:09.888Z"
                 },
                 "dateType": {
                   "CI_DateTypeCode": "revision"
@@ -537,7 +557,7 @@
             {
               "CI_Date": {
                 "date": {
-                  "DateTime": "2016-09-08T09:16:24.835Z"
+                  "DateTime": "2016-06-16T15:01:42.772Z"
                 },
                 "dateType": {
                   "CI_DateTypeCode": "creation"
@@ -546,13 +566,13 @@
             }
           ],
           "edition": {
-            "CharacterString": "Vv2010"
+            "CharacterString": "R13"
           },
           "identifier": [
             {
               "MD_Identifier": {
                 "code": {
-                  "CharacterString": "SPL4SMAU"
+                  "CharacterString": "SPL3SMP"
                 },
                 "description": {
                   "CharacterString": "The ECS Short Name"
@@ -562,7 +582,7 @@
             {
               "MD_Identifier": {
                 "code": {
-                  "CharacterString": "002"
+                  "CharacterString": "003"
                 },
                 "description": {
                   "CharacterString": "The ECS Version ID"
@@ -572,7 +592,7 @@
             {
               "MD_Identifier": {
                 "code": {
-                  "CharacterString": "doi:10.5067/JJY2V0GJNFRZ"
+                  "CharacterString": "doi:10.5067/7MINGFDCZTES"
                 },
                 "codeSpace": {
                   "CharacterString": "gov.nasa.esdis.umm.doi"
@@ -586,24 +606,17 @@
           "presentationForm": {
             "CI_PresentationFormCode": "documentDigital"
           },
-          "series": {
-            "CI_Series": {
-              "name": {
-                "CharacterString": "L4_SM"
-              }
-            }
-          },
           "otherCitationDetails": {
-            "CharacterString": "The first Validated Release of the SMAP Level 4 Science Processing Software."
+            "CharacterString": "The Calibration and Validation Version 2 Release of the SMAP Level 3 Daily Global Composite Passive Soil Moisture Science Processing Software."
           }
         }
       },
       "abstract": {
-        "CharacterString": "The SMAP L4_SM data product provides global, 3-hourly surface and root zone soil moisture at 9 km resolution. The L4_SM data product consists of three Collections: geophysical, analysis update and land-model-constants."
+        "CharacterString": "Daily global composite of up-to 15 half-orbit L2_SM_P soil moisture estimates based on radiometer brightness temperature measurements acquired by the SMAP radiometer during descending half-orbits at approximately 6 AM local solar time."
       },
       "purpose": {
         "nilReason": "missing",
-        "CharacterString": "The SMAP L4_SM data product provides spatially and temporally complete surface and root zone soil moisture information for science and applications users."
+        "CharacterString": "The SMAP L3_SM_P algorithm provides daily global composite of soil moistures based on radiometer data on a 36 km grid."
       },
       "status": {
         "MD_ProgressCode": "onGoing"
@@ -611,7 +624,7 @@
       "pointOfContact": {
         "CI_ResponsibleParty": {
           "organisationName": {
-            "CharacterString": "PVC"
+            "CharacterString": "EDF_DEV02"
           },
           "role": {
             "CI_RoleCode": "distributor"
@@ -626,10 +639,31 @@
                 "CharacterString": "EARTH SCIENCE > LAND SURFACE > SOILS > SOIL MOISTURE/WATER CONTENT > NONE > NONE > NONE"
               },
               {
-                "CharacterString": "EARTH SCIENCE > LAND SURFACE > SOILS > SOIL MOISTURE/WATER CONTENT > NONE > NONE > SURFACE SOIL MOISTURE"
+                "CharacterString": "EARTH SCIENCE > CLIMATE INDICATORS > LAND SURFACE/AGRICULTURE INDICATORS > SOIL MOISTURE > NONE > NONE > NONE"
               },
               {
-                "CharacterString": "EARTH SCIENCE > LAND SURFACE > SOILS > SOIL MOISTURE/WATER CONTENT > NONE > NONE > ROOT ZONE SOIL MOISTURE"
+                "CharacterString": "EARTH SCIENCE > SPECTRAL/ENGINEERING > MICROWAVE > BRIGHTNESS TEMPERATURE > NONE > NONE > NONE"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > TERRESTRIAL HYDROSPHERE > SNOW/ICE > FREEZE/THAW > NONE > NONE > NONE"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > CRYOSPHERE > SNOW/ICE > FREEZE/THAW > NONE > NONE > NONE"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > BIOSPHERE > VEGETATION > PLANT CHARACTERISTICS > VEGETATION WATER CONTENT > NONE > NONE"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > LAND SURFACE > SURFACE RADIATIVE PROPERTIES > ALBEDO > NONE > NONE > NONE"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > LAND SURFACE > TOPOGRAPHY > SURFACE ROUGHNESS > NONE > NONE > NONE"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > LAND SURFACE > SURFACE RADIATIVE PROPERTIES > ALBEDO > NONE > NONE > NONE"
+              },
+              {
+                "CharacterString": "EARTH SCIENCE > TERRESTRIAL HYDROSPHERE > SNOW/ICE > FREEZE/THAW > NONE > NONE > NONE"
               }
             ],
             "type": {
@@ -668,10 +702,10 @@
                 "Decimal": "180.0"
               },
               "southBoundLatitude": {
-                "Decimal": "-85.04456"
+                "Decimal": "-85.0445"
               },
               "northBoundLatitude": {
-                "Decimal": "85.04456"
+                "Decimal": "85.0445"
               }
             }
           },
@@ -679,9 +713,9 @@
             "EX_TemporalExtent": {
               "extent": {
                 "TimePeriod": {
-                  "id": "d95d41a7b-3fc9-4db1-9ac0-1b9bfb2b8bf5",
-                  "beginPosition": "2015-03-31T01:30:00.000Z",
-                  "endPosition": "2021-01-01T01:29:59.999Z"
+                  "id": "dc06f2cf3-8ee5-4ae6-b37e-a03d76dead07",
+                  "beginPosition": "2015-03-31T00:00:00.000Z",
+                  "endPosition": "2020-12-31T00:00:00.000Z"
                 }
               }
             }
@@ -711,7 +745,7 @@
             {
               "CI_Date": {
                 "date": {
-                  "DateTime": "2016-04-29T00:00:00.000Z"
+                  "DateTime": "2016-03-31T00:00:00.000Z"
                 },
                 "dateType": {
                   "CI_DateTypeCode": "revision"
@@ -721,7 +755,7 @@
             {
               "CI_Date": {
                 "date": {
-                  "DateTime": "2016-09-12T11:50:19.050Z"
+                  "DateTime": "2016-06-20T08:47:09.888Z"
                 },
                 "dateType": {
                   "CI_DateTypeCode": "revision"
@@ -731,7 +765,7 @@
             {
               "CI_Date": {
                 "date": {
-                  "DateTime": "2016-09-08T09:16:24.835Z"
+                  "DateTime": "2016-06-16T15:01:42.772Z"
                 },
                 "dateType": {
                   "CI_DateTypeCode": "creation"
@@ -742,7 +776,7 @@
           "citedResponsibleParty": {
             "CI_ResponsibleParty": {
               "organisationName": {
-                "CharacterString": "Global Modeling and Assimilation Office"
+                "CharacterString": "Jet Propulsion Laboratory"
               },
               "role": {
                 "CI_RoleCode": "originator"
@@ -769,7 +803,7 @@
           "aggregateDataSetIdentifier": {
             "MD_Identifier": {
               "code": {
-                "CharacterString": "SMAP L4 Global 3-hourly 9 km Surface and Rootzone Soil Moisture Analysis Update V002"
+                "CharacterString": "SMAP L3 Radiometer Global Daily 36 km EASE-Grid Soil Moisture V003"
               }
             }
           },
@@ -788,6 +822,6 @@
   "27. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/contactInfo/CI_Contact/onlineResource/CI_OnlineResource/linkage/URL": "http://nsidc.org/daac/",
   "28. -: /DS_Series/seriesMetadata/MI_Metadata/contact/CI_ResponsibleParty/role/CI_RoleCode": "pointOfContact",
   "29. +: /DS_Series/seriesMetadata/MI_Metadata/contact/href": "#alaskaSARContact",
-  "30. -: /DS_Series/seriesMetadata/MI_Metadata/dateStamp/Date": "2016-04-29",
+  "30. -: /DS_Series/seriesMetadata/MI_Metadata/dateStamp/Date": "2014-04-15",
   "31. +: /DS_Series/seriesMetadata/MI_Metadata/dateStamp/Date": "2013-01-02"
 }

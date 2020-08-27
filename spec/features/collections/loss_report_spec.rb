@@ -5,6 +5,7 @@ describe 'Displaying the loss report in browser' do
     let(:echo_concept_id) { echo_concept_id = cmr_client.get_collections({'EntryTitle': 'Anthropogenic Biomes of the World, Version 2: 1700'}).body.dig('items',0,'meta','concept-id') }
     let(:dif_concept_id) { dif_concept_id = cmr_client.get_collections({'EntryTitle': '2000 Pilot Environmental Sustainability Index (ESI)'}).body.dig('items',0,'meta','concept-id') }
     let(:iso_concept_id) { iso_concept_id = cmr_client.get_collections({'EntryTitle': 'SMAP L4 Global 3-hourly 9 km Surface and Rootzone Soil Moisture Analysis Update V002'}).body.dig('items',0,'meta','concept-id') }
+    let(:concept_with_comments) { concept_with_comments = iso_concept_id = cmr_client.get_collections({'EntryTitle': 'SMAP L3 Radiometer Global Daily 36 km EASE-Grid Soil Moisture V003'}).body.dig('items',0,'meta','concept-id') }
 
     before do
       login
@@ -19,7 +20,6 @@ describe 'Displaying the loss report in browser' do
         visit loss_report_collections_path(dif_concept_id, format:'json')
         expect(page.text.gsub(/\s+/, "")).to have_text(File.read('spec/fixtures/loss_report_samples/loss_report_dif_sample.json').gsub(/\s+/, ""))
       end
-
       it 'properly displays the iso json report' do
         visit loss_report_collections_path(iso_concept_id, format:'json')
         sample_paths = JSON.parse(File.read('spec/fixtures/loss_report_samples/loss_report_iso_sample.json')).keys.map! { |path| path.split(': ').last }
@@ -32,7 +32,19 @@ describe 'Displaying the loss report in browser' do
         # This means that the sample reports will contain different 'id' values and therefore cannot be compared directly in this example.
         # In order to bypass this issue we ignore the 'id' changes by expecting two 'id' values that are different, hence the
         # '2' expectation.
+        expect(sample_paths - page_paths).to be_empty
+        expect(page_paths - sample_paths).to be_empty
+        expect((sample_values - page_values).length).to be(2)
+        expect((page_values - sample_values).length).to be(2)
+      end
+      it 'properly generates the json loss report despite the iso:smap xml document containing <!-- comments -->' do
+        visit loss_report_collections_path(concept_with_comments, format:'json')
+        sample_paths = JSON.parse(File.read('spec/fixtures/loss_report_samples/loss_report_xml_had_comments.json')).keys.map! { |path| path.split(': ').last }
+        sample_values = JSON.parse(File.read('spec/fixtures/loss_report_samples/loss_report_xml_had_comments.json')).values
+        page_paths = JSON.parse(page.text).keys.map! { |path| path.split(': ').last }
+        page_values = JSON.parse(page.text).values
 
+        # same reasoning as above
         expect(sample_paths - page_paths).to be_empty
         expect(page_paths - sample_paths).to be_empty
         expect((sample_values - page_values).length).to be(2)
@@ -57,6 +69,16 @@ describe 'Displaying the loss report in browser' do
         # from there, the two arrays of paths are compared to ensure the page does not hold different paths than the sample
         # this is necessary because of how CMR translates ISO records. See above 'json iso report' for more details
         sample_paths = File.read('spec/fixtures/loss_report_samples/loss_report_iso_sample.text').split(/\s|\n/).reject! { |path| !path.include?("/") }
+        page_paths = page.text.split("\s").reject! { |path| !path.include?("/") }
+
+        expect(sample_paths - page_paths).to be_empty
+        expect(page_paths - sample_paths).to be_empty
+      end
+      it 'properly generates the text loss report despite the iso:smap xml document containing <!-- comments -->' do
+        visit loss_report_collections_path(concept_with_comments, format:'text')
+
+        # same reasoning as above
+        sample_paths = File.read('spec/fixtures/loss_report_samples/loss_report_xml_had_comments.text').split(/\s|\n/).reject! { |path| !path.include?("/") }
         page_paths = page.text.split("\s").reject! { |path| !path.include?("/") }
 
         expect(sample_paths - page_paths).to be_empty
