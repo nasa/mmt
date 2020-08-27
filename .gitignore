@@ -7,6 +7,9 @@
 # Ignore bundler config.
 /.bundle
 
+# Ignore package-lock.json
+package-lock.json
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
@@ -57,3 +60,7 @@ nohup.out
 
 #backup files
 *~
+
+#ignore package
+package-lock.json
+package.json

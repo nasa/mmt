@@ -26,7 +26,23 @@
   &:hover {
     background-color: darken($red, 6%);
   }
-}  
+}
+
+.eui-btn--steel-blue {
+  @extend .eui-btn;
+
+  background-color: $steel-blue;
+  color: $white !important;
+  padding: 0.5em 1em;
+
+  &:hover {
+    background-color: darken($steel-blue, 6%);
+  }
+}
+
+.button-spacing {
+  margin-right: 0.625em;
+}
 
 button {
   &:disabled {
