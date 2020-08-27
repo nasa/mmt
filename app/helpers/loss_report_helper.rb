@@ -1,23 +1,16 @@
+
 module LossReportHelper
 
   def loss_report_output(translated_collections:, hide_items:, display:)
-    # depending on the input selection (json or text) a comparison string/hash is created and displayed in-browser
+    # depending on the input selection a json or text output is created and displayed in-browser
     # this display feature could be a good candidate for dependency injection
 
     orig_h = translated_collections[:original_collection_native_hash]
     conv_h = translated_collections[:translated_collection_native_hash]
 
-    # ISO and DIF collections (in XML form) contain namespaces that cause errors in the below comparison.
-    # Specifically, when nodes are evaluated individually, (their namespace definitions remaining at the top of the xml)
-    # their prefixes are undefined in the scope of the evaluation and therefore raise errors. Removing the namespaces
-    # eliminates this issue.
-    if translated_collections[:native_format].include?('iso') || translated_collections[:native_format].include?('dif')
-      orig = Nokogiri::XML(translated_collections[:original_collection_native_xml]) { |config| config.strict.noblanks }.remove_namespaces!
-      conv = Nokogiri::XML(translated_collections[:translated_collection_native_xml]) { |config| config.strict.noblanks }.remove_namespaces!
-    else
-      orig = Nokogiri::XML(translated_collections[:original_collection_native_xml]) { |config| config.strict.noblanks }
-      conv = Nokogiri::XML(translated_collections[:translated_collection_native_xml]) { |config| config.strict.noblanks }
-    end
+    # these are nokogiri xml objects
+    orig = translated_collections[:original_collection_native_xml]
+    conv = translated_collections[:translated_collection_native_xml]
 
     # This array is used to keep track of the paths that lead to arrays that have already been mapped
     arr_paths = Array.new
