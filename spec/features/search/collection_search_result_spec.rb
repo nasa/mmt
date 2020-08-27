@@ -161,12 +161,17 @@ describe 'Searching published collections', js: true, reset_provider: true do
       @ingest_response, _concept_response = publish_collection_draft(short_name: tag_collection_short_name)
 
       # create tags
-      setup_tag_permissions
+      @acl_concept = setup_tag_permissions
       reindex_permitted_groups
       create_tags(search_tag_1_key, search_tag_1_description)
 
       # associate with a collection
       associate_tag_to_collection_by_short_name(search_tag_1_key, tag_collection_short_name)
+    end
+
+    after :all do
+      remove_group_permissions(@acl_concept)
+      reindex_permitted_groups
     end
 
     before do
