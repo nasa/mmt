@@ -1,4 +1,4 @@
-describe 'Collections with Tags', reset_provider: true, js: true do
+describe 'Collections with Tags', js: true do
   tag_1_key = 'tag.collection.example.01'
   tag_1_description = 'This is sample tag #1'
   tag_2_key = 'tag.collection.example.02'
