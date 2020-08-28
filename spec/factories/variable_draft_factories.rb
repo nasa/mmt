@@ -38,34 +38,18 @@ FactoryBot.define do
           'Index': 'string'
         }
       ],
-      'Characteristics': {
-        'IndexRanges':
-          {
-            'LatRange': [
-              'abc',
-              90.0
-            ],
-            'LonRange': [
-              -180.0,
-              180.0
-            ]
-          }
-      },
-      "SizeEstimation":
+      'IndexRanges':
         {
-          "AverageSizeOfGranulesSampled": 'string',
-          "AverageCompressionInformation": [
-            {
-              "Rate": 'string',
-              "Format": "ASCII"
-            },
-            {
-              "Rate": 15,
-              "Format": "NetCDF-4"
-            }
+          'LatRange': [
+            'abc',
+            90.0
+          ],
+          'LonRange': [
+            -180.0,
+            180.0
           ]
         }
-    }}
+      }}
 
     short_name { nil }
     entry_title { nil }
@@ -84,7 +68,6 @@ FactoryBot.define do
 
     draft {{
       'Name': draft_short_name || "#{Faker::Space.galaxy}_#{Faker::Number.number(digits: 6)}",
-      'Alias': "An Alias",
       'LongName': draft_entry_title || "#{Faker::Space.nebula} #{Faker::Space.star_cluster} #{Faker::Number.number(digits: 6)}",
       'Definition': 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)',
       'Units': 'Npptv',
@@ -130,7 +113,7 @@ FactoryBot.define do
         }
       ],
       'VariableType': 'SCIENCE_VARIABLE',
-      "VariableSubType": "SCIENCE_SCALAR",
+      'VariableSubType': 'SCIENCE_SCALAR',
       'Sets': [
         {
           'Name': 'Science',
@@ -145,71 +128,53 @@ FactoryBot.define do
           'Index': 2
         }
       ],
-      "Characteristics": {
-        "GroupPath": "/Data_Fields/",
-        "IndexRanges":
-          {
-            "LatRange": [
-              -90.0,
-              90.0
-            ],
-            "LonRange": [
-              -180.0,
-              180.0
-            ]
-          }
-      },
-      "SizeEstimation":
+      'IndexRanges':
         {
-          "AverageSizeOfGranulesSampled": 3009960,
-          "AverageCompressionInformation": [
+          'LatRange': [
+            -90.0,
+            90.0
+          ],
+          'LonRange': [
+            -180.0,
+            180.0
+          ]
+      },
+      'MeasurementIdentifiers': [
+        {
+          'MeasurementContextMedium': 'ocean',
+          'MeasurementContextMediumURI': 'fake.website.gov',
+          'MeasurementObject': 'sea_ice-meltwater',
+          'MeasurementObjectURI': 'fake.website.gov',
+          'MeasurementQuantities': [
             {
-              "Rate": 4.0,
-              "Format": "ASCII"
+              'MeasurementQuantityURI': 'fake.website.gov',
+              'Value': 'volume'
             },
             {
-              "Rate": 0.132,
-              "Format": "NetCDF-4"
+              'Value': 'volume'
             }
           ]
         },
-        "MeasurementIdentifiers":
-        [
-            {
-              "MeasurementContextMedium": "ocean",
-              "MeasurementContextMediumURI": "fake.website.gov",
-              "MeasurementObject": "sea_ice-meltwater",
-              "MeasurementObjectURI": "fake.website.gov",
-              "MeasurementQuantities": [
-                {
-                  "MeasurementQuantityURI": "fake.website.gov",
-                  "Value": "volume"
-                },
-                {
-                  "Value": "volume"
-                }
-              ]
-            },
-            {
-              "MeasurementContextMedium": "ocean",
-              "MeasurementObject": "sea_ice-meltwater",
-              "MeasurementQuantities": [
-                {
-                  "Value": "volume"
-                }
-              ]
-            }
-        ],
-      "SamplingIdentifiers": [
         {
-          "SamplingMethod": "Satellite overpass",
-          "MeasurementConditions": "Measured at top of atmosphere (specifically at the top of the mesosphere, i.e. the mesopause).",
-          "ReportingConditions": "At 50 km from the surface, pressure is 1MB and temperature is -130 degrees F."
+          'MeasurementContextMedium': 'ocean',
+          'MeasurementObject': 'sea_ice-meltwater',
+          'MeasurementQuantities': [
+            {
+              'Value': 'volume'
+            }
+          ]
+        }
+      ],
+      'SamplingIdentifiers': [
+        {
+          'SamplingMethod': 'Satellite overpass',
+          'MeasurementConditions': 'Measured at top of atmosphere (specifically at the top of the mesosphere, i.e. the mesopause).',
+          'ReportingConditions': 'At 50 km from the surface, pressure is 1MB and temperature is -130 degrees F.'
         },
         {
-          "SamplingMethod": "Satellite overpass 1",
-          "MeasurementConditions": "Measured at bottom of atmosphere",
-          "ReportingConditions": "At 1 km from the surface, pressure is 1MB and temperature is 32 degrees F."
+          'SamplingMethod': 'Satellite overpass 1',
+          'MeasurementConditions': 'Measured at bottom of atmosphere',
+          'ReportingConditions': 'At 1 km from the surface, pressure is 1MB and temperature is 32 degrees F.'
         }
       ],
       'ScienceKeywords': draft_science_keywords || [
@@ -223,8 +188,7 @@ FactoryBot.define do
           'Topic': 'ATMOSPHERE',
           'Term': 'ATMOSPHERIC TEMPERATURE'
         }
-      ],
-      "AcquisitionSourceName": 'ATM'
+      ]
     }
   }
 

@@ -34,10 +34,6 @@ describe 'Variable Draft Forms Field Validation', js: true do
               expect(page).to have_content('Name is required')
               expect(page).to have_content('Definition is required')
               expect(page).to have_content('Long Name is required')
-              expect(page).to have_content('Data Type is required')
-              expect(page).to have_content('Scale is required')
-              expect(page).to have_content('Offset is required')
-              expect(page).to have_content('Acquisition Source Name is required')
             end
           end
 
@@ -51,19 +47,6 @@ describe 'Variable Draft Forms Field Validation', js: true do
             within '#variable_draft_draft_long_name_error' do
               expect(page).to have_content('Long Name is required')
             end
-            within '#variable_draft_draft_data_type_error' do
-              expect(page).to have_content('Data Type is required')
-            end
-            within '#variable_draft_draft_scale_error' do
-              expect(page).to have_content('Scale is required')
-            end
-            within '#variable_draft_draft_offset_error' do
-              expect(page).to have_content('Offset is required')
-            end
-            within '#variable_draft_draft_acquisition_source_name_error' do
-              expect(page).to have_content('Acquisition Source Name is required')
-            end
-
           end
         end
       end
@@ -77,7 +60,6 @@ describe 'Variable Draft Forms Field Validation', js: true do
           select 'byte', from: 'Data Type'
           fill_in 'Scale', with: '2'
           fill_in 'Offset', with: '5'
-          select 'ATM', from: 'Acquisition Source Name'
 
           within '.nav-top' do
             click_on 'Save'
@@ -95,7 +77,8 @@ describe 'Variable Draft Forms Field Validation', js: true do
           expect(page).to have_field('Long Name', with: 'Test Var Long Long Name')
           expect(page).to have_field('Scale', with: '2.0')
           expect(page).to have_field('Offset', with: '5.0')
-          expect(page).to have_field('Acquisition Source Name', with: 'ATM')
+          expect(page).to have_field('Variable Type', with: 'SCIENCE_VARIABLE')
+          expect(page).to have_field('Data Type', with: 'byte')
         end
       end
     end

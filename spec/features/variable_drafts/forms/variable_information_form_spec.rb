@@ -29,8 +29,8 @@ describe 'Variable Information Form', js: true do
       end
     end
 
-    it 'has 7 required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 7)
+    it 'has 3 required fields' do
+      expect(page).to have_selector('label.eui-required-o', count: 3)
     end
 
     it 'has the correct value selected in the `Save & Jump To` dropdown' do
@@ -187,14 +187,12 @@ describe 'Variable Information Form', js: true do
 
     it 'displays the correct values in the form' do
       expect(page).to have_field('variable_draft_draft_name', with: 'PNs_LIF')
-      expect(page).to have_field('variable_draft_draft_alias', with: 'An Alias')
       expect(page).to have_field('variable_draft_draft_definition', with: 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)')
       expect(page).to have_field('variable_draft_draft_long_name', with: 'Volume mixing ratio of sum of peroxynitrates in air')
       expect(page).to have_field('variable_draft_draft_variable_type', with: 'SCIENCE_VARIABLE')
       expect(page).to have_field('variable_draft_draft_variable_sub_type', with: 'SCIENCE_SCALAR')
       expect(page).to have_field('variable_draft_draft_units', with: 'Npptv')
       expect(page).to have_field('variable_draft_draft_data_type', with: 'float')
-      expect(page).to have_field('variable_draft_draft_acquisition_source_name', with: 'ATM')
       expect(page).to have_field('variable_draft_draft_valid_ranges_0_min', with: '-417')
       expect(page).to have_field('variable_draft_draft_valid_ranges_0_max', with: '8836')
       expect(page).to have_field('variable_draft_draft_valid_ranges_0_code_system_identifier_meaning_0', with: 'Code System Identifier Meaning 1')
@@ -311,14 +309,12 @@ describe 'Variable Information Form', js: true do
 
       it 'displays the correct values in the form' do
         expect(page).to have_field('variable_draft_draft_name', with: 'PNs_LIF')
-        expect(page).to have_field('variable_draft_draft_alias', with: 'An Alias')
         expect(page).to have_field('variable_draft_draft_definition', with: 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)')
         expect(page).to have_field('variable_draft_draft_long_name', with: 'Volume mixing ratio of sum of peroxynitrates in air')
         expect(page).to have_field('variable_draft_draft_variable_type', with: 'SCIENCE_VARIABLE')
         expect(page).to have_field('variable_draft_draft_variable_sub_type', with: 'SCIENCE_SCALAR')
         expect(page).to have_field('variable_draft_draft_units', with: 'Npptv')
         expect(page).to have_field('variable_draft_draft_data_type', with: 'float')
-        expect(page).to have_field('variable_draft_draft_acquisition_source_name', with: 'ATM')
         expect(page).to have_field('variable_draft_draft_valid_ranges_0_min', with: '-417.0')
         expect(page).to have_field('variable_draft_draft_valid_ranges_0_max', with: '8836.0')
         expect(page).to have_field('variable_draft_draft_valid_ranges_0_code_system_identifier_meaning_0', with: 'Code System Identifier Meaning 1')
