@@ -159,13 +159,26 @@ class CollectionsController < ManageCollectionsController
 
   def prepare_translated_collections
     cmr_response_original = cmr_client.get_concept(params[:id],token, {})
-    return { error: 'Failed to retrieve collection from CMR' } unless cmr_response_original.success?
+    unless cmr_response_original.success?
+      Rails.logger.error("Failed to retrieve concept #{params[:id]} from #{Rails.configuration.cmr_env} environment.")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to retrieve collection #{@collection['EntryTitle'] || params[:id]} from #{Rails.configuration.cmr_env} environment.")
+      return { error: 'Failed to retrieve collection from CMR' }
+    end
 
     content_type = cmr_response_original.headers.fetch('content-type').split(';')[0]
-    return { error: 'This collection is already in UMM format so there is no loss report' } if content_type.include?('application/vnd.nasa.cmr.umm+json')
+    if content_type.include?('application/vnd.nasa.cmr.umm+json')
+      Rails.logger.info("User #{current_user.urs_uid} attempted to generate a loss report for collection #{@collection['EntryTitle'] || params[:id]} (with provider #{current_user.provider_id}) from #{Rails.configuration.umm_c_version} to #{content_type}. There is no loss report available for records that already possess UMM JSON format.")
+      return { error: 'This collection is already in UMM format so there is no loss report' }
+    end
+
 
     cmr_response_translated = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type,  skip_validation=true)
-    return { error: 'Failed to translate collection from UMM back to native format' } unless cmr_response_translated.success?
+    unless cmr_response_translated.success?
+      Rails.logger.error("Failed to translate concept #{params[:id]} from UMM back to #{content_type}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to translate collection #{@collection['EntryTitle'] || params[:id]} (with provider #{current_user.provider_id}) from #{Rails.configuration.umm_c_version} to #{content_type} without success.")
+      return { error: "Failed to translate collection from UMM JSON back to #{content_type}" }
+    end
+
 
     # ISO and DIF collections (in XML form) contain namespaces that cause errors when passed to loss_report_helper.rb.
     # Specifically, when nodes are evaluated individually, (their namespace definitions remaining at the top of the xml)
