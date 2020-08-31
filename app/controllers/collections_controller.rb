@@ -171,7 +171,6 @@ class CollectionsController < ManageCollectionsController
       return { error: 'This collection is already in UMM format so there is no loss report' }
     end
 
-
     cmr_response_translated = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type,  skip_validation=true)
     unless cmr_response_translated.success?
       Rails.logger.error("Failed to translate concept #{params[:id]} from UMM back to #{content_type}")
@@ -179,17 +178,16 @@ class CollectionsController < ManageCollectionsController
       return { error: "Failed to translate collection from UMM JSON back to #{content_type}" }
     end
 
+    original_collection_native_xml_noko_obj = Nokogiri::XML(cmr_response_original.body) { |config| config.strict.noblanks }
+    translated_collection_native_xml_noko_obj = Nokogiri::XML(cmr_response_translated.body) { |config| config.strict.noblanks }
 
     # ISO and DIF collections (in XML form) contain namespaces that cause errors when passed to loss_report_helper.rb.
     # Specifically, when nodes are evaluated individually, (their namespace definitions remaining at the top of the xml)
     # their prefixes are undefined in the scope of the evaluation and therefore raise errors. Removing the namespaces
     # eliminates this issue.
     if content_type.include?('iso') || content_type.include?('dif')
-      original_collection_native_xml_noko_obj = Nokogiri::XML(cmr_response_original.body) { |config| config.strict.noblanks }.remove_namespaces!
-      translated_collection_native_xml_noko_obj = Nokogiri::XML(cmr_response_translated.body) { |config| config.strict.noblanks }.remove_namespaces!
-    else
-      original_collection_native_xml_noko_obj = Nokogiri::XML(cmr_response_original.body) { |config| config.strict.noblanks }
-      translated_collection_native_xml_noko_obj = Nokogiri::XML(cmr_response_translated.body) { |config| config.strict.noblanks }
+      original_collection_native_xml_noko_obj.remove_namespaces!
+      translated_collection_native_xml_noko_obj.remove_namespaces!
     end
 
     # remove comments
