@@ -69,9 +69,4 @@ class ProposalMailer < ApplicationMailer
 
     mail(to: "#{@approver[:name]} <#{@approver[:email]}>", subject: email_subject)
   end
-
-  def proposal_published_cmr_root
-    config_services = Rails.configuration.services
-    Rails.env.sit? || Rails.env.development? || Rails.env.test? ? config_services.dig('earthdata', 'sit', 'cmr_root') : config_services.dig('earthdata', Rails.configuration.cmr_env, 'cmr_root')
-  end
 end
