@@ -1,7 +1,5 @@
-<div class="row content">
-  <section class="umm-preview">
-    <% @preview.forms.each do |form| %>
-      <%= form.render %>
-    <% end %>
-  </section>
-</div>
+<section class="<%= local_assigns.fetch(:with_sidebar, false) ? 'preview' : 'umm-preview' %> ">
+  <% @preview.forms.each do |form| %>
+    <%= form.render %>
+  <% end %>
+</section>
