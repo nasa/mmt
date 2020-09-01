@@ -20,15 +20,15 @@ describe 'Valid Variable Draft Set Preview' do
       end
     end
 
-    it 'displays the correct progress indicators for required fields' do
+    it 'displays the correct progress indicators for non-required fields' do
       within '#sets-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required.icon-green.sets')
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.sets')
       end
     end
 
-    it 'displays no progress indicators for non required fields' do
+    it 'displays no progress indicators for required fields' do
       within '#sets-progress .progress-indicators' do
-        expect(page).to have_no_css('.eui-icon.eui-fa-circle.icon-grey')
+        expect(page).to have_no_css('.eui-icon.eui-required.icon-green')
       end
     end
 

@@ -43,7 +43,7 @@ describe 'Empty Variable Draft Variable Information Preview', js:true do
     end
 
     it 'displays the stored values correctly within the preview' do
-      within '.umm-preview.variable_information' do
+      within(first('.umm-preview.variable_information')) do
         expect(page).to have_css('.umm-preview-field-container', count: 12)
 
         within '#variable_draft_draft_name_preview' do

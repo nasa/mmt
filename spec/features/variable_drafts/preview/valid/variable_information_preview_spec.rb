@@ -25,14 +25,14 @@ describe 'Valid Variable Draft Variable Information Preview' do
         expect(page).to have_css('.eui-icon.eui-required.icon-green.name')
         expect(page).to have_css('.eui-icon.eui-required.icon-green.definition')
         expect(page).to have_css('.eui-icon.eui-required.icon-green.long-name')
-        expect(page).to have_css('.eui-icon.eui-required.icon-green.data-type')
-        expect(page).to have_css('.eui-icon.eui-required.icon-green.scale')
-        expect(page).to have_css('.eui-icon.eui-required.icon-green.offset')
       end
     end
 
     it 'displays the correct progress indicators for non required fields' do
       within '#variable_information-progress .progress-indicators' do
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.data-type')
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.scale')
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.offset')
         expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.variable-type')
         expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.units')
         expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.valid-ranges')
@@ -40,7 +40,7 @@ describe 'Valid Variable Draft Variable Information Preview' do
     end
 
     it 'displays the stored values correctly within the preview' do
-      within '.umm-preview.variable_information' do
+      within(first('.umm-preview.variable_information')) do
         expect(page).to have_css('.umm-preview-field-container', count: 20)
 
         within '#variable_draft_draft_name_preview' do
@@ -48,13 +48,6 @@ describe 'Valid Variable Draft Variable Information Preview' do
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_name'))
 
           expect(page).to have_css('p', text: 'PNs_LIF')
-        end
-
-        within '#variable_draft_draft_alias_preview' do
-          expect(page).to have_css('h5', text: 'Alias')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_alias'))
-
-          expect(page).to have_css('p', text: 'An Alias')
         end
 
         within '#variable_draft_draft_long_name_preview' do
@@ -111,12 +104,6 @@ describe 'Valid Variable Draft Variable Information Preview' do
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_offset'))
 
           expect(page).to have_css('p', text: '0.0')
-        end
-
-        within '#variable_draft_draft_acquisition_source_name_preview' do
-          expect(page).to have_css('h5', text: 'Acquisition Source Name')
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_acquisition_source_name'))
-          expect(page).to have_css('p', text: 'ATM')
         end
 
         within '#variable_draft_draft_valid_ranges_preview' do
@@ -180,7 +167,6 @@ describe 'Valid Variable Draft Variable Information Preview' do
             expect(page).to have_css('h6', text: 'Code System Identifier Value 1')
             expect(page).to have_css('h6', text: 'Code System Identifier Value 2')
           end
-
         end
       end
     end
