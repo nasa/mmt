@@ -222,7 +222,7 @@
                   "type": "section",
                   "help": "IndexRanges",
                   "label": "Index Ranges",
-                  "key": "IndexRanges",
+                  "key": "IndexRanges/properties",
                   "items": [
                     {
                       "type": "section",
@@ -230,7 +230,7 @@
                       "items": [
                         {
                           "type": "UmmSetMultiItem",
-                          "key": "/properties/LatRange/items",
+                          "key": "/LatRange/items",
                           "multiType": "LatRange",
                           "label": "Lat Range",
                           "field": true,
@@ -250,7 +250,7 @@
                       "items": [
                         {
                           "type": "UmmSetMultiItem",
-                          "key": "/properties/LonRange/items",
+                          "key": "/LonRange/items",
                           "multiType": "LonRange",
                           "label": "Lon Range",
                           "field": true,

@@ -242,26 +242,25 @@ describe 'Variable Draft Forms Field Validation', js: true do
 
   context 'number fields with names that break text transformation conventions' do
     before do
-      visit edit_variable_draft_path(draft, 'size_estimation')
+      visit edit_variable_draft_path(draft, 'dimensions')
     end
 
     context 'when entering text into a number field' do
       before do
-        fill_in 'variable_draft_draft_size_estimation_average_size_of_granules_sampled', with: 'abcd'
-        fill_in 'variable_draft_draft_size_estimation_average_compression_information_0_rate', with: 'abcd'
+        fill_in 'variable_draft_draft_dimensions_0_size', with: 'abcd'
         find('body').click
       end
 
       it 'displays validation error messages' do
-        expect(page).to have_css('.eui-banner--danger', count: 3)
+        # 1 Large banner at the top of the page
+        # 1 small banner under the size field
+        expect(page).to have_css('.eui-banner--danger', count: 2)
 
         within '.summary-errors' do
-          expect(page).to have_content('Average Size Of Granules Sampled must be of type number')
-          expect(page).to have_content('Rate must be of type number')
+          expect(page).to have_content('Size must be of type number')
         end
 
-        expect(page).to have_css('#variable_draft_draft_size_estimation_average_size_of_granules_sampled_error', text: 'Average Size Of Granules Sampled must be of type number')
-        expect(page).to have_css('#variable_draft_draft_size_estimation_average_compression_information_0_rate_error', text: 'Rate must be of type number')
+        expect(page).to have_css('#variable_draft_draft_dimensions_0_size_error', text: 'Size must be of type number')
       end
 
       context 'when saving the form' do
@@ -281,8 +280,7 @@ describe 'Variable Draft Forms Field Validation', js: true do
           end
 
           it 'displays validation error messages for fields with data' do
-            expect(page).to have_css('#variable_draft_draft_size_estimation_average_size_of_granules_sampled_error', text: 'Average Size Of Granules Sampled must be of type number')
-            expect(page).to have_css('#variable_draft_draft_size_estimation_average_compression_information_0_rate_error', text: 'Rate must be of type number')
+            expect(page).to have_css('#variable_draft_draft_dimensions_0_size_error', text: 'Size must be of type number')
           end
         end
       end
