@@ -1,4 +1,6 @@
 class ProposalMailer < ApplicationMailer
+  helper ProposalsHelper
+  
   def proposal_submitted_notification(user, short_name, version, id, request_type)
     @user = user
     @short_name = short_name

@@ -9,8 +9,7 @@
   </p>
   <% unless @request_type == 'delete' %>
     <div class="center">
-      <% # not sure if there needs to be some revision parameter in the URL %>
-      <%= link_to 'View Collection', "#{Rails.configuration.services.dig('earthdata', Rails.configuration.cmr_env, 'cmr_root')}/search/concepts/#{@concept_id}", class: 'btn btn-blue' %>
+      <%= link_to 'View Collection', "#{proposal_published_notification_view_collections_link}/search/concepts/#{@concept_id}", class: 'btn btn-blue' %>
     </div>
   <% end %>
 </div>
