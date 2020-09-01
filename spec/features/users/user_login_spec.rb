@@ -187,7 +187,8 @@ describe 'User login' do
           expect(page).to have_link('Earthdata Support', href: 'mailto:support@earthdata.nasa.gov')
         end
 
-        expect(page).to have_no_link('Login', href: login_path)
+        expect(page).to have_no_link('Login with Earthdata Login', href: login_path(login_method: 'urs'))
+        expect(page).to have_no_link('Login with Launchpad', href: login_path(login_method: 'launchpad'))
       end
     end
 
@@ -252,7 +253,7 @@ describe 'User login' do
           expect(page).to have_content('ABOUT THE METADATA MANAGEMENT TOOL')
         end
 
-        it 'displays both login options' do
+        it 'displays correct login options' do
           expect(page).to have_link('Login with Earthdata Login', href: login_path(login_method: 'urs'))
           expect(page).to have_no_link('Login with Launchpad', href: login_path(login_method: 'launchpad'))
         end
@@ -293,7 +294,6 @@ describe 'User login' do
 
         expect(page).to have_no_content('About the Metadata Management Tool')
       end
-
     end
 
     context 'when both Earthdata Login and Launchpad Login requirements are turned off', js: true do
@@ -311,7 +311,7 @@ describe 'User login' do
           expect(page).to have_link('Earthdata Support', href: 'mailto:support@earthdata.nasa.gov')
         end
 
-        expect(page).to have_no_link('Login', href: login_path)
+        expect(page).to have_no_link('Login with Earthdata Login', href: login_path(login_method: 'urs'))
       end
     end
   end
