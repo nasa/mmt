@@ -90,9 +90,9 @@ describe ProposalMailer do
       end
 
       it 'renders the link to the collection' do
-        expect(mail.html_part.body).to have_link('View Collection', href: "#{Rails.configuration.services.dig('earthdata', 'sit', 'cmr_root')}/search/concepts/#{cmr_response_body['concept-id']}")
+        expect(mail.html_part.body).to have_link('View Collection', href: "http://localhost:3003/concepts/#{cmr_response_body['concept-id']}")
         # link renders as text in text format email
-        expect(mail.text_part.body).to have_content("#{Rails.configuration.services.dig('earthdata', 'sit', 'cmr_root')}/search/concepts/#{cmr_response_body['concept-id']}")
+        expect(mail.text_part.body).to have_content("http://localhost:3003/concepts/#{cmr_response_body['concept-id']}")
       end
     end
 
