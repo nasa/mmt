@@ -9,6 +9,17 @@ $(document).ready ->
       # validate or revalidate on close
       $(this).valid()
 
+    # The jquery validation below is not sufficient to drive the error displays
+    # so changing the note should trigger a class change on the reasons select2
+    $('#rejection_note').change ->
+      if $('#rejection_note').val()
+        $('#proposal-rejection-reasons').addClass('required')
+      else
+        $('#proposal-rejection-reasons').removeClass('required')
+      updateRequiredIcons()
+        
+    $('#proposal-rejection-reasons').change ->
+      updateRequiredIcons()
 
     # validate rejection feedback
     $('.reject-proposal-form').validate
@@ -21,11 +32,25 @@ $(document).ready ->
           error.insertAfter(element)
       rules:
         'rejection[reasons]':
-          required: true
+          required:
+            depends:
+              -> $('#rejection-note').val()
         'rejection[note]':
-          required: true
+          required: 
+            depends:
+              -> $('#proposal-rejection-reasons').val().length > 0
       messages:
         'rejection[reasons][]':
           required: 'Reason(s) are required'
         'rejection[note]':
           required: 'Note is required'
+          
+    updateRequiredIcons = -> 
+      # display required icons iff there is data in a field
+      if $('#rejection_note').val() || $('#proposal-rejection-reasons').val().length > 0
+        $('label[for=rejection_reasons]').addClass('eui-required-o')
+        $('label[for=rejection_note]').addClass('eui-required-o')
+      else
+        $('label[for=rejection_reasons]').removeClass('eui-required-o')
+        $('label[for=rejection_note]').removeClass('eui-required-o')
+      $('.reject-proposal-form').valid()

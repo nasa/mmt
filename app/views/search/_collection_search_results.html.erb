@@ -13,6 +13,7 @@
       <th class="w15"><%= sort_by_link('Provider', 'provider_id', query, record_type) %></th>
       <% unless Rails.configuration.proposal_mode %>
         <th class="w15">Granule Count</th>
+        <th class="w10">Tag Count</th>
       <% end %>
       <th class="w15"><%= sort_by_link('Last Modified', 'revision_date', query, record_type) %></th>
     </tr>
@@ -55,6 +56,9 @@
             <td>
               <%= collection.fetch('meta', {})['granule-count'] %>
             </td>
+            <td>
+              <%= display_tag_count(collection) %>
+            </td>
           <% end %>
           <td>
             <%= display_last_modified(collection) %>
@@ -65,5 +69,13 @@
     <% end %>
   </tbody>
 </table>
+
+<div id="tags-modal" class="eui-modal-content">
+  <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+  <span class="tag-keys-display"></span>
+  <p>
+    <a href="javascript:void(0)" class="eui-btn modal-close">Close</a>
+  </p>
+</div>
 
 <%= paginate records %>

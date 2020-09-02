@@ -1,4 +1,4 @@
-describe 'Deleting Subscriptions' do
+describe 'Deleting Subscriptions', reset_provider: true do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
@@ -68,13 +68,6 @@ describe 'Deleting Subscriptions' do
         VCR.configure do |c|
           c.ignore_localhost = true
         end
-      end
-
-      # TODO: Remove after CMR-6332
-      after do
-        delete_response = cmr_client.delete_subscription('MMT_2', @native_id, 'token')
-
-        raise unless delete_response.success?
       end
 
       it 'fails to delete the record' do

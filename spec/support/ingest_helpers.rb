@@ -330,36 +330,40 @@ module Helpers
     end
 
     def publish_new_subscription(name: nil, collection_concept_id: nil, query: nil, subscriber_id: nil, email_address: nil, provider: 'MMT_2', native_id: nil, revision: 1)
-      random = SecureRandom.uuid
-      subscription = {
-        'Name' => name || "Test_Subscription_#{random}",
-        'CollectionConceptId' => collection_concept_id || "C#{Faker::Number.number(digits: 6)}-TEST",
-        'Query' => query || 'bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30',
-        'SubscriberId' => subscriber_id || 'rarxd5taqea',
-        'EmailAddress' => email_address || 'uozydogeyyyujukey@tjbh.eyyy'
-      }
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_new_subscription' do
+        random = SecureRandom.uuid
+        subscription = {
+          'Name' => name || "Test_Subscription_#{random}",
+          'CollectionConceptId' => collection_concept_id || "C#{Faker::Number.number(digits: 6)}-TEST",
+          'Query' => query || 'bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30',
+          'SubscriberId' => subscriber_id || 'rarxd5taqea',
+          'EmailAddress' => email_address || 'uozydogeyyyujukey@tjbh.eyyy'
+        }
 
-      ingest_response = cmr_client.ingest_subscription(subscription.to_json, provider, native_id || "mmt_subscription_#{random}", 'token')
+        ingest_response = cmr_client.ingest_subscription(subscription.to_json, provider, native_id || "mmt_subscription_#{random}", 'token')
 
-      raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+        raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
 
-      wait_for_cmr
+        wait_for_cmr
 
-      search_response = cmr_client.get_subscriptions({ 'ConceptId' => ingest_response.parsed_body['result']['concept_id'] }, 'token')
+        search_response = cmr_client.get_subscriptions({ 'ConceptId' => ingest_response.parsed_body['result']['concept_id'] }, 'token')
 
-      raise Array.wrap(search_response.body['errors']).join(' /// ') unless search_response.success?
+        raise Array.wrap(search_response.body['errors']).join(' /// ') unless search_response.success?
 
-      [ingest_response.parsed_body['result'], search_response, subscription]
+        [ingest_response.parsed_body['result'], search_response, subscription]
+      end
     end
 
     def ingest_granules(collection_entry_title:, count:, provider: 'MMT_2')
-      granule_json = JSON.parse(File.read('spec/fixtures/granules/granule_01.json'))
-      count.times do
-        id = SecureRandom.uuid
-        granule_json['CollectionReference'] = { 'EntryTitle' => collection_entry_title }
-        granule_json['GranuleUR'] = id
-        response = cmr_client.ingest_granule(granule_json.to_json, provider, "testing_subscription_#{id}")
-        puts response.clean_inspect unless response.success?
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#ingest_granules' do
+        granule_json = JSON.parse(File.read('spec/fixtures/granules/granule_01.json'))
+        count.times do
+          id = SecureRandom.uuid
+          granule_json['CollectionReference'] = { 'EntryTitle' => collection_entry_title }
+          granule_json['GranuleUR'] = id
+          response = cmr_client.ingest_granule(granule_json.to_json, provider, "testing_subscription_#{id}")
+          puts response.clean_inspect unless response.success?
+        end
       end
     end
   end

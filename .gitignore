@@ -19,6 +19,7 @@ spec/vcr/vcr.log
 
 # Ignore application configuration
 /config/application.yml
+/config/application*.yml
 
 .DS_Store
 build_output

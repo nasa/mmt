@@ -1,6 +1,8 @@
 class ProposalMailer < ApplicationMailer
   helper ProposalsHelper
-  
+
+  DMMT_USER_GUIDE_URL = "https://wiki.earthdata.nasa.gov/display/ED/Draft+MMT+%28dMMT%29+User%27s+Guide"
+
   def proposal_submitted_notification(user, short_name, version, id, request_type)
     @user = user
     @short_name = short_name
@@ -45,12 +47,14 @@ class ProposalMailer < ApplicationMailer
     mail(to: "#{@user[:name]} <#{@user[:email]}>", subject: email_subject)
   end
 
-  def proposal_rejected_notification(user, proposal)
+  def proposal_rejected_notification(user:, proposal:, approver:)
     @user = user
     @short_name = proposal.draft['ShortName']
     @version = proposal.draft['Version']
     @id = proposal.id
-    @rejected_reasons = proposal.approver_feedback['reasons'].join(', ')
+    rejected_reasons = proposal.approver_feedback['reasons']&.join(', ')
+    @reasons_text = " for the following reasons: '#{rejected_reasons}'" if rejected_reasons
+    @dmmt_user_guide_url = DMMT_USER_GUIDE_URL unless approver
     @rejected_note = proposal.approver_feedback['note']
     @request_type = proposal.request_type
 

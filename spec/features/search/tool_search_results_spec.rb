@@ -1,8 +1,4 @@
-# If there is an issue where the tests start failing locally and the screenshots
-# show "Error: Concept with concept-id [id] and revision-id [id] does not exist."
-# this is because the MMT_2 provider was deleted while it had tools. Restart CMR
-# and rerun the test. This file should be updated after CMR-6332.
-describe 'Searching published tools', js: true do
+describe 'Searching published tools',reset_provider: true, js: true do
   number = Faker::Number.number(digits: 6)
   tool_name = "Tool #{number}"
   long_name = "Long Detailed Description of Tool #{number}"
@@ -18,14 +14,6 @@ describe 'Searching published tools', js: true do
     login
 
     visit manage_tools_path
-  end
-
-  after :all do
-    @native_ids.each do |native_id|
-      delete_response = cmr_client.delete_tool('MMT_2', native_id, 'token')
-
-      raise unless delete_response.success?
-    end
   end
 
   context 'when searching tools by name' do

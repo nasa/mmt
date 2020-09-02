@@ -12,6 +12,7 @@ describe 'Variables permissions', js: true do
       before :all do
         @ingested_variable, _concept_response = publish_variable_draft
         @ingested_variable_for_delete_modal, _concept_response = publish_variable_draft
+        @ingested_variable_with_no_association, _concept_response = publish_variable_draft
       end
 
       before do
@@ -79,13 +80,13 @@ describe 'Variables permissions', js: true do
         end
       end
 
-      context 'when clicking the Manage Collection Associations link' do
+      context 'when clicking the Manage Collection Association link' do
         before do
-          click_on 'Manage Collection Associations'
+          click_on 'Manage Collection Association'
         end
 
         it 'displays a modal informing the user they need to switch providers' do
-          expect(page).to have_content("Managing this variable's collection associations #{modal_text}")
+          expect(page).to have_content("Managing this variable's collection association #{modal_text}")
         end
 
         context 'when clicking Yes' do
@@ -98,12 +99,12 @@ describe 'Variables permissions', js: true do
             expect(User.first.provider_id).to eq('MMT_2')
           end
 
-          it 'displays the Manage Collection Associations page' do
+          it 'displays the Manage Collection Association page' do
             within '.eui-breadcrumbs' do
               expect(page).to have_content('Variables')
-              expect(page).to have_content('Collection Associations')
+              expect(page).to have_content('Collection Association')
             end
-            expect(page).to have_link('Add Collection Associations')
+            expect(page).to have_link('Add Collection Association')
           end
         end
       end
@@ -111,7 +112,7 @@ describe 'Variables permissions', js: true do
       context 'when clicking the delete link' do
         context 'when the variable has no associated collections' do
           before do
-            visit variable_path(@ingested_variable_for_delete_modal['concept-id'])
+            visit variable_path(@ingested_variable_with_no_association['concept-id'])
 
             click_on 'Delete Variable Record'
           end
@@ -124,29 +125,29 @@ describe 'Variables permissions', js: true do
             expect(page).to have_no_content('This variable is associated with')
             expect(page).to have_no_content('collections. Deleting this variable will also delete the collection associations')
           end
+        end
 
-          context 'when the variable has an associated collection' do
-            before :all do
-              ingested_collection_1, concept_response_1 = publish_collection_draft
+        context 'when the variable has an associated collection' do
+          before :all do
+            ingested_collection1, _concept_response1 = publish_collection_draft
 
-              create_variable_collection_association(@ingested_variable_for_delete_modal['concept-id'],
-                                                     ingested_collection_1['concept-id'])
-            end
+            response = create_variable_collection_association(@ingested_variable_for_delete_modal['concept-id'],
+                                                   ingested_collection1['concept-id'])
+          end
 
-            before do
-              visit variable_path(@ingested_variable_for_delete_modal['concept-id'])
+          before do
+            visit variable_path(@ingested_variable_for_delete_modal['concept-id'])
 
-              click_on 'Delete Variable Record'
-            end
+            click_on 'Delete Variable Record'
+          end
 
-            it 'displays a modal informing the user they need to switch providers' do
-              expect(page).to have_content(modal_text)
-            end
+          it 'displays a modal informing the user they need to switch providers' do
+            expect(page).to have_content(modal_text)
+          end
 
-            it 'informs the user of the number of collection associations that will also be deleted' do
-              # 2 associations created
-              expect(page).to have_content('This variable is associated with 1 collections. Deleting this variable will also delete the collection associations')
-            end
+          it 'informs the user of the number of collection associations that will also be deleted' do
+            # 1 association created
+            expect(page).to have_content('This variable is associated with 1 collections. Deleting this variable will also delete the collection association')
           end
         end
 
@@ -237,12 +238,12 @@ describe 'Variables permissions', js: true do
 
           it 'displays warning banner link to change provider' do
             expect(page).to have_css('.eui-banner--warn')
-            expect(page).to have_content('You need to change your current provider to manage collection associations for this variable')
+            expect(page).to have_content('You need to change your current provider to manage the collection association for this variable')
           end
 
           context 'when clicking the warning banner link' do
             before do
-              click_link('You need to change your current provider to manage collection associations for this variable')
+              click_link('You need to change your current provider to manage the collection association for this variable')
               wait_for_jQuery
             end
 
@@ -253,9 +254,9 @@ describe 'Variables permissions', js: true do
             it 'displays the variable manage collection associations page' do
               within '.eui-breadcrumbs' do
                 expect(page).to have_content('Variables')
-                expect(page).to have_content('Collection Associations')
+                expect(page).to have_content('Collection Association')
               end
-              expect(page).to have_link('Add Collection Associations')
+              expect(page).to have_link('Add Collection Association')
             end
           end
         end
@@ -318,12 +319,12 @@ describe 'Variables permissions', js: true do
 
           it 'displays the no permissions banner message' do
             expect(page).to have_css('.eui-banner--danger')
-            expect(page).to have_content("You don't have the appropriate permissions to manage collection associations for this variable")
+            expect(page).to have_content("You don't have the appropriate permissions to manage the collection association for this variable")
           end
 
           it 'displays the Access Denied message' do
             expect(page).to have_content('Access Denied')
-            expect(page).to have_content('It appears you do not have access to manage collection associations for this content.')
+            expect(page).to have_content('It appears you do not have access to manage the collection association for this content.')
           end
         end
       end

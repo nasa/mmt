@@ -74,3 +74,18 @@
     background: lighten($light-grey, 3%)
   }
 }
+
+.eui-modal-content {
+  .eui-banner--danger {
+    // if we are using a banner in a modal, this will push down the banner so
+    // the modal close 'x' is above the banner
+    margin-top: 20px;
+  }
+}
+
+#tags-modal {
+  ul {
+    max-height: inherit;
+    overflow-y: scroll;
+  }
+}
