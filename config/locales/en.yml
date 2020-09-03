@@ -49,6 +49,10 @@ en:
           flash:
             success: 'Variable Draft Deleted Successfully!'
             error: 'Variable Draft was not deleted successfully'
+        update_associated_collection:
+          flash:
+            success: 'Collection Association was Updated Successfully!'
+            error: 'Collection Association was not updated successfully'
       service_drafts:
         create:
           flash:

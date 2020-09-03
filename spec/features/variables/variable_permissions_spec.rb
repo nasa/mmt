@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Variables permissions', js: true do
   modal_text = 'requires you change your provider context to MMT_2'
 
@@ -10,9 +8,11 @@ describe 'Variables permissions', js: true do
 
     context "when the variable's provider is in the users available providers" do
       before :all do
-        @ingested_variable, _concept_response = publish_variable_draft
-        @ingested_variable_for_delete_modal, _concept_response = publish_variable_draft
-        @ingested_variable_with_no_association, _concept_response = publish_variable_draft
+        ingest_collection_response, _collection_concept_response = publish_collection_draft
+
+        @ingested_variable, _concept_response = publish_variable_draft(collection_concept_id: ingest_collection_response['concept-id'])
+        @ingested_variable_for_delete_modal, _concept_response = publish_variable_draft(collection_concept_id: ingest_collection_response['concept-id'])
+        @ingested_variable_with_no_association, _concept_response = publish_variable_draft(collection_concept_id: ingest_collection_response['concept-id'])
       end
 
       before do

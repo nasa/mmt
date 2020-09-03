@@ -1,6 +1,7 @@
 describe 'Variables published at UMM Version higher than MMT supports', reset_provider: true do
   before :all do
-    @ingest_response, _concept_response = publish_variable_draft
+    ingest_collection_response, _collection_concept_response = publish_collection_draft
+    @ingest_response, _concept_response = publish_variable_draft(collection_concept_id: ingest_collection_response['concept-id'])
     @original_var_config = Rails.configuration.umm_var_version
     Rails.configuration.umm_var_version = "vnd.nasa.cmr.umm+json; version=1.0"
   end

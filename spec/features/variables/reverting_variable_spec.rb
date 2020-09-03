@@ -1,12 +1,12 @@
-require 'rails_helper'
-
 describe 'Reverting to previous variables', js: true do
   before :all do
+    ingest_collection_response, _collection_concept_response = publish_collection_draft
+
     # variable for simple reverting variable test
-    @simple_revert_ingest_response, @simple_revert_concept_response = publish_variable_draft(revision_count: 2)
+    @simple_revert_ingest_response, @simple_revert_concept_response = publish_variable_draft(revision_count: 2, collection_concept_id: ingest_collection_response['concept-id'])
 
     # variable for reverting variable with many revisions
-    @multiple_revisions_ingest_response, @multiple_revisions_concept_response = publish_variable_draft(revision_count: 4, long_name: 'Reverting Variables Test', number_revision_long_names: true)
+    @multiple_revisions_ingest_response, @multiple_revisions_concept_response = publish_variable_draft(revision_count: 4, long_name: 'Reverting Variables Test', number_revision_long_names: true, collection_concept_id: ingest_collection_response['concept-id'])
   end
 
   before do

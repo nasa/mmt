@@ -218,7 +218,6 @@ class CollectionsController < ManageCollectionsController
     # TODO: when CMR-6655 is worked we should have all this tag information in the
     # .umm-json response, and this can be streamlined in MMT-2359
     collection_json_response = cmr_client.search_collections({ concept_id: @concept_id, revision_id: @revision_id, include_tags: '*' }, token)
-    # puts "collection_json_response\n#{collection_json_response.inspect}"
     if collection_json_response.success?
       @tag_keys = collection_json_response.body.dig('feed', 'entry', 0, 'tags')&.keys || []
       @num_tags = @tag_keys.count

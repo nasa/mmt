@@ -314,13 +314,20 @@ module Cmr
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
-    def ingest_variable(metadata, provider_id, native_id, token, headers_override = nil)
+    def ingest_variable(metadata:, provider_id:, native_id:, collection_concept_id:, token:, headers_override: nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
+      # https://cmr.sit.earthdata.nasa.gov/ingest/collections/C1200000005-PROV1/1/variables/sampleVariableNativeId33 -d \
+
       url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3002/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+              "http://localhost:3002/collections/#{collection_concept_id}/variables/#{encode_if_needed(native_id)}"
             else
-              "/ingest/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+              "/ingest/collections/#{collection_concept_id}/variables/#{encode_if_needed(native_id)}"
             end
+      # url = if Rails.env.development? || Rails.env.test?
+      #         "http://localhost:3002/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+      #       else
+      #         "/ingest/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+      #       end
 
       headers = {
         'Accept' => 'application/json',
@@ -332,7 +339,7 @@ module Cmr
       put(url, metadata, headers.merge(token_header(token)))
     end
 
-    def ingest_service(metadata, provider_id, native_id, token, headers_override = nil)
+    def ingest_service(metadata:, provider_id:, native_id:, token:, headers_override: nil, collection_concept_id: nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/services/#{encode_if_needed(native_id)}"
@@ -376,7 +383,7 @@ module Cmr
 
     ################ UMM-T #######################
 
-    def ingest_tool(metadata, provider_id, native_id, token, content_type = nil)
+    def ingest_tool(metadata:, provider_id:, native_id:, token:, content_type: nil, collection_concept_id: nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/tools/#{encode_if_needed(native_id)}"

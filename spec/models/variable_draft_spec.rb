@@ -10,6 +10,8 @@ describe VariableDraft do
     expect(variable_draft.display_entry_title).to eq('<Untitled Variable Record>')
   end
 
+  # TODO: display_short_name
+
   # set_searchable_fields method invoked before_save
   it 'does not set short name and entry title if the variable draft has not been saved' do
     variable_draft = build(:full_variable_draft)

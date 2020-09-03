@@ -114,6 +114,9 @@ Rails.application.routes.draw do
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
       get :edit, path: 'edit(/:form)'
+      # resource :variable_drafts_collection_search, only: [:new]
+      get '/collection_search' => 'variable_drafts_collection_searches#new', as: 'collection_search'
+      post 'update_associated_collection'
     end
   end
 

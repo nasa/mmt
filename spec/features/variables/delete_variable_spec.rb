@@ -1,6 +1,5 @@
-require 'rails_helper'
-
 describe 'Delete variable', js: true do
+  # TODO: remove some test cases, only have variable with association
   before :all do
     @ingested_variable_with_associations, _concept_response = publish_variable_draft
 

@@ -18,6 +18,7 @@
             <th>Version</th>
           </tr>
         </thead>
+
         <tbody>
           <% if collections.any? %>
             <% collections.each do |collection| %>
@@ -52,13 +53,15 @@
 
     <% if collections.any? %>
       <!-- Search form fields to provide to the next step -->
-
       <%= hidden_field_tag :search_field, params[:field] %>
       <%= hidden_field_tag :search_query, params[:query] %>
 
       <fieldset>
         <div class="row">
           <%= submit_tag submit_text, class: "eui-btn--blue #{'spinner' if local_assigns.fetch(:use_spinner, false)}" %>
+          <% if allow_cancel %>
+            <%= link_to 'Cancel', cancel_path, class: 'eui-btn' %>
+          <% end %>
         </div>
       </fieldset>
     <% end %>

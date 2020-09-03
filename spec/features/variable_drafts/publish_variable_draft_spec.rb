@@ -1,8 +1,12 @@
 describe 'Publishing variable draft records' do
+  before :all do
+    @ingest_collection_response, _collection_concept_response = publish_collection_draft
+  end
+
   context 'when publishing a variable draft record' do
     before do
       login
-      draft = create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
+      draft = create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title', collection_concept_id: @ingest_collection_response['concept-id'])
       visit variable_draft_path(draft)
       click_on 'Publish Variable Draft'
     end

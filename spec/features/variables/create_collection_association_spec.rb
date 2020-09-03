@@ -1,4 +1,5 @@
 describe 'Creating Variable Collection Associations', js: true, reset_provider: true do
+  # TODO: can this whole file be removed?
   before do
     login
 

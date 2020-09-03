@@ -2,7 +2,7 @@
 class VariableDraftsController < BaseDraftsController
   include ControlledKeywords
 
-  before_action :set_resource, only: [:show, :edit, :update, :destroy]
+  before_action :set_resource, only: [:show, :edit, :update, :destroy, :update_associated_collection]
   before_action :ensure_published_record_supported_version, only: [:show, :edit]
   before_action :set_schema, only: [:show, :new, :edit, :update, :create]
   before_action :set_form, only: [:show, :edit, :update]
@@ -14,6 +14,35 @@ class VariableDraftsController < BaseDraftsController
 
     set_science_keywords if @current_form == 'science_keywords'
     set_measurement_names if @current_form == 'measurement_identifiers'
+  end
+
+  def show
+    # search for a variable by native id
+    variable_params = { native_id: get_resource.native_id, provider: get_resource.provider_id }
+    variable_search_response = cmr_client.get_variables(variable_params, token)
+    if variable_search_response.success?
+      @editing = variable_search_response.body['hits'].to_i > 0 ? true : false
+    else
+      Rails.logger.error("Error searching for published Variable in VariableDraftsController#show: #{variable_search_response.clean_inspect}")
+      @editing = true
+    end
+
+    super
+  end
+
+  def update_associated_collection
+    authorize get_resource
+
+    params.permit(:id, :selected_collection)
+
+    # TODO: When clearing a collection association, the value becomes an empty string. should that change?
+
+    if get_resource.update(collection_concept_id: params[:selected_collection])
+      flash[:success] = I18n.t("controllers.draft.variable_drafts.update_associated_collection.flash.success")
+    else
+      flash[:error] = I18n.t("controllers.draft.variable_drafts.update_associated_collection.flash.error")
+    end
+    redirect_to send("#{resource_name}_path", get_resource)
   end
 
   private

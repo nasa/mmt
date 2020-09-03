@@ -10,6 +10,8 @@ describe ToolDraft do
     expect(tool_draft.display_entry_title).to eq('<Untitled Tool Record>')
   end
 
+  # TODO: display_short_name
+
   # set_searchable_fields method invoked before_save
   it 'does not set short name and entry title if the tool draft has not been saved' do
     tool_draft = build(:full_tool_draft)

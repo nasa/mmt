@@ -15,7 +15,7 @@ describe 'Invalid Variable Draft Variable Information Preview' do
     it 'displays the correct status icon' do
       within '#variable_information-progress' do
         within '.status' do
-          expect(page).to have_content('Variable Information is incomplete')
+          expect(page).to have_css('.eui-icon.icon-green.eui-fa-circle-o')
         end
       end
     end
