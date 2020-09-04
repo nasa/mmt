@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   ].freeze
 
   def urs_login_required?
-    Rails.configuration.proposal_mode == true || ENV['urs_login_required'] != 'false'
+    ENV['urs_login_required'] != 'false'
   end
   helper_method :urs_login_required?
 

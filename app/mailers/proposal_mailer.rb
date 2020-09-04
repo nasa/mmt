@@ -1,4 +1,6 @@
 class ProposalMailer < ApplicationMailer
+  helper ProposalsHelper
+
   DMMT_USER_GUIDE_URL = "https://wiki.earthdata.nasa.gov/display/ED/Draft+MMT+%28dMMT%29+User%27s+Guide"
 
   def proposal_submitted_notification(user, short_name, version, id, request_type)

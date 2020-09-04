@@ -41,13 +41,11 @@
     <div class="row content">
       <%= render partial: 'shared/schema_preview', locals: { with_sidebar: true } %>
 
-      <% if @published_resource_name == 'variable' %>
-        <aside class="umm-preview-sidebar">
-          <% @preview.sidebars.each do |sidebar| %>
-            <%= sidebar.render_sidebar %>
-          <% end %>
-        </aside>
-      <% end %>
+      <aside class="umm-preview-sidebar">
+        <% @preview.sidebars.each do |sidebar| %>
+          <%= sidebar.render_sidebar %>
+        <% end %>
+      </aside>
     </div>
   </div>
 <% end %>

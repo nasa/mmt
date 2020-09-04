@@ -1,5 +1,4 @@
-<% sidebar = local_assigns.fetch(:with_sidebar, nil) %>
-<section class="<%= sidebar ? 'preview' : 'umm-preview' %> ">
+<section class="<%= local_assigns.fetch(:with_sidebar, false) ? 'preview' : 'umm-preview' %> ">
   <% @preview.forms.each do |form| %>
     <%= form.render %>
   <% end %>
