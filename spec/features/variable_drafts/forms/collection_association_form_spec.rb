@@ -27,7 +27,7 @@ describe 'Variable Draft Collection Association Form', js: true, reset_provider:
 
     it 'displays the table with the correct collection information' do
       within '#variable-draft-collection-association-table tbody tr:nth-child(1)' do
-        expect(page).to have_content('No Collection Association found. A Collection must be selected in order to publish this Variable Draft.')
+        expect(page).to have_content('No Collection Association found. A Collection must be selected in order to publish this Variable Draft. Each Variable can only be associated with a single Collection.')
       end
     end
 

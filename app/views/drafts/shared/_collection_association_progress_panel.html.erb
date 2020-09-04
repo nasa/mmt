@@ -7,8 +7,9 @@
         <%= single_form_circle('Collection Association', get_resource.collection_concept_id.present?) %>
       </div>
       <div class="meta-info">
-        <% association_form_link = @editing ? '#' : collection_search_variable_draft_path(get_resource) %>
-        <%= link_to 'Collection Association', association_form_link %>
+        <% association_form_link = @editing ? '#editing-variable-collection-association-notice' : collection_search_variable_draft_path(get_resource) %>
+        <% association_form_link_class = @editing ? 'display-modal' : nil %>
+        <%= link_to 'Collection Association', association_form_link, class: "#{association_form_link_class}" %>
         <div class="progress-indicators">
           <% status = get_resource.collection_concept_id.blank? ? 'empty' : 'complete' %>
           <%= single_preview_circle(association_form_link, 'collection_association', status) %>
@@ -27,5 +28,10 @@
       <li>A variable can only be associated with a collection in the same Provider.</li>
     </ul>
     <a class="eui-btn--blue modal-close" href="javascript:void(0);">Close</a>
+  </div>
+
+  <div id="editing-variable-collection-association-notice" class="eui-modal-content">
+    <p>This Variable Draft is associated with a published Variable. Modifying a Variable's Collection Association is temporarily disabled.</p>
+    <a class="eui-btn modal-close" href="javascript:void(0);">Close</a>
   </div>
 </section>

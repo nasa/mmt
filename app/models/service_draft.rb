@@ -26,12 +26,4 @@ class ServiceDraft < Draft
       draft
     end
   end
-
-  # def display_short_name
-  #   short_name || '<Blank Name>'
-  # end
-  #
-  # def display_entry_title
-  #   entry_title || '<Untitled Service Record>'
-  # end
 end

@@ -1,16 +1,9 @@
 describe 'Delete variable', js: true do
-  # TODO: remove some test cases, only have variable with association
   before :all do
-    @ingested_variable_with_associations, _concept_response = publish_variable_draft
+    ingested_collection, _concept_response = publish_collection_draft
 
-    ingested_collection_1, _concept_response = publish_collection_draft
-
-    create_variable_collection_association(@ingested_variable_with_associations['concept-id'],
-                                           ingested_collection_1['concept-id'])
-
-    @ingested_variable_without_associations, _concept_response = publish_variable_draft
-
-    @ingested_variable_for_delete_messages, _concept_response = publish_variable_draft
+    @ingested_variable_with_associations, _concept_response = publish_variable_draft(collection_concept_id: ingested_collection['concept-id'])
+    @ingested_variable_for_delete_messages, _concept_response = publish_variable_draft(collection_concept_id: ingested_collection['concept-id'])
   end
 
   before do
@@ -18,80 +11,39 @@ describe 'Delete variable', js: true do
   end
 
   context 'when viewing a published variable' do
-    context 'when the variable has an associated collection' do
-      before do
-        visit variable_path(@ingested_variable_with_associations['concept-id'])
-      end
-
-      it 'displays a delete link' do
-        expect(page).to have_content('Delete Variable Record')
-      end
-
-      context 'when clicking the delete link' do
-        before do
-          click_on 'Delete Variable Record'
-        end
-
-        it 'displays a confirmation modal' do
-          expect(page).to have_content('Are you sure you want to delete this variable record?')
-        end
-
-        it 'informs the user of the number of collection associations that will also be deleted' do
-          # 2 associated collections
-          expect(page).to have_content('This variable is associated with 1 collections. Deleting this variable will also delete the collection associations.')
-        end
-
-        context 'when clicking Yes' do
-          before do
-            within '#delete-record-modal' do
-              click_on 'Yes'
-            end
-          end
-
-          it 'redirects to the revisions page and displays a confirmation message' do
-            expect(page).to have_content('Revision History')
-
-            expect(page).to have_content('Variable Deleted Successfully!')
-          end
-        end
-      end
+    before do
+      visit variable_path(@ingested_variable_with_associations['concept-id'])
     end
 
-    context 'when the variable does not have associated collections' do
+    it 'displays a delete link' do
+      expect(page).to have_content('Delete Variable Record')
+    end
+
+    context 'when clicking the delete link' do
       before do
-        visit variable_path(@ingested_variable_without_associations['concept-id'])
+        click_on 'Delete Variable Record'
       end
 
-      it 'displays a delete link' do
-        expect(page).to have_content('Delete Variable Record')
+      it 'displays a confirmation modal' do
+        expect(page).to have_content('Are you sure you want to delete this variable record?')
       end
 
-      context 'when clicking the delete link' do
+      it 'informs the user of the number of collection associations that will also be deleted' do
+        # 2 associated collections
+        expect(page).to have_content('This variable is associated with 1 collections. Deleting this variable will also delete the collection associations.')
+      end
+
+      context 'when clicking Yes' do
         before do
-          click_on 'Delete Variable Record'
-        end
-
-        it 'displays a confirmation modal' do
-          expect(page).to have_content('Are you sure you want to delete this variable record?')
-        end
-
-        it 'does not display a message about collection associations that will also be deleted' do
-          expect(page).to have_no_content('This variable is associated with')
-          expect(page).to have_no_content('collections. Deleting this variable will also delete the collection associations.')
-        end
-
-        context 'when clicking Yes' do
-          before do
-            within '#delete-record-modal' do
-              click_on 'Yes'
-            end
+          within '#delete-record-modal' do
+            click_on 'Yes'
           end
+        end
 
-          it 'redirects to the revisions page and displays a confirmation message' do
-            expect(page).to have_content('Revision History')
+        it 'redirects to the revisions page and displays a confirmation message' do
+          expect(page).to have_content('Revision History')
 
-            expect(page).to have_content('Variable Deleted Successfully!')
-          end
+          expect(page).to have_content('Variable Deleted Successfully!')
         end
       end
     end

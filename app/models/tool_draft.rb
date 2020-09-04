@@ -29,14 +29,6 @@ class ToolDraft < Draft
     end
   end
 
-  # def display_short_name
-  #   short_name || '<Blank Name>'
-  # end
-  #
-  # def display_entry_title
-  #   entry_title || '<Untitled Tool Record>'
-  # end
-
   private
 
   def set_metadata_specification

@@ -1,12 +1,12 @@
 describe 'Reverting to previous variables', js: true do
   before :all do
-    ingest_collection_response, _collection_concept_response = publish_collection_draft
+    @collection_ingest_response, _collection_concept_response = publish_collection_draft
 
     # variable for simple reverting variable test
-    @simple_revert_ingest_response, @simple_revert_concept_response = publish_variable_draft(revision_count: 2, collection_concept_id: ingest_collection_response['concept-id'])
+    @simple_revert_ingest_response, @simple_revert_concept_response = publish_variable_draft(revision_count: 2, collection_concept_id: @collection_ingest_response['concept-id'], native_id: "test_var_revert_#{Faker::Number.number(digits: 25)}")
 
     # variable for reverting variable with many revisions
-    @multiple_revisions_ingest_response, @multiple_revisions_concept_response = publish_variable_draft(revision_count: 4, long_name: 'Reverting Variables Test', number_revision_long_names: true, collection_concept_id: ingest_collection_response['concept-id'])
+    @multiple_revisions_ingest_response, @multiple_revisions_concept_response = publish_variable_draft(revision_count: 4, long_name: 'Reverting Variables Test', number_revision_long_names: true, collection_concept_id: @collection_ingest_response['concept-id'], native_id: "test_var_revert_#{Faker::Number.number(digits: 25)}")
   end
 
   before do
@@ -123,7 +123,7 @@ describe 'Reverting to previous variables', js: true do
 
   context 'when the latest revision is a deleted variable' do
     before do
-      ingest_response, _concept_response = publish_variable_draft
+      ingest_response, _concept_response = publish_variable_draft(collection_concept_id: @collection_ingest_response['concept-id'], native_id: "test_var_revert_#{Faker::Number.number(digits: 25)}")
 
       visit variable_path(ingest_response['concept-id'])
 

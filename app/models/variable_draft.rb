@@ -27,16 +27,4 @@ class VariableDraft < Draft
       draft
     end
   end
-
-  # def dummy_concept_id
-  #   'C12345-TEST'
-  # end
-
-  # def display_short_name
-  #   short_name || '<Blank Name>'
-  # end
-  #
-  # def display_entry_title
-  #   entry_title || '<Untitled Variable Record>'
-  # end
 end

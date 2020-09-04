@@ -10,11 +10,11 @@ describe CollectionDraft do
   end
 
   # display_short_name method
-  it '"display_short_name" returns a draft\'s short_name if available' do
+  it "'display_short_name' returns a draft's short_name if available" do
     collection_draft = build(:collection_draft, short_name: 'ID Example')
     expect(collection_draft.display_short_name).to eq('ID Example')
   end
-  it '"display_short_name" returns <Blank Short Name> if there is no entry id' do
+  it "'display_short_name' returns <Blank Short Name> if there is no entry id" do
     collection_draft = build(:collection_draft)
     expect(collection_draft.display_short_name).to eq('<Blank Short Name>')
   end

@@ -59,7 +59,7 @@
       <fieldset>
         <div class="row">
           <%= submit_tag submit_text, class: "eui-btn--blue #{'spinner' if local_assigns.fetch(:use_spinner, false)}" %>
-          <% if allow_cancel %>
+          <% if local_assigns.fetch(:allow_cancel, false) %>
             <%= link_to 'Cancel', cancel_path, class: 'eui-btn' %>
           <% end %>
         </div>

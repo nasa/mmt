@@ -9,6 +9,7 @@ describe CollectionDraftProposal do
       collection_draft_proposal = build(:empty_collection_draft_proposal, entry_title: 'Title Example')
       expect(collection_draft_proposal.display_entry_title).to eq('Title Example')
     end
+
     it '"display_entry_title" returns <Untitled Collection Record> if there is no entry title' do
       collection_draft_proposal = build(:empty_collection_draft_proposal, entry_title: nil)
       expect(collection_draft_proposal.display_entry_title).to eq('<Untitled Collection Record>')
@@ -19,6 +20,7 @@ describe CollectionDraftProposal do
       collection_draft_proposal = build(:empty_collection_draft_proposal, short_name: 'ID Example')
       expect(collection_draft_proposal.display_short_name).to eq('ID Example')
     end
+    
     it '"display_short_name" returns <Blank Short Name> if there is no entry id' do
       collection_draft_proposal = build(:empty_collection_draft_proposal)
       expect(collection_draft_proposal.display_short_name).to eq('<Blank Short Name>')

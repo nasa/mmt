@@ -2,7 +2,7 @@ describe 'Variable with draft' do
   modal_text = 'requires you change your provider context to MMT_2'
 
   before :all do
-    @ingest_collection_response, _collection_concept_response = publish_collection_draft
+    @collection_ingest_response, _collection_concept_response = publish_collection_draft
   end
 
   before do
@@ -11,7 +11,7 @@ describe 'Variable with draft' do
   context 'when viewing a variable that has an open draft' do
     context 'when the variables provider is the users current provider', js: true do
       before do
-        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true, collection_concept_id: @ingest_collection_response['concept-id'])
+        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true, collection_concept_id: @collection_ingest_response['concept-id'])
 
         visit variable_path(ingest_response['concept-id'])
       end
@@ -77,7 +77,7 @@ describe 'Variable with draft' do
 
     context 'when the variables provider is in the users available providers', js: true do
       before do
-        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true, collection_concept_id: @ingest_collection_response['concept-id'])
+        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true, collection_concept_id: @collection_ingest_response['concept-id'])
 
         login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
 
@@ -123,7 +123,7 @@ describe 'Variable with draft' do
 
     context 'when the variables provider is not in the users available providers' do
       before do
-        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true, collection_concept_id: @ingest_collection_response['concept-id'])
+        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true, collection_concept_id: @collection_ingest_response['concept-id'])
 
         login(provider: 'SEDAC', providers: %w(SEDAC))
 

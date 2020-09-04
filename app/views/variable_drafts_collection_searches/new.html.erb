@@ -25,23 +25,17 @@
               <td><%= @current_collection_info.dig('umm', 'short-name') %></td>
               <td><%= @current_collection_info.dig('umm', 'version-id') %></td>
               <% elsif @current_collection_error %>
-              <td colspan="4"><%= @current_collection_error %></td>
+              <td colspan="3"><%= @current_collection_error %></td>
               <% else %>
-              <td colspan="4">No Collection Association found. A Collection must be selected in order to publish this Variable Draft.</td>
+              <td colspan="3">No Collection Association found. A Collection must be selected in order to publish this Variable Draft. Each Variable can only be associated with a single Collection.</td>
               <% end %>
             </tr>
           </tbody>
         </table>
 
         <% unless @draft.collection_concept_id.blank? %>
-          <%# TODO: When clearing a collection association, the value becomes an empty string. should that change? %>
           <%= button_to 'Clear Collection Association', update_associated_collection_variable_draft_path(@draft), method: :post, params: { selected_collection: nil }, class: 'eui-btn eui-btn--red'  %>
         <% end %>
-
-        <%# console %>
-
-        <%# add local to each for a cancel button? %>
-        <%# will need to a path to return to also probably %>
       </fieldset>
 
       <%= render partial: 'cmr_search/shared/search_form', locals: { submit_path: collection_search_variable_draft_path, allow_cancel: true, cancel_path: variable_draft_path } %>

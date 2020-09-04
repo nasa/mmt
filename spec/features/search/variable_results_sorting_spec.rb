@@ -2,8 +2,10 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
   context 'when sorting search variables results' do
     before :all do
       ingest_collection_mmt_response, _collection_concept_mmt_response = publish_collection_draft
-      ingest_collection_larc_response, _collection_concept_larc_response = publish_collection_draft(provider_id: 'LARC')
-      ingest_collection_sedac_response, _collection_concept_sedac_response = publish_collection_draft(provider_id: 'SEDAC')
+      @larc_native_id = "larc_test_var_sorting_#{Faker::Number.number(digits: 6)}"
+      ingest_collection_larc_response, _collection_concept_larc_response = publish_collection_draft(provider_id: 'LARC', native_id: @larc_native_id)
+      @sedac_native_id = "sedac_test_var_sorting_#{Faker::Number.number(digits: 6)}"
+      ingest_collection_sedac_response, _collection_concept_sedac_response = publish_collection_draft(provider_id: 'SEDAC', native_id: @sedac_native_id)
 
       publish_variable_draft(name: 'First!', collection_concept_id: ingest_collection_mmt_response['concept-id'])
       sleep 1
@@ -25,6 +27,12 @@ describe 'Variable Search Results sorting', reset_provider: true, js: true do
       visit manage_variables_path
 
       click_on 'Search Variables'
+    end
+
+    after :all do
+      # delete these so they don't mess with other tests
+      larc_resp = cmr_client.delete_collection('LARC', @larc_native_id, 'access_token')
+      sedac_resp = cmr_client.delete_collection('SEDAC', @sedac_native_id, 'access_token')
     end
 
     context 'when sorting by Name' do

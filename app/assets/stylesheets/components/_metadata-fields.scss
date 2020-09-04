@@ -4,30 +4,18 @@
 
 // Note: Needs refactoring.
 
-// TODO: can take out important?
-// TODO: can move to metadata preview?
-.metadata {
-  padding-bottom: 1.275em !important;
-  padding-top: 1em !important;
-  border-bottom: 1px solid $dolphin-grey !important;
+// this is used for progress circle sections
+.metadata,
+.collection-association {
+  padding-bottom: 1.275em;
+  padding-top: 1em;
+  border-bottom: 1px solid $dolphin-grey;
   margin-bottom: 1em;
 
   #legend {
     margin-left: .5em;
     color: $ocean-blue;
   }
-
-  ul {
-    list-style: none;
-    padding-left: 0;
-  }
-}
-
-.collection-association {
-  padding-bottom: 1.275em;
-  padding-top: 1em;
-  border-bottom: 1px solid $dolphin-grey;
-  margin-bottom: 1em;
 
   .legend-link  {
     margin-left: .5em;

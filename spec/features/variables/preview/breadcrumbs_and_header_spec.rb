@@ -1,7 +1,7 @@
 describe 'Variables breadcrumbs and header' do
   before :all do
-    ingest_collection_response, _collection_concept_response = publish_collection_draft
-    @ingest_response, _concept_response = publish_variable_draft(name: 'Variable Name', collection_concept_id: ingest_collection_response['concept-id'])
+    collection_ingest_response, _collection_concept_response = publish_collection_draft
+    @ingest_response, _concept_response = publish_variable_draft(name: 'Variable Name', collection_concept_id: collection_ingest_response['concept-id'])
   end
 
   before do

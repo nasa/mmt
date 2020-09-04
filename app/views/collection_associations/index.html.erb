@@ -53,7 +53,7 @@
         </tbody>
       </table>
 
-      <% if @associations.any? %>
+      <% if not_variable? && @associations.any? %>
         <fieldset class="space-top">
           <%= link_to "Delete Selected #{association_text}", '#delete-associations-modal', class: 'eui-btn eui-btn--red display-modal' %>
 

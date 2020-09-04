@@ -1,10 +1,10 @@
 describe 'Search Variables Results Pagination', js: true do
   before :all do
-    ingest_collection_response, _collection_concept_response = publish_collection_draft
+    collection_ingest_response, _collection_concept_response = publish_collection_draft
 
-    5.times { |i| publish_variable_draft(name: "nasa.var.00#{i}", collection_concept_id: ingest_collection_response['concept-id']) }
+    5.times { |i| publish_variable_draft(name: "nasa.var.00#{i}", collection_concept_id: collection_ingest_response['concept-id']) }
 
-    30.times { publish_variable_draft(collection_concept_id: ingest_collection_response['concept-id']) }
+    30.times { publish_variable_draft(collection_concept_id: collection_ingest_response['concept-id']) }
   end
 
   before do

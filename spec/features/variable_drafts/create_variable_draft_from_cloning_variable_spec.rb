@@ -1,7 +1,7 @@
 describe 'Creating a variable draft from cloning a variable', js: true do
   before :all do
-    ingest_collection_response, _collection_concept_response = publish_collection_draft
-    @ingest_response, _concept_response = publish_variable_draft(collection_concept_id: ingest_collection_response['concept-id'])
+    collection_ingest_response, _collection_concept_response = publish_collection_draft
+    @ingest_response, _concept_response = publish_variable_draft(collection_concept_id: collection_ingest_response['concept-id'])
   end
 
   context 'when cloning a published variable' do
@@ -69,7 +69,7 @@ describe 'Creating a variable draft from cloning a variable', js: true do
       it 'shows the correct form and Collection Association Information' do
         within '.variable-draft-selected-collection-association' do
           within '#variable-draft-collection-association-table tbody tr:nth-child(1)' do
-            expect(page).to have_content('No Collection Association found. A Collection must be selected in order to publish this Variable Draft.')
+            expect(page).to have_content('No Collection Association found. A Collection must be selected in order to publish this Variable Draft. Each Variable can only be associated with a single Collection.')
           end
 
           expect(page).to have_no_button('Clear Collection Association')

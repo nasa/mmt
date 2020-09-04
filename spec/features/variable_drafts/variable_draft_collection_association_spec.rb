@@ -1,6 +1,6 @@
-describe 'Variable Draft Collection Association' do # , reset_provider: true
+describe 'Variable Draft Collection Association' do
   before :all do
-    @ingest_collection_response, @collection_concept_response = publish_collection_draft
+    @collection_ingest_response, @collection_concept_response = publish_collection_draft
   end
 
   before do
@@ -56,9 +56,7 @@ describe 'Variable Draft Collection Association' do # , reset_provider: true
 
     context 'when viewing the collection association form' do
       before do
-        # visit variable_draft_path(draft) # necessary in case the publishing test runs before the tests nested under here
         click_on 'Collection Association'
-        # visit collection_search_variable_draft_path(draft)
       end
 
       it 'displays the form' do
@@ -69,7 +67,7 @@ describe 'Variable Draft Collection Association' do # , reset_provider: true
 
       it 'displays the table with no collection assocaition selected' do
         within '#variable-draft-collection-association-table tbody tr:nth-child(1)' do
-          expect(page).to have_content('No Collection Association found. A Collection must be selected in order to publish this Variable Draft.')
+          expect(page).to have_content('No Collection Association found. A Collection must be selected in order to publish this Variable Draft. Each Variable can only be associated with a single Collection.')
         end
       end
 
@@ -151,7 +149,7 @@ describe 'Variable Draft Collection Association' do # , reset_provider: true
         context 'when selecting a collection association' do
           before do
             within '#collections-select' do
-              find("input[value='#{@ingest_collection_response['concept-id']}']").set(true)
+              find("input[value='#{@collection_ingest_response['concept-id']}']").set(true)
 
               click_button 'Submit'
 

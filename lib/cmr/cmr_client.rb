@@ -98,20 +98,6 @@ module Cmr
       get(url, nil, headers.merge(token_header(token)))
     end
 
-    def add_collection_assocations_to_variable(concept_id, collection_ids, token)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3003/variables/#{concept_id}/associations"
-            else
-              "/search/variables/#{concept_id}/associations"
-            end
-
-      headers = {
-        'Content-Type' => 'application/json'
-      }
-
-      post(url, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
-    end
-
     def add_collection_assocations_to_service(concept_id, collection_ids, token)
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/services/#{concept_id}/associations"
@@ -124,20 +110,6 @@ module Cmr
       }
 
       post(url, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
-    end
-
-    def delete_collection_assocations_to_variable(concept_id, collection_ids, token)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3003/variables/#{concept_id}/associations"
-            else
-              "/search/variables/#{concept_id}/associations"
-            end
-
-      headers = {
-        'Content-Type' => 'application/json'
-      }
-
-      delete(url, nil, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
     end
 
     def delete_collection_assocations_to_service(concept_id, collection_ids, token)

@@ -21,8 +21,7 @@ class Draft < ApplicationRecord
   end
 
   def set_native_id
-    # record_type = draft_type.underscore.split('_').first # we should remove 'draft' from the native_id
-    # we should remove 'draft' from the native_id
+    # native_id should not have 'draft'
     self.native_id ||= "mmt_#{record_type}_#{id}"
     save
   end
@@ -42,10 +41,6 @@ class Draft < ApplicationRecord
     blank_name = record_type == 'collection' ? '<Blank Short Name>' : '<Blank Name>'
     short_name || blank_name
   end
-
-  # def display_short_name
-  #   short_name || '<Blank Name>'
-  # end
 
   def display_entry_title
     entry_title || "<Untitled #{capital_record_type} Record>"

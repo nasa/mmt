@@ -63,7 +63,7 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
 
     end
 
-    context 'when new collection association' do
+    context 'when searching for new collections to associate' do
       before do
         visit new_service_collection_association_path(@service_ingest_response['concept-id'])
 
@@ -74,7 +74,7 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
         end
       end
 
-      it 'displays the existing collection assiciations' do
+      it 'displays the existing collection associations' do
         expect(page).to have_content('Disabled rows')
         expect(page).to have_selector('tbody tr', count: 29)
         expect(page).to have_selector('#selected_collections_', count: 3)

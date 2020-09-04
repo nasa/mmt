@@ -16,7 +16,6 @@ describe 'Valid Variable Draft Collection Association Preview' do
     it 'displays the correct status icon' do
       within '#collection-association-progress' do
         within '.status' do
-          # TODO fix this in other tests
           expect(page).to have_css('.eui-icon.icon-green.eui-check')
         end
       end
