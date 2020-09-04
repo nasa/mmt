@@ -1,26 +1,26 @@
 describe CollectionDraft do
   # display_entry_title method
-  it '"display_entry_title" returns a draft\'s title if available' do
+  it "`display_entry_title` returns a draft's title if available" do
     collection_draft = build(:collection_draft, entry_title: 'Title Example')
     expect(collection_draft.display_entry_title).to eq('Title Example')
   end
-  it '"display_entry_title" returns <Untitled Collection Record> if there is no entry title' do
+  it '`display_entry_title` returns <Untitled Collection Record> if there is no entry title' do
     collection_draft = build(:collection_draft, entry_title: nil)
     expect(collection_draft.display_entry_title).to eq('<Untitled Collection Record>')
   end
 
   # display_short_name method
-  it "'display_short_name' returns a draft's short_name if available" do
+  it "`display_short_name` returns a draft's short_name if available" do
     collection_draft = build(:collection_draft, short_name: 'ID Example')
     expect(collection_draft.display_short_name).to eq('ID Example')
   end
-  it "'display_short_name' returns <Blank Short Name> if there is no entry id" do
+  it '`display_short_name` returns <Blank Short Name> if there is no entry id' do
     collection_draft = build(:collection_draft)
     expect(collection_draft.display_short_name).to eq('<Blank Short Name>')
   end
 
   # update_draft method
-  it '"update_draft" saves short_name on update' do
+  it '`update_draft` saves short_name on update' do
     collection_draft = create(:collection_draft)
     user = create(:user)
     params = { 'short_name' => '12345', 'entry_title' => 'new title' }
@@ -29,7 +29,7 @@ describe CollectionDraft do
 
     expect(collection_draft.display_short_name).to eq('12345')
   end
-  it '"update_draft" saves entry_title on update' do
+  it '`update_draft` saves entry_title on update' do
     collection_draft = create(:collection_draft)
     user = create(:user)
     params = { 'short_name' => '12345', 'entry_title' => 'new title' }
@@ -38,7 +38,7 @@ describe CollectionDraft do
 
     expect(collection_draft.display_entry_title).to eq('new title')
   end
-  it '"update_draft" overwrites old values with new values' do
+  it '`update_draft` overwrites old values with new values' do
     collection_draft = create(:collection_draft, draft: { 'EntryTitle' => 'test title' })
     user = create(:user)
     params = { 'entry_title' => 'new title' }
@@ -47,7 +47,7 @@ describe CollectionDraft do
 
     expect(collection_draft.draft).to eq('EntryTitle' => 'new title')
   end
-  it '"update_draft" deletes empty values' do
+  it '`update_draft` deletes empty values' do
     collection_draft = create(:collection_draft, draft: { 'EntryTitle' => 'test title' })
     params = { 'short_name' => '12345', 'entry_title' => '' }
     user = create(:user)
@@ -56,7 +56,7 @@ describe CollectionDraft do
 
     expect(collection_draft.draft).to eq('ShortName' => '12345')
   end
-  it '"update_draft" converts number fields to numbers' do
+  it '`update_draft` converts number fields to numbers' do
     collection_draft = create(:collection_draft, draft: {})
     params = { 'size' => '42' }
     user = create(:user)
@@ -64,7 +64,7 @@ describe CollectionDraft do
 
     expect(collection_draft.draft).to eq('Size' => 42.0)
   end
-  it '"update_draft" converts number fields with delimiters to numbers' do
+  it '`update_draft` converts number fields with delimiters to numbers' do
     collection_draft = create(:collection_draft, draft: {})
     params = { 'size' => '9,001' }
     user = create(:user)
@@ -73,7 +73,7 @@ describe CollectionDraft do
 
     expect(collection_draft.draft).to eq('Size' => 9001.0)
   end
-  it '"update_draft" converts integer fields to integers' do
+  it '`update_draft` converts integer fields to integers' do
     collection_draft = create(:collection_draft, draft: {})
     params = { 'number_of_instruments' => '42' }
     user = create(:user)
@@ -82,7 +82,7 @@ describe CollectionDraft do
 
     expect(collection_draft.draft).to eq('NumberOfInstruments' => 42)
   end
-  it '"update_draft" converts boolean fields to boolean' do
+  it '`update_draft` converts boolean fields to boolean' do
     collection_draft = create(:collection_draft, draft: {})
     params = { 'ends_at_present_flag' => 'false' }
     user = create(:user)
@@ -102,7 +102,7 @@ describe CollectionDraft do
   end
 
   # create_from_collection method
-  it '"create_from_collection" saves a native_id' do
+  it '`create_from_collection` saves a native_id' do
     collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_id'
@@ -110,7 +110,7 @@ describe CollectionDraft do
 
     expect(collection_draft.native_id).to eq(native_id)
   end
-  it '"create_from_collection" saves a user' do
+  it '`create_from_collection` saves a user' do
     collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_id'
@@ -118,7 +118,7 @@ describe CollectionDraft do
 
     expect(collection_draft.user).to eq(user)
   end
-  it '"create_from_collection" saves the draft' do
+  it '`create_from_collection` saves the draft' do
     collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_id'
@@ -157,7 +157,7 @@ describe CollectionDraft do
   #end
 
   # add_metadata_dates
-  it '"add_metadata_dates" adds create and update dates' do
+  it '`add_metadata_dates` adds create and update dates' do
     collection_draft = create(:collection_draft)
     collection_draft.add_metadata_dates
 
@@ -170,7 +170,7 @@ describe CollectionDraft do
     expect(metadata_dates.second['Date']).to start_with(today_string)
   end
 
-  it '"add_metadata_dates" keeps other metadata date values unchanged' do
+  it '`add_metadata_dates` keeps other metadata date values unchanged' do
     collection_draft = create(:collection_draft, draft: { 'MetadataDates' => [
         { 'Type' => 'REVIEW', 'Date' => '2015-07-01T00:00:00Z' },
         { 'Type' => 'DELETE', 'Date' => '2015-07-01T00:00:00Z' }
@@ -192,7 +192,7 @@ describe CollectionDraft do
     expect(metadata_dates[3]['Date']).to start_with(today_string)
   end
 
-  it '"add_metadata_dates" updates UPDATE date but keeps CREATE date' do
+  it '`add_metadata_dates` updates UPDATE date but keeps CREATE date' do
     collection_draft = create(:collection_draft, draft: { 'MetadataDates' => [
         { 'Type' => 'CREATE', 'Date' => '2015-07-01T00:00:00Z' },
         { 'Type' => 'UPDATE', 'Date' => '2015-07-01T00:00:00Z' },
@@ -220,5 +220,16 @@ describe CollectionDraft do
     collection_draft = build(:collection_draft, provider_id: nil)
 
     expect(collection_draft.valid?).to eq(false)
+  end
+
+  it 'is not valid with a collection_concept_id' do
+    collection_draft = build(:collection_draft, collection_concept_id: 'C12345-MMT_2')
+
+    expect(collection_draft.valid?).to eq(false)
+  end
+
+  it 'does not save a collection concept id' do
+    collection_draft = create(:collection_draft)
+    expect(collection_draft.update(collection_concept_id: 'C12345-MMT_2')).to eq(false)
   end
 end

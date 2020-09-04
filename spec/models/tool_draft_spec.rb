@@ -1,22 +1,22 @@
 describe ToolDraft do
   # display_entry_title method
-  it '"display_entry_title" returns a draft title if available' do
+  it '`display_entry_title` returns a draft title if available' do
     tool_draft = build(:full_tool_draft, entry_title: 'Title Example')
     expect(tool_draft.display_entry_title).to eq('Title Example')
   end
 
-  it '"display_entry_title" returns <Untitled Tool Record> if there is no entry title' do
+  it '`display_entry_title` returns <Untitled Tool Record> if there is no entry title' do
     tool_draft = build(:empty_tool_draft)
     expect(tool_draft.display_entry_title).to eq('<Untitled Tool Record>')
   end
 
   # display_short_name method
-  it "'display_short_name' returns a draft's short_name if available" do
+  it "`display_short_name` returns a draft's short_name if available" do
     tool_draft = build(:full_tool_draft, short_name: 'Tool Test Name')
     expect(tool_draft.display_short_name).to eq('Tool Test Name')
   end
 
-  it "'display_short_name' returns <Blank Name> if there is no entry id" do
+  it "`display_short_name` returns <Blank Name> if there is no entry id" do
     tool_draft = build(:empty_tool_draft)
     expect(tool_draft.display_short_name).to eq('<Blank Name>')
   end
@@ -55,7 +55,7 @@ describe ToolDraft do
   end
 
   # create_from_tool method
-  it '"create_from_tool" saves the provided native_id' do
+  it '`create_from_tool` saves the provided native_id' do
     tool = { 'Name' => 'Test Tool Name', 'LongName' => 'test tool long name' }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_native_id'
@@ -64,7 +64,7 @@ describe ToolDraft do
     expect(tool_draft.native_id).to eq(native_id)
   end
 
-  it '"create_from_tool" saves a user' do
+  it '`create_from_tool` saves a user' do
     tool = { 'Name' => 'Test Name', 'LongName' => 'test long name' }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_native_id'
@@ -73,7 +73,7 @@ describe ToolDraft do
     expect(tool_draft.user).to eq(user)
   end
 
-  it '"create_from_tool" saves the draft' do
+  it '`create_from_tool` saves the draft' do
     tool = { 'Name' => 'Test Name', 'LongName' => 'test long name', 'MetadataSpecification' => { 'Name' => 'UMM-T', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/tool/v1.0', 'Version' => '1.0' } }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_native_id'
@@ -82,7 +82,7 @@ describe ToolDraft do
     expect(tool_draft.draft).to eq(tool)
   end
 
-  it '"create_from_tool" saves a native_id with the "set_native_id" format if one is not provided' do
+  it '`create_from_tool` saves a native_id with the "set_native_id" format if one is not provided' do
     tool = { 'Name' => 'Test Name', 'LongName' => 'test long name' }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     tool_draft = ToolDraft.create_from_tool(tool, user, nil, nil)
@@ -90,7 +90,7 @@ describe ToolDraft do
     expect(tool_draft.native_id).to include('mmt_tool_')
   end
 
-  it '"create_from_tool" removes the draft Name and LongName values if a native_id is not provided' do
+  it '`create_from_tool` removes the draft Name and LongName values if a native_id is not provided' do
     tool = { 'Name' => 'Test Name', 'LongName' => 'test long name' }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     tool_draft = ToolDraft.create_from_tool(tool, user, nil, nil)
@@ -99,7 +99,7 @@ describe ToolDraft do
     expect(tool_draft.draft['LongName']).to be_nil
   end
 
-  it '"create_from_tool" does not save a short_name or entry_title if a native_id is not provided' do
+  it '`create_from_tool` does not save a short_name or entry_title if a native_id is not provided' do
     tool = { 'Name' => 'Test Name', 'LongName' => 'test long name' }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     tool_draft = ToolDraft.create_from_tool(tool, user, nil, nil)
@@ -108,7 +108,7 @@ describe ToolDraft do
     expect(tool_draft.entry_title).to be_nil
   end
 
-  it '"create_from_tool" does not save a collection_concept_id if a native_id is provided' do
+  it '`create_from_tool` does not save a collection_concept_id if a native_id is provided' do
     tool = { 'Name' => 'Test Name', 'LongName' => 'test long name' }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_native_id'
@@ -117,7 +117,7 @@ describe ToolDraft do
     expect(tool_draft.collection_concept_id).to be_nil
   end
 
-  it '"create_from_variable" does not save a collection_concept_id if a native_id is not provided' do
+  it '`create_from_tool` does not save a collection_concept_id if a native_id is not provided' do
     tool = { 'Name' => 'Test Name', 'LongName' => 'test long name' }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_native_id'
@@ -130,5 +130,16 @@ describe ToolDraft do
     tool_draft = build(:full_tool_draft, provider_id: nil)
 
     expect(tool_draft.valid?).to eq(false)
+  end
+
+  it 'is not valid with a collection_concept_id' do
+    tool_draft = build(:full_tool_draft, collection_concept_id: 'C12345-MMT_2')
+
+    expect(tool_draft.valid?).to eq(false)
+  end
+
+  it 'does not save a collection concept id' do
+    tool_draft = create(:full_tool_draft)
+    expect(tool_draft.update(collection_concept_id: 'C12345-MMT_2')).to eq(false)
   end
 end

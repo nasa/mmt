@@ -15,7 +15,7 @@ describe VariableDraft do
     variable_draft = build(:full_variable_draft, short_name: 'Var Test Name')
     expect(variable_draft.display_short_name).to eq('Var Test Name')
   end
-  
+
   it "'display_short_name' returns <Blank Name> if there is no entry id" do
     variable_draft = build(:empty_variable_draft)
     expect(variable_draft.display_short_name).to eq('<Blank Name>')
@@ -116,5 +116,16 @@ describe VariableDraft do
     variable_draft = build(:full_variable_draft, provider_id: nil)
 
     expect(variable_draft.valid?).to eq(false)
+  end
+
+  it 'is valid with a collection_concept_id' do
+    variable_draft = build(:full_variable_draft, collection_concept_id: 'C12345-MMT_2')
+
+    expect(variable_draft.valid?).to eq(true)
+  end
+
+  it 'does not save a collection concept id' do
+    variable_draft = create(:full_variable_draft)
+    expect(variable_draft.update(collection_concept_id: 'C12345-MMT_2')).to eq(true)
   end
 end
