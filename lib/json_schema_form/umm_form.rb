@@ -68,7 +68,7 @@ class UmmForm < JsonObj
   def render_markup
     hidden = 'display: none;' if parsed_json['hideUnlessValues'] && element_value && !element_value.key?(parsed_json['hideUnlessValues'])
 
-    content_tag(:div, class: parsed_json['htmlClass'], style: hidden, id: parsed_json['id']) do
+    content_tag(:div, class: parsed_json['htmlClass'], style: hidden) do
       # Display a description of the section if its provided
       concat content_tag(:p, description, class: 'form-description space-bot') unless description.nil?
 

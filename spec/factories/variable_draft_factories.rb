@@ -13,7 +13,10 @@ FactoryBot.define do
     provider_id { 'MMT_2' }
     draft_type { 'VariableDraft' }
 
+    # Name is invalid because of a required pattern.
+    # Fields with 'string' as a value are invalid because they require numbers.
     draft {{
+      'Name': '?',
       'Scale': 'string',
       'Offset': 'string',
       'ValidRanges': [
@@ -22,6 +25,17 @@ FactoryBot.define do
           'Max': 'string'
         }
       ],
+      'IndexRanges':
+      {
+        'LatRange': [
+          'string',
+          90.0
+        ],
+        'LonRange': [
+          -180.0,
+          180.0
+        ]
+      },
       'FillValues': [
         {
           'Value': 'string'
@@ -37,18 +51,7 @@ FactoryBot.define do
           'Size': 'string',
           'Index': 'string'
         }
-      ],
-      'IndexRanges':
-        {
-          'LatRange': [
-            'abc',
-            90.0
-          ],
-          'LonRange': [
-            -180.0,
-            180.0
-          ]
-        }
+      ]
       }}
 
     short_name { nil }
@@ -68,22 +71,24 @@ FactoryBot.define do
 
     draft {{
       'Name': draft_short_name || "#{Faker::Space.galaxy}_#{Faker::Number.number(digits: 6)}",
+      'StandardName': 'Standard_Name_1',
       'LongName': draft_entry_title || "#{Faker::Space.nebula} #{Faker::Space.star_cluster} #{Faker::Number.number(digits: 6)}",
       'Definition': 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)',
-      'Units': 'Npptv',
-      'DataType': 'float',
-      'Dimensions': [
+      'AdditionalIdentifiers': [
         {
-          'Name': 'LatDim',
-          'Size': 36,
-          'Type': 'LATITUDE_DIMENSION'
+          'Identifier': 'Additional_Identifier_Identifier_1'
         },
         {
-          'Name': 'Lizard Herp Doc Pop',
-          'Size': 2020,
-          'Type': 'LONGITUDE_DIMENSION'
+          'Identifier': 'Additional_Identifier_Identifier_2',
+          'Description': 'Additional_Identifier_Description_2'
         }
       ],
+      'VariableType': 'SCIENCE_VARIABLE',
+      'VariableSubType': 'SCIENCE_SCALAR',
+      'Units': 'Npptv',
+      'DataType': 'float',
+      'Scale': 1.0,
+      'Offset': 0.0,
       'ValidRanges': [
         {
           'Min': -417,
@@ -98,8 +103,17 @@ FactoryBot.define do
           'CodeSystemIdentifierValue': ['Code System Identifier Value 1', 'Code System Identifier Value 2']
         }
       ],
-      'Scale': 1.0,
-      'Offset': 0.0,
+      'IndexRanges':
+      {
+        'LatRange': [
+          -90.0,
+          90.0
+        ],
+        'LonRange': [
+          -180.0,
+          180.0
+        ]
+      },
       'FillValues': [
         {
           'Type': 'SCIENCE_FILLVALUE',
@@ -112,33 +126,18 @@ FactoryBot.define do
           'Description': 'Pellentesque Nullam Ullamcorper Magna'
         }
       ],
-      'VariableType': 'SCIENCE_VARIABLE',
-      'VariableSubType': 'SCIENCE_SCALAR',
-      'Sets': [
+      'Dimensions': [
         {
-          'Name': 'Science',
-          'Type': 'Land',
-          'Size': 50,
-          'Index': 1
+          'Name': 'LatDim',
+          'Size': 36,
+          'Type': 'LATITUDE_DIMENSION'
         },
         {
-          'Name': 'Fiction',
-          'Type': 'Water',
-          'Size': 100,
-          'Index': 2
+          'Name': 'Lizard Herp Doc Pop',
+          'Size': 2020,
+          'Type': 'LONGITUDE_DIMENSION'
         }
       ],
-      'IndexRanges':
-        {
-          'LatRange': [
-            -90.0,
-            90.0
-          ],
-          'LonRange': [
-            -180.0,
-            180.0
-          ]
-      },
       'MeasurementIdentifiers': [
         {
           'MeasurementContextMedium': 'ocean',
@@ -187,6 +186,20 @@ FactoryBot.define do
           'Category': 'EARTH SCIENCE',
           'Topic': 'ATMOSPHERE',
           'Term': 'ATMOSPHERIC TEMPERATURE'
+        }
+      ],
+      'Sets': [
+        {
+          'Name': 'Science',
+          'Type': 'Land',
+          'Size': 50,
+          'Index': 1
+        },
+        {
+          'Name': 'Fiction',
+          'Type': 'Water',
+          'Size': 100,
+          'Index': 2
         }
       ]
     }

@@ -25,17 +25,6 @@ describe 'Create new draft from variable', reset_provider: true do
       ingest_response, _concept_response = publish_variable_draft(name: 'Test Edit Variable Name 2', native_id: @native_id)
     end
 
-    context 'when trying to edit the draft name' do
-      before do
-        @variable_draft = create(:full_variable_draft, native_id: @native_id)
-        visit edit_variable_draft_path(@variable_draft)
-      end
-
-      it 'cannot edit the name' do
-        expect(page).to have_field('variable_draft[draft][name]', readonly: true)
-      end
-    end
-
     context 'when trying to publish/update a variable draft with a different name' do
       before do
         @variable_draft = create(:full_variable_draft, native_id: @native_id, draft_short_name: 'An Incompatible Name')

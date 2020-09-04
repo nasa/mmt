@@ -15,7 +15,7 @@ describe 'Invalid Variable Draft Variable Characteristics Preview' do
             expect(page).to have_css('h5', text: 'Lat Range')
             expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_index_ranges_lat_range'))
             expect(page).to have_css('h6', text: 'Lat Range 1')
-            expect(page).to have_css('p', text: 'abc')
+            expect(page).to have_css('p', text: 'string')
             expect(page).to have_css('h6', text: 'Lat Range 2')
             expect(page).to have_css('p', text: '90.0')
           end

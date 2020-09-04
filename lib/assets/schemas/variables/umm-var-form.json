@@ -16,13 +16,11 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "id": "name",
                   "items": [{"key": "Name", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "id": "standard-name",
                   "items": [{"key": "StandardName", "field": true}]
                 }
               ]
@@ -33,7 +31,6 @@
               "items": [
                 {
                   "type": "section",
-                  "id": "long-name",
                   "items": [{"key": "LongName", "field": true}]
                 }
               ]
@@ -44,7 +41,6 @@
               "items": [
                 {
                   "type": "section",
-                  "id": "definition",
                   "items": [{"key": "Definition", "field": true, "type": "UmmTextarea"}]
                 }
               ]
@@ -52,7 +48,6 @@
             {
               "type": "section",
               "htmlClass": "row space-top",
-              "id": "additional-identifiers",
               "items": [
                 {
                   "type": "UmmMultiItems",
@@ -92,13 +87,11 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "id": "variable-type",
                   "items": [{"key": "VariableType", "field": true, "type": "UmmSelect"}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "id": "variable-sub-type",
                   "items": [{"key": "VariableSubType", "field": true, "type": "UmmSelect"}]
                 }
               ]
@@ -110,13 +103,11 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "id": "units",
                   "items": [{"key": "Units", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "id": "data-type",
                   "items": [{"key": "DataType", "field": true, "type": "UmmSelect"}]
                 }
               ]
@@ -142,7 +133,6 @@
             {
               "type": "section",
               "htmlClass": "row space-top",
-              "id": "valid-ranges",
               "items": [
                 {
                   "type": "UmmMultiItems",
@@ -216,13 +206,12 @@
             {
               "type": "section",
               "htmlClass": "row space-top",
-              "id": "index-ranges",
               "items": [
                 {
                   "type": "section",
                   "help": "IndexRanges",
                   "label": "Index Ranges",
-                  "key": "IndexRanges/properties",
+                  "key": "IndexRanges",
                   "items": [
                     {
                       "type": "section",
@@ -230,7 +219,7 @@
                       "items": [
                         {
                           "type": "UmmSetMultiItem",
-                          "key": "/LatRange/items",
+                          "key": "/properties/LatRange/items",
                           "multiType": "LatRange",
                           "label": "Lat Range",
                           "field": true,
@@ -250,7 +239,7 @@
                       "items": [
                         {
                           "type": "UmmSetMultiItem",
-                          "key": "/LonRange/items",
+                          "key": "/properties/LonRange/items",
                           "multiType": "LonRange",
                           "label": "Lon Range",
                           "field": true,
