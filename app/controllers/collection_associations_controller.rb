@@ -70,7 +70,7 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   def destroy
-    # Variables must be association with one collection. They should be blocked
+    # Variables must be associated with one collection. They should be blocked
     # from this action.
     association_response = cmr_client.send("delete_collection_assocations_to_#{lower_resource_name}", resource_id, params[:selected_collections], token)
 

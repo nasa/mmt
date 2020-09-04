@@ -49,10 +49,10 @@ describe 'Variable with draft' do
 
         it 'displays the correct Collection Association form links' do
           within '#collection-association-progress' do
-            expect(page).to have_link('Collection Association', href: '#')
+            expect(page).to have_link('Collection Association', href: '#editing-variable-collection-association-notice')
 
             within '.progress-indicators' do
-              expect(page).to have_link('Collection Association - Required', href: '#')
+              expect(page).to have_link('Collection Association - Required', href: '#editing-variable-collection-association-notice')
             end
           end
         end
@@ -63,10 +63,12 @@ describe 'Variable with draft' do
           end
 
           it 'does not leave the preview page' do
+            expect(page).to have_content("This Variable Draft is associated with a published Variable. Modifying a Variable's Collection Association is temporarily disabled.")
             expect(page).to have_content('Publish Variable Draft')
             expect(page).to have_content('Metadata Fields')
             expect(page).to have_content('Variable Information')
 
+            expect(page).to have_no_content('Collection Association Search')
             expect(page).to have_no_css('#variable-draft-collection-association-table')
             expect(page).to have_no_select('Search Field')
             expect(page).to have_no_css("input[id$='query_text']")

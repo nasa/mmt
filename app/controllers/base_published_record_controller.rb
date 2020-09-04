@@ -16,11 +16,11 @@ class BasePublishedRecordController < ManageMetadataController
   end
 
   def edit
-    # grab the collection_association of latest
-    collection_association = @revisions.dig(0, 'associations', 'collections', 0, 'concept-id')
+    # grab the concept_id of the associated collection of latest
+    associated_concept_id = @revisions.dig(0, 'associations', 'collections', 0, 'concept-id')
 
     if @native_id
-      draft = draft_resource_class.send("create_from_#{resource_name}", get_resource, current_user, @native_id, collection_association)
+      draft = draft_resource_class.send("create_from_#{resource_name}", get_resource, current_user, @native_id, associated_concept_id)
       Rails.logger.info("Audit Log: #{resource_name.classify} Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
       redirect_to send("#{resource_name}_draft_path", draft), flash: { success: I18n.t("controllers.draft.#{resource_name}_drafts.create.flash.success") }
     else
@@ -98,11 +98,11 @@ class BasePublishedRecordController < ManageMetadataController
   def revert
     latest_revision_id = @revisions.dig(0, 'meta', 'revision-id')
 
-    # grab the collection_association of the correct revision
-    collection_association = @revisions.dig(@revision_id.to_i, 'associations', 'collections', 0, 'concept-id')
+    # grab the concept_id of the associated collection of the correct revision
+    associated_concept_id = @revisions.dig(@revision_id.to_i, 'associations', 'collections', 0, 'concept-id')
 
     # Ingest revision
-    ingested_response = cmr_client.send("ingest_#{resource_name}", metadata: get_resource.to_json, provider_id: @provider_id, collection_concept_id: collection_association, native_id: @native_id, token: token)
+    ingested_response = cmr_client.send("ingest_#{resource_name}", metadata: get_resource.to_json, provider_id: @provider_id, collection_concept_id: associated_concept_id, native_id: @native_id, token: token)
 
     if ingested_response.success?
       flash[:success] = I18n.t("controllers.#{plural_resource_name}.revert.flash.success")
