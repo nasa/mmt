@@ -119,13 +119,11 @@
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "id": "scale",
                   "items": [{"key": "Scale", "field": true}]
                 },
                 {
                   "type": "section",
                   "htmlClass": "col-6",
-                  "id": "offset",
                   "items": [{"key": "Offset", "field": true}]
                 }
               ]

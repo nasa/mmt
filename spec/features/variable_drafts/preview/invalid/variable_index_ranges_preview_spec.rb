@@ -1,11 +1,11 @@
-describe 'Invalid Variable Draft Variable Characteristics Preview' do
+describe 'Invalid Variable Draft Variable Index Ranges Preview' do
   before do
     login
     @draft = create(:invalid_variable_draft, user: User.where(urs_uid: 'testuser').first)
     visit variable_draft_path(@draft)
   end
 
-  context 'When examining the Variable Characteristics section' do
+  context 'When examining the Variable Index Ranges section' do
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview-sidebar' do
         within '.umm-preview.variable_information' do

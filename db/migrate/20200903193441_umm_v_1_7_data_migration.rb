@@ -39,8 +39,7 @@ class UmmV17DataMigration < ActiveRecord::Migration[5.2]
   # Merge the name and GroupPath fields and invalidate them so that the user is
   # forced to confirm that this is the name they intend to submit.
   def merge_and_invalidate_name_for_1_7(draft)
-    return draft unless draft['Name'] || draft.dig('Characteristics', 'GroupPath')
-    return draft if draft['Name'] && !draft.dig('Characteristics', 'GroupPath')
+    return draft unless draft.dig('Characteristics', 'GroupPath')
     return draft['Name'] = "?#{draft.dig('Characteristics', 'GroupPath')}" if draft.dig('Characteristics', 'GroupPath') && !draft['Name']
 
     draft['Name'] = if draft['Name'].start_with?('/') && draft.dig('Characteristics', 'GroupPath').end_with?('/')
