@@ -20,7 +20,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
 
     it 'displays a link to get to collection association management' do
       within 'section.action' do
-        expect(page).to have_link('Manage Collection Associations')
+        expect(page).to have_link('Manage Collection Association')
       end
     end
   end
@@ -35,7 +35,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
     end
 
     it 'displays an empty collection association table' do
-      expect(page).to have_content('No Collection Associations found.')
+      expect(page).to have_content('No Collection Association found.')
     end
 
     context 'When clicking the add collection associations button' do
@@ -120,7 +120,7 @@ describe 'Creating Variable Collection Associations', js: true, reset_provider: 
         end
 
         it 'shows a success message' do
-          expect(page).to have_content('Collection Associations Created Successfully!')
+          expect(page).to have_content('Collection Association Created Successfully!')
         end
 
         context 'when attempting to access the page to add another collection' do

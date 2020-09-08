@@ -9,7 +9,7 @@ describe 'Collections with Tags', js: true do
     @ingest_response, _concept_response = publish_collection_draft(short_name: short_name)
 
     # create tag(s)
-    setup_tag_permissions
+    @acl_concept = setup_tag_permissions
     reindex_permitted_groups
     create_tags(tag_1_key, tag_1_description)
     create_tags(tag_2_key)
@@ -17,6 +17,11 @@ describe 'Collections with Tags', js: true do
     # associate tag with collection
     associate_tag_to_collection_by_short_name(tag_1_key, short_name)
     associate_tag_to_collection_by_short_name(tag_2_key, short_name)
+  end
+
+  after(:all) do
+    remove_group_permissions(@acl_concept)
+    reindex_permitted_groups
   end
 
   context 'when viewing a collection with tags' do

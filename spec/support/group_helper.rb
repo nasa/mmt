@@ -99,7 +99,7 @@ module Helpers
 
     def remove_group_permissions(concept_id)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#remove_group_permissions' do
-        acl_response = cmr_client.delete_permission(concept_id, 'access_token')
+        acl_response = cmr_client.delete_permission(concept_id, 'access_token_admin')
 
         wait_for_cmr
 
