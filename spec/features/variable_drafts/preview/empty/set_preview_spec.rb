@@ -15,7 +15,7 @@ describe 'Empty Variable Draft Set Preview' do
     it 'displays the correct status icon' do
       within '#sets-progress' do
         within '.status' do
-          expect(page).to have_content('Sets is incomplete')
+          expect(page).to have_css('.eui-icon.icon-green.eui-fa-circle-o')
         end
       end
     end

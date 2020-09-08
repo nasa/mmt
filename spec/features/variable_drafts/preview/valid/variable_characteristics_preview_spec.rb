@@ -15,7 +15,7 @@ describe 'Valid Variable Draft Variable Characteristics Preview' do
     it 'displays the correct status icon' do
       within '#variable_characteristics-progress' do
         within '.status' do
-          expect(page).to have_content('Variable Characteristics is valid')
+          expect(page).to have_css('.eui-icon.icon-green.eui-check')
         end
       end
     end

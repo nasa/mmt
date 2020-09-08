@@ -8,7 +8,7 @@ describe 'When publishing collection draft proposals', js: true do
   context 'when processing a delete request' do
     context 'when the target collection exists' do
       before do
-        mock_retrieve_approved_proposals(proposal_info: [{ short_name: "Delete Request", entry_title: "Delete Request Title", request_type: 'delete'}])
+        mock_retrieve_approved_proposals(proposal_info: [{ short_name: 'Delete Request', entry_title: 'Delete Request Title', request_type: 'delete' }])
         @ingest_response, _concept_response = publish_collection_draft(native_id: 'dmmt_collection_1')
         mock_valid_token_validation
         visit manage_proposals_path

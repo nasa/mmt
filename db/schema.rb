@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_19_123435) do
+ActiveRecord::Schema.define(version: 2020_08_26_141723) do
 
   create_table "draft_proposals", force: :cascade do |t|
     t.integer "user_id"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2020_06_19_123435) do
     t.string "provider_id"
     t.string "native_id"
     t.string "draft_type"
+    t.string "collection_concept_id"
   end
 
   create_table "sessions", force: :cascade do |t|

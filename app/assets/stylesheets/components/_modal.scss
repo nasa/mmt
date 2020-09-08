@@ -19,7 +19,8 @@
 #help-modal,
 #download-xml-modal,
 #progress-legend,
-#variable-preview-modal {
+#variable-preview-modal,
+#collection-association-legend {
   border-radius: 5px;
   -webkit-border-radius: 5px;
   background-color: $white;
@@ -55,7 +56,8 @@
 
 #provider-context,
 #help-modal,
-#progress-legend {
+#progress-legend,
+#collection-association-legend {
   width: 500px;
 }
 

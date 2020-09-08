@@ -15,7 +15,7 @@ describe 'Valid Variable Draft Science Keywords Preview' do
     it 'displays the correct status icon' do
       within '#science_keywords-progress' do
         within '.status' do
-          expect(page).to have_content('Science Keywords is valid')
+          expect(page).to have_css('.eui-icon.icon-green.eui-check')
         end
       end
     end
