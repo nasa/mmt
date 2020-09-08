@@ -58,8 +58,9 @@ describe 'Conditionally required fields', js: true do
       end
 
       it 'displays the required icons' do
-        # Name, Long Name, Definition, Identifier x2
-        expect(page).to have_css('label.eui-required-o', count: 5)
+        # Name, Long Name, Definition, AdditionalIdentifiers::Identifier x2,
+        # IndexRanges::LatRange, IndexRanges::LonRange
+        expect(page).to have_css('label.eui-required-o', count: 7)
       end
     end
 

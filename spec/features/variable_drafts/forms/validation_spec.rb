@@ -356,6 +356,20 @@ describe 'Variable Draft Forms Field Validation', js: true do
       visit edit_variable_draft_path(draft, 'variable_information')
     end
 
+    context 'when entering one pair of fields' do
+      before do
+        fill_in 'variable_draft_draft_index_ranges_lat_range_1', with: '2'
+        fill_in 'variable_draft_draft_index_ranges_lat_range_0', with: '1'
+        within '.nav-top' do
+          click_on 'Save'
+        end
+      end
+
+      it 'displays validation errors that a paired field is required' do
+        expect(page).to have_css('#variable_draft_draft_index_ranges_lon_range_error', text: 'Lon Range is required')
+      end
+    end
+
     context 'when entering one field' do
       before do
         fill_in 'variable_draft_draft_index_ranges_lat_range_0', with: '1'

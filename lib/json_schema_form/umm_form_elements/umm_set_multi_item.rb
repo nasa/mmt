@@ -14,7 +14,7 @@ class UmmSetMultiItem < UmmMultiItem
   end
 
   def render_markup
-    content_tag(:div, class: "multiple simple-multiple #{form_class}", id: idify_property_name) do
+    content_tag(:div, class: "multiple simple-multiple #{form_class}", id: idify_property_name, 'data-level': element_properties(schema_fragment)[:data][:level]) do
       indexes = options.fetch('indexes', [])
 
       values = Array.wrap(element_value)
@@ -28,5 +28,25 @@ class UmmSetMultiItem < UmmMultiItem
         end)
       end
     end
+  end
+
+  # The parent implementation of element_data does not account of terminal '/items'
+  # in full_key that only occur in set_multi_items like ValidRanges and IndexRanges
+  # in UMM-V 1.7
+  def element_data
+    options['data']
+    full_key_with_terminal_field = remove_terminal_items_from_key
+    field_name = full_key_with_terminal_field.last.underscore
+    field_id = idify_property_name
+    # remove the last instance of the field name to set the data level
+    field_removed = field_id.sub(/(.*)#{Regexp.escape(field_name)}/i, '\1')
+
+    options.fetch('data', {}).merge(level: field_removed)
+  end
+
+  def remove_terminal_items_from_key
+    return full_key.split('/') unless full_key.split('/').last == 'items' && full_key.split('/').length > 1
+
+    full_key.split('/')[0..-2]
   end
 end
