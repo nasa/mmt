@@ -5,13 +5,16 @@ class CollectionsController < ManageCollectionsController
 
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
+  before_action :set_json_response, only: [:show, :destroy]
   before_action :set_tags, only: [:show, :destroy]
+  before_action :set_associated_services, only: [:show]
 
   layout 'collection_preview', only: [:show]
 
   add_breadcrumb 'Collections' # there is no collections index action, so not providing a link
 
   def show
+    byebug
     @language_codes = cmr_client.get_language_codes
 
     add_breadcrumb fetch_entry_id(@collection, 'collections'), collection_path(@concept_id)
@@ -212,15 +215,20 @@ class CollectionsController < ManageCollectionsController
     selected.blank? ?  nil : selected.fetch('meta')['revision-id']
   end
 
+  def set_json_response
+    # TODO: when CMR-6655 is worked we should have all the tag information in the
+    # .umm-json response.  We will still need this call to gether the associated
+    # services for the service tab in the preview gem.
+    @collection_json_response = cmr_client.search_collections({ concept_id: @concept_id, revision_id: @revision_id, include_tags: '*' }, token)
+    Rails.logger.error("Error searching for collection #{@concept_id} revision #{@revision_id || 'no revision provided'} in `set_json_response`: #{@collection_json_response.clean_inspect}") unless @collection_json_response.success?
+  end
+
   def set_tags
     @num_tags = 0
 
-    # TODO: when CMR-6655 is worked we should have all this tag information in the
-    # .umm-json response, and this can be streamlined in MMT-2359
-    collection_json_response = cmr_client.search_collections({ concept_id: @concept_id, revision_id: @revision_id, include_tags: '*' }, token)
     # puts "collection_json_response\n#{collection_json_response.inspect}"
-    if collection_json_response.success?
-      @tag_keys = collection_json_response.body.dig('feed', 'entry', 0, 'tags')&.keys || []
+    if @collection_json_response.success?
+      @tag_keys = @collection_json_response.body.dig('feed', 'entry', 0, 'tags')&.keys || []
       @num_tags = @tag_keys.count
 
       unless @tag_keys.blank?
@@ -234,9 +242,27 @@ class CollectionsController < ManageCollectionsController
         end
       end
     else
-      Rails.logger.error("Error searching for collection #{@concept_id} revision #{@revision_id || 'no revision provided'} in `set_tags`: #{collection_json_response.clean_inspect}")
+      Rails.logger.error("Error searching for collection #{@concept_id} revision #{@revision_id || 'no revision provided'} in `set_tags`: #{@collection_json_response.clean_inspect}")
       # if this call failed, num_tags will be 0 and we will display this flash message
       flash[:error] = "There was an error retrieving Tags for this Collection: #{collection_json_response.error_message(i18n: I18n.t('controllers.collections.set_tags.search_collections.error'))}"
+    end
+  end
+
+  def set_associated_services
+    if @collection_json_response.success?
+      service_ids = @collection_json_response.body.dig('feed', 'entry', 0, 'associations', 'services')
+      @services = [] and return unless service_ids
+
+      cmr_service_response = cmr_client.get_services(concept_id: service_ids)
+
+      @services = if cmr_service_response.success?
+                    cmr_service_response.body['items']
+                  else
+                    Rails.logger.error("Error searching for associated services in 'set_associated_services': #{cmr_service_response.clean_inspect}")
+                    []
+                  end
+    else
+      @services = []
     end
   end
 end
