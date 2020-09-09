@@ -125,13 +125,15 @@
   flex: 0 1 auto;
 }
 
-.preview .preview-gem-card-header-title {
+.preview-gem-card-header-title {
   border-bottom: 1px solid $light-grey;
   padding-left: 0.8em;
   padding-right: 0.8em;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  margin: 0px; //this controls the size of the header block
+  margin: 0.5em 0.4em; //this controls the size of the header block
   flex: 1 1 auto;
+  font-weight: normal;
+  text-decoration: underline;
 }
