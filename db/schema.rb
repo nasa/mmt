@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2020_09_03_193441) do
     t.string "provider_id"
     t.string "native_id"
     t.string "draft_type"
+    t.string "collection_concept_id"
   end
 
   create_table "sessions", force: :cascade do |t|

@@ -57,7 +57,7 @@ class SearchController < ManageMetadataController
       errors = []
       hits = search_response.body['hits'].to_i
     else
-      Rails.logger.error("Search Error: #{search_response.clean_inspect}")
+      Rails.logger.error("Search Controller Error: #{search_response.clean_inspect}")
 
       records = []
       hits = 0

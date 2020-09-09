@@ -1,14 +1,17 @@
 describe 'Variable with draft' do
   modal_text = 'requires you change your provider context to MMT_2'
 
-  context 'when viewing a variable that has an open draft' do
-    before do
-      login
-    end
+  before :all do
+    @collection_ingest_response, _collection_concept_response = publish_collection_draft
+  end
 
+  before do
+    login
+  end
+  context 'when viewing a variable that has an open draft' do
     context 'when the variables provider is the users current provider', js: true do
       before do
-        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true)
+        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true, collection_concept_id: @collection_ingest_response['concept-id'])
 
         visit variable_path(ingest_response['concept-id'])
       end
@@ -28,15 +31,55 @@ describe 'Variable with draft' do
             expect(page).to have_content(@concept_response.body['Name'])
           end
 
-          expect(page).to have_content("#{@concept_response.body['Name']}")
-          expect(page).to have_content("#{@concept_response.body['LongName']}")
+          expect(page).to have_content(@concept_response.body['Name'])
+          expect(page).to have_content(@concept_response.body['LongName'])
+        end
+
+        it 'displays the Collection Association progress icons correctly' do
+          within '#collection-association-progress' do
+            within '.status' do
+              expect(page).to have_css('.eui-icon.icon-green.eui-check')
+            end
+
+            within '.progress-indicators' do
+              expect(page).to have_css('.eui-icon.eui-required.icon-green.collection_association')
+            end
+          end
+        end
+
+        it 'displays the correct Collection Association form links' do
+          within '#collection-association-progress' do
+            expect(page).to have_link('Collection Association', href: '#editing-variable-collection-association-notice')
+
+            within '.progress-indicators' do
+              expect(page).to have_link('Collection Association - Required', href: '#editing-variable-collection-association-notice')
+            end
+          end
+        end
+
+        context 'when clicking on the Collection Association form link' do
+          before do
+            click_on 'Collection Association'
+          end
+
+          it 'does not leave the preview page' do
+            expect(page).to have_content("This Variable Draft is associated with a published Variable. Modifying a Variable's Collection Association is temporarily disabled.")
+            expect(page).to have_content('Publish Variable Draft')
+            expect(page).to have_content('Metadata Fields')
+            expect(page).to have_content('Variable Information')
+
+            expect(page).to have_no_content('Collection Association Search')
+            expect(page).to have_no_css('#variable-draft-collection-association-table')
+            expect(page).to have_no_select('Search Field')
+            expect(page).to have_no_css("input[id$='query_text']")
+          end
         end
       end
     end
 
     context 'when the variables provider is in the users available providers', js: true do
       before do
-        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true)
+        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true, collection_concept_id: @collection_ingest_response['concept-id'])
 
         login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
 
@@ -82,7 +125,7 @@ describe 'Variable with draft' do
 
     context 'when the variables provider is not in the users available providers' do
       before do
-        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true)
+        ingest_response, @concept_response = publish_variable_draft(include_new_draft: true, collection_concept_id: @collection_ingest_response['concept-id'])
 
         login(provider: 'SEDAC', providers: %w(SEDAC))
 

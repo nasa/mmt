@@ -9,7 +9,7 @@ class ToolDraft < Draft
       []
     end
 
-    def create_from_tool(tool, user, native_id)
+    def create_from_tool(tool, user, native_id, concept_id=nil)
       if native_id
         # Edited record
         draft = self.find_or_initialize_by(native_id: native_id)
@@ -27,14 +27,6 @@ class ToolDraft < Draft
       draft.save
       draft
     end
-  end
-
-  def display_short_name
-    short_name || '<Blank Name>'
-  end
-
-  def display_entry_title
-    entry_title || '<Untitled Tool Record>'
   end
 
   private

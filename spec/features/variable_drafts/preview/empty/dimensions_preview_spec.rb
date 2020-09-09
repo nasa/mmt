@@ -15,7 +15,7 @@ describe 'Empty Variable Draft Dimensions Preview' do
     it 'displays the correct status icon' do
       within '#dimensions-progress' do
         within '.status' do
-          expect(page).to have_content('Dimensions is valid')
+          expect(page).to have_css('.eui-icon.icon-green.eui-check')
         end
       end
     end

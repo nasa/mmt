@@ -82,11 +82,7 @@ Rails.application.routes.draw do
   end
 
   resources :variables, only: [:show, :create, :edit, :destroy] do
-    resources :collection_associations, only: [:index, :new, :create] do
-      collection do
-        match '/' => 'collection_associations#destroy', via: :delete
-      end
-    end
+    resources :collection_associations, only: [:index]
   end
   get '/variables/:id/revisions' => 'variables#revisions', as: 'variable_revisions'
   get '/variables/:id/revert/:revision_id' => 'variables#revert', as: 'revert_variable'
@@ -114,6 +110,8 @@ Rails.application.routes.draw do
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
       get :edit, path: 'edit(/:form)'
+      get '/collection_search' => 'variable_drafts_collection_searches#new', as: 'collection_search'
+      post 'update_associated_collection'
     end
   end
 

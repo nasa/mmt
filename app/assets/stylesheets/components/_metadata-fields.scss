@@ -4,13 +4,20 @@
 
 // Note: Needs refactoring.
 
-.metadata {
-  padding-bottom: 1.275em !important;
-  padding-top: 1em !important;
-  border-bottom: 1px solid $dolphin-grey !important;
+// this is used for progress circle sections
+.metadata,
+.collection-association {
+  padding-bottom: 1.275em;
+  padding-top: 1em;
+  border-bottom: 1px solid $dolphin-grey;
   margin-bottom: 1em;
 
   #legend {
+    margin-left: .5em;
+    color: $ocean-blue;
+  }
+
+  .legend-link  {
     margin-left: .5em;
     color: $ocean-blue;
   }
