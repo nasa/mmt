@@ -25,14 +25,15 @@ describe 'Migration tests for UMM-V 1.7' do
     end
 
     it 'the migration only removed the fields removed from the schema' do
-      expect((VariableDraft.find(@draft.id).draft.keys - lost_keys).sort).to eq(retained_keys.sort)
+      expect((VariableDraft.find(@draft.id).draft.keys - lost_keys).sort).to eq(VariableDraft.find(@draft.id).draft.keys.sort)
+      expect(VariableDraft.find(@draft.id).draft.keys.sort).to eq(retained_keys.sort)
     end
 
     it 'the name field has been migrated correctly' do
-      expect(VariableDraft.find(@no_slash_draft.id).draft['Name']).to eq("?#{group_path_no_slash}/#{name_no_slash}")
-      expect(VariableDraft.find(@name_slash_draft.id).draft['Name']).to eq("?#{group_path_no_slash}#{name_slash}")
-      expect(VariableDraft.find(@group_path_slash_draft.id).draft['Name']).to eq("?#{group_path_slash}#{name_no_slash}")
-      expect(VariableDraft.find(@two_slash_draft.id).draft['Name']).to eq("?#{group_path_slash.chop}#{name_slash}")
+      expect(VariableDraft.find(@no_slash_draft.id).draft['Name']).to eq("#{group_path_no_slash}/#{name_no_slash}")
+      expect(VariableDraft.find(@name_slash_draft.id).draft['Name']).to eq("#{group_path_no_slash}#{name_slash}")
+      expect(VariableDraft.find(@group_path_slash_draft.id).draft['Name']).to eq("#{group_path_slash}#{name_no_slash}")
+      expect(VariableDraft.find(@two_slash_draft.id).draft['Name']).to eq("#{group_path_slash.chop}#{name_slash}")
     end
 
     it 'the index ranges are migrated correctly' do
@@ -68,7 +69,8 @@ describe 'Migration tests for UMM-V 1.7' do
     end
 
     it 'the draft does not have the fields removed from the schema' do
-      expect((VariableDraft.find(@draft.id).draft.keys - lost_keys).sort).to eq(retained_keys.sort)
+      expect((VariableDraft.find(@draft.id).draft.keys - lost_keys).sort).to eq(VariableDraft.find(@draft.id).draft.keys.sort)
+      expect(VariableDraft.find(@draft.id).draft.keys.sort).to eq(retained_keys.sort)
     end
 
     it 'the index ranges are migrated correctly' do

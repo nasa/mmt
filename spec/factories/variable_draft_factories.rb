@@ -13,11 +13,9 @@ FactoryBot.define do
     provider_id { 'MMT_2' }
     draft_type { 'VariableDraft' }
 
-    # Name is invalid because of a required pattern.
     # Fields with 'string' as a value are invalid because they require numbers.
     draft do
       {
-        'Name': '?',
         'Scale': 'string',
         'Offset': 'string',
         'ValidRanges': [

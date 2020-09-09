@@ -22,6 +22,7 @@ describe 'Invalid Variable Draft Variable Information Preview' do
 
     it 'displays the correct progress indicators for required fields' do
       within '#variable_information-progress .progress-indicators' do
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.name')
         expect(page).to have_css('.eui-icon.eui-required-o.icon-green.long-name')
         expect(page).to have_css('.eui-icon.eui-required-o.icon-green.definition')
       end
@@ -40,7 +41,6 @@ describe 'Invalid Variable Draft Variable Information Preview' do
 
     it 'displays the correct progress indicators for invalid fields' do
       within '#variable_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.name')
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.scale')
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.offset')
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.valid-ranges')
@@ -56,7 +56,7 @@ describe 'Invalid Variable Draft Variable Information Preview' do
           expect(page).to have_css('h5', text: 'Name')
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_name'))
 
-          expect(page).to have_css('p', text: '?')
+          expect(page).to have_css('p', text: 'No value for Name provided.')
         end
 
         within '#variable_draft_draft_long_name_preview' do
