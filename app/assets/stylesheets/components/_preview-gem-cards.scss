@@ -27,27 +27,9 @@
   display: flex;
   align-items: center;
 
-  .preview-gem-card-header-badge {
-    color: #fff;
-    display: block;
-    padding: 0.6em 1em;
-    background: rgb(32, 206, 111);
-    font-size: 0.7em;
-    font-weight: normal;
-    text-transform: uppercase;
-    border-left: 2px solid darken(rgb(32, 206, 111), 3%);
-    border-top-right-radius: 4px;
-    text-shadow: 1px 1px rgba(0,0,0,0.2);
-
-    &.steel-blue {
-      background: $steel-blue;
-      border-left: 2px solid darken($steel-blue, 3%);
-    }
-
-    &.ocean-blue {
-      background: $ocean-blue;
-      border-left: 2px solid darken($ocean-blue, 3%);
-    }
+  .eui-btn--blue {
+    background-color: lighten($midnight-blue, 4%);
+    margin: 3px;
   }
 }
 
@@ -132,7 +114,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  margin: 0.5em 0.4em; //this controls the size of the header block
+  margin: 0.7em 0.6em;
   flex: 1 1 auto;
   font-weight: normal;
   text-decoration: underline;
