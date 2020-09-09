@@ -1,0 +1,137 @@
+/* ===================================================== *\
+   preview-gem-cards
+\* ===================================================== */
+
+.preview-gem-cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.preview-gem-card {
+  border: 1px solid darken($light-blue, 8%);
+  border-radius: 4px;
+  margin-bottom: 10px;
+  flex: 0 1 auto;
+
+  &.full {
+  }
+}
+
+.preview-gem-card-header {
+  border-bottom: 1px solid darken($light-blue, 8%);
+  background-color: $light-blue;
+  color: $ocean-blue;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  display: flex;
+  align-items: center;
+
+  .preview-gem-card-header-badge {
+    color: #fff;
+    display: block;
+    padding: 0.6em 1em;
+    background: rgb(32, 206, 111);
+    font-size: 0.7em;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-left: 2px solid darken(rgb(32, 206, 111), 3%);
+    border-top-right-radius: 4px;
+    text-shadow: 1px 1px rgba(0,0,0,0.2);
+
+    &.steel-blue {
+      background: $steel-blue;
+      border-left: 2px solid darken($steel-blue, 3%);
+    }
+
+    &.ocean-blue {
+      background: $ocean-blue;
+      border-left: 2px solid darken($ocean-blue, 3%);
+    }
+  }
+}
+
+.preview-gem-card-footer {
+  padding: 0.5em 1em;
+  font-size: 0.8em;
+  border-top: 1px solid darken($light-blue, 8%);
+  background-color: lighten($light-blue, 4%);
+  color: lighten($ocean-blue, 4%);
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.preview-gem-card-body {
+  padding: 0;
+  border-top: 2px solid lighten($light-grey, 2%);
+  height: 120px;
+  display: none;
+  background: #fff;
+  overflow: auto;
+
+  &.active {
+    display: flex;
+  }
+
+  &.fluid-height {
+    height: auto;
+  }
+
+  h6 {
+    font-size: 0.8em;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  p, ul {
+    font-size: 0.8em;
+    line-height: 1.4em;
+    color: $dolphin-grey;
+  }
+
+  li {
+    margin: 0;
+  }
+
+  .preview-gem-card-table {
+    font-size: 0.8em;
+
+    th {
+      padding: 0.3em;
+      background: lighten($light-blue, 2%);
+    }
+
+    tr:nth-child(2n+2) {
+      background: lighten($light-blue, 4%);
+    }
+  }
+}
+
+.preview-gem-card-body-details {
+  padding: 0.8em;
+  border-right: 1px solid $light-grey;
+  flex: 0 0 216px;
+}
+
+.preview-gem-card-body-details-full {
+  padding: 0.8em;
+  flex: 0 1 auto;
+}
+
+.preview-gem-card-body-aside {
+  padding: 0.8em;
+  flex: 0 1 auto;
+}
+
+.preview .preview-gem-card-header-title {
+  border-bottom: 1px solid $light-grey;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0px; //this controls the size of the header block
+  flex: 1 1 auto;
+}
