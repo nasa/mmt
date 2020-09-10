@@ -92,19 +92,23 @@ $(window).on 'load', ->
 $(document).ready ->
 
   # Show More / Show Less for Science Keywords in the Preview Gem Overview Tab Table
-  $('.arrow-keywords-more-toggle').on 'click', (e) ->
+  $('.show-more-toggle').on 'click', (e) ->
     e.preventDefault()
-    $arrowPreviewParent = $(this).closest('.arrow-keywords-preview')
+    $parentClass = $(e.target).data('parentClass')
+    $listItem = $(e.target).data('listItem')
+    $parent = $(this).closest($parentClass)
 
-    $arrowPreviewParent.find('.arrow-keywords-more-item, .arrow-keywords-less-toggle').removeClass('is-hidden')
+    $parent.find("#{$listItem}, .show-less-toggle").removeClass('is-hidden')
     $(this).addClass('is-hidden')
 
-  $('.arrow-keywords-less-toggle').on 'click', (e) ->
+  $('.show-less-toggle').on 'click', (e) ->
     e.preventDefault()
-    $arrowPreviewParent = $(this).closest('.arrow-keywords-preview')
+    $parentClass = $(e.target).data('parentClass')
+    $listItem = $(e.target).data('listItem')
+    $parent = $(this).closest($parentClass)
 
-    $arrowPreviewParent.find('.arrow-keywords-more-item').addClass('is-hidden')
-    $arrowPreviewParent.find('.arrow-keywords-more-toggle').removeClass('is-hidden')
+    $parent.find($listItem).addClass('is-hidden')
+    $parent.find('.show-more-toggle').removeClass('is-hidden')
     $(this).addClass('is-hidden')
 
   # handle collection preview gem tab switching
