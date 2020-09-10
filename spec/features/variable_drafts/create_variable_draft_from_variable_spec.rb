@@ -80,23 +80,4 @@ describe 'Create new draft from variable', reset_provider: true do
       end
     end
   end
-
-  context 'when working with the draft of a published variable' do
-    before :all do
-      @native_id = 'TestVariableNativeId'
-      ingest_response, _concept_response = publish_variable_draft(name: 'Test Edit Variable Name 2', native_id: @native_id, collection_concept_id: @collection_ingest_response['concept-id'])
-    end
-
-    context 'when trying to publish/update a variable draft with a different name' do
-      before do
-        @variable_draft = create(:full_variable_draft, native_id: @native_id, draft_short_name: 'An Incompatible Name', collection_concept_id: @collection_ingest_response['concept-id'])
-        visit variable_draft_path(@variable_draft)
-        click_on 'Publish Variable Draft'
-      end
-
-      it 'does not succeed' do
-        expect(page).to have_content('Variable Draft was not published successfully. Variable name [An Incompatible Name] does not match the existing variable name [Test Edit Variable Name 2]')
-      end
-    end
-  end
 end
