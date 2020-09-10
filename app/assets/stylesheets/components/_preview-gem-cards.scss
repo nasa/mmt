@@ -13,9 +13,6 @@
   border-radius: 4px;
   margin-bottom: 10px;
   flex: 0 1 auto;
-
-  &.full {
-  }
 }
 
 .preview-gem-card-header {
@@ -29,7 +26,8 @@
 
   .eui-btn--blue {
     background-color: lighten($midnight-blue, 4%);
-    margin: 3px;
+    // Using this margin to push the flexbox from the name further left
+    margin: 0px 3px 0px 90px;
   }
 }
 
@@ -115,7 +113,8 @@
   overflow: hidden;
   white-space: nowrap;
   margin: 0.7em 0.6em;
-  flex: 1 1 auto;
+  flex: 1 1 60%; // Higher values or auto in the basis cause long titles to 
+                 // squish the links in the cards
   font-weight: normal;
   text-decoration: underline;
 }
