@@ -14,7 +14,12 @@ class UmmSetMultiItem < UmmMultiItem
   end
 
   def render_markup
-    content_tag(:div, class: "multiple simple-multiple #{form_class}", id: idify_property_name, 'data-level': element_properties(schema_fragment)[:data][:level]) do
+    # The data level needs to be set here in order to generate required icons
+    # when the array of items is required. This is being used in index ranges of
+    # UMM-V. The data-level needs to be called out here (rather than passing
+    # element_properties as in a lot of other places) to match the rest of the
+    # implicit options hash and to retain the existing options.
+    content_tag(:div, class: "multiple simple-multiple #{form_class}", id: idify_property_name, data: { level: element_properties(schema_fragment)[:data][:level] }) do
       indexes = options.fetch('indexes', [])
 
       values = Array.wrap(element_value)
@@ -30,9 +35,9 @@ class UmmSetMultiItem < UmmMultiItem
     end
   end
 
-  # The parent implementation of element_data does not account of terminal '/items'
-  # in full_key that only occur in set_multi_items like ValidRanges and IndexRanges
-  # in UMM-V 1.7
+  # The parent implementation of element_data does not account for the terminal
+  # '/items' in full_key that only occur in set_multi_items like ValidRanges and
+  # IndexRanges in UMM-V 1.7
   def element_data
     options['data']
     full_key_with_terminal_field = remove_terminal_items_from_key
