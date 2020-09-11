@@ -1,6 +1,6 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: c5e5a567a08f23650f8bf1cf1b5bed707ffce74b
+  revision: 15ff7f96a75221658d0146ce5dede2f3422554d8
   branch: MMT-2336
   specs:
     cmr_metadata_preview (0.2.3)
