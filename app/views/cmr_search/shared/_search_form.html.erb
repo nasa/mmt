@@ -59,4 +59,7 @@
 
   <% end %>
   <%= submit_tag 'Submit', name: nil, id: 'collection-search-query', class: 'eui-btn--blue' %>
+  <% if local_assigns.fetch(:allow_cancel, false) %>
+    <%= link_to 'Cancel', cancel_path, class: 'eui-btn' %>
+  <% end %>
 <% end %>

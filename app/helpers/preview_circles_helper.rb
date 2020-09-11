@@ -292,10 +292,57 @@ module PreviewCirclesHelper
     error_fields = errors.map { |error| error[:field] }
     error_fields += errors.map { |error| error[:parent_field]}
     if field_exist
-      if error_fields.include?(field)
-        field_valid = false
-      end
+      field_valid = false if error_fields.include?(field)
     end
     field_exist && field_valid
+  end
+
+  # These methods are for setting single preview circles that are not tied to
+  # metadata schema forms or fields
+
+  def single_form_circle(form_name, valid)
+    # Default classes
+    classes = %w[eui-icon icon-green]
+
+    # Add the class that will define the final appearance of the circle and determine the invisible text
+    if valid
+      valid_text = 'valid'
+      classes << 'eui-check'
+    else
+      valid_text = 'incomplete'
+      classes << 'eui-fa-circle-o'
+    end
+
+    # Generate the actual content tag to return to the view
+    content_tag(:i, class: classes.join(' ')) do
+      content_tag(:span, class: 'is-invisible') do
+        "#{form_name.titleize} is #{valid_text}"
+      end
+    end
+  end
+
+  def single_preview_circle(link, anchor, status)
+    # currently this is only used for a required field, but it can be used for
+    # not required fields, that would just need to be passed in and handled
+
+    # Default classes
+    classes = ['eui-icon', 'icon-green', anchor]
+
+    case status
+    when 'complete'
+      classes << 'eui-required'
+    when 'empty'
+      classes << 'eui-required-o'
+    end
+
+    text = "#{anchor.titleize} - Required"
+
+    icon = content_tag(:i, class: classes.join(' ')) do
+             content_tag(:span, class: 'is-invisible') do
+               text
+             end
+           end
+
+    link_to icon, link, title: text
   end
 end

@@ -6,6 +6,7 @@ class CollectionAssociationsController < CmrSearchController
   CMR_MAX_PAGE_SIZE = 2000
 
   before_action :set_resource
+  before_action :ensure_not_variable, only: [:new, :create, :destroy]
   before_action :add_high_level_breadcrumbs
   before_action :ensure_correct_provider, only: [:index, :new]
 
@@ -33,21 +34,16 @@ class CollectionAssociationsController < CmrSearchController
       flash[:error] = "An error occurred while trying to retrieve associations for this #{lower_resource_name}. Please try again before contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}"
     end
 
-    # Variables can only be associated with one collection. We should hide
-    # the button if we know that the variable record already has an association.
-    @can_associate = not_variable? || association_results.blank?
+    # Variables are associated on ingest and can only be associated with one
+    # collection. We should hide the button if it is a variable record
+    @can_associate = not_variable?
     @associations = Kaminari.paginate_array(association_results, total_count: association_count).page(page).per(RESULTS_PER_PAGE)
   end
 
   def new
-    # Variables can only be associated with one collection. If a variable is
-    # already associated with a collection, do not let the user try to add more.
-    # Services, do not have the same restriction.
+    # Variables are associated on ingest and can only be associated with one
+    # collection. They should be blocked from this action.
     @previously_associated_collections = get_all_collection_associations
-    if variable? && @previously_associated_collections.present?
-      flash[:error] = "This #{lower_resource_name} already has a Collection Association. To change the association, you must first remove the existing collection association."
-      redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id)
-    end
 
     add_breadcrumb 'New', send("new_#{lower_resource_name}_collection_association_path", resource_id)
 
@@ -55,13 +51,9 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   def create
-    # The form is slightly different for variables. Despite only accepting one
-    # association, the collection id for variables still needs to be in an array
-    association_response = if variable?
-                             cmr_client.send("add_collection_assocations_to_#{lower_resource_name}", resource_id, Array.wrap(params[:selected_collection]), token)
-                           else
-                             cmr_client.send("add_collection_assocations_to_#{lower_resource_name}", resource_id, params[:selected_collections], token)
-                           end
+    # Variables are associated on ingest and can only be associated with one
+    # collection. They should be blocked from this action.
+    association_response = cmr_client.send("add_collection_assocations_to_#{lower_resource_name}", resource_id, params[:selected_collections], token)
 
     # Log any issues found in the response
     log_issues(association_response)
@@ -78,6 +70,8 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   def destroy
+    # Variables must be associated with one collection. They should be blocked
+    # from this action.
     association_response = cmr_client.send("delete_collection_assocations_to_#{lower_resource_name}", resource_id, params[:selected_collections], token)
 
     # Log any issues found in the response
@@ -202,4 +196,8 @@ class CollectionAssociationsController < CmrSearchController
     resource_name == 'Variable'
   end
   helper_method :variable?
+
+  def ensure_not_variable
+    redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id) if variable?
+  end
 end

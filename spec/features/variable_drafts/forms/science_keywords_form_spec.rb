@@ -102,7 +102,7 @@ describe 'Science Keywords Form', js: true do
     context 'When selecting the previous form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Variable Characteristics', from: 'Save & Jump To:'
+          select 'Sampling Identifiers', from: 'Save & Jump To:'
         end
       end
 
@@ -113,19 +113,19 @@ describe 'Science Keywords Form', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Variable Characteristics')
+          expect(page).to have_content('Sampling Identifiers')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Variable Characteristics')
+          expect(page).to have_content('Sampling Identifiers')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
         end
       end
     end

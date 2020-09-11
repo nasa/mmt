@@ -1,9 +1,13 @@
 describe 'Variable revision list', js: true do
+  before :all do
+    @collection_ingest_response, @collection_concept_response = publish_collection_draft
+  end
+
   context 'when viewing a published variable' do
     before do
       login
 
-      ingest_response, @concept_response = publish_variable_draft(revision_count: 2)
+      ingest_response, @concept_response = publish_variable_draft(revision_count: 2, collection_concept_id: @collection_ingest_response['concept-id'])
 
       visit variable_path(ingest_response['concept-id'])
     end

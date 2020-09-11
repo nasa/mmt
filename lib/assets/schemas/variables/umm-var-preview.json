@@ -1,30 +1,21 @@
 {
   "sidebars": [
     {
-      "id": "variable_characteristics",
-      "title": "Variable Characteristics",
+      "id": "variable_information",
+      "title": "Variable Index Ranges",
       "fields": [
         {
-          "key": "Characteristics",
+          "key": "IndexRanges",
           "hideFieldTitle": true,
           "type": "UmmPreviewNestedField",
           "fields": [
             {
-              "type": "UmmPreviewNestedField",
-              "key": "/IndexRanges",
-              "fields": [
-                {
-                  "type": "UmmPreviewMultiItem",
-                  "key": "/LatRange/index_id"
-                },
-                {
-                  "type": "UmmPreviewMultiItem",
-                  "key": "/LonRange/index_id"
-                }
-              ]
+              "type": "UmmPreviewMultiItem",
+              "key": "/LatRange/index_id"
             },
             {
-              "key": "/GroupPath"
+              "type": "UmmPreviewMultiItem",
+              "key": "/LonRange/index_id"
             }
           ]
         }
@@ -39,11 +30,21 @@
         {
           "key": "Name"
         }, {
-          "key": "Alias"
-        }, {
           "key": "LongName"
         }, {
           "key": "Definition"
+        }, {
+          "key": "StandardName"
+        }, {
+          "key": "AdditionalIdentifiers/index_id",
+          "type": "UmmPreviewMultiItems",
+          "fields": [
+            {
+              "key": "/Identifier"
+            }, {
+              "key": "/Description"
+            }
+          ]
         }, {
           "key": "VariableType"
         }, {
@@ -57,9 +58,6 @@
         }, {
           "key": "Offset"
         }, {
-          "key": "AcquisitionSourceName"
-        },
-        {
           "key": "ValidRanges/index_id",
           "type": "UmmPreviewMultiItems",
           "fields": [
@@ -114,25 +112,6 @@
               "key": "/Size"
             }, {
               "key": "/Type"
-            }
-          ]
-        }
-      ]
-    }, {
-      "id": "size_estimation",
-      "title": "Size Estimation",
-      "fields": [
-        {
-          "key": "SizeEstimation/AverageSizeOfGranulesSampled"
-        }, {
-          "key": "SizeEstimation/AverageCompressionInformation/index_id",
-          "type": "UmmPreviewMultiItems",
-          "hideFieldTitle": true,
-          "fields": [
-            {
-              "key": "/Rate"
-            }, {
-              "key": "/Format"
             }
           ]
         }
@@ -219,6 +198,5 @@
         }
       ]
     }
-
   ]
 }

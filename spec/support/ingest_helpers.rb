@@ -74,7 +74,7 @@ module Helpers
     end
 
     # Publish a variable draft
-    def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false)
+    def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false, collection_concept_id:)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do
         user = User.where(urs_uid: 'testuser').first
 
@@ -85,7 +85,8 @@ module Helpers
         draft_attributes = {
           user: user,
           provider_id: provider_id,
-          native_id: native_id || Faker::Crypto.md5
+          native_id: native_id || Faker::Crypto.md5,
+          collection_concept_id: collection_concept_id
         }
 
         # Conditional additions to the draft attribute
@@ -108,7 +109,7 @@ module Helpers
           # number the revision long names if the option is specified
           draft.draft['LongName'] = "#{draft_attributes[:draft_entry_title]} -- revision 0#{i + 1}" if number_revision_long_names
 
-          ingest_response = cmr_client.ingest_variable(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+          ingest_response = cmr_client.ingest_variable(metadata: draft.draft.to_json, provider_id: draft.provider_id, native_id: draft.native_id, collection_concept_id: collection_concept_id, token: 'token')
         end
 
         # Synchronous way of waiting for CMR to complete the ingest work
@@ -126,7 +127,7 @@ module Helpers
         # If the test needs an unpublished draft as well, we'll create it and return it here
         if include_new_draft
           # Create a new draft (same as editing a collection)
-          VariableDraft.create_from_variable(concept_response.body, user, draft_attributes[:native_id])
+          VariableDraft.create_from_variable(concept_response.body, user, draft_attributes[:native_id], collection_concept_id)
         end
 
         [ingest_response.body, concept_response]
@@ -149,7 +150,7 @@ module Helpers
 
         headers_override = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.2; charset=utf-8' }
 
-        ingest_response = cmr_client.ingest_variable(draft.draft.to_json, draft.provider_id, draft.native_id, 'token', headers_override)
+        ingest_response = cmr_client.ingest_variable(metadata: draft.draft.to_json, provider_id: draft.provider_id, native_id: draft.native_id, token: 'token', headers_override: headers_override)
 
         wait_for_cmr
 
@@ -205,7 +206,7 @@ module Helpers
           # number the revision long names if the option is specified
           draft.draft['LongName'] = "#{draft_attributes[:draft_entry_title]} -- revision 0#{i + 1}" if number_revision_long_names
 
-          ingest_response = cmr_client.ingest_service(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+          ingest_response = cmr_client.ingest_service(metadata: draft.draft.to_json, provider_id: draft.provider_id, native_id: draft.native_id, token: 'token')
         end
 
         # Synchronous way of waiting for CMR to complete the ingest work
@@ -246,7 +247,7 @@ module Helpers
 
         headers_override = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.2; charset=utf-8' }
 
-        ingest_response = cmr_client.ingest_service(draft.draft.to_json, draft.provider_id, draft.native_id, 'token', headers_override)
+        ingest_response = cmr_client.ingest_service(metadata: draft.draft.to_json, provider_id: draft.provider_id, native_id: draft.native_id, token: 'token', headers_override: headers_override)
 
         wait_for_cmr
 
@@ -302,7 +303,7 @@ module Helpers
           # number the revision long names if the option is specified
           draft.draft['LongName'] = "#{draft_attributes[:draft_entry_title]} -- revision 0#{i + 1}" if number_revision_long_names
 
-          ingest_response = cmr_client.ingest_tool(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+          ingest_response = cmr_client.ingest_tool(metadata: draft.draft.to_json, provider_id: draft.provider_id, native_id: draft.native_id, token: 'token')
         end
 
         # Synchronous way of waiting for CMR to complete the ingest work

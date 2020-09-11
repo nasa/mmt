@@ -448,7 +448,7 @@ class ApplicationController < ActionController::Base
 
   # relatively safe extraction of a hash from the ActionController::Base::Parameters structure.
   def safe_hash( key)
-     params.require(key).permit!.to_h
+    params.require(key).permit!.to_h
   end
   helper_method :safe_hash
 end
