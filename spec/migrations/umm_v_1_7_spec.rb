@@ -27,7 +27,7 @@ describe 'Migration tests for UMM-V 1.7' do
     end
 
     after :all do
-      VariableDraft.delete([@draft.id, @empty_draft.id, @no_slash_draft.id, @name_slash_draft.id, @group_path_slash_draft.id, @two_slash_draft.id])
+      VariableDraft.delete([@draft.id, @empty_draft.id, @no_slash_draft.id, @name_slash_draft.id, @group_path_slash_draft.id, @two_slash_draft.id, @no_name_draft, @invalid_draft])
     end
 
     it 'the migration only removed the fields removed from the schema' do
