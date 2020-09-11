@@ -16,7 +16,13 @@ describe 'Migration tests for UMM-V 1.7' do
       @name_slash_draft = create(:full_variable_draft_1_6, draft_name: name_slash, draft_group_path: group_path_no_slash)
       @group_path_slash_draft = create(:full_variable_draft_1_6, draft_name: name_no_slash, draft_group_path: group_path_slash)
       @two_slash_draft = create(:full_variable_draft_1_6, draft_name: name_slash, draft_group_path: group_path_slash)
+      @no_name_draft = create(:full_variable_draft_1_6, draft_group_path: group_path_slash)
+      @no_name_draft.draft['Name'] = nil
+      @no_name_draft.save
       @empty_draft = create(:empty_variable_draft)
+      @invalid_draft = create(:full_variable_draft_1_6)
+      @invalid_draft.draft['Characteristics'] = 'some string'
+      @invalid_draft.save
       UmmV17DataMigration.new.up
     end
 
@@ -34,6 +40,7 @@ describe 'Migration tests for UMM-V 1.7' do
       expect(VariableDraft.find(@name_slash_draft.id).draft['Name']).to eq("#{group_path_no_slash}#{name_slash}")
       expect(VariableDraft.find(@group_path_slash_draft.id).draft['Name']).to eq("#{group_path_slash}#{name_no_slash}")
       expect(VariableDraft.find(@two_slash_draft.id).draft['Name']).to eq("#{group_path_slash.chop}#{name_slash}")
+      expect(VariableDraft.find(@no_name_draft.id).draft['Name']).to eq("#{group_path_slash}")
     end
 
     it 'the index ranges are migrated correctly' do
@@ -52,6 +59,11 @@ describe 'Migration tests for UMM-V 1.7' do
 
     it 'does not change an empty draft' do
       expect(VariableDraft.find(@empty_draft.id).draft).to eq({})
+    end
+
+    it 'gracefully fails invalidly formated Characteristics' do
+      expect(VariableDraft.find(@invalid_draft.id).draft.keys.include?('Characteristics')).to eq(false)
+      expect(VariableDraft.find(@invalid_draft.id).draft.keys.include?('IndexRanges')).to eq(false)
     end
   end
 
