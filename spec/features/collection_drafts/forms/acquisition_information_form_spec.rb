@@ -1,7 +1,3 @@
-# MMT-298
-
-require 'rails_helper'
-
 describe 'Acquisition information form', js: true do
   before do
     login
