@@ -13,6 +13,7 @@ FactoryBot.define do
     provider_id { 'MMT_2' }
     draft_type { 'VariableDraft' }
 
+    # Fields with 'string' as a value are invalid because they require numbers.
     draft do
       {
         'Scale': 'string',
@@ -23,6 +24,17 @@ FactoryBot.define do
             'Max': 'string'
           }
         ],
+        'IndexRanges':
+        {
+          'LatRange': [
+            'string',
+            90.0
+          ],
+          'LonRange': [
+            -180.0,
+            180.0
+          ]
+        },
         'FillValues': [
           {
             'Value': 'string'
@@ -38,33 +50,7 @@ FactoryBot.define do
             'Size': 'string',
             'Index': 'string'
           }
-        ],
-        'Characteristics': {
-          'IndexRanges':
-            {
-              'LatRange': [
-                'abc',
-                90.0
-              ],
-              'LonRange': [
-                -180.0,
-                180.0
-              ]
-            }
-        },
-        "SizeEstimation": {
-          "AverageSizeOfGranulesSampled": 'string',
-          "AverageCompressionInformation": [
-            {
-              "Rate": 'string',
-              "Format": 'ASCII'
-            },
-            {
-              "Rate": 15,
-              "Format": 'NetCDF-4'
-            }
-          ]
-        }
+        ]
       }
     end
 
@@ -88,23 +74,24 @@ FactoryBot.define do
     draft do
       {
         'Name': draft_short_name || "#{Faker::Space.galaxy}_#{Faker::Number.number(digits: 6)}",
-        'Alias': "An Alias",
+        'StandardName': 'Standard_Name_1',
         'LongName': draft_entry_title || "#{Faker::Space.nebula} #{Faker::Space.star_cluster} #{Faker::Number.number(digits: 6)}",
         'Definition': 'Volume mixing ratio of sum of peroxynitrates in air measured in units of Npptv (parts per trillion by volume)',
-        'Units': 'Npptv',
-        'DataType': 'float',
-        'Dimensions': [
+        'AdditionalIdentifiers': [
           {
-            'Name': 'LatDim',
-            'Size': 36,
-            'Type': 'LATITUDE_DIMENSION'
+            'Identifier': 'Additional_Identifier_Identifier_1'
           },
           {
-            'Name': 'Lizard Herp Doc Pop',
-            'Size': 2020,
-            'Type': 'LONGITUDE_DIMENSION'
+            'Identifier': 'Additional_Identifier_Identifier_2',
+            'Description': 'Additional_Identifier_Description_2'
           }
         ],
+        'VariableType': 'SCIENCE_VARIABLE',
+        'VariableSubType': 'SCIENCE_SCALAR',
+        'Units': 'Npptv',
+        'DataType': 'float',
+        'Scale': 1.0,
+        'Offset': 0.0,
         'ValidRanges': [
           {
             'Min': -417,
@@ -119,8 +106,17 @@ FactoryBot.define do
             'CodeSystemIdentifierValue': ['Code System Identifier Value 1', 'Code System Identifier Value 2']
           }
         ],
-        'Scale': 1.0,
-        'Offset': 0.0,
+        'IndexRanges':
+        {
+          'LatRange': [
+            -90.0,
+            90.0
+          ],
+          'LonRange': [
+            -180.0,
+            180.0
+          ]
+        },
         'FillValues': [
           {
             'Type': 'SCIENCE_FILLVALUE',
@@ -133,87 +129,54 @@ FactoryBot.define do
             'Description': 'Pellentesque Nullam Ullamcorper Magna'
           }
         ],
-        'VariableType': 'SCIENCE_VARIABLE',
-        "VariableSubType": "SCIENCE_SCALAR",
-        'Sets': [
+        'Dimensions': [
           {
-            'Name': 'Science',
-            'Type': 'Land',
-            'Size': 50,
-            'Index': 1
+            'Name': 'LatDim',
+            'Size': 36,
+            'Type': 'LATITUDE_DIMENSION'
           },
           {
-            'Name': 'Fiction',
-            'Type': 'Water',
-            'Size': 100,
-            'Index': 2
+            'Name': 'Lizard Herp Doc Pop',
+            'Size': 2020,
+            'Type': 'LONGITUDE_DIMENSION'
           }
         ],
-        "Characteristics": {
-          "GroupPath": "/Data_Fields/",
-          "IndexRanges":
-            {
-              "LatRange": [
-                -90.0,
-                90.0
-              ],
-              "LonRange": [
-                -180.0,
-                180.0
-              ]
-            }
-        },
-        "SizeEstimation":
+        'MeasurementIdentifiers': [
           {
-            "AverageSizeOfGranulesSampled": 3009960,
-            "AverageCompressionInformation": [
+            'MeasurementContextMedium': 'ocean',
+            'MeasurementContextMediumURI': 'fake.website.gov',
+            'MeasurementObject': 'sea_ice-meltwater',
+            'MeasurementObjectURI': 'fake.website.gov',
+            'MeasurementQuantities': [
               {
-                "Rate": 4.0,
-                "Format": "ASCII"
+                'MeasurementQuantityURI': 'fake.website.gov',
+                'Value': 'volume'
               },
               {
-                "Rate": 0.132,
-                "Format": "NetCDF-4"
+                'Value': 'volume'
               }
             ]
           },
-          "MeasurementIdentifiers":
-          [
-              {
-                "MeasurementContextMedium": "ocean",
-                "MeasurementContextMediumURI": "fake.website.gov",
-                "MeasurementObject": "sea_ice-meltwater",
-                "MeasurementObjectURI": "fake.website.gov",
-                "MeasurementQuantities": [
-                  {
-                    "MeasurementQuantityURI": "fake.website.gov",
-                    "Value": "volume"
-                  },
-                  {
-                    "Value": "volume"
-                  }
-                ]
-              },
-              {
-                "MeasurementContextMedium": "ocean",
-                "MeasurementObject": "sea_ice-meltwater",
-                "MeasurementQuantities": [
-                  {
-                    "Value": "volume"
-                  }
-                ]
-              }
-          ],
-        "SamplingIdentifiers": [
           {
-            "SamplingMethod": "Satellite overpass",
-            "MeasurementConditions": "Measured at top of atmosphere (specifically at the top of the mesosphere, i.e. the mesopause).",
-            "ReportingConditions": "At 50 km from the surface, pressure is 1MB and temperature is -130 degrees F."
+            'MeasurementContextMedium': 'ocean',
+            'MeasurementObject': 'sea_ice-meltwater',
+            'MeasurementQuantities': [
+              {
+                'Value': 'volume'
+              }
+            ]
+          }
+        ],
+        'SamplingIdentifiers': [
+          {
+            'SamplingMethod': 'Satellite overpass',
+            'MeasurementConditions': 'Measured at top of atmosphere (specifically at the top of the mesosphere, i.e. the mesopause).',
+            'ReportingConditions': 'At 50 km from the surface, pressure is 1MB and temperature is -130 degrees F.'
           },
           {
-            "SamplingMethod": "Satellite overpass 1",
-            "MeasurementConditions": "Measured at bottom of atmosphere",
-            "ReportingConditions": "At 1 km from the surface, pressure is 1MB and temperature is 32 degrees F."
+            'SamplingMethod': 'Satellite overpass 1',
+            'MeasurementConditions': 'Measured at bottom of atmosphere',
+            'ReportingConditions': 'At 1 km from the surface, pressure is 1MB and temperature is 32 degrees F.'
           }
         ],
         'ScienceKeywords': draft_science_keywords || [
@@ -228,9 +191,21 @@ FactoryBot.define do
             'Term': 'ATMOSPHERIC TEMPERATURE'
           }
         ],
-        "AcquisitionSourceName": 'ATM'
+        'Sets': [
+          {
+            'Name': 'Science',
+            'Type': 'Land',
+            'Size': 50,
+            'Index': 1
+          },
+          {
+            'Name': 'Fiction',
+            'Type': 'Water',
+            'Size': 100,
+            'Index': 2
+          }
+        ]
       }
     end
-
   end
 end

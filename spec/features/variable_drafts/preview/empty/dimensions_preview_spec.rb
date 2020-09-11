@@ -15,20 +15,20 @@ describe 'Empty Variable Draft Dimensions Preview' do
     it 'displays the correct status icon' do
       within '#dimensions-progress' do
         within '.status' do
-          expect(page).to have_css('.eui-icon.icon-green.eui-fa-circle-o')
+          expect(page).to have_css('.eui-icon.icon-green.eui-check')
         end
       end
     end
 
-    it 'displays the correct progress indicators for required fields' do
+    it 'displays the correct progress indicators for non-required fields' do
       within '#dimensions-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.dimensions')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.dimensions')
       end
     end
 
-    it 'displays no progress indicators for non required fields' do
+    it 'displays no progress indicators for required fields' do
       within '#dimensions-progress .progress-indicators' do
-        expect(page).to have_no_css('.eui-icon.eui-fa-circle.icon-grey')
+        expect(page).to have_no_css('.eui-icon.eui-required-o.icon-green')
       end
     end
 

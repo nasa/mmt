@@ -1,4 +1,4 @@
-describe 'Valid Variable Fill Value Preview', reset_provider: true do
+describe 'Valid Variable Index Ranges Preview', reset_provider: true do
   before do
     login
     collection_ingest_response, _collection_concept_response = publish_collection_draft
@@ -6,7 +6,7 @@ describe 'Valid Variable Fill Value Preview', reset_provider: true do
     visit variable_path(ingest_response['concept-id'])
   end
 
-  context 'When examining the Fill Value section' do
-    include_examples 'Variable Fill Value Full Preview'
+  context 'When examining the Index Ranges section' do
+    include_examples 'Variable Index Ranges Full Preview'
   end
 end

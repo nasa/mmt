@@ -31,15 +31,15 @@ describe 'Measurement Identifiers Form', js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Size Estimation')
+          expect(page).to have_content('Dimensions')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
         end
       end
     end
@@ -99,7 +99,7 @@ describe 'Measurement Identifiers Form', js: true do
     context 'When selecting the previous form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Size Estimation', from: 'Save & Jump To:'
+          select 'Dimensions', from: 'Save & Jump To:'
         end
       end
 
@@ -110,19 +110,19 @@ describe 'Measurement Identifiers Form', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Size Estimation')
+          expect(page).to have_content('Dimensions')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Size Estimation')
+          expect(page).to have_content('Dimensions')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
         end
       end
     end
@@ -195,15 +195,15 @@ describe 'Measurement Identifiers Form', js: true do
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Size Estimation')
+          expect(page).to have_content('Dimensions')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('size_estimation')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
         end
       end
     end

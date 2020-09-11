@@ -27,8 +27,8 @@ describe 'Set Form', js: true do
       expect(page).to have_selector(:link_or_button, 'Add another Set')
     end
 
-    it 'has 4 required fields' do
-      expect(page).to have_selector('label.eui-required-o', count: 4)
+    it 'has no required fields' do
+      expect(page).to have_selector('label.eui-required-o', count: 0)
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -36,8 +36,6 @@ describe 'Set Form', js: true do
         within '.nav-top' do
           click_button 'Previous'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -69,8 +67,6 @@ describe 'Set Form', js: true do
         within '.nav-top' do
           click_button 'Next'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -102,8 +98,6 @@ describe 'Set Form', js: true do
         within '.nav-top' do
           click_button 'Save'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and reloads the form' do
@@ -135,8 +129,6 @@ describe 'Set Form', js: true do
         within '.nav-top' do
           select 'Science Keywords', from: 'Save & Jump To:'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
