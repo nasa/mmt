@@ -36,8 +36,11 @@ class UmmV17DataMigration < ActiveRecord::Migration[5.2]
     characteristics = draft['Characteristics']
     return draft unless characteristics.is_a?(Hash) && characteristics['GroupPath']
 
+    # There may be cases where an existing group_path contains the name already
+    # If there is no name or if the name is already within the group_path,
+    # save that as new name.
     group_path = characteristics['GroupPath']
-    if group_path && !draft['Name']
+    if group_path && !draft['Name'] || draft['Name'] && group_path.end_with?(draft['Name'])
       draft['Name'] = group_path
       return draft
     end
