@@ -31,23 +31,37 @@ class UmmV17DataMigration < ActiveRecord::Migration[5.2]
   ############################# To 1.7 ########################################
   # Merge the name and GroupPath fields with only one slash between them
   def merge_group_path_and_name_for_1_7(draft)
-    return draft unless draft.dig('Characteristics', 'GroupPath')
-    return draft['Name'] = "#{draft.dig('Characteristics', 'GroupPath')}" if draft.dig('Characteristics', 'GroupPath') && !draft['Name']
+    return draft unless draft['Characteristics']
 
-    draft['Name'] = if draft['Name'].start_with?('/') && draft.dig('Characteristics', 'GroupPath').end_with?('/')
-                      "#{draft.dig('Characteristics', 'GroupPath').chop}#{draft['Name']}"
-                    elsif draft['Name'].start_with?('/') || draft.dig('Characteristics', 'GroupPath').end_with?('/')
-                      "#{draft.dig('Characteristics', 'GroupPath')}#{draft['Name']}"
+    characteristics = draft['Characteristics']
+    return draft unless characteristics.is_a?(Hash) && characteristics['GroupPath']
+
+    # There may be cases where an existing group_path contains the name already
+    # If there is no name or if the name is already within the group_path,
+    # save that as new name.
+    group_path = characteristics['GroupPath']
+    if group_path && !draft['Name'] || draft['Name'] && group_path.end_with?(draft['Name'])
+      draft['Name'] = group_path
+      return draft
+    end
+
+    draft['Name'] = if draft['Name'].start_with?('/') && group_path.end_with?('/')
+                      "#{group_path.chop}#{draft['Name']}"
+                    elsif draft['Name'].start_with?('/') || group_path.end_with?('/')
+                      "#{group_path}#{draft['Name']}"
                     else
-                      "#{draft.dig('Characteristics', 'GroupPath')}/#{draft['Name']}"
+                      "#{group_path}/#{draft['Name']}"
                     end
     draft
   end
 
   def pull_indexes_to_top_for_1_7(draft)
-    return draft unless draft.dig('Characteristics', 'IndexRanges')
+    return draft unless draft['Characteristics']
 
-    draft['IndexRanges'] = draft.delete('Characteristics')['IndexRanges']
+    characteristics = draft.delete('Characteristics')
+    return draft unless characteristics.is_a?(Hash) && characteristics['IndexRanges']
+
+    draft['IndexRanges'] = characteristics['IndexRanges']
     draft
   end
 
