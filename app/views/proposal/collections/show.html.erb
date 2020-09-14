@@ -42,7 +42,7 @@
       </p>
     </div>
 
-    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, is_mmt: true, editable: false, edsc_url: nil, concept_id: nil, additional_information: nil } %>
+    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, is_mmt: true, editable: false, edsc_url: nil, concept_id: nil, additional_information: { root_url: "#{proposal_published_notification_view_collections_link}/", services: @services, is_dmmt: true } } %>
     <%= render partial: 'shared/download_xml', locals: {
       concept_id: @concept_id,
       revision_id: @revision_id,

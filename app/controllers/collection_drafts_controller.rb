@@ -2,10 +2,12 @@
 class CollectionDraftsController < BaseDraftsController
   include DraftsHelper
   include ControlledKeywords
+  include CMRCollectionsHelper
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
   before_action :load_umm_c_schema, only: [:new, :edit, :show, :publish]
   before_action :collection_validation_setup, only: [:show, :publish]
   before_action :verify_valid_metadata, only: [:publish]
+  before_action :set_associated_services, only: [:show]
 
   layout 'collection_preview', only: [:show]
 
@@ -506,5 +508,13 @@ class CollectionDraftsController < BaseDraftsController
     action = resource_name == 'collection_draft_proposal' ? 'submitted for review' : 'published'
     flash[:error] = "This collection can not be #{action}."
     redirect_to send("#{resource_name}_path", get_resource) and return
+  end
+
+  def set_associated_services
+    # get collection
+    collection_response = cmr_client.get_collections(native_id: get_resource.native_id)
+    @services = [] and return unless collection_response.success? and collection_response.body['hits'] > 0
+
+    get_associated_services(collection_response.body['items'])
   end
 end

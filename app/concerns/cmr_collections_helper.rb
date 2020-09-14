@@ -26,4 +26,24 @@ module CMRCollectionsHelper
 
     revisions
   end
+
+  def get_associated_services(response)
+    if response.present?
+      service_ids = response.dig(0, 'meta', 'associations', 'services')
+      # This can happen when there are variable associations and probably tool
+      # in the future.
+      @services = [] and return unless service_ids
+
+      cmr_service_response = cmr_client.get_services(concept_id: service_ids)
+
+      @services = if cmr_service_response.success?
+                    cmr_service_response.body['items']
+                  else
+                    Rails.logger.error("Error searching for associated services in 'set_associated_services': #{cmr_service_response.clean_inspect}")
+                    []
+                  end
+    else
+      @services = []
+    end
+  end
 end
