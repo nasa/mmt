@@ -88,6 +88,22 @@ describe 'Filtering groups', reset_provider: true, js: true do
           expect(page).to have_no_content('SEDAC Test Group')
         end
       end
+
+      context 'when a URS user contains script tags' do
+        before do
+          VCR.use_cassette('urs/search/xss_user', record: :none) do
+            within '#groups-member-filter' do
+              page.find('.select2-search__field').native.send_keys('rotoo')
+            end
+
+            page.find('ul#select2-member-group-filter-results li.select2-results__option--highlighted').click
+          end
+        end
+
+        it 'displays the script tag in the user name' do
+          expect(page).to have_css('li.select2-selection__choice', text: '<script>alert(1)</script> rotoo')
+        end
+      end
     end
   end
 end
