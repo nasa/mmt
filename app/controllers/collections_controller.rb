@@ -38,7 +38,7 @@ class CollectionsController < ManageCollectionsController
   end
 
   def destroy
-    if @num_granules > 0 && params['confirmation-text'] != DELETE_CONFIRMATION_TEXT
+    if (@num_granules > 0 || @num_variables > 0) && params['confirmation-text'] != DELETE_CONFIRMATION_TEXT
       flash[:error] = 'Collection was not deleted because incorrect confirmation text was provided.'
       render :show and return
     end
@@ -144,6 +144,7 @@ class CollectionsController < ManageCollectionsController
       @native_id = meta['native-id']
       @provider_id = meta['provider-id']
       @num_granules = meta['granule-count']
+      @num_variables = meta.fetch('associations', {}).fetch('variables', []).count
 
       # set up the @download_xml_options so that the Native format is specified and appears first
       @download_xml_options = CollectionsHelper::DOWNLOAD_XML_OPTIONS.deep_dup

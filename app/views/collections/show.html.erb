@@ -99,10 +99,10 @@
 
           <!-- hidden content for action buttons -->
           <div id="delete-record-modal" class="eui-modal-content">
-            <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+            <%= modal_close_x_link %>
             <p>Are you sure you want to delete this record?</p>
             <p>
-              <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+              <%= modal_close_button(button_text: 'No') %>
               <%= link_to 'Yes', collection_path, method: :delete, class: 'eui-btn--blue spinner' %>
             </p>
           </div>
@@ -114,28 +114,30 @@
               draft: @draft,
               draft_id: @draft.try(:id) }
             } %>
+
           <!-- Hidden link to allow modal to be shown -->
-          <a href="#granules-modal" id="display-granules-modal" class="display-modal is-invisible"></a>
-          <div id="granules-modal" class="eui-modal-content">
-            <a href=<%=current_provider?(@provider_id) ? "javascript:void(0);" : collection_path %> class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-            <p>This collection has <%= @num_granules %> associated <%= 'granule'.pluralize(@num_granules) %>.</p> 
-            <p id="danger-warning">Deleting this collection will delete all associated granules.</p> 
-            <p>Please confirm that you wish to continue by entering '<%= CollectionsHelper::DELETE_CONFIRMATION_TEXT %>' below.</p>
+          <a href="#cascade-delete-modal" id="display-cascade-delete-modal" class="display-modal is-invisible"></a>
+          <div id="cascade-delete-modal" class="eui-modal-content">
+            <!-- if the user chooses to change providers and then NOT to delete the collection, we should refresh the page so that their provider context displays correctly -->
+            <%= modal_close_x_link(alternate_link: collection_path, alternate_link_condition: !current_provider?(@provider_id)) %>
+
+            <%= display_cascade_delete_modal_text(@num_granules, @num_variables) %>
+
             <%= form_tag(collection_path, method: :delete, class: 'granules-confirmation-form') do %>
               <%= text_field_tag('confirmation-text', nil, class: 'full-width') %>
               <p>
-                <a href=<%=current_provider?(@provider_id) ? "javascript:void(0);" : collection_path %> class="eui-btn modal-close">Cancel</a>
+                <%= modal_close_button(button_text: 'Cancel', alternate_link: collection_path, alternate_link_condition: !current_provider?(@provider_id)) %>
                 <%= submit_tag 'Delete Collection', class: 'eui-btn--red spinner' %>
               </p>
             <% end %>
           </div>
 
           <div id="tags-modal" class="eui-modal-content">
-            <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+            <%= modal_close_x_link %>
             <span class="tag-keys-display">
               <%= display_collection_tag_info(tags_info: @tags_info, num_tags: @num_tags, tags_error: @tags_error, tag_keys: @tag_keys) %>
             </span>
-            <p><a href="javascript:void(0)" class="eui-btn modal-close">Close</a></p>
+            <p><%= modal_close_button %></p>
           </div>
           <%= render partial: 'shared/download_xml', locals: {
             concept_id: @concept_id,
@@ -145,6 +147,12 @@
           <!-- end hidden content for action buttons -->
         </div>
       </section>
+
+      <script>
+        // number of granules and associated variables for delete action
+        var numGranules = <%= @num_granules %>;
+        var numVariables = <%= @num_variables %>;
+      </script>
 
       <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, is_mmt: true, editable: false, edsc_url: nil, concept_id: nil, additional_information: nil } %>
     <% end %>
