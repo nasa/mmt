@@ -1,5 +1,5 @@
 module CollectionsHelper
-  DELETE_CONFIRMATION_TEXT = 'I want to delete this collection and all associated granules'.freeze
+  DELETE_CONFIRMATION_TEXT = 'I want to delete this collection and the associated records'.freeze
   DOWNLOAD_XML_OPTIONS = [
     { format: 'atom',     title: 'ATOM' },
     { format: 'dif10',    title: 'DIF 10' },
@@ -90,6 +90,25 @@ module CollectionsHelper
           end)
         end
       end
+    end
+  end
+
+  def display_cascade_delete_modal_text(num_granules, num_variables)
+    if num_granules > 0 && num_variables > 0
+      associated_text = "#{num_granules} associated #{'granule'.pluralize(num_granules)} and #{num_variables} associated #{'variable'.pluralize(num_variables)}"
+      delete_text = 'associated granules and variables'
+    elsif num_granules > 0
+      associated_text = "#{num_granules} associated #{'granule'.pluralize(num_granules)}"
+      delete_text = 'associated granules'
+    elsif num_variables > 0
+      associated_text = "#{num_variables} associated #{'variable'.pluralize(num_variables)}"
+      delete_text = 'associated variables'
+    end
+
+    content_tag(:div) do
+      concat(content_tag(:p, "This collection has #{associated_text}."))
+      concat(content_tag(:p, "Deleting this collection will delete all #{delete_text}."))
+      concat(content_tag(:p, "Please confirm that you wish to continue by entering \"#{CollectionsHelper::DELETE_CONFIRMATION_TEXT}\" below."))
     end
   end
 end

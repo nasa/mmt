@@ -104,8 +104,8 @@ $(document).ready ->
 
       success: (data, status, xhr) ->
         # Click the link that the user needs
-        if linkType == 'delete-collection' && $('.collection-granule-count').text() != 'Granules (0)'
-          $('#display-granules-modal').click()
+        if linkType == 'delete-collection' && (numGranules > 0 || numVariables > 0)
+          $('#display-cascade-delete-modal').click()
         else
           $(link)[0].click()
 
