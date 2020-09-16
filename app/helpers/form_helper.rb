@@ -128,15 +128,20 @@ module FormHelper
     data_attrs = { level: data_level }
     data_attrs[:required_level] = options[:required_level] if options[:required_level]
 
-    select_html = select_tag(
-      name_to_param(options[:prefix] + options[:name]),
-      select_options,
+    select_tag_options = {
       multiple: is_multi_select,
       size: size,
       class: classes,
       prompt: prompt,
       data: data_attrs,
       style: styles
+    }
+
+    select_tag_options[:id] = options[:id] if options[:id]
+    select_html = select_tag(
+      name_to_param(options[:prefix] + options[:name]),
+      select_options,
+      select_tag_options
     )
 
     mmt_label(options) + mmt_help_icon(options) + select_html

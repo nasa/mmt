@@ -27,7 +27,7 @@
 //= require ajv-3.5.3/ajv.min
 //= require chosen-1.4.2/chosen.jquery.min
 //= require typeahead-0.11.1/typeahead.bundle
-//= require select2-4.0.1/select2.min
+//= require select2-4.0.13/select2.min
 //= require jquery-validate/jquery.validate.min
 //= require jquery-validate/additional-methods.min
 //= require jquery.webui-popover/jquery.webui-popover.min
