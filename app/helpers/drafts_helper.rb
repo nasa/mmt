@@ -241,7 +241,8 @@ module DraftsHelper
     ['WELD Alaska Tile'],
     ['WELD CONUS Tile'],
     ['WRS-1'],
-    ['WRS-2']
+    ['WRS-2'],
+    ['Military Grid Reference System']
   ]
   VerticalSpatialDomainTypeOptions = [
     ['Atmosphere Layer'],
