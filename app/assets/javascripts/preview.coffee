@@ -91,7 +91,9 @@ $(window).on 'load', ->
 
 $(document).ready ->
 
-  # Show More / Show Less for Science Keywords in the Preview Gem Overview Tab Table
+  # Show More / Show Less for the Preview Gem
+  # Overview Tab: Science Keywords
+  # Service Tab: Service Cards
   $('.show-more-toggle').on 'click', (e) ->
     e.preventDefault()
     $parentClass = $(e.target).data('parentClass')

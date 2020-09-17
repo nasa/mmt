@@ -45,7 +45,7 @@ describe 'Create new draft from collection' do
       click_on 'Edit Collection Record'
     end
 
-    it 'has an associated service with the correct link' do
+    it 'has an associated service with the correct service record link' do
       within '#associated-services-panel' do
         expect(page).to have_link('View Service Record', href: "#{root_url}services/#{@service_ingest_response['concept-id']}")
       end
