@@ -34,30 +34,35 @@ module Proposal
     # params: 'draft_type' = table name and 'id' = unique identifier of a
     # proposal to update that proposal's status to done
     def update_proposal_status
-      if @requester_has_approver_permissions
-        draft_type = request.params['draft_type']
-        if PROPOSAL_CLASSES.include?(draft_type)
-          # Look for the specified record, if the draft_type is an expected type
-          proposal = draft_type.constantize.find_by(id: request.params['id'])
-          if update_and_save_done_status(proposal, @token_response.body['uid'])
-            # Record was found and altered
-            Rails.logger.info("Audit Log: Proposal of type: #{draft_type} with id: #{request.params['id']} was successfully updated to be 'done'.")
-            render json: { body: nil }, status: :ok
-          else
-            # Record either could not be found or altered.
-            Rails.logger.info("#{request.uuid}: Attempting to update proposal status for proposal of type: #{draft_type} with id: #{request.params['id']} failed because the record could not be #{proposal.blank? ? 'found' : 'altered'}")
-            render json: { body: "Proposal with id: #{request.params['id']} could not be found or altered", request_id: request.uuid }, status: :bad_request
-          end
-        else
-          # This is not a type of proposal that dMMT understands
-          Rails.logger.info("#{request.uuid}: Attempting to update proposal status for proposal of type: #{draft_type} with id: #{request.params['id']} failed because the draft_type is invalid.")
-          render json: { body: "Proposal with id: #{request.params['id']} could not be found or altered", request_id: request.uuid }, status: :bad_request
-        end
-      else
+      unless @requester_has_approver_permissions
         # Requester could not be authorized
         Rails.logger.info("#{request.uuid}: Attempting to authenticate token while updating a proposal's status resulted in '#{@token_response.status}' status. If the status returned ok, then the user's Non-NASA Draft Approver ACL check failed.")
-        render json: { body: 'Requesting user could not be authorized', request_id: request.uuid }, status: :unauthorized
+        render json: { body: 'Requesting user could not be authorized', request_id: request.uuid }, status: :unauthorized and return
       end
+
+      draft_type = request.params['draft_type']
+      unless PROPOSAL_CLASSES.include?(draft_type)
+        # This is not a type of proposal that dMMT understands
+        Rails.logger.info("#{request.uuid}: Attempting to update proposal status for proposal of type: #{draft_type} with id: #{request.params['id']} failed because the draft_type is invalid.")
+        render json: { body: "Proposal with id: #{request.params['id']} could not be found or altered", request_id: request.uuid }, status: :bad_request and return
+      end
+
+      proposal = draft_type.constantize.find_by(id: request.params['id'])
+      unless update_and_save_done_status(proposal, @token_response.body['uid'])
+        # Record either could not be found or altered.
+        Rails.logger.info("#{request.uuid}: Attempting to update proposal status for proposal of type: #{draft_type} with id: #{request.params['id']} failed because the record could not be #{proposal.blank? ? 'found' : 'altered'}")
+        render json: { body: "Proposal with id: #{request.params['id']} could not be found or altered", request_id: request.uuid }, status: :bad_request and return
+      end
+
+      unless proposal.destroy
+        # Could not delete record.
+        Rails.logger.info("Attempting to delete done proposal for proposal of type: #{draft_type} with id: #{request.params['id']} failed.")
+        render json: { body: "Proposal with id: #{request.params['id']} could not be deleted, but has been marked done., ", request_id: request.uuid}, status: :bad_request and return
+      end
+
+      # Record was found, updated, and deleted
+      Rails.logger.info("Audit Log: Proposal of type: #{draft_type} with id: #{request.params['id']} was successfully updated to be 'done' and deleted.")
+      render json: { body: nil }, status: :ok
     end
 
     def proposal_mode_enabled?

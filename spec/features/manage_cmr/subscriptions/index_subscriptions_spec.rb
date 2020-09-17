@@ -2,7 +2,7 @@
 # subscription page with no subscriptions. Until we have the provider reset,
 # that test would be flaky and fail intermittently because of CMR's update time.
 
-describe 'Viewing a list of subscriptions' do
+describe 'Viewing a list of subscriptions', reset_provider: true do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
@@ -12,19 +12,6 @@ describe 'Viewing a list of subscriptions' do
 
     _ingest_response, @search_response, @subscription = publish_new_subscription
     _ingest_response2, @search_response2, @subscription2 = publish_new_subscription
-  end
-
-  after :all do
-    # TODO: using reset_provider may be cleaner than these after blocks,
-    # but does not currently work. Reinvestigate after CMR-6310
-    delete_response1 = cmr_client.delete_subscription('MMT_2', @search_response.body['items'].first['meta']['native-id'], 'token')
-    delete_response2 = cmr_client.delete_subscription('MMT_2', @search_response2.body['items'].first['meta']['native-id'], 'token')
-    raise unless delete_response1.success? && delete_response2.success?
-
-    remove_group_permissions(@subscriptions_permissions['concept_id'])
-    delete_group(concept_id: @subscriptions_group['concept_id'])
-
-    clear_cache
   end
 
   before do
@@ -53,13 +40,9 @@ describe 'Viewing a list of subscriptions' do
         visit subscriptions_path
       end
 
-      # These tests can be improved when we can reset_provider. They should have
-      # only 2 subscriptions on them, but if the subscription tests are run
-      # together, CMR does not always finish deleting subscriptions from other
-      # tests before starting this one, so it fails at the commented out line.
       it 'displays expected subscriptions without edit or delete links' do
         expect(page).to have_no_link('Create a Subscription')
-        # expect(page).to have_content('Showing all 2 Subscriptions')
+        expect(page).to have_content('Showing all 2 Subscriptions')
 
         within '.subscriptions-table' do
           expect(page).to have_content('Name')
@@ -87,13 +70,9 @@ describe 'Viewing a list of subscriptions' do
       visit subscriptions_path
     end
 
-    # These tests can be improved when we can reset_provider. They should have
-    # only 2 subscriptions on them, but if the subscription tests are run
-    # together, CMR does not always finish deleting subscriptions from other
-    # tests before starting this one, so it fails at the commented out line.
     it 'displays expected subscriptions and edit and delete links' do
       expect(page).to have_link('Create a Subscription')
-      # expect(page).to have_content('Showing all 2 Subscriptions')
+      expect(page).to have_content('Showing all 2 Subscriptions')
 
       within '.subscriptions-table' do
         expect(page).to have_content('Name')
@@ -142,24 +121,10 @@ describe 'Viewing a list of subscriptions' do
 
       clear_cache
 
-      _ingest_response, @search_response, @subscription = publish_new_subscription
-      _ingest_response2, @search_response2, @subscription2 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake', query: 'polygon=10,10,30,10,30,20,10,20,10,10&equator_crossing_longitude=0,10')
+      _ingest_response2, @search_response3, @subscription3 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake', query: 'polygon=10,10,30,10,30,20,10,20,10,10&equator_crossing_longitude=0,10')
 
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
       visit subscriptions_path
-    end
-
-    # TODO: using reset_provider may be cleaner than these after blocks,
-    # but does not currently work. Reinvestigate after CMR-6310
-    after do
-      delete_response1 = cmr_client.delete_subscription('MMT_2', @search_response.body['items'].first['meta']['native-id'], 'token')
-      delete_response2 = cmr_client.delete_subscription('MMT_1', @search_response2.body['items'].first['meta']['native-id'], 'token')
-      raise unless delete_response1.success? && delete_response2.success?
-
-      remove_group_permissions(@subscriptions_permissions['concept_id'])
-      delete_group(concept_id: @subscriptions_group['concept_id'])
-
-      clear_cache
     end
 
     it 'only shows the subscriptions for the current provider' do
@@ -172,32 +137,55 @@ describe 'Viewing a list of subscriptions' do
       expect(page).to have_content(@subscription['Query'])
       expect(page).to have_content(@subscription['EmailAddress'])
       expect(page).to have_content(@subscription['CollectionConceptId'])
-      expect(page).to have_no_content(@subscription2['CollectionConceptId'])
-      expect(page).to have_no_content(@subscription2['EmailAddress'])
-      expect(page).to have_no_content(@subscription2['Name'])
-      expect(page).to have_no_content(@subscription2['Query'])
+      expect(page).to have_content(@subscription2['Name'])
+      expect(page).to have_content(@subscription2['Query'])
+      expect(page).to have_content(@subscription2['EmailAddress'])
+      expect(page).to have_content(@subscription2['CollectionConceptId'])
+      expect(page).to have_no_content(@subscription3['CollectionConceptId'])
+      expect(page).to have_no_content(@subscription3['EmailAddress'])
+      expect(page).to have_no_content(@subscription3['Name'])
+      expect(page).to have_no_content(@subscription3['Query'])
     end
   end
 end
 
-describe 'when switching providers on the subscription index page' do
-  context 'when the user does not have subscription management permissions in the new provider', js: true do
+describe 'Subscription index page' do
+  before do
+    @subscriptions_group = create_group(members: ['testuser', 'typical'])
+    # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
+    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['read', 'update'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+
+    clear_cache
+
+    login
+    visit subscriptions_path
+  end
+
+  context 'when there are no subscriptions' do
     before do
-      login(provider: 'MMT_2', providers: %w[MMT_1 MMT_2])
-
-      @group_concept, @permission_concept = prepare_subscription_permissions(%w[read])
       visit subscriptions_path
-
-      click_on 'profile-link'
-      click_on 'Change Provider'
-      select 'MMT_1', from: 'select_provider'
-      wait_for_jQuery
     end
 
-    # TODO: Remove when reset provider works
-    after do
-      delete_group(concept_id: @group_concept)
-      remove_group_permissions(@permission_concept)
+    it 'has the expected text' do
+      expect(page).to have_content('Subscription operations run periodically throughout each day. Email notifications are sent if new data matching your query is available.')
+      expect(page).to have_content('No subscriptions found.')
+    end
+  end
+end
+
+describe 'when switching providers on the subscription index page', reset_provider: true do
+  context 'when the user does not have subscription management permissions in the new provider', js: true do
+    before :all do
+      @group_concept, @permission_concept = prepare_subscription_permissions(%w[read])
+    end
+
+    before do
+      login(provider: 'MMT_2', providers: %w[LARC MMT_2])
+      visit subscriptions_path
+      click_on 'profile-link'
+      click_on 'Change Provider'
+      select 'LARC', from: 'select_provider'
+      wait_for_jQuery
     end
 
     it 'has an error message' do

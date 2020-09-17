@@ -51,7 +51,7 @@ class ManageMetadataController < ApplicationController
   end
 
   def parse_umm_version_number(umm_version_string)
-    umm_version_string.split('version=').last.split(';').first.to_f
+    umm_version_string.split('version=').last.split(';').first
   end
 
   def get_latest_record_version(concept_id)
@@ -87,93 +87,62 @@ class ManageMetadataController < ApplicationController
     @unsupported_version = true if record_version > mmt_resource_version
   end
 
-  def set_variable
-    @concept_id = params[:variable_id] || params[:id]
+  def set_metadata
+    # Parsing the concept-id to find the metadata type because a variety of
+    # locations call this method and the only thing they have in common is that
+    # they have a concept_id
+    @metadata_type = if params.keys.include?('variable_id') || (params[:id] && params[:id].split('-')[0].include?('V'))
+                       'variables'
+                     elsif params.keys.include?('service_id') || (params[:id] && params[:id].split('-')[0].include?('S'))
+                       'services'
+                     elsif params.keys.include?('tool_id') || (params[:id] && params[:id].split('-')[0].include?('TL'))
+                       'tools'
+                     end
+    @concept_id = params["#{@metadata_type&.singularize}_id".to_sym] || params[:id]
     @revision_id = params[:revision_id]
 
-    # retrieve the variable metadata with the current umm_var version
-    headers = { 'Accept' => "application/#{Rails.configuration.umm_var_version}; charset=utf-8" }
-    variable_concept_response = cmr_client.get_concept(@concept_id, token, headers, @revision_id)
+    # retrieve the metadata with the current umm version
+    metadata_version = if @metadata_type == 'variables'
+                         Rails.configuration.umm_var_version
+                       elsif @metadata_type == 'services'
+                         Rails.configuration.umm_s_version
+                       elsif @metadata_type == 'tools'
+                         Rails.configuration.umm_t_version
+                       end
 
-    @variable = if variable_concept_response.success?
-                  variable_concept_response.body
-                else
-                  Rails.logger.error("Error retrieving concept for Variable #{@concept_id} in `set_variable`: #{variable_concept_response.clean_inspect}")
-                  {}
-                end
+    headers = { 'Accept' => "application/#{metadata_version}; charset=utf-8" }
+    concept_response = cmr_client.get_concept(@concept_id, token, headers, @revision_id)
 
-    set_variable_information
-  end
-
-  def set_variable_information
-    # search for variable by concept id to get the native_id and provider_id
-    # if the variable is not found, try again because CMR might be a little slow to index if it is a newly published record
-    attempts = 0
-    while attempts < 20
-      variables_search_response = cmr_client.get_variables(concept_id: @concept_id, all_revisions: true, sort_key: '-revision_date')
-
-      variable_data = if variables_search_response.success?
-                        variables_search_response.body.fetch('items', [])
-                      else
-                        []
-                      end
-      variable_data.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
-
-      @revisions = variable_data
-      latest = variable_data.first
-      meta = latest.nil? ? {} : latest.fetch('meta', {})
-
-      @old_revision = !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s ? true : false
-
-      break if latest && !@revision_id
-      break if latest && meta.fetch('revision-id', 0) >= @revision_id.to_i && meta['concept-id'] == @concept_id
-      attempts += 1
-      sleep 0.05
-    end
-
-    if latest.blank?
-      Rails.logger.error("Error searching for Variable #{@concept_id} in `set_variable_information`: #{variables_search_response.clean_inspect}")
-    else
-      @provider_id = meta['provider-id']
-      @native_id = meta['native-id']
-      @num_associated_collections = cmr_client.get_collections_by_post({ variable_concept_id: @concept_id }, token).body.fetch('items', []).size
-    end
-  end
-
-  def set_service
-    @concept_id = params[:service_id] || params[:id]
-    @revision_id = params[:revision_id]
-
-    # retrieve the variable metadata with the current umm_var version
-    headers = { 'Accept' => "application/#{Rails.configuration.umm_s_version}; charset=utf-8" }
-    service_concept_response = cmr_client.get_concept(@concept_id, token, headers, @revision_id)
-
-    @service = if service_concept_response.success?
-                 service_concept_response.body
+    metadata = if concept_response.success?
+                 concept_response.body
                else
-                 Rails.logger.error("Error retrieving concept for Service #{@concept_id} in `set_service`: #{service_concept_response.clean_inspect}")
+                 Rails.logger.error("Error retrieving concept for #{@metadata_type} #{@concept_id} in `set_metadata`: #{concept_response.clean_inspect}")
                  {}
                end
+    instance_variable_set("@#{@metadata_type.singularize}", metadata)
+    # Set an instance variable as setup for the show and revisions page
+    published_resource_name unless params[:controller] == 'collection_associations'
 
-    set_service_information
+    set_metadata_information
   end
 
-  def set_service_information
-    # search for service by concept id to get the native_id and provider_id
-    # if the service is not found, try again because CMR might be a little slow to index if it is a newly published record
+  def set_metadata_information
+    # this process was suggested/requested by the CMR team: 
+    # search for metadata record by concept id to get the native_id and provider_id
+    # if the metadata record is not found, try again because CMR might be a little slow to index if it is a newly published record
     attempts = 0
     while attempts < 20
-      services_search_response = cmr_client.get_services(concept_id: @concept_id, all_revisions: true, sort_key: '-revision_date')
+      search_response = cmr_client.send("get_#{@metadata_type}", concept_id: @concept_id, all_revisions: true, sort_key: '-revision_date')
 
-      service_data = if services_search_response.success?
-                       services_search_response.body.fetch('items', [])
-                     else
-                       []
-                     end
-      service_data.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
+      data = if search_response.success?
+               search_response.body.fetch('items', [])
+             else
+               []
+             end
+      data.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
 
-      @revisions = service_data
-      latest = service_data.first
+      @revisions = data
+      latest = data.first
       meta = latest.nil? ? {} : latest.fetch('meta', {})
 
       @old_revision = !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s ? true : false
@@ -182,70 +151,15 @@ class ManageMetadataController < ApplicationController
       break if latest && meta.fetch('revision-id', 0) >= @revision_id.to_i && meta['concept-id'] == @concept_id
       attempts += 1
       sleep 0.05
+      Rails.logger.info("Retrieving a #{@metadata_type} record in set_metadata_information. Need to loop, about to try attempt number #{attempts}")
     end
 
     if latest.blank?
-      Rails.logger.error("Error searching for Service #{@concept_id} in `set_service_information`: #{services_search_response.clean_inspect}")
+      Rails.logger.error("Error searching for #{@metadata_type} #{@concept_id} in `set_metadata_information`: #{search_response.clean_inspect}")
     else
       @provider_id = meta['provider-id']
       @native_id = meta['native-id']
-      @num_associated_collections = cmr_client.get_collections_by_post({ service_concept_id: @concept_id }, token).body.fetch('items', []).size
-    end
-  end
-
-  # TODO: look into refactoring these repetitive methods for V/S/T with
-  # metaprogramming and add sufficient comments to explain
-  def set_tool
-    @concept_id = params[:tool_id] || params[:id]
-    @revision_id = params[:revision_id]
-
-    # retrieve the variable metadata with the current umm_t version
-    headers = { 'Accept' => "application/#{Rails.configuration.umm_t_version}; charset=utf-8" }
-    tool_concept_response = cmr_client.get_concept(@concept_id, token, headers, @revision_id)
-
-    @tool = if tool_concept_response.success?
-              tool_concept_response.body
-            else
-              Rails.logger.error("Error retrieving concept for Tool #{@concept_id} in `set_tool`: #{tool_concept_response.clean_inspect}")
-              {}
-            end
-            
-    set_tool_information
-  end
-
-  def set_tool_information
-    # search for tool by concept id to get the native_id and provider_id
-    # if the tool is not found, try again because CMR might be a little slow to index if it is a newly published record
-    attempts = 0
-    while attempts < 20
-      tools_search_response = cmr_client.get_tools(concept_id: @concept_id, all_revisions: true, sort_key: '-revision_date')
-
-      tool_data = if tools_search_response.success?
-                    tools_search_response.body.fetch('items', [])
-                  else
-                    []
-                  end
-      tool_data.sort! { |a, b| b['meta']['revision-id'] <=> a['meta']['revision-id'] }
-
-      @revisions = tool_data
-      latest = tool_data.first
-      meta = latest.nil? ? {} : latest.fetch('meta', {})
-
-      @old_revision = !@revision_id.nil? && meta['revision-id'].to_s != @revision_id.to_s ? true : false
-
-      break if latest && !@revision_id
-      break if latest && meta.fetch('revision-id', 0) >= @revision_id.to_i && meta['concept-id'] == @concept_id
-      attempts += 1
-      sleep 0.05
-      # TODO when/if we refactor these V/S/T methods, make sure the logging is accurate for record type being retrieved
-      Rails.logger.info("Retrieving a Tool record in set_tool_information. Need to loop, about to try attempt number #{attempts}")
-    end
-
-    if latest.blank?
-      Rails.logger.error("Error searching for Tool #{@concept_id} in `set_tool_information`: #{tools_search_response.clean_inspect}")
-    else
-      @provider_id = meta['provider-id']
-      @native_id = meta['native-id']
+      @num_associated_collections = cmr_client.get_collections_by_post({ "#{@metadata_type.singularize}_concept_id".to_sym => @concept_id }, token).body.fetch('items', []).size if ['variables', 'services'].include?(@metadata_type)
     end
   end
 

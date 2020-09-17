@@ -119,7 +119,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         it 'does not let the user submit the form without required fields' do
           expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
           expect(page).to have_css('#find_value_ShortName-error', text: 'This field is required.')
-          expect(page).to have_css('#update_value_short_name-error', text: 'This field is required.')
+          expect(page).to have_css('#data_center_short_name-error', text: 'This field is required.')
         end
       end
 
@@ -182,7 +182,7 @@ describe 'Bulk updates form validations', reset_provider: true, js: true do
         it 'does not let the user submit the form without required fields' do
           expect(page).to have_css('#bulk_update_name-error', text: 'Name is required.')
           expect(page).to have_css('#find_value_ShortName-error', text: 'This field is required.')
-          expect(page).to have_css('#update_value_short_name-error', text: 'This field is required.')
+          expect(page).to have_css('#platform_short_name-error', text: 'This field is required.')
         end
       end
 

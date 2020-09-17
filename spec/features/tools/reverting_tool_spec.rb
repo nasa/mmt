@@ -149,13 +149,6 @@ describe 'Reverting to previous tools', reset_provider: true, js: true do
         wait_for_cmr
       end
 
-      # TODO: remove after CMR-6332
-      after do
-        delete_response = cmr_client.delete_tool('MMT_2', @native_id3, 'token')
-
-        raise unless delete_response.success?
-      end
-
       it 'displays all the correct revision information' do
         expect(page).to have_content('Revision Created Successfully!')
 

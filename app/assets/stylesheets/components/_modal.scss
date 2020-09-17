@@ -19,7 +19,8 @@
 #help-modal,
 #download-xml-modal,
 #progress-legend,
-#variable-preview-modal {
+#variable-preview-modal,
+#collection-association-legend {
   border-radius: 5px;
   -webkit-border-radius: 5px;
   background-color: $white;
@@ -55,7 +56,8 @@
 
 #provider-context,
 #help-modal,
-#progress-legend {
+#progress-legend,
+#collection-association-legend {
   width: 500px;
 }
 
@@ -72,5 +74,20 @@
     width: -webkit-fill-available;
     overflow: scroll;
     background: lighten($light-grey, 3%)
+  }
+}
+
+.eui-modal-content {
+  .eui-banner--danger {
+    // if we are using a banner in a modal, this will push down the banner so
+    // the modal close 'x' is above the banner
+    margin-top: 20px;
+  }
+}
+
+#tags-modal {
+  ul {
+    max-height: inherit;
+    overflow-y: scroll;
   }
 }

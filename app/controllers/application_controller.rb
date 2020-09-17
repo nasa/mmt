@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   ].freeze
 
   def urs_login_required?
-    Rails.configuration.proposal_mode == true || ENV['urs_login_required'] != 'false'
+    ENV['urs_login_required'] != 'false'
   end
   helper_method :urs_login_required?
 
@@ -448,7 +448,7 @@ class ApplicationController < ActionController::Base
 
   # relatively safe extraction of a hash from the ActionController::Base::Parameters structure.
   def safe_hash( key)
-     params.require(key).permit!.to_h
+    params.require(key).permit!.to_h
   end
   helper_method :safe_hash
 end

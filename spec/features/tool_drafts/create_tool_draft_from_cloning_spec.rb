@@ -3,12 +3,6 @@ describe 'Creating a tool draft from cloning a tool', reset_provider: true, js: 
     @ingest_response, _concept_response, @native_id = publish_tool_draft
   end
 
-  after :all do
-    delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
-
-    raise unless delete_response.success?
-  end
-
   context 'when cloning a published tool' do
     before do
       login

@@ -1,0 +1,5 @@
+<% if current_provider?(@provider_id) %>
+  <%= link_to "Clone #{@published_resource_name.capitalize} Record", send("clone_#{@published_resource_name}_path", revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
+<% elsif available_provider?(@provider_id) %>
+  <%= link_to "Clone #{@published_resource_name.capitalize} Record", '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { 'provider': @provider_id, record_action: "clone-#{@published_resource_name}" } %>
+<% end %>

@@ -35,46 +35,96 @@ describe 'Collection Draft Proposal Reject', js: true do
 
       context 'when attempting to reject without entering feedback' do
         before do
+          mock_urs_get_users
           within '#reject-submission-modal' do
             click_on 'Reject'
           end
         end
 
-        it 'displays validation errors' do
-          within '#reject-submission-modal' do
-            expect(page).to have_css('.eui-banner--danger', count: 2)
+        it 'rejects the proposal' do
+          expect(page).to have_content('Draft Proposal Submission')
+          expect(page).to have_content('Rejected')
+        end
+      end
+
+      context 'when attempting to reject the proposal with partial feedback' do
+        context 'with a note and no reason' do
+          before do
+            fill_in 'Note', with: 'There are many reasons for rejecting this submission'
+
+            within '#reject-submission-modal' do
+              click_on 'Reject'
+            end
+          end
+
+          it 'does not reject the proposal' do
             expect(page).to have_content('Reason(s) are required')
-            expect(page).to have_content('Note is required')
+          end
+
+          context 'when adding a reason' do
+            before do
+              select 'Broken Links', from: 'proposal-rejection-reasons'
+
+              within '#reject-submission-modal' do
+                VCR.use_cassette('urs/proposal_email_fetch/proposal_urs_ids') do
+                  click_on 'Reject'
+                end
+              end
+            end
+
+            it 'can reject the record' do
+              within '#proposal-status-display' do
+                expect(page).to have_content('Draft Proposal Submission')
+                expect(page).to have_content('Rejected')
+              end
+            end
+          end
+
+          context 'when removing the note' do
+            before do
+              fill_in 'Note', with: ''
+
+              within '#reject-submission-modal' do
+                VCR.use_cassette('urs/proposal_email_fetch/proposal_urs_ids') do
+                  click_on 'Reject'
+                end
+              end
+            end
+
+            it 'can reject the record' do
+              within '#proposal-status-display' do
+                expect(page).to have_content('Draft Proposal Submission')
+                expect(page).to have_content('Rejected')
+              end
+            end
           end
         end
 
-        context 'when then entering feedback' do
+        context 'with a reason and no note' do
           before do
+            select 'Broken Links', from: 'proposal-rejection-reasons'
             within '#reject-submission-modal' do
-              select 'Broken Links', from: 'proposal-rejection-reasons'
-              fill_in 'Note', with: 'There are many reasons for rejecting this submission'
-
-              all('label[for="rejection_note"]').first.click
+              click_on 'Reject'
             end
           end
 
-          it 'does not display the validation errors' do
-            within '#reject-submission-modal' do
-              expect(page).to have_no_css('.eui-banner--danger')
-            end
+          it 'does not reject the proposal' do
+            expect(page).to have_content('Note is required')
           end
         end
       end
 
       context 'when rejecting the proposal with feedback' do
         before do
-          mock_urs_get_users
           @email_count = ActionMailer::Base.deliveries.count
           within '#reject-submission-modal' do
             select 'Broken Links', from: 'proposal-rejection-reasons'
             fill_in 'Note', with: 'There are many reasons for rejecting this submission'
+            find('label[for=rejection_note]').click
 
-            click_on 'Reject'
+            VCR.use_cassette('urs/proposal_email_fetch/proposal_urs_ids') do
+              click_on 'Reject'
+            end
           end
         end
 
@@ -115,10 +165,12 @@ describe 'Collection Draft Proposal Reject', js: true do
         mock_publish(@collection_draft_proposal)
         click_on 'Reject Proposal Submission'
 
-        select 'Broken Links', from: 'proposal-rejection-reasons'
         fill_in 'Note', with: 'There are many reasons for rejecting this submission'
+        select 'Broken Links', from: 'proposal-rejection-reasons'
 
-        click_on 'Reject'
+        within '#reject-submission-modal' do
+          click_on 'Reject'
+        end
       end
 
       it 'provides an error message' do

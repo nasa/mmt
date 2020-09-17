@@ -1,6 +1,7 @@
 describe 'Creating a variable draft from cloning a variable', js: true do
   before :all do
-    @ingest_response, _concept_response = publish_variable_draft
+    collection_ingest_response, _collection_concept_response = publish_collection_draft
+    @ingest_response, _concept_response = publish_variable_draft(collection_concept_id: collection_ingest_response['concept-id'])
   end
 
   context 'when cloning a published variable' do
@@ -45,6 +46,34 @@ describe 'Creating a variable draft from cloning a variable', js: true do
       it 'displays the empty Name and Long Name fields' do
         expect(page).to have_field('Name', with: '')
         expect(page).to have_field('Long Name', with: '')
+      end
+    end
+
+    it 'displays the Collection Association progress icons correctly' do
+      within '#collection-association-progress' do
+        within '.status' do
+          expect(page).to have_css('.eui-icon.icon-green.eui-fa-circle-o')
+        end
+
+        within '.progress-indicators' do
+          expect(page).to have_css('.eui-icon.eui-required-o.icon-green.collection_association')
+        end
+      end
+    end
+
+    context 'when clicking on the Collection Association form link' do
+      before do
+        click_on 'Collection Association'
+      end
+
+      it 'shows the correct form and Collection Association Information' do
+        within '.variable-draft-selected-collection-association' do
+          within '#variable-draft-collection-association-table tbody tr:nth-child(1)' do
+            expect(page).to have_content('No Collection Association found. A Collection must be selected in order to publish this Variable Draft. Each Variable can only be associated with a single Collection.')
+          end
+
+          expect(page).to have_no_button('Clear Collection Association')
+        end
       end
     end
   end

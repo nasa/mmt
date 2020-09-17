@@ -9,7 +9,7 @@
   </p>
   <% unless @request_type == 'delete' %>
     <div class="center">
-      <%= link_to 'View Collection', collection_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>
+      <%= link_to 'View Collection', "#{proposal_published_notification_view_collections_link}/concepts/#{@concept_id}", class: 'btn btn-blue' %>
     </div>
   <% end %>
 </div>

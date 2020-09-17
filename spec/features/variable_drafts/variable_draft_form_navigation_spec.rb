@@ -1,5 +1,5 @@
 describe 'Variable Draft form navigation' do
-  let(:form_titles) { ['Variable Information', 'Fill Values', 'Dimensions', 'Variable Characteristics', 'Science Keywords', 'Sets'] }
+  let(:form_titles) { ['Variable Information', 'Fill Values', 'Dimensions', 'Measurement Identifiers', 'Sampling Identifiers', 'Science Keywords', 'Sets'] }
 
   context 'when visiting the edit page for a new variable draft' do
     before do
@@ -21,10 +21,10 @@ describe 'Variable Draft form navigation' do
 
     it 'displays the forms in the navigation bar(s) dropdown' do
       within '.nav-top' do
-        expect(page).to have_select('Save & Jump To:', with_options: form_titles)
+        expect(page).to have_select('Save & Jump To:', options: form_titles)
       end
       within '.nav-bottom' do
-        expect(page).to have_select('Save & Jump To:', with_options: form_titles)
+        expect(page).to have_select('Save & Jump To:', options: form_titles)
       end
     end
 

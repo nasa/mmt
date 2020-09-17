@@ -1,4 +1,4 @@
-describe 'Edit/Updating Subscriptions' do
+describe 'Edit/Updating Subscriptions', reset_provider: true do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
@@ -19,14 +19,6 @@ describe 'Edit/Updating Subscriptions' do
     # make a record
     @ingest_response, search_response, @subscription = publish_new_subscription
     @native_id = search_response.body['items'].first['meta']['native-id']
-  end
-
-  # TODO: using reset_provider may be cleaner than these after blocks,
-  # but does not currently work. Reinvestigate after CMR-6310
-  after do
-    delete_response = cmr_client.delete_subscription('MMT_2', @native_id, 'token')
-
-    raise unless delete_response.success?
   end
 
   context 'when visiting the show page and clicking the edit button' do
@@ -94,14 +86,6 @@ describe 'Edit/Updating Subscriptions' do
         VCR.use_cassette('urs/rarxd5taqea', record: :none) do
           click_on 'Submit'
         end
-      end
-
-      # TODO: using reset_provider may be cleaner than these after blocks,
-      # but does not currently work. Reinvestigate after CMR-6310
-      after do
-        delete_response = cmr_client.delete_subscription('MMT_2', @second_native_id, 'token')
-
-        raise unless delete_response.success?
       end
 
       it 'fails and repopulates the form' do

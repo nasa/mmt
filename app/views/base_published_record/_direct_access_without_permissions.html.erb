@@ -1,0 +1,24 @@
+<% action_text = "#{send("#{@published_resource_name}_action_text", @record_action)}" %>
+<% if @user_permissions == 'none' %>
+  <div class="eui-banner--danger">
+    <p class="eui-banner__message">
+      <%= "You don't have the appropriate permissions to #{action_text} this #{@published_resource_name}." %>
+    </p>
+  </div>
+  <div class="no-access">
+    <h3 class="access-title">Access Denied</h3>
+    <p class="access-message">
+      It appears you do not have access to <%= send("#{@published_resource_name}_action_text", @record_action) %> this content.<br />
+      If you feel you should have access, please check with your provider manager or ensure you are logged into the correct provider.
+    </p>
+  </div>
+<% elsif @user_permissions == 'wrong_provider' %>
+  <div class="eui-banner--warn">
+    <p class="eui-banner__message">
+      <%= link_to("You need to change your current provider to #{action_text} this #{@published_resource_name}. Click here to change your provider.",
+        "#", id: "change-current-provider-banner-link",
+        data: { "provider": @provider_id, action_link: "change-provider-#{@published_resource_name}-#{@record_action}" }) %>
+    </p>
+    <%= send("render_change_provider_#{@published_resource_name}_action_link", @record_action, @concept_id, @revision_id) %>
+  </div>
+<% end %>

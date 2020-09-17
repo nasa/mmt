@@ -26,8 +26,8 @@ describe 'Dimensions Form', js: true do
       expect(page).to have_selector(:link_or_button, 'Add another Dimension')
     end
 
-    it 'has 3 required labels' do
-      expect(page).to have_selector('label.eui-required-o', count: 3)
+    it 'has 0 required labels' do
+      expect(page).to have_selector('label.eui-required-o', count: 0)
     end
 
     context 'When clicking `Previous` without making any changes' do
@@ -35,8 +35,6 @@ describe 'Dimensions Form', js: true do
         within '.nav-top' do
           click_button 'Previous'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -68,8 +66,6 @@ describe 'Dimensions Form', js: true do
         within '.nav-top' do
           click_on 'Next'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -79,19 +75,19 @@ describe 'Dimensions Form', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Variable Characteristics')
+          expect(page).to have_content('Measurement Identifiers')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Variable Characteristics')
+          expect(page).to have_content('Measurement Identifiers')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
         end
       end
     end
@@ -101,8 +97,6 @@ describe 'Dimensions Form', js: true do
         within '.nav-top' do
           click_button 'Save'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and reloads the form' do
@@ -134,8 +128,6 @@ describe 'Dimensions Form', js: true do
         within '.nav-top' do
           select 'Fill Values', from: 'Save & Jump To:'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the previous form' do
@@ -165,10 +157,8 @@ describe 'Dimensions Form', js: true do
     context 'When selecting the next form from the navigation dropdown' do
       before do
         within '.nav-top' do
-          select 'Variable Characteristics', from: 'Save & Jump To:'
+          select 'Measurement Identifiers', from: 'Save & Jump To:'
         end
-
-        click_on 'Yes'
       end
 
       it 'saves the draft and loads the next form' do
@@ -178,19 +168,19 @@ describe 'Dimensions Form', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Variable Characteristics')
+          expect(page).to have_content('Measurement Identifiers')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Variable Characteristics')
+          expect(page).to have_content('Measurement Identifiers')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
         end
       end
     end
@@ -264,19 +254,19 @@ describe 'Dimensions Form', js: true do
 
         within '.eui-breadcrumbs' do
           expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Variable Characteristics')
+          expect(page).to have_content('Measurement Identifiers')
         end
 
         within '.umm-form' do
-          expect(page).to have_content('Variable Characteristics')
+          expect(page).to have_content('Measurement Identifiers')
         end
 
         within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
         end
 
         within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('variable_characteristics')
+          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
         end
       end
     end

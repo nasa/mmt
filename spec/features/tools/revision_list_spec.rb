@@ -8,13 +8,6 @@ describe 'Tool revision list', reset_provider: true, js: true do
       @ingest_response, @concept_response, _native_id = publish_tool_draft(native_id: @native_id, name: 'c_test_01')
     end
 
-    # TODO: remove after CMR-6332
-    after :all do
-      delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
-
-      raise unless delete_response.success?
-    end
-
     before do
       login
 

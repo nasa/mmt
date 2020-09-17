@@ -34,10 +34,6 @@ describe 'Variable Draft Forms Field Validation', js: true do
               expect(page).to have_content('Name is required')
               expect(page).to have_content('Definition is required')
               expect(page).to have_content('Long Name is required')
-              expect(page).to have_content('Data Type is required')
-              expect(page).to have_content('Scale is required')
-              expect(page).to have_content('Offset is required')
-              expect(page).to have_content('Acquisition Source Name is required')
             end
           end
 
@@ -51,19 +47,6 @@ describe 'Variable Draft Forms Field Validation', js: true do
             within '#variable_draft_draft_long_name_error' do
               expect(page).to have_content('Long Name is required')
             end
-            within '#variable_draft_draft_data_type_error' do
-              expect(page).to have_content('Data Type is required')
-            end
-            within '#variable_draft_draft_scale_error' do
-              expect(page).to have_content('Scale is required')
-            end
-            within '#variable_draft_draft_offset_error' do
-              expect(page).to have_content('Offset is required')
-            end
-            within '#variable_draft_draft_acquisition_source_name_error' do
-              expect(page).to have_content('Acquisition Source Name is required')
-            end
-
           end
         end
       end
@@ -77,7 +60,6 @@ describe 'Variable Draft Forms Field Validation', js: true do
           select 'byte', from: 'Data Type'
           fill_in 'Scale', with: '2'
           fill_in 'Offset', with: '5'
-          select 'ATM', from: 'Acquisition Source Name'
 
           within '.nav-top' do
             click_on 'Save'
@@ -95,7 +77,8 @@ describe 'Variable Draft Forms Field Validation', js: true do
           expect(page).to have_field('Long Name', with: 'Test Var Long Long Name')
           expect(page).to have_field('Scale', with: '2.0')
           expect(page).to have_field('Offset', with: '5.0')
-          expect(page).to have_field('Acquisition Source Name', with: 'ATM')
+          expect(page).to have_field('Variable Type', with: 'SCIENCE_VARIABLE')
+          expect(page).to have_field('Data Type', with: 'byte')
         end
       end
     end
@@ -259,26 +242,25 @@ describe 'Variable Draft Forms Field Validation', js: true do
 
   context 'number fields with names that break text transformation conventions' do
     before do
-      visit edit_variable_draft_path(draft, 'size_estimation')
+      visit edit_variable_draft_path(draft, 'dimensions')
     end
 
     context 'when entering text into a number field' do
       before do
-        fill_in 'variable_draft_draft_size_estimation_average_size_of_granules_sampled', with: 'abcd'
-        fill_in 'variable_draft_draft_size_estimation_average_compression_information_0_rate', with: 'abcd'
+        fill_in 'variable_draft_draft_dimensions_0_size', with: 'abcd'
         find('body').click
       end
 
       it 'displays validation error messages' do
-        expect(page).to have_css('.eui-banner--danger', count: 3)
+        # 1 Large banner at the top of the page
+        # 1 small banner under the size field
+        expect(page).to have_css('.eui-banner--danger', count: 2)
 
         within '.summary-errors' do
-          expect(page).to have_content('Average Size Of Granules Sampled must be of type number')
-          expect(page).to have_content('Rate must be of type number')
+          expect(page).to have_content('Size must be of type number')
         end
 
-        expect(page).to have_css('#variable_draft_draft_size_estimation_average_size_of_granules_sampled_error', text: 'Average Size Of Granules Sampled must be of type number')
-        expect(page).to have_css('#variable_draft_draft_size_estimation_average_compression_information_0_rate_error', text: 'Rate must be of type number')
+        expect(page).to have_css('#variable_draft_draft_dimensions_0_size_error', text: 'Size must be of type number')
       end
 
       context 'when saving the form' do
@@ -298,8 +280,7 @@ describe 'Variable Draft Forms Field Validation', js: true do
           end
 
           it 'displays validation error messages for fields with data' do
-            expect(page).to have_css('#variable_draft_draft_size_estimation_average_size_of_granules_sampled_error', text: 'Average Size Of Granules Sampled must be of type number')
-            expect(page).to have_css('#variable_draft_draft_size_estimation_average_compression_information_0_rate_error', text: 'Rate must be of type number')
+            expect(page).to have_css('#variable_draft_draft_dimensions_0_size_error', text: 'Size must be of type number')
           end
         end
       end
@@ -328,85 +309,97 @@ describe 'Variable Draft Forms Field Validation', js: true do
 
   context 'entering multiple simple fields' do
     before do
-      visit edit_variable_draft_path(draft, 'variable_characteristics')
+      visit edit_variable_draft_path(draft, 'variable_information')
     end
 
     context 'when entering invalid data' do
       before do
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_0', with: 'string'
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_1', with: 'string'
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_0', with: 'string'
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_1', with: 'string'
+        fill_in 'variable_draft_draft_index_ranges_lat_range_0', with: 'string'
+        fill_in 'variable_draft_draft_index_ranges_lat_range_1', with: 'string'
+        fill_in 'variable_draft_draft_index_ranges_lon_range_0', with: 'string'
+        fill_in 'variable_draft_draft_index_ranges_lon_range_1', with: 'string'
         within '.nav-top' do
           click_on 'Save'
         end
       end
 
       it 'displays validation error messages' do
-        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lat_range_0_error', text: 'Lat Range must be of type number')
-        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lat_range_1_error', text: 'Lat Range must be of type number')
-        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lon_range_0_error', text: 'Lon Range must be of type number')
-        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lon_range_1_error', text: 'Lon Range must be of type number')
+        expect(page).to have_css('#variable_draft_draft_index_ranges_lat_range_0_error', text: 'Lat Range must be of type number')
+        expect(page).to have_css('#variable_draft_draft_index_ranges_lat_range_1_error', text: 'Lat Range must be of type number')
+        expect(page).to have_css('#variable_draft_draft_index_ranges_lon_range_0_error', text: 'Lon Range must be of type number')
+        expect(page).to have_css('#variable_draft_draft_index_ranges_lon_range_1_error', text: 'Lon Range must be of type number')
       end
     end
 
     context 'when entering valid data' do
       before do
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_0', with: '1'
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_1', with: '2'
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_0', with: '1'
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_1', with: '2'
+        fill_in 'variable_draft_draft_index_ranges_lat_range_0', with: '1'
+        fill_in 'variable_draft_draft_index_ranges_lat_range_1', with: '2'
+        fill_in 'variable_draft_draft_index_ranges_lon_range_0', with: '1'
+        fill_in 'variable_draft_draft_index_ranges_lon_range_1', with: '2'
         within '.nav-top' do
           click_on 'Save'
         end
       end
 
       it 'does not display validation error messages' do
-        expect(page).to have_no_css('#variable_draft_draft_characteristics_index_ranges_lat_range_0_error', text: 'Lat Range must be of type number')
-        expect(page).to have_no_css('#variable_draft_draft_characteristics_index_ranges_lat_range_1_error', text: 'Lat Range must be of type number')
-        expect(page).to have_no_css('#variable_draft_draft_characteristics_index_ranges_lon_range_0_error', text: 'Lon Range must be of type number')
-        expect(page).to have_no_css('#variable_draft_draft_characteristics_index_ranges_lon_range_1_error', text: 'Lon Range must be of type number')
+        expect(page).to have_no_css('#variable_draft_draft_index_ranges_lat_range_0_error', text: 'Lat Range must be of type number')
+        expect(page).to have_no_css('#variable_draft_draft_index_ranges_lat_range_1_error', text: 'Lat Range must be of type number')
+        expect(page).to have_no_css('#variable_draft_draft_index_ranges_lon_range_0_error', text: 'Lon Range must be of type number')
+        expect(page).to have_no_css('#variable_draft_draft_index_ranges_lon_range_1_error', text: 'Lon Range must be of type number')
       end
     end
   end
 
   context 'multiple simple fields' do
     before do
-      visit edit_variable_draft_path(draft, 'variable_characteristics')
+      visit edit_variable_draft_path(draft, 'variable_information')
+    end
+
+    context 'when entering one pair of fields' do
+      before do
+        fill_in 'variable_draft_draft_index_ranges_lat_range_1', with: '2'
+        fill_in 'variable_draft_draft_index_ranges_lat_range_0', with: '1'
+        within '.nav-top' do
+          click_on 'Save'
+        end
+      end
+
+      it 'displays validation errors that a paired field is required' do
+        expect(page).to have_css('#variable_draft_draft_index_ranges_lon_range_error', text: 'Lon Range is required')
+      end
     end
 
     context 'when entering one field' do
       before do
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_0', with: '1'
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_0', with: '1'
+        fill_in 'variable_draft_draft_index_ranges_lat_range_0', with: '1'
+        fill_in 'variable_draft_draft_index_ranges_lon_range_0', with: '1'
         within '.nav-top' do
           click_on 'Save'
         end
       end
 
       it 'displays validation error messages' do
-        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lat_range_error', text: 'Lat Range has too few items')
-        expect(page).to have_css('#variable_draft_draft_characteristics_index_ranges_lon_range_error', text: 'Lon Range has too few items')
+        expect(page).to have_css('#variable_draft_draft_index_ranges_lat_range_error', text: 'Lat Range has too few items')
+        expect(page).to have_css('#variable_draft_draft_index_ranges_lon_range_error', text: 'Lon Range has too few items')
       end
     end
 
     context 'when entering two fields' do
       before do
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_0', with: '1'
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_0', with: '1'
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lat_range_1', with: '2'
-        fill_in 'variable_draft_draft_characteristics_index_ranges_lon_range_1', with: '2'
+        fill_in 'variable_draft_draft_index_ranges_lat_range_0', with: '1'
+        fill_in 'variable_draft_draft_index_ranges_lon_range_0', with: '1'
+        fill_in 'variable_draft_draft_index_ranges_lat_range_1', with: '2'
+        fill_in 'variable_draft_draft_index_ranges_lon_range_1', with: '2'
         within '.nav-top' do
           click_on 'Save'
         end
       end
 
       it 'does not display validation error messages' do
-        expect(page).to have_no_css('#variable_draft_draft_characteristics_index_ranges_lat_range_error', text: 'Lat Range has too few items')
-        expect(page).to have_no_css('#variable_draft_draft_characteristics_index_ranges_lon_range_error', text: 'Lon Range has too few items')
+        expect(page).to have_no_css('#variable_draft_draft_index_ranges_lat_range_error', text: 'Lat Range has too few items')
+        expect(page).to have_no_css('#variable_draft_draft_index_ranges_lon_range_error', text: 'Lon Range has too few items')
       end
     end
-
   end
-
 end

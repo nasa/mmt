@@ -41,8 +41,7 @@ class SearchController < ManageMetadataController
     search_response =
       case @record_type
       when 'collections'
-        query['include_granule_counts'] = true
-        cmr_client.get_collections(query, token)
+        get_collection_search_results(query)
       when 'variables'
         cmr_client.get_variables(query, token)
       when 'services'
@@ -58,7 +57,7 @@ class SearchController < ManageMetadataController
       errors = []
       hits = search_response.body['hits'].to_i
     else
-      Rails.logger.error("Search Error: #{search_response.clean_inspect}")
+      Rails.logger.error("Search Controller Error: #{search_response.clean_inspect}")
 
       records = []
       hits = 0
@@ -66,6 +65,40 @@ class SearchController < ManageMetadataController
     end
 
     [records, errors, hits]
+  end
+
+  def get_collection_search_results(query)
+    # TODO: when CMR-6655 is worked we should be able to just do one search
+    # umm_json results so this can be streamlined in MMT-2359
+    umm_json_query = query.dup
+    umm_json_query['include_granule_counts'] = true
+    umm_json_results = cmr_client.get_collections(umm_json_query, token)
+    return umm_json_results unless umm_json_results.success?
+
+    # json results
+    json_query = query.dup
+    json_query['include_tags'] = '*'
+    json_results = cmr_client.search_collections(json_query, token)
+
+    if json_results.success?
+      collate_collection_results(umm_json_results, json_results)
+    else
+      # if this call failed, tag counts will be 0 and we will display this flash message
+      flash[:error] = "There was an error searching for Tags: #{json_results.error_message(i18n: I18n.t('controllers.search.get_collection_search_results.error'))}"
+    end
+
+    umm_json_results
+  end
+
+  def collate_collection_results(umm_json_results, json_results)
+    # should have successful results from both searches
+    umm_json_results.body['items'].each_with_index do |collection, index|
+      json_collection = json_results.body.dig('feed', 'entry', index)
+      next unless collection.fetch('meta', {})['concept-id'] == json_collection.fetch('id', nil)
+
+      collection['added_fields'] ||= {}
+      collection['added_fields']['tags'] = json_collection['tags']
+    end
   end
 
   def proposal_mode_enabled?

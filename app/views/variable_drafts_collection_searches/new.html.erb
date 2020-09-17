@@ -1,0 +1,46 @@
+<% content_for :header_title do %>
+  <h2>Collection Association Search</h2>
+<% end %>
+
+<div class="variable-form">
+  <div class="row row-content">
+    <section>
+      <h3>Collection Association Search</h3>
+
+      <fieldset class="variable-draft-selected-collection-association">
+        <h4>Currently Selected Collection</h4>
+        <table id="variable-draft-collection-association-table">
+          <thead>
+            <tr>
+              <th>Entry Title</th>
+              <th>Short Name</th>
+              <th>Version</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <% if @draft.collection_concept_id.present? && @current_collection_info %>
+              <td><%= link_to @current_collection_info.dig('umm', 'entry-title'), collection_path(@current_collection_info.dig('meta', 'concept-id')) %></td>
+              <td><%= @current_collection_info.dig('umm', 'short-name') %></td>
+              <td><%= @current_collection_info.dig('umm', 'version-id') %></td>
+              <% elsif @current_collection_error %>
+              <td colspan="3"><%= @current_collection_error %></td>
+              <% else %>
+              <td colspan="3">No Collection Association found. A Collection must be selected in order to publish this Variable Draft. Each Variable can only be associated with a single Collection.</td>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+
+        <% unless @draft.collection_concept_id.blank? %>
+          <%= button_to 'Clear Collection Association', update_associated_collection_variable_draft_path(@draft), method: :post, params: { selected_collection: nil }, class: 'eui-btn eui-btn--red'  %>
+        <% end %>
+      </fieldset>
+
+      <%= render partial: 'cmr_search/shared/search_form', locals: { submit_path: collection_search_variable_draft_path, allow_cancel: true, cancel_path: variable_draft_path } %>
+
+      <%= render partial: 'cmr_search/shared/search_results', locals: { collections: @collections, use_radio_buttons: true, submit_path: update_associated_collection_variable_draft_path, submit_text: 'Submit', use_spinner: false, allow_cancel: true, cancel_path: variable_draft_path } %>
+    </section>
+  </div>
+</div>

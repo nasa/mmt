@@ -13,13 +13,6 @@ describe 'Tool with draft', reset_provider: true do
         visit tool_path(ingest_response['concept-id'])
       end
 
-      # TODO: remove after CMR-6332
-      after do
-        delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
-
-        raise unless delete_response.success?
-      end
-
       it 'displays a message that a draft exists' do
         expect(page).to have_content('This tool has an open draft associated with it. Click here to view it.')
       end
@@ -48,13 +41,6 @@ describe 'Tool with draft', reset_provider: true do
         login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
 
         visit tool_path(ingest_response['concept-id'])
-      end
-
-      # TODO: remove after CMR-6332
-      after do
-        delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
-
-        raise unless delete_response.success?
       end
 
       it 'displays a message that a draft exists' do
@@ -101,13 +87,6 @@ describe 'Tool with draft', reset_provider: true do
         login(provider: 'SEDAC', providers: %w(SEDAC))
 
         visit tool_path(ingest_response['concept-id'])
-      end
-
-      # TODO: remove after CMR-6332
-      after do
-        delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
-
-        raise unless delete_response.success?
       end
 
       it 'does not display a message that a draft exists' do

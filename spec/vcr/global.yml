@@ -104,10 +104,10 @@ http_interactions:
   recorded_at: Tue, 15 Nov 2016 14:40:33 GMT
 - request:
     method: post
-    uri: https://sit.urs.earthdata.nasa.gov/oauth/token?grant_type=client_credentials
+    uri: https://sit.urs.earthdata.nasa.gov/oauth/token
     body:
       encoding: US-ASCII
-      string: ''
+      string: 'grant_type=client_credentials'
     headers:
       User-Agent:
       - Faraday v0.8.11
