@@ -7,6 +7,7 @@ class CollectionAssociationsController < CmrSearchController
 
   before_action :set_resource
   before_action :ensure_not_variable, only: [:new, :create, :destroy]
+  before_action :ensure_variable, only: [:edit, :update]
   before_action :add_high_level_breadcrumbs
   before_action :ensure_correct_provider, only: [:index, :new]
 
@@ -69,6 +70,48 @@ class CollectionAssociationsController < CmrSearchController
     end
   end
 
+  # Only variables should be allowed to be edited and updated in this fashion.
+  # This is because the variable must be associated to one and only one collection
+  def edit
+    @previously_associated_collections = get_all_collection_associations
+
+    add_breadcrumb 'Edit', send("edit_#{lower_resource_name}_collection_association_path", resource_id)
+
+    super
+  end
+
+  def update
+    # Get metadata in its native format so that we can reingest it.
+    search_response = cmr_client.get_concept(params[:variable_id], token, {})
+    if search_response.success?
+      format = search_response.headers['content_type']
+      metadata = search_response.body
+    else
+      Rails.logger.error("Search #{resource_name} Metadata Error: #{search_response.clean_inspect}")
+
+      flash[:error] = search_response.error_message(i18n: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.update.flash.error"), force_i18n_preface: true)
+      redirect_to send("#{lower_resource_name}_collection_associations_path", concept_id) and return
+    end
+
+    # Override headers to reingest same version.
+    ingest_response = cmr_client.ingest_variable(metadata: metadata.to_json, provider_id: @provider_id, native_id: @native_id, collection_concept_id: params['selected_collection'], token: token, headers_override: { 'Content-Type' => format })
+
+    if ingest_response.success?
+      # get information for publication email notification before draft is deleted
+      var_concept_id = ingest_response.body['concept-id']
+      col_concept_id = ingest_response.body['associated-item']['concept-id']
+      Rails.logger.info("Audit Log: Variable with concept_id: #{var_concept_id} republished with a new collection association. The new associated collection has a concept_id of: #{col_concept_id} in provider: #{@provider_id}")
+      redirect_to send("#{lower_resource_name}_collection_associations_path", var_concept_id), flash: { success: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.update.flash.success") }
+    else
+      # Log error message
+      Rails.logger.error("Ingest #{resource_name} Metadata Error: #{ingest_response.clean_inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to ingest #{resource_name} from the manage collection associations page in provider #{current_user.provider_id} but encountered an error.")
+
+      flash[:error] = ingest_response.error_message(i18n: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.update.flash.error"), force_i18n_preface: true)
+      redirect_to send("#{lower_resource_name}_collection_associations_path", concept_id)
+    end
+  end
+
   def destroy
     # Variables must be associated with one collection. They should be blocked
     # from this action.
@@ -125,7 +168,7 @@ class CollectionAssociationsController < CmrSearchController
 
   def set_resource
     set_metadata
-    @resource = if params[:variable_id]
+    @resource = if variable_id
                   @variable
                 elsif params[:service_id]
                   @service
@@ -153,9 +196,15 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   def resource_id
-    params[:variable_id] || params[:service_id]
+    params[:service_id] || variable_id
   end
   helper_method :resource_id
+
+  def variable_id
+    return params[:variable_id] if params[:variable_id]
+
+    params[:id] if params[:id].split('-').first.starts_with?(/V\d/)
+  end
 
   def add_high_level_breadcrumbs
     add_breadcrumb plural_resource_name # there is no variables index action, so not providing a link
@@ -199,5 +248,9 @@ class CollectionAssociationsController < CmrSearchController
 
   def ensure_not_variable
     redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id) if variable?
+  end
+
+  def ensure_variable
+    redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id) unless variable?
   end
 end

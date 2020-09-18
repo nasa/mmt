@@ -3,6 +3,16 @@ class CmrSearchController < ManageMetadataController
   RESULTS_PER_PAGE = 500
 
   def new
+    fetch_collections
+  end
+
+  def edit
+    fetch_collections
+  end
+
+  private
+
+  def fetch_collections
     permitted = params.to_unsafe_h unless params.nil? # need to understand what this is doing more, think related to nested parameters not permitted.
 
     cmr_params = {
@@ -58,8 +68,6 @@ class CmrSearchController < ManageMetadataController
 
     @collections = Kaminari.paginate_array(collection_results, total_count: collection_count).page(permitted['page']).per(RESULTS_PER_PAGE)
   end
-
-  private
 
   # CMR requires some additional data in the payload when particular
   # keys are provided so we need to compensate for that here

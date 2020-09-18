@@ -127,7 +127,7 @@ class ManageMetadataController < ApplicationController
   end
 
   def set_metadata_information
-    # this process was suggested/requested by the CMR team: 
+    # this process was suggested/requested by the CMR team:
     # search for metadata record by concept id to get the native_id and provider_id
     # if the metadata record is not found, try again because CMR might be a little slow to index if it is a newly published record
     attempts = 0
