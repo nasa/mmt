@@ -97,13 +97,11 @@ class CollectionAssociationsController < CmrSearchController
     ingest_response = cmr_client.ingest_variable(metadata: metadata.to_json, provider_id: @provider_id, native_id: @native_id, collection_concept_id: params['selected_collection'], token: token, headers_override: { 'Content-Type' => format })
 
     if ingest_response.success?
-      # get information for publication email notification before draft is deleted
       var_concept_id = ingest_response.body['concept-id']
       col_concept_id = ingest_response.body['associated-item']['concept-id']
       Rails.logger.info("Audit Log: Variable with concept_id: #{var_concept_id} republished with a new collection association. The new associated collection has a concept_id of: #{col_concept_id} in provider: #{@provider_id}")
       redirect_to send("#{lower_resource_name}_collection_associations_path", var_concept_id), flash: { success: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.update.flash.success") }
     else
-      # Log error message
       Rails.logger.error("Ingest #{resource_name} Metadata Error: #{ingest_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest #{resource_name} from the manage collection associations page in provider #{current_user.provider_id} but encountered an error.")
 
