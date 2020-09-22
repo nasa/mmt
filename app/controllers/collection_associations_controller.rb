@@ -201,7 +201,7 @@ class CollectionAssociationsController < CmrSearchController
   def variable_id
     return params[:variable_id] if params[:variable_id]
 
-    params[:id] if params[:id].split('-').first.starts_with?(/V\d/)
+    params[:id] if params[:id]&.split('-').first.starts_with?(/V\d/)
   end
 
   def add_high_level_breadcrumbs
