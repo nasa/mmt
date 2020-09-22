@@ -42,41 +42,15 @@ describe 'Create new draft from variable', reset_provider: true do
     end
 
     context 'when clicking on the Collection Association form link' do
-      # this is temporarily blocked so we should test it is blocked correctly
       before do
         click_on 'Collection Association'
       end
 
-      it 'displays a modal indicating that the Collection Association cannot be modified' do
-        expect(page).to have_content("This Variable Draft is associated with a published Variable. Modifying a Variable's Collection Association is temporarily disabled.")
-
-        expect(page).to have_content('Publish Variable Draft')
-        expect(page).to have_content('Metadata Fields')
-        expect(page).to have_content('Variable Information')
-
-        expect(page).to have_no_content('Collection Association Search')
-        expect(page).to have_no_css('#variable-draft-collection-association-table')
-        expect(page).to have_no_select('Search Field')
-        expect(page).to have_no_css("input[id$='query_text']")
-      end
-    end
-
-    context 'when attempting to visit the collection association form directly' do
-      # this is temporarily blocked so we should test it is blocked correctly
-      before do
-        collection_association_link = page.current_path + '/collection_search'
-        visit collection_association_link
-      end
-
-      it 'does not display the Collection Association Form' do
-        expect(page).to have_content('Publish Variable Draft')
-        expect(page).to have_content('Metadata Fields')
-        expect(page).to have_content('Variable Information')
-
-        expect(page).to have_no_content('Collection Association Search')
-        expect(page).to have_no_css('#variable-draft-collection-association-table')
-        expect(page).to have_no_select('Search Field')
-        expect(page).to have_no_css("input[id$='query_text']")
+      it 'allows a user to modify the collection association' do
+        expect(page).to have_content('Collection Association Search')
+        expect(page).to have_css('#variable-draft-collection-association-table')
+        expect(page).to have_select('Search Field')
+        expect(page).to have_css("input[id$='query_text']")
       end
     end
   end

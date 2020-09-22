@@ -33,7 +33,7 @@
           </tbody>
         </table>
 
-        <% unless @draft.collection_concept_id.blank? %>
+        <% if @draft.collection_concept_id.present? %>
           <%= button_to 'Clear Collection Association', update_associated_collection_variable_draft_path(@draft), method: :post, params: { selected_collection: nil }, class: 'eui-btn eui-btn--red'  %>
         <% end %>
       </fieldset>

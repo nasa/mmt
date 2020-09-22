@@ -84,7 +84,7 @@ class CollectionAssociationsController < CmrSearchController
     # Get metadata in its native format so that we can reingest it.
     search_response = cmr_client.get_concept(params[:variable_id], token, {})
     if search_response.success?
-      format = search_response.headers['content_type']
+      format = search_response.headers['content-type']
       metadata = search_response.body
     else
       Rails.logger.error("Search #{resource_name} Metadata Error: #{search_response.clean_inspect}")

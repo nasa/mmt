@@ -16,23 +16,6 @@ class VariableDraftsController < BaseDraftsController
     set_measurement_names if @current_form == 'measurement_identifiers'
   end
 
-  def show
-    # search for a variable by native id
-    variable_params = { native_id: get_resource.native_id, provider: get_resource.provider_id }
-    variable_search_response = cmr_client.get_variables(variable_params, token)
-    # temporarily we are blocking the changing of a collection association for
-    # published variables. so if we are editing a published variable they should
-    # not be able to access the collection association form to change it
-    @editing = if variable_search_response.success?
-                 variable_search_response.body['hits'].to_i > 0 ? true : false
-               else
-                 Rails.logger.error("Error searching for published Variable in VariableDraftsController#show: #{variable_search_response.clean_inspect}")
-                 true
-               end
-
-    super
-  end
-
   def update_associated_collection
     authorize get_resource
 
