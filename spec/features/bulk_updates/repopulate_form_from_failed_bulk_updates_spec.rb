@@ -63,7 +63,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         expect(page).to have_select('Field to Update', selected: 'Platforms')
         expect(page).to have_select('Update Type', selected: 'Find & Update')
         expect(page).to have_field('Short Name', with: 'A340-600')
-        expect(page).to have_select('update_value_short_name', selected: 'DMSP 5B/F3')
+        expect(page).to have_select('platform_short_name', selected: 'DMSP 5B/F3')
         expect(page).to have_field('Long Name', with: 'Defense Meteorological Satellite Program-F3')
       end
 
@@ -152,7 +152,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         expect(page).to have_select('Field to Update', selected: 'Instruments')
         expect(page).to have_select('Update Type', selected: 'Find & Update')
         expect(page).to have_field('Short Name', with: 'ADS')
-        expect(page).to have_select('update_value_short_name', selected: 'ATM')
+        expect(page).to have_select('instrument_short_name', selected: 'ATM')
         expect(page).to have_field('Long Name', with: 'Airborne Topographic Mapper')
       end
 
@@ -239,7 +239,7 @@ describe 'Repopulating Bulk Update Form after a failed attempt', js: true do
         expect(page).to have_select('Field to Update', selected: 'Data Centers')
         expect(page).to have_select('Update Type', selected: 'Find & Update')
         expect(page).to have_field('Short Name', with: 'AARHUS-HYDRO')
-        expect(page).to have_select('update_value_short_name', selected: 'OR-STATE/EOARC')
+        expect(page).to have_select('data_center_short_name', selected: 'OR-STATE/EOARC')
         expect(page).to have_field('Long Name', with: 'Eastern Oregon Agriculture Research Center, Oregon State University')
 
         within '.related-url' do

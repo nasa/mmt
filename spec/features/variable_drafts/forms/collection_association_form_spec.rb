@@ -12,7 +12,7 @@ describe 'Variable Draft Collection Association Form', js: true, reset_provider:
     end
 
     it 'displays the correct title' do
-      within '.umm-form' do
+      within '.variable-form' do
         expect(page).to have_content('Collection Association')
       end
     end

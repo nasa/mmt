@@ -1,7 +1,6 @@
 $(document).ready ->
   $('.delete-collection-in-current-provider').on 'click', (e) ->
-    count = $('.collection-granule-count').text()
-    if count != 'Granules (0)'
+    if numGranules > 0 || numVariables > 0
       e.stopImmediatePropagation()
 
-      $('#display-granules-modal').click()
+      $('#display-cascade-delete-modal').click()

@@ -10,8 +10,8 @@ module UrsUserEndpoints
   def render_users_from_urs(users)
     users.map do |u|
       {
-        id: u['uid'],
-        text: urs_user_full_name(u)
+        id: html_escape(u['uid']),
+        text: html_escape(urs_user_full_name(u))
       }
     end
   end
