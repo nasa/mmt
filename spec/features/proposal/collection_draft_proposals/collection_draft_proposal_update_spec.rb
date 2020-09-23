@@ -45,8 +45,10 @@ describe 'Collection Draft Proposal Update', reset_provider: true do
         before do
           visit edit_collection_draft_proposal_path(@collection_draft_proposal)
           mock_submit(CollectionDraftProposal.first)
-          fill_in 'Short Name', with: 'a short name that will not be updated'
-          fill_in 'Abstract', with: 'the short name and abstract will not be updated because the satus of this proposal is not "in_work"'
+          @short_name = 'a short name that will not be updated'
+          @abstract = 'the short name and abstract will not be updated because the satus of this proposal is not "in_work"'
+          fill_in 'Short Name', with: @short_name
+          fill_in 'Abstract', with: @abstract
           within '.nav-top' do
             click_on 'Done'
           end
@@ -55,8 +57,9 @@ describe 'Collection Draft Proposal Update', reset_provider: true do
         it 'is not updating' do
           expect(page).to have_content('Only proposals in an "In Work" status can be edited.')
           expect(page).to have_link('Cancel Proposal Submission')
-          expect(page).to have_no_content('a short name that will not be updated')
-          expect(page).to have_no_content('the short name and abstract will not be updated because the satus of this proposal is not "in_work"')
+          expect(page).to have_no_content(@abstract)
+          expect(page).to have_no_content(@short_name)
+          expect(page).to have_content('This is a long description of the collection')
         end
       end
     end
