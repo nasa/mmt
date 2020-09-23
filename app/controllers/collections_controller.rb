@@ -6,6 +6,7 @@ class CollectionsController < ManageCollectionsController
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
   before_action :set_tags, only: [:show, :destroy]
+  before_action :set_associated_services, only: [:show]
 
   layout 'collection_preview', only: [:show]
 
@@ -238,5 +239,9 @@ class CollectionsController < ManageCollectionsController
       # if this call failed, num_tags will be 0 and we will display this flash message
       flash[:error] = "There was an error retrieving Tags for this Collection: #{collection_json_response.error_message(i18n: I18n.t('controllers.collections.set_tags.search_collections.error'))}"
     end
+  end
+
+  def set_associated_services
+    get_associated_services(@revisions)
   end
 end

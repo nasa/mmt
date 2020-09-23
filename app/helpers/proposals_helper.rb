@@ -132,7 +132,7 @@ module ProposalsHelper
     user_hash[submitter_id] || 'Pending'
   end
 
-  def proposal_published_notification_view_collections_link
+  def cmr_search_root_url
     if Rails.env.development? || Rails.env.test?
       'http://localhost:3003'
     elsif Rails.env.production?

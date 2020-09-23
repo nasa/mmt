@@ -1,74 +1,54 @@
 describe 'Create new draft from collection' do
-  # short_name = '12345'
-  # entry_title = 'Draft Title'
+  native_id = SecureRandom.uuid
 
   context 'when editing a CMR collection' do
     before do
       login
-      ingest_response, @concept_response = publish_collection_draft
+      ingest_response, @concept_response = publish_collection_draft(native_id: native_id)
 
       visit collection_path(ingest_response['concept-id'])
 
       click_on 'Edit Collection Record'
-
-      # expect(page).to have_content('Metadata Fields')
     end
 
     it 'displays a confirmation message' do
       expect(page).to have_content('Collection Draft Created Successfully!')
-    # end
+    end
 
-    # it 'creates a new draft' do
-    #   expect(Draft.count).to eq(1)
-    # end
+    it 'creates a new draft' do
+      expect(Draft.count).to eq(1)
+    end
 
-    # it 'saves the provider id into the draft' do
-    #   expect(Draft.last.provider_id).to eq('MMT_2')
-    # end
+    it 'saves the provider id into the draft' do
+      expect(Draft.last.provider_id).to eq('MMT_2')
+    end
 
-    # it 'saves the native_id from the published collection' do
-    #   draft = Draft.last
-    #   expect(draft.native_id).to eq('full_collection_draft_id')
-    # end
+    it 'saves the native_id from the published collection' do
+      draft = Draft.last
+      expect(draft.native_id).to eq("#{native_id}")
+    end
 
-    # it 'displays the draft preview page' do
-      # expect(page).to have_content('DRAFT RECORD')
+    it 'displays the draft preview page' do
       expect(page).to have_content(@concept_response.body['EntryTitle'])
     end
   end
 
-  # TODO: Not sure how this is different than the above test, removing
-  # context 'when editing a CMR collection that was originally published by MMT' do
-  #   current_datetime = nil
-  #   before do
-  #     login
-  #     draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
-  #     visit collection_draft_path(draft)
-  #     current_datetime = Time.now.utc.strftime('%Y-%m-%dT%H:%M:00.000Z')
-  #     click_on 'Publish'
-  #     wait_for_cmr
+  context 'when editing a CMR collection with associated services' do
+    before do
+      login
+      ingest_response, @concept_response = publish_collection_draft(native_id: native_id)
+      @service_ingest_response, service_concept_response = publish_service_draft
+      assoc_response = create_service_collection_association(@service_ingest_response['concept-id'], ingest_response['concept-id'])
 
-  #     expect(page).to have_link 'Edit Collection Record'
-  #     page.document.synchronize do
-  #       click_on 'Edit Collection Record'
-  #     end
+      visit collection_path(ingest_response['concept-id'])
 
-  #     expect(page).to have_content('Metadata Fields')
-  #   end
+      click_on 'Edit Collection Record'
+    end
 
-  #   it 'copies all data from the published record into the draft' do
-  #     draft = Draft.order('updated_at desc').first.draft
-  #     metadata = build(:full_collection_draft).draft
-
-  #     # set the metadata update date to the autopopulated date
-  #     dates = metadata['MetadataDates']
-  #     date = dates.find { |d| d['Type'] == 'UPDATE' }
-  #     dates.delete(date)
-  #     date['Date'] = current_datetime
-  #     dates << date
-  #     metadata['MetadataDates'] = dates
-
-  #     expect(draft).to eq(metadata)
-  #   end
-  # end
+    it 'has an associated service with the correct service record link' do
+      within '#associated-services-panel' do
+        expect(page).to have_link('View Service Record', href: "#{root_url}services/#{@service_ingest_response['concept-id']}")
+      end
+    end
+  end
 end
