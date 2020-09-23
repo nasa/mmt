@@ -103,19 +103,6 @@ describe 'Spatial information form', js: true do
               fill_in 'Maximum Value', with: '15.0'
             end
           end
-          click_on 'Add another Tiling Identification System'
-
-          within '.multiple-item-2' do
-            select 'Military Grid Reference System', from: 'Tiling Identification System Name'
-            within first('.tiling-coordinate') do
-              fill_in 'Minimum Value', with: '-50.0'
-              fill_in 'Maximum Value', with: '50.0'
-            end
-            within all('.tiling-coordinate').last do
-              fill_in 'Minimum Value', with: '-50.0'
-              fill_in 'Maximum Value', with: '50.0'
-            end
-          end
         end
 
         # Spatial Representation Information is not filled in in this case
@@ -228,17 +215,6 @@ describe 'Spatial information form', js: true do
             within all('.tiling-coordinate').last do
               expect(page).to have_field('Minimum Value', with: '-15.0')
               expect(page).to have_field('Maximum Value', with: '15.0')
-            end
-          end
-          within '.multiple-item-2' do
-            expect(page).to have_field('Tiling Identification System Name', with: 'Military Grid Reference System')
-            within first('.tiling-coordinate') do
-              expect(page).to have_field('Minimum Value', with: '-50.0')
-              expect(page).to have_field('Maximum Value', with: '50.0')
-            end
-            within all('.tiling-coordinate').last do
-              expect(page).to have_field('Minimum Value', with: '-50.0')
-              expect(page).to have_field('Maximum Value', with: '50.0')
             end
           end
         end

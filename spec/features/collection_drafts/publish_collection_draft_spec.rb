@@ -3,6 +3,32 @@ describe 'Publishing collection draft records', js: true do
     login
   end
 
+  context 'when publishing a collection draft with newly added forms, values, features when UMM-C is updated' do
+    before do
+      @email_count = ActionMailer::Base.deliveries.count
+
+      draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
+      visit collection_draft_path(draft)
+    end
+
+    context 'when new enum value is added in UMM 1.15.4' do
+      before do
+        find('i.tiling-identification-system').click
+        within '.multiple.tiling-identification-systems' do
+          select 'Military Grid Reference System', from: 'Tiling Identification System Name'
+        end
+        within '.nav-top' do
+          click_on 'Done'
+        end
+        click_on 'Publish'
+      end
+
+      it 'displays a confirmation message' do
+        expect(page).to have_content('Collection Draft Published Successfully!')
+      end
+    end
+  end
+
   context 'when publishing a collection draft record' do
     before do
       @email_count = ActionMailer::Base.deliveries.count
