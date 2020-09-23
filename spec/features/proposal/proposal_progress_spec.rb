@@ -243,6 +243,56 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
           end
         end
       end
+
+      context 'when viewing a rejected proposal which has no feedback' do
+        before do
+          mock_reject(@collection_draft_proposal, false)
+          visit progress_collection_draft_proposal_path(@collection_draft_proposal)
+        end
+
+        it 'displays the correct progress' do
+          within '#timeline-create-submission' do
+            expect(page).to have_content('Submitted for Review')
+            expect(page).to have_css('div.timeline-node')
+            expect(page).to have_css('div.timeline-line')
+            expect(page).to have_content('Submitted: 2019-10-11 01:00')
+            expect(page).to have_content('By: TestUser1')
+          end
+
+          within '#timeline-review-submission' do
+            expect(page).to have_content('Rejected')
+            expect(page).to have_content('Rejected: 2019-10-11 03:00')
+            expect(page).to have_content('By: TestUser3')
+            expect(page).to have_content('Reason(s): No Reason Provided')
+            expect(page).to have_content('Note: No Notes Provided')
+            expect(page).to have_link('Click for full details')
+            expect(page).to have_css('div.timeline-node-rejected')
+            expect(page).to have_css('div.timeline-line-faded-rejected')
+          end
+        end
+
+        it 'displays the correct actions' do
+          within '.progress-actions' do
+            expect(page).to have_content('You may cancel this proposal to make additional changes.')
+            expect(page).to have_link('Cancel Proposal Submission')
+          end
+        end
+
+        context 'when clicking on the link for full details' do
+          before do
+            within '#timeline-review-submission' do
+              click_on 'Click for full details'
+            end
+          end
+
+          it 'displays the modal with the rejection feedback' do
+            within '#rejection-reasons-modal' do
+              expect(page).to have_content('Reason(s): No Reason Provided')
+              expect(page).to have_content('Note: No Notes Provided')
+            end
+          end
+        end
+      end
     end
 
     context 'when viewing a done proposal' do

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Viewing a variable' do
   # this test is for the unusual case when retrieving the concept works but
   # the search endpoint returns an empty response. this has happened when the
@@ -9,7 +7,8 @@ describe 'Viewing a variable' do
   long_name = "Long Detailed Description of Useful Gas and Ratio Test Search Var #{Faker::Number.number(digits: 6)}"
 
   before :all do
-    @ingest_response, _concept_response = publish_variable_draft(name: variable_name, long_name: long_name)
+    collection_ingest_response, _collection_concept_response = publish_collection_draft
+    @ingest_response, _concept_response = publish_variable_draft(name: variable_name, long_name: long_name, collection_concept_id: collection_ingest_response['concept-id'])
   end
 
   before do
@@ -41,9 +40,10 @@ describe 'Viewing a variable' do
     end
 
     context 'when visiting the show page of a non-existent variable' do
-      # This test should be revisited with MMT-2301. MMT-1557 made a change that if a concept cannot be retrieved to compare UMM Versions, editing is not allowed so we are only showing a page notifying the user the version cannot be confirmed
       before do
-        visit variable_path('fake-concept-id')
+        # This fake concept-id still needs to have a 'V' to get parsed through
+        # set-metadata correctly.
+        visit variable_path('Var-fake-concept-id')
       end
 
       it 'displays the variable show page with no data' do
@@ -51,16 +51,6 @@ describe 'Viewing a variable' do
           expect(page).to have_content('Variables')
           expect(page).to have_content('<Blank Name>')
         end
-        #
-        # within '#variable_name_preview' do
-        #   expect(page).to have_css('h5', text: 'Name')
-        #   expect(page).to have_css('p', text: 'No value for Name provided')
-        # end
-        #
-        # within '#variable_long_name_preview' do
-        #   expect(page).to have_css('h5', text: 'Long Name')
-        #   expect(page).to have_css('p', text: 'No value for Long Name provided')
-        # end
       end
 
       it 'notifies the user the UMM version cannot be verified' do

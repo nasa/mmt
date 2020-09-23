@@ -15,7 +15,7 @@ describe 'Empty Variable Draft Fill Value Preview' do
     it 'displays the correct status icon' do
       within '#fill_values-progress' do
         within '.status' do
-          expect(page).to have_content('Fill Values is valid')
+          expect(page).to have_css('.eui-icon.icon-green.eui-check')
         end
       end
     end

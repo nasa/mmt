@@ -9,11 +9,12 @@ describe 'When going through the whole collection proposal approver workflow', j
 
   context 'when loading the manage proposals page' do
     context 'when publishing a create metadata proposal' do
+      let(:short_name) { 'Full Workflow Create Test Proposal' }
       before do
         # FactoryBot respects validations; need to be in proposal mode to create
         set_as_proposal_mode_mmt(with_draft_approver_acl: true)
         @native_id = 'dmmt_collection_1'
-        @proposal = create(:full_collection_draft_proposal, proposal_short_name: 'Full Workflow Create Test Proposal', proposal_entry_title: 'Test Entry Title', proposal_request_type: 'create', proposal_native_id: @native_id)
+        @proposal = create(:full_collection_draft_proposal, proposal_short_name: short_name, proposal_entry_title: 'Test Entry Title', proposal_request_type: 'create', proposal_native_id: @native_id)
         mock_approve(@proposal)
         # Workflow is in mmt proper, so switch back
         set_as_mmt_proper
@@ -34,12 +35,8 @@ describe 'When going through the whole collection proposal approver workflow', j
         expect(page).to have_content('Collection Metadata Successfully Published!')
       end
 
-      it 'updated proposal status in dMMT' do
-        proposal = CollectionDraftProposal.find(@proposal.id)
-
-        expect(proposal.proposal_status).to eq('done')
-        expect(proposal.status_history['done']['username']).to eq('Test User')
-        expect(Time.parse(proposal.status_history['done']['action_date']).utc).to be_within(1.second).of Time.now
+      it 'deletes the proposal in dMMT' do
+        expect(CollectionDraftProposal.where(short_name: short_name).count).to eq(0)
       end
 
       context 'when searching for the new collection' do
@@ -94,12 +91,8 @@ describe 'When going through the whole collection proposal approver workflow', j
         expect(page).to have_content('Collection Metadata Successfully Published!')
       end
 
-      it 'updated proposal status in dMMT' do
-        proposal = CollectionDraftProposal.where(short_name: @short_name).first
-
-        expect(proposal.proposal_status).to eq('done')
-        expect(proposal.status_history['done']['username']).to eq('Test User')
-        expect(Time.parse(proposal.status_history['done']['action_date']).utc).to be_within(1.second).of Time.now
+      it 'deletes the proposal in dMMT' do
+        expect(CollectionDraftProposal.where(short_name: @short_name).count).to eq(0)
       end
 
       context 'when visiting the updated collection' do
@@ -143,12 +136,8 @@ describe 'When going through the whole collection proposal approver workflow', j
         expect(page).to have_content('Collection Metadata Deleted Successfully!')
       end
 
-      it 'updated proposal status in dMMT' do
-        proposal = CollectionDraftProposal.where(short_name: @concept_response.body['ShortName'], request_type: 'delete').first
-
-        expect(proposal.proposal_status).to eq('done')
-        expect(proposal.status_history['done']['username']).to eq('Test User')
-        expect(Time.parse(proposal.status_history['done']['action_date']).utc).to be_within(1.second).of Time.now
+      it 'deletes the proposal in dMMT' do
+        expect(CollectionDraftProposal.where(short_name: @concept_response.body['ShortName']).count).to eq(0)
       end
 
       context 'when visiting the deleted collection' do

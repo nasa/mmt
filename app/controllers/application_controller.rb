@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   ].freeze
 
   def urs_login_required?
-    Rails.configuration.proposal_mode == true || ENV['urs_login_required'] != 'false'
+    ENV['urs_login_required'] != 'false'
   end
   helper_method :urs_login_required?
 
@@ -278,7 +278,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :token
 
-
   def echo_provider_token
     set_provider_context_token if session[:echo_provider_token].nil?
 
@@ -364,6 +363,23 @@ class ApplicationController < ActionController::Base
   end
 
   def set_provider_context_token
+    # If we are in development and the user is not on the VPN, this call will
+    # not be able to connect to legacy services in order to get this token
+    # this will also mean that legacy services actions using the token will fail
+    if Rails.env.development?
+      begin
+        response = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id).parsed_body
+      rescue => e
+        Rails.logger.info "Preventing get_provider_context_token error in development because of not being on VPN. error: #{e.inspect}"
+
+        session[:echo_provider_token] = ''
+
+        flash[:error] = 'Because you are not on the VPN and in development, the attempt to set an echo_provider_token failed. You will be unable to perform Manage Cmr actions that require the token.<br/>If you need to perform any Manage Cmr actions in development you should log out, get on the VPN, and then log back in'
+
+        return
+      end
+    end
+
     session[:echo_provider_token] = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id).parsed_body
   end
 
@@ -371,7 +387,7 @@ class ApplicationController < ActionController::Base
   def user_not_authorized(exception)
     policy_name = exception.policy.class.to_s.underscore
 
-    flash[:error] =I18n.t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
+    flash[:error] = I18n.t("#{policy_name}.#{exception.query}", scope: 'pundit', default: :default)
     redirect_to(request.referrer || internal_landing_page)
   end
 
@@ -388,16 +404,17 @@ class ApplicationController < ActionController::Base
     # it can be removed once Launchpad has been live and stable in
     # production for a while, with MMT-1615
     return if Rails.env.test? || session[:login_method] == 'urs'
+
     all_session_keys = LAUNCHPAD_SESSION_KEYS | URS_SESSION_KEYS
     # additional token and login keys
     all_session_keys += %i[echo_provider_token login_method]
-      all_session_keys_log = all_session_keys.map do |key|
-        if key == :launchpad_cookie && !session[key].blank?
-          "#{key}: length: #{session[key].length.round(-2)}; snippet: #{session[key].truncate(50)}"
-        else
-          "#{key}: #{session[key]}"
-        end
+    all_session_keys_log = all_session_keys.map do |key|
+      if key == :launchpad_cookie && !session[key].blank?
+        "#{key}: length: #{session[key].length.round(-2)}; snippet: #{session[key].truncate(50)}"
+      else
+        "#{key}: #{session[key]}"
       end
+    end
 
     Rails.logger.debug '>>>>> logging session keys'
     Rails.logger.debug all_session_keys_log.join("\n")
@@ -407,6 +424,7 @@ class ApplicationController < ActionController::Base
     # this is additional logging to diagnose potential issues with refreshing a
     # URS token, it should be removed with MMT-1616
     return if Rails.env.test? || session[:login_method] == 'launchpad'
+
     urs_logging = <<-LOG
       Logging URS keys
       User: #{authenticated_urs_uid}
@@ -447,8 +465,8 @@ class ApplicationController < ActionController::Base
   end
 
   # relatively safe extraction of a hash from the ActionController::Base::Parameters structure.
-  def safe_hash( key)
-     params.require(key).permit!.to_h
+  def safe_hash(key)
+    params.require(key).permit!.to_h
   end
   helper_method :safe_hash
 end

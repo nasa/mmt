@@ -19,7 +19,11 @@ module CMRCollectionsHelper
       break if latest && latest['meta']['revision-id'] >= revision_id.to_i
       attempts += 1
       sleep 0.05
+      Rails.logger.info("Retrieving a collection record in `get_revisions`. Need to loop, about to try attempt number #{attempts}")
     end
+
+    Rails.logger.error("Error searching for collection #{@concept_id} revision #{@revision_id || 'no revision provided'} in `get_revisions`: #{revisions_response.clean_inspect}") if latest.nil?
+
     revisions
   end
 end

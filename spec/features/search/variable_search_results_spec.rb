@@ -13,9 +13,11 @@ describe 'Searching published variables', reset_provider: true, js: true do
     ]
 
   before :all do
-    @ingest_response, _concept_response = publish_variable_draft(name: variable_name, long_name: long_name, science_keywords: science_keywords)
+    collection_ingest_response, _collection_concept_response = publish_collection_draft
 
-    10.times { publish_variable_draft }
+    @ingest_response, _concept_response = publish_variable_draft(name: variable_name, long_name: long_name, science_keywords: science_keywords, collection_concept_id: collection_ingest_response['concept-id'])
+
+    10.times { publish_variable_draft(collection_concept_id: collection_ingest_response['concept-id']) }
   end
 
   before do

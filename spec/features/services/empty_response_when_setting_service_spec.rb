@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Viewing a service' do
   # this test is for the unusual case when retrieving the concept works but
   # the search endpoint returns an empty response. this has happened when the
@@ -41,9 +39,10 @@ describe 'Viewing a service' do
     end
 
     context 'when visiting the show page of a non-existent service' do
-      # This test should be revisited with MMT-2301. MMT-1557 made a change that if a concept cannot be retrieved to compare UMM Versions, editing is not allowed so we are only showing a page notifying the user the version cannot be confirmed
       before do
-        visit service_path('fake-concept-id')
+        # This fake concept-id still needs to have a 'S' to get parsed through
+        # set_metadata correctly.
+        visit service_path('Service-fake-concept-id')
       end
 
       it 'displays the service show page with no data' do
@@ -51,16 +50,6 @@ describe 'Viewing a service' do
           expect(page).to have_content('Services')
           expect(page).to have_content('<Blank Name>')
         end
-        #
-        # within '#service_name_preview' do
-        #   expect(page).to have_css('h5', text: 'Name')
-        #   expect(page).to have_css('p', text: 'No value for Name provided')
-        # end
-        #
-        # within '#service_long_name_preview' do
-        #   expect(page).to have_css('h5', text: 'Long Name')
-        #   expect(page).to have_css('p', text: 'No value for Long Name provided')
-        # end
       end
 
       it 'notifies the user the UMM version cannot be verified' do

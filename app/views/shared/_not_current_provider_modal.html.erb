@@ -1,12 +1,12 @@
 <% modal_index = false unless modal_index.present? %>
 
 <div id="not-current-provider-modal<%= "-#{modal_index}" if modal_index %>" class="eui-modal-content">
-  <a href="javascript:void(0);" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+  <%= modal_close_x_link %>
   <p>
     <span class="record-action"></span> requires you change your provider context to <span class="provider"></span>. Would you like to change your provider context and perform this action?
   </p>
   <p>
-    <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+    <%= modal_close_button(button_text: 'No') %>
     <%= link_to 'Yes', '#', class: 'eui-btn--blue spinner not-current-provider-link', data: { index: modal_index } %>
 
     <% if options[:revisions] %>
@@ -27,7 +27,7 @@
       <%= link_to 'Yes', edit_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-variable-link' %>
       <%= link_to 'Yes', clone_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-variable-link' %>
       <%= link_to 'Yes', variable_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-variable-link' %>
-      <%= link_to 'Yes', variable_collection_associations_path(options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-manage-variable-associations-link' %>
+      <%= link_to 'Yes', variable_collection_associations_path(options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-manage-variable-association-link' %>
     <% elsif options[:service] %>
       <%= link_to 'Yes', edit_service_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-service-link' %>
       <%= link_to 'Yes', clone_service_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-service-link' %>

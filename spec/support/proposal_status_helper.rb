@@ -27,16 +27,19 @@ module Helpers
       record.save
     end
 
-    def mock_reject(record)
+    def mock_reject(record, feedback = true)
       record.proposal_status = 'rejected'
       record.status_history =
         { 'submitted' =>
             { 'username' => 'TestUser1', 'action_date' => '2019-10-11 01:00' },
           'rejected' =>
             { 'username' => 'TestUser3', 'action_date' => '2019-10-11 03:00' } }
-      record.approver_feedback =
-        { 'reasons' => ['Misspellings/Grammar', 'Other'],
-          'note' => 'Test Reason for rejecting a proposal' }
+      record.approver_feedback = if feedback
+                                   { 'reasons' => ['Misspellings/Grammar', 'Other'],
+                                     'note' => 'Test Reason for rejecting a proposal' }
+                                 else
+                                   {}
+                                 end
       record.submitter_id = 'testuser'
       record.save
     end

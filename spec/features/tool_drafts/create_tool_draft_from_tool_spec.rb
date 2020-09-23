@@ -3,18 +3,11 @@ describe 'Create new draft from tool', reset_provider: true do
     before do
       login
 
-      ingest_response, _concept_response, @native_id = publish_tool_draft(name: 'Test Tool')
+      ingest_response, _concept_response, @native_id = publish_tool_draft(name: "Test Tool #{SecureRandom.uuid}")
 
       visit tool_path(ingest_response['concept-id'])
 
       click_on 'Edit Tool Record'
-    end
-
-    # TODO: remove after CMR-6332
-    after do
-      delete_response = cmr_client.delete_tool('MMT_2', @native_id, 'token')
-
-      raise unless delete_response.success?
     end
 
     it 'displays a confirmation message on the tool draft preview page' do

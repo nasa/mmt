@@ -5,27 +5,29 @@ describe CollectionDraftProposal do
     end
 
     # display_entry_title method
-    it '"display_entry_title" returns a draft proposal\'s title if available' do
+    it "`display_entry_title` returns a draft proposal's title if available" do
       collection_draft_proposal = build(:empty_collection_draft_proposal, entry_title: 'Title Example')
       expect(collection_draft_proposal.display_entry_title).to eq('Title Example')
     end
-    it '"display_entry_title" returns <Untitled Collection Record> if there is no entry title' do
+
+    it '`display_entry_title` returns <Untitled Collection Record> if there is no entry title' do
       collection_draft_proposal = build(:empty_collection_draft_proposal, entry_title: nil)
       expect(collection_draft_proposal.display_entry_title).to eq('<Untitled Collection Record>')
     end
 
     # display_short_name method
-    it '"display_short_name" returns a draft proposal\'s short_name if available' do
+    it '`display_short_name` returns a draft proposal\'s short_name if available' do
       collection_draft_proposal = build(:empty_collection_draft_proposal, short_name: 'ID Example')
       expect(collection_draft_proposal.display_short_name).to eq('ID Example')
     end
-    it '"display_short_name" returns <Blank Short Name> if there is no entry id' do
+
+    it '`display_short_name` returns <Blank Short Name> if there is no entry id' do
       collection_draft_proposal = build(:empty_collection_draft_proposal)
       expect(collection_draft_proposal.display_short_name).to eq('<Blank Short Name>')
     end
 
     # update_draft method
-    it '"update_draft" saves short_name on update' do
+    it '`update_draft` saves short_name on update' do
       collection_draft_proposal = create(:empty_collection_draft_proposal)
       user = create(:user)
       params = { 'short_name' => '12345', 'entry_title' => 'new title' }
@@ -34,7 +36,7 @@ describe CollectionDraftProposal do
 
       expect(collection_draft_proposal.display_short_name).to eq('12345')
     end
-    it '"update_draft" saves entry_title on update' do
+    it '`update_draft` saves entry_title on update' do
       collection_draft_proposal = create(:empty_collection_draft_proposal)
       user = create(:user)
       params = { 'short_name' => '12345', 'entry_title' => 'new title' }
@@ -43,7 +45,7 @@ describe CollectionDraftProposal do
 
       expect(collection_draft_proposal.display_entry_title).to eq('new title')
     end
-    it '"update_draft" overwrites old values with new values' do
+    it '`update_draft` overwrites old values with new values' do
       collection_draft_proposal = create(:empty_collection_draft_proposal, draft: { 'EntryTitle' => 'test title' })
       user = create(:user)
       params = { 'entry_title' => 'new title' }
@@ -52,7 +54,7 @@ describe CollectionDraftProposal do
 
       expect(collection_draft_proposal.draft).to eq('EntryTitle' => 'new title')
     end
-    it '"update_draft" deletes empty values' do
+    it '`update_draft` deletes empty values' do
       collection_draft_proposal = create(:empty_collection_draft_proposal, draft: { 'EntryTitle' => 'test title' })
       params = { 'short_name' => '12345', 'entry_title' => '' }
       user = create(:user)
@@ -61,7 +63,7 @@ describe CollectionDraftProposal do
 
       expect(collection_draft_proposal.draft).to eq('ShortName' => '12345')
     end
-    it '"update_draft" converts number fields to numbers' do
+    it '`update_draft` converts number fields to numbers' do
       collection_draft_proposal = create(:empty_collection_draft_proposal, draft: {})
       params = { 'size' => '42' }
       user = create(:user)
@@ -69,7 +71,7 @@ describe CollectionDraftProposal do
 
       expect(collection_draft_proposal.draft).to eq('Size' => 42.0)
     end
-    it '"update_draft" converts number fields with delimiters to numbers' do
+    it '`update_draft` converts number fields with delimiters to numbers' do
       collection_draft_proposal = create(:empty_collection_draft_proposal, draft: {})
       params = { 'size' => '9,001' }
       user = create(:user)
@@ -78,7 +80,7 @@ describe CollectionDraftProposal do
 
       expect(collection_draft_proposal.draft).to eq('Size' => 9001.0)
     end
-    it '"update_draft" converts integer fields to integers' do
+    it '`update_draft` converts integer fields to integers' do
       collection_draft_proposal = create(:empty_collection_draft_proposal, draft: {})
       params = { 'number_of_instruments' => '42' }
       user = create(:user)
@@ -87,7 +89,7 @@ describe CollectionDraftProposal do
 
       expect(collection_draft_proposal.draft).to eq('NumberOfInstruments' => 42)
     end
-    it '"update_draft" converts boolean fields to boolean' do
+    it '`update_draft` converts boolean fields to boolean' do
       collection_draft_proposal = create(:empty_collection_draft_proposal, draft: {})
       params = { 'ends_at_present_flag' => 'false' }
       user = create(:user)
@@ -107,7 +109,7 @@ describe CollectionDraftProposal do
     end
 
     # create_from_collection method
-    it '"create_from_collection" saves a native_id' do
+    it '`create_from_collection` saves a native_id' do
       collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
       user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
       native_id = 'test_id'
@@ -115,7 +117,7 @@ describe CollectionDraftProposal do
 
       expect(collection_draft_proposal.native_id).to eq(native_id)
     end
-    it '"create_from_collection" saves a user' do
+    it '`create_from_collection` saves a user' do
       collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
       user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
       native_id = 'test_id'
@@ -123,7 +125,7 @@ describe CollectionDraftProposal do
 
       expect(collection_draft_proposal.user).to eq(user)
     end
-    it '"create_from_collection" saves the draft proposal' do
+    it '`create_from_collection` saves the draft proposal' do
       collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
       user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
       native_id = 'test_id'
@@ -290,7 +292,7 @@ describe CollectionDraftProposal do
       expect { collection_draft_proposal.save! }.to raise_error(ActiveRecord::RecordNotSaved)
     end
 
-    it '"create_from_collection" should fail to save' do
+    it '`create_from_collection` should fail to save' do
       collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
       user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
       native_id = 'test_id'
