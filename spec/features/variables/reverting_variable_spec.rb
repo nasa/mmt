@@ -1,6 +1,7 @@
 describe 'Reverting to previous variables', js: true do
   before :all do
     @collection_ingest_response, _collection_concept_response = publish_collection_draft
+    @collection_ingest_response2, @collection_concept_response2 = publish_collection_draft
 
     # variable for simple reverting variable test
     @simple_revert_ingest_response, @simple_revert_concept_response = publish_variable_draft(revision_count: 2, collection_concept_id: @collection_ingest_response['concept-id'], native_id: "test_var_revert_#{Faker::Number.number(digits: 25)}")
@@ -154,6 +155,52 @@ describe 'Reverting to previous variables', js: true do
         expect(page).to have_content('Deleted', count: 1)
         expect(page).to have_content('Revision View', count: 1)
         expect(page).to have_content('Revert to this Revision', count: 1)
+      end
+    end
+  end
+
+  context 'when revisions have different collection associations' do
+    before do
+      native_id = "test_var_revert_#{Faker::Number.number(digits: 25)}"
+      _different_revert_ingest_response, _different_revert_concept_response = publish_variable_draft(collection_concept_id: @collection_ingest_response['concept-id'], native_id: native_id)
+      @different_revert_ingest_response2, _different_revert_concept_response2 = publish_variable_draft(collection_concept_id: @collection_ingest_response2['concept-id'], native_id: native_id)
+    end
+
+    before do
+      visit variable_path(@different_revert_ingest_response2['concept-id'])
+
+      click_on 'Revisions'
+    end
+
+    it 'displays the correct phrasing for reverting records' do
+      expect(page).to have_content('Revert to this Revision', count: 1)
+    end
+
+    context 'when reverting the variable' do
+      before do
+        click_on 'Revert to this Revision'
+        click_on 'Yes'
+
+        wait_for_jQuery
+        wait_for_cmr
+      end
+
+      it 'displays all the correct revision information' do
+        expect(page).to have_content('Revision Created Successfully!')
+
+        expect(page).to have_content('Published', count: 1)
+        expect(page).to have_content('Revision View', count: 2)
+        expect(page).to have_content('Revert to this Revision', count: 2)
+      end
+
+      context 'when examining the collection association' do
+        before do
+          visit variable_collection_associations_path(@different_revert_ingest_response2['concept-id'])
+        end
+
+        it 'has the correct collection information' do
+          expect(page).to have_content(@collection_concept_response2.body['EntryTitle'])
+        end
       end
     end
   end
