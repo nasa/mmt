@@ -65,11 +65,12 @@ describe 'Searching for published collections in proposal mode', js: true do
           before do
             @file = "#{Rails.root}/#{@ingest_response['concept-id']}.echo10"
             click_on 'ECHO 10'
+
+            # Seems to need a brief (>0.1) pause to actually find the file.
+            sleep(1)
           end
 
           after do
-            # Seems to need a brief (>0.01) pause to actually find the file.
-            sleep(0.1)
             FileUtils.rm @file if File.exist?(@file)
           end
 

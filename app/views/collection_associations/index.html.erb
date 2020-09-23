@@ -26,7 +26,9 @@
       <table id="collection-associations">
         <thead>
           <tr>
-            <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="selected_collections[]" /></th>
+            <% if not_variable? %>
+              <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="selected_collections[]" /></th>
+            <% end %>
             <th>Entry Title</th>
             <th>Short Name</th>
             <th>Version</th>

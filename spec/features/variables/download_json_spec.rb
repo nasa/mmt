@@ -20,8 +20,8 @@ describe 'Downloading Variable JSON', js: true do
         @file = "#{Rails.root}/#{@ingest_response['concept-id']}.json"
         click_on 'Download JSON'
 
-        # Seems to need a brief (>0.01) pause to actually find the file.
-        sleep(0.1)
+        # Seems to need a brief (>0.1) pause to actually find the file.
+        sleep(1)
       end
 
       after do

@@ -80,9 +80,10 @@ class CollectionAssociationsController < CmrSearchController
     super
   end
 
+  # Only variables should be allowed to be updated in this fashion.
   def update
     # Get metadata in its native format so that we can reingest it.
-    search_response = cmr_client.get_concept(params[:variable_id], token, {})
+    search_response = cmr_client.get_concept(resource_id, token, {})
     if search_response.success?
       format = search_response.headers['content-type']
       metadata = search_response.body
@@ -94,13 +95,13 @@ class CollectionAssociationsController < CmrSearchController
     end
 
     # Override headers to reingest same version.
-    ingest_response = cmr_client.ingest_variable(metadata: metadata.to_json, provider_id: @provider_id, native_id: @native_id, collection_concept_id: params['selected_collection'], token: token, headers_override: { 'Content-Type' => format })
+    ingest_response = cmr_client.send("ingest_#{lower_resource_name}", metadata: metadata.to_json, provider_id: @provider_id, native_id: @native_id, collection_concept_id: params['selected_collection'], token: token, headers_override: { 'Content-Type' => format })
 
     if ingest_response.success?
-      var_concept_id = ingest_response.body['concept-id']
+      non_collection_concept_id = ingest_response.body['concept-id']
       col_concept_id = ingest_response.body['associated-item']['concept-id']
-      Rails.logger.info("Audit Log: Variable with concept_id: #{var_concept_id} republished with a new collection association. The new associated collection has a concept_id of: #{col_concept_id} in provider: #{@provider_id}")
-      redirect_to send("#{lower_resource_name}_collection_associations_path", var_concept_id), flash: { success: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.update.flash.success") }
+      Rails.logger.info("Audit Log: #{resource_name} with concept_id: #{non_collection_concept_id} republished with a new collection association. The new associated collection has a concept_id of: #{col_concept_id} in provider: #{@provider_id}")
+      redirect_to send("#{lower_resource_name}_collection_associations_path", non_collection_concept_id), flash: { success: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.update.flash.success") }
     else
       Rails.logger.error("Ingest #{resource_name} Metadata Error: #{ingest_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest #{resource_name} from the manage collection associations page in provider #{current_user.provider_id} but encountered an error.")
