@@ -1,7 +1,8 @@
-describe 'Manage Variable Collection Association' do
+describe 'Manage Variable Collection Association', js:true do
   before :all do
     collection_ingest_response, @collection_concept_response = publish_collection_draft
     @collection_ingest_response2, @collection_concept_response2 = publish_collection_draft
+    @collection_ingest_response3, @collection_concept_response3 = publish_collection_draft
     @variable_ingest_response, @variable_concept_response = publish_variable_draft(collection_concept_id: collection_ingest_response['concept-id'])
   end
 
@@ -79,15 +80,31 @@ describe 'Manage Variable Collection Association' do
           # has not always synchronized, even with the wait. Adding this refresh
           # reduced erroneous failures and is explicitly why this link is on the
           # page
-          context 'when refreshing the page' do
-            before do
-              click_on 'refresh the page'
-            end
+        end
+      end
 
-            it 'shows the correct collection' do
-              expect(page).to have_content(@collection_concept_response2.body['EntryTitle'])
-            end
+      context 'when refreshing the page after updating' do
+        before do
+          click_on 'Update Collection Association'
+
+          within '#collection-search' do
+            select 'Entry Title', from: 'Search Field'
+            find(:css, "input[id$='query_text']").set(@collection_concept_response3.body['EntryTitle'])
+            click_button 'Submit'
           end
+
+          within '#collections-select' do
+            find("input[value='#{@collection_ingest_response3['concept-id']}']").set(true)
+
+            click_on 'Submit'
+          end
+          wait_for_cmr
+
+          click_on 'refresh the page'
+        end
+
+        it 'shows the correct collection' do
+          expect(page).to have_content(@collection_concept_response3.body['EntryTitle'])
         end
       end
     end

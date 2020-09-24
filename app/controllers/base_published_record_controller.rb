@@ -236,6 +236,6 @@ class BasePublishedRecordController < ManageMetadataController
   end
 
   def first_non_deleted_revision
-    @revisions.reject { |revision| revision.dig('meta', 'deleted') }[0]
+    @revisions.reject { |revision| revision.dig('meta', 'deleted') }.first
   end
 end
