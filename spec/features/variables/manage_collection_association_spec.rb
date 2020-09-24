@@ -1,4 +1,4 @@
-describe 'Manage Variable Collection Association', js:true do
+describe 'Manage Variable Collection Association' do
   before :all do
     collection_ingest_response, @collection_concept_response = publish_collection_draft
     @collection_ingest_response2, @collection_concept_response2 = publish_collection_draft
@@ -75,15 +75,11 @@ describe 'Manage Variable Collection Association', js:true do
           it 'shows a success message' do
             expect(page).to have_content('Collection Association Updated Successfully!')
           end
-
-          # This test is not consistent without the page refresh because CMR
-          # has not always synchronized, even with the wait. Adding this refresh
-          # reduced erroneous failures and is explicitly why this link is on the
-          # page
         end
       end
 
-      context 'when refreshing the page after updating' do
+      # This test needs js:true because of the page refresh uses JS
+      context 'when refreshing the page after updating', js: true do
         before do
           click_on 'Update Collection Association'
 
@@ -100,7 +96,11 @@ describe 'Manage Variable Collection Association', js:true do
           end
           wait_for_cmr
 
-          click_on 'refresh the page'
+          # This test is not consistent without the page refresh because CMR
+          # has not always synchronized, even with the wait. Adding this refresh
+          # reduced erroneous failures and is explicitly why this link is on the
+          # page
+          click_link 'refresh the page'
         end
 
         it 'shows the correct collection' do
