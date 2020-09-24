@@ -14,5 +14,4 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 # Rails.application.config.assets.precompile += %w( search.js )
 
-Rails.application.config.assets.precompile += %w( netinsight_2.3/ntpagetag.js )
 Rails.application.config.assets.precompile += %w( cmr_metadata_preview/plate_carree_earth.png )
