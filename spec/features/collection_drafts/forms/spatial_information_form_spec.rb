@@ -122,6 +122,21 @@ describe 'Spatial information form', js: true do
         expect(page).to have_content('Collection Draft Updated Successfully!')
       end
 
+      it 'contains the correct dropdown options' do
+        within '#draft_tiling_identification_systems_0_tiling_identification_system_name' do
+          expect(page).to have_css('option', count: 10)
+          expect(page).to have_content('CALIPSO')
+          expect(page).to have_content('MISR')
+          expect(page).to have_content('MODIS Tile EASE')
+          expect(page).to have_content('MODIS Tile SIN')
+          expect(page).to have_content('WELD Alaska Tile')
+          expect(page).to have_content('WELD CONUS Tile')
+          expect(page).to have_content('WRS-1')
+          expect(page).to have_content('WRS-2')
+          expect(page).to have_content('Military Grid Reference System')
+        end
+      end
+
       it 'populates the form with the values including horizontal spatial data' do
         # Spatial Extent
         within '.spatial-extent' do

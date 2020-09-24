@@ -5,9 +5,7 @@ describe 'Publishing collection draft records', js: true do
 
   context 'when publishing a collection draft with newly added forms, values, features when UMM-C is updated' do
     before do
-      @email_count = ActionMailer::Base.deliveries.count
-
-      draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
+      draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
       visit collection_draft_path(draft)
     end
 
