@@ -42,7 +42,7 @@ describe 'Collection Draft Proposal Update', reset_provider: true do
       context 'when trying to save updated data to a proposal that is not "in work"' do
         let(:short_name) { 'a short name that will not be updated' }
         let(:abstract) { 'the short name and abstract will not be updated because the satus of this proposal is not "in_work"' }
-        
+
         # this context simulates the situation where a user has accessed the proposal and is editing data (typically using browser 'back')
         # despite the proposal having already been submitted - proposal_status != 'in_work'
         before do
@@ -60,8 +60,8 @@ describe 'Collection Draft Proposal Update', reset_provider: true do
           expect(page).to have_link('Cancel Proposal Submission')
           expect(page).to have_no_content(abstract)
           expect(page).to have_no_content(short_name)
-          expect(page).to have_content(@collection_draft_proposal['Abstract'])
-          expect(page).to have_content(@collection_draft_proposal['ShortName'])
+          expect(page).to have_content(@collection_draft_proposal.draft['Abstract'])
+          expect(page).to have_content(@collection_draft_proposal.draft['ShortName'])
         end
       end
     end
