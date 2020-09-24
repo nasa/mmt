@@ -26,7 +26,9 @@
       <table id="collection-associations">
         <thead>
           <tr>
-            <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="selected_collections[]" /></th>
+            <% if not_variable? %>
+              <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="selected_collections[]" /></th>
+            <% end %>
             <th>Entry Title</th>
             <th>Short Name</th>
             <th>Version</th>
@@ -43,7 +45,9 @@
           <% else %>
             <% @associations.each do |collection| %>
               <tr class='<%= cycle("alt", "") %>'>
-                <td class="align-c"><%= check_box_tag('selected_collections[]', collection.fetch('meta', {})['concept-id'], false, class: 'selected_collections') %></td>
+                <% if not_variable? %>
+                  <td class="align-c"><%= check_box_tag('selected_collections[]', collection.fetch('meta', {})['concept-id'], false, class: 'selected_collections') %></td>
+                <% end %>
                 <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {}).fetch('concept-id')) %></td>
                 <td><%= collection.fetch('umm', {}).fetch('short-name') %></td>
                 <td><%= collection.fetch('umm', {}).fetch('version-id') %></td>
@@ -59,11 +63,6 @@
 
           <div id='delete-associations-modal' class="eui-modal-content">
             <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-            <% if @variable %>
-              <p>Deleting a variable association will also delete the associated variable. If you wish to associate this variable to a different collection, before deleting this association, you should <%= link_to "clone the associated variable", send("clone_variable_path", id: params[:variable_id], revision_id: @revision_id), target: :_blank %> and associate the clone to the correct collection.
-                <%= " If you have any questions or need any help, please contact "%> <%= mail_to('support@earthdata.nasa.gov', 'Earthdata Support') %>.
-              </p>
-            <% end %>
             <p><%= "Are you sure you want to delete the selected collection #{association_text.downcase}" %>?</p>
             <p>
               <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
@@ -71,6 +70,10 @@
             </p>
           </div>
         </fieldset>
+      <% end %>
+
+      <% if @variable %>
+        <%= link_to "Update Collection Association", send("edit_#{lower_resource_name}_collection_association_path", resource_id), class: 'eui-btn--blue' %>
       <% end %>
     <% end %>
 

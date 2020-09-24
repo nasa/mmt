@@ -1,6 +1,8 @@
 describe 'Manage Variable Collection Association' do
   before :all do
     collection_ingest_response, @collection_concept_response = publish_collection_draft
+    @collection_ingest_response2, @collection_concept_response2 = publish_collection_draft
+    @collection_ingest_response3, @collection_concept_response3 = publish_collection_draft
     @variable_ingest_response, @variable_concept_response = publish_variable_draft(collection_concept_id: collection_ingest_response['concept-id'])
   end
 
@@ -35,8 +37,75 @@ describe 'Manage Variable Collection Association' do
       end
 
       it 'does not display buttons for blocked actions' do
-        expect(page).to have_no_button('Add Collection Association')
-        expect(page).to have_no_button('Delete Selected Associations')
+        expect(page).to have_no_link('Add Collection Association')
+        expect(page).to have_no_link('Delete Selected Associations')
+      end
+
+      it 'displays an update button' do
+        expect(page).to have_link('Update Collection Association')
+      end
+
+      context 'when searching for a collection to update the collection association' do
+        before do
+          click_on 'Update Collection Association'
+
+          within '#collection-search' do
+            select 'Entry Title', from: 'Search Field'
+            find(:css, "input[id$='query_text']").set(@collection_concept_response2.body['EntryTitle'])
+            click_button 'Submit'
+          end
+        end
+
+        it 'displays the collection' do
+          within '#collection-search-results' do
+            expect(page).to have_content(@collection_concept_response2.body['EntryTitle'])
+          end
+        end
+
+        context 'when updating the collection association' do
+          before do
+            within '#collections-select' do
+              find("input[value='#{@collection_ingest_response2['concept-id']}']").set(true)
+
+              click_on 'Submit'
+            end
+            wait_for_cmr
+          end
+
+          it 'shows a success message' do
+            expect(page).to have_content('Collection Association Updated Successfully!')
+          end
+        end
+      end
+
+      # This test needs js:true because of the page refresh uses JS
+      context 'when refreshing the page after updating', js: true do
+        before do
+          click_on 'Update Collection Association'
+
+          within '#collection-search' do
+            select 'Entry Title', from: 'Search Field'
+            find(:css, "input[id$='query_text']").set(@collection_concept_response3.body['EntryTitle'])
+            click_button 'Submit'
+          end
+
+          within '#collections-select' do
+            find("input[value='#{@collection_ingest_response3['concept-id']}']").set(true)
+
+            click_on 'Submit'
+          end
+          wait_for_cmr
+
+          # This test is not consistent without the page refresh because CMR
+          # has not always synchronized, even with the wait. Adding this refresh
+          # reduced erroneous failures and is explicitly why this link is on the
+          # page
+          click_link 'refresh the page'
+        end
+
+        it 'shows the correct collection' do
+          expect(page).to have_content(@collection_concept_response3.body['EntryTitle'])
+        end
       end
     end
   end

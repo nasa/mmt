@@ -24,7 +24,14 @@ module ManageMetadataHelper
   ]
 
   def is_variable_controller?
-    (VARIABLES_CONTROLLERS & controller.lookup_context.prefixes).any? || (controller.lookup_context.prefixes.include?('collection_associations') && params[:variable_id])
+    (VARIABLES_CONTROLLERS & controller.lookup_context.prefixes).any? || (controller.lookup_context.prefixes.include?('collection_associations') && variable_id)
+  end
+
+  def variable_id
+    return params[:variable_id] if params[:variable_id]
+    return nil unless params[:id]
+
+    params[:id] if params[:id].split('-').first.starts_with?(/V\d/)
   end
 
   def is_services_controller?

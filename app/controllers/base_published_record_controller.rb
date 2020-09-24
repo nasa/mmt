@@ -98,8 +98,10 @@ class BasePublishedRecordController < ManageMetadataController
   def revert
     latest_revision_id = @revisions.dig(0, 'meta', 'revision-id')
 
-    # grab the concept_id of the associated collection of the correct revision
-    associated_concept_id = @revisions.dig(@revision_id.to_i, 'associations', 'collections', 0, 'concept-id')
+    # grab the collection concept_id for the most recent revision;
+    # we have decided to revert the metadata and leave the association alone
+    # if users want or expect another behavior, we can respond to that feedback
+    associated_concept_id = first_non_deleted_revision.dig('associations', 'collections', 0, 'concept-id')
 
     # Ingest revision
     ingested_response = cmr_client.send("ingest_#{resource_name}", metadata: get_resource.to_json, provider_id: @provider_id, collection_concept_id: associated_concept_id, native_id: @native_id, token: token)
@@ -231,5 +233,9 @@ class BasePublishedRecordController < ManageMetadataController
   # @return [String]
   def capitalized_resource_name
     resource_name.capitalize
+  end
+
+  def first_non_deleted_revision
+    @revisions.reject { |revision| revision.dig('meta', 'deleted') }.first
   end
 end

@@ -82,8 +82,14 @@ Rails.application.routes.draw do
   end
 
   resources :variables, only: [:show, :create, :edit, :destroy] do
-    resources :collection_associations, only: [:index]
+    resources :collection_associations, only: [:index] do
+      collection do
+        match '/' => 'collection_associations#edit', via: :edit
+        match '/' => 'collection_associations#update', via: :post
+      end
+    end
   end
+  get '/variables/:id/collection_associations/edit' => 'collection_associations#edit', as: 'edit_variable_collection_association'
   get '/variables/:id/revisions' => 'variables#revisions', as: 'variable_revisions'
   get '/variables/:id/revert/:revision_id' => 'variables#revert', as: 'revert_variable'
   get '/variables/:id/clone' => 'variables#clone', as: 'clone_variable'

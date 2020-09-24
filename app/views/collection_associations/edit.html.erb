@@ -1,0 +1,8 @@
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> <%= resource_name %> Collection Association Search</h2>
+    <%= render partial: 'cmr_search/shared/search_form', locals: { submit_path: send("edit_#{lower_resource_name}_collection_association_path", @concept_id) } %>
+    <p><span class="fa fa-info-circle"></span> <%= "Disabled rows in the results below represent collections that are already associated with this #{lower_resource_name}." %></p>
+    <%= render partial: 'cmr_search/shared/search_results', locals: { collections: @collections, ignored_concept_ids: @previously_associated_collections, submit_path: send("#{lower_resource_name}_collection_associations_path", @concept_id, method: :post), submit_text: 'Submit', use_radio_buttons: variable? ? true : false } %>
+  </section>
+</div>

@@ -220,6 +220,10 @@ en:
           error: 'Tool revision was not created successfully'
     collection_associations:
       variables:
+        update:
+          flash:
+            success: 'Collection Association Updated Successfully!'
+            error: 'Collection Associaiton was not updated successfully.'
         destroy:
           flash:
             success: 'Collection Association Deleted Successfully!'
