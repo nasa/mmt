@@ -124,16 +124,7 @@ describe 'Spatial information form', js: true do
 
       it 'contains the correct dropdown options' do
         within '#draft_tiling_identification_systems_0_tiling_identification_system_name' do
-          expect(page).to have_css('option', count: 10)
-          expect(page).to have_content('CALIPSO')
-          expect(page).to have_content('MISR')
-          expect(page).to have_content('MODIS Tile EASE')
-          expect(page).to have_content('MODIS Tile SIN')
-          expect(page).to have_content('WELD Alaska Tile')
-          expect(page).to have_content('WELD CONUS Tile')
-          expect(page).to have_content('WRS-1')
-          expect(page).to have_content('WRS-2')
-          expect(page).to have_content('Military Grid Reference System')
+          page.has_select?('Tiling Identification System Name', with_options: ['CALIPSO', 'MISR', 'MODIS Tile EASE', 'MODIS Tile SIN', 'WELD Alaska Tile', 'WELD CONUS Tile', 'WRS-1', 'WRS-2', 'Military Grid Reference System'])
         end
       end
 
