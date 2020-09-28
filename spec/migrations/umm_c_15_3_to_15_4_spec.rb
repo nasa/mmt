@@ -3,7 +3,6 @@ require File.join(Rails.root, 'db', 'migrate', '20200924150827_umm_c_15_3_to_15_
 describe 'Migration tests for UMM-C v1.15.3 => 1.15.4' do
   context 'when doing the down migration for MMT' do
     before do
-      set_as_mmt_proper
       @draft = create(:full_collection_draft)
       @template = create(:full_collection_template)
       CollectionDraft.find(@draft.id).draft['TilingIdentificationSystems'] = [{ 'TilingIdentificationSystemName' => 'Military Grid Reference System' }]
