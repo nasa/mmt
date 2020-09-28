@@ -54,6 +54,15 @@ module Proposal
       end
     end
 
+    def update
+      if get_resource&.in_work?
+        super
+      else
+        flash[:error] = 'Only proposals in an "In Work" status can be edited.'
+        redirect_to collection_draft_proposal_path(get_resource)
+      end
+    end
+
     def destroy
       # According to the documentation, only "In Work" proposals should be deletable
       # "Rejected" and "Submitted" can be rescinded to "In Work" to be deleted.

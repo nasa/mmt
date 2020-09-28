@@ -27,14 +27,42 @@ describe 'Collection Draft Proposal Update', reset_provider: true do
     end
 
     context 'when a proposal is not "in work"' do
-      before do
-        mock_submit(CollectionDraftProposal.first)
-        visit edit_collection_draft_proposal_path(@collection_draft_proposal)
+      context 'when trying to submit a proposal that is not "in work"' do
+        before do
+          mock_submit(@collection_draft_proposal)
+          visit edit_collection_draft_proposal_path(@collection_draft_proposal)
+        end
+
+        it 'cannot be edited' do
+          expect(page).to have_content('Only proposals in an "In Work" status can be edited.')
+          expect(page).to have_link('Cancel Proposal Submission')
+        end
       end
 
-      it 'cannot be edited' do
-        expect(page).to have_content('Only proposals in an "In Work" status can be edited.')
-        expect(page).to have_link('Cancel Proposal Submission')
+      context 'when trying to save updated data to a proposal that is not "in work"' do
+        let(:short_name) { 'a short name that will not be updated' }
+        let(:abstract) { 'the short name and abstract will not be updated because the status of this proposal is not "in_work"' }
+
+        # this context simulates the situation where a user has accessed the proposal and is editing data (typically using browser 'back')
+        # despite the proposal having already been submitted - proposal_status != 'in_work'
+        before do
+          visit edit_collection_draft_proposal_path(@collection_draft_proposal)
+          mock_submit(@collection_draft_proposal)
+          fill_in 'Short Name', with: short_name
+          fill_in 'Abstract', with: abstract
+          within '.nav-top' do
+            click_on 'Done'
+          end
+        end
+
+        it 'is not updating' do
+          expect(page).to have_content('Only proposals in an "In Work" status can be edited.')
+          expect(page).to have_link('Cancel Proposal Submission')
+          expect(page).to have_no_content(abstract)
+          expect(page).to have_no_content(short_name)
+          expect(page).to have_content(@collection_draft_proposal.draft['Abstract'])
+          expect(page).to have_content(@collection_draft_proposal.draft['ShortName'])
+        end
       end
     end
   end
