@@ -1,3 +1,4 @@
+# this test covers search functionality for controllers that inherit from CmrSearchController
 describe 'Searching collections to bulk update', reset_provider: true do
   before :all do
     # Create a few collections with unique attributes that we can search for

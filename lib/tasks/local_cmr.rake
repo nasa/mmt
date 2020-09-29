@@ -190,7 +190,7 @@ namespace :cmr do
           contents = `cat #{files_to_compile.join(' ')} | coffee -c --stdio`
 
           puts "\nCompressing..."
-          
+
           #uncomment the following if you need to compile with JS 6
           #compressed_file = Uglifier.compile(js_to_uglify + contents, harmony: true)
           compressed_file = Uglifier.compile(js_to_uglify + contents)

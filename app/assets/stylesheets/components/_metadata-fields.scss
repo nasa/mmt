@@ -4,13 +4,20 @@
 
 // Note: Needs refactoring.
 
-.metadata {
-  padding-bottom: 1.275em !important;
-  padding-top: 1em !important;
-  border-bottom: 1px solid $dolphin-grey !important;
+// this is used for progress circle sections
+.metadata,
+.collection-association {
+  padding-bottom: 1.275em;
+  padding-top: 1em;
+  border-bottom: 1px solid $dolphin-grey;
   margin-bottom: 1em;
 
   #legend {
+    margin-left: .5em;
+    color: $ocean-blue;
+  }
+
+  .legend-link  {
     margin-left: .5em;
     color: $ocean-blue;
   }
@@ -100,33 +107,6 @@
     width: 70%;
   }
 }
-
-// Subscription Form
-
-.edit-subscription-form {
-  .select2-selection__rendered {
-    opacity: 0.4
-  }
-  .select2-selection--single {
-    border: 1px solid #ddd
-  }
-}
-
-.estimate-text {
-  font-weight: bold;
-}
-
-.query-text-large {
-  overflow-y: scroll;
-  resize: none;
-}
-
-.query-title {
-  margin-block-end: 0px;
-  margin-inline-end: 0px;
-}
-
-// End Subscription Form
 
 .datetime-with-border {
   border: 1px solid #b2b2b2

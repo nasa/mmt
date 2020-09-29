@@ -49,6 +49,10 @@ en:
           flash:
             success: 'Variable Draft Deleted Successfully!'
             error: 'Variable Draft was not deleted successfully'
+        update_associated_collection:
+          flash:
+            success: 'Collection Association was Updated Successfully!'
+            error: 'Collection Association was not updated successfully'
       service_drafts:
         create:
           flash:
@@ -155,6 +159,11 @@ en:
       update_proposal:
         flash:
           success: 'Collection Metadata Update Request Created Successfully!'
+      set_tags:
+        search_collections:
+          error: 'Tags for this Collection were not retrieved successfully'
+        get_tags:
+          error: 'Tags were not retrieved successfully'
     variables:
       create:
         flash:
@@ -210,14 +219,28 @@ en:
           success: 'Tool Revision Created Successfully!'
           error: 'Tool revision was not created successfully'
     collection_associations:
-      destroy:
-        flash:
-          success: 'Collection Associations Deleted Successfully!'
-          error: 'Collection Associations were not deleted successfully'
-      create:
-        flash:
-          success: 'Collection Associations Created Successfully!'
-          error: 'Collection Associations were not created successfully'
+      variables:
+        update:
+          flash:
+            success: 'Collection Association Updated Successfully!'
+            error: 'Collection Associaiton was not updated successfully.'
+        destroy:
+          flash:
+            success: 'Collection Association Deleted Successfully!'
+            error: 'Collection Association were not deleted successfully'
+        create:
+          flash:
+            success: 'Collection Association Created Successfully!'
+            error: 'Collection Association were not created successfully'
+      services:
+        destroy:
+          flash:
+            success: 'Collection Associations Deleted Successfully!'
+            error: 'Collection Associations were not deleted successfully'
+        create:
+          flash:
+            success: 'Collection Associations Created Successfully!'
+            error: 'Collection Associations were not created successfully'
     bulk_updates:
       create:
         flash:
@@ -228,7 +251,13 @@ en:
         collections:
           error: 'Collections search was not executed successfully'
         variables:
-          error: 'Variable search was not executed successfully'
+          error: 'Variables search was not executed successfully'
+        services:
+          error: 'Services search was not executed successfully'
+        tools:
+          error: 'Tools search was not executed successfully'
+      get_collection_search_results:
+        error: 'Collections search with Tags was not executed successfully'
     groups:
       show:
         flash:
@@ -288,6 +317,11 @@ en:
         flash:
           success: "Subscription Deleted Successfully!"
           error: "Subscription was not deleted successfully"
+    tags:
+      index:
+        error: "Tags were not retrieved successfully"
+      show:
+        error: "Tag was not retrieved successfully"
   views:
     pagination:
       first: "First"

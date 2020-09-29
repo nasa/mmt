@@ -24,8 +24,10 @@
 
   <!-- Short Name [r] -->
   <div class="col-6">
+    <% # Need to pass unique IDs for select2 to properly generate %>
     <%= mmt_select(
       name: 'short_name',
+      id: 'instrument_short_name',
       title: 'Short Name',
       prefix: '|update_value|_',
       value: repopulate_update_value(@task, 'instruments', 'ShortName'),

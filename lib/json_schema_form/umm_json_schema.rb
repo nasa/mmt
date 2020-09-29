@@ -51,12 +51,18 @@ class UmmJsonSchema < JsonFile
   end
 
   # Determine whether or not the provided key is required
+  # If the terminal 'items' is not removed, fetch_key_leaf will return it and
+  # it will not correctly identify some required fields.
+  # The current use case for this is IndexRanges in UMM-V 1.7, which should have
+  # conditionally required fields.
   #
   # ==== Attributes
   #
   # * +key+ - The key in which you'd like to check for requirement
   def required_field?(key)
-    required_fields(key).include?(fetch_key_leaf(key))
+    validation_key = key.sub(/(.*)\/items/, '\1') if key.ends_with?('items')
+    validation_key ||= key
+    required_fields(validation_key).include?(fetch_key_leaf(validation_key))
   end
 
   # Retrieve the full keys for all elements within the provided fragement that

@@ -11,16 +11,8 @@ describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to
     expect { cmr_client.get_collections_by_post({}) }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
-  it 'cannot add_collection_assocations_to_variable' do
-    expect { cmr_client.add_collection_assocations_to_variable({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
-  end
-
   it 'cannot add_collection_assocations_to_service' do
     expect { cmr_client.add_collection_assocations_to_service({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
-  end
-
-  it 'cannot delete_collection_assocations_to_variable' do
-    expect { cmr_client.delete_collection_assocations_to_variable({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot delete_collection_assocations_to_service' do
@@ -40,11 +32,15 @@ describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to
   end
 
   it 'cannot ingest_variable' do
-    expect { cmr_client.ingest_variable({}, {}, '', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    expect { cmr_client.ingest_variable(metadata: {}, provider_id: '', native_id: '', collection_concept_id: '', token: '') }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot ingest_service' do
-    expect { cmr_client.ingest_service({}, {}, '', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    expect { cmr_client.ingest_service(metadata: {}, provider_id: '', native_id: '', collection_concept_id: '', token: '') }.to raise_error('A requested action is not allowed in the current configuration.')
+  end
+
+  it 'cannot ingest_tool' do
+    expect { cmr_client.ingest_tool(metadata: {}, provider_id: '', native_id: '', collection_concept_id: '', token: '') }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot delete_variable' do
@@ -53,6 +49,10 @@ describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to
 
   it 'cannot delete_service' do
     expect { cmr_client.delete_service({}, '', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+  end
+
+  it 'cannot delete_tool' do
+    expect { cmr_client.delete_tool({}, '', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot create_bulk_update' do

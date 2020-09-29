@@ -8,13 +8,21 @@
       "description": "The name of a variable.",
       "type": "string",
       "minLength": 1,
-      "maxLength": 100
+      "maxLength": 256
     },
-    "Alias": {
-      "description": "The alias for the name of a variable.",
+    "StandardName": {
+      "description": "This is the more formal or scientific name, .e.g., the CF Standard Name.",
       "type": "string",
       "minLength": 1,
-      "maxLength": 1024
+      "maxLength": 256
+    },
+    "AdditionalIdentifiers": {
+      "description": "Any additional identifiers of a variable.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/AdditionalIdentifierType"
+      },
+      "minItems": 1
     },
     "LongName": {
       "description": "The expanded or long name related to the variable Name.",
@@ -76,13 +84,9 @@
       "description": "Specifies the sub type of a variable. These types can be either: SCIENCE_SCALAR, SCIENCE_VECTOR, SCIENCE_ARRAY, SCIENCE_EVENTFLAG, OTHER.",
       "$ref": "#/definitions/VariableSubTypeEnum"
     },
-    "Characteristics": {
-      "description": "The characteristics of a variable.  The elements of this section apply to a Variable.",
-      "$ref": "#/definitions/CharacteristicsType"
-    },
-    "SizeEstimation": {
-      "description": "The size estimation information of a variable.",
-      "$ref": "#/definitions/SizeEstimationType"
+    "IndexRanges": {
+      "description": "This element describes the x and y dimension ranges for this variable. Typically these values are 2 latitude and longitude ranges, but they don't necessarily have to be.",
+      "$ref": "#/definitions/IndexRangesType"
     },
     "MeasurementIdentifiers": {
       "description": "The measurement information of a variable.",
@@ -115,42 +119,33 @@
         "$ref": "#/definitions/SetType"
       },
       "minItems": 1
-    },
-    "AcquisitionSourceName": {
-      "description": "The acquisition source name such as an instrument short name or simulation name to which the variable belongs. The acquisition source name is used to help determine uniqueness along with Name, Units, and Dimensions in the metadata content for each variable metadata record. For more information please see https://wiki.earthdata.nasa.gov/display/DUTRAIN/UMM-VAR+uniqueness",
-      "$ref": "#/definitions/AcquisitionSourceNameType"
     }
   },
   "required": [
     "Name",
     "LongName",
-    "Definition",
-    "DataType",
-    "Dimensions",
-    "Sets",
-    "Scale",
-    "Offset",
-    "AcquisitionSourceName"
+    "Definition"
   ],
-
-
   "definitions": {
-    "CharacteristicsType": {
+    "AdditionalIdentifierType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "The elements of this section apply to a variable.",
+      "description": "The elements of this section apply to an additional identifier.",
       "properties": {
-        "IndexRanges": {
-          "description": "This element describes the x and y dimension ranges for this variable. Typically these values are 2 latitude and longitude ranges, but they don't necessarily have to be.",
-          "$ref": "#/definitions/IndexRangesType"
+        "Identifier": {
+          "description": "The actual identifier.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
         },
-        "GroupPath": {
-          "description": "The full path to the variable within the Granule structure. For example, '/MODIS_Grid_Daily_1km_LST/Data_Fields'.",
+        "Description": {
+          "description": "This element describes to a person or machine what the identifier is called. e.g., if the identifier is 1057.2345/asfb then the Description should be DOI or Digital Object Identifier.",
           "type": "string",
           "minLength": 0,
           "maxLength": 4000
         }
-      }
+      },
+      "required": ["Identifier"]
     },
     "IndexRangesType": {
       "type": "object",
@@ -177,58 +172,6 @@
         }
       },
       "required": ["LatRange", "LonRange"]
-    },
-    "CoordinatesType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "The coordinates consist of a latitude and longitude.",
-      "properties": {
-        "Lat": {
-          "description": "The latitude of the point.",
-          "type": "number"
-        },
-        "Lon": {
-          "description": "The longitude of the point.",
-          "type": "number"
-        }
-      },
-      "required": ["Lat", "Lon"]
-    },
-    "SizeEstimationType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "The elements of this section apply to variable size estimation.",
-      "properties": {
-        "AverageSizeOfGranulesSampled": {
-          "description": "This element contains the average size for the sampled granules in bytes.",
-          "type": "number"
-        },
-        "AverageCompressionInformation": {
-          "description": "This element is a list of 1 or more average compression rate(s) as a ratio for the granule in the specified format. The size estimation service takes this information so that it can calculate the approximate downloadable size for the variable.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AverageCompressionInformationType"
-          },
-          "minItems": 1
-        }
-      }
-    },
-    "AverageCompressionInformationType": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "This type defines the container for a specific rate as a ratio for the granule with the accompanying file format.",
-      "properties": {
-        "Rate": {
-          "description": "This element contains the average compression rate as a ratio for the granule for the specified format.",
-          "type": "number"
-        },
-        "Format": {
-          "description": "This element contains the file format that the size estimation service supports for the given rate as a ratio for the granule to be able to predict the size of the downloadable product.",
-          "type": "string",
-          "enum": ["ASCII", "NetCDF-4", "ESRI Shapefile", "GeoTIFF", "Native"]
-        }
-      },
-      "required": ["Rate", "Format"]
     },
     "MeasurementIdentifierType": {
       "type": "object",
@@ -438,13 +381,6 @@
       "description": "This element is used to further classify the variable as a Science Scalar, Science Vector, Science Array, Science Event Flag. If a variable does not contain this field, it will be assumed to be a science vector.",
       "type": "string",
       "enum": ["SCIENCE_SCALAR", "SCIENCE_VECTOR", "SCIENCE_ARRAY", "SCIENCE_EVENTFLAG", "OTHER"]
-    },
-    "AcquisitionSourceNameType": {
-      "description": "The unique short name of the Instrument, Simulation, or other acquisition source. This type matches the PlatformShortNameType that is found in UMM-C.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 80,
-      "pattern": "[\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=,][\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=, ]{1,79}"
     },
     "ScienceKeywordType": {
       "type": "object",

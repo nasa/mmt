@@ -16,8 +16,11 @@ class BasePublishedRecordController < ManageMetadataController
   end
 
   def edit
+    # grab the concept_id of the associated collection of latest
+    associated_concept_id = @revisions.dig(0, 'associations', 'collections', 0, 'concept-id')
+
     if @native_id
-      draft = draft_resource_class.send("create_from_#{resource_name}", get_resource, current_user, @native_id)
+      draft = draft_resource_class.send("create_from_#{resource_name}", get_resource, current_user, @native_id, associated_concept_id)
       Rails.logger.info("Audit Log: #{resource_name.classify} Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
       redirect_to send("#{resource_name}_draft_path", draft), flash: { success: I18n.t("controllers.draft.#{resource_name}_drafts.create.flash.success") }
     else
@@ -28,19 +31,19 @@ class BasePublishedRecordController < ManageMetadataController
   end
 
   def clone
-    draft = draft_resource_class.send("create_from_#{resource_name}", get_resource, current_user, nil)
+    draft = draft_resource_class.send("create_from_#{resource_name}", get_resource, current_user, nil, nil)
     Rails.logger.info("Audit Log: Cloned #{capitalized_resource_name} Draft for #{draft.short_name} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
     flash[:notice] = view_context.link_to I18n.t("controllers.#{plural_resource_name}.clone.flash.notice"), send("edit_#{resource_name}_draft_path", draft, "#{resource_name}_information", anchor: "#{resource_name}_draft_draft_name")
     redirect_to send("#{resource_name}_draft_path", draft)
   end
 
-  # This is not an intuitive way to publish variable_drafts and service_drafts.
-  # Adding some things people might search to try to find this as comments.
-  # def publish_variable def publish_service
+  # This may not be an intuitive way to publish variable_drafts, service_drafts,
+  # and tool_drafts. Adding some terms people might search to find this as comments.
+  # def publish_variable def publish_service def publish_tool
   def create
     draft = draft_resource_class.find(params[:id])
 
-    ingested_response = cmr_client.send("ingest_#{resource_name}", draft.draft.to_json, draft.provider_id, draft.native_id, token)
+    ingested_response = cmr_client.send("ingest_#{resource_name}", metadata: draft.draft.to_json, provider_id: draft.provider_id, native_id: draft.native_id, collection_concept_id: draft.collection_concept_id, token: token)
 
     if ingested_response.success?
       # get information for publication email notification before draft is deleted
@@ -93,10 +96,15 @@ class BasePublishedRecordController < ManageMetadataController
   end
 
   def revert
-    latest_revision_id = @revisions.first['meta']['revision-id']
+    latest_revision_id = @revisions.dig(0, 'meta', 'revision-id')
+
+    # grab the collection concept_id for the most recent revision;
+    # we have decided to revert the metadata and leave the association alone
+    # if users want or expect another behavior, we can respond to that feedback
+    associated_concept_id = first_non_deleted_revision.dig('associations', 'collections', 0, 'concept-id')
 
     # Ingest revision
-    ingested_response = cmr_client.send("ingest_#{resource_name}", get_resource.to_json, @provider_id, @native_id, token)
+    ingested_response = cmr_client.send("ingest_#{resource_name}", metadata: get_resource.to_json, provider_id: @provider_id, collection_concept_id: associated_concept_id, native_id: @native_id, token: token)
 
     if ingested_response.success?
       flash[:success] = I18n.t("controllers.#{plural_resource_name}.revert.flash.success")
@@ -225,5 +233,9 @@ class BasePublishedRecordController < ManageMetadataController
   # @return [String]
   def capitalized_resource_name
     resource_name.capitalize
+  end
+
+  def first_non_deleted_revision
+    @revisions.reject { |revision| revision.dig('meta', 'deleted') }.first
   end
 end

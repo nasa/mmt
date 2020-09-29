@@ -47,7 +47,7 @@ module Mmt
 
     # Versions of UMM for the different metadata types MMT is on
     config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.15.3'
-    config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.6'
+    config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.7'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.3.3'
     config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.0'
 

@@ -54,6 +54,15 @@ module Proposal
       end
     end
 
+    def update
+      if get_resource&.in_work?
+        super
+      else
+        flash[:error] = 'Only proposals in an "In Work" status can be edited.'
+        redirect_to collection_draft_proposal_path(get_resource)
+      end
+    end
+
     def destroy
       # According to the documentation, only "In Work" proposals should be deletable
       # "Rejected" and "Submitted" can be rescinded to "In Work" to be deleted.
@@ -182,6 +191,9 @@ module Proposal
     def reject
       authorize get_resource
 
+      # params[:rejection] == {'note' => ''} when the form is submitted blank,
+      # so delete the key if there is no content
+      params[:rejection].delete('note') if params[:rejection]['note'].blank?
       get_resource.approver_feedback = params[:rejection]
       get_resource.add_status_history('rejected', session[:name])
 
@@ -191,9 +203,9 @@ module Proposal
 
         submitter_from_resource_response = submitter_from_resource
         # User e-mail
-        ProposalMailer.proposal_rejected_notification(submitter_from_resource_response, get_resource).deliver_now if submitter_from_resource_response
+        ProposalMailer.proposal_rejected_notification(user: submitter_from_resource_response, proposal: get_resource, approver: false).deliver_now if submitter_from_resource_response
         # Approver e-mail
-        ProposalMailer.proposal_rejected_notification(get_user_info, get_resource).deliver_now
+        ProposalMailer.proposal_rejected_notification(user: get_user_info, proposal: get_resource, approver: true).deliver_now
       else
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully attempted to reject #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.reject.flash.error")

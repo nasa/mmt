@@ -131,4 +131,14 @@ module ProposalsHelper
   def display_submitter_name(submitter_id, user_hash = {})
     user_hash[submitter_id] || 'Pending'
   end
+
+  def cmr_search_root_url
+    if Rails.env.development? || Rails.env.test?
+      'http://localhost:3003'
+    elsif Rails.env.production?
+      Rails.configuration.services.dig('earthdata', 'ops', 'cmr_root') + '/search'
+    else
+      Rails.configuration.services.dig('earthdata', Rails.configuration.cmr_env, 'cmr_root') + '/search'
+    end
+  end
 end

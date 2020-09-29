@@ -14,7 +14,7 @@ describe 'Empty Variable Draft Sampling Identifiers Preview' do
 
     it 'displays the current status icon' do
       within '#sampling_identifiers-progress .status' do
-        expect(page).to have_content('Sampling Identifiers is valid')
+        expect(page).to have_css('.eui-icon.icon-green.eui-check')
       end
     end
 

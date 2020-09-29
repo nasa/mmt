@@ -27,8 +27,8 @@ describe 'Downloading Collection XML', js: true do
           @file = "#{Rails.root}/#{@concept_id}.echo10"
           click_on 'ECHO 10'
 
-          # Seems to need a brief (>0.01) pause to actually find the file.
-          sleep(0.1)
+          # Seems to need a brief (>0.1) pause to actually find the file.
+          sleep(1)
         end
 
         after do
@@ -78,8 +78,8 @@ describe 'Downloading Collection XML', js: true do
           @file = "#{Rails.root}/#{@concept_id}.iso-smap"
           click_on 'ISO 19115 (SMAP) (Native)'
 
-          # Seems to need a brief (>0.01) pause to actually find the file.
-          sleep(0.1)
+          # Seems to need a brief (>0.1) pause to actually find the file.
+          sleep(1)
         end
 
         after do

@@ -12,7 +12,7 @@
 
  *= require eui-1.1.7/eui
  *= require dropzone-4.0.1/dropzone
- *= require select2-4.0.1/select2.min
+ *= require select2-4.0.13/select2.min
  *= require bootstrap-datepicker-1.6.0/bootstrap-datepicker.standalone.min
  *= require bootstrap-datetimepicker
  *= require bootstrap-datetimepicker-standalone
@@ -63,6 +63,7 @@
 @import "components/modal";
 @import "components/navigation";
 @import "components/popover";
+@import "components/preview-gem-cards";
 @import "components/science-and-location-keywords";
 @import "components/search";
 @import "components/skip-nav";

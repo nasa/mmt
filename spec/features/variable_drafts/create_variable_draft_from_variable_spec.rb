@@ -1,11 +1,18 @@
 describe 'Create new draft from variable', reset_provider: true do
+  before :all do
+    @collection_ingest_response, _collection_concept_response = publish_collection_draft
+  end
+  before do
+    login
+  end
+
   context 'when making a draft from a published variable' do
+    before :all do
+      @ingest_response, _concept_response = publish_variable_draft(name: 'Test Edit Variable Name', collection_concept_id: @collection_ingest_response['concept-id'])
+    end
+
     before do
-      login
-
-      ingest_response, _concept_response = publish_variable_draft(name: 'Test Edit Variable Name')
-
-      visit variable_path(ingest_response['concept-id'])
+      visit variable_path(@ingest_response['concept-id'])
 
       click_on 'Edit Variable Record'
     end
@@ -16,35 +23,34 @@ describe 'Create new draft from variable', reset_provider: true do
       expect(page).to have_link('Publish Variable Draft')
       expect(page).to have_content('Test Edit Variable Name')
     end
-  end
 
-  context 'when working with the draft of a published variable' do
-    before do
-      login
-      @native_id = 'TestVariableNativeId'
-      ingest_response, _concept_response = publish_variable_draft(name: 'Test Edit Variable Name 2', native_id: @native_id)
-    end
+    it 'displays the Collection Association progress icons correctly' do
+      within '#collection-association-progress' do
+        within '.status' do
+          expect(page).to have_css('.eui-icon.icon-green.eui-check')
+        end
 
-    context 'when trying to edit the draft name' do
-      before do
-        @variable_draft = create(:full_variable_draft, native_id: @native_id)
-        visit edit_variable_draft_path(@variable_draft)
-      end
-
-      it 'cannot edit the name' do
-        expect(page).to have_field('variable_draft[draft][name]', readonly: true)
+        within '.progress-indicators' do
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.collection_association')
+        end
       end
     end
 
-    context 'when trying to publish/update a variable draft with a different name' do
+    it 'the draft has the same collection association as the published variable' do
+      draft = VariableDraft.last
+      expect(draft.collection_concept_id).to eq(@collection_ingest_response['concept-id'])
+    end
+
+    context 'when clicking on the Collection Association form link' do
       before do
-        @variable_draft = create(:full_variable_draft, native_id: @native_id, draft_short_name: 'An Incompatible Name')
-        visit variable_draft_path(@variable_draft)
-        click_on 'Publish Variable Draft'
+        click_on 'Collection Association'
       end
 
-      it 'does not succeed' do
-        expect(page).to have_content('Variable Draft was not published successfully. Variable name [An Incompatible Name] does not match the existing variable name [Test Edit Variable Name 2]')
+      it 'allows a user to modify the collection association' do
+        expect(page).to have_content('Collection Association Search')
+        expect(page).to have_css('#variable-draft-collection-association-table')
+        expect(page).to have_select('Search Field')
+        expect(page).to have_css("input[id$='query_text']")
       end
     end
   end

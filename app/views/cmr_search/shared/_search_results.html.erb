@@ -18,6 +18,7 @@
             <th>Version</th>
           </tr>
         </thead>
+
         <tbody>
           <% if collections.any? %>
             <% collections.each do |collection| %>
@@ -25,7 +26,9 @@
                 <td class="align-c">
                   <!-- use check boxes or radio buttons to select collection(s) -->
                   <% if local_assigns.fetch(:use_radio_buttons, false) %>
-                    <%= radio_button_tag('selected_collection', collection.fetch('meta', {})['concept-id'], false, class: 'selected_collection_radio_button align-c') %>
+                    <% unless local_assigns.fetch(:ignored_concept_ids, false) && ignored_concept_ids.include?(collection.fetch('meta', {})['concept-id']) %>
+                      <%= radio_button_tag('selected_collection', collection.fetch('meta', {})['concept-id'], false, class: 'selected_collection_radio_button align-c') %>
+                    <% end %>
                   <% else %>
                     <% unless local_assigns.fetch(:ignored_concept_ids, false) && ignored_concept_ids.include?(collection.fetch('meta', {})['concept-id']) %>
                       <%= check_box_tag('selected_collections[]', collection.fetch('meta', {})['concept-id'], false, class: 'selected_collections') %>
@@ -52,13 +55,15 @@
 
     <% if collections.any? %>
       <!-- Search form fields to provide to the next step -->
-
       <%= hidden_field_tag :search_field, params[:field] %>
       <%= hidden_field_tag :search_query, params[:query] %>
 
       <fieldset>
         <div class="row">
           <%= submit_tag submit_text, class: "eui-btn--blue #{'spinner' if local_assigns.fetch(:use_spinner, false)}" %>
+          <% if local_assigns.fetch(:allow_cancel, false) %>
+            <%= link_to 'Cancel', cancel_path, class: 'eui-btn' %>
+          <% end %>
         </div>
       </fieldset>
     <% end %>

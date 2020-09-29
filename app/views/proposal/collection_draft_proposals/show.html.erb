@@ -41,5 +41,5 @@
 
   <%= render partial: 'collection_drafts/progress/preview_progress', locals: { unpublished_resource: get_resource, metadata_errors: @errors || @ingest_errors } if get_resource.in_work? %>
 
-  <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, is_mmt: true, editable: true, edsc_url: nil, concept_id: nil, additional_information: nil} %>
+  <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, is_mmt: true, editable: true, edsc_url: nil, concept_id: nil, additional_information: { 'root_url' => "#{cmr_search_root_url}/", 'services' => @services, 'is_dmmt' => true }} %>
 </div>

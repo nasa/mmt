@@ -6,6 +6,8 @@ class CollectionAssociationsController < CmrSearchController
   CMR_MAX_PAGE_SIZE = 2000
 
   before_action :set_resource
+  before_action :ensure_not_variable, only: [:new, :create, :destroy]
+  before_action :ensure_variable, only: [:edit, :update]
   before_action :add_high_level_breadcrumbs
   before_action :ensure_correct_provider, only: [:index, :new]
 
@@ -33,21 +35,16 @@ class CollectionAssociationsController < CmrSearchController
       flash[:error] = "An error occurred while trying to retrieve associations for this #{lower_resource_name}. Please try again before contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}"
     end
 
-    # Variables can only be associated with one collection. We should hide
-    # the button if we know that the variable record already has an association.
-    @can_associate = not_variable? || association_results.blank?
+    # Variables are associated on ingest and can only be associated with one
+    # collection. We should hide the button if it is a variable record
+    @can_associate = not_variable?
     @associations = Kaminari.paginate_array(association_results, total_count: association_count).page(page).per(RESULTS_PER_PAGE)
   end
 
   def new
-    # Variables can only be associated with one collection. If a variable is
-    # already associated with a collection, do not let the user try to add more.
-    # Services, do not have the same restriction.
+    # Variables are associated on ingest and can only be associated with one
+    # collection. They should be blocked from this action.
     @previously_associated_collections = get_all_collection_associations
-    if variable? && @previously_associated_collections.present?
-      flash[:error] = "This #{lower_resource_name} already has a Collection Association. To change the association, you must first remove the existing collection association."
-      redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id)
-    end
 
     add_breadcrumb 'New', send("new_#{lower_resource_name}_collection_association_path", resource_id)
 
@@ -55,41 +52,80 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   def create
-    # The form is slightly different for variables. Despite only accepting one
-    # association, the collection id for variables still needs to be in an array
-    association_response = if variable?
-                             cmr_client.send("add_collection_assocations_to_#{lower_resource_name}", resource_id, Array.wrap(params[:selected_collection]), token)
-                           else
-                             cmr_client.send("add_collection_assocations_to_#{lower_resource_name}", resource_id, params[:selected_collections], token)
-                           end
+    # Variables are associated on ingest and can only be associated with one
+    # collection. They should be blocked from this action.
+    association_response = cmr_client.send("add_collection_assocations_to_#{lower_resource_name}", resource_id, params[:selected_collections], token)
 
     # Log any issues found in the response
     log_issues(association_response)
 
     if association_response.success?
-      redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id), flash: { success: I18n.t('controllers.collection_associations.create.flash.success') }
+      redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id), flash: { success: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.create.flash.success") }
     else
       Rails.logger.error("Collection Associations Error: #{association_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to create Collection Associations for #{resource_name} #{resource_id} with Collections #{params[:selected_collections]} in provider #{current_user.provider_id} but encountered an error.")
 
-      flash[:error] = association_response.error_message(i18n: I18n.t('controllers.collection_associations.create.flash.error'))
+      flash[:error] = association_response.error_message(i18n: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.create.flash.error"))
       render :new
     end
   end
 
+  # Only variables should be allowed to be edited and updated in this fashion.
+  # This is because the variable must be associated to one and only one collection
+  def edit
+    @previously_associated_collections = get_all_collection_associations
+
+    add_breadcrumb 'Edit', send("edit_#{lower_resource_name}_collection_association_path", resource_id)
+
+    super
+  end
+
+  # Only variables should be allowed to be updated in this fashion.
+  def update
+    # Get metadata in its native format so that we can reingest it.
+    search_response = cmr_client.get_concept(resource_id, token, {})
+    if search_response.success?
+      format = search_response.headers['content-type']
+      metadata = search_response.body
+    else
+      Rails.logger.error("Search #{resource_name} Metadata Error: #{search_response.clean_inspect}")
+
+      flash[:error] = search_response.error_message(i18n: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.update.flash.error"), force_i18n_preface: true)
+      redirect_to send("#{lower_resource_name}_collection_associations_path", concept_id) and return
+    end
+
+    # Override headers to reingest same version.
+    ingest_response = cmr_client.send("ingest_#{lower_resource_name}", metadata: metadata.to_json, provider_id: @provider_id, native_id: @native_id, collection_concept_id: params['selected_collection'], token: token, headers_override: { 'Content-Type' => format })
+
+    if ingest_response.success?
+      non_collection_concept_id = ingest_response.body['concept-id']
+      col_concept_id = ingest_response.body['associated-item']['concept-id']
+      Rails.logger.info("Audit Log: #{resource_name} with concept_id: #{non_collection_concept_id} republished with a new collection association. The new associated collection has a concept_id of: #{col_concept_id} in provider: #{@provider_id}")
+      redirect_to send("#{lower_resource_name}_collection_associations_path", non_collection_concept_id), flash: { success: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.update.flash.success") }
+    else
+      Rails.logger.error("Ingest #{resource_name} Metadata Error: #{ingest_response.clean_inspect}")
+      Rails.logger.info("User #{current_user.urs_uid} attempted to ingest #{resource_name} from the manage collection associations page in provider #{current_user.provider_id} but encountered an error.")
+
+      flash[:error] = ingest_response.error_message(i18n: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.update.flash.error"), force_i18n_preface: true)
+      redirect_to send("#{lower_resource_name}_collection_associations_path", concept_id)
+    end
+  end
+
   def destroy
+    # Variables must be associated with one collection. They should be blocked
+    # from this action.
     association_response = cmr_client.send("delete_collection_assocations_to_#{lower_resource_name}", resource_id, params[:selected_collections], token)
 
     # Log any issues found in the response
     log_issues(association_response)
 
     if association_response.success?
-      redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id), flash: { success: I18n.t('controllers.collection_associations.destroy.flash.success') }
+      redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id), flash: { success: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.destroy.flash.success") }
     else
       Rails.logger.error("Collection Associations Error: #{association_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to delete Collection Associations for #{resource_name} #{resource_id} with Collections #{params[:selected_collections]} in provider #{current_user.provider_id} but encountered an error.")
 
-      redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id), flash: { error: association_response.error_message(i18n: I18n.t('controllers.collection_associations.destroy.flash.error')) }
+      redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id), flash: { error: association_response.error_message(i18n: I18n.t("controllers.collection_associations.#{resource_name.downcase.pluralize}.destroy.flash.error")) }
     end
   end
 
@@ -131,7 +167,7 @@ class CollectionAssociationsController < CmrSearchController
 
   def set_resource
     set_metadata
-    @resource = if params[:variable_id]
+    @resource = if variable_id
                   @variable
                 elsif params[:service_id]
                   @service
@@ -159,9 +195,16 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   def resource_id
-    params[:variable_id] || params[:service_id]
+    params[:service_id] || variable_id
   end
   helper_method :resource_id
+
+  def variable_id
+    return params[:variable_id] if params[:variable_id]
+    return nil unless params[:id]
+
+    params[:id] if params[:id].split('-').first.starts_with?(/V\d/)
+  end
 
   def add_high_level_breadcrumbs
     add_breadcrumb plural_resource_name # there is no variables index action, so not providing a link
@@ -202,4 +245,12 @@ class CollectionAssociationsController < CmrSearchController
     resource_name == 'Variable'
   end
   helper_method :variable?
+
+  def ensure_not_variable
+    redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id) if variable?
+  end
+
+  def ensure_variable
+    redirect_to send("#{lower_resource_name}_collection_associations_path", resource_id) unless variable?
+  end
 end

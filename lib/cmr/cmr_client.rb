@@ -25,7 +25,7 @@ module Cmr
     end
 
     def get_collections_by_post(query, token = nil, response_format = 'umm-json')
-      # search collections via POST
+      # search collections via POST, with sort key default
       defaults = {
         'sort_key' => 'entry_title'
       }
@@ -73,7 +73,7 @@ module Cmr
       get(url, options, token_header(token))
     end
 
-    def search_collections(options, token)
+    def search_collections(options = {}, token)
       # search collections via GET, using `.json` extension
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3003/collections.json'
@@ -98,20 +98,6 @@ module Cmr
       get(url, nil, headers.merge(token_header(token)))
     end
 
-    def add_collection_assocations_to_variable(concept_id, collection_ids, token)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3003/variables/#{concept_id}/associations"
-            else
-              "/search/variables/#{concept_id}/associations"
-            end
-
-      headers = {
-        'Content-Type' => 'application/json'
-      }
-
-      post(url, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
-    end
-
     def add_collection_assocations_to_service(concept_id, collection_ids, token)
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/services/#{concept_id}/associations"
@@ -124,20 +110,6 @@ module Cmr
       }
 
       post(url, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
-    end
-
-    def delete_collection_assocations_to_variable(concept_id, collection_ids, token)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3003/variables/#{concept_id}/associations"
-            else
-              "/search/variables/#{concept_id}/associations"
-            end
-
-      headers = {
-        'Content-Type' => 'application/json'
-      }
-
-      delete(url, nil, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
     end
 
     def delete_collection_assocations_to_service(concept_id, collection_ids, token)
@@ -181,6 +153,51 @@ module Cmr
         get(url)
       end
       response
+    end
+
+    def get_tag(tag_key)
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3003/tags/#{tag_key}"
+            else
+              "/search/tags/#{tag_key}"
+            end
+      # needs to be specified or the error will can come back as xml
+      headers = { 'Content-Type' => 'application/json' }
+
+      # tag Read doesn't seem to require tokens
+      get(url, {}, headers)
+    end
+
+    def get_tags(options)
+      url = if Rails.env.development? || Rails.env.test?
+              'http://localhost:3003/tags'
+            else
+              '/search/tags'
+            end
+      # needs to be specified or the error will can come back as xml
+      headers = { 'Content-Type' => 'application/json' }
+
+      # tag Read doesn't seem to require tokens
+      get(url, options, headers)
+    end
+
+    # MMT does not allow users to create and associate tags, but we need to
+    # have these methods for testing purposes
+    def create_tag(tag_key, token, description = nil)
+      url = 'http://localhost:3003/tags'
+      body = { tag_key: tag_key }
+      body[:description] = description unless description.nil?
+      headers = { 'Content-Type' => 'application/json' }
+      # need to use 'access_token_admin'
+      post(url, body.to_json, headers.merge(token_header(token)))
+    end
+
+    def associate_tag_by_collection_short_name(tag_key, short_name, token)
+      url = "http://localhost:3003/tags/#{tag_key}/associations/by_query"
+      body = { condition: { short_name: short_name } }
+      headers = { 'Content-Type' => 'application/json' }
+
+      post(url, body.to_json, headers.merge(token_header(token)))
     end
 
     ### Providers, via CMR Ingest and CMR Search
@@ -269,13 +286,20 @@ module Cmr
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
-    def ingest_variable(metadata, provider_id, native_id, token, headers_override = nil)
+    def ingest_variable(metadata:, provider_id:, native_id:, collection_concept_id:, token:, headers_override: nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
+      # https://cmr.sit.earthdata.nasa.gov/ingest/collections/C1200000005-PROV1/1/variables/sampleVariableNativeId33 -d \
+
       url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3002/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+              "http://localhost:3002/collections/#{collection_concept_id}/variables/#{encode_if_needed(native_id)}"
             else
-              "/ingest/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+              "/ingest/collections/#{collection_concept_id}/variables/#{encode_if_needed(native_id)}"
             end
+      # url = if Rails.env.development? || Rails.env.test?
+      #         "http://localhost:3002/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+      #       else
+      #         "/ingest/providers/#{provider_id}/variables/#{encode_if_needed(native_id)}"
+      #       end
 
       headers = {
         'Accept' => 'application/json',
@@ -287,7 +311,7 @@ module Cmr
       put(url, metadata, headers.merge(token_header(token)))
     end
 
-    def ingest_service(metadata, provider_id, native_id, token, headers_override = nil)
+    def ingest_service(metadata:, provider_id:, native_id:, token:, headers_override: nil, collection_concept_id: nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/services/#{encode_if_needed(native_id)}"
@@ -331,7 +355,7 @@ module Cmr
 
     ################ UMM-T #######################
 
-    def ingest_tool(metadata, provider_id, native_id, token, content_type = nil)
+    def ingest_tool(metadata:, provider_id:, native_id:, token:, content_type: nil, collection_concept_id: nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3002/providers/#{provider_id}/tools/#{encode_if_needed(native_id)}"

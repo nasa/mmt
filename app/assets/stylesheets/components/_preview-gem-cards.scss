@@ -1,0 +1,85 @@
+/* ===================================================== *\
+   preview-gem-cards
+\* ===================================================== */
+
+.preview-gem-cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.preview-gem-card {
+  border: 1px solid darken($light-blue, 8%);
+  border-radius: 4px;
+  margin-bottom: 10px;
+  flex: 0 1 auto;
+}
+
+.preview-gem-card-header {
+  border-bottom: 1px solid darken($light-blue, 8%);
+  background-color: $light-blue;
+  color: $ocean-blue;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  display: flex;
+  align-items: center;
+
+  // This uses the eui styling for the buttons, but changes the background color
+  .eui-btn--blue {
+    background-color: lighten($midnight-blue, 4%);
+    // Using this margin to push the flexbox from the name further left
+    margin: 0px 3px 0px 90px;
+  }
+}
+
+.preview-gem-card-body {
+  padding: 0;
+  border-top: 2px solid lighten($light-grey, 2%);
+  height: 120px;
+  display: none;
+  background: #fff;
+  overflow: auto;
+
+  &.active {
+    display: flex;
+  }
+
+  &.fluid-height {
+    height: auto;
+  }
+
+  h6 {
+    font-size: 0.8em;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  p, ul {
+    font-size: 0.8em;
+    line-height: 1.4em;
+    color: $dolphin-grey;
+  }
+
+  li {
+    margin: 0;
+  }
+}
+
+.preview-gem-card-body-details-full {
+  padding: 0.8em;
+  flex: 0 1 auto;
+}
+
+.preview-gem-card-header-title {
+  border-bottom: 1px solid $light-grey;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0.7em 0.6em;
+  flex: 1 1 60%; // Higher values or auto in the basis cause long titles to
+                 // squish the links in the cards
+  font-weight: normal;
+  text-decoration: underline;
+}

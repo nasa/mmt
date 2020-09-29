@@ -11,6 +11,38 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
       visit collection_draft_proposal_path(@collection_draft_proposal)
     end
 
+    context 'when user goes back in browser to edit a submitted proposal' do
+      before do
+        click_on 'Descriptive Keywords'
+        within '.nav-top' do
+          click_on 'Done'
+        end
+        click_on 'Submit for Review'
+        click_on 'Yes'
+        # for some reason this is needed twice to actually go back
+        page.driver.go_back
+        page.driver.go_back
+        find('#science-keywords', text: 'Science Keywords').click
+        click_on 'EARTH SCIENCE'
+        click_on 'ATMOSPHERE'
+        click_on 'AEROSOLS'
+        click_on 'Add Keyword'
+        within '.nav-top' do
+          click_on 'Done'
+        end
+      end
+
+      it 'does not allow updates to propogate' do
+        expect(page).to have_content('Only proposals in an "In Work" status can be edited.')
+        expect(page).to have_link('Cancel Proposal Submission')
+        within '.science-keywords-preview' do
+          # if the 'go_back' operation to add a science keyword is unsuccessful (because the proposal is no longer 'in_work'),
+          # there will remain only 2 arrow-tag-group-list items 
+          expect(page).to have_css('.arrow-tag-group-list ', count: 2)
+        end
+      end
+    end
+
     context 'when the submit proposal button is clicked' do
       before do
         click_on 'Submit for Review'

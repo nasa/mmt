@@ -62,6 +62,8 @@ Rails.application.routes.draw do
 
   resource :bulk_updates_search, only: [:new]
 
+  resources :tags, only: [:index, :show], constraints: { id: /[^\/]+/ }
+
   resources :collections, only: [:show, :edit, :destroy]
   get '/collections/:id/revisions' => 'collections#revisions', as: 'collection_revisions'
   get '/collections/:id/revert/:revision_id' => 'collections#revert', as: 'revert_collection'
@@ -82,12 +84,14 @@ Rails.application.routes.draw do
   end
 
   resources :variables, only: [:show, :create, :edit, :destroy] do
-    resources :collection_associations, only: [:index, :new, :create] do
+    resources :collection_associations, only: [:index] do
       collection do
-        match '/' => 'collection_associations#destroy', via: :delete
+        match '/' => 'collection_associations#edit', via: :edit
+        match '/' => 'collection_associations#update', via: :post
       end
     end
   end
+  get '/variables/:id/collection_associations/edit' => 'collection_associations#edit', as: 'edit_variable_collection_association'
   get '/variables/:id/revisions' => 'variables#revisions', as: 'variable_revisions'
   get '/variables/:id/revert/:revision_id' => 'variables#revert', as: 'revert_variable'
   get '/variables/:id/clone' => 'variables#clone', as: 'clone_variable'
@@ -114,6 +118,8 @@ Rails.application.routes.draw do
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
       get :edit, path: 'edit(/:form)'
+      get '/collection_search' => 'variable_drafts_collection_searches#new', as: 'collection_search'
+      post 'update_associated_collection'
     end
   end
 
