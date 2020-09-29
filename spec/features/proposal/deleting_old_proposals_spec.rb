@@ -1,6 +1,7 @@
 describe 'Deleting old proposals via rake task' do
   before do
-    Mmt::Application.load_tasks
+    Rake::Task.define_task(:environment)
+    Rake.application.rake_require 'tasks/proposals'
     set_as_proposal_mode_mmt(with_draft_approver_acl: true)
     @in_work_collection_draft_proposal = create(:full_collection_draft_proposal)
     @submitted_collection_draft_proposal = create(:full_collection_draft_proposal)
