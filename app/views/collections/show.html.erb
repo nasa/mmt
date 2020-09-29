@@ -58,7 +58,7 @@
         <div class="wide-content-inside">
           <p>
             <% native_format = @revisions.first.fetch('meta', {})['format'] %>
-            <% if !native_format.include?('umm') && (current_provider?(@provider_id) || available_provider?(@provider_id)) %>
+            <% if !native_format.include?('umm') && (current_provider?(@provider_id) || available_provider?(@provider_id)) && Rails.configuration.loss_report_enabled %>
               <%= link_to 'Edit Collection Record', '#loss-report-modal', class: 'display-modal eui-btn--link bar-after' %>
             <% else %>
               <% if current_provider?(@provider_id) %>
