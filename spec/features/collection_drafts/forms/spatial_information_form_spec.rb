@@ -122,6 +122,12 @@ describe 'Spatial information form', js: true do
         expect(page).to have_content('Collection Draft Updated Successfully!')
       end
 
+      it 'contains the correct dropdown options' do
+        within '#draft_tiling_identification_systems_0' do
+          expect(page).to have_select('Tiling Identification System Name', options: ['Select Tiling Identification System Name', 'CALIPSO', 'MISR', 'MODIS Tile EASE', 'MODIS Tile SIN', 'WELD Alaska Tile', 'WELD CONUS Tile', 'WRS-1', 'WRS-2', 'Military Grid Reference System'])
+        end
+      end
+
       it 'populates the form with the values including horizontal spatial data' do
         # Spatial Extent
         within '.spatial-extent' do
