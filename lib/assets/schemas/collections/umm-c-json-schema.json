@@ -671,7 +671,7 @@
     },
     "TilingIdentificationSystemNameEnum": {
        "type": "string",
-       "enum": ["CALIPSO", "MISR", "MODIS Tile EASE", "MODIS Tile SIN", "WELD Alaska Tile", "WELD CONUS Tile", "WRS-1", "WRS-2"]
+       "enum": ["CALIPSO", "MISR", "MODIS Tile EASE", "MODIS Tile SIN", "WELD Alaska Tile", "WELD CONUS Tile", "WRS-1", "WRS-2", "Military Grid Reference System"]
     },
     "SpatialInformationType": {
       "type": "object",
