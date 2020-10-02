@@ -137,6 +137,9 @@ Rails.application.configure do
   # Feature toggle for UMM-T
   config.umm_t_enabled = true
 
+  # Feature toggle for loss report accessibility through 'edit collection' button
+  config.loss_report_enabled = false
+
   config.cmr_env = 'ops'
   config.echo_env = 'ops'
   config.urs_register_url = 'https://urs.earthdata.nasa.gov/users/new'

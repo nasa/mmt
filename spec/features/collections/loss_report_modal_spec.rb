@@ -94,7 +94,7 @@ describe 'loss report modal', js: true do
           expect(page).to have_no_css('#loss-report-modal')
           within '#not-current-provider-modal' do
             expect(page).to have_link('Yes', href: '#')
-            expect(page).to have_link('No', href: 'javascript:void(0)')
+            expect(page).to have_link('No', href: 'javascript:void(0);')
           end
         end
       end
@@ -119,6 +119,42 @@ describe 'loss report modal', js: true do
         end
         it 'closes loss-report-modal and does not open the not-current-provider-modal' do
           expect(page).to have_no_css('#not-current-provider-modal')
+          expect(page).to have_no_css('#loss-report-modal')
+        end
+      end
+    end
+
+    context 'when the loss report feature is turned off' do
+      before do
+        allow(Mmt::Application.config).to receive(:loss_report_enabled).and_return(false)
+      end
+
+      context 'when provider context needs to be changed and the required provider context is available' do
+        before do
+          login(provider: 'LARC', providers: %w[SEDAC LARC])
+          visit collection_path(concept_id)
+          click_on 'Edit Collection Record'
+        end
+
+        it 'displays not-current-provider-modal' do
+          expect(page).to have_no_css('#loss-report-modal')
+          within '#not-current-provider-modal' do
+            expect(page).to have_link('Yes', href: '#')
+            expect(page).to have_link('No', href: 'javascript:void(0);')
+          end
+        end
+      end
+
+      context 'when provider context does not need to be changed' do
+        before do
+          login(provider: 'SEDAC', providers: %w[SEDAC])
+          visit collection_path(concept_id)
+          click_on 'Edit Collection Record'
+        end
+
+        it 'does not display the loss-report-modal' do
+          expect(page).to have_no_content("The native format of this collection is ECHO10. Editing this record using the MMT will convert it to UMM-JSON, which may result in data loss. Select 'View Loss Report' to see how the conversion will affect this record.")
+          expect(page).to have_no_content('Conversion to UMM Format Required')
           expect(page).to have_no_css('#loss-report-modal')
         end
       end
