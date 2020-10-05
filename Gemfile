@@ -78,7 +78,7 @@ gem 'browser'
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
 # make sure to delete the local config when done making changes to merge into master
 # bundle config --delete local.cmr_metadata_preview
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '1aaef8d08e9636968e84dead10d52c7c1aae09c7'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '40320c29933'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
