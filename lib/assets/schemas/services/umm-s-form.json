@@ -76,7 +76,7 @@
                   "items": [{"key": "Description", "type": "UmmTextarea", "field": true}]
                 }
               ]
-            }   
+            }
           ]
         },
         {
@@ -420,9 +420,33 @@
               "type": "section",
               "htmlClass": "row",
               "items": [
+                /* old field
                 {
                   "type": "section",
                   "items": [{"key": "/SubsetTypes", "field": true, "type": "UmmMultiSelect"}]
+                }, */
+                {
+                  "type": "section",
+                  "label": "Subset",
+                  "key": "/Subset/properties",
+                  "htmlClass": "row sub-fields subset space-bot",
+                  "items": [
+                    {
+                      "type": "UmmCheckboxDependentFields",
+                      "label": "Temporal Subset",
+                      "key": "/TemporalSubset",
+                      "htmlClass": "row sub-fields temporal-subset space-bot",
+                      "items": [
+                        {
+                          "key": "/properties/AllowMultipleValues",
+                          "field": true,
+                          "label": "Allow Multiple Values",
+                          "type": "UmmBoolean"
+                        }
+                      ]
+                    }
+
+                  ]
                 },
                 {
                   "type": "section",
@@ -454,14 +478,14 @@
                   "type": "section",
                   "items": [{"key": "/InterpolationTypes", "field": true, "type": "UmmMultiSelect"}]
                 },
-                {
+                /* {
                   "type": "section",
                   "items": [{"key": "/SupportedInputFormats", "field": true, "type": "UmmMultiSelect"}]
                 },
                 {
                   "type": "section",
                   "items": [{"key": "/SupportedOutputFormats", "field": true, "type": "UmmMultiSelect"}]
-                },
+                }, */
                 {
                   "type": "UmmMultiItems",
                   "label": "Supported Reformattings",
