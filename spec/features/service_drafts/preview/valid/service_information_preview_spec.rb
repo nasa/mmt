@@ -4,10 +4,13 @@ describe 'Valid Service Draft Service Information Preview' do
 
   before do
     login
-    visit service_draft_path(service_draft)
   end
 
   context 'When examining the Service Information section' do
+    before do
+      visit service_draft_path(service_draft)
+    end
+
     it 'displays the form title as an edit link' do
       within '#service_information-progress' do
         expect(page).to have_link('Service Information', href: edit_service_draft_path(service_draft, 'service_information'))
@@ -71,6 +74,21 @@ describe 'Valid Service Draft Service Information Preview' do
         within '#service_draft_draft_url_preview' do
           expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: 'service_draft_draft_url'))
         end
+      end
+    end
+  end
+
+  context 'when examining the Service Information section with a url with no protocol' do
+    before do
+      service_draft.draft['URL']['URLValue'] = 'Not Provided'
+      service_draft.save
+      visit service_draft_path(service_draft)
+    end
+
+    it 'does not make a link for the invalid url' do
+      within '#service_draft_draft_url_preview' do
+        expect(page).to have_content('Not Provided')
+        expect(page).to have_no_link('Not Provided')
       end
     end
   end
