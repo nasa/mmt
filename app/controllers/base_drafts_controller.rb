@@ -36,6 +36,7 @@ class BaseDraftsController < DraftsController
     set_form
 
     set_current_form
+    byebug
   end
 
   def edit
