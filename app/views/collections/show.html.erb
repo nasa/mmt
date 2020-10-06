@@ -60,12 +60,10 @@
             <% native_format = @revisions.first.fetch('meta', {})['format'] %>
             <% if Rails.configuration.loss_report_enabled && !native_format.include?('umm') && (current_provider?(@provider_id) || available_provider?(@provider_id)) %>
               <%= link_to 'Edit Collection Record', '#loss-report-modal', class: 'display-modal eui-btn--link bar-after' %>
-            <% else %>
-              <% if current_provider?(@provider_id) %>
-                <%= link_to 'Edit Collection Record', edit_collection_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
-              <% elsif available_provider?(@provider_id) %>
-                <%= link_to 'Edit Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'edit-collection' } %>
-              <% end %>
+            <% elsif current_provider?(@provider_id) %>
+              <%= link_to 'Edit Collection Record', edit_collection_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
+            <% elsif available_provider?(@provider_id) %>
+              <%= link_to 'Edit Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'edit-collection' } %>
             <% end %>
 
             <% if current_provider?(@provider_id) %>
