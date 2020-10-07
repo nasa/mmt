@@ -4,7 +4,10 @@
       <h3 class="eui-callout-box__title green">Create Variable Record</h3>
       <div class="eui-callout-box__list">
         <div class="question-group">
-          <%= link_to 'Create New Record', new_variable_draft_path(ac_id: 'C12-TEST'), class: 'eui-btn--blue submit' %>
+          <%= form_tag(new_variable_draft_with_associated_collection_path, method: :post, id: 'new-draft-form') do %>
+            <%= text_field_tag('associated_collection_id', nil, placeholder: 'Concept ID') %>
+            <%= submit_tag('Create New Record', class: 'eui-btn--blue submit') %>
+          <% end %>
         </div>
         <div class="question-group">
           <div class="row">
