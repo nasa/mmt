@@ -17,17 +17,21 @@ class VariableDraftsController < BaseDraftsController
   end
 
   def new
-    @associated_collection_id = params[:associated_collection_id]
+    unless params[:associated_collection_id].blank?
+      @associated_collection_id = params[:associated_collection_id].strip
 
-    current_collection_response = cmr_client.get_collections_by_post(
-      { concept_id: @associated_collection_id }, token
-    )
+      current_collection_response = cmr_client.get_collections_by_post(
+        { concept_id: @associated_collection_id }, token
+      )
 
-    if current_collection_response.success? && current_collection_response.body['hits'] > 0
-      super
+      if current_collection_response.success? && current_collection_response.body['hits'] > 0
+        super
+      else
+        Rails.logger.info("Error retrieving Collection - Concept ID: #{@associated_collection_id}")
+        redirect_to manage_variables_path, flash: { error: 'Concept ID invalid.'}
+      end
     else
-      Rails.logger.info("Error retrieving Collection")
-      redirect_to manage_variables_path, flash: { error: 'Concept ID invalid.'}
+      super
     end
   end
 
