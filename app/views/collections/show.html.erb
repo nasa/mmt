@@ -110,20 +110,20 @@
             </p>
           </div>
           <%= render partial: 'shared/not_current_provider_modal', locals: {
-            options: {
-              collection: @collection,
-              concept_id: @concept_id,
-              revision_id: @revision_id,
-              draft: @draft,
-              draft_id: @draft.try(:id) }
-            } %>
+              options: {
+                collection: @collection,
+                concept_id: @concept_id,
+                revision_id: @revision_id,
+                draft: @draft,
+                draft_id: @draft.try(:id) }
+              } %>
           <%= render partial: 'shared/loss_report_modal', locals: {
-            options: {
-              provider_id: @provider_id,
-              native_format: native_format,
-              concept_id: @concept_id,
-              revision_id: @revision_id }
-            } %>
+              options: {
+                provider_id: @provider_id,
+                native_format: native_format,
+                concept_id: @concept_id,
+                revision_id: @revision_id }
+              } %>
             <!-- Hidden link to allow modal to be shown -->
             <a href="#cascade-delete-modal" id="display-cascade-delete-modal" class="display-modal is-invisible"></a>
             <div id="cascade-delete-modal" class="eui-modal-content">
