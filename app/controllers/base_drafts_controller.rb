@@ -57,11 +57,7 @@ class BaseDraftsController < DraftsController
 
     get_resource.draft = draft['draft']
 
-    if get_resource.update(collection_concept_id: params[:associated_collection_id])
-      flash[:success] = I18n.t("controllers.draft.variable_drafts.update_associated_collection.flash.success")
-    else
-      flash[:error] = I18n.t("controllers.draft.variable_drafts.update_associated_collection.flash.error")
-    end
+    get_resource.update(collection_concept_id: params[:associated_collection_id]) if params[:associated_collection_id]
 
     if get_resource.save
       # Successful flash message

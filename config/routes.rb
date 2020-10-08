@@ -120,7 +120,6 @@ Rails.application.routes.draw do
       post 'update_associated_collection'
     end
   end
-  post 'variable_drafts/new' => 'variable_drafts#new', as: 'new_variable_draft_with_associated_collection'
 
   resources :service_drafts, controller: 'service_drafts', draft_type: 'ServiceDraft' do
     member do

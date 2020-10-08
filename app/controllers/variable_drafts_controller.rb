@@ -25,6 +25,8 @@ class VariableDraftsController < BaseDraftsController
       )
 
       if current_collection_response.success? && current_collection_response.body['hits'] > 0
+        # this banner needs to be deliberated
+        flash[:success] = I18n.t("controllers.draft.variable_drafts.update_associated_collection.flash.success")
         super
       else
         Rails.logger.info("Error retrieving Collection - Concept ID: #{@associated_collection_id}")
