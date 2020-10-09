@@ -1,9 +1,10 @@
 describe 'Associating a collection upon variable draft creation' do
-  let(:collection_concept_id) { cmr_client.get_collections({'EntryTitle': 'Anthropogenic Biomes of the World, Version 2: 1700'}).body.dig('items',0,'meta','concept-id') }
-  let(:collection_short_name) { 'CIESIN_SEDAC_ANTHROMES_v2_1700' }
+  let(:collection_concept_id)           { cmr_client.get_collections({'EntryTitle': 'Anthropogenic Biomes of the World, Version 2: 1700'}).body.dig('items',0,'meta','concept-id') }
+  let(:collection_short_name)           { 'CIESIN_SEDAC_ANTHROMES_v2_1700' }
+  let(:not_current_provider_concept_id) { cmr_client.get_collections({'EntryTitle': 'MISR Level 1B1 Radiance Data V002'}).body.dig('items',0,'meta','concept-id') }
 
   before do
-    login
+    login(provider: 'SEDAC')
   end
 
   context 'when creating a variable draft and associating a collection from the manage variables page' do
@@ -11,14 +12,10 @@ describe 'Associating a collection upon variable draft creation' do
       visit manage_variables_path
     end
 
-    context 'when a valid concept-id is supplied' do
+    context 'when the supplied concept-id is successfully found' do
       before do
         fill_in 'associated_collection_id', with: collection_concept_id
         click_on 'Create New Record'
-      end
-
-      it 'notifies user that their collection was successfully retrieved' do
-        expect(page).to have_content('Collection Association was Updated Successfully!') #subject to change
       end
 
       it 'associates the collection upon draft creation' do
@@ -38,7 +35,7 @@ describe 'Associating a collection upon variable draft creation' do
       end
     end
 
-    context 'when an invalid concept-id is supplied' do
+    context 'when the supplied concept-id is not found' do
       before do
         fill_in 'associated_collection_id', with: 'C-INVALID'
         click_on 'Create New Record'
@@ -51,17 +48,30 @@ describe 'Associating a collection upon variable draft creation' do
       end
 
       it 'notifies the user that the concept supplied was not found' do
-        expect(page).to have_content('Concept ID invalid.') #subject to change
+        expect(page).to have_content('Collection not found.') #subject to change
+      end
+    end
+
+    context 'when the current provider context is not congruent with the supplied concept-id' do
+      before do
+        fill_in 'associated_collection_id', with: not_current_provider_concept_id
+        click_on 'Create New Record'
+      end
+
+      it 'does not navigate to the new_variable_draft_path' do
+        expect(page).to have_no_content('Variable Information')
+        expect(page).to have_no_css('.umm-form')
+        expect(page).to have_no_css('.variable-form')
+      end
+
+      it 'notifies the user that the provider context needs to be changed' do
+        expect(page).to have_content('Provider context must be changed.') #subject to change
       end
     end
 
     context 'when no concept-id is supplied' do
       before do
         click_on 'Create New Record'
-      end
-
-      it 'does not notify the user of a collection association' do
-        expect(page).to have_no_content('Collection Association was Updated Successfully!') #subject to change
       end
 
       it 'creates a draft with no collection associations' do
@@ -87,10 +97,6 @@ describe 'Associating a collection upon variable draft creation' do
     before do
       visit collection_path(collection_concept_id)
       click_on 'Create Associated Variable' #subject to change
-    end
-
-    it 'notifies user that their collection was successfully retrieved' do
-      expect(page).to have_content('Collection Association was Updated Successfully!') #subject to change
     end
 
     it 'associates the collection upon draft creation' do

@@ -24,13 +24,14 @@ class VariableDraftsController < BaseDraftsController
         { concept_id: @associated_collection_id }, token
       )
 
-      if current_collection_response.success? && current_collection_response.body['hits'] > 0
-        # this banner needs to be deliberated
-        flash[:success] = I18n.t("controllers.draft.variable_drafts.update_associated_collection.flash.success")
+      if current_collection_response.success? && current_collection_response.body['hits'] > 0 && current_provider?(current_collection_response.body.dig('items',0,'meta','provider-id'))
         super
-      else
-        Rails.logger.info("Error retrieving Collection - Concept ID: #{@associated_collection_id}")
-        redirect_to manage_variables_path, flash: { error: 'Concept ID invalid.'}
+      elsif !current_collection_response.success?
+        redirect_to manage_variables_path, flash: { error: 'Unable to search CMR.' }
+      elsif current_collection_response.body['hits'] == 0
+        redirect_to manage_variables_path, flash: { error: 'Collection not found.' }
+      elsif !current_provider?(current_collection_response.body.dig('items',0,'meta','provider-id'))
+        redirect_to manage_variables_path, flash: { error: 'Provider context must be changed.' }
       end
     else
       super
