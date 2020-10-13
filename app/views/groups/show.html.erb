@@ -9,6 +9,7 @@
 
     <p><%= @group.fetch('description') %></p>
 
+    <!-- TODO: change to - associated collection permissions -->
     <h4>Associated Permissions</h4>
     <% if @permissions.blank? %>
       <p>No associated permissions found.</p>
@@ -19,6 +20,13 @@
         <% end %>
       </ul>
     <% end %>
+
+    <!--
+    Manage Permissions ?
+
+    buttons for Provider ACLs and System ACLs
+
+    -->
 
     <h3>Members</h3>
     <% if @members.any? %>

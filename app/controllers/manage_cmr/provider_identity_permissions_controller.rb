@@ -8,7 +8,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
-    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+    permitted = params.to_unsafe_h unless params.nil? # need to understand what this is doing more, think related to nested parameters not permitted.
 
     # default the page to 1
     page = permitted.fetch('page', 1).to_i
@@ -27,12 +27,12 @@ class ProviderIdentityPermissionsController < ManageCmrController
     groups_response = cmr_client.get_cmr_groups(filters, token)
 
     group_list = if groups_response.success?
-                    group_list = groups_response.body.fetch('items', [])
-                  else
-                    Rails.logger.error("Get Cmr Groups Error: #{groups_response.clean_inspect}")
-                    flash[:error] = groups_response.error_message
-                    []
-                  end
+                   group_list = groups_response.body.fetch('items', [])
+                 else
+                   Rails.logger.error("Get Cmr Groups Error: #{groups_response.clean_inspect}")
+                   flash[:error] = groups_response.error_message
+                   []
+                 end
 
     @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
   end

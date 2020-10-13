@@ -10,27 +10,110 @@ class GroupsController < ManageCmrController
 
   RESULTS_PER_PAGE = 25
 
+  # TODO:
+  # ___ by default, only groups for the current provider context are shown
+  # ___ users can choose to display all groups they have read access to by selecting a checkbox/radio button
+  # ___ only provider groups are shown by default if a user has system groups access
+  # ___ if a user has system groups access, checkboxes/radio buttons can be used to choose to display provider groups and/or system groups
+  # ___ if a user has access to modify Provider ACLs, a button can be used to manage Provider ACLs for that group
+  # ___ if a user has access to modify Provider ACLs, a button can be used to manage Provider ACLs in the current provider context for that system group. A modal is also displayed informing the user that they will be modifying Provider ACLs for the current provider context.
+  # ___ if a user has access to modify System ACLs, a button can be used to manage System ACLs for that system group.
+  # CMR is added as a provider to allow searching for system groups in the existing filter
+
   def index
+    # these params are not used for mass assignment, only for searching cmr
     permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
 
+    # @additional_filters = permitted[:additional_filters] || {}
+    # # add default to current or available providers filter
+    # @additional_filters[:provider_segment] ||= 'current'
+    # # add default to provider or system group filter
+    # # @additional_filters[:group_tier] ||= 'provider'
+    #
+    # @filters = permitted[:filters] || {}
+    #
+    # if @filters[:provider].present?
+    #   #
+    # elsif @additional_filters[:provider_segment] == 'current'
+    #   @filters[:provider] = [current_user.provider_id]
+    #   @limit_current_provider = true
+    # elsif @additional_filters[:provider_segment] == 'available'
+    #   @limit_available_providers = true
+    #
+    #   # @filters[:provider] = @groups_provider_ids
+    # end
+    # @available_providers = current_user.available_providers
+    # @available_providers << 'CMR' if policy(:system_group).read? && @additional_filters[:show_system_groups] == 'true'
+    #
+    # @member_filter_details = if @filters['member']
+    #                            @filters['options'] = { 'member' => { 'and' => true } }
+    #
+    #                            retrieve_urs_users(@filters['member']).map { |m| [urs_user_full_name(m), m['uid']] }
+    #                          else
+    #                            []
+    #                          end
+    #
+    # @filters[:page_size] = RESULTS_PER_PAGE
+    #
+    # # Default the page to 1
+    # page = permitted.fetch('page', 1)
+    #
+    # @filters[:page_num] = page.to_i
+
+    ######## rewriting #######
     @filters = permitted[:filters] || {}
+    # @filters = filters.fetch('filters', {})
+    # byebug
+    @query = {}
+    # fail
+
+    # set provider defaults
+    @filters['provider_segment'] ||= 'current'
+    @groups_provider_ids = current_user.available_providers.dup
+
+    if @filters['provider'].present?
+      @query['provider'] = @filters['provider']
+      puts ">>>>>>>>>> has provider: #{@filters['provider']}"
+
+      # if the provider is CMR, then system groups needs to be checked
+      # @filters['show_system_groups'] = 'true' if @filters['provider'] == 'CMR'
+
+      # if provider is CMR, it should an option of the select
+      @groups_provider_ids << 'CMR' if @filters['provider'].include?('CMR')
+    elsif @filters['provider_segment'] == 'current'
+      @query['provider'] = [current_user.provider_id]
+      # @limit_current_provider = true
+      puts ">>>>>>>>>> current"
+    elsif @filters['provider_segment'] == 'available'
+      @query['provider'] = @groups_provider_ids
+      # @limit_available_providers = true
+      puts ">>>>>>>>>> available"
+
+      # add CMR for system groups to provider list if users have read access
+      @groups_provider_ids << 'CMR' if policy(:system_group).read?
+      # add CMR for system groups to query if users have read access and selected to show system groups
+      @query['provider'] << 'CMR' if policy(:system_group).read? && @filters['show_system_groups'] == 'true'
+    end
 
     @member_filter_details = if @filters['member']
-                               @filters['options'] = { 'member' => { 'and' => true } }
+                               # @filters['options'] = { 'member' => { 'and' => true } }
+                               @query['member'] = @filters['member']
+                               @query['options'] = { 'member' => { 'and' => true } }
 
-                               retrieve_urs_users(@filters['member']).map { |m| [urs_user_full_name(m), m['uid']] }
+                               retrieve_urs_users(@query['member']).map { |m| [urs_user_full_name(m), m['uid']] }
                              else
                                []
                              end
 
-    @filters[:page_size] = RESULTS_PER_PAGE
+    # set page defaults
+    @query[:page_size] = RESULTS_PER_PAGE
+    page = params.permit(:page).fetch('page', 1)
+    @query[:page_num] = page.to_i
 
-    # Default the page to 1
-    page = permitted.fetch('page', 1)
+    ##########################
 
-    @filters[:page_num] = page.to_i
-
-    groups_response = cmr_client.get_cmr_groups(@filters, token)
+    # groups_response = cmr_client.get_cmr_groups(@filters, token)
+    groups_response = cmr_client.get_cmr_groups(@query, token)
 
     group_list = if groups_response.success?
                    groups_response.body.fetch('items', [])
@@ -191,6 +274,14 @@ class GroupsController < ManageCmrController
   def group_params
     params.require(:group).permit(:name, :description, :provider_id, members: [])
   end
+
+  # def groups_index_params
+  #   # these params are not used for mass assignment, only for searching cmr
+  #   # params.permit(:filters).permit(:provider_segment, :show_system_groups, :provider, :member)
+  #   # params.permit(filters: [ :provider_segment, :show_system_groups, provider: [], member: [] ])
+  #   # params.permit(filters: {})
+  #   # params.fetch(:filters, {}).permit(:provider_segment, { provider: [], member: [], :show_system_groups })
+  # end
 
   def set_members(group_member_uids)
     @members = if group_member_uids.any?

@@ -63,3 +63,36 @@ $(document).ready ->
         $('h2 .provider-context').text('CMR')
       else
         $('h2 .provider-context').text(provider)
+
+    # Groups Index filters
+
+    $('input[name="filters[provider_segment]"]:radio').on 'change', ->
+      # debugger
+      if $(this).val() == 'current'
+        # clear inputs to hide
+        $('#provider-group-filter').val(null).change()
+        $('#filters_show_system_groups').prop('checked', false)
+        # hide inputs
+        $('#groups-show-system-groups-filter').addClass('is-hidden')
+        $('#groups-provider-filter').addClass('is-hidden')
+      else if $(this).val() == 'available'
+        # show system groups checkbox if it was rendered
+        $('#groups-show-system-groups-filter').removeClass('is-hidden')
+        # show provider select
+        $('#groups-provider-filter').removeClass('is-hidden')
+        # need to re-init the select2 so it renders correctly
+        $('#provider-group-filter').select2()
+
+    # when toggling the show system groups checkbox
+    $('#filters_show_system_groups').on 'change', ->
+      # debugger
+      if $(this).prop('checked') == true
+        data =
+          id: 'CMR',
+          text: 'CMR'
+        newOption = new Option(data.text, data.id, false, false)
+        # add CMR to provider select options
+        $('#provider-group-filter').append(newOption).change()
+      else if $(this).prop('checked') == false
+        # remove CMR from provider select options
+        $('#provider-group-filter').find("option[value='#{'CMR'}']").remove()
