@@ -57,7 +57,10 @@
       <section class="action wide-content">
         <div class="wide-content-inside">
           <p>
-            <% if current_provider?(@provider_id) %>
+            <% native_format = @revisions.first.fetch('meta', {})['format'] %>
+            <% if Rails.configuration.loss_report_enabled && !native_format.include?('umm') && (current_provider?(@provider_id) || available_provider?(@provider_id)) %>
+              <%= link_to 'Edit Collection Record', '#loss-report-modal', class: 'display-modal eui-btn--link bar-after' %>
+            <% elsif current_provider?(@provider_id) %>
               <%= link_to 'Edit Collection Record', edit_collection_path(revision_id: @revision_id), class: 'eui-btn--link bar-after' %>
             <% elsif available_provider?(@provider_id) %>
               <%= link_to 'Edit Collection Record', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'edit-collection' } %>
@@ -107,22 +110,27 @@
             </p>
           </div>
           <%= render partial: 'shared/not_current_provider_modal', locals: {
-            options: {
-              collection: @collection,
-              concept_id: @concept_id,
-              revision_id: @revision_id,
-              draft: @draft,
-              draft_id: @draft.try(:id) }
-            } %>
+              options: {
+                collection: @collection,
+                concept_id: @concept_id,
+                revision_id: @revision_id,
+                draft: @draft,
+                draft_id: @draft.try(:id) }
+              } %>
+          <%= render partial: 'shared/loss_report_modal', locals: {
+              options: {
+                provider_id: @provider_id,
+                native_format: native_format,
+                concept_id: @concept_id,
+                revision_id: @revision_id }
+              } %>
+            <!-- Hidden link to allow modal to be shown -->
+            <a href="#cascade-delete-modal" id="display-cascade-delete-modal" class="display-modal is-invisible"></a>
+            <div id="cascade-delete-modal" class="eui-modal-content">
+              <!-- if the user chooses to change providers and then NOT to delete the collection, we should refresh the page so that their provider context displays correctly -->
+              <%= modal_close_x_link(alternate_link: collection_path, alternate_link_condition: !current_provider?(@provider_id)) %>
 
-          <!-- Hidden link to allow modal to be shown -->
-          <a href="#cascade-delete-modal" id="display-cascade-delete-modal" class="display-modal is-invisible"></a>
-          <div id="cascade-delete-modal" class="eui-modal-content">
-            <!-- if the user chooses to change providers and then NOT to delete the collection, we should refresh the page so that their provider context displays correctly -->
-            <%= modal_close_x_link(alternate_link: collection_path, alternate_link_condition: !current_provider?(@provider_id)) %>
-
-            <%= display_cascade_delete_modal_text(@num_granules, @num_variables) %>
-
+              <%= display_cascade_delete_modal_text(@num_granules, @num_variables) %>
             <%= form_tag(collection_path, method: :delete, class: 'granules-confirmation-form') do %>
               <%= text_field_tag('confirmation-text', nil, class: 'full-width') %>
               <p>

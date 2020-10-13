@@ -58,3 +58,7 @@ nohup.out
 
 #backup files
 *~
+
+#ignore package
+package-lock.json
+package.json

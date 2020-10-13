@@ -2,6 +2,7 @@ class CollectionsController < ManageCollectionsController
   include ManageMetadataHelper
   include CMRCollectionsHelper
   include CollectionsHelper
+  include LossReportHelper
 
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
@@ -117,6 +118,35 @@ class CollectionsController < ManageCollectionsController
     redirect_to collection_draft_proposal_path(proposal)
   end
 
+  def loss_report
+    # When a user wants to use MMT to edit metadata that currently exists in a non-UMM form,
+    # it's important that they're able to see if any data loss occurs in the translation to umm.
+    # This method is needed to reference the appropriate helper and view for the lossiness report.
+    # If translated_collections contains an :error field, the error message will appear.
+
+    # this checks the 'hide_items' url parameter that is can be manually added. Its primary use is for developers
+    # that need to debug using the text_output
+    if params[:hide_items].nil? || params[:hide_items].downcase == 'true'
+      hide_items = true
+    elsif params[:hide_items].downcase == 'false'
+      hide_items = false
+    else
+      translated_collections = { error: 'Unknown value for the hide_items parameter. The format should be: ".../loss_report.text?hide_items=true" or ".../loss_report.text?hide_items=false"' }
+    end
+
+    translated_collections ||= prepare_translated_collections
+
+    respond_to do |format|
+      if translated_collections[:error]
+        format.text { render plain: translated_collections[:error] }
+        format.json { render json: JSON.pretty_generate(translated_collections) }
+      else
+        format.text { render plain: loss_report_output(translated_collections: translated_collections, hide_items: hide_items, display: 'text') }
+        format.json { render json: JSON.pretty_generate(loss_report_output(translated_collections: translated_collections, hide_items: hide_items, display: 'json')) }
+      end
+    end
+  end
+
   private
 
   def ensure_correct_collection_provider
@@ -129,6 +159,25 @@ class CollectionsController < ManageCollectionsController
     set_tags
 
     render :show
+  end
+
+  def prepare_translated_collections
+    original_collection_native_xml = cmr_client.get_concept(params[:id],token, {})
+    return { error: 'Failed to retrieve collection from CMR' } unless original_collection_native_xml.success?
+
+    content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
+    return { error: 'This collection is already in UMM format so there is no loss report' } if content_type.include?('application/vnd.nasa.cmr.umm+json')
+
+    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type,  skip_validation=true)
+    return { error: 'Failed to translate collection from UMM back to native format' } unless translated_collection_native_xml.success?
+
+    return {
+      original_collection_native_xml: original_collection_native_xml.body,
+      translated_collection_native_xml: translated_collection_native_xml.body,
+      original_collection_native_hash: Hash.from_xml(original_collection_native_xml.body),
+      translated_collection_native_hash: Hash.from_xml(translated_collection_native_xml.body),
+      native_format: content_type
+    }
   end
 
   def set_collection

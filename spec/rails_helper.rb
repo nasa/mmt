@@ -197,6 +197,7 @@ RSpec.configure do |config|
   config.include Helpers::UserHelpers
   config.include Helpers::TagsHelpers
 
+
   # Precompile assets before running the test suite
   # config.before(:suite) do
   #   Rails.application.load_tasks

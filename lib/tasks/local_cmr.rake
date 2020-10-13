@@ -12,7 +12,7 @@ namespace :cmr do
     # imediatly, because curl can take a while and we want to see the output
     # from standard out.
 
-    # make a backup copy of the old jar if it exists, and a backup of the backup 
+    # make a backup copy of the old jar if it exists, and a backup of the backup
     cmd_backup = 'cd cmr ; '\
       "if [ -a \"#{jar_name}\" ] ; then "\
         'echo Backup jar... ; '\
@@ -190,8 +190,10 @@ namespace :cmr do
           contents = `cat #{files_to_compile.join(' ')} | coffee -c --stdio`
 
           puts "\nCompressing..."
-          
-          compressed_file = Uglifier.compile(js_to_uglify + contents, harmony: true)
+
+          #uncomment the following if you need to compile with JS 6
+          #compressed_file = Uglifier.compile(js_to_uglify + contents, harmony: true)
+          compressed_file = Uglifier.compile(js_to_uglify + contents)
 
           puts "\nWriting to disk..."
           directory = File.dirname(js_asset_output_file)
