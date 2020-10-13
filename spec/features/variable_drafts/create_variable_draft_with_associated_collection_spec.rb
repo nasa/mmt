@@ -4,7 +4,7 @@ describe 'Associating a collection upon variable draft creation' do
   let(:not_current_provider_concept_id) { cmr_client.get_collections({'EntryTitle': 'MISR Level 1B1 Radiance Data V002'}).body.dig('items',0,'meta','concept-id') }
 
   before do
-    login(provider: 'SEDAC')
+    login(provider: 'SEDAC', providers: %w(SEDAC))
   end
 
   context 'when creating a variable draft and associating a collection from the manage variables page' do
@@ -37,7 +37,7 @@ describe 'Associating a collection upon variable draft creation' do
 
     context 'when the supplied concept-id is not found' do
       before do
-        fill_in 'associated_collection_id', with: 'C-INVALID'
+        fill_in 'associated_collection_id', with: 'C1-INVALID'
         click_on 'Create New Record'
       end
 
@@ -48,7 +48,7 @@ describe 'Associating a collection upon variable draft creation' do
       end
 
       it 'notifies the user that the concept supplied was not found' do
-        expect(page).to have_content('Collection not found.') #subject to change
+        expect(page).to have_content('Collection not found.')
       end
     end
 
@@ -66,6 +66,26 @@ describe 'Associating a collection upon variable draft creation' do
 
       it 'notifies the user that the provider context needs to be changed' do
         expect(page).to have_content('Provider context must be changed.') #subject to change
+      end
+    end
+
+    context 'when the cmr search for supplied concept-id is unsuccessful' do
+      before do
+        error_body = '{"errors": ["Error searching CMR", "2nd message"]}'
+        error_response = Cmr::Response.new(Faraday::Response.new(status: 401, body: JSON.parse(error_body), response_headers: {}))
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(error_response)
+        fill_in 'associated_collection_id', with: collection_concept_id
+        click_on 'Create New Record'
+      end
+
+      it 'surfaces the first CMR error message' do
+        expect(page).to have_content('Error searching CMR')
+      end
+
+      it 'does not navigate to the new_variable_draft_path' do
+        expect(page).to have_no_content('Variable Information')
+        expect(page).to have_no_css('.umm-form')
+        expect(page).to have_no_css('.variable-form')
       end
     end
 

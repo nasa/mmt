@@ -27,7 +27,7 @@ class VariableDraftsController < BaseDraftsController
       if current_collection_response.success? && current_collection_response.body['hits'] > 0 && current_provider?(current_collection_response.body.dig('items',0,'meta','provider-id'))
         super
       elsif !current_collection_response.success?
-        redirect_to manage_variables_path, flash: { error: 'Unable to search CMR.' }
+        redirect_to manage_variables_path, flash: { error: current_collection_response.body['errors'].first }
       elsif current_collection_response.body['hits'] == 0
         redirect_to manage_variables_path, flash: { error: 'Collection not found.' }
       elsif !current_provider?(current_collection_response.body.dig('items',0,'meta','provider-id'))
