@@ -1,10 +1,10 @@
-describe 'Associating a collection upon variable draft creation' do
+describe 'Associating a collection upon variable draft creation', js: true do
   let(:collection_concept_id)           { cmr_client.get_collections({'EntryTitle': 'Anthropogenic Biomes of the World, Version 2: 1700'}).body.dig('items',0,'meta','concept-id') }
   let(:collection_short_name)           { 'CIESIN_SEDAC_ANTHROMES_v2_1700' }
   let(:not_current_provider_concept_id) { cmr_client.get_collections({'EntryTitle': 'MISR Level 1B1 Radiance Data V002'}).body.dig('items',0,'meta','concept-id') }
 
   before do
-    login(provider: 'SEDAC', providers: %w(SEDAC))
+    login(provider: 'SEDAC', providers: %w(SEDAC LARC))
   end
 
   context 'when creating a variable draft and associating a collection from the manage variables page' do
@@ -22,9 +22,9 @@ describe 'Associating a collection upon variable draft creation' do
         within '.nav-top' do
           click_on 'Done'
         end
-        # within '#invalid-draft-modal.eui-modal-content' do
-        #   click_on 'Yes'
-        # end
+        within '#invalid-draft-modal.eui-modal-content' do
+          click_on 'Yes'
+        end
         within '.collection-association' do
           click_on 'Collection Association'
         end
@@ -98,9 +98,9 @@ describe 'Associating a collection upon variable draft creation' do
         within '.nav-top' do
           click_on 'Done'
         end
-        # within '#invalid-draft-modal.eui-modal-content' do
-        #   click_on 'Yes'
-        # end
+        within '#invalid-draft-modal.eui-modal-content' do
+          click_on 'Yes'
+        end
         within '.collection-association' do
           click_on 'Collection Association'
         end
@@ -114,25 +114,63 @@ describe 'Associating a collection upon variable draft creation' do
   end
 
   context "when creating a variable draft and associating a collection from the collection's show page" do
-    before do
-      visit collection_path(collection_concept_id)
-      click_on 'Create Associated Variable' #subject to change
+    context 'when the provider context does not need to be changed' do
+      before do
+        visit collection_path(collection_concept_id)
+        click_on 'Create Associated Variable'
+      end
+
+      it 'associates the collection upon draft creation' do
+        within '.nav-top' do
+          click_on 'Done'
+        end
+        within '#invalid-draft-modal.eui-modal-content' do
+          click_on 'Yes'
+        end
+        within '.collection-association' do
+          click_on 'Collection Association'
+        end
+        within '#variable-draft-collection-association-table tbody' do
+          expect(page).to have_content('CIESIN_SEDAC_ANTHROMES_v2_1700')
+          expect(page).to have_css('tr', count: 1)
+        end
+      end
     end
 
-    it 'associates the collection upon draft creation' do
-      within '.nav-top' do
-        click_on 'Done'
+    context 'when the provider context needs to be changed' do
+      before do
+        visit collection_path(not_current_provider_concept_id)
+        click_on 'Create Associated Variable'
       end
-      # within '#invalid-draft-modal.eui-modal-content' do
-      #   click_on 'Yes'
-      # end
-      within '.collection-association' do
-        click_on 'Collection Association'
+
+      it 'displays the not-current-provider-modal' do
+        within '#not-current-provider-modal' do
+          expect(page).to have_content('Creating an associated variable requires you change your provider context to LARC. Would you like to change your provider context and perform this action?')
+        end
       end
-      within '#variable-draft-collection-association-table tbody' do
-        expect(page).to have_content('CIESIN_SEDAC_ANTHROMES_v2_1700')
-        expect(page).to have_css('tr', count: 1)
+
+      it 'changes provider context and successfully associates the collection upon variable draft creation' do
+        within '#not-current-provider-modal' do
+          click_on 'Yes'
+        end
+        within '#provider-badge-link' do
+          expect(page).to have_content('LARC')
+        end
+        within '.nav-top' do
+          click_on 'Done'
+        end
+        within '#invalid-draft-modal.eui-modal-content' do
+          click_on 'Yes'
+        end
+        within '.collection-association' do
+          click_on 'Collection Association'
+        end
+        within '#variable-draft-collection-association-table tbody' do
+          expect(page).to have_content('MI1B1')
+          expect(page).to have_css('tr', count: 1)
+        end
       end
+
     end
   end
 end
