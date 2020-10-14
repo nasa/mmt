@@ -84,7 +84,7 @@
             <% if current_provider?(@provider_id) %>
               <%= link_to 'Create Associated Variable', new_variable_draft_path(associated_collection_id: @concept_id), class: 'eui-btn--link bar-after' %>
             <% elsif available_provider?(@provider_id) %>
-              <%= link_to 'Create Associated Variable', '#not-current-provider-modal', class: 'display-modal delete-collection not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'create-associated-variable' } %>
+              <%= link_to 'Create Associated Variable', '#not-current-provider-modal', class: 'display-modal not-current-provider eui-btn--link bar-after', data: { provider: @provider_id, record_action: 'create-associated-variable' } %>
             <% end %>
 
 

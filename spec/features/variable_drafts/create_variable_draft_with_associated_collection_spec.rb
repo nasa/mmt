@@ -48,7 +48,7 @@ describe 'Associating a collection upon variable draft creation', js: true do
       end
 
       it 'notifies the user that the concept supplied was not found' do
-        expect(page).to have_content('Collection not found.')
+        expect(page).to have_content("No matches were found for C1-INVALID")
       end
     end
 
@@ -65,7 +65,7 @@ describe 'Associating a collection upon variable draft creation', js: true do
       end
 
       it 'notifies the user that the provider context needs to be changed' do
-        expect(page).to have_content('Provider context must be changed.') #subject to change
+        expect(page).to have_content("Variables can only be associated to collections within the same provider. To create a variable for #{not_current_provider_concept_id} you must change your provider context.") 
       end
     end
 
