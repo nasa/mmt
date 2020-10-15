@@ -6,7 +6,7 @@ describe 'Collections with Tags', js: true do
 
   before(:all) do
     # ingest collection
-    @ingest_response, _concept_response = publish_collection_draft(short_name: short_name)
+    @ingest_response, _concept_response = publish_collection_draft(revision_count: 2, short_name: short_name)
 
     # create tag(s)
     @acl_concept = setup_tag_permissions
@@ -31,7 +31,11 @@ describe 'Collections with Tags', js: true do
 
     context 'when retrieving all tag information succeeds' do
       before do
-        visit collection_path(@ingest_response['concept-id'])
+        visit collection_path(@ingest_response['concept-id'], revision_id: 2)
+      end
+
+      it 'does not have an error banner because of the revision_id parameter' do
+        expect(page).to have_no_content('There was an error retrieving Tags for this Collection: Parameter [revision_id] was not recognized.')
       end
 
       it 'displays the the Tags link with the correct number of tags' do
