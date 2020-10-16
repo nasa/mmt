@@ -39,7 +39,7 @@ module ManageMetadataHelper
   end
 
   def is_tools_controller?
-    (TOOLS_CONTROLLERS & controller.lookup_context.prefixes).any?
+    (TOOLS_CONTROLLERS & controller.lookup_context.prefixes).any? || (controller.lookup_context.prefixes.include?('collection_associations') && params[:service_id])
   end
 
   def is_collection_draft_proposal_controller?
