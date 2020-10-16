@@ -75,12 +75,17 @@ $(document).ready ->
         "Managing this variable's collection association"
       when 'manage-service-associations'
         "Managing this service's collection associations"
+      when 'manage-tool-associations'
+        "Managing this tool's collection associations"
       when 'edit-tool'
         'Editing this tool'
       when 'clone-tool'
         'Cloning this tool'
       when 'delete-tool'
-        'Deleting this tool'
+        if associatedCollections > 0
+          "This tool is associated with #{associatedCollections} collections. Deleting this tool will also delete the collection associations, and"
+        else
+          'Deleting this tool'
       when 'reinstate-tool'
         action = 'revert'
         'Reinstating this tool'
