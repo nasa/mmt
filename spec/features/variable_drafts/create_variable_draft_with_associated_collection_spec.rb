@@ -84,6 +84,8 @@ describe 'Associating a collection upon variable draft creation', js: true do
         expect(page).to have_no_content('Variable Information')
         expect(page).to have_no_css('.umm-form')
         expect(page).to have_no_css('.variable-form')
+        expect(page).to have_content('Create Variable Record')
+        expect(page).to have_content('(Optional) Enter the Concept ID of the collection to associate this variable:')
       end
     end
 
