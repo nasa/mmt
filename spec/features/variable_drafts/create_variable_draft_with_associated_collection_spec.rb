@@ -37,7 +37,7 @@ describe 'Associating a collection upon variable draft creation', js: true do
         click_on 'Create New Record'
       end
 
-      it 'does not navigate to the new_variable_draft_path' do
+      it 'remains on the manage variables page' do
         expect(page).to have_no_content('Variable Information')
         expect(page).to have_no_css('.umm-form')
         expect(page).to have_no_css('.variable-form')
@@ -56,7 +56,7 @@ describe 'Associating a collection upon variable draft creation', js: true do
         click_on 'Create New Record'
       end
 
-      it 'does not navigate to the new_variable_draft_path' do
+      it 'remains on the manage variables page' do
         expect(page).to have_no_content('Variable Information')
         expect(page).to have_no_css('.umm-form')
         expect(page).to have_no_css('.variable-form')
@@ -80,7 +80,7 @@ describe 'Associating a collection upon variable draft creation', js: true do
         expect(page).to have_content('Concept-id [asdf] is not valid.')
       end
 
-      it 'does not navigate to the new_variable_draft_path' do
+      it 'remains on the manage variables page' do
         expect(page).to have_no_content('Variable Information')
         expect(page).to have_no_css('.umm-form')
         expect(page).to have_no_css('.variable-form')
