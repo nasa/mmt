@@ -57,7 +57,7 @@ class BaseDraftsController < DraftsController
 
     get_resource.draft = draft['draft']
 
-    get_resource.update(collection_concept_id: params[:associated_collection_id]) if params[:associated_collection_id]
+    get_resource.collection_concept_id = params[:associated_collection_id] if params[:associated_collection_id]
 
     if get_resource.save
       # Successful flash message

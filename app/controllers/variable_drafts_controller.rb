@@ -17,21 +17,19 @@ class VariableDraftsController < BaseDraftsController
   end
 
   def new
-    unless params[:associated_collection_id].blank?
-      @associated_collection_id = params[:associated_collection_id].strip
-      current_collection_response = cmr_client.get_collections_by_post({ concept_id: @associated_collection_id }, token)
+    super and return if params[:associated_collection_id].blank?
 
-      if current_collection_response.success? && current_collection_response.body['hits'] > 0 && current_provider?(current_collection_response.body.dig('items',0,'meta','provider-id'))
-        super
-      elsif !current_collection_response.success?
-        redirect_to manage_variables_path, flash: { error: current_collection_response.body['errors'].first }
-      elsif current_collection_response.body['hits'] == 0
-        redirect_to manage_variables_path, flash: { error: "No matches were found for #{@associated_collection_id}" }
-      elsif !current_provider?(current_collection_response.body.dig('items',0,'meta','provider-id'))
-        redirect_to manage_variables_path, flash: { error: "Variables can only be associated to collections within the same provider. To create a variable for #{@associated_collection_id} you must change your provider context." }
-      end
-    else
+    @associated_collection_id = params[:associated_collection_id].strip
+    current_collection_response = cmr_client.get_collections_by_post({ concept_id: @associated_collection_id }, token)
+
+    if current_collection_response.success? && current_collection_response.body['hits'] > 0 && current_provider?(current_collection_response.body.dig('items',0,'meta','provider-id'))
       super
+    elsif !current_collection_response.success?
+      redirect_to manage_variables_path, flash: { error: current_collection_response.body['errors'].first }
+    elsif current_collection_response.body['hits'] == 0
+      redirect_to manage_variables_path, flash: { error: "No matches were found for #{@associated_collection_id}" }
+    elsif !current_provider?(current_collection_response.body.dig('items',0,'meta','provider-id'))
+      redirect_to manage_variables_path, flash: { error: "Variables can only be associated to collections within the same provider. To create a variable for #{@associated_collection_id} you must change your provider context." }
     end
   end
 
