@@ -23,6 +23,7 @@
       <%= link_to 'Yes', edit_collection_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-collection-link' %>
       <%= link_to 'Yes', clone_collection_path(options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-collection-link' %>
       <%= link_to 'Yes', collection_path(options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-delete-collection-link' %>
+      <%= link_to 'Yes', new_variable_draft_path(associated_collection_id: options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-create-associated-variable-link' %>
     <% elsif options[:variable] %>
       <%= link_to 'Yes', edit_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-variable-link' %>
       <%= link_to 'Yes', clone_variable_path(options[:concept_id], revision_id: options[:revision_id]), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-clone-variable-link' %>

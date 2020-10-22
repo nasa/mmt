@@ -57,6 +57,8 @@ class BaseDraftsController < DraftsController
 
     get_resource.draft = draft['draft']
 
+    get_resource.collection_concept_id = params[:associated_collection_id] if params[:associated_collection_id]
+
     if get_resource.save
       # Successful flash message
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success")

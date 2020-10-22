@@ -53,6 +53,8 @@ $(document).ready ->
         'Editing this group'
       when 'delete-group'
         'Deleting this group'
+      when 'create-associated-variable'
+        'Creating an associated variable'
       when 'edit-variable'
         'Editing this variable'
       when 'clone-variable'
