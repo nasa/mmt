@@ -6,6 +6,7 @@ class UmmForm < JsonObj
   include ActionView::Helpers::TextHelper
   include Rails.application.routes.url_helpers
 
+  # Pretty sure this :form_section_json doesn't need to be up here (attr accessor) bc there is no corresponding ivar for it, nor is it used as an ivar
   attr_accessor :form_section_json, :json_form, :schema, :title, :subtitle, :description, :children, :options, :full_key, :field_value, :contains_required_field
 
   def initialize(form_section_json: {}, json_form: {}, schema: {}, options: {}, key: '', field_value: {})
@@ -382,8 +383,7 @@ end
 class UmmFormElement < UmmForm
   def initialize(form_section_json: {}, json_form: {}, schema: {}, options: {}, key: '', field_value: {})
     super
-    @contains_required_field = schema.required_field?(full_key)
-  end
+    @contains_required_field = schema.required_field?(full_key) 
 
   def default_value
     nil
