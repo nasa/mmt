@@ -6,7 +6,7 @@ class UmmForm < JsonObj
   include ActionView::Helpers::TextHelper
   include Rails.application.routes.url_helpers
 
-  attr_accessor :form_section_json, :json_form, :schema, :title, :subtitle, :description, :children, :options, :full_key, :field_value
+  attr_accessor :form_section_json, :json_form, :schema, :title, :subtitle, :description, :children, :options, :full_key, :field_value, :contains_required_field
 
   def initialize(form_section_json: {}, json_form: {}, schema: {}, options: {}, key: '', field_value: {})
     super(form_section_json)
@@ -38,6 +38,7 @@ class UmmForm < JsonObj
         UmmFormElement.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
       end
     end
+    @contains_required_field = children.any? { |child| child.contains_required_field }
   end
 
   def build_key(fragment, key)
@@ -342,7 +343,7 @@ class UmmFormAccordion < UmmForm
         concat content_tag(:span, "Toggle #{title}", class: 'eui-sr-only')
       end)
 
-      concat content_tag(:h3, title, class: 'header-title')
+      concat content_tag(:h3, title, class: "header-title #{'eui-required-o' if contains_required_field }")
       concat help_icon(help_path) unless parsed_json['noHelp']
     end
   end
@@ -359,6 +360,7 @@ end
 
 # :nodoc:
 class UmmFormOpenAccordion < UmmFormAccordion
+
   def render_markup
     content_tag(:fieldset, class: "eui-accordion #{parsed_json['htmlClass']}", id: accordion_id) do
       concat render_accordion_header
@@ -368,14 +370,21 @@ class UmmFormOpenAccordion < UmmFormAccordion
 
   def render_accordion_header
     content_tag(:div, class: 'eui-accordion__header disable-toggle') do
-      concat content_tag(:h3, title, class: 'header-title')
+      concat content_tag(:h3, title, class: "header-title #{'eui-required-o' if contains_required_field }")
       concat help_icon(help_path) unless parsed_json['noHelp']
     end
   end
+
+
 end
 
 # :nodoc:
 class UmmFormElement < UmmForm
+  def initialize(form_section_json: {}, json_form: {}, schema: {}, options: {}, key: '', field_value: {})
+    super
+    @contains_required_field = schema.required_field?(full_key)
+  end
+
   def default_value
     nil
   end
