@@ -6,8 +6,7 @@ class UmmForm < JsonObj
   include ActionView::Helpers::TextHelper
   include Rails.application.routes.url_helpers
 
-  # Pretty sure this :form_section_json doesn't need to be up here (attr accessor) bc there is no corresponding ivar for it, nor is it used as an ivar
-  attr_accessor :form_section_json, :json_form, :schema, :title, :subtitle, :description, :children, :options, :full_key, :field_value, :contains_required_field
+  attr_accessor :form_section_json, :json_form, :schema, :title, :subtitle, :description, :children, :options, :full_key, :field_value
 
   def initialize(form_section_json: {}, json_form: {}, schema: {}, options: {}, key: '', field_value: {})
     super(form_section_json)
@@ -39,7 +38,6 @@ class UmmForm < JsonObj
         UmmFormElement.new(form_section_json: value, json_form: json_form, schema: schema, options: @options, key: full_key, field_value: field_value)
       end
     end
-    @contains_required_field = children.any? { |child| child.contains_required_field }
   end
 
   def build_key(fragment, key)
@@ -344,7 +342,7 @@ class UmmFormAccordion < UmmForm
         concat content_tag(:span, "Toggle #{title}", class: 'eui-sr-only')
       end)
 
-      concat content_tag(:h3, title, class: "header-title #{'eui-required-o' if contains_required_field }")
+      concat content_tag(:h3, title, class: "header-title")
       concat help_icon(help_path) unless parsed_json['noHelp']
     end
   end
@@ -371,7 +369,7 @@ class UmmFormOpenAccordion < UmmFormAccordion
 
   def render_accordion_header
     content_tag(:div, class: 'eui-accordion__header disable-toggle') do
-      concat content_tag(:h3, title, class: "header-title #{'eui-required-o' if contains_required_field }")
+      concat content_tag(:h3, title, class: "header-title")
       concat help_icon(help_path) unless parsed_json['noHelp']
     end
   end
@@ -381,11 +379,6 @@ end
 
 # :nodoc:
 class UmmFormElement < UmmForm
-  
-  def initialize(form_section_json: {}, json_form: {}, schema: {}, options: {}, key: '', field_value: {})
-    super
-    @contains_required_field = schema.required_field?(full_key)
-  end
 
   def default_value
     nil
