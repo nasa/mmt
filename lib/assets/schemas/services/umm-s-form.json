@@ -8,6 +8,7 @@
           /* Service Information */
           "type": "open_accordion",
           "title": "Service Information",
+          "htmlClass": "eui-required-o",
           "noHelp": true,
           "items": [
             {
@@ -76,12 +77,13 @@
                   "items": [{"key": "Description", "type": "UmmTextarea", "field": true}]
                 }
               ]
-            }   
+            }
           ]
         },
         {
           "type": "open_accordion",
           "title": "URL",
+          "htmlClass": "eui-required-o",
           "key": "URL/properties",
           "help": "URL",
           "items": [
@@ -201,6 +203,7 @@
           "type": "open_accordion",
           "help": "ServiceKeywords",
           "title": "Service Keywords",
+          "htmlClass": "eui-required-o",
           "items": [
             {
               "type": "section",
@@ -256,6 +259,7 @@
         {
           "type": "open_accordion",
           "title": "Service Organizations",
+          "htmlClass": "eui-required-o",
           "help": "ServiceOrganizations",
           "items": [
             {

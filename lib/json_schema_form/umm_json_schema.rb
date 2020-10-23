@@ -44,7 +44,6 @@ class UmmJsonSchema < JsonFile
       # required fields from definitions
       key_parts = path - %w(index_id)
 
-      return [] if key_parts.size < 2 
       json = key_parts.take(key_parts.size - 2).reduce(parsed_json['properties']) { |a, e| a.fetch(e, {}) }
 
       json.fetch('required', [])

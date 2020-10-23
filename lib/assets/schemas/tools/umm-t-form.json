@@ -8,6 +8,7 @@
           /* Tool Information */
           "type": "open_accordion",
           "title": "Tool Information",
+          "htmlClass": "eui-required-o",
           "noHelp": true,
           "items": [
             {
@@ -92,6 +93,7 @@
         {
           "type": "open_accordion",
           "title": "URL",
+          "htmlClass": "eui-required-o",
           "key": "URL/properties",
           "help": "URL",
           "items": [
@@ -415,6 +417,7 @@
           "type": "open_accordion",
           "help": "ToolKeywords",
           "title": "Tool Keywords",
+          "htmlClass": "eui-required-o",
           "items": [
             {
               "type": "section",
@@ -470,6 +473,7 @@
           /* Organizations */
           "type": "open_accordion",
           "title": "Organizations",
+          "htmlClass": "eui-required-o",
           "help": "Organizations",
           "items": [
             {
