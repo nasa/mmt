@@ -381,9 +381,11 @@ end
 
 # :nodoc:
 class UmmFormElement < UmmForm
+  
   def initialize(form_section_json: {}, json_form: {}, schema: {}, options: {}, key: '', field_value: {})
     super
-    @contains_required_field = schema.required_field?(full_key) 
+    @contains_required_field = schema.required_field?(full_key)
+  end
 
   def default_value
     nil
