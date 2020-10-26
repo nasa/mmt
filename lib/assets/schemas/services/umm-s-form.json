@@ -420,28 +420,169 @@
               "type": "section",
               "htmlClass": "row",
               "items": [
-                /* old field
                 {
                   "type": "section",
-                  "items": [{"key": "/SubsetTypes", "field": true, "type": "UmmMultiSelect"}]
-                }, */
-                {
-                  "type": "section",
-                  "label": "Subset",
+                  "title": "Subset",
                   "key": "/Subset/properties",
                   "htmlClass": "row sub-fields subset space-bot",
                   "items": [
                     {
-                      "type": "UmmCheckboxDependentFields",
-                      "label": "Temporal Subset",
-                      "key": "/TemporalSubset",
-                      "htmlClass": "row sub-fields temporal-subset space-bot",
+                      "type": "section",
+                      "htmlClass": "row",
                       "items": [
                         {
-                          "key": "/properties/AllowMultipleValues",
-                          "field": true,
-                          "label": "Allow Multiple Values",
-                          "type": "UmmBoolean"
+                          "type": "UmmCheckboxDependentFields",
+                          "noLabel": true,
+                          "key": "/SpatialSubset",
+                          "htmlClass": "row",
+                          "dependentFields": "spatial-subset",
+                          "items": [
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/Point",
+                              "htmlClass": "row",
+                              "dependentFields": "point",
+                              "items": [
+                                {
+                                  "key": "/properties/AllowMultipleValues",
+                                  "field": true,
+                                  "label": "Allow Multiple Values",
+                                  "type": "UmmBoolean"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/Circle",
+                              "htmlClass": "row",
+                              "dependentFields": "circle",
+                              "items": [
+                                {
+                                  "key": "/properties/AllowMultipleValues",
+                                  "field": true,
+                                  "label": "Allow Multiple Values",
+                                  "type": "UmmBoolean"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/Line",
+                              "htmlClass": "row",
+                              "dependentFields": "line",
+                              "items": [
+                                {
+                                  "type": "section",
+                                  "items": [{"key": "/properties/MaximumNumberOfPoints", "field": true}]
+                                },
+                                {
+                                  "key": "/properties/AllowMultipleValues",
+                                  "field": true,
+                                  "label": "Allow Multiple Values",
+                                  "type": "UmmBoolean"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/BoundingBox",
+                              "htmlClass": "row",
+                              "dependentFields": "bounding-box",
+                              "items": [
+                                {
+                                  "key": "/properties/AllowMultipleValues",
+                                  "field": true,
+                                  "label": "Allow Multiple Values",
+                                  "type": "UmmBoolean"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/Polygon",
+                              "htmlClass": "row",
+                              "dependentFields": "polygon",
+                              "items": [
+                                {
+                                  "type": "section",
+                                  "items": [{"key": "/properties/MaximumNumberOfPoints", "field": true}]
+                                },
+                                {
+                                  "key": "/properties/AllowMultipleValues",
+                                  "field": true,
+                                  "label": "Allow Multiple Values",
+                                  "type": "UmmBoolean"
+                                }
+                              ]
+                            }
+                            ,
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/Shapefile",
+                              "htmlClass": "row",
+                              "dependentFields": "shapefile",
+                              "items": [
+                                {
+                                  "type": "UmmMultiItems",
+                                  "label": "Shapefile",
+                                  "multiType": "Shapefile",
+                                  "key": "/items/properties/index_id",
+                                  "items": [
+                                    {
+                                      "type": "section",
+                                      "items": [{"key": "/Format", "field": true, "type": "UmmSelect"}]
+                                    },
+                                    {
+                                      "type": "section",
+                                      "htmlClass": "col-6",
+                                      "items": [{"key": "/MaximumFileSizeInBytes", "field": true}]
+                                    },
+                                    {
+                                      "type": "section",
+                                      "htmlClass": "col-6",
+                                      "items": [{"key": "/MaximumNumberOfPoints", "field": true}]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "UmmCheckboxDependentFields",
+                          "noLabel": true,
+                          "key": "/TemporalSubset",
+                          "htmlClass": "row",
+                          "dependentFields": "temporal-subset",
+                          "items": [
+                            {
+                              "key": "/properties/AllowMultipleValues",
+                              "field": true,
+                              "label": "Allow Multiple Values",
+                              "type": "UmmBoolean"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "UmmCheckboxDependentFields",
+                          "noLabel": true,
+                          "key": "/VariableSubset",
+                          "dependentFields": "variable-subset",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "key": "/properties/AllowMultipleValues",
+                              "field": true,
+                              "label": "Allow Multiple Values",
+                              "type": "UmmBoolean"
+                            }
+                          ]
                         }
                       ]
                     }

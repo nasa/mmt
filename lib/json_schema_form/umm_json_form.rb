@@ -169,7 +169,7 @@ class UmmJsonForm < JsonFile
   #
   # ==== Attributes
   #
-  # * +input+ - Form data submitted the user
+  # * +input+ - Form data submitted by the user
   # * +fragment+ - JSON (user input) fragment to investigate
   # * +key+ - They key representing the current location in the hash
   def convert_values_by_type(input, fragment, key = nil)
@@ -196,10 +196,8 @@ class UmmJsonForm < JsonFile
         end
       else
         # Pull out the key's leaf, we'll use it set the value below
-        key_leaf = element_path_as_array.last
-
         # Remove the key_leaf so we don't navigate passed it below when we're setting the new value
-        element_path_as_array.pop
+        key_leaf = element_path_as_array.pop
 
         element_path_as_array.map! { |value| UmmUtilities.convert_to_integer(value) }
 

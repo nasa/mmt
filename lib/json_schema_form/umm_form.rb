@@ -432,7 +432,6 @@ class UmmFormElement < UmmForm
   end
 
   def element_data
-    options['data']
     field_name = full_key.split('/').last.underscore
     field_id = idify_property_name
     # remove the last instance of the field name to set the data level
