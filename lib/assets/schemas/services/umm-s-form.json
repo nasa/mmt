@@ -619,14 +619,6 @@
                   "type": "section",
                   "items": [{"key": "/InterpolationTypes", "field": true, "type": "UmmMultiSelect"}]
                 },
-                /* {
-                  "type": "section",
-                  "items": [{"key": "/SupportedInputFormats", "field": true, "type": "UmmMultiSelect"}]
-                },
-                {
-                  "type": "section",
-                  "items": [{"key": "/SupportedOutputFormats", "field": true, "type": "UmmMultiSelect"}]
-                }, */
                 {
                   "type": "UmmMultiItems",
                   "label": "Supported Reformattings",

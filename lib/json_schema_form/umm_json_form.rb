@@ -102,8 +102,6 @@ class UmmJsonForm < JsonFile
     convert_values_by_type(input['draft'], input['draft'])
     Rails.logger.debug "After Type Conversions: #{input.inspect}"
 
-    # TODO: remove checkbox values
-
     input['draft'] = set_defaults(input['draft'], form_id)
     Rails.logger.debug "After setting defaults: #{input.inspect}"
 

@@ -322,7 +322,6 @@ $(document).ready ->
         error = null
         return
 
-
     error.dataPath += "/#{error.params.missingProperty}" if error.params.missingProperty?
 
     path = for p in error.dataPath.replace(/^\//, '').split('/')
@@ -362,16 +361,16 @@ $(document).ready ->
     if error.dataPath.split('/')[error.dataPath.split('/').length - 1] == 'AllowMultipleValues'
       # Allow Multiple Values fields, under Subset, are boolean fields represented
       # by radio buttons
+      # for a required error, because these are radio buttons, we want the error
+      # to be surfaced with the radio parent container, which the path
+      # transformation has taken care of
       if error.message == 'should be boolean'
         # html cannot hold boolean values, they are represented as string
         # TODO: we can check the values to verify they are 'true' and 'false'.
         # is that desired?
         error = null
         return
-      # else if error.keyword == 'required'
-        # because these are radio buttons, we want the error to be surfaced with
-        # the radio parent container
-        # console.log 'AllowMultipleValues error::::: ', JSON.stringify(error)
+
 
     # Hide individual required errors from an anyOf constraint
     # So we don't fill the form with errors that don't make sense to the user
