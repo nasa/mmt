@@ -55,7 +55,9 @@ class UmmS134DataMigration < ActiveRecord::Migration[5.2]
 
     if outputs.blank?
       inputs.each do |input|
-        reformattings.push('SupportedInputFormat' => input)
+        # push a new reformatting unless a reformatting with that input already
+        # exists
+        reformattings.push('SupportedInputFormat' => input) unless find_first_reformatting(reformattings, input)
       end
       draft['ServiceOptions']['SupportedReformattings'] = reformattings
       return draft

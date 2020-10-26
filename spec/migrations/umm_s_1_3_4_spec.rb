@@ -101,9 +101,10 @@ describe 'Migration tests for UMM-S v1.3.3 => 1.3.4' do
       expect(Draft.find(@draft.id).draft['ServiceOptions'].keys).not_to include('SupportedInputFormats', 'SupportedOutputFormats')
 
       expect(Draft.find(@no_inputs_draft.id).draft['ServiceOptions']['SupportedReformattings'].last).to eq({ 'SupportedOutputFormats' => ['HDF-EOS2', 'HDF-EOS5', 'WKT'] })
-      expect(Draft.find(@no_outputs_draft.id).draft['ServiceOptions']['SupportedReformattings'][-3]).to eq('SupportedInputFormat' => 'HDF-EOS2')
-      expect(Draft.find(@no_outputs_draft.id).draft['ServiceOptions']['SupportedReformattings'][-2]).to eq('SupportedInputFormat' => 'HDF-EOS5')
-      expect(Draft.find(@no_outputs_draft.id).draft['ServiceOptions']['SupportedReformattings'][-1]).to eq('SupportedInputFormat' => 'GEOJSON')
+      expect(Draft.find(@no_outputs_draft.id).draft['ServiceOptions']['SupportedReformattings'][-1]).to eq('SupportedInputFormat' => 'HDF-EOS5')
+      # The no_outputs_draft has three inputs but both the hdf-eos2 and geojson
+      # inputs are not added to the reformattings because at least one
+      # reformatting exists with those as the input.
     end
 
     it 'makes correct subsets' do
