@@ -1,4 +1,8 @@
-#
+# UmmCheckboxDependentFields are used for form fields that should be hidden
+# the fields have a value or the user chooses to show them
+# the checkbox to show the fields are not part of the schema or draft metadata
+
+# :nodoc:
 class UmmCheckboxDependentFields < UmmFormElement
 
 

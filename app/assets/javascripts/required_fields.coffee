@@ -171,10 +171,7 @@ $(document).ready ->
       if $(element).is(':radio')
         $radioParent = $(element).closest('.radio-group-parent')
         label = $radioParent.find('label.radio-group-label')
-        # TODO: if change containers, may need to change how label is obtained
-        # potentially
-        # id = $radioParent.prop('id')
-        #
+
       labels.push(label[0]) if label.length > 0
 
     $(labels)
