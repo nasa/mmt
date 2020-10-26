@@ -7,7 +7,42 @@ describe 'Service Options Form', js: true do
 
   context 'when submitting the form' do
     before do
-      select 'Spatial', from: 'Subset Types'
+      check 'Spatial'
+      within '.subset' do
+        check 'Spatial Subset'
+        within '.spatial-subset-fields' do
+          check 'Point'
+          within '.point-fields' do
+            choose 'False'
+          end
+
+          check 'Polygon'
+          within '.polygon-fields' do
+            fill_in 'Maximum Number Of Points', with: 20
+            choose 'True'
+          end
+
+          check 'Shapefile'
+          within '.shapefile-fields' do
+            within '.multiple-item-0' do
+              select 'ESRI', from: 'Format'
+              fill_in 'Maximum File Size In Bytes', with: 400
+            end
+
+            click_on 'Add another Shapefile'
+
+            within '.multiple-item-1' do
+              select 'GeoJSON', from: 'Format'
+            end
+          end
+        end
+
+        check 'Variable Subset'
+        within '.variable-subset-fields' do
+          choose 'True'
+        end
+      end
+
       select 'ANOMOLY', from: 'Variable Aggregation Supported Methods'
 
       within '.supported-input-projections .multiple-item-0' do
@@ -49,11 +84,6 @@ describe 'Service Options Form', js: true do
 
       select 'Bilinear Interpolation', from: 'Interpolation Types'
       select 'Bicubic Interpolation', from: 'Interpolation Types'
-
-      select 'HDF-EOS2', from: 'Supported Input Formats'
-      select 'HDF-EOS5', from: 'Supported Input Formats'
-      select 'HDF-EOS2', from: 'service_draft_draft_service_options_supported_output_formats'
-      select 'HDF-EOS5', from: 'service_draft_draft_service_options_supported_output_formats'
 
       fill_in 'Max Granules', with: 50
 

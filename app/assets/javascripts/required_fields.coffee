@@ -165,6 +165,16 @@ $(document).ready ->
         index = id.lastIndexOf(last)
         id = id.slice(0, index)
       label = $("label[for='#{id}']")
+      # if element is a radio button, we want to add the icon to the label
+      # for the group of radio buttons
+      # this was added for UMM-S v1.3.4, but should be evaluated for other types
+      if $(element).is(':radio')
+        $radioParent = $(element).closest('.radio-group-parent')
+        label = $radioParent.find('label.radio-group-label')
+        # TODO: if change containers, may need to change how label is obtained
+        # potentially
+        # id = $radioParent.prop('id')
+        #
       labels.push(label[0]) if label.length > 0
 
     $(labels)
