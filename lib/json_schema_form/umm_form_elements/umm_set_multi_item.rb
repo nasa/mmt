@@ -39,7 +39,6 @@ class UmmSetMultiItem < UmmMultiItem
   # '/items' in full_key that only occur in set_multi_items like ValidRanges and
   # IndexRanges in UMM-V 1.7
   def element_data
-    options['data']
     full_key_with_terminal_field = remove_terminal_items_from_key
     field_name = full_key_with_terminal_field.last.underscore
     field_id = idify_property_name

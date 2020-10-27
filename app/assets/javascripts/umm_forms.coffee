@@ -16,5 +16,7 @@ $(document).ready ->
           $(field).prop('checked', false)
         # remove required labels
         $(dependentFields).find('label').removeClass('eui-required-o')
+        # hide any nested checkbox dependent fields
+        $(dependentFields).find('.checkbox-dependent-fields').addClass('is-hidden')
 
         $(dependentFields).addClass('is-hidden')
