@@ -129,6 +129,76 @@ describe 'Conditionally required fields', js: true do
         end
       end
     end
+
+    context 'when checking the accordion headers for required icons' do
+      it 'displays required icons on the Collection Information accordion' do
+        visit edit_collection_draft_path(@draft, form: 'collection_information')
+        expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+        expect(page).to have_css('h3.eui-required-o.always-required', text: 'Collection Information')
+      end
+
+      it 'displays required icons on the Processing Level and Collection Progress accordions' do
+        visit edit_collection_draft_path(@draft, form: 'data_identification')
+        expect(page).to have_css('h3.eui-required-o.always-required', count: 2)
+        expect(page).to have_css('h3.eui-required-o.always-required', text: 'Processing Level')
+        expect(page).to have_css('h3.eui-required-o.always-required', text: 'Collection Progress')
+      end
+
+      it 'does not display required icons for accordions in Related URLs section' do
+        visit edit_collection_draft_path(@draft, form: 'related_urls')
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+
+      it 'displays required icons on the Science Keywords accordion' do
+        visit edit_collection_draft_path(@draft, form: 'descriptive_keywords')
+        expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+        expect(page).to have_css('h3.eui-required-o.always-required', text: 'Science Keywords')
+      end
+
+      it 'displays required icons on the Platforms accordion' do
+        visit edit_collection_draft_path(@draft, form: 'acquisition_information')
+        expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+        expect(page).to have_css('h3.eui-required-o.always-required', text: 'Platforms')
+      end
+
+      it 'displays required icons on the Temporal Extents accordion' do
+        visit edit_collection_draft_path(@draft, form: 'temporal_information')
+        expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+        expect(page).to have_css('h3.eui-required-o.always-required', text: 'Temporal Extents')
+      end
+
+      it 'displays required icons on the Spatial Extents accordion' do
+        visit edit_collection_draft_path(@draft, form: 'spatial_information')
+        expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+        expect(page).to have_css('h3.eui-required-o.always-required', text: 'Spatial Extent')
+      end
+
+      it 'displays required icons on the Data Centers accordion' do
+        visit edit_collection_draft_path(@draft, form: 'data_centers')
+        expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+        expect(page).to have_css('h3.eui-required-o.always-required', text: 'Data Centers')
+      end
+
+      it 'does not display required icons for accordions in Data Contacts section' do
+        visit edit_collection_draft_path(@draft, form: 'data_contacts')
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+
+      it 'does not display required icons for accordions in Collection Citations section' do
+        visit edit_collection_draft_path(@draft, form: 'collection_citations')
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+
+      it 'does not display required icons for accordions in Metadata Information section' do
+        visit edit_collection_draft_path(@draft, form: 'metadata_information')
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+
+      it 'does not display required icons for accordions in Archive And Distribution Information section' do
+        visit edit_collection_draft_path(@draft, form: 'archive_and_distribution_information')
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+    end
   end
 
   context 'when viewing a form with data' do

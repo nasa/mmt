@@ -47,6 +47,44 @@ describe 'Conditionally required fields', js: true do
         end
       end
     end
+
+    context 'when checking the accordion headers for required icons' do
+      it 'displays required icons on the Variable Information accordion' do
+        visit edit_variable_draft_path(draft, form: 'variable_information')
+        expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+        expect(page).to have_css('h3.eui-required-o.always-required', text: 'Variable Information')
+      end
+
+      it 'does not display required icons for accordions in Fill Values section' do
+        visit edit_variable_draft_path(draft, form: 'fill_values')
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+
+      it 'does not display required icons for accordions in Dimensions section' do
+        visit edit_variable_draft_path(draft, form: 'dimensions')
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+
+      it 'does not display required icons for accordions in Measurement Identifiers section' do
+        visit edit_variable_draft_path(draft, form: 'measurement_identifiers')
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+
+      it 'does not display required icons for accordions in Sampling Identifiers section' do
+        visit edit_variable_draft_path(draft, form: 'sampling_identifiers')
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+
+      it 'does not display required icons for accordions in Science Keywords section' do
+        visit edit_variable_draft_path(draft, form: 'science_keywords')
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+
+      it 'does not display required icons for accordions in Sets section' do
+        visit edit_variable_draft_path(draft, form: 'sets')
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+    end
   end
 
   context 'when viewing a form with data' do
