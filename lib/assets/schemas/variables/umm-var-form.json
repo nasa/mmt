@@ -7,7 +7,7 @@
         {
           "type": "open_accordion",
           "title": "Variable Information",
-          "htmlClass": "eui-required-o",
+          "htmlClass": "eui-required-o always-required",
           "noHelp": true,
           "items": [
             {
