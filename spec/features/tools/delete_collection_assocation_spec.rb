@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Deleting Tool Collection Associations', js: true, reset_provider: true do
   before do
     login
