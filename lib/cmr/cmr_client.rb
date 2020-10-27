@@ -99,10 +99,18 @@ module Cmr
     end
 
     def add_collection_assocations_to_service(concept_id, collection_ids, token)
+      add_collection_assocations(concept_id, collection_ids, token, 'services')
+    end
+
+    def add_collection_assocations_to_tool(concept_id, collection_ids, token)
+      add_collection_assocations(concept_id, collection_ids, token, 'tools')
+    end
+
+    def add_collection_assocations(concept_id, collection_ids, token, concept_type)
       url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3003/services/#{concept_id}/associations"
+              "http://localhost:3003/#{concept_type}/#{concept_id}/associations"
             else
-              "/search/services/#{concept_id}/associations"
+              "/search/#{concept_type}/#{concept_id}/associations"
             end
 
       headers = {
@@ -113,10 +121,18 @@ module Cmr
     end
 
     def delete_collection_assocations_to_service(concept_id, collection_ids, token)
+      delete_collection_associations(concept_id, collection_ids, token, 'services')
+    end
+
+    def delete_collection_assocations_to_tool(concept_id, collection_ids, token)
+      delete_collection_associations(concept_id, collection_ids, token, 'tools')
+    end
+
+    def delete_collection_associations(concept_id, collection_ids, token, concept_type)
       url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3003/services/#{concept_id}/associations"
+              "http://localhost:3003/#{concept_type}/#{concept_id}/associations"
             else
-              "/search/services/#{concept_id}/associations"
+              "/search/#{concept_type}/#{concept_id}/associations"
             end
 
       headers = {

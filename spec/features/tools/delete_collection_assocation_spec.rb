@@ -1,10 +1,12 @@
-describe 'Deleting Service Collection Associations', js: true, reset_provider: true do
+require 'rails_helper'
+
+describe 'Deleting Tool Collection Associations', js: true, reset_provider: true do
   before do
     login
 
-    @service_ingest_response, _concept_response = publish_service_draft
+    @tool_ingest_response, _concept_response = publish_tool_draft
 
-    create_service_collection_association(@service_ingest_response['concept-id'], @collection_ingest_response1['concept-id'], @collection_ingest_response2['concept-id'])
+    create_tool_collection_association(@tool_ingest_response['concept-id'], @collection_ingest_response1['concept-id'], @collection_ingest_response2['concept-id'])
   end
 
   before :all do
@@ -14,7 +16,7 @@ describe 'Deleting Service Collection Associations', js: true, reset_provider: t
 
   context 'When viewing the associated collections page' do
     before do
-      visit service_collection_associations_path(@service_ingest_response['concept-id'])
+      visit tool_collection_associations_path(@tool_ingest_response['concept-id'])
     end
 
     it 'shows the associated collections' do
