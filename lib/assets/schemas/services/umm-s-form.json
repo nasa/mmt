@@ -423,6 +423,7 @@
                 {
                   "type": "section",
                   "title": "Subset",
+                  "label": "Subset",
                   "key": "/Subset/properties",
                   "htmlClass": "row sub-fields subset space-bot",
                   "items": [
@@ -434,7 +435,7 @@
                           "type": "UmmCheckboxDependentFields",
                           "noLabel": true,
                           "key": "/SpatialSubset",
-                          "htmlClass": "row",
+                          "htmlClass": "row space-top",
                           "dependentFields": "spatial-subset",
                           "items": [
                             {

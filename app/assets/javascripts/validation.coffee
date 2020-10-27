@@ -366,8 +366,6 @@ $(document).ready ->
       # transformation has taken care of
       if error.message == 'should be boolean'
         # html cannot hold boolean values, they are represented as string
-        # TODO: we can check the values to verify they are 'true' and 'false'.
-        # is that desired?
         error = null
         return
 
