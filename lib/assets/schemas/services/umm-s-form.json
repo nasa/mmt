@@ -445,10 +445,15 @@
                               "dependentFields": "point",
                               "items": [
                                 {
-                                  "key": "/properties/AllowMultipleValues",
-                                  "field": true,
-                                  "label": "Allow Multiple Values",
-                                  "type": "UmmBoolean"
+                                  "type": "section",
+                                  "items": [
+                                    {
+                                      "key": "/properties/AllowMultipleValues",
+                                      "field": true,
+                                      "type": "UmmBoolean",
+                                      "labelClass": "radio-group-label"
+                                    }
+                                  ]
                                 }
                               ]
                             },
@@ -460,10 +465,15 @@
                               "dependentFields": "circle",
                               "items": [
                                 {
-                                  "key": "/properties/AllowMultipleValues",
-                                  "field": true,
-                                  "label": "Allow Multiple Values",
-                                  "type": "UmmBoolean"
+                                  "type": "section",
+                                  "items": [
+                                    {
+                                      "key": "/properties/AllowMultipleValues",
+                                      "field": true,
+                                      "type": "UmmBoolean",
+                                      "labelClass": "radio-group-label"
+                                    }
+                                  ]
                                 }
                               ]
                             },
@@ -479,10 +489,15 @@
                                   "items": [{"key": "/properties/MaximumNumberOfPoints", "field": true}]
                                 },
                                 {
-                                  "key": "/properties/AllowMultipleValues",
-                                  "field": true,
-                                  "label": "Allow Multiple Values",
-                                  "type": "UmmBoolean"
+                                  "type": "section",
+                                  "items": [
+                                    {
+                                      "key": "/properties/AllowMultipleValues",
+                                      "field": true,
+                                      "type": "UmmBoolean",
+                                      "labelClass": "radio-group-label"
+                                    }
+                                  ]
                                 }
                               ]
                             },
@@ -494,10 +509,15 @@
                               "dependentFields": "bounding-box",
                               "items": [
                                 {
-                                  "key": "/properties/AllowMultipleValues",
-                                  "field": true,
-                                  "label": "Allow Multiple Values",
-                                  "type": "UmmBoolean"
+                                  "type": "section",
+                                  "items": [
+                                    {
+                                      "key": "/properties/AllowMultipleValues",
+                                      "field": true,
+                                      "type": "UmmBoolean",
+                                      "labelClass": "radio-group-label"
+                                    }
+                                  ]
                                 }
                               ]
                             },
@@ -513,10 +533,15 @@
                                   "items": [{"key": "/properties/MaximumNumberOfPoints", "field": true}]
                                 },
                                 {
-                                  "key": "/properties/AllowMultipleValues",
-                                  "field": true,
-                                  "label": "Allow Multiple Values",
-                                  "type": "UmmBoolean"
+                                  "type": "section",
+                                  "items": [
+                                    {
+                                      "key": "/properties/AllowMultipleValues",
+                                      "field": true,
+                                      "type": "UmmBoolean",
+                                      "labelClass": "radio-group-label"
+                                    }
+                                  ]
                                 }
                               ]
                             }
@@ -562,10 +587,15 @@
                           "dependentFields": "temporal-subset",
                           "items": [
                             {
-                              "key": "/properties/AllowMultipleValues",
-                              "field": true,
-                              "label": "Allow Multiple Values",
-                              "type": "UmmBoolean"
+                              "type": "section",
+                              "items": [
+                                {
+                                  "key": "/properties/AllowMultipleValues",
+                                  "field": true,
+                                  "type": "UmmBoolean",
+                                  "labelClass": "radio-group-label"
+                                }
+                              ]
                             }
                           ]
                         },
@@ -577,10 +607,15 @@
                           "htmlClass": "row",
                           "items": [
                             {
-                              "key": "/properties/AllowMultipleValues",
-                              "field": true,
-                              "label": "Allow Multiple Values",
-                              "type": "UmmBoolean"
+                              "type": "section",
+                              "items": [
+                                {
+                                  "key": "/properties/AllowMultipleValues",
+                                  "field": true,
+                                  "type": "UmmBoolean",
+                                  "labelClass": "radio-group-label"
+                                }
+                              ]
                             }
                           ]
                         }

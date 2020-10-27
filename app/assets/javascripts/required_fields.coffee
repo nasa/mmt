@@ -170,7 +170,7 @@ $(document).ready ->
       # this was added for UMM-S v1.3.4, but should be evaluated for other types
       if $(element).is(':radio')
         $radioParent = $(element).closest('.radio-group-parent')
-        label = $radioParent.find('label.radio-group-label')
+        label = $radioParent.siblings('label.radio-group-label')
 
       labels.push(label[0]) if label.length > 0
 
