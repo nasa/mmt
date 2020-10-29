@@ -329,7 +329,7 @@ end
 # :nodoc:
 class UmmFormAccordion < UmmForm
   def render_markup
-    content_tag(:fieldset, class: "eui-accordion is-closed", id: accordion_id) do
+    content_tag(:fieldset, class: "eui-accordion is-closed #{parsed_json['htmlClass']}", id: accordion_id) do
       concat render_accordion_header
       concat render_accordion_body
     end
@@ -342,7 +342,7 @@ class UmmFormAccordion < UmmForm
         concat content_tag(:span, "Toggle #{title}", class: 'eui-sr-only')
       end)
 
-      concat content_tag(:h3, title, class: "header-title #{parsed_json['htmlClass']}")
+      concat content_tag(:h3, title, class: "header-title #{parsed_json['accordionHeaderClass']}")
       concat help_icon(help_path) unless parsed_json['noHelp']
     end
   end
@@ -360,7 +360,7 @@ end
 # :nodoc:
 class UmmFormOpenAccordion < UmmFormAccordion
   def render_markup
-    content_tag(:fieldset, class: "eui-accordion", id: accordion_id) do
+    content_tag(:fieldset, class: "eui-accordion  #{parsed_json['htmlClass']}", id: accordion_id) do
       concat render_accordion_header
       concat render_accordion_body
     end
@@ -368,7 +368,7 @@ class UmmFormOpenAccordion < UmmFormAccordion
 
   def render_accordion_header
     content_tag(:div, class: 'eui-accordion__header disable-toggle') do
-      concat content_tag(:h3, title, class: "header-title #{parsed_json['htmlClass']}")
+      concat content_tag(:h3, title, class: "header-title #{parsed_json['accordionHeaderClass']}")
       concat help_icon(help_path) unless parsed_json['noHelp']
     end
   end

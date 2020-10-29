@@ -7,15 +7,12 @@ describe 'Descriptive keywords form', js: true do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
     visit collection_draft_path(draft)
+    within '.metadata' do
+      click_on 'Descriptive Keywords'
+    end
   end
 
   context 'when checking the accordion headers for required icons' do
-    before do
-      within '.metadata' do
-        click_on 'Descriptive Keywords'
-      end
-    end
-
     it 'displays required icons on the Science Keywords accordion' do
       expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
       expect(page).to have_css('h3.eui-required-o.always-required', text: 'Science Keywords')
@@ -24,9 +21,6 @@ describe 'Descriptive keywords form', js: true do
 
   context 'when submitting the form' do
     before do
-      within '.metadata' do
-        click_on 'Descriptive Keywords'
-      end
 
       click_on 'Expand All'
 

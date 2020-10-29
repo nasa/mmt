@@ -3,15 +3,12 @@ describe 'Spatial information form', js: true do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
     visit collection_draft_path(draft)
-  end
-  
-  context 'when checking the accordion headers for required icons' do
-    before do
-      within '.metadata' do
-        click_on 'Spatial Information', match: :first
-      end
+    within '.metadata' do
+      click_on 'Spatial Information', match: :first
     end
+  end
 
+  context 'when checking the accordion headers for required icons' do
     it 'displays required icons on the Spatial Extents accordion' do
       expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
       expect(page).to have_css('h3.eui-required-o.always-required', text: 'Spatial Extent')
@@ -21,10 +18,6 @@ describe 'Spatial information form', js: true do
   context 'when submitting the form with horizontal spatial' do
     context 'when submitting points geometry' do
       before do
-        within '.metadata' do
-          click_on 'Spatial Information', match: :first
-        end
-
         click_on 'Expand All'
 
         # Spatial Extent
@@ -248,10 +241,6 @@ describe 'Spatial information form', js: true do
 
     context 'when submitting bounding rectangles geometry' do
       before do
-        within '.metadata' do
-          click_on 'Spatial Information', match: :first
-        end
-
         click_on 'Expand All'
 
         # Spatial Extent
@@ -303,10 +292,6 @@ describe 'Spatial information form', js: true do
 
     context 'when submitting g polygons geometry' do
       before do
-        within '.metadata' do
-          click_on 'Spatial Information', match: :first
-        end
-
         click_on 'Expand All'
 
         # Spatial Extent
@@ -404,10 +389,6 @@ describe 'Spatial information form', js: true do
 
     context 'when submitting lines geometry' do
       before do
-        within '.metadata' do
-          click_on 'Spatial Information', match: :first
-        end
-
         click_on 'Expand All'
 
         # Spatial Extent
@@ -468,10 +449,6 @@ describe 'Spatial information form', js: true do
 
   context 'when submitting the form with vertical spatial' do
     before do
-      within '.metadata' do
-        click_on 'Spatial Information', match: :first
-      end
-
       click_on 'Expand All'
 
       # Spatial Extent
@@ -562,10 +539,6 @@ describe 'Spatial information form', js: true do
 
   context 'when submitting the form with orbital spatial' do
     before do
-      within '.metadata' do
-        click_on 'Spatial Information', match: :first
-      end
-
       click_on 'Expand All'
 
       # Spatial Extent
@@ -653,10 +626,6 @@ describe 'Spatial information form', js: true do
 
   context 'when submitting the form with horizontal and vertical spatial' do
     before do
-      within '.metadata' do
-        click_on 'Spatial Information', match: :first
-      end
-
       click_on 'Expand All'
 
       # Spatial Extent
@@ -725,10 +694,6 @@ describe 'Spatial information form', js: true do
 
   context 'when submitting the form with orbital and vertical spatial' do
     before do
-      within '.metadata' do
-        click_on 'Spatial Information', match: :first
-      end
-
       click_on 'Expand All'
 
       # Spatial Extent

@@ -3,15 +3,12 @@ describe 'Related URLs information form', js: true do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
     visit collection_draft_path(draft)
+    within '.metadata' do
+      click_on 'Related URLs', match: :first
+    end
   end
 
   context 'when checking the accordion headers for required icons' do
-    before do
-      within '.metadata' do
-        click_on 'Related URLs', match: :first
-      end
-    end
-
     it 'does not display required icons for accordions in Related URLs section' do
       expect(page).to have_no_css('h3.eui-required-o.always-required')
     end
@@ -19,10 +16,6 @@ describe 'Related URLs information form', js: true do
 
   context 'when submitting the form' do
     before do
-      within '.metadata' do
-        click_on 'Related URLs', match: :first
-      end
-
       open_accordions
 
       # Complete RelatedUrl fields

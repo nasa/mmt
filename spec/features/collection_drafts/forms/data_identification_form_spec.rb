@@ -7,15 +7,12 @@ describe 'Data identification form', js: true do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
     visit collection_draft_path(draft)
+    within '.metadata' do
+      click_on 'Data Identification'
+    end
   end
 
   context 'when checking the accordion headers for required icons' do
-    before do
-      within '.metadata' do
-        click_on 'Data Identification'
-      end
-    end
-
     it 'displays required icons on the Processing Level and Collection Progress accordions' do
       expect(page).to have_css('h3.eui-required-o.always-required', count: 2)
       expect(page).to have_css('h3.eui-required-o.always-required', text: 'Processing Level')
@@ -25,9 +22,6 @@ describe 'Data identification form', js: true do
 
   context 'when submitting the form' do
     before do
-      within '.metadata' do
-        click_on 'Data Identification'
-      end
 
       click_on 'Expand All'
 
