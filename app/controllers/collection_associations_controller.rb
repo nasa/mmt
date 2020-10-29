@@ -171,12 +171,15 @@ class CollectionAssociationsController < CmrSearchController
                   @variable
                 elsif params[:service_id]
                   @service
+                elsif params[:tool_id]
+                  @tool
                 end
   end
 
   def resource_name
     name = 'Variable' unless @variable.nil?
     name = 'Service' unless @service.nil?
+    name = 'Tool' unless @tool.nil?
     name
   end
   helper_method :resource_name
@@ -195,7 +198,7 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   def resource_id
-    params[:service_id] || variable_id
+    params[:service_id] || params[:tool_id] || variable_id
   end
   helper_method :resource_id
 
