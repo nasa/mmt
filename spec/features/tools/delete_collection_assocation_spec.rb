@@ -57,7 +57,7 @@ describe 'Deleting Tool Collection Associations', js: true, reset_provider: true
             click_link 'refresh the page'
           end
 
-          it 'reloads the page and dislay the correct associations' do
+          it 'reloads the page and display the correct associations' do
             within '#collection-associations' do
               expect(page).to have_selector('tbody > tr', count: 1)
 
