@@ -9,6 +9,20 @@ describe 'Data identification form', js: true do
     visit collection_draft_path(draft)
   end
 
+  context 'when checking the accordion headers for required icons' do
+    before do
+      within '.metadata' do
+        click_on 'Data Identification'
+      end
+    end
+
+    it 'displays required icons on the Processing Level and Collection Progress accordions' do
+      expect(page).to have_css('h3.eui-required-o.always-required', count: 2)
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Processing Level')
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Collection Progress')
+    end
+  end
+
   context 'when submitting the form' do
     before do
       within '.metadata' do

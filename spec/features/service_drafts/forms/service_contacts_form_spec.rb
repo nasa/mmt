@@ -18,6 +18,10 @@ describe 'Service Contacts Form', js: true do
       click_on 'Expand All'
     end
 
+    it 'does not display required icons for accordions in Service Contacts section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
+
     context 'when viewing the form' do
       include_examples 'Service Contacts Form with confirmation'
     end

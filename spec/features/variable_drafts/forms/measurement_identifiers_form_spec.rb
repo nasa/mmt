@@ -9,6 +9,10 @@ describe 'Measurement Identifiers Form', js: true do
       visit edit_variable_draft_path(draft, 'measurement_identifiers')
     end
 
+    it 'does not display required icons for accordions in Measurement Identifiers section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
+
     it 'displays the correct title and description' do
       expect(page).to have_content('Measurement Identifiers')
       expect(page).to have_content('The measurement information of a variable.')

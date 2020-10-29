@@ -51,45 +51,4 @@ describe 'Tool Draft Forms Required Field Icons', js: true do
       end
     end
   end
-
-  context 'when checking the accordion headers for required icons' do
-    it 'displays required icons on the Tool Information and URL accordions' do
-      visit edit_tool_draft_path(empty_draft, form: 'tool_information')
-      expect(page).to have_css('h3.eui-required-o.always-required', count: 2)
-      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Tool Information')
-      expect(page).to have_css('h3.eui-required-o.always-required', text: 'URL')
-    end
-
-    it 'does not display required icons for accordions in Related URLs section' do
-      visit edit_tool_draft_path(empty_draft, form: 'related_urls')
-      expect(page).to have_no_css('h3.eui-required-o.always-required')
-    end
-
-    it 'does not display required icons for accordions in Compatibility and Usability section' do
-      visit edit_tool_draft_path(empty_draft, form: 'compatibility_and_usability')
-      expect(page).to have_no_css('h3.eui-required-o.always-required')
-    end
-
-    it 'displays required icons on the Tool Keywords accordion' do
-      visit edit_tool_draft_path(empty_draft, form: 'descriptive_keywords')
-      expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
-      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Tool Keywords')
-    end
-
-    it 'displays required icons on the Organizations accordion' do
-      visit edit_tool_draft_path(empty_draft, form: 'tool_organizations')
-      expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
-      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Organizations')
-    end
-
-    it 'does not display required icons for accordions in Tool Contacts section' do
-      visit edit_tool_draft_path(empty_draft, form: 'tool_contacts')
-      expect(page).to have_no_css('h3.eui-required-o.always-required')
-    end
-
-    it 'does not display required icons for accordions in Smart Handoff Information section' do
-      visit edit_tool_draft_path(empty_draft, form: 'smart_handoff_information')
-      expect(page).to have_no_css('h3.eui-required-o.always-required')
-    end
-  end
 end

@@ -9,6 +9,18 @@ describe 'Collection citations form', js: true do
     visit collection_draft_path(draft)
   end
 
+  context 'when checking the accordion headers for required icons' do
+    before do
+      within '.metadata' do
+        click_on 'Collection Citations', match: :first
+      end
+    end
+
+    it 'does not display required icons for accordions in Collection Citations section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
+  end
+
   context 'when submitting the form' do
     before do
       within '.metadata' do

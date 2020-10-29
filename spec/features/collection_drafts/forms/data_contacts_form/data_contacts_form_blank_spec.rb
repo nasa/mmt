@@ -19,6 +19,12 @@ describe 'Data Contacts form saving when blank' do
       expect(page).to have_content('Data Contacts')
     end
 
+    context 'when checking the accordion headers for required icons' do
+      it 'does not display required icons for accordions in Data Contacts section' do
+        expect(page).to have_no_css('h3.eui-required-o.always-required')
+      end
+    end
+    
     it 'displays a confirmation message' do
       expect(page).to have_content('Collection Draft Updated Successfully!')
     end

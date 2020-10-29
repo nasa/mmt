@@ -6,6 +6,18 @@ describe 'Metadata Information form', js: true do
     visit collection_draft_path(draft)
   end
 
+  context 'when checking the accordion headers for required icons' do
+    before do
+      within '.metadata' do
+        click_on 'Metadata Information'
+      end
+    end
+
+    it 'does not display required icons for accordions in Metadata Information section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
+  end
+  
   context 'when submitting the form' do
     before do
       within '.metadata' do

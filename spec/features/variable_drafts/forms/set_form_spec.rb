@@ -9,6 +9,10 @@ describe 'Set Form', js: true do
       visit edit_variable_draft_path(draft, 'sets')
     end
 
+    it 'does not display required icons for accordions in Sets section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
+
     it 'displays the correct title and description' do
       within '.umm-form' do
         expect(page).to have_content('Sets')

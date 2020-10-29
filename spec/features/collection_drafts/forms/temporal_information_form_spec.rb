@@ -9,6 +9,19 @@ describe 'Temporal information form', js: true do
     visit collection_draft_path(draft)
   end
 
+  context 'when checking the accordion headers for required icons' do
+    before do
+      within '.metadata' do
+        click_on 'Temporal Information'
+      end
+    end
+    
+    it 'displays required icons on the Temporal Extents accordion' do
+      expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Temporal Extents')
+    end
+  end
+
   context 'when submitting the form' do
     before do
       within '.metadata' do
