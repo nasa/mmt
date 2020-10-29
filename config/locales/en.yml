@@ -224,14 +224,6 @@ en:
           flash:
             success: 'Collection Association Updated Successfully!'
             error: 'Collection Associaiton was not updated successfully.'
-        destroy:
-          flash:
-            success: 'Collection Association Deleted Successfully!'
-            error: 'Collection Association was not deleted successfully'
-        create:
-          flash:
-            success: 'Collection Association Created Successfully!'
-            error: 'Collection Association was not created successfully'
       services:
         destroy:
           flash:
