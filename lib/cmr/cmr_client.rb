@@ -98,7 +98,7 @@ module Cmr
       get(url, nil, headers.merge(token_header(token)))
     end
 
-    def add_collection_assocations(concept_id, collection_ids, token, concept_type)
+    def add_collection_associations(concept_id, collection_ids, token, concept_type)
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3003/#{concept_type}/#{concept_id}/associations"
             else

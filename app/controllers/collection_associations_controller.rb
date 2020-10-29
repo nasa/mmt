@@ -54,7 +54,7 @@ class CollectionAssociationsController < CmrSearchController
   def create
     # Variables are associated on ingest and can only be associated with one
     # collection. They should be blocked from this action.
-    association_response = cmr_client.add_collection_assocations(resource_id, params[:selected_collections], token, plural_lower_resource_name)
+    association_response = cmr_client.add_collection_associations(resource_id, params[:selected_collections], token, plural_lower_resource_name)
 
     # Log any issues found in the response
     log_issues(association_response)
