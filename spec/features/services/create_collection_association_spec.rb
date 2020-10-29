@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe 'Creating Service Collection Associations', js: true, reset_provider: true do
   before do
     login

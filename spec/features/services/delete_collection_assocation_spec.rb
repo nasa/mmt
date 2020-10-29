@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe 'Deleting Service Collection Associations', js: true, reset_provider: true do
   before do
     login
@@ -57,7 +59,7 @@ describe 'Deleting Service Collection Associations', js: true, reset_provider: t
             click_link 'refresh the page'
           end
 
-          it 'reloads the page and dislay the correct associations' do
+          it 'reloades the page and dislay the correct associations' do
             within '#collection-associations' do
               expect(page).to have_selector('tbody > tr', count: 1)
 

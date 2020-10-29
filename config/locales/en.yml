@@ -227,21 +227,12 @@ en:
         destroy:
           flash:
             success: 'Collection Association Deleted Successfully!'
-            error: 'Collection Association was not deleted successfully'
+            error: 'Collection Association were not deleted successfully'
         create:
           flash:
             success: 'Collection Association Created Successfully!'
-            error: 'Collection Association was not created successfully'
+            error: 'Collection Association were not created successfully'
       services:
-        destroy:
-          flash:
-            success: 'Collection Associations Deleted Successfully!'
-            error: 'Collection Associations were not deleted successfully'
-        create:
-          flash:
-            success: 'Collection Associations Created Successfully!'
-            error: 'Collection Associations were not created successfully'
-      tools:
         destroy:
           flash:
             success: 'Collection Associations Deleted Successfully!'
