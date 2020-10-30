@@ -3,14 +3,20 @@ describe 'Acquisition information form', js: true do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
     visit collection_draft_path(draft)
+    within '.metadata' do
+      click_on 'Acquisition Information'
+    end
+  end
+
+  context 'when checking the accordion headers for required icons' do
+    it 'displays required icons on the Platforms accordion' do
+      expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Platforms')
+    end
   end
 
   context 'when submitting the form' do
     before do
-      within '.metadata' do
-        click_on 'Acquisition Information'
-      end
-
       click_on 'Expand All'
 
       add_platforms

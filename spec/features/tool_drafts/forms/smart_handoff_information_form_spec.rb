@@ -6,6 +6,10 @@ describe 'Tool Drafts Smart Handoff Information Form', js: true do
   end
 
   context 'when viewing the form with no values' do
+    it 'does not display required icons for accordions in Smart Handoff Information section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
+
     it 'displays the correct title' do
       within 'header .collection-basics > h2' do
         expect(page).to have_content('Smart Handoff Information')

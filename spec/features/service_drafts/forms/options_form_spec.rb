@@ -68,6 +68,10 @@ describe 'Service Options Form', js: true do
       end
     end
 
+    it 'does not display required icons for accordions in Options section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
+
     it 'displays a confirmation message' do
       expect(page).to have_content('Service Draft Updated Successfully!')
     end
