@@ -1,4 +1,4 @@
-describe 'Show Existing Service Collection Associations', js: true, reset_provider: true do
+describe 'Show Existing Tool Collection Associations', js: true, reset_provider: true do
 
   native_id = Faker::Crypto.md5
 
@@ -7,28 +7,28 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
   end
 
   before :all do
-    # publish the service to test
-    @service_ingest_response, _concept_response = publish_service_draft(provider_id: 'LARC', native_id: native_id)
+    # publish the tool to test
+    @tool_ingest_response, _concept_response = publish_tool_draft(provider_id: 'LARC', native_id: native_id)
 
     # get all provider collections
     @provider_collections = get_collections_by_provider('LARC')
 
-    # gets number of collections to be assigned to the service
-    @service_collections = @provider_collections[0..25]
+    # gets number of collections to be assigned to the tool
+    @tool_collections = @provider_collections[0..25]
 
-    # assign 26 collections to the service
-    cmr_client.add_collection_associations(@service_ingest_response['concept-id'], @service_collections, 'access_token', 'services')
+    # assign 26 collections to the tool
+    cmr_client.add_collection_associations(@tool_ingest_response['concept-id'], @tool_collections, 'access_token', 'tools')
 
     wait_for_cmr
   end
 
   after :all do
-    cmr_client.delete_service('LARC', native_id, 'access_token')
+    cmr_client.delete_tool('LARC', native_id, 'access_token')
   end
 
   context 'when there are paginated collection associations' do
     before do
-      visit service_collection_associations_path(@service_ingest_response['concept-id'])
+      visit tool_collection_associations_path(@tool_ingest_response['concept-id'])
       click_on 'refresh the page'
     end
 
@@ -65,7 +65,7 @@ describe 'Show Existing Service Collection Associations', js: true, reset_provid
 
     context 'when searching for new collections to associate' do
       before do
-        visit new_service_collection_association_path(@service_ingest_response['concept-id'])
+        visit new_tool_collection_association_path(@tool_ingest_response['concept-id'])
 
         within '#collection-search' do
           select 'Entry Title', from: 'Search Field'

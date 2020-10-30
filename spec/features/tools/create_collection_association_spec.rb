@@ -1,8 +1,8 @@
-describe 'Creating Service Collection Associations', js: true, reset_provider: true do
+describe 'Creating Tool Collection Associations', js: true, reset_provider: true do
   before do
     login
 
-    @service_ingest_response, _concept_response = publish_service_draft
+    @tool_ingest_response, _concept_response = publish_tool_draft
   end
 
   before :all do
@@ -13,9 +13,9 @@ describe 'Creating Service Collection Associations', js: true, reset_provider: t
     publish_collection_draft(entry_title: 'AQUA Not MODIS-I')
   end
 
-  context 'When viewing a published service' do
+  context 'When viewing a published tool' do
     before do
-      visit service_path(@service_ingest_response['concept-id'])
+      visit tool_path(@tool_ingest_response['concept-id'])
     end
 
     it 'displays a link to get to collection association management' do
@@ -27,7 +27,7 @@ describe 'Creating Service Collection Associations', js: true, reset_provider: t
 
   context 'When visiting the collection association management page' do
     before do
-      visit service_collection_associations_path(@service_ingest_response['concept-id'])
+      visit tool_collection_associations_path(@tool_ingest_response['concept-id'])
     end
 
     it 'displays an add collection association button' do
@@ -44,14 +44,14 @@ describe 'Creating Service Collection Associations', js: true, reset_provider: t
       end
 
       it 'displays the collection search page' do
-        expect(page).to have_content('MMT_2 Service Collection Association Search')
+        expect(page).to have_content('MMT_2 Tool Collection Association Search')
       end
     end
   end
 
   context 'When visiting the collection association search page' do
     before do
-      visit new_service_collection_association_path(@service_ingest_response['concept-id'])
+      visit new_tool_collection_association_path(@tool_ingest_response['concept-id'])
     end
 
     it 'displays the correct number of options for search field' do

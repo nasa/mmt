@@ -98,11 +98,11 @@ module Cmr
       get(url, nil, headers.merge(token_header(token)))
     end
 
-    def add_collection_assocations_to_service(concept_id, collection_ids, token)
+    def add_collection_associations(concept_id, collection_ids, token, concept_type)
       url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3003/services/#{concept_id}/associations"
+              "http://localhost:3003/#{concept_type}/#{concept_id}/associations"
             else
-              "/search/services/#{concept_id}/associations"
+              "/search/#{concept_type}/#{concept_id}/associations"
             end
 
       headers = {
@@ -112,11 +112,11 @@ module Cmr
       post(url, Array.wrap(collection_ids).map { |c| { 'concept_id' => c } }.to_json, headers.merge(token_header(token)))
     end
 
-    def delete_collection_assocations_to_service(concept_id, collection_ids, token)
+    def delete_collection_associations(concept_id, collection_ids, token, concept_type)
       url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3003/services/#{concept_id}/associations"
+              "http://localhost:3003/#{concept_type}/#{concept_id}/associations"
             else
-              "/search/services/#{concept_id}/associations"
+              "/search/#{concept_type}/#{concept_id}/associations"
             end
 
       headers = {
