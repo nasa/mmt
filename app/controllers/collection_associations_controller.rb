@@ -54,7 +54,7 @@ class CollectionAssociationsController < CmrSearchController
   def create
     # Variables are associated on ingest and can only be associated with one
     # collection. They should be blocked from this action.
-    association_response = cmr_client.send("add_collection_assocations_to_#{lower_resource_name}", resource_id, params[:selected_collections], token)
+    association_response = cmr_client.add_collection_associations(resource_id, params[:selected_collections], token, plural_lower_resource_name)
 
     # Log any issues found in the response
     log_issues(association_response)
@@ -114,7 +114,7 @@ class CollectionAssociationsController < CmrSearchController
   def destroy
     # Variables must be associated with one collection. They should be blocked
     # from this action.
-    association_response = cmr_client.send("delete_collection_assocations_to_#{lower_resource_name}", resource_id, params[:selected_collections], token)
+    association_response = cmr_client.delete_collection_associations(resource_id, params[:selected_collections], token, plural_lower_resource_name)
 
     # Log any issues found in the response
     log_issues(association_response)
@@ -150,6 +150,9 @@ class CollectionAssociationsController < CmrSearchController
                                          association_response.body
                                                              .fetch('items', [])
                                                              .map { |collection| collection['meta']['concept-id'] }
+                                       else
+                                         Rails.logger.error("Error retrieving collections associated to #{resource_id}: #{association_response.clean_inspect}")
+                                         []
                                        end
 
       if partial_associated_collections.any?
@@ -171,12 +174,15 @@ class CollectionAssociationsController < CmrSearchController
                   @variable
                 elsif params[:service_id]
                   @service
+                elsif params[:tool_id]
+                  @tool
                 end
   end
 
   def resource_name
     name = 'Variable' unless @variable.nil?
     name = 'Service' unless @service.nil?
+    name = 'Tool' unless @tool.nil?
     name
   end
   helper_method :resource_name
@@ -195,7 +201,7 @@ class CollectionAssociationsController < CmrSearchController
   end
 
   def resource_id
-    params[:service_id] || variable_id
+    params[:service_id] || params[:tool_id] || variable_id
   end
   helper_method :resource_id
 

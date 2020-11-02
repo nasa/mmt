@@ -8,6 +8,10 @@ describe 'Dimensions Form', js: true do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_variable_draft_path(draft, 'dimensions')
     end
+    
+    it 'does not display required icons for accordions in Dimensions section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
 
     it 'displays the correct title' do
       within '.umm-form' do

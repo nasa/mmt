@@ -5,6 +5,13 @@ describe 'Data Centers form' do
       draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_collection_draft_path(draft, form: 'data_centers')
     end
+    
+    context 'when checking the accordion headers for required icons' do
+      it 'displays required icons on the Data Centers accordion' do
+        expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+        expect(page).to have_css('h3.eui-required-o.always-required', text: 'Data Centers')
+      end
+    end
 
     context 'when submitting the form' do
       before do

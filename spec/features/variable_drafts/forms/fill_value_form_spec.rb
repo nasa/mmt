@@ -8,6 +8,10 @@ describe 'Fill Values Form', js: true do
       draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_variable_draft_path(draft, 'fill_values')
     end
+    
+    it 'does not display required icons for accordions in Fill Values section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
 
     it 'displays the correct title and description' do
       within '.umm-form' do

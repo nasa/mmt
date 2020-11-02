@@ -9,6 +9,10 @@ describe 'Sampling Identifiers Form', js: true do
       visit edit_variable_draft_path(draft, 'sampling_identifiers')
     end
 
+    it 'does not display required icons for accordions in Sampling Identifiers section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
+
     it 'displays the correct title and description' do
       expect(page).to have_content('Sampling Identifiers')
       expect(page).to have_content('The sampling information of a variable.')

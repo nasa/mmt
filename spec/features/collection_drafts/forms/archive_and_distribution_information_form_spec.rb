@@ -3,14 +3,19 @@ describe 'Archive And Distribution Information form', js: true do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
     visit collection_draft_path(draft)
+    within '.metadata' do
+      click_on 'Archive And Distribution Information'
+    end
+  end
+
+  context 'when checking the accordion headers for required icons' do
+    it 'does not display required icons for accordions in Archive And Distribution Information section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
   end
 
   context 'When viewing the form with stored values' do
     before do
-      within '.metadata' do
-        click_on 'Archive And Distribution Information'
-      end
-
       click_on 'Expand All'
 
       add_archive_and_distribution_information
@@ -59,9 +64,6 @@ describe 'Archive And Distribution Information form', js: true do
 
   context 'When filling the form with valid values' do
     before do
-      within '.metadata' do
-        click_on 'Archive And Distribution Information'
-      end
       click_on 'Expand All'
       within '.multiple.file-archive-informations' do
         fill_in 'Format', with: 'jpeg'
@@ -78,9 +80,6 @@ describe 'Archive And Distribution Information form', js: true do
 
   context 'When filling the form with invalid values' do
     before do
-      within '.metadata' do
-        click_on 'Archive And Distribution Information'
-      end
       click_on 'Expand All'
       within '.multiple.file-archive-informations' do
         fill_in 'Average File Size', with: 'abc'
@@ -98,9 +97,6 @@ describe 'Archive And Distribution Information form', js: true do
 
   context 'when filling the form without required field' do
     before do
-      within '.metadata' do
-        click_on 'Archive And Distribution Information'
-      end
       click_on 'Expand All'
       within '.multiple.file-archive-informations' do
         select 'Native', from: 'Format Type'
@@ -116,9 +112,6 @@ describe 'Archive And Distribution Information form', js: true do
 
   context 'when filling the form without required field then go to progress page' do
     before do
-      within '.metadata' do
-        click_on 'Archive And Distribution Information'
-      end
       click_on 'Expand All'
       within '.multiple.file-archive-informations' do
         select 'Native', from: 'Format Type'
@@ -138,9 +131,6 @@ describe 'Archive And Distribution Information form', js: true do
 
   context 'When filling the form without dependent values' do
     before do
-      within '.metadata' do
-        click_on 'Archive And Distribution Information'
-      end
       click_on 'Expand All'
       within '.multiple.file-distribution-informations' do
         fill_in 'Average File Size', with: '15'

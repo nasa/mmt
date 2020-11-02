@@ -9,6 +9,11 @@ describe 'Variable Information Form', js: true do
       visit edit_variable_draft_path(draft)
     end
 
+    it 'displays required icons on the Variable Information accordion' do
+      expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Variable Information')
+    end
+
     it 'displays the correct prompt value for all select elements' do
       within '.umm-form' do
         expect(page).to have_select('variable_draft_draft_variable_type', selected: 'Select a Variable Type')

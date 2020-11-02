@@ -26,6 +26,12 @@ describe 'Service Information Form', js: true do
         click_on 'Save'
       end
     end
+    
+    it 'displays required icons on the Service Information and URL accordions' do
+      expect(page).to have_css('h3.eui-required-o.always-required', count: 2)
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Service Information')
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'URL')
+    end
 
     it 'displays a confirmation message' do
       expect(page).to have_content('Service Draft Updated Successfully!')

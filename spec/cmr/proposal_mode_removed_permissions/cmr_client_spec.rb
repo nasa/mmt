@@ -11,12 +11,12 @@ describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to
     expect { cmr_client.get_collections_by_post({}) }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
-  it 'cannot add_collection_assocations_to_service' do
-    expect { cmr_client.add_collection_assocations_to_service({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+  it 'cannot add_collection_assocations' do
+    expect { cmr_client.add_collection_associations({}, {}, {}, 'service') }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot delete_collection_assocations_to_service' do
-    expect { cmr_client.delete_collection_assocations_to_service({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    expect { cmr_client.delete_collection_associations({}, {}, {}, 'service') }.to raise_error('A requested action is not allowed in the current configuration.')
   end
 
   it 'cannot translate_collection' do

@@ -8,7 +8,7 @@ describe 'Service Descriptive Keywords Form', js: true do
   context 'when submitting the form' do
     before do
       click_on 'Expand All'
-      
+
       choose_keyword 'EARTH SCIENCE SERVICES'
       choose_keyword 'DATA ANALYSIS AND VISUALIZATION'
       choose_keyword 'GEOGRAPHIC INFORMATION SYSTEMS'
@@ -29,6 +29,11 @@ describe 'Service Descriptive Keywords Form', js: true do
       within '.nav-top' do
         click_on 'Save'
       end
+    end
+
+    it 'displays required icon on the Service Keyword accordion' do
+      expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Service Keyword')
     end
 
     it 'displays a confirmation message' do

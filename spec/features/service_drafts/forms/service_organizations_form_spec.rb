@@ -14,6 +14,11 @@ describe 'Service Organizations Form', js: true do
       end
     end
 
+    it 'displays required icon on the Service Organizations accordion' do
+      expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Service Organizations')
+    end
+
     context 'when viewing the form' do
       include_examples 'Service Organizations Full Form'
     end

@@ -9,6 +9,12 @@ describe 'Tool Drafts Tool Information Form', js: true do
   end
 
   context 'when viewing the form with no values' do
+    it 'displays required icons on the Tool Information and URL accordions' do
+      expect(page).to have_css('h3.eui-required-o.always-required', count: 2)
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Tool Information')
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'URL')
+    end
+
     it 'displays the correct title' do
       within 'header .collection-basics > h2' do
         expect(page).to have_content('Tool Information')

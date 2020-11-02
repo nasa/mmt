@@ -7,13 +7,19 @@ describe 'Collection citations form', js: true do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
     visit collection_draft_path(draft)
+    within '.metadata' do
+      click_on 'Collection Citations', match: :first
+    end
+  end
+
+  context 'when checking the accordion headers for required icons' do
+    it 'does not display required icons for accordions in Collection Citations section' do
+      expect(page).to have_no_css('h3.eui-required-o.always-required')
+    end
   end
 
   context 'when submitting the form' do
     before do
-      within '.metadata' do
-        click_on 'Collection Citations', match: :first
-      end
       open_accordions
 
       # Collection Citations

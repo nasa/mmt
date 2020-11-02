@@ -8,6 +8,11 @@ describe 'Tool Drafts Descriptive Keywords Form', js: true do
   end
 
   context 'when viewing the form with no values' do
+    it 'displays required icons on the Tool Keywords accordion' do
+      expect(page).to have_css('h3.eui-required-o.always-required', count: 1)
+      expect(page).to have_css('h3.eui-required-o.always-required', text: 'Tool Keywords')
+    end
+
     it 'displays the correct title' do
       within 'header .collection-basics > h2' do
         expect(page).to have_content('Descriptive Keywords')
