@@ -85,6 +85,6 @@
 
     <%= render partial: 'collection_drafts/progress/preview_progress', locals: { unpublished_resource: get_resource, metadata_errors: @errors || @ingest_errors } %>
 
-    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, is_mmt: true, editable: true, edsc_url: nil, concept_id: nil, additional_information: { 'root_url' => root_url, 'services' => @services } } %>
+    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, is_mmt: true, editable: true, edsc_url: nil, concept_id: nil, additional_information: { 'root_url' => root_url, 'services' => @services, 'tools' => @tools } } %>
   </div>
 <% end %>
