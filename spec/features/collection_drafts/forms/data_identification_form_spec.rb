@@ -1,7 +1,5 @@
 # MMT-53, MMT-293
 
-require 'rails_helper'
-
 describe 'Data identification form', js: true do
   before do
     login
