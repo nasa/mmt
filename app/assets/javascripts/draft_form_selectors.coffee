@@ -28,7 +28,7 @@ $(document).ready ->
       # clear and hide fields
       $fields.hide()
       $.each $fields.find('input, select').not("input[type='radio']"), (index, field) ->
-        $(field).val ''
+        $(field).val('')
       $.each $fields.find("input[type='radio']"), (index, field) ->
         $(field).prop 'checked', false
       $fields.find('label').removeClass('eui-required-o eui-required-grey-o')

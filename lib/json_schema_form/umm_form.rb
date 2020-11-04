@@ -432,7 +432,6 @@ class UmmFormElement < UmmForm
   end
 
   def element_data
-    options['data']
     field_name = full_key.split('/').last.underscore
     field_id = idify_property_name
     # remove the last instance of the field name to set the data level
@@ -500,10 +499,13 @@ class UmmFormElement < UmmForm
       form_element = element_class.constantize.new(form_section_json: form_fragment, json_form: json_form, schema: schema, options: options, key: full_key, field_value: field_value)
 
       # Adds a label to the container holding the element
+      # generally, all labels for form element subclasses are created/delegated here
       unless form_fragment['noLabel']
         label_text = form_element.title
         label_text = parsed_json['label'] if parsed_json['label']
         classes = []
+        # UmmBoolean fields use the labelClass for required icons
+        classes += form_fragment['labelClass'].split if form_fragment['labelClass']
         classes << 'required' if schema.required_field?(full_key)
         concat label_tag(keyify_property_name, label_text, class: classes)
 

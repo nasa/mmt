@@ -144,7 +144,7 @@ describe 'Service Options Form Navigation', js: true do
 
     it 'displays the correct number of required fields' do
       # 1 for each input and output format fields in each paired reformatting
-      expect(page).to have_selector('label.eui-required-o', count: 4)
+      expect(page).to have_selector('label.eui-required-o', count: 9)
     end
   end
 end
