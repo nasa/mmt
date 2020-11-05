@@ -56,7 +56,9 @@ class ManageProposalController < ManageMetadataController
   def publish_proposal
     proposal = JSON.parse(params['proposal_data'])
 
-    add_dates(draft: proposal['draft'])
+    proposal_with_dates = CollectionDraftProposal.new(draft: proposal['draft'])
+    proposal_with_dates.add_metadata_dates
+    proposal['draft'] = proposal_with_dates.draft
 
     # Delete and update requests should have the provider_id populated already
     provider = if proposal['request_type'] == 'create'
@@ -73,33 +75,6 @@ class ManageProposalController < ManageMetadataController
     end
 
     redirect_to manage_proposals_path(ingest_errors: @ingest_errors)
-  end
-
-  def add_dates(draft:, date: Time.now.utc)
-    # Format the provided date
-    current_datetime = date.to_s(:metadata_dates_format)
-
-    # Get the current dates from the metadata dates hash
-    dates = draft['MetadataDates'] || []
-
-    # Pull out the created at date
-    create_datetime = dates.find { |date| date['Type'] == 'CREATE' }
-
-    if create_datetime
-      new_dates = [
-        { 'Type' => 'CREATE', 'Date' => create_datetime['Date'] },
-        { 'Type' => 'UPDATE', 'Date' => current_datetime }
-      ]
-    else
-      new_dates = [
-        { 'Type' => 'CREATE', 'Date' => current_datetime },
-        { 'Type' => 'UPDATE', 'Date' => current_datetime }
-      ]
-    end
-
-    dates.reject! { |date| date['Type'] == 'CREATE' || date['Type'] == 'UPDATE' }
-    dates += new_dates
-    draft['MetadataDates'] = dates
   end
 
   private

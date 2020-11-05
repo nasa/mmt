@@ -8,7 +8,7 @@ describe 'When going through the whole collection proposal approver workflow', j
   end
 
   context 'when loading the manage proposals page' do
-    context 'when publishing a create metadata proposal' do
+    context 'when publishing a proposal to check that the UPDATE and CREATE dates are being correctly populated' do
       let(:concept_id)                { cmr_client.get_collections_by_post({'EntryTitle':'Date-Check','ShortName': 'Proposal for checking MetadataDates'}, nil, 'umm_json').body.dig('items',0,'meta','concept-id') }
       let(:concept)                   { cmr_client.get_concept(concept_id, 'access_token', {}).body }
       let(:short_name)                { 'Proposal for checking MetadataDates' }
@@ -36,15 +36,8 @@ describe 'When going through the whole collection proposal approver workflow', j
         end
       end
 
-      it 'displays expected success messages' do
-        expect(page).to have_content('Collection Metadata Successfully Published!')
-      end
-
-      it 'deletes the proposal in dMMT' do
-        expect(CollectionDraftProposal.where(short_name: short_name).count).to eq(0)
-      end
-
       it 'contains the correct CREATE and UPDATE dates' do
+        expect(@proposal.draft['MetadataDates']).to be_nil
         expect(concept.dig('MetadataDates',0,'Type')).to eq('CREATE')
         expect(concept.dig('MetadataDates',1,'Type')).to eq('UPDATE')
         expect(create_date_after_publish).to be_within(1.minute).of(Time.now)
