@@ -27,21 +27,21 @@ module CMRCollectionsHelper
     revisions
   end
 
-  def get_associated_concepts(response, concepts = ['tools', 'services'])
+  def get_associated_concepts(metadata, concepts = ['tools', 'services'])
     concepts.each do |concept_type|
-      if response.present?
-        concept_ids = response.dig(0, 'meta', 'associations', concept_type)
+      if metadata.present?
+        concept_ids = metadata.dig(0, 'meta', 'associations', concept_type)
         # This can happen when there are variable associations and probably tool
         # in the future.
         instance_variable_set("@#{concept_type}".to_sym, []) && next unless concept_ids
 
-        cmr_service_response = cmr_client.send("get_#{concept_type}", concept_id: concept_ids)
+        cmr_concept_response = cmr_client.send("get_#{concept_type}", concept_id: concept_ids)
 
         instance_variable_set("@#{concept_type}".to_sym,
-                              if cmr_service_response.success?
-                                cmr_service_response.body['items']
+                              if cmr_concept_response.success?
+                                cmr_concept_response.body['items']
                               else
-                                Rails.logger.error("Error searching for associated services in 'set_associated_services': #{cmr_service_response.clean_inspect}")
+                                Rails.logger.error("Error searching for associated #{concept_type} in 'set_associated_concepts': #{cmr_concept_response.clean_inspect}")
                                 []
                               end)
       else
