@@ -1,4 +1,5 @@
 require 'factory_bot'
+require 'test_cmr/load_data.rb'
 
 # Usage:
 # rake testing:ingest_full[<ticket number>,<number of collections>,<development|sit>]
@@ -16,6 +17,7 @@ require 'factory_bot'
 #
 
 namespace :testing do
+  include Cmr
   desc 'Ingest testing collections into CMR with every field completed'
   task :ingest_full, [:ticket, :count, :env] => [:environment] do |_t, args|
     draft = FactoryBot.build(:full_collection_draft)
@@ -65,6 +67,40 @@ namespace :testing do
       else
         puts cmr_sit_response.inspect
       end
+    end
+  end
+
+  desc 'Ingest a collection, services, and tools to test tabs in Preview Gem'
+  task :ingest_tabs_test, [:serv_count, :tool_count] => [:environment] do |_t, args|
+    puts('Only usable in dev') && return unless Rails.env.development? || Rails.env.test?
+
+    # make a Cmr::Local to take advantage of wait_for_indexing method
+    cmr = Cmr::Local.new
+    collection_draft = FactoryBot.build(:full_collection_draft)
+    collection_response = cmr_client.ingest_collection(collection_draft.draft.to_json, 'MMT_2', SecureRandom.uuid, 'access_token')
+    puts("Error ingesting collection: #{collection_response.clean_inspect}") && return unless collection_response.success?
+
+    cmr.wait_for_indexing
+    args[:serv_count].to_i.times do
+      service_draft = FactoryBot.build(:full_service_draft)
+      service_ingest_response = cmr_client.ingest_service(metadata: service_draft.draft.to_json, provider_id: 'MMT_2', native_id: SecureRandom.uuid, token: 'access_token')
+      puts("Error ingesting service: #{service_ingest_response.clean_inspect}") && return unless service_ingest_response.success?
+
+      service_assoc_response = cmr_client.add_collection_associations(service_ingest_response.body['concept-id'], collection_response.body['concept-id'], 'access_token', 'services')
+      puts("Error associating service: #{service_assoc_response.clean_inspect}") && return unless service_assoc_response.success?
+
+      puts "Successfully ingested #{service_ingest_response.body['concept-id']} and associated it to #{collection_response.body['concept-id']}"
+    end
+
+    args[:tool_count].to_i.times do
+      tool_draft = FactoryBot.build(:full_tool_draft)
+      tool_ingest_response = cmr_client.ingest_tool(metadata: tool_draft.draft.to_json, provider_id: 'MMT_2', native_id: SecureRandom.uuid, token: 'access_token')
+      puts("Error ingesting tool: #{tool_ingest_response.clean_inspect}") && return unless tool_ingest_response.success?
+
+      tool_assoc_response = cmr_client.add_collection_associations(tool_ingest_response.body['concept-id'], collection_response.body['concept-id'], 'access_token', 'tools')
+      puts("Error associating service: #{tool_assoc_response.clean_inspect}") && return unless tool_assoc_response.success?
+
+      puts "Successfully ingested #{tool_ingest_response.body['concept-id']} and associated it to #{collection_response.body['concept-id']}"
     end
   end
 end

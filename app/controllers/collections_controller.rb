@@ -7,7 +7,7 @@ class CollectionsController < ManageCollectionsController
   before_action :set_collection
   before_action :ensure_correct_collection_provider, only: [:edit, :clone, :revert, :destroy]
   before_action :set_tags, only: [:show, :destroy]
-  before_action :set_associated_services, only: [:show]
+  before_action :set_associated_concepts, only: [:show]
 
   layout 'collection_preview', only: [:show]
 
@@ -290,7 +290,7 @@ class CollectionsController < ManageCollectionsController
     end
   end
 
-  def set_associated_services
-    get_associated_services(@revisions)
+  def set_associated_concepts
+    get_associated_concepts(@revisions)
   end
 end
