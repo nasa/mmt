@@ -34,12 +34,20 @@ describe 'When going through the whole collection proposal approver workflow', j
         within '#approver-proposal-modal' do
           click_on 'Publish'
         end
+        wait_for_cmr
+      end
+
+      after do
+        cmr_client.delete_collection('MMT_2', @native_id, 'access_token')
+      end
+
+      it 'has item 0 as CREATE and item 1 as UPDATE' do
+        expect(concept.dig('MetadataDates',0,'Type')).to eq('CREATE')
+        expect(concept.dig('MetadataDates',1,'Type')).to eq('UPDATE')
       end
 
       it 'contains the correct CREATE and UPDATE dates' do
         expect(@proposal.draft['MetadataDates']).to be_nil
-        expect(concept.dig('MetadataDates',0,'Type')).to eq('CREATE')
-        expect(concept.dig('MetadataDates',1,'Type')).to eq('UPDATE')
         expect(create_date_after_publish).to be_within(1.minute).of(Time.now)
         expect(update_date_after_publish).to be_within(1.minute).of(Time.now)
       end
