@@ -8,6 +8,51 @@ describe 'When going through the whole collection proposal approver workflow', j
   end
 
   context 'when loading the manage proposals page' do
+    context 'when publishing a proposal to check that the UPDATE and CREATE dates are being correctly populated' do
+      let(:concept_id)                { cmr_client.get_collections_by_post({'EntryTitle':'Date-Check','ShortName': 'Proposal for checking MetadataDates'}, nil, 'umm_json').body.dig('items',0,'meta','concept-id') }
+      let(:concept)                   { cmr_client.get_concept(concept_id, 'access_token', {}).body }
+      let(:short_name)                { 'Proposal for checking MetadataDates' }
+      let(:create_date_after_publish) { Time.parse(concept.dig('MetadataDates',0,'Date')) }
+      let(:update_date_after_publish) { Time.parse(concept.dig('MetadataDates',1,'Date')) }
+
+      before do
+        # FactoryBot respects validations; need to be in proposal mode to create
+        set_as_proposal_mode_mmt(with_draft_approver_acl: true)
+        @native_id = 'dmmt_collection_2'
+        @proposal = create(:collection_draft_proposal_all_required_fields, proposal_short_name: short_name, proposal_entry_title: 'Date-Check', proposal_request_type: 'create', proposal_native_id: @native_id)
+        mock_approve(@proposal)
+        # Workflow is in mmt proper, so switch back
+        set_as_mmt_proper
+        # Mock URS communication because it has no concept of our test users
+        mock_valid_token_validation
+        visit manage_proposals_path
+
+        within '.open-draft-proposals tbody tr:nth-child(1)' do
+          click_on 'Publish'
+        end
+        select 'MMT_2', from: 'provider-publish-target'
+        within '#approver-proposal-modal' do
+          click_on 'Publish'
+        end
+        wait_for_cmr
+      end
+
+      after do
+        cmr_client.delete_collection('MMT_2', @native_id, 'access_token')
+      end
+
+      it 'has item 0 as CREATE and item 1 as UPDATE' do
+        expect(concept.dig('MetadataDates',0,'Type')).to eq('CREATE')
+        expect(concept.dig('MetadataDates',1,'Type')).to eq('UPDATE')
+      end
+
+      it 'contains the correct CREATE and UPDATE dates' do
+        expect(@proposal.draft['MetadataDates']).to be_nil
+        expect(create_date_after_publish).to be_within(1.minute).of(Time.now)
+        expect(update_date_after_publish).to be_within(1.minute).of(Time.now)
+      end
+    end
+
     context 'when publishing a create metadata proposal' do
       let(:short_name) { 'Full Workflow Create Test Proposal' }
       before do
@@ -57,7 +102,7 @@ describe 'When going through the whole collection proposal approver workflow', j
 
     context 'when publishing an update metadata proposal' do
       before do
-        @ingest_response, _concept_response = publish_collection_draft
+        @ingest_response, @concept_response = publish_collection_draft
         set_as_proposal_mode_mmt(with_draft_approver_acl: true)
         visit collection_path(@ingest_response['concept-id'])
         click_on 'Create Update Request'
@@ -84,6 +129,31 @@ describe 'When going through the whole collection proposal approver workflow', j
         end
         within '#approver-proposal-modal' do
           click_on 'Yes'
+        end
+      end
+
+      context 'when checking UPDATE and CREATE dates' do
+        let(:concept)                    { cmr_client.get_concept(@ingest_response['concept-id'], 'access_token', {}).body }
+        let(:create_date_before_publish) { @concept_response.body.dig('MetadataDates',0,'Date') }
+        let(:update_date_before_publish) { Time.parse(@concept_response.body.dig('MetadataDates',1,'Date')) }
+        let(:create_date_after_publish)  { concept.dig('MetadataDates',0,'Date') }
+        let(:update_date_after_publish)  { Time.parse(concept.dig('MetadataDates',1,'Date')) }
+
+        it 'has item 0 as CREATE and item 1 as UPDATE' do
+          expect(concept.dig('MetadataDates',0,'Type')).to eq('CREATE')
+          expect(concept.dig('MetadataDates',1,'Type')).to eq('UPDATE')
+          expect(@concept_response.body.dig('MetadataDates',0,'Type')).to eq('CREATE')
+          expect(@concept_response.body.dig('MetadataDates',1,'Type')).to eq('UPDATE')
+        end
+
+        it 'has the correct CREATE date' do
+          expect(create_date_after_publish).to eq(create_date_before_publish)
+        end
+
+        it 'has the correct UPDATE date' do
+          expect(update_date_after_publish - update_date_before_publish).to be > 1.minute
+          expect(update_date_after_publish).to be > update_date_before_publish
+          expect(update_date_after_publish).to be_within(1.minute).of(Time.now)
         end
       end
 
