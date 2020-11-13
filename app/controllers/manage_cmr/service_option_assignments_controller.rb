@@ -130,7 +130,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
   def destroy
     authorize :service_option_assignment
 
-    response = echo_client.remove_service_option_assignments(echo_provider_token, params.fetch('service_option_assignment', []))
+    response = echo_client.remove_service_option_assignments(echo_provider_token, service_option_assignment_params.fetch('service_option_assignment', []))
 
     if response.success?
       redirect_to service_option_assignments_path, flash: { success: 'Successfully deleted the selected service option assignments.' }
@@ -142,8 +142,18 @@ class ServiceOptionAssignmentsController < ManageCmrController
 
   private
 
+  # params used in controller:
+  # In create:
+  #   :service_entry_guid,
+  #   :service_option_definition_guid,
+  #   :applies_only_to_granules,
+  #   :service_option_assignment_catalog_guid_toList
+  # In update:
+  #   :service_entries_toList
+  # In destroy:
+  #   :service_option_assignment
   def service_option_assignment_params
-    params.permit(:service_entry_guid, :service_option_definition_guid, :applies_only_to_granules, service_option_assignment_catalog_guid_toList: [], service_entries_toList: [])
+    params.permit(:service_entry_guid, :service_option_definition_guid, :applies_only_to_granules, service_option_assignment_catalog_guid_toList: [], service_entries_toList: [], service_option_assignment: [])
   end
 
   def set_service_entries
