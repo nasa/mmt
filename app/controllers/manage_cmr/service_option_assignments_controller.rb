@@ -143,7 +143,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
   private
 
   def service_option_assignment_params
-    params.permit(:service_entry_guid, :service_option_definition_guid, :applies_only_to_granules, service_option_assignment_catalog_guid_toList: [])
+    params.permit(:service_entry_guid, :service_option_definition_guid, :applies_only_to_granules, service_option_assignment_catalog_guid_toList: [], service_entries_toList: [])
   end
 
   def set_service_entries
