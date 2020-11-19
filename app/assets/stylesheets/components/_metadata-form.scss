@@ -167,6 +167,14 @@
     padding: 0.6em;
     cursor: pointer;
   }
+
+  .recommended-science-keywords {
+    background-color: $dark-green;
+  }
+
+  .eui-info-box .fa-times-circle {
+    color: $red;
+  }
 }
 
 .clear-radio-button {

@@ -17,8 +17,18 @@
       <div class="col-12">
         <div class="row sub-fields">
           <div class="selected-science-keywords science-keywords">
+            <% unless @keyword_recommendations.blank? %>
+              <div class="eui-info-box">
+                <strong><i class="eui-icon eui-fa-question-circle"></i> Recommended Keywords</strong>
+                <p>
+                  Based on your Abstract, the MMT automatically adds recommended keywords <span class="eui-badge--sm recommended-science-keywords">Recommended</span> to your collection. If the recommended keywords are not relevant, you can remove <i class="fa fa-times-circle"></i> them from the collection. This will help us make better recommendations in the future.
+                </p>
+              </div>
+            <% end %>
+
             <ul>
               <% science_keywords = draft.draft['ScienceKeywords'] || [] %>
+              <% selected_keywords_index = 0 %>
               <% science_keywords.each_with_index do |science_keyword, index| %>
                 <li>
                   <%= keyword_string(science_keyword) %>
@@ -26,6 +36,7 @@
                     <i class="fa fa-times-circle"></i>
                     <span class="is-invisible">Remove <%= keyword_string(science_keyword) %></span>
                   </a>
+
                   <%= hidden_field_tag("draft[science_keywords][#{index}][category]", science_keyword.fetch('Category', '')) %>
                   <%= hidden_field_tag("draft[science_keywords][#{index}][topic]", science_keyword.fetch('Topic', '')) %>
                   <%= hidden_field_tag("draft[science_keywords][#{index}][term]", science_keyword.fetch('Term', '')) %>
@@ -34,6 +45,30 @@
                   <%= hidden_field_tag("draft[science_keywords][#{index}][variable_level_3]", science_keyword.fetch('VariableLevel3', '')) %>
                   <%= hidden_field_tag("draft[science_keywords][#{index}][detailed_variable]", science_keyword.fetch('DetailedVariable', '')) %>
                 </li>
+                <% selected_keywords_index += 1 %>
+              <% end %>
+
+              <% unless @keyword_recommendations.blank? %>
+                <% @keyword_recommendations.each_with_index do |recommended_keyword, recommendation_index| %>
+                  <% recommended_keyword_array = recommended_keyword.split('>') %>
+                  <% recommended_keyword_string = recommended_keyword_array.join(' > ') %>
+                  <% next if science_keywords.any? { |stored_science_keyword| keyword_string(stored_science_keyword) == recommended_keyword_string } %>
+                  <li>
+                    <%= recommended_keyword_string %>
+                    <span class="eui-badge--sm recommended-science-keywords"> Recommended</span>
+                    <a class="remove">
+                      <i class="fa fa-times-circle"></i>
+                      <span class="is-invisible">Remove <%= recommended_keyword_string %></span>
+                    </a>
+
+                    <% science_keyword_fields = ['category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3', 'detailed_variable'] %>
+                    <% recommended_keyword_array.each_with_index do |keyword_part, keyword_part_index| %>
+                    <%= hidden_field_tag("draft[science_keywords][#{selected_keywords_index + recommendation_index}][#{science_keyword_fields[keyword_part_index]}]", keyword_part) %>
+                    <% end %>
+                  </li>
+                <% end %>
+
+                <%= hidden_field_tag('recommended_keywords_viewed', false, id: 'recommended-keywords-viewed') %>
               <% end %>
             </ul>
             <p><%= hidden_field_tag("draft[science_keywords][#{Time.now.to_i}]", "") %></p>
@@ -61,6 +96,7 @@
   </div>
 </fieldset>
 
+<!-- AncillaryKeyword -->
 <fieldset class="eui-accordion is-closed" id="ancillary-keywords">
   <div class="eui-accordion__header">
     <h3 class="eui-accordion__title">Ancillary Keywords</h3>
@@ -75,7 +111,6 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <!-- AncillaryKeyword -->
     <div class="row taller">
       <div class="col-12">
         <%= mmt_label(
@@ -111,6 +146,7 @@
   </div>
 </fieldset>
 
+<!-- AdditionalAttribute -->
 <fieldset class="eui-accordion is-closed" id="additional-attributes">
   <div class="eui-accordion__header">
     <h3 class="eui-accordion__title">Additional Attributes</h3>
@@ -124,7 +160,6 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <!-- AdditionalAttribute -->
     <div class="row taller">
       <div class="col-12">
         <%= mmt_label(

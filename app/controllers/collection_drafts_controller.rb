@@ -71,6 +71,13 @@ class CollectionDraftsController < BaseDraftsController
       Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} successfully modified #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id}")
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
 
+      if params[:recommended_keywords_viewed] == 'true'
+        # create keyword_recommendation
+        get_resource.record_recommendation_provided
+
+        # TODO: if/else and logging
+      end
+
       case params[:commit]
       when 'Done'
         redirect_to get_resource
@@ -473,15 +480,16 @@ class CollectionDraftsController < BaseDraftsController
 
     # Set instance variables depending on the form requested
     set_country_codes
-    set_language_codes        if @form == 'collection_information' || @form == 'metadata_information'
-    set_science_keywords      if @form == 'descriptive_keywords'
-    set_platform_types        if @form == 'acquisition_information'
-    set_instruments           if @form == 'acquisition_information'
-    set_projects              if @form == 'acquisition_information'
-    set_temporal_keywords     if @form == 'temporal_information'
-    set_location_keywords     if @form == 'spatial_information'
-    set_data_centers          if @form == 'data_centers' || @form == 'data_contacts'
-    load_data_contacts_schema if @form == 'data_contacts'
+    set_language_codes            if @form == 'collection_information' || @form == 'metadata_information'
+    set_science_keywords          if @form == 'descriptive_keywords'
+    fetch_keyword_recommendations if @form == 'descriptive_keywords' && get_resource.keyword_recommendation_needed?
+    set_platform_types            if @form == 'acquisition_information'
+    set_instruments               if @form == 'acquisition_information'
+    set_projects                  if @form == 'acquisition_information'
+    set_temporal_keywords         if @form == 'temporal_information'
+    set_location_keywords         if @form == 'spatial_information'
+    set_data_centers              if @form == 'data_centers' || @form == 'data_contacts'
+    load_data_contacts_schema     if @form == 'data_contacts'
   end
 
   def collection_validation_setup
@@ -516,5 +524,10 @@ class CollectionDraftsController < BaseDraftsController
     @services = [] and return unless collection_response.success? and collection_response.body['hits'] > 0
 
     get_associated_services(collection_response.body['items'])
+  end
+
+  ## Feature Toggle for GKR recommendations
+  def gkr_enabled?
+    Rails.configuration.gkr_enabled == true
   end
 end

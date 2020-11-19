@@ -1,8 +1,46 @@
 # frozen_string_literal: true
 
-# This function returns a hash that does not include: ShortName, Version, EntryTitle,
-# CollectionDataType, or any field which may be specific to a derivative draft style
-# (e.g. TemplateName).
+# minimum required fields
+def all_required_fields
+  {
+    'Platforms' => [{
+      'Type'      => 'Aircraft',
+      'ShortName' => 'A340-600',
+      'LongName'  => 'Airbus A340-600',
+    }],
+    'Abstract' => 'This is a long description of the collection',
+    'ShortName' => '12345',
+    'Version' => '1',
+    'EntryTitle' => 'Required Fields Only Draft',
+    'CollectionProgress' => 'ACTIVE',
+    'DataCenters' => [{
+      'Roles' => ['DISTRIBUTOR'],
+      'ShortName' => 'AARHUS-HYDRO',
+      'LongName' => 'Hydrogeophysics Group, Aarhus University ' # controlled keywords source has extra space at the end
+    }],
+    'ProcessingLevel' => {
+      'Id' => '1A',
+      'ProcessingLevelDescription' => 'Level 1 Description'
+    },
+    'ScienceKeywords' => [{
+      'Category' => 'EARTH SCIENCE',
+      'Topic' => 'ATMOSPHERE',
+      'Term' => 'ATMOSPHERIC TEMPERATURE'
+    }],
+    'SpatialExtent' => {
+      'GranuleSpatialRepresentation' => 'CARTESIAN'
+    },
+    'TemporalExtents' => [{
+      'PrecisionOfSeconds' => 1,
+      'EndsAtPresentFlag' => false,
+      'SingleDateTimes' => ['2015-07-01T00:00:00Z', '2015-12-25T00:00:00Z']
+    }]
+  }
+end
+
+# This function returns a full metadata hash that does not include: ShortName,
+# Version, EntryTitle, CollectionDataType, or any field which may be specific
+# to a derivative draft style (e.g. TemplateName).
 
 def collection_one
   {

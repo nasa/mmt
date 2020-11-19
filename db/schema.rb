@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_24_150827) do
+ActiveRecord::Schema.define(version: 2020_11_12_184357) do
 
   create_table "draft_proposals", force: :cascade do |t|
     t.integer "user_id"
@@ -40,6 +40,23 @@ ActiveRecord::Schema.define(version: 2020_09_24_150827) do
     t.string "native_id"
     t.string "draft_type"
     t.string "collection_concept_id"
+  end
+
+  create_table "keyword_recommendations", force: :cascade do |t|
+    t.string "recommendable_type"
+    t.integer "recommendable_id"
+    t.boolean "recommendation_provided", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recommendable_type", "recommendable_id"], name: "keyword_recommendable_index"
+  end
+
+  create_table "proposal_keyword_recommendations", force: :cascade do |t|
+    t.integer "draft_proposal_id"
+    t.boolean "recommendation_provided", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["draft_proposal_id"], name: "index_proposal_keyword_recommendations_on_draft_proposal_id"
   end
 
   create_table "sessions", force: :cascade do |t|

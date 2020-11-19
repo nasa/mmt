@@ -46,6 +46,17 @@ module ControlledKeywords
     @science_keywords = keywords
   end
 
+  def fetch_keyword_recommendations
+    abstract = get_resource.draft.fetch('Abstract', '')
+    response = cmr_client.fetch_keyword_recommendations(abstract)
+    @keyword_recommendations = if response.success?
+                                 response.body['recommendations'].map { |rec| rec['keyword'] }
+                               else
+                                 []
+                               end
+    # TODO log recommendations
+  end
+
   def set_service_keywords
     keywords = fetch_science_keywords
     if keywords.key? 'category'

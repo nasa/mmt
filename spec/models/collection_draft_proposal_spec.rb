@@ -1,5 +1,5 @@
 describe CollectionDraftProposal do
-  context 'when MMT is in draft only mode' do
+  context 'when MMT is in proposal mode' do
     before do
       set_as_proposal_mode_mmt
     end
@@ -268,37 +268,104 @@ describe CollectionDraftProposal do
       expect(proposal.status_history['done']['username']).to eq('Test User')
       expect(Time.parse(proposal.status_history['done']['action_date']).utc).to be_within(1.second).of Time.now
     end
+
+    # Keyword Recommendations
+    # these methods (as with almost all not involving the state machine) inherit
+    # from CollectionDraft, so should work the same. However the association is
+    # overwritten, so anything involving the association should be tested
+    context 'when Keyword Recommendations is turned on' do
+      before do
+        allow(Mmt::Application.config).to receive(:gkr_enabled).and_return(true)
+      end
+
+      it '"keyword_recommendation_needed?" returns `false` if a recommendation already exists' do
+        collection_draft_proposal = create(:full_collection_draft_proposal)
+        collection_draft_proposal.record_recommendation_provided
+        expect(collection_draft_proposal.keyword_recommendation_needed?).to eq(false)
+      end
+
+      it '"keyword_recommendation_needed?" returns `true` if there is an abstract and no recommendation exists for the draft' do
+        collection_draft_proposal = create(:full_collection_draft_proposal)
+        expect(collection_draft_proposal.keyword_recommendations).to eq([])
+        expect(collection_draft_proposal.keyword_recommendation_needed?).to eq(true)
+      end
+
+      it '"record_recommendation_provided" returns `nil` if a recommendation already exists' do
+        collection_draft_proposal = create(:full_collection_draft_proposal)
+        collection_draft_proposal.record_recommendation_provided
+        expect(collection_draft_proposal.record_recommendation_provided).to eq(nil)
+      end
+
+      it '"record_recommendation_provided" creates a recommendation if there is an abstract and no recommendation exists for the draft' do
+        collection_draft_proposal = create(:full_collection_draft_proposal)
+        expect(collection_draft_proposal.keyword_recommendations).to eq([])
+
+        expect(collection_draft_proposal.record_recommendation_provided).to eq(ProposalKeywordRecommendation.first)
+        expect(collection_draft_proposal.keyword_recommendations.count).to eq(1)
+      end
+
+      it '"record_recommendation_provided" creates a recommendation in the correct model' do
+        collection_draft_proposal = create(:full_collection_draft_proposal)
+        collection_draft_proposal.record_recommendation_provided
+        expect(collection_draft_proposal.keyword_recommendations.count).to eq(1)
+        expect(ProposalKeywordRecommendation.all.count).to eq(1)
+        expect(KeywordRecommendation.all.count).to eq(0)
+      end
+    end
   end
 
   context 'when running in MMT proper' do
-    before do
-      set_as_mmt_proper
+    context 'when there are no proposals' do
+      before do
+        set_as_mmt_proper
+      end
+      # we are not testing that update or destroy should fail because that would
+      # require first creating draft proposals to do those actions, which should
+      # not be possible if the other actions are successfully blocked
+
+      it 'creating a draft proposal should fail to save' do
+        collection_draft_proposal = CollectionDraftProposal.create(draft: {}, request_type: 'create')
+        expect(collection_draft_proposal.id).to be(nil)
+
+        expect { CollectionDraftProposal.create!(draft: {}, request_type: 'create') }.to raise_error(ActiveRecord::RecordNotSaved)
+      end
+
+      it 'saving a draft proposal should fail' do
+        collection_draft_proposal = build(:empty_collection_draft_proposal)
+        expect(collection_draft_proposal.save).to eq(false)
+
+        expect { collection_draft_proposal.save! }.to raise_error(ActiveRecord::RecordNotSaved)
+      end
+
+      it '`create_from_collection` should fail to save' do
+        collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
+        user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
+        native_id = 'test_id'
+        collection_draft_proposal = CollectionDraftProposal.create_from_collection(collection, user, native_id)
+
+        expect(collection_draft_proposal.id).to be(nil)
+      end
     end
-    # we are not testing that update or destroy should fail because that would
-    # require first creating draft proposals to do those actions, which should
-    # not be possible if the other actions are successfully blocked
 
-    it 'creating a draft proposal should fail to save' do
-      collection_draft_proposal = CollectionDraftProposal.create(draft: {}, request_type: 'create')
-      expect(collection_draft_proposal.id).to be(nil)
+    context 'when there are proposals' do
+      # TODO: is this really needed?
+      # this scenario should not be possible, so this is a redundant safeguard test
+      before do
+        set_as_proposal_mode_mmt
 
-      expect { CollectionDraftProposal.create!(draft: {}, request_type: 'create') }.to raise_error(ActiveRecord::RecordNotSaved)
-    end
+        @collection_draft_proposal = create(:full_collection_draft_proposal)
 
-    it 'saving a draft proposal should fail' do
-      collection_draft_proposal = build(:empty_collection_draft_proposal)
-      expect(collection_draft_proposal.save).to eq(false)
+        set_as_mmt_proper
+      end
 
-      expect { collection_draft_proposal.save! }.to raise_error(ActiveRecord::RecordNotSaved)
-    end
+      it '"record_recommendation_provided" fails' do
+        expect(@collection_draft_proposal.keyword_recommendations).to eq([])
 
-    it '`create_from_collection` should fail to save' do
-      collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title' }
-      user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
-      native_id = 'test_id'
-      collection_draft_proposal = CollectionDraftProposal.create_from_collection(collection, user, native_id)
+        @collection_draft_proposal.record_recommendation_provided
 
-      expect(collection_draft_proposal.id).to be(nil)
+        expect(ProposalKeywordRecommendation.all.count).to eq(0)
+        expect(KeywordRecommendation.all.count).to eq(0)
+      end
     end
   end
 end
