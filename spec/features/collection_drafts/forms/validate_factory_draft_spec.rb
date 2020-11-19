@@ -19,7 +19,9 @@ describe 'Data validation on each form for the factory draft', js: true do
     context "when on the #{form_name} Form" do
       before do
         within 'section.metadata' do
-          click_on form_name, match: :first
+          VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
+            click_on form_name, match: :first
+          end
         end
         open_accordions unless form_name == 'Collection Information'
       end

@@ -71,7 +71,7 @@ class CollectionDraftsController < BaseDraftsController
       Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} successfully modified #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id}")
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
 
-      if params[:recommended_keywords_viewed] == 'true'
+      if gkr_enabled? && params[:recommended_keywords_viewed] == 'true'
         # create keyword_recommendation
         get_resource.record_recommendation_provided
 
@@ -482,7 +482,7 @@ class CollectionDraftsController < BaseDraftsController
     set_country_codes
     set_language_codes            if @form == 'collection_information' || @form == 'metadata_information'
     set_science_keywords          if @form == 'descriptive_keywords'
-    fetch_keyword_recommendations if @form == 'descriptive_keywords' && get_resource.keyword_recommendation_needed?
+    fetch_keyword_recommendations if @form == 'descriptive_keywords' && gkr_enabled? && get_resource.keyword_recommendation_needed?
     set_platform_types            if @form == 'acquisition_information'
     set_instruments               if @form == 'acquisition_information'
     set_projects                  if @form == 'acquisition_information'

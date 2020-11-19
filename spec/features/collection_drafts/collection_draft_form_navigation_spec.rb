@@ -7,6 +7,10 @@ describe 'Collection Draft form navigation', js: true do
     visit collection_draft_path(@collection_draft)
   end
 
+  around(:each) do |example|
+    VCR.use_cassette('gkr/initial_keyword_recommendations', &example)
+  end
+
   context 'when viewing the Summary page' do
     it 'displays form titles' do
       expect(page).to have_content('Data Identification')
