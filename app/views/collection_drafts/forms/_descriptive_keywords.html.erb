@@ -50,19 +50,16 @@
 
               <% unless @keyword_recommendations.blank? %>
                 <% @keyword_recommendations.each_with_index do |recommended_keyword, recommendation_index| %>
-                  <% recommended_keyword_array = recommended_keyword.split('>') %>
-                  <% recommended_keyword_string = recommended_keyword_array.join(' > ') %>
-                  <% next if science_keywords.any? { |stored_science_keyword| keyword_string(stored_science_keyword) == recommended_keyword_string } %>
                   <li>
-                    <%= recommended_keyword_string %>
+                    <%= keyword_recommendation_string(recommended_keyword) %>
                     <span class="eui-badge--sm recommended-science-keywords"> Recommended</span>
                     <a class="remove">
                       <i class="fa fa-times-circle"></i>
-                      <span class="is-invisible">Remove <%= recommended_keyword_string %></span>
+                      <span class="is-invisible">Remove <%= keyword_recommendation_string(recommended_keyword) %></span>
                     </a>
 
                     <% science_keyword_fields = ['category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3', 'detailed_variable'] %>
-                    <% recommended_keyword_array.each_with_index do |keyword_part, keyword_part_index| %>
+                    <% keyword_recommendation_array(recommended_keyword).each_with_index do |keyword_part, keyword_part_index| %>
                     <%= hidden_field_tag("draft[science_keywords][#{selected_keywords_index + recommendation_index}][#{science_keyword_fields[keyword_part_index]}]", keyword_part) %>
                     <% end %>
                   </li>

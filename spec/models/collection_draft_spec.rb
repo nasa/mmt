@@ -293,5 +293,17 @@ describe CollectionDraft do
       expect(KeywordRecommendation.all.count).to eq(1)
       expect(ProposalKeywordRecommendation.all.count).to eq(0)
     end
+
+    it 'deleting a collection draft deletes the associated recommendation record' do
+      collection_draft = create(:full_collection_draft)
+      expect(CollectionDraft.all.count).to eq(1)
+      collection_draft.record_recommendation_provided
+      expect(collection_draft.keyword_recommendations.count).to eq(1)
+      expect(KeywordRecommendation.all.count).to eq(1)
+
+      CollectionDraft.first.destroy
+      expect(CollectionDraft.all.count).to eq(0)
+      expect(KeywordRecommendation.all.count).to eq(0)
+    end
   end
 end

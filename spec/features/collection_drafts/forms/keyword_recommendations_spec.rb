@@ -177,9 +177,9 @@ describe 'GKR Science Keyword Recommendations', js: true do
     end
   end
 
-  context 'when keyword recommendations match previously selected science keyword values' do
+  context 'when keyword recommendations match some previously selected science keyword values' do
     before do
-      draft = create(:collection_draft_containing_keywords_that_match_recommendations, user: User.where(urs_uid: 'testuser').first)
+      draft = create(:collection_draft_some_keywords_that_match_recommendations, user: User.where(urs_uid: 'testuser').first)
 
       VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
         visit edit_collection_draft_path(draft, form: 'descriptive_keywords')
@@ -204,6 +204,35 @@ describe 'GKR Science Keyword Recommendations', js: true do
         expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN CHEMISTRY RECOMMENDED')
 
         expect(page).to have_css('.eui-badge--sm.recommended-science-keywords', text: 'RECOMMENDED', count: 3)
+      end
+    end
+  end
+
+  context 'when keyword recommendations match all previously selected science keyword values' do
+    before do
+      draft = create(:collection_draft_all_keywords_that_match_recommendations, user: User.where(urs_uid: 'testuser').first)
+
+      VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
+        visit edit_collection_draft_path(draft, form: 'descriptive_keywords')
+      end
+
+      click_on 'Expand All'
+    end
+
+    it 'displays the previously selected keywords' do
+      expect(page).to have_content('EARTH SCIENCE > OCEANS > SALINITY/DENSITY')
+      expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE')
+      expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN OPTICS')
+      expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN CHEMISTRY')
+    end
+
+    it 'displays the keyword recommendations' do
+      within '.selected-science-keywords' do
+        expect(page).to have_no_css('.eui-info-box')
+        expect(page).to have_no_css('.eui-badge--sm.recommended-science-keywords', text: 'RECOMMENDED')
+
+        expect(page).to have_no_content('Recommended Keywords')
+        expect(page).to have_no_content('Based on your Abstract, the MMT automatically adds recommended keywords RECOMMENDED to your collection. If the recommended keywords are not relevant, you can remove them from the collection. This will help us make better recommendations in the future.')
       end
     end
   end

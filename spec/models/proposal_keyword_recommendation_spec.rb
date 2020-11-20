@@ -1,13 +1,3 @@
-
-# in proper mode
-# draft does not create one of these
-# template does not create one of these
-
-# in proposal mode
-# cannot create recommendation by itself
-# proposal can create a proposal recommendation
-
-
 describe ProposalKeywordRecommendation do
   context 'when MMT is in proposal mode' do
     before do
@@ -49,24 +39,6 @@ describe ProposalKeywordRecommendation do
   end
 
   context 'when running in MMT proper' do
-    context 'when there are proposals' do
-      # TODO: is this really needed?
-      # this scenario should not be possible, so this is a redundant safeguard test
-      before do
-        set_as_proposal_mode_mmt
-
-        @collection_draft_proposal = create(:full_collection_draft_proposal)
-
-        set_as_mmt_proper
-      end
-
-      it 'cannot be created' do
-        expect { @collection_draft_proposal.keyword_recommendations.create! }.to raise_error(ActiveRecord::RecordNotSaved)
-
-        ProposalKeywordRecommendation.all.count == 0
-      end
-    end
-
     context 'when there are no propsals' do
       before do
         set_as_mmt_proper

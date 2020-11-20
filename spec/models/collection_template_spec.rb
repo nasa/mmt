@@ -66,5 +66,17 @@ describe CollectionTemplate do
       expect(KeywordRecommendation.all.count).to eq(1)
       expect(ProposalKeywordRecommendation.all.count).to eq(0)
     end
+
+    it 'deleting a collection template deletes the associated recommendation record' do
+      collection_template = create(:full_collection_template)
+      expect(CollectionTemplate.all.count).to eq(1)
+      collection_template.record_recommendation_provided
+      expect(collection_template.keyword_recommendations.count).to eq(1)
+      expect(KeywordRecommendation.all.count).to eq(1)
+
+      CollectionTemplate.first.destroy
+      expect(CollectionTemplate.all.count).to eq(0)
+      expect(KeywordRecommendation.all.count).to eq(0)
+    end
   end
 end

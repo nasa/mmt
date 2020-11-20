@@ -311,6 +311,18 @@ describe CollectionDraftProposal do
         expect(ProposalKeywordRecommendation.all.count).to eq(1)
         expect(KeywordRecommendation.all.count).to eq(0)
       end
+
+      it 'deleting a collection draft proposal deletes the associated recommendation record' do
+        collection_draft_proposal = create(:full_collection_draft_proposal)
+        expect(CollectionDraftProposal.all.count).to eq(1)
+        collection_draft_proposal.record_recommendation_provided
+        expect(collection_draft_proposal.keyword_recommendations.count).to eq(1)
+        expect(ProposalKeywordRecommendation.all.count).to eq(1)
+
+        CollectionDraftProposal.first.destroy
+        expect(CollectionDraftProposal.all.count).to eq(0)
+        expect(ProposalKeywordRecommendation.all.count).to eq(0)
+      end
     end
   end
 
@@ -344,27 +356,6 @@ describe CollectionDraftProposal do
         collection_draft_proposal = CollectionDraftProposal.create_from_collection(collection, user, native_id)
 
         expect(collection_draft_proposal.id).to be(nil)
-      end
-    end
-
-    context 'when there are proposals' do
-      # TODO: is this really needed?
-      # this scenario should not be possible, so this is a redundant safeguard test
-      before do
-        set_as_proposal_mode_mmt
-
-        @collection_draft_proposal = create(:full_collection_draft_proposal)
-
-        set_as_mmt_proper
-      end
-
-      it '"record_recommendation_provided" fails' do
-        expect(@collection_draft_proposal.keyword_recommendations).to eq([])
-
-        @collection_draft_proposal.record_recommendation_provided
-
-        expect(ProposalKeywordRecommendation.all.count).to eq(0)
-        expect(KeywordRecommendation.all.count).to eq(0)
       end
     end
   end

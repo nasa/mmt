@@ -9,7 +9,7 @@ describe 'Additional Attribute data type', js: true do
         click_on 'Descriptive Keywords'
       end
 
-      open_accordions
+      click_on 'Expand All'
     end
 
     context 'when selecting a non-numeric data type' do
@@ -29,7 +29,7 @@ describe 'Additional Attribute data type', js: true do
           end
           click_on 'Yes'
 
-          open_accordions
+          click_on 'Expand All'
         end
 
         it 'disables the invalid fields' do

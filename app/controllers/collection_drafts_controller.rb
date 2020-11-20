@@ -3,6 +3,7 @@ class CollectionDraftsController < BaseDraftsController
   include DraftsHelper
   include ControlledKeywords
   include CMRCollectionsHelper
+  include GKRKeywordRecommendations
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
   before_action :load_umm_c_schema, only: [:new, :edit, :show, :publish]
   before_action :collection_validation_setup, only: [:show, :publish]
@@ -480,16 +481,29 @@ class CollectionDraftsController < BaseDraftsController
 
     # Set instance variables depending on the form requested
     set_country_codes
-    set_language_codes            if @form == 'collection_information' || @form == 'metadata_information'
-    set_science_keywords          if @form == 'descriptive_keywords'
-    fetch_keyword_recommendations if @form == 'descriptive_keywords' && gkr_enabled? && get_resource.keyword_recommendation_needed?
-    set_platform_types            if @form == 'acquisition_information'
-    set_instruments               if @form == 'acquisition_information'
-    set_projects                  if @form == 'acquisition_information'
-    set_temporal_keywords         if @form == 'temporal_information'
-    set_location_keywords         if @form == 'spatial_information'
-    set_data_centers              if @form == 'data_centers' || @form == 'data_contacts'
-    load_data_contacts_schema     if @form == 'data_contacts'
+    set_language_codes          if @form == 'collection_information' || @form == 'metadata_information'
+    set_science_keywords        if @form == 'descriptive_keywords'
+    set_keyword_recommendations if @form == 'descriptive_keywords' && gkr_enabled? && get_resource.keyword_recommendation_needed?
+    set_platform_types          if @form == 'acquisition_information'
+    set_instruments             if @form == 'acquisition_information'
+    set_projects                if @form == 'acquisition_information'
+    set_temporal_keywords       if @form == 'temporal_information'
+    set_location_keywords       if @form == 'spatial_information'
+    set_data_centers            if @form == 'data_centers' || @form == 'data_contacts'
+    load_data_contacts_schema   if @form == 'data_contacts'
+  end
+
+  def reconcile_recommendations(keyword_recommendations)
+    keyword_recommendations.reject do |recommendation|
+      get_resource.draft['ScienceKeywords'].any? do |science_keyword|
+        keyword_string(science_keyword) == keyword_recommendation_string(recommendation)
+      end
+    end
+  end
+
+  def set_keyword_recommendations
+    keyword_recommendations = fetch_keyword_recommendations
+    @keyword_recommendations = reconcile_recommendations(keyword_recommendations)
   end
 
   def collection_validation_setup
@@ -528,6 +542,6 @@ class CollectionDraftsController < BaseDraftsController
 
   ## Feature Toggle for GKR recommendations
   def gkr_enabled?
-    Rails.configuration.gkr_enabled == true
+    Rails.configuration.gkr_enabled
   end
 end

@@ -1,10 +1,3 @@
-
-# cannot create recommendation by itself
-# draft can create a recommendation
-# template can create a recommendation
-
-# in proposal mode, proposal does not create a recommendation ?????
-
 describe KeywordRecommendation do
   context 'when Keyword Recommendations is turned on' do
     before do

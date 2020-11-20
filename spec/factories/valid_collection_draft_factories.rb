@@ -61,7 +61,7 @@ FactoryBot.define do
     end
   end
 
-  factory :collection_draft_containing_keywords_that_match_recommendations, class: CollectionDraft do
+  factory :collection_draft_some_keywords_that_match_recommendations, class: CollectionDraft do
     draft_type { 'CollectionDraft' }
     native_id { 'gkr_already_contains_recommendations_draft_id' }
     provider_id { 'MMT_2' }
@@ -72,11 +72,43 @@ FactoryBot.define do
           'Category' => 'EARTH SCIENCE',
           'Topic' => 'OCEANS',
           'Term' => 'SALINITY/DENSITY'
-        },
+          },
           {
           'Category' => 'EARTH SCIENCE',
           'Topic' => 'OCEANS',
           'Term' => 'OCEAN TEMPERATURE'
+          }
+        ]
+      )
+    end
+  end
+
+  factory :collection_draft_all_keywords_that_match_recommendations, class: CollectionDraft do
+    draft_type { 'CollectionDraft' }
+    native_id { 'gkr_already_contains_recommendations_draft_id' }
+    provider_id { 'MMT_2' }
+    draft do
+      all_required_fields.merge(
+        'ScienceKeywords' => [
+          {
+          'Category' => 'EARTH SCIENCE',
+          'Topic' => 'OCEANS',
+          'Term' => 'SALINITY/DENSITY'
+          },
+          {
+          'Category' => 'EARTH SCIENCE',
+          'Topic' => 'OCEANS',
+          'Term' => 'OCEAN TEMPERATURE'
+          },
+          {
+          'Category' => 'EARTH SCIENCE',
+          'Topic' => 'OCEANS',
+          'Term' => 'OCEAN CHEMISTRY'
+          },
+          {
+          'Category' => 'EARTH SCIENCE',
+          'Topic' => 'OCEANS',
+          'Term' => 'OCEAN OPTICS'
           }
         ]
       )
