@@ -189,11 +189,13 @@ namespace :cmr do
 
           contents = `cat #{files_to_compile.join(' ')} | coffee -c --stdio`
 
+          raise 'contents is empty: check `which coffee` and install if necessary' if contents.blank?
+
           puts "\nCompressing..."
 
-          #uncomment the following if you need to compile with JS 6
-          #compressed_file = Uglifier.compile(js_to_uglify + contents, harmony: true)
-          compressed_file = Uglifier.compile(js_to_uglify + contents)
+          compressed_file = Uglifier.compile(js_to_uglify + contents, harmony: true)
+          #uncomment the following if you need to compile with JS < 6
+          #compressed_file = Uglifier.compile(js_to_uglify + contents)
 
           puts "\nWriting to disk..."
           directory = File.dirname(js_asset_output_file)
@@ -201,14 +203,14 @@ namespace :cmr do
           FileUtils.mkdir_p(directory) unless File.directory?(directory)
 
           File.write(js_asset_output_file, compressed_file)
+          raise 'Error writing file; could not verify existence after write attempt' unless File.exists?(js_asset_output_file)
 
           puts "- Compressed file available at #{js_asset_output_file}"
+          puts "\nDone!"
         end
       rescue => e
         puts "Failed to compile JavaScript: #{e}"
       end
-
-      puts "\nDone!"
     end
 
     desc 'Export UMM version for cmr metadata preview gem'

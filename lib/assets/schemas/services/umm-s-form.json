@@ -426,7 +426,208 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{"key": "/SubsetTypes", "field": true, "type": "UmmMultiSelect"}]
+                  "title": "Subset",
+                  "label": "Subset",
+                  "key": "/Subset/properties",
+                  "htmlClass": "row sub-fields subset space-bot",
+                  "items": [
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "UmmCheckboxDependentFields",
+                          "noLabel": true,
+                          "key": "/SpatialSubset",
+                          "htmlClass": "row space-top",
+                          "dependentFields": "spatial-subset",
+                          "items": [
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/Point",
+                              "htmlClass": "row",
+                              "dependentFields": "point",
+                              "items": [
+                                {
+                                  "type": "section",
+                                  "items": [
+                                    {
+                                      "key": "/properties/AllowMultipleValues",
+                                      "field": true,
+                                      "type": "UmmBoolean",
+                                      "labelClass": "radio-group-label"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/Circle",
+                              "htmlClass": "row",
+                              "dependentFields": "circle",
+                              "items": [
+                                {
+                                  "type": "section",
+                                  "items": [
+                                    {
+                                      "key": "/properties/AllowMultipleValues",
+                                      "field": true,
+                                      "type": "UmmBoolean",
+                                      "labelClass": "radio-group-label"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/Line",
+                              "htmlClass": "row",
+                              "dependentFields": "line",
+                              "items": [
+                                {
+                                  "type": "section",
+                                  "items": [{"key": "/properties/MaximumNumberOfPoints", "field": true}]
+                                },
+                                {
+                                  "type": "section",
+                                  "items": [
+                                    {
+                                      "key": "/properties/AllowMultipleValues",
+                                      "field": true,
+                                      "type": "UmmBoolean",
+                                      "labelClass": "radio-group-label"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/BoundingBox",
+                              "htmlClass": "row",
+                              "dependentFields": "bounding-box",
+                              "items": [
+                                {
+                                  "type": "section",
+                                  "items": [
+                                    {
+                                      "key": "/properties/AllowMultipleValues",
+                                      "field": true,
+                                      "type": "UmmBoolean",
+                                      "labelClass": "radio-group-label"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/Polygon",
+                              "htmlClass": "row",
+                              "dependentFields": "polygon",
+                              "items": [
+                                {
+                                  "type": "section",
+                                  "items": [{"key": "/properties/MaximumNumberOfPoints", "field": true}]
+                                },
+                                {
+                                  "type": "section",
+                                  "items": [
+                                    {
+                                      "key": "/properties/AllowMultipleValues",
+                                      "field": true,
+                                      "type": "UmmBoolean",
+                                      "labelClass": "radio-group-label"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                            ,
+                            {
+                              "type": "UmmCheckboxDependentFields",
+                              "noLabel": true,
+                              "key": "/properties/Shapefile",
+                              "htmlClass": "row",
+                              "dependentFields": "shapefile",
+                              "items": [
+                                {
+                                  "type": "UmmMultiItems",
+                                  "label": "Shapefile",
+                                  "multiType": "Shapefile",
+                                  "key": "/items/properties/index_id",
+                                  "items": [
+                                    {
+                                      "type": "section",
+                                      "items": [{"key": "/Format", "field": true, "type": "UmmSelect"}]
+                                    },
+                                    {
+                                      "type": "section",
+                                      "htmlClass": "col-6",
+                                      "items": [{"key": "/MaximumFileSizeInBytes", "field": true}]
+                                    },
+                                    {
+                                      "type": "section",
+                                      "htmlClass": "col-6",
+                                      "items": [{"key": "/MaximumNumberOfPoints", "field": true}]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "UmmCheckboxDependentFields",
+                          "noLabel": true,
+                          "key": "/TemporalSubset",
+                          "htmlClass": "row",
+                          "dependentFields": "temporal-subset",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [
+                                {
+                                  "key": "/properties/AllowMultipleValues",
+                                  "field": true,
+                                  "type": "UmmBoolean",
+                                  "labelClass": "radio-group-label"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "UmmCheckboxDependentFields",
+                          "noLabel": true,
+                          "key": "/VariableSubset",
+                          "dependentFields": "variable-subset",
+                          "htmlClass": "row",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [
+                                {
+                                  "key": "/properties/AllowMultipleValues",
+                                  "field": true,
+                                  "type": "UmmBoolean",
+                                  "labelClass": "radio-group-label"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+
+                  ]
                 },
                 {
                   "type": "section",
@@ -457,14 +658,6 @@
                 {
                   "type": "section",
                   "items": [{"key": "/InterpolationTypes", "field": true, "type": "UmmMultiSelect"}]
-                },
-                {
-                  "type": "section",
-                  "items": [{"key": "/SupportedInputFormats", "field": true, "type": "UmmMultiSelect"}]
-                },
-                {
-                  "type": "section",
-                  "items": [{"key": "/SupportedOutputFormats", "field": true, "type": "UmmMultiSelect"}]
                 },
                 {
                   "type": "UmmMultiItems",

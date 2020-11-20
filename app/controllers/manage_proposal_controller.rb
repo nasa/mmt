@@ -56,6 +56,10 @@ class ManageProposalController < ManageMetadataController
   def publish_proposal
     proposal = JSON.parse(params['proposal_data'])
 
+    proposal_with_dates = CollectionDraftProposal.new(draft: proposal['draft'])
+    proposal_with_dates.add_metadata_dates
+    proposal['draft'] = proposal_with_dates.draft
+
     # Delete and update requests should have the provider_id populated already
     provider = if proposal['request_type'] == 'create'
                  params['provider-publish-target']

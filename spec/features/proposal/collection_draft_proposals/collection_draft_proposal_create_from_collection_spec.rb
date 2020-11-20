@@ -44,32 +44,61 @@ describe 'Collection Draft Proposal creation from collection', js: true do
     end
   end
 
-  context 'when viewing a collection with service associations' do
+  context 'when viewing a collection with service and tool associations' do
     before do
       ingest_response, _concept_response = publish_collection_draft
-      @service_ingest_response, service_concept_response = publish_service_draft
-      assoc_response = create_service_collection_association(@service_ingest_response['concept-id'], ingest_response['concept-id'])
+      @service_ingest_response, _service_concept_response = publish_service_draft
+      create_service_collection_association(@service_ingest_response['concept-id'], ingest_response['concept-id'])
+      @tool_ingest_response, _tool_concept_response = publish_tool_draft
+      create_tool_collection_association(@tool_ingest_response['concept-id'], ingest_response['concept-id'])
       set_as_proposal_mode_mmt(with_required_acl: true)
       visit collection_path(ingest_response['concept-id'])
-
-      find('.tab-label', text: 'Services').click
     end
 
-    it 'displays the correct service record link when viewing the collection' do
-      expect(page).to have_link('View Service Record', href: "http://localhost:3003/concepts/#{@service_ingest_response['concept-id']}")
+    context 'when examining the services tab' do
+      before do
+        find('.tab-label', text: 'Services').click
+      end
+
+      it 'displays the correct service record link when viewing the collection' do
+        expect(page).to have_link('View Service Record', href: "http://localhost:3003/concepts/#{@service_ingest_response['concept-id']}")
+      end
     end
 
+    context 'when examining the tools tab' do
+      before do
+        find('.tab-label', text: 'Tools').click
+      end
+
+      it 'displays the correct tool record link when viewing the collection' do
+        expect(page).to have_link('View Tool Record', href: "http://localhost:3003/concepts/#{@tool_ingest_response['concept-id']}")
+      end
+    end
 
     context 'when creating a proposal' do
       before do
         click_on 'Create Update Request'
         click_on 'Yes'
-
-        find('.tab-label', text: 'Services').click
       end
 
-      it 'displays the correct service record link when viewing the proposal' do
-        expect(page).to have_link('View Service Record', href: "http://localhost:3003/concepts/#{@service_ingest_response['concept-id']}")
+      context 'when examining the services tab' do
+        before do
+          find('.tab-label', text: 'Services').click
+        end
+
+        it 'displays the correct service record link when viewing the proposal' do
+          expect(page).to have_link('View Service Record', href: "http://localhost:3003/concepts/#{@service_ingest_response['concept-id']}")
+        end
+      end
+
+      context 'when examining the tools tab' do
+        before do
+          find('.tab-label', text: 'Tools').click
+        end
+
+        it 'displays the correct tool record link when viewing the proposal' do
+          expect(page).to have_link('View Tool Record', href: "http://localhost:3003/concepts/#{@tool_ingest_response['concept-id']}")
+        end
       end
     end
   end
