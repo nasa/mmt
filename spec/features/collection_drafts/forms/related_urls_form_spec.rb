@@ -40,7 +40,7 @@ describe 'Related URLs information form', js: true do
         expect(page).to have_field('URL', with: 'http://example.com')
       end
 
-      within '.multiple.related-urls> .multiple-item-1' do
+      within '.multiple.related-urls > .multiple-item-1' do
         expect(page).to have_field('Description', with: 'Example Description 2')
         expect(page).to have_field('URL Content Type', with: 'DistributionURL')
         expect(page).to have_field('Type', with: 'GET DATA')
@@ -52,6 +52,74 @@ describe 'Related URLs information form', js: true do
         expect(page).to have_field('Unit', with: 'KB')
         expect(page).to have_field('Fees', with: '0')
         expect(page).to have_field('Checksum', with: 'testchecksum123')
+      end
+    end
+
+    context 'when changing Distribution URL and Get Data to another URL Content Type and Type' do
+      # MMT-1417: Get Data & Get Service forms need to be cleared when Distribution URL and/or Get Data (or Use Service API) is changed.
+      before do
+        within '.multiple.related-urls > .multiple-item-1' do
+          # remove the required Format field value so that, if the Get Data form isn't cleared, the Missing Format error is raised
+          within '.get-data' do
+            select 'Select Format', from: 'Format'
+          end
+          select 'Use Service API', from: 'Type'
+          within '.get-service' do
+            select 'application/json', from: 'Mime Type'
+            select 'HTTP', from: 'Protocol'
+            fill_in 'Full Name', with: 'fullname123'
+            fill_in 'Data ID', with: 'dataid123'
+            fill_in 'Data Type', with: 'datatype123'
+          end
+        end
+        within '.nav-top' do
+          click_on 'Save'
+        end
+      end
+
+      it 'does not raise missing Format error' do
+        expect(page).to have_content('Collection Draft Updated Successfully!')
+      end
+
+      context 'when navigating to the Get Data form' do
+        before do
+          within '.multiple.related-urls > .multiple-item-1' do
+            select 'Get Data', from: 'Type'
+          end
+        end
+
+        it 'cleared the Get Data form' do
+          within '.multiple.related-urls > .multiple-item-1' do
+            within '.get-data' do
+              expect(page).to have_field('Size', with: '')
+              expect(page).to have_field('Unit', with: '')
+              expect(page).to have_field('Fees', with: '')
+              expect(page).to have_field('Checksum', with: '')
+            end
+          end
+        end
+      end
+
+      context 'when navigating to the Get Service form' do
+        before do
+          within '.multiple.related-urls > .multiple-item-1' do
+            select 'Goto Web Tool', from: 'Type'
+            # re-select Use Service API to see if the form cleared
+            select 'Use Service API', from: 'Type'
+          end
+        end
+
+        it 'cleared the Get Service form' do
+          within '.multiple.related-urls > .multiple-item-1' do
+            within '.get-service' do
+              expect(page).to have_field('Mime Type', with: '')
+              expect(page).to have_field('Protocol', with: '')
+              expect(page).to have_field('Full Name', with: '')
+              expect(page).to have_field('Data ID', with: '')
+              expect(page).to have_field('Data Type', with: '')
+            end
+          end
+        end
       end
     end
   end
