@@ -495,7 +495,7 @@ class CollectionDraftsController < BaseDraftsController
 
   def reconcile_recommendations(keyword_recommendations)
     keyword_recommendations.reject do |recommendation|
-      get_resource.draft['ScienceKeywords'].any? do |science_keyword|
+      get_resource.draft.fetch('ScienceKeywords', []).any? do |science_keyword|
         keyword_string(science_keyword) == keyword_recommendation_string(recommendation)
       end
     end
