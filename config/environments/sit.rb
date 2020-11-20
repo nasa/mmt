@@ -119,7 +119,10 @@ Rails.application.configure do
 
   # Feature toggle for loss report accessibility through 'edit collection' button
   config.loss_report_enabled = true
-  
+
+  # Feature toggle for GKR (GCMD Keyword Recommender) recommendations
+  config.gkr_enabled = true
+
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'

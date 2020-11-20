@@ -232,4 +232,78 @@ describe CollectionDraft do
     collection_draft = create(:collection_draft)
     expect(collection_draft.update(collection_concept_id: 'C12345-MMT_2')).to eq(false)
   end
+
+  # Keyword Recommendations
+  context 'when Keyword Recommendations is turned off' do
+    before do
+      allow(Mmt::Application.config).to receive(:gkr_enabled).and_return(false)
+    end
+
+    it '"keyword_recommendation_needed?" returns `nil`' do
+      collection_draft = create(:full_collection_draft)
+      expect(collection_draft.keyword_recommendation_needed?).to eq(nil)
+    end
+
+    it '"record_recommendation_provided" returns `nil`' do
+      collection_draft = create(:full_collection_draft)
+      expect(collection_draft.record_recommendation_provided).to eq(nil)
+    end
+  end
+
+  context 'when Keyword Recommendations is turned on' do
+    before do
+      allow(Mmt::Application.config).to receive(:gkr_enabled).and_return(true)
+    end
+
+    it '"keyword_recommendation_needed?" returns `false` with no abstract' do
+      collection_draft = create(:collection_draft)
+      expect(collection_draft.keyword_recommendation_needed?).to eq(false)
+    end
+
+    it '"keyword_recommendation_needed?" returns `false` if a recommendation already exists' do
+      collection_draft = create(:full_collection_draft)
+      collection_draft.record_recommendation_provided
+      expect(collection_draft.keyword_recommendation_needed?).to eq(false)
+    end
+
+    it '"keyword_recommendation_needed?" returns `true` if there is an abstract and no recommendation exists for the draft' do
+      collection_draft = create(:full_collection_draft)
+      expect(collection_draft.keyword_recommendations).to eq([])
+      expect(collection_draft.keyword_recommendation_needed?).to eq(true)
+    end
+
+    it '"record_recommendation_provided" returns `nil` if a recommendation already exists' do
+      collection_draft = create(:full_collection_draft)
+      collection_draft.record_recommendation_provided
+      expect(collection_draft.record_recommendation_provided).to eq(nil)
+    end
+
+    it '"record_recommendation_provided" creates a recommendation if there is an abstract and no recommendation exists for the draft' do
+      collection_draft = create(:full_collection_draft)
+      expect(collection_draft.keyword_recommendations).to eq([])
+
+      expect(collection_draft.record_recommendation_provided).to eq(KeywordRecommendation.first)
+      expect(collection_draft.keyword_recommendations.count).to eq(1)
+    end
+
+    it '"record_recommendation_provided" creates a recommendation in the correct model' do
+      collection_draft = create(:full_collection_draft)
+      collection_draft.record_recommendation_provided
+      expect(collection_draft.keyword_recommendations.count).to eq(1)
+      expect(KeywordRecommendation.all.count).to eq(1)
+      expect(ProposalKeywordRecommendation.all.count).to eq(0)
+    end
+
+    it 'deleting a collection draft deletes the associated recommendation record' do
+      collection_draft = create(:full_collection_draft)
+      expect(CollectionDraft.all.count).to eq(1)
+      collection_draft.record_recommendation_provided
+      expect(collection_draft.keyword_recommendations.count).to eq(1)
+      expect(KeywordRecommendation.all.count).to eq(1)
+
+      CollectionDraft.first.destroy
+      expect(CollectionDraft.all.count).to eq(0)
+      expect(KeywordRecommendation.all.count).to eq(0)
+    end
+  end
 end

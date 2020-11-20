@@ -303,6 +303,14 @@ module DraftsHelper
     keywords.map { |_key, value| value }.join(' > ')
   end
 
+  def keyword_recommendation_array(recommended_keyword)
+    recommended_keyword.split('>').map(&:strip)
+  end
+
+  def keyword_recommendation_string(recommended_keyword)
+    keyword_recommendation_array(recommended_keyword).join(' > ')
+  end
+
   def options_for_subregion_select(country, value = nil)
     return nil unless country
 

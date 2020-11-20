@@ -13,20 +13,36 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
     context 'when user goes back in browser to edit a submitted proposal' do
       before do
-        click_on 'Descriptive Keywords'
+        VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
+          click_on 'Descriptive Keywords'
+        end
+
+
+        # remove keyword recommendations
+        click_on 'Expand All'
+        within '.selected-science-keywords ul' do
+          4.times do
+            find('li:nth-child(3) a.remove').click
+          end
+        end
+
         within '.nav-top' do
           click_on 'Done'
         end
+
         click_on 'Submit for Review'
         click_on 'Yes'
+
         # for some reason this is needed twice to actually go back
         page.driver.go_back
         page.driver.go_back
+
         find('#science-keywords', text: 'Science Keywords').click
         click_on 'EARTH SCIENCE'
         click_on 'ATMOSPHERE'
         click_on 'AEROSOLS'
         click_on 'Add Keyword'
+
         within '.nav-top' do
           click_on 'Done'
         end
@@ -37,7 +53,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
         expect(page).to have_link('Cancel Proposal Submission')
         within '.science-keywords-preview' do
           # if the 'go_back' operation to add a science keyword is unsuccessful (because the proposal is no longer 'in_work'),
-          # there will remain only 2 arrow-tag-group-list items 
+          # there will remain only 2 arrow-tag-group-list items
           expect(page).to have_css('.arrow-tag-group-list ', count: 2)
         end
       end

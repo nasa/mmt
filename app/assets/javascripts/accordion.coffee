@@ -1,8 +1,16 @@
 $(document).ready ->
   # Disable toggle
-  $('.eui-accordion__header.disable-toggle').unbind('click');
+  $('.eui-accordion__header.disable-toggle').unbind('click')
 
-  # Open accordion based on URL hash
+  # if viewing Collection Descriptive Keywords form and Keyword Recommendations
+  # are presented to the user, indicate that they have been viewed
+  indicateIfKeywordRecommendationsViewed = () ->
+    if $('#science-keywords.eui-accordion').length && $('#recommended-keywords-viewed').length
+      if $('#recommended-keywords-viewed').val() == 'false'
+        $('#recommended-keywords-viewed').val('true')
+
+  # Open accordion based on URL hash (i.e., by clicking on a preview circle or
+  # edit link in the preview)
   if window.location.hash
     hash = window.location.hash.substring(1)
     $body = $(document.getElementById(hash))
@@ -16,11 +24,16 @@ $(document).ready ->
             scrollTop: $(this).parent().offset().top
           }, 500
 
+    if hash == 'science-keywords'
+      indicateIfKeywordRecommendationsViewed()
+
   $('.expand-accordions').on 'click', ->
     $('.eui-accordion.is-closed').removeClass('is-closed')
     $('.eui-accordion__body').slideDown('fast')
     $('.expand-accordions').addClass('is-invisible')
     $('.collapse-accordions').removeClass('is-invisible')
+
+    indicateIfKeywordRecommendationsViewed()
 
   $('.collapse-accordions').on 'click', ->
     $('.eui-accordion').addClass('is-closed')
@@ -41,3 +54,8 @@ $(document).ready ->
     if $('fieldset.eui-accordion.is-closed').length == 0
       $('.collapse-accordions').removeClass('is-invisible')
       $('.expand-accordions').addClass('is-invisible')
+
+    # the opening/closing and class toggling happens in eui.js and is executed
+    # before it gets here, so the accordion is already open if it was closed
+    if $(this).closest('.eui-accordion#science-keywords').length && !$(this).closest('.eui-accordion#science-keywords').hasClass('is-closed')
+      indicateIfKeywordRecommendationsViewed()

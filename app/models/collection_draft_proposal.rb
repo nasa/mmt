@@ -1,15 +1,20 @@
 class CollectionDraftProposal < CollectionDraft
   include AASM
   self.table_name = 'draft_proposals'
+
+  # Proposals must use a different table to track recommendations than Drafts
+  # and Templates. We are overwriting the association to use a different class
+  # and table, but keeping the association name as it would not be able to be
+  # removed, and we can still use the inherited methods
+  has_many :keyword_recommendations, class_name: 'ProposalKeywordRecommendation', foreign_key: 'draft_proposal_id', inverse_of: :collection_draft_proposal, dependent: :destroy
+  # TODO: we currently allow one to be created, but may allow more in the future
+  # should we just make this has_one for now?
+
   validates :request_type, presence: true
   validates :proposal_status, presence: true
 
   scope :publish_approved_proposals, -> { select(CollectionDraftProposal.attribute_names - %w[approver_feedback]).where(proposal_status: 'approved') }
 
-  # after_initialize :exception_unless_draft_only
-  # after_find :exception_unless_draft_only
-
-  # before_validation :proposal_mode?
   before_create :proposal_mode_enabled?
   before_save :proposal_mode_enabled?
   before_update :proposal_mode_enabled?
@@ -130,12 +135,5 @@ class CollectionDraftProposal < CollectionDraft
   def proposal_mode_enabled?
     throw(:abort) unless Rails.configuration.proposal_mode
     true
-  end
-
-  def exception_unless_draft_only
-    # TODO: these require an exception raised to halt execution (see rails guides)
-    # documentation says this exception should not bubble up to the user
-    # so we should see if we can use this when we start CRUD
-    raise ActiveRecord::Rollback unless Rails.configuration.proposal_mode
   end
 end

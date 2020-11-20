@@ -1,4 +1,8 @@
 class CollectionDraft < Draft
+  # TODO: we currently allow one to be created, but may allow more in the future
+  # should we just make this has_one for now?
+  has_many :keyword_recommendations, as: :recommendable, dependent: :destroy
+
   DRAFT_FORMS = %w(
     collection_information
     data_identification
@@ -143,6 +147,21 @@ class CollectionDraft < Draft
     dates += new_dates
     draft['MetadataDates'] = dates
     save if save_record
+  end
+
+  def keyword_recommendation_needed?
+    return unless gkr_enabled?
+
+    draft['Abstract'].present? && keyword_recommendations.first&.recommendation_provided != true
+  end
+
+  def record_recommendation_provided
+    return unless gkr_enabled?
+
+    # for proof of concept, we are only displaying recommendations one time per
+    # draft and we should also only be creating one keyword recommendation
+    # record per draft
+    keyword_recommendations.create(recommendation_provided: true) if keyword_recommendations.blank?
   end
 
   private
@@ -413,5 +432,10 @@ class CollectionDraft < Draft
     end
 
     json_params
+  end
+
+  ## Feature Toggle for GKR recommendations
+  def gkr_enabled?
+    Rails.configuration.gkr_enabled
   end
 end

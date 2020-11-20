@@ -18,6 +18,7 @@ module Cmr
       clients << LaunchpadClient.new(@config[launchpad_root], urs_client_id)
       clients << UvgClient.new(@config['uvg_root'], urs_client_id)
       clients << DmmtClient.new(@config['dmmt_root'], urs_client_id)
+      clients << GkrClient.new(@config['gkr_root'], urs_client_id)
       @clients = clients
     end
 
