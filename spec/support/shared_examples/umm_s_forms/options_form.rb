@@ -1,6 +1,39 @@
 shared_examples_for 'Options Form' do
   it 'displays the form with values' do
-    expect(page).to have_select('Subset Types', selected: ['Spatial'])
+
+    expect(page).to have_checked_field('Subset')
+    within '.subset' do
+      expect(page).to have_checked_field('Spatial Subset')
+      within '.spatial-subset-fields' do
+        expect(page).to have_checked_field('Point')
+        within '.point-fields' do
+          expect(page).to have_checked_field('False')
+        end
+
+        expect(page).to have_checked_field('Polygon')
+        within '.polygon-fields' do
+          expect(page).to have_field('Maximum Number Of Points', with: '20.0')
+          expect(page).to have_checked_field('True')
+        end
+
+        expect(page).to have_checked_field('Shapefile')
+        within '.shapefile-fields' do
+          within '.multiple-item-0' do
+            expect(page).to have_select('Format', selected: 'ESRI')
+            expect(page).to have_field('Maximum File Size In Bytes', with: '400.0')
+          end
+          within '.multiple-item-1' do
+            expect(page).to have_select('Format', selected: 'GeoJSON')
+          end
+        end
+      end
+
+      expect(page).to have_checked_field('Variable Subset')
+      within '.variable-subset-fields' do
+        expect(page).to have_checked_field('True')
+      end
+    end
+
     expect(page).to have_select('Variable Aggregation Supported Methods', selected: ['ANOMOLY'])
 
     within '.supported-input-projections .multiple-item-0' do
@@ -35,9 +68,6 @@ shared_examples_for 'Options Form' do
     end
 
     expect(page).to have_select('Interpolation Types', selected: ['Bilinear Interpolation', 'Bicubic Interpolation'])
-
-    expect(page).to have_select('Supported Input Formats', selected: ['HDF-EOS2', 'HDF-EOS5'])
-    expect(page).to have_select('Supported Output Formats', selected: ['HDF-EOS2', 'HDF-EOS5'])
 
     within '.supported-reformattings' do
       expect(page).to have_select('Supported Input Format', selected: 'HDF-EOS2')

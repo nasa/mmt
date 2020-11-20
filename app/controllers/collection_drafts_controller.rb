@@ -8,7 +8,7 @@ class CollectionDraftsController < BaseDraftsController
   before_action :load_umm_c_schema, only: [:new, :edit, :show, :publish]
   before_action :collection_validation_setup, only: [:show, :publish]
   before_action :verify_valid_metadata, only: [:publish]
-  before_action :set_associated_services, only: [:show]
+  before_action :set_associated_concepts, only: [:show]
 
   layout 'collection_preview', only: [:show]
 
@@ -532,12 +532,12 @@ class CollectionDraftsController < BaseDraftsController
     redirect_to send("#{resource_name}_path", get_resource) and return
   end
 
-  def set_associated_services
+  def set_associated_concepts
     # get collection
     collection_response = cmr_client.get_collections(native_id: get_resource.native_id)
-    @services = [] and return unless collection_response.success? and collection_response.body['hits'] > 0
+    @services = [] && @tools = [] && return unless collection_response.success? && collection_response.body['hits'] > 0
 
-    get_associated_services(collection_response.body['items'])
+    get_associated_concepts(collection_response.body['items'])
   end
 
   ## Feature Toggle for GKR recommendations
