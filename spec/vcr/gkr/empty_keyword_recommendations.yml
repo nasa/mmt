@@ -1,0 +1,53 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://gcmd.nasa-impact.net/api/requests/
+    body:
+      encoding: UTF-8
+      string: '{"description":"This is a long description of the collection"}'
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      server:
+      - nginx/1.14.0 (Ubuntu)
+      date:
+      - Wed, 18 Nov 2020 16:42:03 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '726'
+      connection:
+      - keep-alive
+      vary:
+      - Accept, Cookie
+      allow:
+      - POST, OPTIONS
+      x-frame-options:
+      - DENY
+      x-content-type-options:
+      - nosniff
+      x-xss-protection:
+      - 1; mode=block
+      p3p:
+      - CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"
+    body:
+      encoding: UTF-8
+      string: '{"uuid":"958c6431-979b-4b92-b790-7d9e68c7fecd","description":"This
+        is a long description of the collection","recommendations":[]}'
+    http_version:
+  recorded_at: Wed, 18 Nov 2020 16:42:03 GMT
+recorded_with: VCR 5.1.0

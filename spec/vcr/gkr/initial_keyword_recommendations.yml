@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://gcmd.nasa-impact.net/api/requests/
+    body:
+      encoding: UTF-8
+      string: '{"description":"This is a long description of the collection"}'
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      server:
+      - nginx/1.14.0 (Ubuntu)
+      date:
+      - Wed, 18 Nov 2020 16:42:03 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '726'
+      connection:
+      - keep-alive
+      vary:
+      - Accept, Cookie
+      allow:
+      - POST, OPTIONS
+      x-frame-options:
+      - DENY
+      x-content-type-options:
+      - nosniff
+      x-xss-protection:
+      - 1; mode=block
+      p3p:
+      - CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"
+    body:
+      encoding: UTF-8
+      string: '{"uuid":"958c6431-979b-4b92-b790-7d9e68c7fecd","description":"This
+        is a long description of the collection","recommendations":[{"uuid":"9035dad1-01e5-4d9b-a150-653e76be2f91","keyword":"EARTH
+        SCIENCE>OCEANS>SALINITY/DENSITY","score":0.99872225522995,"yes_count":0,"no_count":0},{"uuid":"10a88521-4325-4b72-88dc-82d389232a5e","keyword":"EARTH
+        SCIENCE>OCEANS>OCEAN TEMPERATURE","score":0.999270498752594,"yes_count":0,"no_count":0},{"uuid":"010d9779-7d6c-4361-9bce-6ae0e457bdb0","keyword":"EARTH
+        SCIENCE>OCEANS>OCEAN OPTICS","score":0.99998939037323,"yes_count":0,"no_count":0},{"uuid":"4a774160-67c6-4cc9-992c-724db9952ecd","keyword":"EARTH
+        SCIENCE>OCEANS>OCEAN CHEMISTRY","score":0.999970674514771,"yes_count":0,"no_count":0}]}'
+    http_version:
+  recorded_at: Wed, 18 Nov 2020 16:42:03 GMT
+recorded_with: VCR 5.1.0

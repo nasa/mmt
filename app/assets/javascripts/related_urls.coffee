@@ -60,9 +60,12 @@ $(document).ready ->
         when 'GET DATA'
           $parent.find('.get-data-fields').show()
           $parent.find('.get-service-fields').find('input, select').val ''
-        when 'GET SERVICE'
+        when 'USE SERVICE API'
           $parent.find('.get-service-fields').show()
           $parent.find('.get-data-fields').find('input, select').val ''
+        else
+          $parent.find('.get-data-fields').find('input, select').val ''
+          $parent.find('.get-service-fields').find('input, select').val ''
 
       contentTypeValue = getRelatedUrlContentTypeSelect(selector).val()
       subtypeValue = $subtypeSelect.val()

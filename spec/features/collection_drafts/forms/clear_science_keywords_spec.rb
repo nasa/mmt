@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Clearing saved science keywords', js: true do
   before do
     login
@@ -13,7 +11,7 @@ describe 'Clearing saved science keywords', js: true do
         click_on 'Descriptive Keywords'
       end
 
-      open_accordions
+      click_on 'Expand All'
 
       # add_science_keywords
       choose_keyword 'EARTH SCIENCE'
@@ -25,7 +23,7 @@ describe 'Clearing saved science keywords', js: true do
         click_on 'Save'
       end
 
-      open_accordions
+      click_on 'Expand All'
     end
 
     it 'displays a confirmation message' do
@@ -48,6 +46,8 @@ describe 'Clearing saved science keywords', js: true do
         within '.nav-top' do
           click_on 'Save'
         end
+
+        click_on 'Expand All'
       end
 
       it 'displays a confirmation message' do

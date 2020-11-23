@@ -1,7 +1,3 @@
-# MMT-287
-
-require 'rails_helper'
-
 describe 'Descriptive keywords form', js: true do
   before do
     login

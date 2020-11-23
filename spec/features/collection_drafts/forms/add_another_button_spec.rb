@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Add another button behavior', js: true do
   before do
     login
