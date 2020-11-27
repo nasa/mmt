@@ -44,7 +44,7 @@ describe 'Download Data Tab preview' do
       it 'display metadata' do
         within '#download-data-panel' do
           expect(page).to have_content('Download Options')
-          expect(page).to have_content('GET DATA: https://search.earthdata.nasa.gov/')
+          expect(page).to have_content('GET DATA: https://search.earthdata.nasa.gov/, Related URL 2 Description')
           expect(page).to have_link('https://search.earthdata.nasa.gov/')
         end
       end
