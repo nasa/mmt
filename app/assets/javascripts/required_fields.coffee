@@ -115,6 +115,14 @@ $(document).ready ->
           if removeLevel.topLevel == currentDataLevel
             requiredDataLevels.splice(index, 1)
 
+      for removeLevel, index in requiredDataLevels by -1
+        $input_fields = $("[data-level='#{removeLevel.topLevel}']")
+        if $input_fields.length > 0
+          inputFieldsWithValues = $input_fields.filter ->
+            if this.type == 'radio' || this.type == 'checkbox' then this.checked else this.value
+
+          requiredDataLevels.splice(index, 1) if inputFieldsWithValues.length == 0
+
 
     # Get unique required data levels
     levels = requiredDataLevels.map (obj) ->
