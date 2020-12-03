@@ -22,7 +22,7 @@ describe 'Download Data Tab preview' do
         find('.tab-label', text: 'Download Data').click
       end
 
-      it 'display metadata' do
+      it 'displays metadata' do
         within '#download-data-panel' do
           expect(page).to have_content('Download Options')
           expect(page).to have_content('Earthdata Search: https://search.earthdata.nasa.gov/, Related URL 2 Description')
@@ -41,7 +41,7 @@ describe 'Download Data Tab preview' do
         find('.tab-label', text: 'Download Data').click
       end
 
-      it 'display metadata' do
+      it 'displays metadata' do
         within '#download-data-panel' do
           expect(page).to have_content('Download Options')
           expect(page).to have_content('GET DATA: https://search.earthdata.nasa.gov/, Related URL 2 Description')
