@@ -17,7 +17,7 @@
       <div class="col-12">
         <div class="row sub-fields">
           <div class="selected-science-keywords science-keywords">
-            <% unless @keyword_recommendations.blank? %>
+            <% unless @reconciled_keyword_recommendations.blank? %>
               <div class="eui-info-box">
                 <strong><i class="eui-icon eui-fa-question-circle"></i> Recommended Keywords</strong>
                 <p>
@@ -48,8 +48,8 @@
                 <% selected_keywords_index += 1 %>
               <% end %>
 
-              <% unless @keyword_recommendations.blank? %>
-                <% @keyword_recommendations.each_with_index do |recommended_keyword, recommendation_index| %>
+              <% unless @reconciled_keyword_recommendations.blank? %>
+                <% @reconciled_keyword_recommendations.each_with_index do |recommended_keyword, recommendation_index| %>
                   <li>
                     <%= keyword_recommendation_string(recommended_keyword) %>
                     <span class="eui-badge--sm recommended-science-keywords"> Recommended</span>
