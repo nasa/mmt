@@ -76,7 +76,7 @@ class CollectionDraftsController < BaseDraftsController
         # create keyword_recommendation
         get_resource.record_recommendation_provided(params[:gkr_request_id], params[:recommended_keyword_list])
       end
-      
+
       case params[:commit]
       when 'Done'
         redirect_to get_resource
@@ -146,7 +146,7 @@ class CollectionDraftsController < BaseDraftsController
       render :show
     end
   end
-  
+
   def subregion_options
     render partial: 'collection_drafts/forms/fields/subregion_select'
   end

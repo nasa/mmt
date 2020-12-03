@@ -177,7 +177,6 @@ class CollectionDraft < Draft
   def gkr_keyword_recommendation_id
     gkr_logging_active? ? keyword_recommendations.first.recommendation_request_id :  nil
   end
-
   
   private
 
@@ -453,5 +452,4 @@ class CollectionDraft < Draft
   def gkr_enabled?
     Rails.configuration.gkr_enabled
   end
-  
 end
