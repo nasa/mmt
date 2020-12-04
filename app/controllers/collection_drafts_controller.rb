@@ -73,8 +73,13 @@ class CollectionDraftsController < BaseDraftsController
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
 
       if gkr_enabled? && params[:recommended_keywords_viewed] == 'true'
-        # create keyword_recommendation
         get_resource.record_recommendation_provided(params[:gkr_request_id], params[:recommended_keyword_list])
+      end
+
+      if params[:next_section] == 'descriptive_keywords' && get_resource.gkr_logging_active?
+        log_gkr_on_save_keywords(current_user.urs_uid, current_user.provider_id, get_resource.draft.fetch('Abstract', ''),
+          get_resource.gkr_keyword_recommendation_id, get_resource.gkr_keyword_recommendation_list,
+          get_resource.draft.fetch('ScienceKeywords', []))
       end
 
       case params[:commit]
@@ -87,11 +92,6 @@ class CollectionDraftsController < BaseDraftsController
       when 'Save'
         # tried to use render to avoid another request, but could not get form name in url even with passing in location
         get_resource_form = params['next_section']
-        if get_resource_form == 'descriptive_keywords' &&  get_resource.gkr_logging_active?
-          log_gkr_on_save_keywords(current_user.urs_uid, current_user.provider_id, get_resource.draft.fetch('Abstract', ''),
-            get_resource.gkr_keyword_recommendation_id, get_resource.gkr_keyword_recommendation_list,
-            get_resource.draft.fetch('ScienceKeywords', []))
-        end
         redirect_to send("edit_#{resource_name}_path", get_resource, get_resource_form)
       else # Jump directly to a form
         next_form_name = params['new_form_name']
@@ -510,9 +510,11 @@ class CollectionDraftsController < BaseDraftsController
 
   def set_keyword_recommendations
     results = fetch_keyword_recommendations(current_user.urs_uid, current_user.provider_id)
+    return if results[:id].blank?
+
     @gkr_request_id = results[:id]
-    keyword_recommendations  = results[:recommendations]
-    @keyword_recommendations = reconcile_recommendations(keyword_recommendations)
+    @recommended_keywords = results[:recommendations]
+    @keyword_recommendations = reconcile_recommendations(@recommended_keywords)
   end
 
   def collection_validation_setup
