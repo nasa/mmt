@@ -155,15 +155,29 @@ class CollectionDraft < Draft
     draft['Abstract'].present? && keyword_recommendations.first&.recommendation_provided != true
   end
 
-  def record_recommendation_provided
+  def record_recommendation_provided(request_id=nil,keyword_list=nil)
     return unless gkr_enabled?
 
     # for proof of concept, we are only displaying recommendations one time per
     # draft and we should also only be creating one keyword recommendation
     # record per draft
-    keyword_recommendations.create(recommendation_provided: true) if keyword_recommendations.blank?
+    keyword_recommendations.create(recommendation_provided: true, recommendation_request_id: request_id, recommended_keywords: keyword_list) if keyword_recommendations.blank?
   end
-
+  
+  def gkr_logging_active?
+    return false unless gkr_enabled?
+    
+    keyword_recommendations.first&.recommendation_request_id.present?
+  end
+  
+  def gkr_keyword_recommendation_list
+    gkr_logging_active? ? keyword_recommendations.first.recommended_keywords :  nil
+  end
+  
+  def gkr_keyword_recommendation_id
+    gkr_logging_active? ? keyword_recommendations.first.recommendation_request_id :  nil
+  end
+  
   private
 
   INTEGER_KEYS = %w(
