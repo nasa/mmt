@@ -50,6 +50,7 @@
 </fieldset>
 
 <fieldset>
+  <%= hidden_field_tag(:redirect_to, params[:redirect_to]) %>
   <%= submit_tag('Submit', class: 'eui-btn--blue') %>
   <%= link_to 'Cancel', :back, class: 'eui-btn' %>
 </fieldset>

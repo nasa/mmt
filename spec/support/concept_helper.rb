@@ -31,11 +31,10 @@ module Helpers
       collections_response = cmr_client.get_collections_by_post(search_params, token)
       collections = if collections_response.success?
                       collections_response.body
-                        .fetch('items', [])
-                        .map { |collection| collection['meta']['concept-id'] }
+                                          .fetch('items', [])
+                                          .map { |collection| collection['meta']['concept-id'] }
                     end
       collections
     end
-    
   end
 end

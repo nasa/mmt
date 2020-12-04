@@ -22,50 +22,10 @@ class GroupsController < ManageCmrController
 
   def index
     # these params are not used for mass assignment, only for searching cmr
-    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+    permitted = params.to_unsafe_h unless params.nil?
 
-    # @additional_filters = permitted[:additional_filters] || {}
-    # # add default to current or available providers filter
-    # @additional_filters[:provider_segment] ||= 'current'
-    # # add default to provider or system group filter
-    # # @additional_filters[:group_tier] ||= 'provider'
-    #
-    # @filters = permitted[:filters] || {}
-    #
-    # if @filters[:provider].present?
-    #   #
-    # elsif @additional_filters[:provider_segment] == 'current'
-    #   @filters[:provider] = [current_user.provider_id]
-    #   @limit_current_provider = true
-    # elsif @additional_filters[:provider_segment] == 'available'
-    #   @limit_available_providers = true
-    #
-    #   # @filters[:provider] = @groups_provider_ids
-    # end
-    # @available_providers = current_user.available_providers
-    # @available_providers << 'CMR' if policy(:system_group).read? && @additional_filters[:show_system_groups] == 'true'
-    #
-    # @member_filter_details = if @filters['member']
-    #                            @filters['options'] = { 'member' => { 'and' => true } }
-    #
-    #                            retrieve_urs_users(@filters['member']).map { |m| [urs_user_full_name(m), m['uid']] }
-    #                          else
-    #                            []
-    #                          end
-    #
-    # @filters[:page_size] = RESULTS_PER_PAGE
-    #
-    # # Default the page to 1
-    # page = permitted.fetch('page', 1)
-    #
-    # @filters[:page_num] = page.to_i
-
-    ######## rewriting #######
     @filters = permitted[:filters] || {}
-    # @filters = filters.fetch('filters', {})
-    # byebug
     @query = {}
-    # fail
 
     # set provider defaults
     @filters['provider_segment'] ||= 'current'
@@ -73,24 +33,14 @@ class GroupsController < ManageCmrController
 
     if @filters['provider'].present?
       @query['provider'] = @filters['provider']
-      puts ">>>>>>>>>> has provider: #{@filters['provider']}"
-
-      # if the provider is CMR, then system groups needs to be checked
-      # @filters['show_system_groups'] = 'true' if @filters['provider'] == 'CMR'
 
       # if provider is CMR, it should an option of the select
       @groups_provider_ids << 'CMR' if @filters['provider'].include?('CMR')
     elsif @filters['provider_segment'] == 'current'
       @query['provider'] = [current_user.provider_id]
-      # @limit_current_provider = true
-      puts ">>>>>>>>>> current"
     elsif @filters['provider_segment'] == 'available'
       @query['provider'] = @groups_provider_ids
-      # @limit_available_providers = true
-      puts ">>>>>>>>>> available"
 
-      # add CMR for system groups to provider list if users have read access
-      @groups_provider_ids << 'CMR' if policy(:system_group).read?
       # add CMR for system groups to query if users have read access and selected to show system groups
       @query['provider'] << 'CMR' if policy(:system_group).read? && @filters['show_system_groups'] == 'true'
     end
@@ -110,9 +60,6 @@ class GroupsController < ManageCmrController
     page = params.permit(:page).fetch('page', 1)
     @query[:page_num] = page.to_i
 
-    ##########################
-
-    # groups_response = cmr_client.get_cmr_groups(@filters, token)
     groups_response = cmr_client.get_cmr_groups(@query, token)
 
     group_list = if groups_response.success?

@@ -7,11 +7,11 @@
     <%= form_tag(groups_path, method: :get, class: 'group-form') do %>
       <fieldset>
         <div class="row space-bot">
-          <h4>Refine Groups</h4>
+          <h4>Search Groups</h4>
+          <p class="form-description space-bot">Use the selections and filters below to refine groups by Provider and/or User</p>
         </div>
 
         <div class="row space-bot">
-
           <div class="col-2" id="groups-provider-segment-filter" class="radio-group">
             <div class="row">
               <label>Providers</label>
@@ -45,7 +45,6 @@
               </div>
             </div>
           <% end %>
-          <% console %>
 
           <%# using width override to accommodate adjustment for system groups %>
           <div class="col-4 w30 <%= 'is-hidden' unless @filters['provider_segment'] == 'available' %>" id="groups-provider-filter">

@@ -1,6 +1,6 @@
 <div class="row row-content">
   <section>
-    <h2><%= @group.fetch('name', 'No Name') %> Provider Object Permissions</h2>
+    <h2><%= @group.fetch('name', 'No Name') %> Provider Object Permissions for <%= current_user.provider_id %></h2>
 
     <%= form_tag(provider_identity_permission_path(@group_id), method: :put, class: 'provider-permissions-form') %>
 

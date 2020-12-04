@@ -38,6 +38,8 @@ class ProviderIdentityPermissionsController < ManageCmrController
   end
 
   def edit
+    @redirect_to = params[:redirect_to]
+
     @group_id = params[:id]
     @group = {}
     group_provider_permissions_list = get_permissions_for_identity_type(type: 'provider')
@@ -122,9 +124,8 @@ class ProviderIdentityPermissionsController < ManageCmrController
       revision_ids: next_revision_ids
     )
 
-    unless successes.blank?
-      flash[:success] = successes.join(', ').titleize + ' permissions were saved.'
-    end
+    flash[:success] = successes.join(', ').titleize + ' permissions were saved.' unless successes.blank?
+
     error_message = fails.join(', ').titleize
     overwrite_error_message = overwrite_fails.join(', ').titleize
     if error_message.present? && overwrite_error_message.present?
@@ -135,6 +136,6 @@ class ProviderIdentityPermissionsController < ManageCmrController
       flash[:error] = overwrite_error_message + ' permissions were unable to be saved because another user made changes to those permissions.'
     end
 
-    redirect_to provider_identity_permissions_path
+    redirect_to params[:redirect_to]
   end
 end

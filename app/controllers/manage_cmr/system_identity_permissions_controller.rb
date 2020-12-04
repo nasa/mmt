@@ -37,6 +37,8 @@ class SystemIdentityPermissionsController < ManageCmrController
   end
 
   def edit
+    @redirect_to = params[:redirect_to]
+
     @group_id = params[:id]
     @group = {}
     group_system_permissions_list = get_permissions_for_identity_type(type: 'system')
@@ -134,6 +136,6 @@ class SystemIdentityPermissionsController < ManageCmrController
       flash[:error] = overwrite_error_message + ' permissions were unable to be saved because another user made changes to those permissions.'
     end
 
-    redirect_to system_identity_permissions_path
+    redirect_to params[:redirect_to]
   end
 end
