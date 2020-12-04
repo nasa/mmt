@@ -3,6 +3,7 @@ describe 'Deleting Subscriptions', reset_provider: true do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
     @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+    @c_ingest_response, _c_concept_response = publish_collection_draft
 
     clear_cache
   end
@@ -22,7 +23,7 @@ describe 'Deleting Subscriptions', reset_provider: true do
     before do
       # make a record
       @native_id = 'test_native_id'
-      @ingest_response, _search_response, _subscription = publish_new_subscription(native_id: @native_id)
+      @ingest_response, _search_response, _subscription = publish_new_subscription(native_id: @native_id, collection_concept_id: @c_ingest_response['concept-id'])
       # go to show page
       VCR.use_cassette('urs/rarxd5taqea', record: :none) do
         visit subscription_path(@ingest_response['concept_id'])
