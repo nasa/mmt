@@ -153,7 +153,9 @@ describe 'Conditionally required fields', js: true do
       end
 
       it 'displays the required icons' do
-        expect(page).to have_css('label.eui-required-o', count: 24)
+        # MMT-1894: fixed bug that was hiding the Get Service form. This was causing some conditionally required fields
+        # in the Get Service form to not show and thus its required icons were not visible as well, hence the 24 -> 29 count
+        expect(page).to have_css('label.eui-required-o', count: 29)
       end
     end
 
