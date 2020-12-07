@@ -528,7 +528,7 @@ module Cmr
     def add_users_to_local_cmr(user_uids, token) # need token?
       # curl -H "Content-Type: application/json" http://localhost:3008/urs/users -d
       # '[{"username": "user1", "password": "user1pass"}, ...]'
-      # local cmr requires 'username' and 'password' fields
+      # local cmr requires 'username' and 'password' fields but the actual password is unimportant
       users = user_uids.map { |uid| { 'username' => uid, 'password' => 'password' } }
 
       url = 'http://localhost:3008/urs/users'

@@ -85,7 +85,6 @@ $(document).ready ->
 
     # when toggling the show system groups checkbox
     $('#filters_show_system_groups').on 'change', ->
-      # debugger
       if $(this).prop('checked') == true
         data =
           id: 'CMR',

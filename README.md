@@ -236,16 +236,16 @@ Access Control Lists (ACLs, aka Permissions) determine access to data and functi
 When testing functionality in the browser that requires specific permissions you'll need to ensure your environment is setup properly and you're able to assign yourself the permissions necessary. This includes:
 
 1. Creating a Group
-2. Add your URS account as a member of the group
-3. Give your URS account access to the MMT Users Group
+2. Add your URS account and the user 'typical' as a member of the group
+3. Ensuring the group created has appropriate Provider Context, Group, and Provider Object ACLs permissions.
 
 This provides access to the Provider Object Permissions pages.
 
-4. Give your URS account access to the MMT Admins Group
+4. Give your URS account and the user 'typical' access to the Administrators_2 group
 
-This gives you permission to view system level groups.
+This gives you permission to view System Level Groups and the System Object Permissions pages.
 
-From here you'll need to visit the Provider Object Permissions page, and find your group, from here you'll be able to modify permissions of the group so that you can test functionality associated with any of the permissions.
+From here you'll need to modify appropriate permissions of the group so that you can test functionality associated with any of the permissions via the group show page, or the Provider or System Object Permissions pages.
 
 ##### Automating ACL Group Management
 To run the above steps automatically there is a provided rake task to do the heavy lifting.
@@ -255,11 +255,18 @@ To run the above steps automatically there is a provided rake task to do the hea
 Replacing URS_USERNAME with your own username. An example:
 
     $ rake acls:testing:prepare[username]
-    [Success] Group `USERNAME Testing Group` created.
-    [Success] Added username to MMT Users
-    [Success] Added username to MMT Admins
+    [Success] Added username to MMT_2 Admin Group
+    [Success] Added username to Administrators_2
 
-From here I'm able to visit `/provider_identity_permissions` and see my newly created group. Clicking on it allows me to grant myself Provider Level Access to the necessary targets for testing.
+Then you can manage the Provider Level permissions by clicking on the group on the Provider Object Permissions page or by clicking on the Provider Object Permissions for MMT_2 link on the group show page. If System Level permissions are required, you can click on the Administrators_2 group from the System Object Permissions page or click on the System Object Permissions link from the group show page.
+
+Alternatively, if only one of provider level access or system level access is required, you can use the more specific rake task:
+
+    rake acls:groups:mmt_2_users[username]
+
+or
+
+    rake acls:groups:admins[username]
 
 ### Draft MMT
 The Draft MMT is intended for Non-NASA Users to propose new metadata records or changes to existing records in the CMR.  There are several steps required to run a local version of Draft MMT.
@@ -270,13 +277,13 @@ The Draft MMT is intended for Non-NASA Users to propose new metadata records or 
 
 3. Create ACLs to give yourself permission to use Draft MMT. Access to the Draft MMT is controlled by the Non-NASA Draft User and Non-NASA Draft Approver ACLs. There is a rake task that will create the group and assign the ACL for you (make sure you use your own username):
 
-    
+
     $ rake acls:proposal_mode:draft_user[URS_USERNAME]
-    
+
 or
-    
+
     $ rake acls:proposal_mode:draft_approver[URS_USERNAME]
-    
+
   * make sure you use your own username
   ***NOTE: Make sure that `proposal_mode` is set to 'false' in your `application.yml` file when you run this rake task. If you see `NotAllowedError: A requested action is not allowed in the current configuration.` when running this rake task, you missed this step.***
 
@@ -285,9 +292,9 @@ or
 
 5. Start the MMT app as usual with `bin/rails server -p 3000`  
 
-6. Direct your browser to https://mmt.localtest.earthdata.nasa.gov .   Note that some browsers will give you a warning about the self-signed certificate that was created in step 1.  In that case,  use the browser controls to allow the certificate. 
+6. Direct your browser to https://mmt.localtest.earthdata.nasa.gov .   Note that some browsers will give you a warning about the self-signed certificate that was created in step 1.  In that case,  use the browser controls to allow the certificate.
 
-7. To return to normal MMT mode,  set `proposal_mode` to `false` in the application.yml file and restart the app. 
+7. To return to normal MMT mode,  set `proposal_mode` to `false` in the application.yml file and restart the app.
 
 ### Replicating SIT Collections Locally
 Often we need collections to exist in our local CMR that already exist in SIT for the purposes of sending collection ids (concept ids) as part of a payload to the ECHO API that doesn't run locally, but instead on testbed. In order to do this the collection concept ids have to match those on SIT so we cannot simply download and ingest them. A rake task exists to replicate collections locally for this purpose.
