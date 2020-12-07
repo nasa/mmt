@@ -119,8 +119,7 @@ $(document).ready ->
         $input_fields = $("[data-level='#{removeLevel.topLevel}']")
         if $input_fields.length > 0
           inputFieldsWithValues = $input_fields.filter ->
-            if this.type == 'radio' || this.type == 'checkbox' then this.checked else this.value
-
+            if this.type == 'radio' || this.type == 'checkbox' then this.checked else true
           requiredDataLevels.splice(index, 1) if inputFieldsWithValues.length == 0
 
 
