@@ -3,6 +3,7 @@ describe 'Edit/Updating Subscriptions', reset_provider: true do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
     @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+    @c_ingest_response, _c_concept_response = publish_collection_draft
 
     clear_cache
   end
@@ -17,7 +18,7 @@ describe 'Edit/Updating Subscriptions', reset_provider: true do
   before do
     login
     # make a record
-    @ingest_response, search_response, @subscription = publish_new_subscription
+    @ingest_response, search_response, @subscription = publish_new_subscription(collection_concept_id: @c_ingest_response['concept-id'])
     @native_id = search_response.body['items'].first['meta']['native-id']
   end
 
@@ -81,7 +82,7 @@ describe 'Edit/Updating Subscriptions', reset_provider: true do
         fill_in 'Subscription Name', with: @new_name
         @second_native_id = 'test_edit_id_2'
 
-        _ingest_response, _search_response, _subscription = publish_new_subscription(name: @new_name, native_id: @second_native_id)
+        _ingest_response, _search_response, _subscription = publish_new_subscription(name: @new_name, native_id: @second_native_id, collection_concept_id: @c_ingest_response['concept-id'])
 
         VCR.use_cassette('urs/rarxd5taqea', record: :none) do
           click_on 'Submit'
