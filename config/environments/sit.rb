@@ -122,6 +122,7 @@ Rails.application.configure do
 
   # Feature toggle for GKR (GCMD Keyword Recommender) recommendations
   config.gkr_enabled = true
+  config.gkr_enabled = false if ENV['proposal_mode'] == 'true'
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'

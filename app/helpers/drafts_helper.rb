@@ -311,6 +311,10 @@ module DraftsHelper
     keyword_recommendation_array(recommended_keyword).join(' > ')
   end
 
+  def keyword_recommendation_list(recommended_keywords)
+    recommended_keywords.join(',')
+  end
+
   def options_for_subregion_select(country, value = nil)
     return nil unless country
 

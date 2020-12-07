@@ -687,8 +687,8 @@ def collection_one
     }, {
       'Description' => 'Related URL 3 Description',
       'URLContentType' => 'DistributionURL',
-      'Type' => 'GET DATA',
-      'Subtype' => 'DIRECT DOWNLOAD',
+      'Type' => 'USE SERVICE API',
+      'Subtype' => 'OPENDAP DATA',
       'URL' => 'https://example.com/',
       'GetService' => {
         'Format' => 'ascii',

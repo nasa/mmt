@@ -65,7 +65,9 @@
                   </li>
                 <% end %>
 
+                <%= hidden_field_tag("gkr_request_id", @gkr_request_id) %>
                 <%= hidden_field_tag('recommended_keywords_viewed', false, id: 'recommended-keywords-viewed') %>
+                <%= hidden_field_tag("recommended_keyword_list", keyword_recommendation_list(@recommended_keywords)) %>
               <% end %>
             </ul>
             <p><%= hidden_field_tag("draft[science_keywords][#{Time.now.to_i}]", "") %></p>
