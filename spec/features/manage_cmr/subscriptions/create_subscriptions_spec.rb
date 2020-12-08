@@ -8,6 +8,7 @@ describe 'Creating Subscriptions', reset_provider: true do
       @subscriptions_group = create_group(members: ['testuser', 'typical'])
       # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
       @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+      @c_ingest_response, @c_concept_response = publish_collection_draft
 
       clear_cache
     end
@@ -27,7 +28,7 @@ describe 'Creating Subscriptions', reset_provider: true do
       context 'when submitting the form without errors', js: true do
         let(:name) { "Exciting Subscription with Important Data #{SecureRandom.uuid}" }
         let(:query) { 'point=100,20&attribute\[\]=float,X\Y\Z,7&instrument\[\]=1B&cloud_cover=-70.0,120.0&equator_crossing_date=2000-01-01T10:00:00Z,2010-03-10T12:00:00Z&cycle[]=1&passes[0][pass]=1&passes[0][tiles]=1L,2F' }
-        let(:collection_concept_id) { 'C1234-MMT_2' }
+        let(:collection_concept_id) { @c_ingest_response['concept-id'] }
 
         before do
           fill_in 'Query', with: query

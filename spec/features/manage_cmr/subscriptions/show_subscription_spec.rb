@@ -3,6 +3,7 @@ describe 'When Viewing Subscriptions', reset_provider: true do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
     @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+    @c_ingest_response, _c_concept_response = publish_collection_draft
 
     clear_cache
   end
@@ -21,7 +22,7 @@ describe 'When Viewing Subscriptions', reset_provider: true do
   context 'when visiting the show page' do
     before :all do
       # make a record
-      @ingest_response, search_response, @subscription = publish_new_subscription(native_id: @native_id)
+      @ingest_response, search_response, @subscription = publish_new_subscription(native_id: @native_id, collection_concept_id: @c_ingest_response['concept-id'])
       @native_id = search_response.body['items'].first['meta']['native-id']
     end
 
