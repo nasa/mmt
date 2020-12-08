@@ -5,9 +5,10 @@ describe 'Subscription Form Validation', js: true do
 
   context 'when subscriptions is turned on' do
     let(:name) { 'Name for Subscription Testing the Form' }
-    let(:collection_concept_id) { 'C1234-MMT_2' }
+    let(:collection_concept_id) { @c_ingest_response['concept-id'] }
 
     before do
+      @c_ingest_response, _c_concept_response = publish_collection_draft
       allow_any_instance_of(SubscriptionPolicy).to receive(:create?).and_return(true)
     end
 

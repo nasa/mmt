@@ -7,11 +7,12 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
     @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['read', 'update'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+    @c_ingest_response, _c_concept_response = publish_collection_draft
 
     clear_cache
 
-    _ingest_response, @search_response, @subscription = publish_new_subscription
-    _ingest_response2, @search_response2, @subscription2 = publish_new_subscription
+    _ingest_response, @search_response, @subscription = publish_new_subscription(collection_concept_id: @c_ingest_response['concept-id'])
+    _ingest_response2, @search_response2, @subscription2 = publish_new_subscription(collection_concept_id: @c_ingest_response['concept-id'])
   end
 
   before do
@@ -118,10 +119,11 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
       @subscriptions_group = create_group(provider_id: 'MMT_1', members: ['testuser', 'typical'])
       # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
       @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['read', 'update'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_1')
+      @c_ingest_response2, _c_concept_response = publish_collection_draft
 
       clear_cache
 
-      _ingest_response2, @search_response3, @subscription3 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake', query: 'polygon=10,10,30,10,30,20,10,20,10,10&equator_crossing_longitude=0,10')
+      _ingest_response2, @search_response3, @subscription3 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake', query: 'polygon=10,10,30,10,30,20,10,20,10,10&equator_crossing_longitude=0,10', collection_concept_id: @c_ingest_response2['concept-id'])
 
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
       visit subscriptions_path
