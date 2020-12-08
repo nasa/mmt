@@ -129,4 +129,46 @@ FactoryBot.define do
       )
     end
   end
+
+  factory :collection_draft_no_related_url_subtype, class: CollectionDraft do
+    draft_type { 'CollectionDraft' }
+    provider_id { 'MMT_2' }
+    draft do
+      collection_one.merge(
+        'RelatedUrls' => [{
+          'Description' => 'Related URL 1 Description',
+          'URLContentType' => 'CollectionURL',
+          'Type' => 'DATA SET LANDING PAGE',
+          'URL' => 'http://example.com/'
+        }, {
+          'Description' => 'Related URL 2 Description',
+          'URLContentType' => 'DistributionURL',
+          'Type' => 'GET DATA',
+          'URL' => 'https://search.earthdata.nasa.gov/',
+          'GetData' => {
+            'Format' => 'ascii',
+            'MimeType' => 'Not provided',
+            'Size' => 42,
+            'Unit' => 'KB',
+            'Fees' => '0',
+            'Checksum' => 'sdfgfgksghafgsdvbasf'
+          }
+        }, {
+          'Description' => 'Related URL 3 Description',
+          'URLContentType' => 'DistributionURL',
+          'Type' => 'USE SERVICE API',
+          'URL' => 'https://example.com/',
+          'GetService' => {
+            'Format' => 'ascii',
+            'MimeType' => 'Not provided',
+            'Protocol' => 'HTTPS',
+            'FullName' => 'Earthdata Search',
+            'DataID' => 'data_id',
+            'DataType' => 'data type',
+            'URI' => ['uri']
+          }
+        }]
+      )
+    end
+  end
 end
