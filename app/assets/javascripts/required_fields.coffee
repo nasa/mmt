@@ -126,6 +126,7 @@ $(document).ready ->
           if removeLevel.topLevel == currentDataLevel
             requiredDataLevels.splice(index, 1)
 
+
     # Get unique required data levels
     levels = requiredDataLevels.map (obj) ->
       obj.level
