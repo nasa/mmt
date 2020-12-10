@@ -44,6 +44,17 @@ $(document).ready ->
 
   # Add required icons
   addRequiredIcons = (field) ->
+
+    # MMT-2428: Because the dependent-fields-checkboxes are being handled in umm_forms.coffee,
+    # the following lines make sure the dependent fields (whose display is toggled by the checkbox) are removed
+    # from the requiredDataLevels array (defined above) when they are hidden (parent checkbox is unchecked)
+    if $(field).hasClass('dependent-fields-checkbox') && !field.checked
+      fieldClass = $(field).data('dependentFieldClass')
+      dependentFields = $(field).closest('.checkbox-dependent-fields-parent').find(".#{fieldClass}-fields")
+      $.each $(dependentFields).find("input[type='radio'], input[type='checkbox']"), (index, field) ->
+        for removeLevel, index in requiredDataLevels by -1
+            requiredDataLevels.splice(index, 1) if removeLevel.topLevel == $(field).attr('data-level')
+
     # get current fields data-level value
     return unless $(field).data('level')?
 
@@ -114,14 +125,6 @@ $(document).ready ->
         for removeLevel, index in requiredDataLevels by -1
           if removeLevel.topLevel == currentDataLevel
             requiredDataLevels.splice(index, 1)
-
-      for removeLevel, index in requiredDataLevels by -1
-        $input_fields = $("[data-level='#{removeLevel.topLevel}']")
-        if $input_fields.length > 0
-          inputFieldsWithValues = $input_fields.filter ->
-            if this.type == 'radio' || this.type == 'checkbox' then this.checked else true
-          requiredDataLevels.splice(index, 1) if inputFieldsWithValues.length == 0
-
 
     # Get unique required data levels
     levels = requiredDataLevels.map (obj) ->
@@ -377,5 +380,5 @@ $(document).ready ->
   $('.metadata-form, .umm-form').find('input, select, textarea').not(':disabled').each (index, field) ->
     addRequiredIcons(field)
 
-  $('.metadata-form, .umm-form').on 'change', 'input[type="radio"], select', ->
+  $('.metadata-form, .umm-form').on 'change', 'input[type="radio"], input[type="checkbox"], select', ->
     addRequiredIcons(this)
