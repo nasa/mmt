@@ -35,30 +35,6 @@ describe 'Service Options Form', js: true do
             end
           end
         end
-
-        # MMT-2428: we want to follow the steps in the ticket to try to recreate the error.
-        # 1. Check both Temporal and Variable Subsets and select a boolean value for both
-        # 2. Uncheck both, re-check them, and select a value for just one of them
-        # 3. If the bug persists, both radio group labels (despite one of them not having a T/F selected)
-        #    will have required icons, otherwise only the radio group with a selected button
-        #    will have a required icon
-        check 'Variable Subset'
-        check 'Temporal Subset'
-
-        within '.variable-subset-fields' do
-          choose 'True'
-        end
-        within '.temporal-subset-fields' do
-          choose 'True'
-        end
-
-        uncheck 'Temporal Subset'
-        uncheck 'Variable Subset'
-        check 'Variable Subset'
-        check 'Temporal Subset'
-        within '.variable-subset-fields' do
-          choose 'True'
-        end
       end
 
       select 'ANOMOLY', from: 'Variable Aggregation Supported Methods'
@@ -116,9 +92,30 @@ describe 'Service Options Form', js: true do
       end
 
       within '.subset' do
-        # need to make visible; when the form is saved, it will close checked fields that contain no input
+        # MMT-2428: we want to follow the steps in the ticket to try to recreate the error.
+        # 1. Check both Temporal and Variable Subsets and select a boolean value for both
+        # 2. Uncheck both, re-check them, and select a value for just one of them
+        # 3. If the bug persists, both radio group labels (despite one of them not having a T/F selected)
+        #    will have required icons, otherwise only the radio group with a selected button
+        #    will have a required icon
+        check 'Variable Subset'
         check 'Temporal Subset'
-      end 
+
+        within '.variable-subset-fields' do
+          choose 'True'
+        end
+        within '.temporal-subset-fields' do
+          choose 'True'
+        end
+
+        uncheck 'Temporal Subset'
+        uncheck 'Variable Subset'
+        check 'Variable Subset'
+        check 'Temporal Subset'
+        within '.variable-subset-fields' do
+          choose 'True'
+        end
+      end
     end
 
     it 'does not erroneously display required icons for Subset child fields' do
