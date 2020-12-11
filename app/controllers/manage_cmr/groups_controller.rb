@@ -10,16 +10,6 @@ class GroupsController < ManageCmrController
 
   RESULTS_PER_PAGE = 25
 
-  # TODO:
-  # ___ by default, only groups for the current provider context are shown
-  # ___ users can choose to display all groups they have read access to by selecting a checkbox/radio button
-  # ___ only provider groups are shown by default if a user has system groups access
-  # ___ if a user has system groups access, checkboxes/radio buttons can be used to choose to display provider groups and/or system groups
-  # ___ if a user has access to modify Provider ACLs, a button can be used to manage Provider ACLs for that group
-  # ___ if a user has access to modify Provider ACLs, a button can be used to manage Provider ACLs in the current provider context for that system group. A modal is also displayed informing the user that they will be modifying Provider ACLs for the current provider context.
-  # ___ if a user has access to modify System ACLs, a button can be used to manage System ACLs for that system group.
-  # CMR is added as a provider to allow searching for system groups in the existing filter
-
   def index
     # these params are not used for mass assignment, only for searching cmr
     permitted = params.to_unsafe_h unless params.nil?
@@ -46,7 +36,6 @@ class GroupsController < ManageCmrController
     end
 
     @member_filter_details = if @filters['member']
-                               # @filters['options'] = { 'member' => { 'and' => true } }
                                @query['member'] = @filters['member']
                                @query['options'] = { 'member' => { 'and' => true } }
 
@@ -80,7 +69,8 @@ class GroupsController < ManageCmrController
 
       request_group_members(@concept_id)
 
-      set_permissions
+      set_collection_permissions
+      check_if_current_group_provider_acl_administrator(group_provider: @group['provider_id']) unless current_provider?(@group['provider_id'])
 
       add_breadcrumb @group.fetch('name'), group_path(@concept_id)
     else
@@ -263,7 +253,7 @@ class GroupsController < ManageCmrController
   end
 
   # Get all of the permissions for the current group
-  def set_permissions
+  def set_collection_permissions
     # Initialize the permissions array to provide to the view
     @permissions = []
     all_permissions = []

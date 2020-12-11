@@ -123,7 +123,7 @@ module PermissionChecking
       []
     end
   end
-  
+
   def granted_permissions_for_user(user:, target:, type:, token:, specific_provider: nil)
     granted_permissions = permissions_for_target(user: user, target: target, type: type, token: token, specific_provider: specific_provider)
 

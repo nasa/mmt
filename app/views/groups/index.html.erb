@@ -5,7 +5,7 @@
     <%= link_to 'Create a Group', new_group_path, class: 'eui-btn--blue space-bot' %>
 
     <%= form_tag(groups_path, method: :get, class: 'group-form') do %>
-      <fieldset>
+      <fieldset class="groups-filters">
         <div class="row space-bot">
           <h4>Search Groups</h4>
           <p class="form-description space-bot">Use the selections and filters below to refine groups by Provider and/or User</p>

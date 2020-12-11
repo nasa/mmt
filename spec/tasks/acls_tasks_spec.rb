@@ -49,7 +49,7 @@ describe 'Using rake tasks to add a user to groups for local group and acl manua
 
       wait_for_cmr
     end
-    
+
     it 'adds the appropriate users to the groups' do
       group_id = get_group_concept_from_name(group_name: 'MMT_2 Admin Group')
       group_response = cmr_client.get_group(group_id, 'access_token_admin')

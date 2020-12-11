@@ -71,7 +71,7 @@ describe 'Provider Identity Permissions pages and form', reset_provider: true do
       end
 
       it 'displays the page with the form and table of provider targets' do
-        expect(page).to have_content("#{@group_name} Provider Object Permissions")
+        expect(page).to have_content("#{@group_name} Provider Object Permissions for MMT_2")
         expect(page).to have_content("Set permissions for the #{@group_name} group by checking the appropriate boxes below and clicking 'Submit'.")
 
         within '.provider-permissions-table' do

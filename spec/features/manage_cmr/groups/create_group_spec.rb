@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Groups', reset_provider: true do
   context 'when visiting the new group form' do
     before do

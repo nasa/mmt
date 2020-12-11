@@ -1,7 +1,8 @@
 describe 'Changing or Removing System Identity Permissions' do
   before :all do
+    @group_name = 'Test System Permissions Group 2'
     @group_response = create_group(
-      name: 'Test System Permissions Group 2',
+      name: @group_name,
       description: 'Group to test system permissions',
       provider_id: nil,
       admin: true
@@ -57,11 +58,13 @@ describe 'Changing or Removing System Identity Permissions' do
     delete_group(concept_id: @group_response['concept_id'], admin: true)
   end
 
-  context 'when visiting the system object permissions page for a system group' do
+  context 'when visiting the system object permissions page for a system group from the system object permissions index page' do
     before do
       login_admin
 
-      visit edit_system_identity_permission_path(@group_response['concept_id'])
+      visit system_identity_permissions_path
+
+      click_on @group_name
     end
 
     it 'has the correct permissions checked' do

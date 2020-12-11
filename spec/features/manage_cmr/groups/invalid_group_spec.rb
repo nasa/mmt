@@ -1,8 +1,4 @@
-# MMT-150
-
-require 'rails_helper'
-
-describe 'Groups' do
+describe 'Invalid Group' do
   context 'when visiting a group using an invalid concept id' do
     bad_concept_id = 'aabbccddee'
 

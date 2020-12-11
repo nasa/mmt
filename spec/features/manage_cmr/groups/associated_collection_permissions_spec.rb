@@ -1,4 +1,4 @@
-describe 'Groups Associated Permissions', reset_provider: true do
+describe 'Groups Associated Collection Permissions', reset_provider: true do
   context 'when creating a new group with an associated collection permission' do
     before do
       login
@@ -17,7 +17,7 @@ describe 'Groups Associated Permissions', reset_provider: true do
     end
 
     it 'displays the associated permissions' do
-      expect(page).to have_content 'Associated Permissions'
+      expect(page).to have_content 'Associated Collection Permissions'
 
       expect(page).to have_content 'Test Permission 1'
       expect(page).to have_content 'Test Permission 2'
