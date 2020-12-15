@@ -67,23 +67,26 @@ $(document).ready ->
     # Groups Index filters
 
     $('input[name="filters[provider_segment]"]:radio').on 'change', ->
-      # debugger
       if $(this).val() == 'current'
         # clear inputs to hide
         $('#provider-group-filter').val(null).change()
         $('#filters_show_system_groups').prop('checked', false)
         # hide inputs
-        $('#groups-show-system-groups-filter').addClass('is-hidden')
-        $('#groups-provider-filter').addClass('is-hidden')
+        $('#groups-show-system-groups-filter').hide()
+        $('#groups-provider-filter').hide()
       else if $(this).val() == 'available'
         # show system groups checkbox if it was rendered
-        $('#groups-show-system-groups-filter').removeClass('is-hidden')
+        $('#groups-show-system-groups-filter').show()
         # show provider select
-        $('#groups-provider-filter').removeClass('is-hidden')
+        $('#groups-provider-filter').show()
         # need to re-init the select2 so it renders correctly
         $('#provider-group-filter').select2()
 
-    # when toggling the show system groups checkbox
+    # CMR is not an actual provider, but is the provider given to system groups
+    # as a user cannot have CMR in their available_providers we have to determine
+    # when it should be in the filter as an option
+
+    # toggling the show system groups checkbox
     $('#filters_show_system_groups').on 'change', ->
       if $(this).prop('checked') == true
         data =

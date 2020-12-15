@@ -12,6 +12,8 @@ class GroupsController < ManageCmrController
 
   def index
     # these params are not used for mass assignment, only for searching cmr
+    # additionally, it was too time consuming to implement strong params due to
+    # nested and array values not responding to `permit` as expected
     permitted = params.to_unsafe_h unless params.nil?
 
     @filters = permitted[:filters] || {}
@@ -21,16 +23,16 @@ class GroupsController < ManageCmrController
     @filters['provider_segment'] ||= 'current'
     @groups_provider_ids = current_user.available_providers.dup
 
+    # CMR is not an actual provider, but is the provider given to system groups
+    # as a user cannot have CMR in their available_providers we have to determine when to add it to the filter drop down
     if @filters['provider'].present?
       @query['provider'] = @filters['provider']
-
-      # if provider is CMR, it should an option of the select
+      # if provider is CMR, it should be an option in the select
       @groups_provider_ids << 'CMR' if @filters['provider'].include?('CMR')
     elsif @filters['provider_segment'] == 'current'
       @query['provider'] = [current_user.provider_id]
     elsif @filters['provider_segment'] == 'available'
       @query['provider'] = @groups_provider_ids
-
       # add CMR for system groups to query if users have read access and selected to show system groups
       @query['provider'] << 'CMR' if policy(:system_group).read? && @filters['show_system_groups'] == 'true'
     end
@@ -211,14 +213,6 @@ class GroupsController < ManageCmrController
   def group_params
     params.require(:group).permit(:name, :description, :provider_id, members: [])
   end
-
-  # def groups_index_params
-  #   # these params are not used for mass assignment, only for searching cmr
-  #   # params.permit(:filters).permit(:provider_segment, :show_system_groups, :provider, :member)
-  #   # params.permit(filters: [ :provider_segment, :show_system_groups, provider: [], member: [] ])
-  #   # params.permit(filters: {})
-  #   # params.fetch(:filters, {}).permit(:provider_segment, { provider: [], member: [], :show_system_groups })
-  # end
 
   def set_members(group_member_uids)
     @members = if group_member_uids.any?

@@ -8,7 +8,7 @@ module GroupsHelper
     check_if_system_group?(group, group['concept_id']) ? 'CMR' : group['provider_id']
   end
 
-  def current_group_provider_acl_admin
+  def current_group_provider_acl_admin?
     current_provider?(@group['provider_id']) ? @user_is_current_provider_acl_admin : @user_is_current_group_provider_acl_admin
   end
 
@@ -27,7 +27,7 @@ module GroupsHelper
         render_manage_system_permissions_link
       end
 
-      if @user_is_system_acl_admin || current_group_provider_acl_admin
+      if @user_is_system_acl_admin || current_group_provider_acl_admin?
         render_manage_provider_permissions_link
       end
     end

@@ -1,6 +1,11 @@
 describe 'Concurrent Users Editing System Permissions', js: true do
   before do
-    @group_response = create_group(name: 'Test System Permissions Group 1', description: 'Group to test system permissions', provider_id: nil, admin: true)
+    @group_name = 'Test System Permissions Group 1'
+    @group_response = create_group(
+      name: @group_name,
+      description: 'Group to test system permissions',
+      provider_id: nil,
+      admin: true)
   end
 
   after do
@@ -66,7 +71,10 @@ describe 'Concurrent Users Editing System Permissions', js: true do
             'target' => 'TAG_GROUP'
           } }, 'access_token_admin'
       )
-      visit edit_system_identity_permission_path(@group_response['concept_id'])
+
+      visit system_identity_permissions_path
+      click_on @group_name
+
       uncheck('system_permissions_TAG_GROUP_', option: 'create')
 
       # Difficult to actually generate the race condition in CMR, just VCR it.
@@ -87,7 +95,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
       # This request should be a valid request to delete in CMR, but the VCR is
       # configured to return the response from an invalid request in order
       # to test our response to it.
-      VCR.use_cassette('permissions/concurrent_delete', erb: { group_id: @group_response['concept_id'] } ) do
+      VCR.use_cassette('permissions/concurrent_delete', erb: { group_id: @group_response['concept_id'] }) do
         click_on 'Submit'
       end
 

@@ -286,12 +286,8 @@ class ApplicationController < ActionController::Base
   helper_method :echo_provider_token
 
   def redirect_after_login
-    # return_to = session[:return_to]
-    # session[:return_to] = nil
     return_to = session.delete(:return_to)
 
-    # last_point = session[:last_point]
-    # session[:last_point] = nil
     last_point = session.delete(:last_point)
 
     redirect_to return_to || last_point || internal_landing_page

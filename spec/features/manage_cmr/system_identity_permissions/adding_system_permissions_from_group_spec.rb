@@ -18,7 +18,7 @@ describe 'Saving System Object Permissions from the system group show page' do
 
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
 
-    permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token_admin') }
+    permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
 
     # delete the group
     delete_group(concept_id: @group_response['concept_id'], admin: true)

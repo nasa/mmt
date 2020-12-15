@@ -12,19 +12,19 @@
     <section>
       <h4>Associated Collection Permissions</h4>
       <% if @permissions.blank? %>
-      <p>No associated collection permissions found.</p>
+        <p>No associated collection permissions found.</p>
       <% else %>
-      <ul>
-        <% @permissions.each do |permission| %>
-        <li><%= link_to permission['name'], permission_path(permission['concept_id']) %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% @permissions.each do |permission| %>
+            <li><%= link_to permission['name'], permission_path(permission['concept_id']) %></li>
+          <% end %>
+        </ul>
       <% end %>
     </section>
 
     <section>
       <!-- Manage Permissions (Provider and System ACLs) -->
-      <% if @user_is_system_acl_admin || current_group_provider_acl_admin %>
+      <% if @user_is_system_acl_admin || current_group_provider_acl_admin? %>
         <%= render_manage_provider_or_system_permissions_title %>
         <%= render_manage_provider_or_system_permissions_links %>
       <% end %>

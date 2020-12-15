@@ -75,10 +75,12 @@ module Helpers
         # Use the provided user or lookup a previously created user by URS UID
         user = User.find_or_create_by(urs_uid: profile_body(admin: admin)['uid'])
 
-        # This is a setter on the User model, because we're only supplying it
-        # providers it will assign provider_id for us.
         if Array.wrap(providers).any?
+          # This is a setter on the User model, because we're only supplying it
+          # providers it will assign provider_id for us.
           user.providers = Array.wrap(providers)
+          # provider id is only set if providers has only one
+          user.provider_id = provider if Array.wrap(providers).count > 1
           user.save
         end
 
@@ -86,6 +88,7 @@ module Helpers
           # after the user authenticates with URS to associate their URS account with their Launchpad account
           visit '/urs_association_callback?code=auth_code_here'
         else
+          # this will actually reset the available providers set above
           # after the user authenticates with URS when URS login is required
           visit '/urs_login_callback?code=auth_code_here'
         end
@@ -97,8 +100,9 @@ module Helpers
         uid = admin ? 'adminuser' : 'testuser'
         token = admin ? 'access_token_admin' : 'access_token'
         user = User.from_urs_uid(uid)
-        user.provider_id = provider
         user.providers = Array.wrap(providers)
+        # provider id is only set if providers has only one
+        user.provider_id = provider if Array.wrap(providers).count > 1
         user.save
 
         allow_any_instance_of(ApplicationController).to receive(:ensure_user_is_logged_in).and_return(true)
@@ -136,10 +140,12 @@ module Helpers
         # Use the provided user or lookup a previously created user by URS UID
         user = User.find_or_create_by(urs_uid: profile_body(admin: admin)['uid'])
 
-        # This is a setter on the User model, because we're only supplying it
-        # providers it will assign provider_id for us.
         if Array.wrap(providers).any?
+          # This is a setter on the User model, because we're only supplying it
+          # providers it will assign provider_id for us.
           user.providers = Array.wrap(providers)
+          # provider id is only set if providers has only one
+          user.provider_id = provider if Array.wrap(providers).count > 1
           user.save
         end
 
