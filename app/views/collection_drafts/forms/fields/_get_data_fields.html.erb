@@ -1,11 +1,12 @@
 <div class="row sub-fields">
   <div class="col-6">
+
     <%= mmt_select(
       name: 'format',
       title: 'Format',
       prefix: name_prefix,
       value: get_data['Format'],
-      options: DraftsHelper::GetDataTypeFormatOptions,
+      options: cmr_client.get_kms_keywords,
       help: 'definitions/GetDataType/properties/Format',
       required: true
     ) %>
