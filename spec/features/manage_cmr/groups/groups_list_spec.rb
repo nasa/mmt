@@ -34,7 +34,7 @@ describe 'Groups list page', js: true, reset_provider: true do
             expect(page).to have_checked_field('Current Provider')
 
             # groups created on our local cmr setup
-            expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2 2')
+            expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2')
           end
 
           context 'when choosing to display groups from Available Providers' do
@@ -51,18 +51,18 @@ describe 'Groups list page', js: true, reset_provider: true do
 
               # groups created on our local cmr setup
               within '.groups-table' do
-                expect(page).to have_content('LARC Admin Group Test group for provider LARC 2')
-                expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1 2')
-                expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2 2')
-                expect(page).to have_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS 2')
+                expect(page).to have_content('LARC Admin Group Test group for provider LARC')
+                expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1')
+                expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2')
+                expect(page).to have_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS')
               end
             end
 
             it 'does not display system level and admin access only provider groups' do
               within '.groups-table' do
                 expect(page).to have_no_content('Administrators CMR Administrators CMR 2')
-                expect(page).to have_no_content('Administrators_2 The group of users that manages the CMR. CMR 2')
-                expect(page).to have_no_content('SEDAC Admin Group Test group for provider SEDAC 2')
+                expect(page).to have_no_content('Administrators_2 The group of users that manages the CMR. CMR')
+                expect(page).to have_no_content('SEDAC Admin Group Test group for provider SEDAC')
               end
             end
 
@@ -94,7 +94,7 @@ describe 'Groups list page', js: true, reset_provider: true do
               end
 
               it 'displays only the groups from the current provider by default' do
-                expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2 2')
+                expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2')
               end
 
               context 'when choosing to display groups from all Available Providers' do
@@ -139,17 +139,17 @@ describe 'Groups list page', js: true, reset_provider: true do
                   it 'displays the provider and system level groups' do
                     within '.groups-table' do
                       # Provider level groups
-                      expect(page).to have_content('LARC Admin Group Test group for provider LARC 2')
-                      expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1 2')
-                      expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2 2')
-                      expect(page).to have_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS 2')
+                      expect(page).to have_content('LARC Admin Group Test group for provider LARC')
+                      expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1')
+                      expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2')
+                      expect(page).to have_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS')
 
                       # Provider group with only admin users
-                      expect(page).to have_content('SEDAC Admin Group Test group for provider SEDAC 2')
+                      expect(page).to have_content('SEDAC Admin Group Test group for provider SEDAC')
 
                       # System level groups
                       expect(page).to have_content('Administrators SYS CMR')
-                      expect(page).to have_content('Administrators_2 SYS The group of users that manages the CMR. CMR 2')
+                      expect(page).to have_content('Administrators_2 SYS The group of users that manages the CMR. CMR')
                     end
                   end
                 end
@@ -242,8 +242,8 @@ describe 'Groups list page', js: true, reset_provider: true do
         page.document.synchronize do
           within '.groups-table' do
             expect(page).to have_content('Administrators SYS CMR')
-            expect(page).to have_content('Administrators_2 SYS The group of users that manages the CMR. CMR 2')
-            expect(page).to have_content('SEDAC Admin Group Test group for provider SEDAC 2')
+            expect(page).to have_content('Administrators_2 SYS The group of users that manages the CMR. CMR')
+            expect(page).to have_content('SEDAC Admin Group Test group for provider SEDAC')
           end
         end
       end
