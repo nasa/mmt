@@ -7,7 +7,6 @@ describe 'Service Options Form', js: true do
 
   context 'when submitting the form' do
     before do
-      check 'Spatial'
       within '.subset' do
         check 'Spatial Subset'
         within '.spatial-subset-fields' do
@@ -35,11 +34,6 @@ describe 'Service Options Form', js: true do
               select 'GeoJSON', from: 'Format'
             end
           end
-        end
-
-        check 'Variable Subset'
-        within '.variable-subset-fields' do
-          choose 'True'
         end
       end
 
@@ -95,6 +89,41 @@ describe 'Service Options Form', js: true do
 
       within '.nav-top' do
         click_on 'Save'
+      end
+
+      within '.subset' do
+        # MMT-2428: we want to follow the steps in the ticket to try to recreate the error.
+        # 1. Check both Temporal and Variable Subsets and select a boolean value for both
+        # 2. Uncheck both, re-check them, and select a value for just one of them
+        # 3. If the bug persists, both radio group labels (despite one of them not having a T/F selected)
+        #    will have required icons, otherwise only the radio group with a selected button
+        #    will have a required icon
+        check 'Variable Subset'
+        check 'Temporal Subset'
+
+        within '.variable-subset-fields' do
+          choose 'True'
+        end
+        within '.temporal-subset-fields' do
+          choose 'True'
+        end
+
+        uncheck 'Temporal Subset'
+        uncheck 'Variable Subset'
+        check 'Variable Subset'
+        check 'Temporal Subset'
+        within '.variable-subset-fields' do
+          choose 'True'
+        end
+      end
+    end
+
+    it 'does not erroneously display required icons for Subset child fields' do
+      within '.variable-subset-fields' do
+        expect(page).to have_css('label.eui-required-o')
+      end
+      within '.temporal-subset-fields' do
+        expect(page).to have_no_css('label.eui-required-o')
       end
     end
 

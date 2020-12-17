@@ -372,3 +372,14 @@ $(document).ready ->
 
   $('.metadata-form, .umm-form').on 'change', 'input[type="radio"], select', ->
     addRequiredIcons(this)
+
+  # MMT-2428: Because the dependent-fields-checkboxes are being handled in umm_forms.coffee,
+  # the following lines make sure the dependent fields (whose display is toggled by the checkbox) are removed
+  # from the requiredDataLevels array (defined above) when they are hidden (parent checkbox is unchecked)
+  $('.dependent-fields-checkbox').on 'change', ->
+    unless this.checked
+      fieldClass = $(this).data('dependentFieldClass')
+      dependentFields = $(this).closest('.checkbox-dependent-fields-parent').find(".#{fieldClass}-fields")
+      $.each $(dependentFields).find("input[type='radio'], input[type='checkbox']"), (index, field) ->
+        for removeLevel, index in requiredDataLevels by -1
+            requiredDataLevels.splice(index, 1) if removeLevel.topLevel == $(field).attr('data-level')
