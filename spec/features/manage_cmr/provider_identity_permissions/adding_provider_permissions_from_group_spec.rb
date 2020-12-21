@@ -32,7 +32,7 @@ describe 'Saving Provider Object Permissions from the group show page', reset_pr
 
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token').body.fetch('items', [])
 
-    permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token') }
+    permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
 
     # delete the system group
     delete_group(concept_id: @system_group['concept_id'], admin: true)
@@ -217,7 +217,7 @@ describe 'Saving Provider Object Permissions from the group show page', reset_pr
 
             expect(page).to have_content('SYS')
             expect(page).to have_css('span.eui-badge--sm')
-            
+
             expect(page).to have_content('Associated Collection Permissions')
             expect(page).to have_content('Members')
 

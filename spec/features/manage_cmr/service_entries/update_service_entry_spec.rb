@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Updating a Service Entry', reset_provider: true do
   let(:guid) { 'E7B6371A-31CD-0AAC-FF18-78A78289BD65' }
 

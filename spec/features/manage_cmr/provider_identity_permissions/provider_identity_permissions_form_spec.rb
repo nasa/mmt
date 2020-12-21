@@ -1,4 +1,4 @@
-describe 'Provider Identity Permissions pages and form', reset_provider: true do
+describe 'Provider Identity Permissions pages and form' do
   before :all do
     @group_name = 'Test Group for Provider Object Permissions'
     @group_description = 'Group for provider object permissions management'
@@ -9,6 +9,10 @@ describe 'Provider Identity Permissions pages and form', reset_provider: true do
     )
 
     wait_for_cmr
+  end
+
+  after :all do
+    delete_group(concept_id: @group['concept_id'])
   end
 
   context 'when viewing the provider identities permisisons index page as an administrator' do
@@ -29,7 +33,6 @@ describe 'Provider Identity Permissions pages and form', reset_provider: true do
       end
     end
   end
-
 
   context 'when visiting the provider identities permissions pages as a regular user' do
     before do

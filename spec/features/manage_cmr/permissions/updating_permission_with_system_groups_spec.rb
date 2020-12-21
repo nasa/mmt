@@ -1,6 +1,3 @@
-# MMT-843
-require 'rails_helper'
-
 describe 'Updating Collection Permissions with System Groups', reset_provider: true do
   before :all do
     @group_name = random_group_name
@@ -32,6 +29,10 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
     @collection_permission = cmr_client.add_group_permissions(original_collection_permission, 'access_token').body
 
     wait_for_cmr
+  end
+
+  after :all do
+    remove_group_permissions(@collection_permission['concept_id'])
   end
 
   context 'when logging in as a regular user and viewing the collection permission' do

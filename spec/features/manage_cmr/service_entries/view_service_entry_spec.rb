@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Viewing a Service Entry', reset_provider: true do
   before :all do
     # create a group

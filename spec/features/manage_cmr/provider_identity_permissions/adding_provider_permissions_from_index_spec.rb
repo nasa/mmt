@@ -30,7 +30,7 @@ describe 'Saving Provider Object Permissions from the provider object permission
 
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token').body.fetch('items', [])
 
-    permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token') }
+    permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
 
     # delete the system group
     delete_group(concept_id: @system_group['concept_id'], admin: true)
@@ -67,7 +67,7 @@ describe 'Saving Provider Object Permissions from the provider object permission
 
           expect(page).to have_css('.provider-permissions-table')
         end
-        
+
         context 'when clicking cancel' do
           before do
             click_on 'Cancel'

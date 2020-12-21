@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Groups breadcrumbs and header' do
   before :all do
     @group = create_group(
@@ -7,6 +5,10 @@ describe 'Groups breadcrumbs and header' do
       description: 'test group',
       provider_id: 'MMT_2'
     )
+  end
+
+  after :all do
+    delete_group(concept_id: @group['concept_id'])
   end
 
   before do

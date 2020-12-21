@@ -12,6 +12,7 @@ describe 'Proposal access in Draft MMT', reset_provider: true do
 
     after :all do
       remove_group_permissions(@non_nasa_permissions['concept_id'])
+      delete_group(concept_id: @non_nasa_draft_users_group['concept_id'])
     end
 
     before do

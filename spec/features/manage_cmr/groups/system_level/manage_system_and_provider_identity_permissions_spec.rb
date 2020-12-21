@@ -1,4 +1,4 @@
-describe 'Group show page Manage System and Provider Object Permissions', reset_provider: true do
+describe 'Group show page Manage System and Provider Object Permissions' do
 
   # let(:sys_group_concept) { group_concept_from_name('Administrators', 'access_token_admin') }
 
@@ -23,6 +23,7 @@ describe 'Group show page Manage System and Provider Object Permissions', reset_
 
   after :all do
     delete_group(concept_id: @admin_group['concept_id'], admin: true)
+    delete_group(concept_id: @provider_group['concept_id'])
   end
 
   context 'when logging in as an System Admin user' do

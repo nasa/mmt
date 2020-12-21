@@ -70,7 +70,6 @@ describe 'Groups list page', js: true, reset_provider: true do
               within '.groups-filters' do
                 expect(page).to have_no_content('System Groups')
                 expect(page).to have_no_unchecked_field('Show System Groups?')
-                # expect(page).to have_no_css('input#filters_show_system_groups')
 
                 # CMR is only added to the provider list if they have access to
                 # system groups and the Show System Groups? checkbox is checked

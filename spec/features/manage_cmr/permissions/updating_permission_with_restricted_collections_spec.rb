@@ -80,6 +80,8 @@ describe 'Updating Collection Permissions when collections are not accessible by
   end
 
   after :all do
+    remove_group_permissions(@collection_permission_some_restricted['concept_id'])
+    remove_group_permissions(@collection_permission_all_restricted['concept_id'])
     delete_group(concept_id: @group['concept_id'])
 
     wait_for_cmr
