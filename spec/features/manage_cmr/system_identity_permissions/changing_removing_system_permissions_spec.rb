@@ -56,6 +56,8 @@ describe 'Changing or Removing System Identity Permissions' do
     permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
 
     delete_group(concept_id: @group_response['concept_id'], admin: true)
+
+    reindex_permitted_groups
   end
 
   context 'when visiting the system object permissions page for a system group from the system object permissions index page' do

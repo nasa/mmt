@@ -34,6 +34,8 @@ describe 'Saving Provider Object Permissions from the provider object permission
 
     # delete the system group
     delete_group(concept_id: @system_group['concept_id'], admin: true)
+
+    reindex_permitted_groups
   end
 
   context 'when logging in as a provider admin' do
