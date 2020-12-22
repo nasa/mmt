@@ -8,9 +8,12 @@ describe 'Collections with Tags', js: true do
     # ingest collection
     @ingest_response, _concept_response = publish_collection_draft(revision_count: 2, short_name: short_name)
 
-    # create tag(s)
-    @acl_concept = setup_tag_permissions
+    # create system group and permissions for tags
+    @sys_group_response = create_group(provider_id: nil, admin: true, members: ['admin', 'adminuser'])
+    @acl_concept = setup_tag_permissions(@sys_group_response['concept_id'])
     reindex_permitted_groups
+
+    # create tag(s)
     create_tags(tag_1_key, tag_1_description)
     create_tags(tag_2_key)
 
@@ -21,6 +24,7 @@ describe 'Collections with Tags', js: true do
 
   after(:all) do
     remove_group_permissions(@acl_concept)
+    delete_group(concept_id: @sys_group_response['concept_id'], admin: true)
     reindex_permitted_groups
   end
 

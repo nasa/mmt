@@ -6,7 +6,8 @@ describe 'Saving System Object Permissions from the system group show page' do
       name: @group_name,
       description: @group_description,
       provider_id: nil,
-      admin: true)
+      admin: true
+    )
   end
 
   after :all do

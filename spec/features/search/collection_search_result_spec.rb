@@ -157,12 +157,15 @@ describe 'Searching published collections', js: true, reset_provider: true do
     search_tag_1_description = 'This is a search example tag'
     tag_collection_short_name = 'Collection Tagging search example 01'
 
-    before(:all) do
+    before :all do
       @ingest_response, _concept_response = publish_collection_draft(short_name: tag_collection_short_name)
 
-      # create tags
-      @acl_concept = setup_tag_permissions
+      # create system group and permissions for tags
+      @sys_group_response = create_group(provider_id: nil, admin: true, members: ['admin', 'adminuser'])
+      @acl_concept = setup_tag_permissions(@sys_group_response['concept_id'])
       reindex_permitted_groups
+
+      # create tags
       create_tags(search_tag_1_key, search_tag_1_description)
 
       # associate with a collection
@@ -171,6 +174,7 @@ describe 'Searching published collections', js: true, reset_provider: true do
 
     after :all do
       remove_group_permissions(@acl_concept)
+      delete_group(concept_id: @sys_group_response['concept_id'], admin: true)
       reindex_permitted_groups
     end
 
