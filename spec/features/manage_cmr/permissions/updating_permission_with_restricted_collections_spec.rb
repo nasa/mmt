@@ -19,7 +19,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
     restricted_concept_1 = collection_concept_from_keyword('MYD29E1D_5', 'access_token_admin')
     restricted_concept_2 = collection_concept_from_keyword('AE_SI12_3', 'access_token_admin')
 
-    @group_name = "Test Group NSIDC_ECS #{rand(100)}"
+    @group_name = "Test Group NSIDC_ECS #{Faker::Number.number(digits: 6)}"
     @group = create_group(
       name: @group_name,
       provider_id: 'NSIDC_ECS'
@@ -27,7 +27,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
     wait_for_cmr
 
-    @collection_permission_some_restricted_name = "Testing Collection Permission with SOME restricted collections #{rand(1000)}"
+    @collection_permission_some_restricted_name = "Testing Collection Permission with SOME restricted collections #{Faker::Number.number(digits: 6)}"
 
     collection_permission_some_restricted = {
       group_permissions: [{
@@ -49,11 +49,11 @@ describe 'Updating Collection Permissions when collections are not accessible by
       }
     }
 
-    @collection_permission_some_restricted = cmr_client.add_group_permissions(collection_permission_some_restricted, 'access_token_admin').body
+    @collection_permission_some_restricted = add_group_permissions(collection_permission_some_restricted)
 
     wait_for_cmr
 
-    @collection_permission_all_restricted_name = "Testing Collection Permission with ALL restricted collections #{rand(1000)}"
+    @collection_permission_all_restricted_name = "Testing Collection Permission with ALL restricted collections #{Faker::Number.number(digits: 6)}"
 
     collection_permission_all_restricted = {
       group_permissions: [{
@@ -74,9 +74,9 @@ describe 'Updating Collection Permissions when collections are not accessible by
       }
     }
 
-    @collection_permission_all_restricted = cmr_client.add_group_permissions(collection_permission_all_restricted, 'access_token_admin').body
+    @collection_permission_all_restricted = add_group_permissions(collection_permission_all_restricted)
 
-    wait_for_cmr
+    reindex_permitted_groups
   end
 
   after :all do
@@ -84,7 +84,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
     remove_group_permissions(@collection_permission_all_restricted['concept_id'])
     delete_group(concept_id: @group['concept_id'])
 
-    wait_for_cmr
+    reindex_permitted_groups
   end
 
   context 'when logging in as a user that has restricted access to the provider collections' do
@@ -208,60 +208,63 @@ describe 'Updating Collection Permissions when collections are not accessible by
           end
         end
       end
-    end
-  end
 
-  context 'when logging in as an admin user that has full access to the provider collections' do
-    before do
-      login_admin(provider: 'NSIDC_ECS', providers: %w(MMT_2 NSIDC_ECS))
-    end
+      context 'when logging out then logging in as an admin user that has full access to the provider collections' do
+        before do
+          visit logout_path
 
-    context 'when viewing the edit form of the collection permission that has some restricted collections', js: true do
-      before do
-        visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
+          login_admin(provider: 'NSIDC_ECS', providers: %w(MMT_2 NSIDC_ECS))
+        end
 
-        wait_for_jQuery
-      end
+        context 'when viewing the edit form of the collection permission that has some restricted collections' do
+          before do
+            visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
 
-      it 'displays the collection permission with 3 of 3 selected collection' do
-        expect(page).to have_field('Name', with: @collection_permission_some_restricted_name, readonly: true)
+            wait_for_jQuery
+          end
 
-        expect(page).to have_checked_field('Selected Collections')
-        expect(page).to have_checked_field('Granules')
+          it 'displays the collection permission with 3 of 3 selected collection' do
+            expect(page).to have_field('Name', with: @collection_permission_some_restricted_name, readonly: true)
 
-        # we should see all 3 collections in the Available Collections
-        expect(page).to have_css('#collectionsChooser_fromList option', text: "#{entry_id_visible_to_all} | #{entry_title_visible_to_all}")
-        expect(page).to have_css('#collectionsChooser_fromList option', text: "#{restricted_entry_id_1} | #{restricted_entry_title_1}")
-        expect(page).to have_css('#collectionsChooser_fromList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
+            expect(page).to have_checked_field('Selected Collections')
+            expect(page).to have_checked_field('Granules')
 
-        # we should see all 3 collections in the Selected Collections
-        expect(page).to have_css('#collectionsChooser_toList option', text: "#{entry_id_visible_to_all} | #{entry_title_visible_to_all}")
-        expect(page).to have_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_1} | #{restricted_entry_title_1}")
-        expect(page).to have_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
+            # we should see all 3 collections in the Available Collections
+            expect(page).to have_css('#collectionsChooser_fromList option', text: "#{entry_id_visible_to_all} | #{entry_title_visible_to_all}")
+            expect(page).to have_css('#collectionsChooser_fromList option', text: "#{restricted_entry_id_1} | #{restricted_entry_title_1}")
+            expect(page).to have_css('#collectionsChooser_fromList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
 
-        within '#search_and_order_groups_cell' do
-          expect(page).to have_css('li.select2-selection__choice', text: @group_name)
+            # we should see all 3 collections in the Selected Collections
+            expect(page).to have_css('#collectionsChooser_toList option', text: "#{entry_id_visible_to_all} | #{entry_title_visible_to_all}")
+            expect(page).to have_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_1} | #{restricted_entry_title_1}")
+            expect(page).to have_css('#collectionsChooser_toList option', text: "#{restricted_entry_id_2} | #{restricted_entry_title_2}")
+
+            within '#search_and_order_groups_cell' do
+              expect(page).to have_css('li.select2-selection__choice', text: @group_name)
+            end
+          end
+        end
+
+        context 'when viewing the show page of the collection permission that has some restricted collections' do
+          before do
+            visit permission_path(@collection_permission_some_restricted['concept_id'])
+          end
+
+          it 'displays the collection permission information with 3 of 3 selected collections' do
+            expect(page).to have_content(@collection_permission_some_restricted_name)
+
+            # we should see all 3 entry ids
+            expect(page).to have_content('NISE 4')
+            expect(page).to have_content('MYD29E1D 5')
+            expect(page).to have_content('AE_SI12 3')
+
+            within '#permission-groups-table' do
+              expect(page).to have_content(@group_name)
+            end
+          end
         end
       end
     end
-
-    context 'when viewing the show page of the collection permission that has some restricted collections' do
-      before do
-        visit permission_path(@collection_permission_some_restricted['concept_id'])
-      end
-
-      it 'displays the collection permission information with 3 of 3 selected collections' do
-        expect(page).to have_content(@collection_permission_some_restricted_name)
-
-        # we should see all 3 entry ids
-        expect(page).to have_content('NISE 4')
-        expect(page).to have_content('MYD29E1D 5')
-        expect(page).to have_content('AE_SI12 3')
-
-        within '#permission-groups-table' do
-          expect(page).to have_content(@group_name)
-        end
-      end
-    end
   end
+
 end

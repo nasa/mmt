@@ -41,7 +41,8 @@ describe 'Changing or Removing System Identity Permissions' do
     }
 
     permissions = [system_perm_1, system_perm_2, system_perm_3]
-    permissions.each { |perm| cmr_client.add_group_permissions(perm, 'access_token_admin') }
+    # permissions.each { |perm| cmr_client.add_group_permissions(perm, 'access_token_admin') }
+    permissions.each { |perm| add_group_permissions(perm, 'access_token_admin') }
 
     wait_for_cmr
   end

@@ -135,7 +135,7 @@ describe 'Collection Permissions', reset_provider: true, js: true do
       within '#granule-constraint-summary' do
         expect(page).to have_content('outside of')
         expect(page).to have_content('the date range 2020-03-01T00:00:00Z to 2020-04-27T00:00:00Z')
-        
+
         expect(page).to have_content('contained within')
         expect(page).to have_content('the date range 2020-03-01T00:00:00Z to 2020-04-27T00:00:00Z')
       end
@@ -180,7 +180,7 @@ describe 'Collection Permissions', reset_provider: true, js: true do
         }
       }
 
-      @collection_permission_for_edit = cmr_client.add_group_permissions(previous_collection_permission, 'access_token').body
+      @collection_permission_for_edit = add_group_permissions(previous_collection_permission)
 
       # while we can use stubbed groups for collection permissions, it seems
       # that we need to have ingested collections to create a collection

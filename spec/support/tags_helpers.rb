@@ -16,10 +16,8 @@ module Helpers
         }
       }
 
-      response = cmr_client.add_group_permissions(permission_params, 'access_token_admin')
-      puts response.clean_inspect unless response.success?
+      response = add_group_permissions(permission_params, 'access_token_admin')
 
-      wait_for_cmr
       reindex_permitted_groups
       wait_for_cmr
       clear_cache

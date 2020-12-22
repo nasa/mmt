@@ -42,7 +42,7 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
     }
 
     permissions = [provider_perm_1, provider_perm_2, provider_perm_3]
-    permissions.each { |perm| cmr_client.add_group_permissions(perm, 'access_token') }
+    permissions.each { |perm| add_group_permissions(perm) }
 
     wait_for_cmr
   end

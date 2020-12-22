@@ -35,6 +35,8 @@ describe 'Resubmitting Provider Orders' do
     after :all do
       remove_group_permissions(@resubmit_permissions['concept_id'])
       delete_group(concept_id: @orders_group['concept_id'])
+
+      reindex_permitted_groups
     end
 
     it 'does displays a resubmit link' do

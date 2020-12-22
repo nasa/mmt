@@ -195,7 +195,7 @@ module Helpers
             }
           }
 
-          cmr_client.add_group_permissions(permission_params, 'access_token_admin')
+          add_group_permissions(permission_params, 'access_token_admin')
         end
 
         wait_for_cmr
@@ -206,7 +206,7 @@ module Helpers
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#delete_provider_context_permission' do
         permission = provider_context_permission_for_provider(provider_id)
 
-        cmr_client.delete_permission(permission['concept_id'], 'access_token') if permission
+        remove_group_permissions(permission['concept_id']) if permission
 
         wait_for_cmr
       end
@@ -215,7 +215,7 @@ module Helpers
     def clear_provider_context_permissions
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#clear_provider_context_permissions' do
         provider_context_permissions.fetch('items', []).each do |permission|
-          cmr_client.delete_permission(permission['concept_id'], 'access_token')
+          remove_group_permissions(permission['concept_id'])
         end
       end
     end

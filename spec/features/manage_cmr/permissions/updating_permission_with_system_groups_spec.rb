@@ -26,7 +26,7 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
       }
     }
 
-    @collection_permission = cmr_client.add_group_permissions(original_collection_permission, 'access_token').body
+    @collection_permission = add_group_permissions(original_collection_permission)
 
     wait_for_cmr
   end

@@ -63,7 +63,7 @@ describe 'Viewing Collection Permissions', reset_provider: true do
           }
         }
 
-        @collection_permission_1 = cmr_client.add_group_permissions(collection_permission_1, 'access_token').body
+        @collection_permission_1 = add_group_permissions(collection_permission_1)
 
         wait_for_cmr
 
@@ -195,7 +195,7 @@ describe 'Viewing Collection Permissions', reset_provider: true do
           }
         }
 
-        @collection_permission_2 = cmr_client.add_group_permissions(collection_permission_2, 'access_token').body
+        @collection_permission_2 = add_group_permissions(collection_permission_2)
 
         wait_for_cmr
 
@@ -290,7 +290,7 @@ describe 'Viewing Collection Permissions', reset_provider: true do
           }
         }
 
-        @collection_permission_3 = cmr_client.add_group_permissions(collection_permission_3, 'access_token').body
+        @collection_permission_3 = add_group_permissions(collection_permission_3)
 
         wait_for_cmr
 

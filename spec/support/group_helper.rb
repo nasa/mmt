@@ -19,7 +19,7 @@ module Helpers
 
         wait_for_cmr
 
-        return group_response.body
+        group_response.body
       end
     end
 
@@ -31,7 +31,7 @@ module Helpers
 
         wait_for_cmr
 
-        return group_response.success?
+        group_response.success?
       end
     end
 
@@ -47,15 +47,15 @@ module Helpers
       Faker::Lorem.sentence
     end
 
-    def add_group_permissions(permission_params)
+    def add_group_permissions(permission_params, token = 'access_token')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_group_permissions' do
-        permission_response = cmr_client.add_group_permissions(permission_params, 'access_token')
+        permission_response = cmr_client.add_group_permissions(permission_params, token)
 
         raise Array.wrap(permission_response.body['errors']).join(' /// ') if permission_response.body.key?('errors')
 
         wait_for_cmr
 
-        return permission_response.body
+        permission_response.body
       end
     end
 
@@ -72,11 +72,7 @@ module Helpers
           }
         }
 
-        response = cmr_client.add_group_permissions(permission_params, 'access_token')
-
-        wait_for_cmr
-
-        return response.body
+        add_group_permissions(permission_params)
       end
     end
 
@@ -97,7 +93,7 @@ module Helpers
           }
         }
 
-        return add_group_permissions(permission_params)
+        add_group_permissions(permission_params)
       end
     end
 
@@ -109,7 +105,7 @@ module Helpers
 
         wait_for_cmr
 
-        return acl_response.success?
+        acl_response.success?
       end
     end
 
