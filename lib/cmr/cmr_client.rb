@@ -24,13 +24,6 @@ module Cmr
       get(url, options, token_header(token))
     end
 
-    def get_kms_keywords(response_format='json')
-      url = "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/GranuleDataFormat/\?format\=#{response_format}"
-      response = get(url).body['concepts']
-      response.map! { |h| h['prefLabel'] }
-      response.sort << 'Not provided'
-    end
-
     def get_collections_by_post(query, token = nil, response_format = 'umm-json')
       # search collections via POST, with sort key default
       defaults = {

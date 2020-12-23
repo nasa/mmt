@@ -424,4 +424,10 @@ module RelatedUrlsHelper
     ['Simple Subset Wizard (SSW)', 'SIMPLE SUBSET WIZARD (SSW)'],
     ['Subsetter', 'SUBSETTER']
   ]
+
+  def kms_granule_data_formats
+    response = cmr_client.get_controlled_keywords('granule_data_format').body['short_name']
+    response.map! { |h| h['value'] }
+    response.sort << 'Not provided' unless response.include?('Not provided')
+  end
 end

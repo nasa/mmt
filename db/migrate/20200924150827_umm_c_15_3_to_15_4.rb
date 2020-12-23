@@ -12,7 +12,7 @@ class UmmC153To154 < ActiveRecord::Migration[5.2]
     records.each do |record|
       draft = record.draft
       draft['TilingIdentificationSystems'].each do |tiling_id_system|
-        tiling_id_system.delete('TilingIdentificationSystemName') if tiling_id_system['TilingIdentificationSystemName'] = 'Military Grid Reference System'
+        tiling_id_system.delete('TilingIdentificationSystemName') if tiling_id_system['TilingIdentificationSystemName'] == 'Military Grid Reference System'
       end if draft['TilingIdentificationSystems'].present?
       record.save
     end

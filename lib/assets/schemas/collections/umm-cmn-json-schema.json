@@ -44,7 +44,7 @@
           "minItems": 1
         },
         "ShortName": {
-          "description": "This is the short name of the data center.",
+          "description": "This is the short name of the data center. The controlled vocabulary for data center short names is maintained in the Keyword Management System (KMS).",
            "$ref": "#/definitions/DataCenterShortNameType"
         },
         "LongName": {
@@ -303,8 +303,10 @@
         "additionalProperties": false,
         "properties": {
             "Format": {
-                "description": "The format of the data.",
-                "$ref": "#/definitions/GetDataTypeFormatEnum"
+                "description": "The format of the data.  The controlled vocabulary for formats is maintained in the Keyword Management System (KMS)",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
             },
             "MimeType": {
                 "description": "The mime type of the service.",
@@ -312,7 +314,7 @@
             },
             "Size": {
                 "description": "The size of the data.",
-               "type": "number"
+                "type": "number"
             },
             "Unit": {
                 "description": "Unit of information, together with Size determines total size in bytes of the data.",
@@ -562,7 +564,7 @@
     "MetadataAssociationType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Used to identify other services, collections, visualizations, granules, and other metadata types and resources that are associated with or dependent on the this collection, including parent-child relationships.",
+      "description": "Used to identify other services, collections, visualizations, granules, and other metadata types and resources that are associated with or dependent on this collection, including parent-child relationships.",
       "properties": {
         "Type": {
           "description": "The type of association between this collection metadata record and the target metadata record.   Choose type from the drop-down list.",
@@ -575,7 +577,7 @@
           "maxLength": 4000
         },
         "EntryId": {
-          "description": "Shortname of the target metadata record that is associated with this collection record.",
+          "description": "ShortName of the target metadata record that is associated with this collection record.",
           "$ref": "#/definitions/EntryIdType"
         },
         "Version": {
@@ -650,7 +652,7 @@
           "maxLength": 80
         },
         "PublicationPlace": {
-          "description": "The pubication place of the publication.",
+          "description": "The publication place of the publication.",
           "type": "string",
           "minLength": 1,
           "maxLength": 1024
@@ -678,7 +680,7 @@
    "ScienceKeywordType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Enables specification of Earth science keywords related to the collection.  The Earth Science keywords are chosen from a controlled keyword hierarchy maintained in the Keyword Management System (KMS).",
+      "description": "Enables specification of Earth science keywords related to the collection.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).",
       "properties": {
         "Category": {
           "$ref": "#/definitions/KeywordStringType"
@@ -784,7 +786,7 @@
     "PlatformType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Describes the relevant platforms used to acquire the data in the collection. Platform type vocabulary is controlled and includes Spacecraft, Aircraft, Vessel, Buoy, Platform, Station, Network, Human, etc.",
+      "description": "Describes the relevant platforms used to acquire the data in the collection. The controlled vocabularies for platform types and names are maintained in the Keyword Management System (KMS).",
       "properties": {
         "Type": {
           "description": "The most relevant platform type.",
@@ -855,7 +857,7 @@
     "InstrumentType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Information about the device used to measure or record data in this collection, including direct human observation. In cases where instruments have a single child instrument or the instrument and child instrument are used synonymously (e.g. AVHRR), both Instrument and ComposedOf should be recorded. The child instrument information is represented in a separate section.",
+      "description": "Information about the device used to measure or record data in this collection, including direct human observation. In cases where instruments have a single child instrument or the instrument and child instrument are used synonymously (e.g. AVHRR), both Instrument and ComposedOf should be recorded. The child instrument information is represented in a separate section. The controlled vocabulary for instrument names is maintained in the Keyword Management System (KMS).",
       "properties": {
         "ShortName": {
           "$ref": "#/definitions/PlatformShortNameType"
@@ -932,10 +934,10 @@
     "ProjectType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Information describing the scientific endeavor(s) with which the collection is associated. Scientific endeavors include campaigns, projects, interdisciplinary science investigations, missions, field experiments, etc.",
+      "description": "Information describing the scientific endeavor(s) with which the collection is associated. Scientific endeavors include campaigns, projects, interdisciplinary science investigations, missions, field experiments, etc. The controlled vocabularies for project names are maintained in the Keyword Management System (KMS)",
       "properties": {
         "ShortName": {
-          "description": "The unique identifier by which a project or campaign/experiment is known. The campain/project is the scientific endeavor associated with the acquisition of the collection. Collections may be associated with multiple campaigns.",
+          "description": "The unique identifier by which a project or campaign/experiment is known. The campaign/project is the scientific endeavor associated with the acquisition of the collection. Collections may be associated with multiple campaigns.",
           "type": "string",
           "minLength": 1,
           "maxLength": 40
