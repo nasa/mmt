@@ -5,8 +5,10 @@ describe 'Migration tests for UMM-C v1.15.3 => 1.15.4' do
     before do
       @draft = create(:full_collection_draft)
       @template = create(:full_collection_template)
-      CollectionDraft.find(@draft.id).draft['TilingIdentificationSystems'] = [{ 'TilingIdentificationSystemName' => 'Military Grid Reference System' }]
-      CollectionTemplate.find(@template.id).draft['TilingIdentificationSystems'] = [{ 'TilingIdentificationSystemName' => 'Military Grid Reference System' }]
+      @draft.draft['TilingIdentificationSystems'] = [{ 'TilingIdentificationSystemName' => 'Military Grid Reference System' }]
+      @template.draft['TilingIdentificationSystems'] = [{ 'TilingIdentificationSystemName' => 'Military Grid Reference System' }]
+      @draft.save
+      @template.save
       UmmC153To154.new.down
     end
 
@@ -25,7 +27,8 @@ describe 'Migration tests for UMM-C v1.15.3 => 1.15.4' do
     before do
       set_as_proposal_mode_mmt
       @draft_proposal = create(:full_collection_draft_proposal)
-      CollectionDraftProposal.find(@draft_proposal.id).draft['TilingIdentificationSystems'] = [{ 'TilingIdentificationSystemName' => 'Military Grid Reference System' }]
+      @draft_proposal.draft['TilingIdentificationSystems'] = [{ 'TilingIdentificationSystemName' => 'Military Grid Reference System' }]
+      @draft_proposal.save
       UmmC153To154.new.down
     end
 

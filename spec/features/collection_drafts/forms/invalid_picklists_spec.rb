@@ -377,7 +377,8 @@ describe 'Invalid picklists', js: true do
     it 'displays a summary error' do
       within '.summary-errors' do
         expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
-        expect(page).to have_content('Format value [badformat] does not match a valid selection option')
+        # MMT-2425: using kms Format values, means there is no validation
+        # expect(page).to have_content('Format value [badformat] does not match a valid selection option')
         expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
       end
     end
@@ -385,7 +386,8 @@ describe 'Invalid picklists', js: true do
     it 'displays an inline error' do
       within '.related-urls' do
         expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
-        expect(page).to have_content('Format value [badformat] does not match a valid selection option')
+        # MMT-2425: using kms Format values, means there is no validation
+        # expect(page).to have_content('Format value [badformat] does not match a valid selection option')
         expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
       end
     end
