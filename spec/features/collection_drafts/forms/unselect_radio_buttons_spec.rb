@@ -27,6 +27,7 @@ describe 'Unselecting radio buttons', js: true do
         within '.geometry' do
           expect(page).to have_no_checked_field('Cartesian')
           expect(page).to have_no_checked_field('Geodetic')
+          expect(page).to have_no_css('label.required.eui-required-icon')
         end
       end
     end
