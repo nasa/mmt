@@ -124,6 +124,28 @@ describe 'Spatial information form', js: true do
         click_on 'Expand All'
       end
 
+      context 'when viewing required icons' do
+        before do
+          uncheck 'Point Resolution'
+          uncheck 'Varies Resolution'
+          uncheck 'Gridded Resolutions'
+          uncheck 'Gridded Range Resolutions'
+          uncheck 'Generic Resolutions'
+
+          uncheck 'Non Gridded Range Resolutions'
+          check 'Non Gridded Range Resolutions'
+          within '.horizontal-data-resolution-fields.non-gridded-resolutions' do
+            first('label.eui-required-o').double_click 
+          end
+        end
+
+        it 'displays the appropriate number of required icons' do
+          within '.horizontal-data-resolution-fields.non-gridded-range-resolutions' do
+            expect(page).to have_no_css('label.eui-required-o')
+          end
+        end
+      end
+
       it 'displays a confirmation message' do
         expect(page).to have_content('Collection Draft Updated Successfully!')
       end
@@ -654,6 +676,28 @@ describe 'Spatial information form', js: true do
       end
       # output_schema_validation Draft.first.draft
       click_on 'Expand All'
+    end
+
+    context 'when viewing required icons' do
+      # MMT-2452: clearing the Points form should clear it's required icons visually and from the requiredDataLevels array.
+      # Choosing Geodetic from the Coordinate System radio group will cause the required icons of the Points form to
+      # reappear if those data-levels are still in the requiredDataLevels array. Thus, we expect only the required icon of the
+      # Coordinate System radio group label to remain visible hence the count: 1
+      before do
+        within '.geometry-type-group' do
+          uncheck 'Points'
+          check 'Points'
+        end
+        within '.coordinate-system-type-group' do
+          choose 'Geodetic'
+        end
+      end
+
+      it 'displays the appropriate number of required icons' do
+        within '.geometry' do
+          expect(page).to have_css('label.eui-required-o', count: 1)
+        end
+      end
     end
 
     it 'displays a confirmation message' do
