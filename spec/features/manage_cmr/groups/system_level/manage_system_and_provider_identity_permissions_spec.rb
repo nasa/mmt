@@ -1,7 +1,4 @@
 describe 'Group show page Manage System and Provider Object Permissions' do
-
-  # let(:sys_group_concept) { group_concept_from_name('Administrators', 'access_token_admin') }
-
   before :all do
     @admin_group_name = 'Test Admin Group Manage Provider and System Permissions'
     @admin_group_description = 'test admin group'

@@ -197,6 +197,8 @@ RSpec.configure do |config|
   config.include Helpers::UserHelpers
   config.include Helpers::TagsHelpers
 
+  # Inclusion filter, uncomment line below to run only tests with `focus: true`
+  # config.filter_run_including :focus => true
 
   # Precompile assets before running the test suite
   # config.before(:suite) do

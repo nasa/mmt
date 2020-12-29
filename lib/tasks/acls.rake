@@ -169,7 +169,7 @@ namespace :acls do
     filter = { 'name' => group_name }
     group_response = cmr_client.get_cmr_groups(filter, token)
 
-    raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless group_response.success?
+    raise Array.wrap(group_response.body['errors']).join(' /// ') unless group_response.success?
 
     group_response.body.fetch('items', [{}]).first['concept_id']
   end

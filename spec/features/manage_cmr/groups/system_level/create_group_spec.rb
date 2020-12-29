@@ -1,5 +1,4 @@
 describe 'Creating System Level Groups', reset_provider: true do
-
   context 'when viewing new groups form as an admin user' do
     before do
       login_admin
