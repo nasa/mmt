@@ -124,9 +124,11 @@
   // FUNCTIONALITY: #Accordion
 
     // Basic Accordion Functionality
-    $(".eui-accordion__header").click(function() {
-      $(this).siblings(".eui-accordion__body").slideToggle("fast");
-      $(this).closest(".eui-accordion").toggleClass("is-closed");
+    $(".eui-accordion__header").click(function(e) {
+      if (!$(e.target).is('i.eui-fa-info-circle')) {
+        $(this).siblings(".eui-accordion__body").slideToggle("fast");
+        $(this).closest(".eui-accordion").toggleClass("is-closed");
+      }
     });
 
     $(".eui-accordion__icon").on("keyup", function(e) {
