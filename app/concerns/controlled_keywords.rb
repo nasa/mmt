@@ -33,6 +33,22 @@ module ControlledKeywords
     end
   end
 
+  def fetch_granule_data_formats
+    response = cmr_client.get_controlled_keywords('granule_data_format')
+    if response.success?
+      response.body
+    else
+      []
+    end
+  end
+
+  def set_granule_data_formats
+    formats = fetch_granule_data_formats['short_name']
+    formats.map! { |h| h['value'] }
+    formats.sort << 'Not provided' unless formats.include?('Not provided')
+    @granule_data_formats = formats
+  end
+
   def set_science_keywords
     keywords = fetch_science_keywords
     if keywords.key? 'category'

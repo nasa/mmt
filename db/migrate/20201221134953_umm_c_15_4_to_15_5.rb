@@ -15,18 +15,20 @@ class UmmC154To155 < ActiveRecord::Migration[5.2]
 
     records.each do |record|
       draft = record.draft
-      draft['RelatedUrls'].each do |related_url|
-        # move to the next related_url if there exists a GetData Format and that format is explicitly equivalent to a value in the old enum
-        format = related_url.dig('GetData', 'Format')
-        next unless format && !enum.include?(format)
-        # delete the entire GetData key so as not to trigger conditionally required fields errors by only deleting the Format
-        if enum.none? { |val| val.casecmp?(format) }
-          related_url.delete('GetData')
-          next
+      if draft['RelatedUrls'].present?
+        draft['RelatedUrls'].each do |related_url|
+          # move to the next related_url if there exists a GetData Format and that format is explicitly equivalent to a value in the old enum
+          format = related_url.dig('GetData', 'Format')
+          next unless format && !enum.include?(format)
+          # delete the entire GetData key so as not to trigger conditionally required fields errors by only deleting the Format
+          if enum.none? { |val| val.casecmp?(format) }
+            related_url.delete('GetData')
+            next
+          end
+          # At this point, the only situation that could occur is a typecase discrepancy
+          enum.each { |val| related_url['GetData']['Format'] = val if val.casecmp?(format) }
         end
-        # At this point, the only situation that could occur is a typecase discrepancy
-        enum.each { |val| related_url['GetData']['Format'] = val if val.casecmp?(format) }
-      end if draft['RelatedUrls'].present?
+      end
       record.save
     end
   end
