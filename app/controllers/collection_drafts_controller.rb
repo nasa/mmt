@@ -472,6 +472,7 @@ class CollectionDraftsController < BaseDraftsController
     set_projects
     set_country_codes
     set_language_codes
+    set_granule_data_formats
   end
 
   def edit_view_setup
@@ -498,7 +499,7 @@ class CollectionDraftsController < BaseDraftsController
     set_location_keywords       if @form == 'spatial_information'
     set_data_centers            if @form == 'data_centers' || @form == 'data_contacts'
     load_data_contacts_schema   if @form == 'data_contacts'
-    set_granule_data_formats    if @form == 'related_urls'
+    set_granule_data_formats    if @form == 'related_urls' || @form == 'data_centers' || @form == 'data_contacts'
   end
 
   def reconcile_recommendations(keyword_recommendations)
