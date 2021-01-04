@@ -117,8 +117,8 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
             after do
               set_as_mmt_proper
-              delete_group(concept_id: @group['concept_id'], admin: true)
               remove_group_permissions(@permission['concept_id'])
+              delete_group(concept_id: @group['concept_id'], admin: true)
             end
 
             it 'does not send e-mails to approvers' do
@@ -139,8 +139,8 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
             after do
               set_as_mmt_proper
-              delete_group(concept_id: @group['concept_id'], admin: true)
               remove_group_permissions(@permission['concept_id'])
+              delete_group(concept_id: @group['concept_id'], admin: true)
             end
 
             it 'sends emails' do

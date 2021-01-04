@@ -33,7 +33,7 @@ describe 'System Identity Permissions pages and form' do
           expect(page).to have_content('System Object Permissions')
           expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
 
-          within '.system-group-table' do
+          within '.system-permissions-group-table' do
             # these are the bootstrapped CMR Administrators group, and the system groups we create on cmr setup
             expect(page).to have_content('Administrators')
             expect(page).to have_content('Administrators_2')

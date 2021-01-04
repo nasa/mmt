@@ -4,31 +4,70 @@
 
     <%= link_to 'Create a Group', new_group_path, class: 'eui-btn--blue space-bot' %>
 
-    <% if @groups.any? %>
-      <%= form_tag(groups_path, method: :get, class: 'group-form') do %>
-        <fieldset>
-          <div class="row">
-            <label>Refine Groups Listing</label>
+    <%= form_tag(groups_path, method: :get, class: 'group-form') do %>
+      <fieldset class="groups-filters">
+        <div class="row space-bot">
+          <h4>Search Groups</h4>
+          <p class="form-description space-bot">Use the selections and filters below to refine groups by Provider and/or User</p>
+        </div>
+
+        <div class="row space-bot">
+          <div class="col-2" id="groups-provider-segment-filter" class="radio-group">
+            <div class="row">
+              <label>Providers</label>
+            </div>
+            <div class="row">
+              <%= label_tag 'filters[provider_segment_current]' do %>
+                <%= radio_button_tag 'filters[provider_segment]', 'current', @filters['provider_segment'] == 'current' %>
+                Current Provider
+                <% end %>
+            </div>
+            <div class="row">
+              <%= label_tag 'filters[provider_segment_available]' do %>
+                <%= radio_button_tag 'filters[provider_segment]', 'available', @filters['provider_segment'] == 'available' %>
+                Available Providers
+              <% end %>
+            </div>
           </div>
 
-          <div class="row">
-            <div class="col-5" id="groups-provider-filter">
-              <%= select_tag 'filters[provider][]', options_for_select(@provider_ids, @filters['provider']), class: 'full-width select2-select provider-filter', id: 'provider-group-filter', multiple: 'multiple', data: { placeholder: 'Filter By Provider'} %>
-            </div>
+          <% if policy(:system_group).read? %>
+            <%# using width override to allow label to show on one line %>
+            <div class="col-2 w15 <%= 'is-hidden' unless @filters['provider_segment'] == 'available' %>" id="groups-show-system-groups-filter">
+              <div class="row">
+                <label>System Groups</label>
+              </div>
 
-            <div class="col-5" id="groups-member-filter">
-              <%= select_tag 'filters[member][]', options_for_select(@member_filter_details, @filters['member']), class: 'full-width urs_autocomplete', id: 'member-group-filter', multiple: 'multiple', data: { placeholder: 'Filter By User'} %>
+              <div class="row checkbox-group">
+                <%= label_tag 'filters[show_system_groups]' do %>
+                  <%= check_box_tag 'filters[show_system_groups]', 'true', @filters['show_system_groups'] == 'true' %>
+                  Show System Groups?
+                <% end %>
+              </div>
             </div>
+          <% end %>
 
-            <div class="col-2 align-c">
-              <%= submit_tag 'Apply Filters', class: 'eui-btn' %>
-            </div>
+          <%# using width override to accommodate adjustment for system groups %>
+          <div class="col-4 w30 <%= 'is-hidden' unless @filters['provider_segment'] == 'available' %>" id="groups-provider-filter">
+            <%= select_tag 'filters[provider][]', options_for_select(@groups_provider_ids, @filters['provider']), class: 'full-width select2-select provider-filter', id: 'provider-group-filter', multiple: 'multiple', data: { placeholder: 'Filter By Provider'} %>
+
           </div>
-        </fieldset>
-      <% end %>
 
-      <p><%= page_entries_info @groups, entry_name: 'Group' %></p>
+          <%# using width override to accommodate adjustment for system groups %>
+          <div class="col-4 w30" id="groups-member-filter">
+            <%= select_tag 'filters[member][]', options_for_select(@member_filter_details, @filters['member']), class: 'full-width urs_autocomplete', id: 'member-group-filter', multiple: 'multiple', data: { placeholder: 'Filter By User'} %>
+          </div>
+
+        </div>
+
+        <div class="row space-top">
+          <div class="col-2 align-l">
+            <%= submit_tag 'Apply Filters', class: 'eui-btn' %>
+          </div>
+        </div>
+      </fieldset>
     <% end %>
+
+    <p><%= page_entries_info @groups, entry_name: 'Group' %></p>
 
     <table class="groups-table">
       <thead>

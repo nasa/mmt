@@ -11,6 +11,7 @@ describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: tr
 
     after :all do
       remove_group_permissions(@non_nasa_permissions['concept_id'])
+      delete_group(concept_id: @non_nasa_draft_approvers_group['concept_id'])
     end
 
     before do

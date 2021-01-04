@@ -60,6 +60,7 @@
     <% if options[:group] %>
       <%= link_to 'Yes', edit_group_path(id: options[:concept_id]), class: 'eui-btn--blue spinner is-invisible', id: "not-current-provider-edit-group-link#{'-' + modal_index.to_s if modal_index}" %>
       <%= link_to 'Yes', group_path(id: options[:concept_id]), method: :delete, class: 'eui-btn--blue spinner is-invisible', id: "not-current-provider-delete-group-link#{'-' + modal_index.to_s if modal_index}" %>
+      <%= link_to 'Yes', edit_provider_identity_permission_path(options[:concept_id], redirect_to: request.fullpath), class: 'eui-btn--blue spinner is-invisible', id: 'not-current-provider-edit-provider-identity-permissions-link' %>
     <% end %>
   </p>
 </div>

@@ -19,21 +19,23 @@ namespace :acls do
       print_result(cmr_client.add_group_members(args.group_concept_id, [args.username], get_acls_token))
     end
 
-    # this should be changed to the 'MMT Admin Group'
-    desc 'Add a user to the User Group' # guidMMTUser
-    task :mmt_users, [:username] => :environment do |_task, args|
-      print_result(cmr_client.add_group_members('AG1200000005-CMR', [args.username], get_acls_token(admin: true)), "Added #{args.username} to MMT Users")
+    desc 'Add a user to the MMT_2 Admin Group'
+    # adds a user to MMT_2 Admin Group, which will give them access to provider groups
+    # and to manage provider ACLs
+    task :mmt_2_users, [:username] => :environment do |_task, args|
+      group_id = get_group_concept_from_name(group_name: 'MMT_2 Admin Group')
+
+      print_result(cmr_client.add_group_members(group_id, [args.username, 'typical'], get_acls_token), "Added #{args.username} to MMT_2 Admin Group")
     end
 
-    # we don't need to add the user to this group, we should just add them to Administrators_2 below
-    desc 'Add a user to the Admin Group' # guidMMTAdmin
-    task :admins, [:username] => :environment do |_task, args|
-      print_result(cmr_client.add_group_members('AG1200000004-CMR', [args.username, 'typical'], get_acls_token(admin: true)), "Added #{args.username} to MMT Admins")
-    end
 
     desc 'Add a user to the Administrators_2'
-    task :super_admins, [:username] => :environment do |_task, args|
-      print_result(cmr_client.add_group_members('AG1200000001-CMR', [args.username, 'typical'], get_acls_token(admin: true)), "Added #{args.username} to Administrators_2")
+    # adds a user to MMT_2 Admin Group, which will give them access to system groups
+    # and to manage system level ACLs
+    task :admins, [:username] => :environment do |_task, args|
+      group_id = get_group_concept_from_name(group_name: 'Administrators_2', token: get_acls_token(admin: true))
+
+      print_result(cmr_client.add_group_members(group_id, [args.username, 'typical'], get_acls_token(admin: true)), "Added #{args.username} to Administrators_2")
     end
 
     desc 'Create a new Group'
@@ -61,16 +63,13 @@ namespace :acls do
   end
 
   namespace :testing do
-    desc 'Creates a group and grants access to a provided user to update its permissions'
+    desc 'Adds the user to the MMT_2 Admin group and Administrators_2 group, and grants access to a provided user to update provider and system level permissions'
     task :prepare, [:username, :group_name] => :environment do |_task, args|
       args.with_defaults(group_name: "#{args.username.upcase} Testing Group")
 
-      # Give the username the necessary permissions
-      Rake::Task['acls:groups:mmt_users'].invoke(args.username)
+      # Add the username to the appropriate groups to have the necessary permissions
+      Rake::Task['acls:groups:mmt_2_users'].invoke(args.username)
       Rake::Task['acls:groups:admins'].invoke(args.username)
-
-      # Create the group
-      Rake::Task['acls:groups:create'].invoke(args.group_name, "Group created for #{args.username}.", args.username, 'CMR')
     end
   end
 
@@ -170,7 +169,7 @@ namespace :acls do
     filter = { 'name' => group_name }
     group_response = cmr_client.get_cmr_groups(filter, token)
 
-    raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless group_response.success?
+    raise Array.wrap(group_response.body['errors']).join(' /// ') unless group_response.success?
 
     group_response.body.fetch('items', [{}]).first['concept_id']
   end

@@ -10,6 +10,13 @@ describe 'Testing Queries when editing', reset_provider: true, js: true do
     @ingest_subscription_response, @search_response, _subscription = publish_new_subscription(collection_concept_id: @ingest_response['concept-id'])
   end
 
+  after :all do
+    remove_group_permissions(@subscriptions_permissions['concept_id'])
+    delete_group(concept_id: @subscriptions_group['concept_id'])
+
+    clear_cache
+  end
+
   before do
     login
 

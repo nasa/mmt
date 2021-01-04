@@ -1,6 +1,3 @@
-# test for new permissions form and validation, implemented in MMT-507 and 152/153
-# 509, 512
-
 describe 'Collection Permissions form', js: true do
   context 'when visiting new collection permission page as a regular user' do
     before do

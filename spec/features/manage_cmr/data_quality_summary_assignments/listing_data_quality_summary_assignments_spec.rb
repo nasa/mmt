@@ -1,7 +1,3 @@
-# MMT-562
-
-require 'rails_helper'
-
 describe 'Viewing Data Quality Summary Assignments', js: true do
   context 'when viewing the data quality summary assignments page' do
     before do
@@ -20,8 +16,8 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
       expect(page).to have_selector('#catalog_item_guid_fromList option', count: 6)
     end
 
-    context 'when clicking the display selected assignments button', js: true do
-      context ' with no collections selected', js: true do
+    context 'when clicking the display selected assignments button' do
+      context 'with no collections selected' do
         before do
           click_on 'Display Assignments'
         end

@@ -7,6 +7,13 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     clear_cache
   end
 
+  after :all do
+    remove_group_permissions(@subscriptions_permissions['concept_id'])
+    delete_group(concept_id: @subscriptions_group['concept_id'])
+
+    clear_cache
+  end
+
   before do
     login
 

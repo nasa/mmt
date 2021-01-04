@@ -1,10 +1,8 @@
-require 'rails_helper'
-
 describe 'Groups Member Filtering', js: true do
   context 'when viewing the group form' do
     before do
       login
-      
+
       visit new_group_path
     end
 
@@ -13,7 +11,7 @@ describe 'Groups Member Filtering', js: true do
         before do
           VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
             page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
-            
+
             page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           end
         end

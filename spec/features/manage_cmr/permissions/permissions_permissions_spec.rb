@@ -24,7 +24,7 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
       }
     }
   end
-  let(:permission) { cmr_client.add_group_permissions(collection_permission, 'access_token').body }
+  let(:permission) { add_group_permissions(collection_permission) }
 
   context 'when viewing a permission' do
     context 'when the permission provider is not in my available providers' do

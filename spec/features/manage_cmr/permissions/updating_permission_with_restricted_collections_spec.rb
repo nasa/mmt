@@ -19,7 +19,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
     restricted_concept_1 = collection_concept_from_keyword('MYD29E1D_5', 'access_token_admin')
     restricted_concept_2 = collection_concept_from_keyword('AE_SI12_3', 'access_token_admin')
 
-    @group_name = "Test Group NSIDC_ECS #{rand(100)}"
+    @group_name = "Test Group NSIDC_ECS #{Faker::Number.number(digits: 6)}"
     @group = create_group(
       name: @group_name,
       provider_id: 'NSIDC_ECS'
@@ -27,7 +27,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
     wait_for_cmr
 
-    @collection_permission_some_restricted_name = "Testing Collection Permission with SOME restricted collections #{rand(1000)}"
+    @collection_permission_some_restricted_name = "Testing Collection Permission with SOME restricted collections #{Faker::Number.number(digits: 6)}"
 
     collection_permission_some_restricted = {
       group_permissions: [{
@@ -49,11 +49,11 @@ describe 'Updating Collection Permissions when collections are not accessible by
       }
     }
 
-    @collection_permission_some_restricted = cmr_client.add_group_permissions(collection_permission_some_restricted, 'access_token_admin').body
+    @collection_permission_some_restricted = add_group_permissions(collection_permission_some_restricted)
 
     wait_for_cmr
 
-    @collection_permission_all_restricted_name = "Testing Collection Permission with ALL restricted collections #{rand(1000)}"
+    @collection_permission_all_restricted_name = "Testing Collection Permission with ALL restricted collections #{Faker::Number.number(digits: 6)}"
 
     collection_permission_all_restricted = {
       group_permissions: [{
@@ -74,15 +74,17 @@ describe 'Updating Collection Permissions when collections are not accessible by
       }
     }
 
-    @collection_permission_all_restricted = cmr_client.add_group_permissions(collection_permission_all_restricted, 'access_token_admin').body
+    @collection_permission_all_restricted = add_group_permissions(collection_permission_all_restricted)
 
-    wait_for_cmr
+    reindex_permitted_groups
   end
 
   after :all do
+    remove_group_permissions(@collection_permission_some_restricted['concept_id'])
+    remove_group_permissions(@collection_permission_all_restricted['concept_id'])
     delete_group(concept_id: @group['concept_id'])
 
-    wait_for_cmr
+    reindex_permitted_groups
   end
 
   context 'when logging in as a user that has restricted access to the provider collections' do
@@ -207,6 +209,95 @@ describe 'Updating Collection Permissions when collections are not accessible by
         end
       end
     end
+  end
+end
+
+# we need to duplicate the test and completely separate the regular login from
+# login_admin, otherwise if the admin tests run first, somehow the regular login
+# gets admin access
+describe 'Updating Collection Permissions as an admin user when collections are not accessible by regular users' do
+  # this collection should be visible to all Registered users
+  let(:entry_title_visible_to_all) { 'Near-Real-Time SSMIS EASE-Grid Daily Global Ice Concentration and Snow Extent V004' }
+  let(:entry_id_visible_to_all) { 'NISE_4' }
+
+  # these collections should only be visible to admin users
+  let(:restricted_entry_title_1) { 'MODIS/Aqua Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V005' }
+  let(:restricted_entry_id_1) { 'MYD29E1D_5' }
+  let(:restricted_entry_title_2) { 'AMSR-E/Aqua Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V003' }
+  let(:restricted_entry_id_2) { 'AE_SI12_3' }
+
+  before :all do
+    # grab the concept ids of these collections. some are restricted, so we need the admin token
+    concept_visible_to_all = collection_concept_from_keyword('NISE_4', 'access_token_admin')
+    restricted_concept_1 = collection_concept_from_keyword('MYD29E1D_5', 'access_token_admin')
+    restricted_concept_2 = collection_concept_from_keyword('AE_SI12_3', 'access_token_admin')
+
+    @group_name = "Test Group NSIDC_ECS #{Faker::Number.number(digits: 8)}"
+    @group = create_group(
+      name: @group_name,
+      provider_id: 'NSIDC_ECS'
+    )
+
+    wait_for_cmr
+
+    @collection_permission_some_restricted_name = "Testing Collection Permission with SOME restricted collections #{Faker::Number.number(digits: 8)}"
+
+    collection_permission_some_restricted = {
+      group_permissions: [{
+        group_id: @group['concept_id'],
+        permissions: [ "read", "order" ]
+      }],
+      catalog_item_identity: {
+        "name": @collection_permission_some_restricted_name,
+        "provider_id": "NSIDC_ECS",
+        "collection_applicable": true,
+        "granule_applicable": true,
+        "collection_identifier": {
+          "concept_ids": [
+            restricted_concept_1,
+            restricted_concept_2,
+            concept_visible_to_all
+          ]
+        }
+      }
+    }
+
+    @collection_permission_some_restricted = add_group_permissions(collection_permission_some_restricted)
+
+    wait_for_cmr
+
+    @collection_permission_all_restricted_name = "Testing Collection Permission with ALL restricted collections #{Faker::Number.number(digits: 8)}"
+
+    collection_permission_all_restricted = {
+      group_permissions: [{
+        group_id: @group['concept_id'],
+        permissions: [ "read", "order" ]
+      }],
+      catalog_item_identity: {
+        "name": @collection_permission_all_restricted_name,
+        "provider_id": "NSIDC_ECS",
+        "collection_applicable": true,
+        "granule_applicable": false,
+        "collection_identifier": {
+          "concept_ids": [
+            restricted_concept_1,
+            restricted_concept_2
+          ]
+        }
+      }
+    }
+
+    @collection_permission_all_restricted = add_group_permissions(collection_permission_all_restricted)
+
+    reindex_permitted_groups
+  end
+
+  after :all do
+    remove_group_permissions(@collection_permission_some_restricted['concept_id'])
+    remove_group_permissions(@collection_permission_all_restricted['concept_id'])
+    delete_group(concept_id: @group['concept_id'])
+
+    reindex_permitted_groups
   end
 
   context 'when logging in as an admin user that has full access to the provider collections' do

@@ -8,7 +8,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
-    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+    permitted = params.to_unsafe_h unless params.nil? # need to understand what this is doing more, think related to nested parameters not permitted.
 
     # default the page to 1
     page = permitted.fetch('page', 1).to_i
@@ -27,17 +27,19 @@ class ProviderIdentityPermissionsController < ManageCmrController
     groups_response = cmr_client.get_cmr_groups(filters, token)
 
     group_list = if groups_response.success?
-                    group_list = groups_response.body.fetch('items', [])
-                  else
-                    Rails.logger.error("Get Cmr Groups Error: #{groups_response.clean_inspect}")
-                    flash[:error] = groups_response.error_message
-                    []
-                  end
+                   group_list = groups_response.body.fetch('items', [])
+                 else
+                   Rails.logger.error("Get Cmr Groups Error: #{groups_response.clean_inspect}")
+                   flash[:error] = groups_response.error_message
+                   []
+                 end
 
     @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
   end
 
   def edit
+    @redirect_to = params[:redirect_to]
+
     @group_id = params[:id]
     @group = {}
     group_provider_permissions_list = get_permissions_for_identity_type(type: 'provider')
@@ -122,9 +124,8 @@ class ProviderIdentityPermissionsController < ManageCmrController
       revision_ids: next_revision_ids
     )
 
-    unless successes.blank?
-      flash[:success] = successes.join(', ').titleize + ' permissions were saved.'
-    end
+    flash[:success] = successes.join(', ').titleize + ' permissions were saved.' unless successes.blank?
+
     error_message = fails.join(', ').titleize
     overwrite_error_message = overwrite_fails.join(', ').titleize
     if error_message.present? && overwrite_error_message.present?
@@ -135,6 +136,6 @@ class ProviderIdentityPermissionsController < ManageCmrController
       flash[:error] = overwrite_error_message + ' permissions were unable to be saved because another user made changes to those permissions.'
     end
 
-    redirect_to provider_identity_permissions_path
+    redirect_to params[:redirect_to]
   end
 end

@@ -15,6 +15,13 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
     _ingest_response2, @search_response2, @subscription2 = publish_new_subscription(collection_concept_id: @c_ingest_response['concept-id'])
   end
 
+  after :all do
+    remove_group_permissions(@subscriptions_permissions['concept_id'])
+    delete_group(concept_id: @subscriptions_group['concept_id'])
+
+    clear_cache
+  end
+
   before do
     login
   end
@@ -116,9 +123,9 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
 
   context 'when there are subscriptions for multiple providers' do
     before do
-      @subscriptions_group = create_group(provider_id: 'MMT_1', members: ['testuser', 'typical'])
+      @subscriptions_group_other_provider = create_group(provider_id: 'MMT_1', members: ['testuser', 'typical'])
       # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-      @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['read', 'update'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_1')
+      @subscriptions_permissions_other_provider = add_permissions_to_group(@subscriptions_group_other_provider['concept_id'], ['read', 'update'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_1')
       @c_ingest_response2, _c_concept_response = publish_collection_draft
 
       clear_cache
@@ -127,6 +134,11 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
 
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
       visit subscriptions_path
+    end
+
+    after do
+      remove_group_permissions(@subscriptions_permissions_other_provider['concept_id'])
+      delete_group(concept_id: @subscriptions_group_other_provider['concept_id'])
     end
 
     it 'only shows the subscriptions for the current provider' do
@@ -161,6 +173,13 @@ describe 'Subscription index page' do
 
     login
     visit subscriptions_path
+  end
+
+  after do
+    remove_group_permissions(@subscriptions_permissions['concept_id'])
+    delete_group(concept_id: @subscriptions_group['concept_id'])
+
+    clear_cache
   end
 
   context 'when there are no subscriptions' do

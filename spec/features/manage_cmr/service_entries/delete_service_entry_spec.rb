@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe 'Deleting a Service Entry', reset_provider: true do
+describe 'Deleting a Service Entry' do
   before :all do
     # create a group
     @service_entry_group = create_group(name: 'Service Entries Group for Permissions [DELETE]', members: ['testuser'])
@@ -10,9 +8,8 @@ describe 'Deleting a Service Entry', reset_provider: true do
   end
 
   after :all do
-    delete_group(concept_id: @service_entry_group['concept_id'])
-
     remove_group_permissions(@delete_permissions['concept_id'])
+    delete_group(concept_id: @service_entry_group['concept_id'])
   end
 
   before do

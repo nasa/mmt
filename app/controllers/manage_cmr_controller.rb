@@ -89,6 +89,11 @@ class ManageCmrController < ApplicationController
       user_has_provider_permission_to(user: current_user, action: %w[read create update delete], target: 'PROVIDER_OBJECT_ACL', token: token)
   end
 
+  def check_if_current_group_provider_acl_administrator(group_provider:)
+    @user_is_current_group_provider_acl_admin =
+      user_has_provider_permission_to(user: current_user, action: %w[read create update delete], target: 'PROVIDER_OBJECT_ACL', token: token, specific_provider: group_provider)
+  end
+
   def redirect_unless_current_provider_acl_admin
     check_if_current_provider_acl_administrator
     check_if_system_acl_administrator
@@ -106,10 +111,9 @@ class ManageCmrController < ApplicationController
     @request_start = Time.new
   end
 
-
   # returns the time remaining for the request to complete for orders, used as a timeout value for faraday connections.
   def time_left
-    return @timeout_duration - (Time.new - @request_start)
+    @timeout_duration - (Time.new - @request_start)
   end
 
   # cleans up any echo clients created.
@@ -117,5 +121,4 @@ class ManageCmrController < ApplicationController
     Rails.logger.info("Cleaning up #{request.uuid}")
     Rails.cache.delete("echo-client-#{request.uuid}")
   end
-
 end

@@ -11,26 +11,47 @@ class GroupsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
-    permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
+    # these params are not used for mass assignment, only for searching cmr
+    # additionally, it was too time consuming to implement strong params due to
+    # nested and array values not responding to `permit` as expected
+    permitted = params.to_unsafe_h unless params.nil?
 
     @filters = permitted[:filters] || {}
+    @query = {}
+
+    # set provider defaults
+    @filters['provider_segment'] ||= 'current'
+    @groups_provider_ids = current_user.available_providers.dup
+
+    # CMR is not an actual provider, but is the provider given to system groups
+    # as a user cannot have CMR in their available_providers we have to determine when to add it to the filter drop down
+    if @filters['provider'].present?
+      @query['provider'] = @filters['provider']
+      # if provider is CMR, it should be an option in the select
+      @groups_provider_ids << 'CMR' if @filters['provider'].include?('CMR')
+    elsif @filters['provider_segment'] == 'current'
+      @query['provider'] = [current_user.provider_id]
+    elsif @filters['provider_segment'] == 'available'
+      @query['provider'] = @groups_provider_ids
+      # add CMR for system groups to query if users have read access and selected to show system groups
+      @query['provider'] << 'CMR' if policy(:system_group).read? && @filters['show_system_groups'] == 'true'
+    end
 
     @member_filter_details = if @filters['member']
-                               @filters['options'] = { 'member' => { 'and' => true } }
+                               @query['member'] = @filters['member']
+                               @query['options'] = { 'member' => { 'and' => true } }
 
-                               retrieve_urs_users(@filters['member']).map { |m| [urs_user_full_name(m), m['uid']] }
+                               retrieve_urs_users(@query['member']).map { |m| [urs_user_full_name(m), m['uid']] }
                              else
                                []
                              end
 
-    @filters[:page_size] = RESULTS_PER_PAGE
+    # set page defaults
+    @query[:page_size] = RESULTS_PER_PAGE
+    page = params.permit(:page).fetch('page', 1)
+    @query[:page_num] = page.to_i
 
-    # Default the page to 1
-    page = permitted.fetch('page', 1)
-
-    @filters[:page_num] = page.to_i
-
-    groups_response = cmr_client.get_cmr_groups(@filters, token)
+    groups_response = cmr_client.get_cmr_groups(@query, token)
 
     group_list = if groups_response.success?
                    groups_response.body.fetch('items', [])
@@ -50,7 +71,8 @@ class GroupsController < ManageCmrController
 
       request_group_members(@concept_id)
 
-      set_permissions
+      set_collection_permissions
+      check_if_current_group_provider_acl_administrator(group_provider: @group['provider_id']) unless current_provider?(@group['provider_id'])
 
       add_breadcrumb @group.fetch('name'), group_path(@concept_id)
     else
@@ -225,7 +247,7 @@ class GroupsController < ManageCmrController
   end
 
   # Get all of the permissions for the current group
-  def set_permissions
+  def set_collection_permissions
     # Initialize the permissions array to provide to the view
     @permissions = []
     all_permissions = []

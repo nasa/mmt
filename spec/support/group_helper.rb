@@ -19,17 +19,19 @@ module Helpers
 
         wait_for_cmr
 
-        return group_response.body
+        group_response.body
       end
     end
 
     def delete_group(concept_id:, admin: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#create_group' do
-        response = cmr_client.delete_group(concept_id, admin ? 'access_token_admin' : 'access_token')
+        group_response = cmr_client.delete_group(concept_id, admin ? 'access_token_admin' : 'access_token')
+
+        raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
 
         wait_for_cmr
 
-        return response.success?
+        group_response.success?
       end
     end
 
@@ -45,13 +47,15 @@ module Helpers
       Faker::Lorem.sentence
     end
 
-    def add_group_permissions(permission_params)
+    def add_group_permissions(permission_params, token = 'access_token')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_group_permissions' do
-        response = cmr_client.add_group_permissions(permission_params, 'access_token')
+        permission_response = cmr_client.add_group_permissions(permission_params, token)
+
+        raise Array.wrap(permission_response.body['errors']).join(' /// ') if permission_response.body.key?('errors')
 
         wait_for_cmr
 
-        return response.body
+        permission_response.body
       end
     end
 
@@ -68,11 +72,7 @@ module Helpers
           }
         }
 
-        response = cmr_client.add_group_permissions(permission_params, 'access_token')
-
-        wait_for_cmr
-
-        return response.body
+        add_group_permissions(permission_params)
       end
     end
 
@@ -93,7 +93,7 @@ module Helpers
           }
         }
 
-        return add_group_permissions(permission_params)
+        add_group_permissions(permission_params)
       end
     end
 
@@ -101,9 +101,11 @@ module Helpers
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#remove_group_permissions' do
         acl_response = cmr_client.delete_permission(concept_id, 'access_token_admin')
 
+        raise Array.wrap(acl_response.body['errors']).join(' /// ') if acl_response.body.key?('errors')
+
         wait_for_cmr
 
-        return acl_response.success?
+        acl_response.success?
       end
     end
 

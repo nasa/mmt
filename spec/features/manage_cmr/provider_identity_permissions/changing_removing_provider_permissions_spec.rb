@@ -1,7 +1,8 @@
 describe 'Changing or Removing Provider Identity Permissions', reset_provider: true do
   before :all do
+    @group_name = 'Test Group for Updating Provider Object Permissions'
     @group = create_group(
-      name: 'Test Group for Updating Provider Object Permissions',
+      name: @group_name,
       description: 'Group for updating provider object permissions'
     )
 
@@ -41,16 +42,17 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
     }
 
     permissions = [provider_perm_1, provider_perm_2, provider_perm_3]
-    permissions.each { |perm| cmr_client.add_group_permissions(perm, 'access_token') }
+    permissions.each { |perm| add_group_permissions(perm) }
 
     wait_for_cmr
   end
 
-  context 'when visiting the provider object permissions page for the group' do
+  context 'when visiting the provider object permissions page for the group from the provider object permissions index page' do
     before do
       login
 
-      visit edit_provider_identity_permission_path(@group['concept_id'])
+      visit provider_identity_permissions_path
+      click_on @group_name
     end
 
     it 'has the correct permissions checked' do

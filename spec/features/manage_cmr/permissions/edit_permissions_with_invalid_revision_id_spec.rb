@@ -22,7 +22,7 @@ describe 'Edit collection permissions', reset_provider: true, js: true do
         }
       }
     }
-    @collection_permission_for_invalid_revision = cmr_client.add_group_permissions(collection_permission_to_upload, 'access_token').body
+    @collection_permission_for_invalid_revision = add_group_permissions(collection_permission_to_upload)
   end
 
   context 'with invalid revision id' do

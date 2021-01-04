@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe 'Listing Service Entries', reset_provider: true do
+describe 'Listing Service Entries' do
   before :all do
     # create a group
     @service_entry_group = create_group(name: 'Service Entries Group for Permissions [LIST]', members: ['testuser'])
@@ -24,7 +22,7 @@ describe 'Listing Service Entries', reset_provider: true do
     it 'does not display any edit links' do
       expect(page).not_to have_css('a', text: 'Edit')
     end
-    
+
     it 'does not display any delete links' do
       expect(page).not_to have_css('a', text: 'Delete')
     end

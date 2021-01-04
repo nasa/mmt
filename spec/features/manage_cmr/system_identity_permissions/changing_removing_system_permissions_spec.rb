@@ -1,7 +1,8 @@
 describe 'Changing or Removing System Identity Permissions' do
   before :all do
+    @group_name = 'Test System Permissions Group 2'
     @group_response = create_group(
-      name: 'Test System Permissions Group 2',
+      name: @group_name,
       description: 'Group to test system permissions',
       provider_id: nil,
       admin: true
@@ -40,7 +41,8 @@ describe 'Changing or Removing System Identity Permissions' do
     }
 
     permissions = [system_perm_1, system_perm_2, system_perm_3]
-    permissions.each { |perm| cmr_client.add_group_permissions(perm, 'access_token_admin') }
+    # permissions.each { |perm| cmr_client.add_group_permissions(perm, 'access_token_admin') }
+    permissions.each { |perm| add_group_permissions(perm, 'access_token_admin') }
 
     wait_for_cmr
   end
@@ -52,16 +54,20 @@ describe 'Changing or Removing System Identity Permissions' do
     }
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
 
-    permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token_admin') }
+    permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
 
     delete_group(concept_id: @group_response['concept_id'], admin: true)
+
+    reindex_permitted_groups
   end
 
-  context 'when visiting the system object permissions page for a system group' do
+  context 'when visiting the system object permissions page for a system group from the system object permissions index page' do
     before do
       login_admin
 
-      visit edit_system_identity_permission_path(@group_response['concept_id'])
+      visit system_identity_permissions_path
+
+      click_on @group_name
     end
 
     it 'has the correct permissions checked' do

@@ -1,6 +1,11 @@
 describe 'Concurrent Users Editing System Permissions', js: true do
   before do
-    @group_response = create_group(name: 'Test System Permissions Group 1', description: 'Group to test system permissions', provider_id: nil, admin: true)
+    @group_name = 'Test System Permissions Group 1'
+    @group_response = create_group(
+      name: @group_name,
+      description: 'Group to test system permissions',
+      provider_id: nil,
+      admin: true)
   end
 
   after do
@@ -11,7 +16,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
     }
 
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
-    permissions_response_items.each { |perm_item| cmr_client.delete_permission(perm_item['concept_id'], 'access_token_admin') }
+    permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
 
     # delete the group
     delete_group(concept_id: @group_response['concept_id'], admin: true)
@@ -33,7 +38,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
       # have a revision id in the update function that does not match the empty
       # revision id it got from the view/edit
       # If not prevented, this would manifest as deleting the other user's changes
-      cmr_client.add_group_permissions(
+      add_group_permissions(
         { 'group_permissions' =>
           [{
             'group_id' => @group_response['concept_id'],
@@ -55,7 +60,8 @@ describe 'Concurrent Users Editing System Permissions', js: true do
   context 'when deleting with the wrong revision_id' do
     before do
       login_admin
-      cmr_client.add_group_permissions(
+
+      add_group_permissions(
         { 'group_permissions' =>
           [{
             'group_id' => @group_response['concept_id'],
@@ -66,7 +72,10 @@ describe 'Concurrent Users Editing System Permissions', js: true do
             'target' => 'TAG_GROUP'
           } }, 'access_token_admin'
       )
-      visit edit_system_identity_permission_path(@group_response['concept_id'])
+
+      visit system_identity_permissions_path
+      click_on @group_name
+
       uncheck('system_permissions_TAG_GROUP_', option: 'create')
 
       # Difficult to actually generate the race condition in CMR, just VCR it.
@@ -87,7 +96,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
       # This request should be a valid request to delete in CMR, but the VCR is
       # configured to return the response from an invalid request in order
       # to test our response to it.
-      VCR.use_cassette('permissions/concurrent_delete', erb: { group_id: @group_response['concept_id'] } ) do
+      VCR.use_cassette('permissions/concurrent_delete', erb: { group_id: @group_response['concept_id'] }) do
         click_on 'Submit'
       end
 
@@ -107,7 +116,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
       # When loading the page, the user has the permission to create in DASHBOARD_ADMIN
       # But another user deletes that permission before this one submits the page.
       # If not prevented, this would manifest as creating over the other user's delete
-      response = cmr_client.add_group_permissions(
+      response = add_group_permissions(
         { 'group_permissions' =>
           [{
             'group_id' => @group_response['concept_id'],
@@ -119,7 +128,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
           } }, 'access_token_admin'
       )
       visit edit_system_identity_permission_path(@group_response['concept_id'])
-      cmr_client.delete_permission(response.body['concept_id'], 'access_token_admin')
+      remove_group_permissions(response['concept_id'])
       click_on 'Submit'
     end
 
@@ -135,7 +144,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
       # But another user updates the permissions while this one is still deciding
       # on changes.  When this user submits the document as it was loaded,
       # the user would be overwriting the intervening user's added permissions.
-      response = cmr_client.add_group_permissions(
+      response = add_group_permissions(
         { 'group_permissions' =>
           [{
             'group_id' => @group_response['concept_id'],
@@ -156,7 +165,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
           'system_identity' =>
           {
             'target' => 'USER'
-          } }, response.body['concept_id'], 'access_token_admin'
+          } }, response['concept_id'], 'access_token_admin'
       )
       check('system_permissions_USER_', option: 'read')
 
