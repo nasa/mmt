@@ -393,7 +393,6 @@ describe 'Invalid picklists', js: true do
         expect(page).to have_css('option[disabled][selected]', text: 'badcontenttype')
       end
       within '.multiple.related-urls > .multiple-item-2' do
-        expect(page).to have_css('option[disabled][selected]', text: 'badformat')
         expect(page).to have_css('option[disabled][selected]', text: 'badunit')
       end
     end
