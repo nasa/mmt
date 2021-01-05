@@ -17,7 +17,7 @@
       "minItems": 0
     },
     "DirectoryNames": {
-      "description": "Formerly called Internal Directory Name (IDN) Node (IDN_Node). This element has been used historically by the GCMD internally to identify association, responsibility and/or ownership of the dataset, service or supplemental information. Note: This field only occurs in the DIF. When a DIF record is retrieved in the ECHO10 or ISO 19115 formats, this element will not be translated.",
+      "description": "Formerly called Internal Directory Name (IDN) Node (IDN_Node). This element has been used historically by the GCMD internally to identify association, responsibility and/or ownership of the dataset, service or supplemental information. Note: This field only occurs in the DIF. When a DIF record is retrieved in the ECHO10 or ISO 19115 formats, this element will not be translated. The controlled vocabulary for directory names is maintained in the Keyword Management System (KMS).",
       "type": "array",
       "items": {
         "$ref": "#/definitions/DirectoryNameType"
@@ -119,7 +119,7 @@
       "minItems": 0
     },
     "ISOTopicCategories": {
-      "description": "Identifies the topic categories from the EN ISO 19115-1:2014 Geographic Information – Metadata – Part 1: Fundamentals (http://www.isotc211.org/) Topic Category Code List that pertain to this collection, based on the Science Keywords associated with the collection. An ISO Topic Category is a high-level thematic classification to assist in the grouping of and search for available collections.",
+      "description": "Identifies the topic categories from the EN ISO 19115-1:2014 Geographic Information – Metadata – Part 1: Fundamentals (http://www.isotc211.org/) Topic Category Code List that pertain to this collection, based on the Science Keywords associated with the collection. An ISO Topic Category is a high-level thematic classification to assist in the grouping of and search for available collections.  The controlled vocabulary for ISO topic categories is maintained in the Keyword Management System (KMS).",
       "type": "array",
       "items": {
         "type": "string",
@@ -153,7 +153,7 @@
       "minItems": 0
     },
     "MetadataAssociations": {
-      "description": "This element is used to identify other services, collections, visualizations, granules, and other metadata types and resources that are associated with or dependent on the data described by the metadata. This element is also used to identify a parent metadata record if it exists. This usage should be reserved for instances where a group of metadata records are subsets that can be better represented by one parent metadata record, which describes the entire set. In some instances, a child may point to more than one parent. The EntryId is the same as the element described elsewhere in this document where it contains and ID, and Version.",
+      "description": "This element is used to identify other services, collections, visualizations, granules, and other metadata types and resources that are associated with or dependent on the data described by the metadata. This element is also used to identify a parent metadata record if it exists. This usage should be reserved for instances where a group of metadata records are subsets that can be better represented by one parent metadata record, which describes the entire set. In some instances, a child may point to more than one parent. The EntryId is the same as the element described elsewhere in this document where it contains an ID and Version.",
       "type": "array",
       "items": {
         "$ref": "#/definitions/MetadataAssociationType"
@@ -215,7 +215,7 @@
       }
     },
     "Platforms": {
-      "description": "Information about the relevant platform(s) used to acquire the data in the collection. Platform types are controlled in the Keyword Management System (KMS), and include Spacecraft, Aircraft, Vessel, Buoy, Platform, Station, Network, Human, etc.",
+      "description": "Information about the relevant platform(s) used to acquire the data in the collection. The controlled vocabulary for platform types is maintained in the Keyword Management System (KMS), and includes Spacecraft, Aircraft, Vessel, Buoy, Platform, Station, Network, Human, etc.",
       "type": "array",
       "items": {
         "$ref": "#/definitions/PlatformType"
@@ -769,7 +769,7 @@
         "additionalProperties": false,
         "properties": {
           "Description": {
-            "description": "This element holds a description about the resoultion and coordinate system for people to read.",
+            "description": "This element holds a description about the resolution and coordinate system for people to read.",
             "$ref": "#/definitions/DescriptionType"
           },
           "GeodeticModel": {
@@ -782,7 +782,7 @@
         "additionalProperties": false,
         "properties": {
           "Description": {
-            "description": "This element holds a description about the resoultion and coordinate system for people to read.",
+            "description": "This element holds a description about the resolution and coordinate system for people to read.",
             "$ref": "#/definitions/DescriptionType"
           },
           "GeodeticModel": {
@@ -799,7 +799,7 @@
         "additionalProperties": false,
         "properties": {
           "Description": {
-            "description": "This element holds a description about the resoultion and coordinate system for people to read.",
+            "description": "This element holds a description about the resolution and coordinate system for people to read.",
             "$ref": "#/definitions/DescriptionType"
           },
           "GeodeticModel": {
@@ -1125,26 +1125,26 @@
           "$ref": "#/definitions/KeywordStringType"
           },
         "Subregion1":{
-          "description": "Third-tier controlled keyword heirarchical level that contains the regional sub-location where the collection data was taken from",
+          "description": "Third-tier controlled keyword hierarchical level that contains the regional sub-location where the collection data was taken from",
           "$ref": "#/definitions/KeywordStringType"
         },
         "Subregion2":{
-          "description": "Fourth-tier controlled keyword heirarchical level that contains the regional sub-location where the collection data was taken from",
+          "description": "Fourth-tier controlled keyword hierarchical level that contains the regional sub-location where the collection data was taken from",
           "$ref": "#/definitions/KeywordStringType"
         },
         "Subregion3":{
-          "description": "Fifth-tier controlled keyword heirarchical level that contains the regional sub-location where the collection data was taken from",
+          "description": "Fifth-tier controlled keyword hierarchical level that contains the regional sub-location where the collection data was taken from",
           "$ref": "#/definitions/KeywordStringType"
         },
         "DetailedLocation":{
-          "description": "Uncontrolled keyword heirarchical level that contains the specific location where the collection data was taken from. Exists outside the heirarchy.",
+          "description": "Uncontrolled keyword hierarchical level that contains the specific location where the collection data was taken from. Exists outside the hierarchy.",
           "$ref": "#/definitions/KeywordStringType"
         }
       },
       "required": ["Category"]
     },
     "ArchiveDistributionFormatTypeEnum": {
-      "description": "Defines the possible values of wether or not the Archive or Distribution file format is a native or supported format.",
+      "description": "Defines the possible values for the Archive or Distribution file format type.",
       "type": "string",
       "enum": ["Native", "Supported"]
     },
@@ -1172,7 +1172,7 @@
         "additionalProperties": false,
         "properties": {
           "Format": {
-            "description": "This element defines a single format for an archival artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml.",
+            "description": "This element defines a single format for an archival artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS).",
             "type": "string",
             "minLength": 1,
             "maxLength": 80
@@ -1218,7 +1218,7 @@
         "additionalProperties": false,
         "properties": {
           "Format": {
-            "description": "This element defines a single format for an archival artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml.",
+            "description": "This element defines a single format for an archival artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS).",
             "type": "string",
             "minLength": 1,
             "maxLength": 80
@@ -1451,7 +1451,7 @@
           "minItems": 1
         },
         "ShortName": {
-          "description": "This is the short name of the data center.",
+          "description": "This is the short name of the data center. The controlled vocabulary for data center short names is maintained in the Keyword Management System (KMS).",
            "$ref": "#/definitions/DataCenterShortNameType"
         },
         "LongName": {
@@ -1710,8 +1710,10 @@
         "additionalProperties": false,
         "properties": {
             "Format": {
-                "description": "The format of the data.",
-                "$ref": "#/definitions/GetDataTypeFormatEnum"
+                "description": "The format of the data.  The controlled vocabulary for formats is maintained in the Keyword Management System (KMS)",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
             },
             "MimeType": {
                 "description": "The mime type of the service.",
@@ -1719,7 +1721,7 @@
             },
             "Size": {
                 "description": "The size of the data.",
-               "type": "number"
+                "type": "number"
             },
             "Unit": {
                 "description": "Unit of information, together with Size determines total size in bytes of the data.",
@@ -1969,7 +1971,7 @@
     "MetadataAssociationType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Used to identify other services, collections, visualizations, granules, and other metadata types and resources that are associated with or dependent on the this collection, including parent-child relationships.",
+      "description": "Used to identify other services, collections, visualizations, granules, and other metadata types and resources that are associated with or dependent on this collection, including parent-child relationships.",
       "properties": {
         "Type": {
           "description": "The type of association between this collection metadata record and the target metadata record.   Choose type from the drop-down list.",
@@ -1982,7 +1984,7 @@
           "maxLength": 4000
         },
         "EntryId": {
-          "description": "Shortname of the target metadata record that is associated with this collection record.",
+          "description": "ShortName of the target metadata record that is associated with this collection record.",
           "$ref": "#/definitions/EntryIdType"
         },
         "Version": {
@@ -2057,7 +2059,7 @@
           "maxLength": 80
         },
         "PublicationPlace": {
-          "description": "The pubication place of the publication.",
+          "description": "The publication place of the publication.",
           "type": "string",
           "minLength": 1,
           "maxLength": 1024
@@ -2085,7 +2087,7 @@
    "ScienceKeywordType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Enables specification of Earth science keywords related to the collection.  The Earth Science keywords are chosen from a controlled keyword hierarchy maintained in the Keyword Management System (KMS).",
+      "description": "Enables specification of Earth science keywords related to the collection.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).",
       "properties": {
         "Category": {
           "$ref": "#/definitions/KeywordStringType"
@@ -2191,7 +2193,7 @@
     "PlatformType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Describes the relevant platforms used to acquire the data in the collection. Platform type vocabulary is controlled and includes Spacecraft, Aircraft, Vessel, Buoy, Platform, Station, Network, Human, etc.",
+      "description": "Describes the relevant platforms used to acquire the data in the collection. The controlled vocabularies for platform types and names are maintained in the Keyword Management System (KMS).",
       "properties": {
         "Type": {
           "description": "The most relevant platform type.",
@@ -2262,7 +2264,7 @@
     "InstrumentType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Information about the device used to measure or record data in this collection, including direct human observation. In cases where instruments have a single child instrument or the instrument and child instrument are used synonymously (e.g. AVHRR), both Instrument and ComposedOf should be recorded. The child instrument information is represented in a separate section.",
+      "description": "Information about the device used to measure or record data in this collection, including direct human observation. In cases where instruments have a single child instrument or the instrument and child instrument are used synonymously (e.g. AVHRR), both Instrument and ComposedOf should be recorded. The child instrument information is represented in a separate section. The controlled vocabulary for instrument names is maintained in the Keyword Management System (KMS).",
       "properties": {
         "ShortName": {
           "$ref": "#/definitions/PlatformShortNameType"
@@ -2339,10 +2341,10 @@
     "ProjectType": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Information describing the scientific endeavor(s) with which the collection is associated. Scientific endeavors include campaigns, projects, interdisciplinary science investigations, missions, field experiments, etc.",
+      "description": "Information describing the scientific endeavor(s) with which the collection is associated. Scientific endeavors include campaigns, projects, interdisciplinary science investigations, missions, field experiments, etc. The controlled vocabularies for project names are maintained in the Keyword Management System (KMS)",
       "properties": {
         "ShortName": {
-          "description": "The unique identifier by which a project or campaign/experiment is known. The campain/project is the scientific endeavor associated with the acquisition of the collection. Collections may be associated with multiple campaigns.",
+          "description": "The unique identifier by which a project or campaign/experiment is known. The campaign/project is the scientific endeavor associated with the acquisition of the collection. Collections may be associated with multiple campaigns.",
           "type": "string",
           "minLength": 1,
           "maxLength": 40

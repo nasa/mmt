@@ -185,7 +185,7 @@ module Helpers
               fill_in 'URL', with: 'https://example.com/'
 
               # Get Data fields
-              select 'ascii', from: 'Format'
+              select 'CSV', from: 'Format'
               fill_in 'Size', with: '42.0'
               select 'KB', from: 'Unit'
               fill_in 'Fees', with: '0'

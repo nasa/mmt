@@ -47,7 +47,7 @@ describe 'Related URLs information form', js: true do
         expect(page).to have_field('Subtype', with: 'DIRECT DOWNLOAD')
         expect(page).to have_field('URL', with: 'https://example.com/')
 
-        expect(page).to have_field('Format', with: 'ascii')
+        expect(page).to have_field('Format', with: 'CSV')
         expect(page).to have_field('Size', with: '42.0')
         expect(page).to have_field('Unit', with: 'KB')
         expect(page).to have_field('Fees', with: '0')
@@ -95,6 +95,14 @@ describe 'Related URLs information form', js: true do
               expect(page).to have_field('Unit', with: '')
               expect(page).to have_field('Fees', with: '')
               expect(page).to have_field('Checksum', with: '')
+            end
+          end
+        end
+
+        it 'the Format field contains ' do
+          within '.multiple.related-urls > .multiple-item-1' do
+            within '.get-data' do
+              expect(page).to have_select('Format', with_options: ['CSV', 'HDF4', 'HDF5', 'JPEG', 'Not provided'])
             end
           end
         end

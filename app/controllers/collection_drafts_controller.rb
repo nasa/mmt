@@ -121,11 +121,11 @@ class CollectionDraftsController < BaseDraftsController
       Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
       short_name = get_resource.draft['ShortName']
       version = get_resource.draft['Version']
-      log_gkr_on_publish(current_user.urs_uid, current_user.provider_id, get_resource.draft[:abstract], 
-        get_resource.gkr_keyword_recommendation_id, get_resource.gkr_keyword_recommendation_list, 
+      log_gkr_on_publish(current_user.urs_uid, current_user.provider_id, get_resource.draft[:abstract],
+        get_resource.gkr_keyword_recommendation_id, get_resource.gkr_keyword_recommendation_list,
         get_resource.draft.fetch("ScienceKeywords",[])) if get_resource.gkr_logging_active?
-      
-      
+
+
       # Delete draft
       get_resource.destroy
 
@@ -472,6 +472,7 @@ class CollectionDraftsController < BaseDraftsController
     set_projects
     set_country_codes
     set_language_codes
+    set_granule_data_formats
   end
 
   def edit_view_setup
@@ -498,6 +499,7 @@ class CollectionDraftsController < BaseDraftsController
     set_location_keywords       if @form == 'spatial_information'
     set_data_centers            if @form == 'data_centers' || @form == 'data_contacts'
     load_data_contacts_schema   if @form == 'data_contacts'
+    set_granule_data_formats    if @form == 'related_urls' || @form == 'data_centers' || @form == 'data_contacts'
   end
 
   def reconcile_recommendations(keyword_recommendations)
