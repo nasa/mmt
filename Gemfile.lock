@@ -1,7 +1,7 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: de1ffa634ec39d5f9dfbba616e98b82fa99f4245
-  ref: de1ffa634ec39d5f9dfbba616e98b82fa99f4245
+  revision: 2dfca957bffed71b5b6cc9e591d2a346ed20cc8a
+  ref: 2dfca957bff
   specs:
     cmr_metadata_preview (0.2.7)
       georuby
@@ -183,7 +183,7 @@ GEM
     method_source (1.0.0)
     mimemagic (0.3.5)
     mini_mime (1.0.2)
-    mini_portile2 (2.4.0)
+    mini_portile2 (2.5.0)
     mini_racer (0.2.11)
       libv8 (> 7.3)
     minitest (5.14.2)
@@ -193,8 +193,9 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nio4r (2.5.3)
-    nokogiri (1.10.10)
-      mini_portile2 (~> 2.4.0)
+    nokogiri (1.11.0)
+      mini_portile2 (~> 2.5.0)
+      racc (~> 1.4)
     nokogiri-diff (0.2.0)
       nokogiri (~> 1.5)
       tdiff (~> 0.3, >= 0.3.2)
@@ -205,6 +206,7 @@ GEM
     public_suffix (4.0.6)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
+    racc (1.5.2)
     rack (2.2.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
