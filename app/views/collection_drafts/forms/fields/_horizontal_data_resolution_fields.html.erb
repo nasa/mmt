@@ -38,7 +38,7 @@
       </div>
 
       <div class="checkbox-group">
-        <%= check_box_tag(name_to_param("#{name_prefix}|non_gridded_resolutions|_checkbox"), nil, non_gridded_resolutions_checked, class: 'horizontal-data-resolution-picker non-gridded-resolutions show-hide-checkbox', name: nil) %>
+        <%= check_box_tag(name_to_param("#{name_prefix}|non_gridded_resolutions|_checkbox"), nil, non_gridded_resolutions_checked, class: 'horizontal-data-resolution-picker non-gridded-resolutions show-hide-checkbox', name: nil, data: { 'dependent-field-class': 'horizontal-data-resolution' }) %>
         <%= mmt_label(
           name: 'non_gridded_resolutions_checkbox',
           title: 'Non Gridded Resolutions',
@@ -66,7 +66,7 @@
       </div>
 
       <div class="checkbox-group">
-        <%= check_box_tag(name_to_param("#{name_prefix}|non_gridded_range_resolutions|_checkbox"), nil, non_gridded_range_resolutions_checked, class: 'horizontal-data-resolution-picker non-gridded-range-resolutions show-hide-checkbox', name: nil) %>
+        <%= check_box_tag(name_to_param("#{name_prefix}|non_gridded_range_resolutions|_checkbox"), nil, non_gridded_range_resolutions_checked, class: 'horizontal-data-resolution-picker non-gridded-range-resolutions show-hide-checkbox', name: nil, data: { 'dependent-field-class': 'horizontal-data-resolution' }) %>
         <%= mmt_label(
           name: 'non_gridded_range_resolutions_checkbox',
           title: 'Non Gridded Range Resolutions',
@@ -94,7 +94,7 @@
       </div>
 
       <div class="checkbox-group">
-        <%= check_box_tag(name_to_param("#{name_prefix}|gridded_resolutions|_checkbox"), nil, gridded_resolutions_checked, class: 'horizontal-data-resolution-picker gridded-resolutions show-hide-checkbox', name: nil) %>
+        <%= check_box_tag(name_to_param("#{name_prefix}|gridded_resolutions|_checkbox"), nil, gridded_resolutions_checked, class: 'horizontal-data-resolution-picker gridded-resolutions show-hide-checkbox', name: nil, data: { 'dependent-field-class': 'horizontal-data-resolution' }) %>
         <%= mmt_label(
           name: 'gridded_resolutions_checkbox',
           title: 'Gridded Resolutions',
@@ -122,7 +122,7 @@
       </div>
 
       <div class="checkbox-group">
-        <%= check_box_tag(name_to_param("#{name_prefix}|gridded_range_resolutions|_checkbox"), nil, gridded_range_resolutions_checked, class: 'horizontal-data-resolution-picker gridded-range-resolutions show-hide-checkbox', name: nil) %>
+        <%= check_box_tag(name_to_param("#{name_prefix}|gridded_range_resolutions|_checkbox"), nil, gridded_range_resolutions_checked, class: 'horizontal-data-resolution-picker gridded-range-resolutions show-hide-checkbox', name: nil, data: { 'dependent-field-class': 'horizontal-data-resolution' }) %>
         <%= mmt_label(
           name: 'gridded_range_resolutions_checkbox',
           title: 'Gridded Range Resolutions',
@@ -150,7 +150,7 @@
       </div>
 
       <div class="checkbox-group">
-        <%= check_box_tag(name_to_param("#{name_prefix}|generic_resolutions|_checkbox"), nil, generic_resolutions_checked, class: 'horizontal-data-resolution-picker generic-resolutions show-hide-checkbox', name: nil) %>
+        <%= check_box_tag(name_to_param("#{name_prefix}|generic_resolutions|_checkbox"), nil, generic_resolutions_checked, class: 'horizontal-data-resolution-picker generic-resolutions show-hide-checkbox', name: nil, data: { 'dependent-field-class': 'horizontal-data-resolution' }) %>
         <%= mmt_label(
           name: 'generic_resolutions_checkbox',
           title: 'Generic Resolutions',

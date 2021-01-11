@@ -373,13 +373,22 @@ $(document).ready ->
   $('.metadata-form, .umm-form').on 'change', 'input[type="radio"], select', ->
     addRequiredIcons(this)
 
-  # MMT-2428: Because the dependent-fields-checkboxes are being handled in umm_forms.coffee,
+  # Because the 'clear-radio-button' elements were being handled in draft_form_selectors.coffee,
+  # the data level wasn't being removed from the requiredDataLevels array and the required icon was persistent.
+  # Additionally, the eui-required-o class was not being cleared away with the radio button selection in draft_form_selectors.coffee
+  $('.clear-radio-button').on 'click', ->
+    label = $(this).siblings('label')
+    for removeLevel, index in requiredDataLevels by -1
+      if removeLevel.topLevel == $(label).attr('for')
+        requiredDataLevels.splice(index, 1)
+        $(label).removeClass('eui-required-o')
+
+  # Because the dependent-fields-checkboxes and show-hide-checkboxes are being handled in umm_forms.coffee,
   # the following lines make sure the dependent fields (whose display is toggled by the checkbox) are removed
   # from the requiredDataLevels array (defined above) when they are hidden (parent checkbox is unchecked)
-  $('.dependent-fields-checkbox').on 'change', ->
+  $('.show-hide-checkbox, .dependent-fields-checkbox').on 'change', ->
     unless this.checked
       fieldClass = $(this).data('dependentFieldClass')
-      dependentFields = $(this).closest('.checkbox-dependent-fields-parent').find(".#{fieldClass}-fields")
-      $.each $(dependentFields).find("input[type='radio'], input[type='checkbox']"), (index, field) ->
+      $(this).siblings(".#{fieldClass}-fields").find('input, select').each (index, field) ->
         for removeLevel, index in requiredDataLevels by -1
-            requiredDataLevels.splice(index, 1) if removeLevel.topLevel == $(field).attr('data-level')
+          requiredDataLevels.splice(index, 1) if removeLevel.topLevel == $(field).attr('data-level')

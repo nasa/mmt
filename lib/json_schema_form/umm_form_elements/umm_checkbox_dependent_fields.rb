@@ -13,9 +13,8 @@ class UmmCheckboxDependentFields < UmmFormElement
   def render_markup
 
     content_tag(:div, class: "#{form_fragment['htmlClass']} #{dependent_field_class} checkbox-dependent-fields-parent") do
-
+      concat(check_box_tag("#{dependent_field_class}_checkbox", 'show', element_value.present?, class: "dependent-fields-checkbox #{dependent_field_class}-checkbox", data: { 'dependent-field-class': dependent_field_class }))
       concat(label_tag("#{dependent_field_class}_checkbox") do
-        concat(check_box_tag("#{dependent_field_class}_checkbox", 'show', element_value.present?, class: "dependent-fields-checkbox #{dependent_field_class}-checkbox", data: { 'dependent-field-class': dependent_field_class }))
         concat(title)
       end)
 
