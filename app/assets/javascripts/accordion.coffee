@@ -2,6 +2,18 @@ $(document).ready ->
   # Disable toggle
   $('.eui-accordion__header.disable-toggle').unbind('click')
 
+  # the eui-accordion__header listener in eui.js that is responsible for opening/closing the accordions
+  # allows the accordions to open/close when the help icon is clicked. Performing this unbind/rebind
+  # operation allows the below click listener to take priority and achieves the desired accordion/help
+  # icon behavior without editing the vendor file (eui.js)
+  $('.eui-accordion__header').not('.eui-accordion__header.disable-toggle').unbind('click')
+  $('.eui-accordion__header').not('.eui-accordion__header.disable-toggle').bind('click')
+  
+  $(".eui-accordion__header").not('.eui-accordion__header.disable-toggle').click (e) ->
+    if !$(e.target).is('i.eui-fa-info-circle')
+      $(this).siblings(".eui-accordion__body").slideToggle("fast")
+      $(this).closest(".eui-accordion").toggleClass("is-closed")
+
   # if viewing Collection Descriptive Keywords form and Keyword Recommendations
   # are presented to the user, indicate that they have been viewed
   indicateIfKeywordRecommendationsViewed = () ->
