@@ -76,10 +76,9 @@ describe 'Draft form accordions', js: true do
       end
     end
 
-    # TODO This test is broken, but should be fixed by MMT-951
-    # it 'does not open the accordion' do
-    #   expect(page).to have_no_field('Metadata Language')
-    # end
+    it 'does not open the accordion' do
+      expect(page).to have_no_field('Metadata Language')
+    end
   end
 
   context 'when clicking the Expand All link' do
