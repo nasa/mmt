@@ -7,8 +7,6 @@ $(document).ready ->
   # operation allows the below click listener to take priority and achieves the desired accordion/help
   # icon behavior without editing the vendor file (eui.js)
   $('.eui-accordion__header').not('.eui-accordion__header.disable-toggle').unbind('click')
-  $('.eui-accordion__header').not('.eui-accordion__header.disable-toggle').bind('click')
-  
   $(".eui-accordion__header").not('.eui-accordion__header.disable-toggle').click (e) ->
     if !$(e.target).is('i.eui-fa-info-circle')
       $(this).siblings(".eui-accordion__body").slideToggle("fast")
