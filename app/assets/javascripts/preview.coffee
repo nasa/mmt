@@ -37,8 +37,8 @@ drawPoint = (x, y, dotSize, highlightColor) ->
   pointStyle += "background: #{highlightColor}"
   $('<div />',
     class: 'preview-spatial',
-    style: pointStyle).appendTo($('body')
-  )
+    style: pointStyle
+  ).appendTo($('#preview-map-parent'))
 
 drawRectangle = (minX, minY, maxX, maxY, highlightColor) ->
   rectangleStyle = "position:absolute;"
@@ -49,8 +49,8 @@ drawRectangle = (minX, minY, maxX, maxY, highlightColor) ->
   rectangleStyle += "background: #{highlightColor}"
   $('<div />',
     class: 'preview-spatial',
-    style: rectangleStyle).appendTo($('body')
-  )
+    style: rectangleStyle
+  ).appendTo($('#preview-map-parent'))
 
 previewSpatial = {}
 
@@ -72,16 +72,20 @@ previewSpatial = {}
 
   rectanglesToDraw = convertRectanglesForImage(previewSpatialHash.rectangle_coordinate_array, mapWidth, mapHeight)
   for rectangle in rectanglesToDraw
-    minX = rectangle.minX + mapX1
-    minY = rectangle.minY + mapY1
-    maxX = rectangle.maxX + mapX1
-    maxY = rectangle.maxY + mapY1
+    minX = rectangle.minX
+    minY = rectangle.minY
+    maxX = rectangle.maxX
+    maxY = rectangle.maxY
     drawRectangle minX, minY, maxX, maxY, highlightColor
 
 
 # on window resize, redraw the spatial preview
 $(window).resize ->
   drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
+
+# TODO: investigate this further or remove it
+# $(window).fullscreenchange ->
+#   drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
 
 # using window on load vs document ready waits until all images are loaded
 # so the correct coordinates are gathered for mapPosition

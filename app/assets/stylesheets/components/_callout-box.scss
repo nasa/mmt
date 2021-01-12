@@ -13,7 +13,6 @@
   margin-right: 5%;
   max-width: 294px; // Max width to handle rows with less than 3 callout boxes
   min-height: 400px;
-  
 }
 
 .eui-callout-box:last-child {
@@ -102,7 +101,7 @@
     width: neat-width-of-columns(10);
     margin-right: 0
   }
-  
+
   .info:last_child {
     margin-right: 0
   }
