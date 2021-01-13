@@ -83,10 +83,6 @@ previewSpatial = {}
 $(window).resize ->
   drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
 
-# TODO: investigate this further or remove it
-# $(window).fullscreenchange ->
-#   drawSpatialExtent(window.previewSpatial) if window.previewSpatial?
-
 # using window on load vs document ready waits until all images are loaded
 # so the correct coordinates are gathered for mapPosition
 # http://stackoverflow.com/questions/544993/official-way-to-ask-jquery-wait-for-all-images-to-load-before-executing-somethin
