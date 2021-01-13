@@ -3,6 +3,7 @@
 # For further information see the following documentation
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 
+
 if Rails.configuration.csplog_enabled
   # Report CSP violations to a specified URI
   Rails.application.config.content_security_policy_report_only = true
