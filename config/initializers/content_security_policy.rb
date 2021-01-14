@@ -12,19 +12,18 @@ if Rails.configuration.csplog_enabled
     ##  Enable all directives supported by Rails 5.2
     policy.base_uri 'self'
     policy.child_src 'self'
-    policy.connect_src 'self', '*.earthdata.nasa.gov', '*.sit.earthdata.nasa.gov', '*.uat.earthdata.nasa.gov'
-    policy.default_src 'self', '*.earthdata.nasa.gov', '*.sit.earthdata.nasa.gov', '*.uat.earthdata.nasa.gov', 'https://fonts.googleapis.com'
-    policy.font_src 'self', '*.earthdata.nasa.gov', '*.sit.earthdata.nasa.gov', '*.uat.earthdata.nasa.gov', 'https://fonts.googleapis.com'
+    policy.connect_src 'self'
+    policy.default_src 'self', 'cdn.earthdata.nasa.gov', 'cdn.sit.earthdata.nasa.gov', 'cdn.uat.earthdata.nasa.gov', 'fbm.earthdata.nasa.gov', 'https://fonts.googleapis.com'
+    policy.font_src 'self', 'https://fonts.googleapis.com'
     policy.form_action 'self'
     policy.frame_ancestors 'self'
     policy.frame_src 'self'
-    policy.img_src 'self', '*.earthdata.nasa.gov', '*.sit.earthdata.nasa.gov', '*.uat.earthdata.nasa.gov', 'https://fonts.googleapis.com'
+    policy.img_src 'self', 'cdn.earthdata.nasa.gov', 'cdn.sit.earthdata.nasa.gov', 'cdn.uat.earthdata.nasa.gov'
     policy.manifest_src 'self'
     policy.media_src 'self'
     policy.object_src :none
-    policy.script_src 'self'
-    policy.script_src 'self', '*.earthdata.nasa.gov', '*.sit.earthdata.nasa.gov', '*.uat.earthdata.nasa.gov'
-    policy.style_src 'self', '*.earthdata.nasa.gov'
+    policy.script_src 'self', 'cdn.earthdata.nasa.gov', 'cdn.sit.earthdata.nasa.gov', 'cdn.uat.earthdata.nasa.gov', 'fbm.earthdata.nasa.gov'
+    policy.style_src 'self', '*.earthdata.nasa.gov', 'maxcdn.bootstrapcdn.com'
     policy.worker_src 'self'
 
     # Specify URI for violation reports
