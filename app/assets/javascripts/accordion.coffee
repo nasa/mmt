@@ -8,7 +8,7 @@ $(document).ready ->
   # icon behavior without editing the vendor file (eui.js)
   $('.eui-accordion__header').not('.eui-accordion__header.disable-toggle').unbind('click')
   $(".eui-accordion__header").not('.eui-accordion__header.disable-toggle').click (e) ->
-    if !$(e.target).is('i.eui-fa-info-circle')
+    if !$(e.target).is('a.display-modal, i.eui-fa-info-circle')
       $(this).siblings(".eui-accordion__body").slideToggle("fast")
       $(this).closest(".eui-accordion").toggleClass("is-closed")
 
