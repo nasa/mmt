@@ -62,3 +62,6 @@ nohup.out
 #ignore package
 package-lock.json
 package.json
+
+# ignore yarn file
+yarn.lock
