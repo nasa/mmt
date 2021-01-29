@@ -74,7 +74,7 @@ class UmmForm < JsonObj
 
       if parsed_json['label']
         label_text = parsed_json['label']
-        concat label_tag('', label_text, class: ('required' if schema.required_field?(full_key)))
+        concat label_tag('', label_text, class: ('required' if schema.required_field?(full_key)), id: label_id)
 
         # Adds the help modal link and icon
         concat help_icon(help_path)
@@ -298,6 +298,38 @@ class UmmForm < JsonObj
       top_key.underscore.dasherize
     end
   end
+
+  def field_title_differs_from_accordion_title?
+    accordion_titles = Array.new
+    json_form.parsed_json['forms'].each do |form|
+      form['items'].each { |accordion| accordion_titles << accordion['title'] }
+    end
+
+    accordion_titles.none? { |accordion_title| accordion_title == title }
+  end
+
+
+  def label_id
+    value = parsed_json.fetch('key','').split('/').first
+    value = parsed_json.fetch('key','').split('/')[1] if value.blank?
+    # the conditionals in this method should only be used to ensure that id's are not given to labels that aren't top level fields
+    p field_title_differs_from_accordion_title?, 'afewasdf'
+    if value == top_key && !parsed_json['noLabel'] && field_title_differs_from_accordion_title?
+      top_key.underscore.dasherize + '-label'
+    else
+      nil
+    end
+  end
+
+  def anchor
+    if parsed_json.fetch('type','').include?('accordion')
+      accordion_id
+    elsif !parsed_json['noLabel'] || parsed_json['field']
+      label_id || accordion_id
+    else
+      accordion_id
+    end
+  end
 end
 
 # :nodoc:
@@ -507,8 +539,8 @@ class UmmFormElement < UmmForm
         # UmmBoolean fields use the labelClass for required icons
         classes += form_fragment['labelClass'].split if form_fragment['labelClass']
         classes << 'required' if schema.required_field?(full_key)
-        concat label_tag(keyify_property_name, label_text, class: classes)
 
+        concat label_tag(keyify_property_name, label_text, class: classes, id: label_id)
         # Adds the help modal link and icon
         concat help_icon(help_path)
       end
