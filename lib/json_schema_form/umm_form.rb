@@ -312,8 +312,7 @@ class UmmForm < JsonObj
   def label_id
     value = parsed_json.fetch('key','').split('/').first
     value = parsed_json.fetch('key','').split('/')[1] if value.blank?
-    # the conditionals in this method should only be used to ensure that id's are not given to labels that aren't top level fields
-    p field_title_differs_from_accordion_title?, 'afewasdf'
+    
     if value == top_key && !parsed_json['noLabel'] && field_title_differs_from_accordion_title?
       top_key.underscore.dasherize + '-label'
     else
