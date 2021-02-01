@@ -25,12 +25,14 @@ describe 'Valid Tool Draft Descriptive Keywords Preview' do
       it 'displays the correct progress indicators for required fields' do
         within '#descriptive_keywords-progress .progress-indicators' do
           expect(page).to have_css('.eui-icon.eui-required.icon-green.tool-keywords')
+          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'descriptive_keywords', anchor: 'tool-keywords'))
         end
       end
 
       it 'displays the correct progress indicators for non required fields' do
         within '#descriptive_keywords-progress .progress-indicators' do
           expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.ancillary-keywords')
+          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'descriptive_keywords', anchor: 'ancillary-keywords'))
         end
       end
     end

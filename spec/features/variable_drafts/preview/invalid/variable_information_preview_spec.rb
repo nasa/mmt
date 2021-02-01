@@ -21,30 +21,38 @@ describe 'Invalid Variable Draft Variable Information Preview' do
     end
 
     it 'displays the correct progress indicators for required fields' do
+      anchors = ['name-label', 'long-name-label', 'definition-label']
+
       within '#variable_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.name-label')
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.long-name-label')
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.definition-label')
+        anchors.each do |anchor|
+          expect(page).to have_css(".eui-icon.eui-required-o.icon-green.#{anchor}")
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: anchor))
+        end
       end
     end
 
     it 'displays the correct progress indicators for non required fields' do
+      anchors = [
+        'standard-name-label','additional-identifiers-label','variable-type-label',
+        'variable-sub-type-label','units-label','data-type-label'
+      ]
+
       within '#variable_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.standard-name-label')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.additional-identifiers-label')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable-type-label')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable-sub-type-label')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.units-label')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.data-type-label')
+        anchors.each do |anchor|
+          expect(page).to have_css(".eui-icon.eui-fa-circle-o.icon-grey.#{anchor}")
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: anchor))
+        end
       end
     end
 
     it 'displays the correct progress indicators for invalid fields' do
+      anchors = ['scale-label', 'offset-label', 'valid-ranges-label', 'index-ranges-label']
+
       within '#variable_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.scale-label')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.offset-label')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.valid-ranges-label')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.index-ranges-label')
+        anchors.each do |anchor|
+          expect(page).to have_css(".eui-icon.eui-fa-minus-circle.icon-red.#{anchor}")
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: anchor))
+        end
       end
     end
 

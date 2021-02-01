@@ -24,20 +24,23 @@ describe 'Valid Tool Draft Tool Information Preview' do
       end
 
       it 'displays the correct progress indicators for required fields' do
+        anchors = ['name-label','long-name-label','type-label','version-label','description-label','url']
+
         within '#tool_information-progress .progress-indicators' do
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.name-label')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.long-name-label')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.type-label')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.version-label')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.description-label')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.url')
+          anchors.each do |anchor|
+            expect(page).to have_css(".eui-icon.eui-required.icon-green.#{anchor}")
+            expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'tool_information', anchor: anchor))
+          end
         end
       end
 
       it 'displays the correct progress indicators for non required fields' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.version-description-label')
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.last-updated-date-label')
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.doi-label')
+        anchors = ['version-description-label','last-updated-date-label','doi-label']
+
+        anchors.each do |anchor|
+          expect(page).to have_css(".eui-icon.eui-fa-circle.icon-grey.#{anchor}")
+          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'tool_information', anchor: anchor))
+        end
       end
     end
 

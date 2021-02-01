@@ -308,11 +308,10 @@ class UmmForm < JsonObj
     accordion_titles.none? { |accordion_title| accordion_title == title }
   end
 
-
   def label_id
     value = parsed_json.fetch('key','').split('/').first
     value = parsed_json.fetch('key','').split('/')[1] if value.blank?
-    
+
     if value == top_key && !parsed_json['noLabel'] && field_title_differs_from_accordion_title?
       top_key.underscore.dasherize + '-label'
     else

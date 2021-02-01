@@ -25,6 +25,7 @@ describe 'Valid Service Draft Options Preview' do
   it 'displays the correct progress indicators for non required fields' do
     within '#options-progress .progress-indicators' do
       expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.service-options')
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'options', anchor: 'service-options'))
     end
   end
 end

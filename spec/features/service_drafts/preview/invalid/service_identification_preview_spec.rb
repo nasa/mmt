@@ -28,6 +28,9 @@ describe 'Invalid Service Draft Service Identification Preview' do
       expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.service-quality')
       expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.access-constraints')
       expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.use-constraints')
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_identification', anchor: 'service-quality'))
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_identification', anchor: 'access-constraints'))
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_identification', anchor: 'use-constraints'))
     end
   end
 

@@ -35,6 +35,7 @@ describe 'Invalid Variable Draft Fill Value Preview' do
     it 'displays the correct progress indicators for invalid fields' do
       within '#fill_values-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.fill-values')
+        expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'fill_values', anchor: 'fill-values'))
       end
     end
 

@@ -35,6 +35,7 @@ describe 'Invalid Variable Draft Dimensions Preview' do
     it 'displays the correct progress indicators for invalid fields' do
       within '#dimensions-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.dimensions')
+        expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'dimensions', anchor: 'dimensions'))
       end
     end
 

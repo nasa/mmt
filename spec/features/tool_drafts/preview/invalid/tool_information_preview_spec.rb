@@ -24,16 +24,16 @@ describe 'Invalid Tool Draft Tool Information Preview' do
       end
 
       it 'displays the correct progress indicators for invalid fields' do
+        anchors = [
+          'name-label','long-name-label','version-label','version-description-label',
+          'type-label','last-updated-date-label','description-label','doi-label','url'
+        ]
+
         within '#tool_information-progress .progress-indicators' do
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.name-label')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.long-name-label')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version-label')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version-description-label')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.type-label')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.last-updated-date-label')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.description-label')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.doi-label')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.url')
+          anchors.each do |anchor|
+            expect(page).to have_css(".eui-icon.eui-fa-minus-circle.icon-red.#{anchor}")
+            expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'tool_information', anchor: anchor))
+          end
         end
       end
     end

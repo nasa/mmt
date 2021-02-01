@@ -23,12 +23,13 @@ describe 'Empty Service Draft Service Information Preview' do
   end
 
   it 'displays the correct progress indicators for required fields' do
+    anchors = ['name-label','long-name-label','type-label','version-label','description-label']
+
     within '#service_information-progress .progress-indicators' do
-      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.name-label')
-      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.long-name-label')
-      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.type-label')
-      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.version-label')
-      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.description-label')
+      anchors.each do |anchor|
+        expect(page).to have_css(".eui-icon.eui-required-o.icon-green.#{anchor}")
+        expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: anchor))
+      end
     end
   end
 

@@ -24,15 +24,16 @@ describe 'Valid Tool Draft Compatibility and Usability Preview' do
       end
 
       it 'displays the correct progress indicators for non required fields' do
+        anchors = [
+          'supported-input-formats-label','supported-output-formats-label','supported-operating-systems',
+          'supported-browsers','supported-software-languages','quality','access-constraints-label','use-constraints'
+        ]
+
         within '#compatibility_and_usability-progress .progress-indicators' do
-          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-input-formats-label')
-          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-output-formats-label')
-          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-operating-systems')
-          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-browsers')
-          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-software-languages')
-          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.quality')
-          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.access-constraints-label')
-          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.use-constraints')
+          anchors.each do |anchor|
+            expect(page).to have_css(".eui-icon.eui-fa-circle.icon-grey.#{anchor}")
+            expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'compatibility_and_usability', anchor: anchor))
+          end
         end
       end
     end

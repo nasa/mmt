@@ -25,6 +25,7 @@ describe 'Valid Service Draft Service Organizations Preview' do
   it 'displays the correct progress indicators for required fields' do
     within '#service_organizations-progress .progress-indicators' do
       expect(page).to have_css('.eui-icon.eui-required.icon-green.service-organizations')
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_organizations', anchor: 'service-organizations'))
     end
   end
 

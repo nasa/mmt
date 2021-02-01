@@ -27,6 +27,8 @@ describe 'Inalid Tool Draft Descriptive Keywords Preview' do
         within '#descriptive_keywords-progress .progress-indicators' do
           expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.tool-keywords')
           expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.ancillary-keywords')
+          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'descriptive_keywords', anchor: 'tool-keywords'))
+          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'descriptive_keywords', anchor: 'ancillary-keywords'))
         end
       end
 

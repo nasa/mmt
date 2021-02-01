@@ -23,6 +23,7 @@ describe 'Empty Variable Draft Science Keywords Preview' do
     it 'displays no progress indicators for non required fields' do
       within '#science_keywords-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.science-keywords')
+        expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'science_keywords', anchor: 'science-keywords'))
       end
     end
 

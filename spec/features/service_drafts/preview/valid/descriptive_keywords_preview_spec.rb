@@ -25,6 +25,7 @@ describe 'Valid Service Draft Descriptive Keywords Preview' do
   it 'displays the correct progress indicators for required fields' do
     within '#descriptive_keywords-progress .progress-indicators' do
       expect(page).to have_css('.eui-icon.eui-required.icon-green.service-keywords')
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'descriptive_keywords', anchor: 'service-keywords'))
     end
   end
 
@@ -47,6 +48,7 @@ describe 'Valid Service Draft Descriptive Keywords Preview' do
   it 'displays the correct progress indicators for non required fields' do
     within '#descriptive_keywords-progress .progress-indicators' do
       expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.ancillary-keywords')
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'descriptive_keywords', anchor: 'ancillary-keywords'))
     end
   end
 end
