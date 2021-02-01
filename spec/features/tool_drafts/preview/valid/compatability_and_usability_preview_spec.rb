@@ -25,13 +25,13 @@ describe 'Valid Tool Draft Compatibility and Usability Preview' do
 
       it 'displays the correct progress indicators for non required fields' do
         within '#compatibility_and_usability-progress .progress-indicators' do
-          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-input-formats')
-          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-output-formats')
+          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-input-formats-label')
+          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-output-formats-label')
           expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-operating-systems')
           expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-browsers')
           expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.supported-software-languages')
           expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.quality')
-          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.access-constraints')
+          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.access-constraints-label')
           expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.use-constraints')
         end
       end

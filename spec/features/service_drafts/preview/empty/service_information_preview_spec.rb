@@ -24,11 +24,11 @@ describe 'Empty Service Draft Service Information Preview' do
 
   it 'displays the correct progress indicators for required fields' do
     within '#service_information-progress .progress-indicators' do
-      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.name')
-      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.long-name')
-      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.type')
-      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.version')
-      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.description')
+      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.name-label')
+      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.long-name-label')
+      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.type-label')
+      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.version-label')
+      expect(page).to have_css('.eui-icon.eui-required-o.icon-green.description-label')
     end
   end
 

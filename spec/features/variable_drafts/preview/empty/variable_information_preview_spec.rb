@@ -22,24 +22,24 @@ describe 'Empty Variable Draft Variable Information Preview', js:true do
 
     it 'displays the correct progress indicators for required fields' do
       within '#variable_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.name')
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.long-name')
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.definition')
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.name-label')
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.long-name-label')
+        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.definition-label')
       end
     end
 
     it 'displays the correct progress indicators for non required fields' do
       within '#variable_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.standard-name')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.additional-identifiers')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable-type')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable-sub-type')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.units')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.data-type')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.scale')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.offset')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.valid-ranges')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.index-ranges')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.standard-name-label')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.additional-identifiers-label')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable-type-label')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable-sub-type-label')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.units-label')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.data-type-label')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.scale-label')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.offset-label')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.valid-ranges-label')
+        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.index-ranges-label')
       end
     end
 

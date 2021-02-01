@@ -25,19 +25,19 @@ describe 'Valid Tool Draft Tool Information Preview' do
 
       it 'displays the correct progress indicators for required fields' do
         within '#tool_information-progress .progress-indicators' do
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.name')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.long-name')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.type')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.version')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.description')
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.name-label')
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.long-name-label')
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.type-label')
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.version-label')
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.description-label')
           expect(page).to have_css('.eui-icon.eui-required.icon-green.url')
         end
       end
 
       it 'displays the correct progress indicators for non required fields' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.version-description')
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.last-updated-date')
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.doi')
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.version-description-label')
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.last-updated-date-label')
+        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.doi-label')
       end
     end
 

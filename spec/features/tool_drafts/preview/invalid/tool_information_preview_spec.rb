@@ -25,14 +25,14 @@ describe 'Invalid Tool Draft Tool Information Preview' do
 
       it 'displays the correct progress indicators for invalid fields' do
         within '#tool_information-progress .progress-indicators' do
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.name')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.long-name')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version-description')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.type')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.last-updated-date')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.description')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.doi')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.name-label')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.long-name-label')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version-label')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version-description-label')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.type-label')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.last-updated-date-label')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.description-label')
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.doi-label')
           expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.url')
         end
       end

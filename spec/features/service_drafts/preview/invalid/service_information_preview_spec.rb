@@ -24,11 +24,11 @@ describe 'Invalid Service Draft Service Information Preview' do
 
     it 'displays the correct progress indicators for invalid fields' do
       within '#service_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.name')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.long-name')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.type')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.description')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.name-label')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.long-name-label')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.type-label')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version-label')
+        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.description-label')
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.url')
       end
     end
