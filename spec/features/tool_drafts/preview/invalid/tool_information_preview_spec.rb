@@ -1,6 +1,6 @@
 describe 'Invalid Tool Draft Tool Information Preview' do
   let(:tool_draft) { create(:invalid_tool_draft, user: User.where(urs_uid: 'testuser').first) }
-  let(:draft) { tool_draft.draft }
+  let(:draft)      { tool_draft.draft }
 
   before do
     login
@@ -9,6 +9,8 @@ describe 'Invalid Tool Draft Tool Information Preview' do
 
   context 'when examining the Tool Information sections' do
     context 'when examining the progress circles section' do
+      let(:anchors) { %w[name-label long-name-label version-label version-description-label type-label last-updated-date-label description-label doi-label url] }
+
       it 'displays the form title as an edit link' do
         within '#tool_information-progress' do
           expect(page).to have_link('Tool Information', href: edit_tool_draft_path(tool_draft, 'tool_information'))
@@ -24,11 +26,6 @@ describe 'Invalid Tool Draft Tool Information Preview' do
       end
 
       it 'displays the correct progress indicators for invalid fields' do
-        anchors = [
-          'name-label','long-name-label','version-label','version-description-label',
-          'type-label','last-updated-date-label','description-label','doi-label','url'
-        ]
-
         within '#tool_information-progress .progress-indicators' do
           anchors.each do |anchor|
             expect(page).to have_css(".eui-icon.eui-fa-minus-circle.icon-red.#{anchor}")

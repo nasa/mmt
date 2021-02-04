@@ -6,6 +6,9 @@ describe 'Valid Variable Draft Variable Information Preview' do
   end
 
   context 'When examining the Variable Information section' do
+    let(:anchors_req)     { %w[name-label definition-label long-name-label] }
+    let(:anchors_non_req) { %w[standard-name-label additional-identifiers-label variable-type-label variable-sub-type-label units-label data-type-label scale-label offset-label valid-ranges-label index-ranges-label] }
+
     it 'displays the form title as an edit link' do
       within '#variable_information-progress' do
         expect(page).to have_link('Variable Information', href: edit_variable_draft_path(@draft, 'variable_information'))
@@ -21,10 +24,8 @@ describe 'Valid Variable Draft Variable Information Preview' do
     end
 
     it 'displays the correct progress indicators for required fields' do
-      anchors = ['name-label', 'definition-label', 'long-name-label']
-
       within '#variable_information-progress .progress-indicators' do
-        anchors.each do |anchor|
+        anchors_req.each do |anchor|
           expect(page).to have_css(".eui-icon.eui-required.icon-green.#{anchor}")
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: anchor))
         end
@@ -32,13 +33,8 @@ describe 'Valid Variable Draft Variable Information Preview' do
     end
 
     it 'displays the correct progress indicators for non required fields' do
-      anchors = [
-        'standard-name-label','additional-identifiers-label','variable-type-label','variable-sub-type-label',
-        'units-label','data-type-label','scale-label','offset-label','valid-ranges-label','index-ranges-label'
-      ]
-
       within '#variable_information-progress .progress-indicators' do
-        anchors.each do |anchor|
+        anchors_non_req.each do |anchor|
           expect(page).to have_css(".eui-icon.eui-fa-circle.icon-grey.#{anchor}")
           expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: anchor))
         end

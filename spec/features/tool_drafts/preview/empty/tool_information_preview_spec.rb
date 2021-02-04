@@ -1,5 +1,5 @@
 describe 'Empty Tool Draft Tool Information Preview' do
-  let(:tool_draft) { create(:empty_tool_draft, user: User.where(urs_uid: 'testuser').first) }
+  let(:tool_draft)      { create(:empty_tool_draft, user: User.where(urs_uid: 'testuser').first) }
 
   before do
     login
@@ -8,6 +8,9 @@ describe 'Empty Tool Draft Tool Information Preview' do
 
   context 'when examining the Tool Information sections' do
     context 'when examining the progress circles section' do
+      let(:anchors_req)     { %w[name-label long-name-label version-label type-label description-label url] }
+      let(:anchors_non_req) { %w[version-description-label last-updated-date-label doi-label] }
+
       it 'displays the form title as an edit link' do
         within '#tool_information-progress' do
           expect(page).to have_link('Tool Information', href: edit_tool_draft_path(tool_draft, 'tool_information'))
@@ -23,10 +26,8 @@ describe 'Empty Tool Draft Tool Information Preview' do
       end
 
       it 'displays the correct progress indicators for required fields' do
-        anchors = ['name-label','long-name-label','version-label','type-label','description-label','url']
-
         within '#tool_information-progress .progress-indicators' do
-          anchors.each do |anchor|
+          anchors_req.each do |anchor|
             expect(page).to have_css(".eui-icon.eui-required-o.icon-green.#{anchor}")
             expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'tool_information', anchor: anchor))
           end
@@ -34,9 +35,7 @@ describe 'Empty Tool Draft Tool Information Preview' do
       end
 
       it 'displays the correct progress indicators for non required fields' do
-        anchors = ['version-description-label','last-updated-date-label','doi-label']
-
-        anchors.each do |anchor|
+        anchors_non_req.each do |anchor|
           expect(page).to have_css(".eui-icon.eui-fa-circle-o.icon-grey.#{anchor}")
           expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'tool_information', anchor: anchor))
         end
