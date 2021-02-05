@@ -316,7 +316,7 @@ class UmmForm < JsonObj
     # value == top_key: checks if the label is a top-level field (we don't want to put label id's on fields that aren't
       # linked via progress circle)
     # !parsed_json['noLabel']: there are no progress circles that link to fields with a truthy 'noLabel' key.
-    # field_title_differs_from_accordion_title?: makes sure the fields that share the same title as their accordion don't
+    # field_title_not_accordion_title?: makes sure the fields that share the same title as their accordion don't
       # get a label_id (we don't want to put label id's on fields that aren't linked via progress circle); handles cases
       # like Tool Keywords where the field label = accordion title
 
