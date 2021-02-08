@@ -27,6 +27,7 @@ describe 'Empty Variable Draft Sampling Identifiers Preview' do
     it 'displays the correct progress indicators for non required fields' do
       within '#sampling_identifiers-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.sampling-identifiers')
+        expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sampling_identifiers', anchor: 'sampling-identifiers'))
       end
     end
 

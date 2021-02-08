@@ -18,6 +18,8 @@ describe 'Invalid Service Draft Descriptive Keywords Preview' do
     within '#descriptive_keywords-progress .progress-indicators' do
       expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.service-keywords')
       expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.ancillary-keywords')
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'descriptive_keywords', anchor: 'service-keywords'))
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'descriptive_keywords', anchor: 'ancillary-keywords'))
     end
   end
 

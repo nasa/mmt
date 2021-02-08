@@ -1,6 +1,6 @@
 describe 'Invalid Tool Draft Compatibility and Usability Preview' do
   let(:tool_draft) { create(:invalid_tool_draft, user: User.where(urs_uid: 'testuser').first) }
-  let(:draft) { tool_draft.draft }
+  let(:draft)      { tool_draft.draft }
 
   before do
     login
@@ -9,6 +9,8 @@ describe 'Invalid Tool Draft Compatibility and Usability Preview' do
 
   context 'when examining the Compatibility and Usability sections' do
     context 'when examining the progress circles section' do
+      let(:anchors) { %w[supported-input-formats-label supported-output-formats-label supported-operating-systems supported-browsers supported-software-languages quality access-constraints-label use-constraints] }
+
       it 'displays the form title as an edit link' do
         within '#compatibility_and_usability-progress' do
           expect(page).to have_link('Compatibility and Usability', href: edit_tool_draft_path(tool_draft, 'compatibility_and_usability'))
@@ -25,14 +27,10 @@ describe 'Invalid Tool Draft Compatibility and Usability Preview' do
 
       it 'displays the correct progress indicators for non required fields' do
         within '#compatibility_and_usability-progress .progress-indicators' do
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.supported-input-formats')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.supported-output-formats')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.supported-operating-systems')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.supported-browsers')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.supported-software-languages')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.quality')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.access-constraints')
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.use-constraints')
+          anchors.each do |anchor|
+            expect(page).to have_css(".eui-icon.eui-fa-minus-circle.icon-red.#{anchor}")
+            expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'compatibility_and_usability', anchor: anchor))
+          end
         end
       end
     end

@@ -1,6 +1,6 @@
 describe 'Invalid Service Draft Service Information Preview' do
   let(:service_draft) { create(:invalid_service_draft, user: User.where(urs_uid: 'testuser').first) }
-  let(:draft) { service_draft.draft }
+  let(:draft)         { service_draft.draft }
 
   before do
     login
@@ -8,6 +8,8 @@ describe 'Invalid Service Draft Service Information Preview' do
   end
 
   context 'When examining the Service Information section' do
+    let(:anchors) { %w[name-label long-name-label type-label version-label description-label url] }
+
     it 'displays the form title as an edit link' do
       within '#service_information-progress' do
         expect(page).to have_link('Service Information', href: edit_service_draft_path(service_draft, 'service_information'))
@@ -24,12 +26,10 @@ describe 'Invalid Service Draft Service Information Preview' do
 
     it 'displays the correct progress indicators for invalid fields' do
       within '#service_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.name')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.long-name')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.type')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.version')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.description')
-        expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.url')
+        anchors.each do |anchor|
+          expect(page).to have_css(".eui-icon.eui-fa-minus-circle.icon-red.#{anchor}")
+          expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: anchor))
+        end
       end
     end
 

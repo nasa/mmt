@@ -25,6 +25,7 @@ describe 'Valid Tool Draft Tool Organizations Preview' do
       it 'displays the correct progress indicators for required fields' do
         within '#tool_organizations-progress .progress-indicators' do
           expect(page).to have_css('.eui-icon.eui-required.icon-green.organizations')
+          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'tool_organizations', anchor: 'organizations'))
         end
       end
     end

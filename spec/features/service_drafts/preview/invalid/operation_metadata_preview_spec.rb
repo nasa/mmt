@@ -25,6 +25,7 @@ describe 'Invalid Service Draft Operation Metadata Preview' do
   it 'displays the correct progress indicators for non required fields' do
     within '#operation_metadata-progress .progress-indicators' do
       expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.operation-metadata')
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'operation_metadata', anchor: 'operation-metadata'))
     end
   end
 end

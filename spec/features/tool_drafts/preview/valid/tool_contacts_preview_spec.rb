@@ -27,6 +27,8 @@ describe 'Valid Tool Draft Tool Contacts Preview' do
         within '#tool_contacts-progress .progress-indicators' do
           expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.contact-groups')
           expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.contact-persons')
+          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'tool_contacts', anchor: 'contact-groups'))
+          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'tool_contacts', anchor: 'contact-persons'))
         end
       end
     end

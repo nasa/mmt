@@ -26,6 +26,8 @@ describe 'Empty Service Draft Service Contacts Preview' do
     within '#service_contacts-progress .progress-indicators' do
       expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.contact-groups')
       expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.contact-persons')
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_contacts', anchor: 'contact-groups'))
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_contacts', anchor: 'contact-persons'))
     end
   end
 

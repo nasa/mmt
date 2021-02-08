@@ -29,6 +29,7 @@ describe 'Valid Variable Draft Fill Value Preview' do
     it 'displays the correct progress indicators for non required fields' do
       within '#fill_values-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.fill-values')
+        expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'fill_values', anchor: 'fill-values'))
       end
     end
 
