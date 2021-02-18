@@ -45,7 +45,7 @@ describe 'Data identification form', js: true do
         within '.use-constraints-description > .sub-fields' do
           fill_in 'Description', with: 'These are some use constraints'
         end
-        fill_in 'License Text', with: 'sample license text'
+        fill_in 'Linkage', with: 'https://linkage.example.com'
       end
 
       # Access Constraints
@@ -98,7 +98,7 @@ describe 'Data identification form', js: true do
       # Use Constraints
       within '.use-constraints' do
         expect(page).to have_field('Description', with: 'These are some use constraints')
-        expect(page).to have_field('License Text', with: 'sample license text')
+        expect(page).to have_field('Linkage', with: 'https://linkage.example.com')
       end
 
       # Access constraints
@@ -152,6 +152,23 @@ describe 'Data identification form', js: true do
           expect(page).to have_field('draft_publication_references_1_title', with: 'Publication reference title 1') # Title
           expect(page).to have_field('ISBN', with: '9876543210987')
         end
+      end
+    end
+
+    it 'has proper progress circle icons in green ' do
+      within '.nav-top' do
+        click_on 'Done'
+      end
+
+      expect(page).to have_content('Collection Draft Updated Successfully!')
+      within '#data-identification a[title="Use Constraints"]' do
+        expect(page).to have_css('.eui-fa-circle')
+      end
+      within '#data-identification a[title="Collection Progress - Required field complete"]' do
+        expect(page).to have_css('.eui-required.icon-green')
+      end
+      within '#data-identification a[title="Processing Level - Required field complete"]' do
+        expect(page).to have_css('.eui-required.icon-green')
       end
     end
   end
