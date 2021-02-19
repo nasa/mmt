@@ -94,8 +94,14 @@ class CollectionDraft < Draft
 
       # Convert {'0' => {'id' => '123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
-      # Convert parameter keys to CamelCase for UMM
+      
+      # Convert parameter keys to CamelCase for UMM;
       json_params = params.to_camel_keys
+
+      # amend_license_url_key changes the 'LicenseURL' key to 'LicenseUrl'; the .to_camel_keys method has been patched to return 'LicenseURL'
+      # when 'license_url' is passed which is only valid for Service and Tool metadata; see awrence_patch.rb for details
+      amend_license_url_key(json_params)
+
       Rails.logger.info("Audit Log: Metadata update attempt where #{editing_user_id} modified #{self.class} parameters: #{json_params}")
 
       # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters
@@ -149,6 +155,11 @@ class CollectionDraft < Draft
     save if save_record
   end
 
+  def amend_license_url_key(meta)
+    meta['UseConstraints']['LicenseUrl'] = meta['UseConstraints'].delete('LicenseURL') if meta.dig('UseConstraints','LicenseURL')
+    meta
+  end
+
   def keyword_recommendation_needed?
     return unless gkr_enabled?
 
@@ -163,21 +174,21 @@ class CollectionDraft < Draft
     # record per draft
     keyword_recommendations.create(recommendation_provided: true, recommendation_request_id: request_id, recommended_keywords: keyword_list) if keyword_recommendations.blank?
   end
-  
+
   def gkr_logging_active?
     return false unless gkr_enabled?
-    
+
     keyword_recommendations.first&.recommendation_request_id.present?
   end
-  
+
   def gkr_keyword_recommendation_list
     gkr_logging_active? ? keyword_recommendations.first.recommended_keywords :  nil
   end
-  
+
   def gkr_keyword_recommendation_id
     gkr_logging_active? ? keyword_recommendations.first.recommendation_request_id :  nil
   end
-  
+
   private
 
   INTEGER_KEYS = %w(
