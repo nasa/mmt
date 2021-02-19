@@ -95,10 +95,13 @@ class CollectionDraft < Draft
       # Convert {'0' => {'id' => '123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
 
+      json_params = params.to_camel_keys
+
       # Convert parameter keys to CamelCase for UMM;
       # amend_license_url_key changes the 'LicenseURL' key to 'LicenseUrl'; the .to_camel_keys method has been patched to return 'LicenseURL'
       # when 'license_url' is passed which is only valid for Service and Tool metadata; see awrence_patch.rb for details
-      json_params = amend_license_url_key(params.to_camel_keys)
+      amend_license_url_key(json_params)
+
       Rails.logger.info("Audit Log: Metadata update attempt where #{editing_user_id} modified #{self.class} parameters: #{json_params}")
 
       # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters
