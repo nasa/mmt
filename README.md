@@ -4,7 +4,7 @@ The Metadata Management Tool (MMT) and Draft Metadata Management Tool (dMMT) are
 ## Getting Started
 
 ### Requirements
- - Ruby 2.5.1
+ - Ruby 2.7.2
 
 ### Setup
 Clone the Metadata Management Tool Git project:
