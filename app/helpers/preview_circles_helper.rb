@@ -170,6 +170,10 @@ module PreviewCirclesHelper
       'FileDistributionInformation' => {
         required: true,
         anchor: 'file-distribution-information'
+      },
+      'DirectDistributionInformation' => {
+        required: true,
+        anchor: 'direct-distribution-information'
       }
     }
   }

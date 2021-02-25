@@ -343,7 +343,7 @@
         "properties": {
             "Format": {
                 "description": "The format of the data.",
-                "$ref": "#/definitions/GetDataTypeFormatEnum"
+                "$ref": "#/definitions/GetServiceTypeFormatEnum"
             },
             "MimeType": {
                 "description": "The mime type of the service.",
@@ -1235,7 +1235,7 @@
                "application/octet-stream", "application/vnd.google-earth.kmz", "image/jpeg", "image/png",
                "image/vnd.collada+xml", "text/html", "text/plain", "Not provided"]
     },
-    "GetDataTypeFormatEnum": {
+    "GetServiceTypeFormatEnum": {
       "type": "string",
       "enum": ["ascii", "binary", "GRIB", "BUFR", "HDF4", "HDF5", "HDF-EOS4", "HDF-EOS5", "jpeg", "png", "tiff", "geotiff", "kml", "Not provided"]
     }

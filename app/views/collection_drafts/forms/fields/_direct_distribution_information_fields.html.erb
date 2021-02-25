@@ -1,0 +1,93 @@
+<div class="sub-fields direct_distribution_information-fields">
+  <div class="row">
+    <div class="full-width">
+      <!-- Region -->
+      <%= mmt_select(
+            name: 'region',
+            title: 'Region',
+            prefix: name_prefix,
+            value: direct_distribution_information['Region'],
+            options: DraftsHelper::DirectDistributionInformationRegionOptions,
+            help: 'definitions/DirectDistributionInformationType/properties/Region',
+            required: true
+          ) %>
+    </div>
+  </div>
+
+  <fieldset class="eui-accordion is-open" id="s3-bucket-and-object-prefix-names">
+    <div class="eui-accordion__header">
+      <h3 class="eui-accordion__title">S3 Bucket and Object Prefix Names</h3>
+      <%= mmt_help_icon(
+            title: 'Media',
+            help: 'definitions/DirectDistributionInformationType/properties/S3BucketAndObjectPrefixNames'
+          ) %>
+      <div class="eui-accordion__icon" tabindex="0">
+        <i class="eui-icon eui-fa-chevron-circle-down"></i>
+        <span class="eui-sr-only">Toggle S3 Bucket and Object Prefix Names</span>
+      </div>
+    </div>
+    <div class="eui-accordion__body">
+      <!-- S3 Bucket and Object Prefix Names -->
+      <div class="row taller">
+        <div class="col-12">
+          <%= mmt_label(
+                name: 's3_bucket_and_object_prefix_names',
+                title: 'S3 Bucket and Object Prefix Names',
+                prefix: name_prefix
+              ) %>
+          <%= mmt_help_icon(
+                title: 'S3 Bucket and Object Prefix Names',
+                help: 'definitions/DirectDistributionInformationType/properties/S3BucketAndObjectPrefixNames'
+              ) %>
+          <div class="row">
+            <% prefixes = direct_distribution_information['S3BucketAndObjectPrefixNames'] || [nil] # [nil] creates at least one field %>
+            <div class="multiple simple-multiple s3-bucket-and-object-prefix-names">
+              <% prefixes.each_with_index do |prefix, index| %>
+                <div class="multiple-item multiple-item-<%= index %>">
+                  <%= text_field_tag(name_to_param("#{name_prefix}|s3_bucket_and_object_prefix_names|_#{index}"), prefix, class: 'full-width s3-bucket-and-object-prefix-names simple-multiple-field validate', data: { level: "#{name_prefix}" }) %>
+                  <a class="remove">
+                    <i class="fa fa-times-circle"></i>
+                    <span class="is-invisible">Remove <%= prefix %></span>
+                  </a>
+                  <div class="actions">
+                    <button type="button" class="eui-btn--blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another Prefix Name</button>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="row">
+    <div class="full-width">
+      <!-- S3 Credentials API Endpoint -->
+      <%= mmt_text_field(
+            name: 's3_credentials_api_endpoint',
+            title: 'S3 Credentials API Endpoint',
+            prefix: name_prefix,
+            value: direct_distribution_information['S3CredentialsAPIEndpoint'],
+            help: 'definitions/DirectDistributionInformationType/properties/S3CredentialsAPIEndpoint',
+            validate: true,
+            required: true
+          ) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="full-width">
+      <!-- S3 Credentials API Documentation URL -->
+      <%= mmt_text_field(
+            name: 's3_credentials_api_documentation_url',
+            title: 'S3 Credentials API Documentation URL',
+            prefix: name_prefix,
+            value: direct_distribution_information['S3CredentialsAPIDocumentationURL'],
+            help: 'definitions/DirectDistributionInformationType/properties/S3CredentialsAPIDocumentationURL',
+            validate: true,
+            required: true
+          ) %>
+    </div>
+  </div>
+</div>
