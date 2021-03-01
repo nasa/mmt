@@ -78,7 +78,14 @@ $(document).ready ->
 
   getDescription = (path) ->
     schema = getSchemaProperties(path)
-    schema.description
+    if schema.items?['$ref']?
+      ref = schema.items?['$ref']?.split('/')
+      ref.shift()
+      description = getDescription(ref)
+    else
+      description = schema.description
+
+    description
 
   getMinItems = (path) ->
     schema = getSchemaProperties(path)
