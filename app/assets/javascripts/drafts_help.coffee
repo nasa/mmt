@@ -79,7 +79,7 @@ $(document).ready ->
   getDescription = (path) ->
     schema = getSchemaProperties(path)
     if schema.items?['$ref']?
-      ref = schema.items?['$ref']?.split('/')
+      ref = schema.items['$ref'].split('/')
       ref.shift()
       description = getDescription(ref)
     else
