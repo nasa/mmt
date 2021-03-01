@@ -132,14 +132,10 @@ $(document).ready ->
 
   getFormat = (path) ->
     schema = getSchemaProperties(path)
-    format = schema.format
-    items = schema.items
-    if !format? and items?
-      format = items.format
-    if !format? and schema['$ref']?
-      ref = schema['$ref'].split('/')
+    format = schema.format || schema.items?.format
+    ref = schema['$ref']?.split('/') || schema.items?['$ref']?.split('/') || []
+    if !format? and ref.length > 0
       ref.shift()
       format = getFormat(ref)
 
-    format = "date-time (yyyy-MM-dd'T'HH:mm:ssZ)" if format == 'date-time'
-    format
+    return "date-time (yyyy-MM-dd'T'HH:mm:ssZ)" if format == 'date-time'
