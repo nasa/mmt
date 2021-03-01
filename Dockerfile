@@ -54,7 +54,6 @@ RUN curl -OL https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.2.tar.gz \
  && cd / \
  && rm -fr ruby-2.7.2
 
-#RUN gem install bundler --no-rdoc --no-ri --version 1.17.3
 RUN gem update --system 3.1.4
 
 RUN groupadd -g 500 bamboo
