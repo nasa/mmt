@@ -25,6 +25,7 @@ describe 'Invalid Tool Draft Smart Handoff Information Preview' do
       it 'displays the correct progress indicators for non required fields' do
         within '#smart_handoff_information-progress .progress-indicators' do
           expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.search-action')
+          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'smart_handoff_information', anchor: 'search-action'))
         end
       end
     end

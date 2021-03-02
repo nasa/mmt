@@ -35,6 +35,7 @@ describe 'Invalid Variable Draft Set Preview' do
     it 'displays the correct progress indicators for invalid fields' do
       within '#sets-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.sets')
+        expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'sets'))
       end
     end
 

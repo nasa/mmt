@@ -27,6 +27,9 @@ describe 'Empty Service Draft Service Identification Preview' do
       expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.service-quality')
       expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.access-constraints')
       expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.use-constraints')
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_identification', anchor: 'service-quality'))
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_identification', anchor: 'access-constraints'))
+      expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_identification', anchor: 'use-constraints'))
     end
   end
 

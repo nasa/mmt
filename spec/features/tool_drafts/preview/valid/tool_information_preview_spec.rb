@@ -1,6 +1,6 @@
 describe 'Valid Tool Draft Tool Information Preview' do
-  let(:tool_draft) { create(:full_tool_draft, user: User.where(urs_uid: 'testuser').first) }
-  let(:draft) { tool_draft.draft }
+  let(:tool_draft)      { create(:full_tool_draft, user: User.where(urs_uid: 'testuser').first) }
+  let(:draft)           { tool_draft.draft }
 
   before do
     login
@@ -9,6 +9,9 @@ describe 'Valid Tool Draft Tool Information Preview' do
 
   context 'when examining the Tool Information sections' do
     context 'when examining the progress circles section' do
+      let(:anchors_req)     { %w[name-label long-name-label type-label version-label description-label url] }
+      let(:anchors_non_req) { %w[version-description-label last-updated-date-label doi-label] }
+
       it 'displays the form title as an edit link' do
         within '#tool_information-progress' do
           expect(page).to have_link('Tool Information', href: edit_tool_draft_path(tool_draft, 'tool_information'))
@@ -25,19 +28,18 @@ describe 'Valid Tool Draft Tool Information Preview' do
 
       it 'displays the correct progress indicators for required fields' do
         within '#tool_information-progress .progress-indicators' do
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.name')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.long-name')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.type')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.version')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.description')
-          expect(page).to have_css('.eui-icon.eui-required.icon-green.url')
+          anchors_req.each do |anchor|
+            expect(page).to have_css(".eui-icon.eui-required.icon-green.#{anchor}")
+            expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'tool_information', anchor: anchor))
+          end
         end
       end
 
       it 'displays the correct progress indicators for non required fields' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.version-description')
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.last-updated-date')
-        expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.doi')
+        anchors_non_req.each do |anchor|
+          expect(page).to have_css(".eui-icon.eui-fa-circle.icon-grey.#{anchor}")
+          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'tool_information', anchor: anchor))
+        end
       end
     end
 

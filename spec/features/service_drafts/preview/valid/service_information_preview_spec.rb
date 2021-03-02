@@ -1,12 +1,14 @@
 describe 'Valid Service Draft Service Information Preview' do
   let(:service_draft) { create(:full_service_draft, draft_entry_title: 'Volume mixing ratio of sum of peroxynitrates in air', draft_short_name: 'PNs_LIF', user: User.where(urs_uid: 'testuser').first) }
-  let(:draft) { service_draft.draft }
+  let(:draft)         { service_draft.draft }
 
   before do
     login
   end
 
   context 'When examining the Service Information section' do
+    let(:anchors) { %w[name-label long-name-label type-label version-label description-label] }
+
     before do
       visit service_draft_path(service_draft)
     end
@@ -27,11 +29,10 @@ describe 'Valid Service Draft Service Information Preview' do
 
     it 'displays the correct progress indicators for required fields' do
       within '#service_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required.icon-green.name')
-        expect(page).to have_css('.eui-icon.eui-required.icon-green.long-name')
-        expect(page).to have_css('.eui-icon.eui-required.icon-green.type')
-        expect(page).to have_css('.eui-icon.eui-required.icon-green.version')
-        expect(page).to have_css('.eui-icon.eui-required.icon-green.description')
+        anchors.each do |anchor|
+          expect(page).to have_css(".eui-icon.eui-required.icon-green.#{anchor}")
+          expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'service_information', anchor: anchor))
+        end
       end
     end
 

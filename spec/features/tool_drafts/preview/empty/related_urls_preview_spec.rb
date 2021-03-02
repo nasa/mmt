@@ -25,6 +25,7 @@ describe 'Empty Tool Draft Related URL Preview' do
       it 'displays the correct progress indicators for non required fields' do
         within '#related_urls-progress .progress-indicators' do
           expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.related-urls')
+          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'related_urls', anchor: 'related-urls'))
         end
       end
     end

@@ -74,7 +74,7 @@ class UmmForm < JsonObj
 
       if parsed_json['label']
         label_text = parsed_json['label']
-        concat label_tag('', label_text, class: ('required' if schema.required_field?(full_key)))
+        concat label_tag('', label_text, class: ('required' if schema.required_field?(full_key)), id: label_id)
 
         # Adds the help modal link and icon
         concat help_icon(help_path)
@@ -298,6 +298,51 @@ class UmmForm < JsonObj
       top_key.underscore.dasherize
     end
   end
+
+  def field_title_not_accordion_title?
+    accordion_titles = Array.new
+    json_form.parsed_json['forms'].each do |form|
+      form['items'].each { |accordion| accordion_titles << accordion['title'] }
+    end
+
+    accordion_titles.none? { |accordion_title| accordion_title == title }
+  end
+
+  def label_id
+    value = parsed_json.fetch('key','').split('/').first
+    value = parsed_json.fetch('key','').split('/')[1] if value.blank?
+
+    # note: field != form != accordion in the context of the below comment:
+    # value == top_key: checks if the label is a top-level field (we don't want to put label id's on fields that aren't
+      # linked via progress circle)
+    # !parsed_json['noLabel']: there are no progress circles that link to fields with a truthy 'noLabel' key.
+    # field_title_not_accordion_title?: makes sure the fields that share the same title as their accordion don't
+      # get a label_id (we don't want to put label id's on fields that aren't linked via progress circle); handles cases
+      # like Tool Keywords where the field label = accordion title
+
+    if value == top_key && !parsed_json['noLabel'] && field_title_not_accordion_title?
+      top_key.underscore.dasherize + '-label'
+    else
+      nil
+    end
+  end
+
+  def anchor
+    # !parsed_json['noLabel']: if noLabel = true, then we know the accordion_id should be anchored because there are no
+      # progress circles that link to fields with a truthy 'noLabel' key.
+    # parsed_json['field']: if the form fragment has a falsy 'field' key, we know the accordion_id should be anchored,
+      # because there are no accordions that have a truthy 'field' key (if they even have one)
+    # These ^ are preliminary checks to ensure that a label_id *could* be the correct anchor - the conditionals in label_id will
+    # further determine if a label_id is the appropriate anchor (by returning nil or not)
+
+    if parsed_json.fetch('type','').include?('accordion')
+      accordion_id
+    elsif !parsed_json['noLabel'] || parsed_json['field']
+      label_id || accordion_id
+    else
+      accordion_id
+    end
+  end
 end
 
 # :nodoc:
@@ -507,8 +552,8 @@ class UmmFormElement < UmmForm
         # UmmBoolean fields use the labelClass for required icons
         classes += form_fragment['labelClass'].split if form_fragment['labelClass']
         classes << 'required' if schema.required_field?(full_key)
-        concat label_tag(keyify_property_name, label_text, class: classes)
 
+        concat label_tag(keyify_property_name, label_text, class: classes, id: label_id)
         # Adds the help modal link and icon
         concat help_icon(help_path)
       end

@@ -6,6 +6,9 @@ describe 'Empty Variable Draft Variable Information Preview', js:true do
   end
 
   context 'When examining the Variable Information section' do
+    let(:anchors_req)      { %w[name-label long-name-label definition-label] }
+    let(:anchors_non_req) { %w[standard-name-label additional-identifiers-label variable-type-label variable-sub-type-label units-label data-type-label scale-label offset-label valid-ranges-label index-ranges-label]}
+
     it 'displays the form title as an edit link' do
       within '#variable_information-progress' do
         expect(page).to have_link('Variable Information', href: edit_variable_draft_path(@draft, 'variable_information'))
@@ -22,24 +25,19 @@ describe 'Empty Variable Draft Variable Information Preview', js:true do
 
     it 'displays the correct progress indicators for required fields' do
       within '#variable_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.name')
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.long-name')
-        expect(page).to have_css('.eui-icon.eui-required-o.icon-green.definition')
+        anchors_req.each do |anchor|
+          expect(page).to have_css(".eui-icon.eui-required-o.icon-green.#{anchor}")
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: anchor))
+        end
       end
     end
 
     it 'displays the correct progress indicators for non required fields' do
       within '#variable_information-progress .progress-indicators' do
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.standard-name')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.additional-identifiers')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable-type')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.variable-sub-type')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.units')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.data-type')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.scale')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.offset')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.valid-ranges')
-        expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.index-ranges')
+        anchors_non_req.each do |anchor|
+          expect(page).to have_css(".eui-icon.eui-fa-circle-o.icon-grey.#{anchor}")
+          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: anchor))
+        end
       end
     end
 

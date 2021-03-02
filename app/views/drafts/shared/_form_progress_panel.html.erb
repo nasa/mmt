@@ -12,11 +12,11 @@
             <!-- this only needs to loop through top level elements -->
             <% form_section.top_elements.each do |field| %>
               <% if json_form.invalid?(field.top_key) %>
-                <%= invalid_circle(field.title, resource, form_section.parsed_json['id'], field.accordion_id) %>
+                <%= invalid_circle(field.title, resource, form_section.parsed_json['id'], field.anchor) %>
               <% elsif field.value? %>
-                <%= complete_circle(field.title, resource, form_section.parsed_json['id'], field.accordion_id, schema.required_field?(field.top_key)) %>
+                <%= complete_circle(field.title, resource, form_section.parsed_json['id'], field.anchor, schema.required_field?(field.top_key)) %>
               <% else %>
-                <%= empty_circle(field.title, resource, form_section.parsed_json['id'], field.accordion_id, schema.required_field?(field.top_key)) %>
+                <%= empty_circle(field.title, resource, form_section.parsed_json['id'], field.anchor, schema.required_field?(field.top_key)) %>
               <% end %>
             <% end %>
 

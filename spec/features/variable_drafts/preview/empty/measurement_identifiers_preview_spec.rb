@@ -27,6 +27,7 @@ describe 'Empty Variable Draft Measurement Identifiers Preview' do
     it 'displays the correct progress indicators for non required fields' do
       within '#measurement_identifiers-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.measurement-identifiers')
+        expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'measurement_identifiers', anchor: 'measurement-identifiers'))
       end
     end
 
