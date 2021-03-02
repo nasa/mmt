@@ -44,18 +44,17 @@ ENV JAVA_HOME /etc/alternatives/jre
 
 # Install Ruby from source
 WORKDIR /
-RUN curl -OL https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.1.tar.gz \
- && tar -xzf ruby-2.5.1.tar.gz \
- && rm ruby-2.5.1.tar.gz \
- && cd /ruby-2.5.1 \
+RUN curl -OL https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.2.tar.gz \
+ && tar -xzf ruby-2.7.2.tar.gz \
+ && rm ruby-2.7.2.tar.gz \
+ && cd /ruby-2.7.2 \
  && ./configure --disable-install-doc \
  && make -j $(nproc) \
  && make install \
  && cd / \
- && rm -fr ruby-2.5.1
+ && rm -fr ruby-2.7.2
 
-RUN gem install bundler --no-rdoc --no-ri --version 1.17.3
-RUN gem update --system 2.7.8
+RUN gem update --system 3.1.4
 
 RUN groupadd -g 500 bamboo
 RUN useradd --gid bamboo --create-home --uid 500 bamboo

@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby "2.7.2"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # We have not investigated the cost of moving to rails 6, but expect it to make
 # more breaking changes.  Rails 5 is still supported.
@@ -80,7 +81,7 @@ gem 'browser'
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
 # make sure to delete the local config when done making changes to merge into master
 # bundle config --delete local.cmr_metadata_preview
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '4fe55e554b569202b65ba17ec09763d19b89edc1'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: 'c33f7437667'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
