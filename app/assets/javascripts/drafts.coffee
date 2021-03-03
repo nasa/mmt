@@ -212,12 +212,15 @@ $(document).ready ->
 
       if $(field).is('input, textarea, select')
         name = $(field).attr('name')
+
         if name != undefined
-          name = name.slice(0, nameIndex) + name.slice(nameIndex).replace(multipleIndex, targetIndex)
+          # RegExp added to find and replace the LAST occurrence of multipleIndex with targetIndex
+          name = name.slice(0, nameIndex) + name.slice(nameIndex).replace(new RegExp("#{multipleIndex}(?!.*#{multipleIndex})"), targetIndex)
           $(field).attr 'name', name
 
         id = $(field).attr('id')
-        id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, targetIndex)
+        # RegExp added to find and replace the LAST occurrence of multipleIndex with targetIndex
+        id = id.slice(0, idIndex) + id.slice(idIndex).replace(new RegExp("#{multipleIndex}(?!.*#{multipleIndex})"), targetIndex)
         $(field).attr 'id', id
 
         if $('.metadata-form, .umm-form').length > 0

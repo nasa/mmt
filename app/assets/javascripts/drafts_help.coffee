@@ -103,7 +103,7 @@ $(document).ready ->
   getMinLength = (path) ->
     schema = getSchemaProperties(path)
     minLength = schema.minLength || schema.items?.minLength
-    ref = schema['$ref']?.split('/') || schema.items?['$ref']?.split('/') || []
+    ref = schema['$ref']?.split('/') || schema.items?['$ref']?.split('/') || ''
     if !minLength? and ref.length > 0
       ref.shift()
       minLength = getMinLength(ref)
