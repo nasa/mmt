@@ -174,7 +174,7 @@ GEM
     kgio (2.11.3)
     launchy (2.5.0)
       addressable (~> 2.7)
-    libv8 (7.3.492.27.1-x86_64-linux)
+    libv8 (7.3.492.27.1)
     libxml-ruby (3.2.1)
     loofah (2.9.0)
       crass (~> 1.0.2)
@@ -186,6 +186,7 @@ GEM
     method_source (1.0.0)
     mimemagic (0.3.5)
     mini_mime (1.0.2)
+    mini_portile2 (2.5.0)
     mini_racer (0.2.15)
       libv8 (> 7.3)
     minitest (5.14.4)
@@ -195,7 +196,8 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nio4r (2.5.7)
-    nokogiri (1.11.1-x86_64-linux)
+    nokogiri (1.11.1)
+      mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     nokogiri-diff (0.2.0)
       nokogiri (~> 1.5)
@@ -342,7 +344,7 @@ GEM
       nokogiri (~> 1.8)
 
 PLATFORMS
-  x86_64-linux
+  ruby
 
 DEPENDENCIES
   aasm
@@ -408,4 +410,4 @@ RUBY VERSION
    ruby 2.7.2p137
 
 BUNDLED WITH
-   2.2.13
+   2.1.4
