@@ -58,9 +58,9 @@
 
 <!-- Direct Distribution Information -->
 <fieldset class="eui-accordion is-closed" id="direct-distribution-information">
-  <% direct_distribution_information_value = draft.draft.dig('ArchiveAndDistributionInformation','DirectDistributionInformation') || {} %>
+  <% direct_distribution_information_value = draft.draft['DirectDistributionInformation'] || {} %>
   <div class="eui-accordion__header">
-    <h3 class="eui-accordion__title eui-required-o">Direct Distribution Information</h3>
+    <h3 class="eui-accordion__title">Direct Distribution Information</h3>
     <%= mmt_help_icon(
           title: 'Direct Distribution Information',
           help: 'definitions/DirectDistributionInformationType'
@@ -76,7 +76,7 @@
         <%= render partial: 'collection_drafts/forms/type', locals: {
           type: 'direct_distribution_information',
           values: direct_distribution_information_value,
-          name_prefix: "draft_|archive_and_distribution_information|_|direct_distribution_information|_",
+          name_prefix: "draft_|direct_distribution_information|_",
           multiple: false,
           validate: true,
           options: {} } %>

@@ -1,9 +1,9 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 4fe55e554b569202b65ba17ec09763d19b89edc1
-  ref: 4fe55e554b569202b65ba17ec09763d19b89edc1
+  revision: c33f7437667e3c8da22983b64b8aea830cb8cfbe
+  branch: MMT-2456
   specs:
-    cmr_metadata_preview (0.2.7)
+    cmr_metadata_preview (0.2.8)
       georuby
       rails (~> 5.2.0)
       sprockets (< 4.0)
@@ -395,4 +395,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.17.3
+   2.1.4

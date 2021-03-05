@@ -17,7 +17,7 @@ describe 'Archive And Distribution Information form', js: true do
   context 'When viewing the form with stored values' do
     before do
       click_on 'Expand All'
-
+      # the context and the following line are not congruent
       add_archive_and_distribution_information
 
       click_on 'Collapse All'
@@ -57,6 +57,17 @@ describe 'Archive And Distribution Information form', js: true do
           expect(page).to have_field('Average File Size Unit', with: 'MB')
           expect(page).to have_field('Description', with: 'A file distribution information description')
           expect(page).to have_field('Fees', with: 'File archive information fees')
+        end
+      end
+
+      within '.direct-distribution-information' do
+        expect(page).to have_field('Region', with: 'us-east-2')
+        expect(page).to have_field('S3 Credentials API Endpoint', with: 'link.com')
+        expect(page).to have_field('S3 Credentials API Documentation URL', with: 'amazon.com')
+        within ('.simple-multiple.s3-bucket-and-object-prefix-names') do
+          expect(page).to have_field(with: 'prefix-1')
+          expect(page).to have_field(with: 'prefix-2')
+          expect(page).to have_field(with: 'prefix-3')
         end
       end
     end
@@ -129,6 +140,24 @@ describe 'Archive And Distribution Information form', js: true do
     end
   end
 
+  context 'When filling the form without dependent values' do
+    before do
+      click_on 'Expand All'
+      within '.multiple.file-distribution-informations' do
+        fill_in 'Average File Size', with: '15'
+        fill_in 'Total Collection File Size', with: '15'
+      end
+      within '.nav-top' do
+        click_on 'Save'
+      end
+    end
+    it 'displays a confirmation message' do
+      expect(page).to have_content('Average File Size Unit is required')
+      expect(page).to have_content('Total Collection File Size Unit is required')
+    end
+  end
+
+# added ?
   context 'When filling the form without dependent values' do
     before do
       click_on 'Expand All'

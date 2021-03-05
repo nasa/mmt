@@ -39,7 +39,6 @@ $(document).ready ->
     fixNumbers(json)
     fixIntegers(json)
     fixNestedFields(json)
-
     return json
 
   # fix keys from the serialized page json that don't match the schema
@@ -341,6 +340,7 @@ $(document).ready ->
     path = path.replace(/u_o_m_label/g, 'uom_label')
     path = path.replace(/a_s_c_i_i/g, 'ascii')
     path = path.replace(/c_d_f_4/g, 'cdf4')
+    path = path.replace(/a_p_i/g, 'api')
     error.path = path
 
     if isMetadataForm()
@@ -621,7 +621,6 @@ $(document).ready ->
       validate(json)
 
     errors = if validate.errors? then validate.errors else []
-    # console.log 'errors! ', JSON.stringify(errors)
 
     validateParameterRanges(errors)
     errors = validatePicklistValues(errors)
