@@ -34,7 +34,7 @@ module LossReportHelper
 
     # Below is the Nokogiri#diff method that is used to compare Nokogiri::XML objects.
     # The 'change' item is either '+' or '-'; the 'node' item is the Nokogiri::XML::Node object
-    orig.diff(conv, {:added => true, :removed => true}) do |change,node|
+    orig.diff(conv, { added: true, removed: true }) do |change, node|
 
       element = node.to_xml
       path = node.parent.path.split('[')[0]
@@ -64,8 +64,8 @@ module LossReportHelper
               add_to_report(change, item['value'], "#{path}/#{item['path']}", hide_items, display, json_output, text_output)
             end
           end
-        elsif (attr,val = is_attribute?(element))
-          add_to_report(change, val, "#{path}/#{attr}" , hide_items, display, json_output, text_output)
+        elsif (attr, val = is_attribute?(element))
+          add_to_report(change, val, "#{path}/#{attr}", hide_items, display, json_output, text_output)
         else
           add_to_report(change, element, path, hide_items, display, json_output, text_output)
         end
@@ -86,7 +86,7 @@ module LossReportHelper
     # TODO: it may be beneficial to add more conditions to improve accuracy
     if element.include?('=') && !element.include?(' = ')
       attr_val = Array.new
-      element.split('=').each {|item| attr_val << item.strip.delete('\\"')}
+      element.split('=').each { |item| attr_val << item.strip.delete('\\"') }
       attr_val
     else
       false
@@ -144,6 +144,7 @@ module LossReportHelper
         buckets << {'path'=> key, 'value'=> val}
       end
     end
+
     buckets
   end
 
@@ -161,6 +162,7 @@ module LossReportHelper
         return path_exists = false, "#{current_path}/#{key}"
       end
     end
+
     return hash, current_path
   end
 
@@ -187,5 +189,4 @@ module LossReportHelper
     end
     output
   end
-
 end

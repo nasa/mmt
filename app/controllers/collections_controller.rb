@@ -162,13 +162,13 @@ class CollectionsController < ManageCollectionsController
   end
 
   def prepare_translated_collections
-    original_collection_native_xml = cmr_client.get_concept(params[:id],token, {})
+    original_collection_native_xml = cmr_client.get_concept(params[:id], token, {})
     return { error: 'Failed to retrieve collection from CMR' } unless original_collection_native_xml.success?
 
     content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
     return { error: 'This collection is already in UMM format so there is no loss report' } if content_type.include?('application/vnd.nasa.cmr.umm+json')
 
-    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type,  skip_validation=true)
+    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type, skip_validation=true)
     return { error: 'Failed to translate collection from UMM back to native format' } unless translated_collection_native_xml.success?
 
     return {
