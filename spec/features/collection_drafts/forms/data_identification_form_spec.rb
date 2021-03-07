@@ -43,11 +43,11 @@ describe 'Data identification form', js: true do
       # Use Constraints
       within '.use-constraints' do
         choose('draft_use_constraints_LicenseUrl')
-        page.save_screenshot('b4fill_in.png', full: true)
-        find('#draft_use_constraints_license_url_linkage').set('https://linkage.example.com')
         within '.use-constraints-description > .sub-fields' do
           fill_in 'Description', with: 'These are some use constraints'
         end
+        fill_in 'Linkage', with: 'https://linkage.example.com'
+
       end
 
       # Access Constraints
