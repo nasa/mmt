@@ -322,6 +322,34 @@ $(document).ready ->
       when 'NotAvailable'
         $parent.find('.doi-fields.not-available').show()
         $parent.find('.doi-fields.not-available select').val('Not Applicable')
+        
+  # Handle License_URL Available selector
+  $('.license-available-select').change ->
+    $parent = $(this).parents('.license-group')
+    $parent.find('.license-text-fields').hide()
+    $parent.find('.license-url-fields').hide()
+
+    # Clear license-available-select radio buttons
+    # that aren't the one just selected
+    $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
+
+    # show the selected fields
+    switch $(this).val()
+      when 'LicenseText'
+        $parent.find('.license-text-fields').show()
+        $parent.find('.license-text-fields').find('label').addClass('eui-required-o')
+        $parent.find('.license-url-fields').find('input, select').val ''
+      when 'LicenseUrl'
+        $parent.find('.license-url-fields').show()
+        $parent.find('.license-text-fields').find('textarea').val ''
+
+  # Handle License Text required icon
+  $('#draft_use_constraints_license_text').change ->
+    $parent = $(this).parents('.license-text-fields')
+    if $(this).val() == "" 
+      $parent.find('label').removeClass('eui-required-o')
+    else
+      $parent.find('label').addClass('eui-required-o')
 
   # Handle Total Collection File Size Selector (in Archive and Distribution Information)
   $('.total-collection-file-size-select').change ->

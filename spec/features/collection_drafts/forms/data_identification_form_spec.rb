@@ -42,10 +42,12 @@ describe 'Data identification form', js: true do
 
       # Use Constraints
       within '.use-constraints' do
+        choose('draft_use_constraints_LicenseUrl')
+        page.save_screenshot('b4fill_in.png', full: true)
+        find('#draft_use_constraints_license_url_linkage').set('https://linkage.example.com')
         within '.use-constraints-description > .sub-fields' do
           fill_in 'Description', with: 'These are some use constraints'
         end
-        fill_in 'Linkage', with: 'https://linkage.example.com'
       end
 
       # Access Constraints
@@ -98,7 +100,9 @@ describe 'Data identification form', js: true do
       # Use Constraints
       within '.use-constraints' do
         expect(page).to have_field('Description', with: 'These are some use constraints')
-        expect(page).to have_field('Linkage', with: 'https://linkage.example.com')
+        within('.license-url-fields') do
+          expect(page).to have_field('Linkage', with: 'https://linkage.example.com')
+        end
       end
 
       # Access constraints
@@ -169,6 +173,39 @@ describe 'Data identification form', js: true do
       end
       within '#data-identification a[title="Processing Level - Required field complete"]' do
         expect(page).to have_css('.eui-required.icon-green')
+      end
+    end
+  end
+
+  context 'when modifying the Use Constraint fields' do
+    before do
+      click_on 'Expand All'
+    end
+
+    it 'has no selected constraint type' do
+      # Use Constraints
+      within '.use-constraints' do
+        expect(page).to have_no_css('.license-url-fields')
+        expect(page).to have_no_css('.license-text-fields')
+      end
+    end
+
+    it 'shows the license url fields' do
+      within '.use-constraints' do
+        find('#draft_use_constraints_LicenseUrl').click
+        expect(page).to have_css('.license-url-fields')
+        expect(page).to have_no_css('.license-text-fields')
+        expect(page).to have_no_css('.eui-required-o')
+      end
+    end
+
+    it 'shows the license text fields' do
+      within '.use-constraints' do
+        find('#draft_use_constraints_LicenseText').click
+        find('#draft_use_constraints_license_text').send_keys ['License Text', :tab]
+        expect(page).to have_css('.license-text-fields')
+        expect(page).to have_no_css('.license-url-fields')
+        expect(page).to have_css('.eui-required-o')
       end
     end
   end
