@@ -54,7 +54,6 @@ class SubscriptionsController < ManageCmrController
   def create
     authorize :subscription
     @subscription = subscription_params
-    @subscription['EmailAddress'] = get_subscriber_email(@subscription['SubscriberId'])
     native_id = "mmt_subscription_#{SecureRandom.uuid}"
 
     subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, native_id, token)
@@ -141,7 +140,7 @@ class SubscriptionsController < ManageCmrController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:Name, :CollectionConceptId, :Query, :SubscriberId, :EmailAddress)
+    params.require(:subscription).permit(:Name, :CollectionConceptId, :Query, :SubscriberId)
   end
 
   def subscriptions_enabled?
@@ -162,11 +161,6 @@ class SubscriptionsController < ManageCmrController
     @subscriber = get_subscriber(subscriber_id)
 
     @subscriber.map! { |s| [urs_user_full_name(s), s['uid']] }
-  end
-
-  def get_subscriber_email(subscriber_id)
-    subscriber = get_subscriber(subscriber_id).fetch(0, {})
-    subscriber.fetch('email_address', nil)
   end
 
   def add_top_level_breadcrumbs
