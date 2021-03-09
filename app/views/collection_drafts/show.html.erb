@@ -22,6 +22,7 @@
     <section class="action wide-content">
       <div class="wide-content-inside">
         <% if resource_name == 'collection_draft' %>
+          <% byebug %>
           <% if get_resource.new_record? || (@errors && @errors.size > 0) %>
             <%= link_to 'Publish Collection Draft', '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
             <div id="invalid-draft-modal" class="eui-modal-content">

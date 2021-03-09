@@ -245,6 +245,7 @@ class ManageMetadataController < ApplicationController
   ARCHIVE_AND_DISTRIBUTION_INFORMATION_FIELDS = %w(
     FileArchiveInformation
     FileDistributionInformation
+    DirectDistributionInformation
   )
   COLLECTION_INFORMATION_FIELDS = %w(
     ShortName

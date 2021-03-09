@@ -208,7 +208,7 @@ module PreviewCirclesHelper
     circles = []
     page_errors = Array.wrap(errors).select { |error| error[:page] == form_name }
     error_fields = page_errors.map { |error| error[:top_field] }
-    
+
     FORM_FIELDS[form_name].each do |field, options|
       circle = complete_circle(field, draft, form_name, options[:anchor], options[:required])
 
