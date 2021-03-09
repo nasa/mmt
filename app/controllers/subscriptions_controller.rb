@@ -79,6 +79,9 @@ class SubscriptionsController < ManageCmrController
     @subscription['Query'] = subscription_from_form['Query']
     @subscription['Name'] = subscription_from_form['Name']
 
+    # Remove Email address from being sent to CMR
+    @subscription.delete('EmailAddress')
+
     subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, @native_id, token)
     if subscription_response.success?
       subscription_response_result = subscription_response.parsed_body.fetch('result', {})
