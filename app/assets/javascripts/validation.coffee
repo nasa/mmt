@@ -19,6 +19,7 @@ $(document).ready ->
       json = JSON.parse($('.metadata-form').find('input, textarea, select').filter ->
         return this.value
       .serializeJSON()).Draft
+      fixCollectionKeys(json)
     else if isUmmForm()
       json = $('.umm-form').find('input, textarea, select').filter ->
         return this.value
@@ -39,7 +40,23 @@ $(document).ready ->
     fixNumbers(json)
     fixIntegers(json)
     fixNestedFields(json)
+
     return json
+
+  # the JQuery.serializeJSON plugin is conveniently designed to read any snake_case
+  # that begins with url as URL, ie. url_content_type -> URLContentType but this is not true for
+  # upcase acronyms that occur later in the string, ie. s3_credentials_api_documentation_url ->
+  # S3CredentialsApiDocumentationUrl instead of S3CredentialsAPIDocumentationURL
+  fixCollectionKeys = (json) ->
+    if isMetadataForm()
+      if dirDisInf = json?.DirectDistributionInformation?
+        dirDisInf = json.DirectDistributionInformation
+        if dirDisInf.S3CredentialsApiEndpoint?
+          dirDisInf.S3CredentialsAPIEndpoint = dirDisInf.S3CredentialsApiEndpoint
+          delete dirDisInf.S3CredentialsApiEndpoint
+        if dirDisInf.S3CredentialsApiDocumentationUrl?
+          dirDisInf.S3CredentialsAPIDocumentationURL = dirDisInf.S3CredentialsApiDocumentationUrl
+          delete dirDisInf.S3CredentialsApiDocumentationUrl
 
   # fix keys from the serialized page json that don't match the schema
   fixServicesKeys = (json) ->
@@ -621,6 +638,7 @@ $(document).ready ->
       validate(json)
 
     errors = if validate.errors? then validate.errors else []
+    # console.log 'errors! ', JSON.stringify(errors)
 
     validateParameterRanges(errors)
     errors = validatePicklistValues(errors)

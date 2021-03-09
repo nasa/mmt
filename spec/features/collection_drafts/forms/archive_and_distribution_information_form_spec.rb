@@ -17,7 +17,7 @@ describe 'Archive And Distribution Information form', js: true do
   context 'When viewing the form with stored values' do
     before do
       click_on 'Expand All'
-      # the context and the following line are not congruent
+      # the context and the following line are not congruent, "stored values" implies the values are being saved, then viewed
       add_archive_and_distribution_information
 
       click_on 'Collapse All'
@@ -127,6 +127,10 @@ describe 'Archive And Distribution Information form', js: true do
       within '.multiple.file-archive-informations' do
         select 'Native', from: 'Format Type'
       end
+      within '.direct-distribution-information' do
+        select 'us-east-2', from: 'Region'
+        fill_in 'S3 Credentials API Documentation URL', with: 'amazon.com'
+      end
       within '.nav-top' do
         click_on 'Done'
       end
@@ -147,23 +151,9 @@ describe 'Archive And Distribution Information form', js: true do
         fill_in 'Average File Size', with: '15'
         fill_in 'Total Collection File Size', with: '15'
       end
-      within '.nav-top' do
-        click_on 'Save'
-      end
-    end
-    it 'displays a confirmation message' do
-      expect(page).to have_content('Average File Size Unit is required')
-      expect(page).to have_content('Total Collection File Size Unit is required')
-    end
-  end
-
-# added ?
-  context 'When filling the form without dependent values' do
-    before do
-      click_on 'Expand All'
-      within '.multiple.file-distribution-informations' do
-        fill_in 'Average File Size', with: '15'
-        fill_in 'Total Collection File Size', with: '15'
+      within '.direct-distribution-information' do
+        select 'us-east-2', from: 'Region'
+        fill_in 'S3 Credentials API Documentation URL', with: 'amazon.com'
       end
       within '.nav-top' do
         click_on 'Save'
@@ -172,6 +162,7 @@ describe 'Archive And Distribution Information form', js: true do
     it 'displays a confirmation message' do
       expect(page).to have_content('Average File Size Unit is required')
       expect(page).to have_content('Total Collection File Size Unit is required')
+      expect(page).to have_content('S3 Credentials API Endpoint is required')
     end
   end
 end
