@@ -19,6 +19,9 @@ class ServiceOptionsController < ManageCmrController
                             # Retreive the service options and sort by name, ignoring case
                             Array.wrap(service_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
                           else
+                            # TODO: flash response no service options
+                            # TODO: log response error
+                            # TODO: review all other SOAP calls (echo_client), to see if they also need flash and logging responses
                             []
                           end
 

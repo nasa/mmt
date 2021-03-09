@@ -40,8 +40,9 @@ module Echo
 
       echo_response = Echo::Response.new(response)
       begin
-        msg_hash = Hash.send('from_xml', echo_response.body)
         if echo_response.error?
+          # handle logging if body_is_html?
+          msg_hash = Hash.send('from_xml', echo_response.body)
           token_val = msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault', 'Token')
           msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault').delete('Token') if token_val.present?
           msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault')['Token-snippet'] = truncate_token(token_val) if token_val.present?
