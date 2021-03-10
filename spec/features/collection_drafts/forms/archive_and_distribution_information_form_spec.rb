@@ -80,6 +80,16 @@ describe 'Archive And Distribution Information form', js: true do
         fill_in 'Format', with: 'jpeg'
         select 'Native', from: 'Format Type'
       end
+      within '.direct-distribution-information' do
+        select 'us-east-2', from: 'Region'
+        find('.multiple-item-0').fill_in with: 'prefix-1'
+        click_on 'Add another Prefix Name'
+        find('.multiple-item-1').fill_in with: 'prefix-2'
+        click_on 'Add another Prefix Name'
+        find('.multiple-item-2').fill_in with: 'prefix-3'
+        fill_in 'S3 Credentials API Endpoint', with: 'link.com'
+        fill_in 'S3 Credentials API Documentation URL', with: 'amazon.com'
+      end
       within '.nav-top' do
         click_on 'Save'
       end
@@ -139,6 +149,9 @@ describe 'Archive And Distribution Information form', js: true do
     end
     it 'fills in the correct circle in red' do
       within '#archive-and-distribution-information a[title="File Archive Information - Invalid"]' do
+        expect(page).to have_css('.eui-fa-minus-circle.icon-red')
+      end
+      within '#archive-and-distribution-information a[title="Direct Distribution Information - Invalid"]' do
         expect(page).to have_css('.eui-fa-minus-circle.icon-red')
       end
     end

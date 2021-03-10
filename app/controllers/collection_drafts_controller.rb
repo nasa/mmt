@@ -115,7 +115,7 @@ class CollectionDraftsController < BaseDraftsController
     draft = get_resource.draft
 
     ingested_response = cmr_client.ingest_collection(draft.to_json, get_resource.provider_id, get_resource.native_id, token)
-
+    
     if ingested_response.success?
       # get information for publication email notification before draft is deleted
       Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")

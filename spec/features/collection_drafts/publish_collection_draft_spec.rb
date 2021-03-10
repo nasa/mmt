@@ -25,6 +25,60 @@ describe 'Publishing collection draft records', js: true do
         expect(page).to have_content('Collection Draft Published Successfully!')
       end
     end
+
+    context 'when new Direct Distribution Information fieldset is added in UMM 1.16' do
+      before do
+        find('i.direct-distribution-information').click
+      end
+
+      it 'contains the expected factory values' do
+        within '.direct-distribution-information' do
+          expect(page).to have_field('Region', with: 'us-east-2')
+          expect(page).to have_field('S3 Credentials API Endpoint', with: 'link.com')
+          expect(page).to have_field('S3 Credentials API Documentation URL', with: 'amazon.com')
+          within ('.simple-multiple.s3-bucket-and-object-prefix-names') do
+            expect(page).to have_field(with: 'prefix-1')
+            expect(page).to have_field(with: 'prefix-2')
+            expect(page).to have_field(with: 'prefix-3')
+          end
+        end
+      end
+
+      context 'when adding new values, saving, and publishing' do
+        before do
+          within '.direct-distribution-information' do
+            select 'us-east-1', from: 'Region'
+            find('.multiple-item-0').fill_in with: 'prefix-4'
+            click_on 'Add another Prefix Name'
+            find('.multiple-item-1').fill_in with: 'prefix-5'
+            click_on 'Add another Prefix Name'
+            find('.multiple-item-2').fill_in with: 'prefix-6'
+            fill_in 'S3 Credentials API Endpoint', with: 'linkage.com'
+            fill_in 'S3 Credentials API Documentation URL', with: 'aws.com'
+          end
+          within '.nav-top' do
+            click_on 'Done'
+          end
+          click_on 'Publish'
+          find('label.tab-label', text: 'Additional Information').click
+        end
+
+        it 'displays a confirmation message' do
+          expect(page).to have_content('Collection Draft Published Successfully!')
+        end
+
+        it 'shows the new information in the preview' do
+          within '.direct-distribution-information-preview' do
+            within all('li.direct-distribution-information')[0] do
+              expect(page).to have_content('Region: us-east-1')
+              expect(page).to have_content('S3 Bucket and Object Prefix Names: prefix-4, prefix-5, prefix-6')
+              expect(page).to have_content('S3 Credentials API Endpoint: linkage.com')
+              expect(page).to have_content('S3 Credentials API Documentation URL: aws.com')
+            end
+          end
+        end
+      end
+    end
   end
 
   context 'when publishing a collection draft record' do

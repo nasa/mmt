@@ -940,17 +940,17 @@ def collection_one
           'Description' => 'File distribution information description',
           'Fees' => '$2,900'
         }
+      ]
+    },
+    'DirectDistributionInformation' => {
+      'Region' => 'us-east-2',
+      'S3BucketAndObjectPrefixNames' => [
+        'prefix-1',
+        'prefix-2',
+        'prefix-3'
       ],
-      'DirectDistributionInformation' => {
-        'Region' => 'us-east-2',
-        'S3BucketAndObjectPrefixNames' => [
-          'prefix-1',
-          'prefix-2',
-          'prefix-3'
-        ],
-        'S3CredentialsAPIEndpoint' => 'link.com',
-        'S3CredentialsAPIDocumentationURL' => 'amazon.com'
-      }
+      'S3CredentialsAPIEndpoint' => 'link.com',
+      'S3CredentialsAPIDocumentationURL' => 'amazon.com'
     }
   }
 end
