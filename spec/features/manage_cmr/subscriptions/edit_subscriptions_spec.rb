@@ -67,7 +67,6 @@ describe 'Edit/Updating Subscriptions', reset_provider: true do
         expect(page).to have_content(@subscription['CollectionConceptId'])
         within '#subscriber' do
           expect(page).to have_content(@subscription['SubscriberId'])
-          expect(page).to have_content('rarxd5taqea@example.com')
           expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
         end
       end
