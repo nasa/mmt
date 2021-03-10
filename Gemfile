@@ -63,7 +63,7 @@ gem 'nokogiri-diff', '~> 0.2.0' # for comparing xml documents
 
 gem 'activerecord-import' # bulk insertion of data
 
-gem 'activerecord-session_store'
+gem "activerecord-session_store", ">= 2.0.0"
 gem 'ruby-saml', '>= 1.7.0'
 
 gem 'libxml-to-hash', git: 'https://github.com/johannesthoma/libxml-to-hash'
