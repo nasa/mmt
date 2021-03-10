@@ -41,6 +41,7 @@ class SubscriptionsController < ManageCmrController
 
     user = get_subscriber(@subscription['SubscriberId']).fetch(0, {})
     @user = "#{user['first_name']} #{user['last_name']}"
+    @user_email = user.fetch('email_address', nil)
     add_breadcrumb @concept_id.to_s
   end
 
@@ -80,7 +81,7 @@ class SubscriptionsController < ManageCmrController
     @subscription['Name'] = subscription_from_form['Name']
 
     # Remove Email address from being sent to CMR
-    @subscription.delete('EmailAddress')
+    #@subscription.delete('EmailAddress')
 
     subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, @native_id, token)
     if subscription_response.success?
