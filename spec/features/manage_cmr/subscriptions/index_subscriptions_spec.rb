@@ -60,10 +60,10 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
           expect(page).to have_content('Actions')
           expect(page).to have_content(@subscription['Name'])
           expect(page).to have_content(@subscription['Query'])
-          expect(page).to have_content(@subscription['EmailAddress'])
+          expect(page).to have_content(@subscription['SubscriberId'])
           expect(page).to have_content(@subscription['CollectionConceptId'])
           expect(page).to have_content(@subscription2['CollectionConceptId'])
-          expect(page).to have_content(@subscription2['EmailAddress'])
+          expect(page).to have_content(@subscription2['SubscriberId'])
           expect(page).to have_content(@subscription2['Name'])
           expect(page).to have_content(@subscription2['Query'])
           expect(page).to have_no_link('Edit')
@@ -90,10 +90,10 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
         expect(page).to have_content('Actions')
         expect(page).to have_content(@subscription['Name'])
         expect(page).to have_content(@subscription['Query'])
-        expect(page).to have_content(@subscription['EmailAddress'])
+        expect(page).to have_content(@subscription['SubscriberId'])
         expect(page).to have_content(@subscription['CollectionConceptId'])
         expect(page).to have_content(@subscription2['CollectionConceptId'])
-        expect(page).to have_content(@subscription2['EmailAddress'])
+        expect(page).to have_content(@subscription2['SubscriberId'])
         expect(page).to have_content(@subscription2['Name'])
         expect(page).to have_content(@subscription2['Query'])
         expect(page).to have_link('Edit')
@@ -130,7 +130,7 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
 
       clear_cache
 
-      _ingest_response2, @search_response3, @subscription3 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake', query: 'polygon=10,10,30,10,30,20,10,20,10,10&equator_crossing_longitude=0,10', collection_concept_id: @c_ingest_response2['concept-id'])
+      _ingest_response2, @search_response3, @subscription3 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake', query: 'polygon=10,10,30,10,30,20,10,20,10,10&equator_crossing_longitude=0,10', subscriber_id: 'fakeid', collection_concept_id: @c_ingest_response2['concept-id'])
 
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
       visit subscriptions_path
@@ -149,14 +149,14 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
       expect(page).to have_content('Actions')
       expect(page).to have_content(@subscription['Name'])
       expect(page).to have_content(@subscription['Query'])
-      expect(page).to have_content(@subscription['EmailAddress'])
+      expect(page).to have_content(@subscription['SubscriberId'])
       expect(page).to have_content(@subscription['CollectionConceptId'])
       expect(page).to have_content(@subscription2['Name'])
       expect(page).to have_content(@subscription2['Query'])
-      expect(page).to have_content(@subscription2['EmailAddress'])
+      expect(page).to have_content(@subscription2['SubscriberId'])
       expect(page).to have_content(@subscription2['CollectionConceptId'])
       expect(page).to have_no_content(@subscription3['CollectionConceptId'])
-      expect(page).to have_no_content(@subscription3['EmailAddress'])
+      expect(page).to have_no_content(@subscription3['SubscriberId'])
       expect(page).to have_no_content(@subscription3['Name'])
       expect(page).to have_no_content(@subscription3['Query'])
     end
