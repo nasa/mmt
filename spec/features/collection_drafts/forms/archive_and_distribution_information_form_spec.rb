@@ -17,7 +17,7 @@ describe 'Archive And Distribution Information form', js: true do
   context 'When viewing the form with stored values' do
     before do
       click_on 'Expand All'
-      # the context and the following line are not congruent, "stored values" implies the values are being saved, then viewed
+
       add_archive_and_distribution_information
 
       click_on 'Collapse All'
