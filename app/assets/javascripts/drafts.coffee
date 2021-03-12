@@ -214,11 +214,15 @@ $(document).ready ->
         name = $(field).attr('name')
 
         if name?
+          # in the case where 'type' contains a number, we want to slice past the 'type' (hence adding type.length)
+          # so as not to confuse the number in the 'type' with the index that needs to be replaced
           nameIndex += if /\d/.test(type) then type.length  else 0
           name = name.slice(0, nameIndex) + name.slice(nameIndex).replace(multipleIndex, targetIndex)
           $(field).attr 'name', name
 
         id = $(field).attr('id')
+        # in the case where 'type' contains a number, we want to slice past the 'type' (hence adding type.length)
+        # so as not to confuse the number in the 'type' with the index that needs to be replaced
         idIndex += if /\d/.test(type) then type.length  else 0
         id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, targetIndex)
         $(field).attr 'id', id
