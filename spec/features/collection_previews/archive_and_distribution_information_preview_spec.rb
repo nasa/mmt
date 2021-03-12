@@ -64,15 +64,6 @@ describe 'Archive And Distribution Information preview' do
             expect(page).to have_content('Fees: $2,900')
           end
         end
-
-        within '.direct-distribution-information-preview' do
-          within all('li.direct-distribution-information')[0] do
-            expect(page).to have_content('Region: us-east-2')
-            expect(page).to have_content('S3 Bucket and Object Prefix Names: prefix-1, prefix-2, prefix-3')
-            expect(page).to have_content('S3 Credentials API Endpoint: link.com')
-            expect(page).to have_content('S3 Credentials API Documentation URL: amazon.com')
-          end
-        end
       end
     end
   end

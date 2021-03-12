@@ -213,14 +213,14 @@ $(document).ready ->
       if $(field).is('input, textarea, select')
         name = $(field).attr('name')
 
-        if name != undefined
-          # RegExp added to find and replace the LAST occurrence of multipleIndex with targetIndex
-          name = name.slice(0, nameIndex) + name.slice(nameIndex).replace(new RegExp("#{multipleIndex}(?!.*#{multipleIndex})"), targetIndex)
+        if name?
+          nameIndex += if /\d/.test(type) then type.length  else 0
+          name = name.slice(0, nameIndex) + name.slice(nameIndex).replace(multipleIndex, targetIndex)
           $(field).attr 'name', name
 
         id = $(field).attr('id')
-        # RegExp added to find and replace the LAST occurrence of multipleIndex with targetIndex
-        id = id.slice(0, idIndex) + id.slice(idIndex).replace(new RegExp("#{multipleIndex}(?!.*#{multipleIndex})"), targetIndex)
+        idIndex += if /\d/.test(type) then type.length  else 0
+        id = id.slice(0, idIndex) + id.slice(idIndex).replace(multipleIndex, targetIndex)
         $(field).attr 'id', id
 
         if $('.metadata-form, .umm-form').length > 0

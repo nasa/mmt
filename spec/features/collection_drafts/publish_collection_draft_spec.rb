@@ -66,17 +66,6 @@ describe 'Publishing collection draft records', js: true do
         it 'displays a confirmation message' do
           expect(page).to have_content('Collection Draft Published Successfully!')
         end
-
-        it 'shows the new information in the preview' do
-          within '.direct-distribution-information-preview' do
-            within all('li.direct-distribution-information')[0] do
-              expect(page).to have_content('Region: us-east-1')
-              expect(page).to have_content('S3 Bucket and Object Prefix Names: prefix-4, prefix-5, prefix-6')
-              expect(page).to have_content('S3 Credentials API Endpoint: linkage.com')
-              expect(page).to have_content('S3 Credentials API Documentation URL: aws.com')
-            end
-          end
-        end
       end
     end
   end

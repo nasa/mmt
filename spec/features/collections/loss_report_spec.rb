@@ -13,6 +13,7 @@ describe 'Displaying the loss report in browser' do
     context 'when displaying json' do
       it 'properly displays the echo json report' do
         visit loss_report_collections_path(echo_concept_id, format:'json')
+        puts JSON.pretty_generate(JSON.parse(page.text))
         expect(page.text.gsub(/\s+/, "")).to have_text(File.read('spec/fixtures/loss_report_samples/loss_report_echo_sample.json').gsub(/\s+/, ""))
       end
       it 'properly displays the dif json report' do
@@ -22,6 +23,7 @@ describe 'Displaying the loss report in browser' do
 
       it 'properly displays the iso json report' do
         visit loss_report_collections_path(iso_concept_id, format:'json')
+
         sample_paths = JSON.parse(File.read('spec/fixtures/loss_report_samples/loss_report_iso_sample.json')).keys.map! { |path| path.split(': ').last }
         sample_values = JSON.parse(File.read('spec/fixtures/loss_report_samples/loss_report_iso_sample.json')).values
         page_paths = JSON.parse(page.text).keys.map! { |path| path.split(': ').last }
