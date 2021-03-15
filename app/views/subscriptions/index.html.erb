@@ -20,7 +20,7 @@
           <th>Name</th>
           <th>Collection Concept Id</th>
           <th>Query</th>
-          <th>Subscribers</th>
+          <th>Subscriber</th>
           <th colspan="2">Actions</th>
         </tr>
       </thead>
@@ -43,7 +43,7 @@
                   <%= subscription['Query'].truncate(200) %>
                 </div>
               </td>
-              <td><%= subscription['EmailAddress'] %></td>
+              <td><%= subscription['SubscriberId'] %></td>
               <% if policy(:subscription).edit? %>
                 <td><%= link_to 'Edit', edit_subscription_path(subscription['ConceptId']) %></td>
               <% end %>

@@ -41,6 +41,7 @@ class SubscriptionsController < ManageCmrController
 
     user = get_subscriber(@subscription['SubscriberId']).fetch(0, {})
     @user = "#{user['first_name']} #{user['last_name']}"
+    @user_email = user.fetch('email_address', nil)
     add_breadcrumb @concept_id.to_s
   end
 
@@ -54,7 +55,6 @@ class SubscriptionsController < ManageCmrController
   def create
     authorize :subscription
     @subscription = subscription_params
-    @subscription['EmailAddress'] = get_subscriber_email(@subscription['SubscriberId'])
     native_id = "mmt_subscription_#{SecureRandom.uuid}"
 
     subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, native_id, token)
@@ -79,6 +79,9 @@ class SubscriptionsController < ManageCmrController
     subscription_from_form = subscription_params
     @subscription['Query'] = subscription_from_form['Query']
     @subscription['Name'] = subscription_from_form['Name']
+
+    # Remove Email address from being sent to CMR
+    @subscription.delete('EmailAddress')
 
     subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, @native_id, token)
     if subscription_response.success?
@@ -141,7 +144,7 @@ class SubscriptionsController < ManageCmrController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:Name, :CollectionConceptId, :Query, :SubscriberId, :EmailAddress)
+    params.require(:subscription).permit(:Name, :CollectionConceptId, :Query, :SubscriberId)
   end
 
   def subscriptions_enabled?
@@ -162,11 +165,6 @@ class SubscriptionsController < ManageCmrController
     @subscriber = get_subscriber(subscriber_id)
 
     @subscriber.map! { |s| [urs_user_full_name(s), s['uid']] }
-  end
-
-  def get_subscriber_email(subscriber_id)
-    subscriber = get_subscriber(subscriber_id).fetch(0, {})
-    subscriber.fetch('email_address', nil)
   end
 
   def add_top_level_breadcrumbs
