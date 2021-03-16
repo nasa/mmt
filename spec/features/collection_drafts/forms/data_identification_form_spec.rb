@@ -42,7 +42,7 @@ describe 'Data identification form', js: true do
 
       # Use Constraints
       within '.use-constraints' do
-        choose('draft_use_constraints_LicenseUrl')
+        find('#use_constraint_type_Url_LicenseUrl').click
         within '.use-constraints-description > .sub-fields' do
           fill_in 'Description', with: 'These are some use constraints'
         end
@@ -192,7 +192,7 @@ describe 'Data identification form', js: true do
 
     it 'shows the license url fields' do
       within '.use-constraints' do
-        find('#draft_use_constraints_LicenseUrl').click
+        find('#use_constraint_type_Url_LicenseUrl').click
         expect(page).to have_css('.license-url-fields')
         expect(page).to have_no_css('.license-text-fields')
         expect(page).to have_no_css('.eui-required-o')
@@ -201,7 +201,7 @@ describe 'Data identification form', js: true do
 
     it 'shows the license text fields' do
       within '.use-constraints' do
-        find('#draft_use_constraints_LicenseText').click
+        find('#use_constraint_type_Text_LicenseText').click
         find('#draft_use_constraints_license_text').send_keys ['License Text', :tab]
         expect(page).to have_css('.license-text-fields')
         expect(page).to have_no_css('.license-url-fields')
