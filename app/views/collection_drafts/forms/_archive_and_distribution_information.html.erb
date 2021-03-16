@@ -1,6 +1,6 @@
 <!-- File Archive Information -->
 <fieldset class="eui-accordion is-closed" id="file-archive-information">
-  <% file_archive_information_value = draft.draft['ArchiveAndDistributionInformation']['FileArchiveInformation'] if draft.draft.key?('ArchiveAndDistributionInformation') %>
+  <% file_archive_information_value = draft.draft.dig('ArchiveAndDistributionInformation','FileArchiveInformation') || [{}] %>
   <div class="eui-accordion__header">
     <h3 class="eui-accordion__title eui-required-o">File Archive Information</h3>
     <%= mmt_help_icon(
@@ -17,7 +17,7 @@
       <div class="col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
           type: 'file_archive_information',
-          values: file_archive_information_value || [{}],
+          values: file_archive_information_value,
           name_prefix: "draft_|archive_and_distribution_information|_|file_archive_information|_",
           multiple: true,
           validate: true,
@@ -29,7 +29,7 @@
 
 <!-- File Distribution Information -->
 <fieldset class="eui-accordion is-closed" id="file-distribution-information">
-  <% file_distribution_information_value = draft.draft['ArchiveAndDistributionInformation']['FileDistributionInformation'] if draft.draft.key?('ArchiveAndDistributionInformation') %>
+  <% file_distribution_information_value = draft.draft.dig('ArchiveAndDistributionInformation','FileDistributionInformation') || [{}] %>
   <div class="eui-accordion__header">
     <h3 class="eui-accordion__title eui-required-o">File Distribution Information</h3>
     <%= mmt_help_icon(
@@ -46,9 +46,38 @@
       <div class="col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
           type: 'file_distribution_information',
-          values: file_distribution_information_value || [{}],
+          values: file_distribution_information_value,
           name_prefix: "draft_|archive_and_distribution_information|_|file_distribution_information|_",
           multiple: true,
+          validate: true,
+          options: {} } %>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<!-- Direct Distribution Information -->
+<fieldset class="eui-accordion is-closed" id="direct-distribution-information">
+  <% direct_distribution_information_value = draft.draft['DirectDistributionInformation'] || {} %>
+  <div class="eui-accordion__header">
+    <h3 class="eui-accordion__title">Direct Distribution Information</h3>
+    <%= mmt_help_icon(
+          title: 'Direct Distribution Information',
+          help: 'definitions/DirectDistributionInformationType'
+        ) %>
+    <div class="eui-accordion__icon" tabindex="0">
+      <i class="eui-icon eui-fa-chevron-circle-down"></i>
+      <span class="eui-sr-only">Toggle Direct Distribution Information</span>
+    </div>
+  </div>
+  <div class="eui-accordion__body">
+    <div class="row taller">
+      <div class="col-12">
+        <%= render partial: 'collection_drafts/forms/type', locals: {
+          type: 'direct_distribution_information',
+          values: direct_distribution_information_value,
+          name_prefix: "draft_|direct_distribution_information|_",
+          multiple: false,
           validate: true,
           options: {} } %>
       </div>

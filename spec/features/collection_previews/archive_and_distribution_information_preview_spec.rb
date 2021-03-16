@@ -14,11 +14,22 @@ describe 'Archive And Distribution Information preview' do
     end
 
     context 'when there is metadata' do
+      let(:draft) { create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first) }
+
       before do
         login
-        draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
-
         visit collection_draft_path(draft)
+      end
+
+      it 'displays the correct progress circles' do
+        within '#archive-and-distribution-information .progress-indicators' do
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.file-distribution-information')
+          expect(page).to have_css('.eui-icon.eui-required.icon-green.file-archive-information')
+          expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.direct-distribution-information')
+          expect(page).to have_link(nil, href: edit_collection_draft_path(draft, 'archive_and_distribution_information', anchor: 'file-distribution-information'))
+          expect(page).to have_link(nil, href: edit_collection_draft_path(draft, 'archive_and_distribution_information', anchor: 'file-archive-information'))
+          expect(page).to have_link(nil, href: edit_collection_draft_path(draft, 'archive_and_distribution_information', anchor: 'direct-distribution-information'))
+        end
       end
 
       it 'displays the metadata' do

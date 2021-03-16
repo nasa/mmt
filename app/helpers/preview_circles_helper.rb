@@ -170,6 +170,10 @@ module PreviewCirclesHelper
       'FileDistributionInformation' => {
         required: true,
         anchor: 'file-distribution-information'
+      },
+      'DirectDistributionInformation' => {
+        required: false,
+        anchor: 'direct-distribution-information'
       }
     }
   }
@@ -210,7 +214,8 @@ module PreviewCirclesHelper
 
       if field == 'DataContacts'
         circle = data_contacts_circle(field, draft, form_name, options, circle, error_fields)
-      elsif form_name == 'archive_and_distribution_information'
+      # we want DirectDistributionInformation to be evaluated like a normal fieldset unlike File Archive/Distribution Information
+      elsif form_name == 'archive_and_distribution_information' && field != 'DirectDistributionInformation'
         circle = archive_and_distribution_circle(field, draft, form_name, options, circle, errors)
       elsif draft.draft[field].nil?
         circle = empty_circle(field, draft, form_name, options[:anchor], options[:required])
@@ -256,7 +261,8 @@ module PreviewCirclesHelper
     valid = true
     if !metadata.empty? && errors
       error_fields = errors.map { |error| error[:top_field] }
-      if error_fields.include?('ArchiveAndDistributionInformation')
+      # because DirectDistributionInformation contributes to the state of the form circle for Archive and Distribution Information, it must be checked as well
+      if error_fields.include?('ArchiveAndDistributionInformation') || error_fields.include?('DirectDistributionInformation')
         valid = false
       end
     end
@@ -266,16 +272,14 @@ module PreviewCirclesHelper
   def archive_and_distribution_circle(field, draft, form_name, options, circle, errors)
     metadata = draft.draft
     field_exist = metadata.key?('ArchiveAndDistributionInformation') && !metadata['ArchiveAndDistributionInformation'][field].blank?
-    field_valid = true
-    error_fields = errors.map { |error| error[:field] }
-    error_fields += errors.map { |error| error[:parent_field]}
-    if field_exist
-      if error_fields.include?(field)
-        field_valid = false
-      end
-    end
-    other_field = 'FileDistributionInformation'
-    other_field = 'FileArchiveInformation' unless field == 'FileArchiveInformation'
+
+    error_fields = []
+    errors.each { |error| error_fields << error[:field] << error[:parent_field] }
+
+    field_valid = !(field_exist && error_fields.include?(field))
+
+    other_field = field == 'FileArchiveInformation' ? 'FileDistributionInformation' : 'FileArchiveInformation'
+
     if field_exist
       circle = invalid_circle(field, draft, form_name, options[:anchor]) unless field_valid
     else

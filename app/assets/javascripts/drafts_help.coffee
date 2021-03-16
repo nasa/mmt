@@ -102,9 +102,9 @@ $(document).ready ->
 
   getMinLength = (path) ->
     schema = getSchemaProperties(path)
-    minLength = schema.minLength
-    if !minLength? and schema['$ref']?
-      ref = schema['$ref'].split('/')
+    minLength = schema.minLength || schema.items?.minLength
+    ref = schema['$ref']?.split('/') || schema.items?['$ref']?.split('/') || []
+    if !minLength? and ref.length > 0
       ref.shift()
       minLength = getMinLength(ref)
 
@@ -112,9 +112,9 @@ $(document).ready ->
 
   getMaxLength = (path) ->
     schema = getSchemaProperties(path)
-    maxLength = schema.maxLength
-    if !maxLength? and schema['$ref']?
-      ref = schema['$ref'].split('/')
+    maxLength = schema.maxLength || schema.items?.maxLength
+    ref = schema['$ref']?.split('/') || schema.items?['$ref']?.split('/') || []
+    if !maxLength? and ref.length > 0
       ref.shift()
       maxLength = getMaxLength(ref)
 
@@ -122,9 +122,9 @@ $(document).ready ->
 
   getPattern = (path) ->
     schema = getSchemaProperties(path)
-    pattern = schema.pattern
-    if !pattern? and schema['$ref']?
-      ref = schema['$ref'].split('/')
+    pattern = schema.pattern || schema.items?.pattern
+    ref = schema['$ref']?.split('/') || schema.items?['$ref']?.split('/') || []
+    if !pattern? and ref.length > 0
       ref.shift()
       pattern = getPattern(ref)
 
@@ -132,14 +132,10 @@ $(document).ready ->
 
   getFormat = (path) ->
     schema = getSchemaProperties(path)
-    format = schema.format
-    items = schema.items
-    if !format? and items?
-      format = items.format
-    if !format? and schema['$ref']?
-      ref = schema['$ref'].split('/')
+    format = schema.format || schema.items?.format
+    ref = schema['$ref']?.split('/') || schema.items?['$ref']?.split('/') || []
+    if !format? and ref.length > 0
       ref.shift()
       format = getFormat(ref)
 
-    format = "date-time (yyyy-MM-dd'T'HH:mm:ssZ)" if format == 'date-time'
-    format
+    return "date-time (yyyy-MM-dd'T'HH:mm:ssZ)" if format == 'date-time'
