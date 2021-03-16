@@ -15,7 +15,7 @@
     multiple: false
   } %>
 
-  <div class="row sub-fields">
+  <div class="constraint-selector-fields row sub-fields">
     <!-- Constraint type selector -->
     <%= mmt_label(
       name: 'use_constraint_type',
@@ -24,8 +24,8 @@
       always_required: false
     ) %>
     <div class='use_constraint_type_group row sub-fields'>
-      <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}"), 'LicenseUrl', license_url_checked, class: 'license-available-select', name: nil, data: { level: remove_pipes(name_prefix) }) %> <label for="<%= remove_pipes(name_prefix) %>LicenseUrl">License Url</label></p>
-      <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}"), 'LicenseText', license_text_checked, class: 'license-available-select', name: nil, data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>LicenseText">License Text</label></p>
+      <p class="radio-group"><%= radio_button_tag('use_constraint_type_Url','LicenseUrl', license_url_checked, class: 'use-constraint-type-select') %><label for="use_constraint_type_Url">License Url</label></p>
+      <p class="radio-group"><%= radio_button_tag('use_constraint_type_Text','LicenseText', license_text_checked, class: 'use-constraint-type-select') %><label for="use_constraint_type_Text">License Text</label></p>
     </div>
   </div>
 
@@ -57,7 +57,7 @@
         value: use_constraints['LicenseText'],
         help: 'definitions/UseConstraintsType/properties/LicenseText',
         validate: true,
-      required: true
+        required: true
      ) %>
     </div>
   </div>
