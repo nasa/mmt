@@ -3,11 +3,6 @@
   <% license_text_checked =  !use_constraints['LicenseText'].nil? %>
   
   <!-- Description -->
-  <%= mmt_label(
-    name: 'description',
-    title: ' ',
-    prefix: name_prefix
-  ) %>
   <%= render partial: 'collection_drafts/forms/type', locals: {
     type: 'use_constraints_description',
     values: use_constraints['Description'] || {},
