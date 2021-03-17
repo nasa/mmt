@@ -1,14 +1,8 @@
-<div class="row sub-fields">
+<div class="license-group">
+  <% license_url_checked =  !use_constraints['LicenseUrl'].nil? %>
+  <% license_text_checked =  !use_constraints['LicenseText'].nil? %>
+  
   <!-- Description -->
-  <%= mmt_label(
-    name: 'description',
-    title: 'Description',
-    prefix: name_prefix
-  ) %>
-  <%= mmt_help_icon(
-    title: 'Description',
-    help: 'definitions/UseConstraintsType/properties/Description'
-  ) %>
   <%= render partial: 'collection_drafts/forms/type', locals: {
     type: 'use_constraints_description',
     values: use_constraints['Description'] || {},
@@ -16,31 +10,49 @@
     multiple: false
   } %>
 
-  <!-- License URL -->
-  <%= mmt_label(
-    name: 'license_url',
-    title: 'License Url',
-    prefix: name_prefix
-  ) %>
-  <%= mmt_help_icon(
-    title: 'License Url',
-    help: 'definitions/UseConstraintsType/properties/LicenseUrl'
-  ) %>
-  <%= render partial: 'collection_drafts/forms/type', locals: {
-    type: 'online_resource',
-    values: use_constraints['LicenseUrl'] || {},
-    name_prefix: "#{name_prefix}|license_url|_",
-    multiple: false
-  } %>
+  <div class="constraint-selector-fields row sub-fields">
+    <!-- Constraint type selector -->
+    <%= mmt_label(
+      name: 'use_constraint_type',
+      title: 'Constraint Type',
+      prefix: name_prefix,
+      always_required: false
+    ) %>
+    <div class='use_constraint_type_group row sub-fields'>
+      <p class="radio-group"><%= radio_button_tag('use_constraint_type_Url','LicenseUrl', license_url_checked, class: 'use-constraint-type-select') %><label for="use_constraint_type_Url">License Url</label></p>
+      <p class="radio-group"><%= radio_button_tag('use_constraint_type_Text','LicenseText', license_text_checked, class: 'use-constraint-type-select') %><label for="use_constraint_type_Text">License Text</label></p>
+    </div>
+  </div>
 
-  <!-- License Text -->
-  <%= mmt_text_area(
-    name: 'license_text',
-    title: 'License Text',
-    prefix: name_prefix,
-    value: use_constraints['LicenseText'],
-    help: 'definitions/UseConstraintsType/properties/LicenseText',
-    validate: true,
-    required: true
-   ) %>
-</div>
+    <!-- License Url -->
+    <div class="license-url-fields available row sub-fields" style="<%= 'display: none' unless license_url_checked %>">
+      <%= mmt_label(
+        name: 'license_url',
+        title: 'License Url',
+        prefix: name_prefix
+      ) %>
+      <%= mmt_help_icon(
+        title: 'License Url',
+        help: 'definitions/UseConstraintsType/properties/LicenseUrl'
+      ) %>
+      <%= render partial: 'collection_drafts/forms/type', locals: {
+        type: 'online_resource',
+        values: use_constraints['LicenseUrl'] || {},
+        name_prefix: "#{name_prefix}|license_url|_",
+        multiple: false
+      } %>
+    </div>
+
+    <!-- License Text -->
+    <div class="license-text-fields not-available row sub-fields" style="<%= 'display: none' unless license_text_checked%>">
+      <%= mmt_text_area(
+        name: 'license_text',
+        title: 'License Text',
+        prefix: name_prefix,
+        value: use_constraints['LicenseText'],
+        help: 'definitions/UseConstraintsType/properties/LicenseText',
+        validate: true,
+        required: true
+     ) %>
+    </div>
+  </div>
