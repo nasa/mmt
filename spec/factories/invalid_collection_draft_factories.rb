@@ -108,7 +108,8 @@ FactoryBot.define do
           'Type' => 'GET DATA',
           'Subtype' => 'DIF',
           'GetData' => {
-            'Unit' => 'badunit'
+            'Unit' => 'badunit',
+            'Format' => 'badformat'
           }
         }],
         'DataLanguage' => 'english',

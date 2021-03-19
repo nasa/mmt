@@ -344,10 +344,9 @@ class CollectionDraftsController < BaseDraftsController
     # for each bad field, if the value doesn't appear in the picklist values, create an error
     # if/when there is time, it would be nice to refactor this with helper methods
     if metadata
-      if metadata['ProcessingLevel'] && metadata['ProcessingLevel']['Id']
-        unless DraftsHelper::ProcessingLevelIdOptions.flatten.include? metadata['ProcessingLevel']['Id']
-          errors << "The property '#/ProcessingLevel/Id' was invalid"
-        end
+      processing_level_id = metadata.dig('ProcessingLevel','Id')
+      if processing_level_id && !DraftsHelper::ProcessingLevelIdOptions.flatten.include?(processing_level_id)
+        errors << "The property '#/ProcessingLevel/Id' was invalid"
       end
 
       metadata_language = metadata['MetadataLanguage']
@@ -452,6 +451,14 @@ class CollectionDraftsController < BaseDraftsController
           end
         end
       end
+
+      related_urls = metadata['RelatedUrls'] || []
+      related_urls.each do |url|
+        format = url.dig('GetData','Format')
+        if format && !@granule_data_formats.include?(format)
+          errors << "The property '#/RelatedUrls' was invalid"
+        end
+      end
     end
 
     errors
@@ -525,6 +532,7 @@ class CollectionDraftsController < BaseDraftsController
     set_temporal_keywords
     set_country_codes
     set_language_codes
+    set_granule_data_formats
   end
 
   def set_resource_by_model

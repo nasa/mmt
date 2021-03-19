@@ -378,6 +378,7 @@ describe 'Invalid picklists', js: true do
       within '.summary-errors' do
         expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
         expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
+        expect(page).to have_content('Format value [badformat] does not match a valid selection option')
       end
     end
 
@@ -385,6 +386,7 @@ describe 'Invalid picklists', js: true do
       within '.related-urls' do
         expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
         expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
+        expect(page).to have_content('Format value [badformat] does not match a valid selection option')
       end
     end
 
@@ -394,6 +396,7 @@ describe 'Invalid picklists', js: true do
       end
       within '.multiple.related-urls > .multiple-item-2' do
         expect(page).to have_css('option[disabled][selected]', text: 'badunit')
+        expect(page).to have_css('option[disabled][selected]', text: 'badformat')
       end
     end
   end

@@ -490,6 +490,9 @@ $(document).ready ->
           '/MetadataLanguage'
         when /data_language/.test id
           '/DataLanguage'
+        when /draft_related_urls_(\d*)_get_data_format/.test id
+          [_, index] = id.match /draft_related_urls_(\d*)_get_data_format/
+          "/RelatedUrls/#{index}/GetData/Format"
         when /draft_platforms_(\d*)_short_name/.test id
           [_, index] = id.match /platforms_(\d*)_short_name/
           "/Platforms/#{index}/ShortName"
