@@ -459,6 +459,7 @@ class CollectionDraftsController < BaseDraftsController
           errors << "The property '#/RelatedUrls' was invalid"
         end
       end
+<<<<<<< HEAD
 
       projects = metadata['Projects'] || []
       projects.each do |project|
@@ -466,6 +467,8 @@ class CollectionDraftsController < BaseDraftsController
           errors << "The property '#/Projects' was invalid"
         end
       end
+=======
+>>>>>>> MMT-2531: validated KMS values for GetData Formats
     end
 
     errors
@@ -540,7 +543,10 @@ class CollectionDraftsController < BaseDraftsController
     set_country_codes
     set_language_codes
     set_granule_data_formats
+<<<<<<< HEAD
     set_projects
+=======
+>>>>>>> MMT-2531: validated KMS values for GetData Formats
   end
 
   def set_resource_by_model
