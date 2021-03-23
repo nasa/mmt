@@ -256,6 +256,7 @@ class ManageMetadataController < ApplicationController
     Purpose
     DataLanguage
     DOI
+    AssociatedDOIs
   )
   COLLECTION_CITATIONS_FIELDS = %w(
     CollectionCitations

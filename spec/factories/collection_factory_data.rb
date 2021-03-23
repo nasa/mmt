@@ -12,6 +12,9 @@ def all_required_fields
     'ShortName' => '12345',
     'Version' => '1',
     'EntryTitle' => 'Required Fields Only Draft',
+    'DOI' => {
+      'DOI'       => 'Citation DOI'
+    },
     'CollectionProgress' => 'ACTIVE',
     'DataCenters' => [{
       'Roles' => ['DISTRIBUTOR'],
@@ -582,6 +585,11 @@ def collection_one
       'DOI'       => 'Citation DOI',
       'Authority' => 'Citation DOI Authority'
     },
+    'AssociatedDOIs' => [{
+      'DOI'       => 'Associated DOI',
+      'Title'     => 'Associated DOI Title',
+      'Authority' => 'Associated DOI Authority'
+    }],
     'CollectionProgress' => 'ACTIVE',
     'Quality'            => 'Metadata quality summary',
     'UseConstraints'     => {

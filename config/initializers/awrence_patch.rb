@@ -14,6 +14,7 @@ class Hash
     data_id
     isbn
     doi
+    associated_dois
     data_resource_doi
     iso_topic_categories
     online_access_url_pattern_match
@@ -49,6 +50,7 @@ class Hash
       return 'CRSIdentifier' if snake_word == 'crs_identifier'
       return 'UOMLabel' if snake_word == 'uom_label'
       return 'DOI' if snake_word == 'doi'
+      return 'AssociatedDOIs' if snake_word == 'associated_dois'
       return 'DataResourceDOI' if snake_word == 'data_resource_doi'
       return 'AvgCompressionRateASCII' if snake_word == 'avg_compression_rate_ascii'
       return 'AvgCompressionRateNetCDF4' if snake_word == 'avg_compression_rate_net_cdf4'

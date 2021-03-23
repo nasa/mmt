@@ -61,12 +61,15 @@ $(document).ready ->
       when 'StateProvince' then 'State / Province'
       when 'StreetAddresses' then 'Street Address'
       when 'DOI' then 'DOI'
+      when 'AssociatedDOIs' then 'Associated DOIs'
       when 'DataResourceDOI' then 'Data Resource DOI'
       when 'CRSIdentifier' then 'CRS Identifier'
       when 'UOMLabel' then 'UOM Label'
       when 'AvgCompressionRateASCII' then 'Avg Compression Rate ASCII'
       when 'AvgCompressionRateNetCDF4' then 'Avg Compression Rate NetCDF4'
       when 'URL Value' then 'URL Value'
+      when 'S3CredentialsAPIEndpoint' then 'S3 Credentials API Endpoint'
+      when 'S3CredentialsAPIDocumentationURL' then 'S3 Credentials API Documentation URL'
       else title.replace( /([A-Z])/g, " $1" )
 
     newTitle

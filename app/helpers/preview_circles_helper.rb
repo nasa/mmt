@@ -31,6 +31,10 @@ module PreviewCirclesHelper
         required: false,
         anchor: 'collection-information'
       },
+      'AssociatedDOIs' => {
+        required: false,
+        anchor: 'collection-information'
+      },
       'Abstract' => {
         required: true,
         anchor: 'collection-information'
