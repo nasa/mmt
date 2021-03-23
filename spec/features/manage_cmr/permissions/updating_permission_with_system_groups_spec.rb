@@ -90,7 +90,7 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
       context 'when submitting the updates' do
         before do
           check('Granules')
-          select('All Registered Users', from: 'Search and Order')
+          select('All Registered Users', from: 'Search, Order, and S3 (If Available)')
 
           click_on 'Submit'
         end

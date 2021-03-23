@@ -55,8 +55,8 @@ describe 'Collection Permissions', reset_provider: true, js: true do
 
       within '#permission-form-groups-table' do
         select('All Guest Users', from: 'Search')
-        select('All Registered Users', from: 'Search and Order')
-        select('Group 1', from: 'Search and Order')
+        select('All Registered Users', from: 'Search, Order, and S3 (If Available)')
+        select('Group 1', from: 'Search, Order, and S3 (If Available)')
       end
 
       click_on 'Submit'
@@ -115,7 +115,7 @@ describe 'Collection Permissions', reset_provider: true, js: true do
 
       within '#permission-form-groups-table' do
         select('All Guest Users', from: 'Search')
-        select('All Registered Users', from: 'Search and Order')
+        select('All Registered Users', from: 'Search, Order, and S3 (If Available)')
       end
 
       click_on 'Submit'
@@ -239,7 +239,7 @@ describe 'Collection Permissions', reset_provider: true, js: true do
             choose('Disjoint')
           end
 
-          select('Group 2', from: 'Search and Order')
+          select('Group 2', from: 'Search, Order, and S3 (If Available)')
 
           click_on 'Submit'
 
@@ -291,7 +291,7 @@ describe 'Collection Permissions', reset_provider: true, js: true do
               page.find('.select2-selection__choice[title="Group 1"] > .select2-selection__choice__remove').click
             end
 
-            select('Group 3', from: 'Search and Order')
+            select('Group 3', from: 'Search, Order, and S3 (If Available)')
 
             click_on 'Submit'
 
