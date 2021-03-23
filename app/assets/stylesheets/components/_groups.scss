@@ -11,19 +11,3 @@ h2 {
     }
   }
 }
-
-.support-text {
-  margin: 10px 0px 10px;
-  padding: 10px;
-  border: 1px solid $light-grey;
-  border-radius: 5px;
-  background-color: rgb(255,246,215);
-
-  .eui-badge--md {
-    background-color: rgb(254,230,142);
-    color: $black;
-    text-shadow: none;
-    font-size: 1em;
-    padding: 0.3em
-  }
-}
