@@ -459,6 +459,13 @@ class CollectionDraftsController < BaseDraftsController
           errors << "The property '#/RelatedUrls' was invalid"
         end
       end
+
+      projects = metadata['Projects'] || []
+      projects.each do |project|
+        if project && @projects.none? { |proj| proj[:short_name] == project['ShortName'] && proj[:long_name] == project['LongName'] }
+          errors << "The property '#/Projects' was invalid"
+        end
+      end
     end
 
     errors
@@ -533,6 +540,7 @@ class CollectionDraftsController < BaseDraftsController
     set_country_codes
     set_language_codes
     set_granule_data_formats
+    set_projects
   end
 
   def set_resource_by_model
