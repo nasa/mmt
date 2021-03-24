@@ -119,6 +119,10 @@ FactoryBot.define do
           'ShortName' => 'test 1 P ShortName',
           'LongName' => 'test 1 P LongName'
         }],
+        'Projects' => [{
+          'ShortName' => 'project shortname test',
+          'LongName' => 'project longname test'
+        }],
         'DataCenters' => [{
           'Roles' => ['bad data center role'],
           'ShortName' => 'short_name',

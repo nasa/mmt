@@ -499,9 +499,6 @@ $(document).ready ->
         when /draft_projects_(\d*)_short_name/.test id
           [_, index] = id.match /projects_(\d*)_short_name/
           "/Projects/#{index}/ShortName"
-        when /draft_projects_(\d*)_long_name/.test id
-          [_, index] = id.match /projects_(\d*)_long_name/
-          "/Projects/#{index}/LongName"
         when /draft_platforms_(\d*)_instruments_(\d*)_short_name/.test id
           [_, index, index2] = id.match /platforms_(\d*)_instruments_(\d*)_short_name/
           "/Platforms/#{index}/Instruments/#{index2}/ShortName"

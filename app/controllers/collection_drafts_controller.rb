@@ -462,7 +462,7 @@ class CollectionDraftsController < BaseDraftsController
 
       projects = metadata['Projects'] || []
       projects.each do |project|
-        if project && @projects.none? { |proj| proj[:short_name] == project['ShortName'] && proj[:long_name] == project['LongName'] }
+        if project && @projects.none? { |proj| proj[:short_name] == project['ShortName'] }
           errors << "The property '#/Projects' was invalid"
         end
       end
