@@ -11,4 +11,8 @@ class CollectionTemplate < CollectionDraft
   def display_entry_title
     entry_title || '<Blank Entry Title>'
   end
+
+  def correct_unsaved_draft
+    self.draft = convert_to_arrays(self.draft)
+  end
 end
