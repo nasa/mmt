@@ -68,6 +68,37 @@ describe 'Publishing collection draft records', js: true do
         end
       end
     end
+
+    context 'when new Associated DOIs fieldset is added in UMM 1.16.1' do
+      before do
+        click_on 'Collection Information'
+      end
+
+      it 'contains the expected factory values' do
+        expect(page).to have_field('DOI', with: 'Associated DOI')
+        expect(page).to have_field('Title', with: 'Associated DOI Title')
+        expect(page).to have_field('Authority', with: 'Associated DOI Authority')
+      end
+
+      context 'when adding new values, saving, and publishing' do
+        before do
+          click_on 'Add another Associated Doi'
+          fill_in 'draft_associated_dois_1_doi', with: 'Associated DOI 1'
+          fill_in 'draft_associated_dois_1_title', with: 'Associated DOI Title 1'
+          fill_in 'draft_associated_dois_1_authority', with: 'Associated DOI Authority 1'
+          
+          within '.nav-top' do
+            click_on 'Done'
+          end
+          click_on 'Publish'
+          find('label.tab-label', text: 'Additional Information').click
+        end
+
+        it 'displays a confirmation message' do
+          expect(page).to have_content('Collection Draft Published Successfully!')
+        end
+      end
+    end
   end
 
   context 'when publishing a collection draft record' do
