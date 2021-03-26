@@ -59,6 +59,9 @@ class CollectionDraftsController < BaseDraftsController
       end
     else # record update failed
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error", error_message: generate_model_error)
+      # For collection_template, the unsaved draft now has associated_dois which is a hash. This hash needs to be corrected/converted 
+      # to an array to work properly with _type.html.erb
+      get_resource.correct_unsaved_draft if resource_name == 'collection_template'
       load_umm_c_schema
       new_view_setup
       render :new

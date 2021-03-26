@@ -35,13 +35,13 @@
   </div>
 
   <div class="doi-fields not-available" style="<%= 'display: none;' unless doi_available == false %>">
-    <!-- MissingReason ("Not Applicable" is only choice) -->
+    <!-- MissingReason -->
     <%= mmt_select(
       name: 'missing_reason',
       title: 'Missing Reason',
       prefix: name_prefix,
       value: doi['MissingReason'],
-      options: [['Not Applicable']],
+      options: DraftsHelper::DOIMissingReasonOptions,
       help: 'definitions/DoiType/oneOf/1/properties/MissingReason',
       required: true
     ) %>

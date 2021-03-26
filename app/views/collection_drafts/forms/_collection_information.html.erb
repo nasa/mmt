@@ -100,6 +100,27 @@
     </div>
 
 
+    <!-- AssociatedDOIs -->
+    <%= mmt_label(
+      name: 'associated_dois',
+      title: 'Associated DOIs',
+      prefix: 'draft_',
+    ) %>
+    <%= mmt_help_icon(
+      title: 'Associated DOIs',
+      help: 'properties/AssociatedDOIs',
+      help_url: 'AssociatedDOIs'
+    ) %>
+    <div class="row sub-fields">
+      <%= render partial: 'collection_drafts/forms/type', locals: {
+          type: 'associated_doi',
+          values: draft.draft['AssociatedDOIs'] || [{}],
+          name_prefix: 'draft_|associated_dois|_',
+          multiple: true,
+          options: {} } %>
+    </div>
+
+
     <!-- Abstract [r] -->
     <div class="row">
       <div class="col-12">

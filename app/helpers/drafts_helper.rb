@@ -104,6 +104,10 @@ module DraftsHelper
     ["us-west-1"],
     ["us-west-2"]
   ]
+  DOIMissingReasonOptions = [
+    ['Not Applicable'],
+    ['Unknown']
+  ]
   FileSizeUnitTypeOptions = [
     ['KB'],
     ['MB'],

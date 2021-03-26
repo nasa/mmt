@@ -26,6 +26,9 @@ describe 'Collection Information form', js: true do
       page.execute_script script
       select 'Not Applicable', from: 'Missing Reason'
       fill_in 'Explanation', with: 'No DOI here'
+      fill_in 'DOI', with: 'Associated DOI'
+      fill_in 'Title', with: 'Associated DOI Title'
+      fill_in 'Authority', with: 'Associated DOI Authority'
       fill_in 'Abstract', with: 'This is a long description of the collection'
       fill_in 'Purpose', with: 'This is the purpose field'
       select 'English', from: 'Data Language'
@@ -50,6 +53,9 @@ describe 'Collection Information form', js: true do
       expect(page).to have_field('Entry Title', with: 'Draft Title')
       expect(page).to have_field('Missing Reason', with: 'Not Applicable')
       expect(page).to have_field('Explanation', with: 'No DOI here')
+      expect(page).to have_field('DOI', with: 'Associated DOI')
+      expect(page).to have_field('Title', with: 'Associated DOI Title')
+      expect(page).to have_field('Authority', with: 'Associated DOI Authority')
       expect(page).to have_field('Abstract', with: 'This is a long description of the collection')
       expect(page).to have_field('Purpose', with: 'This is the purpose field')
       expect(page).to have_field('Data Language', with: 'eng')
