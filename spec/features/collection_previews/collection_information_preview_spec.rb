@@ -41,6 +41,12 @@ describe 'Collection information preview' do
             expect(page).to have_content('Citation DOI')
             expect(page).to have_content('Citation DOI Authority')
           end
+
+          within 'ul.associated-dois' do
+            expect(page).to have_content('Associated DOI')
+            expect(page).to have_content('Associated DOI Title')
+            expect(page).to have_content('Associated DOI Authority')
+          end
         end
       end
     end
