@@ -45,14 +45,14 @@ end
 def collection_one
   {
     'Projects' => [{
-      'ShortName' => 'test 1 ShortName',
-      'LongName'  => 'test 1 LongName',
+      'ShortName' => 'AA',
+      'LongName'  => 'ARCATLAS',
       'Campaigns' => ['test 1a Campaign', 'test 1b Campaign'],
       'StartDate' => '2015-07-01T00:00:00Z',
       'EndDate'   => '2015-12-25T00:00:00Z'
     }, {
-      'ShortName' => 'test 2 ShortName',
-      'LongName'  => 'test 2 LongName',
+      'ShortName' => 'EUDASM',
+      'LongName'  => 'European Digital Archive of Soil Maps',
       'Campaigns' => ['test 2a Campaign', 'test 2b Campaign'],
       'StartDate' => '2015-07-01T00:00:00Z',
       'EndDate'   => '2015-12-25T00:00:00Z'
@@ -677,7 +677,7 @@ def collection_one
       'Subtype' => 'Earthdata Search',
       'URL' => 'https://search.earthdata.nasa.gov/',
       'GetData' => {
-        'Format' => 'ascii',
+        'Format' => 'JPEG',
         'MimeType' => 'Not provided',
         'Size' => 42,
         'Unit' => 'KB',

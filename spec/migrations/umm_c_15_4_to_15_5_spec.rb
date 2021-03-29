@@ -1,10 +1,10 @@
 require File.join(Rails.root, 'db', 'migrate', '20201221134953_umm_c_15_4_to_15_5')
 
-# Testing cases where: 
+# Testing cases where:
 # 0. No GetData or Format keys      (both)
 # 1. same but different case
-  # 1.1 same but upcase             (only for up migration) ascii
-  # 1.2 same but downcase           (only for down migration) ascii
+  # 1.1 same but upcase             (only for up migration) jpeg
+  # 1.2 same but downcase           (only for down migration) jpeg
   # 1.3 same but capitalize         (only for up migration) binary
   # 1.4 same but weirdcase          (only for up migration) geotiff
 # 2. different                      (only for down migration)
@@ -76,10 +76,10 @@ describe 'Migration tests for UMM-C v1.15.4 => 1.15.5' do
       end
 
       it 'adjusts the case when the formats are "equal ignoring case"' do
-        expect(CollectionDraft.find(@draft.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('ASCII')
+        expect(CollectionDraft.find(@draft.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('JPEG')
         expect(CollectionDraft.find(@draft.id).draft.dig('RelatedUrls', 2, 'GetData', 'Format')).to eq('Binary')
         expect(CollectionDraft.find(@draft.id).draft.dig('RelatedUrls', 3, 'GetData', 'Format')).to eq('GeoTIFF')
-        expect(CollectionTemplate.find(@template.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('ASCII')
+        expect(CollectionTemplate.find(@template.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('JPEG')
         expect(CollectionTemplate.find(@template.id).draft.dig('RelatedUrls', 2, 'GetData', 'Format')).to eq('Binary')
         expect(CollectionTemplate.find(@template.id).draft.dig('RelatedUrls', 3, 'GetData', 'Format')).to eq('GeoTIFF')
       end
@@ -111,10 +111,10 @@ describe 'Migration tests for UMM-C v1.15.4 => 1.15.5' do
       end
 
       it 'adjusts the case when the formats are "equal ignoring case"' do
-        expect(CollectionDraft.find(@draft.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('ascii')
+        expect(CollectionDraft.find(@draft.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('jpeg')
         expect(CollectionDraft.find(@draft.id).draft.dig('RelatedUrls', 5, 'GetData', 'Format')).to eq('binary')
         expect(CollectionDraft.find(@draft.id).draft.dig('RelatedUrls', 6, 'GetData', 'Format')).to eq('geotiff')
-        expect(CollectionTemplate.find(@template.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('ascii')
+        expect(CollectionTemplate.find(@template.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('jpeg')
         expect(CollectionTemplate.find(@template.id).draft.dig('RelatedUrls', 5, 'GetData', 'Format')).to eq('binary')
         expect(CollectionTemplate.find(@template.id).draft.dig('RelatedUrls', 6, 'GetData', 'Format')).to eq('geotiff')
       end
@@ -167,7 +167,7 @@ describe 'Migration tests for UMM-C v1.15.4 => 1.15.5' do
       end
 
       it 'adjusts the case when the formats are "equal ignoring case"' do
-        expect(CollectionDraftProposal.find(@draft_proposal.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('ASCII')
+        expect(CollectionDraftProposal.find(@draft_proposal.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('JPEG')
         expect(CollectionDraftProposal.find(@draft_proposal.id).draft.dig('RelatedUrls', 2, 'GetData', 'Format')).to eq('Binary')
         expect(CollectionDraftProposal.find(@draft_proposal.id).draft.dig('RelatedUrls', 3, 'GetData', 'Format')).to eq('GeoTIFF')
       end
@@ -192,7 +192,7 @@ describe 'Migration tests for UMM-C v1.15.4 => 1.15.5' do
       end
 
       it 'adjusts the case when the formats are "equal ignoring case"' do
-        expect(CollectionDraftProposal.find(@draft_proposal.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('ascii')
+        expect(CollectionDraftProposal.find(@draft_proposal.id).draft.dig('RelatedUrls', 1, 'GetData', 'Format')).to eq('jpeg')
         expect(CollectionDraftProposal.find(@draft_proposal.id).draft.dig('RelatedUrls', 5, 'GetData', 'Format')).to eq('binary')
         expect(CollectionDraftProposal.find(@draft_proposal.id).draft.dig('RelatedUrls', 6, 'GetData', 'Format')).to eq('geotiff')
       end
