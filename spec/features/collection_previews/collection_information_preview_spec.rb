@@ -13,7 +13,6 @@ describe 'Collection information preview' do
         within 'ul.collection-information-preview' do
           expect(page).to have_no_content('Purpose')
           expect(page).to have_no_content('Version Description')
-          expect(page).to have_no_content('DOI')
         end
       end
     end
@@ -35,17 +34,6 @@ describe 'Collection information preview' do
 
           within 'li.version-description' do
             expect(page).to have_content('Version 1 Description')
-          end
-
-          within 'li.doi' do
-            expect(page).to have_content('Citation DOI')
-            expect(page).to have_content('Citation DOI Authority')
-          end
-
-          within 'ul.associated-dois' do
-            expect(page).to have_content('Associated DOI')
-            expect(page).to have_content('Associated DOI Title')
-            expect(page).to have_content('Associated DOI Authority')
           end
         end
       end

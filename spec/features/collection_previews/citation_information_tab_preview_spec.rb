@@ -9,9 +9,12 @@ describe 'Citation Information Tab preview' do
       end
 
       it 'does not display metadata' do
-        expect(page).to have_content('Citation information is not available for this collection.')
+        within '#citation-information-panel' do
+          expect(page).to have_content('Citation information is not available for this collection.')
+          expect(page).to have_no_content('DOI')
+          expect(page).to have_no_content('Associated DOIs')
+        end
       end
-
     end
 
     context 'when there is metadata' do
@@ -40,9 +43,18 @@ describe 'Citation Information Tab preview' do
 
           expect(page).to have_link('https://example.com/data-citation-policy')
         end
+
+        within 'div.doi' do
+          expect(page).to have_content('Citation DOI')
+          expect(page).to have_content('Citation DOI Authority')
+        end
+
+        within 'ul.associated-dois' do
+          expect(page).to have_content('Associated DOI')
+          expect(page).to have_content('Associated DOI Title')
+          expect(page).to have_content('Associated DOI Authority')
+        end
       end
-
     end
-
   end
 end

@@ -138,6 +138,14 @@ ul.sub-field {
 \* ===================================================== */
 // specific to collection previews, with change to display wider view and tab organized content
 
+.doi-preview, .associated-dois-preview {
+  p {
+    margin: 0;
+  }
+  padding-left: 1.4em;
+  padding-top: 1.4em;
+}
+
 .collection-preview {
   margin-top: 15px;
 }
