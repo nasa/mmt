@@ -82,7 +82,7 @@ describe 'Publishing collection draft records', js: true do
 
       context 'when adding new values, saving, and publishing' do
         before do
-          click_on 'Add another Associated Doi'
+          click_on 'Add another Associated DOI'
           fill_in 'draft_associated_dois_1_doi', with: 'Associated DOI 1'
           fill_in 'draft_associated_dois_1_title', with: 'Associated DOI Title 1'
           fill_in 'draft_associated_dois_1_authority', with: 'Associated DOI Authority 1'
