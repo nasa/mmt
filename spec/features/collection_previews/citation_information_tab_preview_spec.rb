@@ -44,12 +44,12 @@ describe 'Citation Information Tab preview' do
           expect(page).to have_link('https://example.com/data-citation-policy')
         end
 
-        within 'div.doi' do
+        within 'div.doi-preview' do
           expect(page).to have_content('Citation DOI')
           expect(page).to have_content('Citation DOI Authority')
         end
 
-        within 'ul.associated-dois' do
+        within 'div.associated-dois-preview' do
           expect(page).to have_content('Associated DOI')
           expect(page).to have_content('Associated DOI Title')
           expect(page).to have_content('Associated DOI Authority')
