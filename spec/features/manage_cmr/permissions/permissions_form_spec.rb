@@ -35,8 +35,10 @@ describe 'Collection Permissions form', js: true do
       expect(page).to have_field('granule_temporal_filter[stop_date]', disabled: true)
       expect(page).to have_field('granule_temporal_filter[mask]', disabled: true)
 
+      expect(page).to have_css('.support-text', text: "If one or more of your selected collections above have metadata that refer to Direct S3 Access, then the users in the Search, Order, and S3 group below will be able to access the data associated with the collection via the AWS S3 API (if the user is in-region).\nOperators can enable Direct S3 Access for their collections via UMM-C DirectDistributionInformation.")
+
       expect(page).to have_field('Search', type: 'select', visible: false)
-      expect(page).to have_field('Search and Order', type: 'select', visible: false)
+      expect(page).to have_field('Search, Order, and S3 (If Available)', type: 'select', visible: false)
     end
 
     context 'when acl applies to granules' do
