@@ -110,7 +110,7 @@ describe 'Publishing collection draft records', js: true do
         end
 
         it 'shows the new information in the preview' do
-          within 'ul.associated-dois' do
+          within 'div.associated-dois-preview' do
             expect(page).to have_content('Associated DOI')
             expect(page).to have_content('Associated DOI Title')
             expect(page).to have_content('Associated DOI Authority')
