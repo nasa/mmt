@@ -2,6 +2,7 @@
 <% show_preview = options[:show_preview] ? true : false %>
 <% title = (options[:title] || type.titleize).singularize %>
 <% title = options[:related_url_title].singularize if type == 'related_url' %>
+<% title = options[:associated_doi_title].singularize if type == 'associated_doi' %>
 <% options[:required_level] += 1 if options[:required_level] %>
 
 <% if multiple %>
