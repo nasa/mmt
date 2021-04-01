@@ -627,7 +627,16 @@ module Helpers
           fill_in 'Description', with: 'A file distribution information description'
           fill_in 'Fees', with: 'File archive information fees'
         end
-
+        within '.direct-distribution-information' do
+          select 'us-east-2', from: 'Region'
+          find('.multiple-item-0').fill_in with: 'prefix-1'
+          click_on 'Add another Prefix Name'
+          find('.multiple-item-1').fill_in with: 'prefix-2'
+          click_on 'Add another Prefix Name'
+          find('.multiple-item-2').fill_in with: 'prefix-3'
+          fill_in 'S3 Credentials API Endpoint', with: 'link.com'
+          fill_in 'S3 Credentials API Documentation URL', with: 'amazon.com'
+        end
       end
     end
 

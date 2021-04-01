@@ -29,8 +29,16 @@
       "$ref": "#/definitions/EntryTitleType"
     },
     "DOI": {
-        "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. While this element is not required, NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections.",
+        "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. For those that want to specify that a DOI is not applicable or unknown use the second option.",
         "$ref": "#/definitions/DoiType"
+    },
+    "AssociatedDOIs": {
+      "description": "This element stores DOIs that are associated with the collection such as from campaigns and other related sources. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/AssociatedDoiType"
+      },
+      "minItems": 1
     },
     "Abstract": {
       "description": "A brief description of the collection or service the metadata represents.",
@@ -110,6 +118,10 @@
       "description": "This element and all of its sub elements exist for display purposes. It allows a data provider to provide archive and distribution information up front to an end user, to help them decide if they can use the product.",
       "$ref": "#/definitions/ArchiveAndDistributionInformationType"
     },
+    "DirectDistributionInformation": {
+      "description": "This element allows end users to get direct access to data products that are stored in the Amazon Web Service (AWS) S3 buckets. The sub elements include S3 credentials end point and a documentation URL as well as bucket prefix names and an AWS region.",
+      "$ref": "#/definitions/DirectDistributionInformationType"
+    },
     "PublicationReferences": {
       "description": "Describes key bibliographic citations pertaining to the collection.",
       "type": "array",
@@ -119,7 +131,7 @@
       "minItems": 0
     },
     "ISOTopicCategories": {
-      "description": "Identifies the topic categories from the EN ISO 19115-1:2014 Geographic Information – Metadata – Part 1: Fundamentals (http://www.isotc211.org/) Topic Category Code List that pertain to this collection, based on the Science Keywords associated with the collection. An ISO Topic Category is a high-level thematic classification to assist in the grouping of and search for available collections.  The controlled vocabulary for ISO topic categories is maintained in the Keyword Management System (KMS).",
+      "description": "Identifies the topic categories from the EN ISO 19115-1:2014 Geographic Information – Metadata – Part 1: Fundamentals (http://www.isotc211.org/) Topic Category Code List that pertain to this collection, based on the Science Keywords associated with the collection. An ISO Topic Category is a high-level thematic classification to assist in the grouping of and search for available collections. The controlled vocabulary for ISO topic categories is maintained in the Keyword Management System (KMS).",
       "type": "array",
       "items": {
         "type": "string",
@@ -251,7 +263,7 @@
       "$ref": "#/definitions/VersionDescriptionType"
     }
   },
-  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DataCenters", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress"],
+  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DOI", "DataCenters", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress"],
 
 
 
@@ -1112,7 +1124,7 @@
       "enum": ["ACTIVE", "PLANNED", "COMPLETE", "DEPRECATED", "NOT APPLICABLE", "NOT PROVIDED"]
     },
     "LocationKeywordType": {
-      "description": "This element defines a mapping to the GCMD KMS hierarchical location list. It replaces SpatialKeywords. Each tier must have data in the tier above it.",
+      "description": "This element defines a hierarchical location list. It replaces SpatialKeywords. The controlled vocabulary for location keywords is maintained in the Keyword Management System (KMS). Each tier must have data in the tier above it.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -1407,7 +1419,70 @@
         "required": ["FileDistributionInformation"]
       }]
     },
-
+    "DirectDistributionInformationType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This element allows end users to get direct access to data products that are stored in the Amazon Web Service (AWS) S3 buckets. The sub elements include S3 credentials end point and a documentation URL as well as bucket prefix names and an AWS region.",
+      "properties": {
+        "Region": {
+          "description": "Defines the possible values for the Amazon Web Service US Regions where the data product resides.",
+          "$ref": "#/definitions/DirectDistributionInformationRegionEnum"
+        },
+        "S3BucketAndObjectPrefixNames": {
+          "description": "Defines the possible values for the Amazon Web Service US S3 bucket and/or object prefix names.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "pattern": "[!-~]{1,1024}"
+          },
+          "minItems": 1
+        },
+        "S3CredentialsAPIEndpoint": {
+          "description": "Defines the URL where the credentials are stored.",
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "S3CredentialsAPIDocumentationURL": {
+          "description": "Defines the URL where the credential documentation are stored.",
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      },
+      "required": ["Region", "S3CredentialsAPIEndpoint", "S3CredentialsAPIDocumentationURL"]
+    },
+    "DirectDistributionInformationRegionEnum": {
+      "description": "Defines the possible values for the Amazon Web Service US Regions where the data product resides.",
+      "type": "string",
+      "enum": ["us-east-1", "us-east-2", "us-west-1", "us-west-2"]
+    },
+    "AssociatedDoiType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections using CollectionDOI property.",
+      "properties": {
+        "DOI": {
+          "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "Title": {
+          "description": "The title of the DOI landing page. The title describes the DOI object to a user, so they don't have to look it up themselves to understand the association.",
+          "$ref": "#/definitions/TitleType"
+        },
+        "Authority": {
+          "description": "The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.",
+          "$ref": "#/definitions/AuthorityType"
+        }
+      },
+      "required": ["DOI"]
+    },
     "LanguageType": {
       "description": "Describes the language used in the preparation, storage, and description of the collection. It is the language of the collection data themselves.   It does not refer to the language used in the metadata record (although this may be the same language). The name of the language used for this field is defined in ISO 639.",
       "type": "string",
@@ -1750,7 +1825,7 @@
         "properties": {
             "Format": {
                 "description": "The format of the data.",
-                "$ref": "#/definitions/GetDataTypeFormatEnum"
+                "$ref": "#/definitions/GetServiceTypeFormatEnum"
             },
             "MimeType": {
                 "description": "The mime type of the service.",
@@ -1916,32 +1991,32 @@
       "oneOf": [{
         "type": "object",
         "additionalProperties": false,
-        "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. While this element is not required, NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections. For those that want to specify that a DOI is not applicable for their record use the second option.",
+        "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. For those that want to specify that a DOI is not applicable or unknown for their record, use the second option.",
         "properties": {
-          "Authority": {
-            "description": "The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.",
-            "$ref": "#/definitions/AuthorityType"
-          },
           "DOI": {
             "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
             "type": "string",
             "minLength": 1,
             "maxLength": 1024
+          },
+          "Authority": {
+            "description": "The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.",
+            "$ref": "#/definitions/AuthorityType"
           }
         },
         "required": ["DOI"]
       }, {
         "type": "object",
         "additionalProperties": false,
-        "description": "This element stores the fact that the DOI (Digital Object Identifier) is not applicable.",
+        "description": "This element stores the fact that the DOI (Digital Object Identifier) is not applicable or is unknown.",
         "properties": {
           "MissingReason": {
-            "description": "This element stores the fact that a DOI (Digital Object Identifier) is not applicable for this record.",
+            "description": "This element stores the fact that a DOI (Digital Object Identifier) is not applicable or is unknown for this record.",
             "type": "string",
-            "enum": ["Not Applicable"]
+            "enum": ["Not Applicable", "Unknown"]
           },
           "Explanation": {
-            "description": "This element describes the reason the DOI is not applicable.",
+            "description": "This element describes the reason the DOI is not applicable or unknown.",
             "type": "string",
             "minLength": 1,
             "maxLength": 1024
@@ -1949,6 +2024,24 @@
         },
         "required": ["MissingReason"]
       }]
+    },
+    "DoiDoiType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections using CollectionDOI property.",
+      "properties": {
+        "DOI": {
+          "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "Authority": {
+          "description": "The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.",
+          "$ref": "#/definitions/AuthorityType"
+        }
+      },
+      "required": ["DOI"]
     },
     "AccessConstraintsType": {
       "type": "object",
@@ -2015,7 +2108,7 @@
         },
         "DOI": {
           "description": "The Digital Object Identifier (DOI) of the publication.",
-          "$ref": "#/definitions/DoiType"
+          "$ref": "#/definitions/DoiDoiType"
         },
         "Author": {
           "description": "The author of the publication.",
@@ -2642,7 +2735,7 @@
                "application/octet-stream", "application/vnd.google-earth.kmz", "image/jpeg", "image/png",
                "image/vnd.collada+xml", "text/html", "text/plain", "Not provided"]
     },
-    "GetDataTypeFormatEnum": {
+    "GetServiceTypeFormatEnum": {
       "type": "string",
       "enum": ["ascii", "binary", "GRIB", "BUFR", "HDF4", "HDF5", "HDF-EOS4", "HDF-EOS5", "jpeg", "png", "tiff", "geotiff", "kml", "Not provided"]
     }

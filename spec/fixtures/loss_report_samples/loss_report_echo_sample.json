@@ -1,29 +1,31 @@
 {
   "format": "application/echo10+xml",
-  "1. -: /Collection/Orderable": "true",
-  "2. -: /Collection/Visible": "true",
-  "3. -: /Collection/MaintenanceAndUpdateFrequency": "As needed",
-  "4. +: /Collection/Temporal/EndsAtPresentFlag": "false",
-  "5. +: /Collection/Temporal/RangeDateTime/BeginningDateTime": "1970-01-01T00:00:00.000Z",
-  "6. +: /Collection/Platforms/Platform/ShortName": "Not provided",
-  "7. +: /Collection/Platforms/Platform/LongName": "Not provided",
-  "8. +: /Collection/Platforms/Platform/Type": "Not provided",
-  "9. -: /Collection/AssociatedDIFs/DIF/EntryId": "CIESIN_SEDAC_ANTHROMES_v2_1700",
-  "10. -: /Collection/InsertTime": "2014-05-13T00:00:00Z",
-  "11. +: /Collection/InsertTime": "2014-05-13T00:00:00.000Z",
-  "12. -: /Collection/LastUpdate": "2015-08-04T00:00:00Z",
-  "13. +: /Collection/LastUpdate": "2015-08-04T00:00:00.000Z",
-  "14. -: /Collection/LongName": "Anthropogenic Biomes of the World, Version 2: 1700",
-  "15. +: /Collection/LongName": "Not provided",
-  "16. -: /Collection/CollectionState": "Final",
-  "17. +: /Collection/CollectionState": "NOT PROVIDED",
-  "18. -: /Collection/Price": "0",
-  "19. +: /Collection/Price": "     0.00",
-  "20. -: /Collection/SpatialKeywords/Keyword[0]": "Africa",
-  "21. -: /Collection/SpatialKeywords/Keyword[1]": "Asia",
-  "22. +: /Collection/SpatialKeywords/Keyword[0]": "AFRICA",
-  "23. +: /Collection/SpatialKeywords/Keyword[1]": "GAZA STRIP",
-  "24. -: /Collection/Contacts/Contact[0]": {
+  "1. +: /Collection/DOI/MissingReason": "Unknown",
+  "2. +: /Collection/DOI/Explanation": "It is unknown if this record has a DOI.",
+  "3. -: /Collection/Orderable": "true",
+  "4. -: /Collection/Visible": "true",
+  "5. -: /Collection/MaintenanceAndUpdateFrequency": "As needed",
+  "6. +: /Collection/Temporal/EndsAtPresentFlag": "false",
+  "7. +: /Collection/Temporal/RangeDateTime/BeginningDateTime": "1970-01-01T00:00:00.000Z",
+  "8. +: /Collection/Platforms/Platform/ShortName": "Not provided",
+  "9. +: /Collection/Platforms/Platform/LongName": "Not provided",
+  "10. +: /Collection/Platforms/Platform/Type": "Not provided",
+  "11. -: /Collection/AssociatedDIFs/DIF/EntryId": "CIESIN_SEDAC_ANTHROMES_v2_1700",
+  "12. -: /Collection/InsertTime": "2014-05-13T00:00:00Z",
+  "13. +: /Collection/InsertTime": "2014-05-13T00:00:00.000Z",
+  "14. -: /Collection/LastUpdate": "2015-08-04T00:00:00Z",
+  "15. +: /Collection/LastUpdate": "2015-08-04T00:00:00.000Z",
+  "16. -: /Collection/LongName": "Anthropogenic Biomes of the World, Version 2: 1700",
+  "17. +: /Collection/LongName": "Not provided",
+  "18. -: /Collection/CollectionState": "Final",
+  "19. +: /Collection/CollectionState": "NOT PROVIDED",
+  "20. -: /Collection/Price": "0",
+  "21. +: /Collection/Price": "     0.00",
+  "22. -: /Collection/SpatialKeywords/Keyword[0]": "Africa",
+  "23. -: /Collection/SpatialKeywords/Keyword[1]": "Asia",
+  "24. +: /Collection/SpatialKeywords/Keyword[0]": "AFRICA",
+  "25. +: /Collection/SpatialKeywords/Keyword[1]": "GAZA STRIP",
+  "26. -: /Collection/Contacts/Contact[0]": {
     "Role": "Archive",
     "HoursOfService": "9:00 A.M. to 5:00 P.M., Monday to Friday",
     "OrganizationName": "Socioeconomic Data and Applications Center (SEDAC)",
@@ -59,15 +61,15 @@
       }
     }
   },
-  "25. +: /Collection/Contacts/Contact[0]": {
+  "27. +: /Collection/Contacts/Contact[0]": {
     "Role": "PROCESSOR",
     "OrganizationName": "SEDAC"
   },
-  "26. +: /Collection/Contacts/Contact[1]": {
+  "28. +: /Collection/Contacts/Contact[1]": {
     "Role": "ARCHIVER",
     "OrganizationName": "SEDAC"
   },
-  "27. +: /Collection/Contacts/Contact[2]": {
+  "29. +: /Collection/Contacts/Contact[2]": {
     "Role": "ARCHIVER",
     "HoursOfService": "9:00 A.M. to 5:00 P.M., Monday to Friday",
     "OrganizationName": "Socioeconomic Data and Applications Center (SEDAC)",
@@ -104,18 +106,18 @@
       }
     }
   },
-  "28. -: /Collection/SpatialInfo/SpatialCoverageType": "Horizontal",
-  "29. +: /Collection/SpatialInfo/SpatialCoverageType": "HORIZONTAL",
-  "30. -: /Collection/OnlineResources/OnlineResource/Type": "DOI URL",
-  "31. +: /Collection/OnlineResources/OnlineResource/Type": "CollectionURL : DATA SET LANDING PAGE",
-  "32. -: /Collection/Spatial/SpatialCoverageType": "Horizontal",
-  "33. +: /Collection/Spatial/SpatialCoverageType": "HORIZONTAL",
-  "34. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/WestBoundingCoordinate": "-180.000000",
-  "35. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/WestBoundingCoordinate": "-180.0",
-  "36. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/NorthBoundingCoordinate": "90.000000",
-  "37. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/NorthBoundingCoordinate": "90.0",
-  "38. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/EastBoundingCoordinate": "180.000000",
-  "39. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/EastBoundingCoordinate": "180.0",
-  "40. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/SouthBoundingCoordinate": "-90.000000",
-  "41. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/SouthBoundingCoordinate": "-90.0"
+  "30. -: /Collection/SpatialInfo/SpatialCoverageType": "Horizontal",
+  "31. +: /Collection/SpatialInfo/SpatialCoverageType": "HORIZONTAL",
+  "32. -: /Collection/OnlineResources/OnlineResource/Type": "DOI URL",
+  "33. +: /Collection/OnlineResources/OnlineResource/Type": "CollectionURL : DATA SET LANDING PAGE",
+  "34. -: /Collection/Spatial/SpatialCoverageType": "Horizontal",
+  "35. +: /Collection/Spatial/SpatialCoverageType": "HORIZONTAL",
+  "36. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/WestBoundingCoordinate": "-180.000000",
+  "37. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/WestBoundingCoordinate": "-180.0",
+  "38. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/NorthBoundingCoordinate": "90.000000",
+  "39. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/NorthBoundingCoordinate": "90.0",
+  "40. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/EastBoundingCoordinate": "180.000000",
+  "41. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/EastBoundingCoordinate": "180.0",
+  "42. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/SouthBoundingCoordinate": "-90.000000",
+  "43. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/SouthBoundingCoordinate": "-90.0"
 }

@@ -14,6 +14,7 @@ class Hash
     data_id
     isbn
     doi
+    associated_dois
     data_resource_doi
     iso_topic_categories
     online_access_url_pattern_match
@@ -23,6 +24,8 @@ class Hash
     avg_compression_rate_ascii
     avg_compression_rate_net_cdf4
     url_value
+    s3_credentials_api_documentation_url
+    s3_credentials_api_endpoint
   )
 
   def camelize(snake_word, first_upper = true)
@@ -38,6 +41,8 @@ class Hash
       # only valid for Services & Tools; Collections use 'LicenseUrl'; see amend_license_url_key in collection_draft.rb for local fix
       return 'LicenseURL' if snake_word == 'license_url'
 
+      return 'S3CredentialsAPIDocumentationURL' if snake_word == 's3_credentials_api_documentation_url'
+      return 'S3CredentialsAPIEndpoint' if snake_word == 's3_credentials_api_endpoint'
       return 'DataID' if snake_word == 'data_id'
       return 'ISOTopicCategories' if snake_word == 'iso_topic_categories'
       return 'OnlineAccessURLPatternMatch' if snake_word == 'online_access_url_pattern_match'
@@ -45,6 +50,7 @@ class Hash
       return 'CRSIdentifier' if snake_word == 'crs_identifier'
       return 'UOMLabel' if snake_word == 'uom_label'
       return 'DOI' if snake_word == 'doi'
+      return 'AssociatedDOIs' if snake_word == 'associated_dois'
       return 'DataResourceDOI' if snake_word == 'data_resource_doi'
       return 'AvgCompressionRateASCII' if snake_word == 'avg_compression_rate_ascii'
       return 'AvgCompressionRateNetCDF4' if snake_word == 'avg_compression_rate_net_cdf4'

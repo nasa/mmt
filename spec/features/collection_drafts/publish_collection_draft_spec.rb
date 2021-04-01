@@ -25,6 +25,102 @@ describe 'Publishing collection draft records', js: true do
         expect(page).to have_content('Collection Draft Published Successfully!')
       end
     end
+
+    context 'when new Direct Distribution Information fieldset is added in UMM 1.16' do
+      before do
+        find('i.direct-distribution-information').click
+      end
+
+      it 'contains the expected factory values' do
+        within '.direct-distribution-information' do
+          expect(page).to have_field('Region', with: 'us-east-2')
+          expect(page).to have_field('S3 Credentials API Endpoint', with: 'link.com')
+          expect(page).to have_field('S3 Credentials API Documentation URL', with: 'amazon.com')
+          within ('.simple-multiple.s3-bucket-and-object-prefix-names') do
+            expect(page).to have_field(with: 'prefix-1')
+            expect(page).to have_field(with: 'prefix-2')
+            expect(page).to have_field(with: 'prefix-3')
+          end
+        end
+      end
+
+      context 'when adding new values, saving, and publishing' do
+        before do
+          within '.direct-distribution-information' do
+            select 'us-east-1', from: 'Region'
+            find('.multiple-item-0').fill_in with: 'prefix-4'
+            click_on 'Add another Prefix Name'
+            find('.multiple-item-1').fill_in with: 'prefix-5'
+            click_on 'Add another Prefix Name'
+            find('.multiple-item-2').fill_in with: 'prefix-6'
+            fill_in 'S3 Credentials API Endpoint', with: 'linkage.com'
+            fill_in 'S3 Credentials API Documentation URL', with: 'aws.com'
+          end
+          within '.nav-top' do
+            click_on 'Done'
+          end
+          click_on 'Publish'
+          find('label.tab-label', text: 'Additional Information').click
+        end
+
+        it 'displays a confirmation message' do
+          expect(page).to have_content('Collection Draft Published Successfully!')
+        end
+
+        it 'shows the new information in the preview' do
+          within '.direct-distribution-information-preview' do
+            within all('li.direct-distribution-information')[0] do
+              expect(page).to have_content('Region: us-east-1')
+              expect(page).to have_content('S3 Bucket and Object Prefix Names: prefix-4, prefix-5, prefix-6')
+              expect(page).to have_content('S3 Credentials API Endpoint: linkage.com')
+              expect(page).to have_content('S3 Credentials API Documentation URL: aws.com')
+            end
+          end
+        end
+      end
+    end
+
+    context 'when new Associated DOIs fieldset is added in UMM 1.16.1' do
+      before do
+        click_on 'Collection Information'
+      end
+
+      it 'contains the expected factory values' do
+        expect(page).to have_field('DOI', with: 'Associated DOI')
+        expect(page).to have_field('Title', with: 'Associated DOI Title')
+        expect(page).to have_field('Authority', with: 'Associated DOI Authority')
+      end
+
+      context 'when adding new values, saving, and publishing' do
+        before do
+          click_on 'Add another Associated DOI'
+          fill_in 'draft_associated_dois_1_doi', with: 'Associated DOI 1'
+          fill_in 'draft_associated_dois_1_title', with: 'Associated DOI Title 1'
+          fill_in 'draft_associated_dois_1_authority', with: 'Associated DOI Authority 1'
+
+          within '.nav-top' do
+            click_on 'Done'
+          end
+          click_on 'Publish'
+          find('label.tab-label', text: 'Citation Information').click
+        end
+
+        it 'displays a confirmation message' do
+          expect(page).to have_content('Collection Draft Published Successfully!')
+        end
+
+        it 'shows the new information in the preview' do
+          within 'div.associated-dois-preview' do
+            expect(page).to have_content('Associated DOI')
+            expect(page).to have_content('Associated DOI Title')
+            expect(page).to have_content('Associated DOI Authority')
+            expect(page).to have_content('Associated DOI 1')
+            expect(page).to have_content('Associated DOI Title 1')
+            expect(page).to have_content('Associated DOI Authority 1')
+          end
+        end
+      end
+    end
   end
 
   context 'when publishing a collection draft record' do

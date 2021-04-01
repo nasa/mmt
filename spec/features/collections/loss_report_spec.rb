@@ -10,11 +10,18 @@ describe 'Displaying the loss report in browser' do
     end
 
     context 'when displaying json' do
-      # TODO: CMR-7035 adding multiple DOIs caused this test to fail. We will address it when we update to match in MMT-2539
-      # it 'properly displays the echo json report' do
-      #   visit loss_report_collections_path(echo_concept_id, format: 'json')
-      #   expect(page.text.gsub(/\s+/, "")).to have_text(File.read('spec/fixtures/loss_report_samples/loss_report_echo_sample.json').gsub(/\s+/, ""))
-      # end
+      it 'properly displays the echo json report' do
+        visit loss_report_collections_path(echo_concept_id, format: 'json')
+        sample_paths = JSON.parse(File.read('spec/fixtures/loss_report_samples/loss_report_echo_sample.json')).keys.map! { |path| path.split(': ').last }
+        sample_values = JSON.parse(File.read('spec/fixtures/loss_report_samples/loss_report_echo_sample.json')).values.map! { |val| val.strip if val.is_a?(String) }
+        page_paths = JSON.parse(page.text).keys.map! { |path| path.split(': ').last }
+        page_values = JSON.parse(page.text).values.map! { |val| val.strip if val.is_a?(String) }
+
+        expect(sample_paths - page_paths).to be_empty
+        expect(page_paths - sample_paths).to be_empty
+        expect(sample_values - page_values).to be_empty
+        expect(page_values - sample_values).to be_empty
+      end
 
       it 'properly displays the dif json report' do
         visit loss_report_collections_path(dif_concept_id, format: 'json')
@@ -42,11 +49,14 @@ describe 'Displaying the loss report in browser' do
     end
 
     context 'when displaying text' do
-      # TODO: CMR-7035 adding multiple DOIs caused this test to fail. We will address it when we update to match in MMT-2539
-      # it 'properly displays the echo text report' do
-      #   visit loss_report_collections_path(echo_concept_id, format: 'text')
-      #   expect(page.text.gsub(/\s+/, "")).to have_text(File.read('spec/fixtures/loss_report_samples/loss_report_echo_sample.text').gsub(/\s+/, ""))
-      # end
+      it 'properly displays the echo text report' do
+        visit loss_report_collections_path(echo_concept_id, format: 'text')
+        sample_paths = File.read('spec/fixtures/loss_report_samples/loss_report_echo_sample.text').split(/\s|\n/).reject! { |path| !path.include?("/") }
+        page_paths = page.text.split("\s").reject! { |path| !path.include?("/") }
+
+        expect(sample_paths - page_paths).to be_empty
+        expect(page_paths - sample_paths).to be_empty
+      end
 
       it 'properly displays the dif text report' do
         visit loss_report_collections_path(dif_concept_id, format: 'text')

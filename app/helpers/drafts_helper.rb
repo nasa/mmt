@@ -98,6 +98,16 @@ module DraftsHelper
     ['Future Review', 'REVIEW'],
     ['Planned Deletion', 'DELETE']
   ]
+  DirectDistributionInformationRegionOptions = [
+    ["us-east-1"],
+    ["us-east-2"],
+    ["us-west-1"],
+    ["us-west-2"]
+  ]
+  DOIMissingReasonOptions = [
+    ['Not Applicable'],
+    ['Unknown']
+  ]
   FileSizeUnitTypeOptions = [
     ['KB'],
     ['MB'],

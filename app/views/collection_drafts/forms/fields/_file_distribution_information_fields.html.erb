@@ -69,7 +69,7 @@
             <div class="multiple simple-multiple media">
               <% media.each_with_index do |media, index| %>
                 <div class="multiple-item multiple-item-<%= index %>">
-                  <%= text_field_tag(name_to_param("#{name_prefix}|media|_#{index}"), media, class: 'half-width media simple-multiple-field validate', data: { level: "#{name_prefix}" }) %>
+                  <%= text_field_tag(name_to_param("#{name_prefix}|media|_#{index}"), media, class: 'half-width media simple-multiple-field validate', data: { level: "#{remove_pipes(name_prefix)}" }) %>
                   <a class="remove">
                     <i class="fa fa-times-circle"></i>
                     <span class="is-invisible">Remove <%= media %></span>

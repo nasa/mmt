@@ -10,6 +10,7 @@
     multiple: false
   } %>
 
+
   <div class="constraint-selector-fields row sub-fields">
     <!-- Constraint type selector -->
     <%= mmt_label(
@@ -24,35 +25,36 @@
     </div>
   </div>
 
-    <!-- License Url -->
-    <div class="license-url-fields available row sub-fields" style="<%= 'display: none' unless license_url_checked %>">
-      <%= mmt_label(
-        name: 'license_url',
-        title: 'License Url',
-        prefix: name_prefix
-      ) %>
-      <%= mmt_help_icon(
-        title: 'License Url',
-        help: 'definitions/UseConstraintsType/properties/LicenseUrl'
-      ) %>
-      <%= render partial: 'collection_drafts/forms/type', locals: {
-        type: 'online_resource',
-        values: use_constraints['LicenseUrl'] || {},
-        name_prefix: "#{name_prefix}|license_url|_",
-        multiple: false
-      } %>
-    </div>
-
-    <!-- License Text -->
-    <div class="license-text-fields not-available row sub-fields" style="<%= 'display: none' unless license_text_checked%>">
-      <%= mmt_text_area(
-        name: 'license_text',
-        title: 'License Text',
-        prefix: name_prefix,
-        value: use_constraints['LicenseText'],
-        help: 'definitions/UseConstraintsType/properties/LicenseText',
-        validate: true,
-        required: true
-     ) %>
-    </div>
+  <!-- License Url -->
+  <div class="license-url-fields available row sub-fields" style="<%= 'display: none' unless license_url_checked %>">
+    <%= mmt_label(
+      name: 'license_url',
+      title: 'License Url',
+      prefix: name_prefix
+    ) %>
+    <%= mmt_help_icon(
+      title: 'License Url',
+      help: 'definitions/UseConstraintsType/properties/LicenseUrl'
+    ) %>
+    <%= render partial: 'collection_drafts/forms/type', locals: {
+      type: 'online_resource',
+      values: use_constraints['LicenseUrl'] || {},
+      name_prefix: "#{name_prefix}|license_url|_",
+      multiple: false
+    } %>
   </div>
+
+
+  <!-- License Text -->
+  <div class="license-text-fields not-available row sub-fields" style="<%= 'display: none' unless license_text_checked%>">
+    <%= mmt_text_area(
+      name: 'license_text',
+      title: 'License Text',
+      prefix: name_prefix,
+      value: use_constraints['LicenseText'],
+      help: 'definitions/UseConstraintsType/properties/LicenseText',
+      validate: true,
+      required: true
+   ) %>
+  </div>
+</div>
