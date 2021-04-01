@@ -66,6 +66,17 @@ describe 'Publishing collection draft records', js: true do
         it 'displays a confirmation message' do
           expect(page).to have_content('Collection Draft Published Successfully!')
         end
+
+        it 'shows the new information in the preview' do
+          within '.direct-distribution-information-preview' do
+            within all('li.direct-distribution-information')[0] do
+              expect(page).to have_content('Region: us-east-1')
+              expect(page).to have_content('S3 Bucket and Object Prefix Names: prefix-4, prefix-5, prefix-6')
+              expect(page).to have_content('S3 Credentials API Endpoint: linkage.com')
+              expect(page).to have_content('S3 Credentials API Documentation URL: aws.com')
+            end
+          end
+        end
       end
     end
 
@@ -86,16 +97,27 @@ describe 'Publishing collection draft records', js: true do
           fill_in 'draft_associated_dois_1_doi', with: 'Associated DOI 1'
           fill_in 'draft_associated_dois_1_title', with: 'Associated DOI Title 1'
           fill_in 'draft_associated_dois_1_authority', with: 'Associated DOI Authority 1'
-          
+
           within '.nav-top' do
             click_on 'Done'
           end
           click_on 'Publish'
-          find('label.tab-label', text: 'Additional Information').click
+          find('label.tab-label', text: 'Citation Information').click
         end
 
         it 'displays a confirmation message' do
           expect(page).to have_content('Collection Draft Published Successfully!')
+        end
+
+        it 'shows the new information in the preview' do
+          within 'div.associated-dois-preview' do
+            expect(page).to have_content('Associated DOI')
+            expect(page).to have_content('Associated DOI Title')
+            expect(page).to have_content('Associated DOI Authority')
+            expect(page).to have_content('Associated DOI 1')
+            expect(page).to have_content('Associated DOI Title 1')
+            expect(page).to have_content('Associated DOI Authority 1')
+          end
         end
       end
     end
