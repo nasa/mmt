@@ -28,7 +28,7 @@ module PreviewCirclesHelper
         anchor: 'collection-information'
       },
       'DOI' => {
-        required: false,
+        required: true,
         anchor: 'collection-information'
       },
       'AssociatedDOIs' => {
