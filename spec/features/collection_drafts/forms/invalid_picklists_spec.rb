@@ -56,6 +56,12 @@ describe 'Invalid picklists', js: true do
       end
     end
 
+    it 'displays an invalid icon for Projects' do
+      within '.metadata #acquisition-information' do
+        expect(page).to have_link('Projects - Invalid')
+      end
+    end
+
     it 'displays an invalid icon for Temporal Keywords' do
       within '.metadata #temporal-information' do
         expect(page).to have_link('Temporal Keywords - Invalid')
@@ -378,6 +384,7 @@ describe 'Invalid picklists', js: true do
       within '.summary-errors' do
         expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
         expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
+        expect(page).to have_content('Format value [badformat] does not match a valid selection option')
       end
     end
 
@@ -385,6 +392,7 @@ describe 'Invalid picklists', js: true do
       within '.related-urls' do
         expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
         expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
+        expect(page).to have_content('Format value [badformat] does not match a valid selection option')
       end
     end
 
@@ -394,11 +402,12 @@ describe 'Invalid picklists', js: true do
       end
       within '.multiple.related-urls > .multiple-item-2' do
         expect(page).to have_css('option[disabled][selected]', text: 'badunit')
+        expect(page).to have_css('option[disabled][selected]', text: 'badformat')
       end
     end
   end
 
-  context 'when viewing the Platform Short Name field' do
+  context 'when viewing the Platform and Project Short Name fields' do
     before do
       within '.metadata' do
         click_on 'Acquisition Information'
@@ -410,18 +419,31 @@ describe 'Invalid picklists', js: true do
     it 'displays a summary error' do
       within '.summary-errors' do
         expect(page).to have_content('Short Name value [test 1 P ShortName] does not match a valid selection option')
+        expect(page).to have_content('Short Name value [project shortname test] does not match a valid selection option')
       end
     end
 
-    it 'displays an inline error' do
+    it 'displays Platforms inline error' do
       within '.platforms' do
         expect(page).to have_content('Short Name value [test 1 P ShortName] does not match a valid selection option')
       end
     end
 
-    it 'displays an unselectable invalid option' do
+    it 'displays Platforms unselectable invalid option' do
       within '.platform-short-name-select' do
         expect(page).to have_css('option[disabled][selected]', text: 'test 1 P ShortName')
+      end
+    end
+
+    it 'displays Projects inline error' do
+      within '.projects' do
+        expect(page).to have_content('Short Name value [project shortname test] does not match a valid selection option')
+      end
+    end
+
+    it 'displays Projects unselectable invalid option' do
+      within '.project-short-name-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'project shortname test')
       end
     end
   end

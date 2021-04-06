@@ -9,7 +9,7 @@
         value: project['ShortName'],
         help: 'definitions/ProjectType/properties/ShortName',
         options: @projects.map { |project| [project[:short_name], project[:short_name], { 'data-long-name' => project[:long_name] }] },
-        classes: 'select2-select project-short-name-select',
+        classes: 'mmt-fake-enum select2-select project-short-name-select',
         required: true
       ) %>
     </div>
