@@ -336,7 +336,7 @@ module Helpers
         subscription = {
           'Name' => name || "Test_Subscription_#{random}",
           'CollectionConceptId' => collection_concept_id || "C#{Faker::Number.number(digits: 6)}-TEST",
-          'Query' => query || 'bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30',
+          'Query' => query || "bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30&entry_title=#{random}",
           'SubscriberId' => subscriber_id || 'rarxd5taqea',
           'EmailAddress' => email_address || 'uozydogeyyyujukey@tjbh.eyyy'
         }
