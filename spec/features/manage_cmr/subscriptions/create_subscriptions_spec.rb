@@ -64,11 +64,13 @@ describe 'Creating Subscriptions', reset_provider: true do
           # Generating a genuine failure by violating uniqueness constraints
           # in the CMR.
           let(:name2) { 'Exciting Subscription with Important Data4' }
+          let(:query2) { 'point=100,20&attribute\[\]=float,X\Y\Z,7&instrument\[\]=1B&cloud_cover=-80.0,120.0&equator_crossing_date=2000-01-01T10:00:00Z,2010-03-10T12:00:00Z&cycle[]=1' }
           before do
             @native_id_failure = 'test_native_id'
-            @ingest_response, _search_response, _subscription = publish_new_subscription(name: name2, query: query, collection_concept_id: collection_concept_id, native_id: @native_id_failure)
+            @ingest_response, _search_response, _subscription = publish_new_subscription(name: name2, query: query2, collection_concept_id: collection_concept_id, native_id: @native_id_failure)
 
             fill_in 'Subscription Name', with: name2
+            fill_in 'Query', with: query2
             VCR.use_cassette('urs/rarxd5taqea', record: :none) do
               within '.subscription-form' do
                 click_on 'Submit'
@@ -77,12 +79,13 @@ describe 'Creating Subscriptions', reset_provider: true do
           end
 
           it 'fails to create the subscription' do
-            expect(page).to have_content('The Provider Id [MMT_2] and Subscription Name [Exciting Subscription with Important Data4] combination must be unique for a given native-id')
+            expect(page).to have_content("The subscriber-id [rarxd5taqea] has already subscribed to the collection with concept-id [#{collection_concept_id}] using the query")
+            expect(page).to have_content('Subscribers must use unique queries for each Collection.')
           end
 
           it 'repopulates the form with the entered values' do
             expect(page).to have_field('Subscription Name', with: name2)
-            expect(page).to have_field('Query', with: query)
+            expect(page).to have_field('Query', with: query2)
 
             within '.select2-container' do
               expect(page).to have_css('.select2-selection__rendered', text: 'Rvrhzxhtra Vetxvbpmxf')

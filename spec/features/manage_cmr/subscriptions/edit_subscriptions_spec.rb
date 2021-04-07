@@ -49,8 +49,8 @@ describe 'Edit/Updating Subscriptions', reset_provider: true do
 
     context 'when making a valid modification to a subscription' do
       before do
-        @new_query = 'A Different Query'
-        fill_in 'Query', with: @new_query
+        @new_name = 'A Different Name'
+        fill_in 'Subscription Name', with: @new_name
 
         VCR.use_cassette('urs/rarxd5taqea', record: :none) do
           click_on 'Submit'
@@ -62,8 +62,8 @@ describe 'Edit/Updating Subscriptions', reset_provider: true do
       end
 
       it 'takes the user to the show page and has the correct data' do
-        expect(page).to have_content(@subscription['Name'])
-        expect(page).to have_content(@new_query)
+        expect(page).to have_content(@new_name)
+        expect(page).to have_content(@subscription['Query'])
         expect(page).to have_content(@subscription['CollectionConceptId'])
         within '#subscriber' do
           expect(page).to have_content(@subscription['SubscriberId'])
@@ -73,12 +73,12 @@ describe 'Edit/Updating Subscriptions', reset_provider: true do
       end
     end
 
-    context 'when making an invalid modification to a subscription' do
+    context 'when using the same name for a subscription' do
       before do
         # Making a second subscription and then trying to rename the first one
-        # to the name of the second one. CMR enforces unique names, so this
-        # results in an error message.
-        @new_name = 'A Different Query'
+        # to the name of the second one. CMR does not enforce unique names, so this
+        # will succeed.
+        @new_name = 'A Different Name'
         fill_in 'Subscription Name', with: @new_name
         @second_native_id = 'test_edit_id_2'
 
@@ -89,16 +89,19 @@ describe 'Edit/Updating Subscriptions', reset_provider: true do
         end
       end
 
-      it 'fails and repopulates the form' do
-        expect(page).to have_content('Edit MMT_2 Subscription')
-        expect(page).to have_field('Subscription Name', with: @new_name)
-        expect(page).to have_field('Query', with: @subscription['Query'])
-        expect(page).to have_field('Subscriber', with: @subscription['SubscriberId'], disabled: true)
-        expect(page).to have_field('Collection Concept ID', with: @subscription['CollectionConceptId'], disabled: true)
+      it 'displays a flash success' do
+        expect(page).to have_content('Subscription Updated Successfully!')
       end
 
-      it 'displays an error message from CMR' do
-        expect(page).to have_content("The Provider Id [MMT_2] and Subscription Name [#{@new_name}] combination must be unique for a given native-id")
+      it 'takes the user to the show page and has the correct data' do
+        expect(page).to have_content(@new_name)
+        expect(page).to have_content(@subscription['Query'])
+        expect(page).to have_content(@c_ingest_response['concept-id'])
+        within '#subscriber' do
+          expect(page).to have_content(@subscription['SubscriberId'])
+          expect(page).to have_content(@subscription['EmailAddress'])
+          expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
+        end
       end
     end
   end
