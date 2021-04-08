@@ -58,7 +58,7 @@ $(document).ready ->
         if dirDisInf.S3CredentialsApiDocumentationUrl?
           dirDisInf.S3CredentialsAPIDocumentationURL = dirDisInf.S3CredentialsApiDocumentationUrl
           delete dirDisInf.S3CredentialsApiDocumentationUrl
-      # fix AssociatedDOIs
+      # fix AssociatedDOIs keys
       if json?.AssociatedDois
         json.AssociatedDOIs = json.AssociatedDois
         delete json.AssociatedDois
@@ -651,7 +651,7 @@ $(document).ready ->
       validate(json)
 
     errors = if validate.errors? then validate.errors else []
-    console.log 'errors! ', JSON.stringify(errors)
+    # console.log 'errors! ', JSON.stringify(errors)
 
     validateParameterRanges(errors)
     errors = validatePicklistValues(errors)
