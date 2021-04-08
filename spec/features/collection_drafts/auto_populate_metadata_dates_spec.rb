@@ -11,6 +11,7 @@ describe 'Auto populating metadata dates', js: true do
       draft.save
 
       visit collection_draft_path(draft)
+
       click_on 'Publish'
       wait_for_cmr
 

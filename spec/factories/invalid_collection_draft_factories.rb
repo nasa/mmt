@@ -108,7 +108,8 @@ FactoryBot.define do
           'Type' => 'GET DATA',
           'Subtype' => 'DIF',
           'GetData' => {
-            'Unit' => 'badunit'
+            'Unit' => 'badunit',
+            'Format' => 'badformat'
           }
         }],
         'DataLanguage' => 'english',
@@ -117,6 +118,10 @@ FactoryBot.define do
           'Type' => 'Aircraft',
           'ShortName' => 'test 1 P ShortName',
           'LongName' => 'test 1 P LongName'
+        }],
+        'Projects' => [{
+          'ShortName' => 'project shortname test',
+          'LongName' => 'project longname test'
         }],
         'DataCenters' => [{
           'Roles' => ['bad data center role'],
