@@ -49,6 +49,7 @@ $(document).ready ->
   # S3CredentialsApiDocumentationUrl instead of S3CredentialsAPIDocumentationURL
   fixCollectionKeys = (json) ->
     if isMetadataForm()
+      # fix DirectDistributionInformation keys
       if dirDisInf = json?.DirectDistributionInformation?
         dirDisInf = json.DirectDistributionInformation
         if dirDisInf.S3CredentialsApiEndpoint?
@@ -57,6 +58,12 @@ $(document).ready ->
         if dirDisInf.S3CredentialsApiDocumentationUrl?
           dirDisInf.S3CredentialsAPIDocumentationURL = dirDisInf.S3CredentialsApiDocumentationUrl
           delete dirDisInf.S3CredentialsApiDocumentationUrl
+      # fix AssociatedDOIs keys
+      if json?.AssociatedDois
+        json.AssociatedDOIs = json.AssociatedDois
+        delete json.AssociatedDois
+
+
 
   # fix keys from the serialized page json that don't match the schema
   fixServicesKeys = (json) ->

@@ -1,6 +1,12 @@
 <!-- doi available? -->
 <div class="doi-group">
-  <% doi_available = doi.nil? ? true : !doi['DOI'].nil? %>
+  <% doi_available = if doi['DOI'] || doi['Authority'] %>
+                    <% true %>
+                  <% elsif doi['MissingReason'] || doi['Explanation'] %>
+                    <% false %>
+                  <% else %>
+                    <% nil %>
+                  <% end %>
 
   <p class="radio-group">
     <%= radio_button_tag(name_to_param("#{name_prefix}"), 'Available', doi_available == true, class: 'doi-available-select', name: nil, data: { level: remove_pipes(name_prefix) }) %>
