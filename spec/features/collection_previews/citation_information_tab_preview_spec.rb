@@ -1,4 +1,4 @@
-describe 'Citation Information Tab preview' do
+describe 'Citation Information Tab preview', js: true do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
       before do
@@ -10,9 +10,21 @@ describe 'Citation Information Tab preview' do
 
       it 'does not display metadata' do
         within '#citation-information-panel' do
-          expect(page).to have_content('Citation information is not available for this collection.')
+          expect(page).to have_content('No Citation information has been provided for this collection. Please contact Earthdata Support...')
           expect(page).to have_no_content('DOI')
           expect(page).to have_no_content('Associated DOIs')
+        end
+      end
+
+      context 'when clicking the Earthdata Support link' do
+        before do
+          find('#earthdata-feedback-modal').click
+        end
+
+        it 'displays the feedback modal' do
+          expect(page).to have_css('h1', text: 'How can we help you?')
+          expect(page).to have_css('form#new_ticket')
+          expect(page).to have_content('Fill in the details here. Please try to be as specific as possible.')
         end
       end
     end
