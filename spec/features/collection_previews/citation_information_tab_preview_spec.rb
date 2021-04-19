@@ -1,4 +1,4 @@
-describe 'Citation Information Tab preview', js: true do
+describe 'Citation Information Tab preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
       before do
@@ -10,8 +10,8 @@ describe 'Citation Information Tab preview', js: true do
 
       it 'does not display metadata' do
         within '#citation-information-panel' do
-          expect(page).to have_content('No Citation information has been provided for this collection. Please contact Earthdata Support...')
-          expect(page).to have_link('Earthdata Support...', href: 'javascript:void(0)', id: 'earthdata-feedback-modal')
+          expect(page).to have_content('No citation information has been supplied for this collection. Please contact Earthdata Support to obtain proper citation information.')
+          expect(page).to have_link('Earthdata Support', href: 'javascript:void(0)', id: 'earthdata-feedback-modal')
           expect(page).to have_no_content('DOI')
           expect(page).to have_no_content('Associated DOIs')
         end
