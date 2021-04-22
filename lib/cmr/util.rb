@@ -15,7 +15,7 @@ module Cmr
     # checks if a token is an URS token
     def is_urs_token?(token)
       begin
-        header = Base64.decode64(token)
+        header = Base64.decode64(token.split('.').first)
         jwt_json = JSON.parse(header)
 
         jwt_json['typ'] == 'JWT' && jwt_json['origin'] == 'Earthdata Login'
