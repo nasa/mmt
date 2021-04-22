@@ -14,8 +14,14 @@ module Cmr
 
     # checks if a token is an URS token
     def is_urs_token?(token)
-      # URS token max length is 100, Launchpad token is much longer
-      token.length <= 100 ? true : false
+      begin
+        header = Base64.decode64(token)
+        jwt_json = JSON.parse(header)
+
+        jwt_json['typ'] == 'JWT' && jwt_json['origin'] == 'Earthdata Login'
+      rescue
+        false
+      end
     end
 
     def truncate_token(token)
