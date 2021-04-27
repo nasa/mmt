@@ -22,7 +22,7 @@ module Cmr
         jwt_json['typ'] == 'JWT' && jwt_json['origin'] == 'Earthdata Login'
       rescue
         # this block allows proper function when URS token is not a JWT (waiver turned off),
-        # because the parse or decode operations will raise an error if URS token isn't a JWT
+        # because the parse or decode operations will raise an error if URS token isn't a JWT;
         # non-JWT URS token max length is 100, Launchpad token is much longer
         token.length <= 100
       end
