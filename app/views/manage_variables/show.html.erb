@@ -7,7 +7,7 @@
           <%= form_tag(new_variable_draft_path, method: :get, id: 'new-draft-form') do %>
             <%= submit_tag('Create New Record', class: 'eui-btn--blue submit') %>
             <p>(Optional) Enter the Concept ID of the collection to associate this variable:</p>
-            <%= text_field_tag('associated_collection_id', nil, placeholder: 'Concept ID', class: 'full-width') %>
+            <%= text_field_tag('associated_collection_id', nil, placeholder: 'Concept ID', class: 'full-width', title: 'Associated Concept ID Search') %>
           <% end %>
         </div>
         <div class="question-group">
