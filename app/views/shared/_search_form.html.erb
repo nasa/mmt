@@ -5,8 +5,8 @@
     <button id="search-submit-button" type="button" name="full_search" class="eui-btn--blue"><i class="eui-icon eui-fa-search"></i><span id="search-submit-button-text"></span></button><a href="#" id="search-drop" class="dropdown-button"><i id="search-drop-caret" class="fa fa-caret-down" aria-hidden="true"></i></a>
     <div class="search-dropdown<%= dropdown_size_modification %>">
       <fieldset class="radio-buttons<%= proposal_mode_button_visibility %>">
+        <legend aria-label='Choose Metadata Type for Search' aria-hidden='true'>Choose Metadata Type for Search</legend>
         <!-- legend tags for 508 compliance -->
-        <legend aria-label='Choose Metadata Type for Search' aria-hidden='true'></legend>
         <div class="row">
           <%= radio_button_tag(:record_type, 'collections', resource_type == 'collections') %>
           <%= label_tag(:record_type_collections, 'Collections') %>
@@ -24,8 +24,8 @@
         </div>
       </fieldset>
       <fieldset class="provider-selection">
+        <legend aria-label='Select Provider' aria-hidden='true'>Select Provider</legend>
         <!-- legend tags for 508 compliance -->
-        <legend aria-label='Select Provider' aria-hidden='true'></legend>
         <div class="row">
           <span>Provider:</span><%= select_tag "provider_id", options_for_select(@provider_ids, @query['provider_id']), class: 'single-select', prompt: 'Select a Provider', 'aria-label': 'Select a Provider' %>
         </div>
