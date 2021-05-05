@@ -592,11 +592,9 @@ def collection_one
     }],
     'CollectionProgress' => 'ACTIVE',
     'Quality'            => 'Metadata quality summary',
-    'UseConstraints'     => {
-      'Description' => {
-        'Description' => 'These are some use constraints'
-      },
-      'LicenseUrl' => {
+    'UseConstraints' => {
+      'Description' => 'These are some use constraints',
+      'LicenseURL' => {
         'Linkage' => 'http://example.com'
       }
     },

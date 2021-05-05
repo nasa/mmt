@@ -37,10 +37,7 @@ class Hash
       return 'URI' if snake_word == 'uri'
       return 'URLContentType' if snake_word == 'url_content_type'
       return 'RelatedURL' if snake_word == 'related_url'
-
-      # only valid for Services & Tools; Collections use 'LicenseUrl'; see amend_license_url_key in collection_draft.rb for local fix
       return 'LicenseURL' if snake_word == 'license_url'
-
       return 'S3CredentialsAPIDocumentationURL' if snake_word == 's3_credentials_api_documentation_url'
       return 'S3CredentialsAPIEndpoint' if snake_word == 's3_credentials_api_endpoint'
       return 'DataID' if snake_word == 'data_id'
