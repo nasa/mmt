@@ -1,5 +1,3 @@
-# MMT-53, MMT-293
-
 describe 'Data identification form', js: true do
   before do
     login
@@ -42,12 +40,13 @@ describe 'Data identification form', js: true do
 
       # Use Constraints
       within '.use-constraints' do
-        find('#use_constraint_type_Url_LicenseUrl').click
-        within '.use-constraints-description > .sub-fields' do
+        find('#use_constraint_type_Url_LicenseURL').click
+
+        within '.license-description-field' do
           fill_in 'Description', with: 'These are some use constraints'
         end
-        fill_in 'Linkage', with: 'https://linkage.example.com'
 
+        fill_in 'Linkage', with: 'https://linkage.example.com'
       end
 
       # Access Constraints
@@ -99,8 +98,10 @@ describe 'Data identification form', js: true do
 
       # Use Constraints
       within '.use-constraints' do
-        expect(page).to have_field('Description', with: 'These are some use constraints')
-        within('.license-url-fields') do
+        within '.license-description-field' do
+          expect(page).to have_field('Description', with: 'These are some use constraints')
+        end
+        within '.license-url-fields' do
           expect(page).to have_field('Linkage', with: 'https://linkage.example.com')
         end
       end
@@ -177,35 +178,130 @@ describe 'Data identification form', js: true do
     end
   end
 
-  context 'when modifying the Use Constraint fields' do
+  context 'when viewing the Use Constraints fields' do
     before do
       click_on 'Expand All'
     end
 
-    it 'has no selected constraint type' do
-      # Use Constraints
-      within '.use-constraints' do
-        expect(page).to have_no_css('.license-url-fields')
-        expect(page).to have_no_css('.license-text-fields')
-      end
-    end
+    context 'when modifying the Use Constraint fields' do
+      context 'when a required icon should not be shown' do
+        context 'when Description Only is selected' do
+          before do
+            find('#use_constraint_type_Description_DescriptionOnly').click
+          end
 
-    it 'shows the license url fields' do
-      within '.use-constraints' do
-        find('#use_constraint_type_Url_LicenseUrl').click
-        expect(page).to have_css('.license-url-fields')
-        expect(page).to have_no_css('.license-text-fields')
-        expect(page).to have_no_css('.eui-required-o')
-      end
-    end
+          it 'displays the description field correctly' do
+            within '.use-constraints' do
+              expect(page).to have_css('.license-description-field')
 
-    it 'shows the license text fields' do
-      within '.use-constraints' do
-        find('#use_constraint_type_Text_LicenseText').click
-        find('#draft_use_constraints_license_text').send_keys ['License Text', :tab]
-        expect(page).to have_css('.license-text-fields')
-        expect(page).to have_no_css('.license-url-fields')
-        expect(page).to have_css('.eui-required-o')
+              expect(page).to have_no_css('.eui-required-o')
+            end
+          end
+        end
+
+        context 'when License URL is selected' do
+          before do
+            find('#use_constraint_type_Url_LicenseURL').click
+          end
+
+          it 'shows the license url fields correctly' do
+            within '.use-constraints' do
+              find('#use_constraint_type_Url_LicenseURL').click
+              expect(page).to have_css('.license-url-fields')
+              expect(page).to have_css('.license-description-field')
+              expect(page).to have_no_css('.license-text-field')
+              expect(page).to have_no_css('.eui-required-o')
+            end
+          end
+        end
+
+        context 'when License Text is selected' do
+          before do
+            find('#use_constraint_type_Text_LicenseText').click
+          end
+
+          it 'shows the license text fields correctly' do
+            within '.use-constraints' do
+              expect(page).to have_css('.license-description-field')
+              expect(page).to have_css('.license-text-field')
+              expect(page).to have_no_css('.license-url-fields')
+              expect(page).to have_no_css('.eui-required-o')
+            end
+          end
+        end
+
+      end
+
+      context 'when a required icon should be shown' do
+
+        context 'when Description Only is selected' do
+          before do
+            find('#use_constraint_type_Description_DescriptionOnly').click
+
+            within '.license-description-field' do
+              fill_in 'Description', with: 'These are some use constraints'
+            end
+
+            find('body').click
+          end
+
+          it 'displays the description field correctly' do
+            within '.use-constraints' do
+              within '.license-description-field' do
+                expect(page).to have_css('.eui-required-o')
+              end
+
+            end
+          end
+        end
+
+        context 'when License URL is selected' do
+          before do
+            find('#use_constraint_type_Url_LicenseURL').click
+
+            within '.license-url-fields' do
+              fill_in 'Linkage', with: 'https://linkage.example.com'
+            end
+
+            find('body').click
+          end
+
+          it 'shows the License URL fields correctly' do
+            within '.use-constraints' do
+              within '.license-description-field' do
+                expect(page).to have_no_css('.eui-required-o')
+              end
+
+              within '.license-url-fields' do
+                expect(page).to have_css('.eui-required-o')
+              end
+
+              expect(page).to have_no_css('.license-text-field')
+            end
+          end
+        end
+
+        context 'when License Text is selected' do
+          before do
+            find('#use_constraint_type_Text_LicenseText').click
+            fill_in 'License Text', with: 'This is a License Text'
+            find('body').click
+          end
+
+          it 'shows the License Text field correctly' do
+            within '.use-constraints' do
+              within '.license-description-field' do
+                expect(page).to have_no_css('.eui-required-o')
+              end
+
+              expect(page).to have_no_css('.license-url-fields')
+
+              within '.license-text-field' do
+                expect(page).to have_css('.eui-required-o')
+              end
+            end
+          end
+        end
       end
     end
   end

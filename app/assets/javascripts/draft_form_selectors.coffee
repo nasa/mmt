@@ -322,7 +322,7 @@ $(document).ready ->
       when 'NotAvailable'
         $parent.find('.doi-fields.not-available').show()
         $parent.find('.doi-fields.not-available select').val('Not Applicable')
-        
+
   # Handle License_Url Available selector
   $('.use-constraint-type-select').change ->
     $parent = $(this).parents('.license-group')
@@ -331,17 +331,36 @@ $(document).ready ->
     # that aren't the one just selected
     $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
 
+    # label of description field
+    $descLabel = $('label[for=draft_use_constraints_description]')
+
     # show the selected fields
     switch $(this).val()
-      when 'LicenseText'
+      when 'DescriptionOnly'
+        # description field should be required in this option
+        $descLabel.addClass('required')
+
         $parent.find('.license-url-fields').find('input, select').val ''
+        $parent.find('.license-text-fields').find('textarea').val ''
+        $parent.find('#draft_use_constraints_license_url_linkage').trigger('blur')
+        $parent.find('.license-text-field').find('textarea').trigger('blur')
+        $parent.find('.license-url-fields').hide()
+        $parent.find('.license-text-field').hide()
+      when 'LicenseText'
+        # description field should not be required in this option
+        $descLabel.removeClass('required')
+
+        $parent.find('.license-url-fields').find('input, select, textarea').val ''
         $parent.find('#draft_use_constraints_license_url_linkage').trigger('blur')
         $parent.find('.license-url-fields').hide()
-        $parent.find('.license-text-fields').show()
-      when 'LicenseUrl'
-        $parent.find('.license-text-fields').find('textarea').val ''
-        $parent.find('.license-text-fields').find('textarea').trigger('blur')
-        $parent.find('.license-text-fields').hide()
+        $parent.find('.license-text-field').show()
+      when 'LicenseURL'
+        # description field should not be required in this option
+        $descLabel.removeClass('required')
+
+        $parent.find('.license-text-field').find('textarea').val ''
+        $parent.find('.license-text-field').find('textarea').trigger('blur')
+        $parent.find('.license-text-field').hide()
         $parent.find('.license-url-fields').show()
 
   # Handle Total Collection File Size Selector (in Archive and Distribution Information)
