@@ -6,7 +6,7 @@
 
     <p>
       <%= form_tag set_provider_path, method: 'post' do %>
-        <%= select_tag 'select_provider', options_for_select(current_user.available_providers.clone.unshift(['Select Provider', '']), current_user.provider_id), class: 'single-select' %>
+        <%= select_tag 'select_provider', options_for_select(current_user.available_providers.clone.unshift(['Select Provider', '']), current_user.provider_id), class: 'single-select', title: 'Select Provider' %>
       <% end %>
     </p>
   </div>
