@@ -25,7 +25,11 @@ describe 'Creating a new draft from an existing template', js: true do
         visit manage_collections_path
         find('#base_template').click
         select 'An Example Template', from: 'template_id'
-        click_on('Create New Record')
+
+        # click off the select field so the tooltip uncovers the 'Create New Record' Button
+        find('.eui-callout-box__title', text: 'Create Collection Record').click
+
+        click_on 'Create New Record'
       end
 
       context 'when examining the draft' do
