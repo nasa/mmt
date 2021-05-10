@@ -463,6 +463,15 @@ $(document).ready ->
         error = null
         return
 
+    if error.keyword == 'required' && error.dataPath == '/UseConstraints/Description'
+      # this error only shows up for the Description field when there is a
+      # validation error to be shown for License URL fields, when the License
+      # URL radio button was selected. For this oneOf option with License URL
+      # fields, Description is not required, so the validation error
+      # should not be displayed
+      error = null
+      return
+
     if id.indexOf('cdf4') >= 0
       labelFor = id
     else
