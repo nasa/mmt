@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'Listing Service Options' do
+  let(:timeout_error_html_body) { File.read(File.join(Rails.root, 'spec', 'fixtures', 'service_management', 'timeout.html')) }
+
   context 'when viewing the index page' do
     before do
       login
@@ -70,6 +72,24 @@ describe 'Listing Service Options' do
         within '.service-options-table' do
           expect(page).to have_selector('tbody tr', count: 1)
         end
+      end
+    end
+  end
+
+  context 'when viewing the index page and there is a timeout error' do
+    before do
+      login
+
+      # mock a timeout error
+      echo_response = echo_fail_response(timeout_error_html_body, status = 504, headers = {'content-type' => 'text/html'})
+      allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_options).and_return(echo_response)
+
+      visit service_options_path
+    end
+
+    it 'displays the error' do
+      within '.eui-banner--danger.eui-banner__dismiss' do
+        expect(page).to have_content('ERROR: The request could not be satisfied')
       end
     end
   end
