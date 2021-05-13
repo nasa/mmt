@@ -48,10 +48,6 @@ module Echo
       result
     end
 
-    def timeout_error?
-      status == 504
-    end
-
     def body_is_html?
       error? && headers['content-type'] == 'text/html'
     end
@@ -61,15 +57,17 @@ module Echo
     end
 
     def error_message
-      # handle if body_is_html?
+      return Nokogiri.HTML(body).title if body_is_html?
+
       doc = Nokogiri.XML(body)
       element = doc.at("faultstring")
       element.nil? ? nil : element.content.gsub(/Token \[(.*?)\]/) { |s| "Token beginning with #{truncate_token($1)}" }
     end
 
     def clean_inspect
-      # need to handle if body_is_html?
       clean_response = faraday_response.deep_dup
+      return clean_response.inspect if body_is_html?
+
       doc = Nokogiri.XML(clean_response.env[:body])
       doc.traverse do |node|
         node.content = node.content.gsub(/Token \[(.*?)\]/) { |s| "Token beginning with #{truncate_token($1)}" } if node.text?
