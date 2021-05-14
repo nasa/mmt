@@ -1,7 +1,7 @@
 describe 'Data identification form', js: true do
   before do
     login
-    draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
+    draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first, entry_title: 'Empty Draft for Data Identificaiton form')
     visit edit_collection_draft_path(draft, 'data_identification')
   end
 
@@ -48,25 +48,31 @@ describe 'Data identification form', js: true do
           fill_in 'Linkage', with: 'https://data-identification-form-spec-linkage.example.com'
         end
       end
+      puts 'finished filling out use constraints'
 
       # Access Constraints
       within '.access-constraints' do
         fill_in 'Value', with: 42.0
         fill_in 'Description', with: 'Access constraint description'
       end
+      puts 'finished filling out access constraints'
 
       # Metadata Association
       add_metadata_association
+      puts 'finished filling out metadata association'
 
       # Publication Reference
       add_publication_reference
+      puts 'finished filling out publication reference'
     end
 
     context 'when clicking "Save" to stay on the form' do
       before do
+        puts 'about to click Save'
         within '.nav-top' do
           click_on 'Save'
         end
+        puts 'after save'
         # output_schema_validation Draft.first.draft
         click_on 'Expand All'
       end
