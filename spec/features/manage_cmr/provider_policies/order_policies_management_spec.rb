@@ -192,7 +192,7 @@ describe 'Viewing Order Policies', js: true do
 
             context 'when the endpoint is invalid' do
               before do
-                mock_response = Echo::Response.new(Faraday::Response.new(status: 500, body: '<?xml version="1.0" encoding="UTF-8"?>
+                mock_response = Echo::Response.new(Faraday::Response.new(response_headers: {}, status: 500, body: '<?xml version="1.0" encoding="UTF-8"?>
                   <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/>
                       <SOAP-ENV:Body>
                           <SOAP-ENV:Fault>
