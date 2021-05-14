@@ -2,10 +2,7 @@ describe 'Data identification form', js: true do
   before do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
-    visit collection_draft_path(draft)
-    within '.metadata' do
-      click_on 'Data Identification'
-    end
+    visit edit_collection_draft_path(draft, 'data_identification')
   end
 
   context 'when checking the accordion headers for required icons' do
@@ -18,7 +15,6 @@ describe 'Data identification form', js: true do
 
   context 'when submitting the form' do
     before do
-
       click_on 'Expand All'
 
       # Data Dates
@@ -75,7 +71,9 @@ describe 'Data identification form', js: true do
         click_on 'Expand All'
       end
 
-      it 'populates the form with the values' do
+      it 'displays a confirmation message and populates the form with the values' do
+        expect(page).to have_content('Collection Draft Updated Successfully!')
+
         within '.multiple.dates' do
           within '.multiple-item-0' do
             expect(page).to have_field('Type', with: 'CREATE')
@@ -163,29 +161,6 @@ describe 'Data identification form', js: true do
         end
       end
     end
-
-    context 'when clicking "Done" to go to the show page' do
-      before do
-        within '.nav-top' do
-          click_on 'Done'
-        end
-      end
-
-      it 'has proper progress circle icons in green and displays a confirmation message' do
-
-        expect(page).to have_content('Collection Draft Updated Successfully!')
-
-        within '#data-identification a[title="Use Constraints"]' do
-          expect(page).to have_css('.eui-fa-circle')
-        end
-        within '#data-identification a[title="Collection Progress - Required field complete"]' do
-          expect(page).to have_css('.eui-required.icon-green')
-        end
-        within '#data-identification a[title="Processing Level - Required field complete"]' do
-          expect(page).to have_css('.eui-required.icon-green')
-        end
-      end
-    end
   end
 
   context 'when viewing the Use Constraints fields' do
@@ -245,11 +220,9 @@ describe 'Data identification form', js: true do
             end
           end
         end
-
       end
 
       context 'when a required icon should be shown' do
-
         context 'when Description Only is selected' do
           before do
             within '.use_constraint_type_group' do
