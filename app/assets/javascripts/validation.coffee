@@ -471,6 +471,14 @@ $(document).ready ->
       # should not be displayed
       error = null
       return
+    if error.keyword == 'required' && error.dataPath == '/UseConstraints/LicenseText'
+      # this error only shows up for the License Text field when there is a
+      # validation error to be shown for License URL fields, when the License
+      # URL radio button was selected. For this oneOf option with License URL
+      # fields, License Text is not required, so the validation error
+      # should not be displayed
+      error = null
+      return
 
     if id.indexOf('cdf4') >= 0
       labelFor = id
