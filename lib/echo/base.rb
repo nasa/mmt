@@ -41,7 +41,7 @@ module Echo
       echo_response = Echo::Response.new(response)
       begin
         if echo_response.error?
-          if body_is_html?
+          if echo_response.body_is_html?
             Rails.logger.error "SOAP Response Error: #{echo_response.body}"
           else
             msg_hash = Hash.send('from_xml', echo_response.body)
