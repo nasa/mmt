@@ -40,13 +40,17 @@ describe 'Data identification form', js: true do
 
       # Use Constraints
       within '.use-constraints' do
-        find('#use_constraint_type_Url_LicenseURL').click
-
-        within '.license-description-field' do
-          fill_in 'Description', with: 'These are some use constraints'
+        within '.use_constraint_type_group' do
+          choose 'use_constraint_type_Url_LicenseURL'
         end
 
-        fill_in 'Linkage', with: 'https://linkage.example.com'
+        within '.license-description-field' do
+          fill_in 'Description', with: 'These are some use constraints for the data identification form spec'
+        end
+
+        within '.license-url-fields' do
+          fill_in 'Linkage', with: 'https://data-identification-form-spec-linkage.example.com'
+        end
       end
 
       # Access Constraints
@@ -66,10 +70,6 @@ describe 'Data identification form', js: true do
       end
       # output_schema_validation Draft.first.draft
       click_on 'Expand All'
-    end
-
-    it 'displays a confirmation message' do
-      expect(page).to have_content('Collection Draft Updated Successfully!')
     end
 
     it 'populates the form with the values' do
@@ -99,10 +99,10 @@ describe 'Data identification form', js: true do
       # Use Constraints
       within '.use-constraints' do
         within '.license-description-field' do
-          expect(page).to have_field('Description', with: 'These are some use constraints')
+          expect(page).to have_field('Description', with: 'These are some use constraints for the data identification form spec')
         end
         within '.license-url-fields' do
-          expect(page).to have_field('Linkage', with: 'https://linkage.example.com')
+          expect(page).to have_field('Linkage', with: 'https://data-identification-form-spec-linkage.example.com')
         end
       end
 
@@ -160,12 +160,13 @@ describe 'Data identification form', js: true do
       end
     end
 
-    it 'has proper progress circle icons in green ' do
+    it 'has proper progress circle icons in green and displays a confirmation message' do
       within '.nav-top' do
         click_on 'Done'
       end
 
       expect(page).to have_content('Collection Draft Updated Successfully!')
+
       within '#data-identification a[title="Use Constraints"]' do
         expect(page).to have_css('.eui-fa-circle')
       end
@@ -187,7 +188,9 @@ describe 'Data identification form', js: true do
       context 'when a required icon should not be shown' do
         context 'when Description Only is selected' do
           before do
-            find('#use_constraint_type_Description_DescriptionOnly').click
+            within '.use_constraint_type_group' do
+              choose 'use_constraint_type_Description_DescriptionOnly'
+            end
           end
 
           it 'displays the description field correctly' do
@@ -201,7 +204,9 @@ describe 'Data identification form', js: true do
 
         context 'when License URL is selected' do
           before do
-            find('#use_constraint_type_Url_LicenseURL').click
+            within '.use_constraint_type_group' do
+              choose 'use_constraint_type_Url_LicenseURL'
+            end
           end
 
           it 'shows the license url fields correctly' do
@@ -217,7 +222,9 @@ describe 'Data identification form', js: true do
 
         context 'when License Text is selected' do
           before do
-            find('#use_constraint_type_Text_LicenseText').click
+            within '.use_constraint_type_group' do
+              choose 'use_constraint_type_Text_LicenseText'
+            end
           end
 
           it 'shows the license text fields correctly' do
@@ -236,10 +243,12 @@ describe 'Data identification form', js: true do
 
         context 'when Description Only is selected' do
           before do
-            find('#use_constraint_type_Description_DescriptionOnly').click
+            within '.use_constraint_type_group' do
+              choose 'use_constraint_type_Description_DescriptionOnly'
+            end
 
             within '.license-description-field' do
-              fill_in 'Description', with: 'These are some use constraints'
+              fill_in 'Description', with: 'These are some use constraints for the data identification form spec'
             end
 
             find('body').click
@@ -257,10 +266,12 @@ describe 'Data identification form', js: true do
 
         context 'when License URL is selected' do
           before do
-            find('#use_constraint_type_Url_LicenseURL').click
+            within '.use_constraint_type_group' do
+              choose 'use_constraint_type_Url_LicenseURL'
+            end
 
             within '.license-url-fields' do
-              fill_in 'Linkage', with: 'https://linkage.example.com'
+              fill_in 'Linkage', with: 'https://data-identification-form-spec-linkage.example.com'
             end
 
             find('body').click
@@ -283,7 +294,10 @@ describe 'Data identification form', js: true do
 
         context 'when License Text is selected' do
           before do
-            find('#use_constraint_type_Text_LicenseText').click
+            within '.use_constraint_type_group' do
+              choose 'use_constraint_type_Text_LicenseText'
+            end
+
             fill_in 'License Text', with: 'This is a License Text'
             find('body').click
           end
