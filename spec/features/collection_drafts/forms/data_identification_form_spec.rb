@@ -20,6 +20,14 @@ describe 'Data identification form', js: true do
       # Data Dates
       add_dates
 
+      # Metadata Association
+      add_metadata_association
+      puts 'finished filling out metadata association'
+
+      # Publication Reference
+      add_publication_reference
+      puts 'finished filling out publication reference'
+
       # CollectionDataType
       within '#collection-data-type' do
         select 'Other', from: 'Collection Data Type'
@@ -56,14 +64,6 @@ describe 'Data identification form', js: true do
         fill_in 'Description', with: 'Access constraint description'
       end
       puts 'finished filling out access constraints'
-
-      # Metadata Association
-      add_metadata_association
-      puts 'finished filling out metadata association'
-
-      # Publication Reference
-      add_publication_reference
-      puts 'finished filling out publication reference'
     end
 
     context 'when clicking "Save" to stay on the form' do
