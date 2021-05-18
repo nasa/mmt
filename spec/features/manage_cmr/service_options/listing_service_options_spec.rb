@@ -76,7 +76,7 @@ describe 'Listing Service Options' do
     end
   end
 
-  context 'when viewing the index page and there is a timeout error' do
+  context 'when viewing the index page and there is a timeout error',js:true do
     before do
       login
 
@@ -89,6 +89,7 @@ describe 'Listing Service Options' do
 
     it 'displays the error' do
       within '.eui-banner--danger.eui-banner__dismiss' do
+        expect(page).to be_nil
         expect(page).to have_content('ERROR: The request could not be satisfied')
       end
     end
