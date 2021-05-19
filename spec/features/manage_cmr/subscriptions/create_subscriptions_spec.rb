@@ -27,7 +27,7 @@ describe 'Creating Subscriptions', reset_provider: true do
 
       context 'when submitting the form without errors', js: true do
         let(:name) { "Exciting Subscription with Important Data #{SecureRandom.uuid}" }
-        let(:query) { 'point=100,20&attribute\[\]=float,X\Y\Z,7&instrument\[\]=1B&cloud_cover=-70.0,120.0&equator_crossing_date=2000-01-01T10:00:00Z,2010-03-10T12:00:00Z&cycle[]=1&passes[0][pass]=1&passes[0][tiles]=1L,2F' }
+        let(:query) { 'point=100,20&attribute[]=float,X\Y\Z,7&instrument=1B&cloud_cover=-70.0,120.0&equator_crossing_date=2000-01-01T10:00:00Z,2010-03-10T12:00:00Z&cycle[]=1&passes[0][pass]=1&passes[0][tiles]=1L,2F' }
         let(:collection_concept_id) { @c_ingest_response['concept-id'] }
 
         before do
@@ -64,7 +64,7 @@ describe 'Creating Subscriptions', reset_provider: true do
           # Generating a genuine failure by violating uniqueness constraints
           # in the CMR.
           let(:name2) { 'Exciting Subscription with Important Data4' }
-          let(:query2) { 'point=100,20&attribute\[\]=float,X\Y\Z,7&instrument\[\]=1B&cloud_cover=-80.0,120.0&equator_crossing_date=2000-01-01T10:00:00Z,2010-03-10T12:00:00Z&cycle[]=1' }
+          let(:query2) { 'point=100,20&attribute[]=float,X\Y\Z,7&instrument=1B&cloud_cover=-80.0,120.0&equator_crossing_date=2000-01-01T10:00:00Z,2010-03-10T12:00:00Z&cycle[]=1' }
           before do
             @native_id_failure = 'test_native_id'
             @ingest_response, _search_response, _subscription = publish_new_subscription(name: name2, query: query2, collection_concept_id: collection_concept_id, native_id: @native_id_failure)
