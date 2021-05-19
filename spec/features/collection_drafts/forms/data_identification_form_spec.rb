@@ -1,7 +1,7 @@
 describe 'Data identification form', js: true do
   before do
     login
-    draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first, entry_title: 'Empty Draft for Data Identificaiton form')
+    draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
     visit edit_collection_draft_path(draft, 'data_identification')
   end
 
