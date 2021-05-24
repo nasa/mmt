@@ -4,17 +4,24 @@ module GKRKeywordRecommendations
 
   def fetch_keyword_recommendations(user, provider)
     abstract = get_resource.draft.fetch('Abstract', '')
-    response = cmr_client.fetch_keyword_recommendations(abstract)
-
-    if response.error?
-      log_gkr_request_failed(user, provider, abstract, response)
-      { id: '', recommendations: [] }
+    begin
+      response = cmr_client.fetch_keyword_recommendations(abstract)
+    rescue => e
+      log_gkr_comm_failed(user, provider, abstract, 'CommFailure', 'Error communicating with GKR server.')
+      return { error: 'CommFailure' }
     end
+
+    { id: '', recommendations: [] } if response.error?
 
     keyword_recommendations = response.body['recommendations'].map { |rec| rec['keyword'] }
     { id: response.body['uuid'], recommendations: keyword_recommendations }
   end
 
+  def log_gkr_comm_failed(user, provider, abstract, error, description)
+    Rails.logger.info("GkrLog: type: FAILED - date: #{Time.new} - env: #{Rails.env} - user_id: #{user} - provider: #{provider}"\
+      " - abstract: #{abstract} - error_code: #{error} - failure_description: #{description}")
+  end
+  
   def log_gkr_request_failed(user, provider, abstract, response)
     Rails.logger.info("GkrLog: type: FAILED - date: #{Time.new} - env: #{Rails.env} - user_id: #{user} - provider: #{provider}"\
       " - abstract: #{abstract} - error_code: #{response.status} - failure_description: #{response.body['description']}")
