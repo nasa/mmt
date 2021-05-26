@@ -15,14 +15,9 @@ class ServiceOptionsController < ManageCmrController
 
     service_option_response = echo_client.get_service_options(echo_provider_token)
 
-    service_option_list = if service_option_response.success?
-                            # Retreive the service options and sort by name, ignoring case
-                            Array.wrap(service_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
-                          else
-                            []
-                          end
+    service_options = Array.wrap(service_option_response.fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
 
-    @service_options = Kaminari.paginate_array(service_option_list, total_count: service_option_list.count).page(page).per(RESULTS_PER_PAGE)
+    @service_options = Kaminari.paginate_array(service_options, total_count: service_options.count).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show
@@ -102,8 +97,8 @@ class ServiceOptionsController < ManageCmrController
   end
 
   def set_service_option
-    result = echo_client.get_service_options(echo_provider_token, params[:id])
-
-    @service_option = result.parsed_body.fetch('Item', {}) unless result.error?
+    service_option_response = echo_client.get_service_options(echo_provider_token, params[:id])
+    service_options = Array.wrap(service_option_response.fetch('Item', []))
+    @service_option = service_options[0] unless service_options.empty?
   end
 end
