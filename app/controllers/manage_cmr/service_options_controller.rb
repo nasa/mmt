@@ -110,7 +110,7 @@ class ServiceOptionsController < ManageCmrController
       @service_option = result.parsed_body.fetch('Item', {})
     else
       Rails.logger.error("Retrieve Service Options Error: #{result.clean_inspect}") if result.error?
-      flash[:error] = "504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if assignment_service_options_response.timeout_error?
+      flash[:error] = "504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if result.timeout_error?
       []
     end
   end
