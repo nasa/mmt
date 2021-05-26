@@ -89,8 +89,7 @@ describe 'Listing Service Options' do
 
     it 'displays the error' do
       within '.eui-banner--danger.eui-banner__dismiss' do
-        expect(page).to be_nil
-        expect(page).to have_content('ERROR: The request could not be satisfied')
+        expect(page).to have_content('504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support.')
       end
     end
   end
