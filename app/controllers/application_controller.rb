@@ -377,10 +377,11 @@ class ApplicationController < ActionController::Base
 
         return
       end
+      
+      Rails.logger.error("Retrieve Provider Context Token Error: #{response.clean_inspect}")
+      flash[:error] = "504 ERROR: We are unable to retrieve the provider context token at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if response.timeout_error?
     end
 
-    Rails.logger.error("Retrieve Provider Context Token Error: #{response.clean_inspect}")
-    flash[:error] = "504 ERROR: We are unable to retrieve the provider context token at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if response.timeout_error?
 
     session[:echo_provider_token] = response_body
   end
