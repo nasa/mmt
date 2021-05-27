@@ -52,7 +52,6 @@ module ServiceEntryHelper
       (tags_response.parsed_body['Item'] || []).sort_by { |option| option.fetch('Value', '').downcase }
     else
       Rails.logger.error "Error retrieving tags for tag group SERVICE-INTERFACE: #{tags_response.error_message}"
-      flash[:error] = "504 ERROR: We are unable to tags for tag group SERVICE-INTERFACE at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if tags_response.timeout_error?
       []
     end
   end
