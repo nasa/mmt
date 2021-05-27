@@ -76,7 +76,7 @@ describe 'Listing Service Options' do
     end
   end
 
-  context 'when viewing the index page and there is a timeout error',js:true do
+  context 'when viewing the index page and there is a timeout error' do
     before do
       login
 
