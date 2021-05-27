@@ -68,7 +68,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
                                      Array.wrap(assignment_service_entries_response.parsed_body(parser: 'libxml')['Item'])
                                    else
                                      Rails.logger.error("Retrieve Service Entries to Update Service Option Assignments Error: #{assignment_service_entries_response.clean_inspect}") if assignment_service_entries_response.error?
-
+                                     flash[:error] = "504 ERROR: We are unable to retrieve service entries at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if assignment_service_entries_response.timeout_error?
                                      []
                                    end
 
@@ -122,6 +122,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
       end
     else
       Rails.logger.error("Retrieve Service Options Assignments to Update Error: #{assignments_response.clean_inspect}")
+      flash[:error] = "504 ERROR: We are unable to retrieve service options assignments at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if assignments_response.timeout_error?
     end
 
     render action: :edit

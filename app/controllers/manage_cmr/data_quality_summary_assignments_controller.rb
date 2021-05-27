@@ -46,7 +46,7 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
 
       # Pull out the guid of the data quality summary definition
       assignments = begin
-        # Nothing, or an error returned from the ECHO API would prevent relavant data from being available
+        # Nothing, or an error returned from the ECHO API would prevent relevant data from being available
         assignment = echo_client.get_data_quality_summary_assignments(token, collection_guid)
 
         Array.wrap(assignment.parsed_body.fetch('Item', []))
@@ -62,7 +62,11 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
 
       assignments.each do |assignment_body|
         definition_details = echo_client.get_data_quality_summary_definition(token, assignment_body.fetch('DefinitionGuid', nil))
-        next if definition_details.error?
+        if definition_details.error?
+          Rails.logger.error("Retrieve Data Quality Summary Definition Error: #{definition_details.clean_inspect}")
+          flash[:error] = "504 ERROR: We are unable to retrieve all data quality summary definitions at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if definition_details.timeout_error?
+          next
+        end
 
         # Pull out the body so that we can append to it
         definition_body = definition_details.parsed_body

@@ -10,9 +10,13 @@ module EchoSoap
     @result ||= echo_client.get_provider_names(token, provider_guid)
 
     # The result is nil if there is nothing to return
-    return @result.parsed_body.fetch('Item', {}) if @result.success?
-
-    {}
+    if @result.success?
+      @result.parsed_body.fetch('Item', {})
+    else
+      Rails.logger.error("Retrieve Provider Names Error: #{@result.clean_inspect}")
+      flash[:error] = "504 ERROR: We are unable to retrieve provider names at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if @result.timeout_error?
+      {}
+    end
   end
 
   # Get the provider data from ECHO by the provider Name
@@ -29,11 +33,13 @@ module EchoSoap
       # Look for the current provider in the list, this will get us the guid we need
       Array.wrap(providers).each do |provider|
         # If we find the provider we're looking for, ask ECHO for the DQSDs
-        return provider if provider.fetch('Name', nil) == provider_id
+        provider if provider.fetch('Name', nil) == provider_id
       end
+    else
+      Rails.logger.error("Retrieve Provider Names Error: #{@result.clean_inspect}")
+      flash[:error] = "504 ERROR: We are unable to retrieve provider names at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if @result.timeout_error?
+      {}
     end
-
-    {}
   end
 
   def get_provider_guid(provider_id)
@@ -71,11 +77,21 @@ module EchoSoap
         end
       end
       summary_guids = summary_guids.reject(&:blank?)
+    elsif response.error?
+      Rails.logger.error("Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}")
+      flash[:error] = "504 ERROR: We are unable to retrieve data quality summary definition name guids at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if response.timeout_error?
     end
 
     @summaries = []
     summary_guids.each do |guid|
-      @summaries << echo_client.get_data_quality_summary_definition(token, guid)
+      summary_response = echo_client.get_data_quality_summary_definition(token, guid)
+      
+      if summary_response.success?
+        @summaries << summary_response
+      else
+        Rails.logger.error("Retrieve Data Quality Summary Definition Error: #{summary_response.clean_inspect}")
+        flash[:error] = "504 ERROR: We are unable to retrieve data quality summary definitions at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if summary_response.timeout_error?
+      end
     end
 
     @summaries.sort_by! { |summary| summary.parsed_body.fetch('Name', '').downcase }

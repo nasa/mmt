@@ -75,6 +75,8 @@ module ChooserEndpoints
 
       service_entries
     else
+      Rails.logger.error("Retrieve Service Entries By Provider Error: #{response.clean_inspect}")
+      flash[:error] = "504 ERROR: We are unable to retrieve service entries at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if response.timeout_error?
       response.parsed_body
     end
   end
@@ -103,6 +105,8 @@ module ChooserEndpoints
         {}
       end
     else
+      Rails.logger.error("Retrieve Service Entries Error: #{response.clean_inspect}")
+      flash[:error] = "504 ERROR: We are unable to retrieve service entries at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if response.timeout_error?
       response.parsed_body
     end
   end
