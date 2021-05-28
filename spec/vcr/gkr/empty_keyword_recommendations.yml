@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://gcmd.nasa-impact.net/api/requests/
+    uri: https://gkr.sit.earthdatacloud.nasa.gov/api/requests/
     body:
       encoding: UTF-8
       string: '{"description":"This is a long description of the collection"}'

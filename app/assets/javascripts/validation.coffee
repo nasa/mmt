@@ -48,56 +48,58 @@ $(document).ready ->
   # upcase acronyms that occur later in the string, ie. s3_credentials_api_documentation_url ->
   # S3CredentialsApiDocumentationUrl instead of S3CredentialsAPIDocumentationURL
   fixCollectionKeys = (json) ->
-    if isMetadataForm()
-      # fix DirectDistributionInformation keys
-      if dirDisInf = json?.DirectDistributionInformation?
-        dirDisInf = json.DirectDistributionInformation
-        if dirDisInf.S3CredentialsApiEndpoint?
-          dirDisInf.S3CredentialsAPIEndpoint = dirDisInf.S3CredentialsApiEndpoint
-          delete dirDisInf.S3CredentialsApiEndpoint
-        if dirDisInf.S3CredentialsApiDocumentationUrl?
-          dirDisInf.S3CredentialsAPIDocumentationURL = dirDisInf.S3CredentialsApiDocumentationUrl
-          delete dirDisInf.S3CredentialsApiDocumentationUrl
-      # fix AssociatedDOIs keys
-      if json?.AssociatedDois
-        json.AssociatedDOIs = json.AssociatedDois
-        delete json.AssociatedDois
+    # fix DirectDistributionInformation keys
+    if dirDisInf = json?.DirectDistributionInformation?
+      dirDisInf = json.DirectDistributionInformation
+      if dirDisInf.S3CredentialsApiEndpoint?
+        dirDisInf.S3CredentialsAPIEndpoint = dirDisInf.S3CredentialsApiEndpoint
+        delete dirDisInf.S3CredentialsApiEndpoint
+      if dirDisInf.S3CredentialsApiDocumentationUrl?
+        dirDisInf.S3CredentialsAPIDocumentationURL = dirDisInf.S3CredentialsApiDocumentationUrl
+        delete dirDisInf.S3CredentialsApiDocumentationUrl
+    # fix AssociatedDOIs keys
+    if json?.AssociatedDois
+      json.AssociatedDOIs = json.AssociatedDois
+      delete json.AssociatedDois
+    # fix LicenseURL
+    if json?.UseConstraints?.LicenseUrl?
+      json.UseConstraints.LicenseURL = json.UseConstraints.LicenseUrl
+      delete json.UseConstraints.LicenseUrl
 
 
 
   # fix keys from the serialized page json that don't match the schema
   fixServicesKeys = (json) ->
-    if isUmmSForm()
-      if json?.URL?.UrlValue?
-        json.URL.URLValue = json.URL.UrlValue
-        delete json.URL.UrlValue
-      # Operation Metadata has DataResourceDOI, CRSIdentifier, and UOMLabel
-      # that need to be fixed
-      if json?.OperationMetadata?
-        for opData, i in json.OperationMetadata
-          if opData?.CoupledResource?
-            cResource = opData.CoupledResource
+    if json?.URL?.UrlValue?
+      json.URL.URLValue = json.URL.UrlValue
+      delete json.URL.UrlValue
+    # Operation Metadata has DataResourceDOI, CRSIdentifier, and UOMLabel
+    # that need to be fixed
+    if json?.OperationMetadata?
+      for opData, i in json.OperationMetadata
+        if opData?.CoupledResource?
+          cResource = opData.CoupledResource
 
-            if cResource.DataResourceDoi?
-              cResource.DataResourceDOI = cResource.DataResourceDoi
-              delete cResource.DataResourceDoi
+          if cResource.DataResourceDoi?
+            cResource.DataResourceDOI = cResource.DataResourceDoi
+            delete cResource.DataResourceDoi
 
-            if cResource.DataResource?.DataResourceSpatialExtent?
-              spExtent = cResource.DataResource.DataResourceSpatialExtent
+          if cResource.DataResource?.DataResourceSpatialExtent?
+            spExtent = cResource.DataResource.DataResourceSpatialExtent
 
-              if spExtent.SpatialBoundingBox?.CrsIdentifier?
-                spExtent.SpatialBoundingBox.CRSIdentifier = spExtent.SpatialBoundingBox.CrsIdentifier
-                delete spExtent.SpatialBoundingBox.CrsIdentifier
+            if spExtent.SpatialBoundingBox?.CrsIdentifier?
+              spExtent.SpatialBoundingBox.CRSIdentifier = spExtent.SpatialBoundingBox.CrsIdentifier
+              delete spExtent.SpatialBoundingBox.CrsIdentifier
 
-              if spExtent.GeneralGrid?
-                if spExtent.GeneralGrid.CrsIdentifier?
-                  spExtent.GeneralGrid.CRSIdentifier = spExtent.GeneralGrid.CrsIdentifier
-                  delete spExtent.GeneralGrid.CrsIdentifier
-                if spExtent.GeneralGrid.Axis?
-                  for ax in spExtent.GeneralGrid.Axis
-                    if ax.Extent?.UomLabel?
-                      ax.Extent.UOMLabel = ax.Extent.UomLabel
-                      delete ax.Extent.UomLabel
+            if spExtent.GeneralGrid?
+              if spExtent.GeneralGrid.CrsIdentifier?
+                spExtent.GeneralGrid.CRSIdentifier = spExtent.GeneralGrid.CrsIdentifier
+                delete spExtent.GeneralGrid.CrsIdentifier
+              if spExtent.GeneralGrid.Axis?
+                for ax in spExtent.GeneralGrid.Axis
+                  if ax.Extent?.UomLabel?
+                    ax.Extent.UOMLabel = ax.Extent.UomLabel
+                    delete ax.Extent.UomLabel
 
   # fix keys from the serialized page json that don't match the schema
   fixToolKeys = (json) ->
@@ -320,7 +322,6 @@ $(document).ready ->
       # variations in what is valid data from anyOf or oneOf characteristics
       error = null
       return
-
     if error.keyword == 'anyOf'
       if error.dataPath.indexOf('Geometry') != -1
         # If the error is for Geometry with keyword anyOf
@@ -461,6 +462,23 @@ $(document).ready ->
         # console.log "supressing a keyword `required` relating to `anyOf` error", error
         error = null
         return
+
+    if error.keyword == 'required' && error.dataPath == '/UseConstraints/Description'
+      # this error only shows up for the Description field when there is a
+      # validation error to be shown for License URL fields, when the License
+      # URL radio button was selected. For this oneOf option with License URL
+      # fields, Description is not required, so the validation error
+      # should not be displayed
+      error = null
+      return
+    if error.keyword == 'required' && error.dataPath == '/UseConstraints/LicenseText'
+      # this error only shows up for the License Text field when there is a
+      # validation error to be shown for License URL fields, when the License
+      # URL radio button was selected. For this oneOf option with License URL
+      # fields, License Text is not required, so the validation error
+      # should not be displayed
+      error = null
+      return
 
     if id.indexOf('cdf4') >= 0
       labelFor = id
