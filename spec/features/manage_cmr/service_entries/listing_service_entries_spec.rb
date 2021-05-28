@@ -1,4 +1,6 @@
 describe 'Listing Service Entries' do
+  let(:timeout_error_html_body) { File.read(File.join(Rails.root, 'spec', 'fixtures', 'service_management', 'timeout.html')) }
+
   before :all do
     # create a group
     @service_entry_group = create_group(name: 'Service Entries Group for Permissions [LIST]', members: ['testuser'])
@@ -25,6 +27,24 @@ describe 'Listing Service Entries' do
 
     it 'does not display any delete links' do
       expect(page).not_to have_css('a', text: 'Delete')
+    end
+
+    context 'when there is a timeout error' do
+      before do
+        # mock a timeout error
+        echo_response = echo_fail_response(timeout_error_html_body, status = 504, headers = {'content-type' => 'text/html'})
+        allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_entries_by_provider).and_return(echo_response)
+
+        VCR.use_cassette('echo_soap/service_management_service/service_entries/empty_list', record: :none) do
+          visit service_entries_path
+        end
+      end
+
+      it 'displays the appropriate error message' do
+        within '.eui-banner--danger.eui-banner__dismiss' do
+          expect(page).to have_content('504 ERROR: We are unable to retrieve service entries at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support.')
+        end
+      end
     end
 
     context 'when no records exist' do

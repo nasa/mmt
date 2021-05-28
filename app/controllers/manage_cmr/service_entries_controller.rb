@@ -22,7 +22,7 @@ class ServiceEntriesController < ManageCmrController
                            # Retreive the service options and sort by name, ignoring case
                            Array.wrap(service_entry_response.parsed_body.fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
                          else
-                           Rails.logger.error("Retrieve Service Entries Error: #{service_entry_response.clean_inspect}")
+                           Rails.logger.error("Retrieve Service Entries by Provider Error: #{service_entry_response.clean_inspect}")
                            flash[:error] = "504 ERROR: We are unable to retrieve service entries at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if service_entry_response.timeout_error?
                            []
                          end
@@ -133,7 +133,6 @@ class ServiceEntriesController < ManageCmrController
       @service_entry = result.parsed_body.fetch('Item', {})
     else
       Rails.logger.error("Retrieve Service Entries Error: #{result.clean_inspect}")
-      flash[:error] = "504 ERROR: We are unable to retrieve service entries at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if result.timeout_error?
     end
 
     # To ensure a consistent value here we're converting to an array

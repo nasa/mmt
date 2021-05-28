@@ -1,7 +1,27 @@
 describe 'Viewing Order Policies', js: true do
+  let(:timeout_error_html_body) { File.read(File.join(Rails.root, 'spec', 'fixtures', 'service_management', 'timeout.html')) }
+
   context 'when no order policies exist' do
     before do
       login
+    end
+
+    context 'when viewing the order policies page and there is a timeout error' do
+      before do
+        # mock a timeout error
+        echo_response = echo_fail_response(timeout_error_html_body, status = 504, headers = {'content-type' => 'text/html'})
+        allow_any_instance_of(Echo::Provider).to receive(:get_providers_policies).and_return(echo_response)
+
+        VCR.use_cassette('echo_soap/provider_service/order_policies/empty', record: :none) do
+          visit order_policies_path
+        end
+      end
+
+      it 'displays the appropriate error message' do
+        within '.eui-banner--danger.eui-banner__dismiss' do
+          expect(page).to have_content('504 ERROR: We are unable to retrieve providers policies at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support.')
+        end
+      end
     end
 
     context 'when viewing the order policies page' do

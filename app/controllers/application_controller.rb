@@ -366,8 +366,7 @@ class ApplicationController < ActionController::Base
     # this will also mean that legacy services actions using the token will fail
     if Rails.env.development?
       begin
-        response = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id)
-        response_body = response.parsed_body
+        response = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id).parsed_body
       rescue => e
         Rails.logger.info "Preventing get_provider_context_token error in development because of not being on VPN. error: #{e.inspect}"
 
@@ -377,13 +376,9 @@ class ApplicationController < ActionController::Base
 
         return
       end
-      
-      Rails.logger.error("Retrieve Provider Context Token Error: #{response.clean_inspect}")
-      flash[:error] = "504 ERROR: We are unable to retrieve the provider context token at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if response.timeout_error?
     end
 
-
-    session[:echo_provider_token] = response_body
+    session[:echo_provider_token] = response
   end
 
   # Custom error messaging for Pundit
