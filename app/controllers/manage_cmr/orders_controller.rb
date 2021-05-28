@@ -81,10 +81,7 @@ class OrdersController < ManageCmrController
       echo_client.timeout = time_left
       result = echo_client.get_user_names(echo_provider_token, owner_guids)
 
-      if result.error?
-        Rails.logger.error("Retrieve User Names Error: #{result.clean_inspect}")
-        flash[:error] = "504 ERROR: We are unable to retrieve user names at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if result.timeout_error?
-      end
+      Rails.logger.error("Retrieve User Names Error: #{result.clean_inspect}") if result.error?
 
       Array.wrap(result['Item']).each do |item|
         owner_guid = item['Guid']
@@ -115,10 +112,7 @@ class OrdersController < ManageCmrController
           echo_client.timeout = time_left
           order_search_result = echo_client.get_provider_order_guids_by_state_date_and_provider(echo_provider_token, payload)
 
-          if order_search_result.error?
-            Rails.logger.error("Retrieve Provider Order GUIDs Error: #{order_search_result.clean_inspect}")
-            flash[:error] = "504 ERROR: We are unable to retrieve provider order guids at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if order_search_result.timeout_error?
-          end
+          Rails.logger.error("Retrieve Provider Order GUIDs Error: #{order_search_result.clean_inspect}") if order_search_result.error?
 
           # Pull out just the Guids for the returned orders
           order_results_guids = Array.wrap(order_search_result.parsed_body.fetch('Item', [])).map {|guid| guid['OrderGuid']}

@@ -1,4 +1,6 @@
 describe 'Viewing and Creating Order Option Assignments' do
+  let(:timeout_error_html_body) { File.read(File.join(Rails.root, 'spec', 'fixtures', 'service_management', 'timeout.html')) }
+
   before do
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
@@ -51,6 +53,33 @@ describe 'Viewing and Creating Order Option Assignments' do
       end
     end
   end
+
+  context 'When displaying option assignments and there is a timeout error', js: true do
+    before do
+      within '#collectionsChooser' do
+        select('lorem_223 | ipsum', from: 'Available Collections')
+
+        within '.button-container' do
+          find('.add_button').click
+        end
+      end
+
+      # mock a timeout error
+      echo_response = echo_fail_response(timeout_error_html_body, status = 504, headers = {'content-type' => 'text/html'})
+      allow_any_instance_of(Echo::DataManagement).to receive(:get_order_options).and_return(echo_response)
+
+      VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
+        click_on 'Display Assignments'
+      end
+    end
+
+    it 'displays the appropriate error message' do
+      within '.eui-banner--danger.eui-banner__dismiss' do
+        expect(page).to have_content('504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support.')
+      end
+    end
+  end
+
 
   context 'When sorting option assignments', js: true do
     before do
