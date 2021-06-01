@@ -83,7 +83,7 @@ class OrdersController < ManageCmrController
 
       Rails.logger.error("Retrieve User Names Error: #{result.clean_inspect}") if result.error?
 
-      Array.wrap(result['Item']).each do |item|
+      Array.wrap(result.parsed_body['Item']).each do |item|
         owner_guid = item['Guid']
         user = { 'Item' => item }
         Rails.cache.write("owners.#{owner_guid}", user, expires_in: Rails.configuration.orders_user_cache_expiration)
