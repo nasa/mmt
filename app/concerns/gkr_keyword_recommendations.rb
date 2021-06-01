@@ -2,13 +2,13 @@
 module GKRKeywordRecommendations
   extend ActiveSupport::Concern
 
-  def fetch_keyword_recommendations(user, provider)
+  def fetch_keyword_recommendations(user, request_id, provider)
     abstract = get_resource.draft.fetch('Abstract', '')
     response = cmr_client.fetch_keyword_recommendations(abstract)
 
     if response.error?
       if response.status >= 500 && response.status <= 505    # NGAP LB can't connect to GKR.
-        log_gkr_comm_error(user, provider, abstract, response.status, 'Communication failure with GKR')
+        log_gkr_comm_error(user, provider, abstract, request_id, response.status, 'Communication failure with GKR')
         return { 'error': 'CommError' }
       end
 
@@ -20,8 +20,8 @@ module GKRKeywordRecommendations
     { id: response.body['uuid'], recommendations: keyword_recommendations }
   end
 
-  def log_gkr_comm_error(user, provider, abstract, status, reason)
-    Rails.logger.info("GkrLog: type: FAILED - date: #{Time.new} - env: #{Rails.env} - user_id: #{user} - provider: #{provider}"\
+  def log_gkr_comm_error(user, provider, abstract, request_id, status, reason)
+    Rails.logger.info("GkrLog: type: FAILED - date: #{Time.new} - env: #{Rails.env} - user_id: #{user} - request_id: #{request_id} - provider: #{provider}"\
       " - abstract: #{abstract} - error_code: #{status} - failure_description: #{reason}")
   end
 

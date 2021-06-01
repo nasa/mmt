@@ -528,7 +528,7 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def set_keyword_recommendations
-    results = fetch_keyword_recommendations(current_user.urs_uid, current_user.provider_id)
+    results = fetch_keyword_recommendations(current_user.urs_uid, request.uuid, current_user.provider_id)
     flash[:error] = "We are unable to retreive keyword recommendations for request: #{request.uuid} at this time.  If this error persists, please contact support@earthdata.nasa.gov for additional support." if results[:error].present?
     return if results[:id].blank?
 
