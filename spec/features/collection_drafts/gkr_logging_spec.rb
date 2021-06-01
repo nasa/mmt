@@ -45,7 +45,7 @@ describe 'GCMD Keyword Recommender (GKR) Tests', js: true do
     end
 
     it 'notifies the user that we couldnt retrieve recommendations' do
-      expect(page).to have_content('We are unable to retreive keyword recommendations at this time')
+      expect(page).to have_content('We are unable to retreive keyword recommendations for request')
     end
   end
 end
