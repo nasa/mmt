@@ -1,4 +1,4 @@
-describe 'Searching Orders' do
+describe 'Searching Orders',js:true do
   context 'when viewing the track orders page' do
     before do
       login
