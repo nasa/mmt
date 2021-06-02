@@ -378,7 +378,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    session[:echo_provider_token] = response
+    session[:echo_provider_token] = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id).parsed_body
   end
 
   # Custom error messaging for Pundit
