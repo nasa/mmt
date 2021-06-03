@@ -1,6 +1,4 @@
 describe 'Viewing Data Quality Summary Assignments', js: true do
-  let(:timeout_error_html_body) { File.read(File.join(Rails.root, 'spec', 'fixtures', 'service_management', 'timeout.html')) }
-
   context 'when viewing the data quality summary assignments page' do
     before do
       collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))

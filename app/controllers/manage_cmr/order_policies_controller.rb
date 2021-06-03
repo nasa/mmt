@@ -86,7 +86,7 @@ class OrderPoliciesController < ManageCmrController
     @policy = result.parsed_body.fetch('Item', {}) unless result.error? || result.parsed_body.fetch('Item', {}).fetch('xsi:nil', 'false') == 'true'
 
     if result.error?
-      Rails.logger.error("Retrieve Providers Policies Error: #{result.clean_inspect}")
+      Rails.logger.error("#{result.uuid} - Retrieve Providers Policies Error: #{result.clean_inspect}")
       flash[:error] = "504 ERROR: We are unable to retrieve providers policies at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if result.timeout_error?
     end
 
@@ -146,7 +146,7 @@ class OrderPoliciesController < ManageCmrController
     response = echo_client.set_provider_policies(token, current_provider_guid, generate_upsert_payload)
 
     if response.error?
-      Rails.logger.error("Set Providers Policies Error: #{response.clean_inspect}")
+      Rails.logger.error("#{response.uuid} - Set Providers Policies Error: #{response.clean_inspect}")
       flash[:error] = "504 ERROR: We are unable to retrieve providers policies at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if response.timeout_error?
     end
 

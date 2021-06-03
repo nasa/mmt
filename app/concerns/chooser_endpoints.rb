@@ -75,7 +75,7 @@ module ChooserEndpoints
 
       service_entries
     else
-      Rails.logger.error("Retrieve Service Entries By Provider Error: #{response.clean_inspect}")
+      Rails.logger.error("#{response.uuid} - Retrieve Service Entries By Provider Error: #{response.clean_inspect}")
       response.parsed_body
     end
   end
@@ -104,7 +104,7 @@ module ChooserEndpoints
         {}
       end
     else
-      Rails.logger.error("Retrieve Service Entries Error: #{response.clean_inspect}")
+      Rails.logger.error("#{response.uuid} - Retrieve Service Entries Error: #{response.clean_inspect}")
       response.parsed_body
     end
   end

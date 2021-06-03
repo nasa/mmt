@@ -15,7 +15,7 @@ class OrderOptionsController < ManageCmrController
                           # Retreive the order options and sort by name, ignoring case
                           Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
                         else
-                          Rails.logger.error("Retrieve Order Options List Error: #{order_option_response.clean_inspect}")
+                          Rails.logger.error("#{order_option_response.uuid} - Retrieve Order Options List Error: #{order_option_response.clean_inspect}")
                           flash[:error] = "504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if order_option_response.timeout_error?
                           []
                         end

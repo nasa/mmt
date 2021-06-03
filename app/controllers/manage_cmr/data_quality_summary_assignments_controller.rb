@@ -63,7 +63,7 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
       assignments.each do |assignment_body|
         definition_details = echo_client.get_data_quality_summary_definition(token, assignment_body.fetch('DefinitionGuid', nil))
         if definition_details.error?
-          Rails.logger.error("Retrieve Data Quality Summary Definition Error: #{definition_details.clean_inspect}")
+          Rails.logger.error("#{definition_details.uuid} - Retrieve Data Quality Summary Definition Error: #{definition_details.clean_inspect}")
           next
         end
 

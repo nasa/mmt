@@ -28,7 +28,7 @@ class DataQualitySummariesController < ManageCmrController
     end
 
     if response.error?
-      Rails.logger.error("Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}")
+      Rails.logger.error("#{response.uuid} - Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}")
       flash[:error] = "504 ERROR: We are unable to retrieve data quality summary definition name guids at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if response.timeout_error?
     end
 
@@ -39,7 +39,7 @@ class DataQualitySummariesController < ManageCmrController
       if summary_response.success?
         summary_list << summary_response
       else
-        Rails.logger.error("Retrieve Data Quality Summary Definition Error: #{summary_response.clean_inspect}")
+        Rails.logger.error("#{summary_response.uuid} - Retrieve Data Quality Summary Definition Error: #{summary_response.clean_inspect}")
         flash[:error] = "504 ERROR: We are unable to retrieve data quality summary definitions at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if summary_response.timeout_error?
       end
     end
