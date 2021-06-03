@@ -190,7 +190,7 @@ module Echo
         builder.ns2(:token, echo_provider_token)
 
         if guids.nil?
-          # Providing nil will return all service options (NOT an empty string, only nil)
+          # Providing nil will return all order options (NOT an empty string, only nil)
           builder.ns2(:optionGuids, 'xsi:nil': true)
         else
           builder.ns2(:optionGuids) do
