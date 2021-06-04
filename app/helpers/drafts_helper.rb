@@ -172,6 +172,7 @@ module DraftsHelper
     ['application/xml'],
     ['application/x-netcdf'],
     ['application/gml+xml'],
+    ['application/opensearchdescription+xml'],
     ['application/vnd.google-earth.kml+xml'],
     ['image/gif'],
     ['image/tiff'],

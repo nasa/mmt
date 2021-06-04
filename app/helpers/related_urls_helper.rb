@@ -185,6 +185,13 @@ module RelatedUrlsHelper
             ['Mobile App', 'MOBILE APP']
           ]
         },
+        'GET CAPABILITIES' => {
+          'text' => 'Get Capabilities',
+          'subtypes' => [
+            ['GIBS', 'GIBS'],
+            ['Open Search', 'OpenSearch']
+          ]
+        },
         'GET DATA' => {
           'text' => 'Get Data',
           'subtypes' => [
@@ -293,6 +300,7 @@ module RelatedUrlsHelper
     ['Data Set Landing Page', 'DATA SET LANDING PAGE'],
     ['Download Software', 'DOWNLOAD SOFTWARE'],
     ['Extended Metadata', 'EXTENDED METADATA'],
+    ['Get Capabilities', 'GET CAPABILITIES'],
     ['Get Data', 'GET DATA'],
     ['Get Related Visualization', 'GET RELATED VISUALIZATION'],
     ['Goto Web Tool', 'GOTO WEB TOOL'],
@@ -336,6 +344,7 @@ module RelatedUrlsHelper
     ['Earthdata Search', 'Earthdata Search'],
     ['EOSDIS Data Pool', 'EOSDIS DATA POOL'],
     ['General Documentation', 'GENERAL DOCUMENTATION'],
+    ['GIBS', 'GIBS'],
     ['Giovanni', 'GIOVANNI'],
     ['GoLIVE Portal', 'GoLIVE Portal'],
     ['GrADS Data Server (GDS)', 'GRADS DATA SERVER (GDS)'],
