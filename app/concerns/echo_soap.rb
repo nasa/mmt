@@ -73,7 +73,7 @@ module EchoSoap
       summary_guids = summary_guids.reject(&:blank?)
     end
 
-    Rails.logger.error("#{response.uuid} - Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}") if response.error?
+    Rails.logger.error("Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}") if response.error?
 
     @summaries = []
     summary_guids.each do |guid|
@@ -82,7 +82,7 @@ module EchoSoap
       if summary_response.success?
         @summaries << summary_response
       else
-        Rails.logger.error("#{summary_response.uuid} - Retrieve Data Quality Summary Definition Error: #{summary_response.clean_inspect}")
+        Rails.logger.error("Retrieve Data Quality Summary Definition Error: #{summary_response.clean_inspect}")
       end
     end
 
