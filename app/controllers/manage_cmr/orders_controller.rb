@@ -81,7 +81,7 @@ class OrdersController < ManageCmrController
       echo_client.timeout = time_left
       result = echo_client.get_user_names(echo_provider_token, owner_guids)
 
-      Rails.logger.error("#{result.uuid} - Retrieve User Names Error: #{result.clean_inspect}") if result.error?
+      Rails.logger.error("#{request.uuid} - Retrieve User Names Error: #{result.clean_inspect}") if result.error?
 
       Array.wrap(result.parsed_body['Item']).each do |item|
         owner_guid = item['Guid']
@@ -112,7 +112,7 @@ class OrdersController < ManageCmrController
           echo_client.timeout = time_left
           order_search_result = echo_client.get_provider_order_guids_by_state_date_and_provider(echo_provider_token, payload)
 
-          Rails.logger.error("#{order_search_result.uuid} - Retrieve Provider Order GUIDs Error: #{order_search_result.clean_inspect}") if order_search_result.error?
+          Rails.logger.error("#{request.uuid} - Retrieve Provider Order GUIDs Error: #{order_search_result.clean_inspect}") if order_search_result.error?
 
           # Pull out just the Guids for the returned orders
           order_results_guids = Array.wrap(order_search_result.parsed_body.fetch('Item', [])).map {|guid| guid['OrderGuid']}

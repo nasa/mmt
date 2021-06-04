@@ -52,6 +52,7 @@ module ServiceEntryHelper
       (tags_response.parsed_body['Item'] || []).sort_by { |option| option.fetch('Value', '').downcase }
     else
       Rails.logger.error "Error retrieving tags for tag group SERVICE-INTERFACE: #{tags_response.error_message}"
+      
       []
     end
   end

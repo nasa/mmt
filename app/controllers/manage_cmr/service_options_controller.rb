@@ -18,8 +18,8 @@ class ServiceOptionsController < ManageCmrController
                             # Retreive the service options and sort by name, ignoring case
                             Array.wrap(service_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
                           else
-                            Rails.logger.error("#{service_option_response.uuid} - View Service Option Error: #{service_option_response.clean_inspect}")
-                            flash[:error] = "504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." if service_option_response.timeout_error?
+                            Rails.logger.error("#{request.uuid} - View Service Option Error: #{service_option_response.clean_inspect}")
+                            flash[:error] = "504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid}." if service_option_response.timeout_error?
                             []
                           end
 
@@ -108,8 +108,8 @@ class ServiceOptionsController < ManageCmrController
     if result.success?
       @service_option = result.parsed_body.fetch('Item', {})
     else
-      Rails.logger.error("#{result.uuid} - Retrieve Service Options Error: #{result.clean_inspect}") if result.error?
-      flash[:error] = "504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." if result.timeout_error?
+      Rails.logger.error("#{request.uuid} - Retrieve Service Options Error: #{result.clean_inspect}") if result.error?
+      flash[:error] = "504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid}." if result.timeout_error?
       []
     end
   end

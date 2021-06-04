@@ -89,7 +89,7 @@ describe 'Listing Service Options',js:true do
 
     it 'displays the error' do
       within '.eui-banner--danger.eui-banner__dismiss' do
-        expect(page).to have_content('504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact Earthdata Support.')
+        expect(page).to have_content('504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact Earthdata Support about')
       end
     end
   end
