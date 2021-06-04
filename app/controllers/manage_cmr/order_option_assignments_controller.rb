@@ -125,7 +125,7 @@ class OrderOptionAssignmentsController < ManageCmrController
                           Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', {}))
                         else
                           Rails.logger.error(order_option_response.body)
-                          flash[:error] = "504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if order_option_response.timeout_error?
+                          flash[:error] = "504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." if order_option_response.timeout_error?
                           []
                         end
 
@@ -139,7 +139,7 @@ class OrderOptionAssignmentsController < ManageCmrController
                           Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', {}))
                         else
                           Rails.logger.error(order_option_response.body)
-                          flash[:error] = "504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if order_option_response.timeout_error?
+                          flash[:error] = "504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." if order_option_response.timeout_error?
                           []
                         end
 

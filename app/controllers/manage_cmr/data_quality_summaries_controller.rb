@@ -29,7 +29,7 @@ class DataQualitySummariesController < ManageCmrController
 
     if response.error?
       Rails.logger.error("#{response.uuid} - Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}")
-      flash[:error] = "504 ERROR: We are unable to retrieve data quality summary definition name guids at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if response.timeout_error?
+      flash[:error] = "504 ERROR: We are unable to retrieve data quality summary definition name guids at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." if response.timeout_error?
     end
 
     summary_list = []
@@ -40,7 +40,7 @@ class DataQualitySummariesController < ManageCmrController
         summary_list << summary_response
       else
         Rails.logger.error("#{summary_response.uuid} - Retrieve Data Quality Summary Definition Error: #{summary_response.clean_inspect}")
-        flash[:error] = "504 ERROR: We are unable to retrieve data quality summary definitions at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if summary_response.timeout_error?
+        flash[:error] = "504 ERROR: We are unable to retrieve data quality summary definitions at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." if summary_response.timeout_error?
       end
     end
 
@@ -128,7 +128,7 @@ class DataQualitySummariesController < ManageCmrController
       @summary = result.parsed_body
     else
       Rails.logger.error("Retrieve Data Quality Summary Definition Error: #{result.clean_inspect}")
-      flash[:error] = "504 ERROR: We are unable to retrieve data quality summary definitions at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if result.timeout_error?
+      flash[:error] = "504 ERROR: We are unable to retrieve data quality summary definitions at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." if result.timeout_error?
     end
   end
 end

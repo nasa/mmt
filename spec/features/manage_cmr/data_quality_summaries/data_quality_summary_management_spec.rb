@@ -19,7 +19,7 @@ describe 'Viewing Data Quality Summaries' do
     end
 
     it 'displays the appropriate error message' do
-      expect(page).to have_css('.eui-banner--danger', text: '504 ERROR: We are unable to retrieve data quality summary definition name guids at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support.')
+      expect(page).to have_css('.eui-banner--danger', text: '504 ERROR: We are unable to retrieve data quality summary definition name guids at this time. If this error persists, please contact Earthdata Support.')
     end
   end
 

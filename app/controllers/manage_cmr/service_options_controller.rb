@@ -14,13 +14,12 @@ class ServiceOptionsController < ManageCmrController
     page = permitted.fetch('page', 1)
 
     service_option_response = echo_client.get_service_options(echo_provider_token)
-
     service_option_list = if service_option_response.success?
                             # Retreive the service options and sort by name, ignoring case
                             Array.wrap(service_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
                           else
                             Rails.logger.error("#{service_option_response.uuid} - View Service Option Error: #{service_option_response.clean_inspect}")
-                            flash[:error] = "504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if service_option_response.timeout_error?
+                            flash[:error] = "504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." if service_option_response.timeout_error?
                             []
                           end
 
@@ -110,7 +109,7 @@ class ServiceOptionsController < ManageCmrController
       @service_option = result.parsed_body.fetch('Item', {})
     else
       Rails.logger.error("#{result.uuid} - Retrieve Service Options Error: #{result.clean_inspect}") if result.error?
-      flash[:error] = "504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support." if result.timeout_error?
+      flash[:error] = "504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}." if result.timeout_error?
       []
     end
   end

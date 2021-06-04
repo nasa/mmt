@@ -51,7 +51,7 @@ module Echo
     def timeout_error?
       status == 504
     end
-    
+
     def body_is_html?
       error? && headers['content-type'] == 'text/html'
     end

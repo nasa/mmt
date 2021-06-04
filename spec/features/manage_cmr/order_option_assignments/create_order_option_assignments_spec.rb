@@ -75,7 +75,7 @@ describe 'Viewing and Creating Order Option Assignments' do
 
     it 'displays the appropriate error message' do
       within '.eui-banner--danger.eui-banner__dismiss' do
-        expect(page).to have_content('504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact support@earthdata.nasa.gov for additional support.')
+        expect(page).to have_content('504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact Earthdata Support.')
       end
     end
   end
