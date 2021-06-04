@@ -161,7 +161,7 @@ module Echo
     def get_order_options(echo_provider_token, guids = nil)
       if (guids.nil? || guids.empty?)
         guids_response = get_order_options_names(echo_provider_token)
-        guids = Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] })
+        guids = guids_response.success? ? Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] }) : []
       end
       order_options = []
       while guids.length > 0

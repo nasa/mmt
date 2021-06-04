@@ -201,7 +201,7 @@ module Echo
     def get_service_options(echo_provider_token, guids = nil)
       if (guids.nil? || guids.empty?)
         guids_response = get_service_options_names(echo_provider_token)
-        guids = Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] })
+        guids = guids_response.success? ? Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] }) : []
       end
       service_options = []
       while guids.length > 0
