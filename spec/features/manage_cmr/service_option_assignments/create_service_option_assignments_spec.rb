@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'Creating a Service Option Assignment', reset_provider: true, js: true do
+  let(:timeout_error_html_body) { File.read(File.join(Rails.root, 'spec', 'fixtures', 'service_management', 'timeout.html')) }
+
   before do
     service_entries_by_provider_response = Echo::Response.new(Faraday::Response.new(status: 200, body: File.read('spec/fixtures/service_management/service_entries_by_provider.xml')))
     allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_entries_by_provider).and_return(service_entries_by_provider_response)
@@ -77,6 +79,24 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
     after :all do
       remove_group_permissions(@create_permissions['concept_id'])
       delete_group(concept_id: @service_option_assignment_group['concept_id'])
+    end
+
+    context 'when there is a timeout error' do
+      before do
+        # mock a timeout error
+        echo_response = echo_fail_response(timeout_error_html_body, status = 504, headers = {'content-type' => 'text/html'})
+        allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_options_names).and_return(echo_response)
+
+        VCR.use_cassette('echo_soap/service_management_service/service_option_assignments/new', record: :none) do
+          visit new_service_option_assignments_path
+        end
+      end
+
+      it 'displays the appropriate error message' do
+        within '.eui-banner--danger.eui-banner__dismiss' do
+          expect(page).to have_content('504 ERROR: We are unable to retrieve service options at this time. If this error persists, please contact Earthdata Support about')
+        end
+      end
     end
 
     context 'when viewing the service option assignment display page' do
