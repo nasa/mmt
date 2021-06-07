@@ -55,6 +55,7 @@ describe 'Groups list page', js: true, reset_provider: true do
                 expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1')
                 expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2')
                 expect(page).to have_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS')
+                expect(page).to have_content('SEDAC Admin Group Test group for provider SEDAC')
               end
             end
 
@@ -62,7 +63,6 @@ describe 'Groups list page', js: true, reset_provider: true do
               within '.groups-table' do
                 expect(page).to have_no_content('Administrators CMR Administrators CMR 2')
                 expect(page).to have_no_content('Administrators_2 The group of users that manages the CMR. CMR')
-                expect(page).to have_no_content('SEDAC Admin Group Test group for provider SEDAC')
               end
             end
 
