@@ -9,7 +9,7 @@ class OrderOptionsController < ManageCmrController
     # Default the page to 1
     page = permitted.fetch('page', 1)
 
-    order_option_response = echo_client.get_order_options(echo_provider_token)
+    order_option_response = get_order_option_list(echo_provider_token)
 
     order_option_list = Array.wrap(order_option_response.fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
 

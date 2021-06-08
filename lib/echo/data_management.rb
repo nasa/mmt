@@ -144,39 +144,27 @@ module Echo
       make_request(@url, payload)
     end
 
-    def get_order_options_by_guids(echo_provider_token, guids)
+    def get_order_options(echo_provider_token, guids = nil)
       builder = Builder::XmlMarkup.new
+
       builder.ns2(:GetCatalogItemOptionDefinitions2, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
         builder.ns2(:token, echo_provider_token)
-        builder.ns2(:optionGuids) do
-          Array.wrap(guids).each do |g|
-            builder.ns3(:Item, g)
+
+        if guids.nil?
+          # Providing nil will return all order options (NOT an empty string, only nil)
+          builder.ns2(:optionGuids, 'xsi:nil': true)
+        else
+          builder.ns2(:optionGuids) do
+            Array.wrap(guids).each do |g|
+              builder.ns3(:Item, g)
+            end
           end
         end
       end
-      payload = wrap_with_envelope(builder)
-      make_request(@url, payload)
-    end
 
-    def get_order_options(echo_provider_token, guids = nil)
-      if (guids.nil? || guids.empty?)
-        guids_response = get_order_options_names(echo_provider_token)
-        guids = guids_response.success? ? Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] }) : []
-      end
-      order_options = []
-      while guids.length > 0
-        guids = Array.wrap(guids)
-        guids_chunk = guids.pop(50)
-        partial_order_option_response = get_order_options_by_guids(echo_provider_token, guids_chunk)
-        if partial_order_option_response.success?
-          partial_order_options = Array.wrap(partial_order_option_response.parsed_body(parser: 'libxml').fetch('Item', []))
-          order_options.concat(partial_order_options)
-        else
-          Rails.logger.error("Retrieve Order Options Error: #{partial_order_option_response.clean_inspect}") if partial_order_option_response.error?
-          return {'Item' => []}
-        end
-      end
-      return {'Item' => order_options}
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
     end
 
     # Gets the names and guids of the service option definitions indicated. If guids

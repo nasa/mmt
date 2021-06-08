@@ -13,7 +13,7 @@ class ServiceOptionsController < ManageCmrController
     permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
     page = permitted.fetch('page', 1)
 
-    service_option_response = echo_client.get_service_options(echo_provider_token)
+    service_option_response = get_service_option_list(echo_provider_token)
 
     service_options = Array.wrap(service_option_response.fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
 
@@ -97,7 +97,7 @@ class ServiceOptionsController < ManageCmrController
   end
 
   def set_service_option
-    service_option_response = echo_client.get_service_options(echo_provider_token, params[:id])
+    service_option_response = get_service_option_list(echo_provider_token, params[:id])
     service_options = Array.wrap(service_option_response.fetch('Item', []))
     @service_option = service_options[0] unless service_options.empty?
   end

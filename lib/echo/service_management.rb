@@ -36,9 +36,11 @@ module Echo
 
       make_request(@url, payload)
     end
+
     # Retrieves service entries.
     def get_service_entries(echo_provider_token, guids = null)
       builder = Builder::XmlMarkup.new
+
       builder.ns2(:GetServiceEntries, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
         builder.ns2(:token, echo_provider_token)
         if guids.nil?
@@ -182,41 +184,28 @@ module Echo
       make_request(@url, payload)
     end
 
-    # Retrieves service option definitions by given guids
-    def get_service_options_by_guids(echo_provider_token, guids)
+    # Retrieves service option definitions.
+    def get_service_options(echo_provider_token, guids = nil)
       builder = Builder::XmlMarkup.new
+
       builder.ns2(:GetServiceOptionDefinitions, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
         builder.ns2(:token, echo_provider_token)
-        builder.ns2(:optionGuids) do
-          Array.wrap(guids).each do |g|
-            builder.ns3(:Item, g)
+
+        if guids.nil?
+          # Providing nil will return all service options (NOT an empty string, only nil)
+          builder.ns2(:optionGuids, 'xsi:nil': true)
+        else
+          builder.ns2(:optionGuids) do
+            Array.wrap(guids).each do |g|
+              builder.ns3(:Item, g)
+            end
           end
         end
       end
-      payload = wrap_with_envelope(builder)
-      make_request(@url, payload)
-    end
 
-    # Retrieves service option definitions.
-    def get_service_options(echo_provider_token, guids = nil)
-      if (guids.nil? || guids.empty?)
-        guids_response = get_service_options_names(echo_provider_token)
-        guids = guids_response.success? ? Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] }) : []
-      end
-      service_options = []
-      while guids.length > 0
-        guids = Array.wrap(guids)
-        guids_chunk = guids.pop(50)
-        partial_service_option_response = get_service_options_by_guids(echo_provider_token, guids_chunk)
-        if partial_service_option_response.success?
-          partial_service_options = Array.wrap(partial_service_option_response.parsed_body(parser: 'libxml').fetch('Item', []))
-          service_options.concat(partial_service_options)
-        else
-          Rails.logger.error("Retrieve Service Options Error: #{partial_service_option_response.clean_inspect}") if partial_service_option_response.error?
-          return {'Item' => []}
-        end
-      end
-      return {'Item' => service_options}
+      payload = wrap_with_envelope(builder)
+
+      make_request(@url, payload)
     end
 
     # Creates new service option definitions.
