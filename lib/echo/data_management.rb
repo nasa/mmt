@@ -188,7 +188,6 @@ module Echo
 
       builder.ns2(:GetCatalogItemOptionDefinitionNames, 'xmlns:ns2': 'http://echo.nasa.gov/echo/v10', 'xmlns:ns3': 'http://echo.nasa.gov/echo/v10/types', 'xmlns:ns4': 'http://echo.nasa.gov/ingest/v10') do
         builder.ns2(:token, echo_provider_token)
-
         if guids.nil?
           # Providing nil will return all order options (NOT an empty string, only nil)
           builder.ns2(:optionGuids, 'xsi:nil': true)
