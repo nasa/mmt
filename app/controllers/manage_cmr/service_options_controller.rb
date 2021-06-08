@@ -15,9 +15,9 @@ class ServiceOptionsController < ManageCmrController
 
     service_option_response = get_service_option_list(echo_provider_token)
 
-    service_options = Array.wrap(service_option_response.fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
+    service_option_list = Array.wrap(service_option_response.fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
 
-    @service_options = Kaminari.paginate_array(service_options, total_count: service_options.count).page(page).per(RESULTS_PER_PAGE)
+    @service_options = Kaminari.paginate_array(service_option_list, total_count: service_option_list.count).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show
