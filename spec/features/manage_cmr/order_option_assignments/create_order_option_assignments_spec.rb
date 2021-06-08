@@ -241,7 +241,7 @@ describe 'Viewing and Creating Order Option Assignments' do
         end
       end
 
-      select 'Opt A04', from: 'Option Definition'
+      select '1001 V5', from: 'Option Definition'
 
       VCR.use_cassette('echo_rest/order_option_assignments/create-success', record: :none) do
         click_on 'Submit'
@@ -261,7 +261,7 @@ describe 'Viewing and Creating Order Option Assignments' do
     end
 
     it 'displays the page with the appropriate order option' do
-      expect(page).to have_select('Option Definition', with_options: ['MYD14.005'])
+      expect(page).to have_select('Option Definition', with_options: ['1001 V700'])
     end
 
     it 'displays the collections in the chooser with entry id that includes version' do

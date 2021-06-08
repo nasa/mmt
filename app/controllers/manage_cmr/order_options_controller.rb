@@ -11,13 +11,7 @@ class OrderOptionsController < ManageCmrController
 
     order_option_response = echo_client.get_order_options(echo_provider_token)
 
-    order_option_list = if order_option_response.success?
-                          # Retreive the order options and sort by name, ignoring case
-                          Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
-                        else
-                          Rails.logger.error("Retrieve Order Options List Error: #{order_options_response.clean_inspect}")
-                          []
-                        end
+    order_option_list = Array.wrap(order_option_response.fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
 
     @order_options = Kaminari.paginate_array(order_option_list, total_count: order_option_list.count).page(page).per(RESULTS_PER_PAGE)
   end

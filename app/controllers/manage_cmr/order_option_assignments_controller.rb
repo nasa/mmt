@@ -119,27 +119,14 @@ class OrderOptionAssignmentsController < ManageCmrController
     end
 
     order_option_response = echo_client.get_order_options(echo_provider_token, guids)
-
-    order_option_list = if order_option_response.success?
-                          # Retreive the order options
-                          Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', {}))
-                        else
-                          Rails.logger.error(order_option_response.body)
-                          []
-                        end
+    order_option_list = Array.wrap(order_option_response.fetch('Item', []))
 
     order_option_list
   end
 
   def get_order_options
     order_option_response = echo_client.get_order_options(echo_provider_token)
-    order_option_list = if order_option_response.success?
-                          # Retreive the order options
-                          Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', {}))
-                        else
-                          Rails.logger.error(order_option_response.body)
-                          []
-                        end
+    order_option_list = Array.wrap(order_option_response.fetch('Item', []))
 
     order_option_select_values = []
 
