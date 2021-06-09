@@ -124,8 +124,8 @@ class OrderOptionAssignmentsController < ManageCmrController
                           # Retreive the order options
                           Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', {}))
                         else
-                          Rails.logger.error(order_option_response.body)
-                          flash[:error] = "504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid}." if order_option_response.timeout_error?
+                          Rails.logger.error("#{request.uuid} - OrderOptionAssignmentsController#get_order_option_defs - Retrieve Order Options Error: #{order_option_response.clean_inspect}")
+                          flash[:error] = I18n.t("controllers.order_option_assignments.get_order_option_defs.flash.timeout_error", request: request.uuid) if order_option_response.timeout_error?
                           []
                         end
 
@@ -134,12 +134,13 @@ class OrderOptionAssignmentsController < ManageCmrController
 
   def get_order_options
     order_option_response = echo_client.get_order_options(echo_provider_token)
+
     order_option_list = if order_option_response.success?
                           # Retreive the order options
                           Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', {}))
                         else
-                          Rails.logger.error(order_option_response.body)
-                          flash[:error] = "504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid}." if order_option_response.timeout_error?
+                          Rails.logger.error("#{request.uuid} - OrderOptionAssignmentsController#get_order_options - Retrieve Order Options Error: #{order_option_response.clean_inspect}")
+                          flash[:error] = I18n.t("controllers.order_option_assignments.get_order_options.flash.timeout_error", request: request.uuid) if order_option_response.timeout_error?
                           []
                         end
 

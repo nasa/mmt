@@ -64,8 +64,8 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
         definition_details = echo_client.get_data_quality_summary_definition(token, assignment_body.fetch('DefinitionGuid', nil))
 
         if definition_details.error?
-          Rails.logger.error("#{request.uuid} - Retrieve Data Quality Summary Definition Error: #{definition_details.clean_inspect}")
-          flash[:error] = "504 ERROR: We are unable to retrieve all data quality summary definitions at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid}." if definition_details.timeout_error?
+          Rails.logger.error("#{request.uuid} - DataQualitySummaryAssignmentsController#update - Retrieve Data Quality Summary Definition Error: #{definition_details.clean_inspect}")
+          flash[:error] = I18n.t("controllers.data_quality_summary_assignments.update.flash.timeout_error", request: request.uuid) if definition_details.timeout_error?
           next
         end
 

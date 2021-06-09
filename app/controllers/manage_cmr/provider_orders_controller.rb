@@ -118,8 +118,8 @@ class ProviderOrdersController < ManageCmrController
       name_guids_response = echo_client.get_order_item_names_by_provider_order(echo_provider_token, provider_order_guid)
 
       if name_guids_response.error?
-        Rails.logger.error("#{request.uuid} - Retrieve Order Item Names Error: #{name_guids_response.clean_inspect}")
-        flash[:error] = "504 ERROR: We are unable to retrieve order item names at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid}." if name_guids_response.timeout_error?
+        Rails.logger.error("#{request.uuid} - ProviderOrdersController#generate_provider_order - Retrieve Order Item Names Error: #{name_guids_response.clean_inspect}")
+        flash[:error] = I18n.t("controllers.provider_orders.generate_provider_order.get_order_item_names.flash.timeout_error", request: request.uuid) if name_guids_response.timeout_error?
       end
 
       name_guids = name_guids_response.parsed_body.fetch('Item', {})
@@ -130,8 +130,8 @@ class ProviderOrdersController < ManageCmrController
       items_response = echo_client.get_order_items(echo_provider_token, item_guids)
 
       if items_response.error?
-        Rails.logger.error("#{request.uuid} - Retrieve Order Items Error: #{items_response.clean_inspect}")
-        flash[:error] = "504 ERROR: We are unable to retrieve order items at this time. If this error persists, please contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')} about #{request.uuid}." if items_response.timeout_error?
+        Rails.logger.error("#{request.uuid} - ProviderOrdersController#generate_provider_order - Retrieve Order Items Error: #{items_response.clean_inspect}")
+        flash[:error] = I18n.t("controllers.provider_orders.generate_provider_order.get_order_items.flash.timeout_error", request: request.uuid) if items_response.timeout_error?
       end
 
       items = items_response.parsed_body.fetch('Item', {})
