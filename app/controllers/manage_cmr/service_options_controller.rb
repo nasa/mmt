@@ -15,7 +15,7 @@ class ServiceOptionsController < ManageCmrController
 
     service_option_response = get_service_option_list(echo_provider_token)
 
-    service_option_list = Array.wrap(service_option_response.fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
+    service_option_list = Array.wrap(service_option_response.fetch('Result', [])).sort_by { |option| option.fetch('Name', '').downcase }
 
     @service_options = Kaminari.paginate_array(service_option_list, total_count: service_option_list.count).page(page).per(RESULTS_PER_PAGE)
   end
@@ -98,7 +98,7 @@ class ServiceOptionsController < ManageCmrController
 
   def set_service_option
     service_option_response = get_service_option_list(echo_provider_token, params[:id])
-    service_options = Array.wrap(service_option_response.fetch('Item', []))
+    service_options = Array.wrap(service_option_response.fetch('Result', []))
     @service_option = service_options[0] unless service_options.empty?
   end
 end

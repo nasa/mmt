@@ -71,10 +71,10 @@ class ManageCmrController < ApplicationController
         order_options.concat(partial_order_options)
       else
         Rails.logger.error("Retrieve Order Options Error: #{partial_order_option_response.clean_inspect}") if partial_order_option_response.error?
-        return {'Item' => []}
+        return {'Result' => []}
       end
     end
-    return {'Item' => order_options}
+    return {'Result' => order_options}
   end
 
   def get_service_option_list(echo_provider_token, guids = nil)
@@ -92,10 +92,10 @@ class ManageCmrController < ApplicationController
         service_options.concat(partial_service_options)
       else
         Rails.logger.error("Retrieve Service Options Error: #{partial_service_option_response.clean_inspect}") if partial_service_option_response.error?
-        return {'Item' => []}
+        return {'Result' => []}
       end
     end
-    return {'Item' => service_options}
+    return {'Result' => service_options}
   end
 
   private
