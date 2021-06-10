@@ -79,9 +79,11 @@ class OrdersController < ManageCmrController
       owner_guids = owner_guids.uniq
       Rails.logger.info("Precaching #{owner_guids.count} owner guids")
       echo_client.timeout = time_left
-      result = echo_client.get_user_names(echo_provider_token, owner_guids).parsed_body
+      result = echo_client.get_user_names(echo_provider_token, owner_guids)
 
-      Array.wrap(result['Item']).each do |item|
+      Rails.logger.error("#{request.uuid} - OrdersController#precache_owner_guids - Retrieve User Names Error: #{result.clean_inspect}") if result.error?
+
+      Array.wrap(result.parsed_body['Item']).each do |item|
         owner_guid = item['Guid']
         user = { 'Item' => item }
         Rails.cache.write("owners.#{owner_guid}", user, expires_in: Rails.configuration.orders_user_cache_expiration)
@@ -109,6 +111,8 @@ class OrdersController < ManageCmrController
           # Request orders from ECHO
           echo_client.timeout = time_left
           order_search_result = echo_client.get_provider_order_guids_by_state_date_and_provider(echo_provider_token, payload)
+
+          Rails.logger.error("#{request.uuid} - OrdersController#determine_order_guids - Retrieve Provider Order GUIDs Error: #{order_search_result.clean_inspect}") if order_search_result.error?
 
           # Pull out just the Guids for the returned orders
           order_results_guids = Array.wrap(order_search_result.parsed_body.fetch('Item', [])).map {|guid| guid['OrderGuid']}

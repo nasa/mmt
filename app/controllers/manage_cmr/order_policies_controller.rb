@@ -85,6 +85,11 @@ class OrderPoliciesController < ManageCmrController
     # Check for an error OR nil, rather than returning an empty list or error it returns nil
     @policy = result.parsed_body.fetch('Item', {}) unless result.error? || result.parsed_body.fetch('Item', {}).fetch('xsi:nil', 'false') == 'true'
 
+    if result.error?
+      Rails.logger.error("#{request.uuid} - OrderPoliciesController#set_policy - Retrieve Providers Policies Error: #{result.clean_inspect}")
+      flash[:error] = I18n.t("controllers.order_policies.set_policy.flash.timeout_error", request: request.uuid) if result.timeout_error?
+    end
+
     # Default value in case of error
     @policy = {} if defined?(@policy).nil?
 
@@ -138,6 +143,13 @@ class OrderPoliciesController < ManageCmrController
   end
 
   def upsert_policy
-    echo_client.set_provider_policies(token, current_provider_guid, generate_upsert_payload)
+    response = echo_client.set_provider_policies(token, current_provider_guid, generate_upsert_payload)
+
+    if response.error?
+      Rails.logger.error("#{request.uuid} - OrderPoliciesController#upsert_policy - Set Providers Policies Error: #{response.clean_inspect}")
+      flash[:error] = I18n.t("controllers.order_policies.upsert_policy.flash.timeout_error", request: request.uuid) if response.timeout_error?
+    end
+
+    response
   end
 end

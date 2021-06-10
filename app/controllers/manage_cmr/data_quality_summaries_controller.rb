@@ -27,9 +27,21 @@ class DataQualitySummariesController < ManageCmrController
       summary_guids = summary_guids.reject(&:blank?)
     end
 
+    if response.error?
+      Rails.logger.error("#{request.uuid} - DataQualitySummariesController#index - Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}")
+      flash[:error] = I18n.t("controllers.data_quality_summaries.index.flash.timeout_error", data: "data quality summary definition name guids", request: request.uuid) if response.timeout_error?
+    end
+
     summary_list = []
     summary_guids.each do |guid|
-      summary_list << echo_client.get_data_quality_summary_definition(token, guid)
+      summary_response = echo_client.get_data_quality_summary_definition(token, guid)
+
+      if summary_response.success?
+        summary_list << summary_response
+      else
+        Rails.logger.error("#{request.uuid} - DataQualitySummariesController#index - Retrieve Data Quality Summary Definition Error: #{summary_response.clean_inspect}")
+        flash[:error] = I18n.t("controllers.data_quality_summaries.index.flash.timeout_error", data: "data quality summary definitions", request: request.uuid) if summary_response.timeout_error?
+      end
     end
 
     summary_list.sort_by! { |summary| summary.parsed_body.fetch('Name', '').downcase }
@@ -112,6 +124,11 @@ class DataQualitySummariesController < ManageCmrController
   def set_summary
     result = echo_client.get_data_quality_summary_definition(token, params[:id])
 
-    @summary = result.parsed_body unless result.error?
+    if result.success?
+      @summary = result.parsed_body
+    else
+      Rails.logger.error("#{request.uuid} - DataQualitySummariesController#set_summary - Retrieve Data Quality Summary Definition Error: #{result.clean_inspect}")
+      flash[:error] = I18n.t("controllers.data_quality_summaries.set_summary.flash.timeout_error", request: request.uuid) if result.timeout_error?
+    end
   end
 end

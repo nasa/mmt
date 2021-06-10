@@ -115,12 +115,26 @@ class ProviderOrdersController < ManageCmrController
 
       provider_order_guid = provider_order['Guid']
       echo_client.timeout = time_left
-      name_guids = echo_client.get_order_item_names_by_provider_order(echo_provider_token, provider_order_guid).parsed_body.fetch('Item', {})
+      name_guids_response = echo_client.get_order_item_names_by_provider_order(echo_provider_token, provider_order_guid)
+
+      if name_guids_response.error?
+        Rails.logger.error("#{request.uuid} - ProviderOrdersController#generate_provider_order - Retrieve Order Item Names Error: #{name_guids_response.clean_inspect}")
+        flash[:error] = I18n.t("controllers.provider_orders.generate_provider_order.get_order_item_names.flash.timeout_error", request: request.uuid) if name_guids_response.timeout_error?
+      end
+
+      name_guids = name_guids_response.parsed_body.fetch('Item', {})
 
       item_guids = Array.wrap(name_guids).map { |name_guid| name_guid.fetch('Guid', '') }
 
       echo_client.timeout = time_left
-      items = echo_client.get_order_items(echo_provider_token, item_guids).parsed_body.fetch('Item', {})
+      items_response = echo_client.get_order_items(echo_provider_token, item_guids)
+
+      if items_response.error?
+        Rails.logger.error("#{request.uuid} - ProviderOrdersController#generate_provider_order - Retrieve Order Items Error: #{items_response.clean_inspect}")
+        flash[:error] = I18n.t("controllers.provider_orders.generate_provider_order.get_order_items.flash.timeout_error", request: request.uuid) if items_response.timeout_error?
+      end
+
+      items = items_response.parsed_body.fetch('Item', {})
 
       catalog_items = []
       Array.wrap(items).each do |order_item|

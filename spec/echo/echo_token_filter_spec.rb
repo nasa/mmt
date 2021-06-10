@@ -10,7 +10,7 @@ describe 'Echo Token Filter' do
 
   context 'When token is returned in SOAP Response' do
     before do
-      allow_any_instance_of(Faraday::Connection).to receive(:post).and_return(Faraday::Response.new(response_body: token_response, status: 500))
+      allow_any_instance_of(Faraday::Connection).to receive(:post).and_return(Faraday::Response.new(response_body: token_response, status: 500, response_headers: {}))
     end
 
     it 'filters the token' do
@@ -22,7 +22,7 @@ describe 'Echo Token Filter' do
 
   context 'When token is not returned in SOAP Response' do
     before do
-      allow_any_instance_of(Faraday::Connection).to receive(:post).and_return(Faraday::Response.new(response_body: no_token_response, status:500))
+      allow_any_instance_of(Faraday::Connection).to receive(:post).and_return(Faraday::Response.new(response_body: no_token_response, status: 500, response_headers: {}))
     end
 
     it 'filters the token' do
@@ -30,5 +30,4 @@ describe 'Echo Token Filter' do
       echo_provider.test_endpoint_connection("https://test.com", :non_token_response)
     end
   end
-
 end

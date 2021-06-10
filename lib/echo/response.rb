@@ -9,6 +9,14 @@ module Echo
       @response = faraday_response
     end
 
+    def headers
+      @response.headers
+    end
+
+    def status
+      @response.status
+    end
+
     def error?
       status >= 400 || (body.is_a?(Hash) && body['errors'])
     end
@@ -40,11 +48,21 @@ module Echo
       result
     end
 
+    def timeout_error?
+      status == 504
+    end
+
+    def body_is_html?
+      error? && headers['content-type'] == 'text/html'
+    end
+
     def error_type
       parsed_body.fetch('detail', {}).keys.first
     end
 
     def error_message
+      return Nokogiri.HTML(body).title if body_is_html?
+
       doc = Nokogiri.XML(body)
       element = doc.at("faultstring")
       element.nil? ? nil : element.content.gsub(/Token \[(.*?)\]/) { |s| "Token beginning with #{truncate_token($1)}" }
@@ -52,6 +70,8 @@ module Echo
 
     def clean_inspect
       clean_response = faraday_response.deep_dup
+      return clean_response.inspect if body_is_html?
+
       doc = Nokogiri.XML(clean_response.env[:body])
       doc.traverse do |node|
         node.content = node.content.gsub(/Token \[(.*?)\]/) { |s| "Token beginning with #{truncate_token($1)}" } if node.text?
@@ -69,12 +89,5 @@ module Echo
       parsed_body.fetch('detail', {}).fetch(error_type, {}).fetch('ErrorInstanceId', nil)
     end
 
-    def headers
-      @response.headers
-    end
-
-    def status
-      @response.status
-    end
   end
 end
