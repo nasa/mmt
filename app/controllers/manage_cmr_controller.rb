@@ -56,6 +56,48 @@ class ManageCmrController < ApplicationController
     )
   end
 
+  def get_order_option_list(echo_provider_token, guids = nil)
+    if (guids.nil? || guids.empty?)
+      guids_response = echo_client.get_order_options_names(echo_provider_token)
+      guids = guids_response.success? ? Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] }) : []
+    end
+    order_options = []
+    while guids.length > 0
+      guids = Array.wrap(guids)
+      guids_chunk = guids.pop(50)
+      partial_order_option_response = echo_client.get_order_options(echo_provider_token, guids_chunk)
+      if partial_order_option_response.success?
+        partial_order_options = Array.wrap(partial_order_option_response.parsed_body(parser: 'libxml').fetch('Item', []))
+        order_options.concat(partial_order_options)
+      else
+        Rails.logger.error("Retrieve Order Options Error: #{partial_order_option_response.clean_inspect}") if partial_order_option_response.error?
+        return {'Item' => []}
+      end
+    end
+    return {'Item' => order_options}
+  end
+
+  def get_service_option_list(echo_provider_token, guids = nil)
+    if (guids.nil? || guids.empty?)
+      guids_response = echo_client.get_service_options_names(echo_provider_token)
+      guids = guids_response.success? ? Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] }) : []
+    end
+    service_options = []
+    while guids.length > 0
+      guids = Array.wrap(guids)
+      guids_chunk = guids.pop(50)
+      partial_service_option_response = echo_client.get_service_options(echo_provider_token, guids_chunk)
+      if partial_service_option_response.success?
+        partial_service_options = Array.wrap(partial_service_option_response.parsed_body(parser: 'libxml').fetch('Item', []))
+        service_options.concat(partial_service_options)
+      else
+        Rails.logger.error("Retrieve Service Options Error: #{partial_service_option_response.clean_inspect}") if partial_service_option_response.error?
+        return {'Item' => []}
+      end
+    end
+    return {'Item' => service_options}
+  end
+
   private
 
   # Custom error messaging for Pundit

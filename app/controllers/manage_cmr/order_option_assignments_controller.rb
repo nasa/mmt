@@ -118,14 +118,14 @@ class OrderOptionAssignmentsController < ManageCmrController
       guids << option_info['catalog_item_option_assignment']['option_definition_id']
     end
 
-    order_option_response = echo_client.get_order_options(echo_provider_token, guids)
+    order_option_response = get_order_option_list(echo_provider_token, guids)
     order_option_list = Array.wrap(order_option_response.fetch('Item', []))
 
     order_option_list
   end
 
   def get_order_options
-    order_option_response = echo_client.get_order_options(echo_provider_token)
+    order_option_response = get_order_option_list(echo_provider_token)
     order_option_list = Array.wrap(order_option_response.fetch('Item', []))
 
     order_option_select_values = []
