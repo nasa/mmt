@@ -11,7 +11,7 @@ class OrderOptionsController < ManageCmrController
 
     order_option_response = get_order_option_list(echo_provider_token)
 
-    order_option_list = Array.wrap(order_option_response.fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
+    order_option_list = Array.wrap(order_option_response.fetch('Result', [])).sort_by { |option| option.fetch('Name', '').downcase }
 
     @order_options = Kaminari.paginate_array(order_option_list, total_count: order_option_list.count).page(page).per(RESULTS_PER_PAGE)
   end

@@ -74,7 +74,7 @@ class ServiceOptionAssignmentsController < ManageCmrController
 
       # Retrieve all service options associated with the requested service implementations
       assignment_service_options_response = get_service_option_list(echo_provider_token, service_option_guids)
-      assignment_service_options = Array.wrap(assignment_service_options_response.fetch('Item', []))
+      assignment_service_options = Array.wrap(assignment_service_options_response.fetch('Result', []))
 
       # Use the data collected above (which we did in bulk to avoid multiple calls to ECHO) to
       # add new keys containing full objects to the assignments array that we use to populate
