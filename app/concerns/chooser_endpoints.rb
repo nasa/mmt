@@ -75,6 +75,7 @@ module ChooserEndpoints
 
       service_entries
     else
+      Rails.logger.error("ChooserEndpoints#get_service_implementations_with_datasets - Retrieve Service Entries By Provider Error: #{response.clean_inspect}")
       response.parsed_body
     end
   end
@@ -103,6 +104,7 @@ module ChooserEndpoints
         {}
       end
     else
+      Rails.logger.error("ChooserEndpoints#get_datasets_for_service_implementation - Retrieve Service Entries Error: #{response.clean_inspect}")
       response.parsed_body
     end
   end

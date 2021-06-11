@@ -73,9 +73,17 @@ module EchoSoap
       summary_guids = summary_guids.reject(&:blank?)
     end
 
+    Rails.logger.error("EchoSoap#set_summaries - Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}") if response.error?
+
     @summaries = []
     summary_guids.each do |guid|
-      @summaries << echo_client.get_data_quality_summary_definition(token, guid)
+      summary_response = echo_client.get_data_quality_summary_definition(token, guid)
+
+      if summary_response.success?
+        @summaries << summary_response
+      else
+        Rails.logger.error("EchoSoap#set_summaries - Retrieve Data Quality Summary Definition Error: #{summary_response.clean_inspect}")
+      end
     end
 
     @summaries.sort_by! { |summary| summary.parsed_body.fetch('Name', '').downcase }

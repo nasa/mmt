@@ -40,13 +40,16 @@ module Echo
 
       echo_response = Echo::Response.new(response)
       begin
-        msg_hash = Hash.send('from_xml', echo_response.body)
         if echo_response.error?
-          token_val = msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault', 'Token')
-          msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault').delete('Token') if token_val.present?
-          msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault')['Token-snippet'] = truncate_token(token_val) if token_val.present?
-
-          Rails.logger.error "SOAP Response Error: #{msg_hash.inspect}"
+          if echo_response.body_is_html?
+            Rails.logger.error "SOAP Response Error: #{echo_response.body}"
+          else
+            msg_hash = Hash.send('from_xml', echo_response.body)
+            token_val = msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault', 'Token')
+            msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault').delete('Token') if token_val.present?
+            msg_hash.dig('Envelope', 'Body', 'Fault', 'detail', 'AuthorizationFault')['Token-snippet'] = truncate_token(token_val) if token_val.present?
+            Rails.logger.error "SOAP Response Error: #{msg_hash.inspect}"
+          end
         end
 
         Rails.logger.info "SOAP Response: #{url} result : Headers: #{echo_response.headers} - Body Size (bytes): #{echo_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(echo_response.body.to_s)} - Status: #{echo_response.status} - Time: #{Time.now.to_s(:log_time)}"
