@@ -268,9 +268,6 @@ module Helpers
         within '.multiple.publication-references' do
           fill_in 'draft_publication_references_0_title', with: 'Publication reference title' # Title
           fill_in 'Publisher', with: 'Publication reference publisher'
-
-          choose 'draft_publication_references_0_doi_Available'
-
           fill_in 'DOI', with: 'Publication reference DOI'
           fill_in 'Authority', with: 'Publication reference authority'
           fill_in 'Author', with: 'Publication reference author'
