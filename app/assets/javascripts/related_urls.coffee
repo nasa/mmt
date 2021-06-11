@@ -57,6 +57,9 @@ $(document).ready ->
 
     if typeValue?.length > 0
       switch typeValue
+        when 'GET CAPABILITIES'
+          $parent.find('.get-data-fields').show()
+          $parent.find('.get-service-fields').find('input, select').val ''
         when 'GET DATA'
           $parent.find('.get-data-fields').show()
           $parent.find('.get-service-fields').find('input, select').val ''
