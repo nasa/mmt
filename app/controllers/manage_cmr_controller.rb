@@ -57,44 +57,66 @@ class ManageCmrController < ApplicationController
   end
 
   def get_order_option_list(echo_provider_token, guids = nil)
-    if (guids.nil? || guids.empty?)
+    if guids.nil? || guids.empty?
       guids_response = echo_client.get_order_options_names(echo_provider_token)
-      guids = guids_response.success? ? Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] }) : []
+
+      guids = if guids_response.success?
+                Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] })
+              else
+                Rails.logger.error("#{request.uuid} - ManageCmrController#get_order_option_list - Retrieve Order Options List Error: #{guids_response.clean_inspect}")
+                []
+              end
     end
+
     order_options = []
+
     while guids.length > 0
       guids = Array.wrap(guids)
       guids_chunk = guids.pop(50)
       partial_order_option_response = echo_client.get_order_options(echo_provider_token, guids_chunk)
+
       if partial_order_option_response.success?
         partial_order_options = Array.wrap(partial_order_option_response.parsed_body(parser: 'libxml').fetch('Item', []))
         order_options.concat(partial_order_options)
       else
-        Rails.logger.error("Retrieve Order Options Error: #{partial_order_option_response.clean_inspect}") if partial_order_option_response.error?
+        Rails.logger.error("#{request.uuid} - ManageCmrController#get_order_option_list - Retrieve Order Options List Error: #{partial_order_option_response.clean_inspect}")
+        flash[:error] = I18n.t("controllers.manage_cmr.get_order_option_list.flash.timeout_error", request: request.uuid) if partial_order_option_response.timeout_error?
         return {'Result' => []}
       end
     end
+
     return {'Result' => order_options}
   end
 
   def get_service_option_list(echo_provider_token, guids = nil)
-    if (guids.nil? || guids.empty?)
+    if guids.nil? || guids.empty?
       guids_response = echo_client.get_service_options_names(echo_provider_token)
-      guids = guids_response.success? ? Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] }) : []
+
+      guids = if guids_response.success?
+                Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] })
+              else
+                Rails.logger.error("#{request.uuid} - ManageCmrController#get_order_option_list - Retrieve Service Options Names Error: #{guids_response.clean_inspect}")
+                []
+              end
     end
+
     service_options = []
+
     while guids.length > 0
       guids = Array.wrap(guids)
       guids_chunk = guids.pop(50)
       partial_service_option_response = echo_client.get_service_options(echo_provider_token, guids_chunk)
+
       if partial_service_option_response.success?
         partial_service_options = Array.wrap(partial_service_option_response.parsed_body(parser: 'libxml').fetch('Item', []))
         service_options.concat(partial_service_options)
       else
-        Rails.logger.error("Retrieve Service Options Error: #{partial_service_option_response.clean_inspect}") if partial_service_option_response.error?
+        Rails.logger.error("#{request.uuid} - ManageCmrController#get_service_option_list - Retrieve Service Options Error: #{partial_service_option_response.clean_inspect}")
+        flash[:error] = I18n.t("controllers.manage_cmr.get_service_option_list.flash.timeout_error", request: request.uuid) if partial_service_option_response.timeout_error?
         return {'Result' => []}
       end
     end
+    
     return {'Result' => service_options}
   end
 
