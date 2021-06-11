@@ -13,15 +13,9 @@ class ServiceOptionsController < ManageCmrController
     permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
     page = permitted.fetch('page', 1)
 
-    service_option_response = echo_client.get_service_options(echo_provider_token)
-    service_option_list = if service_option_response.success?
-                            # Retreive the service options and sort by name, ignoring case
-                            Array.wrap(service_option_response.parsed_body(parser: 'libxml').fetch('Item', [])).sort_by { |option| option.fetch('Name', '').downcase }
-                          else
-                            Rails.logger.error("#{request.uuid} - ServiceOptionsController#index - View Service Option Error: #{service_option_response.clean_inspect}")
-                            flash[:error] = I18n.t("controllers.service_options.index.flash.timeout_error", request: request.uuid) if service_option_response.timeout_error?
-                            []
-                          end
+    service_option_response = get_service_option_list(echo_provider_token)
+
+    service_option_list = Array.wrap(service_option_response.fetch('Result', [])).sort_by { |option| option.fetch('Name', '').downcase }
 
     @service_options = Kaminari.paginate_array(service_option_list, total_count: service_option_list.count).page(page).per(RESULTS_PER_PAGE)
   end
@@ -103,14 +97,8 @@ class ServiceOptionsController < ManageCmrController
   end
 
   def set_service_option
-    result = echo_client.get_service_options(echo_provider_token, params[:id])
-
-    if result.success?
-      @service_option = result.parsed_body.fetch('Item', {})
-    else
-      Rails.logger.error("#{request.uuid} - ServiceOptionsController#set_service_option - Retrieve Service Options Error: #{result.clean_inspect}") if result.error?
-      flash[:error] = I18n.t("controllers.service_options.set_service_option.flash.timeout_error", request: request.uuid) if result.timeout_error?
-      []
-    end
+    service_option_response = get_service_option_list(echo_provider_token, params[:id])
+    service_options = Array.wrap(service_option_response.fetch('Result', []))
+    @service_option = service_options[0] unless service_options.empty?
   end
 end

@@ -73,14 +73,8 @@ class ServiceOptionAssignmentsController < ManageCmrController
                                    end
 
       # Retrieve all service options associated with the requested service implementations
-      assignment_service_options_response = echo_client.get_service_options(echo_provider_token, service_option_guids)
-      assignment_service_options = if service_option_guids.any? && assignment_service_options_response.success?
-                                     Array.wrap(assignment_service_options_response.parsed_body(parser: 'libxml')['Item'])
-                                   else
-                                     Rails.logger.error("#{request.uuid} - ServiceOptionAssignmentsController#update - Retrieve Service Options to Update Service Option Assignments Error: #{assignment_service_options_response.clean_inspect}") if assignment_service_options_response.error?
-                                     flash[:error] = I18n.t("controllers.service_option_assignments.update.get_service_options.flash.timeout_error", request: request.uuid) if assignment_service_options_response.timeout_error?
-                                     []
-                                   end
+      assignment_service_options_response = get_service_option_list(echo_provider_token, service_option_guids)
+      assignment_service_options = Array.wrap(assignment_service_options_response.fetch('Result', []))
 
       # Use the data collected above (which we did in bulk to avoid multiple calls to ECHO) to
       # add new keys containing full objects to the assignments array that we use to populate

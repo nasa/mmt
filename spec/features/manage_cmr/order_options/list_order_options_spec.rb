@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Listing Order Options' do
   context 'when viewing the index page' do
     before do
@@ -17,13 +15,13 @@ describe 'Listing Order Options' do
     end
 
     it 'displays the pagination information header' do
-      expect(page).to have_content('Showing Order Options 1 - 25 of 28')
+      expect(page).to have_content('Showing Order Options 1 - 25 of 77')
     end
 
     it 'displays the pagination navigation' do
       within '.eui-pagination' do
         # First, 1, 2, Next, Last
-        expect(page).to have_selector('li', count: 5)
+        expect(page).to have_selector('li', count: 7)
       end
     end
 
@@ -39,7 +37,7 @@ describe 'Listing Order Options' do
 
       # Last row
       within '.order-options-table tbody tr:last-child td:nth-child(1)' do
-        expect(page).to have_content('Opt A05')
+        expect(page).to have_content("Franc's Coffeescript Feat")
       end
     end
 
@@ -53,23 +51,23 @@ describe 'Listing Order Options' do
       end
 
       it 'displays the pagination information for page two' do
-        expect(page).to have_content('Showing Order Options 26 - 28 of 28')
+        expect(page).to have_content('Showing Order Options 26 - 50 of 77')
       end
 
       it 'lists all the available order options' do
         within '.order-options-table' do
-          expect(page).to have_selector('tbody tr', count: 3)
+          expect(page).to have_selector('tbody tr', count: 25)
         end
       end
       it 'sorts the list correctly' do
         # First row
         within '.order-options-table tbody tr:nth-child(1) td:nth-child(1)' do
-          expect(page).to have_content('Opt A07')
+          expect(page).to have_content("Franc's Coffeescript Featur")
         end
 
         # Last row
         within '.order-options-table tbody tr:last-child td:nth-child(1)' do
-          expect(page).to have_content('Test Order Option ABC-1')
+          expect(page).to have_content('James-1000')
         end
       end
     end
@@ -101,7 +99,7 @@ describe 'Listing Order Options' do
     end
 
     it 'lists the order option' do
-      expect(page).to have_selector('tbody tr', count: 1)
+      expect(page).to have_selector('tbody tr', count: 25)
       expect(page).to have_no_content('No EDF_DEV07 Order Options found.') # provider for the recording is EDF_DEV07
     end
   end

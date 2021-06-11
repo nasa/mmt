@@ -118,31 +118,15 @@ class OrderOptionAssignmentsController < ManageCmrController
       guids << option_info['catalog_item_option_assignment']['option_definition_id']
     end
 
-    order_option_response = echo_client.get_order_options(echo_provider_token, guids)
-
-    order_option_list = if order_option_response.success?
-                          # Retreive the order options
-                          Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', {}))
-                        else
-                          Rails.logger.error("#{request.uuid} - OrderOptionAssignmentsController#get_order_option_defs - Retrieve Order Options Error: #{order_option_response.clean_inspect}")
-                          flash[:error] = I18n.t("controllers.order_option_assignments.get_order_option_defs.flash.timeout_error", request: request.uuid) if order_option_response.timeout_error?
-                          []
-                        end
+    order_option_response = get_order_option_list(echo_provider_token, guids)
+    order_option_list = Array.wrap(order_option_response.fetch('Result', []))
 
     order_option_list
   end
 
   def get_order_options
-    order_option_response = echo_client.get_order_options(echo_provider_token)
-
-    order_option_list = if order_option_response.success?
-                          # Retreive the order options
-                          Array.wrap(order_option_response.parsed_body(parser: 'libxml').fetch('Item', {}))
-                        else
-                          Rails.logger.error("#{request.uuid} - OrderOptionAssignmentsController#get_order_options - Retrieve Order Options Error: #{order_option_response.clean_inspect}")
-                          flash[:error] = I18n.t("controllers.order_option_assignments.get_order_options.flash.timeout_error", request: request.uuid) if order_option_response.timeout_error?
-                          []
-                        end
+    order_option_response = get_order_option_list(echo_provider_token)
+    order_option_list = Array.wrap(order_option_response.fetch('Result', []))
 
     order_option_select_values = []
 
