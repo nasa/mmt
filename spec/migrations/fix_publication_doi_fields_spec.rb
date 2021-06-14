@@ -36,7 +36,31 @@ describe 'Migration tests for Publication DOIs fix' do
 
     it 'removes the DOI field from the second Publication Reference but not the first' do
       expect(CollectionDraft.find(@draft.id).draft.dig('PublicationReferences',0,'DOI')).to eq(available_doi)
+      expect(CollectionDraft.find(@draft.id).draft.dig('PublicationReferences',1,'DOI')).to be_nil
+      expect(CollectionTemplate.find(@template.id).draft.dig('PublicationReferences',0,'DOI')).to eq(available_doi)
       expect(CollectionTemplate.find(@template.id).draft.dig('PublicationReferences',1,'DOI')).to be_nil
+    end
+  end
+
+  context 'when doing the migration for dMMT' do
+    before do
+      set_as_proposal_mode_mmt
+
+      @draft_proposal = create(:full_collection_draft_proposal)
+
+      @draft_proposal.draft['PublicationReferences'][1]['DOI'] = publication_doi
+
+      @draft_proposal.save
+      FixPublicationDoiFields.new.change
+    end
+
+    after do
+      CollectionDraftProposal.delete([@draft_proposal.id])
+    end
+
+    it 'removes the DOI field from the second Publication Reference but not the first' do
+      expect(CollectionDraftProposal.find(@draft_proposal.id).draft.dig('PublicationReferences',0,'DOI')).to eq(available_doi)
+      expect(CollectionDraftProposal.find(@draft_proposal.id).draft.dig('PublicationReferences',1,'DOI')).to be_nil
     end
   end
 end
