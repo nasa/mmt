@@ -21,25 +21,18 @@ class GroupsController < ManageCmrController
 
     # set provider defaults
     @filters['provider_segment'] ||= 'current'
-
-    system_group_ids = @provider_ids.map { |r| r[1] }
     @groups_provider_ids = current_user.available_providers.dup
-    if policy(:system_group).read?
-      system_group_ids.each { |i| @groups_provider_ids.push(i) }
-      @groups_provider_ids << 'CMR' if @filters['show_system_groups'] == 'true'
-    end
 
     # CMR is not an actual provider, but is the provider given to system groups
     # as a user cannot have CMR in their available_providers we have to determine when to add it to the filter drop down
     if @filters['provider'].present?
       @query['provider'] = @filters['provider']
       # if provider is CMR, it should be an option in the select
+      @groups_provider_ids << 'CMR' if @filters['provider'].include?('CMR')
     elsif @filters['provider_segment'] == 'current'
       @query['provider'] = [current_user.provider_id]
     elsif @filters['provider_segment'] == 'available'
-      @query['provider'] = current_user.available_providers.dup
-      # add CMR for system groups to query if users have read access and selected to show system groups
-      @query['provider'] << 'CMR' if policy(:system_group).read? && @filters['show_system_groups'] == 'true'
+      @query['provider'] = @groups_provider_ids unless policy(:system_group).read? && @filters['show_system_groups'] == 'true'
     end
 
     @member_filter_details = if @filters['member']
