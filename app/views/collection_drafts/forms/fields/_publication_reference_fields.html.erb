@@ -37,7 +37,9 @@
         values: publication_reference['DOI'] || {},
         name_prefix: "#{name_prefix}doi_",
         multiple: false,
-        options: {} } %>
+        options: {
+          doi_type: 'publication_reference'
+        } } %>
   </div>
 
 
