@@ -84,7 +84,9 @@ describe 'Listing Service Options',js:true do
       echo_response = echo_fail_response(timeout_error_html_body, status = 504, headers = {'content-type' => 'text/html'})
       allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_options).and_return(echo_response)
 
-      visit service_options_path
+      VCR.use_cassette('echo_soap/service_management_service/service_options/list', record: :none) do
+        visit service_options_path
+      end
     end
 
     it 'displays the error' do
