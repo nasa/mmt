@@ -54,7 +54,6 @@ describe 'Groups list page', js: true, reset_provider: true do
                 expect(page).to have_content('LARC Admin Group Test group for provider LARC')
                 expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1')
                 expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2')
-                expect(page).to have_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS')
               end
             end
 
@@ -187,11 +186,9 @@ describe 'Groups list page', js: true, reset_provider: true do
     end
   end
 
-  context 'when logging in as an admin user with all the providers' do
+  context 'when logging in as an admin user with some of the providers' do
     before do
-      # we need to set these available providers, or the filter will not show
-      # the groups in all the providers
-      login_admin(providers: %w[MMT_1 MMT_2 LARC SEDAC NSIDC_ECS])
+      login_admin(providers: %w[MMT_1 MMT_2])
     end
 
     context 'when visiting the groups index page' do
@@ -237,7 +234,7 @@ describe 'Groups list page', js: true, reset_provider: true do
 
               # CMR is only added to the provider list if they have access to
               # system groups and the Show System Groups? checkbox is checked
-              expect(page).to have_select('provider-group-filter', with_options: ['CMR'])
+              expect(page).to have_no_select('provider-group-filter', with_options: ['CMR'])
             end
           end
 

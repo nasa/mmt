@@ -32,9 +32,7 @@ class GroupsController < ManageCmrController
     elsif @filters['provider_segment'] == 'current'
       @query['provider'] = [current_user.provider_id]
     elsif @filters['provider_segment'] == 'available'
-      @query['provider'] = @groups_provider_ids
-      # add CMR for system groups to query if users have read access and selected to show system groups
-      @query['provider'] << 'CMR' if policy(:system_group).read? && @filters['show_system_groups'] == 'true'
+      @query['provider'] = @groups_provider_ids unless policy(:system_group).read? && @filters['show_system_groups'] == 'true'
     end
 
     @member_filter_details = if @filters['member']
