@@ -186,7 +186,7 @@ describe 'Groups list page', js: true, reset_provider: true do
     end
   end
 
-  context 'when logging in as an admin user with all the providers' do
+  context 'when logging in as an admin user with some of the providers' do
     before do
       login_admin(providers: %w[MMT_1 MMT_2])
     end
