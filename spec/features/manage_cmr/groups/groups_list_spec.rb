@@ -188,9 +188,7 @@ describe 'Groups list page', js: true, reset_provider: true do
 
   context 'when logging in as an admin user with all the providers' do
     before do
-      # we need to set these available providers, or the filter will not show
-      # the groups in all the providers
-      login_admin(providers: %w[MMT_1 MMT_2 LARC SEDAC NSIDC_ECS])
+      login_admin(providers: %w[MMT_1 MMT_2])
     end
 
     context 'when visiting the groups index page' do
