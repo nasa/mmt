@@ -61,9 +61,7 @@ class ManageCmrController < ApplicationController
       guids_response = echo_client.get_order_options_names(echo_provider_token)
 
       guids = if guids_response.success?
-                parsed_response = guids_response.parsed_body(parser: 'libxml').fetch('Item', [])
-                Rails.logger.info("#{request.uuid} - ManageCmrController#get_order_option_list - #{parsed_response}")
-                Array.wrap(parsed_response.map { |option| option['Guid'] })
+                Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', [])).map { |option| option['Guid'] }
               else
                 Rails.logger.error("#{request.uuid} - ManageCmrController#get_order_option_list - Retrieve Order Options List Error: #{guids_response.clean_inspect}")
                 []
@@ -95,7 +93,7 @@ class ManageCmrController < ApplicationController
       guids_response = echo_client.get_service_options_names(echo_provider_token)
 
       guids = if guids_response.success?
-                Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', []).map { |option| option['Guid'] })
+                Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', [])).map { |option| option['Guid'] }
               else
                 Rails.logger.error("#{request.uuid} - ManageCmrController#get_order_option_list - Retrieve Service Options Names Error: #{guids_response.clean_inspect}")
                 []
