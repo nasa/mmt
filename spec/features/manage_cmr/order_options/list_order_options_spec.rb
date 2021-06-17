@@ -93,13 +93,13 @@ describe 'Listing Order Options' do
     before do
       login
 
-      VCR.use_cassette('echo_soap/data_management_service/option_definitions/single_list', record: :none) do
+      VCR.use_cassette('echo_soap/data_management_service/option_definitions/single_order_list', record: :none) do
         visit order_options_path
       end
     end
 
     it 'lists the order option' do
-      expect(page).to have_selector('tbody tr', count: 25)
+      expect(page).to have_selector('tbody tr', count: 1)
       expect(page).to have_no_content('No EDF_DEV07 Order Options found.') # provider for the recording is EDF_DEV07
     end
   end
