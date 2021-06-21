@@ -42,7 +42,7 @@ describe 'Service Draft creation' do
         end
 
         it 'displays json' do
-          expect(page).to have_content("{\n  \"Name\": \"test service draft\"\n}")
+          expect(page).to have_content("{\n  \"Name\": \"test service draft\",\n  \"MetadataSpecification\": {\n    \"URL\": \"https://cdn.earthdata.nasa.gov/umm/service/v1.4\",\n    \"Name\": \"UMM-S\",\n    \"Version\": \"1.4\"\n  }\n}")
         end
       end
     end

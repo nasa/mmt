@@ -34,7 +34,7 @@ class ToolDraft < Draft
   def set_metadata_specification
     # this is a hidden fieldset added to UMM-T to document the metadata version
     # TODO: we should try to populate these values from the schema enums
-    # MetadataSpecification
+
     metadata_specification = {
       'URL' => 'https://cdn.earthdata.nasa.gov/umm/tool/v1.0',
       'Name' => 'UMM-T',

@@ -18,7 +18,7 @@ describe 'Conditionally required fields for Service forms', js: true do
 
     context 'when viewing a form with conditionally required fields' do
       before do
-        visit edit_service_draft_path(draft, 'service_identification')
+        visit edit_service_draft_path(draft, 'service_quality')
         open_accordions
       end
 
@@ -65,7 +65,7 @@ describe 'Conditionally required fields for Service forms', js: true do
 
     context 'when viewing a form with conditionally required fields' do
       before do
-        visit edit_service_draft_path(draft, 'service_identification')
+        visit edit_service_draft_path(draft, 'service_quality')
         open_accordions
       end
 
