@@ -59,7 +59,7 @@ class CollectionDraftsController < BaseDraftsController
       end
     else # record update failed
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error", error_message: generate_model_error)
-      # For collection_template, the unsaved draft now has associated_dois which is a hash. This hash needs to be corrected/converted 
+      # For collection_template, the unsaved draft now has associated_dois which is a hash. This hash needs to be corrected/converted
       # to an array to work properly with _type.html.erb
       get_resource.correct_unsaved_draft if resource_name == 'collection_template'
       load_umm_c_schema
@@ -118,7 +118,7 @@ class CollectionDraftsController < BaseDraftsController
     draft = get_resource.draft
 
     ingested_response = cmr_client.ingest_collection(draft.to_json, get_resource.provider_id, get_resource.native_id, token)
-    
+
     if ingested_response.success?
       # get information for publication email notification before draft is deleted
       Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
@@ -282,10 +282,40 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def validate_paired_fields(errors, metadata)
+    errors = validate_value_data_type(errors, metadata)
     errors = validate_parameter_ranges(errors, metadata)
     errors = validate_project_paired_dates(errors, metadata)
     errors = validate_temporal_paired_dates(errors, metadata)
     validate_tiling_identification_systems_paired_fields(errors, metadata)
+  end
+
+  def validate_value_data_type(errors, metadata)
+    additional_attributes = metadata.fetch('AdditionalAttributes',[])
+    additional_attributes.each_with_index do |attribute, index|
+      if value = attribute['Value'] && data_type = attribute['DataType']
+        error_present = case data_type
+        when 'FLOAT'
+          !value.match FLOAT_REGEX
+        when 'INT'
+          !value.match INT_REGEX
+        when 'BOOLEAN'
+          value != 'true' && value != 'false'
+        when 'DATE'
+          !value.match DATE_REGEX
+        when 'TIME'
+          !value.match TIME_REGEX
+        when 'DATETIME'
+          !value.match DATETIME_REGEX
+        end
+
+        if error_present
+          error = "The property '#/AdditionalAttributes/#{index}/Value' is not a valid value of the supplied DataType"
+          errors << error
+        end
+      end
+    end
+
+    errors
   end
 
   def validate_project_paired_dates(errors, metadata)

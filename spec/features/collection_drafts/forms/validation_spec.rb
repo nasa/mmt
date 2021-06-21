@@ -652,7 +652,7 @@ describe 'Data validation for a collection draft form', js: true do
             it 'displays the error only in the second project' do
               within '#draft_projects_0' do
                 expect(page).to have_field('Start Date', with: '2014-08-01T00:00:00Z')
-                expect(page).to have_no_content('Start Date must be earlier than the End Date')                
+                expect(page).to have_no_content('Start Date must be earlier than the End Date')
               end
 
               within '#draft_projects_1' do
@@ -700,6 +700,30 @@ describe 'Data validation for a collection draft form', js: true do
         expect(page).to have_field('Minimum Value', with: '13.0')
         expect(page).to have_content('Minimum Value must be smaller than the Maximum Value')
       end
+    end
+
+    context 'when validating Additional Attribute Value and Data Type fields' do
+      before do
+        visit edit_collection_draft_path(@draft, form: 'descriptive_keywords')
+        click_on 'Expand All'
+      end
+
+      it 'validates the fields correctly when Data Type is INT' do
+        select 'Integer', from: 'Data Type'
+
+        good_integer_values.each do |int|
+          fill_in 'Value', with: int
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_content("Value [#{int}] is not a valid value for type [INT].")
+        end
+
+        bad_integer_values.each do |int|
+          fill_in 'Value', with: int[:value]
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_no_content("Value [#{int[:value]}] is not a valid value for type [INT].")
+        end
+      end
+
     end
   end
 end

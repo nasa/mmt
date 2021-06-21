@@ -244,6 +244,7 @@ $(document).ready ->
       # enforced in the CMR.
       when 'startAfterEnd' then "#{field} must be earlier than the #{error.pairedField}"
       when 'minGreaterThanMax' then "#{field} must be smaller than the #{error.pairedField}"
+      when 'invalidValueDataType' then "Value [#{error.value}] is not a valid value for type [#{error.dataType}]."
 
   getFieldType = (element) ->
     classes = $(element).attr('class').split(/\s+/)
@@ -673,9 +674,9 @@ $(document).ready ->
 
     validateParameterRanges(errors)
     errors = validatePicklistValues(errors)
-
     template_error = validateTemplateName(errors)
     validatePairedFields(errors)
+    validateValueDataType(errors)
 
     inlineErrors = []
     summaryErrors = []
@@ -778,6 +779,50 @@ $(document).ready ->
               pairedField: pairedField
 
             errors.push(error)
+
+  # These errors are not captured in the schema, they are business logic being
+  # enforced in the CMR. Since we cannot publish records with these conditions,
+  # we should provide that feedback to the user. Specifically, in the
+  # Additional Attribute the Value supplied by the user needs to conform to the
+  # Data Type the user selects. The checks in the errorPresent block are meant
+  # to APPROXIMATE those of CMR ingestion with the intention that there are
+  # likely some input values that the below logic will permit, and CMR will not,
+  # but never vice versa.
+  validateValueDataType = (errors) ->
+    $('#draft_additional_attributes').children('.multiple-item').each (index, element) ->
+      dataType = $("#draft_additional_attributes_#{index}_data_type").val()
+      value = $("#draft_additional_attributes_#{index}_value").val()
+
+      # if either dataType or value are empty move on to the next AdditionalAttribute
+      return if !dataType || !value
+
+      dateRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/
+      timeRegex = /([01]\d|2[0123]):([012345]\d):([012345]\d)/
+      dateTimeRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]\d|2[0123]):([012345]\d):([012345]\d)/
+      floatRegex = /^[+-]?\d+(\.\d+)?$/
+      intRegex = /^[-+]?\d+$/
+
+      errorPresent = switch dataType
+        when 'FLOAT' then !floatRegex.test value
+        when 'INT' then !intRegex.test value
+        when 'BOOLEAN' then value != 'true' and value != 'false'
+        when 'DATE' then !dateRegex.test value
+        when 'TIME' then !timeRegex.test value
+        when 'DATETIME' then !dateTimeRegex.test value
+
+        # there is no logic for 'STRING', 'DATE_STRING', 'TIME_STRING', or
+        # 'DATETIME_STRING' because CMR will ingest anything for these fields
+
+      if errorPresent
+        error =
+          keyword: 'invalidValueDataType'
+          dataPath: "AdditionalAttributes/#{index}/Value"
+          schemaPath: '' # necessary to not throw errors in getErrorDetails
+          params: {}
+          value: value
+          dataType: dataType
+
+        errors.push(error)
 
   validateTemplateName = (errors) ->
     if $('#draft_template_name').length > 0
