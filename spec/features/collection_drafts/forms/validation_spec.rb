@@ -723,7 +723,10 @@ describe 'Data validation for a collection draft form', js: true do
           expect(page).to have_no_content("Value [#{int[:value]}] is not a valid value for type [INT].")
         end
       end
-
+      # 
+      # it 'validates the fields correctly when Data Type is FLOAT' do
+      #
+      # end
     end
   end
 end
