@@ -265,6 +265,11 @@ module RelatedUrlsHelper
   # by our coffee files through the mappings.
   UMMCRelatedURLContentTypeMap = related_url_content_type_map.deep_dup
   UMMTURLContentTypeMap = url_content_type_map_for_umm_t
+
+  # for UMM-T v1.0 and UMM-S v1.4, Related URLs use the same mappings and enums.
+  # When KMS has added Related URL Content Type as part of the Related URL
+  # keywords provided, and UMM-T is updated to use KMS, then UMM-T and UMM-S
+  # will both use KMS for Related URL mappings and enums
   UMMTRelatedURLContentTypeMap = related_url_content_type_map_for_umm_t
 
   RelatedURLContentTypeOptions = [

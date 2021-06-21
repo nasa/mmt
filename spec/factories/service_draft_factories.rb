@@ -22,58 +22,73 @@ FactoryBot.define do
     # means entering data that is too long (e.g. description). Enum fields (e.g.
     # Type) have invalid values. Service Keywords are too short. Fields like URL
     # are missing required fields.
-    draft {{
-      'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(digits: 90)}",
-      'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(1000, omission: '')}_#{Faker::Number.number(digits: 1100)}",
-      'Type': 'INVALID',
-      'Version': '1.12345678987654321012345',
-      'Description': 1030.times { 's' },
-      'URL': {
-        'Description': 'Needs a URL'
-      },
-      'ServiceKeywords': [
-        {
-          'ServiceCategory': 'EARTH SCIENCE SERVICES'
+    draft do
+      {
+        'Name': draft_short_name || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.location}_#{Faker::Number.number(digits: 90)}",
+        'LongName': draft_entry_title || "#{Faker::Movies::HitchhikersGuideToTheGalaxy.quote.truncate(1000, omission: '')}_#{Faker::Number.number(digits: 1100)}",
+        'Type': 'INVALID',
+        'Version': '1.12345678987654321012345',
+        'Description': 1030.times { 's' },
+        'URL': {
+          'Description': 'Needs a URL'
+        },
+        'AccessConstraints': Array.wrap(1030.times { 'c' }),
+        'UseConstraints': {
+          'LicenseURL': Array.wrap(1030.times { 'c' })
+        },
+        'ServiceKeywords': [
+          {
+            'ServiceCategory': 'EARTH SCIENCE SERVICES'
+          }
+        ],
+        'ServiceOrganizations': [
+          {
+            'ShortName': 'DOI/USGS/CMG/WHSC',
+            'LongName': 'Woods Hole Science Center, Coastal and Marine Geology, U.S. Geological Survey, U.S. Department of the Interior'
+          }
+        ],
+        'Platforms': [
+          {
+            'ShortName': 81.times { 'a' }
+          }
+        ],
+        'ServiceOptions': {
+          'SubsetTypes': ['BadType']
+        },
+        'AncillaryKeywords': Array.wrap(1030.times { 'k' }),
+        'ContactGroups': [
+          {
+            'GroupName': 'Missing Roles'
+          }
+        ],
+        'ContactPersons': [
+          {
+            'FirstName': 'Missing Roles'
+          }
+        ],
+        'OperationMetadata': {
+          'OperationName': 'BadOperationMetadataName',
+          'DistributedComputingPlatform': ['BADCOMPUTINGPLATFORM']
+        },
+        'RelatedURLs': [
+          {
+            'Description': 'Test related url',
+            'URLContentType': 'DistributionURL',
+            'Type': 'GET SERVICE',
+            'Subtype': 'SOFTWARE PACKAGE'
+          }
+        ],
+        'ServiceQuality': {
+          # conditionally requires 'QualityFlag'
+          'Traceability': 'some quality metric'
+        },
+        'MetadataSpecification': {
+          'URL': 'https://cdn.earthdata.nasa.gov/umm/service/v1.4',
+          'Name': 'UMM-S',
+          'Version': '1.4'
         }
-      ],
-      'ServiceOrganizations': [
-        {
-          'ShortName': 'DOI/USGS/CMG/WHSC',
-          'LongName': 'Woods Hole Science Center, Coastal and Marine Geology, U.S. Geological Survey, U.S. Department of the Interior'
-        }
-      ],
-      'Platforms': [
-        {
-          'ShortName': 81.times { 'a' }
-        }
-      ],
-      'ServiceQuality': {
-        # conditionally requires 'QualityFlag'
-        'Traceability': 'some quality metric'
-      },
-      'OperationMetadata': {
-        'OperationName': 'BadOperationMetadataName',
-        'DistributedComputingPlatform': ['BADCOMPUTINGPLATFORM']
-      },
-      'ServiceOptions': {
-        'SubsetTypes': ['BadType']
-      },
-      'AncillaryKeywords': Array.wrap(1030.times { 'k' }),
-      'AccessConstraints': Array.wrap(1030.times { 'c' }),
-      'UseConstraints': {
-        'LicenseURL': Array.wrap(1030.times { 'c' })
-      },
-      'ContactGroups': [
-        {
-          'GroupName': 'Missing Roles'
-        }
-      ],
-      'ContactPersons': [
-        {
-          'FirstName': 'Missing Roles'
-        }
-      ]
-    }}
+      }
+    end
 
     short_name { nil }
     entry_title { nil }
@@ -430,6 +445,27 @@ FactoryBot.define do
             }
           ],
           'MaxGranules': 50.0
+        },
+        'RelatedURLs': [
+          {
+            'Description': 'Test related url',
+            'URLContentType': 'PublicationURL',
+            'Type': 'VIEW RELATED INFORMATION',
+            'Subtype': 'GENERAL DOCUMENTATION',
+            'URL': 'https://nsidc.org/support/how/what-data-subsetting-reformatting-and-reprojection-services-are-available-smap-data'
+          },
+          {
+            'Description': 'Test another related url',
+            'URLContentType': 'PublicationURL',
+            'Type': 'VIEW RELATED INFORMATION',
+            'Subtype': 'ALGORITHM DOCUMENTATION',
+            'URL': 'algorithms.org'
+          }
+        ],
+        'MetadataSpecification': {
+          'URL': 'https://cdn.earthdata.nasa.gov/umm/service/v1.4',
+          'Name': 'UMM-S',
+          'Version': '1.4'
         }
       }
     end

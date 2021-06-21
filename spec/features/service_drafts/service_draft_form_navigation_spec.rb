@@ -1,45 +1,248 @@
-describe 'Service Draft form navigation' do
-  let(:form_titles) { ['Service Information', 'Service Identification', 'Descriptive Keywords', 'Service Organizations', 'Service Contacts', 'Options', 'Operation Metadata'] }
+include DraftsHelper
 
-  context 'when visiting the edit page for a service draft' do
+describe 'Service Draft form navigation', js: true do
+  form_names = %w[service_information service_constraints descriptive_keywords service_organizations service_contacts options operation_metadata related_urls service_quality]
+
+  context 'when visiting the edit page for a full service draft' do
+    let(:full_draft) { create(:full_service_draft) }
+
     before do
       login
 
-      visit new_service_draft_path
+      visit edit_service_draft_path(full_draft)
     end
 
-    it 'renders the Service Information form' do
-      within '.eui-breadcrumbs' do
-        expect(page).to have_content('Service Drafts')
-        expect(page).to have_content('New')
-      end
+    context 'when using the top navigation dropdown to navigate to forms' do
+      form_names.each do |form_name|
+        # Note - randomization causes test result order to not agree with forms order.
+        next_form_title = titleize_form_name(get_next_form(form_name, form_names, 'Next'))
+        next_form_name = get_next_form(form_name, form_names, 'Next')
 
-      within first('.umm-form fieldset h3') do
-        expect(page).to have_content('Service Information')
+        context "when choosing #{next_form_title} from the form selection drop down" do
+          before do
+            select next_form_title, from: 'next-section-top'
+
+            expect(page).to have_content(next_form_title)
+          end
+
+          # this can be added back when it can be done from the show page
+          # because Service Information does not update when chosen from the same page
+          # it 'displays a confirmation message' do
+          #   expect(page).to have_content('Service Draft Updated Successfully!')
+          # end
+
+          it "saves the form and renders the #{next_form_title} form" do
+            within 'header .collection-basics > h2' do
+              expect(page).to have_content(next_form_title)
+            end
+            within '.eui-breadcrumbs' do
+              expect(page).to have_content('Service Drafts')
+              expect(page).to have_content(next_form_title)
+            end
+          end
+
+          it 'has the correct value selected in the `Save & Jump To` dropdown' do
+            within '.nav-top' do
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq(next_form_name)
+            end
+
+            within '.nav-bottom' do
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq(next_form_name)
+            end
+          end
+
+          it 'displays the buttons in navigation bar(s)' do
+            within '.nav-top' do
+              expect(page).to have_button('Previous')
+              expect(page).to have_button('Next')
+              expect(page).to have_button('Save')
+              expect(page).to have_button('Done')
+            end
+            within '.nav-bottom' do
+              expect(page).to have_button('Previous')
+              expect(page).to have_button('Next')
+              expect(page).to have_button('Save')
+              expect(page).to have_button('Done')
+            end
+          end
+        end
       end
     end
 
-    it 'displays the forms in the navigation bar(s) dropdown' do
-      within '.nav-top' do
-        expect(page).to have_select('Save & Jump To:', with_options: form_titles)
-      end
-      within '.nav-bottom' do
-        expect(page).to have_select('Save & Jump To:', with_options: form_titles)
+    context 'when using the bottom navigation dropdown to navigate to forms' do
+      form_names.each do |form_name|
+        # Note - randomization causes test result order to not agree with forms order.
+        next_form_title = titleize_form_name(get_next_form(form_name, form_names, 'Next'))
+        next_form_name = get_next_form(form_name, form_names, 'Next')
+
+        context "when choosing #{next_form_title} from the form selection drop down" do
+          before do
+            select next_form_title, from: 'next-section-bottom'
+
+            # wait_for_jQuery
+            expect(page).to have_content(next_form_title)
+          end
+
+          # this can be added back when it can be done from the show page
+          # because Service Information does not update when chosen from the same page
+          # it 'displays a confirmation message' do
+          #   expect(page).to have_content('Service Draft Updated Successfully!')
+          # end
+
+          it "saves the form and renders the #{next_form_title} form" do
+\
+            within 'header .collection-basics > h2' do
+              expect(page).to have_content(next_form_title)
+            end
+            within '.eui-breadcrumbs' do
+              expect(page).to have_content('Service Drafts')
+              expect(page).to have_content(next_form_title)
+            end
+          end
+
+          it 'has the correct value selected in the `Save & Jump To` dropdown' do
+            within '.nav-top' do
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq(next_form_name)
+            end
+
+            within '.nav-bottom' do
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq(next_form_name)
+            end
+          end
+
+          it 'displays the buttons in navigation bar(s)' do
+            within '.nav-top' do
+              expect(page).to have_button('Previous')
+              expect(page).to have_button('Next')
+              expect(page).to have_button('Save')
+              expect(page).to have_button('Done')
+            end
+            within '.nav-bottom' do
+              expect(page).to have_button('Previous')
+              expect(page).to have_button('Next')
+              expect(page).to have_button('Save')
+              expect(page).to have_button('Done')
+            end
+          end
+        end
       end
     end
 
-    it 'displays the buttons in navigation bar(s)' do
-      within '.nav-top' do
-        expect(page).to have_button('Previous')
-        expect(page).to have_button('Next')
-        expect(page).to have_button('Save')
-        expect(page).to have_button('Done')
+    context 'when clicking the "Next" button at the top to navigate through forms' do
+      form_names.size.times do |index|
+        # Note - randomization causes test result order to not agree with forms order.
+        current_form_name = form_names[index]
+        next_form_name = get_next_form(form_names[index], form_names, 'Next')
+        current_form_title = titleize_form_name(current_form_name)
+        next_form_title = titleize_form_name(get_next_form(current_form_name, form_names, 'Next'))
+
+        context "when pressing the 'Next' button from the #{current_form_title} form" do
+          before do
+            visit edit_service_draft_path(full_draft, current_form_name)
+
+            within '.nav-top' do
+              click_on 'Next'
+            end
+          end
+
+          it 'displays a confirmation message' do
+            expect(page).to have_content('Service Draft Updated Successfully!')
+          end
+
+          it "displays the correct page (#{next_form_title})" do
+            within 'header .collection-basics > h2' do
+              expect(page).to have_content(next_form_title)
+            end
+            within '.eui-breadcrumbs' do
+              expect(page).to have_content('Service Drafts')
+              expect(page).to have_content(next_form_title)
+            end
+          end
+
+          it 'has the correct value selected in the `Save & Jump To` dropdown' do
+            within '.nav-top' do
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq(next_form_name)
+            end
+
+            within '.nav-bottom' do
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq(next_form_name)
+            end
+          end
+
+          it 'displays the buttons in navigation bar(s)' do
+            within '.nav-top' do
+              expect(page).to have_button('Previous')
+              expect(page).to have_button('Next')
+              expect(page).to have_button('Save')
+              expect(page).to have_button('Done')
+            end
+            within '.nav-bottom' do
+              expect(page).to have_button('Previous')
+              expect(page).to have_button('Next')
+              expect(page).to have_button('Save')
+              expect(page).to have_button('Done')
+            end
+          end
+        end
       end
-      within '.nav-bottom' do
-        expect(page).to have_button('Previous')
-        expect(page).to have_button('Next')
-        expect(page).to have_button('Save')
-        expect(page).to have_button('Done')
+    end
+
+    context 'when clicking the "Previous" button at the bottom to navigate through forms' do
+      form_names.size.times do |index|
+        # Note - randomization causes test result order to not agree with forms order.
+        current_form_name = form_names[index]
+        previous_form_name = get_next_form(form_names[index], form_names, 'Previous')
+        current_form_title = titleize_form_name(current_form_name)
+        previous_form_title = titleize_form_name(get_next_form(current_form_name, form_names, 'Previous'))
+
+        context "when pressing the 'Previous' button from the #{current_form_title} form" do
+          before do
+            visit edit_service_draft_path(full_draft, current_form_name)
+
+            within '.nav-bottom' do
+              click_on 'Previous'
+            end
+          end
+
+          it 'displays a confirmation message' do
+            expect(page).to have_content('Service Draft Updated Successfully!')
+          end
+
+          it "displays the correct page (#{previous_form_title})" do
+            within 'header .collection-basics > h2' do
+              expect(page).to have_content(previous_form_title)
+            end
+            within '.eui-breadcrumbs' do
+              expect(page).to have_content('Service Drafts')
+              expect(page).to have_content(previous_form_title)
+            end
+          end
+
+          it 'has the correct value selected in the `Save & Jump To` dropdown' do
+            within '.nav-top' do
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq(previous_form_name)
+            end
+
+            within '.nav-bottom' do
+              expect(find(:css, 'select[name=jump_to_section]').value).to eq(previous_form_name)
+            end
+          end
+
+          it 'displays the buttons in navigation bar(s)' do
+            within '.nav-top' do
+              expect(page).to have_button('Previous')
+              expect(page).to have_button('Next')
+              expect(page).to have_button('Save')
+              expect(page).to have_button('Done')
+            end
+            within '.nav-bottom' do
+              expect(page).to have_button('Previous')
+              expect(page).to have_button('Next')
+              expect(page).to have_button('Save')
+              expect(page).to have_button('Done')
+            end
+          end
+        end
       end
     end
   end

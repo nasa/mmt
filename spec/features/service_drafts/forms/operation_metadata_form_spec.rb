@@ -1,11 +1,58 @@
-describe 'Service Operation Metadata Form', js: true do
+describe 'Service Drafts Operation Metadata Form', js: true do
   before do
     login
     draft = create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first)
     visit edit_service_draft_path(draft, 'operation_metadata')
   end
 
-  context 'when submitting the form with spatial points' do
+  context 'when viewing the form with no values' do
+    it 'displays the correct title' do
+      within 'header .collection-basics > h2' do
+        expect(page).to have_content('Operation Metadata')
+      end
+    end
+
+    it 'displays the form title in the breadcrumbs' do
+      within '.eui-breadcrumbs' do
+        expect(page).to have_content('Service Drafts')
+        expect(page).to have_content('Operation Metadata')
+      end
+    end
+
+    it 'displays the correct sections' do
+      within '.umm-form' do
+        expect(page).to have_css('.eui-accordion__header > h3', text: 'Operation Metadata')
+      end
+    end
+
+    it 'displays required icons for accordions on the Service Information form' do
+      expect(page).to have_no_selector('h3.eui-required-o.always-required')
+    end
+
+    it 'displays the correct number of required fields' do
+      expect(page).to have_no_selector('label.eui-required-o')
+    end
+
+    it 'displays the correct buttons to add another element' do
+      expect(page).to have_selector(:link_or_button, 'Add another Data Resource Time Point')
+      expect(page).to have_selector(:link_or_button, 'Add another Parameter')
+      expect(page).to have_selector(:link_or_button, 'Add another Operation Metadatum')
+    end
+
+    it 'displays the correct prompt value for all select elements' do
+      within '.umm-form' do
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_operation_name', selected: ['Select a Operation Name'])
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_source_type', selected: ['Select a Data Resource Source Type'])
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_spatial_type', selected: ['Select a Data Resource Spatial Type'])
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_coupled_resource_data_resource_spatial_resolution_unit', selected: ['Select a Spatial Resolution Unit'])
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_coupled_resource_data_resource_data_resource_temporal_type', selected: ['Select a Data Resource Temporal Type'])
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_coupled_resource_data_resource_temporal_resolution_unit', selected: ['Select a Temporal Resolution Unit'])
+        expect(page).to have_select('service_draft_draft_operation_metadata_0_coupled_resource_coupling_type', selected: ['Select a Coupling Type'])
+      end
+    end
+  end
+
+  context 'when filling out the form' do
     before do
       select 'DescribeCoverage', from: 'Operation Name'
       fill_in 'Operation Description', with: 'The DescribeCoverage operation description...'
@@ -25,19 +72,6 @@ describe 'Service Operation Metadata Form', js: true do
       fill_in 'Data Resource Identifier', with: 'GreatSmokyMountainsNationalPark'
       select 'Map', from: 'Data Resource Source Type'
 
-      select 'SPATIAL_POINT', from: 'Data Resource Spatial Type'
-      within '.multiple.spatial-points' do
-        within '.multiple-item-0' do
-          fill_in 'Latitude', with: '0'
-          fill_in 'Longitude', with: '0'
-        end
-        click_on 'Add another Spatial Point'
-
-        within '.multiple-item-1' do
-          fill_in 'Latitude', with: '50'
-          fill_in 'Longitude', with: '50'
-        end
-      end
       fill_in 'Spatial Resolution', with: '30'
       select 'Meters', from: 'Spatial Resolution Unit'
 
@@ -78,22 +112,39 @@ describe 'Service Operation Metadata Form', js: true do
           fill_in 'Parameter Repeatability', with: 'some'
         end
       end
+    end
 
-      within '.nav-top' do
-        click_on 'Save'
+    context 'when submitting the form with spatial points' do
+      before do
+        select 'SPATIAL_POINT', from: 'Data Resource Spatial Type'
+        within '.multiple.spatial-points' do
+          within '.multiple-item-0' do
+            fill_in 'Latitude', with: '0'
+            fill_in 'Longitude', with: '0'
+          end
+          click_on 'Add another Spatial Point'
+
+          within '.multiple-item-1' do
+            fill_in 'Latitude', with: '50'
+            fill_in 'Longitude', with: '50'
+          end
+        end
+
+        within '.nav-top' do
+          click_on 'Save'
+        end
       end
-    end
 
-    it 'does not display required icons for accordions in Operation Metadata section' do
-      expect(page).to have_no_css('h3.eui-required-o.always-required')
-    end
+      it 'displays the correct number of required fields' do
+        expect(page).to have_selector('label.eui-required-o', count: 16)
+      end
 
-    it 'displays a confirmation message' do
-      expect(page).to have_content('Service Draft Updated Successfully!')
-    end
+      it 'saves the values, displays a confirmation message, and repopulates the form' do
+        expect(page).to have_content('Service Draft Updated Successfully!')
 
-    context 'when viewing the form' do
-      include_examples 'Operation Metadata Form with Spatial Points'
+        operation_metadata_assertions
+        operation_metadata_spatial_points_assertions
+      end
     end
 
     context 'when adding spatial line strings' do
@@ -129,12 +180,16 @@ describe 'Service Operation Metadata Form', js: true do
         end
       end
 
-      it 'displays a confirmation message' do
-        expect(page).to have_content('Service Draft Updated Successfully!')
+
+      it 'displays the correct number of required fields' do
+        expect(page).to have_selector('label.eui-required-o', count: 20)
       end
 
-      context 'when viewing the form' do
-        include_examples 'Operation Metadata Form with Spatial Ling Strings'
+      it 'saves the values, displays a confirmation message, and repopulates the form' do
+        expect(page).to have_content('Service Draft Updated Successfully!')
+
+        operation_metadata_assertions
+        operation_metadata_spatial_line_strings_assertions
       end
     end
 
@@ -153,12 +208,16 @@ describe 'Service Operation Metadata Form', js: true do
         end
       end
 
-      it 'displays a confirmation message' do
-        expect(page).to have_content('Service Draft Updated Successfully!')
+
+      it 'displays the correct number of required fields' do
+        expect(page).to have_selector('label.eui-required-o', count: 17)
       end
 
-      context 'when viewing the form' do
-        include_examples 'Operation Metadata Form with a Spatial Bounding Box'
+      it 'saves the values, displays a confirmation message, and repopulates the form' do
+        expect(page).to have_content('Service Draft Updated Successfully!')
+
+        operation_metadata_assertions
+        operation_metadata_spatial_bounding_box_assertions
       end
     end
 
@@ -193,12 +252,15 @@ describe 'Service Operation Metadata Form', js: true do
         end
       end
 
-      it 'displays a confirmation message' do
-        expect(page).to have_content('Service Draft Updated Successfully!')
+      it 'displays the correct number of required fields' do
+        expect(page).to have_selector('label.eui-required-o', count: 20)
       end
 
-      context 'when viewing the form' do
-        include_examples 'Operation Metadata Form with Spatial Polygons'
+      it 'saves the values, displays a confirmation message, and repopulates the form' do
+        expect(page).to have_content('Service Draft Updated Successfully!')
+
+        operation_metadata_assertions
+        operation_metadata_spatial_polygons_assertions
       end
     end
 
@@ -236,12 +298,15 @@ describe 'Service Operation Metadata Form', js: true do
         end
       end
 
-      it 'displays a confirmation message' do
-        expect(page).to have_content('Service Draft Updated Successfully!')
+      it 'displays the correct number of required fields' do
+        expect(page).to have_selector('label.eui-required-o', count: 21)
       end
 
-      context 'when viewing the form' do
-        include_examples 'Operation Metadata Form with General Grid'
+      it 'saves the values, displays a confirmation message, and repopulates the form' do
+        expect(page).to have_content('Service Draft Updated Successfully!')
+
+        operation_metadata_assertions
+        operation_metadata_general_grid_assertions
       end
     end
   end

@@ -13,9 +13,9 @@
         }, {
           "key": "Version"
         }, {
-          "key": "VersionDescription"  
+          "key": "VersionDescription"
         }, {
-          "key": "LastUpdatedDate"  
+          "key": "LastUpdatedDate"
         }, {
           "key": "Description"
         }, {
@@ -34,24 +34,9 @@
         }
       ]
     }, {
-      "id": "service_identification",
-      "title": "Service Identification",
+      "id": "service_constraints",
+      "title": "Service Constraints",
       "fields": [
-        {
-          "key": "ServiceQuality",
-          "type": "UmmPreviewGroupedField",
-          "fields": [
-            {
-              "key": "/QualityFlag"
-            },
-            {
-              "key": "/Traceability"
-            },
-            {
-              "key": "/Lineage"
-            }
-          ]
-        },
         {
           "key": "AccessConstraints"
         },
@@ -104,6 +89,37 @@
           "key": "ContactPersons",
           "type": "UmmPreviewContacts",
           "hideFieldTitle": true
+        }
+      ]
+    }, {
+      "id": "related_urls",
+      "title": "Related URLs",
+      "fields": [
+        {
+          "key": "RelatedURLs",
+          "title": "Related URLs",
+          "hideFieldTitle": true,
+          "type": "UmmPreviewURL"
+        }
+      ]
+    }, {
+      "id": "service_quality",
+      "title": "Service Quality",
+      "fields": [
+        {
+          "key": "ServiceQuality",
+          "type": "UmmPreviewGroupedField",
+          "fields": [
+            {
+              "key": "/QualityFlag"
+            },
+            {
+              "key": "/Traceability"
+            },
+            {
+              "key": "/Lineage"
+            }
+          ]
         }
       ]
     }

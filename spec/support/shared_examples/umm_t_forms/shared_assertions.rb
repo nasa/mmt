@@ -1,4 +1,4 @@
-# Groups of assertions use in UMM-T form tests
+# Groups of assertions used in UMM-T form tests
 
 def tool_contact_groups_assertions
   within '.multiple.contact-groups > .multiple-item-0' do

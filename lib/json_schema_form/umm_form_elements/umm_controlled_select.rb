@@ -36,11 +36,15 @@ class UmmControlledSelect < UmmSelect
       options_for_select(set_data_centers, element_value)
     when 'country'
       options_for_select(set_country_codes, element_value)
-    when 'umm_t_related_url_content_type'
+    when 'umm_t_related_url_content_type', 'umm_s_related_url_content_type'
+      # for UMM-T v1.0 and UMM-S v1.4, Related URLs use the same mappings and enums.
+      # When KMS has added Related URL Content Type as part of the Related URL
+      # keywords provided, and UMM-T is updated to use KMS, then UMM-T and UMM-S
+      # will both use KMS for Related URL mappings and enums
       options_for_select(RelatedUrlsHelper::UMMTRelatedURLContentTypeOptions, element_value)
-    when 'umm_t_related_url_type'
+    when 'umm_t_related_url_type', 'umm_s_related_url_type'
       options_for_select(RelatedUrlsHelper::UMMTRelatedURLTypeOptions, element_value)
-    when 'umm_t_related_url_subtype'
+    when 'umm_t_related_url_subtype', 'umm_s_related_url_subtype'
       options_for_select(RelatedUrlsHelper::UMMTRelatedURLSubtypeOptions, element_value)
     when 'umm_t_url_content_type'
       options_for_select(RelatedUrlsHelper::UMMTURLContentTypeOptions, element_value)
