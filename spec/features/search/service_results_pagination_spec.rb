@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Search Services Results Pagination', reset_provider: true, js: true do
   before :all do
     5.times { |i| publish_service_draft(name: "nasa.service.00#{i}") }
