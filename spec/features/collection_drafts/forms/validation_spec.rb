@@ -67,11 +67,16 @@ good_bool_values = ['true','false']
 bad_bool_values = ['False','random string','tRue']
 
 # date values
-good_addtl_attr_dates = ['2000-02-01', '2015-00-01', '1900-03-21', '2122-12-10']
-bad_addtl_attr_dates = ['2000-13-01', '2000-01-33', '2000/02/01', '2000.02.01', '2015-07-01T00:00:00Z','2015-07-01T00:00:00.000']
+good_addtl_attr_dates = ['2000-02-01', '2015-01-01', '1900-03-21', '2122-12-10']
+bad_addtl_attr_dates = ['2000-13-01', '2000-01-33', '2000/02/01', '2000.02.01', '2015-07-01T00:00:00Z','2015-07-01T00:00:00.000', '2015-00-01']
 
 # time values
-good_time_values = ['1:1:1', 'T00:00:00Z']
+good_time_values = ['1:1:1', '00:00:00Z', '0:0:0.1', '23:59:59.001Z', '00:00:00']
+bad_time_values = ['00:00:00.','10:01', '24:59:59', '23:60:59', '23:59:60','00:00:00.0001']
+
+# date time values
+good_datetime_values = ['2000-02-01T1:1:1', '2015-01-01T00:00:00Z', '1900-03-21T23:59:59.001Z', '2122-12-10T00:00:00']
+bad_datetime_values = ['2000-12-0100:00:00', '2000-01-33T00:00:00', '2000-02-01T00:00:00.Z', '2000.02.01', '2015-07-01','2015-07-01T00:60:00.000', '2015-00-01T1:1:1.1']
 
 describe 'Data validation for a collection draft form', js: true do
   before do
@@ -763,7 +768,7 @@ describe 'Data validation for a collection draft form', js: true do
         end
 
         bad_bool_values.each do |bool|
-          fill_in 'Value', with: int[:float]
+          fill_in 'Value', with: bool
           find('#draft_additional_attributes_0_data_type').click
           expect(page).to have_content("Value [#{bool}] is not a valid value for type [BOOLEAN].")
         end
@@ -785,6 +790,37 @@ describe 'Data validation for a collection draft form', js: true do
         end
       end
 
+      it 'validates the fields correctly when Data Type is TIME' do
+        select 'Time', from: 'Data Type'
+
+        good_time_values.each do |time|
+          fill_in 'Value', with: time
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_no_content("Value [#{time}] is not a valid value for type [TIME].")
+        end
+
+        bad_time_values.each do |time|
+          fill_in 'Value', with: time
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_content("Value [#{time}] is not a valid value for type [TIME].")
+        end
+      end
+
+      it 'validates the fields correctly when Data Type is DATETIME' do
+        select 'Date time', from: 'Data Type'
+
+        good_datetime_values.each do |dt|
+          fill_in 'Value', with: dt
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_no_content("Value [#{dt}] is not a valid value for type [DATETIME].")
+        end
+
+        bad_datetime_values.each do |dt|
+          fill_in 'Value', with: dt
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_content("Value [#{dt}] is not a valid value for type [DATETIME].")
+        end
+      end
     end
   end
 end
