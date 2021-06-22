@@ -724,21 +724,19 @@ describe 'Data validation for a collection draft form', js: true do
       before do
         visit edit_collection_draft_path(@draft, form: 'descriptive_keywords')
         click_on 'Expand All'
+        fill_in 'Name', with: 'attr name'
+        fill_in 'Description', with: 'attr description'
       end
 
       it 'validates the fields correctly when Data Type is INT' do
         select 'Integer', from: 'Data Type'
 
         good_integer_values.each do |int|
-          fill_in 'Value', with: int
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_no_content("Value [#{int}] is not a valid value for type [INT].")
+          addtl_attr_check_validation_and_progress_circles(int, 'INT')
         end
 
         bad_integer_values.each do |int|
-          fill_in 'Value', with: int[:value]
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_content("Value [#{int[:value]}] is not a valid value for type [INT].")
+          addtl_attr_check_validation_and_progress_circles(int[:value], 'INT', error_present: true)
         end
       end
 
@@ -746,15 +744,11 @@ describe 'Data validation for a collection draft form', js: true do
         select 'Float', from: 'Data Type'
 
         good_number_values.each do |float|
-          fill_in 'Value', with: float
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_no_content("Value [#{float}] is not a valid value for type [FLOAT].")
+          addtl_attr_check_validation_and_progress_circles(float, 'FLOAT')
         end
 
         bad_number_values.each do |float|
-          fill_in 'Value', with: float[:value]
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_content("Value [#{float[:value]}] is not a valid value for type [FLOAT].")
+          addtl_attr_check_validation_and_progress_circles(float[:value], 'FLOAT', error_present: true)
         end
       end
 
@@ -762,15 +756,11 @@ describe 'Data validation for a collection draft form', js: true do
         select 'Boolean', from: 'Data Type'
 
         good_bool_values.each do |bool|
-          fill_in 'Value', with: bool
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_no_content("Value [#{bool}] is not a valid value for type [BOOLEAN].")
+          addtl_attr_check_validation_and_progress_circles(bool, 'BOOLEAN')
         end
 
         bad_bool_values.each do |bool|
-          fill_in 'Value', with: bool
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_content("Value [#{bool}] is not a valid value for type [BOOLEAN].")
+          addtl_attr_check_validation_and_progress_circles(bool, 'BOOLEAN', error_present: true)
         end
       end
 
@@ -778,15 +768,11 @@ describe 'Data validation for a collection draft form', js: true do
         select 'Date', from: 'Data Type'
 
         good_addtl_attr_dates.each do |date|
-          fill_in 'Value', with: date
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_no_content("Value [#{date}] is not a valid value for type [DATE].")
+          addtl_attr_check_validation_and_progress_circles(date, 'DATE')
         end
 
         bad_addtl_attr_dates.each do |date|
-          fill_in 'Value', with: date
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_content("Value [#{date}] is not a valid value for type [DATE].")
+          addtl_attr_check_validation_and_progress_circles(date, 'DATE', error_present: true)
         end
       end
 
@@ -794,15 +780,11 @@ describe 'Data validation for a collection draft form', js: true do
         select 'Time', from: 'Data Type'
 
         good_time_values.each do |time|
-          fill_in 'Value', with: time
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_no_content("Value [#{time}] is not a valid value for type [TIME].")
+          addtl_attr_check_validation_and_progress_circles(time, 'TIME')
         end
 
         bad_time_values.each do |time|
-          fill_in 'Value', with: time
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_content("Value [#{time}] is not a valid value for type [TIME].")
+          addtl_attr_check_validation_and_progress_circles(time, 'TIME', error_present: true)
         end
       end
 
@@ -810,15 +792,11 @@ describe 'Data validation for a collection draft form', js: true do
         select 'Date time', from: 'Data Type'
 
         good_datetime_values.each do |dt|
-          fill_in 'Value', with: dt
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_no_content("Value [#{dt}] is not a valid value for type [DATETIME].")
+          addtl_attr_check_validation_and_progress_circles(dt, 'DATETIME')
         end
 
         bad_datetime_values.each do |dt|
-          fill_in 'Value', with: dt
-          find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_content("Value [#{dt}] is not a valid value for type [DATETIME].")
+          addtl_attr_check_validation_and_progress_circles(dt, 'DATETIME', error_present: true)
         end
       end
     end

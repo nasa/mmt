@@ -196,6 +196,7 @@ RSpec.configure do |config|
   config.include Helpers::UmmTDraftHelpers
   config.include Helpers::UserHelpers
   config.include Helpers::TagsHelpers
+  config.include Helpers::ValidationHelpers
 
   # Inclusion filter, uncomment line below to run only tests with `focus: true`
   # config.filter_run_including :focus => true
