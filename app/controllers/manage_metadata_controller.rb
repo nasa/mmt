@@ -241,8 +241,8 @@ class ManageMetadataController < ApplicationController
   # The following are used to validate AdditionalAttributes/#{index}/DataType, as
   # these errors are not captured in the schema, they are business logic being
   # enforced in the CMR, and so they are being validated in collection_drafts_controller.rb
-  FLOAT_REGEX = /^[+-]?\d+(\.\d+)?$/
-  INT_REGEX = /^[-+]?\d+$/
+  FLOAT_REGEX = /^[+-]?\d+(\.\d+)?([eE][-+]?\d+)?$/
+  INT_REGEX = /^[-+]?\d+([eE][-+]?\d+)?$/
   DATE_REGEX = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/
   TIME_REGEX = /([01]\d|2[0123]):([012345]\d):([012345]\d)/
   DATETIME_REGEX = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]\d|2[0123]):([012345]\d):([012345]\d)/

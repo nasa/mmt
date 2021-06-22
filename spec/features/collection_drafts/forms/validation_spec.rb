@@ -60,6 +60,11 @@ bad_lat_values = [
   { value: '-100', error: 'Latitude is too low' }
 ]
 
+# boolean values
+good_bool_values = ['true','false']
+bad_bool_values = ['False','random string','tRue']
+
+
 describe 'Data validation for a collection draft form', js: true do
   before do
     login
@@ -714,19 +719,54 @@ describe 'Data validation for a collection draft form', js: true do
         good_integer_values.each do |int|
           fill_in 'Value', with: int
           find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_content("Value [#{int}] is not a valid value for type [INT].")
+          expect(page).to have_no_content("Value [#{int}] is not a valid value for type [INT].")
         end
 
         bad_integer_values.each do |int|
           fill_in 'Value', with: int[:value]
           find('#draft_additional_attributes_0_data_type').click
-          expect(page).to have_no_content("Value [#{int[:value]}] is not a valid value for type [INT].")
+          expect(page).to have_content("Value [#{int[:value]}] is not a valid value for type [INT].")
         end
       end
-      # 
-      # it 'validates the fields correctly when Data Type is FLOAT' do
+
+      it 'validates the fields correctly when Data Type is FLOAT' do
+        select 'Float', from: 'Data Type'
+
+        good_number_values.each do |float|
+          fill_in 'Value', with: float
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_no_content("Value [#{float}] is not a valid value for type [FLOAT].")
+        end
+
+        bad_number_values.each do |float|
+          fill_in 'Value', with: float[:value]
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_content("Value [#{float[:value]}] is not a valid value for type [FLOAT].")
+        end
+      end
+
+      it 'validates the fields correctly when Data Type is BOOLEAN' do
+        select 'Boolean', from: 'Data Type'
+
+        good_bool_values.each do |bool|
+          fill_in 'Value', with: bool
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_no_content("Value [#{bool}] is not a valid value for type [BOOLEAN].")
+        end
+
+        bad_bool_values.each do |bool|
+          fill_in 'Value', with: int[:float]
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_content("Value [#{bool}] is not a valid value for type [BOOLEAN].")
+        end
+      end
+
+      # it 'validates the fields correctly when Data Type is DATE' do
+      #   select 'Date', from: 'Data Type'
+      #
       #
       # end
+
     end
   end
 end
