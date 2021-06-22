@@ -791,7 +791,7 @@ $(document).ready ->
   validateValueDataType = (errors) ->
     $('#draft_additional_attributes').children('.multiple-item').each (index, element) ->
       dataType = $("#draft_additional_attributes_#{index}_data_type").val()
-      value = $("#draft_additional_attributes_#{index}_value").val()
+      value = $("#draft_additional_attributes_#{index}_value").val().trim()
 
       # if either dataType or value are empty move on to the next AdditionalAttribute
       return if !dataType || !value

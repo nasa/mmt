@@ -60,10 +60,18 @@ bad_lat_values = [
   { value: '-100', error: 'Latitude is too low' }
 ]
 
+# for the AdditionalAttributes "Value" field
+
 # boolean values
 good_bool_values = ['true','false']
 bad_bool_values = ['False','random string','tRue']
 
+# date values
+good_addtl_attr_dates = ['2000-02-01', '2015-00-01', '1900-03-21', '2122-12-10']
+bad_addtl_attr_dates = ['2000-13-01', '2000-01-33', '2000/02/01', '2000.02.01', '2015-07-01T00:00:00Z','2015-07-01T00:00:00.000']
+
+# time values
+good_time_values = ['1:1:1', 'T00:00:00Z']
 
 describe 'Data validation for a collection draft form', js: true do
   before do
@@ -761,11 +769,21 @@ describe 'Data validation for a collection draft form', js: true do
         end
       end
 
-      # it 'validates the fields correctly when Data Type is DATE' do
-      #   select 'Date', from: 'Data Type'
-      #
-      #
-      # end
+      it 'validates the fields correctly when Data Type is DATE' do
+        select 'Date', from: 'Data Type'
+
+        good_addtl_attr_dates.each do |date|
+          fill_in 'Value', with: date
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_no_content("Value [#{date}] is not a valid value for type [DATE].")
+        end
+
+        bad_addtl_attr_dates.each do |date|
+          fill_in 'Value', with: date
+          find('#draft_additional_attributes_0_data_type').click
+          expect(page).to have_content("Value [#{date}] is not a valid value for type [DATE].")
+        end
+      end
 
     end
   end
