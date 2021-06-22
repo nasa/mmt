@@ -796,9 +796,9 @@ $(document).ready ->
       # if either dataType or value are empty move on to the next AdditionalAttribute
       return if !dataType || !value
 
-      dateRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/
-      timeRegex = /([01]\d|2[0123]):([012345]\d):([012345]\d)/
-      dateTimeRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]\d|2[0123]):([012345]\d):([012345]\d)/
+      dateRegex = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/
+      timeRegex = /^([01]?\d|2[0123]):([012345]?\d):([012345]?\d)/
+      dateTimeRegex = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]\d|2[0123]):([012345]\d):([012345]\d)/
       floatRegex = /^[+-]?\d+(\.\d+)?([eE][-+]?\d+)?$/
       intRegex = /^[-+]?\d+([eE][-+]?\d+)?$/
 
