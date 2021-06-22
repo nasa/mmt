@@ -244,8 +244,8 @@ class ManageMetadataController < ApplicationController
   FLOAT_REGEX = /^[+-]?\d+(\.\d+)?([eE][-+]?\d+)?$/
   INT_REGEX = /^[-+]?\d+([eE][-+]?\d+)?$/
   DATE_REGEX = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/
-  TIME_REGEX = /^([01]?\d|2[0123]):([012345]?\d):([012345]?\d)/
-  DATETIME_REGEX = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]\d|2[0123]):([012345]\d):([012345]\d)/
+  TIME_REGEX = /^([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)(Z?$|\.\d\d?\d?Z?$)/
+  DATETIME_REGEX = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)(Z?$|\.\d\d?\d?Z?$)/
 
   ACQUISITION_INFORMATION_FIELDS = %w(
     Platforms
