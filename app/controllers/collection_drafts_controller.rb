@@ -292,8 +292,9 @@ class CollectionDraftsController < BaseDraftsController
   def validate_value_data_type(errors, metadata)
     additional_attributes = metadata.fetch('AdditionalAttributes',[])
     additional_attributes.each_with_index do |attribute, index|
-      if (value = attribute['Value'].strip) && (data_type = attribute['DataType'])
-
+      if (value = attribute['Value']) && (data_type = attribute['DataType'])
+        value.strip!
+        
         error_present = case data_type
         when 'FLOAT'
           !value.match FLOAT_REGEX
