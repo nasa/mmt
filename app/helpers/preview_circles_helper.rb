@@ -13,39 +13,39 @@ module PreviewCirclesHelper
     'collection_information' => {
       'ShortName' => {
         required: true,
-        anchor: 'collection-information'
+        anchor: 'draft_short_name_label'
       },
       'Version' => {
         required: true,
-        anchor: 'collection-information'
+        anchor: 'draft_version_label'
       },
       'VersionDescription' => {
         required: false,
-        anchor: 'collection-information'
+        anchor: 'draft_version_description_label'
       },
       'EntryTitle' => {
         required: true,
-        anchor: 'collection-information'
+        anchor: 'draft_entry_title_label'
       },
       'DOI' => {
         required: true,
-        anchor: 'collection-information'
+        anchor: 'draft_doi_label'
       },
       'AssociatedDOIs' => {
         required: false,
-        anchor: 'collection-information'
+        anchor: 'draft_associated_dois_label'
       },
       'Abstract' => {
         required: true,
-        anchor: 'collection-information'
+        anchor: 'draft_abstract_label'
       },
       'Purpose' => {
         required: false,
-        anchor: 'collection-information'
+        anchor: 'draft_purpose_label'
       },
       'DataLanguage' => {
         required: false,
-        anchor: 'collection-information'
+        anchor: 'draft_data_language_label'
       }
     },
     'data_centers' => {
@@ -135,7 +135,7 @@ module PreviewCirclesHelper
       },
       'PaleoTemporalCoverages' => {
         required: false,
-        anchor: 'paleo-temporal-coverages'
+        anchor: 'paleo-temporal-coverage'
       }
     },
     'spatial_information' => {
