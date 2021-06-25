@@ -59,7 +59,7 @@ class CollectionDraftsController < BaseDraftsController
       end
     else # record update failed
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.error", error_message: generate_model_error)
-      # For collection_template, the unsaved draft now has associated_dois which is a hash. This hash needs to be corrected/converted 
+      # For collection_template, the unsaved draft now has associated_dois which is a hash. This hash needs to be corrected/converted
       # to an array to work properly with _type.html.erb
       get_resource.correct_unsaved_draft if resource_name == 'collection_template'
       load_umm_c_schema
@@ -118,7 +118,7 @@ class CollectionDraftsController < BaseDraftsController
     draft = get_resource.draft
 
     ingested_response = cmr_client.ingest_collection(draft.to_json, get_resource.provider_id, get_resource.native_id, token)
-    
+
     if ingested_response.success?
       # get information for publication email notification before draft is deleted
       Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
