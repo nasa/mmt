@@ -282,19 +282,19 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def validate_paired_fields(errors, metadata)
-    errors = validate_value_data_type(errors, metadata)
+    errors = validate_additional_attribute_value_field(errors, metadata)
     errors = validate_parameter_ranges(errors, metadata)
     errors = validate_project_paired_dates(errors, metadata)
     errors = validate_temporal_paired_dates(errors, metadata)
     validate_tiling_identification_systems_paired_fields(errors, metadata)
   end
 
-  def validate_value_data_type(errors, metadata)
+  def validate_additional_attribute_value_field(errors, metadata)
     additional_attributes = metadata.fetch('AdditionalAttributes',[])
     additional_attributes.each_with_index do |attribute, index|
       if (value = attribute['Value']) && (data_type = attribute['DataType'])
         value.strip!
-        
+
         error_present = case data_type
         when 'FLOAT'
           !value.match FLOAT_REGEX
