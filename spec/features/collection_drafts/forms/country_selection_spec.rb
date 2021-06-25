@@ -13,7 +13,7 @@ describe 'Country selection', js: true do
 
   context 'when selecting a Country with subregions' do
     before do
-      within '#data_centers' do
+      within '#data-centers' do
         select 'United States', from: 'Country'
       end
     end
@@ -28,7 +28,7 @@ describe 'Country selection', js: true do
 
     context 'when selecting a different country' do
       before do
-        within '#data_centers' do
+        within '#data-centers' do
           select 'United Kingdom', from: 'Country'
         end
       end
@@ -40,7 +40,7 @@ describe 'Country selection', js: true do
 
     context 'when selecting "Select Country" from the country field' do
       before do
-        within '#data_centers' do
+        within '#data-centers' do
           select 'Select Country', from: 'Country'
         end
       end
@@ -53,7 +53,7 @@ describe 'Country selection', js: true do
 
   context 'when selecting a Country without subregions' do
     before do
-      within '#data_centers' do
+      within '#data-centers' do
         select 'Saint Lucia', from: 'Country'
       end
     end
