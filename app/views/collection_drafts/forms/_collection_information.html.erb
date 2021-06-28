@@ -30,7 +30,8 @@
           value: draft.draft['ShortName'],
           help: 'properties/ShortName',
           validate: true,
-          always_required: true
+          always_required: true,
+          label_id: true
          ) %>
       </div>
       <!-- Version [r] -->
@@ -43,7 +44,8 @@
           help: 'properties/Version',
           validate: true,
           always_required: true,
-          help_url: 'Version'
+          help_url: 'Version',
+          label_id: true
          ) %>
       </div>
     </div>
@@ -58,7 +60,8 @@
           value: draft.draft['VersionDescription'],
           help: 'properties/VersionDescription',
           validate: true,
-          help_url: 'Version+Description'
+          help_url: 'Version+Description',
+          label_id: true
          ) %>
       </div>
     </div>
@@ -74,7 +77,8 @@
           help: 'properties/EntryTitle',
           validate: true,
           always_required: true,
-          help_url: 'Entry+Title'
+          help_url: 'Entry+Title',
+          label_id: true
          ) %>
       </div>
     </div>
@@ -84,7 +88,8 @@
       name: 'doi',
       title: 'DOI',
       prefix: 'draft_',
-      always_required: true
+      always_required: true,
+      label_id: true
     ) %>
     <%= mmt_help_icon(
       title: 'DOI',
@@ -106,6 +111,7 @@
       name: 'associated_dois',
       title: 'Associated DOIs',
       prefix: 'draft_',
+      label_id: true
     ) %>
     <%= mmt_help_icon(
       title: 'Associated DOIs',
@@ -133,7 +139,8 @@
           help: 'properties/Abstract',
           validate: true,
           always_required: true,
-          help_url: 'Abstract'
+          help_url: 'Abstract',
+          label_id: true
          ) %>
       </div>
     </div>
@@ -149,7 +156,8 @@
           value: draft.draft['Purpose'],
           help: 'properties/Purpose',
           help_url: 'Purpose',
-          validate: true
+          validate: true,
+          label_id: true
          ) %>
       </div>
     </div>
@@ -166,7 +174,8 @@
           options: @language_codes,
           help: 'properties/DataLanguage',
           help_url: 'Data+Language',
-          classes: 'mmt-fake-enum'
+          classes: 'mmt-fake-enum',
+          label_id: true
         ) %>
       </div>
     </div>

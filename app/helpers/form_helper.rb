@@ -199,8 +199,8 @@ module FormHelper
 
   def mmt_label(options)
     options[:name] = add_pipes(options[:name])
-    id = remove_pipes(options[:prefix] + options[:name]) if options[:set_id]
-    label_for = id.nil? ? remove_pipes(options[:prefix] + options[:name]) : nil
+    id = remove_pipes(options[:prefix] + options[:name] + '_label') if options[:label_id]
+    label_for = remove_pipes(options[:prefix] + options[:name])
 
     classes = []
     classes << 'required' if options[:required]
