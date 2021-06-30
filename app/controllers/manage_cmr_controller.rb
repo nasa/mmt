@@ -110,6 +110,8 @@ class ManageCmrController < ApplicationController
                   []
                 end
 
+      # The ConnectionFailed error is being raised in base.rb > make_request likely
+      # due to the legacy services inefficiently retrieving Order Option Guids (GetCatalogItemOptionDefinitionNames)
       rescue Faraday::ConnectionFailed
         flash[:error] = I18n.t("controllers.manage_cmr.get_service_option_list.flash.timeout_error", request: request.uuid)
 
