@@ -327,3 +327,51 @@ that if set, will be provided to CMR when downloading collections. This variable
 After adding the line and saving the file, don't forget to source the file.
 
     source ~/.bash_profile
+
+### Running MMT UAT locally
+Running UAT locally can make it easier to debug issues that only occur in UAT - typically because UAT has many more records (metadata, order options, service options, etc.). Assuming MMT is running normally in development mode, the following can be done to switch over to UAT mode. 
+
+Obtain the `uat` object from the `application.yml` file that is used to run UAT remotely (this can be found in Bamboo). Using the information in the `uat` object, fill in empty fields of the new `uat` object below, and copy/paste this `uat` object into your local `application.yml` file.
+    
+    uat:
+      <<: *defaults
+      CMR_URS_PASSWORD: *<FILL IN WITH REMOTE UAT INFO>*
+      urs_password: <FILL IN WITH REMOTE UAT INFO>
+      urs_root: 'https://uat.urs.earthdata.nasa.gov/'
+      urs_username: 'mmt_uat'
+      urs_login_required: 'true'
+      secret_key_base: *<FILL IN WITH REMOTE UAT INFO>*
+      launchpad_login_required: 'false'
+      launchpad_production: 'true'
+      hide_launchpad_button: 'true'
+      urs_association_callback_url: 'https://mmt.localtest.earthdata.nasa.gov/urs_association_callback'
+      urs_login_callback_url: 'https://mmt.localtest.earthdata.nasa.gov/urs_login_callback'
+
+ Paste the following into your local `database.yml` file: 
+ 
+    uat:
+      <<: *default
+      database: db/uat.sqlite3
+      
+Then, in the `mmt` directory in your terminal stop your rails server if its running with `control + C` and run the following commands: 
+
+    RAILS_ENV=uat rake db:create
+    
+    RAILS_ENV=uat rake db:migrate
+    
+    RAILS_ENV=uat rake db:seed
+    
+    RAILS_ENV=uat rake assets:precompile
+
+The following URIs need to be added to the UAT URS Redirect URIs list:
+
+    https://mmt.localtest.earthdata.nasa.gov/urs_association_callback
+    https://mmt.localtest.earthdata.nasa.gov/urs_login_callback
+    
+like so: 
+
+![image](https://user-images.githubusercontent.com/42478387/123997171-17114500-d99e-11eb-8d3d-0318593e9eb8.png)
+
+In your terminal, run: 
+
+    RAILS_ENV=uat rails s
