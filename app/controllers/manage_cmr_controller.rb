@@ -70,8 +70,9 @@ class ManageCmrController < ApplicationController
                 end
       # The ConnectionFailed error is being raised in base.rb > make_request likely
       # due to the legacy services inefficiently retrieving Order Option Guids (GetCatalogItemOptionDefinitionNames)
-      rescue Faraday::ConnectionFailed
+      rescue Faraday::ConnectionFailed => ex
         flash[:error] = I18n.t("controllers.manage_cmr.get_order_option_list.flash.timeout_error", request: request.uuid)
+        Rails.logger.error("#{request.uuid} - ManageCmrController#get_order_option_list - Retrieve Order Options Names Error, message=#{ex.message}, stacktrace=#{ex.backtrace}")
 
         return {'Result' => []}
       end
@@ -112,8 +113,9 @@ class ManageCmrController < ApplicationController
 
       # The ConnectionFailed error is being raised in base.rb > make_request likely
       # due to the legacy services inefficiently retrieving Order Option Guids (GetCatalogItemOptionDefinitionNames)
-      rescue Faraday::ConnectionFailed
+      rescue Faraday::ConnectionFailed => ex
         flash[:error] = I18n.t("controllers.manage_cmr.get_service_option_list.flash.timeout_error", request: request.uuid)
+        Rails.logger.error("#{request.uuid} - ManageCmrController#get_service_option_list - Retrieve Service Options Names Error, message=#{ex.message}, stacktrace=#{ex.backtrace}")
 
         return {'Result' => []}
       end
