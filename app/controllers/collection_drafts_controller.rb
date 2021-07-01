@@ -297,17 +297,17 @@ class CollectionDraftsController < BaseDraftsController
 
         error_present = case data_type
         when 'FLOAT'
-          !value.match FLOAT_REGEX
+          !value.match(Regexp.new(FLOAT_REGEX))
         when 'INT'
-          !value.match INT_REGEX
+          !value.match(Regexp.new(INT_REGEX))
         when 'BOOLEAN'
           value != 'true' && value != 'false'
         when 'DATE'
-          !value.match DATE_REGEX
+          !value.match(Regexp.new(DATE_REGEX))
         when 'TIME'
-          !value.match TIME_REGEX
+          !value.match(Regexp.new(TIME_REGEX))
         when 'DATETIME'
-          !value.match DATETIME_REGEX
+          !value.match(Regexp.new(DATETIME_REGEX))
         end
 
         if error_present
@@ -319,6 +319,17 @@ class CollectionDraftsController < BaseDraftsController
 
     errors
   end
+
+  # The following are used to validate AdditionalAttributes/#{index}/DataType, as
+  # these errors are not captured in the schema, they are business logic being
+  # enforced in the CMR, and so they are being validated in collection_drafts_controller.rb;
+  # They are strings instead of Regex literals so they can be passed through hidden
+  # field tags to the javascript
+  FLOAT_REGEX = '^[+-]?\d+(\.\d+)?([eE][-+]?\d+)?$'
+  INT_REGEX = '^[-+]?\d+([eE][-+]?\d+)?$'
+  DATE_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$'
+  TIME_REGEX = '^([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)(Z?$|\.\d\d?\d?Z?$)'
+  DATETIME_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)(Z?$|\.\d\d?\d?Z?$)'
 
   def validate_project_paired_dates(errors, metadata)
     projects = metadata['Projects']

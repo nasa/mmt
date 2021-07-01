@@ -789,18 +789,20 @@ $(document).ready ->
   # likely some input values that the below logic will permit, and CMR will not,
   # but never vice versa.
   validateValueDataType = (errors) ->
+    # pulling the regex's from the hidden field tags used to share them between
+    # Rails and Javascripts
+    floatRegex = new RegExp $('#float-regex-for-validation').val()
+    intRegex = new RegExp $('#integer-regex-for-validation').val()
+    dateRegex = new RegExp $('#date-regex-for-validation').val()
+    timeRegex = new RegExp $('#time-regex-for-validation').val()
+    dateTimeRegex = new RegExp $('#datetime-regex-for-validation').val()
+
     $('#draft_additional_attributes').children('.multiple-item').each (index, element) ->
       dataType = $("#draft_additional_attributes_#{index}_data_type").val()
       value = $("#draft_additional_attributes_#{index}_value").val().trim()
 
       # if either dataType or value are empty move on to the next AdditionalAttribute
       return if !dataType || !value
-
-      dateRegex = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/
-      timeRegex = /^([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)(Z?$|\.\d\d?\d?Z?$)/
-      dateTimeRegex = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)(Z?$|\.\d\d?\d?Z?$)/
-      floatRegex = /^[+-]?\d+(\.\d+)?([eE][-+]?\d+)?$/
-      intRegex = /^[-+]?\d+([eE][-+]?\d+)?$/
 
       errorPresent = switch dataType
         when 'FLOAT' then !floatRegex.test value
