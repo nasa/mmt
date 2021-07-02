@@ -282,7 +282,7 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def validate_paired_fields(errors, metadata)
-    errors = validate_additional_attribute_value_field(errors, metadata)
+    # errors = validate_additional_attribute_value_field(errors, metadata)
     errors = validate_parameter_ranges(errors, metadata)
     errors = validate_project_paired_dates(errors, metadata)
     errors = validate_temporal_paired_dates(errors, metadata)
@@ -295,22 +295,22 @@ class CollectionDraftsController < BaseDraftsController
       if (value = attribute['Value']) && (data_type = attribute['DataType'])
         value.strip!
 
-        error_present = case data_type
+        error_not_present = case data_type
         when 'FLOAT'
-          !value.match(Regexp.new(FLOAT_REGEX))
+          value.match(Regexp.new(FLOAT_REGEX))
         when 'INT'
-          !value.match(Regexp.new(INT_REGEX))
+          value.match(Regexp.new(INT_REGEX))
         when 'BOOLEAN'
-          value != 'true' && value != 'false'
+          value.match(Regexp.new(BOOL_REGEX))
         when 'DATE'
-          !value.match(Regexp.new(DATE_REGEX))
+          value.match(Regexp.new(DATE_REGEX))
         when 'TIME'
-          !value.match(Regexp.new(TIME_REGEX))
+          value.match(Regexp.new(TIME_REGEX))
         when 'DATETIME'
-          !value.match(Regexp.new(DATETIME_REGEX))
+          value.match(Regexp.new(DATETIME_REGEX))
         end
 
-        if error_present
+        unless error_not_present
           error = "The property '#/AdditionalAttributes/#{index}/Value' is not a valid value of the supplied DataType"
           errors << error
         end
@@ -330,6 +330,7 @@ class CollectionDraftsController < BaseDraftsController
   DATE_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$'
   TIME_REGEX = '^([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)(Z?$|\.\d\d?\d?Z?$)'
   DATETIME_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)(Z?$|\.\d\d?\d?Z?$)'
+  BOOL_REGEX = '^(false|true|1|0)$'
 
   def validate_project_paired_dates(errors, metadata)
     projects = metadata['Projects']

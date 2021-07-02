@@ -796,6 +796,8 @@ $(document).ready ->
     dateRegex = new RegExp $('#date-regex-for-validation').val()
     timeRegex = new RegExp $('#time-regex-for-validation').val()
     dateTimeRegex = new RegExp $('#datetime-regex-for-validation').val()
+    boolRegex = new RegExp $('boolean-regex-for-validation').val()
+
 
     $('#draft_additional_attributes').children('.multiple-item').each (index, element) ->
       dataType = $("#draft_additional_attributes_#{index}_data_type").val()
@@ -804,18 +806,18 @@ $(document).ready ->
       # if either dataType or value are empty move on to the next AdditionalAttribute
       return if !dataType || !value
 
-      errorPresent = switch dataType
-        when 'FLOAT' then !floatRegex.test value
-        when 'INT' then !intRegex.test value
-        when 'BOOLEAN' then value != 'true' and value != 'false'
-        when 'DATE' then !dateRegex.test value
-        when 'TIME' then !timeRegex.test value
-        when 'DATETIME' then !dateTimeRegex.test value
+      errorNotPresent = switch dataType
+        when 'FLOAT' then floatRegex.test value
+        when 'INT' then intRegex.test value
+        when 'BOOLEAN' then boolRegex.test value
+        when 'DATE' then dateRegex.test value
+        when 'TIME' then timeRegex.test value
+        when 'DATETIME' then dateTimeRegex.test value
 
         # there is no logic for 'STRING', 'DATE_STRING', 'TIME_STRING', or
         # 'DATETIME_STRING' because CMR will ingest anything for these fields
 
-      if errorPresent
+      unless errorNotPresent
         error =
           keyword: 'invalidValueDataType'
           dataPath: "AdditionalAttributes/#{index}/Value"
