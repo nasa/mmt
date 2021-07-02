@@ -323,10 +323,6 @@ en:
       get_order_options:
         flash:
           timeout_error: '504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact <a href="mailto:support@earthdata.nasa.gov">Earthdata Support</a> about %{request}.'
-    order_options:
-      index:
-        flash:
-          timeout_error: '504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact <a href="mailto:support@earthdata.nasa.gov">Earthdata Support</a> about %{request}.'
     order_policies:
       set_policy:
         flash:
@@ -388,6 +384,7 @@ en:
     manage_cmr:
       get_order_option_list:
         flash:
+          error: '500 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact <a href="mailto:support@earthdata.nasa.gov">Earthdata Support</a> about %{request}.'
           timeout_error: '504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact <a href="mailto:support@earthdata.nasa.gov">Earthdata Support</a> about %{request}.'
       get_service_option_list:
         flash:

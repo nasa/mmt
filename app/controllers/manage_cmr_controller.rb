@@ -61,6 +61,12 @@ class ManageCmrController < ApplicationController
       begin
         guids_response = echo_client.get_order_options_names(echo_provider_token)
 
+      rescue => ex
+        flash[:error] = I18n.t("controllers.manage_cmr.get_order_option_list.flash.error", request: request.uuid)
+        Rails.logger.error("#{request.uuid} - ManageCmrController#get_order_option_list - Retrieve Order Options Names Error, message=#{ex.message}, stacktrace=#{ex.backtrace}")
+
+        return {'Result' => []}
+      else
         guids = if guids_response.success?
                   Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', [])).map { |option| option['Guid'] }
                 else
@@ -68,13 +74,6 @@ class ManageCmrController < ApplicationController
                   flash[:error] = I18n.t("controllers.manage_cmr.get_order_option_list.flash.timeout_error", request: request.uuid) if guids_response.timeout_error?
                   []
                 end
-      # The ConnectionFailed error is being raised in base.rb > make_request likely
-      # due to the legacy services inefficiently retrieving Order Option Guids (GetCatalogItemOptionDefinitionNames)
-      rescue Faraday::ConnectionFailed => ex
-        flash[:error] = I18n.t("controllers.manage_cmr.get_order_option_list.flash.timeout_error", request: request.uuid)
-        Rails.logger.error("#{request.uuid} - ManageCmrController#get_order_option_list - Retrieve Order Options Names Error, message=#{ex.message}, stacktrace=#{ex.backtrace}")
-
-        return {'Result' => []}
       end
     end
 
@@ -103,6 +102,13 @@ class ManageCmrController < ApplicationController
       begin
         guids_response = echo_client.get_service_options_names(echo_provider_token)
 
+      rescue => ex
+        flash[:error] = I18n.t("controllers.manage_cmr.get_service_option_list.flash.error", request: request.uuid)
+        Rails.logger.error("#{request.uuid} - ManageCmrController#get_service_option_list - Retrieve Service Options Names Error, message=#{ex.message}, stacktrace=#{ex.backtrace}")
+
+        return {'Result' => []}
+
+      else
         guids = if guids_response.success?
                   Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', [])).map { |option| option['Guid'] }
                 else
@@ -110,15 +116,8 @@ class ManageCmrController < ApplicationController
                   flash[:error] = I18n.t("controllers.manage_cmr.get_service_option_list.flash.timeout_error", request: request.uuid) if guids_response.timeout_error?
                   []
                 end
-
-      # The ConnectionFailed error is being raised in base.rb > make_request likely
-      # due to the legacy services inefficiently retrieving Order Option Guids (GetCatalogItemOptionDefinitionNames)
-      rescue Faraday::ConnectionFailed => ex
-        flash[:error] = I18n.t("controllers.manage_cmr.get_service_option_list.flash.timeout_error", request: request.uuid)
-        Rails.logger.error("#{request.uuid} - ManageCmrController#get_service_option_list - Retrieve Service Options Names Error, message=#{ex.message}, stacktrace=#{ex.backtrace}")
-
-        return {'Result' => []}
       end
+
     end
 
     service_options = []
