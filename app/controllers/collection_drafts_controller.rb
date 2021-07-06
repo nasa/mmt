@@ -282,7 +282,7 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def validate_paired_fields(errors, metadata)
-    # errors = validate_additional_attribute_value_field(errors, metadata)
+    errors = validate_additional_attribute_value_field(errors, metadata)
     errors = validate_parameter_ranges(errors, metadata)
     errors = validate_project_paired_dates(errors, metadata)
     errors = validate_temporal_paired_dates(errors, metadata)
@@ -325,7 +325,7 @@ class CollectionDraftsController < BaseDraftsController
   # enforced in the CMR, and so they are being validated in collection_drafts_controller.rb;
   # They are strings instead of Regex literals so they can be passed through hidden
   # field tags to the javascript
-  FLOAT_REGEX = '^[+-]?\d+(\.\d+)?([eE][-+]?\d+)?$'
+  FLOAT_REGEX = '^[+-]?\d+(\.\d+)?([eE][-+]?\d+)?[fFdD]?$'
   INT_REGEX = '^[-+]?\d+([eE][-+]?\d+)?$'
   DATE_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$'
   TIME_REGEX = '^([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)(Z?$|\.\d\d?\d?Z?$)'
