@@ -289,6 +289,30 @@ class CollectionDraftsController < BaseDraftsController
     validate_tiling_identification_systems_paired_fields(errors, metadata)
   end
 
+  # The following regex are used to validate AdditionalAttributes/#{index}/DataType, as
+  # these errors are not captured in the schema, they are business logic being
+  # enforced in the CMR, and so they are being validated in collection_drafts_controller.rb;
+  # They are strings instead of Regex literals so they can be passed through hidden
+  # field tags to the javascript.
+
+  # The date and time regex match the following formats (the DATETIME_REGEX is just DATE_REGEX and TIME_REGEX combined)
+  # Date:
+    # yyyy-MM-dd
+  # Time:
+    # HH:mm:ss.SSSZZ  (where Z' for zero, and of the form '±HH:mm' for non-zero) (up to 9 millisecond digits)
+    # HH:mm:ssZZ (where Z' for zero, and of the form '±HH:mm' for non-zero)
+    # HH:mm:ss.SSS (up to 3 millisecond digits)
+    # HH:mm:ss
+    
+  FLOAT_REGEX = '^[+-]?\d+(\.\d+)?([eE][-+]?\d+)?[fFdD]?$'
+  INT_REGEX = '^[-+]?\d+([eE][-+]?\d+)?$'
+  DATE_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$'
+  TIME_REGEX = '^([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)($|(Z|[-+]([01]\d|2[0-3]):([0-5]\d))$|\.\d{1,3}$|\.\d{1,9}(Z|[-+]([01]\d|2[0-3]):([0-5]\d))$)'
+  DATETIME_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)($|(Z|[-+]([01]\d|2[0-3]):([0-5]\d))$|\.\d{1,3}$|\.\d{1,9}(Z|[-+]([01]\d|2[0-3]):([0-5]\d))$)'
+  BOOL_REGEX = '^(false|true|1|0)$'
+
+
+
   def validate_additional_attribute_value_field(errors, metadata)
     additional_attributes = metadata.fetch('AdditionalAttributes',[])
     additional_attributes.each_with_index do |attribute, index|
@@ -319,18 +343,6 @@ class CollectionDraftsController < BaseDraftsController
 
     errors
   end
-
-  # The following are used to validate AdditionalAttributes/#{index}/DataType, as
-  # these errors are not captured in the schema, they are business logic being
-  # enforced in the CMR, and so they are being validated in collection_drafts_controller.rb;
-  # They are strings instead of Regex literals so they can be passed through hidden
-  # field tags to the javascript
-  FLOAT_REGEX = '^[+-]?\d+(\.\d+)?([eE][-+]?\d+)?[fFdD]?$'
-  INT_REGEX = '^[-+]?\d+([eE][-+]?\d+)?$'
-  DATE_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$'
-  TIME_REGEX = '^([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)(Z?$|\.\d\d?\d?Z?$)'
-  DATETIME_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)(Z?$|\.\d\d?\d?Z?$)'
-  BOOL_REGEX = '^(false|true|1|0)$'
 
   def validate_project_paired_dates(errors, metadata)
     projects = metadata['Projects']

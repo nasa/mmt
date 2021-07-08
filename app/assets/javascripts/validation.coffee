@@ -676,7 +676,7 @@ $(document).ready ->
     errors = validatePicklistValues(errors)
     template_error = validateTemplateName(errors)
     validatePairedFields(errors)
-    validateValueDataType(errors)
+    validateAdditionalAttributeValueField(errors)
 
     inlineErrors = []
     summaryErrors = []
@@ -788,7 +788,7 @@ $(document).ready ->
   # to APPROXIMATE those of CMR ingestion with the intention that there are
   # likely some input values that the below logic will permit, and CMR will not,
   # but never vice versa.
-  validateValueDataType = (errors) ->
+  validateAdditionalAttributeValueField = (errors) ->
     # pulling the regex's from the hidden field tags used to share them between
     # Rails and Javascripts
     floatRegex = new RegExp $('#float-regex-for-validation').val()
