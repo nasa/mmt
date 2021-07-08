@@ -299,11 +299,11 @@ class CollectionDraftsController < BaseDraftsController
   # Date:
     # yyyy-MM-dd
   # Time:
-    # HH:mm:ss.SSSZZ  (where Z' for zero, and of the form '±HH:mm' for non-zero) (up to 9 millisecond digits)
-    # HH:mm:ssZZ (where Z' for zero, and of the form '±HH:mm' for non-zero)
+    # HH:mm:ss.SSSSSSSSSZ (where Z is zero offset, and of the form '±HH:mm' for non-zero offset) (up to 9 millisecond digits)
+    # HH:mm:ssZ (where Z is zero offset, and of the form '±HH:mm' for non-zero offset)
     # HH:mm:ss.SSS (up to 3 millisecond digits)
     # HH:mm:ss
-    
+
   FLOAT_REGEX = '^[+-]?\d+(\.\d+)?([eE][-+]?\d+)?[fFdD]?$'
   INT_REGEX = '^[-+]?\d+([eE][-+]?\d+)?$'
   DATE_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$'
