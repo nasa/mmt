@@ -145,6 +145,14 @@
   </div>
 </fieldset>
 
+<!-- Passing regex for validation of Value and Data Type fields -->
+<%= hidden_field_tag 'float-regex-for-validation', CollectionDraftsController::FLOAT_REGEX %>
+<%= hidden_field_tag 'integer-regex-for-validation', CollectionDraftsController::INT_REGEX %>
+<%= hidden_field_tag 'date-regex-for-validation', CollectionDraftsController::DATE_REGEX %>
+<%= hidden_field_tag 'time-regex-for-validation', CollectionDraftsController::TIME_REGEX %>
+<%= hidden_field_tag 'datetime-regex-for-validation', CollectionDraftsController::DATETIME_REGEX %>
+<%= hidden_field_tag 'boolean-regex-for-validation', CollectionDraftsController::BOOL_REGEX %>
+
 <!-- AdditionalAttribute -->
 <fieldset class="eui-accordion is-closed" id="additional-attributes">
   <div class="eui-accordion__header">
