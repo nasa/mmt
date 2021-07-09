@@ -789,14 +789,14 @@ $(document).ready ->
   # likely some input values that the below logic will permit, and CMR will not,
   # but never vice versa.
   validateAdditionalAttributeValueField = (errors) ->
-    # pulling the regex's from the hidden field tags used to share them between
-    # Rails and Javascripts
-    floatRegex = new RegExp $('#float-regex-for-validation').val()
-    intRegex = new RegExp $('#integer-regex-for-validation').val()
-    dateRegex = new RegExp $('#date-regex-for-validation').val()
-    timeRegex = new RegExp $('#time-regex-for-validation').val()
-    dateTimeRegex = new RegExp $('#datetime-regex-for-validation').val()
-    boolRegex = new RegExp $('#boolean-regex-for-validation').val()
+
+    if $('#draft_additional_attributes').length > 0
+      floatRegex = new RegExp floatRegexString
+      intRegex = new RegExp intRegexString
+      boolRegex = new RegExp boolRegexString
+      dateRegex = new RegExp dateRegexString
+      timeRegex = new RegExp timeRegexString
+      dateTimeRegex = new RegExp dateTimeRegexString
 
 
     $('#draft_additional_attributes').children('.multiple-item').each (index, element) ->
@@ -813,10 +813,9 @@ $(document).ready ->
         when 'DATE' then dateRegex.test value
         when 'TIME' then timeRegex.test value
         when 'DATETIME' then dateTimeRegex.test value
-
         # there is no logic for 'STRING', 'DATE_STRING', 'TIME_STRING', or
         # 'DATETIME_STRING' because CMR will ingest anything for these fields
-
+      
       unless errorNotPresent
         error =
           keyword: 'invalidValueDataType'
