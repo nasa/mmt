@@ -292,8 +292,9 @@ class CollectionDraftsController < BaseDraftsController
   # The following regex are used to validate AdditionalAttributes/#{index}/DataType, as
   # these errors are not captured in the schema, they are business logic being
   # enforced in the CMR, and so they are being validated in collection_drafts_controller.rb;
-  # They are strings instead of Regex literals so they can be passed through hidden
-  # field tags to the javascript.
+  # They are strings instead of Regex literals so they can be more easily manipulated and
+  # passed through to the Javascript;
+  # CMR uses Java parsing functions and this regex is an approximation of their checks
 
   # The date and time regex match the following formats (the DATETIME_REGEX is just DATE_REGEX and TIME_REGEX combined)
   # Date:

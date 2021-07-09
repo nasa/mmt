@@ -798,7 +798,6 @@ $(document).ready ->
       timeRegex = new RegExp timeRegexString
       dateTimeRegex = new RegExp dateTimeRegexString
 
-
     $('#draft_additional_attributes').children('.multiple-item').each (index, element) ->
       dataType = $("#draft_additional_attributes_#{index}_data_type").val()
       value = $("#draft_additional_attributes_#{index}_value").val().trim()
@@ -815,7 +814,7 @@ $(document).ready ->
         when 'DATETIME' then dateTimeRegex.test value
         # there is no logic for 'STRING', 'DATE_STRING', 'TIME_STRING', or
         # 'DATETIME_STRING' because CMR will ingest anything for these fields
-      
+
       unless errorNotPresent
         error =
           keyword: 'invalidValueDataType'
