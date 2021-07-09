@@ -796,7 +796,7 @@ $(document).ready ->
     dateRegex = new RegExp $('#date-regex-for-validation').val()
     timeRegex = new RegExp $('#time-regex-for-validation').val()
     dateTimeRegex = new RegExp $('#datetime-regex-for-validation').val()
-    boolRegex = new RegExp $('boolean-regex-for-validation').val()
+    boolRegex = new RegExp $('#boolean-regex-for-validation').val()
 
 
     $('#draft_additional_attributes').children('.multiple-item').each (index, element) ->

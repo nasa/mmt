@@ -63,7 +63,7 @@ bad_lat_values = [
 # for the AdditionalAttributes "Value" field
 
 # boolean values
-good_bool_values = ['true','false']
+good_bool_values = ['true','false','1','0']
 bad_bool_values = ['False','random string','tRue']
 
 # date values
