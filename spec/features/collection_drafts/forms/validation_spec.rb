@@ -78,6 +78,9 @@ bad_time_values = ['00:00:00.','10:01', '24:59:59', '23:60:59', '23:59:60','00:0
 good_datetime_values = ['2000-02-01T1:1:1', '2015-01-01T00:00:00Z', '1900-03-21T23:59:59.001Z', '2122-12-10T00:00:00']
 bad_datetime_values = ['2000-12-0100:00:00', '2000-01-33T00:00:00', '2000-02-01T00:00:00.Z', '2000.02.01', '2015-07-01','2015-07-01T00:60:00.000', '2015-00-01T1:1:1.1']
 
+# string, time string, datetime string, date string values (CMR ingests all string values/symbols)
+good_string_values = ['\.[]{}()<>*+-=!?^$|✅❤️', 'string', '\string\|/', '20153324-01-01T00']
+
 describe 'Data validation for a collection draft form', js: true do
   before do
     login
@@ -797,6 +800,38 @@ describe 'Data validation for a collection draft form', js: true do
 
         bad_datetime_values.each do |dt|
           addtl_attr_check_validation_and_progress_circles(dt, 'DATETIME', error_present: true)
+        end
+      end
+
+      it 'validates the fields correctly when Data Type is STRING' do
+        select 'String', from: 'Data Type'
+
+        good_string_values.each do |str|
+          addtl_attr_check_validation_and_progress_circles(str, 'STRING')
+        end
+      end
+
+      it 'validates the fields correctly when Data Type is DATETIME_STRING' do
+        select 'Date Time String', from: 'Data Type'
+
+        good_string_values.each do |str|
+          addtl_attr_check_validation_and_progress_circles(str, 'DATETIME_STRING')
+        end
+      end
+
+      it 'validates the fields correctly when Data Type is DATE_STRING' do
+        select 'Date String', from: 'Data Type'
+
+        good_string_values.each do |str|
+          addtl_attr_check_validation_and_progress_circles(str, 'DATE_STRING')
+        end
+      end
+
+      it 'validates the fields correctly when Data Type is TIME_STRING' do
+        select 'Time String', from: 'Data Type'
+
+        good_string_values.each do |str|
+          addtl_attr_check_validation_and_progress_circles(str, 'TIME_STRING')
         end
       end
     end
