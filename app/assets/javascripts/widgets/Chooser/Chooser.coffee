@@ -236,9 +236,9 @@ window.Chooser = (config) ->
 
       # Ensure each option has a title so that mouse hover reveals the full value
       # if it overflows the bounding box.
-      $(TO_LIST).find('option').each (key, tmpVal) ->
-        $(tmpVal).attr 'title', $(tmpVal).text()
-        return
+      # $(TO_LIST).find('option').each (key, tmpVal) ->
+      #   $(tmpVal).attr 'title', $(tmpVal).text()
+      #   return
       return
 
     $(FROM_LIST).change ->
@@ -253,9 +253,9 @@ window.Chooser = (config) ->
         $(LOWER_FROM_LABEL).text(lowerFromLabelText)
       # Ensure each option has a title so that mouse hover reveals the full value
       # if it overflows the bounding box.
-      $(FROM_LIST).find('option').each (key, tmpVal) ->
-        $(tmpVal).attr 'title', $(tmpVal).text()
-        return
+      # $(FROM_LIST).find('option').each (key, tmpVal) ->
+      #   $(tmpVal).attr 'title', $(tmpVal).text()
+      #   return
       return
 
     $(FROM_FILTER_TEXTBOX).keyup initFromFilter
@@ -377,7 +377,7 @@ window.Chooser = (config) ->
           dispVal = optVal = tmpVal[0]
         else
           dispVal = optVal = tmpVal
-        opt = $('<option>').val(optVal).text(dispVal)
+        opt = $('<option>').val(optVal).text(dispVal).addClass('icon-s3')
         $(which).append opt
         return
       $(which).trigger 'change'
