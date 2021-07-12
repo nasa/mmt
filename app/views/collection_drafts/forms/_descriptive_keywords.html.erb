@@ -182,13 +182,10 @@
   </div>
 </fieldset>
 
-<!-- Setup Science Keywords -->
+<!-- Setup Science Keywords & and pass regex for validation of Value and Data Type fields -->
 <script type="text/javascript">
   setupScienceKeywords(<%= raw @science_keywords.to_json %>);
-</script>
 
-<!-- Passing regex for validation of Value and Data Type fields -->
-<script>
   var floatRegexString = "<%= Regexp.quote  CollectionDraftsController::FLOAT_REGEX %>";
   var intRegexString = "<%= Regexp.quote CollectionDraftsController::INT_REGEX %>";
   var dateRegexString = "<%= Regexp.quote CollectionDraftsController::DATE_REGEX %>";
