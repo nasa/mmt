@@ -82,6 +82,15 @@
   }
 }
 
+.icon-s3 {
+  &:before {
+    content: '\f111';
+    font-family: "FontAwesome";
+    color: $orange;
+    margin-right: 0.75em;
+  }
+}
+
 .eui-circle-left {
   &:before {
     font-family: "EUI-Icon-Library";
