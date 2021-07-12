@@ -60,6 +60,24 @@ bad_lat_values = [
   { value: '-100', error: 'Latitude is too low' }
 ]
 
+# for the AdditionalAttributes "Value" field
+
+# boolean values
+good_bool_values = ['true','false','1','0']
+bad_bool_values = ['False','random string','tRue']
+
+# date values
+good_addtl_attr_dates = ['2000-02-01', '2015-01-01', '1900-03-21', '2122-12-10']
+bad_addtl_attr_dates = ['2000-13-01', '2000-01-33', '2000/02/01', '2000.02.01', '2015-07-01T00:00:00Z','2015-07-01T00:00:00.000', '2015-00-01']
+
+# time values
+good_time_values = ['1:1:1', '00:00:00Z', '0:0:0.1', '23:59:59.001Z', '00:00:00']
+bad_time_values = ['00:00:00.','10:01', '24:59:59', '23:60:59', '23:59:60','00:00:00.0001']
+
+# date time values
+good_datetime_values = ['2000-02-01T1:1:1', '2015-01-01T00:00:00Z', '1900-03-21T23:59:59.001Z', '2122-12-10T00:00:00']
+bad_datetime_values = ['2000-12-0100:00:00', '2000-01-33T00:00:00', '2000-02-01T00:00:00.Z', '2000.02.01', '2015-07-01','2015-07-01T00:60:00.000', '2015-00-01T1:1:1.1']
+
 describe 'Data validation for a collection draft form', js: true do
   before do
     login
@@ -652,7 +670,7 @@ describe 'Data validation for a collection draft form', js: true do
             it 'displays the error only in the second project' do
               within '#draft_projects_0' do
                 expect(page).to have_field('Start Date', with: '2014-08-01T00:00:00Z')
-                expect(page).to have_no_content('Start Date must be earlier than the End Date')                
+                expect(page).to have_no_content('Start Date must be earlier than the End Date')
               end
 
               within '#draft_projects_1' do
@@ -699,6 +717,87 @@ describe 'Data validation for a collection draft form', js: true do
       it 'displays the correct error' do
         expect(page).to have_field('Minimum Value', with: '13.0')
         expect(page).to have_content('Minimum Value must be smaller than the Maximum Value')
+      end
+    end
+
+    context 'when validating Additional Attribute Value and Data Type fields' do
+      before do
+        visit edit_collection_draft_path(@draft, form: 'descriptive_keywords')
+        click_on 'Expand All'
+        fill_in 'Name', with: 'attr name'
+        fill_in 'Description', with: 'attr description'
+      end
+
+      it 'validates the fields correctly when Data Type is INT' do
+        select 'Integer', from: 'Data Type'
+
+        good_integer_values.each do |int|
+          addtl_attr_check_validation_and_progress_circles(int, 'INT')
+        end
+
+        bad_integer_values.each do |int|
+          addtl_attr_check_validation_and_progress_circles(int[:value], 'INT', error_present: true)
+        end
+      end
+
+      it 'validates the fields correctly when Data Type is FLOAT' do
+        select 'Float', from: 'Data Type'
+
+        good_number_values.each do |float|
+          addtl_attr_check_validation_and_progress_circles(float, 'FLOAT')
+        end
+
+        bad_number_values.each do |float|
+          addtl_attr_check_validation_and_progress_circles(float[:value], 'FLOAT', error_present: true)
+        end
+      end
+
+      it 'validates the fields correctly when Data Type is BOOLEAN' do
+        select 'Boolean', from: 'Data Type'
+
+        good_bool_values.each do |bool|
+          addtl_attr_check_validation_and_progress_circles(bool, 'BOOLEAN')
+        end
+
+        bad_bool_values.each do |bool|
+          addtl_attr_check_validation_and_progress_circles(bool, 'BOOLEAN', error_present: true)
+        end
+      end
+
+      it 'validates the fields correctly when Data Type is DATE' do
+        select 'Date', from: 'Data Type'
+
+        good_addtl_attr_dates.each do |date|
+          addtl_attr_check_validation_and_progress_circles(date, 'DATE')
+        end
+
+        bad_addtl_attr_dates.each do |date|
+          addtl_attr_check_validation_and_progress_circles(date, 'DATE', error_present: true)
+        end
+      end
+
+      it 'validates the fields correctly when Data Type is TIME' do
+        select 'Time', from: 'Data Type'
+
+        good_time_values.each do |time|
+          addtl_attr_check_validation_and_progress_circles(time, 'TIME')
+        end
+
+        bad_time_values.each do |time|
+          addtl_attr_check_validation_and_progress_circles(time, 'TIME', error_present: true)
+        end
+      end
+
+      it 'validates the fields correctly when Data Type is DATETIME' do
+        select 'Date time', from: 'Data Type'
+
+        good_datetime_values.each do |dt|
+          addtl_attr_check_validation_and_progress_circles(dt, 'DATETIME')
+        end
+
+        bad_datetime_values.each do |dt|
+          addtl_attr_check_validation_and_progress_circles(dt, 'DATETIME', error_present: true)
+        end
       end
     end
   end

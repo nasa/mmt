@@ -282,10 +282,65 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def validate_paired_fields(errors, metadata)
+    errors = validate_additional_attribute_value_field(errors, metadata)
     errors = validate_parameter_ranges(errors, metadata)
     errors = validate_project_paired_dates(errors, metadata)
     errors = validate_temporal_paired_dates(errors, metadata)
     validate_tiling_identification_systems_paired_fields(errors, metadata)
+  end
+
+  # The following regex are used to validate AdditionalAttributes/#{index}/DataType, as
+  # these errors are not captured in the schema, they are business logic being
+  # enforced in the CMR, and so they are being validated in collection_drafts_controller.rb;
+  # They are strings instead of Regex literals so they can be more easily manipulated and
+  # passed through to the Javascript;
+  # CMR uses Java parsing functions and this regex is an approximation of their checks
+
+  # The date and time regex match the following formats (the DATETIME_REGEX is just DATE_REGEX and TIME_REGEX combined)
+  # Date:
+    # yyyy-MM-dd
+  # Time:
+    # HH:mm:ss.SSSSSSSSSZ (where Z is zero offset, and of the form '±HH:mm' for non-zero offset) (up to 9 millisecond digits)
+    # HH:mm:ssZ (where Z is zero offset, and of the form '±HH:mm' for non-zero offset)
+    # HH:mm:ss.SSS (up to 3 millisecond digits)
+    # HH:mm:ss
+
+  FLOAT_REGEX = '^[+-]?\d+(\.\d+)?([eE][-+]?\d+)?[fFdD]?$'
+  INT_REGEX = '^[-+]?\d+([eE][-+]?\d+)?$'
+  DATE_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$'
+  TIME_REGEX = '^([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)($|(Z|[-+]([01]\d|2[0-3]):([0-5]\d))$|\.\d{1,3}$|\.\d{1,9}(Z|[-+]([01]\d|2[0-3]):([0-5]\d))$)'
+  DATETIME_REGEX = '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))T([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)($|(Z|[-+]([01]\d|2[0-3]):([0-5]\d))$|\.\d{1,3}$|\.\d{1,9}(Z|[-+]([01]\d|2[0-3]):([0-5]\d))$)'
+  BOOL_REGEX = '^(false|true|1|0)$'
+
+  def validate_additional_attribute_value_field(errors, metadata)
+    additional_attributes = metadata.fetch('AdditionalAttributes',[])
+    additional_attributes.each_with_index do |attribute, index|
+      if (value = attribute['Value']) && (data_type = attribute['DataType'])
+        value.strip!
+
+        error_not_present = case data_type
+        when 'FLOAT'
+          value.match(Regexp.new(FLOAT_REGEX))
+        when 'INT'
+          value.match(Regexp.new(INT_REGEX))
+        when 'BOOLEAN'
+          value.match(Regexp.new(BOOL_REGEX))
+        when 'DATE'
+          value.match(Regexp.new(DATE_REGEX))
+        when 'TIME'
+          value.match(Regexp.new(TIME_REGEX))
+        when 'DATETIME'
+          value.match(Regexp.new(DATETIME_REGEX))
+        end
+
+        unless error_not_present
+          error = "The property '#/AdditionalAttributes/#{index}/Value' is not a valid value of the supplied DataType"
+          errors << error
+        end
+      end
+    end
+
+    errors
   end
 
   def validate_project_paired_dates(errors, metadata)
