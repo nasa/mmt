@@ -282,7 +282,7 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def validate_paired_fields(errors, metadata)
-    # errors = validate_additional_attribute_value_field(errors, metadata)
+    errors = validate_additional_attribute_value_field(errors, metadata)
     errors = validate_parameter_ranges(errors, metadata)
     errors = validate_project_paired_dates(errors, metadata)
     errors = validate_temporal_paired_dates(errors, metadata)
