@@ -86,8 +86,14 @@
   &:before {
     content: '\f111';
     font-family: "FontAwesome";
-    color: $orange;
     margin-right: 0.75em;
+    background: -moz-linear-gradient(top, #ffdc6c 10%, #dd7f00 50%);
+    background: -webkit-linear-gradient(top, #ffdc6c 10%, #dd7f00 50%);
+    background: linear-gradient(to bottom, #ffdc6c 10%, #dd7f00 50%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 
