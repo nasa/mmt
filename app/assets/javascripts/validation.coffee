@@ -812,6 +812,7 @@ $(document).ready ->
           when 'DATE' then dateRegex.test value
           when 'TIME' then timeRegex.test value
           when 'DATETIME' then dateTimeRegex.test value
+          else true
           # there is no logic for 'STRING', 'DATE_STRING', 'TIME_STRING', or
           # 'DATETIME_STRING' because CMR will ingest anything for these fields
 

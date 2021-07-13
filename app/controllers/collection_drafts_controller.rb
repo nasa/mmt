@@ -331,6 +331,8 @@ class CollectionDraftsController < BaseDraftsController
           value.match(Regexp.new(TIME_REGEX))
         when 'DATETIME'
           value.match(Regexp.new(DATETIME_REGEX))
+        else
+          true
         end
 
         unless error_not_present
