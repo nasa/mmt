@@ -30,6 +30,7 @@ describe 'Chooser Disable Selected Options', js: true do
       end
     end
 
+    # TODO: add [title="s3 buckets"] for each collection with s3 buckets
     it 'disables the selected items in the from list' do
       within '#catalog_item_guid_fromList' do
         expect(page).to have_css('option[value="C1200060160-MMT_2"]:disabled')
@@ -56,6 +57,7 @@ describe 'Chooser Disable Selected Options', js: true do
         end
       end
 
+      # TODO: add [title="s3 buckets"] for each collection with s3 buckets
       it 'enables the items on the left hand side' do
         within '#catalog_item_guid_fromList' do
           expect(page).to have_css('option[value="C1200060160-MMT_2"]:enabled')
@@ -72,6 +74,7 @@ describe 'Chooser Disable Selected Options', js: true do
         end
       end
 
+      # TODO: add [title="s3 buckets"] for each collection with s3 buckets
       it 'enables the items on the left hand side' do
         within '#catalog_item_guid_fromList' do
           expect(page).to have_css('option[value="C1200060160-MMT_2"]:enabled')
