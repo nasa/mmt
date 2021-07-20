@@ -31,6 +31,7 @@ describe 'Chooser To Filter', js: true do
     it 'moves the items to the TO list' do
       within '#catalog_item_guid_toList' do
         expect(page).to have_css('option', count: 3)
+        # TODO: add expectation for s3 icon and title
       end
     end
 
@@ -52,6 +53,7 @@ describe 'Chooser To Filter', js: true do
         within '#catalog_item_guid_toList' do
           # Selenium is picking up the '.is-hidden' element(s) for some reason, so we need to specify not having the class
           expect(page).to have_css('option:not(.is-hidden)', count: 2)
+          # TODO: add expectation for s3 icon and title of the non-hidden s3 collections
         end
       end
 
@@ -78,6 +80,7 @@ describe 'Chooser To Filter', js: true do
           within '#catalog_item_guid_toList' do
             # Selenium is picking up the '.is-hidden' element(s) for some reason, so we need to specify not having the class
             expect(page).to have_css('option:not(.is-hidden)', count: 3)
+            # TODO: add expectation for s3 icon and title of the non-hidden s3 collections
           end
         end
 
@@ -105,6 +108,7 @@ describe 'Chooser To Filter', js: true do
           within '#catalog_item_guid_toList' do
             # Selenium is picking up the '.is-hidden' element(s) for some reason, so we need to specify not having the class
             expect(page).to have_css('option:not(.is-hidden)', count: 2)
+            # TODO: add expectation for s3 icon and title of the non-hidden s3 collections
           end
         end
 
