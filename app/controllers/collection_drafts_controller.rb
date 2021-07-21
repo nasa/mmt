@@ -4,11 +4,13 @@ class CollectionDraftsController < BaseDraftsController
   include ControlledKeywords
   include CMRCollectionsHelper
   include GKRKeywordRecommendations
+  before_action :ensure_user_is_logged_in, except: [:show]
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
-  before_action :load_umm_c_schema, only: [:new, :edit, :show, :publish]
+  before_action :load_umm_c_schema, only: [:new, :edit, :publish]
   before_action :collection_validation_setup, only: [:show, :publish]
   before_action :verify_valid_metadata, only: [:publish]
   before_action :set_associated_concepts, only: [:show]
+  before_action :proposal_approver_permissions, except: [:show]
 
   layout 'collection_preview', only: [:show]
 
@@ -23,9 +25,27 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def show
-    super
-
-    @errors = validate_metadata
+    # For json format, we need to authenticate using the EDL token only.
+    if request.format == 'json'
+      token = params[:token]
+      if Rails.configuration.proposal_mode
+        token_response = cmr_client.validate_dmmt_token(token)
+      else
+        token_response = cmr_client.validate_mmt_token(token)
+      end
+      if token_response.success?
+        render json: JSON.pretty_generate(get_resource.draft)
+      else
+        render json: JSON.pretty_generate({"error": "invalid token"})
+      end
+    else
+      # These before_actions were skipped, so now we need to ensure they are called before continuing.
+      ensure_user_is_logged_in
+      load_umm_c_schema
+      proposal_approver_permissions
+      super
+      @errors = validate_metadata
+    end
   end
 
   def edit

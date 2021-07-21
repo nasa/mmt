@@ -44,8 +44,10 @@ module ControlledKeywords
 
   def set_granule_data_formats
     formats = fetch_granule_data_formats
-    formats.map! { |h| h['value'] }
-    @granule_data_formats = formats.sort << 'Not provided' unless formats.include?('Not provided')
+    unless formats.nil?
+      formats.map! { |h| h['value'] }
+      @granule_data_formats = formats.sort << 'Not provided' unless formats.include?('Not provided')
+    end
   end
 
   def set_science_keywords
