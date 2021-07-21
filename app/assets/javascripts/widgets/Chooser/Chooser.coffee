@@ -370,7 +370,7 @@ window.Chooser = (config) ->
       $.each values, (tmpKey, tmpVal) ->
         dispVal = undefined
         optVal = undefined
-        s3Prefixes = if config.showS3Buckets then 'tmpVal?[2]' else undefined
+        s3Prefixes = if config.showS3Buckets then tmpVal?[2] else undefined
         if typeof tmpVal == 'object' and tmpVal.length == 2
           optVal = tmpVal[0]
           dispVal = tmpVal[1]
