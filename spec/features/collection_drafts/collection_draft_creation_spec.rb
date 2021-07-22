@@ -57,12 +57,12 @@ describe 'Collection Draft creation', js: true do
 
         context 'when accessing a collection draft\'s json' do
           before do
-            allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Cmr::Response.new(Faraday::Response.new(status: 200, body: "{user_id:test}", response_headers: {})))
+            allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Cmr::Response.new(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: {})))
             visit collection_draft_path(CollectionDraft.first, format: 'json')
           end
 
           it 'returns the json' do
-            allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Cmr::Response.new(Faraday::Response.new(status: 200, body: "{user_id:test}", response_headers: {})))
+            allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Cmr::Response.new(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: {})))
             expect(page).to have_content("{\n  \"ShortName\": \"123\"\n}")
           end
         end

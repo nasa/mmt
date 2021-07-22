@@ -149,6 +149,7 @@ Rails.application.routes.draw do
     end
   end
   get 'subregion_options' => 'collection_drafts#subregion_options'
+  get '/collection_drafts/:id' => 'collection_drafts#show'
 
   scope module: :proposal do
     get '/approved_proposals' => 'approved_proposals#approved_proposals', as: 'approved_proposals_approved_proposals'
@@ -167,7 +168,6 @@ Rails.application.routes.draw do
       end
     end
     get 'proposal/subregion_options' => 'collection_draft_proposals#subregion_options'
-    get '/collection_drafts/:id' => 'collection_drafts#show'
     get '/collection_draft_proposals/:id' => 'collection_draft_proposals#show'
 
   end
