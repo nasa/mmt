@@ -45,7 +45,7 @@ class CollectionDraftsController < BaseDraftsController
     if token_response.success?
       # Verify the user owns the draft
       json = token_response.body
-      json = JSON.parse json if json.class == String # for some reason the mock isn't return hash but json.
+      json = JSON.parse json if json.class == String # for some reason the mock isn't return hash but json string.
       token_user_id = json['uid']
       resource = get_resource
       user = User.find_by(id: resource.user_id)
