@@ -4,13 +4,11 @@ class CollectionDraftsController < BaseDraftsController
   include ControlledKeywords
   include CMRCollectionsHelper
   include GKRKeywordRecommendations
-  before_action :ensure_user_is_logged_in, except: [:show]
-  before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
-  before_action :load_umm_c_schema, only: [:new, :edit, :publish]
+  before_action :set_resource, only: [:download_json, :show, :edit, :update, :destroy, :publish]
+  before_action :load_umm_c_schema, only: [:new, :edit, :show, :publish]
   before_action :collection_validation_setup, only: [:show, :publish]
   before_action :verify_valid_metadata, only: [:publish]
   before_action :set_associated_concepts, only: [:show]
-  before_action :proposal_approver_permissions, except: [:show]
 
   layout 'collection_preview', only: [:show]
 
@@ -25,41 +23,36 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def show
-    # For json format, we need to authenticate using the EDL token only.
-    if request.format == 'json' && !logged_in?
-      token = params[:token]
-      if Rails.configuration.proposal_mode
-        token_response = cmr_client.validate_dmmt_token(token)
-      else
-        token_response = cmr_client.validate_mmt_token(token)
-      end
-      if token_response.success?
-        # Verify the user owns the draft
-        token_user_id = JSON.parse(token_response.body)["uid"]
-        resource = get_resource
-        user = User.find_by(id: resource.user_id)
-        resource_user_id = user.urs_uid
+    super
 
-        # If so produce the draft json record
-        if resource_user_id == token_user_id
-          render json: JSON.pretty_generate(get_resource.draft)
-        else
-          # Otherwise render an error
-          render json: JSON.pretty_generate({"error": "Unauthorized"})
-        end
+    @errors = validate_metadata
+  end
+
+  def download_json
+    token = params[:token]
+    if Rails.configuration.proposal_mode
+      token_response = cmr_client.validate_dmmt_token(token)
+    else
+      token_response = cmr_client.validate_mmt_token(token)
+    end
+    if token_response.success?
+      # Verify the user owns the draft
+      json = token_response.body
+      json = JSON.parse json if json.class == String # for some reason the mock isn't return hash but json.
+      token_user_id = json["uid"]
+      resource = get_resource
+      user = User.find_by(id: resource.user_id)
+      resource_user_id = user.urs_uid
+
+      # If so produce the draft json record
+      if resource_user_id == token_user_id
+        render json: JSON.pretty_generate(get_resource.draft)
       else
-        render json: JSON.pretty_generate({"error": "invalid token"})
+        # Otherwise render an error
+        render json: JSON.pretty_generate({"error": "Unauthorized"})
       end
     else
-      # These before_actions were skipped, so now we need to ensure they are called before continuing.
-      ensure_user_is_logged_in
-      load_umm_c_schema
-      proposal_approver_permissions
-      if Rails.configuration.proposal_mode
-        ensure_non_nasa_draft_permissions
-      end
-      super
-      @errors = validate_metadata
+      render json: JSON.pretty_generate({"error": "invalid token"})
     end
   end
 
