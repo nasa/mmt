@@ -43,6 +43,9 @@ class CollectionDraftsController < BaseDraftsController
       ensure_user_is_logged_in
       load_umm_c_schema
       proposal_approver_permissions
+      if Rails.configuration.proposal_mode
+        ensure_non_nasa_draft_permissions
+      end
       super
       @errors = validate_metadata
     end

@@ -167,6 +167,9 @@ Rails.application.routes.draw do
       end
     end
     get 'proposal/subregion_options' => 'collection_draft_proposals#subregion_options'
+    get '/collection_drafts/:id' => 'collection_drafts#show'
+    get '/collection_draft_proposals/:id' => 'collection_draft_proposals#show'
+
   end
 
   resources :collection_templates, controller: 'collection_templates', draft_type: 'CollectionTemplate', as: 'collection_templates' do
