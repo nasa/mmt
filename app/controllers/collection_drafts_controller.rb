@@ -29,7 +29,14 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def download_json
-    token = params[:token]
+    authorization_header = request.headers['Authorization']
+
+    if authorization_header.nil? || !authorization_header.start_with?('Bearer')
+      render json: JSON.pretty_generate({'error': 'Unauthorized'})
+      return
+    end
+    token = authorization_header.split(' ',2)[1] || ''
+
     if Rails.configuration.proposal_mode
       token_response = cmr_client.validate_dmmt_token(token)
     else
@@ -39,7 +46,7 @@ class CollectionDraftsController < BaseDraftsController
       # Verify the user owns the draft
       json = token_response.body
       json = JSON.parse json if json.class == String # for some reason the mock isn't return hash but json.
-      token_user_id = json["uid"]
+      token_user_id = json['uid']
       resource = get_resource
       user = User.find_by(id: resource.user_id)
       resource_user_id = user.urs_uid
@@ -49,10 +56,10 @@ class CollectionDraftsController < BaseDraftsController
         render json: JSON.pretty_generate(get_resource.draft)
       else
         # Otherwise render an error
-        render json: JSON.pretty_generate({"error": "Unauthorized"})
+        render json: JSON.pretty_generate({"error": 'Unauthorized'})
       end
     else
-      render json: JSON.pretty_generate({"error": "invalid token"})
+      render json: JSON.pretty_generate({"error": 'invalid token'})
     end
   end
 
