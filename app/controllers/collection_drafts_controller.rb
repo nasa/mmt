@@ -4,7 +4,7 @@ class CollectionDraftsController < BaseDraftsController
   include ControlledKeywords
   include CMRCollectionsHelper
   include GKRKeywordRecommendations
-  before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
+  before_action :set_resource, only: [:download_json, :show, :edit, :update, :destroy, :publish]
   before_action :load_umm_c_schema, only: [:new, :edit, :show, :publish]
   before_action :collection_validation_setup, only: [:show, :publish]
   before_action :verify_valid_metadata, only: [:publish]
@@ -26,6 +26,41 @@ class CollectionDraftsController < BaseDraftsController
     super
 
     @errors = validate_metadata
+  end
+
+  def download_json
+    authorization_header = request.headers['Authorization']
+
+    if authorization_header.nil? || !authorization_header.start_with?('Bearer')
+      render json: JSON.pretty_generate({'error': 'Unauthorized'})
+      return
+    end
+    token = authorization_header.split(' ',2)[1] || ''
+
+    if Rails.configuration.proposal_mode
+      token_response = cmr_client.validate_dmmt_token(token)
+    else
+      token_response = cmr_client.validate_mmt_token(token)
+    end
+    if token_response.success?
+      # Verify the user owns the draft
+      json = token_response.body
+      json = JSON.parse json if json.class == String # for some reason the mock isn't return hash but json string.
+      token_user_id = json['uid']
+      resource = get_resource
+      user = User.find_by(id: resource.user_id)
+      resource_user_id = user.urs_uid
+
+      # If so produce the draft json record
+      if resource_user_id == token_user_id
+        render json: JSON.pretty_generate(get_resource.draft)
+      else
+        # Otherwise render an error
+        render json: JSON.pretty_generate({"error": 'Unauthorized'})
+      end
+    else
+      render json: JSON.pretty_generate({"error": 'invalid token'})
+    end
   end
 
   def edit
