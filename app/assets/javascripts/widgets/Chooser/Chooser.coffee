@@ -368,17 +368,18 @@ window.Chooser = (config) ->
     if values and typeof values == 'object'
       $(which).empty()
       $.each values, (tmpKey, tmpVal) ->
-        dispVal = undefined
-        optVal = undefined
-        s3Prefixes = if config.showS3Buckets then tmpVal?[2] else undefined
-        if typeof tmpVal == 'object' and tmpVal.length == 2
+
+        s3Prefixes = tmpVal?[2] if config.showS3Buckets
+
+        if typeof tmpVal == 'object' and tmpVal.length > 1
           optVal = tmpVal[0]
           dispVal = tmpVal[1]
         else if typeof tmpVal == 'object' and tmpVal.length == 1
           dispVal = optVal = tmpVal[0]
         else
           dispVal = optVal = tmpVal
-        opt = $('<option>').val(optVal).text(dispVal).attr('title', s3Prefixes).addClass('icon-s3' if s3Prefixes)
+
+        opt = $('<option>').val(optVal).text(dispVal).attr('title', s3Prefixes or dispVal).addClass('icon-s3' if s3Prefixes)
         $(which).append opt
         return
       $(which).trigger 'change'

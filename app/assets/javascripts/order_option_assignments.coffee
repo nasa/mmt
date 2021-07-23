@@ -28,6 +28,7 @@ $(document).ready ->
         text: ''
       },
       allowRemoveAll: true,
+      showS3Buckets: true,
       errorCallback: ->
         $('<div class="eui-banner--danger">' +
             'A server error occurred. Unable to get collections.' +
@@ -72,7 +73,7 @@ $(document).ready ->
       rules:
         'order_option_assignment[]':
           required: true
-          
+
       messages:
         'order_option_assignment[]':
           'You must select at least 1 assignment.'
@@ -114,6 +115,7 @@ $(document).ready ->
         text: ''
       },
       allowRemoveAll: true,
+      showS3Buckets: true,
       errorCallback: ->
         $('<div class="eui-banner--danger">' +
             'A server error occurred. Unable to get collections.' +

@@ -10,13 +10,14 @@ module ChooserEndpoints
     render json: {
       'hits': collections.fetch('hits', 0),
       'items': items.map do |collection|
-        [
-          collection.fetch('meta', {}).fetch('concept-id'),
-          [
-            collection.fetch('umm', {}).fetch('entry-id'),
-            collection.fetch('umm', {}).fetch('entry-title')
-          ].join(' | ')
+        s3_links = Array.wrap(collection.dig('meta','s3-links')).join(', ')
+
+        bucket = [
+          collection.dig('meta','concept-id'),
+          "#{collection.dig('umm','entry-id')} | #{collection.dig('umm','entry-title')}"
         ]
+        bucket << s3_links unless s3_links.blank?
+        bucket
       end
     }
   end
