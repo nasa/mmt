@@ -32,10 +32,15 @@ describe 'Chooser Disable Selected Options', js: true do
 
     it 'disables the selected items in the from list' do
       within '#catalog_item_guid_fromList' do
-        expect(page).to have_css('option[value="C1200060160-MMT_2"]:disabled')
+        expect(page).to have_css('option.icon-s3[value="C1200060160-MMT_2"]:disabled')
         expect(page).to have_css('option[value="C1200189951-MMT_2"]:disabled')
         expect(page).to have_css('option[value="C1200189943-MMT_2"]:disabled')
       end
+
+      # checks the hover-over values
+      expect(page).to have_css('.ui-tooltip-content', text: 'bucket1, bucket2, bucket3', count: 1)
+      expect(page).to have_css('.ui-tooltip-content', text: 'testing 03_002 | Test test title 03', count: 1)
+      expect(page).to have_css('.ui-tooltip-content', text: 'testing 02_01 | My testing title 02', count: 1)
     end
 
     context 'when removing those values from the right hand side of the chooser individually' do
@@ -58,10 +63,15 @@ describe 'Chooser Disable Selected Options', js: true do
 
       it 'enables the items on the left hand side' do
         within '#catalog_item_guid_fromList' do
-          expect(page).to have_css('option[value="C1200060160-MMT_2"]:enabled')
+          expect(page).to have_css('option.icon-s3[value="C1200060160-MMT_2"]:enabled')
           expect(page).to have_css('option[value="C1200189951-MMT_2"]:enabled')
           expect(page).to have_css('option[value="C1200189943-MMT_2"]:enabled')
         end
+
+        # checks the hover-over values
+        expect(page).to have_css('.ui-tooltip-content', text: 'bucket1, bucket2, bucket3', count: 1)
+        expect(page).to have_css('.ui-tooltip-content', text: 'testing 03_002 | Test test title 03', count: 1)
+        expect(page).to have_css('.ui-tooltip-content', text: 'testing 02_01 | My testing title 02', count: 1)
       end
     end
 
@@ -74,10 +84,15 @@ describe 'Chooser Disable Selected Options', js: true do
 
       it 'enables the items on the left hand side' do
         within '#catalog_item_guid_fromList' do
-          expect(page).to have_css('option[value="C1200060160-MMT_2"]:enabled')
+          expect(page).to have_css('option[value="C1200060160-MMT_2"].icon-s3:enabled')
           expect(page).to have_css('option[value="C1200189951-MMT_2"]:enabled')
           expect(page).to have_css('option[value="C1200189943-MMT_2"]:enabled')
         end
+        
+        # checks the hover-over values
+        expect(page).to have_css('.ui-tooltip-content', text: 'bucket1, bucket2, bucket3', count: 1)
+        expect(page).to have_css('.ui-tooltip-content', text: 'testing 03_002 | Test test title 03', count: 1)
+        expect(page).to have_css('.ui-tooltip-content', text: 'testing 02_01 | My testing title 02', count: 1)
       end
     end
   end

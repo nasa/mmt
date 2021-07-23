@@ -31,7 +31,13 @@ describe 'Chooser To Filter', js: true do
     it 'moves the items to the TO list' do
       within '#catalog_item_guid_toList' do
         expect(page).to have_css('option', count: 3)
+        expect(page).to have_css('option.icon-s3', count: 1)
       end
+
+      # checks the hover-over values
+      expect(page).to have_css('.ui-tooltip-content', text: 'bucket1, bucket2, bucket3', count: 1)
+      expect(page).to have_css('.ui-tooltip-content', text: 'testing 03_002 | Test test title 03', count: 1)
+      expect(page).to have_css('.ui-tooltip-content', text: 'testing 02_01 | My testing title 02', count: 1)
     end
 
     it 'displays the correct number of collections in the TO list' do
@@ -52,7 +58,13 @@ describe 'Chooser To Filter', js: true do
         within '#catalog_item_guid_toList' do
           # Selenium is picking up the '.is-hidden' element(s) for some reason, so we need to specify not having the class
           expect(page).to have_css('option:not(.is-hidden)', count: 2)
+          expect(page).to have_css('option.icon-s3', count: 1)
         end
+
+        # checks the hover-over values
+        expect(page).to have_css('.ui-tooltip-content', text: 'bucket1, bucket2, bucket3', count: 1)
+        expect(page).to have_css('.ui-tooltip-content', text: 'testing 03_002 | Test test title 03', count: 1)
+        expect(page).to have_css('.ui-tooltip-content', text: 'testing 02_01 | My testing title 02', count: 1)
       end
 
       it 'displays the correct number of collections in the TO list' do
@@ -78,7 +90,13 @@ describe 'Chooser To Filter', js: true do
           within '#catalog_item_guid_toList' do
             # Selenium is picking up the '.is-hidden' element(s) for some reason, so we need to specify not having the class
             expect(page).to have_css('option:not(.is-hidden)', count: 3)
+            expect(page).to have_css('option.icon-s3', count: 1)
           end
+
+          # checks the hover-over values
+          expect(page).to have_css('.ui-tooltip-content', text: 'bucket1, bucket2, bucket3', count: 1)
+          expect(page).to have_css('.ui-tooltip-content', text: 'testing 03_002 | Test test title 03', count: 1)
+          expect(page).to have_css('.ui-tooltip-content', text: 'testing 02_01 | My testing title 02', count: 1)
         end
 
         it 'displays the correct number of collections in the TO list' do
@@ -105,7 +123,13 @@ describe 'Chooser To Filter', js: true do
           within '#catalog_item_guid_toList' do
             # Selenium is picking up the '.is-hidden' element(s) for some reason, so we need to specify not having the class
             expect(page).to have_css('option:not(.is-hidden)', count: 2)
+            expect(page).to have_css('option.icon-s3', count: 1)
           end
+
+          # checks the hover-over values
+          expect(page).to have_css('.ui-tooltip-content', text: 'bucket1, bucket2, bucket3', count: 1)
+          expect(page).to have_css('.ui-tooltip-content', text: 'testing 03_002 | Test test title 03', count: 1)
+          expect(page).to have_css('.ui-tooltip-content', text: 'testing 02_01 | My testing title 02', count: 1)
         end
 
         it 'displays the correct number of collections in the TO list' do

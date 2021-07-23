@@ -31,7 +31,12 @@
         "native-id": "mmt_collection_64",
         "concept-id": "C1200060160-MMT_2",
         "revision-date": "2016-02-01T17:10:13Z",
-        "concept-type": "collection"
+        "concept-type": "collection",
+        "s3-links": [
+          "bucket1",
+          "bucket2",
+          "bucket3"
+        ]
       },
       "umm": {
         "entry-title": "Mark's Test",

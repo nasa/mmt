@@ -234,11 +234,6 @@ window.Chooser = (config) ->
       if hasProp('attachTo', 'object')
         $(config.attachTo).val SELF.val().join(config.delimiter)
 
-      # Ensure each option has a title so that mouse hover reveals the full value
-      # if it overflows the bounding box.
-      $(TO_LIST).find('option').each (key, tmpVal) ->
-        $(tmpVal).attr 'title', $(tmpVal).text()
-        return
       return
 
     $(FROM_LIST).change ->
@@ -251,11 +246,7 @@ window.Chooser = (config) ->
         lowerFromLabelText = lowerFromLabelText.replace '{{n}}', n
         lowerFromLabelText = lowerFromLabelText.replace('{{s}}', pluralize(n))
         $(LOWER_FROM_LABEL).text(lowerFromLabelText)
-      # Ensure each option has a title so that mouse hover reveals the full value
-      # if it overflows the bounding box.
-      $(FROM_LIST).find('option').each (key, tmpVal) ->
-        $(tmpVal).attr 'title', $(tmpVal).text()
-        return
+
       return
 
     $(FROM_FILTER_TEXTBOX).keyup initFromFilter
@@ -368,16 +359,18 @@ window.Chooser = (config) ->
     if values and typeof values == 'object'
       $(which).empty()
       $.each values, (tmpKey, tmpVal) ->
-        dispVal = undefined
-        optVal = undefined
-        if typeof tmpVal == 'object' and tmpVal.length == 2
+
+        s3Prefixes = tmpVal[2] if config.showS3Buckets
+
+        if typeof tmpVal == 'object' and tmpVal.length > 1
           optVal = tmpVal[0]
           dispVal = tmpVal[1]
         else if typeof tmpVal == 'object' and tmpVal.length == 1
           dispVal = optVal = tmpVal[0]
         else
           dispVal = optVal = tmpVal
-        opt = $('<option>').val(optVal).text(dispVal)
+
+        opt = $('<option>').val(optVal).text(dispVal).attr('title', s3Prefixes or dispVal).addClass('icon-s3' if s3Prefixes)
         $(which).append opt
         return
       $(which).trigger 'change'

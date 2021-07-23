@@ -32,6 +32,7 @@ $(document).ready ->
           text: ''
         },
         allowRemoveAll: true,
+        showS3Buckets: true, 
         errorCallback: ->
           $('<div class="eui-banner--danger">' +
             'A server error occurred. Unable to get collections.' +
