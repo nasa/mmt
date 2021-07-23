@@ -16,7 +16,6 @@ handleCollectionOptions = (selectedCollections) ->
     $('#chooser-widget').fadeOut(100)
 
 $(document).ready ->
-
   $('#permission-collection-list').tablesorter
     sortList: [[0,0]]
 

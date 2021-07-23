@@ -73,7 +73,7 @@ $(document).ready ->
       rules:
         'order_option_assignment[]':
           required: true
-
+          
       messages:
         'order_option_assignment[]':
           'You must select at least 1 assignment.'
