@@ -233,7 +233,7 @@ window.Chooser = (config) ->
 
       if hasProp('attachTo', 'object')
         $(config.attachTo).val SELF.val().join(config.delimiter)
-        
+
       return
 
     $(FROM_LIST).change ->
@@ -360,7 +360,7 @@ window.Chooser = (config) ->
       $(which).empty()
       $.each values, (tmpKey, tmpVal) ->
 
-        s3Prefixes = tmpVal?[2] if config.showS3Buckets
+        s3Prefixes = tmpVal[2] if config.showS3Buckets
 
         if typeof tmpVal == 'object' and tmpVal.length > 1
           optVal = tmpVal[0]
