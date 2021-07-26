@@ -32,7 +32,7 @@ class CollectionDraftsController < BaseDraftsController
     authorization_header = request.headers['Authorization']
 
     if authorization_header.nil? || !authorization_header.start_with?('Bearer')
-      render json: JSON.pretty_generate({'error': 'Unauthorized'})
+      render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
       return
     end
     token = authorization_header.split(' ',2)[1] || ''
@@ -56,10 +56,10 @@ class CollectionDraftsController < BaseDraftsController
         render json: JSON.pretty_generate(get_resource.draft)
       else
         # Otherwise render an error
-        render json: JSON.pretty_generate({"error": 'Unauthorized'})
+        render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401
       end
     else
-      render json: JSON.pretty_generate({"error": 'invalid token'})
+      render json: JSON.pretty_generate({"error": 'invalid token'}), status: 401
     end
   end
 
