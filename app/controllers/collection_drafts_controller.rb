@@ -42,24 +42,30 @@ class CollectionDraftsController < BaseDraftsController
     else
       token_response = cmr_client.validate_mmt_token(token)
     end
+
+    authorized = false
+
     if token_response.success?
-      # Verify the user owns the draft
       json = token_response.body
       json = JSON.parse json if json.class == String # for some reason the mock isn't return hash but json string.
-      token_user_id = json['uid']
-      resource = get_resource
-      user = User.find_by(id: resource.user_id)
-      resource_user_id = user.urs_uid
+      user = User.find_by(id: get_resource.user_id)
 
-      # If so produce the draft json record
-      if resource_user_id == token_user_id
-        render json: JSON.pretty_generate(get_resource.draft)
+      authorized = false
+      if Rails.configuration.proposal_mode
+        # For proposals, users only have access to proposals created by them.
+        # Verify the user owns the draft
+        authorized = true if user.urs_id == json['uid']
       else
-        # Otherwise render an error
-        render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401
+        # For drafts, users have access to any drafts in their provider list
+        # Verify the user has permissions for this provider
+        authorized = true if user.available_providers.include? user.provider_id
       end
+    end
+
+    if authorized
+      render json: JSON.pretty_generate(get_resource.draft)
     else
-      render json: JSON.pretty_generate({"error": 'invalid token'}), status: 401
+      render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401
     end
   end
 

@@ -2,7 +2,7 @@ describe CollectionDraftsController do
   before do
     set_as_mmt_proper
     @request.headers['Authorization'] = "Bearer access-token"
-    @collection_draft = create(:full_collection_draft, user: get_user)
+    @collection_draft = create(:full_collection_draft, user: create(:user, :multiple_providers))
   end
 
   it 'shows draft collection record for mmt proper' do
