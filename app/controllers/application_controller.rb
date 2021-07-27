@@ -6,13 +6,13 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
 
-  before_action :ensure_user_is_logged_in, except: [:download_json]
+  before_action :ensure_user_is_logged_in
   before_action :setup_query
   before_action :refresh_urs_if_needed, except: [:login, :logout, :refresh_token] # URS login
   before_action :refresh_launchpad_if_needed, except: [:login, :logout] # Launchpad login
   before_action :provider_set?
   before_action :proposal_mode_enabled?
-  before_action :proposal_approver_permissions, except: [:download_json]
+  before_action :proposal_approver_permissions
   # NOTE: when adding before actions, particularly dealing with logging in, make
   # sure to check whether it needs to be skipped for the welcome#index landing page as well as the custom error pages
 
