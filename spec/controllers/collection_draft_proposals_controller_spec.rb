@@ -2,7 +2,7 @@ describe Proposal::CollectionDraftProposalsController do
   before do
     set_as_proposal_mode_mmt
     @request.headers['Authorization'] = "Bearer access-token"
-    @collection_draft_proposal = create(:full_collection_draft_proposal, user: get_user)
+    @collection_draft_proposal = create(:full_collection_draft_proposal, user: create(:user, :multiple_providers))
   end
 
   it 'shows draft collection proposal record for proposal mode' do
