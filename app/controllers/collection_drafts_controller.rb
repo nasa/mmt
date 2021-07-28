@@ -48,19 +48,22 @@ class CollectionDraftsController < BaseDraftsController
     authorized = false
 
     if token_response.success?
-      json = token_response.body
-      json = JSON.parse json if json.class == String # for some reason the mock isn't return hash but json string.
-      user = User.find_by(id: get_resource.user_id)
+      token_info = token_response.body
+      token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
+      token_user = User.find_by(urs_uid: token_info['uid']) # the user assoc with the token
+      draft_user = User.find_by(id: get_resource.user_id) # the user assoc with the draft collection record
 
       authorized = false
-      if Rails.configuration.proposal_mode
-        # For proposals, users only have access to proposals created by them.
-        # Verify the user owns the draft
-        authorized = true if user.urs_uid == json['uid']
-      else
-        # For drafts, users have access to any drafts in their provider list
-        # Verify the user has permissions for this provider
-        authorized = true if user.available_providers.include? user.provider_id
+      unless token_user.nil?
+        if Rails.configuration.proposal_mode
+          # For proposals, users only have access to proposals created by them.
+          # Verify the user owns the draft
+          authorized = true if token_user.urs_uid == draft_user.urs_uid
+        else
+          # For drafts, users have access to any drafts in their provider list
+          # Verify the user has permissions for this provider
+          authorized = true if token_user.available_providers.include? get_resource.provider_id
+        end
       end
     end
 
