@@ -53,7 +53,6 @@ class CollectionDraftsController < BaseDraftsController
       token_user = User.find_by(urs_uid: token_info['uid']) # the user assoc with the token
       draft_user = User.find_by(id: get_resource.user_id) # the user assoc with the draft collection record
 
-      authorized = false
       unless token_user.nil?
         if Rails.configuration.proposal_mode
           # For proposals, users only have access to proposals created by them.
