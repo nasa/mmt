@@ -9,8 +9,8 @@ class CollectionDraftsController < BaseDraftsController
   before_action :collection_validation_setup, only: [:show, :publish]
   before_action :verify_valid_metadata, only: [:publish]
   before_action :set_associated_concepts, only: [:show]
-  before_action :ensure_user_is_logged_in, except: [:download_json]
   before_action :proposal_approver_permissions, except: [:download_json]
+  skip_before_action :ensure_user_is_logged_in, only: [:download_json]
 
   layout 'collection_preview', only: [:show]
 
