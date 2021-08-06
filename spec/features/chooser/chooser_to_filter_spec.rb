@@ -35,7 +35,7 @@ describe 'Chooser To Filter', js: true do
       end
 
       # checks the hover-over values
-      expect(page).to have_css('.ui-tooltip-content', text: 'bucket1, bucket2, bucket3', count: 1)
+      expect(page).to have_css('.ui-tooltip-content', text: 'ID_1 | Mark\'s Test<br><b>S3 Prefix:</b> bucket1<br><b>S3 Prefix:</b> bucket2<br><b>S3 Prefix:</b> bucket3', count: 1)
       expect(page).to have_css('.ui-tooltip-content', text: 'testing 03_002 | Test test title 03', count: 1)
       expect(page).to have_css('.ui-tooltip-content', text: 'testing 02_01 | My testing title 02', count: 1)
     end
@@ -62,7 +62,7 @@ describe 'Chooser To Filter', js: true do
         end
 
         # checks the hover-over values
-        expect(page).to have_css('.ui-tooltip-content', text: 'bucket1, bucket2, bucket3', count: 1)
+        expect(page).to have_css('.ui-tooltip-content', text: 'ID_1 | Mark\'s Test<br><b>S3 Prefix:</b> bucket1<br><b>S3 Prefix:</b> bucket2<br><b>S3 Prefix:</b> bucket3', count: 1)
         expect(page).to have_css('.ui-tooltip-content', text: 'testing 03_002 | Test test title 03', count: 1)
         expect(page).to have_css('.ui-tooltip-content', text: 'testing 02_01 | My testing title 02', count: 1)
       end
@@ -94,7 +94,7 @@ describe 'Chooser To Filter', js: true do
           end
 
           # checks the hover-over values
-          expect(page).to have_css('.ui-tooltip-content', text: 'bucket1, bucket2, bucket3', count: 1)
+          expect(page).to have_css('.ui-tooltip-content', text: 'ID_1 | Mark\'s Test<br><b>S3 Prefix:</b> bucket1<br><b>S3 Prefix:</b> bucket2<br><b>S3 Prefix:</b> bucket3', count: 1)
           expect(page).to have_css('.ui-tooltip-content', text: 'testing 03_002 | Test test title 03', count: 1)
           expect(page).to have_css('.ui-tooltip-content', text: 'testing 02_01 | My testing title 02', count: 1)
         end
@@ -127,7 +127,7 @@ describe 'Chooser To Filter', js: true do
           end
 
           # checks the hover-over values
-          expect(page).to have_css('.ui-tooltip-content', text: 'bucket1, bucket2, bucket3', count: 1)
+          expect(page).to have_css('.ui-tooltip-content', text: 'ID_1 | Mark\'s Test<br><b>S3 Prefix:</b> bucket1<br><b>S3 Prefix:</b> bucket2<br><b>S3 Prefix:</b> bucket3', count: 1)
           expect(page).to have_css('.ui-tooltip-content', text: 'testing 03_002 | Test test title 03', count: 1)
           expect(page).to have_css('.ui-tooltip-content', text: 'testing 02_01 | My testing title 02', count: 1)
         end

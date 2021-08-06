@@ -370,7 +370,12 @@ window.Chooser = (config) ->
         else
           dispVal = optVal = tmpVal
 
-        opt = $('<option>').val(optVal).text(dispVal).attr('title', s3Prefixes or dispVal).addClass('icon-s3' if s3Prefixes)
+        opt = $('<option>')
+                .val(optVal)
+                .text(dispVal)
+                .attr('title', if s3Prefixes then dispVal + s3Prefixes else dispVal)
+                .addClass('icon-s3' if s3Prefixes)
+                
         $(which).append opt
         return
       $(which).trigger 'change'
