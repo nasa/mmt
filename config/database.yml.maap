@@ -1,0 +1,27 @@
+default: &default
+  database: mmt
+  adapter: postgresql
+  encoding: unicode
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  pool: 5
+  port: 5432
+  timeout: 10000
+
+development:
+  <<: *default
+  username: postgres
+  host: db
+  password:
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+sit:
+  <<: *default
+  username: mmt_master
+  database: mmt_sit
+
+production:
+  <<: *default
+  username: mmt_master

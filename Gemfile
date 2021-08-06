@@ -41,7 +41,10 @@ gem 'jbuilder'
 gem 'sdoc', group: :doc
 
 # Use Unicorn as the app server
-gem 'unicorn'
+# gem 'unicorn'
+
+# Use puma as the app server.
+gem 'puma', '~> 3.12'
 
 gem 'faraday'
 gem 'faraday_middleware'
