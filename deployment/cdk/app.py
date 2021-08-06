@@ -50,11 +50,11 @@ class mmtStack(core.Stack):
         vpc = ec2.Vpc(self, f"{id}-vpc", max_azs=2)
 
         db_credentials_secret = rds.DatabaseSecret(
-            self, 'phil-DBSecret', username="postgres")
+            self, f"{id}-db-secret", username="postgres")
 
         core.CfnOutput(self, "dbSecretName",
                        value=db_credentials_secret.secret_name)
-        core.CfnOutput(self, 'dbSecretARN',
+        core.CfnOutput(self, "dbSecretARN",
                        value=db_credentials_secret.secret_arn)
 
         ingress_sg = ec2.SecurityGroup(self, f"{id}-rds-ingress",
@@ -66,7 +66,7 @@ class mmtStack(core.Stack):
             # vpcCidrBlock refers to all the IP addresses in vpc
             ec2.Peer.ipv4(vpc.vpc_cidr_block),
             ec2.Port.tcp(5432),
-            'Allows only local resources inside VPC to access this Postgres port (default -- 3306)'
+            "Allows only local resources inside VPC to access this Postgres port (default -- 3306)"
         )
 
         db = rds.DatabaseInstance(
@@ -89,16 +89,16 @@ class mmtStack(core.Stack):
             publicly_accessible=True  # TODO
         )
 
-        core.CfnOutput(self, 'dbArn', value=db.instance_arn)
-        core.CfnOutput(self, 'dbEndpointAddress',
+        core.CfnOutput(self, "dbArn", value=db.instance_arn)
+        core.CfnOutput(self, "dbEndpointAddress",
                        value=db.db_instance_endpoint_address)
-        core.CfnOutput(self, 'dbEndpointPort',
+        core.CfnOutput(self, "dbEndpointPort",
                        value=db.db_instance_endpoint_port)
 
         cluster = ecs.Cluster(
             self, f"{id}-cluster", vpc=vpc, enable_fargate_capacity_providers=True)
 
-        core.CfnOutput(self, 'clusterArn', value=cluster.cluster_arn)
+        core.CfnOutput(self, "clusterArn", value=cluster.cluster_arn)
 
         task_env = env.copy()
         task_env.update(dict(LOG_LEVEL="error"))
