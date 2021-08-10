@@ -10,8 +10,8 @@ $(document).ready ->
     # dont show the tooltips on the bulk update forms as it just looks weird
     # and messes up the tests
 
-    if $('#collectionsChooser').length > 0
-      $('#collectionsChooser').tooltip(
+    if $('.Chooser').length > 0
+      $('.Chooser').tooltip(
         content: () ->
           title = $(this).prop('title')
           element = $.parseHTML(title)
