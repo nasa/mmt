@@ -1,7 +1,6 @@
 FROM ruby:2.7.2
 
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs npm
-RUN npm install -g yarn
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs npm postgresql-client
 
 # Set an environment variable where the Rails app is installed to inside of Docker image
 ENV RAILS_ROOT /var/www/mmt
@@ -20,6 +19,7 @@ COPY . .
 COPY config/database.yml.maap config/database.yml
 RUN chmod u+x entrypoint.sh
 
+RUN npm install -g yarn
 RUN bundle exec rake assets:precompile
 
 EXPOSE 3000

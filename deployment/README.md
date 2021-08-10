@@ -26,40 +26,58 @@ $ npm run cdk bootstrap aws://${AWS_ACCOUNT_ID}/us-west-2
 
 These may already be populated.
 
-Populate secrets.
+Populate config parameters.
 
 ```bash
-export STAGE=dev
-aws secretsmanager create-secret --name maap-earthdata-password-${STAGE} \
-    --description "MAAP Earthdata Password" \
-    --secret-string "<the password>"
+export STAGE=dit
+export AWS_REGION=us-west-2
 
-aws secretsmanager create-secret --name maap-cmr-urs-password-${STAGE} \
-    --description "MAAP CMR URS Password" \
-    --secret-string "<the password>"
-```
+aws ssm put-parameter \
+    --type "SecureString" \
+    --overwrite \
+    --name "/${STAGE}-maap-mmt/EARTHDATA_PASSWORD" \
+    --value "<the password>"
 
-Populate config parameters
+aws ssm put-parameter \
+    --type "SecureString" \
+    --overwrite \
+    --name "/${STAGE}-maap-mmt/CMR_URS_PASSWORD" \
+    --value "<the password>"
 
-```bash
-export STAGE=dev
+aws ssm put-parameter \
+    --type "SecureString" \
+    --overwrite \
+    --name "/${STAGE}-maap-mmt/SECRET_KEY_BASE" \
+    --value "<the secret key base>"
+
+aws ssm put-parameter \
+    --type "SecureString" \
+    --overwrite \
+    --name "/${STAGE}-maap-mmt/URS_PASSWORD" \
+    --value "<the urs password>"
 
 aws ssm put-parameter \
     --type "String" \
     --overwrite \
-    --name "/maap/cmr-root/${STAGE}" \
+    --name "/${STAGE}-maap-mmt/EARTHDATA_USERNAME" \
+    --value "devseed"
+
+aws ssm put-parameter \
+    --type "String" \
+    --overwrite \
+    --name "/${STAGE}-maap-mmt/CMR_ROOT" \
     --value "cmr.dit.maap-project.org"
 
 aws ssm put-parameter \
     --type "String" \
     --overwrite \
-    --name "/maap/mmt-root/${STAGE}" \
+    --name "/${STAGE}-maap-mmt/MMT_ROOT" \
     --value "mmt.dit.maap-project.org"
 
 aws ssm put-parameter \
     --type "String" \
     --overwrite \
-    --name "/maap/cumulus-rest-api/${STAGE}" \
+    --name "/${STAGE}-maap-mmt/CUMULUS_REST_API" \
     --value "https://1i4283wnch.execute-api.us-east-1.amazonaws.com/dev/"
 ```
 
@@ -74,8 +92,7 @@ $ npm run cdk synth  # Synthesizes and prints the CloudFormation template for th
 ```bash
 # Set CDK variables to allow Hosted Zone lookup
 export CDK_DEPLOY_ACCOUNT=$(aws sts get-caller-identity | jq .Account -r)
-export CDK_DEPLOY_REGION $(aws configure get region)
+export CDK_DEPLOY_REGION=$(aws configure get region)
 
-# Deploys the stack(s) mmt-ecs-dev in cdk/app.py
-$ npm run cdk deploy mmt-ecs-dev  # or whatever MMT_STACK_STAGE is set to
+$ npm run cdk deploy
 ```

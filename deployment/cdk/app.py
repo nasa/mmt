@@ -29,7 +29,7 @@ class mmtStack(core.Stack):
     def __init__(
         self,
         scope: core.Construct,
-        id: str,
+        stack_id: str,
         cpu: Union[int, float] = 512,
         memory: Union[int, float] = 1024,
         mincount: int = 1,
@@ -39,7 +39,7 @@ class mmtStack(core.Stack):
         **kwargs: Any,
     ) -> None:
         """Define stack."""
-        super().__init__(scope, id, env=core.Environment(
+        super().__init__(scope, stack_id, env=core.Environment(
             account=os.environ.get("CDK_DEPLOY_ACCOUNT",
                                    os.environ["CDK_DEFAULT_ACCOUNT"]),
             region=os.environ.get("CDK_DEPLOY_REGION", os.environ["CDK_DEFAULT_REGION"])), *kwargs)
@@ -47,19 +47,28 @@ class mmtStack(core.Stack):
         permissions = permissions or []
         env = env or {}
 
-        vpc = ec2.Vpc(self, f"{id}-vpc", max_azs=2)
+        vpc = ec2.Vpc(self, f"{stack_id}-vpc", max_azs=2)
 
+        db_admin_credentials_secret = rds.DatabaseSecret(
+            self, f"/{stack_id}/AdminDBCredentials", username="postgres")
+
+        core.CfnOutput(self, "AdminDBCredentialsSecretName",
+                       value=db_admin_credentials_secret.secret_name)
+        core.CfnOutput(self, "AdminDBCredentialsSecretARN",
+                       value=db_admin_credentials_secret.secret_arn)
+
+        db_username = f"mmt_{settings.stage}"
         db_credentials_secret = rds.DatabaseSecret(
-            self, f"{id}-db-secret", username="postgres")
+            self, f"/{stack_id}/AppDBCredentials", username=db_username)
 
-        core.CfnOutput(self, "dbSecretName",
+        core.CfnOutput(self, "AppDBCredentialsSecretName",
                        value=db_credentials_secret.secret_name)
-        core.CfnOutput(self, "dbSecretARN",
+        core.CfnOutput(self, "AppDBCredentialsSecretARN",
                        value=db_credentials_secret.secret_arn)
 
-        ingress_sg = ec2.SecurityGroup(self, f"{id}-rds-ingress",
+        ingress_sg = ec2.SecurityGroup(self, f"{stack_id}-rds-ingress",
                                        vpc=vpc,
-                                       security_group_name=f"{id}-rds-ingress-sg",
+                                       security_group_name=f"{stack_id}-rds-ingress-sg",
                                        )
 
         ingress_sg.add_ingress_rule(
@@ -71,67 +80,73 @@ class mmtStack(core.Stack):
 
         db = rds.DatabaseInstance(
             self, "RDS",
-            database_name="rdsdb",
+            database_name="appdb",
             vpc=vpc,
             vpc_subnets=ec2.SubnetSelection(
                 subnet_type=ec2.SubnetType.PRIVATE),
             security_groups=[ingress_sg],
             engine=rds.DatabaseInstanceEngine.postgres(
                 version=rds.PostgresEngineVersion.VER_10_15),
-            credentials=rds.Credentials.from_secret(db_credentials_secret),
+            credentials=rds.Credentials.from_secret(
+                db_admin_credentials_secret),
             port=5432,
             instance_type=ec2.InstanceType.of(
                 ec2.InstanceClass.BURSTABLE2,
                 ec2.InstanceSize.MEDIUM,
             ),
             removal_policy=core.RemovalPolicy.DESTROY,
-            deletion_protection=False,  # TODO
-            publicly_accessible=True  # TODO
+            deletion_protection=False,
+            publicly_accessible=False,
         )
 
-        core.CfnOutput(self, "dbArn", value=db.instance_arn)
-        core.CfnOutput(self, "dbEndpointAddress",
+        core.CfnOutput(self, "DatabaseArn", value=db.instance_arn)
+        core.CfnOutput(self, "DatabaseEndpointAddress",
                        value=db.db_instance_endpoint_address)
-        core.CfnOutput(self, "dbEndpointPort",
+        core.CfnOutput(self, "DatabaseEndpointPort",
                        value=db.db_instance_endpoint_port)
 
         cluster = ecs.Cluster(
-            self, f"{id}-cluster", vpc=vpc, enable_fargate_capacity_providers=True)
+            self, f"{stack_id}-cluster", vpc=vpc, enable_fargate_capacity_providers=True)
 
-        core.CfnOutput(self, "clusterArn", value=cluster.cluster_arn)
+        core.CfnOutput(self, "ClusterArn", value=cluster.cluster_arn)
 
         task_env = env.copy()
         task_env.update(dict(LOG_LEVEL="error"))
-        task_env["ENV"] = "production"
-        task_env["RAILS_ENV"] = "production"
-        task_env["RAILS_SERVE_STATIC_FILES"] = "true" # to serve css, etc., assets
+        task_env["ENV"] = settings.stage
+        task_env["RAILS_ENV"] = settings.stage
+        # to serve css, etc., assets
+        task_env["RAILS_SERVE_STATIC_FILES"] = "true"
         task_env["DATABASE_HOST"] = db.db_instance_endpoint_address
+        task_env["DATABASE_NAME"] = "mmt"
+        task_env["DATABASE_USERNAME"] = db_username
 
-        # TODO: do these need to change?
-        task_env["SECRET_KEY_BASE"] = "foobar"
-        task_env["EARTHDATA_USERNAME"] = "devseed"
-
+        task_env["EARTHDATA_USERNAME"] = ssm.StringParameter.value_for_string_parameter(
+            self, f"/{stack_id}/EARTHDATA_USERNAME")
         task_env["CMR_ROOT"] = ssm.StringParameter.value_for_string_parameter(
-            self, f"/maap/cmr-root/{settings.stage}")
+            self, f"/{stack_id}/CMR_ROOT")
         task_env["MMT_ROOT"] = ssm.StringParameter.value_for_string_parameter(
-            self, f"/maap/mmt-root/{settings.stage}")
+            self, f"/{stack_id}/MMT_ROOT")
         task_env["CUMULUS_REST_API"] = ssm.StringParameter.value_for_string_parameter(
-            self, f"/maap/cumulus-rest-api/{settings.stage}")
+            self, f"/{stack_id}/CUMULUS_REST_API")
 
-        secret_earthdata_password = secretsmanager.Secret.from_secret_name_v2(
-            self, f"{id}-earthdata-password", f"maap-earthdata-password-{settings.stage}")
-        secret_cmr_urs_password = secretsmanager.Secret.from_secret_name_v2(
-            self, f"{id}-cmr-urs-password", f"maap-cmr-urs-password-{settings.stage}")
+        secret_earthdata_password = ssm.StringParameter.from_secure_string_parameter_attributes(
+            self, id=f"/{stack_id}/EARTHDATA_PASSWORD", parameter_name=f"/{stack_id}/EARTHDATA_PASSWORD", version=1)
+        secret_cmr_urs_password = ssm.StringParameter.from_secure_string_parameter_attributes(
+            self, id=f"/{stack_id}/CMR_URS_PASSWORD", parameter_name=f"/{stack_id}/CMR_URS_PASSWORD", version=1)
+        secret_secret_key_base = ssm.StringParameter.from_secure_string_parameter_attributes(
+            self, id=f"/{stack_id}/SECRET_KEY_BASE", parameter_name=f"/{stack_id}/SECRET_KEY_BASE", version=1)
+        secret_urs_password = ssm.StringParameter.from_secure_string_parameter_attributes(
+            self, id=f"/{stack_id}/URS_PASSWORD", parameter_name=f"/{stack_id}/URS_PASSWORD", version=1)
 
-        task_definition = ecs.FargateTaskDefinition(self, f"{id}-task-definition",
+        task_definition = ecs.FargateTaskDefinition(self, f"{stack_id}-task-definition",
                                                     cpu=cpu, memory_limit_mib=memory)
 
         task_definition.add_container(
-            f"{id}-container",
+            f"{stack_id}-container",
             image=ecs.ContainerImage.from_docker_image_asset(
                 ecr_assets.DockerImageAsset(
                     self,
-                    f"{id}-image",
+                    f"{stack_id}-image",
                     directory=path.abspath("../"),
                     file="deployment/Dockerfile"
                 )
@@ -139,28 +154,33 @@ class mmtStack(core.Stack):
             port_mappings=[ecs.PortMapping(
                 container_port=3000, host_port=3000)],
             secrets={
+                "POSTGRES_PASSWORD": ecs.Secret.from_secrets_manager(db_admin_credentials_secret, "password"),
                 "DATABASE_PASSWORD": ecs.Secret.from_secrets_manager(db_credentials_secret, "password"),
-                "EARTHDATA_PASSWORD": ecs.Secret.from_secrets_manager(secret_earthdata_password),
-                "CMR_URS_PASSWORD": ecs.Secret.from_secrets_manager(secret_cmr_urs_password)
+                "EARTHDATA_PASSWORD": ecs.Secret.from_ssm_parameter(secret_earthdata_password),
+                "CMR_URS_PASSWORD": ecs.Secret.from_ssm_parameter(secret_cmr_urs_password),
+                "SECRET_KEY_BASE": ecs.Secret.from_ssm_parameter(secret_secret_key_base),
+                "URS_PASSWORD": ecs.Secret.from_ssm_parameter(secret_urs_password),
             },
             environment=task_env,
-            logging=ecs.LogDrivers.aws_logs(stream_prefix=id)
+            logging=ecs.LogDrivers.aws_logs(stream_prefix=stack_id)
         )
 
         fargate_service = ecs_patterns.ApplicationLoadBalancedFargateService(
             self,
-            f"{id}-service",
+            f"{stack_id}-service",
             cluster=cluster,
             desired_count=mincount,
             public_load_balancer=True,
             protocol=elb.ApplicationProtocol.HTTPS,
-            domain_name=f"{settings.name}.{settings.stage}.maap-project.org",
-            domain_zone=aws_route53.HostedZone.from_lookup(self, f"{id}-hosted-zone",
-                                                           domain_name="maap-project.org"),
+            domain_name=f"mmt.{settings.stage}.maap-project.org",
+            domain_zone=aws_route53.HostedZone.from_lookup(
+                self, f"{stack_id}-hosted-zone",
+                domain_name="maap-project.org"),
             redirect_http=True,
             task_definition=task_definition
         )
-        fargate_service.target_group.configure_health_check(path="/")
+
+        fargate_service.target_group.configure_health_check(path="/", healthy_http_codes="200,301")
 
         for perm in permissions:
             fargate_service.task_definition.task_role.add_to_policy(perm)
@@ -187,23 +207,16 @@ class mmtStack(core.Stack):
             description="Allows traffic on port 80 from ALB",
         )
 
-        # api_param = ssm.StringParameter(self, "StringParameter",
-        #                                 description="pygeoapi api gateway url",
-        #                                 parameter_name=f"/{stack_name}/pygeoapi/url",
-        #                                 string_value=api.url,
-        #                                 )
-
-        # core.CfnOutput(self, "Endpoint", value=api.url)
-        # core.CfnOutput(self, "Endpoint SSM Parameter", value=api_param.parameter_name)
-
 
 app = core.App()
 
 perms = []
 
+stack_id = f"{settings.stage}-{settings.name}"
+
 # Tag infrastructure
 for key, value in {
-    "Project": settings.name,
+    "Project": stack_id,
     "Stack": settings.stage,
     "Owner": settings.owner,
     "Client": settings.client,
@@ -211,11 +224,9 @@ for key, value in {
     if value:
         core.Tag.add(app, key, value)
 
-ecs_stackname = f"{settings.name}-ecs-{settings.stage}"
-
 mmtStack(
-    app,
-    ecs_stackname,
+    scope=app,
+    stack_id=stack_id,
     cpu=settings.task_cpu,
     memory=settings.task_memory,
     mincount=settings.min_ecs_instances,
@@ -225,3 +236,5 @@ mmtStack(
 )
 
 app.synth()
+
+print("Done.")
