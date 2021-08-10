@@ -376,7 +376,6 @@ window.Chooser = (config) ->
                 .attr('title', if s3Prefixes then dispVal + s3Prefixes else dispVal)
                 .addClass('icon-s3' if s3Prefixes)
 
-
         $(which).append opt
         return
       $(which).trigger 'change'
