@@ -223,7 +223,7 @@ class MyPipelineStack(Stack):
                 "Synth",
                 input=CodePipelineSource.git_hub(
                     repo_string="MAAP-Project/mmt", 
-                    branch="cdk-ecs-deployment",  # todo: master
+                    branch="cdk-ecs-pipeline",  # todo: master
                     authentication=core.SecretValue.secrets_manager(
                         "/github.com/MAAP-Project/mmt", json_field="token")
                         ),
