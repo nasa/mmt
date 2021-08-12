@@ -5,11 +5,8 @@ from os import path
 from typing import Any, Dict, List, Optional, Union
 
 from config import StackSettings
-from aws_cdk.core import Construct, Stage, Stack, StackProps, StageProps
-from aws_cdk.pipelines import CodePipeline, CodePipelineSource, ShellStep
 
 from aws_cdk import (
-    aws_codepipeline,
     core,
     aws_ec2 as ec2,
     aws_ecs as ecs,
@@ -20,8 +17,7 @@ from aws_cdk import (
     aws_iam as iam,
     aws_elasticloadbalancingv2 as elb,
     aws_secretsmanager as secretsmanager,
-    aws_ssm as ssm,
-    pipelines as pipelines
+    aws_ssm as ssm
 )
 
 settings = StackSettings()
@@ -39,15 +35,17 @@ class mmtStack(core.Stack):
         mincount: int = 1,
         maxcount: int = 50,
         permissions: Optional[List[iam.PolicyStatement]] = None,
-        task_env: Optional[Dict] = None,
-        env: Optional[core.Environment] = None,
+        env: Optional[Dict] = None,
         **kwargs: Any,
     ) -> None:
         """Define stack."""
-        super().__init__(scope, stack_id, env=env, *kwargs)
+        super().__init__(scope, stack_id, env=core.Environment(
+            account=os.environ.get("CDK_DEPLOY_ACCOUNT",
+                                   os.environ["CDK_DEFAULT_ACCOUNT"]),
+            region=os.environ.get("CDK_DEPLOY_REGION", os.environ["CDK_DEFAULT_REGION"])), *kwargs)
 
         permissions = permissions or []
-        task_env = task_env or {}
+        env = env or {}
 
         vpc = ec2.Vpc(self, f"{stack_id}-vpc", max_azs=2)
 
@@ -112,7 +110,7 @@ class mmtStack(core.Stack):
 
         core.CfnOutput(self, "ClusterArn", value=cluster.cluster_arn)
 
-        task_env = task_env.copy()
+        task_env = env.copy()
         task_env.update(dict(LOG_LEVEL="error"))
         task_env["ENV"] = settings.stage
         task_env["RAILS_ENV"] = settings.stage
@@ -182,8 +180,7 @@ class mmtStack(core.Stack):
             task_definition=task_definition
         )
 
-        fargate_service.target_group.configure_health_check(
-            path="/", healthy_http_codes="200,301")
+        fargate_service.target_group.configure_health_check(path="/", healthy_http_codes="200,301")
 
         for perm in permissions:
             fargate_service.task_definition.task_role.add_to_policy(perm)
@@ -211,64 +208,33 @@ class mmtStack(core.Stack):
         )
 
 
-class MyPipelineStack(Stack):
-    def __init__(self, scope, id, *, description=None, env=None, stack_name=None, tags=None, synthesizer=None, termination_protection=None, analytics_reporting=None):
-        super().__init__(scope, id, description=description, env=env, stack_name=stack_name, tags=tags,
-                         synthesizer=synthesizer, termination_protection=termination_protection, analytics_reporting=analytics_reporting)
-
-        pipeline = CodePipeline(
-            self, "Pipeline",
-            self_mutation=False,
-            synth=ShellStep(
-                "Synth",
-                input=CodePipelineSource.git_hub(
-                    repo_string="MAAP-Project/mmt", 
-                    branch="cdk-ecs-deployment",  # todo: master
-                    authentication=core.SecretValue.secrets_manager(
-                        "/github.com/MAAP-Project", json_field="token")
-                        ),
-                commands=["cd deployment", "npm install", "npm run cdk synth"]
-            )
-        )
-
-        pipeline.add_stage(
-            MmtApp(self, id="mmt-app", stack_id=f"{settings.stage}-{settings.name}", env=env))
-
-class MmtApp(Stage):
-    def __init__(self, scope, id, *, stack_id, env=None, outdir=None):
-        super().__init__(scope, id, env=env, outdir=outdir)
-
-        for key, value in {
-            "Project": stack_id,
-            "Stack": settings.stage,
-            "Owner": settings.owner,
-            "Client": settings.client,
-        }.items():
-            if value:
-                core.Tags.of(self).add(key, value)
-
-        mmtStack(
-            scope=self,
-            stack_id=stack_id,
-            cpu=settings.task_cpu,
-            memory=settings.task_memory,
-            mincount=settings.min_ecs_instances,
-            maxcount=settings.max_ecs_instances,
-            permissions=[],
-            task_env=settings.env,
-            env=env
-        )
-
-
 app = core.App()
 
-MyPipelineStack(
-    app, "PipelineStack",
-    stack_name=f"{settings.stage}-mmt-pipeline",
-    env=core.Environment(
-        account=os.environ.get(
-            "CDK_DEPLOY_ACCOUNT", os.environ["CDK_DEFAULT_ACCOUNT"]),
-        region=os.environ.get("CDK_DEPLOY_REGION", os.environ["CDK_DEFAULT_REGION"]))
+perms = []
+
+stack_id = f"{settings.stage}-{settings.name}"
+
+# Tag infrastructure
+for key, value in {
+    "Project": stack_id,
+    "Stack": settings.stage,
+    "Owner": settings.owner,
+    "Client": settings.client,
+}.items():
+    if value:
+        core.Tag.add(app, key, value)
+
+mmtStack(
+    scope=app,
+    stack_id=stack_id,
+    cpu=settings.task_cpu,
+    memory=settings.task_memory,
+    mincount=settings.min_ecs_instances,
+    maxcount=settings.max_ecs_instances,
+    permissions=perms,
+    env=settings.env,
 )
 
 app.synth()
+
+print("Done.")

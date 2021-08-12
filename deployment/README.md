@@ -32,10 +32,6 @@ Populate config parameters.
 export STAGE=dit
 export AWS_REGION=us-west-2
 
-aws secretsmanager create-secret --name "/github.com/MAAP-Project" \
-    --description "GitHub credentials for MAAP-Project" \
-    --secret-string '{"token": "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"}'
-
 aws ssm put-parameter \
     --type "SecureString" \
     --overwrite \
@@ -93,22 +89,10 @@ This step isn't required, but can be useful to just validate that the configurat
 $ npm run cdk synth  # Synthesizes and prints the CloudFormation template for this stack
 ```
 
-4. Deploy
-
 ```bash
 # Set CDK variables to allow Hosted Zone lookup
 export CDK_DEPLOY_ACCOUNT=$(aws sts get-caller-identity | jq .Account -r)
 export CDK_DEPLOY_REGION=$(aws configure get region)
 
 $ npm run cdk deploy
-```
-
-4. Undeploy (optional)
-
-```bash
-# Set CDK variables to allow Hosted Zone lookup
-export CDK_DEPLOY_ACCOUNT=$(aws sts get-caller-identity | jq .Account -r)
-export CDK_DEPLOY_REGION=$(aws configure get region)
-
-$ npm run cdk destroy
 ```
