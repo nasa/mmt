@@ -32,7 +32,7 @@ Populate config parameters.
 export STAGE=dit
 export AWS_REGION=us-west-2
 
-aws secretsmanager create-secret --name "/github.com/MAAP-Project/mmt" \
+aws secretsmanager create-secret --name "/github.com/MAAP-Project" \
     --description "GitHub credentials for MAAP-Project" \
     --secret-string '{"token": "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"}'
 

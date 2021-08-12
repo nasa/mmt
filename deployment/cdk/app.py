@@ -225,14 +225,9 @@ class MyPipelineStack(Stack):
                     repo_string="MAAP-Project/mmt", 
                     branch="cdk-ecs-deployment",  # todo: master
                     authentication=core.SecretValue.secrets_manager(
-                        "/github.com/MAAP-Project/mmt", json_field="token")
+                        "/github.com/MAAP-Project", json_field="token")
                         ),
-                commands=[
-                    "cd deployment",
-                    "pip install -r requirements.txt",
-                    "npm install",
-                    "npm run cdk synth"
-                    ]
+                commands=["cd deployment", "npm install", "npm run cdk synth"]
             )
         )
 
