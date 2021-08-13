@@ -41,4 +41,3 @@ production:
 
 dit:
   <<: *defaults
-
