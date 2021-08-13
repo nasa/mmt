@@ -17,6 +17,7 @@ RUN bundle install --jobs 20 --retry 5
 # Adding project files
 COPY . .
 COPY config/database.yml.maap config/database.yml
+COPY config/application.yml.maap config/application.yml
 RUN chmod u+x entrypoint.sh
 
 RUN npm install -g yarn

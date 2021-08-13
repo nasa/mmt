@@ -76,7 +76,7 @@ aws ssm put-parameter \
     --type "String" \
     --overwrite \
     --name "/${STAGE}-maap-mmt/MMT_ROOT" \
-    --value "mmt.dit.maap-project.org"
+    --value "https://mmt.dit.maap-project.org"
 
 aws ssm put-parameter \
     --type "String" \
