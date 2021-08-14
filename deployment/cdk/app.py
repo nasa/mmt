@@ -172,7 +172,7 @@ class mmtStack(core.Stack):
             cluster=cluster,
             desired_count=mincount,
             public_load_balancer=True,
-            # protocol=elb.ApplicationProtocol.HTTPS,
+            protocol=elb.ApplicationProtocol.HTTPS,
             # domain_name=f"mmt.{settings.stage}.maap-project.org",
             # domain_zone=aws_route53.HostedZone.from_lookup(
             #     self, f"{stack_id}-hosted-zone",
