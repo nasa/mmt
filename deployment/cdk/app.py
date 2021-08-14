@@ -6,7 +6,6 @@ from typing import Any, Dict, List, Optional, Union
 
 from config import StackSettings
 from aws_cdk.core import Construct, Stage, Stack, StackProps, StageProps
-from aws_cdk.pipelines import CodePipeline, CodePipelineSource, ShellStep
 
 from aws_cdk import (
     aws_codepipeline,
@@ -21,7 +20,7 @@ from aws_cdk import (
     aws_elasticloadbalancingv2 as elb,
     aws_secretsmanager as secretsmanager,
     aws_ssm as ssm,
-    pipelines as pipelines
+    pipelines as pipelines  # CDK Pipelines
 )
 
 settings = StackSettings()
@@ -173,11 +172,11 @@ class mmtStack(core.Stack):
             cluster=cluster,
             desired_count=mincount,
             public_load_balancer=True,
-            protocol=elb.ApplicationProtocol.HTTPS,
-            domain_name=f"mmt.{settings.stage}.maap-project.org",
-            domain_zone=aws_route53.HostedZone.from_lookup(
-                self, f"{stack_id}-hosted-zone",
-                domain_name="maap-project.org"),
+            # protocol=elb.ApplicationProtocol.HTTPS,
+            # domain_name=f"mmt.{settings.stage}.maap-project.org",
+            # domain_zone=aws_route53.HostedZone.from_lookup(
+            #     self, f"{stack_id}-hosted-zone",
+            #     domain_name="maap-project.org"),
             redirect_http=True,
             task_definition=task_definition
         )
@@ -211,34 +210,6 @@ class mmtStack(core.Stack):
         )
 
 
-class MyPipelineStack(Stack):
-    def __init__(self, scope, id, *, description=None, env=None, stack_name=None, tags=None, synthesizer=None, termination_protection=None, analytics_reporting=None):
-        super().__init__(scope, id, description=description, env=env, stack_name=stack_name, tags=tags,
-                         synthesizer=synthesizer, termination_protection=termination_protection, analytics_reporting=analytics_reporting)
-
-        pipeline = CodePipeline(
-            self, "Pipeline",
-            self_mutation=False,
-            synth=ShellStep(
-                "Synth",
-                input=CodePipelineSource.git_hub(
-                    repo_string="MAAP-Project/mmt", 
-                    branch="cdk-ecs-pipeline",  # todo: master
-                    authentication=core.SecretValue.secrets_manager(
-                        "/github.com/MAAP-Project/mmt", json_field="token")
-                        ),
-                commands=[
-                    "cd deployment",
-                    "pip install -r requirements.txt",
-                    "npm install",
-                    "npm run cdk synth"
-                    ]
-            )
-        )
-
-        pipeline.add_stage(
-            MmtApp(self, id="mmt-app", stack_id=f"{settings.stage}-{settings.name}", env=env))
-
 class MmtApp(Stage):
     def __init__(self, scope, id, *, stack_id, env=None, outdir=None):
         super().__init__(scope, id, env=env, outdir=outdir)
@@ -263,6 +234,38 @@ class MmtApp(Stage):
             task_env=settings.env,
             env=env
         )
+
+
+class MyPipelineStack(Stack):
+    def __init__(
+            self, scope, id, *, description=None, env=None, stack_name=None, tags=None, synthesizer=None,
+             termination_protection=None, analytics_reporting=None):
+        super().__init__(scope, id, description=description, env=env, stack_name=stack_name, tags=tags,
+                         synthesizer=synthesizer, termination_protection=termination_protection, 
+                         analytics_reporting=analytics_reporting)
+
+        pipeline = pipelines.CodePipeline(
+            self, "Pipeline",
+            self_mutation=False,
+            synth=pipelines.ShellStep(
+                "Synth",
+                input=pipelines.CodePipelineSource.git_hub(
+                    repo_string="MAAP-Project/mmt",
+                    branch="cdk-ecs-pipeline",  # todo: master
+                    authentication=core.SecretValue.secrets_manager(
+                        "/github.com/MAAP-Project/mmt", json_field="token")
+                ),
+                commands=[
+                    "cd deployment",
+                    "pip install -r requirements.txt",
+                    "npm install",
+                    "npm run cdk synth"
+                ]
+            )
+        )
+
+        pipeline.add_stage(
+            MmtApp(self, id="mmt-app", stack_id=f"{settings.stage}-{settings.name}", env=env))
 
 
 app = core.App()

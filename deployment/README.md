@@ -26,6 +26,9 @@ $ npm run cdk bootstrap aws://${AWS_ACCOUNT_ID}/us-west-2
 
 These may already be populated.
 
+Create GitHub Personal Access Token with scopes `repo` and `admin:repo_hook`. This value will be substituted for
+`token` in the GitHub credentials secret.
+
 Populate config parameters.
 
 ```bash
