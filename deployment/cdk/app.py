@@ -172,11 +172,11 @@ class mmtStack(core.Stack):
             cluster=cluster,
             desired_count=mincount,
             public_load_balancer=True,
-            # protocol=elb.ApplicationProtocol.HTTPS,
-            # domain_name=f"mmt.{settings.stage}.maap-project.org",
-            # domain_zone=aws_route53.HostedZone.from_lookup(
-            #     self, f"{stack_id}-hosted-zone",
-            #     domain_name="maap-project.org"),
+            protocol=elb.ApplicationProtocol.HTTPS,
+            domain_name=f"mmt.{settings.stage}.maap-project.org",
+            domain_zone=aws_route53.HostedZone.from_lookup(
+                self, f"{stack_id}-hosted-zone",
+                domain_name="maap-project.org"),
             redirect_http=False,
             task_definition=task_definition
         )
@@ -258,9 +258,10 @@ class MyPipelineStack(Stack):
                 commands=[
                     "cd deployment",
                     "pip install -r requirements.txt",
-                    "npm install",
+                    "npm install -g aws-cdk",
                     "npm run cdk synth"
-                ]
+                ],
+                primary_output_directory="deployment/cdk.out"
             )
         )
 
