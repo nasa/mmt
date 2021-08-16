@@ -246,7 +246,7 @@ class MyPipelineStack(Stack):
 
         pipeline = pipelines.CodePipeline(
             self, "Pipeline",
-            self_mutation=True,
+            self_mutation=False,
             code_build_defaults=pipelines.CodeBuildOptions(
                 role_policy=[
                     iam.PolicyStatement(
