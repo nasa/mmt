@@ -61,4 +61,4 @@ nohup.out
 
 #ignore package
 package-lock.json
-.env
+package.json
