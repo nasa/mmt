@@ -8,7 +8,7 @@ import pydantic
 class StackSettings(pydantic.BaseSettings):
     """Application settings"""
 
-    name: str = "mmt"
+    name: str = "maap-mmt"
     stage: str = "production"
 
     owner: Optional[str]

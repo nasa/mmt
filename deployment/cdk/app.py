@@ -8,7 +8,6 @@ from config import StackSettings
 from aws_cdk.core import Construct, Stage, Stack, StackProps, StageProps
 
 from aws_cdk import (
-    aws_codepipeline,
     core,
     aws_ec2 as ec2,
     aws_ecs as ecs,
@@ -278,7 +277,7 @@ app = core.App()
 
 MyPipelineStack(
     app, "PipelineStack",
-    stack_name=f"{settings.stage}-mmt-pipeline2",
+    stack_name=f"{settings.stage}-mmt-pipeline",
     env=core.Environment(
         account=os.environ.get(
             "CDK_DEPLOY_ACCOUNT", os.environ["CDK_DEFAULT_ACCOUNT"]),
