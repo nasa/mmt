@@ -24,7 +24,7 @@ $ git clone https://github.com/MAAP-Project/mmt
 $ cd mmt/deployment
 $ # create python venv and activate
 $ pip install -r requirements.txt
-$ npm install -g aws-cdk
+$ npm install
 
 $ npm run cdk bootstrap # Deploys the CDK toolkit stack into an AWS environment
 
