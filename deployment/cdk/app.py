@@ -247,7 +247,11 @@ class MyPipelineStack(Stack):
         pipeline = pipelines.CodePipeline(
             self, "Pipeline",
             self_mutation=False,
-            # code_build_defaults=pipelines.CodeBuildOptions(role_policy=[]),  # include permissions here
+            code_build_defaults=pipelines.CodeBuildOptions(
+                role_policy=[
+                    iam.PolicyStatement(actions=["route53:*"], resources=["*"]),
+                    iam.PolicyStatement(actions=["sts:AssumeRole"], resources=["*"]),
+                    ]),  # include permissions here
             synth=pipelines.ShellStep(
                 "Synth",
                 input=pipelines.CodePipelineSource.git_hub(
@@ -274,7 +278,7 @@ app = core.App()
 
 MyPipelineStack(
     app, "PipelineStack",
-    stack_name=f"{settings.stage}-mmt-pipeline",
+    stack_name=f"{settings.stage}-mmt-pipeline2",
     env=core.Environment(
         account=os.environ.get(
             "CDK_DEPLOY_ACCOUNT", os.environ["CDK_DEFAULT_ACCOUNT"]),
