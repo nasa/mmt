@@ -19,7 +19,8 @@ from aws_cdk import (
     aws_elasticloadbalancingv2 as elb,
     aws_secretsmanager as secretsmanager,
     aws_ssm as ssm,
-    pipelines as pipelines  # CDK Pipelines
+    pipelines as pipelines,  # CDK Pipelines
+    aws_codebuild as codebuild,
 )
 
 settings = StackSettings()
@@ -237,10 +238,10 @@ class MmtApp(Stage):
 
 class MyPipelineStack(Stack):
     def __init__(
-            self, scope, id, *, description=None, env=None, stack_name=None, tags=None, synthesizer=None,
-             termination_protection=None, analytics_reporting=None):
+        self, scope, id, *, description=None, env=None, stack_name=None, tags=None, synthesizer=None,
+            termination_protection=None, analytics_reporting=None):
         super().__init__(scope, id, description=description, env=env, stack_name=stack_name, tags=tags,
-                         synthesizer=synthesizer, termination_protection=termination_protection, 
+                         synthesizer=synthesizer, termination_protection=termination_protection,
                          analytics_reporting=analytics_reporting)
 
         pipeline = pipelines.CodePipeline(
@@ -248,9 +249,14 @@ class MyPipelineStack(Stack):
             self_mutation=True,
             code_build_defaults=pipelines.CodeBuildOptions(
                 role_policy=[
-                    iam.PolicyStatement(actions=["route53:*"], resources=["*"]),
-                    iam.PolicyStatement(actions=["sts:AssumeRole"], resources=["*"]),
-                    ]),  # include permissions here
+                    iam.PolicyStatement(
+                        actions=["route53:*"], resources=["*"]),
+                    iam.PolicyStatement(
+                        actions=["sts:AssumeRole"], resources=["*"]),
+                ],
+                build_environment=codebuild.BuildEnvironment(
+                    environment_variables={"MMT_STACK_STAGE": settings.stage})
+            ),
             synth=pipelines.ShellStep(
                 "Synth",
                 input=pipelines.CodePipelineSource.git_hub(

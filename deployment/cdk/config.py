@@ -9,7 +9,7 @@ class StackSettings(pydantic.BaseSettings):
     """Application settings"""
 
     name: str = "maap-mmt"
-    stage: str = "dit"
+    stage: str = "production"
 
     owner: Optional[str]
     client: Optional[str]
