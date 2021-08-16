@@ -247,6 +247,7 @@ class MyPipelineStack(Stack):
         pipeline = pipelines.CodePipeline(
             self, "Pipeline",
             self_mutation=False,
+            # code_build_defaults=pipelines.CodeBuildOptions(role_policy=[]),  # include permissions here
             synth=pipelines.ShellStep(
                 "Synth",
                 input=pipelines.CodePipelineSource.git_hub(
@@ -262,7 +263,7 @@ class MyPipelineStack(Stack):
                     "npm run cdk synth"
                 ],
                 primary_output_directory="deployment/cdk.out"
-            )
+            ),
         )
 
         pipeline.add_stage(
