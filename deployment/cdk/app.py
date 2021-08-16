@@ -255,7 +255,9 @@ class MyPipelineStack(Stack):
                         actions=["sts:AssumeRole"], resources=["*"]),
                 ],
                 build_environment=codebuild.BuildEnvironment(
-                    environment_variables={"MMT_STACK_STAGE": settings.stage})
+                    environment_variables={
+                        "MMT_STACK_STAGE": codebuild.BuildEnvironmentVariable(value=settings.stage)
+                    })
             ),
             synth=pipelines.ShellStep(
                 "Synth",
