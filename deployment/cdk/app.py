@@ -271,7 +271,7 @@ class MyPipelineStack(Stack):
                     "cd deployment",
                     "pip install -r requirements.txt",
                     "npm install -g aws-cdk",
-                    "npm run cdk synth"
+                    "cdk synth"
                 ],
                 primary_output_directory="deployment/cdk.out"
             ),
