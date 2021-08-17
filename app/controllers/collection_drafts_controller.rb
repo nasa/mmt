@@ -4,11 +4,13 @@ class CollectionDraftsController < BaseDraftsController
   include ControlledKeywords
   include CMRCollectionsHelper
   include GKRKeywordRecommendations
-  before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
+  before_action :set_resource, only: [:download_json, :show, :edit, :update, :destroy, :publish]
   before_action :load_umm_c_schema, only: [:new, :edit, :show, :publish]
   before_action :collection_validation_setup, only: [:show, :publish]
   before_action :verify_valid_metadata, only: [:publish]
   before_action :set_associated_concepts, only: [:show]
+  before_action :proposal_approver_permissions, except: [:download_json]
+  skip_before_action :ensure_user_is_logged_in, only: [:download_json]
 
   layout 'collection_preview', only: [:show]
 
@@ -26,6 +28,49 @@ class CollectionDraftsController < BaseDraftsController
     super
 
     @errors = validate_metadata
+  end
+
+  def download_json
+    authorization_header = request.headers['Authorization']
+
+    if authorization_header.nil? || !authorization_header.start_with?('Bearer')
+      render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
+      return
+    end
+    token = authorization_header.split(' ',2)[1] || ''
+
+    if Rails.configuration.proposal_mode
+      token_response = cmr_client.validate_dmmt_token(token)
+    else
+      token_response = cmr_client.validate_mmt_token(token)
+    end
+
+    authorized = false
+
+    if token_response.success?
+      token_info = token_response.body
+      token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
+      token_user = User.find_by(urs_uid: token_info['uid']) # the user assoc with the token
+      draft_user = User.find_by(id: get_resource.user_id) # the user assoc with the draft collection record
+
+      unless token_user.nil?
+        if Rails.configuration.proposal_mode
+          # For proposals, users only have access to proposals created by them.
+          # Verify the user owns the draft
+          authorized = true if token_user.urs_uid == draft_user.urs_uid
+        else
+          # For drafts, users have access to any drafts in their provider list
+          # Verify the user has permissions for this provider
+          authorized = true if token_user.available_providers.include? get_resource.provider_id
+        end
+      end
+    end
+
+    if authorized
+      render json: JSON.pretty_generate(get_resource.draft)
+    else
+      render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401
+    end
   end
 
   def edit
