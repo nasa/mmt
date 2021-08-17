@@ -251,8 +251,8 @@ class MyPipelineStack(Stack):
                 role_policy=[
                     iam.PolicyStatement(
                         actions=["route53:*"], resources=["*"]),
-                    iam.PolicyStatement(
-                        actions=["sts:AssumeRole"], resources=["*"]),
+                    # iam.PolicyStatement(
+                        # actions=["sts:AssumeRole"], resources=["*"]),
                 ],
                 build_environment=codebuild.BuildEnvironment(
                     environment_variables={
