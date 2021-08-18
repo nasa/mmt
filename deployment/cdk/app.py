@@ -26,7 +26,7 @@ from aws_cdk import (
 settings = StackSettings()
 
 
-class mmtStack(core.Stack):
+class MmtStack(core.Stack):
     """MMT ECS Fargate Stack."""
 
     def __init__(
@@ -223,7 +223,7 @@ class MmtApp(Stage):
             if value:
                 core.Tags.of(self).add(key, value)
 
-        mmtStack(
+        MmtStack(
             scope=self,
             stack_id=stack_id,
             cpu=settings.task_cpu,
@@ -236,7 +236,7 @@ class MmtApp(Stage):
         )
 
 
-class MyPipelineStack(Stack):
+class MmtPipelineStack(Stack):
     def __init__(
         self, scope, id, *, description=None, env=None, stack_name=None, tags=None, synthesizer=None,
             termination_protection=None, analytics_reporting=None):
@@ -283,7 +283,7 @@ class MyPipelineStack(Stack):
 
 app = core.App()
 
-MyPipelineStack(
+MmtPipelineStack(
     app, "PipelineStack",
     stack_name=f"{settings.stage}-mmt-pipeline",
     env=core.Environment(
