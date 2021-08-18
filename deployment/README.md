@@ -16,9 +16,13 @@ This deployment consists of a CDK Pipeline stack (an inception pipeline) that de
 
 One important point to remember with this type of pipeline is that any changes to the inception pipeline or the application **must** be committed to the GitHub repo branch, or else the pipeline with either self-modify itself back to the github state or install the code that's there. 
 
-## AWS ECS (Fargate) + ALB (Application Load Balancer)
+You must create a Pipeline in AWS for each stage that is to be deployed. These stages match branch names in GitHub.
+For example, the `dit` branch will be deployed as the `dit` stage. The exception is that `production` will be
+deployed from `master`.
 
-This stack creates a Postgres database, generates a docker image for the application, configures an ECS Task Definition and Service that uses that Task Definition, configures an application load balancer (ALB) to point to the ECS Service, and configures a custom DNS entry for the service.
+The stage names MUST consist only of alphanumeric and `-` characters, as these are the only valid AWS Stack names.
+
+## Inception Pipeline Deployment
 
 1. Initial setup
 
@@ -127,8 +131,10 @@ export CDK_DEPLOY_ACCOUNT=$(aws sts get-caller-identity | jq .Account -r)
 export CDK_DEPLOY_REGION=us-west-2
 export MMT_STACK_STAGE="dit"
 
-$ npm run cdk deploy
+$ npm run cdk deploy -- --require-approval never
 ```
+
+This pipeline will then deploy the application stack that creates a Postgres database, generates a docker image for the application, configures an ECS Task Definition and Service that uses that Task Definition, configures an application load balancer (ALB) to point to the ECS Service, and configures a custom DNS entry for the service.
 
 6. Undeploy (optional)
 

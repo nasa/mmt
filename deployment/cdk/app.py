@@ -33,7 +33,7 @@ class MmtPipelineStack(Stack):
                          synthesizer=synthesizer, termination_protection=termination_protection,
                          analytics_reporting=analytics_reporting)
 
-        if settings.stage == "prod":
+        if settings.stage == "production":
             branch = "master"
         elif settings.stage == "dit": # todo: remove
             branch = "cdk-ecs-pipeline"
@@ -124,7 +124,7 @@ class MmtStack(core.Stack):
         core.CfnOutput(self, "AdminDBCredentialsSecretARN",
                        value=db_admin_credentials_secret.secret_arn)
 
-        db_username = f"mmt_{settings.stage}"
+        db_username = "mmt"
         db_credentials_secret = rds.DatabaseSecret(
             self, f"/{stack_id}/AppDBCredentials", username=db_username)
 
@@ -232,7 +232,7 @@ class MmtStack(core.Stack):
             logging=ecs.LogDrivers.aws_logs(stream_prefix=stack_id)
         )
 
-        if settings.stage == "prod":
+        if settings.stage == "production":
             hostname_part = ""
         else:
             hostname_part = f".{settings.stage}"
