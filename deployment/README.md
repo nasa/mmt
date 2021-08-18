@@ -22,6 +22,8 @@ deployed from `master`.
 
 The stage names MUST consist only of alphanumeric and `-` characters, as these are the only valid AWS Stack names.
 
+If you create a new stage name (e.g., one with your username in it for development), you must add a configuration for it to the `application.yml.maap`, `database.yml.maap`, and `services.yml` files.
+
 ## Inception Pipeline Deployment
 
 1. Initial setup

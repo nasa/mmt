@@ -91,7 +91,7 @@ class MmtPipelineStack(Stack):
         )
 
         pipeline.add_stage(
-            MmtApp(self, id="mmt-app", stack_id=f"{settings.stage}-{settings.name}", env=env))
+            MmtApp(self, id=f"{settings.stage}-mmt-app", stack_id=f"{settings.stage}-{settings.name}", env=env))
 
 
 class MmtStack(core.Stack):
