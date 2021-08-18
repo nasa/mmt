@@ -40,6 +40,25 @@ class MmtPipelineStack(Stack):
         else:
             branch = settings.stage
 
+        build_env_vars = {}
+
+        if settings.name:
+            build_env_vars["MMT_STACK_NAME"] = codebuild.BuildEnvironmentVariable(value=settings.name)
+        if settings.stage:
+            build_env_vars["MMT_STACK_STAGE"]=codebuild.BuildEnvironmentVariable(value=settings.stage)
+        if settings.owner:
+            build_env_vars["MMT_STACK_OWNER"]=codebuild.BuildEnvironmentVariable(value=settings.owner)
+        if settings.client:
+            build_env_vars["MMT_STACK_CLIENT"]=codebuild.BuildEnvironmentVariable(value=settings.client)
+        if settings.min_ecs_instances:
+            build_env_vars["MMT_STACK_MIN_ECS_INSTANCES"]=codebuild.BuildEnvironmentVariable(value=settings.min_ecs_instances)
+        if settings.max_ecs_instances:
+            build_env_vars["MMT_STACK_MAX_ECS_INSTANCES"]=codebuild.BuildEnvironmentVariable(value=settings.max_ecs_instances)
+        if settings.task_cpu:
+            build_env_vars["MMT_STACK_TASK_CPU"]=codebuild.BuildEnvironmentVariable(value=settings.task_cpu)
+        if settings.task_memory:
+            build_env_vars["MMT_STACK_TASK_MEMORY"]=codebuild.BuildEnvironmentVariable(value=settings.task_memory)
+
         pipeline = pipelines.CodePipeline(
             self, "Pipeline",
             self_mutation=True,
@@ -51,16 +70,7 @@ class MmtPipelineStack(Stack):
                         actions=["sts:AssumeRole"], resources=["*"]),
                 ],
                 build_environment=codebuild.BuildEnvironment(
-                    environment_variables={
-                        "MMT_STACK_NAME": codebuild.BuildEnvironmentVariable(value=settings.name),
-                        "MMT_STACK_STAGE": codebuild.BuildEnvironmentVariable(value=settings.stage),
-                        "MMT_STACK_OWNER": codebuild.BuildEnvironmentVariable(value=settings.owner),
-                        "MMT_STACK_CLIENT": codebuild.BuildEnvironmentVariable(value=settings.client),
-                        "MMT_STACK_MIN_ECS_INSTANCES": codebuild.BuildEnvironmentVariable(value=settings.min_ecs_instances),
-                        "MMT_STACK_MAX_ECS_INSTANCES": codebuild.BuildEnvironmentVariable(value=settings.max_ecs_instances),
-                        "MMT_STACK_TASK_CPU": codebuild.BuildEnvironmentVariable(value=settings.task_cpu),
-                        "MMT_STACK_TASK_MEMORY": codebuild.BuildEnvironmentVariable(value=settings.task_memory),
-                    })
+                    environment_variables=build_env_vars)
             ),
             synth=pipelines.ShellStep(
                 "Synth",
