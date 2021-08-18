@@ -2,10 +2,10 @@
 
 import os
 from os import path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, List, Optional, Union
 
 from config import StackSettings
-from aws_cdk.core import Construct, Stage, Stack, StackProps, StageProps
+from aws_cdk.core import Stage, Stack
 
 from aws_cdk import (
     core,
@@ -17,13 +17,71 @@ from aws_cdk import (
     aws_ecr_assets as ecr_assets,
     aws_iam as iam,
     aws_elasticloadbalancingv2 as elb,
-    aws_secretsmanager as secretsmanager,
     aws_ssm as ssm,
-    pipelines as pipelines,  # CDK Pipelines
+    pipelines as pipelines,
     aws_codebuild as codebuild,
 )
 
 settings = StackSettings()
+
+
+class MmtPipelineStack(Stack):
+    def __init__(
+        self, scope, id, *, description=None, env=None, stack_name=None, tags=None, synthesizer=None,
+            termination_protection=None, analytics_reporting=None):
+        super().__init__(scope, id, description=description, env=env, stack_name=stack_name, tags=tags,
+                         synthesizer=synthesizer, termination_protection=termination_protection,
+                         analytics_reporting=analytics_reporting)
+
+        if settings.stage == "prod":
+            branch = "master"
+        elif settings.stage == "dit": # todo: remove
+            branch = "cdk-ecs-pipeline"
+        else:
+            branch = settings.stage
+
+        pipeline = pipelines.CodePipeline(
+            self, "Pipeline",
+            self_mutation=True,
+            code_build_defaults=pipelines.CodeBuildOptions(
+                role_policy=[
+                    iam.PolicyStatement(
+                        actions=["route53:*"], resources=["*"]),
+                    iam.PolicyStatement(
+                        actions=["sts:AssumeRole"], resources=["*"]),
+                ],
+                build_environment=codebuild.BuildEnvironment(
+                    environment_variables={
+                        "MMT_STACK_NAME": codebuild.BuildEnvironmentVariable(value=settings.name),
+                        "MMT_STACK_STAGE": codebuild.BuildEnvironmentVariable(value=settings.stage),
+                        "MMT_STACK_OWNER": codebuild.BuildEnvironmentVariable(value=settings.owner),
+                        "MMT_STACK_CLIENT": codebuild.BuildEnvironmentVariable(value=settings.client),
+                        "MMT_STACK_MIN_ECS_INSTANCES": codebuild.BuildEnvironmentVariable(value=settings.min_ecs_instances),
+                        "MMT_STACK_MAX_ECS_INSTANCES": codebuild.BuildEnvironmentVariable(value=settings.max_ecs_instances),
+                        "MMT_STACK_TASK_CPU": codebuild.BuildEnvironmentVariable(value=settings.task_cpu),
+                        "MMT_STACK_TASK_MEMORY": codebuild.BuildEnvironmentVariable(value=settings.task_memory),
+                    })
+            ),
+            synth=pipelines.ShellStep(
+                "Synth",
+                input=pipelines.CodePipelineSource.git_hub(
+                    repo_string="MAAP-Project/mmt",
+                    branch=branch,
+                    authentication=core.SecretValue.secrets_manager(
+                        "/github.com/MAAP-Project/mmt", json_field="token")
+                ),
+                commands=[
+                    "cd deployment",
+                    "pip install -r requirements.txt",
+                    "npm install -g aws-cdk",
+                    "npm run cdk synth"
+                ],
+                primary_output_directory="deployment/cdk.out"
+            ),
+        )
+
+        pipeline.add_stage(
+            MmtApp(self, id="mmt-app", stack_id=f"{settings.stage}-{settings.name}", env=env))
 
 
 class MmtStack(core.Stack):
@@ -38,7 +96,6 @@ class MmtStack(core.Stack):
         mincount: int = 1,
         maxcount: int = 50,
         permissions: Optional[List[iam.PolicyStatement]] = None,
-        task_env: Optional[Dict] = None,
         env: Optional[core.Environment] = None,
         **kwargs: Any,
     ) -> None:
@@ -46,7 +103,6 @@ class MmtStack(core.Stack):
         super().__init__(scope, stack_id, env=env, *kwargs)
 
         permissions = permissions or []
-        task_env = task_env or {}
 
         vpc = ec2.Vpc(self, f"{stack_id}-vpc", max_azs=2)
 
@@ -111,8 +167,8 @@ class MmtStack(core.Stack):
 
         core.CfnOutput(self, "ClusterArn", value=cluster.cluster_arn)
 
-        task_env = task_env.copy()
-        task_env.update(dict(LOG_LEVEL="error"))
+        task_env = {}
+        task_env["LOG_LEVEL"] = "error"
         task_env["ENV"] = settings.stage
         task_env["RAILS_ENV"] = settings.stage
         # to serve css, etc., assets
@@ -166,6 +222,11 @@ class MmtStack(core.Stack):
             logging=ecs.LogDrivers.aws_logs(stream_prefix=stack_id)
         )
 
+        if settings.stage == "prod":
+            hostname_part = ""
+        else:
+            hostname_part = f".{settings.stage}"
+
         fargate_service = ecs_patterns.ApplicationLoadBalancedFargateService(
             self,
             f"{stack_id}-service",
@@ -173,11 +234,11 @@ class MmtStack(core.Stack):
             desired_count=mincount,
             public_load_balancer=True,
             protocol=elb.ApplicationProtocol.HTTPS,
-            domain_name=f"mmt.{settings.stage}.maap-project.org",
+            domain_name=f"mmt{hostname_part}.maap-project.org",
             domain_zone=aws_route53.HostedZone.from_lookup(
                 self, f"{stack_id}-hosted-zone",
                 domain_name="maap-project.org"),
-            redirect_http=False,
+            redirect_http=True,
             task_definition=task_definition
         )
 
@@ -231,54 +292,8 @@ class MmtApp(Stage):
             mincount=settings.min_ecs_instances,
             maxcount=settings.max_ecs_instances,
             permissions=[],
-            task_env=settings.env,
             env=env
         )
-
-
-class MmtPipelineStack(Stack):
-    def __init__(
-        self, scope, id, *, description=None, env=None, stack_name=None, tags=None, synthesizer=None,
-            termination_protection=None, analytics_reporting=None):
-        super().__init__(scope, id, description=description, env=env, stack_name=stack_name, tags=tags,
-                         synthesizer=synthesizer, termination_protection=termination_protection,
-                         analytics_reporting=analytics_reporting)
-
-        pipeline = pipelines.CodePipeline(
-            self, "Pipeline",
-            self_mutation=True,
-            code_build_defaults=pipelines.CodeBuildOptions(
-                role_policy=[
-                    iam.PolicyStatement(
-                        actions=["route53:*"], resources=["*"]),
-                    iam.PolicyStatement(
-                        actions=["sts:AssumeRole"], resources=["*"]),
-                ],
-                build_environment=codebuild.BuildEnvironment(
-                    environment_variables={
-                        "MMT_STACK_STAGE": codebuild.BuildEnvironmentVariable(value=settings.stage)
-                    })
-            ),
-            synth=pipelines.ShellStep(
-                "Synth",
-                input=pipelines.CodePipelineSource.git_hub(
-                    repo_string="MAAP-Project/mmt",
-                    branch="cdk-ecs-pipeline",  # todo: master
-                    authentication=core.SecretValue.secrets_manager(
-                        "/github.com/MAAP-Project/mmt", json_field="token")
-                ),
-                commands=[
-                    "cd deployment",
-                    "pip install -r requirements.txt",
-                    "npm install -g aws-cdk",
-                    "npm run cdk synth"
-                ],
-                primary_output_directory="deployment/cdk.out"
-            ),
-        )
-
-        pipeline.add_stage(
-            MmtApp(self, id="mmt-app", stack_id=f"{settings.stage}-{settings.name}", env=env))
 
 
 app = core.App()
