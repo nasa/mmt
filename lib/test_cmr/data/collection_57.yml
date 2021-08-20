@@ -1,535 +1,746 @@
 ---
-collection_uri: https://cmr.uat.earthdata.nasa.gov/search/concepts/C1216372736-PVC_TS2/1
+collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C1327985741-ASF/309.echo10
 ingest_count: 1
-type: iso-smap
-test_case: " iso-smap collection"
-granule: 
-metadata: '<gmd:DS_Series xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:eos="http://earthdata.nasa.gov/schema/eos" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmi="http://www.isotc211.org/2005/gmi" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gsr="http://www.isotc211.org/2005/gsr" xmlns:gss="http://www.isotc211.org/2005/gss" xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmi http://cdn.earthdata.nasa.gov/iso/schema/1.0/ISO19115-2_EOS.xsd">
-<gmd:composedOf gco:nilReason="inapplicable"/>
-<gmd:seriesMetadata>
-<gmi:MI_Metadata>
-<gmd:fileIdentifier>
-<gmx:FileName>L4_SM_aup</gmx:FileName>
-</gmd:fileIdentifier>
-<gmd:language>
-<gco:CharacterString>eng</gco:CharacterString>
-</gmd:language>
-<gmd:characterSet>
-<gmd:MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
-</gmd:characterSet>
-<gmd:hierarchyLevel>
-<gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="series">series</gmd:MD_ScopeCode>
-</gmd:hierarchyLevel>
-<gmd:contact>
-<gmd:CI_ResponsibleParty>
-<gmd:organisationName>
-<gco:CharacterString>NSIDC DAAC &gt; National Snow and Ice Data Center DAAC</gco:CharacterString>
-</gmd:organisationName>
-<gmd:contactInfo>
-<gmd:CI_Contact>
-<gmd:address>
-<gmd:CI_Address>
-<gmd:electronicMailAddress>
-<gco:CharacterString>nsidc@nsidc.org</gco:CharacterString>
-</gmd:electronicMailAddress>
-</gmd:CI_Address>
-</gmd:address>
-<gmd:onlineResource>
-<gmd:CI_OnlineResource>
-<gmd:linkage>
-<gmd:URL>http://nsidc.org/daac/</gmd:URL>
-</gmd:linkage>
-</gmd:CI_OnlineResource>
-</gmd:onlineResource>
-</gmd:CI_Contact>
-</gmd:contactInfo>
-<gmd:role>
-<gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
-</gmd:role>
-</gmd:CI_ResponsibleParty>
-</gmd:contact>
-<gmd:dateStamp>
-<gco:Date>2016-04-29</gco:Date>
-</gmd:dateStamp>
-<gmd:metadataStandardName>
-<gco:CharacterString>ISO 19115-2 Geographic information - Metadata - Part 2: Extensions for imagery and gridded data</gco:CharacterString>
-</gmd:metadataStandardName>
-<gmd:metadataStandardVersion>
-<gco:CharacterString>ISO 19115-2:2009-02-15</gco:CharacterString>
-</gmd:metadataStandardVersion>
-<gmd:identificationInfo>
-<gmd:MD_DataIdentification>
-<gmd:citation>
-<gmd:CI_Citation>
-<gmd:title>
-<gco:CharacterString>SMAP L4 Global 3-hourly 9 km Surface and Rootzone Soil Moisture Analysis Update</gco:CharacterString>
-</gmd:title>
-<gmd:date>
-<gmd:CI_Date>
-<gmd:date>
-<gco:Date>2016-04-29</gco:Date>
-</gmd:date>
-<gmd:dateType>
-<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode>
-</gmd:dateType>
-</gmd:CI_Date>
-</gmd:date>
-<gmd:edition>
-<gco:CharacterString>Vv2010</gco:CharacterString>
-</gmd:edition>
-<gmd:identifier>
-<gmd:MD_Identifier>
-<gmd:code>
-<gco:CharacterString>SPL4SMAU</gco:CharacterString>
-</gmd:code>
-<gmd:codeSpace>
-<gco:CharacterString>http://gmao.gsfc.nasa.gov</gco:CharacterString>
-</gmd:codeSpace>
-<gmd:description>
-<gco:CharacterString>The ECS Short Name</gco:CharacterString>
-</gmd:description>
-</gmd:MD_Identifier>
-</gmd:identifier>
-<gmd:identifier>
-<gmd:MD_Identifier>
-<gmd:code>
-<gco:CharacterString>002</gco:CharacterString>
-</gmd:code>
-<gmd:codeSpace>
-<gco:CharacterString>gov.nasa.esdis</gco:CharacterString>
-</gmd:codeSpace>
-<gmd:description>
-<gco:CharacterString>The ECS Version ID</gco:CharacterString>
-</gmd:description>
-</gmd:MD_Identifier>
-</gmd:identifier>
-<gmd:identifier>
-<gmd:MD_Identifier>
-<gmd:code>
-<gmx:Anchor xlink:actuate="onRequest" xlink:href="http://dx.doi.org/10.5067/JJY2V0GJNFRZ">doi:10.5067/JJY2V0GJNFRZ</gmx:Anchor>
-</gmd:code>
-<gmd:codeSpace>
-<gco:CharacterString>gov.nasa.esdis</gco:CharacterString>
-</gmd:codeSpace>
-<gmd:description>
-<gco:CharacterString>A Digital Object Identifier (DOI) that provides a persistent interoperable means to locate the SMAP Level 4 Radar data product.</gco:CharacterString>
-</gmd:description>
-</gmd:MD_Identifier>
-</gmd:identifier>
-<gmd:citedResponsibleParty>
-<gmd:CI_ResponsibleParty>
-<gmd:organisationName>
-<gco:CharacterString>National Aeronautics and Space Administration</gco:CharacterString>
-</gmd:organisationName>
-<gmd:role>
-<gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="resourceProvider">resourceProvider</gmd:CI_RoleCode>
-</gmd:role>
-</gmd:CI_ResponsibleParty>
-</gmd:citedResponsibleParty>
-<gmd:citedResponsibleParty>
-<gmd:CI_ResponsibleParty>
-<gmd:organisationName>
-<gco:CharacterString>Global Modeling and Assimilation Office</gco:CharacterString>
-</gmd:organisationName>
-<gmd:role>
-<gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="originator">originator</gmd:CI_RoleCode>
-</gmd:role>
-</gmd:CI_ResponsibleParty>
-</gmd:citedResponsibleParty>
-<gmd:presentationForm>
-<gmd:CI_PresentationFormCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="documentDigital">documentDigital</gmd:CI_PresentationFormCode>
-</gmd:presentationForm>
-<gmd:series>
-<gmd:CI_Series>
-<gmd:name>
-<gco:CharacterString>L4_SM</gco:CharacterString>
-</gmd:name>
-</gmd:CI_Series>
-</gmd:series>
-<gmd:otherCitationDetails>
-<gco:CharacterString>The first Validated Release of the SMAP Level 4 Science Processing Software.</gco:CharacterString>
-</gmd:otherCitationDetails>
-</gmd:CI_Citation>
-</gmd:citation>
-<gmd:abstract>
-<gco:CharacterString>The SMAP L4_SM data product provides global, 3-hourly surface and root zone soil moisture at 9 km resolution. The L4_SM data product consists of three Collections: geophysical, analysis update and land-model-constants.</gco:CharacterString>
-</gmd:abstract>
-<gmd:purpose>
-<gco:CharacterString>The SMAP L4_SM data product provides spatially and temporally complete surface and root zone soil moisture information for science and applications users.</gco:CharacterString>
-</gmd:purpose>
-<gmd:credit>
-<gco:CharacterString>The software that generates the L4_SM data product and the data system that automates its production were designed and implemented at the NASA Global Modeling and Assimilation Office, Goddard Space Flight Center, Greenbelt, Maryland, USA.</gco:CharacterString>
-</gmd:credit>
-<gmd:status>
-<gmd:MD_ProgressCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeListValue="onGoing">onGoing</gmd:MD_ProgressCode>
-</gmd:status>
-<gmd:pointOfContact>
-<gmd:CI_ResponsibleParty>
-<gmd:organisationName>
-<gco:CharacterString>PVC</gco:CharacterString>
-</gmd:organisationName>
-<gmd:role>
-<gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="distributor">distributor</gmd:CI_RoleCode>
-</gmd:role>
-</gmd:CI_ResponsibleParty>
-</gmd:pointOfContact>
-<gmd:resourceMaintenance>
-<gmd:MD_MaintenanceInformation>
-<gmd:maintenanceAndUpdateFrequency>
-<gmd:MD_MaintenanceFrequencyCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeListValue="As Needed">As Needed</gmd:MD_MaintenanceFrequencyCode>
-</gmd:maintenanceAndUpdateFrequency>
-<gmd:dateOfNextUpdate>
-<gco:Date>2016-11-01</gco:Date>
-</gmd:dateOfNextUpdate>
-<gmd:updateScope>
-<gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="series">series</gmd:MD_ScopeCode>
-</gmd:updateScope>
-</gmd:MD_MaintenanceInformation>
-</gmd:resourceMaintenance>
-<gmd:resourceFormat>
-<gmd:MD_Format>
-<gmd:name>
-<gco:CharacterString>HDF5</gco:CharacterString>
-</gmd:name>
-<gmd:version>
-<gco:CharacterString>Version 1.8.9</gco:CharacterString>
-</gmd:version>
-</gmd:MD_Format>
-</gmd:resourceFormat>
-<gmd:descriptiveKeywords>
-<gmd:MD_Keywords>
-<gmd:keyword>
-<gco:CharacterString>EARTH SCIENCE &gt; LAND SURFACE &gt; SOILS &gt; SOIL MOISTURE/WATER CONTENT</gco:CharacterString>
-</gmd:keyword>
-<gmd:keyword>
-<gco:CharacterString>EARTH SCIENCE &gt; LAND SURFACE &gt; SOILS &gt; SOIL MOISTURE/WATER CONTENT &gt; NONE &gt; NONE &gt; SURFACE SOIL MOISTURE</gco:CharacterString>
-</gmd:keyword>
-<gmd:keyword>
-<gco:CharacterString>EARTH SCIENCE &gt; LAND SURFACE &gt; SOILS &gt; SOIL MOISTURE/WATER CONTENT &gt; NONE &gt; NONE &gt; ROOT ZONE SOIL MOISTURE</gco:CharacterString>
-</gmd:keyword>
-<gmd:type>
-<gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-</gmd:type>
-<gmd:thesaurusName>
-<gmd:CI_Citation>
-<gmd:title>
-<gco:CharacterString>NASA/GCMD Earth Science Keywords</gco:CharacterString>
-</gmd:title>
-<gmd:date gco:nilReason="missing"/>
-</gmd:CI_Citation>
-</gmd:thesaurusName>
-</gmd:MD_Keywords>
-</gmd:descriptiveKeywords>
-<gmd:descriptiveKeywords>
-<gmd:MD_Keywords>
-<gmd:keyword>
-<gco:CharacterString>Earth Remote Sensing Instruments &gt; Active Remote Sensing &gt; NONE &gt; SMAP L-BAND RADAR &gt; SMAP L-Band Radar</gco:CharacterString>
-</gmd:keyword>
-<gmd:type>
-<gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-</gmd:type>
-<gmd:thesaurusName>
-<gmd:CI_Citation>
-<gmd:title>
-<gco:CharacterString>NASA/GCMD Earth Science Keywords</gco:CharacterString>
-</gmd:title>
-<gmd:date gco:nilReason="missing"/>
-</gmd:CI_Citation>
-</gmd:thesaurusName>
-</gmd:MD_Keywords>
-</gmd:descriptiveKeywords>
-<gmd:descriptiveKeywords>
-<gmd:MD_Keywords>
-<gmd:keyword>
-<gco:CharacterString>Earth Observation Satellites &gt; NASA Decadal Survey &gt; SMAP &gt; Soil Moisture Active and Passive Observatory</gco:CharacterString>
-</gmd:keyword>
-<gmd:type>
-<gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-</gmd:type>
-<gmd:thesaurusName>
-<gmd:CI_Citation>
-<gmd:title>
-<gco:CharacterString>NASA/GCMD Earth Science Keywords</gco:CharacterString>
-</gmd:title>
-<gmd:date gco:nilReason="missing"/>
-</gmd:CI_Citation>
-</gmd:thesaurusName>
-</gmd:MD_Keywords>
-</gmd:descriptiveKeywords>
-<gmd:descriptiveKeywords>
-<gmd:MD_Keywords>
-<gmd:keyword>
-<gco:CharacterString>GEOGRAPHIC REGION &gt; GLOBAL</gco:CharacterString>
-</gmd:keyword>
-<gmd:type>
-<gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-</gmd:type>
-<gmd:thesaurusName>
-<gmd:CI_Citation>
-<gmd:title>
-<gco:CharacterString>NASA/GCMD Earth Science Keywords</gco:CharacterString>
-</gmd:title>
-<gmd:date gco:nilReason="missing"/>
-</gmd:CI_Citation>
-</gmd:thesaurusName>
-</gmd:MD_Keywords>
-</gmd:descriptiveKeywords>
-<gmd:aggregationInfo>
-<gmd:MD_AggregateInformation>
-<gmd:aggregateDataSetIdentifier>
-<gmd:MD_Identifier>
-<gmd:code>
-<gco:CharacterString>SMAP</gco:CharacterString>
-</gmd:code>
-</gmd:MD_Identifier>
-</gmd:aggregateDataSetIdentifier>
-<gmd:associationType>
-<gmd:DS_AssociationTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#DS_AssociationTypeCode" codeListValue="largerWorkCitation">largerWorkCitation</gmd:DS_AssociationTypeCode>
-</gmd:associationType>
-<gmd:initiativeType>
-<gmd:DS_InitiativeTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#DS_InitiativeTypeCode" codeListValue="mission">mission</gmd:DS_InitiativeTypeCode>
-</gmd:initiativeType>
-</gmd:MD_AggregateInformation>
-</gmd:aggregationInfo>
-<gmd:language>
-<gco:CharacterString>eng</gco:CharacterString>
-</gmd:language>
-<gmd:characterSet>
-<gmd:MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
-</gmd:characterSet>
-<gmd:topicCategory>
-<gmd:MD_TopicCategoryCode>geoscientificInformation</gmd:MD_TopicCategoryCode>
-</gmd:topicCategory>
-<gmd:environmentDescription>
-<gco:CharacterString>Data product generated by the SMAP mission in HDF5 format with metadata that conforms to the ISO 19115 model.</gco:CharacterString>
-</gmd:environmentDescription>
-<gmd:extent>
-<gmd:EX_Extent>
-<gmd:description>
-<gco:CharacterString>Global land excluding inland water and permanent ice.</gco:CharacterString>
-</gmd:description>
-<gmd:geographicElement>
-<gmd:EX_GeographicBoundingBox>
-<gmd:extentTypeCode>
-<gco:Boolean>1</gco:Boolean>
-</gmd:extentTypeCode>
-<gmd:westBoundLongitude>
-<gco:Decimal>-180</gco:Decimal>
-</gmd:westBoundLongitude>
-<gmd:eastBoundLongitude>
-<gco:Decimal>180</gco:Decimal>
-</gmd:eastBoundLongitude>
-<gmd:southBoundLatitude>
-<gco:Decimal>-85.04456</gco:Decimal>
-</gmd:southBoundLatitude>
-<gmd:northBoundLatitude>
-<gco:Decimal>85.04456</gco:Decimal>
-</gmd:northBoundLatitude>
-</gmd:EX_GeographicBoundingBox>
-</gmd:geographicElement>
-<gmd:temporalElement>
-<gmd:EX_TemporalExtent>
-<gmd:extent>
-<gml:TimePeriod gml:id="swathTemporalExtent">
-<gml:beginPosition>2015-03-31T01:30:00.000Z</gml:beginPosition>
-<gml:endPosition>2021-01-01T01:29:59.999Z</gml:endPosition>
-</gml:TimePeriod>
-</gmd:extent>
-</gmd:EX_TemporalExtent>
-</gmd:temporalElement>
-</gmd:EX_Extent>
-</gmd:extent>
-</gmd:MD_DataIdentification>
-</gmd:identificationInfo>
-<gmd:identificationInfo>
-<gmd:MD_DataIdentification>
-<gmd:citation>
-<gmd:CI_Citation>
-<gmd:title>
-<gco:CharacterString>Soil Moisture Active Passive Mission Level 4 Surface and Root Zone Soil Moisture (L4_SM) Product Specification Document</gco:CharacterString>
-</gmd:title>
-<gmd:date>
-<gmd:CI_Date>
-<gmd:date>
-<gco:Date>2015-10-31</gco:Date>
-</gmd:date>
-<gmd:dateType>
-<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
-</gmd:dateType>
-</gmd:CI_Date>
-</gmd:date>
-<gmd:edition>
-<gco:CharacterString>1.4</gco:CharacterString>
-</gmd:edition>
-<gmd:identifier>
-<gmd:MD_Identifier>
-<gmd:code>
-<gco:CharacterString>L4_SM</gco:CharacterString>
-</gmd:code>
-<gmd:codeSpace>
-<gco:CharacterString>http://gmao.gsfc.nasa.gov</gco:CharacterString>
-</gmd:codeSpace>
-<gmd:description>
-<gco:CharacterString>A short name used by the Soil Moisture Active Passive (SMAP) mission to identify the Level 4 Radar product.</gco:CharacterString>
-</gmd:description>
-</gmd:MD_Identifier>
-</gmd:identifier>
-<gmd:presentationForm>
-<gmd:CI_PresentationFormCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="documentDigital">documentDigital</gmd:CI_PresentationFormCode>
-</gmd:presentationForm>
-<gmd:series>
-<gmd:CI_Series>
-<gmd:name>
-<gco:CharacterString>L4_SM</gco:CharacterString>
-</gmd:name>
-</gmd:CI_Series>
-</gmd:series>
-</gmd:CI_Citation>
-</gmd:citation>
-<gmd:abstract>
-<gco:CharacterString>The SMAP L4_SM data product provides global, 3-hourly surface and root zone soil moisture at 9 km resolution. The L4_SM data product consists of three Collections: geophysical, analysis update and land-model-constants.</gco:CharacterString>
-</gmd:abstract>
-<gmd:language>
-<gco:CharacterString>eng</gco:CharacterString>
-</gmd:language>
-</gmd:MD_DataIdentification>
-</gmd:identificationInfo>
-<gmd:identificationInfo>
-<gmd:MD_DataIdentification>
-<gmd:citation>
-<gmd:CI_Citation>
-<gmd:title>
-<gco:CharacterString>DataSetId</gco:CharacterString>
-</gmd:title>
-<gmd:date>
-<gmd:CI_Date>
-<gmd:date>
-<gco:DateTime>2016-09-12T11:50:19.050Z</gco:DateTime>
-</gmd:date>
-<gmd:dateType>
-<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode>
-</gmd:dateType>
-</gmd:CI_Date>
-</gmd:date>
-</gmd:CI_Citation>
-</gmd:citation>
-<gmd:abstract>
-<gco:CharacterString>DataSetId</gco:CharacterString>
-</gmd:abstract>
-<gmd:aggregationInfo>
-<gmd:MD_AggregateInformation>
-<gmd:aggregateDataSetIdentifier>
-<gmd:MD_Identifier>
-<gmd:code>
-<gco:CharacterString>SMAP L4 Global 3-hourly 9 km Surface and Rootzone Soil Moisture Analysis Update V002</gco:CharacterString>
-</gmd:code>
-</gmd:MD_Identifier>
-</gmd:aggregateDataSetIdentifier>
-<gmd:associationType/>
-</gmd:MD_AggregateInformation>
-</gmd:aggregationInfo>
-<gmd:language>
-<gco:CharacterString>eng</gco:CharacterString>
-</gmd:language>
-</gmd:MD_DataIdentification>
-</gmd:identificationInfo>
-<gmd:identificationInfo>
-<gmd:MD_DataIdentification>
-<gmd:citation>
-<gmd:CI_Citation>
-<gmd:title>
-<gco:CharacterString>InsertTime</gco:CharacterString>
-</gmd:title>
-<gmd:date>
-<gmd:CI_Date>
-<gmd:date>
-<gco:DateTime>2016-09-08T09:16:24.835Z</gco:DateTime>
-</gmd:date>
-<gmd:dateType>
-<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="creation">creation</gmd:CI_DateTypeCode>
-</gmd:dateType>
-</gmd:CI_Date>
-</gmd:date>
-</gmd:CI_Citation>
-</gmd:citation>
-<gmd:abstract>
-<gco:CharacterString>InsertTime</gco:CharacterString>
-</gmd:abstract>
-<gmd:purpose>
-<gco:CharacterString>InsertTime</gco:CharacterString>
-</gmd:purpose>
-<gmd:language>
-<gco:CharacterString>eng</gco:CharacterString>
-</gmd:language>
-</gmd:MD_DataIdentification>
-</gmd:identificationInfo>
-<gmd:identificationInfo>
-<gmd:MD_DataIdentification>
-<gmd:citation>
-<gmd:CI_Citation>
-<gmd:title>
-<gco:CharacterString>UpdateTime</gco:CharacterString>
-</gmd:title>
-<gmd:date>
-<gmd:CI_Date>
-<gmd:date>
-<gco:DateTime>2016-09-12T11:50:19.050Z</gco:DateTime>
-</gmd:date>
-<gmd:dateType>
-<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode>
-</gmd:dateType>
-</gmd:CI_Date>
-</gmd:date>
-</gmd:CI_Citation>
-</gmd:citation>
-<gmd:abstract>
-<gco:CharacterString>UpdateTime</gco:CharacterString>
-</gmd:abstract>
-<gmd:purpose>
-<gco:CharacterString>UpdateTime</gco:CharacterString>
-</gmd:purpose>
-<gmd:language>
-<gco:CharacterString>eng</gco:CharacterString>
-</gmd:language>
-</gmd:MD_DataIdentification>
-</gmd:identificationInfo>
-<gmd:identificationInfo>
-<gmd:MD_DataIdentification>
-<gmd:citation>
-<gmd:CI_Citation>
-<gmd:title>
-<gco:CharacterString>DIFID</gco:CharacterString>
-</gmd:title>
-<gmd:date>
-<gmd:CI_Date>
-<gmd:date>
-<gco:DateTime>2016-09-12T11:50:19.050Z</gco:DateTime>
-</gmd:date>
-<gmd:dateType>
-<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode>
-</gmd:dateType>
-</gmd:CI_Date>
-</gmd:date>
-<gmd:identifier>
-<gmd:MD_Identifier>
-<gmd:code>
-<gco:CharacterString>SPL4SMAU</gco:CharacterString>
-</gmd:code>
-</gmd:MD_Identifier>
-</gmd:identifier>
-</gmd:CI_Citation>
-</gmd:citation>
-<gmd:abstract>
-<gco:CharacterString>DIFID</gco:CharacterString>
-</gmd:abstract>
-<gmd:purpose>
-<gco:CharacterString>DIFID</gco:CharacterString>
-</gmd:purpose>
-<gmd:language>
-<gco:CharacterString>eng</gco:CharacterString>
-</gmd:language>
-</gmd:MD_DataIdentification>
-</gmd:identificationInfo>
-</gmi:MI_Metadata>
-</gmd:seriesMetadata>
-</gmd:DS_Series>'
+type: echo10
+test_case: " progressive update - updating collections with some errors"
+granule:
+metadata: "<Collection xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"\">\n
+  \   <ShortName>SENTINEL-1B_DP_META_GRD_HIGH</ShortName>\n    <VersionId>1</VersionId>\n
+  \   <InsertTime>2016-08-20T05:18:40Z</InsertTime>\n    <LastUpdate>2021-07-15T19:16:54Z</LastUpdate>\n
+  \   <LongName>Sentinel-1B Dual-pol ground projected high and full resolution metadata</LongName>\n
+  \   <DataSetId>SENTINEL-1B_DUAL_POL_METADATA_GRD_HIGH_RES</DataSetId>\n    <Description>Sentinel-1B
+  Dual-pol ground projected high and full resolution metadata</Description>\n    <Orderable>false</Orderable>\n
+  \   <Visible>true</Visible>\n    <ProcessingCenter>ASF</ProcessingCenter>\n    \n
+  \   \n    <ArchiveCenter>ASF</ArchiveCenter>\n    <CollectionState>ACTIVE</CollectionState>\n
+  \   \n    <UseConstraints>\n        <LicenseURL>\n            <URL>https://asf.alaska.edu/data-sets/sar-data-sets/sentinel-1/sentinel-1-terms-conditions/</URL>\n
+  \           <Description>License URL for data use policy</Description>\n            <Type>Data
+  Use Policy</Type>\n            <MimeType>text/html</MimeType>\n        </LicenseURL>\n
+  \   </UseConstraints>\n    \n    <Temporal>\n        <TimeType>UTC</TimeType>\n
+  \       <DateType>Gregorian</DateType>\n        <TemporalRangeType>Continuous Range</TemporalRangeType>\n
+  \       <PrecisionOfSeconds>1</PrecisionOfSeconds>\n        <EndsAtPresentFlag>true</EndsAtPresentFlag>\n
+  \       <RangeDateTime>\n            <BeginningDateTime>2016-04-25T00:00:00Z</BeginningDateTime>\n
+  \           \n        </RangeDateTime>\n    </Temporal>\n    <Contacts>\n        \n
+  \       <Contact>\n            <Role>ARCHIVER</Role>\n            <OrganizationName>ASF</OrganizationName>\n
+  \           <OrganizationPhones>\n                <Phone>\n                    <Number>907-474-5041</Number>\n
+  \                   <Type>Telephone</Type>\n                </Phone>\n            </OrganizationPhones>\n
+  \           <OrganizationEmails>\n                <Email>uso@asf.alaska.edu</Email>\n
+  \           </OrganizationEmails>\n        </Contact>\n        \n        <Contact>\n
+  \           <Role>DISTRIBUTOR</Role>\n            <OrganizationName>ASF</OrganizationName>\n
+  \           <OrganizationPhones>\n                <Phone>\n                    <Number>907-474-5041</Number>\n
+  \                   <Type>Telephone</Type>\n                </Phone>\n            </OrganizationPhones>\n
+  \           <OrganizationEmails>\n                <Email>uso@asf.alaska.edu</Email>\n
+  \           </OrganizationEmails>\n        </Contact>\n        \n        <Contact>\n
+  \           <Role>PROCESSOR</Role>\n            <OrganizationName>ASF</OrganizationName>\n
+  \           <OrganizationPhones>\n                <Phone>\n                    <Number>907-474-5041</Number>\n
+  \                   <Type>Telephone</Type>\n                </Phone>\n            </OrganizationPhones>\n
+  \           <OrganizationEmails>\n                <Email>uso@asf.alaska.edu</Email>\n
+  \           </OrganizationEmails>\n        </Contact>\n        \n    </Contacts>\n
+  \   \n    <ScienceKeywords>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>AGRICULTURE</TopicKeyword>\n
+  \           <TermKeyword>FOREST SCIENCE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>REFORESTATION</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>BIOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>TERRESTRIAL ECOSYSTEMS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>AGRICULTURAL LANDS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>BIOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>TERRESTRIAL ECOSYSTEMS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ALPINE/TUNDRA</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>BIOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>TERRESTRIAL ECOSYSTEMS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>BEACHES</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>BIOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>TERRESTRIAL ECOSYSTEMS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>DESERTS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>BIOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>TERRESTRIAL ECOSYSTEMS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>DUNES</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>BIOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>TERRESTRIAL ECOSYSTEMS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>FORESTS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>BIOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>TERRESTRIAL ECOSYSTEMS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>GRASSLANDS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>BIOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>TERRESTRIAL ECOSYSTEMS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ISLANDS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>BIOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>TERRESTRIAL ECOSYSTEMS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>URBAN LANDS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>BIOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>TERRESTRIAL ECOSYSTEMS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>WETLANDS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>FROZEN GROUND</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>PERIGLACIAL PROCESSES</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>FROZEN GROUND</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>PERMAFROST</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>FROZEN GROUND</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ROCK GLACIERS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>GLACIERS/ICE SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>GLACIER ELEVATION/ICE SHEET ELEVATION</Value>\n                \n
+  \           </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>CRYOSPHERE</TopicKeyword>\n            <TermKeyword>GLACIERS/ICE
+  SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>GLACIER
+  MOTION/ICE SHEET MOTION</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>GLACIERS/ICE SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>GLACIER THICKNESS/ICE SHEET THICKNESS</Value>\n                \n
+  \           </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>CRYOSPHERE</TopicKeyword>\n            <TermKeyword>GLACIERS/ICE
+  SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>GLACIER
+  TOPOGRAPHY/ICE SHEET TOPOGRAPHY</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>GLACIERS/ICE SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>GLACIERS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>GLACIERS/ICE SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE SHEETS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>GLACIERS/ICE SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICEBERGS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE DEFORMATION</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE DEPTH/THICKNESS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE EDGES</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE EXTENT</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE FLOES</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE GROWTH/MELT</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE ROUGHNESS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE TEMPERATURE</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE TYPES</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICEBERGS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>LEADS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>PACK ICE</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>POLYNYAS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>REFLECTANCE</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SEA ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>SEA ICE MOTION</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE EXTENT</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE GROWTH/MELT</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE MOTION</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE VELOCITY</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>LAKE ICE</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>PERMAFROST</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>RIVER ICE</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>CRYOSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>SNOW COVER</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>EROSION/SEDIMENTATION</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>LANDSLIDES</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>GEOMORPHIC LANDFORMS/PROCESSES</TermKeyword>\n            \n
+  \           <VariableLevel1Keyword>\n                <Value>AEOLIAN LANDFORMS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>LAND SURFACE</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>COASTAL LANDFORMS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>GEOMORPHIC LANDFORMS/PROCESSES</TermKeyword>\n            \n
+  \           <VariableLevel1Keyword>\n                <Value>FLUVIAL LANDFORMS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>LAND SURFACE</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>GLACIAL LANDFORMS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>GEOMORPHIC LANDFORMS/PROCESSES</TermKeyword>\n            \n
+  \           <VariableLevel1Keyword>\n                <Value>KARST LANDFORMS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>LAND SURFACE</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>LAND USE/LAND COVER</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>LAND COVER</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>LAND USE/LAND COVER</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>LAND USE/LAND COVER CLASSIFICATION</Value>\n                \n
+  \           </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>LAND SURFACE</TopicKeyword>\n            <TermKeyword>LANDSCAPE</TermKeyword>\n
+  \           \n            <VariableLevel1Keyword>\n                <Value>LANDSCAPE
+  ECOLOGY</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>LANDSCAPE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>LANDSCAPE PATTERNS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>LANDSCAPE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>LANDSCAPE PROCESSES</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>LANDSCAPE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>REFORESTATION</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>TOPOGRAPHY</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>LANDFORMS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>TOPOGRAPHY</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>SURFACE ROUGHNESS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>TOPOGRAPHY</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TERRAIN ELEVATION</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>LAND SURFACE</TopicKeyword>\n
+  \           <TermKeyword>TOPOGRAPHY</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TOPOGRAPHIC EFFECTS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>BARRIER
+  ISLANDS</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>BEACHES</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>DELTAS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>DUNES</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>ESTUARIES</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>FJORDS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>INLETS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>LAGOONS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>MANGROVES</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>MARSHES</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>ROCKY
+  COASTS</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>COASTAL
+  PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>SHORELINES</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>OCEAN
+  WAVES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>WIND
+  WAVES</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>OCEAN
+  WINDS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>SURFACE
+  WINDS</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA
+  ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>ICE
+  DEFORMATION</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA
+  ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>ICE
+  DEPTH/THICKNESS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA
+  ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>ICE
+  EDGES</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA
+  ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>ICE
+  EXTENT</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA
+  ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>ICE
+  FLOES</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA
+  ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>ICE
+  ROUGHNESS</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA
+  ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>ICE
+  TYPES</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA
+  ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>ICEBERGS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA ICE</TermKeyword>\n
+  \           \n            <VariableLevel1Keyword>\n                <Value>LEADS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA ICE</TermKeyword>\n
+  \           \n            <VariableLevel1Keyword>\n                <Value>PACK ICE</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA ICE</TermKeyword>\n
+  \           \n            <VariableLevel1Keyword>\n                <Value>POLYNYAS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>OCEANS</TopicKeyword>\n            <TermKeyword>SEA ICE</TermKeyword>\n
+  \           \n            <VariableLevel1Keyword>\n                <Value>SEA ICE
+  MOTION</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>SOLID EARTH</TopicKeyword>\n
+  \           <TermKeyword>GEOMORPHIC LANDFORMS/PROCESSES</TermKeyword>\n            \n
+  \           <VariableLevel1Keyword>\n                <Value>GLACIAL LANDFORMS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>CALDERA</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>CINDER CONE</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>FAULTS</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>FOLDS</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>GEYSER</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>GRABEN</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>HORST</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>LAVA DOME</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>LAVA PLAIN</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>MAAR</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>MOUNTAINS</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>PLATEAU</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>RIDGE</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>RIFT VALLEY</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>TUYA</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n                <VariableLevel2Keyword>\n
+  \                   <Value>VOLCANO</Value>\n                    \n                </VariableLevel2Keyword>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>SOLID EARTH</TopicKeyword>\n            <TermKeyword>GEOMORPHIC
+  LANDFORMS/PROCESSES</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>TECTONIC LANDFORMS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>SOLID EARTH</TopicKeyword>\n
+  \           <TermKeyword>TECTONICS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>EARTHQUAKES</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>SOLID EARTH</TopicKeyword>\n
+  \           <TermKeyword>TECTONICS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>EARTHQUAKES</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>SOLID EARTH</TopicKeyword>\n
+  \           <TermKeyword>TECTONICS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>PLATE TECTONICS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>SOLID EARTH</TopicKeyword>\n
+  \           <TermKeyword>TECTONICS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>PLATE TECTONICS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>SOLID EARTH</TopicKeyword>\n
+  \           <TermKeyword>TECTONICS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>VOLCANIC ACTIVITY</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>SOLID EARTH</TopicKeyword>\n
+  \           <TermKeyword>TECTONICS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>VOLCANIC ACTIVITY</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n
+  \           <TermKeyword>GLACIERS/ICE SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>GLACIER ELEVATION/ICE SHEET ELEVATION</Value>\n                \n
+  \           </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n            <TermKeyword>GLACIERS/ICE
+  SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>GLACIER
+  MOTION/ICE SHEET MOTION</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n
+  \           <TermKeyword>GLACIERS/ICE SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>GLACIER TOPOGRAPHY/ICE SHEET TOPOGRAPHY</Value>\n                \n
+  \           </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n            <TermKeyword>GLACIERS/ICE
+  SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>GLACIERS</Value>\n
+  \               \n            </VariableLevel1Keyword>\n            \n        </ScienceKeyword>\n
+  \       \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH SCIENCE</CategoryKeyword>\n
+  \           <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n            <TermKeyword>GLACIERS/ICE
+  SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n                <Value>ICE
+  SHEETS</Value>\n                \n            </VariableLevel1Keyword>\n            \n
+  \       </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n
+  \           <TermKeyword>GLACIERS/ICE SHEETS</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICEBERGS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE EXTENT</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE GROWTH/MELT</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE MOTION</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>ICE VELOCITY</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>LAKE ICE</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>PERMAFROST</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SNOW/ICE</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>RIVER ICE</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n        <ScienceKeyword>\n            <CategoryKeyword>EARTH
+  SCIENCE</CategoryKeyword>\n            <TopicKeyword>TERRESTRIAL HYDROSPHERE</TopicKeyword>\n
+  \           <TermKeyword>SURFACE WATER</TermKeyword>\n            \n            <VariableLevel1Keyword>\n
+  \               <Value>WETLANDS</Value>\n                \n            </VariableLevel1Keyword>\n
+  \           \n        </ScienceKeyword>\n        \n    </ScienceKeywords>\n    \n\n
+  \   <Platforms>\n\n        <Platform>\n          <ShortName>SENTINEL-1B</ShortName>\n
+  \         <LongName>ESA Sentinel-1B</LongName>\n          <Type>Spacecraft</Type>\n
+  \         \n          <Instruments>\n            <Instrument>\n              <ShortName>C-SAR</ShortName>\n
+  \             <LongName>C-Band Synthetic Aperture RADAR</LongName>\n              \n
+  \               <Sensors>\n                  \n                    <Sensor>\n                      <ShortName>EW</ShortName>\n
+  \                   </Sensor>\n                  \n                    <Sensor>\n
+  \                     <ShortName>S1</ShortName>\n                    </Sensor>\n
+  \                 \n                    <Sensor>\n                      <ShortName>S6</ShortName>\n
+  \                   </Sensor>\n                  \n                    <Sensor>\n
+  \                     <ShortName>S5</ShortName>\n                    </Sensor>\n
+  \                 \n                    <Sensor>\n                      <ShortName>WV</ShortName>\n
+  \                   </Sensor>\n                  \n                    <Sensor>\n
+  \                     <ShortName>S2</ShortName>\n                    </Sensor>\n
+  \                 \n                    <Sensor>\n                      <ShortName>S4</ShortName>\n
+  \                   </Sensor>\n                  \n                    <Sensor>\n
+  \                     <ShortName>IW</ShortName>\n                    </Sensor>\n
+  \                 \n                    <Sensor>\n                      <ShortName>S3</ShortName>\n
+  \                   </Sensor>\n                  \n                </Sensors>\n
+  \             \n              <OperationModes>\n                <OperationMode>Arctic</OperationMode>\n
+  \               <OperationMode>Antarctic</OperationMode>\n              </OperationModes>\n
+  \           </Instrument>\n          </Instruments>\n        \n        </Platform>\n\n
+  \   </Platforms>\n\n    \n    <AdditionalAttributes>\n      \n        <AdditionalAttribute>\n
+  \         <Name>POLARIZATION</Name>\n          <DataType>STRING</DataType>\n          <Description>Radar
+  transmissions are polarized, with components normally termed vertical (V) and horizontal
+  (H). Vertical means that the electric vector is in the plane of incidence; horizontal
+  means the electric vector is perpendicular to the plane of incidence.</Description>\n
+  \       </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n          <Name>FLIGHT_LINE</Name>\n
+  \         <DataType>STRING</DataType>\n          <Description>Flight line identifies
+  where the aircraft/instrument has flown to acquire data.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>BEAM_MODE</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>The general type of active sensor used. Values indicate image
+  resolution: such as standard, fine, wide, scansar wide, SM (strip mode), EW (extra
+  wide). Or indicate resolution + polarization: FBS (fine beam single polarization),
+  FBD (fine beam dual pol). Or atypically the type of product: TOPSAR (high resolution
+  DEM), RPI (repeat pass interferometry), XTI (across track interferometry). Or resolution
+  and product type IW (interferometric wide).</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>BEAM_MODE_DESC</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>Text that describes the beam mode</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>BEAM_MODE_TYPE</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>In most cases, the BEAM_MODE_TYPE value is the same as the
+  BEAM_MODE attribute. Each platform has its own scheme for defining acquisition sensor
+  beam modes. Beam modes often reflect a set configuration of polarization, resolution,
+  and off-nadir pointing angle.</Description>\n        </AdditionalAttribute>\n      \n
+  \       <AdditionalAttribute>\n          <Name>FARADAY_ROTATION</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>An effect of the ionosphere that rotates polarizations from
+  HH or VV or HV or VH. Significant for L or P band. Rotation over 5 degrees reduces
+  usefulness for applications such as forest biomass. Effect is reduced at solar minimum.</Description>\n
+  \       </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n          <Name>INSAR_STACK_ID</Name>\n
+  \         <DataType>INT</DataType>\n          <Description>An ASF-assigned unique
+  number used internally to unify SAR images over the same location. Used for data
+  that might be used for interferometry.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>INSAR_STACK_SIZE</Name>\n
+  \         <DataType>INT</DataType>\n          <Description>The number of SAR images
+  over the same location in the entire ASF archive. Used for data that may be used
+  for interferometry.</Description>\n        </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n
+  \         <Name>INSAR_BASELINE</Name>\n          <DataType>FLOAT</DataType>\n          <Description>The
+  perpendicular distance between two satellites when they took the related two images.
+  Useful for identifying image pairs to use for interferometry.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>DOPPLER</Name>\n          <DataType>FLOAT</DataType>\n
+  \         <Description>The doppler centroid frequency - Useful for SAR processing
+  and interferometry. Related to the squint of the satellite.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>ASCENDING_DESCENDING</Name>\n
+  \         <DataType>STRING</DataType>\n          <Description>Describes whether
+  the satellite travel direction was ascending towards the north pole, or descending
+  towards the south pole.</Description>\n        </AdditionalAttribute>\n      \n
+  \       <AdditionalAttribute>\n          <Name>THUMBNAIL_URL</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>URL that points to this granule's thumbnail image</Description>\n
+  \       </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n          <Name>CENTER_FRAME_ID</Name>\n
+  \         <DataType>STRING</DataType>\n          <Description>ID of the center frame</Description>\n
+  \       </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n          <Name>PATH_NUMBER</Name>\n
+  \         <DataType>INT</DataType>\n          <Description>The path describes a
+  path the satellite will follow over the earth similar to longitude; each path has
+  an assigned number. Combined with a frame number it identifies a specific piece
+  of ground.</Description>\n        </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n
+  \         <Name>FRAME_NUMBER</Name>\n          <DataType>INT</DataType>\n          <Description>The
+  designated frame or scene as defined by various space agencies (ESA, JAXA, CSA)
+  each of which have their own scheme. The frame describes a box over the Earth at
+  a fixed latitude. Combined with a path number (for longitude it identifies a specific
+  piece of ground).</Description>\n        </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n
+  \         <Name>CENTER_ESA_FRAME</Name>\n          <DataType>INT</DataType>\n          <Description>The
+  European Space Agency equivalent to the value in the FRAME_NUMBER field</Description>\n
+  \       </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n          <Name>MISSION_NAME</Name>\n
+  \         <DataType>STRING</DataType>\n          <Description>The sitenames where
+  AIRSAR, AIRMOSS, and UAVSAR acquisitions were taken.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>GRANULE_TYPE</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>Identifies the type of data by combining platform, beam mode
+  type, and coverage (frame/swath)</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>PROCESSING_DATE</Name>\n
+  \         <DataType>STRING</DataType>\n          <Description>The date the data
+  was processed</Description>\n        </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n
+  \         <Name>PROCESSING_DESCRIPTION</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>Describes what the data was processed to. For example: low
+  resolution terrain corrected ALOS data.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>LOOK_DIRECTION</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>SAR imagery is taken with the sensor pointing either left
+  or right of the satellite. Most data is right-looking.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>PROCESSING_TYPE</Name>\n
+  \         <DataType>STRING</DataType>\n          <Description>Indicates the type
+  of product, such as browse, metadata, L1, complex, amplitude, projected, terrain
+  corrected.</Description>\n        </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n
+  \         <Name>PROCESSING_LEVEL</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>Indicates how much processing has been done to the data:
+  L1, L1.0 unprocessed; L1.1 single look complex; L1, L1.5 amplitude image; L2, L2.2
+  terrain corrected image.</Description>\n        </AdditionalAttribute>\n      \n
+  \       <AdditionalAttribute>\n          <Name>PROCESSING_TYPE_DISPLAY</Name>\n
+  \         <DataType>STRING</DataType>\n          <Description>Label that will be
+  displayed in ASF's Vertex interface</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>BYTES</Name>\n          <DataType>FLOAT</DataType>\n
+  \         <Description>Product size in bytes.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>MD5SUM</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>Checksum</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>OFF_NADIR_ANGLE</Name>\n
+  \         <DataType>FLOAT</DataType>\n          <Description>The angle the sensor
+  points away from the satellite's nadir (off to the side). Larger angles correspond
+  to imaging farther away from the satellite.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>ACQUISITION_DATE</Name>\n
+  \         <DataType>STRING</DataType>\n          <Description>Date the data was
+  acquired by the satellite or aircraft and instrument.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>CENTER_LON</Name>\n          <DataType>FLOAT</DataType>\n
+  \         <Description>Longitude of the center of the scene or frame.</Description>\n
+  \       </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n          <Name>CENTER_LAT</Name>\n
+  \         <DataType>FLOAT</DataType>\n          <Description>Latitude of the center
+  of the scene or frame.</Description>\n        </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n
+  \         <Name>NEAR_START_LAT</Name>\n          <DataType>FLOAT</DataType>\n          <Description>Latitude
+  of the granule where imaging began nearest to the satellite. For an ascending satellite,
+  it locates the lower left corner of a north-oriented image.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>NEAR_START_LON</Name>\n          <DataType>FLOAT</DataType>\n
+  \         <Description>Longitude of the granule where imaging began nearest the
+  satellite. For an ascending satellite, it locates the lower left corner of a north-oriented
+  image.</Description>\n        </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n
+  \         <Name>FAR_START_LAT</Name>\n          <DataType>FLOAT</DataType>\n          <Description>Latitude
+  of the granule where imaging began farthest from the satellite. For an ascending
+  satellite, it locates the lower right corner of a north-oriented image.</Description>\n
+  \       </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n          <Name>FAR_START_LON</Name>\n
+  \         <DataType>FLOAT</DataType>\n          <Description>Latitude of the granule
+  where imaging began farthest from the satellite. For an ascending satellite, it
+  locates the lower right corner of a north-oriented image.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>NEAR_END_LAT</Name>\n          <DataType>FLOAT</DataType>\n
+  \         <Description>Latitude of the granule where imaging ended nearest to the
+  satellite. For an ascending satellite, it locates the upper left corner of a north-oriented
+  image.</Description>\n        </AdditionalAttribute>\n      \n        <AdditionalAttribute>\n
+  \         <Name>NEAR_END_LON</Name>\n          <DataType>FLOAT</DataType>\n          <Description>Longitude
+  of the granule where imaging ended nearest to the satellite. For an ascending satellite,
+  it locates the upper left corner of a north-oriented image.</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>FAR_END_LAT</Name>\n          <DataType>FLOAT</DataType>\n
+  \         <Description>Latitude of the granule where imaging ended farthest from
+  the satellite. For an ascending satellite, it locates the upper right corner of
+  a north-oriented image.</Description>\n        </AdditionalAttribute>\n      \n
+  \       <AdditionalAttribute>\n          <Name>FAR_END_LON</Name>\n          <DataType>FLOAT</DataType>\n
+  \         <Description>Longitude of the granule where imaging ended farthest from
+  the satellite. For an ascending satellite, it locates the upper right corner of
+  a north-oriented image.</Description>\n        </AdditionalAttribute>\n      \n
+  \       <AdditionalAttribute>\n          <Name>ASF_PLATFORM</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>Internal ASF platform name</Description>\n        </AdditionalAttribute>\n
+  \     \n        <AdditionalAttribute>\n          <Name>GROUP_ID</Name>\n          <DataType>STRING</DataType>\n
+  \         <Description>ID that helps ASF group products</Description>\n        </AdditionalAttribute>\n
+  \     \n    </AdditionalAttributes>\n    \n    \n    \n    <OnlineAccessURLs>\n
+  \       <OnlineAccessURL>\n          <URL>https://vertex.daac.asf.alaska.edu/</URL>\n
+  \           \n                <URLDescription>Vertex, the ASF search and download
+  interface</URLDescription>\n            \n        </OnlineAccessURL>\n    </OnlineAccessURLs>\n
+  \   \n    \n    <Spatial>\n        <HorizontalSpatialDomain>\n            <Geometry>\n
+  \           \n                <CoordinateSystem>CARTESIAN</CoordinateSystem>\n                <BoundingRectangle>\n
+  \                   <WestBoundingCoordinate>-180.0</WestBoundingCoordinate>\n                    <NorthBoundingCoordinate>90.0</NorthBoundingCoordinate>\n
+  \                   <EastBoundingCoordinate>180.0</EastBoundingCoordinate>\n                    <SouthBoundingCoordinate>-90.0</SouthBoundingCoordinate>\n
+  \               </BoundingRectangle>\n            \n            </Geometry>\n        </HorizontalSpatialDomain>\n
+  \       <GranuleSpatialRepresentation>GEODETIC</GranuleSpatialRepresentation>\n
+  \   </Spatial>\n</Collection>"

@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C66215277-LARC/24.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>MI1B2T</ShortName><VersionId>3</VersionId><InsertTime>2005-03-23T10:54:37.660Z</InsertTime><LastUpdate>2015-05-05T16:12:22.324Z</LastUpdate><LongName>MISR
   Level 1B2 Terrain Data</LongName><DataSetId>MISR Level 1B2 Terrain Data V003</DataSetId><Description>This
   file contains Terrain-projected TOA Radiance,resampled at the surface and topographically

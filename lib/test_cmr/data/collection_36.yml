@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000281-LARC/13.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>IXBMIB2T</ShortName><VersionId>3</VersionId><InsertTime>2015-05-27T13:21:15.646Z</InsertTime><LastUpdate>2015-05-27T13:34:58.634Z</LastUpdate><LongName>MISR
   L1B2 Terrain Product subset for the INTEX-B region</LongName><DataSetId>MISR L1B2
   Terrain Product subset for the INTEX-B region V003</DataSetId><Description>This

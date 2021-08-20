@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C43677744-LARC/20.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>MISBR</ShortName><VersionId>5</VersionId><InsertTime>2003-03-24T12:46:14.763Z</InsertTime><LastUpdate>2013-11-05T15:15:42.973Z</LastUpdate><LongName>MISR
   Browse data</LongName><DataSetId>MISR Browse data V005</DataSetId><Description>This
   is the browse data associated with a particular granule.</Description><Orderable>false</Orderable><Visible>true</Visible><RevisionDate>2013-08-22T00:00:00Z</RevisionDate><SuggestedUsage>This

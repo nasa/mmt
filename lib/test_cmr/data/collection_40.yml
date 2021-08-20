@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000422-LARC/5.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>SAMMI2LS</ShortName><VersionId>2</VersionId><InsertTime>2015-07-23T09:28:09.529Z</InsertTime><LastUpdate>2015-07-23T11:49:14.351Z</LastUpdate><LongName>MISR
   L2 Surface Product subset for the SAMUM region</LongName><DataSetId>MISR L2 Surface
   Product subset for the SAMUM region V002</DataSetId><Description>This Level 2 Land

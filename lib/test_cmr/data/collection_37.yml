@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000440-LARC/6.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>SAMMIB2T</ShortName><VersionId>3</VersionId><InsertTime>2015-07-23T09:28:11.062Z</InsertTime><LastUpdate>2015-07-23T11:49:59.525Z</LastUpdate><LongName>MISR
   L1B2 Terrain Product subset for the SAMUM region</LongName><DataSetId>MISR L1B2
   Terrain Product subset for the SAMUM region V003</DataSetId><Description>This file

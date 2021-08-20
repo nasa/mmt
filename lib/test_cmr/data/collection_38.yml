@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000420-LARC/5.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>SAMMI2AE</ShortName><VersionId>2</VersionId><InsertTime>2015-07-23T09:28:08.695Z</InsertTime><LastUpdate>2015-07-23T11:48:55.224Z</LastUpdate><LongName>MISR
   L2 Aerosol Product subset for the SAMUM region</LongName><DataSetId>MISR L2 Aerosol
   Product subset for the SAMUM region V002</DataSetId><Description>This is the Level
