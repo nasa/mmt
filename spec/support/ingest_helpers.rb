@@ -93,7 +93,6 @@ module Helpers
         wait_for_cmr
 
         raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
-        puts ">>> ingested! ingest_response:\n#{ingest_response.body}"
 
         draft = build(:progressive_update_collection_with_errors, draft_attributes)
         ingest_response = cmr_client.ingest_progressive_update_collection(draft.draft.to_json, draft.provider_id, draft.native_id)
@@ -102,7 +101,6 @@ module Helpers
         wait_for_cmr
 
         raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
-        puts ">>> ingested! ingest_response:\n#{ingest_response.body}"
 
         ingest_response.body
       end

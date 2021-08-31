@@ -273,17 +273,16 @@ module Cmr
       put(url, metadata, headers.merge(token_header(token)))
     end
 
+    # Only for testing
     # Publish a collection for progressive update feature - CMR allowing an update
     # to an existing collection that may include some existing errors if it does
     # not have new errors
-    # this is only for testing as it requires the system token and a special header
     def ingest_progressive_update_collection(metadata, provider_id, native_id)
+      # this is only for testing as it requires the system token and a special header
+      return unless Rails.env.development? || Rails.env.test?
+
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
-            else
-              "/ingest/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
-            end
+      url = "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
 
       headers = {
         'Accept' => 'application/json',

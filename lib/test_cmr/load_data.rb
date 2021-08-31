@@ -608,7 +608,7 @@ module Cmr
               req.headers['Accept'] = 'application/json'
             elsif data['collection_uri'].include? 'SEDAC'
               req.url("http://localhost:3002/providers/SEDAC/collections/collection#{index}")
-            else # data['collection_uri'].include? 'LARC'. Also ASF
+            else # data['collection_uri'].include? 'LARC'
               req.url("http://localhost:3002/providers/LARC/collections/collection#{index}")
             end
 
