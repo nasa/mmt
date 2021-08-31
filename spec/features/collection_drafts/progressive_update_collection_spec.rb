@@ -27,7 +27,7 @@ describe 'Progressive Update Collection Draft', reset_provider: true, js: true d
       expect(page).to have_content('Warning: Your Collection Draft has missing or invalid fields.')
     end
 
-    context 'When viewing the collection draft preview page' do
+    context 'when viewing the collection draft preview page' do
       it 'the collection draft progress circles indicate validation errors' do
         within '.progress-indicator' do
           expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red', count: 4)
@@ -38,7 +38,6 @@ describe 'Progressive Update Collection Draft', reset_provider: true, js: true d
         before do
           # introduce a new error
           within '.progress-indicator' do
-            # click_on '.eui-icon.processing-level'
             click_on 'Processing Level - Required field complete'
           end
 
@@ -78,7 +77,7 @@ describe 'Progressive Update Collection Draft', reset_provider: true, js: true d
           end
         end
 
-        context 'When publishing the draft' do
+        context 'when publishing the draft' do
           before do
             click_on 'Yes, Publish Collection Draft'
           end
@@ -112,14 +111,14 @@ describe 'Progressive Update Collection Draft', reset_provider: true, js: true d
       expect(page).to have_content('Warning: Your Collection Draft has missing or invalid fields.')
     end
 
-    context 'When viewing the collection draft preview page' do
+    context 'when viewing the collection draft preview page' do
       it 'the collection draft progress circles indicate validation errors' do
         within '.progress-indicator' do
           expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red', count: 4)
         end
       end
 
-      context 'When attempting to publish with no new errors' do
+      context 'when attempting to publish with no new errors' do
         before do
           # need to enter a unique short name
           click_on 'Click here to enter a new Short Name.'
