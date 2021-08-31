@@ -146,6 +146,7 @@ Rails.application.routes.draw do
       get :edit, path: 'edit(/:form)'
       get 'download'
       post 'publish'
+      get 'check_cmr_validation'
     end
   end
   get 'subregion_options' => 'collection_drafts#subregion_options'

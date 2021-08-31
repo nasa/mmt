@@ -286,6 +286,22 @@ module Cmr
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
+    def validate_collection(metadata, provider_id, native_id)
+      # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3002/providers/#{provider_id}/validate/collection/#{encode_if_needed(native_id)}"
+            else
+              "/ingest/providers/#{provider_id}/validate/collection/#{encode_if_needed(native_id)}"
+            end
+
+      headers = {
+        'Accept' => 'application/json',
+        'Content-Type' => "application/#{Rails.configuration.umm_c_version}; charset=utf-8"
+      }
+
+      post(url, metadata, headers)
+    end
+
     def ingest_variable(metadata:, provider_id:, native_id:, collection_concept_id:, token:, headers_override: nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       # https://cmr.sit.earthdata.nasa.gov/ingest/collections/C1200000005-PROV1/1/variables/sampleVariableNativeId33 -d \

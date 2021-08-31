@@ -885,6 +885,22 @@ $(document).ready ->
 
   # Validate the whole page on page load
   if $('.metadata-form, .umm-form').length > 0
+    # if url has a hash, user clicked on a specific field or progress circle
+    # we should visit the field (or nested fields) to show the user any issue
+    # with the field since they have chosen to visit the field directly
+    if (window.location.hash)
+      targetFieldId = window.location.hash.substring(1)
+      targetFieldId = targetFieldId.replace('_label', '') if targetFieldId.endsWith('_label')
+      targetField = $("##{targetFieldId}")
+      if targetField.is('input, select, textarea')
+        visitField(targetFieldId)
+      else
+        targetField.find('input, select, textarea').each (index, element) ->
+          visitField($(element).attr('id'))
+
+
+    # under what conditions are model errors shown? I am not able to locate any
+    # code that seems to display the model errors. Can this chunk be removed?
     # Do not display validation errors on page load if model errors are showing
     if $('.model-errors').length == 0
       # "visit" each field with a value on page load
