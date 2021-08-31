@@ -292,14 +292,4 @@
   "ingest_count": 1,
   "granule": "https://cmr.earthdata.nasa.gov:443/search/concepts/G1331856692-PODAAC",
   "test_case": " UVG collection with granule with OPeNDAP url"
-}, {
-  // 58
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1327985741-ASF/309.echo10",
-  "ingest_count": 1,
-  "test_case": " progressive update - updating collections with some errors"
-}, {
-  // 59
-  "collection": "https://cmr.earthdata.nasa.gov:443/search/concepts/C1206485320-ASF/1769.echo10",
-  "ingest_count": 1,
-  "test_case": " progressive update - updating collections with some errors"
 }]
