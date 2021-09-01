@@ -32,7 +32,8 @@ describe 'Chooser expected behaviors', js: true do
     end
 
     it 'does not highlight an entry in the right column after using +/-' do
-      expect(page).to have_select('Selected Collections', options: [@entry_id_1], selected: [])
+      # must include the icon because the factory generating this collection has s3 prefixes
+      expect(page).to have_select('Selected Collections', options: ['🟠 ' + @entry_id_1], selected: [])
       expect(page).to have_no_content('You must select at least 1 collection.')
     end
 
@@ -42,7 +43,8 @@ describe 'Chooser expected behaviors', js: true do
       end
       fill_in('to-filter', with: @entry_id_1)
 
-      expect(page).to have_select('Selected Collections', options: [@entry_id_1], selected: [])
+      # must include the icon because the factory generating this collection has s3 prefixes
+      expect(page).to have_select('Selected Collections', options: ['🟠 ' + @entry_id_1], selected: [])
     end
   end
 end

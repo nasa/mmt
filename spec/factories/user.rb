@@ -29,4 +29,11 @@ FactoryBot.define do
       available_providers { %w[MMT_1 MMT_2 LARC SEDAC] }
     end
   end
+
+  factory :user2, class: User do
+    urs_uid { 'testuser2' }
+    provider_id { 'LARC' }
+    available_providers { %w[LARC] }
+  end
+
 end
