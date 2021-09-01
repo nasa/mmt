@@ -5,7 +5,7 @@ module Proposal
 
     skip_before_action :provider_set?
 
-    before_action :ensure_non_nasa_draft_permissions
+    before_action :ensure_non_nasa_draft_permissions, except: [:download_json]
     before_action(only: [:submit, :rescind, :progress, :approve, :reject]) { set_resource }
     before_action(only: [:submit]) do
       load_umm_c_schema
