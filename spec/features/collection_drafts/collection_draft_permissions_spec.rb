@@ -48,10 +48,7 @@ describe 'Collection draft permissions' do
       end
 
       it 'displays a banner message to change provider the Not Current Provider content' do
-        expect(page).to have_css('.eui-banner--warn')
-        within '.eui-banner--warn' do
-          expect(page).to have_content('You need to change your current provider to show this draft')
-        end
+        expect(page).to have_css('.eui-banner--warn', text: 'You need to change your current provider to show this draft. Click here to change your provider.')
 
         expect(page).to have_content('Not Current Provider')
         expect(page).to have_content('It appears you need to change your current provider to access to this content.')
@@ -130,10 +127,7 @@ describe 'Collection draft permissions' do
       end
 
       it 'displays a banner message to change provider the Not Current Provider content' do
-        expect(page).to have_css('.eui-banner--warn')
-        within '.eui-banner--warn' do
-          expect(page).to have_content('You need to change your current provider to edit this draft')
-        end
+        expect(page).to have_css('.eui-banner--warn', text: 'You need to change your current provider to edit this draft. Click here to change your provider.')
 
         expect(page).to have_content('Not Current Provider')
         expect(page).to have_content('It appears you need to change your current provider to access to this content.')

@@ -292,4 +292,10 @@
   "ingest_count": 1,
   "granule": "https://cmr.earthdata.nasa.gov:443/search/concepts/G1331856692-PODAAC",
   "test_case": " UVG collection with granule with OPeNDAP url"
+}, {
+  // 58
+  "collection": "https://cmr.uat.earthdata.nasa.gov/search/concepts/C1216372736-PVC_TS2",
+  "ingest_count": 1,
+  "type": "iso-smap",
+  "test_case": " iso-smap collection"
 }]

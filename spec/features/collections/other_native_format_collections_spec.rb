@@ -16,7 +16,7 @@ describe 'Viewing Collections with other native formats', js: true do
 
       it 'displays the data center in the collection preview overview table' do
         expect(page).to have_content(short_name)
-        expect(page).to have_content('AIRS/Aqua L2G Precipitation Estimate (AIRS-only) V006 (AIRG2SSD) at GES DISC')
+        expect(page).to have_content('AIRS/Aqua L2G Precipitation Estimate V006 (AIRG2SSD) at GES DISC')
 
         within '.collection-overview-table' do
           expect(page).to have_content('Data Center(s): NASA/GSFC/SED/ESD/GCDC/GESDISC', normalize_ws: true)

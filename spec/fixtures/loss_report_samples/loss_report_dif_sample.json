@@ -1,18 +1,11 @@
 {
   "format": "application/dif10+xml",
-  "1. -: /DIF/Temporal_Coverage/Temporal_Range_Type": "Long Range",
-  "2. -: /DIF/Related_URL[1]": {
-    "URL_Content_Type": {
-      "Type": "VIEW DATA SET LANDING PAGE"
-    },
-    "URL": "http://dx.doi.org/10.7927/H4NK3BZJ",
-    "Description": "data set DOI and homepage"
-  },
-  "3. +: /DIF/Related_URL[1]": {
-    "URL_Content_Type": {
-      "Type": "DATA SET LANDING PAGE"
-    },
-    "URL": "http://dx.doi.org/10.7927/H4NK3BZJ",
-    "Description": "data set DOI and homepage"
-  }
+  "1. -: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Southernmost_Latitude": "-90",
+  "2. +: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Southernmost_Latitude": "-90.0",
+  "3. -: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Northernmost_Latitude": "90",
+  "4. +: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Northernmost_Latitude": "90.0",
+  "5. -: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Westernmost_Longitude": "-180",
+  "6. +: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Westernmost_Longitude": "-180.0",
+  "7. -: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Easternmost_Longitude": "180",
+  "8. +: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Easternmost_Longitude": "180.0"
 }

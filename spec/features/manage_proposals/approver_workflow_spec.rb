@@ -9,11 +9,11 @@ describe 'When going through the whole collection proposal approver workflow', j
 
   context 'when loading the manage proposals page' do
     context 'when publishing a proposal to check that the UPDATE and CREATE dates are being correctly populated' do
-      let(:concept_id)                { cmr_client.get_collections_by_post({'EntryTitle':'Date-Check','ShortName': 'Proposal for checking MetadataDates'}, nil, 'umm_json').body.dig('items',0,'meta','concept-id') }
+      let(:concept_id)                { cmr_client.get_collections_by_post({ EntryTitle: 'Date-Check', ShortName: 'Proposal for checking MetadataDates' }, nil, 'umm_json').body.dig('items', 0, 'meta', 'concept-id') }
       let(:concept)                   { cmr_client.get_concept(concept_id, 'access_token', {}).body }
       let(:short_name)                { 'Proposal for checking MetadataDates' }
-      let(:create_date_after_publish) { Time.parse(concept.dig('MetadataDates',0,'Date')) }
-      let(:update_date_after_publish) { Time.parse(concept.dig('MetadataDates',1,'Date')) }
+      let(:create_date_after_publish) { Time.parse(concept.dig('MetadataDates', 0, 'Date')) }
+      let(:update_date_after_publish) { Time.parse(concept.dig('MetadataDates', 1, 'Date')) }
 
       before do
         # FactoryBot respects validations; need to be in proposal mode to create
@@ -42,8 +42,8 @@ describe 'When going through the whole collection proposal approver workflow', j
       end
 
       it 'has item 0 as CREATE and item 1 as UPDATE' do
-        expect(concept.dig('MetadataDates',0,'Type')).to eq('CREATE')
-        expect(concept.dig('MetadataDates',1,'Type')).to eq('UPDATE')
+        expect(concept.dig('MetadataDates', 0, 'Type')).to eq('CREATE')
+        expect(concept.dig('MetadataDates', 1, 'Type')).to eq('UPDATE')
       end
 
       it 'contains the correct CREATE and UPDATE dates' do
@@ -134,16 +134,16 @@ describe 'When going through the whole collection proposal approver workflow', j
 
       context 'when checking UPDATE and CREATE dates' do
         let(:concept)                    { cmr_client.get_concept(@ingest_response['concept-id'], 'access_token', {}).body }
-        let(:create_date_before_publish) { @concept_response.body.dig('MetadataDates',0,'Date') }
-        let(:update_date_before_publish) { Time.parse(@concept_response.body.dig('MetadataDates',1,'Date')) }
-        let(:create_date_after_publish)  { concept.dig('MetadataDates',0,'Date') }
-        let(:update_date_after_publish)  { Time.parse(concept.dig('MetadataDates',1,'Date')) }
+        let(:create_date_before_publish) { @concept_response.body.dig('MetadataDates', 0, 'Date') }
+        let(:update_date_before_publish) { Time.parse(@concept_response.body.dig('MetadataDates', 1, 'Date')) }
+        let(:create_date_after_publish)  { concept.dig('MetadataDates', 0, 'Date') }
+        let(:update_date_after_publish)  { Time.parse(concept.dig('MetadataDates', 1, 'Date')) }
 
         it 'has item 0 as CREATE and item 1 as UPDATE' do
-          expect(concept.dig('MetadataDates',0,'Type')).to eq('CREATE')
-          expect(concept.dig('MetadataDates',1,'Type')).to eq('UPDATE')
-          expect(@concept_response.body.dig('MetadataDates',0,'Type')).to eq('CREATE')
-          expect(@concept_response.body.dig('MetadataDates',1,'Type')).to eq('UPDATE')
+          expect(concept.dig('MetadataDates', 0, 'Type')).to eq('CREATE')
+          expect(concept.dig('MetadataDates', 1, 'Type')).to eq('UPDATE')
+          expect(@concept_response.body.dig('MetadataDates', 0, 'Type')).to eq('CREATE')
+          expect(@concept_response.body.dig('MetadataDates', 1, 'Type')).to eq('UPDATE')
         end
 
         it 'has the correct CREATE date' do
