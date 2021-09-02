@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C43677707-LARC/24.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>MIL2ASLS</ShortName><VersionId>2</VersionId><InsertTime>2003-03-24T10:30:42.993Z</InsertTime><LastUpdate>2015-05-05T16:12:35.313Z</LastUpdate><LongName>MISR
   Level 2 Surface parameters</LongName><DataSetId>MISR Level 2 Surface parameters
   V002</DataSetId><Description>This Level 2 Land Surface product contains information

@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C183897339-LARC/20.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>MIANCAGP</ShortName><VersionId>1</VersionId><InsertTime>1999-08-30T15:29:20.253Z</InsertTime><LastUpdate>2014-01-31T10:09:16.768Z</LastUpdate><LongName>MISR
   Ancillary Geographic Product</LongName><DataSetId>MISR Ancillary Geographic Product
   V001</DataSetId><Description>This file consists primarily of terrain data on a SOM

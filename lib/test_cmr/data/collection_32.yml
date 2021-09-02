@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000421-LARC/6.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>SAMMIGEO</ShortName><VersionId>2</VersionId><InsertTime>2015-07-23T09:28:11.524Z</InsertTime><LastUpdate>2015-07-23T11:50:18.726Z</LastUpdate><LongName>MISR
   Geometric Parameters subset for the SAMUM region</LongName><DataSetId>MISR Geometric
   Parameters subset for the SAMUM region V002</DataSetId><Description>This file contains

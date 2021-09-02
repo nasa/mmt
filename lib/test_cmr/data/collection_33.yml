@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C43677702-LARC/22.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>MIB2GEOP</ShortName><VersionId>002</VersionId><InsertTime>2003-03-24T10:23:12.660Z</InsertTime><LastUpdate>2015-08-19T10:36:15.017Z</LastUpdate><LongName>MISR
   Geometric Parameters</LongName><DataSetId>MISR Geometric Parameters V002</DataSetId><Description>This
   file contains the Geometric Parameters which measure the sun and view angles at

@@ -171,4 +171,32 @@ FactoryBot.define do
       )
     end
   end
+
+  factory :progressive_update_collection_first, class: CollectionDraft do
+    transient do
+      draft_native_id { nil }
+    end
+
+    draft_type { 'CollectionDraft' }
+    provider_id { 'MMT_2' }
+    native_id { draft_native_id }
+
+    draft do
+      progressive_update_first
+    end
+  end
+
+  factory :progressive_update_collection_with_errors, class: CollectionDraft do
+    transient do
+      draft_native_id { nil }
+    end
+
+    draft_type { 'CollectionDraft' }
+    provider_id { 'MMT_2' }
+    native_id { draft_native_id }
+
+    draft do
+      progressive_update_with_errors
+    end
+  end
 end

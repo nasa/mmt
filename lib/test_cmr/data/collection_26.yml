@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C185127378-LARC/20.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>MIANACP</ShortName><VersionId>1</VersionId><InsertTime>1999-08-30T15:48:07.100Z</InsertTime><LastUpdate>2014-01-31T10:09:16.181Z</LastUpdate><LongName>MISR
   Aerosol Climatology Product</LongName><DataSetId>MISR Aerosol Climatology Product
   V001</DataSetId><Description>This product is 1)the microphysical and scattering

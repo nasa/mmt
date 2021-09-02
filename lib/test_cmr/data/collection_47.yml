@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C179031461-LARC/21.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>MIB1LM</ShortName><VersionId>2</VersionId><InsertTime>2003-03-24T10:21:55.196Z</InsertTime><LastUpdate>2015-05-05T16:12:33.190Z</LastUpdate><LongName>MISR
   Level 1B1 Local Mode Radiance Data</LongName><DataSetId>MISR Level 1B1 Local Mode
   Radiance Data V002</DataSetId><Description>This is the Local Mode Level 1B1 Product

@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C179031533-LARC/20.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>MIL1A</ShortName><VersionId>2</VersionId><InsertTime>2003-03-24T10:28:30.130Z</InsertTime><LastUpdate>2013-11-05T15:14:50.766Z</LastUpdate><LongName>MISR
   Level 1A CCD Science data, all cameras</LongName><DataSetId>MISR Level 1A CCD Science
   data, all cameras V002</DataSetId><Description>This is the Reformatted Annotated

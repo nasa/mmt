@@ -4,7 +4,8 @@ class CollectionDraftsController < BaseDraftsController
   include ControlledKeywords
   include CMRCollectionsHelper
   include GKRKeywordRecommendations
-  before_action :set_resource, only: [:download_json, :show, :edit, :update, :destroy, :publish]
+
+  before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish, :download_json, :check_cmr_validation]
   before_action :load_umm_c_schema, only: [:new, :edit, :show, :publish]
   before_action :collection_validation_setup, only: [:show, :publish]
   before_action :verify_valid_metadata, only: [:publish]
@@ -28,6 +29,9 @@ class CollectionDraftsController < BaseDraftsController
     super
 
     @errors = validate_metadata
+    flash.now[:alert] = 'Warning: Your Collection Draft has missing or invalid fields.' if @errors
+
+    @is_revision = is_revision_update?
   end
 
   def download_json
@@ -192,6 +196,36 @@ class CollectionDraftsController < BaseDraftsController
       @ingest_errors = generate_ingest_errors(ingested_response)
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error")
       render :show
+    end
+  end
+
+  def check_cmr_validation
+    authorize get_resource
+
+    validation_response = cmr_client.validate_collection(get_resource.draft.to_json, get_resource.provider_id, get_resource.native_id)
+
+    @modal_response = {}
+
+    if validation_response.success?
+      if validation_response.body.is_a?(Hash)
+        warnings = validation_response.body['warnings']&.first
+        existing_errors = validation_response.body['existing_errors']&.first
+
+        @modal_response[:status_text] = 'This draft will be published with the following issues:'
+        @modal_response[:existing_errors] = existing_errors if existing_errors
+        @modal_response[:warnings] = warnings if warnings
+      else
+        @modal_response[:status_text] = 'This draft will be published with no issues.'
+      end
+    else
+      errors = Array.wrap(validation_response.error_messages)
+
+      @modal_response[:status_text] = 'This draft is not ready to be published.'
+      @modal_response[:errors] = errors
+    end
+
+    respond_to do |format|
+      format.json { render json: @modal_response, status: validation_response.status.to_i }
     end
   end
 
@@ -660,7 +694,7 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def verify_valid_metadata
-    return if validate_metadata.blank?
+    return if validate_metadata.blank? || is_revision_update?
 
     action = resource_name == 'collection_draft_proposal' ? 'submitted for review' : 'published'
     flash[:error] = "This collection can not be #{action}."
@@ -673,6 +707,15 @@ class CollectionDraftsController < BaseDraftsController
     @services = [] && @tools = [] && return unless collection_response.success? && collection_response.body['hits'] > 0
 
     get_associated_concepts(collection_response.body['items'])
+  end
+
+  def is_revision_update?
+    # check if draft is a revision, tied to a published collection
+    collection_response = cmr_client.get_collections(native_id: get_resource.native_id)
+
+    # if response fails or there are no hits, cannot confirm if there is a
+    # published collection
+    collection_response.success? && collection_response.body['hits'] > 0
   end
 
   ## Feature Toggle for GKR recommendations

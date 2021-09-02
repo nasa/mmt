@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C179031521-LARC/21.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>MIANCARP</ShortName><VersionId>2</VersionId><InsertTime>2000-12-18T12:49:05.440Z</InsertTime><LastUpdate>2013-11-05T15:14:46.230Z</LastUpdate><LongName>MISR
   Ancillary Radiometric Product</LongName><DataSetId>MISR Ancillary Radiometric Product
   V002</DataSetId><Description>This is composed of 4 files covering instrument characterization

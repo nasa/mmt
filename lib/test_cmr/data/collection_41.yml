@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C73016614-LARC/23.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>MIRCCM</ShortName><VersionId>4</VersionId><InsertTime>2004-06-14T08:32:50.420Z</InsertTime><LastUpdate>2015-05-05T16:12:57.306Z</LastUpdate><LongName>MISR
   radiometric camera-by-camera Cloud Mask</LongName><DataSetId>MISR radiometric camera-by-camera
   Cloud Mask V004</DataSetId><Description>This file contains the Radiometric camera-by-camera

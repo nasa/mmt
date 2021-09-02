@@ -291,7 +291,7 @@ describe 'Publishing collection draft records', js: true do
 
   context 'when publishing a record that was valid when the page loaded, but not when the user tried to publish' do
     before do
-      draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title')
+      draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, draft_short_name: '12345', draft_entry_title: 'Draft Title', native_id: Faker::Crypto.md5)
       visit collection_draft_path(draft)
       draft.draft['Version'] = ''
       draft.save

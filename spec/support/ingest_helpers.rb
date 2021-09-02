@@ -73,6 +73,39 @@ module Helpers
       end
     end
 
+    # Publish a collection for progressive update feature - CMR allowing an update
+    # to an existing collection that may include some existing errors if it does
+    # not have new errors
+    def publish_progressive_update_collection
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do
+        user = User.where(urs_uid: 'testuser').first
+
+        # default draft attributes
+        draft_attributes = {
+          user: user,
+          draft_native_id: "test_progressive_update_collection_#{Faker::Number.number(digits: 6)}"
+        }
+
+        draft = build(:progressive_update_collection_first, draft_attributes)
+        ingest_response = cmr_client.ingest_progressive_update_collection(draft.draft.to_json, draft.provider_id, draft.native_id)
+
+        # Synchronous way of waiting for CMR to complete the ingest work
+        wait_for_cmr
+
+        raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+
+        draft = build(:progressive_update_collection_with_errors, draft_attributes)
+        ingest_response = cmr_client.ingest_progressive_update_collection(draft.draft.to_json, draft.provider_id, draft.native_id)
+
+        # Synchronous way of waiting for CMR to complete the ingest work
+        wait_for_cmr
+
+        raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
+
+        ingest_response.body
+      end
+    end
+
     # Publish a variable draft
     def publish_variable_draft(provider_id: 'MMT_2', native_id: nil, name: nil, long_name: nil, science_keywords: nil, revision_count: 1, include_new_draft: false, number_revision_long_names: false, collection_concept_id:)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do

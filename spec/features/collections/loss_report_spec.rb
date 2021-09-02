@@ -1,8 +1,8 @@
 describe 'Displaying the loss report in browser' do
   context 'when accessing the loss report' do
 
-    let(:echo_concept_id) { cmr_client.get_collections({ 'EntryTitle': 'Anthropogenic Biomes of the World, Version 2: 1700' }).body.dig('items', 0, 'meta', 'concept-id') }
-    let(:dif_concept_id) { cmr_client.get_collections({ 'EntryTitle': '2000 Pilot Environmental Sustainability Index (ESI)' }).body.dig('items', 0, 'meta', 'concept-id') }
+    let(:echo_concept_id) { cmr_client.get_collections({ 'EntryTitle': 'MISR Level 1A Navigation Data V002' }).body.dig('items', 0, 'meta', 'concept-id') }
+    let(:dif_concept_id) { cmr_client.get_collections({ 'EntryTitle': 'SeaWiFS Deep Blue Aerosol Optical Depth and Angstrom Exponent Daily Level 3 Data Gridded at 1.0 Degrees V004 (SWDB_L310) at GES DISC' }).body.dig('items', 0, 'meta', 'concept-id') }
     let(:iso_concept_id) { cmr_client.get_collections({ 'EntryTitle': 'SMAP L4 Global 3-hourly 9 km Surface and Rootzone Soil Moisture Analysis Update V002' }).body.dig('items', 0, 'meta', 'concept-id') }
 
     before do
