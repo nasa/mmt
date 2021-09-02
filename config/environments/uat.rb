@@ -121,7 +121,7 @@ Rails.application.configure do
   config.loss_report_enabled = true
 
   # Feature toggle for GKR (GCMD Keyword Recommender) recommendations
-  config.gkr_enabled = false
+  config.gkr_enabled = true
 
   config.cmr_env = 'uat'
   config.echo_env = 'uat'
