@@ -932,7 +932,7 @@ $(document).ready ->
           targetField.find('input, select, textarea').each (index, element) ->
             visitField($(element).attr('id'))
 
-            validateFromFormChange()
+        validateFromFormChange()
 
   # // set up validation call
   $('.metadata-form, .umm-form').on 'blur', '.validate', ->

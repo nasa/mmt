@@ -847,7 +847,6 @@ describe 'Data validation for a collection draft form', js: true do
     end
 
     context 'when the progress circle or link is to a specific field' do
-
       before do
         # click on a progress circle linking to a specific field
         within '.progress-indicator #data-identification' do
@@ -930,11 +929,16 @@ describe 'Data validation for a collection draft form', js: true do
           end
         end
 
-        it 'does not display errors' do
-          expect(page).to have_no_css('.eui-banner--danger.summary-errors')
+        it 'displays the top level required field errors' do
+          within '.eui-banner--danger.summary-errors' do
+            expect(page).to have_content('This draft has the following errors:')
+            expect(page).to have_content('DataCenters is required')
+          end
+        end
+
+        it 'does not display in-line errors' do
           expect(page).to have_no_css('.eui-banner--danger.validation-errors')
 
-          expect(page).to have_no_content('This draft has the following errors:')
           expect(page).to have_no_content('Roles is required')
           expect(page).to have_no_content('Short Name is required')
         end
