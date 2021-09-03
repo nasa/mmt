@@ -29,7 +29,7 @@ class CollectionDraftsController < BaseDraftsController
     super
 
     @errors = validate_metadata
-    flash.now[:alert] = 'Warning: Your Collection Draft has missing or invalid fields.' if @errors
+    flash.now[:alert] = 'Warning: Your Collection Draft has missing or invalid fields.' unless @errors.blank?
 
     @is_revision = is_revision_update?
   end
@@ -209,7 +209,7 @@ class CollectionDraftsController < BaseDraftsController
     if validation_response.success?
       if validation_response.body.is_a?(Hash)
         warnings = validation_response.body['warnings']&.first
-        existing_errors = validation_response.body['existing_errors']&.first
+        existing_errors = validation_response.body['existing-errors']&.first
 
         @modal_response[:status_text] = 'This draft will be published with the following issues:'
         @modal_response[:existing_errors] = existing_errors if existing_errors
@@ -703,7 +703,7 @@ class CollectionDraftsController < BaseDraftsController
 
   def set_associated_concepts
     # get collection
-    collection_response = cmr_client.get_collections(native_id: get_resource.native_id)
+    collection_response = cmr_client.get_collections({ native_id: get_resource.native_id }, token)
     @services = [] && @tools = [] && return unless collection_response.success? && collection_response.body['hits'] > 0
 
     get_associated_concepts(collection_response.body['items'])
@@ -711,7 +711,7 @@ class CollectionDraftsController < BaseDraftsController
 
   def is_revision_update?
     # check if draft is a revision, tied to a published collection
-    collection_response = cmr_client.get_collections(native_id: get_resource.native_id)
+    collection_response = cmr_client.get_collections({ native_id: get_resource.native_id }, token)
 
     # if response fails or there are no hits, cannot confirm if there is a
     # published collection
