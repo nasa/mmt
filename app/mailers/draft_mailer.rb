@@ -1,5 +1,5 @@
 class DraftMailer < ApplicationMailer
-  def draft_published_notification(user, concept_id, revision_id, short_name, version)
+  def draft_published_notification(user, concept_id, revision_id, short_name, version, existing_errors = nil, warnings = nil)
     @user = user
     @concept_id = concept_id
     @short_name = short_name
@@ -9,6 +9,8 @@ class DraftMailer < ApplicationMailer
     @is_update = @revision_id > 1
     if @is_update
       email_subject = "Record Updated in Metadata Management Tool#{@email_env_note}"
+      @existing_errors = existing_errors
+      @warnings = warnings
     else
       email_subject = "New Record Published in Metadata Management Tool#{@email_env_note}"
     end
