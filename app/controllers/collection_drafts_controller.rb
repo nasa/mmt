@@ -136,13 +136,15 @@ class CollectionDraftsController < BaseDraftsController
       existing_errors = ingested_response.body['existing-errors']&.first
       if warnings || existing_errors
         published_with_errors_message = 'Collection was published with the following issues:'
-        published_with_errors_message << "<br/>#{existing_errors}" if existing_errors
-        published_with_errors_message << "<br/>#{warnings}" if warnings
+        published_with_errors_message << '<ul>'
+        published_with_errors_message << "<li>Existing Errors: #{existing_errors}</li>" if existing_errors
+        published_with_errors_message << "<li>Warnings: #{warnings}</li>" if warnings
+        published_with_errors_message << '</ul>'
         flash[:alert] = published_with_errors_message
 
         log_message << "\nThe collection was published with the following issues:"
-        log_message << "\n#{existing_errors}." if existing_errors
-        log_message << "\n#{warnings}." if warnings
+        log_message << "\nExisting Errors: #{existing_errors}." if existing_errors
+        log_message << "\nWarnings: #{warnings}." if warnings
       end
 
       Rails.logger.info(log_message)
