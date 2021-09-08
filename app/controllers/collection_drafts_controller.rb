@@ -34,49 +34,6 @@ class CollectionDraftsController < BaseDraftsController
     @is_revision = is_revision_update?
   end
 
-  def download_json
-    authorization_header = request.headers['Authorization']
-
-    if authorization_header.nil? || !authorization_header.start_with?('Bearer')
-      render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
-      return
-    end
-    token = authorization_header.split(' ',2)[1] || ''
-
-    if Rails.configuration.proposal_mode
-      token_response = cmr_client.validate_dmmt_token(token)
-    else
-      token_response = cmr_client.validate_mmt_token(token)
-    end
-
-    authorized = false
-
-    if token_response.success?
-      token_info = token_response.body
-      token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
-      token_user = User.find_by(urs_uid: token_info['uid']) # the user assoc with the token
-      draft_user = User.find_by(id: get_resource.user_id) # the user assoc with the draft collection record
-
-      unless token_user.nil?
-        if Rails.configuration.proposal_mode
-          # For proposals, users only have access to proposals created by them.
-          # Verify the user owns the draft
-          authorized = true if token_user.urs_uid == draft_user.urs_uid
-        else
-          # For drafts, users have access to any drafts in their provider list
-          # Verify the user has permissions for this provider
-          authorized = true if token_user.available_providers.include? get_resource.provider_id
-        end
-      end
-    end
-
-    if authorized
-      render json: JSON.pretty_generate(get_resource.draft)
-    else
-      render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401
-    end
-  end
-
   def edit
     authorize get_resource
 
@@ -169,14 +126,39 @@ class CollectionDraftsController < BaseDraftsController
     ingested_response = cmr_client.ingest_collection(draft.to_json, get_resource.provider_id, get_resource.native_id, token)
 
     if ingested_response.success?
+      # set flash success, so it will appear before a warning message if there is one
+      flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success")
+
+      log_message = "Audit Log: Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}"
+
+      # set the appropriate warning messages
+      warnings = ingested_response.body['warnings']&.first
+      existing_errors = ingested_response.body['existing-errors']&.first
+      if warnings || existing_errors
+        published_with_errors_message = 'Collection was published with the following issues:'
+        published_with_errors_message << "<br/>#{existing_errors}" if existing_errors
+        published_with_errors_message << "<br/>#{warnings}" if warnings
+        flash[:alert] = published_with_errors_message
+
+        log_message << "\nThe collection was published with the following issues:"
+        log_message << "\n#{existing_errors}." if existing_errors
+        log_message << "\n#{warnings}." if warnings
+      end
+
+      Rails.logger.info(log_message)
+
+      if get_resource.gkr_logging_active?
+        log_gkr_on_publish(current_user.urs_uid,
+                           current_user.provider_id,
+                           get_resource.draft['Abstract'],
+                           get_resource.gkr_keyword_recommendation_id,
+                           get_resource.gkr_keyword_recommendation_list,
+                           get_resource.draft.fetch('ScienceKeywords', []))
+      end
+
       # get information for publication email notification before draft is deleted
-      Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
       short_name = get_resource.draft['ShortName']
       version = get_resource.draft['Version']
-      log_gkr_on_publish(current_user.urs_uid, current_user.provider_id, get_resource.draft[:abstract],
-        get_resource.gkr_keyword_recommendation_id, get_resource.gkr_keyword_recommendation_list,
-        get_resource.draft.fetch("ScienceKeywords",[])) if get_resource.gkr_logging_active?
-
 
       # Delete draft
       get_resource.destroy
@@ -185,9 +167,9 @@ class CollectionDraftsController < BaseDraftsController
       revision_id = ingested_response.body['revision-id']
 
       # instantiate and deliver notification email
-      DraftMailer.draft_published_notification(get_user_info, concept_id, revision_id, short_name, version).deliver_now
+      DraftMailer.draft_published_notification(get_user_info, concept_id, revision_id, short_name, version, existing_errors, warnings).deliver_now
 
-      redirect_to collection_path(concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success") }
+      redirect_to collection_path(concept_id, revision_id: revision_id)
     else
       # Log error message
       Rails.logger.error("Ingest Collection Metadata Error: #{ingested_response.clean_inspect}")
@@ -196,6 +178,49 @@ class CollectionDraftsController < BaseDraftsController
       @ingest_errors = generate_ingest_errors(ingested_response)
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error")
       render :show
+    end
+  end
+
+  def download_json
+    authorization_header = request.headers['Authorization']
+
+    if authorization_header.nil? || !authorization_header.start_with?('Bearer')
+      render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
+      return
+    end
+    token = authorization_header.split(' ', 2)[1] || ''
+
+    if Rails.configuration.proposal_mode
+      token_response = cmr_client.validate_dmmt_token(token)
+    else
+      token_response = cmr_client.validate_mmt_token(token)
+    end
+
+    authorized = false
+
+    if token_response.success?
+      token_info = token_response.body
+      token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
+      token_user = User.find_by(urs_uid: token_info['uid']) # the user assoc with the token
+      draft_user = User.find_by(id: get_resource.user_id) # the user assoc with the draft collection record
+
+      unless token_user.nil?
+        if Rails.configuration.proposal_mode
+          # For proposals, users only have access to proposals created by them.
+          # Verify the user owns the draft
+          authorized = true if token_user.urs_uid == draft_user.urs_uid
+        else
+          # For drafts, users have access to any drafts in their provider list
+          # Verify the user has permissions for this provider
+          authorized = true if token_user.available_providers.include? get_resource.provider_id
+        end
+      end
+    end
+
+    if authorized
+      render json: JSON.pretty_generate(get_resource.draft)
+    else
+      render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401
     end
   end
 
