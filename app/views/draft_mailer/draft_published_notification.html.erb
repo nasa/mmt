@@ -15,14 +15,18 @@
   <p>
     <% if @existing_errors || @warnings %>
       <%= 'Your collection was published with the following issues:' %>
-      <% if @existing_errors %>
-        <br/>
-        <%= @existing_errors %>
-      <% end %>
-      <% if @warnings %>
-        <br/>
-        <%= @warnings %>
-      <% end %>
+      <ul>
+        <% if @existing_errors %>
+          <li>
+            <%= "Existing Errors: #{@existing_errors}" %>
+          </li>
+        <% end %>
+        <% if @warnings %>
+          <li>
+            <%= "Warnings: #{@warnings}" %>
+          </li>
+        <% end %>
+      </ul>
     <% end %>
   </p>
   <div class="center">

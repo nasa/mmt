@@ -429,17 +429,18 @@ $(document).ready ->
           html: "<p>#{data.status_text}</p>"
         )
 
+        $errorList = $('<ul/>')
         if data.hasOwnProperty('existing_errors')
-          $existingErrors = $('<p/>',
-            text: data.existing_errors
+          $existingErrors = $('<li/>',
+            text: "Existing Errors: #{data.existing_errors}"
           )
-          $existingErrors.appendTo($modalText)
-
+          $existingErrors.appendTo($errorList)
         if data.hasOwnProperty('warnings')
-          $warnings = $('<p/>',
-            text: data.warnings
+          $warnings = $('<li/>',
+            text: "Warnings: #{data.warnings}"
           )
-          $warnings.appendTo($modalText)
+          $warnings.appendTo($errorList)
+        $errorList.appendTo($modalText)
 
         if data.hasOwnProperty('existing_errors') || data.hasOwnProperty('warnings')
           $actionText = $('<div/>',
