@@ -156,7 +156,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
             end
           end
 
-          it 'displays the script tag in the user name' do
+          it 'only displays the user name' do
             expect(page).to have_css('li.select2-selection__choice', text: 'rotoo')
           end
         end
