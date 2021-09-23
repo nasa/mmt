@@ -11,7 +11,7 @@ module UrsUserEndpoints
     users.map do |u|
       {
         id: html_escape(u['uid']),
-        text: html_escape(urs_user_full_name(u))
+        text: ActionView::Base.full_sanitizer.sanitize(urs_user_full_name(u))
       }
     end
   end
