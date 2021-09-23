@@ -367,6 +367,10 @@ class CollectionDraftsController < BaseDraftsController
       'is later than the End Date'
     when /later than Ending/
       'is later than the Ending Date Time'
+    when /did not match one of the following values/
+      'has an invalid selection'
+    when /has an invalid selection option/
+      'has an invalid selection'
     end
   end
 
@@ -510,16 +514,16 @@ class CollectionDraftsController < BaseDraftsController
     # for each bad field, if the value doesn't appear in the picklist values, create an error
     # if/when there is time, it would be nice to refactor this with helper methods
     if metadata
-      processing_level_id = metadata.dig('ProcessingLevel','Id')
+      processing_level_id = metadata.dig('ProcessingLevel', 'Id')
       if processing_level_id && !DraftsHelper::ProcessingLevelIdOptions.flatten.include?(processing_level_id)
-        errors << "The property '#/ProcessingLevel/Id' was invalid"
+        errors << "The property '#/ProcessingLevel/Id' has an invalid selection option"
       end
 
       metadata_language = metadata['MetadataLanguage']
       if metadata_language
         matches = @language_codes.select { |language| language.include? metadata_language }
         if matches.empty?
-          errors << "The property '#/MetadataLanguage' was invalid"
+          errors << "The property '#/MetadataLanguage' has an invalid selection option"
         end
       end
 
@@ -527,111 +531,166 @@ class CollectionDraftsController < BaseDraftsController
       if data_language
         matches = @language_codes.select { |language| language.include? data_language }
         if matches.empty?
-          errors << "The property '#/DataLanguage' was invalid"
+          errors << "The property '#/DataLanguage' has an invalid selection option"
         end
       end
 
-      platforms = metadata['Platforms'] || []
+      platforms = metadata['Platforms'] || [{}]
+      platforms_invalid = false
       platforms.each do |platform|
         platform_short_name = platform['ShortName']
-
         if platform_short_name && !@platform_short_names.include?(platform_short_name)
-          errors << "The property '#/Platforms' was invalid"
+          platforms_invalid = true
         end
 
-        instruments = platform.fetch('Instruments', [])
+        instruments = platform.fetch('Instruments', [{}])
         instruments.each do |instrument|
           instrument_short_name = instrument['ShortName']
-
           if instrument_short_name && !@instrument_short_names.include?(instrument_short_name)
-            errors << "The property '#/Platforms' was invalid"
+            platforms_invalid = true
           end
 
-          instrument_children = instrument.fetch('ComposedOf', [])
+          instrument_children = instrument.fetch('ComposedOf', [{}])
           instrument_children.each do |child|
             child_short_name = child['ShortName']
-
             if child_short_name && !@instrument_short_names.include?(child_short_name)
-              errors << "The property '#/Platforms' was invalid"
+              platforms_invalid = true
             end
           end
         end
       end
+      errors << "The property '#/Platforms' has an invalid selection option" if platforms_invalid
 
       temporal_keywords = metadata['TemporalKeywords'] || []
+      temporal_keywords_invalid = false
       temporal_keywords.each do |keyword|
         if keyword && !@temporal_keywords.include?(keyword)
-          errors << "The property '#/TemporalKeywords' was invalid"
+          temporal_keywords_invalid = true
         end
       end
+      errors << "The property '#/TemporalKeywords' has an invalid selection option" if temporal_keywords_invalid
 
-      data_centers = metadata['DataCenters'] || []
+      data_centers = metadata['DataCenters'] || [{}]
+      data_center_contact_persons = []
+      data_center_contact_groups = []
+      data_centers_invalid = false
       data_centers.each do |data_center|
         short_name = data_center['ShortName']
         if short_name
           matches = fetch_data_centers.select { |dc| dc[:short_name].include?(short_name) }
           if matches.empty?
-            errors << "The property '#/DataCenters' was invalid"
+            data_centers_invalid = true
           end
         end
 
         contact_information = data_center['ContactInformation'] || {}
-        addresses = contact_information['Addresses'] || []
+        addresses = contact_information['Addresses'] || [{}]
         addresses.each do |address|
           country = address['Country']
           if country
             matches = @country_codes.select { |option| option.name.include?(country) }
             if matches.empty?
-              errors << "The property '#/DataCenters' was invalid"
+              data_centers_invalid = true
             end
           end
         end
-      end
 
-      contact_persons = metadata['ContactPersons'] || []
+        related_urls = contact_information['RelatedUrls'] || [{}]
+        related_urls.each do |related_url|
+          content_type = related_url['URLContentType']
+          type = related_url['Type']
+          # no subtype currently for Data Center Related Urls
+
+          data_centers_invalid = true if content_type && !@data_center_related_url_content_type_options.include?(content_type)
+          data_centers_invalid = true if type && !@data_center_related_url_type_options.include?(type)
+        end
+
+        data_center_contact_persons += data_center['ContactPersons'] unless data_center['ContactPersons'].blank?
+        data_center_contact_groups += data_center['ContactGroups'] unless data_center['ContactGroups'].blank?
+      end
+      errors << "The property '#/DataCenters' has an invalid selection option" if data_centers_invalid
+
+      contact_persons = metadata['ContactPersons'] || [{}]
+      contact_persons += data_center_contact_persons
+      contact_persons_invalid = false
       contact_persons.each do |contact_person|
         contact_information = contact_person['ContactInformation'] || {}
-        addresses = contact_information['Addresses'] || []
+        addresses = contact_information['Addresses'] || [{}]
         addresses.each do |address|
           country = address['Country']
           if country
             matches = @country_codes.select { |option| option.name.include?(country) }
             if matches.empty?
-              errors << "The property '#/ContactPersons' was invalid"
+              puts 'contact persons invalid b/c country'
+              contact_persons_invalid = true
             end
           end
         end
-      end
 
-      contact_groups = metadata['ContactGroups'] || []
+        related_urls = contact_information['RelatedUrls'] || [{}]
+        related_urls.each do |related_url|
+          content_type = related_url['URLContentType']
+          type = related_url['Type']
+          # no subtype currently for Data Contact Related Urls
+
+          contact_persons_invalid = true if content_type && !@data_contact_related_url_content_type_options.include?(content_type)
+          contact_persons_invalid = true if type && !@data_contact_related_url_type_options.include?(type)
+        end
+      end
+      errors << "The property '#/ContactPersons' has an invalid selection option" if contact_persons_invalid
+
+      contact_groups = metadata['ContactGroups'] || [{}]
+      contact_groups += data_center_contact_groups
+      contact_groups_invalid = false
       contact_groups.each do |contact_group|
         contact_information = contact_group['ContactInformation'] || {}
-        addresses = contact_information['Addresses'] || []
+        addresses = contact_information['Addresses'] || [{}]
         addresses.each do |address|
           country = address['Country']
           if country
             matches = @country_codes.select { |option| option.name.include?(country) }
             if matches.empty?
-              errors << "The property '#/ContactGroups' was invalid"
+              puts 'contact groups invalid b/c country'
+              contact_groups_invalid = true
             end
           end
         end
+
+        related_urls = contact_information['RelatedUrls'] || [{}]
+        related_urls.each do |related_url|
+          content_type = related_url['URLContentType']
+          type = related_url['Type']
+          # no subtype currently for Data Contact Related Urls
+
+          contact_groups_invalid = true if content_type && !@data_contact_related_url_content_type_options.include?(content_type)
+          contact_groups_invalid = true if type && !@data_contact_related_url_type_options.include?(type)
+        end
       end
+      errors << "The property '#/ContactGroups' has an invalid selection option" if contact_groups_invalid
 
       related_urls = metadata['RelatedUrls'] || []
-      related_urls.each do |url|
-        format = url.dig('GetData','Format')
-        if format && !@granule_data_formats.include?(format)
-          errors << "The property '#/RelatedUrls' was invalid"
-        end
+      related_urls_invalid = false
+      related_urls.each do |related_url|
+        content_type = related_url['URLContentType']
+        type = related_url['Type']
+        subtype = related_url['Subtype']
+        format = related_url.dig('GetData', 'Format')
+
+        related_urls_invalid = true if content_type && !@umm_c_related_url_content_type_options.include?(content_type)
+        related_urls_invalid = true if type && !@umm_c_related_url_type_options.include?(type)
+        related_urls_invalid = true if subtype && !@umm_c_related_url_subtype_options.include?(subtype)
+        related_urls_invalid = true if format && !@granule_data_formats.include?(format)
       end
+      errors << "The property '#/RelatedUrls' has an invalid selection option" if related_urls_invalid
 
       projects = metadata['Projects'] || []
+      projects_invalid = false
       projects.each do |project|
         if project && @projects.none? { |proj| proj[:short_name] == project['ShortName'] }
-          errors << "The property '#/Projects' was invalid"
+          projects_invalid = true
         end
       end
+      errors << "The property '#/Projects' has an invalid selection option" if projects_invalid
     end
 
     errors
@@ -669,17 +728,20 @@ class CollectionDraftsController < BaseDraftsController
 
     # Set instance variables depending on the form requested
     set_country_codes
-    set_language_codes          if @form == 'collection_information' || @form == 'metadata_information'
-    set_science_keywords        if @form == 'descriptive_keywords'
-    set_keyword_recommendations if @form == 'descriptive_keywords' && gkr_enabled? && get_resource.keyword_recommendation_needed?
-    set_platform_types          if @form == 'acquisition_information'
-    set_instruments             if @form == 'acquisition_information'
-    set_projects                if @form == 'acquisition_information'
-    set_temporal_keywords       if @form == 'temporal_information'
-    set_location_keywords       if @form == 'spatial_information'
-    set_data_centers            if @form == 'data_centers' || @form == 'data_contacts'
-    load_data_contacts_schema   if @form == 'data_contacts'
-    set_granule_data_formats    if @form == 'related_urls' || @form == 'data_centers' || @form == 'data_contacts'
+    set_language_codes           if @form == 'collection_information' || @form == 'metadata_information'
+    set_science_keywords         if @form == 'descriptive_keywords'
+    set_keyword_recommendations  if @form == 'descriptive_keywords' && gkr_enabled? && get_resource.keyword_recommendation_needed?
+    set_platform_types           if @form == 'acquisition_information'
+    set_instruments              if @form == 'acquisition_information'
+    set_projects                 if @form == 'acquisition_information'
+    set_temporal_keywords        if @form == 'temporal_information'
+    set_location_keywords        if @form == 'spatial_information'
+    set_data_centers             if @form == 'data_centers' || @form == 'data_contacts'
+    load_data_contacts_schema    if @form == 'data_contacts'
+    set_granule_data_formats     if @form == 'related_urls' || @form == 'data_centers' || @form == 'data_contacts'
+    set_umm_c_related_urls       if @form == 'related_urls'
+    set_data_center_related_url  if @form == 'data_centers'
+    set_data_contact_related_url if @form == 'data_contacts'
   end
 
   def reconcile_recommendations(keyword_recommendations)
@@ -708,6 +770,9 @@ class CollectionDraftsController < BaseDraftsController
     set_language_codes
     set_granule_data_formats
     set_projects
+    set_umm_c_related_urls
+    set_data_center_related_url
+    set_data_contact_related_url
   end
 
   def set_resource_by_model

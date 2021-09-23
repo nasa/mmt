@@ -383,7 +383,6 @@ $(document).ready ->
     error.id = id
     error.element = $("##{id}")
 
-
     if error.dataPath.split('/')[error.dataPath.split('/').length - 1] == 'AllowMultipleValues'
       # Allow Multiple Values fields, under Subset, are boolean fields represented
       # by radio buttons
@@ -533,6 +532,15 @@ $(document).ready ->
           '/MetadataLanguage'
         when /data_language/.test id
           '/DataLanguage'
+        when /draft_related_urls_(\d*)_url_content_type/.test id
+          [_, index] = id.match /draft_related_urls_(\d*)_url_content_type/
+          "/RelatedUrls/#{index}/URLContentType"
+        when /draft_related_urls_(\d*)_type/.test id
+          [_, index] = id.match /draft_related_urls_(\d*)_type/
+          "/RelatedUrls/#{index}/Type"
+        when /draft_related_urls_(\d*)_subtype/.test id
+          [_, index] = id.match /draft_related_urls_(\d*)_subtype/
+          "/RelatedUrls/#{index}/Subtype"
         when /draft_related_urls_(\d*)_get_data_format/.test id
           [_, index] = id.match /draft_related_urls_(\d*)_get_data_format/
           "/RelatedUrls/#{index}/GetData/Format"
@@ -559,6 +567,15 @@ $(document).ready ->
         when /data_centers_\d*_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_addresses_(\d*)_state_province/
           "/DataCenters/#{index1}/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_centers_\d*_contact_information_related_urls_\d*_url_content_type/.test id
+          [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_related_urls_(\d*)_url_content_type/
+          "/DataCenters/#{index1}/ContactInformation/RelatedURLs/#{index2}/URLContentType"
+        when /data_centers_\d*_contact_information_related_urls_\d*_type/.test id
+          [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_related_urls_(\d*)_type/
+          "/DataCenters/#{index1}/ContactInformation/RelatedURLs/#{index2}/Type"
+        when /data_centers_\d*_contact_information_related_urls_\d*_subtype/.test id
+          [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_related_urls_(\d*)_subtype/
+          "/DataCenters/#{index1}/ContactInformation/RelatedURLs/#{index2}/Subtype"
         when /data_contacts_\d*_contact_person_data_center_short_name/.test id
           [_, index] = id.match /data_contacts_(\d*)_contact_person_data_center_short_name/
           "/DataContacts/#{index}/ContactPersonDataCenter/ShortName"
@@ -571,24 +588,60 @@ $(document).ready ->
         when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_addresses_(\d*)_state_province/
           "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_related_urls_\d*_url_content_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_related_urls_(\d*)_url_content_type/
+          "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/RelatedURLs/#{index2}/URLContentType"
+        when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_related_urls_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_related_urls_(\d*)_type/
+          "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/RelatedURLs/#{index2}/Type"
+        when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_related_urls_\d*_subtype/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_related_urls_(\d*)_subtype/
+          "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/RelatedURLs/#{index2}/Subtype"
         when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_addresses_\d*_country/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_addresses_(\d*)_country/
           "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/Addresses/#{index2}/Country"
         when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_addresses_(\d*)_state_province/
           "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_related_urls_\d*_url_content_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_related_urls_(\d*)_url_content_type/
+          "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/RelatedURLs/#{index2}/URLContentType"
+        when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_related_urls_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_related_urls_(\d*)_type/
+          "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/RelatedURLs/#{index2}/Type"
+        when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_related_urls_\d*_subtype/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_related_urls_(\d*)_subtype/
+          "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/RelatedURLs/#{index2}/Subtype"
         when /data_contacts_\d*_contact_person_contact_information_addresses_\d*_country/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_addresses_(\d*)_country/
           "/DataContacts/#{index1}/ContactPerson/ContactInformation/Addresses/#{index2}/Country"
         when /data_contacts_\d*_contact_person_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_addresses_(\d*)_state_province/
           "/DataContacts/#{index1}/ContactPerson/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_person_contact_information_related_urls_\d*_url_content_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_related_urls_(\d*)_url_content_type/
+          "/DataContacts/#{index1}/ContactPerson/ContactInformation/RelatedURLs/#{index2}/URLContentType"
+        when /data_contacts_\d*_contact_person_contact_information_related_urls_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_related_urls_(\d*)_type/
+          "/DataContacts/#{index1}/ContactPerson/ContactInformation/RelatedURLs/#{index2}/Type"
+        when /data_contacts_\d*_contact_person_contact_information_related_urls_\d*_subtype/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_related_urls_(\d*)_subtype/
+          "/DataContacts/#{index1}/ContactPerson/ContactInformation/RelatedURLs/#{index2}/Subtype"
         when /data_contacts_\d*_contact_group_contact_information_addresses_\d*_country/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_addresses_(\d*)_country/
           "/DataContacts/#{index1}/ContactGroup/ContactInformation/Addresses/#{index2}/Country"
         when /data_contacts_\d*_contact_group_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_addresses_(\d*)_state_province/
           "/DataContacts/#{index1}/ContactGroup/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_group_contact_information_related_urls_\d*_url_content_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_related_urls_(\d*)_url_content_type/
+          "/DataContacts/#{index1}/ContactGroup/ContactInformation/RelatedURLs/#{index2}/URLContentType"
+        when /data_contacts_\d*_contact_group_contact_information_related_urls_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_related_urls_(\d*)_type/
+          "/DataContacts/#{index1}/ContactGroup/ContactInformation/RelatedURLs/#{index2}/Type"
+        when /data_contacts_\d*_contact_group_contact_information_related_urls_\d*_subtype/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_related_urls_(\d*)_subtype/
+          "/DataContacts/#{index1}/ContactGroup/ContactInformation/RelatedURLs/#{index2}/Subtype"
 
       # Remove required error from the same dataPath
       errors = errors.filter (error) ->

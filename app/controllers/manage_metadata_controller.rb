@@ -219,7 +219,7 @@ class ManageMetadataController < ApplicationController
       'related_urls'
     elsif METADATA_INFORMATION_FIELDS.include? fields.first
       'metadata_information'
-    elsif fields.include?('ContactPersons' || 'ContactGroups') # DATA_CONTACTS
+    elsif fields.include?('ContactPersons') || fields.include?('ContactGroups') # DATA_CONTACTS
       'data_contacts'
     elsif DATA_CENTERS_FIELDS.include? fields.first
       'data_centers'

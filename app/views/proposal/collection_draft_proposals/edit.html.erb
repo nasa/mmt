@@ -37,14 +37,9 @@
 
       <%= render partial: "collection_drafts/forms/#{@form}", locals: { draft: get_resource } %>
 
-      <script>
-        // Load json-schema for field validation
-        var globalJsonSchema = <%= raw @json_schema.to_json %>;
+      <%= render partial: 'collection_drafts/shared/javascript', locals: { form: @form } %>
 
-        var urlContentTypeMap = <%= raw RelatedUrlsHelper::UMMCRelatedURLContentTypeMap.to_json %>;
-      </script>
-
-      </br>
+      <br/>
 
       <%= render partial: 'collection_drafts/forms/form_navigation', locals: {
           location: 'bottom',

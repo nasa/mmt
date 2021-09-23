@@ -356,7 +356,7 @@ def collection_one
           'URLContentType' => 'DataCenterURL',
           'Type' => 'HOME PAGE',
           'URL' => 'http://example.com/'
-        },{
+        }, {
           'Description' => 'Related URL 2 Description',
           'URLContentType' => 'DataCenterURL',
           'Type' => 'HOME PAGE',

@@ -97,7 +97,7 @@ FactoryBot.define do
           'URLContentType' => 'badcontenttype'
         }, {
           'URLContentType' => 'DistributionURL',
-          'Type' => 'GET SERVICE',
+          'Type' => 'USE SERVICE API',
           'Subtype' => 'EARTHDATA SEARCH',
           'GetService' => {
             'MimeType' => 'badmimetype',
@@ -111,6 +111,13 @@ FactoryBot.define do
             'Unit' => 'badunit',
             'Format' => 'badformat'
           }
+        }, {
+          'URLContentType' => 'CollectionURL',
+          'Type' => 'badurltype'
+        }, {
+          'URLContentType' => 'PublicationURL',
+          'Type' => 'VIEW RELATED INFORMATION',
+          'Subtype' => 'badurlsubtype'
         }],
         'DataLanguage' => 'english',
         'MetadataLanguage' => 'english',
@@ -137,6 +144,12 @@ FactoryBot.define do
             }, {
               'Country' => 'United States',
               'StateProvince' => 'maryland'
+            }],
+            'RelatedUrls' => [{
+              'URLContentType' => 'badcontenttype'
+            }, {
+              'URLContentType' => 'DataCenterURL',
+              'Type' => 'badurltype'
             }]
           },
           'ContactPersons' => [{
@@ -152,6 +165,12 @@ FactoryBot.define do
               }, {
                 'Country' => 'United States',
                 'StateProvince' => 'maryland'
+              }],
+              'RelatedUrls' => [{
+                'URLContentType' => 'badcontenttype'
+              }, {
+                'URLContentType' => 'DataContactURL',
+                'Type' => 'badurltype'
               }]
             }
           }],
@@ -168,6 +187,12 @@ FactoryBot.define do
               }, {
                 'Country' => 'United States',
                 'StateProvince' => 'maryland'
+              }],
+              'RelatedUrls' => [{
+                'URLContentType' => 'badcontenttype'
+              }, {
+                'URLContentType' => 'DataContactURL',
+                'Type' => 'badurltype'
               }]
             }
           }]
@@ -185,6 +210,12 @@ FactoryBot.define do
             }, {
               'Country' => 'United States',
               'StateProvince' => 'maryland'
+            }],
+            'RelatedUrls' => [{
+              'URLContentType' => 'badcontenttype'
+            }, {
+              'URLContentType' => 'DataContactURL',
+              'Type' => 'badurltype'
             }]
           }
         }],
@@ -201,6 +232,12 @@ FactoryBot.define do
             }, {
               'Country' => 'United States',
               'StateProvince' => 'maryland'
+            }],
+            'RelatedUrls' => [{
+              'URLContentType' => 'badcontenttype'
+            }, {
+              'URLContentType' => 'DataContactURL',
+              'Type' => 'badurltype'
             }]
           }
         }],

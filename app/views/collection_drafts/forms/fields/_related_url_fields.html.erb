@@ -1,5 +1,7 @@
 <% always_required = options[:always_required] || false %>
-<% url_content_type_options = options.fetch(:url_content_type_options, RelatedUrlsHelper::RelatedURLContentTypeOptions) %>
+<% url_content_type_options = options[:url_content_type_options] || [] %>
+<% url_type_options = options[:url_type_options] || [] %>
+<% url_subtype_options = options[:url_subtype_options] || [] %>
 
 
 <div class="row sub-fields">
@@ -24,7 +26,7 @@
         help: 'definitions/RelatedUrlType/properties/URLContentType',
         required_level: options[:required_level],
         required: true,
-        classes: 'related-url-content-type-select'
+        classes: 'related-url-content-type-select mmt-fake-enum'
       ) %>
 
       <%= mmt_select(
@@ -32,11 +34,11 @@
         title: 'Type',
         prefix: name_prefix,
         value: related_url['Type'],
-        options: RelatedUrlsHelper::UMMCRelatedURLTypeOptions,
+        options: url_type_options,
         help: 'definitions/RelatedUrlType/properties/Type',
         required_level: options[:required_level],
         required: true,
-        classes: 'related-url-type-select'
+        classes: 'related-url-type-select mmt-fake-enum'
       ) %>
 
       <%= mmt_select(
@@ -44,10 +46,10 @@
         title: 'Subtype',
         prefix: name_prefix,
         value: related_url['Subtype'],
-        options: RelatedUrlsHelper::UMMCRelatedURLSubtypeOptions,
+        options: url_subtype_options,
         help: 'definitions/RelatedUrlType/properties/Subtype',
         required_level: options[:required_level],
-        classes: 'related-url-subtype-select'
+        classes: 'related-url-subtype-select mmt-fake-enum'
       ) %>
     </div>
   </div>
@@ -64,7 +66,8 @@
     required_level: options[:required_level]
   ) %>
 
-  <div class="get-data-fields" style="<%= 'display: none;' unless related_url['Type'] == 'GET DATA' %>">
+  <div class="get-data-fields" style="<%= 'display: none;' unless related_url['Type'] == 'GET DATA' || related_url['Type'] == 'GET CAPABILITIES' %>">
+
     <%= mmt_label(
       name: 'get_data',
       title: 'Get Data',
