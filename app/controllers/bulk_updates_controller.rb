@@ -47,6 +47,7 @@ class BulkUpdatesController < ManageCollectionsController
       set_data_centers
       set_platform_types
       set_instruments
+      set_data_center_related_url
 
       set_science_keyword_facets(params[:selected_collections])
 
@@ -88,6 +89,7 @@ class BulkUpdatesController < ManageCollectionsController
       set_data_centers
       set_platform_types
       set_instruments
+      set_data_center_related_url
 
       set_science_keyword_facets(params[:selected_collections])
 

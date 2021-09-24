@@ -59,7 +59,7 @@
           title: 'URL Content Type',
           prefix: '|update_value|_|contact_information|_|related_urls|__',
           value: repopulate_update_value(@task, 'data_centers', 'URLContentType'),
-          options: RelatedUrlsHelper::URLContentTypeDataCenterOptions,
+          options: @data_center_related_url_content_type_options || [],
           classes: 'bulk-updates-related-url-content-type-select'
         ) %>
 
@@ -68,7 +68,7 @@
           title: 'Type',
           prefix: '|update_value|_|contact_information|_|related_urls|__',
           value: repopulate_update_value(@task, 'data_centers', 'Type'),
-          options: RelatedUrlsHelper::URLTypeDataCenterOptions,
+          options: @data_center_related_url_type_options || [],
           classes: 'bulk-updates-related-url-type-select'
         ) %>
       </div>

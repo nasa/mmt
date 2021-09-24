@@ -11,7 +11,7 @@
     var urlContentTypeMap = <%= raw @data_contact_related_url_mapping.to_json %>;
   <% end %>
 
-  <% if controller_name == 'collection_drafts' %>
+  <% if controller_name == 'collection_templates' %>
     var globalTemplateNames = <%= sanitize @template_names.to_json %>;
   <% end %>
 </script>
