@@ -600,15 +600,20 @@ class CollectionDraftsController < BaseDraftsController
           content_type = related_url['URLContentType']
           type = related_url['Type']
           # no subtype currently for Data Center Related Urls
+          data_center_related_url_content_type_values = @data_center_related_url_content_type_options.map { |option| option[1] }
+          data_center_related_url_type_values = @data_center_related_url_type_options.map { |option| option[1] }
 
-          data_centers_invalid = true if content_type && !@data_center_related_url_content_type_options.include?(content_type)
-          data_centers_invalid = true if type && !@data_center_related_url_type_options.include?(type)
+          data_centers_invalid = true if content_type && !data_center_related_url_content_type_values.include?(content_type)
+          data_centers_invalid = true if type && !data_center_related_url_type_values.include?(type)
         end
 
         data_center_contact_persons += data_center['ContactPersons'] unless data_center['ContactPersons'].blank?
         data_center_contact_groups += data_center['ContactGroups'] unless data_center['ContactGroups'].blank?
       end
       errors << "The property '#/DataCenters' has an invalid selection option" if data_centers_invalid
+
+      data_contact_related_url_content_type_values = @data_contact_related_url_content_type_options.map { |option| option[1] }
+      data_contact_related_url_type_values = @data_contact_related_url_type_options.map { |option| option[1] }
 
       contact_persons = metadata['ContactPersons'] || [{}]
       contact_persons += data_center_contact_persons
@@ -621,7 +626,6 @@ class CollectionDraftsController < BaseDraftsController
           if country
             matches = @country_codes.select { |option| option.name.include?(country) }
             if matches.empty?
-              puts 'contact persons invalid b/c country'
               contact_persons_invalid = true
             end
           end
@@ -633,8 +637,8 @@ class CollectionDraftsController < BaseDraftsController
           type = related_url['Type']
           # no subtype currently for Data Contact Related Urls
 
-          contact_persons_invalid = true if content_type && !@data_contact_related_url_content_type_options.include?(content_type)
-          contact_persons_invalid = true if type && !@data_contact_related_url_type_options.include?(type)
+          contact_persons_invalid = true if content_type && !data_contact_related_url_content_type_values.include?(content_type)
+          contact_persons_invalid = true if type && !data_contact_related_url_type_values.include?(type)
         end
       end
       errors << "The property '#/ContactPersons' has an invalid selection option" if contact_persons_invalid
@@ -650,7 +654,6 @@ class CollectionDraftsController < BaseDraftsController
           if country
             matches = @country_codes.select { |option| option.name.include?(country) }
             if matches.empty?
-              puts 'contact groups invalid b/c country'
               contact_groups_invalid = true
             end
           end
@@ -662,8 +665,8 @@ class CollectionDraftsController < BaseDraftsController
           type = related_url['Type']
           # no subtype currently for Data Contact Related Urls
 
-          contact_groups_invalid = true if content_type && !@data_contact_related_url_content_type_options.include?(content_type)
-          contact_groups_invalid = true if type && !@data_contact_related_url_type_options.include?(type)
+          contact_groups_invalid = true if content_type && !data_contact_related_url_content_type_values.include?(content_type)
+          contact_groups_invalid = true if type && !data_contact_related_url_type_values.include?(type)
         end
       end
       errors << "The property '#/ContactGroups' has an invalid selection option" if contact_groups_invalid
@@ -676,9 +679,13 @@ class CollectionDraftsController < BaseDraftsController
         subtype = related_url['Subtype']
         format = related_url.dig('GetData', 'Format')
 
-        related_urls_invalid = true if content_type && !@umm_c_related_url_content_type_options.include?(content_type)
-        related_urls_invalid = true if type && !@umm_c_related_url_type_options.include?(type)
-        related_urls_invalid = true if subtype && !@umm_c_related_url_subtype_options.include?(subtype)
+        umm_c_related_url_content_type_values = @umm_c_related_url_content_type_options.map { |option| option[1] }
+        umm_c_related_url_type_values = @umm_c_related_url_type_options.map { |option| option[1] }
+        umm_c_related_url_subtype_values = @umm_c_related_url_subtype_options.map { |option| option[1] }
+
+        related_urls_invalid = true if content_type && !umm_c_related_url_content_type_values.include?(content_type)
+        related_urls_invalid = true if type && !umm_c_related_url_type_values.include?(type)
+        related_urls_invalid = true if subtype && !umm_c_related_url_subtype_values.include?(subtype)
         related_urls_invalid = true if format && !@granule_data_formats.include?(format)
       end
       errors << "The property '#/RelatedUrls' has an invalid selection option" if related_urls_invalid
@@ -712,6 +719,9 @@ class CollectionDraftsController < BaseDraftsController
     set_country_codes
     set_language_codes
     set_granule_data_formats
+    set_umm_c_related_urls
+    set_data_center_related_url
+    set_data_contact_related_url
   end
 
   def edit_view_setup
