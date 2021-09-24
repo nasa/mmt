@@ -1,4 +1,4 @@
-describe 'Inalid Tool Draft Descriptive Keywords Preview' do
+describe 'Invalid Tool Draft Descriptive Keywords Preview' do
   let(:tool_draft) { create(:invalid_tool_draft, user: User.where(urs_uid: 'testuser').first) }
   let(:draft) { tool_draft.draft }
 
