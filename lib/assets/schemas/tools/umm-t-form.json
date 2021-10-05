@@ -639,65 +639,73 @@
               ]
             },
             {
-              "type": "open_accordion",
-              "help": "Target",
-              "title": "Target",
-              "key": "/Target/properties",
+              "type": "section",
+              "htmlClass": "row",
               "items": [
                 {
-                  "type": "section",
-                  "htmlClass": "row",
+                  "type": "open_accordion",
+                  "help": "Target",
+                  "title": "Target",
+                  "accordionHeaderClass": "eui-required-o always-required",
+                  "key": "/Target/properties",
                   "items": [
                     {
                       "type": "section",
-                      "items": [{"key": "/Type", "field": true, "type": "UmmSelect"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "section",
-                      "items": [{"key": "/Description", "field": true, "type": "UmmTextarea"}]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
-                    {
-                      "type": "UmmMultiItem",
-                      "key": "/ResponseContentType",
-                      "multiType": "ResponseContentType",
+                      "htmlClass": "row",
                       "items": [
                         {
                           "type": "section",
-                          "items": [{"key": "/index_id", "noLabel": true, "field": true}]
+                          "items": [{"key": "/Type", "field": true, "type": "UmmSelect"}]
                         }
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [{"type": "UmmTextarea", "key": "/UrlTemplate", "field": true}]
-                },
-                {
-                  "type": "section",
-                  "htmlClass": "row",
-                  "items": [
+                    },
                     {
-                      "type": "UmmMultiItems",
-                      "multiType": "HttpMethod",
-                      "title": "Http Method",
+                      "type": "section",
+                      "htmlClass": "row",
                       "items": [
                         {
                           "type": "section",
-                          "items": [{"key": "/HttpMethod/items/index_id", "noLabel": true, "field": true, "type": "UmmSelect"}]
+                          "items": [{"key": "/Description", "field": true, "type": "UmmTextarea"}]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "UmmMultiItem",
+                          "multiType": "ResponseContentType",
+                          "key": "/ResponseContentType",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [{"key": "/items/index_id", "noLabel": true, "field": true}]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [{"type": "UmmTextarea", "key": "/UrlTemplate", "field": true}]
+                    },
+                    {
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
+                        {
+                          "type": "UmmMultiItems",
+                          "multiType": "HttpMethod",
+                          "title": "Http Method",
+                          "key": "/HttpMethod",
+                          "items": [
+                            {
+                              "type": "section",
+                              "items": [{"key": "/items/index_id", "noLabel": true, "field": true, "type": "UmmSelect"}]
+                            }
+                          ]
                         }
                       ]
                     }
@@ -706,20 +714,19 @@
               ]
             },
             {
-              "type": "open_accordion",
-              "title": "Query Input",
-              "help": "QueryInput",
+              "type": "section",
+              "htmlClass": "row",
               "items": [
                 {
-                  "type": "section",
-                  "htmlClass": "row",
+                  "type": "open_accordion",
+                  "help": "QueryInput",
+                  "title": "Query Input",
                   "items": [
                     {
                       "type": "UmmMultiItems",
-                      "label": "Query Input",
-                      "help": "QueryInput",
                       "multiType": "QueryInput",
                       "key": "/QueryInput/items/properties/index_id",
+                      "noLabel": true,
                       "items": [
                         {
                           "type": "section",
