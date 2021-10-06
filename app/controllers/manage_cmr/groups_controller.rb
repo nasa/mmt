@@ -286,4 +286,8 @@ class GroupsController < ManageCmrController
 
     @permissions.sort_by! { |permission| permission['name'] }
   end
+
+  def edl_groups_enabled?
+    Rails.configuration.edl_groups_enabled
+  end
 end
