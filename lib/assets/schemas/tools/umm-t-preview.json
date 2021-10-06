@@ -106,9 +106,9 @@
         }
       ]
     }, {
-      "id": "descriptive_keywords",
-      "title": "Descriptive Keywords",
-      "fields": [
+       "id": "descriptive_keywords",
+       "title": "Descriptive Keywords",
+       "fields": [
         {
           "key": "ToolKeywords",
           "type": "UmmPreviewToolKeyword",
