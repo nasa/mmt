@@ -345,7 +345,7 @@ FactoryBot.define do
           ]
         },
         'MetadataSpecification': {
-          'URL': 'https://cdn.earthdata.nasa.gov/umm/tool/v1.0',
+          'URL': 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
           'Name': 'UMM-T',
           'Version': '1.1'
         }

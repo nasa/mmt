@@ -36,9 +36,9 @@ class ToolDraft < Draft
     # TODO: we should try to populate these values from the schema enums
 
     metadata_specification = {
-      'URL' => 'https://cdn.earthdata.nasa.gov/umm/tool/v1.0',
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
       'Name' => 'UMM-T',
-      'Version' => '1.0'
+      'Version' => '1.1'
     }
 
     unless self.draft['MetadataSpecification'] == metadata_specification

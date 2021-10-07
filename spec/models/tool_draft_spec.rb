@@ -74,7 +74,7 @@ describe ToolDraft do
   end
 
   it '`create_from_tool` saves the draft' do
-    tool = { 'Name' => 'Test Name', 'LongName' => 'test long name', 'MetadataSpecification' => { 'Name' => 'UMM-T', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/tool/v1.0', 'Version' => '1.0' } }
+    tool = { 'Name' => 'Test Name', 'LongName' => 'test long name', 'MetadataSpecification' => { 'Name' => 'UMM-T', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1', 'Version' => '1.1' } }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_native_id'
     tool_draft = ToolDraft.create_from_tool(tool, user, native_id, nil)
