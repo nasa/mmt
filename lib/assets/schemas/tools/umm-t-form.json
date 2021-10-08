@@ -710,7 +710,7 @@
                           "items": [
                             {
                               "type": "section",
-                              "items": [{"key": "/items/index_id", "noLabel": true, "field": true, "type": "UmmSelect"}]
+                              "items": [{"key": "/items/index_id", "noLabel": true, "title": "Http Method", "field": true, "type": "UmmSelect"}]
                             }
                           ]
                         }
