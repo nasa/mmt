@@ -11,7 +11,6 @@ describe 'Valid Tool Tool Information Preview', js:true, reset_provider: true do
   context 'when examining the Potential Action section' do
     it 'displays the stored values correctly within the preview' do
       within '.umm-preview.potential_action' do
-        save_page '/tmp/chris.html'
         expect(page).to have_css('h4', text: 'Potential Action')
 
         within '#tool_potential_action_type_preview' do
