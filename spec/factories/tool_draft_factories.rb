@@ -93,7 +93,6 @@ FactoryBot.define do
           }
         ],
         'PotentialAction': {
-          'Type': 'SearchAction',
           'Target': {
             'Type': 'EntryPoint',
             'ResponseContentType': ['text/html'],
