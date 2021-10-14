@@ -111,6 +111,9 @@ describe 'Tool Drafts Potential Action Form', js: true do
         expect(page).to have_css('.eui-accordion__header > h3', text: 'Target')
         expect(page).to have_select('Type', selected: 'EntryPoint')
         expect(page).to have_css('#tool_draft_draft_potential_action_target_description', text: 'new_test_record target description')
+        # Since have_css can't find the id in following method call
+        # expect(page).to have_css('#tool_draft_draft_potential_action_target_response_content_type_0', text: 'some text')
+        # for all elements in array on this page, the workaround is find the element and get value
         expect(page.find('#tool_draft_draft_potential_action_target_response_content_type_0').value).to eq('new_test_record target content_type_0')
         expect(page.find('#tool_draft_draft_potential_action_target_response_content_type_1').value).to eq('new_test_record target content_type_1')
         expect(page).to have_field('Url Template', with: 'new_test_record target url_template')
