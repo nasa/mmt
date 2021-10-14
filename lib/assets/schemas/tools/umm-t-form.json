@@ -687,6 +687,7 @@
                           "items": [
                             {
                               "type": "section",
+                              "htmlClass": "col-9",
                               "items": [{"key": "/items/index_id", "noLabel": true, "field": true}]
                             }
                           ]
