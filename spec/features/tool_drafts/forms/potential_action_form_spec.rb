@@ -45,25 +45,22 @@ describe 'Tool Drafts Potential Action Form', js: true do
       expect(page).to have_select('Type', selected: 'SearchAction')
       expect(page).to have_css('.eui-accordion__header > h3', text: 'Target')
       expect(page).to have_select('Type', selected: 'EntryPoint')
-      expect(page).to have_css('#tool_draft_draft_potential_action_target_description', text: 'the description')
-      # Since have_css can't find the id in following method call
-      # expect(page).to have_css('#tool_draft_draft_potential_action_target_response_content_type_0', text: 'text/html')
-      # for all elements in array on this page, the workaround is find the element and get value
-      expect(page.find('#tool_draft_draft_potential_action_target_response_content_type_0').value).to eq('text/html')
+      expect(page).to have_field('tool_draft_draft_potential_action_target_description', with: 'the description')
+      expect(page).to have_field('tool_draft_draft_potential_action_target_response_content_type_0', with: 'text/html')
       expect(page).to have_field('Url Template', with: 'https://podaac-tools.jpl.nasa.gov/soto/#b=BlueMarble_ShadedRelief_Bathymetry&l={+layers}&ve={+bbox}&d={+date}')
-      expect(page).to have_css('#tool_draft_draft_potential_action_target_http_method_0', text: 'GET')
+      expect(page).to have_field('tool_draft_draft_potential_action_target_http_method_0', with: 'GET')
       expect(page).to have_css('.eui-accordion__header > h3', text: 'Query Input')
-      expect(page.find('#tool_draft_draft_potential_action_query_input_0_value_name').value).to eq('layers')
-      expect(page.find('#tool_draft_draft_potential_action_query_input_0_value_type').value).to eq('the query input value type')
-      expect(page.find('#tool_draft_draft_potential_action_query_input_0_description').value).to eq('query input description for layers param')
+      expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_value_name', with: 'layers')
+      expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_value_type', with: 'the query input value type')
+      expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_description', with: 'query input description for layers param')
       expect(page.find('#tool_draft_draft_potential_action_query_input_0_value_required_true')).to be_checked
-      expect(page.find('#tool_draft_draft_potential_action_query_input_1_value_name').value).to eq('date')
-      expect(page.find('#tool_draft_draft_potential_action_query_input_1_value_type').value).to eq('the query input value type')
-      expect(page.find('#tool_draft_draft_potential_action_query_input_1_description').value).to eq('query input description for date param')
+      expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_value_name', with: 'date')
+      expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_value_type', with: 'the query input value type')
+      expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_description', with: 'query input description for date param')
       expect(page.find('#tool_draft_draft_potential_action_query_input_1_value_required_false')).to be_checked
-      expect(page.find('#tool_draft_draft_potential_action_query_input_2_value_name').value).to eq('bbox')
-      expect(page.find('#tool_draft_draft_potential_action_query_input_2_value_type').value).to eq('the query input value type')
-      expect(page.find('#tool_draft_draft_potential_action_query_input_2_description').value).to eq('query input description for bbox param')
+      expect(page).to have_field('tool_draft_draft_potential_action_query_input_2_value_name', with: 'bbox')
+      expect(page).to have_field('tool_draft_draft_potential_action_query_input_2_value_type', with: 'the query input value type')
+      expect(page).to have_field('tool_draft_draft_potential_action_query_input_2_description', with: 'query input description for bbox param')
       expect(page.find('#tool_draft_draft_potential_action_query_input_2_value_required_false')).to be_checked
     end
   end
@@ -110,23 +107,20 @@ describe 'Tool Drafts Potential Action Form', js: true do
         expect(page).to have_select('Type', selected: 'CreateAction')
         expect(page).to have_css('.eui-accordion__header > h3', text: 'Target')
         expect(page).to have_select('Type', selected: 'EntryPoint')
-        expect(page).to have_css('#tool_draft_draft_potential_action_target_description', text: 'new_test_record target description')
-        # Since have_css can't find the id in following method call
-        # expect(page).to have_css('#tool_draft_draft_potential_action_target_response_content_type_0', text: 'some text')
-        # for all elements in array on this page, the workaround is find the element and get value
-        expect(page.find('#tool_draft_draft_potential_action_target_response_content_type_0').value).to eq('new_test_record target content_type_0')
-        expect(page.find('#tool_draft_draft_potential_action_target_response_content_type_1').value).to eq('new_test_record target content_type_1')
+        expect(page).to have_field('tool_draft_draft_potential_action_target_description', with: 'new_test_record target description')
+        expect(page).to have_field('tool_draft_draft_potential_action_target_response_content_type_0', with: 'new_test_record target content_type_0')
+        expect(page).to have_field('tool_draft_draft_potential_action_target_response_content_type_1', with: 'new_test_record target content_type_1')
         expect(page).to have_field('Url Template', with: 'new_test_record target url_template')
         expect(page).to have_css('#tool_draft_draft_potential_action_target_http_method_0', text: 'GET')
         expect(page).to have_css('#tool_draft_draft_potential_action_target_http_method_1', text: 'POST')
         expect(page).to have_css('.eui-accordion__header > h3', text: 'Query Input')
-        expect(page.find('#tool_draft_draft_potential_action_query_input_0_value_name').value).to eq('new_test_record query_input value_name_0')
-        expect(page.find('#tool_draft_draft_potential_action_query_input_0_value_type').value).to eq('new_test_record query_input value_type_0')
-        expect(page.find('#tool_draft_draft_potential_action_query_input_0_description').value).to eq('new_test_record query_input description_0')
+        expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_value_name', with: 'new_test_record query_input value_name_0')
+        expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_value_type', with: 'new_test_record query_input value_type_0')
+        expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_description', with: 'new_test_record query_input description_0')
         expect(page.find('#tool_draft_draft_potential_action_query_input_0_value_required_true')).to be_checked
-        expect(page.find('#tool_draft_draft_potential_action_query_input_1_value_name').value).to eq('new_test_record query_input value_name_1')
-        expect(page.find('#tool_draft_draft_potential_action_query_input_1_value_type').value).to eq('new_test_record query_input value_type_1')
-        expect(page.find('#tool_draft_draft_potential_action_query_input_1_description').value).to eq('new_test_record query_input description_1')
+        expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_value_name', with: 'new_test_record query_input value_name_1')
+        expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_value_type', with: 'new_test_record query_input value_type_1')
+        expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_description', with: 'new_test_record query_input description_1')
       end
     end
   end
