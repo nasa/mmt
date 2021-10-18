@@ -53,15 +53,15 @@ describe 'Tool Drafts Potential Action Form', js: true do
       expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_value_name', with: 'layers')
       expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_value_type', with: 'the query input value type')
       expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_description', with: 'query input description for layers param')
-      expect(page.find('#tool_draft_draft_potential_action_query_input_0_value_required_true')).to be_checked
+      expect(page).to have_checked_field('tool_draft_draft_potential_action_query_input_0_value_required_true')
       expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_value_name', with: 'date')
       expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_value_type', with: 'the query input value type')
       expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_description', with: 'query input description for date param')
-      expect(page.find('#tool_draft_draft_potential_action_query_input_1_value_required_false')).to be_checked
+      expect(page).to have_checked_field('tool_draft_draft_potential_action_query_input_1_value_required_false')
       expect(page).to have_field('tool_draft_draft_potential_action_query_input_2_value_name', with: 'bbox')
       expect(page).to have_field('tool_draft_draft_potential_action_query_input_2_value_type', with: 'the query input value type')
       expect(page).to have_field('tool_draft_draft_potential_action_query_input_2_description', with: 'query input description for bbox param')
-      expect(page.find('#tool_draft_draft_potential_action_query_input_2_value_required_false')).to be_checked
+      expect(page).to have_checked_field('tool_draft_draft_potential_action_query_input_2_value_required_false')
     end
   end
 
@@ -117,7 +117,7 @@ describe 'Tool Drafts Potential Action Form', js: true do
         expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_value_name', with: 'new_test_record query_input value_name_0')
         expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_value_type', with: 'new_test_record query_input value_type_0')
         expect(page).to have_field('tool_draft_draft_potential_action_query_input_0_description', with: 'new_test_record query_input description_0')
-        expect(page.find('#tool_draft_draft_potential_action_query_input_0_value_required_true')).to be_checked
+        expect(page).to have_checked_field('tool_draft_draft_potential_action_query_input_0_value_required_true')
         expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_value_name', with: 'new_test_record query_input value_name_1')
         expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_value_type', with: 'new_test_record query_input value_type_1')
         expect(page).to have_field('tool_draft_draft_potential_action_query_input_1_description', with: 'new_test_record query_input description_1')
