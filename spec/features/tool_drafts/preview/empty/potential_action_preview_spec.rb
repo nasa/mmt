@@ -24,6 +24,8 @@ describe 'Empty Tool Draft Potential Action Preview' do
 
       it 'displays the correct progress indicators for non required fields' do
         within '#potential_action-progress .progress-indicators' do
+          # CG: I tried including 'text: 'Potential Action Invalid''
+          # but for some reason rspec was failing, although it does work with just the css selector.
           expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.potential-action')
           expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'potential_action', anchor: 'potential-action'))
         end
