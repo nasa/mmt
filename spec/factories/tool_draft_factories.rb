@@ -92,8 +92,36 @@ FactoryBot.define do
             'FirstName': 'Missing Roles'
           }
         ],
-        'SearchAction': {
-          'SearchActionElement': Faker::Lorem.characters(number: 5000)
+        'PotentialAction': {
+          'Target': {
+            'Type': 'EntryPoint',
+            'ResponseContentType': ['text/html'],
+            'UrlTemplate': 'https://podaac-tools.jpl.nasa.gov/soto/#b=BlueMarble_ShadedRelief_Bathymetry&l={+layers}&ve={+bbox}&d={+date}',
+            "Description": 'the description',
+            'HttpMethod': [
+              'GET'
+            ]
+          },
+          'QueryInput': [
+            {
+              "ValueName": 'layers',
+              "Description": 'query input description for layers param',
+              'ValueRequired': true,
+              'ValueType': 'the query input value type'
+            },
+            {
+              "ValueName": 'date',
+              "Description": 'query input description for date param',
+              'ValueRequired': false,
+              'ValueType': 'the query input value type'
+            },
+            {
+              "ValueName": 'bbox',
+              "Description": 'query input description for bbox param',
+              'ValueRequired': false,
+              'ValueType': 'the query input value type'
+            }
+          ]
         }
       }
     end
@@ -123,7 +151,7 @@ FactoryBot.define do
           'Description': 'Access the WRS-2 Path/Row to Latitude/Longitude Converter.',
           'URLContentType': 'DistributionURL',
           'Type': 'DOWNLOAD SOFTWARE',
-          'Subtype': 'MOBILE APP', 
+          'Subtype': 'MOBILE APP',
           'URLValue': 'http://www.scp.byu.edu/software/slice_response/Xshape_temp.html'
         },
         'RelatedURLs': [
@@ -283,19 +311,42 @@ FactoryBot.define do
             'LastName': 'Last 2'
           }
         ],
-        'SearchAction': {
-          'SearchActionElement': "A little chant may not seem like a real spell, but it can still bring magickal results if you put your heart into it. Use this spell when you are looking for something you've misplaced in your home. You just need a white candle.
-            Light the candle, and put it in a holder that is easy to carry. Begin to walk from room to room with it, repeating the following:
-            I need what I seek
-            Give me a peek
-            Draw my eyes
-            For my prize.
-            Let your eyes wander around until you feel drawn to the spot where your missing item is hiding."
+        'PotentialAction': {
+          'Type': 'SearchAction',
+          'Target': {
+            'Type': 'EntryPoint',
+            'ResponseContentType': ['text/html'],
+            'UrlTemplate': 'https://podaac-tools.jpl.nasa.gov/soto/#b=BlueMarble_ShadedRelief_Bathymetry&l={+layers}&ve={+bbox}&d={+date}',
+            "Description": 'the description',
+            'HttpMethod': [
+              'GET'
+            ]
+          },
+          'QueryInput': [
+            {
+              "ValueName": 'layers',
+              "Description": 'query input description for layers param',
+              'ValueRequired': true,
+              'ValueType': 'the query input value type'
+            },
+            {
+              "ValueName": 'date',
+              "Description": 'query input description for date param',
+              'ValueRequired': false,
+              'ValueType': 'the query input value type'
+            },
+            {
+              "ValueName": 'bbox',
+              "Description": 'query input description for bbox param',
+              'ValueRequired': false,
+              'ValueType': 'the query input value type'
+            }
+          ]
         },
         'MetadataSpecification': {
-          'URL': 'https://cdn.earthdata.nasa.gov/umm/tool/v1.0',
+          'URL': 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
           'Name': 'UMM-T',
-          'Version': '1.0'
+          'Version': '1.1'
         }
       }
     end

@@ -6,28 +6,37 @@
       "fields": [
         {
           "key": "Name"
-        }, {
+        },
+        {
           "key": "LongName"
-        }, {
+        },
+        {
           "key": "Type"
-        }, {
+        },
+        {
           "key": "Version"
-        }, {
+        },
+        {
           "key": "VersionDescription"
-        }, {
+        },
+        {
           "key": "LastUpdatedDate"
-        }, {
+        },
+        {
           "key": "Description"
-        }, {
+        },
+        {
           "key": "DOI",
           "title": "DOI"
-        }, {
+        },
+        {
           "key": "URL",
           "title": "URL",
           "type": "UmmPreviewURL"
         }
       ]
-    }, {
+    },
+    {
       "id": "related_urls",
       "title": "Related URLs",
       "fields": [
@@ -38,61 +47,74 @@
           "type": "UmmPreviewURL"
         }
       ]
-    }, {
+    },
+    {
       "id": "compatibility_and_usability",
       "title": "Compatibility and Usability",
       "fields": [
         {
           "type": "UmmPreviewMultiItem",
           "key": "SupportedInputFormats/index_id"
-        }, {
+        },
+        {
           "type": "UmmPreviewMultiItem",
           "key": "SupportedOutputFormats/index_id"
-        }, {
+        },
+        {
           "key": "SupportedOperatingSystems/index_id",
           "type": "UmmPreviewMultiItems",
           "fields": [
             {
               "key": "/OperatingSystemName"
-            }, {
+            },
+            {
               "key": "/OperatingSystemVersion"
             }
           ]
-        }, {
+        },
+        {
           "key": "SupportedBrowsers/index_id",
           "type": "UmmPreviewMultiItems",
           "fields": [
             {
               "key": "/BrowserName"
-            }, {
+            },
+            {
               "key": "/BrowserVersion"
             }
           ]
-        }, {
+        },
+        {
           "key": "SupportedSoftwareLanguages/index_id",
           "type": "UmmPreviewMultiItems",
           "fields": [
             {
               "key": "/SoftwareLanguageName"
-            }, {
+            },
+            {
               "key": "/SoftwareLanguageVersion"
             }
           ]
-        }, {
+        },
+        {
           "key": "Quality",
           "type": "UmmPreviewGroupedField",
           "fields": [
             {
               "key": "/QualityFlag"
-            }, {
+            },
+            {
               "key": "/Traceability"
-            }, {
+            },
+            {
               "key": "/Lineage"
             }
           ]
-        }, {
+        },
+        {
           "key": "AccessConstraints"
-        }, {
+        },
+        {
           "key": "UseConstraints",
           "type": "UmmPreviewGroupedField",
           "fields": [
@@ -105,20 +127,23 @@
           ]
         }
       ]
-    }, {
-       "id": "descriptive_keywords",
-	     "title": "Descriptive Keywords",
-	     "fields": [
+    },
+    {
+      "id": "descriptive_keywords",
+      "title": "Descriptive Keywords",
+      "fields": [
         {
           "key": "ToolKeywords",
           "type": "UmmPreviewToolKeyword",
           "hideFieldTitle": true
-        }, {
+        },
+        {
           "key": "AncillaryKeywords/index_id",
           "type": "UmmPreviewMultiItem"
         }
       ]
-    }, {
+    },
+    {
       "id": "tool_organizations",
       "title": "Tool Organizations",
       "fields": [
@@ -128,7 +153,8 @@
           "hideFieldTitle": true
         }
       ]
-    }, {
+    },
+    {
       "id": "tool_contacts",
       "title": "Tool Contacts",
       "fields": [
@@ -141,6 +167,63 @@
           "key": "ContactPersons",
           "type": "UmmPreviewContacts",
           "hideFieldTitle": true
+        }
+      ]
+    },
+    {
+      "id": "potential_action",
+      "title": "Potential Action",
+      "fields": [
+        {
+          "key": "PotentialAction",
+          "type": "UmmPreviewGroupedField",
+          "hideFieldTitle": true,
+          "fields": [
+            {
+              "key": "/Type"
+            },
+            {
+              "key": "/Target",
+              "type": "UmmPreviewGroupedField",
+              "fields": [
+                {
+                  "key": "/Type"
+                },
+                {
+                  "key": "/Description"
+                },
+                {
+                  "key": "/ResponseContentType/index_id",
+                  "type": "UmmPreviewMultiItem"
+                },
+                {
+                  "key": "/UrlTemplate"
+                },
+                {
+                  "key": "/HttpMethod/index_id",
+                  "type": "UmmPreviewMultiItem"
+                }
+              ]
+            },
+            {
+              "key": "/QueryInput/index_id",
+              "type": "UmmPreviewMultiItems",
+              "fields": [
+                {
+                  "key": "/ValueType"
+                },
+                {
+                  "key": "/Description"
+                },
+                {
+                  "key": "/ValueName"
+                },
+                {
+                  "key": "/ValueRequired"
+                }
+              ]
+            }
+          ]
         }
       ]
     }

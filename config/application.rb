@@ -49,7 +49,7 @@ module Mmt
     config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.16.5'
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.7'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.4'
-    config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.0'
+    config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.1'
 
     # Is this the Proposal Mode version of MMT?
     config.proposal_mode = false

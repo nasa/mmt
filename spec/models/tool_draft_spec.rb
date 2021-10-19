@@ -44,9 +44,9 @@ describe ToolDraft do
   it 'sets the MetadataSpecification after the tool draft has been saved' do
     tool_draft = create(:empty_tool_draft)
     metadata_specification = tool_draft.draft['MetadataSpecification']
-    expect(metadata_specification['URL']).to eq('https://cdn.earthdata.nasa.gov/umm/tool/v1.0')
+    expect(metadata_specification['URL']).to eq('https://cdn.earthdata.nasa.gov/umm/tool/v1.1')
     expect(metadata_specification['Name']).to eq('UMM-T')
-    expect(metadata_specification['Version']).to eq('1.0')
+    expect(metadata_specification['Version']).to eq('1.1')
   end
 
   it 'does not set the MetadataSpecification if the tool has not been saved' do
@@ -74,7 +74,7 @@ describe ToolDraft do
   end
 
   it '`create_from_tool` saves the draft' do
-    tool = { 'Name' => 'Test Name', 'LongName' => 'test long name', 'MetadataSpecification' => { 'Name' => 'UMM-T', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/tool/v1.0', 'Version' => '1.0' } }
+    tool = { 'Name' => 'Test Name', 'LongName' => 'test long name', 'MetadataSpecification' => { 'Name' => 'UMM-T', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1', 'Version' => '1.1' } }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_native_id'
     tool_draft = ToolDraft.create_from_tool(tool, user, native_id, nil)
