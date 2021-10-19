@@ -124,6 +124,9 @@ Rails.application.configure do
   config.gkr_enabled = true
   config.gkr_enabled = false if ENV['proposal_mode'] == 'true'
 
+  # Feature toggle for EDL groups
+  config.edl_groups_enabled = false
+
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
