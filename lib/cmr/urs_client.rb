@@ -1,5 +1,7 @@
 module Cmr
   class UrsClient < BaseClient
+    include ProviderHoldings
+
     def urs_login_path(callback_url: ENV['urs_login_callback_url'], associate: false)
       callback_url = ENV['urs_association_callback_url'] if associate
 
@@ -74,6 +76,40 @@ module Cmr
       proposal_mode_safe_post("/oauth/tokens/user", "token=#{token}&client_id=#{dmmt_client_id}")
     end
 
+    def create_edl_group(group)
+      Rails.logger.info("TBD JDF create_edl_group group=#{group}")
+      concept_id = create_concept_id_from_group(group)
+      response = post("/api/user_groups?name=#{concept_id}&description=#{group[:description]}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
+      Rails.logger.info("TBD JDF create_edl_group success=#{response.success?}")
+      response.body['concept_id'] = concept_id if response.success?
+      #TBD JDF -- need to add members here.
+      response
+    end
+
+    def delete_edl_group(concept_id)
+      Rails.logger.info("TBD JDF delete_edl_group concept_id=#{concept_id}")
+      response = delete("/api/user_groups/#{concept_id}?shared_user_group=true", {}, nil, 'Authorization' => "Bearer #{get_client_token}")
+      Rails.logger.debug("TBD JDF delete_edl_group success=#{response.success?}")
+      response
+    end
+
+    def get_edl_group(concept_id)
+      Rails.logger.info("TBD JDF get_edl_group concept_id=#{concept_id}")
+      response = get("/api/user_groups/#{concept_id}?shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
+      Rails.logger.info("TBD JDF urs_client:get_edl_group response.success=#{response.success?}")
+      response.body['concept_id'] = concept_id if response.success?
+      response
+    end
+
+    def get_edl_groups(options)
+      Rails.logger.info("TBD JDF get_edl_groups options=#{options}")
+      provider = options['provider'] ? options['provider'].first : ''
+      user_id = options['member'] ? options['member'].first : ''
+      response = get("/api/user_groups/search?name=#{provider}&user_id=#{user_id}", nil, 'Authorization' => "Bearer #{get_client_token}")
+      Rails.logger.info("TBD JDF urs_client:get_edl_groups response.success=#{response.success?}")
+      Cmr::Response.new(Faraday::Response.new(status: 200, body: reformat_search_results(response.body)))
+    end
+
     protected
 
     def get_client_token
@@ -85,6 +121,7 @@ module Cmr
 
       if client_access.success?
         client_access_token = client_access.body['access_token']
+        Rails.logger.info("TBD JDF client token: #{client_access_token}")
       else
         # Log error message
         Rails.logger.error("Client Token Request Error: #{client_access.inspect}")
@@ -97,6 +134,33 @@ module Cmr
       super.tap do |conn|
         conn.basic_auth(ENV['urs_username'], ENV['urs_password'])
       end
+    end
+
+    # make the search results match the structure of the cmr results
+    def reformat_search_results(results)
+      items = results.map { |item|
+        { 'name' => concept_id_to_name(item['name']),
+          'description' => item['description'],
+          'concept_id' => item['name'],
+          'provider_id' => concept_id_to_provider(item['name']) }
+      }
+      { 'hits' => items.length, 'items' => items }
+    end
+
+    # At this point, the EDL groups api does not support a unique group_identifier
+    # such as a concept_id.  We construct one here and store it in the name field of the
+    # group. This is a temporary fix until the api is enhanced.
+    def create_concept_id_from_group(group)
+      # TBD "EDL__#{group['name']}__#{group['provider_id']}".gsub(/\s+/, '')
+      "#{group['name']}__#{group['provider_id']}"
+    end
+
+    def concept_id_to_name(concept_id)
+      concept_id.split('__')[0]
+    end
+
+    def concept_id_to_provider(concept_id)
+      concept_id.split('__')[1]
     end
   end
 end

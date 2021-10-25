@@ -49,20 +49,23 @@ class GroupsController < ManageCmrController
     page = params.permit(:page).fetch('page', 1)
     @query[:page_num] = page.to_i
 
-    groups_response = cmr_client.get_cmr_groups(@query, token)
+    groups_response = edl_groups_enabled? ?
+      urs_client.get_edl_groups(@query) :
+      cmr_client.get_cmr_groups(@query, token)
 
     group_list = if groups_response.success?
                    groups_response.body.fetch('items', [])
                  else
                    []
                  end
-
     @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show
     @concept_id = params[:id]
-    group_response = cmr_client.get_group(@concept_id, token)
+    group_response = edl_groups_enabled? ? 
+      urs_client.get_edl_group(@concept_id) :
+      cmr_client.get_group(@concept_id, token)
 
     if group_response.success?
       @group = group_response.body
@@ -94,7 +97,9 @@ class GroupsController < ManageCmrController
     @is_system_group = params[:system_group]
     @group['provider_id'] = current_user.provider_id unless @is_system_group
 
-    group_creation_response = cmr_client.create_group(@group, token)
+    group_creation_response = edl_groups_enabled? ? 
+      urs_client.create_edl_group(@group)
+      : cmr_client.create_group(@group, token)
 
     if group_creation_response.success?
       redirect_to group_path(group_creation_response.body.fetch('concept_id', nil)), flash: { success: 'Group was successfully created.' }
@@ -114,7 +119,9 @@ class GroupsController < ManageCmrController
     @members = []
     @non_authorized_members = []
 
-    group_response = cmr_client.get_group(@concept_id, token)
+    group_response = edl_groups_enabled? ?
+      urs_client.get_group(@concept_id) :
+      cmr_client.get_group(@concept_id, token)
 
     if group_response.success?
       @group = group_response.body
@@ -124,7 +131,10 @@ class GroupsController < ManageCmrController
 
       @is_system_group = check_if_system_group?(@group, @concept_id)
 
-      group_members_response = cmr_client.get_group_members(@concept_id, token)
+      group_members_response = edl_groups_enabled? ?
+        urs_client.get_group_members(@concept_id) :
+        cmr_client.get_group_members(@concept_id, token)
+
       if group_members_response.success?
         group_member_uids = group_members_response.body
 
@@ -166,7 +176,10 @@ class GroupsController < ManageCmrController
 
   def destroy
     concept_id = params[:id]
-    delete_group_response = cmr_client.delete_group(concept_id, token)
+    delete_group_response =  edl_groups_enabled? ?
+      urs_client.delete_edl_group(concept_id) :
+      cmr_client.delete_group(concept_id, token)
+
     if delete_group_response.success?
       redirect_to groups_path, flash: { success: "Group #{params[:name]} successfully deleted." }
     else
