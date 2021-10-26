@@ -120,7 +120,7 @@ class GroupsController < ManageCmrController
     @non_authorized_members = []
 
     group_response = edl_groups_enabled? ?
-      urs_client.get_group(@concept_id) :
+      urs_client.get_edl_group(@concept_id) :
       cmr_client.get_group(@concept_id, token)
 
     if group_response.success?
@@ -132,7 +132,7 @@ class GroupsController < ManageCmrController
       @is_system_group = check_if_system_group?(@group, @concept_id)
 
       group_members_response = edl_groups_enabled? ?
-        urs_client.get_group_members(@concept_id) :
+        urs_client.get_edl_group_members(@concept_id) :
         cmr_client.get_group_members(@concept_id, token)
 
       if group_members_response.success?
@@ -160,7 +160,9 @@ class GroupsController < ManageCmrController
 
     @group['provider_id'] = current_user.provider_id unless @is_system_group
 
-    update_response = cmr_client.update_group(params[:id], @group, token)
+    update_response = edl_groups_enabled? ?
+      urs_client.update_edl_group(params[:id], @group) :
+      cmr_client.update_group(params[:id], @group, token)
 
     if update_response.success?
       redirect_to group_path(update_response.body.fetch('concept_id', nil)), flash: { success: 'Group was successfully updated.' }
@@ -244,9 +246,12 @@ class GroupsController < ManageCmrController
   def request_group_members(concept_id)
     @members = []
 
-    group_members_response = cmr_client.get_group_members(concept_id, token)
+    group_members_response = edl_groups_enabled? ?
+      urs_client.get_edl_group_members(concept_id) :
+      cmr_client.get_group_members(concept_id, token)
 
     if group_members_response.success?
+      Rails.logger.info("TBD JDF request_group_members resp.body=#{group_members_response.body}")
       group_member_uids = group_members_response.body
 
       set_members(group_member_uids)
