@@ -38,9 +38,7 @@ module Cmr
 
     def search_urs_users(query)
       client_token = get_client_token
-      resp = get('/api/users', { search: query }, 'Authorization' => "Bearer #{client_token}")
-      Rails.logger.info("TBD JDF search_urs_users resp.body=#{resp.body}")
-      resp
+      get('/api/users', { search: query }, 'Authorization' => "Bearer #{client_token}")
     end
 
     def get_urs_uid_from_nams_auid(auid)
@@ -79,48 +77,35 @@ module Cmr
     end
 
     def create_edl_group(group)
-      Rails.logger.info("TBD JDF create_edl_group group=#{group}")
       concept_id = create_concept_id_from_group(group)
+      Rails.logger.info("TBD JDF create_edl_group group=#{group}")
       response = post("/api/user_groups?name=#{concept_id}&description=#{group[:description]}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
-      Rails.logger.info("TBD JDF create_edl_group success=#{response.success?}")
       response.body['concept_id'] = concept_id if response.success?
+      add_new_members(concept_id, group['members']) if group['members']
       response
     end
 
     def add_user_to_edl_group(user_id, group_name)
-      Rails.logger.info("TBD JDF add_user_to_eld_group user_id=#{user_id} group=#{group_name}")
-      response = post("/api/user_groups/#{group_name}/user?user_id=#{user_id}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
-      Rails.logger.info("TBD JDF add_user user_id=#{user_id} group=#{group_name} success=#{response.success?}")
-      response
+      post("/api/user_groups/#{group_name}/user?user_id=#{user_id}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
     end
 
     def remove_user_from_edl_group(user_id, group_name)
-      Rails.logger.info("TBD JDF remove_user_from_edl_group user_id=#{user_id} group=#{group_name}")
-      response = delete("/api/user_groups/#{group_name}/user?user_id=#{user_id}&shared_user_group=true", nil, nil, 'Authorization' => "Bearer #{get_client_token}")
-      Rails.logger.info("TBD JDF remove_user user_id=#{user_id} group=#{group_name} success=#{response.success?}")
-      response
+      delete("/api/user_groups/#{group_name}/user?user_id=#{user_id}&shared_user_group=true", nil, nil, 'Authorization' => "Bearer #{get_client_token}")
     end
 
     def delete_edl_group(concept_id)
-      Rails.logger.info("TBD JDF delete_edl_group concept_id=#{concept_id}")
-      response = delete("/api/user_groups/#{concept_id}?shared_user_group=true", {}, nil, 'Authorization' => "Bearer #{get_client_token}")
-      Rails.logger.debug("TBD JDF delete_edl_group success=#{response.success?}")
-      response
+      delete("/api/user_groups/#{concept_id}?shared_user_group=true", {}, nil, 'Authorization' => "Bearer #{get_client_token}")
     end
 
     def get_edl_group(concept_id)
-      Rails.logger.info("TBD JDF get_edl_group concept_id=#{concept_id}")
       response = get("/api/user_groups/#{concept_id}?shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
       response.body['concept_id'] = concept_id if response.success?
       response.body['provider_id'] =  concept_id_to_provider(concept_id) if response.success?
-      Rails.logger.info("TBD JDF get_edl_group success=#{response.success?}")
       response
     end
 
     def get_edl_group_members(concept_id)
-      Rails.logger.info("TBD JDF get_edl_group_members concept_id=#{concept_id}")
       response = get("/api/user_groups/group_members/#{concept_id}?shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
-      Rails.logger.info("TBD JDF urs_client:get_edl_group_members response.success=#{response.success?}")
       users = response.body['users'] if response.success? && response.body.is_a?(Hash)
       return Cmr::Response.new(Faraday::Response.new(status: response.status, body: users.map { |user| user['uid'] } )) if users && users.length > 0
 
@@ -129,21 +114,17 @@ module Cmr
     end
 
     def get_edl_groups(options)
-      Rails.logger.info("TBD JDF get_edl_groups options=#{options}")
       provider = options['provider'] ? options['provider'].first : ''
       user_id = options['member'] ? options['member'].first : ''
       response = get("/api/user_groups/search?name=#{provider}&user_id=#{user_id}", nil, 'Authorization' => "Bearer #{get_client_token}")
-      Rails.logger.info("TBD JDF urs_client:get_edl_groups response.success=#{response.success?}")
       Cmr::Response.new(Faraday::Response.new(status: 200, body: reformat_search_results(response.body)))
     end
 
     # TODO: This entire method should be transactional with rollback.
     def update_edl_group(concept_id, group)
-      Rails.logger.info("TBD JDF update_edl_group group=#{group}")
       existing_group = get_edl_group(concept_id).body
 
       new_description = group['description']
-      existing_description = existing_group['description']
 
       group_members_response = get_edl_group_members(concept_id)
       existing_members = group_members_response.body if group_members_response.success?
@@ -179,7 +160,6 @@ module Cmr
 
       if client_access.success?
         client_access_token = client_access.body['access_token']
-        Rails.logger.info("TBD JDF client token: #{client_access_token}")
       else
         # Log error message
         Rails.logger.error("Client Token Request Error: #{client_access.inspect}")

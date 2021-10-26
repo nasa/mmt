@@ -516,9 +516,7 @@ module Cmr
             else
               '/access-control/groups'
             end
-      resp = get(url, options, token_header(token))
-      Rails.logger.info("TBD JDF get_cmr_groups resp=#{resp.body}")
-      resp
+      get(url, options, token_header(token))
     end
 
     def create_group(group, token)
@@ -552,9 +550,7 @@ module Cmr
             else
               "/access-control/groups/#{concept_id}"
             end
-      resp = get(url, {}, token_header(token))
-      Rails.logger.info("TBD JDF cmr_get_group response=#{resp.body}")
-      resp
+      get(url, {}, token_header(token))
     end
 
     def delete_group(concept_id, token)
@@ -602,9 +598,7 @@ module Cmr
             else
               "/access-control/groups/#{concept_id}/members"
             end
-      resp = get(url, {}, token_header(token))
-      Rails.logger.info("TBD JDF cmr_get_group_members resp=#{resp.body}")
-      resp
+      get(url, {}, token_header(token))
     end
 
     ### CMR Permissions (aka ACLs), via Access Control

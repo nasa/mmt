@@ -251,7 +251,6 @@ class GroupsController < ManageCmrController
       cmr_client.get_group_members(concept_id, token)
 
     if group_members_response.success?
-      Rails.logger.info("TBD JDF request_group_members resp.body=#{group_members_response.body}")
       group_member_uids = group_members_response.body
 
       set_members(group_member_uids)
