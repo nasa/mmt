@@ -130,6 +130,7 @@ describe 'Tool Drafts Potential Action Form', js: true do
       draft = create(:empty_tool_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_tool_draft_path(draft, 'potential_action')
       fill_in 'tool_draft_draft_potential_action_target_description', with: 'new_test_record target description'
+      fill_in 'tool_draft_draft_potential_action_target_url_template', with: 'http://example.com/{+a}{+b}{{c}'
     end
     context "when clicking 'Save' to save the form" do
       before do
@@ -141,6 +142,7 @@ describe 'Tool Drafts Potential Action Form', js: true do
         expect(page).to have_content('Type is required')
         expect(page).to have_content('Url Template is required')
         expect(page).to have_content('Http Method is required')
+        expect(page).to have_content('Url Template is an incorrect format')
       end
     end
   end

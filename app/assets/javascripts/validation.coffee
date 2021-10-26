@@ -741,6 +741,7 @@ $(document).ready ->
     template_error = validateTemplateName(errors)
     validatePairedFields(errors)
     validateAdditionalAttributeValueField(errors)
+    validateUrlTemplate(json, errors)
 
     inlineErrors = []
     summaryErrors = []
@@ -890,6 +891,21 @@ $(document).ready ->
             dataType: dataType
 
           errors.push(error)
+
+  validateUrlTemplate = (json, errors) ->
+    # Source of following regular expression is https://regex101.com/r/DstcXC/1/
+    # which is pointed from https://stackoverflow.com/questions/29494608/regex-for-uri-templates-rfc-6570-wanted
+    URI_TEMPLATE_REGEX = /^([^\x00-\x20\x7f"'%<>\\^`{|}]|%[0-9A-Fa-f]{2}|{[+#./;?&=,!@|]?((\w|%[0-9A-Fa-f]{2})(\.?(\w|%[0-9A-Fa-f]{2}))*(:[1-9]\d{0,3}|\*)?)(,((\w|%[0-9A-Fa-f]{2})(\.?(\w|%[0-9A-Fa-f]{2}))*(:[1-9]\d{0,3}|\*)?))*})*$/
+    urlTemplateContent = json.PotentialAction?.Target?.UrlTemplate
+    if urlTemplateContent? && ! URI_TEMPLATE_REGEX.test(urlTemplateContent)
+      error =
+        id: 'draft_url_template'
+        title: 'Draft Url Template'
+        params: {}
+        dataPath: '/PotentialAction/Target/UrlTemplate'
+        keyword: 'format'
+        schemaPath: ''
+      errors.push(error)
 
   validateTemplateName = (errors) ->
     if $('#draft_template_name').length > 0
