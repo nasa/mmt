@@ -741,7 +741,7 @@ $(document).ready ->
     template_error = validateTemplateName(errors)
     validatePairedFields(errors)
     validateAdditionalAttributeValueField(errors)
-    validateUrlTemplate(json, errors)
+    validatePotentialActionUrlTemplate(json, errors)
 
     inlineErrors = []
     summaryErrors = []
@@ -892,7 +892,7 @@ $(document).ready ->
 
           errors.push(error)
 
-  validateUrlTemplate = (json, errors) ->
+  validatePotentialActionUrlTemplate = (json, errors) ->
     # Source of following regular expression is https://regex101.com/r/DstcXC/1/
     # which is pointed from https://stackoverflow.com/questions/29494608/regex-for-uri-templates-rfc-6570-wanted
     URI_TEMPLATE_REGEX = /^([^\x00-\x20\x7f"'%<>\\^`{|}]|%[0-9A-Fa-f]{2}|{[+#./;?&=,!@|]?((\w|%[0-9A-Fa-f]{2})(\.?(\w|%[0-9A-Fa-f]{2}))*(:[1-9]\d{0,3}|\*)?)(,((\w|%[0-9A-Fa-f]{2})(\.?(\w|%[0-9A-Fa-f]{2}))*(:[1-9]\d{0,3}|\*)?))*})*$/
