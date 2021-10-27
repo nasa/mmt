@@ -78,7 +78,6 @@ module Cmr
 
     def create_edl_group(group)
       concept_id = create_concept_id_from_group(group)
-      Rails.logger.info("TBD JDF create_edl_group group=#{group}")
       response = post("/api/user_groups?name=#{concept_id}&description=#{group[:description]}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
       response.body['concept_id'] = concept_id if response.success?
       add_new_members(concept_id, group['members']) if group['members']
