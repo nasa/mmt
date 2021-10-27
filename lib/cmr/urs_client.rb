@@ -80,6 +80,7 @@ module Cmr
       concept_id = create_concept_id_from_group(group)
       response = post("/api/user_groups?name=#{concept_id}&description=#{group[:description]}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
       response.body['concept_id'] = concept_id if response.success?
+      response.body['name'] = concept_id_to_name(concept_id) if response.success?
       add_new_members(concept_id, group['members']) if group['members']
       response
     end
@@ -98,8 +99,11 @@ module Cmr
 
     def get_edl_group(concept_id)
       response = get("/api/user_groups/#{concept_id}?shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
-      response.body['concept_id'] = concept_id if response.success?
-      response.body['provider_id'] =  concept_id_to_provider(concept_id) if response.success?
+      if response.success?
+        response.body['concept_id'] = concept_id
+        response.body['provider_id'] = concept_id_to_provider(concept_id)
+        response.body['name'] = concept_id_to_name(concept_id)
+      end
       response
     end
 
@@ -135,7 +139,7 @@ module Cmr
       members_to_remove = existing_members.reject { |x| new_members.include? x }
       remove_old_members(concept_id, members_to_remove)
 
-      resp = post("/api/user_groups/#{group['name']}/update?description=#{new_description}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
+      resp = post("/api/user_groups/#{concept_id}/update?description=#{URI.encode(new_description)}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
       resp.body['concept_id'] = concept_id
       resp
     end
@@ -180,7 +184,6 @@ module Cmr
           'description' => item['description'],
           'concept_id' => item['name'],
           'provider_id' => concept_id_to_provider(item['name']) }
-        # 'members' => get_edl_group_members(item['name']) }
       }
       { 'hits' => items.length, 'items' => items }
     end
