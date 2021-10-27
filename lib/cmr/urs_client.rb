@@ -78,7 +78,7 @@ module Cmr
 
     def create_edl_group(group)
       concept_id = create_concept_id_from_group(group)
-      response = post("/api/user_groups?name=#{concept_id}&description=#{group[:description]}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
+      response = post("/api/user_groups?name=#{concept_id}&description=#{URI.encode(group[:description])}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
       response.body['concept_id'] = concept_id if response.success?
       response.body['name'] = concept_id_to_name(concept_id) if response.success?
       add_new_members(concept_id, group['members']) if group['members']
