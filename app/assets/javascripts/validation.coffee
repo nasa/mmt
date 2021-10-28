@@ -895,6 +895,8 @@ $(document).ready ->
   validatePotentialActionUrlTemplate = (json, errors) ->
     # Source of following regular expression is https://regex101.com/r/DstcXC/1/
     # which is pointed from https://stackoverflow.com/questions/29494608/regex-for-uri-templates-rfc-6570-wanted
+    # This method should be removed after the regex is added to the umm-t schema.
+    # Ticket for adding regex to umm-t schema is https://bugs.earthdata.nasa.gov/browse/ECSE-1117
     URI_TEMPLATE_REGEX = /^([^\x00-\x20\x7f"'%<>\\^`{|}]|%[0-9A-Fa-f]{2}|{[+#./;?&=,!@|]?((\w|%[0-9A-Fa-f]{2})(\.?(\w|%[0-9A-Fa-f]{2}))*(:[1-9]\d{0,3}|\*)?)(,((\w|%[0-9A-Fa-f]{2})(\.?(\w|%[0-9A-Fa-f]{2}))*(:[1-9]\d{0,3}|\*)?))*})*$/
     urlTemplateContent = json.PotentialAction?.Target?.UrlTemplate
     if urlTemplateContent? && ! URI_TEMPLATE_REGEX.test(urlTemplateContent)
@@ -904,7 +906,7 @@ $(document).ready ->
         params: {}
         dataPath: '/PotentialAction/Target/UrlTemplate'
         keyword: 'format'
-        schemaPath: ''
+        schemaPath: '' # necessary to not throw errors in getErrorDetails
       errors.push(error)
 
   validateTemplateName = (errors) ->
