@@ -125,7 +125,7 @@ Rails.application.configure do
   config.gkr_enabled = false if ENV['proposal_mode'] == 'true'
 
   # Feature toggle for EDL groups
-  config.edl_groups_enabled = false
+  config.edl_groups_enabled = true
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
