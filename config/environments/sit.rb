@@ -112,7 +112,7 @@ Rails.application.configure do
   config.subscriptions_enabled = true
 
   # Feature toggle for Content Security Policy (CSP) logging.
-  config.csplog_enabled = true
+  config.csplog_enabled = false
 
   # Feature toggle for UMM-T
   config.umm_t_enabled = true
