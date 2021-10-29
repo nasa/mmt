@@ -70,10 +70,16 @@ describe 'Progressive Update Collection Draft', reset_provider: true, js: true d
         it 'indicates the draft can be published' do
           within '#check-cmr-validation-draft-modal' do
             expect(page).to have_content('This draft will be published with the following issues:')
-            expect(page).to have_content('Existing Errors: After translating item to UMM-C the metadata had the following existing error(s): [:TemporalExtents 0 :RangeDateTimes 0] BeginningDateTime [2011-07-04T00:23:48.000Z] must be no later than EndingDateTime [1995-10-01T03:13:03.000Z]. [:Platforms] The Platform ShortName [ERS-3] must be unique. This record contains duplicates.. [:AdditionalAttributes 0] Parameter Range Begin is not allowed for type [STRING]. [:Projects] Projects must be unique. This contains duplicates named [IceBridge].. [:MetadataAssociations] Metadata Associations must be unique. This contains duplicates named [(EntryId [C1234453343-ECHO_REST] & Version [1])].. [:TilingIdentificationSystems] Tiling Identification Systems must be unique. This contains duplicates named [CALIPSO].')
-            expect(page).to have_content('Warnings: After translating item to UMM-C the metadata had the following issue(s): [:TemporalExtents 0 :RangeDateTimes 0] BeginningDateTime [2011-07-04T00:23:48.000Z] must be no later than EndingDateTime [1995-10-01T03:13:03.000Z]. [:Platforms] The Platform ShortName [ERS-3] must be unique. This record contains duplicates.. [:AdditionalAttributes 0] Parameter Range Begin is not allowed for type [STRING]. [:Projects] Projects must be unique. This contains duplicates named [IceBridge].. [:MetadataAssociations] Metadata Associations must be unique. This contains duplicates named [(EntryId [C1234453343-ECHO_REST] & Version [1])].. [:TilingIdentificationSystems] Tiling Identification Systems must be unique. This contains duplicates named [CALIPSO].')
+            expect(page).to have_content('Existing Errors: After translating item to UMM-C the metadata had the following existing error(s):')
+            expect(page).to have_content('[:TemporalExtents 0 :RangeDateTimes 0] BeginningDateTime [2011-07-04T00:23:48.000Z] must be no later than EndingDateTime [1995-10-01T03:13:03.000Z]')
+            expect(page).to have_content('[:Platforms] The Platform ShortName [ERS-3] must be unique. This record contains duplicates')
+            expect(page).to have_content('[:AdditionalAttributes 0] Parameter Range Begin is not allowed for type [STRING]')
+            expect(page).to have_content('[:Projects] Projects must be unique. This contains duplicates named [IceBridge]')
+            expect(page).to have_content('[:MetadataAssociations] Metadata Associations must be unique. This contains duplicates named [(EntryId [C1234453343-ECHO_REST] & Version [1])]')
+            expect(page).to have_content('[:TilingIdentificationSystems] Tiling Identification Systems must be unique. This contains duplicates named [CALIPSO]')
+            expect(page).to have_content('Warnings: After translating item to UMM-C the metadata had the following issue(s):')
+            expect(page).to have_content('[:RelatedUrls 0 :URL] [https=>//vertex.daac.asf.alaska.edu/] is not a valid URL')
             expect(page).to have_content('Are you sure you want to publish this draft now?')
-
             expect(page).to have_link('Yes, Publish Collection Draft')
           end
         end
@@ -87,9 +93,14 @@ describe 'Progressive Update Collection Draft', reset_provider: true, js: true d
             expect(page).to have_content('Collection Draft Published Successfully!')
 
             expect(page).to have_content('Collection was published with the following issues:')
-            expect(page).to have_content('Existing Errors: After translating item to UMM-C the metadata had the following existing error(s): [:TemporalExtents 0 :RangeDateTimes 0] BeginningDateTime [2011-07-04T00:23:48.000Z] must be no later than EndingDateTime [1995-10-01T03:13:03.000Z]. [:Platforms] The Platform ShortName [ERS-3] must be unique. This record contains duplicates.. [:AdditionalAttributes 0] Parameter Range Begin is not allowed for type [STRING]. [:Projects] Projects must be unique. This contains duplicates named [IceBridge].. [:MetadataAssociations] Metadata Associations must be unique. This contains duplicates named [(EntryId [C1234453343-ECHO_REST] & Version [1])].. [:TilingIdentificationSystems] Tiling Identification Systems must be unique. This contains duplicates named [CALIPSO].')
-            expect(page).to have_content('Warnings: After translating item to UMM-C the metadata had the following issue(s): [:TemporalExtents 0 :RangeDateTimes 0] BeginningDateTime [2011-07-04T00:23:48.000Z] must be no later than EndingDateTime [1995-10-01T03:13:03.000Z]. [:Platforms] The Platform ShortName [ERS-3] must be unique. This record contains duplicates.. [:AdditionalAttributes 0] Parameter Range Begin is not allowed for type [STRING]. [:Projects] Projects must be unique. This contains duplicates named [IceBridge].. [:MetadataAssociations] Metadata Associations must be unique. This contains duplicates named [(EntryId [C1234453343-ECHO_REST] & Version [1])].. [:TilingIdentificationSystems] Tiling Identification Systems must be unique. This contains duplicates named [CALIPSO].')
-
+            expect(page).to have_content('Existing Errors: After translating item to UMM-C the metadata had the following existing error(s):')
+            expect(page).to have_content('[:TemporalExtents 0 :RangeDateTimes 0] BeginningDateTime [2011-07-04T00:23:48.000Z] must be no later than EndingDateTime [1995-10-01T03:13:03.000Z]')
+            expect(page).to have_content('[:Platforms] The Platform ShortName [ERS-3] must be unique. This record contains duplicates')
+            expect(page).to have_content('[:AdditionalAttributes 0] Parameter Range Begin is not allowed for type [STRING]')
+            expect(page).to have_content('[:Projects] Projects must be unique. This contains duplicates named [IceBridge]')
+            expect(page).to have_content('[:MetadataAssociations] Metadata Associations must be unique. This contains duplicates named [(EntryId [C1234453343-ECHO_REST] & Version [1])]')
+            expect(page).to have_content('[:TilingIdentificationSystems] Tiling Identification Systems must be unique. This contains duplicates named [CALIPSO]')
+            expect(page).to have_content('Warnings: After translating item to UMM-C the metadata had the following issue(s):')
             expect(page).to have_no_content('Metadata Fields')
             expect(page).to have_no_css('ul.progress-indicator')
           end
