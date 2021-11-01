@@ -893,6 +893,7 @@ $(document).ready ->
           errors.push(error)
 
   validatePotentialActionUrlTemplate = (json, errors) ->
+    # This method is added as part of ticket https://bugs.earthdata.nasa.gov/browse/MMT-2714
     # Source of following regular expression is https://regex101.com/r/DstcXC/1/
     # which is pointed from https://stackoverflow.com/questions/29494608/regex-for-uri-templates-rfc-6570-wanted
     # This method should be removed after the regex is added to the umm-t schema.
