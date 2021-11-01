@@ -347,6 +347,7 @@ class UmmJsonForm < JsonFile
     draft
   end
 
+  # This method is added as part of ticket https://bugs.earthdata.nasa.gov/browse/MMT-2714
   # This method should be removed after the umm-t schema is changed to add the regex to validate
   # field PotentialAction/Target/UrlTemplate
   # Source of the regex is https://regex101.com/r/DstcXC/1/
