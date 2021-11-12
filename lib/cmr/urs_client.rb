@@ -116,14 +116,56 @@ module Cmr
       Cmr::Response.new(Faraday::Response.new(status: response.status, body: []))
     end
 
-    def get_edl_groups(options)
-      provider = options['provider'] ? options['provider'].first : ''
-      user_id = options['member'] ? options['member'].first : ''
-      response = get("/api/user_groups/search?name=#{provider}&user_id=#{user_id}", nil, 'Authorization' => "Bearer #{get_client_token}")
-      Cmr::Response.new(Faraday::Response.new(status: 200, body: reformat_search_results(response.body)))
+    # TODO: This needs to be changed to use tags in MMT-2732
+    def get_groups_for_provider_list(providers)
+      groups = []
+      return groups if providers.blank?
+
+      providers.each { |provider| groups += get_groups_for_provider(provider) }
+      groups.uniq { |group| group['name'] }
     end
 
-    # TODO: This entire method should be transactional with rollback.
+    def get_groups_for_user_list(ids)
+      return [] if ids.blank?
+
+      groups = []
+      ids.each { |user_id| groups += get_groups_for_user_id(user_id) }
+      resp = groups.uniq { |group| group['name'] }
+      reformat_search_results(resp)
+    end
+
+    # TODO: this will need to change as part of MMT-2732
+    def get_groups_for_provider(provider_id)
+      response = get("/api/user_groups/search?name=#{provider_id}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
+      return [] if response.error?
+
+      response.body
+    end
+
+    def get_groups_for_user_id(user_id)
+      response = get("/api/user_groups/search?user_id=#{user_id}&shared_user_group=true", nil, 'Authorization' => "Bearer #{get_client_token}")
+      return [] if response.error?
+
+      response.body
+    end
+
+    # TODO: Might need to change the select line as part of MMT-2732
+    def get_edl_groups(options)
+      providers = options['provider'] || []
+      if options['member'].blank?
+        provider_groups = get_groups_for_provider_list(providers)
+        status = provider_groups.empty? ? 400 : 200
+        return Cmr::Response.new(Faraday::Response.new(status: status, body: reformat_search_results(provider_groups)))
+      end
+
+      users = options['member'] || []
+      user_groups = get_groups_for_user_list(users)
+      user_groups['items'].select! { |x| providers.include?(x['provider_id']) } if providers && providers.length > 0
+
+      Cmr::Response.new(Faraday::Response.new(status: 200, body: user_groups))
+    end
+
+    # TODO: This entire method should be transactional with rollback.s
     def update_edl_group(concept_id, group)
       existing_group = get_edl_group(concept_id).body
 
@@ -179,20 +221,28 @@ module Cmr
 
     # make the search results match the structure of the cmr results
     def reformat_search_results(results)
-      items = results.map { |item|
+      items = results.map do |item|
         { 'name' => concept_id_to_name(item['name']),
           'description' => item['description'],
           'concept_id' => item['name'],
+          'member_count' => get_edl_group_member_count(item['name']),
           'provider_id' => concept_id_to_provider(item['name']) }
-      }
+      end
+
       { 'hits' => items.length, 'items' => items }
+    end
+
+    def get_edl_group_member_count(concept_id)
+      response = get_edl_group_members(concept_id)
+      return response.body.length if response.success?
+
+      0
     end
 
     # At this point, the EDL groups api does not support a unique group_identifier
     # such as a concept_id.  We construct one here and store it in the name field of the
     # group. This is a temporary fix until the api is enhanced.
     def create_concept_id_from_group(group)
-      # TBD "EDL__#{group['name']}__#{group['provider_id']}".gsub(/\s+/, '')
       "#{group['name']}__#{group['provider_id']}"
     end
 
