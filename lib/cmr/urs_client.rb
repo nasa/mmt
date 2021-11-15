@@ -88,19 +88,19 @@ module Cmr
       response
     end
 
-    def add_user_to_edl_group(user_id, group_name, provider_id)
+    def add_user_to_edl_group(user_id, concept_id, provider_id)
       proposal_mode_safe_post(
-        "/api/user_groups/#{group_name}/user",
-        "user_id=#{user_id}&tag=#{group['provider_id']}&shared_user_group=true",
+        "/api/user_groups/#{concept_id_to_name(concept_id)}/user",
+        "user_id=#{user_id}&tag=#{provider_id}&shared_user_group=true",
         'Authorization' => "Bearer #{get_client_token}"
       )
     end
 
-    def remove_user_from_edl_group(user_id, group_name)
+    def remove_user_from_edl_group(user_id, concept_id)
       delete(
-        "/api/user_groups/#{group_name}/user",
+        "/api/user_groups/#{concept_id_to_name(group_name)}/user",
         { 'user_id' => user_id,
-          'tag' => "#{group['provider_id']}",
+          'tag' => "#{concept_id_to_provider(concept_id)}",
           'shared_user_group' => true },
         nil,
         'Authorization' => "Bearer #{get_client_token}"
@@ -124,7 +124,7 @@ module Cmr
                      'Authorization' => "Bearer #{get_client_token}")
       if response.success?
         response.body['concept_id'] = concept_id
-        response.body['provider_id'] = concept_id_to_provider(concept_id)
+        response.body['provider_id'] = provider_id
       end
       response
     end
@@ -195,7 +195,7 @@ module Cmr
     end
 
     # TODO: This entire method should be transactional with rollback.s
-    def update_edl_group(name, group)
+    def update_edl_group(concept_id, group)
       new_description = group['description']
 
       group_members_response = get_edl_group_members(concept_id, group['provider_id'])
@@ -254,11 +254,11 @@ module Cmr
     # make the search results match the structure of the cmr results
     def reformat_search_results(results)
       items = results.map do |item|
-        { 'name' => concept_id_to_name(item['name']),
+        { 'name' => item['name'],
           'description' => item['description'],
-          'concept_id' => item['name'],
-          'member_count' => get_edl_group_member_count(item['name'], item['tag']),
-          'provider_id' => item['tag'] }
+          'provider_id' => item['tag'],
+          'concept_id' => create_concept_id_from_group(item),
+          'member_count' => get_edl_group_member_count(create_concept_id_from_group(item), item['tag']) }
       end
 
       { 'hits' => items.length, 'items' => items }
