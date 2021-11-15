@@ -64,7 +64,7 @@ class GroupsController < ManageCmrController
   def show
     @concept_id = params[:id]
     group_response = edl_groups_enabled? ? 
-      urs_client.get_edl_group(@concept_id) :
+      urs_client.get_edl_group(@concept_id, current_user.provider_id) :
       cmr_client.get_group(@concept_id, token)
 
     if group_response.success?
@@ -120,7 +120,7 @@ class GroupsController < ManageCmrController
     @non_authorized_members = []
 
     group_response = edl_groups_enabled? ?
-      urs_client.get_edl_group(@concept_id) :
+      urs_client.get_edl_group(@concept_id, current_user.provider_id) :
       cmr_client.get_group(@concept_id, token)
 
     if group_response.success?
@@ -132,7 +132,7 @@ class GroupsController < ManageCmrController
       @is_system_group = check_if_system_group?(@group, @concept_id)
 
       group_members_response = edl_groups_enabled? ?
-        urs_client.get_edl_group_members(@concept_id) :
+        urs_client.get_edl_group_members(@concept_id, current_user.provider_id) :
         cmr_client.get_group_members(@concept_id, token)
 
       if group_members_response.success?
@@ -179,7 +179,7 @@ class GroupsController < ManageCmrController
   def destroy
     concept_id = params[:id]
     delete_group_response =  edl_groups_enabled? ?
-      urs_client.delete_edl_group(concept_id) :
+      urs_client.delete_edl_group(concept_id, current_user.provider_id) :
       cmr_client.delete_group(concept_id, token)
 
     if delete_group_response.success?
@@ -247,7 +247,7 @@ class GroupsController < ManageCmrController
     @members = []
 
     group_members_response = edl_groups_enabled? ?
-      urs_client.get_edl_group_members(concept_id) :
+      urs_client.get_edl_group_members(concept_id, current_user.provider_id) :
       cmr_client.get_group_members(concept_id, token)
 
     if group_members_response.success?
