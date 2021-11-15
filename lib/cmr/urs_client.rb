@@ -270,5 +270,20 @@ module Cmr
 
       0
     end
+
+    # At this point, the EDL groups api does not support a unique group_identifier
+    # such as a concept_id.  We construct one here and store it in the name field of the
+    # group. This is a temporary fix until the api is enhanced.
+    def create_concept_id_from_group(group)
+      "#{group['name']}__#{group['provider_id']}"
+    end
+
+    def concept_id_to_name(concept_id)
+      concept_id.split('__')[0]
+    end
+
+    def concept_id_to_provider(concept_id)
+      concept_id.split('__')[1]
+    end
   end
 end
