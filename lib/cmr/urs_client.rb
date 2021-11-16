@@ -162,7 +162,7 @@ module Cmr
       response = get('/api/user_groups/search',
                      {
                        'name' => '',
-                       # TODO When EDL search handles tags   'tag' => provider_id,
+                       # TODO When EDL search handles tags in URSFOUR-1685:  add provider ids via tags
                        'shared_user_group' => true
                      },
                      'Authorization' => "Bearer #{get_client_token}")
@@ -183,7 +183,6 @@ module Cmr
       response.body
     end
 
-    # TODO: Might need to change the select line as part of MMT-2732
     def get_edl_groups(options)
       if options['member'].blank?
         providers = options['provider'] || []
