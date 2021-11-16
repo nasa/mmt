@@ -80,7 +80,7 @@ module Cmr
       concept_id = create_concept_id_from_group(group)
       response = proposal_mode_safe_post(
         '/api/user_groups',
-        "name=#{group['name']}&description=#{group['description']}&tag=#{group['provider_id']}&shared_user_group=true",
+        "name=#{group['name']}&description=#{URI.encode(group['description'])}&tag=#{group['provider_id']}&shared_user_group=true",
         'Authorization' => "Bearer #{get_client_token}"
       )
       response.body['concept_id'] = concept_id if response.success?
@@ -215,7 +215,7 @@ module Cmr
 
       response = proposal_mode_safe_post(
         "/api/user_groups/#{group['name']}/update",
-        "tag=#{group['provider_id']}&description=#{new_description}&shared_user_group=true",
+        "tag=#{group['provider_id']}&description=#{URI.encode(new_description)}&shared_user_group=true",
         'Authorization' => "Bearer #{get_client_token}"
       )
       response.body['concept_id'] = concept_id
