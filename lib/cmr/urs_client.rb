@@ -84,23 +84,23 @@ module Cmr
         'Authorization' => "Bearer #{get_client_token}"
       )
       response.body['concept_id'] = concept_id if response.success?
-      add_new_members(concept_id, group['members'], group['provider_id']) if group['members']
+      add_new_members(group['name'], group['members'], group['provider_id']) if group['members']
       response
     end
 
-    def add_user_to_edl_group(user_id, concept_id, provider_id)
+    def add_user_to_edl_group(user_id, group_name, provider_id)
       proposal_mode_safe_post(
-        "/api/user_groups/#{concept_id_to_name(concept_id)}/user",
+        "/api/user_groups/#{group_name}/user",
         "user_id=#{user_id}&tag=#{provider_id}&shared_user_group=true",
         'Authorization' => "Bearer #{get_client_token}"
       )
     end
 
-    def remove_user_from_edl_group(user_id, concept_id)
+    def remove_user_from_edl_group(user_id, group_name, provider_id)
       delete(
-        "/api/user_groups/#{concept_id_to_name(group_name)}/user",
+        "/api/user_groups/#{group_name}/user",
         { 'user_id' => user_id,
-          'tag' => "#{concept_id_to_provider(concept_id)}",
+          'tag' => provider_id,
           'shared_user_group' => true },
         nil,
         'Authorization' => "Bearer #{get_client_token}"
@@ -160,11 +160,16 @@ module Cmr
 
     def get_groups_for_provider(provider_id)
       response = get('/api/user_groups/search',
-                     { 'tag' => provider_id,
-                       'shared_user_group' => true },
+                     {
+                       'name' => '',
+                       # TODO When EDL search handles tags   'tag' => provider_id,
+                       'shared_user_group' => true
+                     },
                      'Authorization' => "Bearer #{get_client_token}")
       return [] if response.error?
 
+      # filter out groups without tags
+      response.body.select! { |x| x['tag'] }
       response.body
     end
 
@@ -203,27 +208,26 @@ module Cmr
       new_members = group['members']
 
       members_to_add = new_members.reject { |x| existing_members.include? x }
-      add_new_members(name, members_to_add, group['provider_id'])
+      add_new_members(concept_id_to_name(concept_id), members_to_add, group['provider_id'])
 
       members_to_remove = existing_members.reject { |x| new_members.include? x }
-      remove_old_members(name, members_to_remove, group['provider_id'])
+      remove_old_members(concept_id_to_name(concept_id), members_to_remove, group['provider_id'])
 
-      resp = proposal_mode_safe_post(
-        "/api/user_groups/#{name}/update",
-        "tag=#{group['provider_id']}",
-        "description=#{new_description}&shared_user_group=true",
+      response = proposal_mode_safe_post(
+        "/api/user_groups/#{group['name']}/update",
+        "tag=#{group['provider_id']}&description=#{new_description}&shared_user_group=true",
         'Authorization' => "Bearer #{get_client_token}"
       )
-      resp.body['concept_id'] = concept_id
-      resp
+      response.body['concept_id'] = concept_id
+      response
     end
 
-    def add_new_members(concept_id, new_members, provider_id)
-      new_members.each { |user_id| add_user_to_edl_group(user_id, concept_id, provider_id) }
+    def add_new_members(group_name, new_members, provider_id)
+      new_members.each { |user_id| add_user_to_edl_group(user_id, group_name, provider_id) }
     end
 
-    def remove_old_members(concept_id, old_members, provider_id)
-      old_members.each { |user_id| remove_user_from_edl_group(user_id, concept_id, provider_id) }
+    def remove_old_members(group_name, old_members, provider_id)
+      old_members.each { |user_id| remove_user_from_edl_group(user_id, group_name, provider_id) }
     end
 
     protected
