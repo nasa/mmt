@@ -53,13 +53,16 @@ module Cmr
         token.present? ? { 'Echo-Token' => mock_token } : {}
       else
         return {} unless token.present?
-
-        if is_urs_token?(token)
-          # passing the URS token to CMR requires the client id
-          { 'Echo-Token' => "#{token}:#{@client_id}" }
-        else
-          { 'Echo-Token' => token }
-        end
+        # Aimee: `is_urs_token?` returns truthy for the MAAP CMR URS Echo-Token. It returns truthy for anything <100 characters
+        # But the MAAP instance of CMR does not require a client as indicated in line 60. Perhaps we are behind in MAAP.
+        # Opened an issue: https://github.com/nasa/mmt/issues/770
+        # if is_urs_token?(token)
+        #   # passing the URS token to CMR requires the client id
+        #   { 'Echo-Token' => "#{token}:#{@client_id}" }
+        # else
+        #   { 'Echo-Token' => token }
+        # end
+        { 'Echo-Token' => token }
       end
     end
 

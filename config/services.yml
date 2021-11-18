@@ -30,6 +30,16 @@ earthdata:
     uvg_root: "https://uvg.sit.earthdata.nasa.gov"
     dmmt_root: "https://draftmmt.sit.earthdata.nasa.gov"
     gkr_root: "https://gkr.sit.earthdatacloud.nasa.gov"
+  dit:
+    urs_root: "https://uat.urs.earthdata.nasa.gov"
+    echo_root: "https://cmr.maap-project.org/legacy-services"
+    cmr_root: "https://cmr.maap-project.org"
+    edsc_root: "https://search.uat.earthdata.nasa.gov"
+    launchpad_root: "https://apps.launchpad.nasa.gov"
+    launchpad_sbx_root: "https://apps.launchpad-sbx.nasa.gov"
+    # uvg_root: "https://uvg.sit.earthdata.nasa.gov"
+    dmmt_root: "https://draftmmt.uat.earthdata.nasa.gov"
+    gkr_root: "https://gcmd.nasa-impact.net"
 
 # Every (MMT, URS) environment pair has a different client id.
 urs:
@@ -44,6 +54,8 @@ urs:
       "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
     test:
       "https://sit.urs.earthdata.nasa.gov": "81FEem91NlTQreWv2UgtXQ"
+    dit:
+      "https://uat.urs.earthdata.nasa.gov": "Gbw3ItT1gJ8LQ8SCLV527w"
   mmt_proposal_mode:
     # TODO: Draft MMT production and uat have not yet been registered with URS
     # when they have, we will need to update these client ids
@@ -57,6 +69,8 @@ urs:
       "https://sit.urs.earthdata.nasa.gov": "K1EF5n6rbUzoEi_1SFOLQg"
     test:
       "https://sit.urs.earthdata.nasa.gov": "K1EF5n6rbUzoEi_1SFOLQg"
+    dit:
+      "https://uat.urs.earthdata.nasa.gov": "Gbw3ItT1gJ8LQ8SCLV527w"
 
 echo_soap:
   services:
