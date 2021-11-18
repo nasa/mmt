@@ -46,6 +46,9 @@ class CollectionTemplatesController < CollectionDraftsController
     set_instrument_short_names
     set_temporal_keywords
     set_granule_data_formats
+    set_umm_c_related_urls
+    set_data_center_related_url
+    set_data_contact_related_url
 
     @errors = validate_metadata
 

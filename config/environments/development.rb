@@ -67,6 +67,10 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
+  # Use the lowest log level to ensure availability of diagnostic information
+  # when problems arise.
+  config.log_level = :debug
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
@@ -111,6 +115,9 @@ Rails.application.configure do
 
   # Feature toggle for GKR (GCMD Keyword Recommender) recommendations
   config.gkr_enabled = true
+
+  # Feature toggle for EDL groupdl
+  config.edl_groups_enabled = false
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'

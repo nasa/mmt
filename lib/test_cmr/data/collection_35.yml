@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000423-LARC/5.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>SAMMIB2E</ShortName><VersionId>3</VersionId><InsertTime>2015-07-23T09:28:10.556Z</InsertTime><LastUpdate>2015-07-23T11:49:46.604Z</LastUpdate><LongName>MISR
   L1B2 Ellipsoid Product subset for the SAMUM region</LongName><DataSetId>MISR L1B2
   Ellipsoid Product subset for the SAMUM region V003</DataSetId><Description>This

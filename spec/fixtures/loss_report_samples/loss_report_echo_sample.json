@@ -1,123 +1,261 @@
 {
   "format": "application/echo10+xml",
-  "1. +: /Collection/DOI/MissingReason": "Unknown",
-  "2. +: /Collection/DOI/Explanation": "It is unknown if this record has a DOI.",
-  "3. -: /Collection/Orderable": "true",
+  "1. -: /Collection/Orderable": "false",
+  "2. +: /Collection/DOI/MissingReason": "Unknown",
+  "3. +: /Collection/DOI/Explanation": "It is unknown if this record has a DOI.",
   "4. -: /Collection/Visible": "true",
-  "5. -: /Collection/MaintenanceAndUpdateFrequency": "As needed",
-  "6. +: /Collection/Temporal/EndsAtPresentFlag": "false",
-  "7. +: /Collection/Temporal/RangeDateTime/BeginningDateTime": "1970-01-01T00:00:00.000Z",
-  "8. +: /Collection/Platforms/Platform/ShortName": "Not provided",
-  "9. +: /Collection/Platforms/Platform/LongName": "Not provided",
-  "10. +: /Collection/Platforms/Platform/Type": "Not provided",
-  "11. -: /Collection/AssociatedDIFs/DIF/EntryId": "CIESIN_SEDAC_ANTHROMES_v2_1700",
-  "12. -: /Collection/InsertTime": "2014-05-13T00:00:00Z",
-  "13. +: /Collection/InsertTime": "2014-05-13T00:00:00.000Z",
-  "14. -: /Collection/LastUpdate": "2015-08-04T00:00:00Z",
-  "15. +: /Collection/LastUpdate": "2015-08-04T00:00:00.000Z",
-  "16. -: /Collection/LongName": "Anthropogenic Biomes of the World, Version 2: 1700",
-  "17. +: /Collection/LongName": "Not provided",
-  "18. -: /Collection/CollectionState": "Final",
-  "19. +: /Collection/CollectionState": "NOT PROVIDED",
-  "20. -: /Collection/Price": "0",
-  "21. +: /Collection/Price": "     0.00",
-  "22. -: /Collection/SpatialKeywords/Keyword[0]": "Africa",
-  "23. -: /Collection/SpatialKeywords/Keyword[1]": "Asia",
-  "24. +: /Collection/SpatialKeywords/Keyword[0]": "AFRICA",
-  "25. +: /Collection/SpatialKeywords/Keyword[1]": "GAZA STRIP",
-  "26. -: /Collection/Contacts/Contact[0]": {
+  "5. -: /Collection/MaintenanceAndUpdateFrequency": "Continually",
+  "6. +: /Collection/ScienceKeywords/ScienceKeyword/CategoryKeyword": "EARTH SCIENCE",
+  "7. +: /Collection/ScienceKeywords/ScienceKeyword/TopicKeyword": "Not provided",
+  "8. +: /Collection/ScienceKeywords/ScienceKeyword/TermKeyword": "Not provided",
+  "9. -: /Collection/CSDTDescriptions/CSDTDescription/PrimaryCSDT": "Complex Swath",
+  "10. -: /Collection/CSDTDescriptions/CSDTDescription/Implementation": "HDF-EOS",
+  "11. -: /Collection/CSDTDescriptions/CSDTDescription/CSDTComments": "HDF-EOS-Swath",
+  "12. -: /Collection/CSDTDescriptions/CSDTDescription/IndirectReference": "none",
+  "13. -: /Collection/AssociatedDIFs/DIF/EntryId": "MI1ANAV2",
+  "14. -: /Collection/LongName": "MISR Level 1A Navigation Data",
+  "15. +: /Collection/LongName": "Not provided",
+  "16. -: /Collection/RevisionDate": "2013-08-22T00:00:00Z",
+  "17. +: /Collection/RevisionDate": "2013-08-22T00:00:00.000Z",
+  "18. -: /Collection/CollectionState": "In Work",
+  "19. +: /Collection/CollectionState": "ACTIVE",
+  "20. -: /Collection/Temporal/TimeType": "UTC",
+  "21. -: /Collection/Temporal/DateType": "Gregorian",
+  "22. -: /Collection/Temporal/TemporalRangeType": "Continuous Range",
+  "23. -: /Collection/Temporal/RangeDateTime/BeginningDateTime": "1999-12-18T00:00:00Z",
+  "24. +: /Collection/Temporal/RangeDateTime/BeginningDateTime": "1999-12-18T00:00:00.000Z",
+  "25. -: /Collection/Temporal/RangeDateTime/EndingDateTime": "2014-12-18T00:00:00Z",
+  "26. +: /Collection/Temporal/RangeDateTime/EndingDateTime": "2014-12-18T00:00:00.000Z",
+  "27. -: /Collection/Contacts/Contact[0]": {
+    "Role": "User Services",
+    "HoursOfService": "9 AM to 5 PM ET",
+    "Instructions": "None",
+    "OrganizationAddresses": {
+      "Address": {
+        "StreetAddress": "NASA Langley Research Center, Mail Stop 157D",
+        "City": "Hampton",
+        "StateProvince": "Virginia",
+        "PostalCode": "23681-2199",
+        "Country": "USA"
+      }
+    },
+    "OrganizationPhones": {
+      "Phone": [
+        {
+          "Number": "757-864-8656",
+          "Type": "phone"
+        },
+        {
+          "Number": "757-864-8807",
+          "Type": "fax"
+        }
+      ]
+    },
+    "OrganizationEmails": {
+      "Email": "support-asdc@earthdata.nasa.gov"
+    },
+    "ContactPersons": {
+      "ContactPerson": {
+        "FirstName": "User",
+        "MiddleName": "Services",
+        "LastName": "Representative",
+        "JobPosition": "User Services"
+      }
+    }
+  },
+  "28. -: /Collection/Contacts/Contact[1]": {
+    "Role": "Investigator",
+    "HoursOfService": "9-5 Pacific, weekdays",
+    "Instructions": "Contact by email first",
+    "OrganizationAddresses": {
+      "Address": {
+        "StreetAddress": "4800 Oak Grove Drive",
+        "City": "Pasadena",
+        "StateProvince": "CA",
+        "PostalCode": "91109",
+        "Country": "USA"
+      }
+    },
+    "OrganizationPhones": {
+      "Phone": {
+        "Number": "818-354-6319",
+        "Type": "phone"
+      }
+    },
+    "OrganizationEmails": {
+      "Email": "Dave.Diner@jpl.nasa.gov"
+    },
+    "ContactPersons": {
+      "ContactPerson": {
+        "FirstName": "Dave",
+        "MiddleName": "J.",
+        "LastName": "Diner",
+        "JobPosition": "Technical Contact for Science"
+      }
+    }
+  },
+  "29. -: /Collection/Contacts/Contact[2]": {
     "Role": "Archive",
-    "HoursOfService": "9:00 A.M. to 5:00 P.M., Monday to Friday",
-    "OrganizationName": "Socioeconomic Data and Applications Center (SEDAC)",
+    "HoursOfService": "9 AM to 5 PM ET",
+    "Instructions": "None",
+    "OrganizationName": "Langley DAAC User Services",
     "OrganizationAddresses": {
       "Address": {
-        "StreetAddress": "CIESIN, Columbia University, 61 Route 9W, P.O. Box 1000",
-        "City": "Palisades",
-        "StateProvince": "NY",
-        "PostalCode": "10964",
+        "StreetAddress": "NASA Langley Research Center, Mail Stop 157D",
+        "City": "Hampton",
+        "StateProvince": "Virginia",
+        "PostalCode": "23681-2199",
         "Country": "USA"
       }
     },
     "OrganizationPhones": {
       "Phone": [
         {
-          "Number": "+1 845-365-8920",
-          "Type": "Telephone"
+          "Number": "757-864-8656",
+          "Type": "phone"
         },
         {
-          "Number": "+1 845-365-8922",
-          "Type": "Fax"
+          "Number": "757-864-8807",
+          "Type": "fax"
         }
       ]
     },
     "OrganizationEmails": {
-      "Email": "ciesin.info@ciesin.columbia.edu"
-    },
-    "ContactPersons": {
-      "ContactPerson": {
-        "FirstName": "SEDAC",
-        "MiddleName": "User",
-        "LastName": "Services"
-      }
+      "Email": "support-asdc@earthdata.nasa.gov"
     }
   },
-  "27. +: /Collection/Contacts/Contact[0]": {
+  "30. +: /Collection/Contacts/Contact[0]": {
     "Role": "PROCESSOR",
-    "OrganizationName": "SEDAC"
+    "OrganizationName": "LaRC"
   },
-  "28. +: /Collection/Contacts/Contact[1]": {
+  "31. +: /Collection/Contacts/Contact[1]": {
     "Role": "ARCHIVER",
-    "OrganizationName": "SEDAC"
+    "OrganizationName": "LaRC"
   },
-  "29. +: /Collection/Contacts/Contact[2]": {
+  "32. +: /Collection/Contacts/Contact[2]": {
     "Role": "ARCHIVER",
-    "HoursOfService": "9:00 A.M. to 5:00 P.M., Monday to Friday",
-    "OrganizationName": "Socioeconomic Data and Applications Center (SEDAC)",
+    "HoursOfService": "9 AM to 5 PM ET",
+    "Instructions": "None",
+    "OrganizationName": "Not provided",
     "OrganizationAddresses": {
       "Address": {
-        "StreetAddress": "CIESIN, Columbia University, 61 Route 9W, P.O. Box 1000",
-        "City": "Palisades",
-        "StateProvince": "NY",
-        "PostalCode": "10964",
+        "StreetAddress": "NASA Langley Research Center, Mail Stop 157D",
+        "City": "Hampton",
+        "StateProvince": "Virginia",
+        "PostalCode": "23681-2199",
         "Country": "USA"
       }
     },
     "OrganizationPhones": {
       "Phone": [
         {
-          "Number": "+1 845-365-8920",
+          "Number": "757-864-8656",
           "Type": "Telephone"
         },
         {
-          "Number": "+1 845-365-8922",
+          "Number": "757-864-8807",
           "Type": "Fax"
         }
       ]
     },
     "OrganizationEmails": {
-      "Email": "ciesin.info@ciesin.columbia.edu"
+      "Email": "support-asdc@earthdata.nasa.gov"
     },
     "ContactPersons": {
       "ContactPerson": {
-        "FirstName": "SEDAC",
-        "MiddleName": "User",
-        "LastName": "Services",
-        "JobPosition": "TECHNICAL CONTACT"
+        "FirstName": "User",
+        "MiddleName": "Services",
+        "LastName": "Representative",
+        "JobPosition": "User Services"
       }
     }
   },
-  "30. -: /Collection/SpatialInfo/SpatialCoverageType": "Horizontal",
-  "31. +: /Collection/SpatialInfo/SpatialCoverageType": "HORIZONTAL",
-  "32. -: /Collection/OnlineResources/OnlineResource/Type": "DOI URL",
-  "33. +: /Collection/OnlineResources/OnlineResource/Type": "CollectionURL : DATA SET LANDING PAGE",
-  "34. -: /Collection/Spatial/SpatialCoverageType": "Horizontal",
-  "35. +: /Collection/Spatial/SpatialCoverageType": "HORIZONTAL",
-  "36. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/WestBoundingCoordinate": "-180.000000",
-  "37. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/WestBoundingCoordinate": "-180.0",
-  "38. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/NorthBoundingCoordinate": "90.000000",
-  "39. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/NorthBoundingCoordinate": "90.0",
-  "40. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/EastBoundingCoordinate": "180.000000",
-  "41. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/EastBoundingCoordinate": "180.0",
-  "42. -: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/SouthBoundingCoordinate": "-90.000000",
-  "43. +: /Collection/Spatial/HorizontalSpatialDomain/Geometry/BoundingRectangle/SouthBoundingCoordinate": "-90.0"
+  "33. +: /Collection/Contacts/Contact[3]": {
+    "Role": "ARCHIVER",
+    "HoursOfService": "9-5 Pacific, weekdays",
+    "Instructions": "Contact by email first",
+    "OrganizationName": "Not provided",
+    "OrganizationAddresses": {
+      "Address": {
+        "StreetAddress": "4800 Oak Grove Drive",
+        "City": "Pasadena",
+        "StateProvince": "CA",
+        "PostalCode": "91109",
+        "Country": "USA"
+      }
+    },
+    "OrganizationPhones": {
+      "Phone": {
+        "Number": "818-354-6319",
+        "Type": "Telephone"
+      }
+    },
+    "OrganizationEmails": {
+      "Email": "Dave.Diner@jpl.nasa.gov"
+    },
+    "ContactPersons": {
+      "ContactPerson": {
+        "FirstName": "Dave",
+        "MiddleName": "J.",
+        "LastName": "Diner",
+        "JobPosition": "Science Contact"
+      }
+    }
+  },
+  "34. +: /Collection/Contacts/Contact[4]": {
+    "Role": "ARCHIVER",
+    "HoursOfService": "9 AM to 5 PM ET",
+    "Instructions": "None",
+    "OrganizationName": "Langley DAAC User Services",
+    "OrganizationAddresses": {
+      "Address": {
+        "StreetAddress": "NASA Langley Research Center, Mail Stop 157D",
+        "City": "Hampton",
+        "StateProvince": "Virginia",
+        "PostalCode": "23681-2199",
+        "Country": "USA"
+      }
+    },
+    "OrganizationPhones": {
+      "Phone": [
+        {
+          "Number": "757-864-8656",
+          "Type": "Telephone"
+        },
+        {
+          "Number": "757-864-8807",
+          "Type": "Fax"
+        }
+      ]
+    },
+    "OrganizationEmails": {
+      "Email": "support-asdc@earthdata.nasa.gov"
+    }
+  },
+  "35. -: /Collection/Platforms/Platform/Characteristics/Characteristic/DataType": "varchar",
+  "36. +: /Collection/Platforms/Platform/Characteristics/Characteristic/DataType": "STRING",
+  "37. -: /Collection/CollectionAssociations/CollectionAssociation[0]": {
+    "ShortName": "MISL0ENG",
+    "VersionId": "1",
+    "CollectionType": "Input",
+    "CollectionUse": "Level 0 Engineering Data"
+  },
+  "38. -: /Collection/CollectionAssociations/CollectionAssociation[1]": {
+    "ShortName": "MICNFG",
+    "VersionId": "2",
+    "CollectionType": "Input",
+    "CollectionUse": "Configuration Constants for PGE"
+  },
+  "39. +: /Collection/CollectionAssociations/CollectionAssociation[0]": {
+    "ShortName": "MISL0ENG",
+    "VersionId": "1",
+    "CollectionType": "INPUT",
+    "CollectionUse": "Level 0 Engineering Data"
+  },
+  "40. +: /Collection/CollectionAssociations/CollectionAssociation[1]": {
+    "ShortName": "MICNFG",
+    "VersionId": "2",
+    "CollectionType": "INPUT",
+    "CollectionUse": "Configuration Constants for PGE"
+  }
 }

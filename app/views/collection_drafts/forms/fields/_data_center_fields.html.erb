@@ -54,7 +54,9 @@
     multiple: false,
     options: {
       related_url_title: 'Data Center Related URLs',
-      url_content_type_options: RelatedUrlsHelper::URLContentTypeDataCenterOptions
+      url_content_type_options: @data_center_related_url_content_type_options,
+      url_type_options: @data_center_related_url_type_options,
+      url_subtype_options: @data_center_related_url_subtype_options
     }
   } %>
 </div>

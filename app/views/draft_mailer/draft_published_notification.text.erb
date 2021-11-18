@@ -1,3 +1,11 @@
 <%= @user[:name] %>,
+
 <%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated in' : 'published to'} the CMR#{@email_env_note}. Your collection's concept ID is #{@concept_id}." %>
+
+<% if @existing_errors || @warnings %>
+<%= 'Your collection was published with the following issues:' %>
+<%= "- Existing Errors: #{@existing_errors}" if @existing_errors %>
+<%= "- Warnings: #{@warnings}" if @warnings %>
+<% end %>
+
 View Collection: <%= collection_url(@concept_id, revision_id: @revision_id) %>

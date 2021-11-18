@@ -301,7 +301,9 @@ class UmmJsonForm < JsonFile
       end
     end
 
-    required_fields.reject(&:blank?).uniq
+    invalid_keys_list = required_fields.reject(&:blank?).uniq
+    validate_potential_action_url_template(invalid_keys_list)
+    invalid_keys_list
   end
 
   # Determine whether or not a provided key is invalid
@@ -343,5 +345,21 @@ class UmmJsonForm < JsonFile
       end
     end
     draft
+  end
+
+  # This method is added as part of ticket https://bugs.earthdata.nasa.gov/browse/MMT-2714
+  # This method should be removed after the umm-t schema is changed to add the regex to validate
+  # field PotentialAction/Target/UrlTemplate
+  # Source of the regex is https://regex101.com/r/DstcXC/1/
+  # Ticket to add to umm-t schema is https://bugs.earthdata.nasa.gov/browse/ECSE-1117
+  def validate_potential_action_url_template(invalid_keys_list)
+    url_template_regex = /^([^\x00-\x20\x7f"'%<>\\^`{|}]|%[0-9A-Fa-f]{2}|{[+#.\/;?&=,!@|]?((\w|%[0-9A-Fa-f]{2})(\.?(\w|%[0-9A-Fa-f]{2}))*(:[1-9]\d{0,3}|\*)?)(,((\w|%[0-9A-Fa-f]{2})(\.?(\w|%[0-9A-Fa-f]{2}))*(:[1-9]\d{0,3}|\*)?))*})*$/m
+    url_template = nil
+    if object.key?('PotentialAction') && object['PotentialAction'].key?('Target')
+      url_template = object['PotentialAction']['Target']['UrlTemplate']
+    end
+    if url_template && ! url_template.match(Regexp.new(url_template_regex))
+      invalid_keys_list << 'PotentialAction/Target/UrlTemplate'
+    end
   end
 end

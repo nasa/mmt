@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C1000000443-LARC/6.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>SAMMI2ST</ShortName><VersionId>2</VersionId><InsertTime>2015-07-23T09:28:10.076Z</InsertTime><LastUpdate>2015-07-23T11:49:33.725Z</LastUpdate><LongName>MISR
   L2 TOA/Cloud Stereo Product subset for the SAMUM region</LongName><DataSetId>MISR
   L2 TOA/Cloud Stereo Product subset for the SAMUM region V002</DataSetId><Description>This

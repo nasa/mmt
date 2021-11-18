@@ -4,11 +4,14 @@ class CollectionDraftsController < BaseDraftsController
   include ControlledKeywords
   include CMRCollectionsHelper
   include GKRKeywordRecommendations
-  before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish]
+
+  before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish, :download_json, :check_cmr_validation]
   before_action :load_umm_c_schema, only: [:new, :edit, :show, :publish]
   before_action :collection_validation_setup, only: [:show, :publish]
   before_action :verify_valid_metadata, only: [:publish]
   before_action :set_associated_concepts, only: [:show]
+  before_action :proposal_approver_permissions, except: [:download_json]
+  skip_before_action :ensure_user_is_logged_in, only: [:download_json]
 
   layout 'collection_preview', only: [:show]
 
@@ -26,6 +29,9 @@ class CollectionDraftsController < BaseDraftsController
     super
 
     @errors = validate_metadata
+    flash.now[:alert] = 'Warning: Your Collection Draft has missing or invalid fields.' unless @errors.blank?
+
+    @is_revision = is_revision_update?
   end
 
   def edit
@@ -120,14 +126,41 @@ class CollectionDraftsController < BaseDraftsController
     ingested_response = cmr_client.ingest_collection(draft.to_json, get_resource.provider_id, get_resource.native_id, token)
 
     if ingested_response.success?
+      # set flash success, so it will appear before a warning message if there is one
+      flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success")
+
+      log_message = "Audit Log: Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}"
+
+      # set the appropriate warning messages
+      warnings = ingested_response.body['warnings']&.first
+      existing_errors = ingested_response.body['existing-errors']&.first
+      if warnings || existing_errors
+        published_with_errors_message = 'Collection was published with the following issues:'
+        published_with_errors_message << '<ul>'
+        published_with_errors_message << "<li>Existing Errors: #{existing_errors}</li>" if existing_errors
+        published_with_errors_message << "<li>Warnings: #{warnings}</li>" if warnings
+        published_with_errors_message << '</ul>'
+        flash[:alert] = published_with_errors_message
+
+        log_message << "\nThe collection was published with the following issues:"
+        log_message << "\nExisting Errors: #{existing_errors}." if existing_errors
+        log_message << "\nWarnings: #{warnings}." if warnings
+      end
+
+      Rails.logger.info(log_message)
+
+      if get_resource.gkr_logging_active?
+        log_gkr_on_publish(current_user.urs_uid,
+                           current_user.provider_id,
+                           get_resource.draft['Abstract'],
+                           get_resource.gkr_keyword_recommendation_id,
+                           get_resource.gkr_keyword_recommendation_list,
+                           get_resource.draft.fetch('ScienceKeywords', []))
+      end
+
       # get information for publication email notification before draft is deleted
-      Rails.logger.info("Audit Log: Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
       short_name = get_resource.draft['ShortName']
       version = get_resource.draft['Version']
-      log_gkr_on_publish(current_user.urs_uid, current_user.provider_id, get_resource.draft[:abstract],
-        get_resource.gkr_keyword_recommendation_id, get_resource.gkr_keyword_recommendation_list,
-        get_resource.draft.fetch("ScienceKeywords",[])) if get_resource.gkr_logging_active?
-
 
       # Delete draft
       get_resource.destroy
@@ -136,9 +169,9 @@ class CollectionDraftsController < BaseDraftsController
       revision_id = ingested_response.body['revision-id']
 
       # instantiate and deliver notification email
-      DraftMailer.draft_published_notification(get_user_info, concept_id, revision_id, short_name, version).deliver_now
+      DraftMailer.draft_published_notification(get_user_info, concept_id, revision_id, short_name, version, existing_errors, warnings).deliver_now
 
-      redirect_to collection_path(concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.success") }
+      redirect_to collection_path(concept_id, revision_id: revision_id)
     else
       # Log error message
       Rails.logger.error("Ingest Collection Metadata Error: #{ingested_response.clean_inspect}")
@@ -147,6 +180,79 @@ class CollectionDraftsController < BaseDraftsController
       @ingest_errors = generate_ingest_errors(ingested_response)
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error")
       render :show
+    end
+  end
+
+  def download_json
+    authorization_header = request.headers['Authorization']
+
+    if authorization_header.nil? || !authorization_header.start_with?('Bearer')
+      render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
+      return
+    end
+    token = authorization_header.split(' ', 2)[1] || ''
+
+    if Rails.configuration.proposal_mode
+      token_response = cmr_client.validate_dmmt_token(token)
+    else
+      token_response = cmr_client.validate_mmt_token(token)
+    end
+
+    authorized = false
+
+    if token_response.success?
+      token_info = token_response.body
+      token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
+      token_user = User.find_by(urs_uid: token_info['uid']) # the user assoc with the token
+      draft_user = User.find_by(id: get_resource.user_id) # the user assoc with the draft collection record
+
+      unless token_user.nil?
+        if Rails.configuration.proposal_mode
+          # For proposals, users only have access to proposals created by them.
+          # Verify the user owns the draft
+          authorized = true if token_user.urs_uid == draft_user.urs_uid
+        else
+          # For drafts, users have access to any drafts in their provider list
+          # Verify the user has permissions for this provider
+          authorized = true if token_user.available_providers.include? get_resource.provider_id
+        end
+      end
+    end
+
+    if authorized
+      render json: JSON.pretty_generate(get_resource.draft)
+    else
+      render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401
+    end
+  end
+
+  def check_cmr_validation
+    authorize get_resource
+
+    validation_response = cmr_client.validate_collection(get_resource.draft.to_json, get_resource.provider_id, get_resource.native_id)
+
+    @modal_response = {}
+
+    if validation_response.success?
+      if validation_response.body.is_a?(Hash)
+        warnings = validation_response.body['warnings']&.first
+        existing_errors = validation_response.body['existing-errors']&.first
+
+        @modal_response[:status_text] = 'This draft will be published with the following issues:'
+        @modal_response[:existing_errors] = existing_errors if existing_errors
+        @modal_response[:warnings] = warnings if warnings
+      else
+        @modal_response[:status_text] = 'This draft will be published with no issues.'
+      end
+    else
+      errors = Array.wrap(validation_response.error_messages)
+
+      @modal_response[:status_text] = 'This draft is not ready to be published.'
+      @modal_response[:errors] = errors
+    end
+
+    respond_to do |format|
+      format.json { render json: @modal_response, status: validation_response.status.to_i }
     end
   end
 
@@ -261,6 +367,10 @@ class CollectionDraftsController < BaseDraftsController
       'is later than the End Date'
     when /later than Ending/
       'is later than the Ending Date Time'
+    when /did not match one of the following values/
+      'has an invalid selection'
+    when /has an invalid selection option/
+      'has an invalid selection'
     end
   end
 
@@ -404,16 +514,16 @@ class CollectionDraftsController < BaseDraftsController
     # for each bad field, if the value doesn't appear in the picklist values, create an error
     # if/when there is time, it would be nice to refactor this with helper methods
     if metadata
-      processing_level_id = metadata.dig('ProcessingLevel','Id')
+      processing_level_id = metadata.dig('ProcessingLevel', 'Id')
       if processing_level_id && !DraftsHelper::ProcessingLevelIdOptions.flatten.include?(processing_level_id)
-        errors << "The property '#/ProcessingLevel/Id' was invalid"
+        errors << "The property '#/ProcessingLevel/Id' has an invalid selection option"
       end
 
       metadata_language = metadata['MetadataLanguage']
       if metadata_language
         matches = @language_codes.select { |language| language.include? metadata_language }
         if matches.empty?
-          errors << "The property '#/MetadataLanguage' was invalid"
+          errors << "The property '#/MetadataLanguage' has an invalid selection option"
         end
       end
 
@@ -421,111 +531,173 @@ class CollectionDraftsController < BaseDraftsController
       if data_language
         matches = @language_codes.select { |language| language.include? data_language }
         if matches.empty?
-          errors << "The property '#/DataLanguage' was invalid"
+          errors << "The property '#/DataLanguage' has an invalid selection option"
         end
       end
 
-      platforms = metadata['Platforms'] || []
+      platforms = metadata['Platforms'] || [{}]
+      platforms_invalid = false
       platforms.each do |platform|
         platform_short_name = platform['ShortName']
-
         if platform_short_name && !@platform_short_names.include?(platform_short_name)
-          errors << "The property '#/Platforms' was invalid"
+          platforms_invalid = true
         end
 
-        instruments = platform.fetch('Instruments', [])
+        instruments = platform.fetch('Instruments', [{}])
         instruments.each do |instrument|
           instrument_short_name = instrument['ShortName']
-
           if instrument_short_name && !@instrument_short_names.include?(instrument_short_name)
-            errors << "The property '#/Platforms' was invalid"
+            platforms_invalid = true
           end
 
-          instrument_children = instrument.fetch('ComposedOf', [])
+          instrument_children = instrument.fetch('ComposedOf', [{}])
           instrument_children.each do |child|
             child_short_name = child['ShortName']
-
             if child_short_name && !@instrument_short_names.include?(child_short_name)
-              errors << "The property '#/Platforms' was invalid"
+              platforms_invalid = true
             end
           end
         end
       end
+      errors << "The property '#/Platforms' has an invalid selection option" if platforms_invalid
 
       temporal_keywords = metadata['TemporalKeywords'] || []
+      temporal_keywords_invalid = false
       temporal_keywords.each do |keyword|
         if keyword && !@temporal_keywords.include?(keyword)
-          errors << "The property '#/TemporalKeywords' was invalid"
+          temporal_keywords_invalid = true
         end
       end
+      errors << "The property '#/TemporalKeywords' has an invalid selection option" if temporal_keywords_invalid
 
-      data_centers = metadata['DataCenters'] || []
+      data_centers = metadata['DataCenters'] || [{}]
+      data_center_contact_persons = []
+      data_center_contact_groups = []
+      data_centers_invalid = false
       data_centers.each do |data_center|
         short_name = data_center['ShortName']
         if short_name
           matches = fetch_data_centers.select { |dc| dc[:short_name].include?(short_name) }
           if matches.empty?
-            errors << "The property '#/DataCenters' was invalid"
+            data_centers_invalid = true
           end
         end
 
         contact_information = data_center['ContactInformation'] || {}
-        addresses = contact_information['Addresses'] || []
+        addresses = contact_information['Addresses'] || [{}]
         addresses.each do |address|
           country = address['Country']
           if country
             matches = @country_codes.select { |option| option.name.include?(country) }
             if matches.empty?
-              errors << "The property '#/DataCenters' was invalid"
+              data_centers_invalid = true
             end
           end
         end
-      end
 
-      contact_persons = metadata['ContactPersons'] || []
+        related_urls = contact_information['RelatedUrls'] || [{}]
+        related_urls.each do |related_url|
+          content_type = related_url['URLContentType']
+          type = related_url['Type']
+          # no subtype currently for Data Center Related Urls
+          data_center_related_url_content_type_values = @data_center_related_url_content_type_options.map { |option| option[1] }
+          data_center_related_url_type_values = @data_center_related_url_type_options.map { |option| option[1] }
+
+          data_centers_invalid = true if content_type && !data_center_related_url_content_type_values.include?(content_type)
+          data_centers_invalid = true if type && !data_center_related_url_type_values.include?(type)
+        end
+
+        data_center_contact_persons += data_center['ContactPersons'] unless data_center['ContactPersons'].blank?
+        data_center_contact_groups += data_center['ContactGroups'] unless data_center['ContactGroups'].blank?
+      end
+      errors << "The property '#/DataCenters' has an invalid selection option" if data_centers_invalid
+
+      data_contact_related_url_content_type_values = @data_contact_related_url_content_type_options.map { |option| option[1] }
+      data_contact_related_url_type_values = @data_contact_related_url_type_options.map { |option| option[1] }
+
+      contact_persons = metadata['ContactPersons'] || [{}]
+      contact_persons += data_center_contact_persons
+      contact_persons_invalid = false
       contact_persons.each do |contact_person|
         contact_information = contact_person['ContactInformation'] || {}
-        addresses = contact_information['Addresses'] || []
+        addresses = contact_information['Addresses'] || [{}]
         addresses.each do |address|
           country = address['Country']
           if country
             matches = @country_codes.select { |option| option.name.include?(country) }
             if matches.empty?
-              errors << "The property '#/ContactPersons' was invalid"
+              contact_persons_invalid = true
             end
           end
         end
-      end
 
-      contact_groups = metadata['ContactGroups'] || []
+        related_urls = contact_information['RelatedUrls'] || [{}]
+        related_urls.each do |related_url|
+          content_type = related_url['URLContentType']
+          type = related_url['Type']
+          # no subtype currently for Data Contact Related Urls
+
+          contact_persons_invalid = true if content_type && !data_contact_related_url_content_type_values.include?(content_type)
+          contact_persons_invalid = true if type && !data_contact_related_url_type_values.include?(type)
+        end
+      end
+      errors << "The property '#/ContactPersons' has an invalid selection option" if contact_persons_invalid
+
+      contact_groups = metadata['ContactGroups'] || [{}]
+      contact_groups += data_center_contact_groups
+      contact_groups_invalid = false
       contact_groups.each do |contact_group|
         contact_information = contact_group['ContactInformation'] || {}
-        addresses = contact_information['Addresses'] || []
+        addresses = contact_information['Addresses'] || [{}]
         addresses.each do |address|
           country = address['Country']
           if country
             matches = @country_codes.select { |option| option.name.include?(country) }
             if matches.empty?
-              errors << "The property '#/ContactGroups' was invalid"
+              contact_groups_invalid = true
             end
           end
         end
+
+        related_urls = contact_information['RelatedUrls'] || [{}]
+        related_urls.each do |related_url|
+          content_type = related_url['URLContentType']
+          type = related_url['Type']
+          # no subtype currently for Data Contact Related Urls
+
+          contact_groups_invalid = true if content_type && !data_contact_related_url_content_type_values.include?(content_type)
+          contact_groups_invalid = true if type && !data_contact_related_url_type_values.include?(type)
+        end
       end
+      errors << "The property '#/ContactGroups' has an invalid selection option" if contact_groups_invalid
 
       related_urls = metadata['RelatedUrls'] || []
-      related_urls.each do |url|
-        format = url.dig('GetData','Format')
-        if format && !@granule_data_formats.include?(format)
-          errors << "The property '#/RelatedUrls' was invalid"
-        end
+      related_urls_invalid = false
+      related_urls.each do |related_url|
+        content_type = related_url['URLContentType']
+        type = related_url['Type']
+        subtype = related_url['Subtype']
+        format = related_url.dig('GetData', 'Format')
+
+        umm_c_related_url_content_type_values = @umm_c_related_url_content_type_options.map { |option| option[1] }
+        umm_c_related_url_type_values = @umm_c_related_url_type_options.map { |option| option[1] }
+        umm_c_related_url_subtype_values = @umm_c_related_url_subtype_options.map { |option| option[1] }
+
+        related_urls_invalid = true if content_type && !umm_c_related_url_content_type_values.include?(content_type)
+        related_urls_invalid = true if type && !umm_c_related_url_type_values.include?(type)
+        related_urls_invalid = true if subtype && !umm_c_related_url_subtype_values.include?(subtype)
+        related_urls_invalid = true if format && !@granule_data_formats.include?(format)
       end
+      errors << "The property '#/RelatedUrls' has an invalid selection option" if related_urls_invalid
 
       projects = metadata['Projects'] || []
+      projects_invalid = false
       projects.each do |project|
         if project && @projects.none? { |proj| proj[:short_name] == project['ShortName'] }
-          errors << "The property '#/Projects' was invalid"
+          projects_invalid = true
         end
       end
+      errors << "The property '#/Projects' has an invalid selection option" if projects_invalid
     end
 
     errors
@@ -547,6 +719,9 @@ class CollectionDraftsController < BaseDraftsController
     set_country_codes
     set_language_codes
     set_granule_data_formats
+    set_umm_c_related_urls
+    set_data_center_related_url
+    set_data_contact_related_url
   end
 
   def edit_view_setup
@@ -563,17 +738,20 @@ class CollectionDraftsController < BaseDraftsController
 
     # Set instance variables depending on the form requested
     set_country_codes
-    set_language_codes          if @form == 'collection_information' || @form == 'metadata_information'
-    set_science_keywords        if @form == 'descriptive_keywords'
-    set_keyword_recommendations if @form == 'descriptive_keywords' && gkr_enabled? && get_resource.keyword_recommendation_needed?
-    set_platform_types          if @form == 'acquisition_information'
-    set_instruments             if @form == 'acquisition_information'
-    set_projects                if @form == 'acquisition_information'
-    set_temporal_keywords       if @form == 'temporal_information'
-    set_location_keywords       if @form == 'spatial_information'
-    set_data_centers            if @form == 'data_centers' || @form == 'data_contacts'
-    load_data_contacts_schema   if @form == 'data_contacts'
-    set_granule_data_formats    if @form == 'related_urls' || @form == 'data_centers' || @form == 'data_contacts'
+    set_language_codes           if @form == 'collection_information' || @form == 'metadata_information'
+    set_science_keywords         if @form == 'descriptive_keywords'
+    set_keyword_recommendations  if @form == 'descriptive_keywords' && gkr_enabled? && get_resource.keyword_recommendation_needed?
+    set_platform_types           if @form == 'acquisition_information'
+    set_instruments              if @form == 'acquisition_information'
+    set_projects                 if @form == 'acquisition_information'
+    set_temporal_keywords        if @form == 'temporal_information'
+    set_location_keywords        if @form == 'spatial_information'
+    set_data_centers             if @form == 'data_centers' || @form == 'data_contacts'
+    load_data_contacts_schema    if @form == 'data_contacts'
+    set_granule_data_formats     if @form == 'related_urls' || @form == 'data_centers' || @form == 'data_contacts'
+    set_umm_c_related_urls       if @form == 'related_urls'
+    set_data_center_related_url  if @form == 'data_centers'
+    set_data_contact_related_url if @form == 'data_contacts'
   end
 
   def reconcile_recommendations(keyword_recommendations)
@@ -602,6 +780,9 @@ class CollectionDraftsController < BaseDraftsController
     set_language_codes
     set_granule_data_formats
     set_projects
+    set_umm_c_related_urls
+    set_data_center_related_url
+    set_data_contact_related_url
   end
 
   def set_resource_by_model
@@ -615,7 +796,7 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def verify_valid_metadata
-    return if validate_metadata.blank?
+    return if validate_metadata.blank? || is_revision_update?
 
     action = resource_name == 'collection_draft_proposal' ? 'submitted for review' : 'published'
     flash[:error] = "This collection can not be #{action}."
@@ -624,10 +805,19 @@ class CollectionDraftsController < BaseDraftsController
 
   def set_associated_concepts
     # get collection
-    collection_response = cmr_client.get_collections(native_id: get_resource.native_id)
+    collection_response = cmr_client.get_collections({ native_id: get_resource.native_id }, token)
     @services = [] && @tools = [] && return unless collection_response.success? && collection_response.body['hits'] > 0
 
     get_associated_concepts(collection_response.body['items'])
+  end
+
+  def is_revision_update?
+    # check if draft is a revision, tied to a published collection
+    collection_response = cmr_client.get_collections({ native_id: get_resource.native_id }, token)
+
+    # if response fails or there are no hits, cannot confirm if there is a
+    # published collection
+    collection_response.success? && collection_response.body['hits'] > 0
   end
 
   ## Feature Toggle for GKR recommendations

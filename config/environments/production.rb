@@ -154,6 +154,8 @@ Rails.application.configure do
   # Feature toggle for Content Security Policy (CSP) logging.
   config.csplog_enabled = false
 
+  # Feature toggle for EDL groups
+  config.edl_groups_enabled = false
 
   # Google Tag Manager ID for EOSDIS usage stats
   config.tag_manager_id = 'GTM-WNP7MLF'

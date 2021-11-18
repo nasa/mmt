@@ -1,5 +1,10 @@
 application/dif10+xml
 
-1.  -: /DIF/Temporal_Coverage/Temporal_Range_Type
-2.  -: /DIF/Related_URL[1]
-3.  +: /DIF/Related_URL[1]
+1.  -: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Southernmost_Latitude
+2.  +: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Southernmost_Latitude
+3.  -: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Northernmost_Latitude
+4.  +: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Northernmost_Latitude
+5.  -: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Westernmost_Longitude
+6.  +: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Westernmost_Longitude
+7.  -: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Easternmost_Longitude
+8.  +: /DIF/Spatial_Coverage/Geometry/Bounding_Rectangle/Easternmost_Longitude

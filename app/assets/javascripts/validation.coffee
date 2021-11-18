@@ -383,9 +383,19 @@ $(document).ready ->
     error.id = id
     error.element = $("##{id}")
 
-
     if error.dataPath.split('/')[error.dataPath.split('/').length - 1] == 'AllowMultipleValues'
       # Allow Multiple Values fields, under Subset, are boolean fields represented
+      # by radio buttons
+      # for a required error, because these are radio buttons, we want the error
+      # to be surfaced with the radio parent container, which the path
+      # transformation has taken care of
+      if error.message == 'should be boolean'
+        # html cannot hold boolean values, they are represented as string
+        error = null
+        return
+
+    if error.dataPath.split('/')[error.dataPath.split('/').length - 1] == 'ValueRequired'
+      # ValueRequired field is boolean field in UMM-T, represented
       # by radio buttons
       # for a required error, because these are radio buttons, we want the error
       # to be surfaced with the radio parent container, which the path
@@ -533,6 +543,15 @@ $(document).ready ->
           '/MetadataLanguage'
         when /data_language/.test id
           '/DataLanguage'
+        when /draft_related_urls_(\d*)_url_content_type/.test id
+          [_, index] = id.match /draft_related_urls_(\d*)_url_content_type/
+          "/RelatedUrls/#{index}/URLContentType"
+        when /draft_related_urls_(\d*)_type/.test id
+          [_, index] = id.match /draft_related_urls_(\d*)_type/
+          "/RelatedUrls/#{index}/Type"
+        when /draft_related_urls_(\d*)_subtype/.test id
+          [_, index] = id.match /draft_related_urls_(\d*)_subtype/
+          "/RelatedUrls/#{index}/Subtype"
         when /draft_related_urls_(\d*)_get_data_format/.test id
           [_, index] = id.match /draft_related_urls_(\d*)_get_data_format/
           "/RelatedUrls/#{index}/GetData/Format"
@@ -559,6 +578,15 @@ $(document).ready ->
         when /data_centers_\d*_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_addresses_(\d*)_state_province/
           "/DataCenters/#{index1}/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_centers_\d*_contact_information_related_urls_\d*_url_content_type/.test id
+          [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_related_urls_(\d*)_url_content_type/
+          "/DataCenters/#{index1}/ContactInformation/RelatedURLs/#{index2}/URLContentType"
+        when /data_centers_\d*_contact_information_related_urls_\d*_type/.test id
+          [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_related_urls_(\d*)_type/
+          "/DataCenters/#{index1}/ContactInformation/RelatedURLs/#{index2}/Type"
+        when /data_centers_\d*_contact_information_related_urls_\d*_subtype/.test id
+          [_, index1, index2] = id.match /data_centers_(\d*)_contact_information_related_urls_(\d*)_subtype/
+          "/DataCenters/#{index1}/ContactInformation/RelatedURLs/#{index2}/Subtype"
         when /data_contacts_\d*_contact_person_data_center_short_name/.test id
           [_, index] = id.match /data_contacts_(\d*)_contact_person_data_center_short_name/
           "/DataContacts/#{index}/ContactPersonDataCenter/ShortName"
@@ -571,24 +599,60 @@ $(document).ready ->
         when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_addresses_(\d*)_state_province/
           "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_related_urls_\d*_url_content_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_related_urls_(\d*)_url_content_type/
+          "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/RelatedURLs/#{index2}/URLContentType"
+        when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_related_urls_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_related_urls_(\d*)_type/
+          "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/RelatedURLs/#{index2}/Type"
+        when /data_contacts_\d*_contact_person_data_center_contact_person_contact_information_related_urls_\d*_subtype/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_data_center_contact_person_contact_information_related_urls_(\d*)_subtype/
+          "/DataContacts/#{index1}/ContactPersonDataCenter/ContactPerson/ContactInformation/RelatedURLs/#{index2}/Subtype"
         when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_addresses_\d*_country/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_addresses_(\d*)_country/
           "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/Addresses/#{index2}/Country"
         when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_addresses_(\d*)_state_province/
           "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_related_urls_\d*_url_content_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_related_urls_(\d*)_url_content_type/
+          "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/RelatedURLs/#{index2}/URLContentType"
+        when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_related_urls_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_related_urls_(\d*)_type/
+          "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/RelatedURLs/#{index2}/Type"
+        when /data_contacts_\d*_contact_group_data_center_contact_group_contact_information_related_urls_\d*_subtype/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_data_center_contact_group_contact_information_related_urls_(\d*)_subtype/
+          "/DataContacts/#{index1}/ContactGroupDataCenter/ContactGroup/ContactInformation/RelatedURLs/#{index2}/Subtype"
         when /data_contacts_\d*_contact_person_contact_information_addresses_\d*_country/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_addresses_(\d*)_country/
           "/DataContacts/#{index1}/ContactPerson/ContactInformation/Addresses/#{index2}/Country"
         when /data_contacts_\d*_contact_person_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_addresses_(\d*)_state_province/
           "/DataContacts/#{index1}/ContactPerson/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_person_contact_information_related_urls_\d*_url_content_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_related_urls_(\d*)_url_content_type/
+          "/DataContacts/#{index1}/ContactPerson/ContactInformation/RelatedURLs/#{index2}/URLContentType"
+        when /data_contacts_\d*_contact_person_contact_information_related_urls_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_related_urls_(\d*)_type/
+          "/DataContacts/#{index1}/ContactPerson/ContactInformation/RelatedURLs/#{index2}/Type"
+        when /data_contacts_\d*_contact_person_contact_information_related_urls_\d*_subtype/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_person_contact_information_related_urls_(\d*)_subtype/
+          "/DataContacts/#{index1}/ContactPerson/ContactInformation/RelatedURLs/#{index2}/Subtype"
         when /data_contacts_\d*_contact_group_contact_information_addresses_\d*_country/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_addresses_(\d*)_country/
           "/DataContacts/#{index1}/ContactGroup/ContactInformation/Addresses/#{index2}/Country"
         when /data_contacts_\d*_contact_group_contact_information_addresses_\d*_state_province/.test id
           [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_addresses_(\d*)_state_province/
           "/DataContacts/#{index1}/ContactGroup/ContactInformation/Addresses/#{index2}/StateProvince"
+        when /data_contacts_\d*_contact_group_contact_information_related_urls_\d*_url_content_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_related_urls_(\d*)_url_content_type/
+          "/DataContacts/#{index1}/ContactGroup/ContactInformation/RelatedURLs/#{index2}/URLContentType"
+        when /data_contacts_\d*_contact_group_contact_information_related_urls_\d*_type/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_related_urls_(\d*)_type/
+          "/DataContacts/#{index1}/ContactGroup/ContactInformation/RelatedURLs/#{index2}/Type"
+        when /data_contacts_\d*_contact_group_contact_information_related_urls_\d*_subtype/.test id
+          [_, index1, index2] = id.match /data_contacts_(\d*)_contact_group_contact_information_related_urls_(\d*)_subtype/
+          "/DataContacts/#{index1}/ContactGroup/ContactInformation/RelatedURLs/#{index2}/Subtype"
 
       # Remove required error from the same dataPath
       errors = errors.filter (error) ->
@@ -677,6 +741,7 @@ $(document).ready ->
     template_error = validateTemplateName(errors)
     validatePairedFields(errors)
     validateAdditionalAttributeValueField(errors)
+    validatePotentialActionUrlTemplate(json, errors)
 
     inlineErrors = []
     summaryErrors = []
@@ -827,6 +892,24 @@ $(document).ready ->
 
           errors.push(error)
 
+  validatePotentialActionUrlTemplate = (json, errors) ->
+    # This method is added as part of ticket https://bugs.earthdata.nasa.gov/browse/MMT-2714
+    # Source of following regular expression is https://regex101.com/r/DstcXC/1/
+    # which is pointed from https://stackoverflow.com/questions/29494608/regex-for-uri-templates-rfc-6570-wanted
+    # This method should be removed after the regex is added to the umm-t schema.
+    # Ticket for adding regex to umm-t schema is https://bugs.earthdata.nasa.gov/browse/ECSE-1117
+    URI_TEMPLATE_REGEX = /^([^\x00-\x20\x7f"'%<>\\^`{|}]|%[0-9A-Fa-f]{2}|{[+#./;?&=,!@|]?((\w|%[0-9A-Fa-f]{2})(\.?(\w|%[0-9A-Fa-f]{2}))*(:[1-9]\d{0,3}|\*)?)(,((\w|%[0-9A-Fa-f]{2})(\.?(\w|%[0-9A-Fa-f]{2}))*(:[1-9]\d{0,3}|\*)?))*})*$/
+    urlTemplateContent = json.PotentialAction?.Target?.UrlTemplate
+    if urlTemplateContent? && ! URI_TEMPLATE_REGEX.test(urlTemplateContent)
+      error =
+        id: 'draft_url_template'
+        title: 'Draft Url Template'
+        params: {}
+        dataPath: '/PotentialAction/Target/UrlTemplate'
+        keyword: 'format'
+        schemaPath: '' # necessary to not throw errors in getErrorDetails
+      errors.push(error)
+
   validateTemplateName = (errors) ->
     if $('#draft_template_name').length > 0
       error = null
@@ -885,6 +968,8 @@ $(document).ready ->
 
   # Validate the whole page on page load
   if $('.metadata-form, .umm-form').length > 0
+    # under what conditions are model errors shown? I am not able to locate any
+    # code that seems to display the model errors. Can this chunk be removed?
     # Do not display validation errors on page load if model errors are showing
     if $('.model-errors').length == 0
       # "visit" each field with a value on page load
@@ -899,6 +984,38 @@ $(document).ready ->
         visitField($(element).attr('id'))
 
       validateFromFormChange()
+
+      # For collection drafts only (b/c implemented as part of the progressive update feature MMT-2660),
+      # Validate a specific field or fieldset on load, if the user has visited it directly
+    if isMetadataForm()
+      # if url has a hash, user clicked on a specific field or progress circle
+      # we should visit the field (or nested fields) to show the user any issue
+      # with the field since they have chosen to visit the field directly,
+      # presumably the user wants to fill in or correct any issue with that field
+      if (window.location.hash)
+        targetFieldId = window.location.hash.substring(1)
+
+        # links to collection information top level fields have a '_label' suffix
+        # and already have the 'draft_' prefix
+        targetFieldId = targetFieldId.replace('_label', '') if targetFieldId.endsWith('_label')
+
+        targetField = $("##{targetFieldId}")
+        if targetField.is('input, select, textarea')
+          visitField(targetFieldId)
+        else
+          # target is a fieldset or top level field (collection information top level fields are caught as described above)
+          # we need to add the 'draft_' prefix and convert to snake_case for any
+          # potential error to match the field
+          visitField("draft_#{targetFieldId.replace('-', '_')}")
+
+          # for fieldsets we want to visit the nested fields for validation also
+          # in-line validation errors for some fields may not appear if there is
+          # no data entered in the related fields, as the containing data object
+          # is therefore not technically invalid
+          targetField.find('input, select, textarea').each (index, element) ->
+            visitField($(element).attr('id'))
+
+        validateFromFormChange()
 
   # // set up validation call
   $('.metadata-form, .umm-form').on 'blur', '.validate', ->

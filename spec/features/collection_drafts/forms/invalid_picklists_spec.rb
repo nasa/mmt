@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Invalid picklists', js: true do
   before do
     login
@@ -189,6 +187,8 @@ describe 'Invalid picklists', js: true do
         expect(page).to have_content('Type value [bad contact mechanism type] does not match a valid selection option')
         expect(page).to have_content('Country value [usa] does not match a valid selection option')
         expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+        expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
+        expect(page).to have_content('Type value [badurltype] does not match a valid selection option')
       end
     end
 
@@ -205,6 +205,12 @@ describe 'Invalid picklists', js: true do
       end
       within '.multiple.addresses > .multiple-item-1' do
         expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+      end
+      within '.multiple.related-urls > .multiple-item-0' do
+        expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
+      end
+      within '.multiple.related-urls > .multiple-item-1' do
+        expect(page).to have_content('Type value [badurltype] does not match a valid selection option')
       end
     end
 
@@ -223,6 +229,12 @@ describe 'Invalid picklists', js: true do
       end
       within '.multiple.addresses > .multiple-item-1 .state-province-select' do
         expect(page).to have_css('option[disabled][selected]', text: 'maryland')
+      end
+      within '.multiple.related-urls > .multiple-item-0' do
+        expect(page).to have_css('option[disabled][selected]', text: 'badcontenttype')
+      end
+      within '.multiple.related-urls > .multiple-item-1' do
+        expect(page).to have_css('option[disabled][selected]', text: 'badurltype')
       end
     end
   end
@@ -249,6 +261,9 @@ describe 'Invalid picklists', js: true do
         expect(page).to have_content('Type value [bad contact mechanism type] does not match a valid selection option')
         expect(page).to have_content('Country value [usa] does not match a valid selection option')
         expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+
+        expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
+        expect(page).to have_content('Type value [badurltype] does not match a valid selection option')
       end
     end
 
@@ -264,6 +279,12 @@ describe 'Invalid picklists', js: true do
         within '.multiple.addresses > .multiple-item-1' do
           expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
         end
+        within '.multiple.related-urls > .multiple-item-0' do
+          expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
+        end
+        within '.multiple.related-urls > .multiple-item-1' do
+          expect(page).to have_content('Type value [badurltype] does not match a valid selection option')
+        end
       end
       within '.multiple.data-contacts > .multiple-item-1' do
         expect(page).to have_content('Roles value [bad non dc contact group role] does not match a valid selection option')
@@ -275,6 +296,12 @@ describe 'Invalid picklists', js: true do
         end
         within '.multiple.addresses > .multiple-item-1' do
           expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+        end
+        within '.multiple.related-urls > .multiple-item-0' do
+          expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
+        end
+        within '.multiple.related-urls > .multiple-item-1' do
+          expect(page).to have_content('Type value [badurltype] does not match a valid selection option')
         end
       end
       within '.multiple.data-contacts > .multiple-item-2' do
@@ -289,6 +316,12 @@ describe 'Invalid picklists', js: true do
         within '.multiple.addresses > .multiple-item-1' do
           expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
         end
+        within '.multiple.related-urls > .multiple-item-0' do
+          expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
+        end
+        within '.multiple.related-urls > .multiple-item-1' do
+          expect(page).to have_content('Type value [badurltype] does not match a valid selection option')
+        end
       end
       within '.multiple.data-contacts > .multiple-item-3' do
         expect(page).to have_content('Short Name value [short_name] does not match a valid selection option')
@@ -301,6 +334,12 @@ describe 'Invalid picklists', js: true do
         end
         within '.multiple.addresses > .multiple-item-1' do
           expect(page).to have_content('State / Province value [maryland] does not match a valid selection option')
+        end
+        within '.multiple.related-urls > .multiple-item-0' do
+          expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
+        end
+        within '.multiple.related-urls > .multiple-item-1' do
+          expect(page).to have_content('Type value [badurltype] does not match a valid selection option')
         end
       end
     end
@@ -319,6 +358,12 @@ describe 'Invalid picklists', js: true do
         within '.multiple.addresses > .multiple-item-1 .state-province-select' do
           expect(page).to have_css('option[disabled][selected]', text: 'maryland')
         end
+        within '.multiple.related-urls > .multiple-item-0' do
+          expect(page).to have_css('option[disabled][selected]', text: 'badcontenttype')
+        end
+        within '.multiple.related-urls > .multiple-item-1' do
+          expect(page).to have_css('option[disabled][selected]', text: 'badurltype')
+        end
       end
       within '.multiple.data-contacts > .multiple-item-1' do
         within '.data-contact-roles-select' do
@@ -332,6 +377,12 @@ describe 'Invalid picklists', js: true do
         end
         within '.multiple.addresses > .multiple-item-1 .state-province-select' do
           expect(page).to have_css('option[disabled][selected]', text: 'maryland')
+        end
+        within '.multiple.related-urls > .multiple-item-0' do
+          expect(page).to have_css('option[disabled][selected]', text: 'badcontenttype')
+        end
+        within '.multiple.related-urls > .multiple-item-1' do
+          expect(page).to have_css('option[disabled][selected]', text: 'badurltype')
         end
       end
       within '.multiple.data-contacts > .multiple-item-2' do
@@ -350,6 +401,12 @@ describe 'Invalid picklists', js: true do
         within '.multiple.addresses > .multiple-item-1 .state-province-select' do
           expect(page).to have_css('option[disabled][selected]', text: 'maryland')
         end
+        within '.multiple.related-urls > .multiple-item-0' do
+          expect(page).to have_css('option[disabled][selected]', text: 'badcontenttype')
+        end
+        within '.multiple.related-urls > .multiple-item-1' do
+          expect(page).to have_css('option[disabled][selected]', text: 'badurltype')
+        end
       end
       within '.multiple.data-contacts > .multiple-item-3' do
         within '.data-center-short-name-select' do
@@ -366,6 +423,12 @@ describe 'Invalid picklists', js: true do
         end
         within '.multiple.addresses > .multiple-item-1 .state-province-select' do
           expect(page).to have_css('option[disabled][selected]', text: 'maryland')
+        end
+        within '.multiple.related-urls > .multiple-item-0' do
+          expect(page).to have_css('option[disabled][selected]', text: 'badcontenttype')
+        end
+        within '.multiple.related-urls > .multiple-item-1' do
+          expect(page).to have_css('option[disabled][selected]', text: 'badurltype')
         end
       end
     end
@@ -385,6 +448,8 @@ describe 'Invalid picklists', js: true do
         expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
         expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
         expect(page).to have_content('Format value [badformat] does not match a valid selection option')
+        expect(page).to have_content('Type value [badurltype] does not match a valid selection option')
+        expect(page).to have_content('Subtype value [badurlsubtype] does not match a valid selection option')
       end
     end
 
@@ -393,6 +458,8 @@ describe 'Invalid picklists', js: true do
         expect(page).to have_content('URL Content Type value [badcontenttype] does not match a valid selection option')
         expect(page).to have_content('Unit value [badunit] does not match a valid selection option')
         expect(page).to have_content('Format value [badformat] does not match a valid selection option')
+        expect(page).to have_content('Type value [badurltype] does not match a valid selection option')
+        expect(page).to have_content('Subtype value [badurlsubtype] does not match a valid selection option')
       end
     end
 
@@ -400,9 +467,19 @@ describe 'Invalid picklists', js: true do
       within '.multiple.related-urls > .multiple-item-0 .related-url-content-type-select' do
         expect(page).to have_css('option[disabled][selected]', text: 'badcontenttype')
       end
+      within '.multiple.related-urls > .multiple-item-1' do
+        expect(page).to have_css('option[disabled][selected]', text: 'badmimetype')
+        expect(page).to have_css('option[disabled][selected]', text: 'badprotocol')
+      end
       within '.multiple.related-urls > .multiple-item-2' do
         expect(page).to have_css('option[disabled][selected]', text: 'badunit')
         expect(page).to have_css('option[disabled][selected]', text: 'badformat')
+      end
+      within '.multiple.related-urls > .multiple-item-3 .related-url-type-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'badurltype')
+      end
+      within '.multiple.related-urls > .multiple-item-4 .related-url-subtype-select' do
+        expect(page).to have_css('option[disabled][selected]', text: 'badurlsubtype')
       end
     end
   end

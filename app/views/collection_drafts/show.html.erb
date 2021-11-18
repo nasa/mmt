@@ -23,14 +23,35 @@
       <div class="wide-content-inside">
         <% if resource_name == 'collection_draft' %>
           <% if get_resource.new_record? || (@errors && @errors.size > 0) %>
-            <%= link_to 'Publish Collection Draft', '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
-            <div id="invalid-draft-modal" class="eui-modal-content">
-              <p>This draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
-              <p>
-                <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
-              </p>
-            </div>
+            <% if @is_revision %>
+              <%# is a revision, and there are errors %>
+              <%= link_to 'Publish Collection Draft', '#check-cmr-validation-draft-modal', class: 'eui-btn--blue display-modal', id: 'check-cmr-validation-button' %>
+              <div id="check-cmr-validation-draft-modal" class="eui-modal-content">
+                <p>
+                  <span class="check-cmr-validation-text">
+                  </span>
+                </p>
+                <p>
+                  <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
+                  <%= link_to 'Yes, Publish Collection Draft', publish_collection_draft_path(get_resource), method: :post, class: 'eui-btn--blue spinner is-hidden', id: 'publish-with-errors-button' %>
+                </p>
+              </div>
+              <script type="text/javascript">
+                <%# pass draft id for ajax validation call %>
+                var draftId = "<%= get_resource.id %>";
+              </script>
+            <% else %>
+              <%# is an unsaved draft or is not a revision and there are errors %>
+              <%= link_to 'Publish Collection Draft', '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
+              <div id="invalid-draft-modal" class="eui-modal-content">
+                <p>This draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
+                <p>
+                  <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
+                </p>
+              </div>
+            <% end %>
           <% else %>
+            <%# no errors %>
             <%= link_to 'Publish Collection Draft', publish_collection_draft_path(get_resource), method: :post, class: 'eui-btn--blue spinner' %>
           <% end %>
         <% elsif resource_name == 'collection_template' %>

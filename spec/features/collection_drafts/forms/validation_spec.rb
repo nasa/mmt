@@ -836,4 +836,113 @@ describe 'Data validation for a collection draft form', js: true do
       end
     end
   end
+
+  context 'when visiting a field directly from a progress circle or link' do
+    # with the progressive update feature, it was determined that if a user
+    # is visiting a field directly, whether from a progress circle or error link
+    # the user is intending to correctly fill out the field. Therefore, validation
+    # should be triggered immediately on page load for the field visited
+    before do
+      visit collection_draft_path(@draft)
+    end
+
+    context 'when the progress circle or link is to a specific field' do
+      before do
+        # click on a progress circle linking to a specific field
+        within '.progress-indicator #data-identification' do
+          click_on 'Processing Level - Required'
+        end
+      end
+
+      it 'displays the errors correctly' do
+        within '.eui-banner--danger.summary-errors' do
+          expect(page).to have_content('This draft has the following errors:')
+          expect(page).to have_link('ID is required')
+        end
+
+        within '.processing-level-fields' do
+          expect(page).to have_css('.eui-banner--danger.validation-error', text: 'ID is required')
+        end
+      end
+    end
+
+    context 'when the progress circle or link is to a top level Collection Information form field' do
+      # links to the Collection Information page are appended with `_label` for some reason
+      before do
+        within '.progress-indicator #collection-information' do
+          click_on 'Abstract - Required'
+        end
+      end
+
+      it 'displays the errors correctly' do
+        within '.eui-banner--danger.summary-errors' do
+          expect(page).to have_content('This draft has the following errors:')
+          expect(page).to have_link('Abstract is required')
+        end
+
+        expect(page).to have_css('.eui-banner--danger.validation-error', text: 'Abstract is required')
+      end
+    end
+
+    context 'when the progress circle or link is to a fieldset' do
+      # some progress circles link to a fieldset or top level field, and not to a
+      # specific field directly
+      # depending on the structure of the fieldset, an inline validation
+      # might not be triggered unless there is some data in the fieldset
+      context 'When the fieldset has data' do
+        before do
+          # fill in a field
+          visit edit_collection_draft_path(@draft, form: 'data_centers')
+
+          fill_in 'Service Hours', with: '9-12'
+
+          within '.nav-top' do
+            click_on 'Done'
+          end
+          click_on 'Yes'
+
+          # visit the progress circle
+          within '.progress-indicator #data-centers' do
+            click_on 'Data Centers Invalid'
+          end
+        end
+
+        it 'displays the errors correctly' do
+          within '.eui-banner--danger.summary-errors' do
+            expect(page).to have_content('This draft has the following errors:')
+            expect(page).to have_link('Roles is required')
+            expect(page).to have_link('Short Name is required')
+          end
+
+          within '#draft_data_centers_0' do
+            expect(page).to have_css('.eui-banner--danger.validation-error', text: 'Roles is required')
+            expect(page).to have_css('.eui-banner--danger.validation-error', text: 'Short Name is required')
+          end
+        end
+      end
+
+      context 'When the fieldset is empty' do
+        before do
+          # visit the progress circle
+          within '.progress-indicator #data-centers' do
+            click_on 'Data Centers - Required'
+          end
+        end
+
+        it 'displays the top level required field errors' do
+          within '.eui-banner--danger.summary-errors' do
+            expect(page).to have_content('This draft has the following errors:')
+            expect(page).to have_content('DataCenters is required')
+          end
+        end
+
+        it 'does not display in-line errors' do
+          expect(page).to have_no_css('.eui-banner--danger.validation-errors')
+
+          expect(page).to have_no_content('Roles is required')
+          expect(page).to have_no_content('Short Name is required')
+        end
+      end
+    end
+  end
 end

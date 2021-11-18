@@ -1,4 +1,7 @@
 <% data_contact_type = get_contact_type(data_contact) %>
+<% url_content_type_options = options[:url_content_type_options] || [] %>
+<% url_type_options = options[:url_type_options] || [] %>
+<% url_subtype_options = options[:url_subtype_options] || [] %>
 
 <div class="row sub-fields">
   <div class="data-contact-type-select-parent">
@@ -35,7 +38,9 @@
       options: {
         data_center_affiliation: true,
         related_url_title: 'Data Center Contact Person Related URLs',
-        url_content_type_options: RelatedUrlsHelper::URLContentTypeDataContactOptions,
+        url_content_type_options: url_content_type_options,
+        url_type_options: url_type_options,
+        url_subtype_options: url_subtype_options,
         required_level: 1
       }
     } %>
@@ -65,7 +70,9 @@
       options: {
         data_center_affiliation: true,
         related_url_title: 'Data Center Contact Group Related URLs',
-        url_content_type_options: RelatedUrlsHelper::URLContentTypeDataContactOptions,
+        url_content_type_options: url_content_type_options,
+        url_type_options: url_type_options,
+        url_subtype_options: url_subtype_options,
         required_level: 1
       }
     } %>
@@ -90,12 +97,12 @@
       options: {
         data_center_affiliation: false,
         related_url_title: 'Non Data Center Contact Person Related URLs',
-        url_content_type_options: RelatedUrlsHelper::URLContentTypeDataContactOptions,
+        url_content_type_options: url_content_type_options,
+        url_type_options: url_type_options,
+        url_subtype_options: url_subtype_options,
         required_level: 1
       }
     } %>
-
-
   </div>
 
   <!-- Non Data Center Contact Group -->
@@ -117,7 +124,9 @@
       options: {
         data_center_affiliation: false,
         related_url_title: 'Non Data Center Contact Group Related URLs',
-        url_content_type_options: RelatedUrlsHelper::URLContentTypeDataContactOptions,
+        url_content_type_options: url_content_type_options,
+        url_type_options: url_type_options,
+        url_subtype_options: url_subtype_options,
         required_level: 1
       }
     } %>

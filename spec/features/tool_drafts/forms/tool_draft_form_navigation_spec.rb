@@ -1,7 +1,7 @@
 include DraftsHelper
 
 describe 'Tool Drafts form navigation', js: true do
-  form_names = %w[tool_information related_urls compatibility_and_usability descriptive_keywords tool_organizations tool_contacts smart_handoff_information]
+  form_names = %w[tool_information related_urls compatibility_and_usability descriptive_keywords tool_organizations tool_contacts potential_action]
 
   context 'when visiting the edit page for a full tool draft' do
     let(:full_draft) { create(:full_tool_draft) }

@@ -46,10 +46,10 @@ module Mmt
     config.services = YAML.load_file(Rails.root.join('config/services.yml'))
 
     # Versions of UMM for the different metadata types MMT is on
-    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.16.3'
+    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.16.5'
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.7'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.4'
-    config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.0'
+    config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.1'
 
     # Is this the Proposal Mode version of MMT?
     config.proposal_mode = false
@@ -94,5 +94,9 @@ module Mmt
     # Log request UUID so we can track requests across threaded log messages
     config.log_tags = [:uuid]
 
+    # log edl_groups_enabled state at startup
+    config.after_initialize do
+      Rails.logger.info("Startup: edl_groups_enabled=#{Rails.configuration.edl_groups_enabled} ")
+    end
   end
 end

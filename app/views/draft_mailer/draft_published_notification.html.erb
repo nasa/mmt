@@ -12,6 +12,23 @@
   <p>
     <%= "Your collection metadata record #{@short_name}_#{@version} has been successfully #{ @is_update ? 'updated in' : 'published to'} the CMR#{@email_env_note}. Your collection's concept ID is #{@concept_id}." %>
   </p>
+  <p>
+    <% if @existing_errors || @warnings %>
+      <%= 'Your collection was published with the following issues:' %>
+      <ul>
+        <% if @existing_errors %>
+          <li>
+            <%= "Existing Errors: #{@existing_errors}" %>
+          </li>
+        <% end %>
+        <% if @warnings %>
+          <li>
+            <%= "Warnings: #{@warnings}" %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </p>
   <div class="center">
     <%= link_to 'View Collection', collection_url(@concept_id, revision_id: @revision_id), class: 'btn btn-blue' %>
   </div>

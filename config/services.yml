@@ -19,7 +19,7 @@ earthdata:
     launchpad_sbx_root: "https://apps.launchpad-sbx.nasa.gov"
     # uvg_root: "https://uvg.uat.earthdata.nasa.gov"
     dmmt_root: "https://draftmmt.uat.earthdata.nasa.gov"
-    gkr_root: "https://gcmd.nasa-impact.net"
+    gkr_root: "https://gkr.uat.earthdatacloud.nasa.gov"
   sit:
     urs_root: "https://sit.urs.earthdata.nasa.gov"
     echo_root: "https://cmr.sit.earthdata.nasa.gov/legacy-services"

@@ -24,10 +24,10 @@
         </div>
       </fieldset>
       <fieldset class="provider-selection">
-        <legend aria-label='Select Provider' aria-hidden='true'>Select Provider</legend>
+        <legend aria-label='Select Provider' aria-hidden='true'>Select Provider for Search</legend>
         <!-- legend tags for 508 compliance -->
         <div class="row">
-          <span>Provider:</span><%= select_tag "provider_id", options_for_select(@provider_ids, @query['provider_id']), class: 'single-select', prompt: 'Select a Provider', 'aria-label': 'Select a Provider' %>
+          <%= select_tag "provider_id", options_for_select(@provider_ids, @query['provider_id']), class: 'single-select', prompt: 'Select a Provider', 'aria-label': 'Select a Provider' %>
         </div>
       </fieldset>
     </div>

@@ -4,7 +4,7 @@
 # editing are valid.  As such, only the template name changing and validation
 # are currently tested.
 
-describe 'While editing a collection template', js:true do
+describe 'While editing a collection template', js: true do
   before do
     login
     create(:full_collection_template, collection_template_name: 'An Example Template')
@@ -22,6 +22,7 @@ describe 'While editing a collection template', js:true do
       # Need to do something else to trigger the validation because the fill_in
       # leaves focus in the Template Name field
       fill_in 'Short Name', with: 'Anything'
+      find('body').click
       expect(page).to have_content('Template Name must be unique within a provider context')
     end
 

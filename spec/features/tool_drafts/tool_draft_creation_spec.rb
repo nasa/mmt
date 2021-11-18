@@ -45,7 +45,7 @@ describe 'Tool Draft creation' do
         end
 
         it 'displays json' do
-          expect(page).to have_content("{\n  \"Name\": \"test tool draft\",\n  \"MetadataSpecification\": {\n    \"URL\": \"https://cdn.earthdata.nasa.gov/umm/tool/v1.0\",\n    \"Name\": \"UMM-T\",\n    \"Version\": \"1.0\"\n  }\n}")
+          expect(page).to have_content("{\n  \"Name\": \"test tool draft\",\n  \"MetadataSpecification\": {\n    \"URL\": \"https://cdn.earthdata.nasa.gov/umm/tool/v1.1\",\n    \"Name\": \"UMM-T\",\n    \"Version\": \"1.1\"\n  }\n}")
         end
       end
     end

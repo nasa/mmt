@@ -10,7 +10,7 @@ module ChooserEndpoints
     render json: {
       'hits': collections.fetch('hits', 0),
       'items': items.map do |collection|
-        s3_links = Array.wrap(collection.dig('meta','s3-links')).join(', ')
+        s3_links = Array.wrap(collection.dig('meta','s3-links')).map { |link| '<br><b>S3 Prefix:</b> ' + link }.join('')
 
         bucket = [
           collection.dig('meta','concept-id'),

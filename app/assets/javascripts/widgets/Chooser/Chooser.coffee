@@ -370,13 +370,17 @@ window.Chooser = (config) ->
         else
           dispVal = optVal = tmpVal
 
-        opt = $('<option>').val(optVal).text(dispVal).attr('title', s3Prefixes or dispVal).addClass('icon-s3' if s3Prefixes)
+        opt = $('<option>')
+                .val(optVal)
+                .text(if s3Prefixes then "🟠 #{dispVal}" else dispVal)
+                .attr('title', if s3Prefixes then dispVal + s3Prefixes else dispVal)
+                .addClass('icon-s3' if s3Prefixes)
+
         $(which).append opt
         return
+
       $(which).trigger 'change'
-    vals = $(which).find('option').map((tmpKey, tmpVal) ->
-      $(tmpVal).text()
-    )
+
     sortOptions(which)
 
   ###
@@ -591,8 +595,10 @@ window.Chooser = (config) ->
   ###
   sortOptions = (selectElem) ->
     sorted = $(selectElem).find('option').sort( (a,b) ->
-      an = $(a).text().toLowerCase()
-      bn = $(b).text().toLowerCase()
+      # we replace '🟠 ' to inhibit the emoji's unicode from interfering with
+      # the alpha-sorting. If no '🟠 ' is found, nothing is changed
+      an = $(a).text().toLowerCase().replace('🟠 ','')
+      bn = $(b).text().toLowerCase().replace('🟠 ','')
       if(an > bn)
         return 1
       if(an < bn)

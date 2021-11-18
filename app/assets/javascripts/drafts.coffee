@@ -412,10 +412,69 @@ $(document).ready ->
 
   # Necessary to prevent submission of auto-completed hidden fields.
   $('.metadata-form, .umm-form').on 'submit', (event) ->
-      # Within the content forms on drafts pages...
-      $('.metadata-form, .umm-form')
-        # Find children tags which have display: none;, but are not eui-accordion__body and
-        # have not been intentionally hidden with type='hidden'
-        .find(':not("[type=\'hidden\']"):not(".eui-accordion__body")[style$="display: none;"]')
-        # Find input children that have not been intentionally hidden with type='hidden'
-        .find(':not("[type=\'hidden\']")input').val("")
+    # Within the content forms on drafts pages...
+    $('.metadata-form, .umm-form')
+      # Find children tags which have display: none;, but are not eui-accordion__body and
+      # have not been intentionally hidden with type='hidden'
+      .find(':not("[type=\'hidden\']"):not(".eui-accordion__body")[style$="display: none;"]')
+      # Find input children that have not been intentionally hidden with type='hidden'
+      .find(':not("[type=\'hidden\']")input').val("")
+
+  # check cmr validation button for collection drafts
+  $('#check-cmr-validation-button').on 'click', (event) ->
+    $.ajax "#{draftId}/check_cmr_validation",
+      method: 'GET'
+      success: (data, status, response) ->
+        $modalText = $('<div/>',
+          html: "<p>#{data.status_text}</p>"
+        )
+
+        $errorList = $('<ul/>')
+        if data.hasOwnProperty('existing_errors')
+          $existingErrors = $('<li/>',
+            text: "Existing Errors: #{data.existing_errors}"
+          )
+          $existingErrors.appendTo($errorList)
+        if data.hasOwnProperty('warnings')
+          $warnings = $('<li/>',
+            text: "Warnings: #{data.warnings}"
+          )
+          $warnings.appendTo($errorList)
+        $errorList.appendTo($modalText)
+
+        if data.hasOwnProperty('existing_errors') || data.hasOwnProperty('warnings')
+          $actionText = $('<div/>',
+            html: '<p>Are you sure you want to publish this draft now?</p>'
+          )
+          $actionText.appendTo($modalText)
+
+        $('.check-cmr-validation-text').html($modalText)
+
+        $('#publish-with-errors-button').removeClass('is-hidden')
+        $('#check-cmr-validation-draft-modal .modal-close.eui-btn').text('No, Return to Draft Preview')
+
+      error: (response, status, error) ->
+        $modalText = $('<div/>',
+          html: "<p>#{response.responseJSON.status_text}</p>"
+        )
+
+        $actionText = $('<div/>',
+          html: '<p>Please use the progress indicators on the draft preview page to address the following:</p>'
+        )
+
+        $actionText.appendTo($modalText)
+
+        $errorList = $('<ul/>', class: 'no-bullet')
+        for error in response.responseJSON.errors
+          $listElement = $('<li/>',
+            text: error
+          )
+          $listElement.appendTo($errorList)
+        $errorList.appendTo($modalText)
+
+
+
+        $('.check-cmr-validation-text').html($modalText)
+
+        $('#publish-with-errors-button').addClass('is-hidden')
+        $('#check-cmr-validation-draft-modal .modal-close.eui-btn').text('Ok')

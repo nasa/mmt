@@ -146,9 +146,11 @@ Rails.application.routes.draw do
       get :edit, path: 'edit(/:form)'
       get 'download'
       post 'publish'
+      get 'check_cmr_validation'
     end
   end
   get 'subregion_options' => 'collection_drafts#subregion_options'
+  get '/collection_drafts/:id/download_json' => 'collection_drafts#download_json'
 
   scope module: :proposal do
     get '/approved_proposals' => 'approved_proposals#approved_proposals', as: 'approved_proposals_approved_proposals'
@@ -167,6 +169,8 @@ Rails.application.routes.draw do
       end
     end
     get 'proposal/subregion_options' => 'collection_draft_proposals#subregion_options'
+    get '/collection_draft_proposals/:id/download_json' => 'collection_draft_proposals#download_json'
+
   end
 
   resources :collection_templates, controller: 'collection_templates', draft_type: 'CollectionTemplate', as: 'collection_templates' do

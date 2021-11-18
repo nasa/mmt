@@ -30,7 +30,7 @@ $(document).ready ->
     typeValue = $typeSelect.val()
     subtypeValue = $subtypeSelect.val()
 
-    $typeSelect.find('option').remove()
+    $typeSelect.find('option').not(':disabled').remove()
     $typeSelect.append($("<option />").val('').text('Select Type'))
 
     if contentTypeValue?.length > 0
@@ -57,10 +57,7 @@ $(document).ready ->
 
     if typeValue?.length > 0
       switch typeValue
-        when 'GET CAPABILITIES'
-          $parent.find('.get-data-fields').show()
-          $parent.find('.get-service-fields').find('input, select').val ''
-        when 'GET DATA'
+        when 'GET CAPABILITIES', 'GET DATA'
           $parent.find('.get-data-fields').show()
           $parent.find('.get-service-fields').find('input, select').val ''
         when 'USE SERVICE API'
@@ -77,7 +74,7 @@ $(document).ready ->
 
       subtypes = urlContentTypeMap[contentTypeValue].types[typeValue].subtypes
 
-      $subtypeSelect.find('option').remove()
+      $subtypeSelect.find('option').not(':disabled').remove()
       $subtypeSelect.append($("<option />").val('').text('Select Subtype'))
       for subtype in subtypes
         $subtypeSelect.append($("<option />").val(subtype[1]).text(subtype[0]))
@@ -91,7 +88,7 @@ $(document).ready ->
         $subtypeSelect.find('option').text 'No available subtype'
         $subtypeSelect.find('option').first().prop 'selected', true
 
-    else if $subtypeSelect.val().length > 0
+    else if $subtypeSelect.val()?.length > 0
       # Clean up the subtype even if the type doesn't have a value
       $subtypeSelect.find('option').remove()
       $subtypeSelect.append($("<option />").val('').text('Select Subtype'))

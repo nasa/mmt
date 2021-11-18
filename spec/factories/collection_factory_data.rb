@@ -356,7 +356,7 @@ def collection_one
           'URLContentType' => 'DataCenterURL',
           'Type' => 'HOME PAGE',
           'URL' => 'http://example.com/'
-        },{
+        }, {
           'Description' => 'Related URL 2 Description',
           'URLContentType' => 'DataCenterURL',
           'Type' => 'HOME PAGE',
@@ -710,25 +710,25 @@ def collection_one
       'URLContentType' => 'PublicationURL',
       'Type' => 'VIEW RELATED INFORMATION',
       'Subtype' => 'DATA CITATION POLICY',
-      'URL' => 'https://example.com/data-citation-policy',
+      'URL' => 'https://example.com/data-citation-policy'
     }, {
       'Description' => 'This is general documentation',
       'URLContentType' => 'PublicationURL',
       'Type' => 'VIEW RELATED INFORMATION',
       'Subtype' => 'GENERAL DOCUMENTATION',
-      'URL' => 'https://example.com/documentation-1',
+      'URL' => 'https://example.com/documentation-1'
     }, {
       'Description' => 'This is how-to documentation',
       'URLContentType' => 'PublicationURL',
       'Type' => 'VIEW RELATED INFORMATION',
       'Subtype' => 'HOW-TO',
-      'URL' => 'https://example.com/documentation-2',
+      'URL' => 'https://example.com/documentation-2'
     }, {
       'Description' => 'This is anomalies documentation',
       'URLContentType' => 'PublicationURL',
       'Type' => 'VIEW RELATED INFORMATION',
       'Subtype' => 'ANOMALIES',
-      'URL' => 'https://example.com/documentation-3',
+      'URL' => 'https://example.com/documentation-3'
     }],
     'MetadataLanguage' => 'eng',
     'MetadataDates' => [{

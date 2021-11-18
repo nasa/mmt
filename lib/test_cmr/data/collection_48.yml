@@ -2,8 +2,8 @@
 collection_uri: https://cmr.earthdata.nasa.gov:443/search/concepts/C179031454-LARC/21.echo10
 ingest_count: 1
 type: echo10
-test_case: 
-granule: 
+test_case:
+granule:
 metadata: "<Collection><ShortName>MI1B1</ShortName><VersionId>2</VersionId><InsertTime>2003-03-24T10:17:41.526Z</InsertTime><LastUpdate>2015-05-05T16:12:20.921Z</LastUpdate><LongName>MISR
   Level 1B1 Radiance Data</LongName><DataSetId>MISR Level 1B1 Radiance Data V002</DataSetId><Description>This
   is the Level 1B1 Product containing the DNs radiometrically-scaled to radiances

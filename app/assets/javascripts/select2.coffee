@@ -89,8 +89,9 @@ setDataCenterLongNameAndUrl = (dataCenterShortNameSelect, action) ->
         $urlContentTypeElement.find('option').first().prop 'selected', true
         $urlContentTypeElement.trigger('change')
 
-      else if $urlElement.val() == ''
+      else if $urlElement.val() == '' && !$urlContentTypeElement.find('option:disabled:selected')?
         # action is load and URL was not prepopulated on load
+        # but don't change the URL Content Type if there is a disabled (aka invalid) selection
         $urlContentTypeElement.find('option').first().prop 'selected', true
         $urlContentTypeElement.trigger('change')
 

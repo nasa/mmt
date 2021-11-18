@@ -70,10 +70,10 @@ describe 'Updating a Service Entry', reset_provider: true do
 
       context 'when using the Chooser widget' do
         it 'sorts the left and right panels of the chooser widget in alphabetical order' do
-          expect(page).to have_css('#tag_guids_fromList option:first-child', text: "ID_1 | Mark's Test")
+          expect(page).to have_css('#tag_guids_fromList option:first-child', text: "🟠 ID_1 | Mark's Test")
           expect(page).to have_css('#tag_guids_fromList option:last-child', text: 'testing 03_002 | Test test title 03')
 
-          expect(page).to have_css('#tag_guids_toList option:first-child', text: "ID_1 | Mark's Test")
+          expect(page).to have_css('#tag_guids_toList option:first-child', text: "🟠 ID_1 | Mark's Test")
           expect(page).to have_css('#tag_guids_toList option:last-child', text: 'testing 03_002 | Test test title 03')
         end
       end
@@ -98,11 +98,11 @@ describe 'Updating a Service Entry', reset_provider: true do
 
         it 'maintains the sort order on the right panel of the chooser widget' do
           # "From" list (the order always remains the same since items are not removed when added to the right side)
-          expect(page).to have_css('#tag_guids_fromList option:first-child', text: "ID_1 | Mark's Test")
+          expect(page).to have_css('#tag_guids_fromList option:first-child', text: "🟠 ID_1 | Mark's Test")
           expect(page).to have_css('#tag_guids_fromList option:last-child', text: 'testing 03_002 | Test test title 03')
 
           # "To" list
-          expect(page).to have_css('#tag_guids_toList option:first-child', text: "ID_1 | Mark's Test")
+          expect(page).to have_css('#tag_guids_toList option:first-child', text: "🟠 ID_1 | Mark's Test")
           expect(page).to have_css('#tag_guids_toList option:nth-child(2)', text: 'lorem_223 | ipsum')
           expect(page).to have_css('#tag_guids_toList option:last-child', text: 'testing 03_002 | Test test title 03')
         end
