@@ -79,7 +79,7 @@ class CollectionDraft < Draft
     self.entry_title = draft['EntryTitle']
   end
 
-  def update_draft(params, editing_user_id)
+  def update_draft(params, editing_user_id, keyword_recommendations = [], accepted_recommended_keywords = [])
     if params
       # RAILS 5.1 This is simpler than permit with a full json structure for collection
       # rethink this in light of CSRF solutions that prevent illegal items in params
@@ -91,6 +91,8 @@ class CollectionDraft < Draft
       if params['template_name']
         self.template_name = params['template_name'].empty? ? nil : params['template_name']
       end
+
+      params = filter_recommended_keywords(params, keyword_recommendations, accepted_recommended_keywords) unless keyword_recommendations.empty?
 
       # Convert {'0' => {'id' => '123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
@@ -121,6 +123,33 @@ class CollectionDraft < Draft
     end
     # This keeps an empty form from sending the user back to draft_path when clicking on Next
     true
+  end
+
+  def keyword_to_string(keyword_array)
+    result = ''
+    keyword_array.each do |key, value|
+      if result.blank?
+        result += value
+      else
+        result += ' > ' + value
+      end
+    end
+    result
+  end
+
+  def filter_recommended_keywords(draft, keyword_recommendations, accepted_recommended_keywords)
+    unless draft['science_keywords'].blank?
+      draft['science_keywords'].each do |index, science_keyword|
+        unless science_keyword.blank?
+          science_keyword_as_string = keyword_to_string(science_keyword)
+          if keyword_recommendations.include?(science_keyword_as_string) && !accepted_recommended_keywords.include?(science_keyword_as_string)
+            #remove from draft
+            draft['science_keywords'].delete(index)
+          end
+        end
+      end
+    end
+    draft
   end
 
   def add_metadata_dates(date: Time.now.utc, save_record: true)

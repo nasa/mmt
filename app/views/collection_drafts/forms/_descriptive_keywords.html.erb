@@ -50,17 +50,21 @@
 
               <% unless @keyword_recommendations.blank? %>
                 <% @keyword_recommendations.each_with_index do |recommended_keyword, recommendation_index| %>
-                  <li>
+                  <li id="<%= keyword_recommendation_string(recommended_keyword) %>">
                     <%= keyword_recommendation_string(recommended_keyword) %>
                     <span class="eui-badge--sm recommended-science-keywords"> Recommended</span>
-                    <a class="remove">
+                    <span class="checked-recommendation" hidden><i class="fa fa-check-square"></i></span>
+                    <a class="remove-recommendation" hidden>
                       <i class="fa fa-times-circle"></i>
                       <span class="is-invisible">Remove <%= keyword_recommendation_string(recommended_keyword) %></span>
                     </a>
-
+                    <a class="accept-recommendation">
+                      <i class="fa fa-plus-circle"></i>
+                      <span class="is-invisible">Accept <%= keyword_recommendation_string(recommended_keyword) %></span>
+                    </a>
                     <% science_keyword_fields = ['category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3', 'detailed_variable'] %>
                     <% keyword_recommendation_array(recommended_keyword).each_with_index do |keyword_part, keyword_part_index| %>
-                    <%= hidden_field_tag("draft[science_keywords][#{selected_keywords_index + recommendation_index}][#{science_keyword_fields[keyword_part_index]}]", keyword_part) %>
+                      <%= hidden_field_tag("draft[science_keywords][#{selected_keywords_index + recommendation_index}][#{science_keyword_fields[keyword_part_index]}]", keyword_part) %>
                     <% end %>
                   </li>
                 <% end %>
@@ -68,6 +72,8 @@
                 <%= hidden_field_tag("gkr_request_id", @gkr_request_id) %>
                 <%= hidden_field_tag('recommended_keywords_viewed', false, id: 'recommended-keywords-viewed') %>
                 <%= hidden_field_tag("recommended_keyword_list", keyword_recommendation_list(@recommended_keywords)) %>
+                <%= hidden_field_tag("accepted_recommended_keywords", '') %>
+                <%= hidden_field_tag("keyword_recommendations", keyword_recommendation_list(@keyword_recommendations)) %>
               <% end %>
             </ul>
             <p><%= hidden_field_tag("draft[science_keywords][#{Time.now.to_i}]", "") %></p>
