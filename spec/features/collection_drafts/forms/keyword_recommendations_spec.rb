@@ -64,11 +64,11 @@ describe 'GKR Science Keyword Recommendations', js: true do
         end
       end
 
-      context 'when removing some recommendations then saving the form' do
+      context 'when adding some recommendations then saving the form' do
         before do
           within '.selected-science-keywords ul' do
-            find('li:nth-child(6) a.remove').click
-            find('li:nth-child(5) a.remove').click
+            find('li:nth-child(6) a.accept-recommendation').click
+            find('li:nth-child(5) a.accept-recommendation').click
           end
 
           within '.nav-top' do
@@ -79,13 +79,12 @@ describe 'GKR Science Keyword Recommendations', js: true do
 
           click_on 'Expand All'
         end
-
         it 'displays the correct selected keywords' do
           within '.selected-science-keywords' do
             expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE > SURFACE TEMPERATURE > MAXIMUM/MINIMUM TEMPERATURE > 24 HOUR MAXIMUM TEMPERATURE')
             expect(page).to have_content('EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS > SEDIMENTARY ROCKS > SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES > LUMINESCENCE')
-            expect(page).to have_content('EARTH SCIENCE > OCEANS > SALINITY/DENSITY')
-            expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE')
+            expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN OPTICS')
+            expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN CHEMISTRY')
           end
         end
 
@@ -97,8 +96,8 @@ describe 'GKR Science Keyword Recommendations', js: true do
             expect(page).to have_no_content('Recommended Keywords')
             expect(page).to have_no_content('Based on your Abstract, the MMT automatically adds recommended keywords RECOMMENDED to your collection. If the recommended keywords are not relevant, you can remove them from the collection. This will help us make better recommendations in the future.')
 
-            expect(page).to have_no_content('EARTH SCIENCE > OCEANS > OCEAN OPTICS RECOMMENDED')
-            expect(page).to have_no_content('EARTH SCIENCE > OCEANS > OCEAN CHEMISTRY RECOMMENDED')
+            expect(page).to have_no_content('EARTH SCIENCE > OCEANS > SALINITY/DENSITY RECOMMENDED')
+            expect(page).to have_no_content('EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE RECOMMENDED')
           end
         end
       end
@@ -136,11 +135,11 @@ describe 'GKR Science Keyword Recommendations', js: true do
         end
       end
 
-      context 'when removing some recommendations then saving the form' do
+      context 'when adding some recommendations then saving the form' do
         before do
           within '.selected-science-keywords ul' do
-            find('li:nth-child(6) a.remove').click
-            find('li:nth-child(5) a.remove').click
+            find('li:nth-child(6) a.accept-recommendation').click
+            find('li:nth-child(5) a.accept-recommendation').click
           end
 
           within '.nav-top' do
@@ -156,8 +155,8 @@ describe 'GKR Science Keyword Recommendations', js: true do
           within '.selected-science-keywords' do
             expect(page).to have_content('EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE > SURFACE TEMPERATURE > MAXIMUM/MINIMUM TEMPERATURE > 24 HOUR MAXIMUM TEMPERATURE')
             expect(page).to have_content('EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS > SEDIMENTARY ROCKS > SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES > LUMINESCENCE')
-            expect(page).to have_content('EARTH SCIENCE > OCEANS > SALINITY/DENSITY')
-            expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE')
+            expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN OPTICS')
+            expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN CHEMISTRY')
           end
         end
 
@@ -169,8 +168,8 @@ describe 'GKR Science Keyword Recommendations', js: true do
             expect(page).to have_no_content('Recommended Keywords')
             expect(page).to have_no_content('Based on your Abstract, the MMT automatically adds recommended keywords RECOMMENDED to your collection. If the recommended keywords are not relevant, you can remove them from the collection. This will help us make better recommendations in the future.')
 
-            expect(page).to have_no_content('EARTH SCIENCE > OCEANS > OCEAN OPTICS RECOMMENDED')
-            expect(page).to have_no_content('EARTH SCIENCE > OCEANS > OCEAN CHEMISTRY RECOMMENDED')
+            expect(page).to have_no_content('EARTH SCIENCE > OCEANS > SALINITY/DENSITY RECOMMENDED')
+            expect(page).to have_no_content('EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE RECOMMENDED')
           end
         end
       end
@@ -189,7 +188,7 @@ describe 'GKR Science Keyword Recommendations', js: true do
     end
 
     it 'displays the previously selected keywords' do
-      expect(page).to have_content('EARTH SCIENCE > OCEANS > SALINITY/DENSITY')
+      expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN OPTICS')
       expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE')
     end
 
