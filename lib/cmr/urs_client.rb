@@ -169,7 +169,9 @@ module Cmr
       return [] if response.error?
 
       # filter out groups without tags
-      response.body.select! { |x| x['tag'] }
+      response.body.select! do |x|
+        provider_id.nil? ? x['tag'] : x['tag'] == provider_id
+      end
       response.body
     end
 
