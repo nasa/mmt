@@ -23,7 +23,7 @@ describe 'GKR Science Keyword Recommendations', js: true do
           expect(page).to have_no_css('.eui-badge--sm.recommended-science-keywords', text: 'RECOMMENDED')
 
           expect(page).to have_no_content('Recommended Keywords')
-          expect(page).to have_no_content('Based on your Abstract, the MMT automatically adds recommended keywords RECOMMENDED to your collection. If the recommended keywords are not relevant, you can remove them from the collection. This will help us make better recommendations in the future.')
+          expect(page).to have_no_content('Based on your Abstract, the MMT automatically suggests recommended keywords RECOMMENDED for your collection. To associate a recommended keyword to your collection, click the blue + icon next to the keyword. Once associated to the collection, the keyword will display a green check . To remove a keyword once it’s been associated, click the red X icon next to the keyword.')
         end
       end
     end
@@ -52,7 +52,7 @@ describe 'GKR Science Keyword Recommendations', js: true do
         within '.selected-science-keywords' do
           within '.eui-info-box' do
             expect(page).to have_content('Recommended Keywords')
-            expect(page).to have_content('Based on your Abstract, the MMT automatically adds recommended keywords RECOMMENDED to your collection. If the recommended keywords are not relevant, you can remove them from the collection. This will help us make better recommendations in the future.')
+            expect(page).to have_content('Based on your Abstract, the MMT automatically suggests recommended keywords RECOMMENDED for your collection. To associate a recommended keyword to your collection, click the blue + icon next to the keyword. Once associated to the collection, the keyword will display a green check . To remove a keyword once it’s been associated, click the red X icon next to the keyword.')
           end
 
           expect(page).to have_content('EARTH SCIENCE > OCEANS > SALINITY/DENSITY RECOMMENDED')
@@ -123,7 +123,7 @@ describe 'GKR Science Keyword Recommendations', js: true do
         within '.selected-science-keywords' do
           within '.eui-info-box' do
             expect(page).to have_content('Recommended Keywords')
-            expect(page).to have_content('Based on your Abstract, the MMT automatically adds recommended keywords RECOMMENDED to your collection. If the recommended keywords are not relevant, you can remove them from the collection. This will help us make better recommendations in the future.')
+            expect(page).to have_content('Based on your Abstract, the MMT automatically suggests recommended keywords RECOMMENDED for your collection. To associate a recommended keyword to your collection, click the blue + icon next to the keyword. Once associated to the collection, the keyword will display a green check . To remove a keyword once it’s been associated, click the red X icon next to the keyword.')
           end
 
           expect(page).to have_content('EARTH SCIENCE > OCEANS > SALINITY/DENSITY RECOMMENDED')
@@ -166,7 +166,7 @@ describe 'GKR Science Keyword Recommendations', js: true do
             expect(page).to have_no_css('.eui-badge--sm.recommended-science-keywords', text: 'RECOMMENDED')
 
             expect(page).to have_no_content('Recommended Keywords')
-            expect(page).to have_no_content('Based on your Abstract, the MMT automatically adds recommended keywords RECOMMENDED to your collection. If the recommended keywords are not relevant, you can remove them from the collection. This will help us make better recommendations in the future.')
+            expect(page).to have_no_content('Based on your Abstract, the MMT automatically suggests recommended keywords RECOMMENDED for your collection. To associate a recommended keyword to your collection, click the blue + icon next to the keyword. Once associated to the collection, the keyword will display a green check . To remove a keyword once it’s been associated, click the red X icon next to the keyword.')
 
             expect(page).to have_no_content('EARTH SCIENCE > OCEANS > SALINITY/DENSITY RECOMMENDED')
             expect(page).to have_no_content('EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE RECOMMENDED')
@@ -196,7 +196,7 @@ describe 'GKR Science Keyword Recommendations', js: true do
       within '.selected-science-keywords' do
         within '.eui-info-box' do
           expect(page).to have_content('Recommended Keywords')
-          expect(page).to have_content('Based on your Abstract, the MMT automatically adds recommended keywords RECOMMENDED to your collection. If the recommended keywords are not relevant, you can remove them from the collection. This will help us make better recommendations in the future.')
+          expect(page).to have_content('Based on your Abstract, the MMT automatically suggests recommended keywords RECOMMENDED for your collection. To associate a recommended keyword to your collection, click the blue + icon next to the keyword. Once associated to the collection, the keyword will display a green check . To remove a keyword once it’s been associated, click the red X icon next to the keyword.')
         end
 
         expect(page).to have_content('EARTH SCIENCE > OCEANS > OCEAN OPTICS RECOMMENDED')
@@ -231,7 +231,7 @@ describe 'GKR Science Keyword Recommendations', js: true do
         expect(page).to have_no_css('.eui-badge--sm.recommended-science-keywords', text: 'RECOMMENDED')
 
         expect(page).to have_no_content('Recommended Keywords')
-        expect(page).to have_no_content('Based on your Abstract, the MMT automatically adds recommended keywords RECOMMENDED to your collection. If the recommended keywords are not relevant, you can remove them from the collection. This will help us make better recommendations in the future.')
+        expect(page).to have_no_content('Based on your Abstract, the MMT automatically suggests recommended keywords RECOMMENDED for your collection. To associate a recommended keyword to your collection, click the blue + icon next to the keyword. Once associated to the collection, the keyword will display a green check . To remove a keyword once it’s been associated, click the red X icon next to the keyword.')
       end
     end
   end
@@ -253,7 +253,7 @@ describe 'GKR Science Keyword Recommendations', js: true do
         expect(page).to have_no_css('.eui-badge--sm.recommended-science-keywords', text: 'RECOMMENDED')
 
         expect(page).to have_no_content('Recommended Keywords')
-        expect(page).to have_no_content('Based on your Abstract, the MMT automatically adds recommended keywords RECOMMENDED to your collection. If the recommended keywords are not relevant, you can remove them from the collection. This will help us make better recommendations in the future.')
+        expect(page).to have_no_content('Based on your Abstract, the MMT automatically suggests recommended keywords RECOMMENDED for your collection. To associate a recommended keyword to your collection, click the blue + icon next to the keyword. Once associated to the collection, the keyword will display a green check . To remove a keyword once it’s been associated, click the red X icon next to the keyword.')
       end
     end
   end
