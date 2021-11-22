@@ -162,7 +162,6 @@ module Cmr
       response = get('/api/user_groups/search',
                      {
                        'name' => '',
-                       # TODO When EDL search handles tags in URSFOUR-1685:  add provider ids via tags
                        'shared_user_group' => true
                      },
                      'Authorization' => "Bearer #{get_client_token}")
