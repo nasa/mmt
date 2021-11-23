@@ -20,6 +20,12 @@ class StackSettings(pydantic.BaseSettings):
     task_cpu: int = 1024
     task_memory: int = 2048
 
+    # Necessary for HTTPS load balancer
+    certificate_arn: str
+
+    permissions_boundary_name: Optional[str]
+    vpc_id: Optional[str]
+
     class Config:
         """model config"""
 
