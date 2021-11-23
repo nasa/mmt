@@ -1,5 +1,5 @@
 describe 'GKR Science Keyword Recommendations', js: true do
-  RECOMMENDED_KEYWORD_TEXT = 'Based on your Abstract, the MMT automatically suggests recommended keywords RECOMMENDED for your collection. To associate a recommended keyword to your collection, click the blue + icon next to the keyword. Once associated to the collection, the keyword will display a green check . To remove a keyword once it’s been associated, click the red X icon next to the keyword.'
+  RECOMMENDED_KEYWORD_TEXT = 'Based on your Abstract, the MMT automatically suggests recommended keywords RECOMMENDED for your collection. To associate a recommended keyword to your collection, click the icon next to the keyword. Once associated to the collection, the keyword will display a green check . To remove a keyword once it’s been associated, click the icon next to the keyword.'
   before do
     login
   end
