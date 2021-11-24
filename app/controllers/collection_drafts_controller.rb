@@ -210,7 +210,7 @@ class CollectionDraftsController < BaseDraftsController
         if Rails.configuration.proposal_mode
           # For proposals, users only have access to proposals created by them.
           # Verify the user owns the draft
-          authorized = true if token_user.urs_uid == draft_user.urs_uid
+          authorized = true if token_user.urs_uid == draft_user.urs_uid || proposal_approver_permissions
         else
           # For drafts, users have access to any drafts in their provider list
           # Verify the user has permissions for this provider
