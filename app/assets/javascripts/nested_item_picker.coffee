@@ -147,6 +147,45 @@ $(document).ready ->
       # Validates the picker
       preparePickerValidation()
 
+    $('.selected-science-keywords').on 'click', '.remove-recommendation', ->
+      # The item being removed
+      keywordsListItem = $(this).parent()
+
+      # Remove keyword from list of accepted keywords
+      toBeRemoved = keywordsListItem.attr('id')
+      existingAccepted = $('#accepted_recommended_keywords').val()
+      arrayOfExistingAccepted = existingAccepted.split(',')
+      arrayOfExistingAccepted.splice($.inArray(toBeRemoved, arrayOfExistingAccepted),1);
+      $('#accepted_recommended_keywords').val(arrayOfExistingAccepted.toString())
+
+      #Show the 'accept' icon
+      keywordsListItem.find('.accept-recommendation').show()
+      #Hide check icon
+      keywordsListItem.find('.checked-recommendation').hide()
+      #Hide 'remove' icon
+      keywordsListItem.find('.remove-recommendation').hide()
+
+      # Validates the picker
+      preparePickerValidation()
+
+    $('.selected-science-keywords').on 'click', '.accept-recommendation', ->
+      # The item being accepted
+      keywordsListItem = $(this).parent()
+
+      #Put keyword in list of accepted keywords
+      accepted = keywordsListItem.attr('id')
+      existingAccepted = $('#accepted_recommended_keywords').val()
+      if existingAccepted.length > 0
+        accepted = ','.concat(accepted)
+      $('#accepted_recommended_keywords').val(existingAccepted + accepted)
+
+      #Shows the 'remove' icon
+      keywordsListItem.find('.remove-recommendation').show()
+      #Hides the 'accept' icon
+      keywordsListItem.find('.accept-recommendation').hide()
+      #Shows check icon
+      keywordsListItem.find('.checked-recommendation').show()
+
     # Functions to validate user's ability to add keywords
     # Validate when user clicks on on item selection
     checkSelectionLevel = ->
