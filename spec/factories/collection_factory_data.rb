@@ -594,6 +594,7 @@ def collection_one
     'Quality'            => 'Metadata quality summary',
     'UseConstraints' => {
       'Description' => 'These are some use constraints',
+      'FreeAndOpenData' => true,
       'LicenseURL' => {
         'Linkage' => 'http://example.com'
       }

@@ -36,16 +36,16 @@ $(document).ready ->
 
   # Handle coordinate-system-picker (resolution/local)
   $('.coordinate-system-picker').change ->
-    coordinateSystemType = $(this).parents('.coordinate-system-type')
+    resolutionAndCoordinateSystemType = $(this).parents('.resolution-and-coordinate-system-type')
     switch $(this).val()
       when 'resolution'
-        $(coordinateSystemType).siblings('.horizontal-data-resolution-fields').show()
-        $(coordinateSystemType).siblings('.local-coordinate-system-fields').hide()
+        $(resolutionAndCoordinateSystemType).siblings('.horizontal-data-resolution-fields').show()
+        $(resolutionAndCoordinateSystemType).siblings('.local-coordinate-system-fields').hide()
       when 'local'
-        $(coordinateSystemType).siblings('.horizontal-data-resolution-fields').hide()
-        $(coordinateSystemType).siblings('.local-coordinate-system-fields').show()
+        $(resolutionAndCoordinateSystemType).siblings('.horizontal-data-resolution-fields').hide()
+        $(resolutionAndCoordinateSystemType).siblings('.local-coordinate-system-fields').show()
 
-    $allSiblings = $(coordinateSystemType).siblings('.horizontal-data-resolution-fields, .local-coordinate-system-fields')
+    $allSiblings = $(resolutionAndCoordinateSystemType).siblings('.horizontal-data-resolution-fields, .local-coordinate-system-fields')
 
     # Clear all fields (except for radio buttons)
     $allSiblings.find('input, select, textarea').not("input[type='radio']").not('.checkbox-with-value').val ''
@@ -165,18 +165,20 @@ $(document).ready ->
   # Clear radio button selection and hide content
   $('.clear-radio-button').on 'click', ->
     $fieldset = $(this).parents('fieldset')
-    content = $(this).data('content')
 
-    $(this).siblings().find('input, select, textarea').not('input[type="radio"]').val ''
-    $fieldset.find(".#{content}-group input[type='radio']").prop 'checked', false
-    $fieldset.find(".#{content} input[type='radio']").prop 'checked', false
+    radio = $(this).data('radioFields')
+    $radioClearFields = $fieldset.find(".#{radio}").find('input[type="radio"]')
+    clear = $(this).data('clearFields')
+    $clearFields = $fieldset.find(".#{clear}").find('input, select, textarea').not('input[type="radio"]')
+    hide = $(this).data('hideFields')
+    $hideFields = $fieldset.find(".#{hide}")
 
-    $fieldset.find(".#{content} .geometry-type").hide()
-
-    $fieldset.find(".#{content}").hide()
-
-
-
+    if $radioClearFields.length > 0
+      $radioClearFields.prop 'checked', false
+    if $clearFields.length > 0
+      $clearFields.val ''
+    if $hideFields.length > 0
+      $hideFields.hide()
 
   # Handle AdditionalAttributes type select
   $('#additional-attributes').on 'change', '.additional-attribute-type-select', ->
@@ -198,6 +200,87 @@ $(document).ready ->
 
   $('.additional-attribute-type-select').each ->
     handleAdditionAttributeDataType($(this))
+
+  # Handle DOI Available selector
+  $('.doi-available-select').change ->
+    $parent = $(this).parents('.doi-group')
+    $parent.find('.doi-fields').hide()
+
+    # Clear all fields
+    $parent.find('.doi-fields').find('input, select, textarea').val ''
+
+    # Clear doi-available-select radio buttons
+    # that aren't the one just selected
+    $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
+
+    # show the selected fields
+    switch $(this).val()
+      when 'Available'
+        $parent.find('.doi-fields.available').show()
+      when 'NotAvailable'
+        $parent.find('.doi-fields.not-available').show()
+        $parent.find('.doi-fields.not-available select').val('Not Applicable')
+
+  # Handle License_Url Available selector
+  $('.use-constraint-type-select').change ->
+    $parent = $(this).parents('.license-group')
+
+    # Clear use-constraint-type radio buttons that aren't the one just selected
+    $parent.find('.use-constraint-type-group input').not("##{$(this).attr('id')}").prop 'checked', false
+
+    # label of description field
+    $descLabel = $('label[for=draft_use_constraints_description]')
+
+    # show the selected fields
+    # description only fields should be shown if any option is selected
+    $parent.find('.description-only-fields').show()
+    switch $(this).val()
+      when 'DescriptionOnly'
+        # description field should be required in this option
+        $descLabel.addClass('required')
+
+        $parent.find('.license-url-fields').find('input, select').val ''
+        $parent.find('.license-text-fields').find('textarea').val ''
+        $parent.find('#draft_use_constraints_license_url_linkage').trigger('blur')
+        $parent.find('.license-text-field').find('textarea').trigger('blur')
+        $parent.find('.license-url-fields').hide()
+        $parent.find('.license-text-field').hide()
+      when 'LicenseText'
+        # description field should not be required in this option
+        $descLabel.removeClass('required')
+
+        $parent.find('.license-url-fields').find('input, select, textarea').val ''
+        $parent.find('#draft_use_constraints_license_url_linkage').trigger('blur')
+        $parent.find('.license-url-fields').hide()
+        $parent.find('.license-text-field').show()
+      when 'LicenseURL'
+        # description field should not be required in this option
+        $descLabel.removeClass('required')
+
+        $parent.find('.license-text-field').find('textarea').val ''
+        $parent.find('.license-text-field').find('textarea').trigger('blur')
+        $parent.find('.license-text-field').hide()
+        $parent.find('.license-url-fields').show()
+
+  # Handle Total Collection File Size Selector (in Archive and Distribution Information)
+  $('.total-collection-file-size-select').change ->
+    $parent = $(this).parents('.total-collection-file-size-group')
+    $parent.find('.total-collection-file-size-fields').hide()
+
+    # Clear all fields
+    $parent.find('.total-collection-file-size-fields').find('input, select, textarea').val ''
+
+    # Clear collection file size radio buttons
+    # that aren't the one just selected
+    $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
+
+    # show the selected fields
+    switch $(this).val()
+      when 'BySize'
+        $parent.find('.total-collection-file-size-fields.by-size').show()
+      when 'ByDate'
+        $parent.find('.total-collection-file-size-fields.by-date').show()
+        $parent.find('.total-collection-file-size-fields.by-date select').val('Not Applicable')
 
   ###
   # UMM-V Forms
@@ -302,83 +385,3 @@ $(document).ready ->
     handleCoverageSpatialTypeSelect($(this))
 
   handleCoverageSpatialTypeSelect($('.data-resource-spatial-type-select'))
-
-  # Handle DOI Available selector
-  $('.doi-available-select').change ->
-    $parent = $(this).parents('.doi-group')
-    $parent.find('.doi-fields').hide()
-
-    # Clear all fields
-    $parent.find('.doi-fields').find('input, select, textarea').val ''
-
-    # Clear doi-available-select radio buttons
-    # that aren't the one just selected
-    $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
-
-    # show the selected fields
-    switch $(this).val()
-      when 'Available'
-        $parent.find('.doi-fields.available').show()
-      when 'NotAvailable'
-        $parent.find('.doi-fields.not-available').show()
-        $parent.find('.doi-fields.not-available select').val('Not Applicable')
-
-  # Handle License_Url Available selector
-  $('.use-constraint-type-select').change ->
-    $parent = $(this).parents('.license-group')
-
-    # Clear license-available-select radio buttons
-    # that aren't the one just selected
-    $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
-
-    # label of description field
-    $descLabel = $('label[for=draft_use_constraints_description]')
-
-    # show the selected fields
-    switch $(this).val()
-      when 'DescriptionOnly'
-        # description field should be required in this option
-        $descLabel.addClass('required')
-
-        $parent.find('.license-url-fields').find('input, select').val ''
-        $parent.find('.license-text-fields').find('textarea').val ''
-        $parent.find('#draft_use_constraints_license_url_linkage').trigger('blur')
-        $parent.find('.license-text-field').find('textarea').trigger('blur')
-        $parent.find('.license-url-fields').hide()
-        $parent.find('.license-text-field').hide()
-      when 'LicenseText'
-        # description field should not be required in this option
-        $descLabel.removeClass('required')
-
-        $parent.find('.license-url-fields').find('input, select, textarea').val ''
-        $parent.find('#draft_use_constraints_license_url_linkage').trigger('blur')
-        $parent.find('.license-url-fields').hide()
-        $parent.find('.license-text-field').show()
-      when 'LicenseURL'
-        # description field should not be required in this option
-        $descLabel.removeClass('required')
-
-        $parent.find('.license-text-field').find('textarea').val ''
-        $parent.find('.license-text-field').find('textarea').trigger('blur')
-        $parent.find('.license-text-field').hide()
-        $parent.find('.license-url-fields').show()
-
-  # Handle Total Collection File Size Selector (in Archive and Distribution Information)
-  $('.total-collection-file-size-select').change ->
-    $parent = $(this).parents('.total-collection-file-size-group')
-    $parent.find('.total-collection-file-size-fields').hide()
-
-    # Clear all fields
-    $parent.find('.total-collection-file-size-fields').find('input, select, textarea').val ''
-
-    # Clear collection file size radio buttons
-    # that aren't the one just selected
-    $parent.find('input').not("##{$(this).attr('id')}").prop 'checked', false
-
-    # show the selected fields
-    switch $(this).val()
-      when 'BySize'
-        $parent.find('.total-collection-file-size-fields.by-size').show()
-      when 'ByDate'
-        $parent.find('.total-collection-file-size-fields.by-date').show()
-        $parent.find('.total-collection-file-size-fields.by-date select').val('Not Applicable')

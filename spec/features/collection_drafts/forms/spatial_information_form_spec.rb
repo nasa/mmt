@@ -2,10 +2,7 @@ describe 'Spatial information form', js: true do
   before do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
-    visit collection_draft_path(draft)
-    within '.metadata' do
-      click_on 'Spatial Information', match: :first
-    end
+    visit edit_collection_draft_path(draft, 'spatial_information')
   end
 
   context 'when checking the accordion headers for required icons' do
@@ -135,7 +132,7 @@ describe 'Spatial information form', js: true do
           uncheck 'Non Gridded Range Resolutions'
           check 'Non Gridded Range Resolutions'
           within '.horizontal-data-resolution-fields.non-gridded-resolutions' do
-            first('label.eui-required-o').double_click 
+            first('label.eui-required-o').double_click
           end
         end
 
