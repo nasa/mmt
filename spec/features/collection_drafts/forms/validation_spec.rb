@@ -63,8 +63,8 @@ bad_lat_values = [
 # for the AdditionalAttributes "Value" field
 
 # boolean values
-good_bool_values = ['true','false','1','0']
-bad_bool_values = ['False','random string','tRue']
+good_bool_values = ['true', 'false', '1', '0']
+bad_bool_values = ['False', 'random string', 'tRue']
 
 # date values
 good_addtl_attr_dates = ['2000-02-01', '2015-01-01', '1900-03-21', '2122-12-10']
@@ -286,42 +286,155 @@ describe 'Data validation for a collection draft form', js: true do
     end
   end
 
+  #
   # Now for more complex testing
-  context 'when there is a oneOf constraint' do
-    before do
-      visit edit_collection_draft_path(@draft, form: 'temporal_information')
+  #
 
-      open_accordions
+  context 'when there is a oneOf constraint' do
+    context 'when viewing the Temporal Extents fields' do
+      before do
+        visit edit_collection_draft_path(@draft, form: 'temporal_information')
+
+        click_on 'Expand All'
+      end
+
+      it 'validation of oneOf does work' do
+        choose 'draft_temporal_extents_0_ends_at_present_flag_true'
+
+        within '.nav-top' do
+          click_on 'Done'
+        end
+        # Reject
+        click_on 'No'
+
+        expect(page).to have_selector(validation_error)
+        expect(page).to have_content('TemporalExtents should have one option completed')
+        choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
+
+        within '.single-date-times' do
+          fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-07-01T00:00:00Z'
+        end
+
+        # Bamboo spontaneously started failling this test with the apparent
+        # cause being that 'done' was not being clicked.  Clicking something
+        # outside of the datepicker widget allows the done click to be
+        # processed correctly. Previously, it looks like the click for done
+        # was only exiting the single date time field.
+        find('#draft_temporal_extents_0_precision_of_seconds').click
+        within '.nav-top' do
+          click_on 'Done'
+        end
+
+        expect(page).to have_content('Collection Draft Updated Successfully!')
+      end
     end
 
-    it 'validation of oneOf does work' do
-      choose 'draft_temporal_extents_0_ends_at_present_flag_true'
+    context 'when viewing the Use Constraints fields' do
+      before do
+        visit edit_collection_draft_path(@draft, form: 'data_identification')
 
-      within '.nav-top' do
-        click_on 'Done'
-      end
-      # Reject
-      click_on 'No'
-
-      expect(page).to have_selector(validation_error)
-      expect(page).to have_content('TemporalExtents should have one option completed')
-      choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
-
-      within '.single-date-times' do
-        fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-07-01T00:00:00Z'
+        click_on 'Expand All'
       end
 
-      # Bamboo spontaneously started failling this test with the apparent
-      # cause being that 'done' was not being clicked.  Clicking something
-      # outside of the datepicker widget allows the done click to be
-      # processed correctly. Previously, it looks like the click for done
-      # was only exiting the single date time field.
-      find('#draft_temporal_extents_0_precision_of_seconds').click
-      within '.nav-top' do
-        click_on 'Done'
+      context 'when selecting Description only' do
+        before do
+          within '.use-constraint-type-group' do
+            choose 'use_constraint_type_Description_DescriptionOnly'
+          end
+          within '.free-and-open-data-field' do
+            choose 'True'
+          end
+
+          within '.nav-top' do
+            click_on 'Done'
+          end
+          # Reject
+          click_on 'No'
+        end
+
+        it 'displays the correct validation error' do
+          within '.eui-banner--danger.summary-errors' do
+            expect(page).to have_content('Description is required')
+          end
+          within '.description-only-fields' do
+            expect(page).to have_content('Description is required')
+          end
+        end
+
+        it 'does not display unnecessary errors' do
+          expect(page).to have_no_content('License URL is required')
+          expect(page).to have_no_content('Linkage is required')
+          expect(page).to have_no_content('License Text is required')
+          expect(page).to have_no_content('UseConstraints should have one option completed')
+        end
       end
 
-      expect(page).to have_content('Collection Draft Updated Successfully!')
+      context 'when selecting License URL' do
+        before do
+          within '.use-constraint-type-group' do
+            choose 'use_constraint_type_Url_LicenseURL'
+          end
+
+          within '.license-url-fields' do
+            fill_in 'Name', with: 'something something'
+          end
+
+          within '.nav-top' do
+            click_on 'Done'
+          end
+          # Reject
+          click_on 'No'
+        end
+
+        it 'displays the correct validation error' do
+          within '.eui-banner--danger.summary-errors' do
+            expect(page).to have_content('Linkage is required')
+          end
+          within '.license-url-fields' do
+            expect(page).to have_content('Linkage is required')
+          end
+        end
+
+        it 'does not display unnecessary errors' do
+          expect(page).to have_no_content('Description is required')
+          expect(page).to have_no_content('License Text is required')
+          expect(page).to have_no_content('UseConstraints should have one option completed')
+        end
+      end
+
+      context 'when selecting License Text' do
+        before do
+          within '.use-constraint-type-group' do
+            choose 'use_constraint_type_Text_LicenseText'
+          end
+
+          within '.free-and-open-data-field' do
+            choose 'True'
+          end
+
+          within '.nav-top' do
+            click_on 'Done'
+          end
+          # Reject
+          click_on 'No'
+        end
+
+        it 'displays the correct validation error' do
+          within '.eui-banner--danger.summary-errors' do
+            expect(page).to have_content('License Text is required')
+          end
+          within '.license-text-field' do
+            expect(page).to have_content('License Text is required')
+          end
+        end
+
+        it 'does not display unnecessary errors' do
+          expect(page).to have_no_content('Description is required')
+          expect(page).to have_no_content('License URL is required')
+          expect(page).to have_no_content('Linkage is required')
+          expect(page).to have_no_content('UseConstraints should have one option completed')
+        end
+      end
     end
   end
 

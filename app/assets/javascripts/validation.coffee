@@ -474,22 +474,32 @@ $(document).ready ->
         error = null
         return
 
-    if error.keyword == 'required' && error.dataPath == '/UseConstraints/Description'
-      # this error only shows up for the Description field when there is a
-      # validation error to be shown for License URL fields, when the License
-      # URL radio button was selected. For this oneOf option with License URL
-      # fields, Description is not required, so the validation error
-      # should not be displayed
-      error = null
-      return
-    if error.keyword == 'required' && error.dataPath == '/UseConstraints/LicenseText'
-      # this error only shows up for the License Text field when there is a
-      # validation error to be shown for License URL fields, when the License
-      # URL radio button was selected. For this oneOf option with License URL
-      # fields, License Text is not required, so the validation error
-      # should not be displayed
-      error = null
-      return
+    if error.dataPath.indexOf('UseConstraints') != -1
+      # ignore should be boolean (free and open)
+      if error.message == 'should be boolean'
+        # html cannot hold boolean values, they are represented as string
+        error = null
+        return
+      if error.keyword == 'oneOf'
+        # as of MMT-2701, umm-c v1.16.6 this error SEEMS to show up when there
+        # is some other error but even when there is a valid option populated
+        # so it seems best to suppress it in lieu of other errors
+        error = null
+        return
+
+      # suppress errors for the oneOf options not selected
+      if $('#use_constraint_type_Description_DescriptionOnly').prop 'checked'
+        if error.keyword == 'required' && (error.dataPath == '/UseConstraints/LicenseURL' || error.dataPath == '/UseConstraints/LicenseText')
+          error = null
+          return
+      else if $('#use_constraint_type_Url_LicenseURL').prop 'checked'
+        if error.keyword == 'required' && (error.dataPath == '/UseConstraints/Description' || error.dataPath == '/UseConstraints/LicenseText')
+          error = null
+          return
+      else if $('#use_constraint_type_Text_LicenseText').prop 'checked'
+        if error.keyword == 'required' && (error.dataPath == '/UseConstraints/Description' || error.dataPath == '/UseConstraints/LicenseURL')
+          error = null
+          return
 
     if id.indexOf('cdf4') >= 0
       labelFor = id
