@@ -25,7 +25,7 @@
   <% resolution_checked = !resolution_and_coordinate_system['HorizontalDataResolution'].nil? %>
   <% local_checked = !resolution_and_coordinate_system['LocalCoordinateSystem'].nil? %>
   <!-- No name attribute to keep from submitting params, javascript will handle radio button group behavior -->
-  <div class="coordinate-system-type">
+  <div class="resolution-and-coordinate-system-type">
     <%= radio_button_tag(name_to_param("#{name_prefix}"), 'resolution', resolution_checked, class: 'coordinate-system-picker resolution', name: nil, data: { level: remove_pipes(name_prefix) }) %>
     <%= mmt_label(
       name: 'resolution',

@@ -287,6 +287,10 @@
       "minLength": 1,
       "maxLength": 4000
     },
+    "FreeAndOpenDataType":{
+      "description": "This sub-element if true, describes to end users and machines that this collection's data is free of charge and open for any use the user sees fit.",
+      "type": "boolean"
+    },
     "UseConstraintsType": {
       "description": "This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.",
       "oneOf": [{
@@ -296,6 +300,9 @@
         "properties": {
           "Description": {
             "$ref": "#/definitions/UseConstraintsDescType"
+          },
+          "FreeAndOpenData": {
+            "$ref": "#/definitions/FreeAndOpenDataType"
           }
         },
         "required": ["Description"]
@@ -310,6 +317,9 @@
           "LicenseURL": {
             "description": "This element holds the URL and associated information to access the License on the web. If this element is used the LicenseText element cannot be used.",
             "$ref": "umm-cmn-json-schema.json#/definitions/OnlineResourceType"
+          },
+          "FreeAndOpenData": {
+            "$ref": "#/definitions/FreeAndOpenDataType"
           }
         },
         "required": ["LicenseURL"]
@@ -326,6 +336,9 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 20000
+          },
+          "FreeAndOpenData": {
+            "$ref": "#/definitions/FreeAndOpenDataType"
           }
         },
         "required": ["LicenseText"]

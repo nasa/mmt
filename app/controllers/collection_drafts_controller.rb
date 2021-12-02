@@ -313,14 +313,48 @@ class CollectionDraftsController < BaseDraftsController
 
     if string.include? 'did not contain a required property'
       # error is about required fields
-      required_field = string.match(/contain a required property of '(.*)'/).captures.first
       field = fields.split('/')
+      required_field = string.match(/contain a required property of '(.*)'/).captures.first
       top_field = field[0] || required_field
+
       # For ArchiveAndDistributionInformation parent_field is needed to distinguish FileArchiveInformation or FileDistributionInformation
-      parent_field = ''
-      if top_field == 'ArchiveAndDistributionInformation'
-        parent_field = field[1]
+      parent_field = if top_field == 'ArchiveAndDistributionInformation'
+                       field[1]
+                     else
+                       ''
+                     end
+
+      # for UseConstraints, we need to figure out if the required field error is
+      # correct due to the oneOf constraint
+      if top_field == 'UseConstraints'
+        # check which option
+        use_constraints = get_resource.draft['UseConstraints']
+
+        use_constraint_option = if !use_constraints['LicenseText'].nil?
+                                  'LicenseText'
+                                elsif !use_constraints['LicenseURL'].nil?
+                                  # the Linkage field is what shows up as missing
+                                  # if another field in LicenseURL is populated
+                                  'Linkage'
+                                elsif !(use_constraints['Description'].nil? && use_constraints['FreeAndOpenData'].nil?) && use_constraints['LicenseURL'].nil? && use_constraints['LicenseText'].nil?
+                                  'Description'
+                                else
+                                  'none'
+                                end
+
+        requireds = string.scan(/contain a required property of '(.*)'/).flatten
+
+        if requireds.include?(use_constraint_option)
+          # if the use constraint option is listed as a missing required field, set it
+          required_field = use_constraint_option
+        else
+          # the use constraint option is not listed as a missing required field,
+          # so it shouldn't be an error
+          return
+        end
+
       end
+
       {
         field: required_field,
         parent_field: parent_field,

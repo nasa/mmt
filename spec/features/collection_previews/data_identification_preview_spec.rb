@@ -181,7 +181,9 @@ describe 'Data identification preview' do
               expect(page).to have_content('Collection Progress')
               expect(page).to have_content('Active')
 
-              expect(page).to have_content('These are some use constraints')
+              expect(page).to have_content('Description: These are some use constraints')
+              expect(page).to have_content('Free and Open Data: true')
+              expect(page).to have_content('License URL: http://example.com')
 
               expect(page).to have_content('42')
               expect(page).to have_content('Access constraint description')
