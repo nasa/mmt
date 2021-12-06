@@ -1,9 +1,13 @@
 """MMT_STACK Configs."""
 
+from enum import Enum
 from typing import Optional
 
 import pydantic
 
+class DeploymentStrategyEnum(str, Enum):
+    stack = 'stack'
+    pipeline = 'pipeline'
 
 class StackSettings(pydantic.BaseSettings):
     """Application settings"""
@@ -25,6 +29,8 @@ class StackSettings(pydantic.BaseSettings):
 
     permissions_boundary_name: Optional[str]
     vpc_id: Optional[str]
+
+    deployment_strategy: DeploymentStrategyEnum
 
     class Config:
         """model config"""
