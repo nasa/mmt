@@ -115,9 +115,9 @@ class MmtPipelineStack(Stack):
         pipeline.add_stage(
             MmtApp(
                 self,
-                "MmtApplicationStack",
-                f"{settings.stage}-mmt-app",
-                stack_id=f"{settings.stage}-{settings.name}",
+                "ApplicationStack",
+                f"{settings.stage}-{settings.name}",
+                stack_id=f"{settings.stage}-mmt-app",
                 env=env
             )
         )
@@ -381,7 +381,7 @@ elif settings.deployment_strategy == "stack":
     MmtStack(
         app,
         "ApplicationStack",
-        f"{settings.stage}-maap-mmt",
+        f"{settings.stage}-{settings.name}",
         cpu=settings.task_cpu,
         memory=settings.task_memory,
         mincount=settings.min_ecs_instances,

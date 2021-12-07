@@ -32,8 +32,8 @@ earthdata:
     gkr_root: "https://gkr.sit.earthdatacloud.nasa.gov"
   dit:
     urs_root: "https://uat.urs.earthdata.nasa.gov"
-    echo_root: "https://cmr.maap-project.org/legacy-services"
-    cmr_root: "https://cmr.maap-project.org"
+    echo_root: "https://cmr.dit.maap-project.org/legacy-services"
+    cmr_root: "https://cmr.dit.maap-project.org"
     edsc_root: "https://search.uat.earthdata.nasa.gov"
     launchpad_root: "https://apps.launchpad.nasa.gov"
     launchpad_sbx_root: "https://apps.launchpad-sbx.nasa.gov"
