@@ -80,6 +80,24 @@ class MmtPipelineStack(Stack):
                         # conditions={
                         #     "StringEquals": {'iam:ResourceTag/aws-cdk:bootstrap-role': 'deploy'}
                         # },
+                    ),
+                    iam.PolicyStatement(
+                        actions=["codestar-connections:UseConnection"],
+                        resources=["*"]
+                    ),
+                    iam.PolicyStatement(
+                        actions=[
+                            "appconfig:StartDeployment",
+                            "appconfig:GetDeployment",
+                            "appconfig:StopDeployment"
+                        ],
+                        resources=["*"]
+                    ),
+                    iam.PolicyStatement(
+                        actions=[
+                            "codecommit:GetRepository"
+                        ],
+                        resources=["*"]
                     )
                 ],
                 build_environment=codebuild.BuildEnvironment(
@@ -87,11 +105,10 @@ class MmtPipelineStack(Stack):
             ),
             synth=pipelines.ShellStep(
                 "Synth",
-                input=pipelines.CodePipelineSource.git_hub(
+                input=pipelines.CodePipelineSource.connection(
                     repo_string="MAAP-Project/mmt",
                     branch=branch,
-                    authentication=core.SecretValue.secrets_manager(
-                        "/github.com/MAAP-Project/mmt", json_field="token")
+                    connection_arn=settings.codestar_connection_arn
                 ),
                 commands=[
                     "mkdir -p deployment/.cdk",

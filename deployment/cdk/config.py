@@ -24,6 +24,9 @@ class StackSettings(pydantic.BaseSettings):
     task_cpu: int = 1024
     task_memory: int = 2048
 
+    # Needed for CodePipeline
+    codestar_connection_arn: Optional[str]
+
     # Necessary for HTTPS load balancer
     certificate_arn: str
 
