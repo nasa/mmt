@@ -336,7 +336,7 @@ class CollectionDraftsController < BaseDraftsController
                                   # the Linkage field is what shows up as missing
                                   # if another field in LicenseURL is populated
                                   'Linkage'
-                                elsif !(use_constraints['Description'].nil? && use_constraints['FreeAndOpenData'].nil?) && use_constraints['LicenseURL'].nil? && use_constraints['LicenseText'].nil?
+                                elsif !(use_constraints['Description'].nil? && use_constraints['FreeAndOpenData'].nil?)
                                   'Description'
                                 else
                                   'none'
