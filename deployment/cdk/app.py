@@ -62,6 +62,15 @@ class MmtPipelineStack(Stack):
         if settings.task_memory:
             build_env_vars["MMT_STACK_TASK_MEMORY"] = codebuild.BuildEnvironmentVariable(
                 value=settings.task_memory)
+        if settings.deployment_strategy:
+            build_env_vars["MMT_STACK_deployment_strategy"] = codebuild.BuildEnvironmentVariable(
+                value=settings.deployment_strategy)
+        if settings.codestar_connection_arn:
+            build_env_vars["MMT_STACK_codestar_connection_arn"] = codebuild.BuildEnvironmentVariable(
+                value=settings.codestar_connection_arn)
+        if settings.certificate_arn:
+            build_env_vars["MMT_STACK_certificate_arn"] = codebuild.BuildEnvironmentVariable(
+                value=settings.certificate_arn)
 
         pipeline = pipelines.CodePipeline(
             self, "Pipeline",
@@ -97,6 +106,10 @@ class MmtPipelineStack(Stack):
                         actions=[
                             "codecommit:GetRepository"
                         ],
+                        resources=["*"]
+                    ),
+                    iam.PolicyStatement(
+                        actions=["ec2:DescribeAvailabilityZones"],
                         resources=["*"]
                     )
                 ],
