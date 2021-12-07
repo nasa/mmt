@@ -77,6 +77,7 @@ module Cmr
     end
 
     def create_edl_group(group)
+      group['provider_id'] = 'CMR' if group['provider_id'].nil?
       concept_id = create_concept_id_from_group(group)
       response = proposal_mode_safe_post(
         '/api/user_groups',
@@ -107,9 +108,10 @@ module Cmr
       )
     end
 
-    def delete_edl_group(concept_id, provider_id)
+    def delete_edl_group(concept_id)
+      name, provider_id = concept_id_to_name_provider(concept_id)
       delete(
-        "/api/user_groups/#{concept_id_to_name(concept_id)}",
+        "/api/user_groups/#{name}",
         { 'tag' => provider_id,
           'shared_user_group' => true },
         nil,
@@ -117,8 +119,9 @@ module Cmr
       )
     end
 
-    def get_edl_group(concept_id, provider_id)
-      response = get("/api/user_groups/#{concept_id_to_name(concept_id)}",
+    def get_edl_group(concept_id)
+      name, provider_id = concept_id_to_name_provider(concept_id)
+      response = get("/api/user_groups/#{name}",
                      { 'tag' => provider_id,
                        'shared_user_group' => true },
                      'Authorization' => "Bearer #{get_client_token}")
@@ -129,8 +132,9 @@ module Cmr
       response
     end
 
-    def get_edl_group_members(concept_id, provider_id)
-      response = get("/api/user_groups/group_members/#{concept_id_to_name(concept_id)}",
+    def get_edl_group_members(concept_id)
+      name, provider_id = concept_id_to_name_provider(concept_id)
+      response = get("/api/user_groups/group_members/#{name}",
                      { 'tag' => provider_id,
                        'shared_user_group' => true },
                        'Authorization' => "Bearer #{get_client_token}")
@@ -142,10 +146,7 @@ module Cmr
     end
 
     def get_groups_for_provider_list(providers)
-      groups = []
-      return groups if providers.blank?
-
-      providers.each { |provider| groups += get_groups_for_provider(provider) }
+      groups = get_groups_for_providers(providers)
       groups.uniq { |group| group['name'] }
     end
 
@@ -158,7 +159,7 @@ module Cmr
       reformat_search_results(resp)
     end
 
-    def get_groups_for_provider(provider_id)
+    def get_groups_for_providers(provider_ids)
       response = get('/api/user_groups/search',
                      {
                        'name' => '',
@@ -167,9 +168,9 @@ module Cmr
                      'Authorization' => "Bearer #{get_client_token}")
       return [] if response.error?
 
-      # filter out groups without tags
+      # if provider_ids? is nil, filter out groups without tags
       response.body.select! do |x|
-        provider_id.nil? ? x['tag'] : x['tag'] == provider_id
+        provider_ids.nil? ? x['tag'] : provider_ids.include?(x['tag'])
       end
       response.body
     end
@@ -184,18 +185,32 @@ module Cmr
       response.body
     end
 
+    # Options can contain 3 keys:
+    # provider: filter the groups using the specified provider list.
+    # member: filter the groups using the specific member list.
+    # show_system_groups: whether system groups should be included in the results
+    # Note: If provider is nil has special meaning, it will return all groups (that have a tag)
     def get_edl_groups(options)
+      providers = options['provider']
+
+      unless providers.nil? || options['show_system_groups'].nil?
+        providers << 'CMR' if options['show_system_groups']
+      end
+
+      # If no user filter, just do a provider level search.
       if options['member'].blank?
-        providers = options['provider'] || []
         provider_groups = get_groups_for_provider_list(providers)
         status = provider_groups.empty? ? 400 : 200
         return Cmr::Response.new(Faraday::Response.new(status: status, body: reformat_search_results(provider_groups)))
       end
 
+      # Search by list of users, then filter that list by provider.
       users = options['member'] || []
       user_groups = get_groups_for_user_list(users)
-      user_groups['items'].select! { |x| providers.include?(x['provider_id']) } if providers && providers.length > 0
-
+      user_groups['items'].select! do |x|
+        providers.nil? ? x['provider_id'] : providers.include?(x['provider_id'])
+      end
+      user_groups['hits'] = user_groups['items'].length
       Cmr::Response.new(Faraday::Response.new(status: 200, body: user_groups))
     end
 
@@ -203,19 +218,20 @@ module Cmr
     def update_edl_group(concept_id, group)
       new_description = group['description']
 
-      group_members_response = get_edl_group_members(concept_id, group['provider_id'])
+      group_members_response = get_edl_group_members(concept_id)
       existing_members = group_members_response.body if group_members_response.success?
       new_members = group['members']
 
       members_to_add = new_members.reject { |x| existing_members.include? x }
-      add_new_members(concept_id_to_name(concept_id), members_to_add, group['provider_id'])
+      name, provider_id = concept_id_to_name_provider(concept_id)
+      add_new_members(name, members_to_add, provider_id)
 
       members_to_remove = existing_members.reject { |x| new_members.include? x }
-      remove_old_members(concept_id_to_name(concept_id), members_to_remove, group['provider_id'])
+      remove_old_members(name, members_to_remove, provider_id)
 
       response = proposal_mode_safe_post(
         "/api/user_groups/#{group['name']}/update",
-        "tag=#{group['provider_id']}&description=#{URI.encode(new_description)}&shared_user_group=true",
+        "tag=#{provider_id}&description=#{URI.encode(new_description)}&shared_user_group=true",
         'Authorization' => "Bearer #{get_client_token}"
       )
       response.body['concept_id'] = concept_id
@@ -262,14 +278,14 @@ module Cmr
           'description' => item['description'],
           'provider_id' => item['tag'],
           'concept_id' => create_concept_id_from_group(item),
-          'member_count' => get_edl_group_member_count(create_concept_id_from_group(item), item['tag']) }
+          'member_count' => get_edl_group_member_count(create_concept_id_from_group(item)) }
       end
 
       { 'hits' => items.length, 'items' => items }
     end
 
-    def get_edl_group_member_count(concept_id, provider_id)
-      response = get_edl_group_members(concept_id, provider_id)
+    def get_edl_group_member_count(concept_id)
+      response = get_edl_group_members(concept_id)
       return response.body.length if response.success?
 
       0
@@ -279,15 +295,14 @@ module Cmr
     # such as a concept_id.  We construct one here and store it in the name field of the
     # group. This is a temporary fix until the api is enhanced.
     def create_concept_id_from_group(group)
-      "#{group['name']}__#{group['provider_id']}"
+      provider_id = group['provider_id'].nil? ? group['tag'] : group['provider_id']
+      "#{group['name']}__#{provider_id}"
     end
 
-    def concept_id_to_name(concept_id)
-      concept_id.split('__')[0]
-    end
-
-    def concept_id_to_provider(concept_id)
-      concept_id.split('__')[1]
+    def concept_id_to_name_provider(concept_id)
+      name = concept_id.split('__')[0]
+      provider_id = concept_id.split('__')[1]
+      [name, provider_id]
     end
   end
 end
