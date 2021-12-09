@@ -6,7 +6,7 @@ from typing import Optional
 import pydantic
 
 class DeploymentStrategyEnum(str, Enum):
-    stack = 'stack'
+    application = 'application'
     pipeline = 'pipeline'
 
 class StackSettings(pydantic.BaseSettings):

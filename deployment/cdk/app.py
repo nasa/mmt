@@ -104,12 +104,24 @@ class MmtPipelineStack(Stack):
                     ),
                     iam.PolicyStatement(
                         actions=[
-                            "codecommit:GetRepository"
+                            "codecommit:*"
                         ],
                         resources=["*"]
                     ),
                     iam.PolicyStatement(
                         actions=["ec2:DescribeAvailabilityZones"],
+                        resources=["*"]
+                    ),
+                    iam.PolicyStatement(
+                        actions=["cloudformation:*"],
+                        resources=["*"]
+                    ),
+                    iam.PolicyStatement(
+                        actions=["iam:*"],
+                        resources=["*"]
+                    ),
+                    iam.PolicyStatement(
+                        actions=["codebuild:*"],
                         resources=["*"]
                     )
                 ],
@@ -407,7 +419,7 @@ if settings.deployment_strategy == "pipeline":
                 "CDK_DEPLOY_ACCOUNT", os.environ["CDK_DEFAULT_ACCOUNT"]),
             region=os.environ.get("CDK_DEPLOY_REGION", os.environ["CDK_DEFAULT_REGION"]))
     )
-elif settings.deployment_strategy == "stack":
+elif settings.deployment_strategy == "application":
     MmtStack(
         app,
         "ApplicationStack",
