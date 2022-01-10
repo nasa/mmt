@@ -50,7 +50,7 @@ gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
 gem 'bootstrap3-datetimepicker-rails'
 gem 'breadcrumbs_on_rails'
 gem 'builder'
-gem 'carmen', '~>1.0.2'  # countries and subdivisions
+gem 'carmen', '~>1.0.2' # countries and subdivisions
 gem 'factory_bot_rails'
 gem 'faker'
 gem 'figaro'
