@@ -161,7 +161,14 @@ module ControlledKeywords
 
     # sets platform types with nested short_name and long_name values
     if response.success?
-      platform_types = response.body.fetch('category', []).map do |category|
+      categories = []
+      response.body.fetch('basis', []).map do |basis|
+        basis.fetch('subfields', []).each do |subfield|
+          categories += basis.fetch('category', []) if subfield == 'category'
+        end
+      end
+
+      platform_types = categories.map do |category|
         short_names = get_controlled_keyword_short_names(Array.wrap(category))
 
         {
