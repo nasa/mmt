@@ -81,7 +81,7 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:host] = 'https://mmt.localtest.earthdata.nasa.gov'
 
   # Feature Toggle for groups
-  config.groups_enabled = true
+  config.groups_enabled = false
 
   # Feature Toggle for bulk updates
   config.bulk_updates_enabled = true
@@ -105,7 +105,7 @@ Rails.application.configure do
   config.subscriptions_enabled = true
 
   # Feature toggle for Content Security Policy (CSP) logging.
-  config.csplog_enabled = true
+  config.csplog_enabled = false
 
   # Feature toggle for UMM-T
   config.umm_t_enabled = true
@@ -117,7 +117,7 @@ Rails.application.configure do
   config.gkr_enabled = true
 
   # Feature toggle for EDL groupdl
-  config.edl_groups_enabled = false
+  config.edl_groups_enabled = true
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
@@ -126,4 +126,6 @@ Rails.application.configure do
   config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
 
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
+  # GraphQl server
+  config.graphql_server = 'https://graphql.sit.earthdata.nasa.gov/api'
 end

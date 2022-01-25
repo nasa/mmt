@@ -100,4 +100,6 @@ Rails.application.configure do
   # config.colorize_logging = false
 
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
+  # GraphQl server
+  config.graphql_server = 'https://graphql.sit.earthdata.nasa.gov/api'
 end
