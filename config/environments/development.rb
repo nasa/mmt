@@ -127,5 +127,5 @@ Rails.application.configure do
 
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
   # GraphQl server
-  config.graphql_server = 'https://graphql.sit.earthdata.nasa.gov/api'
+  config.graphql_server = 'http://localhost:6006/dev/api'
 end
