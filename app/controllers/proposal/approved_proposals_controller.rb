@@ -80,18 +80,50 @@ module Proposal
     # Expects to be passed an 'Echo-Token' of format 'URS token:URS client id'
     # in the headers.
     def validate_token_and_user
-      passed_token, passed_client_id = request.headers.fetch('Echo-Token', ':').split(':')
+      puts 'can I even be here?'
+      puts "headers: #{request.headers.inspect}"
+      # passed_token, passed_client_id = request.headers.fetch('Echo-Token', ':').split(':')
+      passed_token = request.headers.fetch('Echo-Token', nil)
 
       # Navigate a browser elsewhere if there is no token
       redirect_to root_path and return if passed_token.blank?
 
-      @token_response = cmr_client.validate_token(passed_token, passed_client_id)
+      puts 'in validate_token_and_user, about to try and validate token'
+      puts 'lp token:'
+      p passed_token
+      log_all_session_keys
 
-      @requester_has_approver_permissions = if @token_response.success?
-                                              is_non_nasa_draft_approver?(user: User.new(urs_uid: @token_response.body['uid']), token: passed_token)
-                                            else
-                                              false
-                                            end
+      # @token_response = cmr_client.validate_token(passed_token, passed_client_id)
+      @token_response = cmr_client.validate_launchpad_token(passed_token)
+      # byebug
+      puts "token_response:\n#{@token_response.inspect}"
+
+      if @token_response.success?
+        auid = @token_response.body.fetch('auid', nil)
+        urs_profile_response = cmr_client.get_urs_uid_from_nams_auid(auid)
+
+        # urs_uid = urs_profile_response['uid']
+        if urs_profile_response.success?
+          urs_uid = urs_profile_response.body.fetch('uid', '')
+          puts "about to check ACLs for user #{urs_uid}"
+          @requester_has_approver_permissions = is_non_nasa_draft_approver?(user: User.new(urs_uid: urs_uid), token: passed_token)
+        else
+          Rails.logger.info "User with auid #{session[:auid]} does not have an associated URS account. Cannot validate user for approved proposals: #{urs_profile_response.clean_inspect}"
+
+          # redirect_to prompt_urs_association_path and return
+          false
+        end
+
+      else
+        false
+      end
+
+
+      # @requester_has_approver_permissions = if @token_response.success?
+      #                                         is_non_nasa_draft_approver?(user: User.new(urs_uid: @token_response.body['uid']), token: passed_token)
+      #                                       else
+      #                                         false
+      #                                       end
     end
 
     def update_and_save_done_status(proposal, urs_uid)
