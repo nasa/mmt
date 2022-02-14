@@ -360,6 +360,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  actionpack (~> 5.2.6.2)
   activerecord-import
   activerecord-session_store
   autoprefixer-rails
@@ -399,7 +400,7 @@ DEPENDENCIES
   pg
   pundit
   rack_session_access
-  rails (~> 5.2.6)
+  rails (~> 5.2.6.2)
   rails-controller-testing
   rspec-rails
   rspec_junit_formatter
