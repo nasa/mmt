@@ -360,7 +360,6 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
-  actionpack (~> 5.2.6.2)
   activerecord-import
   activerecord-session_store
   autoprefixer-rails

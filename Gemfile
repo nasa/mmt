@@ -7,7 +7,6 @@ ruby "2.7.2"
 gem 'rails', '~> 5.2.6.2'
 # Rails currently limits all of the action*/active* gems
 # activesupport limits tzinfo
-gem 'actionpack', '~>5.2.6.2'
 
 # deployment support
 # Sprockets is locked to ~> 3.7.0 because the extra work to update to 4.0.0 was
