@@ -399,7 +399,7 @@ DEPENDENCIES
   pg
   pundit
   rack_session_access
-  rails (~> 5.2.4)
+  rails (~> 5.2.6)
   rails-controller-testing
   rspec-rails
   rspec_junit_formatter
