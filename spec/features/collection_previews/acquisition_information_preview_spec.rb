@@ -25,7 +25,6 @@ describe 'Acquisition information preview',js:true do
       end
 
       it 'displays the metadata' do
-        screenshot_and_open_image
         within '#metadata-preview' do
           #within '.projects-table' do
           #within all('tr')[1] do
