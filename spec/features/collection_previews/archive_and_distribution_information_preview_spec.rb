@@ -1,4 +1,4 @@
-describe 'Archive And Distribution Information preview',js:true do
+describe 'Archive And Distribution Information preview' do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
       before do
@@ -32,7 +32,6 @@ describe 'Archive And Distribution Information preview',js:true do
         end
       end
       it 'displays the metadata' do
-        screenshot_and_open_image
         #within '.file-archive-information-preview' do
         #within all('li.file-archive-information')[0] do
         #expect(page).to have_content('Format: kml')
