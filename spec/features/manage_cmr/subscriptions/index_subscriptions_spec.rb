@@ -130,10 +130,6 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
 
       clear_cache
 
-      # CMR does a check to ensure the user 'fakeid' exists in EDL.
-      # So add this user to local cmr.
-      cmr_client.add_users_to_local_cmr(['fakeid'], nil)
-
       _ingest_response2, @search_response3, @subscription3 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake', query: 'polygon=10,10,30,10,30,20,10,20,10,10&equator_crossing_longitude=0,10', subscriber_id: 'fakeid', collection_concept_id: @c_ingest_response2['concept-id'])
 
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)

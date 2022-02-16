@@ -21,10 +21,6 @@ describe 'When Viewing Subscriptions', js:true, reset_provider: true do
 
   context 'when visiting the show page' do
     before :all do
-      # CMR does a check to ensure the user 'rarxd5taqea' exists in EDL.
-      # So add this user to local cmr.
-      cmr_client.add_users_to_local_cmr(['rarxd5taqea'], nil)
-
       # make a record
       @ingest_response, search_response, @subscription = publish_new_subscription(native_id: @native_id, collection_concept_id: @c_ingest_response['concept-id'])
       @native_id = search_response.body['items'].first['meta']['native-id']
