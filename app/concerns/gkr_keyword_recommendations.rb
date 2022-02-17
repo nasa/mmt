@@ -17,7 +17,9 @@ module GKRKeywordRecommendations
     end
 
     keyword_recommendations = response.body['recommendations'].map { |rec| rec['keyword'] }
-    { id: response.body['uuid'], recommendations: keyword_recommendations }
+
+    keyword_uuids = response.body['recommendations'].map { |rec| [rec['keyword'], rec['uuid']] }.to_h
+    { id: response.body['uuid'], recommendations: keyword_recommendations, uuids: keyword_uuids }
   end
 
   def log_gkr_comm_error(user, provider, abstract, request_id, status, reason)
