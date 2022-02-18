@@ -9,7 +9,8 @@ describe 'Collection information preview',js:true do
       end
 
       it 'does not display metadata' do
-          within 'ul.collection-information-preview' do
+          within '#metadata-preview' do
+            #within 'ul.collection-information-preview' do
             expect(page).to have_no_content('Purpose')
             expect(page).to have_no_content('Version Description')
         end
