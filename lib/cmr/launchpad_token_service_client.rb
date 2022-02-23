@@ -4,26 +4,37 @@ module Cmr
     def validate_launchpad_token(launchpad_token)
       # this is a post in proposal mode, but it is not writing any data, it is
       # using the Launchpad Service Account credentials to authenticate
-      response = launchpad_token_service_connection.post do |req|
+      faraday_response = launchpad_token_service_connection.post do |req|
         req.url('/icam/api/sm/v1/validate')
         req.headers['Content-Type'] = 'application/json'
         req.body = { 'token' => launchpad_token }.to_json
       end
-      puts "lp response: \n#{response.inspect}"
-      response
-    end
 
-    # def launchpad_token_service_root
-    #   if ENV['launchpad_production'] == 'true'
-    #     'https://api.launchpad.nasa.gov'
-    #   else
-    #     'https://api.launchpad-sbx.nasa.gov'
-    #   end
-    # end
+      client_response = Cmr::Response.new(faraday_response)
+
+      begin
+        client_response_headers_for_logs = client_response.headers.dup
+
+        if client_response.error?
+          error_string = if self.class == Cmr::CmrClient
+                           client_response.clean_inspect(body_only: true)
+                         else
+                           client_response.body.inspect
+                         end
+
+          Rails.logger.error "#{self.class} Response Error: #{error_string}"
+        end
+
+        Rails.logger.info "#{self.class} Response #{method} #{url} result : Headers: #{client_response_headers_for_logs} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_s(:log_time)}"
+      rescue => e
+        Rails.logger.error "#{self.class} Error: #{e}"
+      end
+
+      client_response
+    end
 
     def launchpad_token_service_connection
       Faraday.new(url: @root, ssl: ssl) do |conn|
-      # Faraday.new(url: launchpad_token_service_root, ssl: ssl) do |conn|
         conn.use FaradayMiddleware::FollowRedirects
         conn.response :logging
 

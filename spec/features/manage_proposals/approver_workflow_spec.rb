@@ -3,8 +3,9 @@
 describe 'When going through the whole collection proposal approver workflow', js: true do
   before do
     login(real_login: true)
-    mock_urs_get_users
+
     allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
+    mock_urs_get_users
   end
 
   context 'when loading the manage proposals page' do
@@ -21,11 +22,14 @@ describe 'When going through the whole collection proposal approver workflow', j
         @native_id = 'dmmt_collection_2'
         @proposal = create(:collection_draft_proposal_all_required_fields, proposal_short_name: short_name, proposal_entry_title: 'Date-Check', proposal_request_type: 'create', proposal_native_id: @native_id)
         mock_approve(@proposal)
+
         # Workflow is in mmt proper, so switch back
+        visit logout_path
         set_as_mmt_proper
-        # Mock URS communication because it has no concept of our test users
-        mock_valid_token_validation
-        visit manage_proposals_path
+        real_login(method: 'launchpad')
+        VCR.use_cassette('launchpad/token_service_success', record: :none) do
+          visit manage_proposals_path
+        end
 
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Publish'
@@ -61,18 +65,23 @@ describe 'When going through the whole collection proposal approver workflow', j
         @native_id = 'dmmt_collection_1'
         @proposal = create(:full_collection_draft_proposal, proposal_short_name: short_name, proposal_entry_title: 'Test Entry Title', proposal_request_type: 'create', proposal_native_id: @native_id)
         mock_approve(@proposal)
+
         # Workflow is in mmt proper, so switch back
+        visit logout_path
         set_as_mmt_proper
-        # Mock URS communication because it has no concept of our test users
-        mock_valid_token_validation
-        visit manage_proposals_path
+        real_login(method: 'launchpad')
+        VCR.use_cassette('launchpad/token_service_success', record: :none) do
+          visit manage_proposals_path
+        end
 
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Publish'
         end
         select 'MMT_2', from: 'provider-publish-target'
         within '#approver-proposal-modal' do
-          click_on 'Publish'
+          VCR.use_cassette('launchpad/token_service_success', record: :none) do
+            click_on 'Publish'
+          end
         end
       end
 
@@ -117,18 +126,22 @@ describe 'When going through the whole collection proposal approver workflow', j
         click_on 'Yes'
         click_on 'Approve Update Request'
         click_on 'Yes'
-        # Workflow is in mmt proper, so switch back
-        set_as_mmt_proper
 
-        # Mock URS communication because it has no concept of our test users
-        mock_valid_token_validation
-        visit manage_proposals_path
+        # Workflow is in mmt proper, so switch back
+        visit logout_path
+        set_as_mmt_proper
+        real_login(method: 'launchpad')
+        VCR.use_cassette('launchpad/token_service_success', record: :none) do
+          visit manage_proposals_path
+        end
 
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Publish'
         end
         within '#approver-proposal-modal' do
-          click_on 'Yes'
+          VCR.use_cassette('launchpad/token_service_success', record: :none) do
+            click_on 'Yes'
+          end
         end
       end
 
@@ -187,18 +200,23 @@ describe 'When going through the whole collection proposal approver workflow', j
         click_on 'Yes'
         click_on 'Approve Delete Request'
         click_on 'Yes'
+
         # Workflow is in mmt proper, so switch back
+        visit logout_path
         set_as_mmt_proper
-        # Mock URS communication because it has no concept of our test users
-        mock_valid_token_validation
-        visit manage_proposals_path
+        real_login(method: 'launchpad')
+        VCR.use_cassette('launchpad/token_service_success', record: :none) do
+          visit manage_proposals_path
+        end
 
         within '.open-draft-proposals tbody tr:nth-child(1)' do
           click_on 'Delete'
         end
 
         within '#approver-proposal-modal' do
-          click_on 'Yes'
+          VCR.use_cassette('launchpad/token_service_success', record: :none) do
+            click_on 'Yes'
+          end
         end
       end
 
