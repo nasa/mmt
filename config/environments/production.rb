@@ -161,4 +161,6 @@ Rails.application.configure do
   config.tag_manager_id = 'GTM-WNP7MLF'
 
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
+  # GraphQl server
+  config.graphql_server = 'https://graphql.earthdata.nasa.gov/api'
 end

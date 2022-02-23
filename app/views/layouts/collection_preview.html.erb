@@ -15,6 +15,8 @@
 
   <%= render partial: 'shared/assets' %>
   <%= render partial: 'shared/google_tag_manager_head' %>
+  <script defer src="https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.31.js"></script>
+  <link href="https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.31.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body class="dashboard <%= 'proposal-mode-body offset-background-image' if Rails.configuration.proposal_mode %>">
