@@ -1,20 +1,11 @@
-describe 'General Overview preview' do
+describe 'General Overview preview',js:true do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
       before do
         login
         draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
-      end
 
-      it 'displays the default blank text for short name and entry title' do
-        within '.collection-short-name' do
-          expect(page).to have_content('<Blank Short Name>')
-        end
-
-        within '.collection-title' do
-          expect(page).to have_content('Entry Title Not Provided')
-        end
       end
     end
 
@@ -29,15 +20,11 @@ describe 'General Overview preview' do
       end
 
       it 'displays the metadata' do
-        within '.collection-short-name' do
+        #screenshot_and_open_image
+        within '#metadata-preview' do
+          #screenshot_and_open_image
           expect(page).to have_content(short_name)
-        end
-
-        within '.collection-title' do
           expect(page).to have_content(entry_title)
-        end
-
-        within '.collection-abstract' do
           expect(page).to have_content('This is a long description of the collection')
         end
       end
