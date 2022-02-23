@@ -6,10 +6,17 @@ describe 'Table of Contents on the Additional information tab', js:true do
         draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
 
+        #add this to have screenshot image
+        #screenshot_and_open_image
         find('.tab-label', text: 'Additional Information').click
+
       end
 
       it 'displays a table of contents' do
+
+        #add this to have screenshot image
+        #screenshot_and_open_image
+
         expect(page).to have_button('Table of Contents')
         expect(page).to have_link('Collection Information', href: '#Collection_Information', title: 'Jump to Collection Information')
         expect(page).to have_link('Data Identification', href: '#Data_Identification', title: 'Jump to Data Identification')
