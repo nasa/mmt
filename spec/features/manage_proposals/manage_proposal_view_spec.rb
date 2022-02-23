@@ -2,8 +2,21 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
   context 'when logging in with URS' do
     before do
       login(real_login: true)
-      mock_urs_get_users
       allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
+      mock_urs_get_users
+      visit manage_proposals_path
+    end
+
+    it 'displays a useful error message' do
+      expect(page).to have_content('Please log in with Launchpad to perform proposal approver actions in MMT.')
+    end
+  end
+
+  context 'when logging in with Launchpad' do
+    before do
+      real_login(method: 'launchpad')
+      allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
+      mock_urs_get_users
     end
 
     context 'when the user can be authenticated, has approver permissions, and there are two pages of proposals' do
@@ -12,9 +25,11 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
         26.times do |num|
           mock_approve(create(:full_collection_draft_proposal, proposal_short_name: "Short Name: #{num}", proposal_entry_title: "Entry Title: #{num}", proposal_request_type: num.even? ? 'create' : 'delete'))
         end
+
         set_as_mmt_proper
-        mock_valid_token_validation
-        visit manage_proposals_path
+        VCR.use_cassette('launchpad/token_service_success', record: :none) do
+          visit manage_proposals_path
+        end
       end
 
       it 'has the correct proposal count' do
@@ -42,9 +57,11 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
           mock_approve(create(:full_collection_draft_proposal, proposal_short_name: "Short Name: #{num}", proposal_entry_title: "Entry Title: #{num}", proposal_request_type: num.even? ? 'create' : 'delete'))
         end
         CollectionDraftProposal.last.update_column('submitter_id', 'z_user')
+
         set_as_mmt_proper
-        mock_valid_token_validation
-        visit manage_proposals_path
+        VCR.use_cassette('launchpad/token_service_success', record: :none) do
+          visit manage_proposals_path
+        end
       end
 
       it 'displays short names correctly' do
@@ -79,7 +96,9 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
 
       context 'when sorting short name' do
         before do
-          click_on 'Sort by Short Name Asc'
+          VCR.use_cassette('launchpad/token_service_success', record: :none) do
+            click_on 'Sort by Short Name Asc'
+          end
         end
 
         it 'sorts in ascending order' do
@@ -90,7 +109,9 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
 
         context 'when sorting short name desc' do
           before do
-            click_on 'Sort by Short Name Desc'
+            VCR.use_cassette('launchpad/token_service_success', record: :none) do
+              click_on 'Sort by Short Name Desc'
+            end
           end
 
           it 'sorts in descending order' do
@@ -103,7 +124,9 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
 
       context 'when sorting submitter' do
         before do
-          click_on 'Sort by Submitter Asc'
+          VCR.use_cassette('launchpad/token_service_success', record: :none) do
+            click_on 'Sort by Submitter Asc'
+          end
         end
 
         it 'sorts in ascending order' do
@@ -114,7 +137,9 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
 
         context 'when sorting short name desc' do
           before do
-            click_on 'Sort by Submitter Desc'
+            VCR.use_cassette('launchpad/token_service_success', record: :none) do
+              click_on 'Sort by Submitter Desc'
+            end
           end
 
           it 'sorts in descending order' do
@@ -160,8 +185,12 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
 
     context 'when getting an unauthorized error from dMMT' do
       before do
-        mock_invalid_token_validation
-        visit manage_proposals_path
+        # not sure if the token service actually returns an unauthorized error
+        # but this was a pre-existing test when using EDL authentication
+        # cassette is modified from a 500 error response
+        VCR.use_cassette('launchpad/token_service_unauthorized', record: :none) do
+          visit manage_proposals_path
+        end
       end
 
       it 'has the appropriate flash message' do
@@ -171,10 +200,11 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
       end
     end
 
-    context 'when getting a forbidden error from dMMT' do
+    context 'when getting an internal error from dMMT' do
       before do
-        mock_forbidden_approved_proposals
-        visit manage_proposals_path
+        VCR.use_cassette('launchpad/token_internal_error', record: :none) do
+          visit manage_proposals_path
+        end
       end
 
       it 'has the appropriate flash message' do
@@ -182,18 +212,6 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
         expect(page).to have_no_content('Your token could not be authorized. Please try refreshing the page')
         expect(page).to have_content('An internal error has occurred. Please contact')
       end
-    end
-  end
-
-  context 'when logging in with Launchpad' do
-    before do
-      real_login(method:'launchpad')
-      allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
-      visit manage_proposals_path
-    end
-
-    it 'displays a useful error message' do
-      expect(page).to have_content('Please log in with Earthdata Login to perform proposal approver actions in MMT.')
     end
   end
 end

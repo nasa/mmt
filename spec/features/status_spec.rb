@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Status check' do
   before do
-    VCR.use_cassette('launchpad_status', record: :once) do
+    VCR.use_cassette('launchpad/launchpad_status', record: :once) do
       visit '/status'
     end
   end

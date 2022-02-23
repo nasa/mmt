@@ -11,15 +11,6 @@ class ManageProposalController < ManageMetadataController
     @specified_url = 'manage_proposals'
     @providers = ['Select a provider to publish this record'] + current_user.available_providers
 
-    # TODO: By the end of MMT-1916, this should no longer be necessary.
-    # dMMT cannot verify a launchpad token and we do not consider launchpad
-    # access to dMMT features to be MVP.
-    # if session[:access_token].blank?
-    #   @proposals = []
-    #   flash[:error] = 'Please log in with Earthdata Login to perform proposal approver actions in MMT.'
-    #   return
-    # end
-
     # as of MMT-2750, Launchpad should be the ONLY login method for managing
     # proposals
     if session[:auid].blank? || session[:launchpad_cookie].blank?
@@ -41,12 +32,10 @@ class ManageProposalController < ManageMetadataController
       set_urs_user_hash(dmmt_response.body['proposals'])
       proposals = if sort_key == 'submitter_id'
                     sort_by_submitter(dmmt_response.body['proposals'], @urs_user_hash)
+                  elsif sort_dir == 'ASC'
+                    dmmt_response.body['proposals'].sort { |a, b| a[sort_key] <=> b[sort_key] }
                   else
-                    if sort_dir == 'ASC'
-                      dmmt_response.body['proposals'].sort { |a, b| a[sort_key] <=> b[sort_key] }
-                    else
-                      dmmt_response.body['proposals'].sort { |a, b| b[sort_key] <=> a[sort_key] }
-                    end
+                    dmmt_response.body['proposals'].sort { |a, b| b[sort_key] <=> a[sort_key] }
                   end
     else
       if unauthorized?(dmmt_response)
@@ -109,7 +98,7 @@ class ManageProposalController < ManageMetadataController
   end
 
   def publish_delete_proposal(proposal, provider)
-    search_response = cmr_client.get_collections({ 'native_id': proposal['native_id'], 'provider_id': provider, 'include_granule_counts': true }, token)
+    search_response = cmr_client.get_collections({ native_id: proposal['native_id'], provider_id: provider, include_granule_counts: true }, token)
 
     if search_response.body['hits'].to_s != '1'
       # If the search has more than one hit or 0 hits, the record was not
