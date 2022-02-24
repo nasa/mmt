@@ -788,7 +788,7 @@ class CollectionDraftsController < BaseDraftsController
     set_country_codes
     set_language_codes           if @form == 'collection_information' || @form == 'metadata_information'
     set_science_keywords         if @form == 'descriptive_keywords'
-    set_keyword_recommendations  if @form == 'descriptive_keywords' && gkr_enabled? && get_resource.keyword_recommendation_needed?
+    set_keyword_recommendations  if @form == 'descriptive_keywords' # && gkr_enabled? && get_resource.keyword_recommendation_needed?
     set_platform_types           if @form == 'acquisition_information'
     set_instruments              if @form == 'acquisition_information'
     set_projects                 if @form == 'acquisition_information'

@@ -7,30 +7,38 @@ describe 'GCMD Keyword Recommender (GKR) Tests', js: true do
 
   context 'when saving GKR recommendations' do
     before do
-      allow_any_instance_of(GKRKeywordRecommendations).to receive(:fetch_keyword_recommendations).and_return({ id: 22, recommendations: ['EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC CHEMISTRY > OXYGEN COMPOUNDS > OZONE', 'EARTH SCIENCE > ATMOSPHERE > AIR QUALITY'] })
+      allow_any_instance_of(GKRKeywordRecommendations).to receive(:fetch_keyword_recommendations).and_return({ id: 22,
+                                                                                                               recommendations: ['EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC CHEMISTRY > OXYGEN COMPOUNDS > OZONE', 'EARTH SCIENCE > ATMOSPHERE > AIR QUALITY'],
+                                                                                                               uuids: { 'EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC CHEMISTRY > OXYGEN COMPOUNDS > OZONE': 1, 'EARTH SCIENCE > ATMOSPHERE > AIR QUALITY': 2 } })
       visit edit_collection_draft_path(@draft, form: 'descriptive_keywords')
     end
 
     it 'logs the Save operation' do
       click_on 'Expand All'
-      allow(Rails.logger).to receive(:info)
-      expect(Rails.logger).to receive(:info).with(start_with('GkrLog: type: SAVE'))
       within '.nav-top' do
-        click_on 'Save'
+        VCR.use_cassette('gkr/send_feedback', record: :none) do
+          allow(Rails.logger).to receive(:info)
+          expect(Rails.logger).to receive(:info).with(/GkrLog: type: SAVE/)
+          click_on 'Save'
+        end
       end
     end
   end
 
   context 'when publishing GKR recommendations' do
     before do
-      allow_any_instance_of(GKRKeywordRecommendations).to receive(:fetch_keyword_recommendations).and_return({ id: 22, recommendations: ['EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC CHEMISTRY > OXYGEN COMPOUNDS > OZONE", "EARTH SCIENCE > ATMOSPHERE > AIR QUALITY'] })
+      allow_any_instance_of(GKRKeywordRecommendations).to receive(:fetch_keyword_recommendations).and_return({ id: 22,
+                                                                                                               recommendations: ['EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC CHEMISTRY > OXYGEN COMPOUNDS > OZONE', 'EARTH SCIENCE > ATMOSPHERE > AIR QUALITY'],
+                                                                                                               uuids: { 'EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC CHEMISTRY > OXYGEN COMPOUNDS > OZONE': 1, 'EARTH SCIENCE > ATMOSPHERE > AIR QUALITY': 2 } })
       visit edit_collection_draft_path(@draft, form: 'descriptive_keywords')
     end
 
     it 'logs the Publish operation' do
       click_on 'Expand All'
       within '.nav-top' do
-        click_on 'Done'
+        VCR.use_cassette('gkr/send_feedback', record: :none) do
+          click_on 'Done'
+        end
       end
       allow(Rails.logger).to receive(:info)
       expect(Rails.logger).to receive(:info).with(start_with('GkrLog: type: PUBLISH'))
