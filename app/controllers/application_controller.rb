@@ -1,6 +1,6 @@
 # :nodoc:
 class ApplicationController < ActionController::Base
-  include Pundit
+  include Pundit::Authorization
   include PermissionChecking
 
   # Prevent CSRF attacks by raising an exception.

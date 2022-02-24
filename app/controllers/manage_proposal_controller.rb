@@ -11,8 +11,7 @@ class ManageProposalController < ManageMetadataController
     @specified_url = 'manage_proposals'
     @providers = ['Select a provider to publish this record'] + current_user.available_providers
 
-    # as of MMT-2750, Launchpad should be the ONLY login method for managing
-    # proposals
+    # as of MMT-2750, Launchpad should be the ONLY login method for managing proposals
     if session[:auid].blank? || session[:launchpad_cookie].blank?
       @proposals = []
       flash[:error] = 'Please log in with Launchpad to perform proposal approver actions in MMT.'

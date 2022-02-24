@@ -16,16 +16,10 @@ module Cmr
         client_response_headers_for_logs = client_response.headers.dup
 
         if client_response.error?
-          error_string = if self.class == Cmr::CmrClient
-                           client_response.clean_inspect(body_only: true)
-                         else
-                           client_response.body.inspect
-                         end
-
-          Rails.logger.error "#{self.class} Response Error: #{error_string}"
+          Rails.logger.error "#{self.class} Response Error: #{client_response.body.inspect}"
         end
 
-        Rails.logger.info "#{self.class} Response #{method} #{url} result : Headers: #{client_response_headers_for_logs} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_s(:log_time)}"
+        Rails.logger.info "#{self.class} Response post #{faraday_response.env.url} result : Headers: #{client_response_headers_for_logs} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_s(:log_time)}"
       rescue => e
         Rails.logger.error "#{self.class} Error: #{e}"
       end

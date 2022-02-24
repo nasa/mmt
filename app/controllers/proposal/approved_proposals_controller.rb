@@ -25,7 +25,7 @@ module Proposal
         Rails.logger.info("dMMT successfully authenticated and authorized #{@urs_profile_response.body['uid']} while fetching approved proposals.")
         render json: { proposals: proposals_with_draft_types }, status: :ok
       else
-        Rails.logger.info("#{request.uuid}: Attempting to authenticate Launchpad token while fetching approved proposals resulted in '#{@token_response.status}' status, and retrieving the associated URS account resulted in '#{@urs_profile_response.status}'. If both the statuses returned ok, then the user's Non-NASA Draft Approver ACL check failed.")
+        Rails.logger.info("#{request.uuid}: Attempting to authenticate Launchpad token while fetching approved proposals resulted in '#{@token_response.status}' status, and retrieving the associated URS account resulted in '#{@urs_profile_response.present? ? @urs_profile_response.status : 'no request sent because previous request failed'}'. If both the statuses returned ok, then the user's Non-NASA Draft Approver ACL check failed.")
         render json: { body: 'Requesting user could not be authorized', request_id: request.uuid }, status: :unauthorized
       end
     end
@@ -36,7 +36,7 @@ module Proposal
     def update_proposal_status
       unless @requester_has_approver_permissions
         # Requester could not be authorized
-        Rails.logger.info("#{request.uuid}: Attempting to authenticate Launchpad token while updating a proposal's status resulted in '#{@token_response.status}' status, and retrieving the associated URS account resulted in '#{@urs_profile_response.status}'. If both the statuses returned ok, then the user's Non-NASA Draft Approver ACL check failed.")
+        Rails.logger.info("#{request.uuid}: Attempting to authenticate Launchpad token while updating a proposal's status resulted in '#{@token_response.status}' status, and retrieving the associated URS account resulted in '#{@urs_profile_response.present? ? @urs_profile_response.status : 'no request sent because previous request failed'}'. If both the statuses returned ok, then the user's Non-NASA Draft Approver ACL check failed.")
         render json: { body: 'Requesting user could not be authorized', request_id: request.uuid }, status: :unauthorized and return
       end
 
@@ -92,7 +92,6 @@ module Proposal
 
         if @urs_profile_response.success?
           urs_uid = @urs_profile_response.body.fetch('uid', '')
-          puts "about to check ACLs for user #{urs_uid}"
           @requester_has_approver_permissions = is_non_nasa_draft_approver?(user: User.new(urs_uid: urs_uid), token: passed_token)
         else
           Rails.logger.info "User with auid #{session[:auid]} does not have an associated URS account or the account could not be located. Cannot validate user for approved proposals: #{@urs_profile_response.clean_inspect}"
