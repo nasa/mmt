@@ -27,10 +27,9 @@ module GKRKeywordRecommendations
     accepted_keywords.each { |uuid|
       recommendations[uuid] = true
     }
-    # Rails.logger.info("GKR UUID: #{gkr_request_uuid}");
-    # Rails.logger.info("Recommendations: #{recommendations}");
+    Rails.logger.info("GKR UUID: #{gkr_request_uuid}");
+    Rails.logger.info("Recommendations: #{recommendations}");
     response = cmr_client.send_feedback(gkr_request_uuid, recommendations)
-    # puts "response=#{response.body}"
     if response.error?
       if response.status >= 500 && response.status <= 505 # NGAP LB can't connect to GKR.
         log_gkr_feedback_comm_error(user, provider, recommendations.to_json, request_id, gkr_request_uuid, response.status, 'Communication failure with GKR feedback api')
