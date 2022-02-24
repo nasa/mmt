@@ -1,7 +1,6 @@
 module Cmr
   class GkrClient < BaseClient
     def fetch_keyword_recommendations(abstract)
-      # GKR does not have SIT or UAT endpoints
       url = '/api/requests/'
 
       query = { 'description' => abstract }
@@ -14,5 +13,16 @@ module Cmr
       # this post does a search, not a write, and will be needed by proposals
       proposal_mode_safe_post(url, query.to_json, headers)
     end
+
+    def send_feedback(gkr_request_uuid, recommendations)
+      url = "/api/requests/#{gkr_request_uuid}"
+      payload = {"recommendations": recommendations, "keywords": []}
+      headers = {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+      proposal_mode_safe_put(url, payload.to_json, headers)
+    end
+
   end
 end

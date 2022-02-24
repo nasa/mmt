@@ -22,6 +22,24 @@ module GKRKeywordRecommendations
     { id: response.body['uuid'], recommendations: keyword_recommendations, uuids: keyword_uuids }
   end
 
+  def send_feedback(user, request_id, provider, gkr_request_uuid, accepted_keywords, rejected_recommendations)
+    recommendations = {}
+    accepted_keywords.each { |uuid|
+      recommendations[uuid] = true
+    }
+    Rails.logger.info("GKR UUID: #{gkr_request_uuid}");
+    Rails.logger.info("Recommendations: #{recommendations}");
+    response = cmr_client.send_feedback(gkr_request_uuid, recommendations)
+    puts "response=#{response.body}"
+    if response.error?
+      if response.status >= 500 && response.status <= 505    # NGAP LB can't connect to GKR.
+        log_gkr_feedback_comm_error(user, provider, recommendations.to_json, request_id, gkr_request_uuid, response.status, 'Communication failure with GKR feedback api')
+      else
+        log_gkr_feedback_request_failed(user, provider, recommendations.to_json, response)
+      end
+    end
+  end
+
   def log_gkr_comm_error(user, provider, abstract, request_id, status, reason)
     Rails.logger.info("GkrLog: type: FAILED - date: #{Time.new} - env: #{Rails.env} - user_id: #{user} - request_id: #{request_id} - provider: #{provider}"\
       " - abstract: #{abstract} - error_code: #{status} - failure_description: #{reason}")
@@ -30,6 +48,16 @@ module GKRKeywordRecommendations
   def log_gkr_request_failed(user, provider, abstract, response)
     Rails.logger.info("GkrLog: type: FAILED - date: #{Time.new} - env: #{Rails.env} - user_id: #{user} - provider: #{provider}"\
       " - abstract: #{abstract} - error_code: #{response.status} - failure_description: #{response.body['description']}")
+  end
+
+  def log_gkr_feedback_comm_error(user, provider, recommendations, request_id, gkr_request_id, status, reason)
+    Rails.logger.info("GkrLog: type: FAILED - date: #{Time.new} - env: #{Rails.env} - user_id: #{user} - request_id: #{request_id} - gkr_request_id: #{gkr_request_id} provider: #{provider}"\
+      " - recommendations: #{recommendations} - error_code: #{status} - failure_description: #{reason}")
+  end
+
+  def log_gkr_feedback_request_failed(user, provider, recommendations, response)
+    Rails.logger.info("GkrLog: type: FAILED - date: #{Time.new} - env: #{Rails.env} - user_id: #{user} - provider: #{provider}"\
+      " - recommendations: #{recommendations} - error_code: #{response.status} - failure_description: #{response.body['description']}")
   end
 
   def log_gkr_on_save_keywords(user, provider, abstract, request_id, recommendations, science_keywords)

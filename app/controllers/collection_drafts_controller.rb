@@ -87,13 +87,10 @@ class CollectionDraftsController < BaseDraftsController
       if gkr_enabled? && params[:recommended_keywords_viewed] == 'true'
         get_resource.record_recommendation_provided(params[:gkr_request_id], params[:recommended_keyword_list])
 
-        #Update GKR Feedback API here
-        #Rails.logger.info("Accepted Recommendations #{accepted_recommended_keywords}");
-        #Rails.logger.info("All Recommendations #{keyword_recommendations}");
-        gkr_uuid = params[:gkr_request_id];
+        gkr_request_uuid = params[:gkr_request_id];
         accepted_keyword_uuids = accepted_recommended_keywords.map { |keyword| params[:keyword_uuid][keyword]};
-        Rails.logger.info("GKR UUID: #{gkr_uuid}");
-        Rails.logger.info("Accepted UUIDS #{accepted_keyword_uuids}");\
+        send_feedback(current_user.urs_uid, request.uuid, current_user.provider_id, gkr_request_uuid, accepted_keyword_uuids, [])
+
       end
 
       if params[:next_section] == 'descriptive_keywords' && get_resource.gkr_logging_active?
