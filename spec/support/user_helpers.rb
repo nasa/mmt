@@ -149,9 +149,8 @@ module Helpers
           user.save
         end
 
-        allow_any_instance_of(User).to receive(:set_available_providers).and_return(user.save)
         allow_any_instance_of(Cmr::Util).to receive(:is_urs_token?).and_return(false)
-        puts "have user with providers, supposably #{user.inspect}\ngoing to do actual login..."
+
         visit root_path
         # this button sends a post request (which Capybara cannot do) to SAML#acs,
         # the return endpoint after a successful Launchpad authentication.
