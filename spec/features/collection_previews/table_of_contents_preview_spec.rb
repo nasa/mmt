@@ -7,6 +7,7 @@ describe 'Table of Contents on the Additional information tab', js:true do
         visit collection_draft_path(draft)
         find('.tab-label', text: 'Additional Information').click
       end
+
       it 'displays a table of contents' do
         expect(page).to have_button('Table of Contents')
         expect(page).to have_link('Collection Information', href: '#Collection_Information', title: 'Jump to Collection Information')
