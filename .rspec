@@ -2,4 +2,3 @@
 --format documentation
 --color
 --require 'rails_helper'
---exclude-pattern "spec/{features}/**/*_spec.rb"
