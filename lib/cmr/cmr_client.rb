@@ -431,6 +431,9 @@ module Cmr
     # Create and update
     def ingest_subscription(subscription, provider_id, native_id, token)
       url = if Rails.env.development? || Rails.env.test?
+              # CMR does a check to ensure the subscriber id exists in EDL.
+              # So add this user to local cmr.
+              add_users_to_local_cmr([JSON.parse(subscription)['SubscriberId']], nil)
               "http://localhost:3002/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             else
               "/ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"

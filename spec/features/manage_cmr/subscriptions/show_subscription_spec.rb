@@ -1,4 +1,4 @@
-describe 'When Viewing Subscriptions', reset_provider: true do
+describe 'When Viewing Subscriptions', js:true, reset_provider: true do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
