@@ -15,6 +15,7 @@ describe 'Proposals listed on the Manage Proposals (MMT) page', js: true do
   context 'when logging in with Launchpad' do
     before do
       real_login(method: 'launchpad')
+      fake_service_account_cert
       allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
       mock_urs_get_users
     end

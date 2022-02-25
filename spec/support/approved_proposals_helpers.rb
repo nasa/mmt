@@ -83,5 +83,13 @@ module Helpers
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_permission).and_return(get_permission_response)
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_group_members).and_return(group_member_response)
     end
+
+    # Tests for Manage Proposals uses a VCR recording for the Launchpad Token Service
+    # endpoint. However, this is still required for some tests as the certificate
+    # has not been made available in Bamboo
+    def fake_service_account_cert
+      fake_cert = { client_key: 'some_client_key', client_cert: 'some_cert' }
+      allow_any_instance_of(Cmr::LaunchpadTokenServiceClient).to receive(:ssl).and_return(fake_cert)
+    end
   end
 end

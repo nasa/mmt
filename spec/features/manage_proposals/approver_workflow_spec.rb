@@ -27,6 +27,7 @@ describe 'When going through the whole collection proposal approver workflow', j
         visit logout_path
         set_as_mmt_proper
         real_login(method: 'launchpad')
+        fake_service_account_cert
         VCR.use_cassette('launchpad/token_service_success', record: :none) do
           visit manage_proposals_path
         end
@@ -70,6 +71,7 @@ describe 'When going through the whole collection proposal approver workflow', j
         visit logout_path
         set_as_mmt_proper
         real_login(method: 'launchpad')
+        fake_service_account_cert
         VCR.use_cassette('launchpad/token_service_success', record: :none) do
           visit manage_proposals_path
         end
@@ -131,6 +133,7 @@ describe 'When going through the whole collection proposal approver workflow', j
         visit logout_path
         set_as_mmt_proper
         real_login(method: 'launchpad')
+        fake_service_account_cert
         VCR.use_cassette('launchpad/token_service_success', record: :none) do
           visit manage_proposals_path
         end
@@ -205,6 +208,7 @@ describe 'When going through the whole collection proposal approver workflow', j
         visit logout_path
         set_as_mmt_proper
         real_login(method: 'launchpad')
+        fake_service_account_cert
         VCR.use_cassette('launchpad/token_service_success', record: :none) do
           visit manage_proposals_path
         end
