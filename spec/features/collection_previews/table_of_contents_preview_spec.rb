@@ -5,7 +5,6 @@ describe 'Table of Contents on the Additional information tab', js:true do
         login
         draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
-
         find('.tab-label', text: 'Additional Information').click
       end
 
@@ -20,7 +19,6 @@ describe 'Table of Contents on the Additional information tab', js:true do
         expect(page).to have_link('Data Contacts', href: '#Data_Contacts', title: 'Jump to Data Contacts')
         expect(page).to have_link('Archive And Distribution Information', href: '#Archive_And_Distribution_Information', title: 'Jump to Archive And Distribution Information')
       end
-
       it 'renders accordions headers with named anchor tags' do
         expect(page).to have_css('a[name=Collection_Information]', visible: false)
         expect(page).to have_css('a[name=Data_Identification]', visible: false)
@@ -32,19 +30,15 @@ describe 'Table of Contents on the Additional information tab', js:true do
         expect(page).to have_css('a[name=Archive_And_Distribution_Information]', visible: false)
       end
     end
-
     context 'when there is metadata' do
       before do
         login
         draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first)
         draft.draft['MetadataLanguage'] = 'spa'
         draft.save
-
         visit collection_draft_path(draft)
-
         find('.tab-label', text: 'Additional Information').click
       end
-
       it 'displays a table of contents' do
         expect(page).to have_button('Table of Contents')
         expect(page).to have_link('Collection Information', href: '#Collection_Information', title: 'Jump to Collection Information')
@@ -56,7 +50,6 @@ describe 'Table of Contents on the Additional information tab', js:true do
         expect(page).to have_link('Data Contacts', href: '#Data_Contacts', title: 'Jump to Data Contacts')
         expect(page).to have_link('Archive And Distribution Information', href: '#Archive_And_Distribution_Information', title: 'Jump to Archive And Distribution Information')
       end
-
       it 'renders accordions headers with named anchor tags' do
         expect(page).to have_css('a[name=Collection_Information]', visible: false)
         expect(page).to have_css('a[name=Data_Identification]', visible: false)
