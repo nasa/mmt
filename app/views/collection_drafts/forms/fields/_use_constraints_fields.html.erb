@@ -1,10 +1,10 @@
 <div class="license-group">
-  <% description_only_checked = !use_constraints['Description'].nil? && use_constraints['LicenseURL'].nil? && use_constraints['LicenseText'].nil? %>
+  <% description_only_checked = !(use_constraints['Description'].nil? && use_constraints['FreeAndOpenData'].nil?) && use_constraints['LicenseURL'].nil? && use_constraints['LicenseText'].nil? %>
   <% license_url_checked =  !use_constraints['LicenseURL'].nil? %>
   <% license_text_checked =  !use_constraints['LicenseText'].nil? %>
 
 
-  <div class="constraint-selector-fields row sub-fields">
+  <div class="use-constraint-type-group use-constraint-type-clear-link-radio-fields row sub-fields">
     <!-- Constraint type selector -->
     <%= mmt_label(
       name: 'use_constraint_type',
@@ -12,17 +12,18 @@
       prefix: name_prefix,
       always_required: false
     ) %>
-    <div class='use_constraint_type_group row sub-fields'>
-      <p class="radio-group"><%= radio_button_tag('use_constraint_type_Description','DescriptionOnly', description_only_checked, class: 'use-constraint-type-select') %><label for="use_constraint_type_Description">Description Only</label></p>
-      <p class="radio-group"><%= radio_button_tag('use_constraint_type_Url','LicenseURL', license_url_checked, class: 'use-constraint-type-select') %><label for="use_constraint_type_Url">License URL</label></p>
-      <p class="radio-group"><%= radio_button_tag('use_constraint_type_Text','LicenseText', license_text_checked, class: 'use-constraint-type-select') %><label for="use_constraint_type_Text">License Text</label></p>
-    </div>
+    <a href="javascript:void(0)" class="clear-radio-button" data-radio-fields="use-constraint-type-clear-link-radio-fields" data-clear-fields="use-constraint-type-clear-link-clear-fields" data-hide-fields="use-constraint-type-clear-link-hide-fields">Clear</a>
+    <p class="radio-group"><%= radio_button_tag('use_constraint_type_Description','DescriptionOnly', description_only_checked, class: 'use-constraint-type-select') %><label for="use_constraint_type_Description">Description Only</label></p>
+    <p class="radio-group"><%= radio_button_tag('use_constraint_type_Url','LicenseURL', license_url_checked, class: 'use-constraint-type-select') %><label for="use_constraint_type_Url">License URL</label></p>
+    <p class="radio-group"><%= radio_button_tag('use_constraint_type_Text','LicenseText', license_text_checked, class: 'use-constraint-type-select') %><label for="use_constraint_type_Text">License Text</label></p>
   </div>
 
-
-  <!-- Description -->
-  <div class="license-description-field available row sub-fields">
-    <%= mmt_text_area(
+  <div class="description-only-fields use-constraint-type-clear-link-clear-fields use-constraint-type-clear-link-hide-fields row sub-fields" style="<%= 'display: none' unless(description_only_checked || license_url_checked || license_text_checked) %>">
+    <!-- These fields should be shown for all use constraint type options, but
+         we don't want to show them if no use constraint type is selected -->
+    <!-- Description -->
+    <div class="license-description-field">
+      <%= mmt_text_area(
       name: 'description',
       title: 'Description',
       prefix: name_prefix,
@@ -30,13 +31,34 @@
       help: 'definitions/UseConstraintsDescType',
       validate: true,
       required: description_only_checked ? true : false
-    ) %>
+      ) %>
+    </div>
 
+    <!-- Free And Open Data -->
+    <div class="free-and-open-data-field">
+      <%= mmt_label(
+      name: 'free_and_open_data',
+      title: 'Free And Open Data',
+      prefix: name_prefix
+      ) %>
+      <%= mmt_help_icon(
+      title: 'Free And Open Data',
+      help: 'definitions/FreeAndOpenDataType'
+      ) %>
+
+      <% free_and_open_data = use_constraints['FreeAndOpenData'] %>
+
+      <a href="javascript:void(0)" class="clear-radio-button" data-radio-fields="free-and-open-clear-link-radio-fields">Clear</a>
+      <div class="free-and-open-data-group free-and-open-clear-link-radio-fields use-constraint-type-clear-link-radio-fields">
+        <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|free_and_open_data|"), 'true', free_and_open_data.to_s == 'true', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>free_and_open_data_true">True</label></p>
+        <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|free_and_open_data|"), 'false', free_and_open_data.to_s == 'false', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>free_and_open_data_true">False</label></p>
+      </div>
+    </div>
   </div>
 
 
   <!-- License URL -->
-  <div class="license-url-fields available row sub-fields" style="<%= 'display: none' unless license_url_checked %>">
+  <div class="license-url-fields use-constraint-type-clear-link-clear-fields use-constraint-type-clear-link-hide-fields row sub-fields" style="<%= 'display: none' unless license_url_checked %>">
     <%= mmt_label(
       name: 'license_url',
       title: 'License URL',
@@ -56,7 +78,7 @@
 
 
   <!-- License Text -->
-  <div class="license-text-field not-available row sub-fields" style="<%= 'display: none' unless license_text_checked%>">
+  <div class="license-text-field use-constraint-type-clear-link-clear-fields use-constraint-type-clear-link-hide-fields row sub-fields" style="<%= 'display: none' unless license_text_checked%>">
     <!-- License Text -->
     <%= mmt_text_area(
       name: 'license_text',
@@ -68,4 +90,5 @@
       required: true
    ) %>
   </div>
+
 </div>

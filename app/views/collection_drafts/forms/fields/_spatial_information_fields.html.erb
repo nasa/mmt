@@ -11,8 +11,8 @@
     title: 'Spatial Coverage Type',
     help: 'definitions/SpatialInformationType/properties/SpatialCoverageType'
   ) %>
-  <a href="javascript:void(0)" class="clear-radio-button" data-content="spatial-coverage-type">Clear</a>
-  <div class="spatial-coverage-type-group">
+  <a href="javascript:void(0)" class="clear-radio-button" data-clear-fields="spatial-coverage-type-clear-link-clear-fields" data-hide-fields="spatial-coverage-type-clear-link-hide-fields" data-radio-fields="spatial-coverage-type-clear-link-radio-fields">Clear</a>
+  <div class="spatial-coverage-type-group spatial-coverage-type-clear-link-radio-fields">
     <p class="radio-group">
       <%= radio_button_tag(name_to_param("#{name_prefix}|spatial_coverage_type|"), 'VERTICAL', spatial_coverage_type == 'VERTICAL', class: 'spatial-coverage-type-select validate', data: { level: remove_pipes(name_prefix) }) %>
       <label for="<%= remove_pipes(name_prefix) %>spatial_coverage_type_VERTICAL">Vertical</label>
@@ -22,7 +22,7 @@
 
 
   <!-- VerticalCoordinateSystem -->
-  <div class="spatial-coverage-type vertical" style="<%= 'display: none;' unless spatial_coverage_type == 'VERTICAL' %>">
+  <div class="spatial-coverage-type spatial-coverage-type-clear-link-clear-fields spatial-coverage-type-clear-link-hide-fields vertical" style="<%= 'display: none;' unless spatial_coverage_type == 'VERTICAL' %>">
     <label>Vertical Coordinate System</label>
     <%= render partial: 'collection_drafts/forms/type', locals: {
         type: 'vertical_coordinate_system',

@@ -4,7 +4,7 @@
 def all_required_fields
   {
     'Platforms' => [{
-      'Type'      => 'Aircraft',
+      'Type'      => 'Jet',
       'ShortName' => 'A340-600',
       'LongName'  => 'Airbus A340-600',
     }],
@@ -61,7 +61,7 @@ def collection_one
       'EndDate'   => '2015-12-25T00:00:00Z'
     }],
     'Platforms' => [{
-      'Type'      => 'Aircraft',
+      'Type'      => 'Jet',
       'ShortName' => 'A340-600',
       'LongName'  => 'Airbus A340-600',
       'Characteristics' => [{
@@ -594,6 +594,7 @@ def collection_one
     'Quality'            => 'Metadata quality summary',
     'UseConstraints' => {
       'Description' => 'These are some use constraints',
+      'FreeAndOpenData' => true,
       'LicenseURL' => {
         'Linkage' => 'http://example.com'
       }

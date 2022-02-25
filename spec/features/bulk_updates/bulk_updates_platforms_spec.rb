@@ -120,7 +120,11 @@ describe 'Bulk updating Platforms' do
       fill_in 'Short Name', with: 'A340-600'
       # Select new Short Name from Select2
       find('.select2-container .select2-selection').click
-      find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'DMSP 5B/F3', match: :first).click
+      within '.select2-container .select2-results' do
+        # not sure why, but with the new platform structure, we need to be very
+        # specific or the first option under the category will be selected
+        find('ul.select2-results__options li.select2-results__option ul.select2-results__options li.select2-results__option', text: 'DMSP 5B/F3', match: :first).click
+      end
 
       click_on 'Preview'
     end

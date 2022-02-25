@@ -247,6 +247,7 @@ class CollectionDraft < Draft
   )
   BOOLEAN_KEYS = %w(
     ends_at_present_flag
+    free_and_open_data
   )
 
   SCIENCE_KEYWORD_LEVELS = %w(
