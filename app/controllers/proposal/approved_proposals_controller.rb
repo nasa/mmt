@@ -48,7 +48,7 @@ module Proposal
       end
 
       proposal = draft_type.constantize.find_by(id: request.params['id'])
-      unless update_and_save_done_status(proposal, @token_response.body['uid'])
+      unless update_and_save_done_status(proposal, @urs_profile_response.body['uid'])
         # Record either could not be found or altered.
         Rails.logger.info("#{request.uuid}: Attempting to update proposal status for proposal of type: #{draft_type} with id: #{request.params['id']} failed because the record could not be #{proposal.blank? ? 'found' : 'altered'}")
         render json: { body: "Proposal with id: #{request.params['id']} could not be found or altered", request_id: request.uuid }, status: :bad_request and return
