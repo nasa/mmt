@@ -15,15 +15,6 @@ describe 'Data Contacts form filling in Data Center Contacts' do
       before do
         draft = create(:collection_draft_all_required_fields, user: User.where(urs_uid: 'testuser').first)
         visit collection_draft_path(draft)
-
-        find('.tab-label', text: 'Additional Information').click
-      end
-
-      it 'displays the Data Center on the preview page' do
-        within '.data-centers-preview' do
-          expect(page).to have_content(data_center_short_name)
-          expect(page).to have_content(data_center_long_name_without_space)
-        end
       end
 
       context 'when choosing Data Center Contact Person' do
@@ -47,6 +38,7 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             add_person
 
             add_contact_information(type: 'data_contact', single: false, button_type: 'Data Center Contact Person')
+
           end
 
           context 'when clicking Save to submit the form' do
@@ -117,8 +109,6 @@ describe 'Data Contacts form filling in Data Center Contacts' do
               end
 
               expect(page).to have_content('Metadata Fields')
-
-              find('.tab-label', text: 'Additional Information').click
             end
 
             it 'displays a confirmation message' do
@@ -126,10 +116,11 @@ describe 'Data Contacts form filling in Data Center Contacts' do
             end
 
             it 'displays the Data Center Contact Person on the preview page' do
-              within '.data-contacts-preview' do
+              within '#metadata-preview' do
                 expect(page).to have_content('First Name')
                 expect(page).to have_content('Last Name')
-                expect(page).to have_content('Technical Contact, Investigator')
+                expect(page).to have_content('Technical Contact')
+                expect(page).to have_content('Investigator')
                 expect(page).to have_content(data_center_short_name)
               end
             end
