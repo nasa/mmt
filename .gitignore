@@ -59,6 +59,9 @@ nohup.out
 #backup files
 *~
 
+# ignore certificates
+/lib/assets/certs
+
 #ignore package
 package-lock.json
 package.json
