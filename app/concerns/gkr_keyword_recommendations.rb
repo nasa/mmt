@@ -36,6 +36,8 @@ module GKRKeywordRecommendations
       else
         log_gkr_feedback_request_failed(user, provider, recommendations.to_json, response)
       end
+    else
+      Rails.logger.debug("GKR Response: #{response.status} #{response.body}");
     end
   end
 
