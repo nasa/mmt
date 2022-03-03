@@ -66,6 +66,7 @@
                     <% keyword_recommendation_array(recommended_keyword).each_with_index do |keyword_part, keyword_part_index| %>
                       <%= hidden_field_tag("draft[science_keywords][#{selected_keywords_index + recommendation_index}][#{science_keyword_fields[keyword_part_index]}]", keyword_part) %>
                     <% end %>
+                    <%= hidden_field_tag("keyword_uuid[#{recommended_keyword}]", @keyword_uuids[recommended_keyword]) %>
                   </li>
                 <% end %>
 

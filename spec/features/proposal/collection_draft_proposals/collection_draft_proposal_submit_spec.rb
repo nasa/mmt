@@ -27,7 +27,9 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
         end
 
         within '.nav-top' do
-          click_on 'Done'
+          VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
+            click_on 'Done'
+          end
         end
 
         click_on 'Submit for Review'
