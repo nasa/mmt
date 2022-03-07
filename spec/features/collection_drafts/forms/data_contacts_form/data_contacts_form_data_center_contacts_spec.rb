@@ -19,9 +19,9 @@ describe 'Data Contacts form filling in Data Center Contacts' do
 
       it 'displays the Data Center on the preview page' do
         within '#metadata-preview' do
-        expect(page).to have_content(data_center_short_name)
-        expect(page).to have_content(data_center_long_name_without_space)
-          end
+          expect(page).to have_content(data_center_short_name)
+          expect(page).to have_content(data_center_long_name_without_space)
+        end
       end
 
       context 'when choosing Data Center Contact Person' do
