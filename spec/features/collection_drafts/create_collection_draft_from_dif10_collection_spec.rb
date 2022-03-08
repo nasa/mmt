@@ -14,14 +14,14 @@ describe 'Create and edit a draft from a Dif 10 collection with location keyword
       expect(page).to have_content(short_name)
       click_on short_name
 
-      find('.tab-label', text: 'Additional Information').click
     end
 
 
     it 'imports the location keywords' do
       # test for location keywords on preview page
-      within '.location-keywords-preview' do
-        expect(page).to have_content('GEOGRAPHIC REGION GLOBAL', normalize_ws: true)
+      within '#metadata-preview' do
+        expect(page).to have_content('GEOGRAPHIC REGION')
+        expect(page).to have_content('GLOBAL')
       end
     end
 
@@ -45,14 +45,17 @@ describe 'Create and edit a draft from a Dif 10 collection with location keyword
           click_on 'Done'
         end
 
-        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'displays all the location keywords in the metadata preview' do
-        within '.location-keywords-preview' do
-          expect(page).to have_content('GEOGRAPHIC REGION GLOBAL', normalize_ws: true)
-          expect(page).to have_content('GEOGRAPHIC REGION ARCTIC', normalize_ws: true)
-          expect(page).to have_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
+        within '#metadata-preview' do
+          expect(page).to have_content('GEOGRAPHIC REGION')
+          expect(page).to have_content('GLOBAL')
+          expect(page).to have_content('ARCTIC')
+          expect(page).to have_content('OCEAN')
+          expect(page).to have_content('ATLANTIC OCEAN')
+          expect(page).to have_content('NORTH ATLANTIC OCEAN')
+          expect(page).to have_content('BALTIC SEA')
         end
       end
     end
