@@ -60,7 +60,6 @@ describe 'Publishing collection draft records', js: true do
             click_on 'Done'
           end
           click_on 'Publish'
-          find('label.tab-label', text: 'Additional Information').click
         end
 
         it 'displays a confirmation message' do
@@ -68,13 +67,13 @@ describe 'Publishing collection draft records', js: true do
         end
 
         it 'shows the new information in the preview' do
-          within '.direct-distribution-information-preview' do
-            within all('li.direct-distribution-information')[0] do
-              expect(page).to have_content('Region: us-east-1')
-              expect(page).to have_content('S3 Bucket and Object Prefix Names: prefix-4, prefix-5, prefix-6')
-              expect(page).to have_content('S3 Credentials API Endpoint: linkage.com')
-              expect(page).to have_content('S3 Credentials API Documentation URL: aws.com')
-            end
+          within '#metadata-preview' do
+            expect(page).to have_content('us-east-1')
+            expect(page).to have_content('prefix-4')
+            expect(page).to have_content('prefix-5')
+            expect(page).to have_content('prefix-6')
+            expect(page).to have_content('linkage.com')
+            expect(page).to have_content('aws.com')
           end
         end
       end
@@ -102,7 +101,7 @@ describe 'Publishing collection draft records', js: true do
             click_on 'Done'
           end
           click_on 'Publish'
-          find('label.tab-label', text: 'Citation Information').click
+          #find('label.tab-label', text: 'Citation Information').click
         end
 
         it 'displays a confirmation message' do
@@ -110,7 +109,7 @@ describe 'Publishing collection draft records', js: true do
         end
 
         it 'shows the new information in the preview' do
-          within 'div.associated-dois-preview' do
+          within '#metadata-preview' do
             expect(page).to have_content('Associated DOI')
             expect(page).to have_content('Associated DOI Title')
             expect(page).to have_content('Associated DOI Authority')
@@ -144,15 +143,9 @@ describe 'Publishing collection draft records', js: true do
     end
 
     it 'displays the published metadata' do
-      within '.collection-short-name' do
+      within '#metadata-preview' do
         expect(page).to have_content('12345')
-      end
-
-      within '.collection-title' do
         expect(page).to have_content('Draft Title')
-      end
-
-      within '.collection-overview-table' do
         expect(page).to have_no_css('td', text: 'Not Provided', count: 8)
       end
     end
