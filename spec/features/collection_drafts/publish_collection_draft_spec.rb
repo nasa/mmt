@@ -101,7 +101,6 @@ describe 'Publishing collection draft records', js: true do
             click_on 'Done'
           end
           click_on 'Publish'
-          #find('label.tab-label', text: 'Citation Information').click
         end
 
         it 'displays a confirmation message' do
