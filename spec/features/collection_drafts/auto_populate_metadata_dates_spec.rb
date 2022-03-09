@@ -43,10 +43,10 @@ describe 'Auto populating metadata dates', js: true do
       it 'displays the update date, new metadata dates, and creation date on the collection page' do
         within '#metadata-preview' do
           expect(page).to have_content('MetadataDates')
-          expect(page).to have_content('"Type"=>"REVIEW"')
-          expect(page).to have_content('"Type"=>"DELETE"')
-          expect(page).to have_content('"Type"=>"CREATE"')
-          expect(page).to have_content('"Type"=>"UPDATE"')
+          expect(page).to have_content('"Type":"REVIEW"')
+          expect(page).to have_content('"Type":"DELETE"')
+          expect(page).to have_content('"Type":"CREATE"')
+          expect(page).to have_content('"Type":"UPDATE"')
         end
       end
     end
