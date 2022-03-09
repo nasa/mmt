@@ -77,11 +77,11 @@
       "minItems": 0
     },
     "VariableType": {
-      "description": "Specify basic type of a variable. These types can be either: SCIENCE_VARIABLE, QUALITY_VARIABLE, ANCILLARY_VARIABLE, OTHER.",
+      "description": "Specify basic type of a variable.",
       "$ref": "#/definitions/VariableTypeEnum"
     },
     "VariableSubType": {
-      "description": "Specifies the sub type of a variable. These types can be either: SCIENCE_SCALAR, SCIENCE_VECTOR, SCIENCE_ARRAY, SCIENCE_EVENTFLAG, OTHER.",
+      "description": "Specifies the sub type of a variable.",
       "$ref": "#/definitions/VariableSubTypeEnum"
     },
     "IndexRanges": {
@@ -386,14 +386,14 @@
       "required": ["Name", "Size", "Type"]
     },
     "VariableTypeEnum": {
-      "description": "This element is used to classify the variable as a Science Variable, Quality Variable or Ancillary Variable. If a variable does not contain this field, it will be assumed to be a science variable.",
+      "description": "This element is used to classify the variable. If a variable does not contain this field, it will be assumed to be a science variable.",
       "type": "string",
-      "enum": ["SCIENCE_VARIABLE", "QUALITY_VARIABLE", "ANCILLARY_VARIABLE", "OTHER"]
+      "enum": ["SCIENCE_VARIABLE", "QUALITY_VARIABLE", "ANCILLARY_VARIABLE", "COORDINATE", "OTHER"]
     },
     "VariableSubTypeEnum": {
-      "description": "This element is used to further classify the variable as a Science Scalar, Science Vector, Science Array, Science Event Flag. If a variable does not contain this field, it will be assumed to be a science vector.",
+      "description": "This element is used to further classify the variable. If a variable does not contain this field, it will be assumed to be a science vector.",
       "type": "string",
-      "enum": ["SCIENCE_SCALAR", "SCIENCE_VECTOR", "SCIENCE_ARRAY", "SCIENCE_EVENTFLAG", "OTHER"]
+      "enum": ["SCIENCE_SCALAR", "SCIENCE_VECTOR", "SCIENCE_ARRAY", "SCIENCE_EVENTFLAG", "LATITUDE", "LONGITUDE", "TIME", "OTHER"]
     },
     "ScienceKeywordType": {
       "type": "object",
@@ -495,7 +495,7 @@
         "URL": {
           "description": "This element represents the URL where the schema lives. The schema can be downloaded.",
           "type": "string",
-          "enum": ["https://cdn.earthdata.nasa.gov/umm/variable/v1.8"]
+          "enum": ["https://cdn.earthdata.nasa.gov/umm/variable/v1.8.1"]
         },
         "Name": {
           "description": "This element represents the name of the schema.",
@@ -505,7 +505,7 @@
         "Version": {
           "description": "This element represents the version of the schema.",
           "type": "string",
-          "enum": ["1.8"]
+          "enum": ["1.8.1"]
         }
       },
       "required": ["URL", "Name", "Version"]

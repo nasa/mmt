@@ -58,8 +58,8 @@ FactoryBot.define do
         ],
         'MetadataSpecification': {
           'Name': 'UMM-Var',
-          'URL': 'https://cdn.earthdata.nasa.gov/umm/variable/v1.8',
-          'Version': '1.8'
+          'URL': 'https://cdn.earthdata.nasa.gov/umm/variable/v1.8.1',
+          'Version': '1.8.1'
         }
       }
     end
@@ -235,8 +235,8 @@ FactoryBot.define do
         ],
         'MetadataSpecification': {
           'Name': 'UMM-Var',
-          'URL': 'https://cdn.earthdata.nasa.gov/umm/variable/v1.8',
-          'Version': '1.8'
+          'URL': 'https://cdn.earthdata.nasa.gov/umm/variable/v1.8.1',
+          'Version': '1.8.1'
         }
       }
     end

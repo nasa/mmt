@@ -42,7 +42,7 @@ describe 'Variable Draft creation' do
         end
 
         it 'displays json' do
-          expect(page).to have_content("{\n  \"Name\": \"test var draft\",\n  \"MetadataSpecification\": {\n    \"URL\": \"https://cdn.earthdata.nasa.gov/umm/variable/v1.8\",\n    \"Name\": \"UMM-Var\",\n    \"Version\": \"1.8\"\n  }\n}")
+          expect(page).to have_content("{\n  \"Name\": \"test var draft\",\n  \"MetadataSpecification\": {\n    \"URL\": \"https://cdn.earthdata.nasa.gov/umm/variable/v1.8.1\",\n    \"Name\": \"UMM-Var\",\n    \"Version\": \"1.8.1\"\n  }\n}")
         end
       end
     end
