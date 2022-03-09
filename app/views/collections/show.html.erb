@@ -173,7 +173,7 @@
       </script>
       <% if Rails.env.test? %>
         <div id="metadata-preview">
-          <%= @collection  %>
+          <%= @collection.to_json  %>
         </div>
       <% else %>
         <div id="metadata-preview">
