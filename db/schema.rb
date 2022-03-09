@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_02_173020) do
+ActiveRecord::Schema.define(version: 2022_03_03_225639) do
 
   create_table "draft_proposals", force: :cascade do |t|
     t.integer "user_id"

@@ -1,22 +1,22 @@
 include DraftsHelper
 
-describe 'Service Draft form navigation', js: true do
-  form_names = %w[service_information service_constraints descriptive_keywords service_organizations service_contacts options operation_metadata related_urls service_quality]
+describe 'Variable Drafts Form Navigation', js: true do
+  form_names = %w[variable_information fill_values dimensions measurement_identifiers sampling_identifiers science_keywords sets related_urls]
 
-  context 'when visiting the edit page for a full service draft' do
-    let(:full_draft) { create(:full_service_draft) }
+  context 'when visiting the edit page for a new variable draft' do
+    let(:full_draft) { create(:full_variable_draft) }
 
     before do
       login
 
-      visit edit_service_draft_path(full_draft)
+      visit edit_variable_draft_path(full_draft)
     end
 
     context 'when using the top navigation dropdown to navigate to forms' do
       form_names.each do |form_name|
         # Note - randomization causes test result order to not agree with forms order.
-        next_form_title = titleize_form_name(get_next_form(form_name, form_names, 'Next'))
         next_form_name = get_next_form(form_name, form_names, 'Next')
+        next_form_title = titleize_form_name(next_form_name)
 
         context "when choosing #{next_form_title} from the form selection drop down" do
           before do
@@ -25,18 +25,17 @@ describe 'Service Draft form navigation', js: true do
             expect(page).to have_content(next_form_title)
           end
 
-          # this can be added back when it can be done from the show page
-          # because Service Information does not update when chosen from the same page
-          # it 'displays a confirmation message' do
-          #   expect(page).to have_content('Service Draft Updated Successfully!')
-          # end
+          it 'displays a confirmation message' do
+            skip 'Variable Information does not update when chosen from the same page' if next_form_name == 'variable_information'
+            expect(page).to have_content('Variable Draft Updated Successfully!')
+          end
 
           it "saves the form and renders the #{next_form_title} form" do
             within 'header .collection-basics > h2' do
               expect(page).to have_content(next_form_title)
             end
             within '.eui-breadcrumbs' do
-              expect(page).to have_content('Service Drafts')
+              expect(page).to have_content('Variable Drafts')
               expect(page).to have_content(next_form_title)
             end
           end
@@ -72,8 +71,8 @@ describe 'Service Draft form navigation', js: true do
     context 'when using the bottom navigation dropdown to navigate to forms' do
       form_names.each do |form_name|
         # Note - randomization causes test result order to not agree with forms order.
-        next_form_title = titleize_form_name(get_next_form(form_name, form_names, 'Next'))
         next_form_name = get_next_form(form_name, form_names, 'Next')
+        next_form_title = titleize_form_name(next_form_name)
 
         context "when choosing #{next_form_title} from the form selection drop down" do
           before do
@@ -83,11 +82,10 @@ describe 'Service Draft form navigation', js: true do
             expect(page).to have_content(next_form_title)
           end
 
-          # this can be added back when it can be done from the show page
-          # because Service Information does not update when chosen from the same page
-          # it 'displays a confirmation message' do
-          #   expect(page).to have_content('Service Draft Updated Successfully!')
-          # end
+          it 'displays a confirmation message' do
+            skip 'Variable Information does not update when chosen from the same page' if next_form_name == 'variable_information'
+            expect(page).to have_content('Variable Draft Updated Successfully!')
+          end
 
           it "saves the form and renders the #{next_form_title} form" do
 \
@@ -95,7 +93,7 @@ describe 'Service Draft form navigation', js: true do
               expect(page).to have_content(next_form_title)
             end
             within '.eui-breadcrumbs' do
-              expect(page).to have_content('Service Drafts')
+              expect(page).to have_content('Variable Drafts')
               expect(page).to have_content(next_form_title)
             end
           end
@@ -134,11 +132,11 @@ describe 'Service Draft form navigation', js: true do
         current_form_name = form_names[index]
         next_form_name = get_next_form(form_names[index], form_names, 'Next')
         current_form_title = titleize_form_name(current_form_name)
-        next_form_title = titleize_form_name(get_next_form(current_form_name, form_names, 'Next'))
+        next_form_title = titleize_form_name(next_form_name)
 
         context "when pressing the 'Next' button from the #{current_form_title} form" do
           before do
-            visit edit_service_draft_path(full_draft, current_form_name)
+            visit edit_variable_draft_path(full_draft, current_form_name)
 
             within '.nav-top' do
               click_on 'Next'
@@ -146,7 +144,7 @@ describe 'Service Draft form navigation', js: true do
           end
 
           it 'displays a confirmation message' do
-            expect(page).to have_content('Service Draft Updated Successfully!')
+            expect(page).to have_content('Variable Draft Updated Successfully!')
           end
 
           it "displays the correct page (#{next_form_title})" do
@@ -154,7 +152,7 @@ describe 'Service Draft form navigation', js: true do
               expect(page).to have_content(next_form_title)
             end
             within '.eui-breadcrumbs' do
-              expect(page).to have_content('Service Drafts')
+              expect(page).to have_content('Variable Drafts')
               expect(page).to have_content(next_form_title)
             end
           end
@@ -193,11 +191,11 @@ describe 'Service Draft form navigation', js: true do
         current_form_name = form_names[index]
         previous_form_name = get_next_form(form_names[index], form_names, 'Previous')
         current_form_title = titleize_form_name(current_form_name)
-        previous_form_title = titleize_form_name(get_next_form(current_form_name, form_names, 'Previous'))
+        previous_form_title = titleize_form_name(previous_form_name)
 
         context "when pressing the 'Previous' button from the #{current_form_title} form" do
           before do
-            visit edit_service_draft_path(full_draft, current_form_name)
+            visit edit_variable_draft_path(full_draft, current_form_name)
 
             within '.nav-bottom' do
               click_on 'Previous'
@@ -205,7 +203,7 @@ describe 'Service Draft form navigation', js: true do
           end
 
           it 'displays a confirmation message' do
-            expect(page).to have_content('Service Draft Updated Successfully!')
+            expect(page).to have_content('Variable Draft Updated Successfully!')
           end
 
           it "displays the correct page (#{previous_form_title})" do
@@ -213,7 +211,7 @@ describe 'Service Draft form navigation', js: true do
               expect(page).to have_content(previous_form_title)
             end
             within '.eui-breadcrumbs' do
-              expect(page).to have_content('Service Drafts')
+              expect(page).to have_content('Variable Drafts')
               expect(page).to have_content(previous_form_title)
             end
           end

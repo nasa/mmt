@@ -31,26 +31,30 @@ class ServiceDraft < Draft
 
   private
 
-  def set_metadata_specification
-    # this is a hidden fieldset added to UMM-S to document the metadata version
-
-    # pulling from the schema enums to populate these values
-    file_path = File.join(Rails.root, 'lib', 'assets', 'schemas', 'services', 'umm-s-json-schema.json')
-    file = File.read(file_path)
-    parsed_json = JSON.parse(file)
-    metadata_specification_type = parsed_json['definitions']['MetadataSpecificationType']['properties']
-    url_value = metadata_specification_type['URL']['enum'].first
-    name_value = metadata_specification_type['Name']['enum'].first
-    version_value = metadata_specification_type['Version']['enum'].first
-
-    metadata_specification = {
-      'URL' => url_value,
-      'Name' => name_value,
-      'Version' => version_value
-    }
-
-    unless self.draft['MetadataSpecification'] == metadata_specification
-      self.draft['MetadataSpecification'] = metadata_specification
-    end
+  def schema_file_path
+    File.join(Rails.root, 'lib', 'assets', 'schemas', 'services', 'umm-s-json-schema.json')
   end
+
+  # def set_metadata_specification
+  #   # this is a hidden fieldset added to UMM-S to document the metadata version
+  #
+  #   # pulling from the schema enums to populate these values
+  #   # file_path = File.join(Rails.root, 'lib', 'assets', 'schemas', 'services', 'umm-s-json-schema.json')
+  #   file = File.read(schema_file_path)
+  #   parsed_json = JSON.parse(file)
+  #   metadata_specification_type = parsed_json['definitions']['MetadataSpecificationType']['properties']
+  #   url_value = metadata_specification_type['URL']['enum'].first
+  #   name_value = metadata_specification_type['Name']['enum'].first
+  #   version_value = metadata_specification_type['Version']['enum'].first
+  #
+  #   metadata_specification = {
+  #     'URL' => url_value,
+  #     'Name' => name_value,
+  #     'Version' => version_value
+  #   }
+  #
+  #   unless self.draft['MetadataSpecification'] == metadata_specification
+  #     self.draft['MetadataSpecification'] = metadata_specification
+  #   end
+  # end
 end

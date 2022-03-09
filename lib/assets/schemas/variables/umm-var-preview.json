@@ -197,6 +197,17 @@
           ]
         }
       ]
+    }, {
+      "id": "related_urls",
+      "title": "Related URLs",
+      "fields": [
+        {
+          "key": "RelatedURLs",
+          "title": "Related URLs",
+          "hideFieldTitle": true,
+          "type": "UmmPreviewURL"
+        }
+      ]
     }
   ]
 }

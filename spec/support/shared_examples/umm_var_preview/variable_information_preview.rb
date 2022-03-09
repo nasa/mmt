@@ -1,6 +1,8 @@
 shared_examples_for 'Variable Information Full Preview' do
   it 'displays the stored values correctly within the preview' do
     within(first('.umm-preview.variable_information')) do
+      expect(page).to have_css('.umm-preview-field-container', count: 24)
+      
       within '#variable_draft_draft_name_preview, #variable_name_preview' do
         expect(page).to have_css('h5', text: 'Name')
         expect(page).to have_css('p', text: 'PNs_LIF')

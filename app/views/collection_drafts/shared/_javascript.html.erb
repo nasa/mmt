@@ -2,7 +2,6 @@
   // Load json-schema for field validation
   var globalJsonSchema = <%= raw @json_schema.to_json %>;
 
-  // var urlContentTypeMap = <%#= raw @umm_c_related_url_mapping.to_json %>;
   <% if form == 'related_urls' %>
     var urlContentTypeMap = <%= raw @umm_c_related_url_mapping.to_json %>;
   <% elsif form == 'data_centers' %>

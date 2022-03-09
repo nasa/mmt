@@ -1,14 +1,15 @@
 describe 'Empty Variable Draft Sampling Identifiers Preview' do
+  let(:variable_draft) { create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first) }
+
   before do
     login
-    @draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-    visit variable_draft_path(@draft)
+    visit variable_draft_path(variable_draft)
   end
 
   context 'When examining the Sampling Identifiers section' do
     it 'displays the form title as an edit link' do
       within '#sampling_identifiers-progress' do
-        expect(page).to have_link('Sampling Identifiers', href: edit_variable_draft_path(@draft, 'sampling_identifiers'))
+        expect(page).to have_link('Sampling Identifiers', href: edit_variable_draft_path(variable_draft, 'sampling_identifiers'))
       end
     end
 
@@ -27,7 +28,7 @@ describe 'Empty Variable Draft Sampling Identifiers Preview' do
     it 'displays the correct progress indicators for non required fields' do
       within '#sampling_identifiers-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.sampling-identifiers')
-        expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sampling_identifiers', anchor: 'sampling-identifiers'))
+        expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'sampling_identifiers', anchor: 'sampling-identifiers'))
       end
     end
 
@@ -37,7 +38,7 @@ describe 'Empty Variable Draft Sampling Identifiers Preview' do
 
         within '#variable_draft_draft_sampling_identifiers_preview' do
 
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sampling_identifiers', anchor: 'variable_draft_draft_sampling_identifiers'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'sampling_identifiers', anchor: 'variable_draft_draft_sampling_identifiers'))
 
           expect(page).to have_css('p', text: 'No value for Sampling Identifiers provided.')
         end

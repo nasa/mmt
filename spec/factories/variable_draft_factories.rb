@@ -50,7 +50,17 @@ FactoryBot.define do
             'Size': 'string',
             'Index': 'string'
           }
-        ]
+        ],
+        'RelatedURLs': [
+          {
+            'Description': 'Test related url'
+          }
+        ],
+        'MetadataSpecification': {
+          'Name': 'UMM-Var',
+          'URL': 'https://cdn.earthdata.nasa.gov/umm/variable/v1.8',
+          'Version': '1.8'
+        }
       }
     end
 
@@ -144,16 +154,16 @@ FactoryBot.define do
         'MeasurementIdentifiers': [
           {
             'MeasurementContextMedium': 'ocean',
-            'MeasurementContextMediumURI': 'fake.website.gov',
-            'MeasurementObject': 'sea_ice-meltwater',
-            'MeasurementObjectURI': 'fake.website.gov',
+            'MeasurementContextMediumURI': 'ocean.gov',
+            'MeasurementObject': 'sea_ice',
+            'MeasurementObjectURI': 'sea-ice.ocean.gov',
             'MeasurementQuantities': [
               {
-                'MeasurementQuantityURI': 'fake.website.gov',
-                'Value': 'volume'
+                'MeasurementQuantityURI': 'sea-ice.ocean.gov/albedo',
+                'Value': 'albedo'
               },
               {
-                'Value': 'volume'
+                'Value': 'bottom_depth'
               }
             ]
           },
@@ -204,7 +214,30 @@ FactoryBot.define do
             'Size': 100,
             'Index': 2
           }
-        ]
+        ],
+        'RelatedURLs': [
+          {
+            'Description': 'Test related url',
+            'URLContentType': 'PublicationURL',
+            'Type': 'VIEW RELATED INFORMATION',
+            'Subtype': 'SCIENCE DATA PRODUCT SOFTWARE DOCUMENTATION',
+            'URL': 'science.org',
+            'Format': 'HTML'
+          },
+          {
+            'Description': 'Test another related url',
+            'URLContentType': 'PublicationURL',
+            'Type': 'VIEW RELATED INFORMATION',
+            'Subtype': 'ALGORITHM THEORETICAL BASIS DOCUMENT (ATBD)',
+            'URL': 'algorithms.org',
+            'MimeType': 'text/markdown'
+          }
+        ],
+        'MetadataSpecification': {
+          'Name': 'UMM-Var',
+          'URL': 'https://cdn.earthdata.nasa.gov/umm/variable/v1.8',
+          'Version': '1.8'
+        }
       }
     end
   end
