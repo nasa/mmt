@@ -88,7 +88,6 @@ describe 'Variable Drafts Form Navigation', js: true do
           end
 
           it "saves the form and renders the #{next_form_title} form" do
-\
             within 'header .collection-basics > h2' do
               expect(page).to have_content(next_form_title)
             end
