@@ -22,10 +22,13 @@ module GKRKeywordRecommendations
     { id: response.body['uuid'], recommendations: keyword_recommendations, uuids: keyword_uuids }
   end
 
-  def send_feedback(user, request_id, provider, gkr_request_uuid, accepted_keywords, rejected_recommendations)
+  def send_feedback(user, request_id, provider, gkr_request_uuid, accepted_uuids, rejected_uuids)
     recommendations = {}
-    accepted_keywords.each { |uuid|
+    accepted_uuids.each { |uuid|
       recommendations[uuid] = true
+    }
+    rejected_uuids.each { |uuid|
+      recommendations[uuid] = false
     }
     Rails.logger.info("GKR UUID: #{gkr_request_uuid}");
     Rails.logger.info("Recommendations: #{recommendations}");
