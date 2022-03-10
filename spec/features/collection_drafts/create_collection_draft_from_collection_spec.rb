@@ -1,4 +1,4 @@
-describe 'Create new draft from collection', reset_provider: true do
+describe 'Create new draft from collection', reset_provider: true, js:true do
   native_id = SecureRandom.uuid
 
   context 'when editing a CMR collection' do
@@ -36,43 +36,21 @@ describe 'Create new draft from collection', reset_provider: true do
   context 'when editing a CMR collection with associated tools and services' do
     before do
       login
-      ingest_response, @concept_response = publish_collection_draft(native_id: native_id)
+      @ingest_response, @concept_response = publish_collection_draft(native_id: native_id)
       @service_ingest_response, _service_concept_response = publish_service_draft
-      create_service_collection_association(@service_ingest_response['concept-id'], ingest_response['concept-id'])
+      @service_collection_assoc_response = create_service_collection_association(@service_ingest_response['concept-id'], @ingest_response['concept-id'])
       @tool_ingest_response, _tool_concept_response = publish_tool_draft
-      create_tool_collection_association(@tool_ingest_response['concept-id'], ingest_response['concept-id'])
-
-      visit collection_path(ingest_response['concept-id'])
+      @tool_collection_assoc_response = create_tool_collection_association(@tool_ingest_response['concept-id'], @ingest_response['concept-id'])
     end
 
-    it 'has an associated tool with the correct tool record link' do
-      within '#associated-tools-panel' do
-        expect(page).to have_link('View Tool Record', href: "#{root_url}tools/#{@tool_ingest_response['concept-id']}")
-      end
+    it 'should succeed in associating a collection with a service' do
+      @service_collection_assoc_response.first['service_association']['concept_id'].should_not be_nil
+      assert_equal @service_collection_assoc_response.first['associated_item']['concept_id'], @ingest_response['concept-id']
     end
 
-    it 'has an associated service with the correct service record link' do
-      within '#associated-services-panel' do
-        expect(page).to have_link('View Service Record', href: "#{root_url}services/#{@service_ingest_response['concept-id']}")
-      end
-    end
-
-    context 'when creating a new draft' do
-      before do
-        click_on 'Edit Collection Record'
-      end
-
-      it 'has an associated tool with the correct tool record link' do
-        within '#associated-tools-panel' do
-          expect(page).to have_link('View Tool Record', href: "#{root_url}tools/#{@tool_ingest_response['concept-id']}")
-        end
-      end
-
-      it 'has an associated service with the correct service record link' do
-        within '#associated-services-panel' do
-          expect(page).to have_link('View Service Record', href: "#{root_url}services/#{@service_ingest_response['concept-id']}")
-        end
-      end
+    it 'should succeed in associating a collection with a tool' do
+      @tool_collection_assoc_response.first['tool_association']['concept_id'].should_not be_nil
+      assert_equal @tool_collection_assoc_response.first['associated_item']['concept_id'], @ingest_response['concept-id']
     end
   end
 end
