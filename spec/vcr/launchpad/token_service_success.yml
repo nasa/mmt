@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.launchpad-sbx.nasa.gov/icam/api/sm/v1/validate
+    body:
+      encoding: UTF-8
+      string: '{"token":"access_token"}'
+    headers:
+      User-Agent:
+      - Faraday v1.5.1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-ua-compatible:
+      - IE=Edge
+      content-type:
+      - application/json;charset=UTF-8
+      content-length:
+      - '1163'
+      date:
+      - Thu, 17 Feb 2022 20:03:42 GMT
+      server:
+      - unknown
+    body:
+      encoding: UTF-8
+      string: "{\n\t\"auid\" : \"testuser\",\n\t\"authlevel\" : 40,\n\t\"gatewaytime\"
+        : 1645128222,\n\t\"groups\" : [ \"CN=HQ-DL-nasa-slack,OU=Distribution Lists,OU=Accounts,DC=ndc,DC=nasa,DC=gov\",
+        \"CN=Agency-DL-OCIO-EUS-Teams-Only-Migration-Ph3,OU=Distribution Lists,OU=Accounts,DC=ndc,DC=nasa,DC=gov\",
+        \"CN=ND-GG-NCAD-UserCanExpire,OU=Groups,OU=Administrators,DC=ndc,DC=nasa,DC=gov\",
+        \"CN=Agency-DL-NOMAD-All-Mailboxes-MSFC-Site,OU=Distribution Lists,OU=Accounts,DC=ndc,DC=nasa,DC=gov\",
+        \"CN=ND-GG-GS Users,OU=Groups,OU=GSFC,OU=Accounts,DC=ndc,DC=nasa,DC=gov, cn=GSFC-CMR_INGEST_SIT,ou=251766,ou=ROLES,ou=Groups,dc=nasa,dc=gov\",
+        \"cn=NAMS Owner,ou=ICAM,ou=Groups,dc=nasa,dc=gov\", \"cn=NAMS Maintainer,ou=ICAM,ou=Groups,dc=nasa,dc=gov\"
+        ],\n\t\"identitytype\": \"user\",\n\t\"levelofconfidence\": 40,\n\t\"session_idleremaining\"
+        : 626,\n\t\"session_idletimeout\" : 900,\n\t\"session_lasttime\" : 1645127948,\n\t\"session_maxremaining\"
+        : 35725,\n\t\"session_maxtimeout\" : 36000,\n\t\"session_starttime\" : 1645127947,\n\t\"session_sourceip\"
+        : \"198.0.0.1\",\n\t\"ssozone\" : \"SM\",\n\t\"status\" : \"success\",\n\t\"upn\"\t:
+        \"testuser@example.com\",\n\t\"userdn\" : \"employeenumber=12345,ou=people,dc=nasa,dc=gov\",\n\t\"employeenumber\"
+        : \"12345\"\n}"
+  recorded_at: Thu, 17 Feb 2022 20:03:42 GMT
+recorded_with: VCR 6.0.0

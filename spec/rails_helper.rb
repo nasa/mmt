@@ -49,7 +49,7 @@ Capybara.register_driver :headless_chrome do |app|
     # args: %w[headless disable-gpu no-sandbox --window-size=1920,1080 --enable-features=NetworkService,NetworkServiceInProcess]
   )
 
-  Capybara::Selenium::Driver.new(app, browser: :chrome, http_client: client, desired_capabilities: capabilities, options: options)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, http_client: client, capabilities: capabilities, options: options)
 end
 
 # setting up regular chrome driver, so it can be used if desired to see the

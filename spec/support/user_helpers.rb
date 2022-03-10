@@ -53,7 +53,7 @@ module Helpers
     end
 
     def real_login(provider: 'MMT_2', providers: 'MMT_2', method: 'env', associated: true, making_association: false)
-      if method == 'env' && ENV['launchpad_login_required'] || method == 'launchpad'
+      if (method == 'env' && ENV['launchpad_login_required']) || method == 'launchpad'
         real_launchpad_login(providers: providers, associated: associated)
       else
         login(real_login: true, provider: provider, providers: providers, making_association: making_association)
@@ -148,6 +148,8 @@ module Helpers
           user.provider_id = provider if Array.wrap(providers).count > 1
           user.save
         end
+
+        allow_any_instance_of(Cmr::Util).to receive(:is_urs_token?).and_return(false)
 
         visit root_path
         # this button sends a post request (which Capybara cannot do) to SAML#acs,

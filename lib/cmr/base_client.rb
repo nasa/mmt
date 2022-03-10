@@ -131,6 +131,10 @@ module Cmr
       request(:put, url, nil, body, headers)
     end
 
+    def proposal_mode_safe_put(url, body, headers = {})
+      request(:put, url, nil, body, headers)
+    end
+
     def build_connection
       Faraday.new(url: @root) do |conn|
         conn.use FaradayMiddleware::FollowRedirects
