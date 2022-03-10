@@ -18,7 +18,7 @@ describe 'Auto populating metadata dates', js: true do
 
     it 'displays the create date on the collection page' do
       within '#metadata-preview' do
-        expect(page).to have_content('"MetadataDates"=>[{"Type"=>"CREATE", "Date"=>"')
+        expect(page).to have_content('"MetadataDates":[{"Type":"CREATE","Date":"')
       end
     end
 
