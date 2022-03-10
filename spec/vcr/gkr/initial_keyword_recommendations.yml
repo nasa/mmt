@@ -48,17 +48,17 @@ http_interactions:
       encoding: UTF-8
       string: '{"uuid":"958c6431-979b-4b92-b790-7d9e68c7fecd","description":"This
         is a long description of the collection","recommendations":[{"uuid":"9035dad1-01e5-4d9b-a150-653e76be2f91","keyword":"EARTH
-        SCIENCE>OCEANS>SALINITY/DENSITY","score":0.99872225522995,"yes_count":0,"no_count":0},{"uuid":"10a88521-4325-4b72-88dc-82d389232a5e","keyword":"EARTH
-        SCIENCE>OCEANS>OCEAN TEMPERATURE","score":0.999270498752594,"yes_count":0,"no_count":0},{"uuid":"010d9779-7d6c-4361-9bce-6ae0e457bdb0","keyword":"EARTH
-        SCIENCE>OCEANS>OCEAN OPTICS","score":0.99998939037323,"yes_count":0,"no_count":0},{"uuid":"4a774160-67c6-4cc9-992c-724db9952ecd","keyword":"EARTH
-        SCIENCE>OCEANS>OCEAN CHEMISTRY","score":0.999970674514771,"yes_count":0,"no_count":0}]}'
+        SCIENCE > OCEANS > SALINITY/DENSITY","score":0.99872225522995,"yes_count":0,"no_count":0},{"uuid":"10a88521-4325-4b72-88dc-82d389232a5e","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN TEMPERATURE","score":0.999270498752594,"yes_count":0,"no_count":0},{"uuid":"010d9779-7d6c-4361-9bce-6ae0e457bdb0","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN OPTICS","score":0.99998939037323,"yes_count":0,"no_count":0},{"uuid":"4a774160-67c6-4cc9-992c-724db9952ecd","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN CHEMISTRY","score":0.999970674514771,"yes_count":0,"no_count":0}]}'
   recorded_at: Wed, 18 Nov 2020 16:42:03 GMT
 - request:
     method: put
     uri: https://gkr.sit.earthdatacloud.nasa.gov/api/requests/958c6431-979b-4b92-b790-7d9e68c7fecd
     body:
       encoding: UTF-8
-      string: '{"recommendations":{"":true},"keywords":[]}'
+      string: '{"recommendations":{"4a774160-67c6-4cc9-992c-724db9952ecd":true,"010d9779-7d6c-4361-9bce-6ae0e457bdb0":true,"9035dad1-01e5-4d9b-a150-653e76be2f91":false,"10a88521-4325-4b72-88dc-82d389232a5e":false},"keywords":[]}'
     headers:
       User-Agent:
       - Faraday v1.10.0
@@ -78,11 +78,11 @@ http_interactions:
       content-type:
       - application/json
       content-length:
-      - '56'
+      - '209'
       connection:
       - keep-alive
       date:
-      - Tue, 01 Mar 2022 15:00:21 GMT
+      - Thu, 10 Mar 2022 00:24:55 GMT
       server:
       - ServerTokens ProductOnly
       vary:
@@ -98,19 +98,23 @@ http_interactions:
       referrer-policy:
       - same-origin
       x-request-id:
-      - YYxARW6kDnyUPbfJ-U7p4vntYidI3mA3ut3oPw-50bwLH7a2bgQEQA==
+      - iKKH_B22PiIldTDbz_MG2IAjYYYom0N1GiAikH_aeWTBZAlSUo8oCg==
       strict-transport-security:
       - max-age=31536000
       x-cache:
       - Miss from cloudfront
       via:
-      - 1.1 f672414ac3f5fcc589dd2a6d8cdee8be.cloudfront.net (CloudFront)
+      - 1.1 0570243541aa4edb51d3f1e60aee5a32.cloudfront.net (CloudFront)
       x-amz-cf-pop:
       - IAD79-C2
       x-amz-cf-id:
-      - YYxARW6kDnyUPbfJ-U7p4vntYidI3mA3ut3oPw-50bwLH7a2bgQEQA==
+      - iKKH_B22PiIldTDbz_MG2IAjYYYom0N1GiAikH_aeWTBZAlSUo8oCg==
     body:
       encoding: UTF-8
-      string: '{"updated":[],"not_found":[""],"new_recommendations":[]}'
-  recorded_at: Tue, 01 Mar 2022 15:00:21 GMT
+      string: '{"updated":[{"uuid":"4a774160-67c6-4cc9-992c-724db9952ecd","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN CHEMISTRY","score":0.999970674514771,"yes_count":1,"no_count":0},{"uuid":"010d9779-7d6c-4361-9bce-6ae0e457bdb0","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN OPTICS","score":0.99998939037323,"yes_count":1,"no_count":0},{"uuid":"9035dad1-01e5-4d9b-a150-653e76be2f91","keyword":"EARTH
+        SCIENCE > OCEANS > SALINITY/DENSITY","score":0.99872225522995,"yes_count":0,"no_count":1},{"uuid":"10a88521-4325-4b72-88dc-82d389232a5e","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN TEMPERATURE","score":0.999270498752594,"yes_count":0,"no_count":1}], "not_found":[], "new_recommendations":[]}'
+  recorded_at: Thu, 10 Mar 2022 00:24:55 GMT
 recorded_with: VCR 6.0.0
