@@ -31,20 +31,16 @@ describe 'Create new collection draft from cloning a collection', js: true do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Collection Drafts')
       end
-
-      expect(page).to have_content('Metadata Preview')
     end
 
     it 'appends " - Cloned" to the metadata' do
-      within '#collection-general-overview' do
+      within '#metadata-preview' do
         expect(page).to have_content("#{@concept_response.body['EntryTitle']} - Cloned")
       end
     end
 
     it 'removes Short Name from the metadata' do
-      within '.collection-short-name' do
-        expect(page).to have_content('<Blank Short Name>')
-      end
+      expect(page).to have_content('<Blank Short Name>')
     end
 
     it 'displays a message that the draft needs a unique Short Name' do

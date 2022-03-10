@@ -107,7 +107,7 @@
     <%= render partial: 'collection_drafts/progress/preview_progress', locals: { unpublished_resource: get_resource, metadata_errors: @errors || @ingest_errors } %>
     <% if Rails.env.test? %>
       <div id="metadata-preview">
-      <%= get_resource.draft  %>
+      <%= get_resource.draft.to_json  %>
       </div>
     <% else %>
       <div id="metadata-preview">

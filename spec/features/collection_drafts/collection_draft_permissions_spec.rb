@@ -19,12 +19,13 @@ describe 'Collection draft permissions' do
     context 'when trying to visit the collection draft show page directly' do
       before do
         visit collection_draft_path(draft)
+
       end
 
       it 'displays the collection draft show page' do
         within '.eui-breadcrumbs' do
-          expect(page).to have_content('Collection Drafts')
-          expect(page).to have_content("#{short_name}_1")
+         expect(page).to have_content('Collection Drafts')
+         expect(page).to have_content("#{short_name}_1")
         end
       end
 
@@ -32,19 +33,7 @@ describe 'Collection draft permissions' do
         expect(page).to have_no_content('Publish Collection Draft')
         expect(page).to have_no_content('Save As Template')
         expect(page).to have_no_content('Delete Collection Draft')
-        expect(page).to have_no_content('Metadata Preview')
-
-
         expect(page).to have_no_content(entry_title)
-
-        expect(page).to have_no_content('Science Keywords:')
-        expect(page).to have_no_content('Spatial Extent:')
-        expect(page).to have_no_content('Data Format(s):')
-        expect(page).to have_no_content('Temporal Extent:')
-        expect(page).to have_no_content('Platform(s):')
-        expect(page).to have_no_content('Data Center(s):')
-        expect(page).to have_no_content('Instrument(s):')
-        expect(page).to have_no_content('Version:')
       end
 
       it 'displays a banner message to change provider the Not Current Provider content' do
@@ -71,25 +60,15 @@ describe 'Collection draft permissions' do
             expect(page).to have_content("#{short_name}_1")
           end
 
-          within '.collection-short-name' do
+          within '#metadata-preview' do
             expect(page).to have_content(short_name)
-          end
-
-          within '.collection-title' do
             expect(page).to have_content(entry_title)
           end
         end
 
         it 'displays the collection draft preview information' do
-          within '.collection-overview-table' do
-            expect(page).to have_content('Science Keywords:')
-            expect(page).to have_content('Spatial Extent:')
-            expect(page).to have_content('Data Format(s):')
-            expect(page).to have_content('Temporal Extent:')
-            expect(page).to have_content('Platform(s):')
-            expect(page).to have_content('Data Center(s):')
-            expect(page).to have_content('Instrument(s):')
-            expect(page).to have_content('Version:')
+          within '#metadata-preview' do
+            expect(page).to have_content(entry_title)
           end
         end
       end
@@ -112,18 +91,7 @@ describe 'Collection draft permissions' do
         expect(page).to have_no_content('Publish Collection Draft')
         expect(page).to have_no_content('Save As Template')
         expect(page).to have_no_content('Delete Collection Draft')
-        expect(page).to have_no_content('Metadata Preview')
-
         expect(page).to have_no_content(entry_title)
-
-        expect(page).to have_no_content('Science Keywords:')
-        expect(page).to have_no_content('Spatial Extent:')
-        expect(page).to have_no_content('Data Format(s):')
-        expect(page).to have_no_content('Temporal Extent:')
-        expect(page).to have_no_content('Platform(s):')
-        expect(page).to have_no_content('Data Center(s):')
-        expect(page).to have_no_content('Instrument(s):')
-        expect(page).to have_no_content('Version:')
       end
 
       it 'displays a banner message to change provider the Not Current Provider content' do
