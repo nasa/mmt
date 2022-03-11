@@ -39,6 +39,10 @@ module CollectionsHelper
   def nrt_badge(metadata)
     if metadata['CollectionDataType'] == 'NEAR_REAL_TIME'
       content_tag(:span, 'NRT', class: 'eui-badge nrt')
+    elsif metadata['CollectionDataType'] == 'LOW_LATENCY'
+      content_tag(:span, 'LOW LATENCY', class: 'eui-badge nrt')
+    elsif metadata['CollectionDataType'] == 'EXPEDITED'
+      content_tag(:span, 'EXPEDITED', class: 'eui-badge nrt')
     end
   end
 
