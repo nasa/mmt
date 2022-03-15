@@ -16,7 +16,7 @@ describe ServiceDraft do
     expect(service_draft.display_short_name).to eq('Service Test Name')
   end
 
-  it "`display_short_name` returns <Blank Name> if there is no entry id" do
+  it '`display_short_name` returns <Blank Name> if there is no entry id' do
     service_draft = build(:empty_service_draft)
     expect(service_draft.display_short_name).to eq('<Blank Name>')
   end

@@ -1,14 +1,12 @@
-describe 'Measurement Identifiers Form', js: true do
+describe 'Variable Drafts Measurement Identifiers Form', js: true do
+  let(:variable_draft) { create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first) }
+
   before do
     login
+    visit edit_variable_draft_path(variable_draft, 'measurement_identifiers')
   end
 
   context 'When viewing the form with no stored values' do
-    before do
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_variable_draft_path(draft, 'measurement_identifiers')
-    end
-
     it 'does not display required icons for accordions in Measurement Identifiers section' do
       expect(page).to have_no_css('h3.eui-required-o.always-required')
     end
@@ -18,282 +16,32 @@ describe 'Measurement Identifiers Form', js: true do
       expect(page).to have_content('The measurement information of a variable.')
     end
 
-    it 'has no required fields' do
-      expect(page).not_to have_selector('label.eui-required-o')
-    end
-
-    context 'When clicking `Previous` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Previous'
-        end
-      end
-
-      it 'saves the draft and loads the previous form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Dimensions')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
-        end
+    it 'displays the form title in the breadcrumbs' do
+      within '.eui-breadcrumbs' do
+        expect(page).to have_content('Variable Drafts')
+        expect(page).to have_content('Measurement Identifiers')
       end
     end
 
-    context 'When clicking `Next` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Next'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('c')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
-        end
-      end
+    it 'displays buttons to add another element' do
+      expect(page).to have_selector(:link_or_button, 'Add another Measurement Quantity')
+      expect(page).to have_selector(:link_or_button, 'Add another Measurement Identifier')
     end
 
-    context 'When clicking `Save` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Save'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Measurement Identifiers')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
-        end
-      end
+    it 'displays the correct number of required fields' do
+      expect(page).to have_no_selector('label.eui-required-o')
     end
 
-    context 'When selecting the previous form from the navigation dropdown' do
-      before do
-        within '.nav-top' do
-          select 'Dimensions', from: 'Save & Jump To:'
-        end
-      end
-
-      it 'saves the draft and loads the previous form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Dimensions')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Dimensions')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
-        end
-      end
-    end
-
-    context 'When selecting the next form from the navigation dropdown' do
-      before do
-        within '.nav-top' do
-          select 'Sampling Identifiers', from: 'Save & Jump To:'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Sampling Identifiers')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Sampling Identifiers')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
-        end
+    it 'displays the correct prompt value for select elements' do
+      within '.umm-form' do
+        expect(page).to have_select('Measurement Context Medium', selected: 'Select a Measurement Context Medium')
+        expect(page).to have_select('Measurement Object', selected: 'Select Measurement Object', disabled: true)
+        expect(page).to have_select('Value', selected: 'Select Value', disabled: true)
       end
     end
   end
 
-  context 'When viewing the form with stored values' do
-    let(:draft) {
-      create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first)
-    }
-
-    before do
-      visit edit_variable_draft_path(draft, 'measurement_identifiers')
-    end
-
-    it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_context_medium', with: 'ocean')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_context_medium_uri', with: 'fake.website.gov')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_object', with: 'sea_ice-meltwater')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_object_uri', with: 'fake.website.gov')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_0_value', with: 'volume')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_0_measurement_quantity_uri', with: 'fake.website.gov')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_1_value', with: 'volume')
-
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_context_medium', with: 'ocean')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_object', with: 'sea_ice-meltwater')
-      expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_quantities_0_value', with: 'volume')
-    end
-
-    context 'When clicking `Previous` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Previous'
-        end
-      end
-
-      it 'saves the draft and loads the previous form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Dimensions')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('dimensions')
-        end
-      end
-    end
-
-    context 'When clicking `Next` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Next'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Sampling Identifiers')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
-        end
-      end
-    end
-
-    context 'When clicking `Save` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Save'
-        end
-      end
-
-      it 'saves the draft without making any changes' do
-        expect(draft.draft).to eq(Draft.last.draft)
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Measurement Identifiers')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
-        end
-      end
-
-      it 'displays the correct values in the form' do
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_context_medium', with: 'ocean')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_context_medium_uri', with: 'fake.website.gov')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_object', with: 'sea_ice-meltwater')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_object_uri', with: 'fake.website.gov')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_0_value', with: 'volume')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_0_measurement_quantity_uri', with: 'fake.website.gov')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_1_value', with: 'volume')
-
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_context_medium', with: 'ocean')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_object', with: 'sea_ice-meltwater')
-        expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_quantities_0_value', with: 'volume')
-      end
-    end
-  end
-
-  context 'when filling in the form' do
-    before do
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_variable_draft_path(draft, 'measurement_identifiers')
-    end
-
-    it 'the object and quantity start disabled' do
-      expect(page).to have_field('Measurement Object', disabled: true)
-      expect(page).to have_field('Value', disabled: true)
-    end
-
+  context 'when filling out the form' do
     context 'when changing the medium context' do
       before do
         select 'glacier_bed', from: 'Measurement Context Medium'
@@ -334,6 +82,67 @@ describe 'Measurement Identifiers Form', js: true do
 
         it 'changes the quantity back to an empty selection' do
           expect(page).to have_field('Value', with: '')
+        end
+      end
+    end
+
+    context 'when fully filling out the form' do
+      before do
+        within '.multiple.measurement-identifiers > .multiple-item-0' do
+          select 'ocean', from: 'Measurement Context Medium'
+          fill_in 'Measurement Context Medium Uri', with: 'ocean.gov'
+
+          select 'sea_ice', from: 'Measurement Object'
+          fill_in 'Measurement Object Uri', with: 'sea-ice.ocean.gov'
+
+          within '.multiple.measurement-quantities' do
+            within '.multiple-item-0' do
+              select 'albedo', from: 'Value'
+              fill_in 'Measurement Quantity Uri', with: 'sea-ice.ocean.gov/albedo'
+            end
+
+            click_on 'Add another Measurement Quantity'
+
+            within '.multiple-item-1' do
+              select 'bottom_depth', from: 'Value'
+            end
+          end
+        end
+
+        click_on 'Add another Measurement Identifier'
+
+        within '.multiple.measurement-identifiers > .multiple-item-1' do
+          select 'ocean', from: 'Measurement Context Medium'
+          select 'sea_ice-meltwater', from: 'Measurement Object'
+          select 'volume', from: 'Value'
+        end
+      end
+
+      context 'When clicking `Save` to save the form' do
+        before do
+          within '.nav-top' do
+            click_button 'Save'
+          end
+        end
+
+        it 'displays the correct number of required fields' do
+          expect(page).to have_css('label.eui-required-o', count: 4)
+        end
+
+        it 'saves the values, displays a confirmation message, and repopulates the form' do
+          expect(page).to have_content('Variable Draft Updated Successfully!')
+
+          expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_context_medium', with: 'ocean')
+          expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_context_medium_uri', with: 'ocean.gov')
+          expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_object', with: 'sea_ice')
+          expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_object_uri', with: 'sea-ice.ocean.gov')
+          expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_0_value', with: 'albedo')
+          expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_0_measurement_quantity_uri', with: 'sea-ice.ocean.gov/albedo')
+          expect(page).to have_field('variable_draft_draft_measurement_identifiers_0_measurement_quantities_1_value', with: 'bottom_depth')
+
+          expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_context_medium', with: 'ocean')
+          expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_object', with: 'sea_ice-meltwater')
+          expect(page).to have_field('variable_draft_draft_measurement_identifiers_1_measurement_quantities_0_value', with: 'volume')
         end
       end
     end
