@@ -150,7 +150,6 @@ class PermissionsController < ManageCmrController
     provider = current_user.provider_id
     tea_token = token
     provider = 'POCLOUD'
-    tea_token = 'EDL-U3431952a245813c68129314b173981a4b0fa1a9c69ce9d42d60efb81298'
     tea_configuration_response = cmr_client.get_tea_configuration(provider, tea_token)
     tea_configuration = tea_configuration_response.body
     if tea_configuration_response.error?
