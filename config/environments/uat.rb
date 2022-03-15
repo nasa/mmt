@@ -138,4 +138,6 @@ Rails.application.configure do
   config.tag_manager_id = 'GTM-WNP7MLF'
 
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
+  
+  config.tea_configuration_url = 'https://jir8g54gv8.execute-api.us-east-1.amazonaws.com/dev/configuration/tea/provider/'
 end

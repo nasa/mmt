@@ -521,6 +521,12 @@ module Cmr
             end
       get(url, options, token_header(token))
     end
+    
+    def get_tea_configuration(provider, token)
+      headers = { 'Authorization' => 'Bearer ' + token }
+      url = Rails.configuration.tea_configuration_url + provider
+      get(url, {}, headers)
+    end
 
     def create_group(group, token)
       url = if Rails.env.development? || Rails.env.test?

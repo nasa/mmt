@@ -3,6 +3,8 @@ class PermissionsController < ManageCmrController
   include PermissionManagement
   include GroupsHelper
 
+  respond_to? :csv
+
   before_action :groups_for_permissions, only: [:new, :edit, :update, :create]
 
   add_breadcrumb 'Collection Permissions', :permissions_path
@@ -141,6 +143,26 @@ class PermissionsController < ManageCmrController
       flash[:error] = response.error_message
       set_collection_permission
       render :show
+    end
+  end
+
+  def download_tea_configuration
+    provider = current_user.provider_id
+    tea_token = token
+    provider = 'POCLOUD'
+    tea_token = 'EDL-U3431952a245813c68129314b173981a4b0fa1a9c69ce9d42d60efb81298'
+    tea_configuration_response = cmr_client.get_tea_configuration(provider, tea_token)
+    tea_configuration = tea_configuration_response.body
+    if tea_configuration_response.error?
+      Rails.logger.error("Error retrieving TEA configuration: #{tea_configuration_response.clean_inspect}")
+      flash[:error] = tea_configuration_response.error_message
+    elsif tea_configuration == 'No S3 prefixes returned'
+      Rails.logger.info('No S3 prefixes found')
+      flash[:alert] = 'No S3 prefixes found'
+    else
+      respond_to do |format|
+        format.csv { send_data tea_configuration, filename: "tea_configuration-#{Date.today}.yml" }
+      end
     end
   end
 
