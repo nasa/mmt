@@ -84,8 +84,8 @@ describe 'Bulk updating Data Centers' do
       end
 
       context 'when viewing the collection' do
-      before do
-        visit collection_path(@find_and_remove_ingest_response['concept-id'])
+        before do
+          visit collection_path(@find_and_remove_ingest_response['concept-id'])
 
       end
 
