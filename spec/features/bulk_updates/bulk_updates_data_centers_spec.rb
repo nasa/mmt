@@ -56,7 +56,7 @@ describe 'Bulk updating Data Centers' do
         click_on 'Submit'
         click_on 'Yes'
 
-        #need to wait until the task status is 'COMPLETE'
+        # need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
         wait_for_complete_bulk_update(task_id: task_id)
 
