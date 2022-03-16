@@ -52,18 +52,16 @@ describe 'Bulk updating Data Centers' do
     end
 
     context 'when submitting the bulk update' do
-      before(:each, bulk_update_step_2: true) do
-        click_on 'Submit'
-        click_on 'Yes'
-
-        # need to wait until the task status is 'COMPLETE'
+    before(:each, bulk_update_step_2: true) do
+      click_on 'Submit'
+      click_on 'Yes'
+        #need to wait until the task status is 'COMPLETE'
         task_id = page.current_path.split('/').last
         wait_for_complete_bulk_update(task_id: task_id)
 
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
-      end
-
+    end
       it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
         expect(page).to have_css('h2', text: bulk_update_name)
 
@@ -86,14 +84,13 @@ describe 'Bulk updating Data Centers' do
       end
 
       context 'when viewing the collection' do
-        before do
-          visit collection_path(@find_and_remove_ingest_response['concept-id'])
+      before do
+        visit collection_path(@find_and_remove_ingest_response['concept-id'])
 
-          find('.tab-label', text: 'Additional Information').click
-        end
+      end
 
         it 'no longer has the removed data center' do
-          within '.data-centers-preview' do
+          within '#metadata-preview' do
             expect(page).to have_no_content('ESA/ED')
           end
         end
@@ -216,11 +213,10 @@ describe 'Bulk updating Data Centers' do
             before do
               visit collection_path(@find_and_update_ingest_response_1['concept-id'])
 
-              find('.tab-label', text: 'Additional Information').click
             end
 
             it 'displays the updated data center' do
-              within '.data-centers-preview' do
+              within '#metadata-preview' do
                 expect(page).to have_no_content('AARHUS-HYDRO')
 
                 expect(page).to have_content('OR-STATE/EOARC')
@@ -347,11 +343,10 @@ describe 'Bulk updating Data Centers' do
             before do
               visit collection_path(@find_and_update_ingest_response_2['concept-id'])
 
-              find('.tab-label', text: 'Additional Information').click
             end
 
             it 'displays the updated data center' do
-              within '.data-centers-preview' do
+              within '#metadata-preview' do
                 expect(page).to have_no_content('ESA/ED')
 
                 expect(page).to have_content('AARHUS-HYDRO', count: 2)

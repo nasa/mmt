@@ -87,7 +87,7 @@ describe 'Bulk Updating Instruments' do
         end
 
         it 'does not display the removed instrument' do
-          within '.collection-overview-table' do
+          within '#metadata-preview' do
             expect(page).to have_no_content('LVIS')
 
             expect(page).to have_content('ADS')
@@ -197,8 +197,8 @@ describe 'Bulk Updating Instruments' do
         end
 
         it 'displays instrument changes' do
-          within '.collection-overview-table' do
-            expect(page).to have_no_content('ADS')
+          within '#metadata-preview' do
+            expect(page).to have_content('ADS')
 
             expect(page).to have_content('LVIS')
             expect(page).to have_content('SMAP L-BAND RADIOMETER')

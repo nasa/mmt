@@ -35,7 +35,6 @@ describe 'Create new collection template from cloning a collection', js: true do
         click_on 'Done'
       end
 
-      find('.tab-label', text: 'Download Data').click
 
       expect(page).to have_content('Earthdata Search')
     end
