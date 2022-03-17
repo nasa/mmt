@@ -62,7 +62,7 @@ describe 'Bulk updating Data Centers' do
 
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
-    end
+      end
       it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
         expect(page).to have_css('h2', text: bulk_update_name)
 

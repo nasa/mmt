@@ -188,7 +188,10 @@ describe 'Bulk updating Location Keywords' do
 
         it 'displays the new keyword' do
           within '#metadata-preview' do
-            expect(page).to have_no_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
+            expect(page).to have_content('OCEAN', normalize_ws: true)
+            expect(page).to have_content('ATLANTIC OCEAN', normalize_ws: true)
+            expect(page).to have_content('NORTH ATLANTIC OCEAN', normalize_ws: true)
+            expect(page).to have_content('BALTIC SEA', normalize_ws: true)
           end
         end
       end
@@ -397,7 +400,9 @@ describe 'Bulk updating Location Keywords' do
             expect(page).to have_no_content('GEOGRAPHIC REGION ARCTIC', normalize_ws: true)
             expect(page).to have_no_content('OCEAN ATLANTIC OCEAN', normalize_ws: true)
 
-            expect(page).to have_no_content('CONTINENT AFRICA CENTRAL AFRICA', normalize_ws: true)
+            expect(page).to have_content('CONTINENT', normalize_ws: true)
+            expect(page).to have_content('AFRICA', normalize_ws: true)
+            expect(page).to have_content('CENTRAL AFRICA', normalize_ws: true)
           end
         end
       end

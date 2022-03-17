@@ -188,7 +188,9 @@ describe 'Bulk updating Science Keywords' do
 
         it 'displays the new keyword' do
           within '#metadata-preview' do
-            expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
+            expect(page).to have_content('EARTH SCIENCE', normalize_ws: true)
+            expect(page).to have_content('ATMOSPHERE', normalize_ws: true)
+            expect(page).to have_content('AEROSOLS', normalize_ws: true)
           end
         end
       end
@@ -295,9 +297,14 @@ describe 'Bulk updating Science Keywords' do
         it 'displays the new keyword' do
           within '#metadata-preview' do
             expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE', normalize_ws: true)
-            expect(page).to have_no_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS', normalize_ws: true)
+            expect(page).to have_content('EARTH SCIENCE', normalize_ws: true)
+            expect(page).to have_content('SOLID EARTH', normalize_ws: true)
+            expect(page).to have_content('ROCKS/MINERALS/CRYSTALS', normalize_ws: true)
+            expect(page).to have_content('SEDIMENTARY ROCKS', normalize_ws: true)
 
-            expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
+            expect(page).to have_content('EARTH SCIENCE', normalize_ws: true)
+            expect(page).to have_content('ATMOSPHERE', normalize_ws: true)
+            expect(page).to have_content('AEROSOLS', normalize_ws: true)
           end
         end
       end
@@ -394,7 +401,9 @@ describe 'Bulk updating Science Keywords' do
             expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERIC TEMPERATURE SURFACE TEMPERATURE', normalize_ws: true)
             expect(page).to have_no_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS', normalize_ws: true)
 
-            expect(page).to have_no_content('EARTH SCIENCE ATMOSPHERE AEROSOLS', normalize_ws: true)
+            expect(page).to have_content('EARTH SCIENCE', normalize_ws: true)
+            expect(page).to have_content('ATMOSPHERE', normalize_ws: true)
+            expect(page).to have_content('AEROSOLS', normalize_ws: true)
           end
         end
       end
