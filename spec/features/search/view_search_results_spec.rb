@@ -27,6 +27,11 @@ describe 'Viewing search results', js: true do
       expect(page).to have_content('1978-01-01')
       expect(page).to have_content('1999-12-31')
 
+      # Spatial Extent
+      expect(page).to have_content('-180.0')
+      expect(page).to have_content('90.0')
+      expect(page).to have_content('180.0')
+
       # Acquisition Information
       expect(page).to have_content('ESI')
     end
