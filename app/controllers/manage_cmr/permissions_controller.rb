@@ -3,8 +3,6 @@ class PermissionsController < ManageCmrController
   include PermissionManagement
   include GroupsHelper
 
-  respond_to? :csv
-
   before_action :groups_for_permissions, only: [:new, :edit, :update, :create]
 
   add_breadcrumb 'Collection Permissions', :permissions_path
@@ -159,10 +157,7 @@ class PermissionsController < ManageCmrController
       Rails.logger.info('No S3 prefixes found')
       flash[:alert] = 'No S3 prefixes found'
     else
-      respond_to do |format|
-        format.csv { send_data tea_configuration, filename: "tea_configuration-#{Date.today}.yml" }
-      end
-    end
+    send_data tea_configuration, type: 'application/text; charset=utf-8', disposition: "attachment; filename=tea_configuration-#{Date.today}.yaml"
   end
 
   private
