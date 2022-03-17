@@ -1,6 +1,6 @@
 # Basic draft creation and retrieval via the list on the Manage Collections page are tested in draft_creation_spec.rb
 
-describe 'Collection Drafts listed on the Manage Collections page' do
+describe 'Collection Drafts listed on the Manage Collections page', js: true do
   draft_display_max_count = 5 # Should agree with @draft_display_max_count found in manage_collections_controller
 
   before do
@@ -72,9 +72,11 @@ describe 'Collection Drafts listed on the Manage Collections page' do
         end
 
         it 'the record is opened for view/edit' do
+          screenshot_and_open_image
           within '.eui-breadcrumbs' do
             expect(page).to have_content('Collection Drafts')
           end
+          expect(page).to have_content('Warning: Your Collection Draft has missing or invalid fields.')
         end
       end
     end
