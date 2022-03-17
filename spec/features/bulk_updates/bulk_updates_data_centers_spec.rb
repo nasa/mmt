@@ -88,7 +88,7 @@ describe 'Bulk updating Data Centers' do
         before do
           visit collection_path(@find_and_remove_ingest_response['concept-id'])
 
-      end
+        end
 
         it 'no longer has the removed data center' do
           within '#metadata-preview' do
