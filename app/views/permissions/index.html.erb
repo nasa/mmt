@@ -4,8 +4,6 @@
     <div class="stretch-button-bar">
       <%= link_to 'Create a Permission', new_permission_path, :class=> 'eui-btn--blue space-bot' %>
       <%= link_to 'Download YAML', send('permissions_tea_configuration_path'), class: 'eui-btn--blue space-bot', target: '_blank' %>
-      <%#= link_to 'Download TEA Configuration', permissions_tea_configuration_path(format: :csv), :class=> 'eui-btn--blue space-bot' %>
-      <%#= link_to 'Download TEA Configuration', new_permission_path(format: :csv), :class=> 'eui-btn--blue space-bot' %>
     </div>
     <% if @permissions.any? %>
       <p><%= page_entries_info @permissions, entry_name: 'Permission' %></p>

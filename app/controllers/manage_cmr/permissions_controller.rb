@@ -147,16 +147,12 @@ class PermissionsController < ManageCmrController
   def download_tea_configuration
     provider = current_user.provider_id
     tea_token = token
-    provider = 'POCLOUD'
     tea_configuration_response = cmr_client.get_tea_configuration(provider, tea_token)
     tea_configuration = tea_configuration_response.body
     if tea_configuration_response.error?
       Rails.logger.error("Error retrieving TEA configuration: #{tea_configuration_response.clean_inspect}")
       flash[:error] = tea_configuration_response.error_message
-    elsif tea_configuration == 'No S3 prefixes returned'
-      Rails.logger.info('No S3 prefixes found')
-      flash[:alert] = 'No S3 prefixes found'
-    else
+    end
     send_data tea_configuration, type: 'application/text; charset=utf-8', disposition: "attachment; filename=tea_configuration-#{Date.today}.yaml"
   end
 
