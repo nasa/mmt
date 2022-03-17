@@ -24,13 +24,8 @@ describe 'Viewing search results', js: true do
       expect(page).to have_content('2000 Pilot Environmental Sustainability Index (ESI)')
 
       # Temporal Extent
-      expect(page).to have_content('1978-01-01 to 1999-12-31')
-
-      # Spatial Extent
-      expect(page).to have_content('W: -180.0')
-      expect(page).to have_content('N: 90.0')
-      expect(page).to have_content('E: 180.0')
-      expect(page).to have_content('S: -55.0')
+      expect(page).to have_content('1978-01-01')
+      expect(page).to have_content('1999-12-31')
 
       # Acquisition Information
       expect(page).to have_content('ESI')

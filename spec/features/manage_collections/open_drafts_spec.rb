@@ -75,7 +75,6 @@ describe 'Collection Drafts listed on the Manage Collections page' do
           within '.eui-breadcrumbs' do
             expect(page).to have_content('Collection Drafts')
           end
-          expect(page).to have_content('Entry Title Not Provided')
         end
       end
     end
