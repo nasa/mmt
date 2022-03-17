@@ -18,24 +18,18 @@ describe 'Viewing Collections with other native formats', js: true do
         expect(page).to have_content(short_name)
         expect(page).to have_content('AIRS/Aqua L2G Precipitation Estimate V006 (AIRG2SSD) at GES DISC')
 
-        within '.collection-overview-table' do
-          expect(page).to have_content('Data Center(s): NASA/GSFC/SED/ESD/GCDC/GESDISC', normalize_ws: true)
+        within '#metadata-preview' do
+          expect(page).to have_content('NASA/GSFC/SED/ESD/GCDC/GESDISC', normalize_ws: true)
         end
       end
 
       context 'when clicking to view the additional information tab' do
-        before do
-          find('.tab-label', text: 'Additional Information').click
-        end
 
         it 'displays the data center and correct role' do
-          within '.data-centers-preview' do
-            within all('li.data-center')[0] do
-              expect(page).to have_content('NASA/GSFC/SED/ESD/GCDC/GESDISC')
-              expect(page).to have_content('ARCHIVER')
-
-              expect(page).to have_content('Goddard Earth Sciences Data and Information Services Center (formerly Goddard DAAC), Global Change Data Center, Earth Sciences Division, Science and Exploration Directorate, Goddard Space Flight Center, NASA')
-            end
+          within '#metadata-preview' do
+            expect(page).to have_content('NASA/GSFC/SED/ESD/GCDC/GESDISC')
+            expect(page).to have_content('ARCHIVER')
+            expect(page).to have_content('Goddard Earth Sciences Data and Information Services Center (formerly Goddard DAAC), Global Change Data Center, Earth Sciences Division, Science and Exploration Directorate, Goddard Space Flight Center, NASA')
           end
         end
       end
