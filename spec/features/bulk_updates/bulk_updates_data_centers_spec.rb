@@ -87,7 +87,6 @@ describe 'Bulk updating Data Centers' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@find_and_remove_ingest_response['concept-id'])
-
         end
 
         it 'no longer has the removed data center' do
@@ -124,7 +123,7 @@ describe 'Bulk updating Data Centers' do
         find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'OR-STATE/EOARC').click
       end
 
-      it 'has the approriate fields disabled', bulk_update_step_1: true do
+      it 'has the appropriate fields disabled', bulk_update_step_1: true do
         expect(page).to have_field('Long Name', readonly: true)
         within '.related-url' do
           expect(page).to have_css('option[disabled]', text: 'Select URL Content Type')
@@ -213,7 +212,6 @@ describe 'Bulk updating Data Centers' do
           context 'when viewing the collection' do
             before do
               visit collection_path(@find_and_update_ingest_response_1['concept-id'])
-
             end
 
             it 'displays the updated data center' do
@@ -343,7 +341,6 @@ describe 'Bulk updating Data Centers' do
           context 'when viewing the collection' do
             before do
               visit collection_path(@find_and_update_ingest_response_2['concept-id'])
-
             end
 
             it 'displays the updated data center' do

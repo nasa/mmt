@@ -89,7 +89,6 @@ describe 'Bulk updating Location Keywords' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@find_and_remove_ingest_response['concept-id'])
-
         end
 
         it 'no longer has the removed keyword' do
@@ -297,7 +296,10 @@ describe 'Bulk updating Location Keywords' do
 
         it 'displays the new keyword' do
           within '#metadata-preview' do
-            expect(page).to have_no_content('OCEAN ATLANTIC OCEAN NORTH ATLANTIC OCEAN BALTIC SEA', normalize_ws: true)
+            expect(page).to have_content('OCEAN', normalize_ws: true)
+            expect(page).to have_content('ATLANTIC OCEAN', normalize_ws: true)
+            expect(page).to have_content('NORTH ATLANTIC OCEAN', normalize_ws: true)
+            expect(page).to have_content('BALTIC SEA', normalize_ws: true)
           end
         end
       end
