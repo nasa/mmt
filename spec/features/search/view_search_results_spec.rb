@@ -31,6 +31,7 @@ describe 'Viewing search results', js: true do
       expect(page).to have_content('-180.0')
       expect(page).to have_content('90.0')
       expect(page).to have_content('180.0')
+      expect(page).to have_content('-55.0')
 
       # Acquisition Information
       expect(page).to have_content('ESI')
