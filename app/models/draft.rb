@@ -64,4 +64,34 @@ class Draft < ApplicationRecord
   def is_variable_draft?
     record_type == 'variable'
   end
+
+  def schema_file_path
+    # define this in draft models for the specific metadata type
+    nil
+  end
+
+  def set_metadata_specification
+    # set hidden fieldset values for metadata types that have it defined in
+    # the schema, using values from the schema
+    # skip if schema_file_path not defined OR not in the schema
+    return unless schema_file_path
+    file = File.read(schema_file_path)
+    parsed_json = JSON.parse(file)
+    metadata_specification_type = parsed_json.dig('definitions', 'MetadataSpecificationType', 'properties')
+    return unless metadata_specification_type
+
+    url_value = metadata_specification_type['URL']['enum'].first
+    name_value = metadata_specification_type['Name']['enum'].first
+    version_value = metadata_specification_type['Version']['enum'].first
+
+    metadata_specification = {
+      'URL' => url_value,
+      'Name' => name_value,
+      'Version' => version_value
+    }
+
+    unless self.draft['MetadataSpecification'] == metadata_specification
+      self.draft['MetadataSpecification'] = metadata_specification
+    end
+  end
 end

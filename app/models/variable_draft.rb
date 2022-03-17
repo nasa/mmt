@@ -2,6 +2,8 @@
 class VariableDraft < Draft
   delegate :forms, to: :class
 
+  before_save :set_metadata_specification
+
   class << self
     def forms
       []
@@ -26,5 +28,11 @@ class VariableDraft < Draft
       draft.save
       draft
     end
+  end
+
+  private
+
+  def schema_file_path
+    File.join(Rails.root, 'lib', 'assets', 'schemas', 'variables', 'umm-var-json-schema.json')
   end
 end

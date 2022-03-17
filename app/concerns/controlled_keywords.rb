@@ -36,6 +36,14 @@ module ControlledKeywords
 
   UMMCDataContactContentType = ['DataContactURL']
 
+  # currently only used for Var, but will be used for S and T in MMT-2686
+  # so we should find a better name
+  UMMVarRelatedURLContentTypes = %w(
+    CollectionURL
+    PublicationURL
+    VisualizationURL
+  )
+
   def get_controlled_keyword_short_names(keywords)
     keywords.map do |keyword|
       values = []
@@ -130,6 +138,20 @@ module ControlledKeywords
     formats = fetch_granule_data_formats
     formats.map! { |h| h['value'] }
     @granule_data_formats = formats.sort << 'Not provided' unless formats.include?('Not provided')
+  end
+
+  def fetch_mime_types
+    response = cmr_client.get_controlled_keywords('mime_type')
+    if response.success?
+      response.body['mime_type']
+    else
+      []
+    end
+  end
+
+  def set_mime_types
+    mime_types = fetch_mime_types
+    @mime_types = mime_types.map { |h| h['value'] }.sort
   end
 
   def set_data_centers
@@ -330,6 +352,12 @@ module ControlledKeywords
 
   def set_data_contact_related_url
     @data_contact_related_url_mapping, @data_contact_related_url_content_type_options, @data_contact_related_url_type_options, @data_contact_related_url_subtype_options = set_related_url_mapping(UMMCDataContactContentType)
+  end
+
+  # currently only used for Var, but will be used for S and T in MMT-2686
+  # so we should find better names
+  def set_umm_var_related_urls
+    @umm_var_related_url_mapping, @umm_var_related_url_content_type_options, @umm_var_related_url_type_options, @umm_var_related_url_subtype_options = set_related_url_mapping(UMMVarRelatedURLContentTypes)
   end
 
   def humanize_url_content_type(content_type_value)

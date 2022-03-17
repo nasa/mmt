@@ -1,6 +1,8 @@
 shared_examples_for 'Variable Sets Full Preview' do
   it 'displays the stored values correctly within the preview' do
     within '.umm-preview.sets' do
+      expect(page).to have_css('.umm-preview-field-container', count: 9)
+
       within '#variable_draft_draft_sets_preview, #variable_sets_preview' do
         expect(page).to have_css('h6', text: 'Set 1')
 

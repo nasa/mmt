@@ -1,16 +1,16 @@
-describe 'Invalid Tool Draft Related URL Preview' do
-  let(:tool_draft) { create(:invalid_tool_draft, user: User.where(urs_uid: 'testuser').first) }
+describe 'Invalid Variable Draft Related URL Preview' do
+  let(:variable_draft) { create(:invalid_variable_draft, user: User.where(urs_uid: 'testuser').first) }
 
   before do
     login
-    visit tool_draft_path(tool_draft)
+    visit variable_draft_path(variable_draft)
   end
 
   context 'when examining the Related URL sections' do
     context 'when examining the progress circles section' do
       it 'displays the form title as an edit link' do
         within '#related_urls-progress' do
-          expect(page).to have_link('Related URL', href: edit_tool_draft_path(tool_draft, 'related_urls'))
+          expect(page).to have_link('Related URL', href: edit_variable_draft_path(variable_draft, 'related_urls'))
         end
       end
 
@@ -22,10 +22,10 @@ describe 'Invalid Tool Draft Related URL Preview' do
         end
       end
 
-      it 'displays the correct progress indicators for invalid fields' do
+      it 'displays the correct progress indicators for non required fields' do
         within '#related_urls-progress .progress-indicators' do
           expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.related-urls')
-          expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'related_urls', anchor: 'related-urls'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'related_urls', anchor: 'related-urls'))
         end
       end
     end
@@ -37,19 +37,17 @@ describe 'Invalid Tool Draft Related URL Preview' do
 
           expect(page).to have_css('.umm-preview-field-container', count: 1)
 
-          within '#tool_draft_draft_related_urls_preview' do
-            expect(page).to have_link(nil, href: edit_tool_draft_path(tool_draft, 'related_urls', anchor: 'tool_draft_draft_related_urls'))
+          within '#variable_draft_draft_related_urls_preview' do
+            expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'related_urls', anchor: 'variable_draft_draft_related_urls'))
 
             within 'ul.related-url-cards' do
               within 'li.card' do
                 within '.card-header' do
-                  expect(page).to have_css('h5', text: 'DistributionURL')
+                  expect(page).to have_css('h5', text: 'Related URL')
                 end
 
                 within '.card-body' do
                   expect(page).to have_css('p', text: 'Test related url')
-                  expect(page).to have_css('li', text: 'GET SERVICE')
-                  expect(page).to have_css('li', text: 'SOFTWARE PACKAGE')
                   expect(page).to have_content('URL Not Provided')
                 end
               end

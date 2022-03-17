@@ -1,14 +1,15 @@
 describe 'Invalid Variable Draft Set Preview' do
+  let(:variable_draft) { create(:invalid_variable_draft, user: User.where(urs_uid: 'testuser').first) }
+
   before do
     login
-    @draft = create(:invalid_variable_draft, user: User.where(urs_uid: 'testuser').first)
-    visit variable_draft_path(@draft)
+    visit variable_draft_path(variable_draft)
   end
 
   context 'When examining the Set section' do
     it 'displays the form title as an edit link' do
       within '#sets-progress' do
-        expect(page).to have_link('Sets', href: edit_variable_draft_path(@draft, 'sets'))
+        expect(page).to have_link('Sets', href: edit_variable_draft_path(variable_draft, 'sets'))
       end
     end
 
@@ -35,7 +36,7 @@ describe 'Invalid Variable Draft Set Preview' do
     it 'displays the correct progress indicators for invalid fields' do
       within '#sets-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red.sets')
-        expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'sets'))
+        expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'sets', anchor: 'sets'))
       end
     end
 
@@ -48,25 +49,25 @@ describe 'Invalid Variable Draft Set Preview' do
 
           within '#variable_draft_draft_sets_0_name_preview' do
             expect(page).to have_css('h5', text: 'Name')
-            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'variable_draft_draft_sets_0_name'))
+            expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'sets', anchor: 'variable_draft_draft_sets_0_name'))
             expect(page).to have_css('p', text: 'No value for Name provided.')
           end
 
           within '#variable_draft_draft_sets_0_type_preview' do
             expect(page).to have_css('h5', text: 'Type')
-            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'variable_draft_draft_sets_0_type'))
+            expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'sets', anchor: 'variable_draft_draft_sets_0_type'))
             expect(page).to have_css('p', text: 'No value for Type provided.')
           end
 
           within '#variable_draft_draft_sets_0_size_preview' do
             expect(page).to have_css('h5', text: 'Size')
-            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'variable_draft_draft_sets_0_size'))
+            expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'sets', anchor: 'variable_draft_draft_sets_0_size'))
             expect(page).to have_css('p', text: 'string')
           end
 
           within '#variable_draft_draft_sets_0_index_preview' do
             expect(page).to have_css('h5', text: 'Index')
-            expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'variable_draft_draft_sets_0_index'))
+            expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'sets', anchor: 'variable_draft_draft_sets_0_index'))
             expect(page).to have_css('p', text: 'string')
           end
         end

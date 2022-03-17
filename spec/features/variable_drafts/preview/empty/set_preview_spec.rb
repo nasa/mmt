@@ -1,14 +1,15 @@
 describe 'Empty Variable Draft Set Preview' do
+  let(:variable_draft) { create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first) }
+
   before do
     login
-    @draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-    visit variable_draft_path(@draft)
+    visit variable_draft_path(variable_draft)
   end
 
   context 'When examining the Set section' do
     it 'displays the form title as an edit link' do
       within '#sets-progress' do
-        expect(page).to have_link('Sets', href: edit_variable_draft_path(@draft, 'sets'))
+        expect(page).to have_link('Sets', href: edit_variable_draft_path(variable_draft, 'sets'))
       end
     end
 
@@ -23,7 +24,7 @@ describe 'Empty Variable Draft Set Preview' do
     it 'displays the correct progress indicators for non-required fields' do
       within '#sets-progress .progress-indicators' do
         expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.sets')
-        expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'sets'))
+        expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'sets', anchor: 'sets'))
       end
     end
 
@@ -38,7 +39,7 @@ describe 'Empty Variable Draft Set Preview' do
         expect(page).to have_css('.umm-preview-field-container', count: 1)
 
         within '#variable_draft_draft_sets_preview' do
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'sets', anchor: 'variable_draft_draft_sets'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'sets', anchor: 'variable_draft_draft_sets'))
 
           expect(page).to have_css('p', text: 'No value for Sets provided.')
         end

@@ -1,14 +1,12 @@
-describe 'Sampling Identifiers Form', js: true do
+describe 'Variable Drafts Sampling Identifiers Form', js: true do
+  let(:variable_draft) { create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first) }
+
   before do
     login
+    visit edit_variable_draft_path(variable_draft, 'sampling_identifiers')
   end
 
   context 'When viewing the form with no stored values' do
-    before do
-      draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-      visit edit_variable_draft_path(draft, 'sampling_identifiers')
-    end
-
     it 'does not display required icons for accordions in Sampling Identifiers section' do
       expect(page).to have_no_css('h3.eui-required-o.always-required')
     end
@@ -18,251 +16,55 @@ describe 'Sampling Identifiers Form', js: true do
       expect(page).to have_content('The sampling information of a variable.')
     end
 
+    it 'displays the form title in the breadcrumbs' do
+      within '.eui-breadcrumbs' do
+        expect(page).to have_content('Variable Drafts')
+        expect(page).to have_content('Sampling Identifiers')
+      end
+    end
+
+    it 'displays a button to add another element' do
+      expect(page).to have_selector(:link_or_button, 'Add another Sampling Identifier')
+    end
+
     it 'has no required fields' do
-      expect(page).not_to have_selector('label.eui-required-o')
-    end
-
-    context 'When clicking `Previous` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Previous'
-        end
-      end
-
-      it 'saves the draft and loads the previous form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Measurement Identifiers')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
-        end
-      end
-    end
-
-    context 'When clicking `Next` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Next'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Science Keywords')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
-        end
-      end
-    end
-
-    context 'When clicking `Save` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Save'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Sampling Identifiers')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
-        end
-      end
-    end
-
-    context 'When selecting the previous form from the navigation dropdown' do
-      before do
-        within '.nav-top' do
-          select 'Measurement Identifiers', from: 'Save & Jump To:'
-        end
-      end
-
-      it 'saves the draft and loads the previous form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Measurement Identifiers')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Measurement Identifiers')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
-        end
-      end
-    end
-
-    context 'When selecting the next form from the navigation dropdown' do
-      before do
-        within '.nav-top' do
-          select 'Science Keywords', from: 'Save & Jump To:'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.eui-breadcrumbs' do
-          expect(page).to have_content('Variable Drafts')
-          expect(page).to have_content('Science Keywords')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Science Keywords')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
-        end
-      end
+      expect(page).to have_no_selector('label.eui-required-o')
     end
   end
 
-  context 'When viewing the form with stored values' do
-    let(:draft) {
-      create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first)
-    }
-
+  context 'when filling out the form' do
     before do
-      visit edit_variable_draft_path(draft, 'sampling_identifiers')
-    end
-
-    it 'displays the correct values in the form' do
-      expect(page).to have_field('variable_draft_draft_sampling_identifiers_0_sampling_method', with: 'Satellite overpass')
-      expect(page).to have_field('variable_draft_draft_sampling_identifiers_0_measurement_conditions', with: 'Measured at top of atmosphere (specifically at the top of the mesosphere, i.e. the mesopause).')
-      expect(page).to have_field('variable_draft_draft_sampling_identifiers_0_reporting_conditions', with: 'At 50 km from the surface, pressure is 1MB and temperature is -130 degrees F.')
-      expect(page).to have_field('variable_draft_draft_sampling_identifiers_1_sampling_method', with: 'Satellite overpass 1')
-      expect(page).to have_field('variable_draft_draft_sampling_identifiers_1_measurement_conditions', with: 'Measured at bottom of atmosphere')
-      expect(page).to have_field('variable_draft_draft_sampling_identifiers_1_reporting_conditions', with: 'At 1 km from the surface, pressure is 1MB and temperature is 32 degrees F.')
-    end
-
-    context 'When clicking `Previous` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Previous'
-        end
-      end
-
-      it 'saves the draft and loads the previous form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
+      within '.multiple.sampling-identifiers' do
+        within '.multiple-item-0' do
+          fill_in 'Sampling Method', with: 'Satellite overpass'
+          fill_in 'Measurement Conditions', with: 'Measured at top of atmosphere (specifically at the top of the mesosphere, i.e. the mesopause).'
+          fill_in 'Reporting Conditions', with: 'At 50 km from the surface, pressure is 1MB and temperature is -130 degrees F.'
         end
 
-        within '.umm-form' do
-          expect(page).to have_content('Measurement Identifiers')
-        end
+        click_on 'Add another Sampling Identifier'
 
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('measurement_identifiers')
+        within '.multiple > .multiple-item-1' do
+          fill_in 'Sampling Method', with: 'Satellite overpass 1'
+          fill_in 'Measurement Conditions', with: 'Measured at bottom of atmosphere'
+          fill_in 'Reporting Conditions', with: 'At 1 km from the surface, pressure is 1MB and temperature is 32 degrees F.'
         end
       end
     end
 
-    context 'When clicking `Next` without making any changes' do
-      before do
-        within '.nav-top' do
-          click_button 'Next'
-        end
-      end
-
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
-
-        within '.umm-form' do
-          expect(page).to have_content('Science Keywords')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('science_keywords')
-        end
-      end
-    end
-
-    context 'When clicking `Save` without making any changes' do
+    context 'When clicking `Save` to save the form' do
       before do
         within '.nav-top' do
           click_button 'Save'
         end
       end
 
-      it 'saves the draft without making any changes' do
-        expect(draft.draft).to eq(Draft.last.draft)
+      it 'displays the correct number of required fields' do
+        expect(page).to have_css('label.eui-required-o', count: 4)
       end
 
-      it 'saves the draft and loads the next form' do
-        within '.eui-banner--success' do
-          expect(page).to have_content('Variable Draft Updated Successfully!')
-        end
+      it 'saves the values, displays a confirmation message, and repopulates the form' do
+        expect(page).to have_content('Variable Draft Updated Successfully!')
 
-        within '.umm-form' do
-          expect(page).to have_content('Sampling Identifiers')
-        end
-
-        within '.nav-top' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
-        end
-
-        within '.nav-bottom' do
-          expect(find(:css, 'select[name=jump_to_section]').value).to eq('sampling_identifiers')
-        end
-      end
-
-      it 'displays the correct values in the form' do
         expect(page).to have_field('variable_draft_draft_sampling_identifiers_0_sampling_method', with: 'Satellite overpass')
         expect(page).to have_field('variable_draft_draft_sampling_identifiers_0_measurement_conditions', with: 'Measured at top of atmosphere (specifically at the top of the mesosphere, i.e. the mesopause).')
         expect(page).to have_field('variable_draft_draft_sampling_identifiers_0_reporting_conditions', with: 'At 50 km from the surface, pressure is 1MB and temperature is -130 degrees F.')
