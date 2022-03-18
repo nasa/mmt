@@ -182,7 +182,6 @@ describe 'Bulk updating Location Keywords' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@add_to_existing_ingest_response['concept-id'])
-
         end
 
         it 'displays the new keyword' do
