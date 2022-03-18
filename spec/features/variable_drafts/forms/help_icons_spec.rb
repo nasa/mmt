@@ -1,13 +1,10 @@
 describe 'Variable Drafts Forms Help Icons', js: true do
-  before do
-    login
-
-    @draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-  end
+  let(:variable_draft) { create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first) }
 
   context 'when viewing a form with help icons with validation requirements' do
     before do
-      visit edit_variable_draft_path(@draft, 'dimensions')
+      login
+      visit edit_variable_draft_path(variable_draft, 'dimensions')
     end
 
     context 'when clicking on a help icon with minItems' do

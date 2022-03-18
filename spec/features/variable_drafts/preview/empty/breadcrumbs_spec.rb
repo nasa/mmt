@@ -1,8 +1,9 @@
 describe 'Variable drafts empty breadcrumbs' do
+  let(:variable_draft) { create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first) }
+
   before do
     login
-    @draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-    visit variable_draft_path(@draft)
+    visit variable_draft_path(variable_draft)
   end
 
   context 'when viewing the breadcrumbs' do

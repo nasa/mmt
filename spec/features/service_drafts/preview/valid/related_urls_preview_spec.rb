@@ -39,6 +39,34 @@ describe 'Valid Tool Draft Related URL Preview' do
 
           within '#service_draft_draft_related_urls_preview' do
             expect(page).to have_link(nil, href: edit_service_draft_path(service_draft, 'related_urls', anchor: 'service_draft_draft_related_urls'))
+
+            within 'ul.related-url-cards' do
+              within 'li.card:nth-child(1)' do
+                within '.card-header' do
+                  expect(page).to have_css('h5', text: 'PublicationURL')
+                end
+
+                within '.card-body' do
+                  expect(page).to have_css('p', text: 'Test related url')
+                  expect(page).to have_link(nil, href: 'https://nsidc.org/support/how/what-data-subsetting-reformatting-and-reprojection-services-are-available-smap-data')
+                  expect(page).to have_css('li.arrow-tag-group-item', text: 'VIEW RELATED INFORMATION')
+                  expect(page).to have_css('li.arrow-tag-group-item', text: 'GENERAL DOCUMENTATION')
+                end
+              end
+
+              within 'li.card:nth-child(2)' do
+                within '.card-header' do
+                  expect(page).to have_css('h5', text: 'PublicationURL')
+                end
+
+                within '.card-body' do
+                  expect(page).to have_css('p', text: 'Test another related url')
+                  expect(page).to have_link(nil, href: 'algorithms.org')
+                  expect(page).to have_css('li.arrow-tag-group-item', text: 'VIEW RELATED INFORMATION')
+                  expect(page).to have_css('li.arrow-tag-group-item', text: 'ALGORITHM DOCUMENTATION')
+                end
+              end
+            end
           end
         end
       end

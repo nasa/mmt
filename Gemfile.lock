@@ -1,9 +1,9 @@
 GIT
   remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: b2e7098a64f5de62ed9f663f1a84db14b3950c72
-  ref: b2e7098a64f
+  revision: 07902cde9066297804045fce9194f6a6b7faadb5
+  ref: 07902cde906
   specs:
-    cmr_metadata_preview (0.2.9)
+    cmr_metadata_preview (0.2.10)
       georuby
       globalid (= 0.4.2)
       racc (= 1.5.2)
@@ -130,8 +130,8 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faker (2.19.0)
-      i18n (>= 1.6, < 2)
+    faker (2.20.0)
+      i18n (>= 1.8.11, < 2)
     faraday (1.10.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
@@ -279,7 +279,7 @@ GEM
     rspec-mocks (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.11.0)
-    rspec-rails (5.1.0)
+    rspec-rails (5.1.1)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       railties (>= 5.2)
@@ -410,7 +410,7 @@ DEPENDENCIES
   pg (< 1.3)
   pundit
   rack_session_access
-  rails (~> 5.2.6.2)
+  rails (~> 5.2.6.3)
   rails-controller-testing
   rspec-rails
   rspec_junit_formatter

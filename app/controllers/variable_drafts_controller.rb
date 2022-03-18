@@ -14,6 +14,7 @@ class VariableDraftsController < BaseDraftsController
 
     set_science_keywords if @current_form == 'science_keywords'
     set_measurement_names if @current_form == 'measurement_identifiers'
+    set_umm_var_related_urls if @current_form == 'related_urls'
   end
 
   def new
@@ -22,13 +23,13 @@ class VariableDraftsController < BaseDraftsController
     @associated_collection_id = params[:associated_collection_id].strip
     current_collection_response = cmr_client.get_collections_by_post({ concept_id: @associated_collection_id }, token)
 
-    if current_collection_response.success? && current_collection_response.body['hits'] > 0 && current_provider?(current_collection_response.body.dig('items',0,'meta','provider-id'))
+    if current_collection_response.success? && current_collection_response.body['hits'] > 0 && current_provider?(current_collection_response.body.dig('items', 0, 'meta', 'provider-id'))
       super
     elsif !current_collection_response.success?
       redirect_to manage_variables_path, flash: { error: current_collection_response.body['errors'].first }
     elsif current_collection_response.body['hits'] == 0
       redirect_to manage_variables_path, flash: { error: "No matches were found for #{@associated_collection_id}" }
-    elsif !current_provider?(current_collection_response.body.dig('items',0,'meta','provider-id'))
+    elsif !current_provider?(current_collection_response.body.dig('items', 0, 'meta', 'provider-id'))
       redirect_to manage_variables_path, flash: { error: "Variables can only be associated to collections within the same provider. To create a variable for #{@associated_collection_id} you must change your provider context." }
     end
   end
