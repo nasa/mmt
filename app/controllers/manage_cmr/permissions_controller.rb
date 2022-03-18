@@ -152,8 +152,10 @@ class PermissionsController < ManageCmrController
     if tea_configuration_response.error?
       Rails.logger.error("Error retrieving TEA configuration: #{tea_configuration_response.clean_inspect}")
       flash[:error] = tea_configuration_response.error_message
+      redirect_to permissions_path
+    else
+      send_data tea_configuration, type: 'application/text; charset=utf-8', disposition: "attachment; filename=tea_configuration-#{Date.today}.yaml", target: '_blank'
     end
-    send_data tea_configuration, type: 'application/text; charset=utf-8', disposition: "attachment; filename=tea_configuration-#{Date.today}.yaml"
   end
 
   private
