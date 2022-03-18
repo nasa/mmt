@@ -392,7 +392,6 @@ describe 'Bulk updating Location Keywords' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@clear_all_and_replace_ingest_response['concept-id'])
-
         end
 
         it 'displays the updated keywords' do
