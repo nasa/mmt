@@ -32,6 +32,7 @@ module GKRKeywordRecommendations
     }
     Rails.logger.info("GKR UUID: #{gkr_request_uuid}");
     Rails.logger.info("Recommendations: #{recommendations}");
+    Rails.logger.info("New Keywords: #{new_keywords}") if new_keywords;
     response = cmr_client.send_feedback(gkr_request_uuid, recommendations, new_keywords)
     if response.error?
       if response.status >= 500 && response.status <= 505 # NGAP LB can't connect to GKR.
