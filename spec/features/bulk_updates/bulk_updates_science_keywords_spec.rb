@@ -398,7 +398,7 @@ describe 'Bulk updating Science Keywords' do
         it 'displays the updated keywords' do
           within '#metadata-preview' do
             expect(page).to have_no_content('SURFACE TEMPERATURE', normalize_ws: true)
-            expect(page).to have_no_content('EARTH SCIENCE SOLID EARTH ROCKS/MINERALS/CRYSTALS SEDIMENTARY ROCKS', normalize_ws: true)
+            expect(page).to have_no_content('SEDIMENTARY ROCKS', normalize_ws: true)
 
             expect(page).to have_content('EARTH SCIENCE', normalize_ws: true)
             expect(page).to have_content('ATMOSPHERE', normalize_ws: true)
