@@ -46,6 +46,17 @@ class UmmControlledSelect < UmmSelect
       options_for_select(RelatedUrlsHelper::UMMTRelatedURLTypeOptions, element_value)
     when 'umm_t_related_url_subtype', 'umm_s_related_url_subtype'
       options_for_select(RelatedUrlsHelper::UMMTRelatedURLSubtypeOptions, element_value)
+    when 'umm_var_related_url_content_type'
+      # currently only used for Var, but will be used for S and T in MMT-2686
+      # so we should find a better name
+      set_umm_var_related_urls
+      options_for_select(@umm_var_related_url_content_type_options, element_value)
+    when 'umm_var_related_url_type'
+      set_umm_var_related_urls
+      options_for_select(@umm_var_related_url_type_options, element_value)
+    when 'umm_var_related_url_subtype'
+      set_umm_var_related_urls
+      options_for_select(@umm_var_related_url_subtype_options, element_value)
     when 'umm_t_url_content_type'
       options_for_select(RelatedUrlsHelper::UMMTURLContentTypeOptions, element_value)
     when 'umm_t_url_type'
@@ -60,6 +71,10 @@ class UmmControlledSelect < UmmSelect
     when 'measurement_quantity'
       value = element_value
       options_for_select([value], value)
+    when 'granule_data_format'
+      options_for_select(set_granule_data_formats, element_value)
+    when 'mime_type'
+      options_for_select(set_mime_types, element_value)
     end
   end
 

@@ -1,4 +1,4 @@
-describe 'Variable Draft Forms Field Validation', js: true do
+describe 'Variable Drafts Forms Field Validation', js: true do
   let(:draft) { create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first) }
 
   before do

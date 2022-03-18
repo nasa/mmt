@@ -1,10 +1,9 @@
-require 'rails_helper'
+describe 'Variable Drafts Form Submission with Enter Key', js: true do
+  let(:variable_draft) { create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first) }
 
-describe 'Form Submission with Enter Key', js: true do
   before do
     login
-    draft = create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first)
-    visit edit_variable_draft_path(draft)
+    visit edit_variable_draft_path(variable_draft)
   end
 
   context 'when pressing enter on a form' do

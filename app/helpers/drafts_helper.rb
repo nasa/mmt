@@ -19,6 +19,8 @@ module DraftsHelper
   CollectionDataTypeOptions = [
     ['Science Quality', 'SCIENCE_QUALITY'],
     ['Near Real Time', 'NEAR_REAL_TIME'],
+    ['Low Latency', 'LOW_LATENCY'],
+    ['Expedited', 'EXPEDITED'],
     ['Other', 'OTHER']
   ]
   CollectionProgressOptions = [

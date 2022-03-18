@@ -77,11 +77,11 @@
       "minItems": 0
     },
     "VariableType": {
-      "description": "Specify basic type of a variable. These types can be either: SCIENCE_VARIABLE, QUALITY_VARIABLE, ANCILLARY_VARIABLE, OTHER.",
+      "description": "Specify basic type of a variable.",
       "$ref": "#/definitions/VariableTypeEnum"
     },
     "VariableSubType": {
-      "description": "Specifies the sub type of a variable. These types can be either: SCIENCE_SCALAR, SCIENCE_VECTOR, SCIENCE_ARRAY, SCIENCE_EVENTFLAG, OTHER.",
+      "description": "Specifies the sub type of a variable.",
       "$ref": "#/definitions/VariableSubTypeEnum"
     },
     "IndexRanges": {
@@ -119,12 +119,25 @@
         "$ref": "#/definitions/SetType"
       },
       "minItems": 1
+    },
+    "RelatedURLs": {
+      "description": "A described URL associated with the a web resource, or interface. e.g., the home page for the variable provider.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RelatedURLType"
+      },
+      "minItems": 1
+    },
+    "MetadataSpecification": {
+      "description": "Requires the client, or user, to add in schema information into every variable record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema.",
+      "$ref": "#/definitions/MetadataSpecificationType"
     }
   },
   "required": [
     "Name",
     "LongName",
-    "Definition"
+    "Definition",
+    "MetadataSpecification"
   ],
   "definitions": {
     "AdditionalIdentifierType": {
@@ -373,14 +386,14 @@
       "required": ["Name", "Size", "Type"]
     },
     "VariableTypeEnum": {
-      "description": "This element is used to classify the variable as a Science Variable, Quality Variable or Ancillary Variable. If a variable does not contain this field, it will be assumed to be a science variable.",
+      "description": "This element is used to classify the variable. If a variable does not contain this field, it will be assumed to be a science variable.",
       "type": "string",
-      "enum": ["SCIENCE_VARIABLE", "QUALITY_VARIABLE", "ANCILLARY_VARIABLE", "OTHER"]
+      "enum": ["SCIENCE_VARIABLE", "QUALITY_VARIABLE", "ANCILLARY_VARIABLE", "COORDINATE", "OTHER"]
     },
     "VariableSubTypeEnum": {
-      "description": "This element is used to further classify the variable as a Science Scalar, Science Vector, Science Array, Science Event Flag. If a variable does not contain this field, it will be assumed to be a science vector.",
+      "description": "This element is used to further classify the variable. If a variable does not contain this field, it will be assumed to be a science vector.",
       "type": "string",
-      "enum": ["SCIENCE_SCALAR", "SCIENCE_VECTOR", "SCIENCE_ARRAY", "SCIENCE_EVENTFLAG", "OTHER"]
+      "enum": ["SCIENCE_SCALAR", "SCIENCE_VECTOR", "SCIENCE_ARRAY", "SCIENCE_EVENTFLAG", "LATITUDE", "LONGITUDE", "TIME", "OTHER"]
     },
     "ScienceKeywordType": {
       "type": "object",
@@ -423,6 +436,79 @@
       "minLength": 1,
       "maxLength": 80,
       "pattern": "[\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=,][\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=, ]{1,79}"
+    },
+    "RelatedURLType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Represents Internet sites that contain information related to the data, as well as related Internet sites such as project home pages, variable colormaps, metadata extensions, etc.",
+      "properties": {
+        "Description": {
+          "description": "Description of the web resource at this URL.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "URLContentType": {
+            "description": "A keyword describing the distinct content type of the online resource to this resource. (e.g., 'DATACENTER URL', 'DATA CONTACT URL', 'Visualization URL'). The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+        },
+        "Type": {
+            "description": "A keyword describing the type of the online resource to this resource. This helps the GUI to know what to do with this resource. (e.g., 'COLORMAP', 'GET VISUALIZATION'). The valid values are contained in the KMS System and are dependent on the URLContentType: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+        },
+        "Subtype": {
+            "description": "A keyword describing the subtype of the online resource to this resource. This further helps the GUI to know what to do with this resource. (e.g., 'MEDIA', 'BROWSE', 'OPENDAP', 'OPENSEARCH', 'GITC', etc. ). The valid values are contained in the KMS System and are dependent on the Type: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+        },
+        "URL": {
+          "description": "The URL for the relevant web page (e.g., the URL of the responsible organization's home page, the URL of the colormap server, etc.).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "Format": {
+          "description": "Describes the organization of the data content so that users and applications know how to read and use the content. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS): https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/DataFormat?gtm_scheme=DataFormat",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "MimeType": {
+          "description": "The multi-purpose internet mail extensions indicates the nature and format of the data that is accessed through the URL. The controlled vocabulary for MimeTypes is maintained in the Keyword Management System (KMS): https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/MimeType?gtm_scheme=MimeType",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      },
+      "required": ["URLContentType", "Type", "URL"]
+    },
+    "MetadataSpecificationType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This object requires any metadata record that is validated by this schema to provide information about the schema.",
+      "properties": {
+        "URL": {
+          "description": "This element represents the URL where the schema lives. The schema can be downloaded.",
+          "type": "string",
+          "enum": ["https://cdn.earthdata.nasa.gov/umm/variable/v1.8.1"]
+        },
+        "Name": {
+          "description": "This element represents the name of the schema.",
+          "type": "string",
+          "enum": ["UMM-Var"]
+        },
+        "Version": {
+          "description": "This element represents the version of the schema.",
+          "type": "string",
+          "enum": ["1.8.1"]
+        }
+      },
+      "required": ["URL", "Name", "Version"]
     }
   }
 }

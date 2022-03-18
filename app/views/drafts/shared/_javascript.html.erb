@@ -16,6 +16,10 @@
     var urlContentTypeMap = <%= raw RelatedUrlsHelper::UMMTURLContentTypeMap.to_json %>;
   <% end %>
 
+  <% if controller_name == 'variable_drafts' && current_form == 'related_urls' %>
+    var urlContentTypeMap = <%= raw @umm_var_related_url_mapping.to_json %>
+  <% end %>
+
   <% if @current_form == 'measurement_identifiers' %>
     var measurementNameMap = <%= raw @measurement_names.to_json %>;
   <% end %>

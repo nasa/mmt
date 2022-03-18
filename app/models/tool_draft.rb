@@ -31,6 +31,8 @@ class ToolDraft < Draft
 
   private
 
+  # TODO when UMM-T is next updated (MMT-2686), it should set the
+  # schema_file_path and use the new inherited method
   def set_metadata_specification
     # this is a hidden fieldset added to UMM-T to document the metadata version
     # TODO: we should try to populate these values from the schema enums
