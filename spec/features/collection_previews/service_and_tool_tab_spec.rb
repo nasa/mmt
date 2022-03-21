@@ -11,7 +11,7 @@ describe 'Service and Tool Tabs', reset_provider: true do
 
     context 'when examining the services tab' do
       before do
-        find('.tab-label', text: 'Services').click
+        #find('.tab-label', text: 'Services').click
       end
 
       it 'has the correct text' do
