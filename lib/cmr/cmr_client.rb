@@ -1,3 +1,4 @@
+require 'vcr'
 module Cmr
   class CmrClient < BaseClient
     def get_language_codes
@@ -523,13 +524,27 @@ module Cmr
     end
     
     def get_tea_configuration(provider, token)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3011/tea/provider/#{provider}"
-            else
-              "configuration/tea/provider/#{provider}"
-            end
-      headers = { 'Authorization' => 'Bearer ' + token }
-      get(url, {}, headers)
+      # url = if Rails.env.development? || Rails.env.test?
+      #         "http://localhost:3011/tea/provider/#{provider}"
+      #       else
+      #         "configuration/tea/provider/#{provider}"
+      #       end
+      response = {}
+      begin
+        VCR.configure do |config|
+          config.cassette_library_dir = "/tmp/tea"
+          config.hook_into :faraday
+        end
+        url = "https://cmr.sit.earthdata.nasa.gov/configuration/tea/provider/POCLOUD"
+        headers = { 'Authorization' => 'Bearer ' + token }
+        VCR.use_cassette('/tmp/tea/water', record: :new_episodes) do
+          response = get(url, {}, headers)
+        end
+      rescue => e
+        puts e.backtrace
+      end
+      return response
+      #end
     end
 
     def create_group(group, token)
