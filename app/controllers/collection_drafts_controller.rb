@@ -193,6 +193,11 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def download_json
+    if Rails.env.development?
+      render json: JSON.pretty_generate(get_resource.draft) if Rails.env.development?
+      return
+    end
+
     authorization_header = request.headers['Authorization']
 
     if authorization_header.nil? || !authorization_header.start_with?('Bearer')

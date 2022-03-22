@@ -90,7 +90,7 @@ Rails.application.configure do
 
   # Feature toggle for EDL groups
   config.edl_groups_enabled = false
-  
+
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
   config.urs_register_url = 'https://sit.urs.earthdata.nasa.gov/users/new'
@@ -102,4 +102,8 @@ Rails.application.configure do
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
   # GraphQl server
   config.graphql_server = 'https://graphql.sit.earthdata.nasa.gov/api'
+
+  # Metadata preview urls
+  config.metadata_preview_js_url = 'https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.32.js'
+  config.metadata_preview_css_url = 'https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.32.min.css'
 end
