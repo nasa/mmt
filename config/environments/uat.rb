@@ -139,5 +139,5 @@ Rails.application.configure do
 
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
   
-  config.tea_configuration_url = 'https://jir8g54gv8.execute-api.us-east-1.amazonaws.com/dev/configuration/tea/provider/'
+  config.tea_configuration_url = 'https://t8xy83dzyf.execute-api.us-east-1.amazonaws.com/dev/configuration/tea/provider/'
 end
