@@ -81,7 +81,7 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:host] = 'https://mmt.localtest.earthdata.nasa.gov'
 
   # Feature Toggle for groups
-  config.groups_enabled = false
+  config.groups_enabled = true
 
   # Feature Toggle for bulk updates
   config.bulk_updates_enabled = true
