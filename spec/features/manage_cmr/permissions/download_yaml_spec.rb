@@ -10,9 +10,8 @@ describe 'Downloading YAML configuration file', reset_provider: true, js: true d
     context 'when downloading the YAML' do
       before do
         @file = "#{Rails.root}/tea_configuration-#{Date.today}.yaml"
-        VCR.use_cassette('permissions/tea_configuration', record: :all) do
+        VCR.use_cassette('permissions/tea_configuration', record: :none) do
           click_on 'Download YAML'
-          # Seems to need a brief (>0.1) pause to actually find the file.
           sleep(1)
         end
       end
