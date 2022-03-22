@@ -523,8 +523,12 @@ module Cmr
     end
     
     def get_tea_configuration(provider, token)
+      url = if Rails.env.development? || Rails.env.test?
+              "http://localhost:3011/tea/provider/#{provider}"
+            else
+              "configuration/tea/provider/#{provider}"
+            end
       headers = { 'Authorization' => 'Bearer ' + token }
-      url = Rails.configuration.tea_configuration_url + provider
       get(url, {}, headers)
     end
 
