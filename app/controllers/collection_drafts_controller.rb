@@ -90,7 +90,8 @@ class CollectionDraftsController < BaseDraftsController
         gkr_request_uuid = params[:gkr_request_id];
         accepted_keyword_uuids = accepted_recommended_keywords.map { |keyword| params[:keyword_uuid][keyword]};
         rejected_keyword_uuids = params[:keyword_uuid].values - accepted_keyword_uuids;
-        send_feedback(current_user.urs_uid, request.uuid, current_user.provider_id, gkr_request_uuid, accepted_keyword_uuids, rejected_keyword_uuids)
+        new_keywords = get_resource.draft.fetch('ScienceKeywords', []).map { |keyword| construct_keyword_string(keyword, "")} - accepted_recommended_keywords
+        send_feedback(current_user.urs_uid, request.uuid, current_user.provider_id, gkr_request_uuid, accepted_keyword_uuids, rejected_keyword_uuids, new_keywords)
 
       end
 

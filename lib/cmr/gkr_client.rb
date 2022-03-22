@@ -14,9 +14,9 @@ module Cmr
       proposal_mode_safe_post(url, query.to_json, headers)
     end
 
-    def send_feedback(gkr_request_uuid, recommendations)
+    def send_feedback(gkr_request_uuid, recommendations, new_keywords)
       url = "/api/requests/#{gkr_request_uuid}"
-      payload = {"recommendations": recommendations, "keywords": []}
+      payload = {"recommendations": recommendations, "keywords": new_keywords}
       headers = {
         'Content-Type' => 'application/json',
         'Accept' => 'application/json'
