@@ -1,3 +1,4 @@
+require 'vcr'
 module Cmr
   class CmrClient < BaseClient
     def get_language_codes
@@ -520,6 +521,12 @@ module Cmr
               '/access-control/groups'
             end
       get(url, options, token_header(token))
+    end
+    
+    def get_tea_configuration(provider, token)
+      url = "/configuration/tea/provider/#{provider}"
+      headers = { 'Authorization' => 'Bearer ' + token }
+      get(url, {}, headers)
     end
 
     def create_group(group, token)
