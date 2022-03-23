@@ -524,12 +524,7 @@ module Cmr
     end
     
     def get_tea_configuration(provider, token)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3011/tea/provider/#{provider}"
-            else
-              "/configuration/tea/provider/#{provider}"
-            end
-      url = 'https://cmr.sit.earthdata.nasa.gov/configuration/tea/provider/POCLOUD'
+      url = "/configuration/tea/provider/#{provider}"
       headers = { 'Authorization' => 'Bearer ' + token }
       get(url, {}, headers)
     end

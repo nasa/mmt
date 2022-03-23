@@ -2,7 +2,7 @@
 http_interactions:
   - request:
       method: get
-      uri: https://cmr.sit.earthdata.nasa.gov/configuration/tea/provider/POCLOUD
+      uri: https://cmr.sit.earthdata.nasa.gov/configuration/tea/provider/MMT_2
       body:
         encoding: US-ASCII
         string: ''
