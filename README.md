@@ -404,3 +404,66 @@ like so:
 In your terminal, run: 
 
     RAILS_ENV=uat rails s
+
+### Running the collection preview in development
+
+In order for the collection preview to run in MMT, you will need to run a local instance of graphdb and graphql.   Here are the steps:
+
+#### Graph DB
+    docker run -it -p 8182:8182 tinkerpop/gremlin-server conf/gremlin-server-rest-modern.yaml
+
+(That will bring up a local instance of graphdb)
+
+#### GraphQL
+
+Clone the repo:
+     
+    git clone https://git.earthdata.nasa.gov/scm/edsc/edsc-graphql.git
+
+Modify serverless.yml:
+
+    httpPort: 6005
+    lambdaPort: 6007
+
+(Todo: Look into why we can't use the default 3003 and 3004, unless maybe cmr uber 
+jar ports conflict)
+And to start the server, use the following:
+    
+    CMR_ROOT_URL=http://localhost:3003 MMT_ROOT_URL=http://localhost:3000 DRAFT_MMT_ROOT_URL=http://localhost:3000 npm start
+
+Note: By default in config/environments/development.rb it will use the following urls for loading the snippet:
+
+    # Metadata preview urls 
+    config.metadata_preview_js_url = 'https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.32.js'
+    config.metadata_preview_css_url = 'https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.32.min.css'
+
+So you'll need to be on the VPN to use the latest snippet.  If it doesn't matter if you
+are using the latest, you can point to `access.earthdata.nasa.gov` instead and MMT
+will run without the need of being on the VPN.   To find out which version is supported in 
+production, look into the footer of the web page: 
+https://access.earthdata.nasa.gov 
+
+##### Note:
+
+Temporary Source Code Changes necessary to get GraphQL working, there is a ticket (EDSC-3396) which should remove the necessity of doing this soon.
+
++++ b/src/utils/cmrGraphDb.js
+    
+    @@ -33,7 +33,7 @@ export const cmrGraphDb = ({
+    data: query,
+    headers: permittedHeaders,
+    method: 'POST',
+    -    url: `${process.env.cmrRootUrl}/graphdb`
+    +    url: `${process.env.cmrRootUrl}:8182/graphdb`
+
++++ b/src/utils/cmrQuery.js
+
+    @@ -58,8 +58,9 @@ export const cmrQuery = ({
+    data: cmrParameters,
+    headers: permittedHeaders,
+    method: 'POST',
+    -    url: `${process.env.cmrRootUrl}/search/${conceptType}.${format}`
+    +    url: `${process.env.cmrRootUrl}/${conceptType}.${format}`
+
+
+  
