@@ -1,4 +1,3 @@
-require 'vcr'
 module Cmr
   class CmrClient < BaseClient
     def get_language_codes
