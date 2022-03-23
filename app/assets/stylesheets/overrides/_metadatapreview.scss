@@ -20,3 +20,22 @@
   padding: 0;
   display: block;
 }
+
+
+.collapse.show {
+  background-color: white !important;
+}
+
+.collapsing {
+  background-color: white !important;
+}
+
+.access-styles .card {
+  white-space: normal;
+  word-wrap: normal;
+}
+
+th {
+  white-space: nowrap;
+  background-color: red;
+}
