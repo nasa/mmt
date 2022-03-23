@@ -2,7 +2,7 @@
    Tables
 \* ===================================================== */
 
-table {
+table:not(#metadata-preview .table) {
   // Override jQuery Chosen styles in tables
   .chosen-container-multi {
     width: 100% !important;
@@ -36,6 +36,10 @@ table {
   input[type=checkbox] {
     margin: 0 15px;
   }
+}
+
+.access-example .card, .access-styles .card {
+  white-space: nowrap;
 }
 
 .cell-primary-cta {

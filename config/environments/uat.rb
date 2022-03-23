@@ -138,4 +138,11 @@ Rails.application.configure do
   config.tag_manager_id = 'GTM-WNP7MLF'
 
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
+
+  # GraphQl server
+  config.graphql_server = 'https://graphql.uat.earthdata.nasa.gov/api'
+
+  # Metadata preview urls
+  config.metadata_preview_js_url = 'https://access.uat.earthdata.nasa.gov/plugin/metadata-preview.0.0.32.js'
+  config.metadata_preview_css_url = 'https://access.uat.earthdata.nasa.gov/plugin/metadata-preview.0.0.32.min.css'
 end
