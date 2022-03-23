@@ -63,7 +63,6 @@ describe 'Bulk updating Data Centers' do
         # Reload the page, because CMR
         page.evaluate_script('window.location.reload()')
       end
-
       it 'displays the bulk update status page', bulk_update_step_1: true, bulk_update_step_2: true do
         expect(page).to have_css('h2', text: bulk_update_name)
 
@@ -88,12 +87,10 @@ describe 'Bulk updating Data Centers' do
       context 'when viewing the collection' do
         before do
           visit collection_path(@find_and_remove_ingest_response['concept-id'])
-
-          find('.tab-label', text: 'Additional Information').click
         end
 
         it 'no longer has the removed data center' do
-          within '.data-centers-preview' do
+          within '#metadata-preview' do
             expect(page).to have_no_content('ESA/ED')
           end
         end
@@ -126,7 +123,7 @@ describe 'Bulk updating Data Centers' do
         find(:xpath, '//body').find('.select2-dropdown li.select2-results__option', text: 'OR-STATE/EOARC').click
       end
 
-      it 'has the approriate fields disabled', bulk_update_step_1: true do
+      it 'has the appropriate fields disabled', bulk_update_step_1: true do
         expect(page).to have_field('Long Name', readonly: true)
         within '.related-url' do
           expect(page).to have_css('option[disabled]', text: 'Select URL Content Type')
@@ -215,12 +212,10 @@ describe 'Bulk updating Data Centers' do
           context 'when viewing the collection' do
             before do
               visit collection_path(@find_and_update_ingest_response_1['concept-id'])
-
-              find('.tab-label', text: 'Additional Information').click
             end
 
             it 'displays the updated data center' do
-              within '.data-centers-preview' do
+              within '#metadata-preview' do
                 expect(page).to have_no_content('AARHUS-HYDRO')
 
                 expect(page).to have_content('OR-STATE/EOARC')
@@ -346,12 +341,10 @@ describe 'Bulk updating Data Centers' do
           context 'when viewing the collection' do
             before do
               visit collection_path(@find_and_update_ingest_response_2['concept-id'])
-
-              find('.tab-label', text: 'Additional Information').click
             end
 
             it 'displays the updated data center' do
-              within '.data-centers-preview' do
+              within '#metadata-preview' do
                 expect(page).to have_no_content('ESA/ED')
 
                 expect(page).to have_content('AARHUS-HYDRO', count: 2)

@@ -1,0 +1,22 @@
+#metadata-preview table {
+  width: 100%;
+  background: white;
+}
+#metadata-preview table tr:nth-child(2n+2) {
+  background: white;
+}
+#metadata-preview table th {
+  padding: 0.5em;
+  background: white;
+  text-align: left;
+  border: none
+
+}
+#metadata-preview table td {
+  padding: 0.5em;
+}
+#metadata-preview table img {
+  border: none;
+  padding: 0;
+  display: block;
+}

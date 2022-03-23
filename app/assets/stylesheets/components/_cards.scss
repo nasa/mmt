@@ -2,13 +2,13 @@
    Cards
 \* ===================================================== */
 
-.cards {
+.cards:not(#metadata-preview .cards) {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 
-.card {
+.card:not(#metadata-preview .card) {
   border: 1px solid darken($light-blue, 8%);
   border-radius: 4px;
   width: 375px;
@@ -20,7 +20,7 @@
   }
 }
 
-.card-header {
+.card-header:not(#metadata-preview .card-header) {
   border-bottom: 1px solid darken($light-blue, 8%);
   background-color: $light-blue;
   color: $ocean-blue;
@@ -53,7 +53,7 @@
   }
 }
 
-.card-footer {
+.card-footer:not(#metadata-preview .card-footer) {
   padding: 0.5em 1em;
   font-size: 0.8em;
   border-top: 1px solid darken($light-blue, 8%);
@@ -65,7 +65,7 @@
   justify-content: space-between;
 }
 
-.card-body {
+.card-body:not(#metadata-preview .card-body) {
   padding: 0;
   border-top: 2px solid lighten($light-grey, 2%);
   height: 120px;
@@ -117,18 +117,18 @@
   }
 }
 
-.card-body-details {
+.card-body-details:not(#metadata-preview .card-body-details) {
   padding: 0.8em;
   border-right: 1px solid $light-grey;
   flex: 0 0 216px;
 }
 
-.card-body-details-full {
+.card-body-details-full:not(#metadata-preview .card-body-details-full) {
   padding: 0.8em;
   flex: 0 1 auto;
 }
 
-.card-body-aside {
+.card-body-aside:not(#metadata-preview .card-body-aside) {
   padding: 0.8em;
   flex: 0 1 auto;
 }
@@ -144,7 +144,7 @@
   flex: 1 1 auto;
 }
 
-.card-navigation {
+.card-navigation:not(#metadata-preview .card-navigation) {
   border-top: 1px solid $light-grey;
   background-color: $light-blue;
   border-bottom-left-radius: 3px;

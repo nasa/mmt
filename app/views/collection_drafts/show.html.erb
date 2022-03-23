@@ -105,7 +105,21 @@
     <% end %>
 
     <%= render partial: 'collection_drafts/progress/preview_progress', locals: { unpublished_resource: get_resource, metadata_errors: @errors || @ingest_errors } %>
-
-    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, is_mmt: true, editable: true, edsc_url: nil, concept_id: nil, additional_information: { 'root_url' => root_url, 'services' => @services, 'tools' => @tools } } %>
+    <% if Rails.env.test? %>
+      <div id="metadata-preview">
+      <%= get_resource.draft.to_json  %>
+      </div>
+    <% else %>
+      <div id="metadata-preview">
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const element = document.getElementById('metadata-preview');
+          const config = { conceptId: '<%= get_resource.id %>', conceptType: 'collectionDraft', token: '<%= Rails.env.development? ? "ABC-1" : token %>', graphQlHost: '<%= Rails.configuration.graphql_server %>' }
+          MetadataPreview.init(config, element);
+        });
+      </script>
+    <% end %>
+    <%#= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: get_resource.draft, is_mmt: true, editable: true, edsc_url: nil, concept_id: nil, additional_information: { 'root_url' => root_url, 'services' => @services, 'tools' => @tools } } %>
   </div>
 <% end %>

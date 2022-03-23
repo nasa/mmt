@@ -14,13 +14,11 @@ describe 'Auto populating metadata dates', js: true do
 
       click_on 'Publish'
       wait_for_cmr
-
-      find('.tab-label', text: 'Additional Information').click
     end
 
     it 'displays the create date on the collection page' do
-      within '.metadata-dates-table' do
-        expect(page).to have_content("Creation #{today_string}")
+      within '#metadata-preview' do
+        expect(page).to have_content('"MetadataDates":[{"Type":"CREATE","Date":"')
       end
     end
 
@@ -40,16 +38,15 @@ describe 'Auto populating metadata dates', js: true do
 
         click_on 'Publish'
         wait_for_cmr
-
-        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'displays the update date, new metadata dates, and creation date on the collection page' do
-        within '.metadata-dates-table' do
-          expect(page).to have_content('Future Review 2015-07-01T00:00:00Z')
-          expect(page).to have_content('Planned Deletion 2015-07-02T00:00:00Z')
-          expect(page).to have_content("Creation #{today_string}")
-          expect(page).to have_content("Last Revision #{today_string}")
+        within '#metadata-preview' do
+          expect(page).to have_content('MetadataDates')
+          expect(page).to have_content('"Type":"REVIEW"')
+          expect(page).to have_content('"Type":"DELETE"')
+          expect(page).to have_content('"Type":"CREATE"')
+          expect(page).to have_content('"Type":"UPDATE"')
         end
       end
     end

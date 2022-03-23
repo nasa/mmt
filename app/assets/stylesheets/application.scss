@@ -15,7 +15,6 @@
  *= require select2-4.0.13/select2.min
  *= require bootstrap-datepicker-1.6.0/bootstrap-datepicker.standalone.min
  *= require bootstrap-datetimepicker
- *= require bootstrap-datetimepicker-standalone
  *= require jquery.webui-popover/jquery.webui-popover.min
  *= require jquery-ui/tooltip
  */
@@ -91,3 +90,4 @@
 @import "overrides/redactor";
 @import "overrides/select2";
 @import "overrides/tablesorter";
+@import "overrides/metadatapreview";

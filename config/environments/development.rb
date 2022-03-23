@@ -105,7 +105,7 @@ Rails.application.configure do
   config.subscriptions_enabled = true
 
   # Feature toggle for Content Security Policy (CSP) logging.
-  config.csplog_enabled = true
+  config.csplog_enabled = false
 
   # Feature toggle for UMM-T
   config.umm_t_enabled = true
@@ -117,7 +117,7 @@ Rails.application.configure do
   config.gkr_enabled = true
 
   # Feature toggle for EDL groupdl
-  config.edl_groups_enabled = false
+  config.edl_groups_enabled = true
 
   config.cmr_env = 'sit'
   config.echo_env = 'sit'
@@ -126,4 +126,10 @@ Rails.application.configure do
   config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
 
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
+  # GraphQl server
+  config.graphql_server = 'http://localhost:6005/dev/api'
+
+  # Metadata preview urls
+  config.metadata_preview_js_url = 'https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.32.js'
+  config.metadata_preview_css_url = 'https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.32.min.css'
 end
