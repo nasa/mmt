@@ -524,7 +524,10 @@ module Cmr
 
     def get_tea_configuration(provider, token)
       url = "/configuration/tea/provider/#{provider}"
-      headers = { 'Authorization' => 'Bearer ' + token }
+      if is_urs_token?(token)
+        token = 'Bearer ' + token
+      end
+      headers = { 'Authorization' => token }
       get(url, {}, headers)
     end
 
