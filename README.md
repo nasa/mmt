@@ -434,8 +434,8 @@ And to start the server, use the following:
 Note: By default in config/environments/development.rb it will use the following urls for loading the snippet:
 
     # Metadata preview urls 
-    config.metadata_preview_js_url = 'https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.32.js'
-    config.metadata_preview_css_url = 'https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.32.min.css'
+    config.metadata_preview_js_url = 'https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.33.js'
+    config.metadata_preview_css_url = 'https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.33.min.css'
 
 So you'll need to be on the VPN to use the latest snippet.  If it doesn't matter if you
 are using the latest, you can point to `access.earthdata.nasa.gov` instead and MMT
