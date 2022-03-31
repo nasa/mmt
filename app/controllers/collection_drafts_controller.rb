@@ -187,6 +187,8 @@ class CollectionDraftsController < BaseDraftsController
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest collection draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
       @ingest_errors = generate_ingest_errors(ingested_response)
+
+      # ingest errors are handled in the view, so not needed in the flash
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error")
       render :show
     end
@@ -260,7 +262,7 @@ class CollectionDraftsController < BaseDraftsController
         @modal_response[:status_text] = 'This draft will be published with no issues.'
       end
     else
-      errors = Array.wrap(validation_response.error_messages)
+      errors = generate_ingest_errors(validation_response)
 
       @modal_response[:status_text] = 'This draft is not ready to be published.'
       @modal_response[:errors] = errors
@@ -381,11 +383,7 @@ class CollectionDraftsController < BaseDraftsController
     else # If the error is not about required fields
       # if the last field is an array index, use the last section of the field path that isn't a number
       field = fields.split('/').select do |f|
-        begin
-          false if Float(f)
-        rescue
-          true
-        end
+        !is_number?(f)
       end
       {
         field: field.last,
@@ -420,6 +418,8 @@ class CollectionDraftsController < BaseDraftsController
       'has an invalid selection'
     when /has an invalid selection option/
       'has an invalid selection'
+    when /contains additional properties/
+      'has invalid additional fields'
     end
   end
 
