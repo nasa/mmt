@@ -420,6 +420,24 @@ $(document).ready ->
       # Find input children that have not been intentionally hidden with type='hidden'
       .find(':not("[type=\'hidden\']")input').val("")
 
+  validationErrorMessage = (error) ->
+    # construct error message from ingest error structure
+    if error.field && error.page
+      formText = $('<a/>',
+        href: "#{draftId}/edit/#{error.page}",
+        text: error.field
+      )
+    else
+      formText = $('<span/>',
+        text: error.field
+      )
+
+    errorText = $('<span/>',
+      html: " #{error.error}"
+    )
+
+    errorText.prepend(formText)
+
   # check cmr validation button for collection drafts
   $('#check-cmr-validation-button').on 'click', (event) ->
     $.ajax "#{draftId}/check_cmr_validation",
@@ -467,12 +485,10 @@ $(document).ready ->
         $errorList = $('<ul/>', class: 'no-bullet')
         for error in response.responseJSON.errors
           $listElement = $('<li/>',
-            text: error
+            html: validationErrorMessage(error)
           )
           $listElement.appendTo($errorList)
         $errorList.appendTo($modalText)
-
-
 
         $('.check-cmr-validation-text').html($modalText)
 

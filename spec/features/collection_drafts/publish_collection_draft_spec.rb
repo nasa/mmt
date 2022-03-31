@@ -240,11 +240,9 @@ describe 'Publishing collection draft records', js: true do
       click_on 'Publish'
     end
 
-    it 'displays a generic error message' do
+    it 'fails to publish and displays the error returned from CMR and a generic error message' do
       expect(page).to have_content('Collection Draft was not published successfully')
-    end
 
-    it 'displays the error returned from CMR' do
       within 'section.errors' do
         expect(page).to have_content('This draft has the following errors:')
         expect(page).to have_link('Spatial Extent', href: edit_collection_draft_path(draft, 'spatial_information'))
@@ -261,11 +259,9 @@ describe 'Publishing collection draft records', js: true do
       click_on 'Publish'
     end
 
-    it 'displays a generic error message' do
+    it 'fails to publish and displays the error returned from CMR and a generic error message' do
       expect(page).to have_content('Collection Draft was not published successfully')
-    end
 
-    it 'displays the error returned from CMR' do
       within 'section.errors' do
         expect(page).to have_content('This draft has the following errors:')
         within '.ingest-error-0' do

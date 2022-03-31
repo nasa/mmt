@@ -80,8 +80,10 @@ class CollectionsController < ManageCollectionsController
       Rails.logger.error("Ingest (Revert) Collection Error: #{ingested_response.clean_inspect}")
       Rails.logger.info("User #{current_user.urs_uid} attempted to revert Collection #{@concept_id} by ingesting a previous revision in provider #{current_user.provider_id} but encountered an error.")
 
-      @errors = generate_ingest_errors(ingested_response)
-      flash[:error] = ingested_response.error_message(i18n: I18n.t('controllers.collections.revert.flash.error'))
+      @ingest_errors = generate_ingest_errors(ingested_response)
+
+      # ingest errors are handled in the view, so not needed in the flash
+      flash[:error] = I18n.t('controllers.collections.revert.flash.error')
       render action: 'revisions'
     end
   end

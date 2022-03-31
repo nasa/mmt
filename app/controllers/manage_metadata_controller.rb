@@ -164,6 +164,7 @@ class ManageMetadataController < ApplicationController
   end
 
   def generate_ingest_errors(response)
+    # create ingest errors with specific attributes to display on show and revision pages
     errors = response.errors
     request_id = response.cmr_request_header
 
@@ -176,14 +177,14 @@ class ManageMetadataController < ApplicationController
       }]
     else
       errors.map do |error|
-        path = error['path'].nil? ? [nil] : Array.wrap(error['path'])
+        path = derive_path(error)
         error = error['errors'].nil? ? error : error['errors'].first
 
         # Display the parent field when the error occurs in a multiple field
         # e.g. g-polygons 0 instead of just 0.
-        field = if path.length > 2 && path.last.is_a?(Numeric)
+        field = if path.length > 1 && is_number?(path.last)
                   # Display the error 1-indexed, like the forms
-                  path[-2] + " #{path.last + 1}"
+                  "#{path[-2]} #{Integer(path.last) + 1}"
                 else
                   path.last
                 end
@@ -197,6 +198,25 @@ class ManageMetadataController < ApplicationController
           error: error,
           request_id: request_id
         }
+      end
+    end
+  end
+
+  def derive_path(error)
+    # CMR "UMM Validation Errors" provides a path in the response, but
+    # "General Errors" does not, so try to derive a path from the error string
+    if error['path']
+      Array.wrap(error['path'])
+    else
+      if error['errors'] && /\#\/(.*):/ =~ error['errors'].first
+        # seems unlikely because if it has 'errors' it should also have 'path'
+        $1.split('/')
+      elsif /\#\/(.*):/ =~ error
+        # when no path is provided, try to match the path in the error string
+        # e.g. `#/ProcessingLevel:` or `#/DataCenters/0:`
+        $1.split('/')
+      else
+        [nil]
       end
     end
   end
@@ -230,6 +250,11 @@ class ManageMetadataController < ApplicationController
     elsif ARCHIVE_AND_DISTRIBUTION_INFORMATION_FIELDS.include? fields.first
       'archive_and_distribution_information'
     end
+  end
+
+  def is_number?(input)
+    # need to add this method because .is_a?(Numeric) doesn't seem to be working as intended
+    true if Float(input) rescue false
   end
 
   private
