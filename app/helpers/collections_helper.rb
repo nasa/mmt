@@ -115,4 +115,12 @@ module CollectionsHelper
       concat(content_tag(:p, "Please confirm that you wish to continue by entering \"#{CollectionsHelper::DELETE_CONFIRMATION_TEXT}\" below."))
     end
   end
+
+  def create_collection_preview_token(token)
+    return 'ABC-1' if Rails.env.development?
+    if is_urs_token?(token)
+      token = "Bearer #{token}"
+    end
+    token
+  end
 end
