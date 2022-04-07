@@ -103,7 +103,6 @@
         </div>
       </section>
     <% end %>
-
     <%= render partial: 'collection_drafts/progress/preview_progress', locals: { unpublished_resource: get_resource, metadata_errors: @errors || @ingest_errors } %>
     <% if Rails.env.test? %>
       <div id="metadata-preview">
@@ -115,7 +114,7 @@
       <script>
         document.addEventListener("DOMContentLoaded", function() {
           const element = document.getElementById('metadata-preview');
-          const config = { conceptId: '<%= get_resource.id %>', conceptType: 'collectionDraft', token: '<%=create_collection_preview_token(token) %>', graphQlHost: '<%= Rails.configuration.graphql_server %>' }
+          const config = { conceptId: '<%= get_resource.id %>', conceptType: 'collectionDraft', token: '<%= @preview_token %>', graphQlHost: '<%= Rails.configuration.graphql_server %>' }
           MetadataPreview.init(config, element);
         });
       </script>

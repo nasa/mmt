@@ -1,4 +1,6 @@
 module CollectionsHelper
+  include Cmr::Util
+
   DELETE_CONFIRMATION_TEXT = 'I want to delete this collection and the associated records'.freeze
   DOWNLOAD_XML_OPTIONS = [
     { format: 'atom',     title: 'ATOM' },

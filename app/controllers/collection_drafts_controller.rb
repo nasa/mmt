@@ -1,5 +1,6 @@
 # :nodoc:
 class CollectionDraftsController < BaseDraftsController
+  include CollectionsHelper
   include DraftsHelper
   include ControlledKeywords
   include CMRCollectionsHelper
@@ -27,7 +28,7 @@ class CollectionDraftsController < BaseDraftsController
 
   def show
     super
-
+    @preview_token = create_collection_preview_token(token)
     @errors = validate_metadata
     flash.now[:alert] = 'Warning: Your Collection Draft has missing or invalid fields.' unless @errors.blank?
 
