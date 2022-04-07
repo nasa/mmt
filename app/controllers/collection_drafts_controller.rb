@@ -203,16 +203,26 @@ class CollectionDraftsController < BaseDraftsController
 
     authorization_header = request.headers['Authorization']
 
-    if authorization_header.nil? || !authorization_header.start_with?('Bearer')
+    if authorization_header.nil?
       render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
       return
     end
     token = authorization_header.split(' ', 2)[1] || ''
 
-    if Rails.configuration.proposal_mode
-      token_response = cmr_client.validate_dmmt_token(token)
+    if authorization_header.start_with?('Bearer')
+      if Rails.configuration.proposal_mode
+        token_response = cmr_client.validate_dmmt_token(token)
+      else
+        token_response = cmr_client.validate_mmt_token(token)
+      end
     else
-      token_response = cmr_client.validate_mmt_token(token)
+      token_response = cmr_client.validate_launchpad_token(token)
+      if token_response.success?
+        render json: JSON.pretty_generate(get_resource.draft)
+      else
+        render json: JSON.pretty_generate({ "error": 'unauthorized' }), status: 401
+      end
+      return
     end
 
     authorized = false
