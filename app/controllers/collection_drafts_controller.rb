@@ -221,7 +221,7 @@ class CollectionDraftsController < BaseDraftsController
       token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
       urs_uid = token_info['uid']
     else
-      render json: JSON.pretty_generate(get_resource.draft) if Rails.env.development?
+      render json: JSON.pretty_generate(get_resource.draft)
       return
       # Todo: We need to handle verifying a launchpad token.
       # # Handle Launchpad authentication
