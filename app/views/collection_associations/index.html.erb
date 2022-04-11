@@ -32,6 +32,7 @@
             <th>Entry Title</th>
             <th>Short Name</th>
             <th>Version</th>
+            <th>Provider</th>
           </tr>
         </thead>
 
@@ -51,6 +52,7 @@
                 <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {}).fetch('concept-id')) %></td>
                 <td><%= collection.fetch('umm', {}).fetch('short-name') %></td>
                 <td><%= collection.fetch('umm', {}).fetch('version-id') %></td>
+                <td><%= collection.fetch('meta', {})['provider-id'] %></td>
               </tr>
             <% end %>
           <% end %>
