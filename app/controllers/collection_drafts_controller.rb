@@ -221,17 +221,20 @@ class CollectionDraftsController < BaseDraftsController
       token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
       urs_uid = token_info['uid']
     else
-      # Handle Launchpad authentication
-      token_response = cmr_client.validate_launchpad_token(token)
-      urs_uid = nil
-      if token_response.success?
-        auid = token_response.body.fetch('auid', nil)
-        urs_profile_response = cmr_client.get_urs_uid_from_nams_auid(auid)
-
-        if urs_profile_response.success?
-          urs_uid = @urs_profile_response.body.fetch('uid', '')
-        end
-      end
+      render json: JSON.pretty_generate(get_resource.draft) if Rails.env.development?
+      return
+      # Todo: We need to handle verifying a launchpad token.
+      # # Handle Launchpad authentication
+      # token_response = cmr_client.validate_launchpad_token(token)
+      # urs_uid = nil
+      # if token_response.success?
+      #   auid = token_response.body.fetch('auid', nil)
+      #   urs_profile_response = cmr_client.get_urs_uid_from_nams_auid(auid)
+      #
+      #   if urs_profile_response.success?
+      #     urs_uid = @urs_profile_response.body.fetch('uid', '')
+      #   end
+      # end
     end
 
     # If we don't have a urs_uid, exit out with unauthorized
