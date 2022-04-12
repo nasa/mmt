@@ -44,7 +44,7 @@
 
     <% if Rails.env.test? %>
       <div id="metadata-preview">
-        <%= get_resource.draft.to_json  %>
+        <%= @collection.to_json  %>
       </div>
     <% else %>
       <div id="metadata-preview">
