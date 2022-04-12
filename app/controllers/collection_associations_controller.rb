@@ -9,7 +9,7 @@ class CollectionAssociationsController < CmrSearchController
   before_action :ensure_not_variable, only: [:new, :create, :destroy]
   before_action :ensure_variable, only: [:edit, :update]
   before_action :add_high_level_breadcrumbs
-  before_action :ensure_correct_provider, only: [:index, :new]
+  before_action :ensure_correct_provider, only: [:new]
 
   def index
     permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
