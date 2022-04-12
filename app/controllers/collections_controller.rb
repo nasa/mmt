@@ -14,6 +14,7 @@ class CollectionsController < ManageCollectionsController
   add_breadcrumb 'Collections' # there is no collections index action, so not providing a link
 
   def show
+    @preview_token = create_collection_preview_token(token)
     @language_codes = cmr_client.get_language_codes
 
     add_breadcrumb fetch_entry_id(@collection, 'collections'), collection_path(@concept_id)
