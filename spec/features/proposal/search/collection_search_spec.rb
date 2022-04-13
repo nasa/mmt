@@ -48,50 +48,10 @@ describe 'Searching for published collections in proposal mode', js: true do
         click_on short_name
       end
 
-      context 'when clicking the Available Formats download link' do
-        before do
-          click_on 'Available Formats'
-        end
-
-        it 'shows the download selections' do
-          expect(page).to have_link('ATOM', href: download_collection_xml_path(@ingest_response['concept-id'], 'atom'))
-          expect(page).to have_link('ECHO 10', href: download_collection_xml_path(@ingest_response['concept-id'], 'echo10'))
-          expect(page).to have_link('ISO 19115 (MENDS)', href: download_collection_xml_path(@ingest_response['concept-id'], 'iso19115'))
-          expect(page).to have_link('ISO 19115 (SMAP)', href: download_collection_xml_path(@ingest_response['concept-id'], 'iso-smap'))
-          expect(page).to have_link('DIF 10', href: download_collection_xml_path(@ingest_response['concept-id'], 'dif10'))
-        end
-
-        context 'when trying to download data' do
-          before do
-            @file = "#{Rails.root}/#{@ingest_response['concept-id']}.echo10"
-            click_on 'ECHO 10'
-
-            # Seems to need a brief (>0.1) pause to actually find the file.
-            sleep(1)
-          end
-
-          after do
-            FileUtils.rm @file if File.exist?(@file)
-          end
-
-          it 'downloads the file' do
-            expect(File.exist?(@file))
-          end
-        end
-      end
-
       it 'displays the collection preview page' do
-        within '#collection-general-overview' do
-          expect(page).to have_content("Short Name: #{short_name}", normalize_ws: true)
+        within '#metadata-preview' do
+          expect(page).to have_content("#{short_name}", normalize_ws: true)
           expect(page).to have_content(entry_title)
-        end
-
-        within '#collection-preview-tabs' do
-          expect(page).to have_content('Overview')
-          expect(page).to have_content('Download Data')
-          expect(page).to have_content('Citation Information')
-          expect(page).to have_content('Documentation')
-          expect(page).to have_content('Additional Information')
         end
       end
 
