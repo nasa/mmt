@@ -87,7 +87,7 @@ describe 'Collection Draft Proposal Update', reset_provider: true do
         end
 
         it 'displays the collection preview page' do
-          within '#collection-general-overview' do
+          within '#metadata-preview' do
             expect(page).to have_content('SWDB_L310')
             expect(page).to have_content('SeaWiFS Deep Blue Aerosol Optical Depth and Angstrom Exponent Daily Level 3 Data Gridded at 1.0 Degrees V004 (SWDB_L310) at GES DISC')
           end
@@ -121,7 +121,7 @@ describe 'Collection Draft Proposal Update', reset_provider: true do
             it 'updates the update proposal' do
               expect(page).to have_content('Collection Draft Proposal Updated Successfully!')
 
-              within '#collection-general-overview' do
+              within '#metadata-preview' do
                 expect(page).to have_content('Update_Proposal_Short_Name')
                 expect(page).to have_content('New Update Proposal Title')
               end
