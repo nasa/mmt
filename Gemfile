@@ -75,6 +75,8 @@ gem 'browser'
 
 gem 'actionpack', '>= 5.2.6.2'
 
+gem 'pg', '<1.3'
+
 # collections metadata preview
 # run this command to work from a local copy of the gem's repo
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
@@ -120,8 +122,4 @@ group :test do
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'webdrivers'
-end
-
-group :production do
-  gem 'pg', '<1.3'
 end
