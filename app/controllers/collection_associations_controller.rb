@@ -17,13 +17,15 @@ class CollectionAssociationsController < CmrSearchController
     # Default the page to 1
     page = permitted.fetch('page', 1)
 
-    search_params = {
+    @query = {
       "#{lower_resource_name}_concept_id": resource_id,
       page_size: RESULTS_PER_PAGE,
       page_num: page
     }
+  
+    @query['sort_key'] = permitted['sort_key'] unless params['sort_key'].blank?
 
-    association_response = cmr_client.get_collections_by_post(search_params, token)
+    association_response = cmr_client.get_collections_by_post(@query, token)
 
     if association_response.success?
       association_count = association_response.body['hits']
