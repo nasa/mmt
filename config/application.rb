@@ -52,9 +52,6 @@ module Mmt
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.4'
     config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.1'
 
-    # Version of the access application https://access.earthdata.nasa.gov/
-    config.metadata_preview_version = '0.0.37'
-
     # Is this the Proposal Mode version of MMT?
     config.proposal_mode = false
     config.proposal_mode = true if ENV['proposal_mode'] == 'true'
