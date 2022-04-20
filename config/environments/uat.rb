@@ -143,6 +143,6 @@ Rails.application.configure do
   config.graphql_server = 'https://graphql.uat.earthdata.nasa.gov/api'
 
   # Metadata preview urls
-  config.metadata_preview_js_url = "https://access.uat.earthdata.nasa.gov/plugin/metadata-preview.#{Rails.configuration.metadata_preview_version}.js"
-  config.metadata_preview_css_url = "https://access.uat.earthdata.nasa.gov/plugin/metadata-preview.#{Rails.configuration.metadata_preview_version}.min.css"
+  config.metadata_preview_js_url = ENV['metadata_preview_js_url']
+  config.metadata_preview_css_url = ENV['metadata_preview_css_url']
 end
