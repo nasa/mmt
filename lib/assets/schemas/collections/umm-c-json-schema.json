@@ -86,6 +86,10 @@
       "description": "This element is used to identify the collection's ready for end user consumption latency from when the data was acquired by an instrument. NEAR_REAL_TIME is defined to be ready for end user consumption 1 to 3 hours after data acquisition. LOW_LATENCY is defined to be ready for consumption 3 to 24 hours after data acquisition. EXPEDITED is defined to be 1 to 4 days after data acquisition. SCIENCE_QUALITY is defined to mean that a collection has been fully and completely processed which usually takes between 2 to 3 weeks after data acquisition. OTHER is defined for collection where the latency is between EXPEDITED and SCIENCE_QUALITY.",
       "$ref": "#/definitions/CollectionDataTypeEnum"
     },
+    "StandardProduct": {
+      "description": "This element is reserved for NASA records only. A Standard Product is a product that has been vetted to ensure that they are complete, consistent, maintain integrity, and satifies the goals of the Earth Observing System mission. The NASA product owners have also commmitted to archiving and maintaining the data products. More information can be found here: https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-standard-products.",
+      "type": "boolean"
+    },
     "ProcessingLevel": {
       "description": "The identifier for the processing level of the collection (e.g., Level0, Level1A).",
       "$ref": "#/definitions/ProcessingLevelType"
@@ -261,9 +265,13 @@
     "VersionDescription": {
       "description": "The Version Description of the collection.",
       "$ref": "umm-cmn-json-schema.json#/definitions/VersionDescriptionType"
+    },
+    "MetadataSpecification": {
+      "description": "Requires the client, or user, to add in schema information into every collection record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema.",
+      "$ref": "#/definitions/MetadataSpecificationType"
     }
   },
-  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DOI", "DataCenters", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress"],
+  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DOI", "DataCenters", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress", "MetadataSpecification"],
 
 
 
@@ -656,33 +664,85 @@
       "type": "string",
       "enum": ["Atmosphere Layer", "Maximum Altitude", "Maximum Depth", "Minimum Altitude", "Minimum Depth"]
     },
+    "FootprintType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The largest width of an instrument's footprint as measured on the Earths surface. The largest Footprint takes the place of SwathWidth in the Orbit Backtrack Algorithm if SwathWidth does not exist. The optional description element allows the user of the record to be able to distinguish between the different footprints of an instrument if it has more than 1.",
+      "properties": {
+        "Footprint": {
+          "description": "The largest width of an instrument's footprint as measured on the Earths surface. The largest Footprint takes the place of SwathWidth in the Orbit Backtrack Algorithm if SwathWidth does not exist.",
+          "type": "number"
+        },
+        "FootprintUnit": {
+          "description": "The Footprint value's unit.",
+          "enum": ["Kilometer", "Meter"]
+        },
+        "Description": {
+          "description": "The description element allows the user of the record to be able to distinguish between the different footprints of an instrument if it has more than 1.",
+          "type": "string"
+        }
+      },
+      "required": ["Footprint", "FootprintUnit"]
+    },
     "OrbitParametersType": {
       "type": "object",
       "additionalProperties": false,
       "description": "Orbit parameters for the collection used by the Orbital Backtrack Algorithm.",
       "properties": {
         "SwathWidth": {
-          "description": "Width of the swath at the equator in Kilometers.",
+          "description": "Total observable width of the satellite sensor nominally measured at the equator.",
           "type": "number"
         },
-        "Period": {
-          "description": "Orbital period in decimal minutes.",
+        "SwathWidthUnit": {
+          "description": "The SwathWidth value's unit.",
+          "enum": ["Kilometer", "Meter"]
+        },
+        "Footprints" : {
+          "description": "A list of instrument footprints or field of views. A footprint holds the largest width of the described footprint as measured on the earths surface along with the width's unit. An optional description element exists to be able to distinguish between the footprints, if that is desired. This element is optional. If this element is used at least 1 footprint must exist in the list.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FootprintType"
+          },
+          "minItems": 1
+        },
+        "OrbitPeriod": {
+          "description": "The time in decimal minutes the satellite takes to make one full orbit.",
           "type": "number"
+        },
+        "OrbitPeriodUnit": {
+          "description": "The Orbit Period value's unit.",
+          "enum": ["Decimal Minute"]
         },
         "InclinationAngle": {
-          "description": "Inclination of the orbit. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite. Data Unit: Degree.",
+          "description": "The heading of the satellite as it crosses the equator on the ascending pass. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite.",
           "type": "number"
         },
+        "InclinationAngleUnit": {
+          "description": "The InclinationAngle value's unit.",
+          "enum": ["Degree"]
+        },
         "NumberOfOrbits": {
-          "description": "Indicates the number of orbits.",
+          "description": "The number of full orbits composing each granule. This may be a fraction of an orbit.",
           "type": "number"
         },
         "StartCircularLatitude": {
           "description": "The latitude start of the orbit relative to the equator. This is used by the backtrack search algorithm to treat the orbit as if it starts from the specified latitude. This is optional and will default to 0 if not specified.",
           "type": "number"
+        },
+        "StartCircularLatitudeUnit": {
+          "description": "The StartCircularLatitude value's unit.",
+          "enum": ["Degree"]
         }
       },
-      "required": ["SwathWidth", "Period", "InclinationAngle", "NumberOfOrbits"]
+      "anyOf": [{
+        "required": ["SwathWidth", "SwathWidthUnit"]
+      }, {
+        "required": ["Footprints"]
+      }],
+      "required": ["OrbitPeriod", "OrbitPeriodUnit", "InclinationAngle", "InclinationAngleUnit", "NumberOfOrbits"],
+      "dependencies": {
+        "StartCircularLatitude": ["StartCircularLatitudeUnit"]
+      }
     },
     "GranuleSpatialRepresentationEnum": {
       "type": "string",
@@ -1519,6 +1579,29 @@
         }
       },
       "required": ["DOI"]
+    },
+    "MetadataSpecificationType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This object requires any metadata record that is validated by this schema to provide information about the schema.",
+      "properties": {
+        "URL": {
+          "description": "This element represents the URL where the schema lives. The schema can be downloaded.",
+          "type": "string",
+          "enum": ["https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0"]
+        },
+        "Name": {
+          "description": "This element represents the name of the schema.",
+          "type": "string",
+          "enum": ["UMM-C"]
+        },
+        "Version": {
+          "description": "This element represents the version of the schema.",
+          "type": "string",
+          "enum": ["1.17.0"]
+        }
+      },
+      "required": ["URL", "Name", "Version"]
     }
   }
 }
