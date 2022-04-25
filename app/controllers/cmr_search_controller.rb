@@ -21,6 +21,11 @@ class CmrSearchController < ManageMetadataController
       provider: current_user.provider_id
     }
 
+    cmr_params['sort_key'] = permitted['sort_key'] unless params['sort_key'].blank?
+    @query['sort_key'] = permitted['sort_key'] unless params['sort_key'].blank?
+    @query['utf8'] = permitted['utf8'] unless params['utf8'].blank?
+    @query[:search_criteria] = permitted[:search_criteria] unless params[:search_criteria].blank?
+
     # Default values
     collection_count = 0
     collection_results = []
