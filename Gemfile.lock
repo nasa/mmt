@@ -123,6 +123,10 @@ GEM
     debug_inspector (1.1.0)
     diff-lcs (1.5.0)
     docile (1.4.0)
+    dotenv (2.7.6)
+    dotenv-rails (2.7.6)
+      dotenv (= 2.7.6)
+      railties (>= 3.2)
     erubi (1.10.0)
     execjs (2.8.1)
     factory_bot (6.2.1)
@@ -196,7 +200,6 @@ GEM
     kgio (2.11.4)
     launchy (2.5.0)
       addressable (~> 2.7)
-    libv8 (7.3.492.27.1)
     libxml-ruby (3.2.2)
     loofah (2.16.0)
       crass (~> 1.0.2)
@@ -208,8 +211,6 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
-    mini_racer (0.2.15)
-      libv8 (> 7.3)
     minitest (5.15.0)
     momentjs-rails (2.29.1.1)
       railties (>= 3.1)
@@ -388,6 +389,7 @@ DEPENDENCIES
   carmen (~> 1.0.2)
   cmr_metadata_preview!
   coffee-rails
+  dotenv-rails
   factory_bot_rails
   faker
   faraday
@@ -401,9 +403,7 @@ DEPENDENCIES
   json-schema
   kaminari
   launchy
-  libv8 (~> 7.3)
   libxml-to-hash!
-  mini_racer (~> 0.2.15)
   momentjs-rails
   multi_xml
   nokogiri-diff (~> 0.2.0)

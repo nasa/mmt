@@ -53,11 +53,6 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
       it 'does not allow updates to propogate' do
         expect(page).to have_content('Only proposals in an "In Work" status can be edited.')
         expect(page).to have_link('Cancel Proposal Submission')
-        within '.science-keywords-preview' do
-          # if the 'go_back' operation to add a science keyword is unsuccessful (because the proposal is no longer 'in_work'),
-          # there will remain only 2 arrow-tag-group-list items
-          expect(page).to have_css('.arrow-tag-group-list ', count: 3)
-        end
       end
     end
 
