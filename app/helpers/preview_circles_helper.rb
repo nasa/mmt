@@ -69,6 +69,10 @@ module PreviewCirclesHelper
         required: false,
         anchor: 'collection-data-type'
       },
+      'StandardProduct' => {
+        required: false,
+        anchor: 'standard-product'
+      },
       'ProcessingLevel' => {
         required: true,
         anchor: 'processing-level'
