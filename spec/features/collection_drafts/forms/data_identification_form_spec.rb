@@ -31,7 +31,6 @@ describe 'Data identification form', js: true do
         select 'Other', from: 'Collection Data Type'
       end
 
-
       # Processing level
       within '.processing-level-fields' do
         select '1A', from: 'ID'
