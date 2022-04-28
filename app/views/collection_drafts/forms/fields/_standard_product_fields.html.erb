@@ -1,6 +1,5 @@
 <div class="license-group">
-  <% standard_product_true_checked =  !standard_product['True'].nil? %>
-  <% standard_product_false_checked =  !standard_product['False'].nil? %>
+
   <div class="standard-product-type-group standard-product-type-clear-link-radio-fields row sub-fields">
     <!-- Constraint type selector -->
     <%= mmt_label(
@@ -9,9 +8,12 @@
       prefix: name_prefix,
       always_required: false
     ) %>
+
+    <% standard_product_value = standard_product %>
+
     <a href="javascript:void(0)" class="clear-radio-button" data-radio-fields="standard-product-type-clear-link-radio-fields" data-clear-fields="standard-product-type-clear-link-clear-fields" data-hide-fields="standard-product-type-clear-link-hide-fields">Clear</a>
-    <p class="radio-group"><%= radio_button_tag('standard_product_type_true','True', standard_product_true_checked, class: 'standard_product-type-select') %><label for="standard_product_type_true">True</label></p>
-    <p class="radio-group"><%= radio_button_tag('standard_product_type_false','False', standard_product_false_checked, class: 'standard_product-type-select') %><label for="standard_product_type_false">False</label></p>
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|standard_product|"), 'true', standard_product_value.to_s == 'true', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>standard_product_true">True</label></p>
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|standard_product|"), 'false', standard_product_value.to_s == 'false', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>standard_product_true">False</label></p>
   </div>
 
 </div>
