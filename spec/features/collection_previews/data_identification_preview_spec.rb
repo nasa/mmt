@@ -6,7 +6,7 @@
 # templates, proposals)
 # and have tests just for the progress circles for collection drafts
 
-describe 'Data identification preview' do
+describe 'Data identification preview', js: true do
   context 'when viewing the preview page' do
     context 'when there is no metadata' do
       let(:empty_collection_draft) { create(:collection_draft, user: User.where(urs_uid: 'testuser').first) }
@@ -40,6 +40,9 @@ describe 'Data identification preview' do
 
             expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.collection-data-type')
             expect(page).to have_link(nil, href: edit_collection_draft_path(empty_collection_draft, 'data_identification', anchor: 'collection-data-type'))
+
+            expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.standard-product')
+            expect(page).to have_link(nil, href: edit_collection_draft_path(empty_collection_draft, 'data_identification', anchor: 'standard-product'))
 
             expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.quality')
             expect(page).to have_link(nil, href: edit_collection_draft_path(empty_collection_draft, 'data_identification', anchor: 'quality'))
@@ -92,6 +95,9 @@ describe 'Data identification preview' do
 
             expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.collection-data-type')
             expect(page).to have_link(nil, href: edit_collection_draft_path(full_collection_draft, 'data_identification', anchor: 'collection-data-type'))
+
+            expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.standard-product')
+            expect(page).to have_link(nil, href: edit_collection_draft_path(full_collection_draft, 'data_identification', anchor: 'standard-product'))
 
             expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.quality')
             expect(page).to have_link(nil, href: edit_collection_draft_path(full_collection_draft, 'data_identification', anchor: 'quality'))
