@@ -56,8 +56,19 @@
         </div>
       </div>
     </fieldset>
-
   <% end %>
+
+  <div class="which-provider-radio">
+    <p class="radio-group">
+      <%= radio_button_tag("which_provider", "my_provider", @which_provider == "my_provider") %>
+      <label for="my_provider">Search only my collections</label>
+    </p>
+    <p class="radio-group">
+      <%= radio_button_tag("which_provider", "all_providers", @which_provider == "all_providers") %>
+      <label for="all_providers">Search all collections</label>
+    </p>
+  </div>
+  
   <%= submit_tag 'Submit', name: nil, id: 'collection-search-query', class: 'eui-btn--blue' %>
   <% if local_assigns.fetch(:allow_cancel, false) %>
     <%= link_to 'Cancel', cancel_path, class: 'eui-btn' %>
