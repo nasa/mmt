@@ -58,7 +58,7 @@
     </fieldset>
   <% end %>
 
-  <div class="which-provider-radio">
+  <p class="which-provider-radio">
     <p class="radio-group">
       <%= radio_button_tag("which_provider", "my_provider", @which_provider == "my_provider") %>
       <label for="my_provider">Search only my collections</label>
@@ -67,7 +67,7 @@
       <%= radio_button_tag("which_provider", "all_providers", @which_provider == "all_providers") %>
       <label for="all_providers">Search all collections</label>
     </p>
-  </div>
+  </p>
   
   <%= submit_tag 'Submit', name: nil, id: 'collection-search-query', class: 'eui-btn--blue' %>
   <% if local_assigns.fetch(:allow_cancel, false) %>
