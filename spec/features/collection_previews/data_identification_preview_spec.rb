@@ -96,7 +96,7 @@ describe 'Data identification preview', js: true do
             expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.collection-data-type')
             expect(page).to have_link(nil, href: edit_collection_draft_path(full_collection_draft, 'data_identification', anchor: 'collection-data-type'))
 
-            expect(page).to have_css('.eui-icon.eui-fa-circle-o.icon-grey.standard-product')
+            expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.standard-product')
             expect(page).to have_link(nil, href: edit_collection_draft_path(full_collection_draft, 'data_identification', anchor: 'standard-product'))
 
             expect(page).to have_css('.eui-icon.eui-fa-circle.icon-grey.quality')

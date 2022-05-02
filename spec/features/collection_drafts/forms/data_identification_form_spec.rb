@@ -34,7 +34,6 @@ describe 'Data identification form', js: true do
       # Standard Product
       within '.standard-product' do
         choose 'draft_standard_product_true'
-        screenshot_and_open_image
       end
 
       # Processing level
