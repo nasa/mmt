@@ -94,11 +94,10 @@ describe 'Show Existing Tool Collection Associations', js: true, reset_provider:
         end
       end
 
-      it 'displays the existing collection associations' do
-        expect(page).to have_content('Disabled rows')
-        expect(page).to have_selector('tbody tr', count: 61)
-        expect(page).to have_selector('#selected_collections_', count: 35)
-        expect(page).to have_selector('tbody tr.disabled', count: 26)
+      it 'displays the collections from other providers' do
+        expect(page).to have_content('LARC')
+        expect(page).to have_content('SEDAC')
+        expect(page).to have_content('NSIDC_ECS')
       end
     end
   end
