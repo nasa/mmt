@@ -14,7 +14,7 @@ class CmrSearchController < ManageMetadataController
 
   def fetch_collections
     permitted = params.to_unsafe_h unless params.nil? # need to understand what this is doing more, think related to nested parameters not permitted.
-    Rails.logger.info("Parameters: #{permitted}")
+    
     cmr_params = {
       page_size: RESULTS_PER_PAGE,
       page_num: permitted['page']
