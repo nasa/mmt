@@ -11,7 +11,7 @@ describe 'Draft factory' do
       puts error if error
     end
 
-    #expect(errors).to eq([])
+    expect(errors).to eq([])
   end
 
   it 'collection_draft_all_required_fields is still valid umm-json' do
@@ -22,7 +22,7 @@ describe 'Draft factory' do
       puts error if error
     end
 
-    #expect(errors).to eq([])
+    expect(errors).to eq([])
   end
 
   it 'full_variable_draft is still valid umm-json' do
@@ -34,7 +34,6 @@ describe 'Draft factory' do
     end
 
     expect(errors).to eq([])
-
   end
 
   it 'full_service_draft is still valid umm-json' do
