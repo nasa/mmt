@@ -31,6 +31,11 @@ describe 'Data identification form', js: true do
         select 'Other', from: 'Collection Data Type'
       end
 
+      # Standard Product
+      within '.standard-product' do
+        choose 'draft_standard_product_true'
+      end
+
       # Processing level
       within '.processing-level-fields' do
         select '1A', from: 'ID'
@@ -90,6 +95,11 @@ describe 'Data identification form', js: true do
 
         # CollectionDataType
         expect(page).to have_field('Collection Data Type', with: 'OTHER')
+
+        # Standard Product
+        within '.standard-product-type-group' do
+          expect(page).to have_checked_field('True')
+        end
 
         # Processing Level
         within '.processing-level-fields' do

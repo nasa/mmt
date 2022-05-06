@@ -590,6 +590,7 @@ def collection_one
       'Title'     => 'Associated DOI Title',
       'Authority' => 'Associated DOI Authority'
     }],
+    'StandardProduct' => true,
     'CollectionProgress' => 'ACTIVE',
     'Quality'            => 'Metadata quality summary',
     'UseConstraints' => {

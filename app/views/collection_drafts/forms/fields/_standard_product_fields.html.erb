@@ -1,0 +1,18 @@
+<div class="license-group">
+
+  <div class="standard-product-type-group standard-product-type-clear-link-radio-fields row sub-fields">
+    <!-- Constraint type selector -->
+    <%= mmt_label(
+      name: 'standard_product_type',
+      title: 'Select',
+      prefix: name_prefix,
+      always_required: false
+    ) %>
+
+    <% standard_product_value = standard_product %>
+
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|standard_product|"), 'true', standard_product_value.to_s == 'true', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>standard_product_true">True</label></p>
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|standard_product|"), 'false', standard_product_value.to_s == 'false', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>standard_product_true">False</label></p>
+  </div>
+
+</div>

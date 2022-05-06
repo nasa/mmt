@@ -289,6 +289,7 @@ class ManageMetadataController < ApplicationController
   DATA_IDENTIFICATION_FIELDS = %w(
     DataDates
     CollectionDataType
+    StandardProduct
     ProcessingLevel
     CollectionProgress
     Quality
