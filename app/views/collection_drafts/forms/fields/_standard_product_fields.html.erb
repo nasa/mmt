@@ -9,10 +9,8 @@
       always_required: false
     ) %>
 
-    <% standard_product_value = standard_product %>
-
-    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|standard_product|"), 'true', standard_product_value.to_s == 'true', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>standard_product_true">True</label></p>
-    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|standard_product|"), 'false', standard_product_value.to_s == 'false', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>standard_product_true">False</label></p>
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|standard_product|"), 'true', standard_product.to_s == 'true', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>standard_product_true">True</label></p>
+    <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|standard_product|"), 'false', standard_product.to_s == 'false', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>standard_product_true">False</label></p>
   </div>
 
 </div>

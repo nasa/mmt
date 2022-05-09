@@ -72,7 +72,7 @@
       <div class="col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
           type: 'standard_product',
-          values: draft.draft['StandardProduct'] || {},
+          values: draft.draft['StandardProduct'],
           name_prefix: 'draft_',
           multiple: false } %>
       </div>
