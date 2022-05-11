@@ -1,0 +1,34 @@
+<div class="row sub-fields">
+  <!-- Footprint int -->
+  <%= mmt_text_field(
+        name: 'footprint',
+        title: 'Footprint',
+        prefix: name_prefix,
+        value: footprint['Footprint'],
+        help: 'definitions/FootprintType/properties/Footprint',
+        validate: true,
+        required: true,
+        classes: 'mmt-number'
+      ) %>
+
+  <!-- FootprintUnit enum: Kilometer, Meter -->
+  <%= mmt_select(
+        name: 'footprint_unit',
+        title: 'Footprint Unit',
+        prefix: name_prefix,
+        value: footprint['FootprintUnit'],
+        help: 'definitions/FootprintType/properties/FootprintUnit',
+        options: DraftsHelper::FootprintUnitOptions,
+        always_required: true
+      ) %>
+
+  <!-- Description String -->
+  <%= mmt_text_field(
+        name: 'description',
+        title: 'Description',
+        prefix: name_prefix,
+        value: footprint['Description'],
+        help: 'definitions/FootprintType/properties/Description',
+        validate: true,
+        ) %>
+</div>
