@@ -1,66 +1,105 @@
 <div class="row sub-fields">
-  <!-- SwathWidth -->
-  <%= mmt_text_field(
-    name: 'swath_width',
-    title: 'Swath Width',
-    prefix: name_prefix,
-    value: orbit_parameters['SwathWidth'],
-    help: 'definitions/OrbitParametersType/properties/SwathWidth',
-    validate: true,
-    required: true,
-    classes: 'mmt-number'
-   ) %>
+  <!-- Footprint -->
+  <%= mmt_label(
+        name: 'footprint',
+        title: 'Footprint',
+        prefix: name_prefix
+      ) %>
+  <%= mmt_help_icon(
+        title: 'Footprint',
+        help: 'definitions/FootprintType'
+      ) %>
+  <%= render partial: 'collection_drafts/forms/type', locals: {
+    type: 'footprint',
+    values: orbit_parameters['Footprint'] || {},
+    name_prefix: "#{name_prefix}|footprint|_",
+    multiple: false, #This should be true
+    options: {} } %>
 
 
-  <!-- Period -->
-  <%= mmt_text_field(
-    name: 'period',
-    title: 'Period',
-    prefix: name_prefix,
-    value: orbit_parameters['Period'],
-    help: 'definitions/OrbitParametersType/properties/Period',
-    validate: true,
-    required: true,
-    classes: 'mmt-number'
-   ) %>
+  <!-- Swath Width Unit -->
+  <%= mmt_select(
+        name: 'swath_width_unit',
+        title: 'Swath Width Unit',
+        prefix: name_prefix,
+        value: orbit_parameters['SwathWidthUnit'],
+        help: 'definitions/OrbitParametersType/properties/SwathWidthUnit',
+        options: DraftsHelper::SwathWidthUnitOption,
+        always_required: true
+      ) %>
+
+
+  <!-- OrbitPeriodUnit -->
+  <%= mmt_select(
+        name: 'orbit_period_unit',
+        title: 'Orbit Period Unit',
+        prefix: name_prefix,
+        value: orbit_parameters['OrbitPeriodUnit'],
+        help: 'definitions/OrbitParametersType/properties/OrbitPeriodUnit',
+        options: DraftsHelper::OrbitPeriodUnitOptions,
+        always_required: true
+      ) %>
 
 
   <!-- InclinationAngle -->
   <%= mmt_text_field(
-    name: 'inclination_angle',
-    title: 'Inclination Angle',
-    prefix: name_prefix,
-    value: orbit_parameters['InclinationAngle'],
-    help: 'definitions/OrbitParametersType/properties/InclinationAngle',
-    validate: true,
-    required: true,
-    classes: 'mmt-number'
-   ) %>
+        name: 'inclination_angle',
+        title: 'Inclination Angle',
+        prefix: name_prefix,
+        value: orbit_parameters['InclinationAngle'],
+        help: 'definitions/OrbitParametersType/properties/InclinationAngle',
+        validate: true,
+        required: true,
+        classes: 'mmt-number'
+      ) %>
+
+
+  <!-- InclinationAngleUnit -->
+  <%= mmt_select(
+        name: 'inclination_angle_unit',
+        title: 'Inclination Angle Unit',
+        prefix: name_prefix,
+        value: orbit_parameters['InclinationAngleUnit'],
+        help: 'definitions/OrbitParametersType/properties/InclinationAngleUnit',
+        options: DraftsHelper::InclinationAngleUnitOption,
+        always_required: true
+      ) %>
 
 
   <!-- NumberOfOrbits -->
   <%= mmt_text_field(
-    name: 'number_of_orbits',
-    title: 'Number Of Orbits',
-    prefix: name_prefix,
-    value: orbit_parameters['NumberOfOrbits'],
-    help: 'definitions/OrbitParametersType/properties/NumberOfOrbits',
-    validate: true,
-    required: true,
-    classes: 'mmt-number'
-   ) %>
+        name: 'number_of_orbits',
+        title: 'Number Of Orbits',
+        prefix: name_prefix,
+        value: orbit_parameters['NumberOfOrbits'],
+        help: 'definitions/OrbitParametersType/properties/NumberOfOrbits',
+        validate: true,
+        required: true,
+        classes: 'mmt-number'
+      ) %>
 
 
   <!-- StartCircularLatitude -->
   <%= mmt_text_field(
-    name: 'start_circular_latitude',
-    title: 'Start Circular Latitude',
-    prefix: name_prefix,
-    value: orbit_parameters['StartCircularLatitude'],
-    help: 'definitions/OrbitParametersType/properties/StartCircularLatitude',
-    validate: true,
-    required: true,
-    classes: 'mmt-number'
-   ) %>
+        name: 'start_circular_latitude',
+        title: 'Start Circular Latitude',
+        prefix: name_prefix,
+        value: orbit_parameters['StartCircularLatitude'],
+        help: 'definitions/OrbitParametersType/properties/StartCircularLatitude',
+        validate: true,
+        required: true,
+        classes: 'mmt-number'
+      ) %>
 
+
+  <!-- StartCircularLatitudeUnit -->
+  <%= mmt_select(
+        name: 'start_circular_latitude_unit',
+        title: 'Start Circular Latitude Unit',
+        prefix: name_prefix,
+        value: orbit_parameters['StartCircularLatitudeUnit'],
+        help: 'definitions/OrbitParametersType/properties/StartCircularLatitudeUnit',
+        options: DraftsHelper::StartCircularLatitudeUnitOption,
+        always_required: false
+      ) %>
 </div>
