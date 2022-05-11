@@ -1,15 +1,15 @@
 <div class="row sub-fields">
   <!--SwathWidth-->
-  <%=mmt_text_field(
-       name:'swath_width_unit',
-       title:'SwathWidthUnit',
-       prefix:name_prefix,
-       value:orbit_parameters['SwathWidthUnit'],
-       help:'definitions/OrbitParametersType/properties/SwathWidthUnit',
-       validate:true,
-       required:true,
-       classes:'mmt-number'
-   )%>
+  <%= mmt_text_field(
+        name: 'swath_width',
+        title: 'Swath Width',
+        prefix: name_prefix,
+        value: orbit_parameters['SwathWidth'],
+        help: 'definitions/OrbitParametersType/properties/SwathWidth',
+        validate: true,
+        required: true,
+        classes: 'mmt-number'
+      ) %>
 
 
   <!-- Swath Width Unit -->
@@ -20,32 +20,7 @@
         value: orbit_parameters['SwathWidthUnit'],
         help: 'definitions/OrbitParametersType/properties/SwathWidthUnit',
         options: DraftsHelper::SwathWidthUnitOption,
-        always_required: true
-      ) %>
-
-
-  <!--Period-->
-  <%=mmt_text_field(
-       name:'period',
-       title:'Period',
-       prefix:name_prefix,
-       value:orbit_parameters['Period'],
-       help:'definitions/OrbitParametersType/properties/Period',
-       validate:true,
-       required:true,
-       classes:'mmt-number'
-     )%>
-
-
-  <!-- OrbitPeriodUnit -->
-  <%= mmt_select(
-        name: 'orbit_period_unit',
-        title: 'Orbit Period Unit',
-        prefix: name_prefix,
-        value: orbit_parameters['OrbitPeriodUnit'],
-        help: 'definitions/OrbitParametersType/properties/OrbitPeriodUnit',
-        options: DraftsHelper::OrbitPeriodUnitOptions,
-        always_required: true
+        required: true
       ) %>
 
 
@@ -65,6 +40,31 @@
     name_prefix: "#{name_prefix}|footprint|_",
     multiple: true, #This should be true
     options: {} } %>
+
+
+  <!--Orbit Period-->
+  <%=mmt_text_field(
+       name:'orbit_period',
+       title:'Orbit Period',
+       prefix:name_prefix,
+       value:orbit_parameters['OrbitPeriod'],
+       help:'definitions/OrbitParametersType/properties/OrbitPeriod',
+       validate:true,
+       required:true,
+       classes:'mmt-number'
+     )%>
+
+
+  <!-- OrbitPeriodUnit -->
+  <%= mmt_select(
+        name: 'orbit_period_unit',
+        title: 'Orbit Period Unit',
+        prefix: name_prefix,
+        value: orbit_parameters['OrbitPeriodUnit'],
+        help: 'definitions/OrbitParametersType/properties/OrbitPeriodUnit',
+        options: DraftsHelper::OrbitPeriodUnitOptions,
+        required: true
+      ) %>
 
 
   <!-- InclinationAngle -->
@@ -88,7 +88,7 @@
         value: orbit_parameters['InclinationAngleUnit'],
         help: 'definitions/OrbitParametersType/properties/InclinationAngleUnit',
         options: DraftsHelper::InclinationAngleUnitOption,
-        always_required: true
+        required: true
       ) %>
 
 
@@ -126,6 +126,6 @@
         value: orbit_parameters['StartCircularLatitudeUnit'],
         help: 'definitions/OrbitParametersType/properties/StartCircularLatitudeUnit',
         options: DraftsHelper::StartCircularLatitudeUnitOption,
-        always_required: false
+        required: true
       ) %>
 </div>

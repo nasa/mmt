@@ -686,15 +686,23 @@
       "description": "Orbit parameters for the collection used by the Orbital Backtrack Algorithm.",
       "properties": {
         "SwathWidth": {
-          "description": "Width of the swath at the equator in Kilometers.",
+          "description": "Total observable width of the satellite sensor nominally measured at the equator.",
           "type": "number"
         },
         "SwathWidthUnit": {
           "description": "The SwathWidth value's unit.",
           "enum": ["Kilometer", "Meter"]
         },
-        "Period": {
-          "description": "Orbital period in decimal minutes.",
+        "Footprints" : {
+          "description": "A list of instrument footprints or field of views. A footprint holds the largest width of the described footprint as measured on the earths surface along with the width's unit. An optional description element exists to be able to distinguish between the footprints, if that is desired. This element is optional. If this element is used at least 1 footprint must exist in the list.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FootprintType"
+          },
+          "minItems": 1
+        },
+        "OrbitPeriod": {
+          "description": "The time in decimal minutes the satellite takes to make one full orbit.",
           "type": "number"
         },
         "OrbitPeriodUnit": {
@@ -702,7 +710,7 @@
           "enum": ["Decimal Minute"]
         },
         "InclinationAngle": {
-          "description": "Inclination of the orbit. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite. Data Unit: Degree.",
+          "description": "The heading of the satellite as it crosses the equator on the ascending pass. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite.",
           "type": "number"
         },
         "InclinationAngleUnit": {
@@ -710,7 +718,7 @@
           "enum": ["Degree"]
         },
         "NumberOfOrbits": {
-          "description": "Indicates the number of orbits.",
+          "description": "The number of full orbits composing each granule. This may be a fraction of an orbit.",
           "type": "number"
         },
         "StartCircularLatitude": {
@@ -722,7 +730,15 @@
           "enum": ["Degree"]
         }
       },
-      "required": ["SwathWidth", "Period", "InclinationAngle", "NumberOfOrbits"]
+      "anyOf": [{
+        "required": ["SwathWidth", "SwathWidthUnit"]
+      }, {
+        "required": ["Footprints"]
+      }],
+      "required": ["OrbitPeriod", "OrbitPeriodUnit", "InclinationAngle", "InclinationAngleUnit", "NumberOfOrbits"],
+      "dependencies": {
+        "StartCircularLatitude": ["StartCircularLatitudeUnit"]
+      }
     },
     "GranuleSpatialRepresentationEnum": {
       "type": "string",

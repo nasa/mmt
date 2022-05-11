@@ -7,7 +7,7 @@
       value: footprint['Footprint'],
       help: 'definitions/FootprintType/properties/Footprint',
       validate: true,
-      always_required: true,
+      required: true,
       classes: 'mmt-number'
   ) %>
 
@@ -19,7 +19,7 @@
       value: footprint['FootprintUnit'],
       help: 'definitions/FootprintType/properties/FootprintUnit',
       options: DraftsHelper::FootprintUnitOptions,
-      always_required: true
+      required: true
   ) %>
 
   <!-- Description String -->

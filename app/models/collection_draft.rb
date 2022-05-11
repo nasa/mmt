@@ -299,8 +299,8 @@ class CollectionDraft < Draft
             if key == 'orbit_parameters'
               # There are two fields named 'Period' but only one of them is a number.
               # Convert the correct 'Period' to a number
-              period = value['period']
-              value['period'] = convert_to_number(period)
+              orbit_period = value['orbit_period']
+              value['orbit_period'] = convert_to_number(orbit_period)
               object[key] = value
             end
             object[key] = convert_to_arrays(value)
