@@ -1,20 +1,15 @@
 <div class="row sub-fields">
-  <!-- Footprint -->
-  <%= mmt_label(
-        name: 'footprint',
-        title: 'Footprint',
-        prefix: name_prefix
-      ) %>
-  <%= mmt_help_icon(
-        title: 'Footprint',
-        help: 'definitions/FootprintType'
-      ) %>
-  <%= render partial: 'collection_drafts/forms/type', locals: {
-    type: 'footprint',
-    values: orbit_parameters['Footprint'] || {},
-    name_prefix: "#{name_prefix}|footprint|_",
-    multiple: false, #This should be true
-    options: {} } %>
+  <!--SwathWidth-->
+  <%=mmt_text_field(
+       name:'swath_width_unit',
+       title:'SwathWidthUnit',
+       prefix:name_prefix,
+       value:orbit_parameters['SwathWidthUnit'],
+       help:'definitions/OrbitParametersType/properties/SwathWidthUnit',
+       validate:true,
+       required:true,
+       classes:'mmt-number'
+   )%>
 
 
   <!-- Swath Width Unit -->
@@ -29,6 +24,19 @@
       ) %>
 
 
+  <!--Period-->
+  <%=mmt_text_field(
+       name:'period',
+       title:'Period',
+       prefix:name_prefix,
+       value:orbit_parameters['Period'],
+       help:'definitions/OrbitParametersType/properties/Period',
+       validate:true,
+       required:true,
+       classes:'mmt-number'
+     )%>
+
+
   <!-- OrbitPeriodUnit -->
   <%= mmt_select(
         name: 'orbit_period_unit',
@@ -39,6 +47,24 @@
         options: DraftsHelper::OrbitPeriodUnitOptions,
         always_required: true
       ) %>
+
+
+  <!-- Footprint -->
+  <%= mmt_label(
+        name: 'footprint',
+        title: 'Footprints',
+        prefix: name_prefix
+      ) %>
+  <%= mmt_help_icon(
+        title: 'Footprint',
+        help: 'definitions/FootprintType'
+      ) %>
+  <%= render partial: 'collection_drafts/forms/type', locals: {
+    type: 'footprint',
+    values: orbit_parameters['Footprint'] || [{}],
+    name_prefix: "#{name_prefix}|footprint|_",
+    multiple: true, #This should be true
+    options: {} } %>
 
 
   <!-- InclinationAngle -->
