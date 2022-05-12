@@ -26,7 +26,7 @@
 
   <!-- Footprint -->
   <%= mmt_label(
-        name: 'footprint',
+        name: 'footprints',
         title: 'Footprints',
         prefix: name_prefix
       ) %>
@@ -35,9 +35,9 @@
         help: 'definitions/FootprintType'
       ) %>
   <%= render partial: 'collection_drafts/forms/type', locals: {
-    type: 'footprint',
-    values: orbit_parameters['Footprint'] || [{}],
-    name_prefix: "#{name_prefix}|footprint|_",
+    type: 'footprints',
+    values: orbit_parameters['Footprints'] || [{}],
+    name_prefix: "#{name_prefix}|footprints|_",
     multiple: true, #This should be true
     options: {} } %>
 

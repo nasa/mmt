@@ -118,8 +118,8 @@ module DraftsHelper
     ['PB']
   ]
   FootprintUnitOptions = [
-    ['Kilometers'],
-    ['Meters']
+    ['Kilometer'],
+    ['Meter']
   ]
   GeographicCoordinateUnitsOptions = [
     ['Decimal Degrees'],
