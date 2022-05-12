@@ -575,7 +575,6 @@ describe 'Spatial information form', js: true do
           select 'Meter', from: 'Footprint Unit'
           fill_in 'Description', with: '9'
         end
-        screenshot_and_open_image
         end
       fill_in 'Orbit Period', with: '4'
       select 'Decimal Minute', from: 'Orbit Period Unit'
