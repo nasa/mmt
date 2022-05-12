@@ -147,6 +147,100 @@ module FormHelper
     mmt_label(options) + mmt_help_icon(options) + select_html
   end
 
+  def mmt(options)
+    options[:name] = add_pipes(options[:name])
+
+    classes = ["half-width #{remove_pipes(options[:name])}-select"]
+    classes += options[:classes].split(' ') if options[:classes]
+    classes << 'validate'
+
+    # default values when not multi-select
+    is_multi_select = false
+    prompt = "#{options[:title]}"
+    size = nil
+
+    is_multi_select = true if options[:multiple]
+
+    select_options = options[:options].clone
+    if options[:grouped]
+      if options[:value] && invalid_select_option(select_options, options[:value], true)
+        disabled_options = content_tag(:optgroup, label: 'Invalid') do
+          content_tag(:option, options[:value], selected: 'selected', disabled: 'disabled')
+        end
+      end
+
+      select_options = grouped_options_for_select(select_options, options[:value])
+      select_options = disabled_options + select_options if disabled_options
+    else
+      # restrict options for drop down if for metadata_date
+      select_options.shift(2) if options[:metadata_date]
+
+      disabled_options = []
+
+      if is_multi_select
+        prompt = nil
+        size = 4
+        values = options[:value] || []
+        values.each do |value|
+          if value && invalid_select_option(select_options, value)
+            # handle invalid options for multi_select
+            select_options.unshift value
+            disabled_options << value
+          end
+        end
+      else
+        # prepend invalid disabled option
+        if options[:value] && invalid_select_option(select_options, options[:value])
+          select_options.unshift options[:value]
+          disabled_options = options[:value]
+        end
+      end
+
+      select_options = options_for_select(select_options, selected: options[:value], disabled: disabled_options)
+    end
+
+    if classes.include? 'select2-select'
+      styles = 'width: 100%;'
+      classes.delete('half-width')
+    end
+
+    # for data center contact person/groups in data contacts form, need to keep the data center information
+    # at the same data-level and data-required-level as the contact person/ group, so the required fields
+    # appear/disappear with the contact person/group information
+    if options[:prefix] =~ /\|contact_person_data_center\|_$/ #== 'draft_|data_contacts|_|contact_person_data_center|_'
+      data_level = remove_pipes(options[:prefix] + '|contact_person|_')
+      options[:required_level] += 1
+    elsif options[:prefix] =~ /\|contact_group_data_center\|_$/ #== 'draft_|data_contacts|_|contact_group_data_center|_'
+      data_level = remove_pipes(options[:prefix] + '|contact_group|_')
+      options[:required_level] += 1
+    else
+      data_level = remove_pipes(options[:prefix])
+    end
+    # need to make sure the required icons act the way we want with this change
+    # labels, name, id will be different than data-level ...
+
+    data_attrs = { level: data_level }
+    data_attrs[:required_level] = options[:required_level] if options[:required_level]
+
+    select_tag_options = {
+      multiple: is_multi_select,
+      size: size,
+      class: classes,
+      prompt: prompt,
+      data: data_attrs,
+      style: styles
+    }
+
+    select_tag_options[:id] = options[:id] if options[:id]
+    select_html = select_tag(
+      name_to_param(options[:prefix] + options[:name]),
+      select_options,
+      select_tag_options
+    )
+
+    mmt_label(options) + mmt_help_icon(options) + select_html
+  end
+
   # RAILS5.1 -- datetime_field_tag returns a datetime_local instead of date_time
   # datetime_local doesn't support UTC and is supported in some, but not all
   # browsers.  custom-datetimes are picked up by the datepicker code and are
