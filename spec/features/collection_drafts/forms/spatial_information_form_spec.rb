@@ -739,6 +739,13 @@ describe 'Spatial information form', js: true do
         expect(page).to have_field('Inclination Angle', with: '5.0')
         expect(page).to have_field('Number Of Orbits', with: '6.0')
         expect(page).to have_field('Start Circular Latitude', with: '7.0')
+        within '.multiple.footprints' do
+          within '.multiple-item-0' do
+            expect(page).to have_field('Footprint', with: '2')
+            expect(page).to have_field('Footprint Unit', with: 'Kilometer')
+            expect(page).to have_field('Description', with: '3')
+          end
+        end
 
         expect(page).to have_field('Granule Spatial Representation', with: 'CARTESIAN')
       end
@@ -859,10 +866,27 @@ describe 'Spatial information form', js: true do
       select 'Orbital and Vertical', from: 'Spatial Coverage Type'
       # Orbital
       fill_in 'Swath Width', with: '1'
-      fill_in 'Period', with: '2'
-      fill_in 'Inclination Angle', with: '3'
-      fill_in 'Number Of Orbits', with: '4'
-      fill_in 'Start Circular Latitude', with: '5'
+      select 'Kilometer', from: 'Swath Width Unit'
+      within '.multiple.footprints' do
+        within '.multiple-item-0' do
+          fill_in 'Footprint', with: '2'
+          select 'Kilometer', from: 'Footprint Unit'
+          fill_in 'Description', with: '3'
+        end
+        click_on 'Add another Footprint'
+        within '.multiple-item-1' do
+          fill_in 'Footprint', with: '8'
+          select 'Meter', from: 'Footprint Unit'
+          fill_in 'Description', with: '9'
+        end
+      end
+      fill_in 'Orbit Period', with: '4'
+      select 'Decimal Minute', from: 'Orbit Period Unit'
+      fill_in 'Inclination Angle', with: '5'
+      select 'Degree', from: 'Inclination Angle Unit'
+      fill_in 'Number Of Orbits', with: '6'
+      fill_in 'Start Circular Latitude', with: '7'
+      select 'Degree', from: 'Start Circular Latitude Unit'
       # Vertical
       within '.multiple.vertical-spatial-domains' do
         select 'Maximum Altitude', from: 'Type'
@@ -893,10 +917,17 @@ describe 'Spatial information form', js: true do
         expect(page).to have_field('Spatial Coverage Type', with: 'ORBITAL_VERTICAL')
 
         expect(page).to have_field('Swath Width', with: '1.0')
-        expect(page).to have_field('Period', with: '2.0')
-        expect(page).to have_field('Inclination Angle', with: '3.0')
-        expect(page).to have_field('Number Of Orbits', with: '4.0')
-        expect(page).to have_field('Start Circular Latitude', with: '5.0')
+        expect(page).to have_field('Orbit Period', with: '4.0')
+        expect(page).to have_field('Inclination Angle', with: '5.0')
+        expect(page).to have_field('Number Of Orbits', with: '6.0')
+        expect(page).to have_field('Start Circular Latitude', with: '7.0')
+        within '.multiple.footprints' do
+          within '.multiple-item-0' do
+            expect(page).to have_field('Footprint', with: '2')
+            expect(page).to have_field('Footprint Unit', with: 'Kilometer')
+            expect(page).to have_field('Description', with: '3')
+          end
+        end
 
         within '.multiple.vertical-spatial-domains' do
           expect(page).to have_field('Type', with: 'Maximum Altitude')
