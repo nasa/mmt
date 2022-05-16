@@ -232,6 +232,7 @@ class CollectionDraft < Draft
     latitude_resolution
     longitude_resolution
     swath_width
+    footprint
     inclination_angle
     number_of_orbits
     start_circular_latitude
