@@ -117,6 +117,10 @@ module DraftsHelper
     ['TB'],
     ['PB']
   ]
+  FootprintUnitOptions = [
+    ['Kilometer'],
+    ['Meter']
+  ]
   GeographicCoordinateUnitsOptions = [
     ['Decimal Degrees'],
     ['Kilometers'],
@@ -160,6 +164,9 @@ module DraftsHelper
     ['At Nadir'],
     ['Scan Extremes']
   ]
+  InclinationAngleUnitOption = [
+    ["Degree"]
+  ]
   MetadataAssociationTypeOptions = [
     ['Science Associated', 'SCIENCE ASSOCIATED'],
     ['Dependent', 'DEPENDENT'],
@@ -192,6 +199,9 @@ module DraftsHelper
     ['text/html'],
     ['text/plain'],
     ['Not provided']
+  ]
+  OrbitPeriodUnitOptions =[
+    ["Decimal Minute"]
   ]
   ProcessingLevelIdOptions = [
     ['Not Provided'],
@@ -264,7 +274,13 @@ module DraftsHelper
     ['Minimum Altitude'],
     ['Minimum Depth']
   ]
-
+  StartCircularLatitudeUnitOption = [
+    ["Degree"]
+  ]
+  SwathWidthUnitOption = [
+    ["Kilometer"],
+    ["Meter"]
+  ]
   SINGLE_FIELDSET_FORMS = %w(
     collection_information
     collection_citations

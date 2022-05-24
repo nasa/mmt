@@ -33,7 +33,6 @@
         options: {} } %>
   </div>
 
-
   <!-- OrbitParameters -->
   <div class="spatial-coverage-type orbit" style="<%= 'display: none;' unless spatial_coverage_type&.include?('ORBITAL') || spatial_extent.fetch('OrbitParameters', nil) %>">
     <%= mmt_label(

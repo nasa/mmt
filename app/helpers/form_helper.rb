@@ -147,6 +147,7 @@ module FormHelper
     mmt_label(options) + mmt_help_icon(options) + select_html
   end
 
+
   # RAILS5.1 -- datetime_field_tag returns a datetime_local instead of date_time
   # datetime_local doesn't support UTC and is supported in some, but not all
   # browsers.  custom-datetimes are picked up by the datepicker code and are
