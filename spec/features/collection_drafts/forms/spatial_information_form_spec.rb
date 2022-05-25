@@ -637,10 +637,10 @@ describe 'Spatial information form', js: true do
         expect(page).to have_field('Number Of Orbits', with: '6.0')
         expect(page).to have_field('Start Circular Latitude', with: '7.0')
         within '.multiple.footprints' do
-          within '.multiple-item-0' do
-            expect(page).to have_field('Footprint', with: '2')
-            expect(page).to have_field('Footprint Unit', with: 'Kilometer')
-            expect(page).to have_field('Description', with: '3')
+          within '.multiple-item-1' do
+            expect(page).to have_field('Footprint', with: '8.0')
+            expect(page).to have_field('Footprint Unit', with: 'Meter')
+            expect(page).to have_field('Description', with: '9')
             end
         end
 
@@ -741,7 +741,7 @@ describe 'Spatial information form', js: true do
         expect(page).to have_field('Start Circular Latitude', with: '7.0')
         within '.multiple.footprints' do
           within '.multiple-item-0' do
-            expect(page).to have_field('Footprint', with: '2')
+            expect(page).to have_field('Footprint', with: '2.0')
             expect(page).to have_field('Footprint Unit', with: 'Kilometer')
             expect(page).to have_field('Description', with: '3')
           end
@@ -922,11 +922,10 @@ describe 'Spatial information form', js: true do
         expect(page).to have_field('Number Of Orbits', with: '6.0')
         expect(page).to have_field('Start Circular Latitude', with: '7.0')
         within '.multiple.footprints' do
-          within '.multiple-item-0' do
-            expect(page).to have_field('Footprint', with: '2')
-            expect(page).to have_field('Footprint Unit', with: 'Kilometer')
-            expect(page).to have_field('Description', with: '3')
-          end
+          expect(page).to have_field('Footprint', with: '2.0')
+          expect(page).to have_field('Footprint Unit', with: 'Kilometer')
+          expect(page).to have_field('Description', with: '3')
+
         end
 
         within '.multiple.vertical-spatial-domains' do
