@@ -63,7 +63,7 @@ describe 'Show Existing Tool Collection Associations', js: true, reset_provider:
 
     end
 
-    context 'when searching for new collections to associate' do
+    context 'when searching for new collections to associate from only my provider' do
       before do
         visit new_tool_collection_association_path(@tool_ingest_response['concept-id'])
 
@@ -79,6 +79,25 @@ describe 'Show Existing Tool Collection Associations', js: true, reset_provider:
         expect(page).to have_selector('tbody tr', count: 29)
         expect(page).to have_selector('#selected_collections_', count: 3)
         expect(page).to have_selector('tbody tr.disabled', count: 26)
+      end
+    end
+
+    context 'when searching for new collections to associate from all providers' do
+      before do
+        visit new_tool_collection_association_path(@tool_ingest_response['concept-id'])
+
+        within '#collection-search' do
+          select 'Entry Title', from: 'Search Field'
+          find(:css, "input[id$='query_text']").set('*')
+          choose 'which_provider_all_providers'
+          click_button 'Submit'
+        end
+      end
+
+      it 'displays the collections from other providers' do
+        expect(page).to have_content('LARC')
+        expect(page).to have_content('SEDAC')
+        expect(page).to have_content('NSIDC_ECS')
       end
     end
   end

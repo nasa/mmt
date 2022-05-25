@@ -82,20 +82,6 @@ describe 'Services permissions', reset_provider: true, js: true do
           click_on 'Manage Collection Associations'
         end
 
-        it 'displays a modal informing the user they need to switch providers' do
-          expect(page).to have_content("Managing this service's collection associations #{modal_text}")
-        end
-
-        context 'when clicking Yes' do
-          before do
-            find('.not-current-provider-link').click
-            wait_for_jQuery
-          end
-
-          it 'switches the provider context' do
-            expect(User.first.provider_id).to eq('MMT_2')
-          end
-
           it 'displays the Manage Collection Associations page' do
             within '.eui-breadcrumbs' do
               expect(page).to have_content('Services')
@@ -103,7 +89,6 @@ describe 'Services permissions', reset_provider: true, js: true do
             end
             expect(page).to have_link('Add Collection Associations')
           end
-        end
       end
 
       context 'when clicking the delete link' do
@@ -235,28 +220,12 @@ describe 'Services permissions', reset_provider: true, js: true do
             visit collection_associations_link
           end
 
-          it 'displays warning banner link to change provider' do
-            expect(page).to have_css('.eui-banner--warn')
-            expect(page).to have_content('You need to change your current provider to manage collection associations for this service')
-          end
-
-          context 'when clicking the warning banner link' do
-            before do
-              click_link('You need to change your current provider to manage collection associations for this service')
-              wait_for_jQuery
+          it 'displays the service manage collection associations page' do
+            within '.eui-breadcrumbs' do
+              expect(page).to have_content('Services')
+              expect(page).to have_content('Collection Associations')
             end
-
-            it 'switches the provider context' do
-              expect(User.first.provider_id).to eq('MMT_2')
-            end
-
-            it 'displays the service manage collection associations page' do
-              within '.eui-breadcrumbs' do
-                expect(page).to have_content('Services')
-                expect(page).to have_content('Collection Associations')
-              end
-              expect(page).to have_link('Add Collection Associations')
-            end
+            expect(page).to have_link('Add Collection Associations')
           end
         end
       end
@@ -307,23 +276,6 @@ describe 'Services permissions', reset_provider: true, js: true do
           it 'displays the Access Denied message' do
             expect(page).to have_content('Access Denied')
             expect(page).to have_content('It appears you do not have access to clone this content.')
-          end
-        end
-
-        context 'when visiting the collection associations path directly' do
-          before do
-            collection_associations_link = page.current_path + '/collection_associations'
-            visit collection_associations_link
-          end
-
-          it 'displays the no permissions banner message' do
-            expect(page).to have_css('.eui-banner--danger')
-            expect(page).to have_content("You don't have the appropriate permissions to manage collection associations for this service")
-          end
-
-          it 'displays the Access Denied message' do
-            expect(page).to have_content('Access Denied')
-            expect(page).to have_content('It appears you do not have access to manage collection associations for this content.')
           end
         end
       end

@@ -212,3 +212,13 @@
     }
   }
 }
+
+#collection-associations, #collection-search-results {
+  thead {
+
+    a:link,
+    a:visited {
+      color: $black
+    }
+  }
+}

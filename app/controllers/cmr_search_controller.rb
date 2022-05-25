@@ -14,12 +14,23 @@ class CmrSearchController < ManageMetadataController
 
   def fetch_collections
     permitted = params.to_unsafe_h unless params.nil? # need to understand what this is doing more, think related to nested parameters not permitted.
-
+    
     cmr_params = {
       page_size: RESULTS_PER_PAGE,
-      page_num: permitted['page'],
-      provider: current_user.provider_id
+      page_num: permitted['page']
     }
+
+    @which_provider = 'my_provider'
+    @which_provider = permitted['which_provider'] unless params['which_provider'].blank?
+    @query['which_provider'] = permitted['which_provider'] unless params['which_provider'].blank?
+
+    cmr_params['provider'] = current_user.provider_id if @which_provider == 'my_provider'
+    @query['provider'] = current_user.provider_id if @which_provider == 'my_provider'
+
+    cmr_params['sort_key'] = permitted['sort_key'] unless params['sort_key'].blank?
+    @query['sort_key'] = permitted['sort_key'] unless params['sort_key'].blank?
+    @query['utf8'] = permitted['utf8'] unless params['utf8'].blank?
+    @query[:search_criteria] = permitted[:search_criteria] unless params[:search_criteria].blank?
 
     # Default values
     collection_count = 0
