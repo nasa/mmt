@@ -2,7 +2,7 @@
 # subscription page with no subscriptions. Until we have the provider reset,
 # that test would be flaky and fail intermittently because of CMR's update time.
 
-describe 'Viewing a list of subscriptions', reset_provider: true do
+describe 'Viewing a list of subscriptions', reset_provider: true, js: true do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
@@ -51,7 +51,6 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
       it 'displays expected subscriptions without edit or delete links' do
         expect(page).to have_no_link('Create a Subscription')
         expect(page).to have_content('Showing all 2 Subscriptions')
-
         within '.subscriptions-table' do
           expect(page).to have_content('Name')
           expect(page).to have_content('Query')
