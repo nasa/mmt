@@ -438,7 +438,7 @@ module Cmr
             else
               "/ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             end
-      headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json' }
+      headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.0' }
 
       put(url, subscription, headers.merge(token_header(token)))
     end
@@ -449,7 +449,7 @@ module Cmr
             else
               "/ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             end
-      headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json' }
+      headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.0' }
 
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
