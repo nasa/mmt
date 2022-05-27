@@ -639,12 +639,12 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
 
     it 'can submit a proposal' do
       click_on 'Submit for Review'
-      click_on 'Yes'
+      click_on 'Ok'
 
       visit progress_collection_draft_proposal_path(@collection_draft_proposal)
 
       within '.progress-actions' do
-        expect(page).to have_link('Cancel Proposal Submission')
+        expect(page).to have_link('Delete Proposal')
       end
     end
   end
