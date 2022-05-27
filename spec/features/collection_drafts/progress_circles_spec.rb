@@ -18,7 +18,7 @@ describe 'Progress circles', js: true do
 
     it 'displays all circles as empty' do
       expect(page).to have_no_css('.eui-icon.eui-fa-circle')
-      expect(page).to have_css('.eui-icon.eui-check.icon-green')
+      expect(page).to have_no_css('.eui-icon.eui-check.icon-green')
       expect(page).to have_no_css('.eui-icon.eui-required.icon-green')
     end
 
@@ -36,7 +36,7 @@ describe 'Progress circles', js: true do
 
       it 'displays all circles as empty' do
         expect(page).to have_no_css('.eui-icon.eui-fa-circle')
-        expect(page).to have_css('.eui-icon.eui-check.icon-green')
+        expect(page).to have_no_css('.eui-icon.eui-check.icon-green')
         expect(page).to have_no_css('.eui-icon.eui-required.icon-green')
       end
     end

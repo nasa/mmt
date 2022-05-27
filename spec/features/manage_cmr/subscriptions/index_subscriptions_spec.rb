@@ -2,7 +2,7 @@
 # subscription page with no subscriptions. Until we have the provider reset,
 # that test would be flaky and fail intermittently because of CMR's update time.
 
-describe 'Viewing a list of subscriptions', reset_provider: true, js: true do
+describe 'Viewing a list of subscriptions', reset_provider: true do
   before :all do
     @subscriptions_group = create_group(members: ['testuser', 'typical'])
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)

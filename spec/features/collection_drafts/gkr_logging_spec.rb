@@ -34,7 +34,6 @@ describe 'GCMD Keyword Recommender (GKR) Tests', js: true do
     end
 
     it 'logs the Publish operation' do
-      screenshot_and_open_image
       click_on 'Expand All'
       within '.nav-top' do
         VCR.use_cassette('gkr/send_feedback', record: :none) do
@@ -42,6 +41,7 @@ describe 'GCMD Keyword Recommender (GKR) Tests', js: true do
         end
       end
       allow(Rails.logger).to receive(:info)
+      expect(Rails.logger).to receive(:info).with(start_with('GkrLog: type: PUBLISH'))
       click_on 'Publish'
     end
   end
