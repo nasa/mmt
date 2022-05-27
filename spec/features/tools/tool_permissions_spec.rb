@@ -27,6 +27,7 @@ describe 'Tools permissions', reset_provider: true, js: true do
         expect(page).to have_link('Edit Tool Record')
         expect(page).to have_link('Clone Tool Record')
         expect(page).to have_link('Delete Tool Record')
+        expect(page).to have_link('Manage Collection Associations')
       end
 
       context 'when clicking the edit link' do
@@ -181,6 +182,10 @@ describe 'Tools permissions', reset_provider: true, js: true do
         expect(page).to have_no_link('Edit Tool Record')
         expect(page).to have_no_link('Clone Tool Record')
         expect(page).to have_no_link('Delete Tool Record')
+      end
+
+      it 'does display the link to associate collection' do
+        expect(page).to have_link('Manage Collection Associations')
       end
 
       context 'when trying to visit the action paths directly' do
