@@ -461,7 +461,7 @@ module Cmr
 
       url = "http://localhost:3002/providers/#{provider_id}/granules/#{encode_if_needed(native_id)}"
       headers = {
-        'Accept' => 'application/json',
+        'Accept' => 'application/json;version=1.0',
         'Content-Type' =>  "application/vnd.nasa.cmr.umm+json; version=1.6; charset=utf-8"
       }
 
