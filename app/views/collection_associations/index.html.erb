@@ -30,7 +30,7 @@
               <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="selected_collections[]" /></th>
             <% end %>
             <th>Entry Title</th>
-            <th>Short Name</th>
+            <th><%= sort_by_link('Short Name', 'short_name', @query, nil, '') %></th>
             <th>Version</th>
             <th><%= sort_by_link('Provider', 'provider_id', @query, nil, '') %></th>
           </tr>
