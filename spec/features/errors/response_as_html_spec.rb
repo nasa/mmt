@@ -26,6 +26,7 @@ describe 'CMR Response as HTML page',js:true do
     end
 
     it 'displays a generic error message' do
-      expect(page).to have_content('This draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.')    end
+      expect(page).to have_content('There was an error with the operation you were trying to perform. There may be an issue with one of the services we depend on. Please contact your provider administrator or the CMR OPS team.')
+    end
   end
 end
