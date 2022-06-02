@@ -2,6 +2,7 @@ class CollectionDraft < Draft
   # TODO: we currently allow one to be created, but may allow more in the future
   # should we just make this has_one for now?
   has_many :keyword_recommendations, as: :recommendable, dependent: :destroy
+  before_save :set_metadata_specification
 
   DRAFT_FORMS = %w(
     collection_information
@@ -105,7 +106,9 @@ class CollectionDraft < Draft
       # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters
       json_params = convert_data_contacts_params(json_params)
       json_params = convert_data_centers_params(json_params)
-
+      unless json_params.key?("StandardProduct")
+        self.draft.delete("StandardProduct")
+      end
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)
 
@@ -485,5 +488,16 @@ class CollectionDraft < Draft
   ## Feature Toggle for GKR recommendations
   def gkr_enabled?
     Rails.configuration.gkr_enabled
+  end
+
+  def set_metadata_specification
+    metadata_specification = {
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0',
+      'Name' => 'UMM-C',
+      'Version' => '1.17.0'
+    }
+    unless self.draft['MetadataSpecification'] == metadata_specification
+      self.draft['MetadataSpecification'] = metadata_specification
+    end
   end
 end
