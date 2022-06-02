@@ -21,8 +21,8 @@ describe 'Publishing revision of collection with non url encoded native id',js:t
         end
       end
 
-      # context 'when publishing the revision then visiting the revisions page' do
-      #   before do
+      context 'when publishing the revision then visiting the revisions page' do
+        before do
           # # add required data to publish
           # within '.metadata' do
           #   click_on 'Data Centers', match: :first
@@ -71,16 +71,18 @@ describe 'Publishing revision of collection with non url encoded native id',js:t
           #   click_on 'Done'
           # end
 
-        #   click_on 'Publish'
-        #   click_on 'Revisions'
-        # end
+          click_on 'Publish'
+          click_on 'Revisions'
+        end
 
-    #     it 'has two revisions' do
-    #       within 'tbody' do
-    #         expect(page).to have_css('tr', count: 2)
-    #       end
-    #     end
-    #   end
+        it 'has two revisions' do
+          within 'tbody' do
+            expect(page).to have_css('tr', count: 2)
+          end
+        end
+      end
     end
   end
 end
+
+
