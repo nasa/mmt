@@ -195,9 +195,12 @@ module PreviewCirclesHelper
 
       valid = true
       FORM_FIELDS[form_name].each do |field, options|
-        if field == 'DataContacts'
-          valid = false unless error_fields.blank?
-        elsif form_name == 'archive_and_distribution_information'
+        if field == 'CollectionCitations' || form_name == 'metadata_information' || form_name == 'related_urls' || field == 'DataContacts'
+          if !options[:required] && metadata[field].nil?
+            valid = false
+          end
+        end
+        if form_name == 'archive_and_distribution_information'
           valid = archive_and_distribution_valid_check(metadata, errors)
         elsif metadata[field].nil?
           valid = false if options[:required]

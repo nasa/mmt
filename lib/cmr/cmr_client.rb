@@ -438,7 +438,14 @@ module Cmr
             else
               "/ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             end
-      headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.0' }
+      # This is a slight hack until we use subscription model 1.1
+      # We can not seem to request 1.0 from CMR in the headers
+      if JSON.parse(subscription).key?('MetadataSpecification')
+        headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.1' }
+      else
+        headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.0' }
+      end
+
 
       put(url, subscription, headers.merge(token_header(token)))
     end
@@ -702,6 +709,7 @@ module Cmr
             else
               '/search/subscriptions.umm_json'
             end
+
       get(url, options, token_header(token))
     end
 
