@@ -7,8 +7,8 @@
         value: orbit_parameters['SwathWidth'],
         help: 'definitions/OrbitParametersType/properties/SwathWidth',
         validate: true,
-        required: true,
-        classes: 'mmt-number'
+        always_required: true,
+        classes: 'mmt-number optionally-required'
       ) %>
 
 
@@ -20,7 +20,8 @@
         value: orbit_parameters['SwathWidthUnit'],
         help: 'definitions/OrbitParametersType/properties/SwathWidthUnit',
         options: DraftsHelper::SwathWidthUnitOption,
-        required: true
+        classes: 'optionally-required',
+        always_required:true
       ) %>
 
 

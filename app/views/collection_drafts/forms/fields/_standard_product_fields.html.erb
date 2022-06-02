@@ -9,6 +9,8 @@
       always_required: false
     ) %>
 
+    <a href="javascript:void(0)" class="clear-radio-button" data-radio-fields="standard-product-type-clear-link-radio-fields" data-clear-fields="standard-product-type-clear-link-clear-fields" data-hide-fields="standard-product-type-clear-link-hide-fields">Clear</a>
+
     <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|standard_product|"), 'true', standard_product.to_s == 'true', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>standard_product_true">True</label></p>
     <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|standard_product|"), 'false', standard_product.to_s == 'false', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>standard_product_true">False</label></p>
   </div>

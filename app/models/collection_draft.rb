@@ -106,7 +106,9 @@ class CollectionDraft < Draft
       # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters
       json_params = convert_data_contacts_params(json_params)
       json_params = convert_data_centers_params(json_params)
-
+      unless json_params.key?("StandardProduct")
+        self.draft.delete("StandardProduct")
+      end
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)
 

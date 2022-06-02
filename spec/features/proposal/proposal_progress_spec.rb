@@ -639,7 +639,9 @@ describe 'Viewing Progress Page for Collection Metadata Proposals', js: true do
 
     it 'can submit a proposal' do
       click_on 'Submit for Review'
+
       click_on 'No'
+
       visit progress_collection_draft_proposal_path(@collection_draft_proposal)
 
       within '.progress-actions' do

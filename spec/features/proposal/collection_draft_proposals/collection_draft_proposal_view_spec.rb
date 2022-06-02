@@ -1,4 +1,4 @@
-describe 'Viewing Unsubmitted Collection Draft Proposals' do
+describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
   before do
     real_login(method: 'urs')
     set_as_proposal_mode_mmt(with_draft_user_acl: true)
@@ -22,7 +22,7 @@ describe 'Viewing Unsubmitted Collection Draft Proposals' do
       end
 
       it 'has the correct modal text' do
-        expect(page).to have_content('Are you sure you want to submit this proposal for review? Upon approval, your collection record will be published to the CMR.')
+        expect(page).to have_content('This proposal is not ready to be submitted. Please use the progress indicators on the proposal preview page to address incomplete or invalid fields.')
       end
     end
 
@@ -40,6 +40,7 @@ describe 'Viewing Unsubmitted Collection Draft Proposals' do
         expect(page).to have_css('.search-disabled-radio-buttons')
       end
     end
+
 
   end
 
