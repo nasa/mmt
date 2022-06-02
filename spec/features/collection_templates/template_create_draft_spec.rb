@@ -86,9 +86,7 @@ describe 'Creating a new draft from an existing template', js: true do
           end
 
           click_on 'Publish Collection Draft'
-          expect(page).to have_content 'Collection Draft Published Successfully'
           expect(page).to have_link 'Save as Template'
-          expect(page).to have_link 'Edit Collection Record'
         end
       end
     end
@@ -103,7 +101,6 @@ describe 'Creating a new draft from an existing template', js: true do
     it 'makes a collection draft and navigates to the correct edit page' do
       expect(page).to have_field 'Short Name'
       expect(page).to have_no_field 'Template Name'
-
       visit manage_collections_path
       expect(page).to have_content 'A Tale of Two Cities'
     end

@@ -600,7 +600,7 @@ def collection_one
       'Title'     => 'Associated DOI Title',
       'Authority' => 'Associated DOI Authority'
     }],
-    'StandardProduct' => true,
+    'StandardProduct' => false,
     'CollectionProgress' => 'ACTIVE',
     'Quality'            => 'Metadata quality summary',
     'UseConstraints' => {
@@ -967,8 +967,8 @@ def collection_one
         'prefix-2',
         'prefix-3'
       ],
-      'S3CredentialsAPIEndpoint' => 'link.com',
-      'S3CredentialsAPIDocumentationURL' => 'amazon.com'
+      'S3CredentialsAPIEndpoint' => 'https://link.com',
+      'S3CredentialsAPIDocumentationURL' => 'https://amazon.com'
     }
   }
 end

@@ -265,9 +265,13 @@
     "VersionDescription": {
       "description": "The Version Description of the collection.",
       "$ref": "#/definitions/VersionDescriptionType"
+    },
+    "MetadataSpecification": {
+      "description": "Requires the client, or user, to add in schema information into every collection record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema.",
+      "$ref": "#/definitions/MetadataSpecificationType"
     }
   },
-  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DOI", "DataCenters", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress"],
+  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DOI", "DataCenters", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress","MetadataSpecification"],
 
 
 
@@ -2818,6 +2822,29 @@
     "GetServiceTypeFormatEnum": {
       "type": "string",
       "enum": ["ascii", "binary", "GRIB", "BUFR", "HDF4", "HDF5", "HDF-EOS4", "HDF-EOS5", "jpeg", "png", "tiff", "geotiff", "kml", "Not provided"]
+    },
+    "MetadataSpecificationType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This object requires any metadata record that is validated by this schema to provide information about the schema.",
+      "properties": {
+        "URL": {
+          "description": "This element represents the URL where the schema lives. The schema can be downloaded.",
+          "type": "string",
+          "enum": ["https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0"]
+        },
+        "Name": {
+          "description": "This element represents the name of the schema.",
+          "type": "string",
+          "enum": ["UMM-C"]
+        },
+        "Version": {
+          "description": "This element represents the version of the schema.",
+          "type": "string",
+          "enum": ["1.17.0"]
+        }
+      },
+      "required": ["URL", "Name", "Version"]
     }
   }
 }
