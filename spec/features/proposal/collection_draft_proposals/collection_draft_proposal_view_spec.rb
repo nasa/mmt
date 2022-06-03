@@ -22,7 +22,7 @@ describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
       end
 
       it 'has the correct modal text' do
-        expect(page).to have_content('This proposal is not ready to be submitted. Please use the progress indicators on the proposal preview page to address incomplete or invalid fields.')
+        expect(page).to have_content('Are you sure you want to submit this proposal for review? Upon approval, your collection record will be published to the CMR.')
       end
     end
 
