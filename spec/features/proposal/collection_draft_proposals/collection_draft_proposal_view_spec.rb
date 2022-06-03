@@ -36,8 +36,8 @@ describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
 
     it 'has a hidden search dropdown in proposal mode' do
       within '.quick-search' do
-        expect(page).to have_css('.search-dropdown-short')
-        expect(page).to have_css('.search-disabled-radio-buttons')
+        expect(page).to have_css('.search-dropdown-short', :visible => false)
+        expect(page).to have_css('.search-disabled-radio-buttons', :visible => false)
       end
     end
 
