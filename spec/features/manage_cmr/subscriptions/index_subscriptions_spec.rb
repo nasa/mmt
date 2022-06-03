@@ -51,7 +51,6 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
       it 'displays expected subscriptions without edit or delete links' do
         expect(page).to have_no_link('Create a Subscription')
         expect(page).to have_content('Showing all 2 Subscriptions')
-
         within '.subscriptions-table' do
           expect(page).to have_content('Name')
           expect(page).to have_content('Query')
@@ -127,10 +126,10 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
       # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
       @subscriptions_permissions_other_provider = add_permissions_to_group(@subscriptions_group_other_provider['concept_id'], ['read', 'update'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_1')
       @c_ingest_response2, _c_concept_response = publish_collection_draft
-
+      @c_ingest_response3, _c3_concept_response = publish_collection_draft(provider_id: 'MMT_1')
       clear_cache
 
-      _ingest_response2, @search_response3, @subscription3 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake', query: 'polygon=10,10,30,10,30,20,10,20,10,10&equator_crossing_longitude=0,10', subscriber_id: 'fakeid', collection_concept_id: @c_ingest_response2['concept-id'])
+      _ingest_response2, @search_response3, @subscription3 = publish_new_subscription(provider: 'MMT_1', email_address: 'fake@fake.fake', query: 'polygon=10,10,30,10,30,20,10,20,10,10&equator_crossing_longitude=0,10', subscriber_id: 'fakeid', collection_concept_id: @c_ingest_response3['concept-id'])
 
       allow_any_instance_of(SubscriptionPolicy).to receive(:index?).and_return(true)
       visit subscriptions_path

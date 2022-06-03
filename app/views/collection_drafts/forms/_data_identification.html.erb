@@ -54,6 +54,32 @@
   </div>
 </fieldset>
 
+<fieldset class="eui-accordion is-closed" id="standard-product">
+  <div class="eui-accordion__header">
+    <h3 class="eui-accordion__title">Standard Product</h3>
+    <%= mmt_help_icon(
+          title: 'Standard Product',
+          help: 'properties/StandardProduct'
+        ) %>
+    <div class="eui-accordion__icon" tabindex="0">
+      <i class="eui-icon eui-fa-chevron-circle-down"></i>
+      <span class="eui-sr-only">Toggle Standard Product</span>
+    </div>
+  </div>
+  <div class="eui-accordion__body">
+    <!-- Standard Product -->
+    <div class="row">
+      <div class="col-12">
+        <%= render partial: 'collection_drafts/forms/type', locals: {
+          type: 'standard_product',
+          values: draft.draft['StandardProduct'],
+          name_prefix: 'draft_',
+          multiple: false } %>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
 <fieldset class="eui-accordion is-closed" id="processing-level">
   <div class="eui-accordion__header">
     <h3 class="eui-accordion__title eui-required-o always-required">Processing Level</h3>

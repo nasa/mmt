@@ -1,4 +1,4 @@
-describe 'Publishing revision of collection with non url encoded native id' do
+describe 'Publishing revision of collection with non url encoded native id',js:true do
   context 'when finding a published collection with a non url encoded native id' do
     before do
       login
@@ -84,3 +84,5 @@ describe 'Publishing revision of collection with non url encoded native id' do
     end
   end
 end
+
+

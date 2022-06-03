@@ -34,8 +34,8 @@ describe 'Publishing collection draft records', js: true do
       it 'contains the expected factory values' do
         within '.direct-distribution-information' do
           expect(page).to have_field('Region', with: 'us-east-2')
-          expect(page).to have_field('S3 Credentials API Endpoint', with: 'link.com')
-          expect(page).to have_field('S3 Credentials API Documentation URL', with: 'amazon.com')
+          expect(page).to have_field('S3 Credentials API Endpoint', with: 'https://link.com')
+          expect(page).to have_field('S3 Credentials API Documentation URL', with: 'https://amazon.com')
           within ('.simple-multiple.s3-bucket-and-object-prefix-names') do
             expect(page).to have_field(with: 'prefix-1')
             expect(page).to have_field(with: 'prefix-2')

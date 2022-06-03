@@ -36,8 +36,7 @@ describe 'Number fields', js: true do
     end
 
     it 'saves the original string into the database' do
-      draft_metadata = { 'SpatialExtent' => { 'SpatialCoverageType' => 'HORIZONTAL', 'HorizontalSpatialDomain' => { 'Geometry' => { 'CoordinateSystem' => 'CARTESIAN', 'BoundingRectangles' => [{ 'NorthBoundingCoordinate' => '1a', 'WestBoundingCoordinate' => 'abcd', 'EastBoundingCoordinate' => 15.0, 'SouthBoundingCoordinate' => 30.0 }] } }, 'GranuleSpatialRepresentation' => 'CARTESIAN' } }
-
+      draft_metadata = {"MetadataSpecification"=>{"URL"=>"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0", "Name"=>"UMM-C", "Version"=>"1.17.0"}, "SpatialExtent"=>{"SpatialCoverageType"=>"HORIZONTAL", "HorizontalSpatialDomain"=>{"Geometry"=>{"CoordinateSystem"=>"CARTESIAN", "BoundingRectangles"=>[{"NorthBoundingCoordinate"=>"1a", "WestBoundingCoordinate"=>"abcd", "EastBoundingCoordinate"=>15.0, "SouthBoundingCoordinate"=>30.0}]}}, "GranuleSpatialRepresentation"=>"CARTESIAN"}}
       # using a Capybara find method that waits to locate an element, to prevent an intermittent failure
       find('#spatial-information a[title="Spatial Extent - Invalid"]')
       expect(Draft.last.draft).to eq(draft_metadata)
@@ -95,7 +94,8 @@ describe 'Number fields', js: true do
         expect(page).to have_content('Drafts')
       end
 
-      draft_metadata = { 'TemporalExtents' => [{ 'EndsAtPresentFlag' => false, 'PrecisionOfSeconds' => 'abcd', 'SingleDateTimes' => ['2015-07-01T00:00:00Z'] }] }
+      draft_metadata = {"MetadataSpecification"=>{"URL"=>"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0", "Name"=>"UMM-C", "Version"=>"1.17.0"}, "TemporalExtents"=>[{"PrecisionOfSeconds"=>"abcd", "EndsAtPresentFlag"=>false, "SingleDateTimes"=>["2015-07-01T00:00:00Z"]}]}
+
       expect(Draft.last.draft).to eq(draft_metadata)
     end
 

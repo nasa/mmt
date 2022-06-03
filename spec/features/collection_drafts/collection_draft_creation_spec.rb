@@ -60,8 +60,8 @@ describe 'Collection Draft creation', js: true do
             visit collection_draft_path(CollectionDraft.first, format: 'json')
           end
 
-          it 'returns the json' do
-            expect(page).to have_content("{\n  \"ShortName\": \"123\"\n}")
+          it 'returns the json content' do
+            expect(page).to have_content("\"ShortName\": \"123\"\n}")
           end
         end
       end

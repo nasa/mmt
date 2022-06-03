@@ -29,8 +29,8 @@
       "$ref": "#/definitions/EntryTitleType"
     },
     "DOI": {
-        "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. For those that want to specify that a DOI is not applicable or unknown use the second option.",
-        "$ref": "#/definitions/DoiType"
+      "description": "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. For those that want to specify that a DOI is not applicable or unknown use the second option.",
+      "$ref": "#/definitions/DoiType"
     },
     "AssociatedDOIs": {
       "description": "This element stores DOIs that are associated with the collection such as from campaigns and other related sources. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.",
@@ -85,6 +85,10 @@
     "CollectionDataType": {
       "description": "This element is used to identify the collection's ready for end user consumption latency from when the data was acquired by an instrument. NEAR_REAL_TIME is defined to be ready for end user consumption 1 to 3 hours after data acquisition. LOW_LATENCY is defined to be ready for consumption 3 to 24 hours after data acquisition. EXPEDITED is defined to be 1 to 4 days after data acquisition. SCIENCE_QUALITY is defined to mean that a collection has been fully and completely processed which usually takes between 2 to 3 weeks after data acquisition. OTHER is defined for collection where the latency is between EXPEDITED and SCIENCE_QUALITY.",
       "$ref": "#/definitions/CollectionDataTypeEnum"
+    },
+    "StandardProduct": {
+      "description": "This element is reserved for NASA records only. A Standard Product is a product that has been vetted to ensure that they are complete, consistent, maintain integrity, and satifies the goals of the Earth Observing System mission. The NASA product owners have also commmitted to archiving and maintaining the data products. More information can be found here: https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-standard-products.",
+      "$ref": "#/definitions/StandardProductType"
     },
     "ProcessingLevel": {
       "description": "The identifier for the processing level of the collection (e.g., Level0, Level1A).",
@@ -261,9 +265,13 @@
     "VersionDescription": {
       "description": "The Version Description of the collection.",
       "$ref": "#/definitions/VersionDescriptionType"
+    },
+    "MetadataSpecification": {
+      "description": "Requires the client, or user, to add in schema information into every collection record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema.",
+      "$ref": "#/definitions/MetadataSpecificationType"
     }
   },
-  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DOI", "DataCenters", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress"],
+  "required": ["ShortName", "Version", "EntryTitle", "Abstract", "DOI", "DataCenters", "ProcessingLevel", "ScienceKeywords", "TemporalExtents", "SpatialExtent", "Platforms", "CollectionProgress","MetadataSpecification"],
 
 
 
@@ -343,7 +351,7 @@
         },
         "required": ["LicenseText"]
       }
-     ]},
+      ]},
     "DirectoryNameType": {
       "type": "object",
       "additionalProperties": false,
@@ -656,33 +664,85 @@
       "type": "string",
       "enum": ["Atmosphere Layer", "Maximum Altitude", "Maximum Depth", "Minimum Altitude", "Minimum Depth"]
     },
+    "FootprintType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The largest width of an instrument's footprint as measured on the Earths surface. The largest Footprint takes the place of SwathWidth in the Orbit Backtrack Algorithm if SwathWidth does not exist. The optional description element allows the user of the record to be able to distinguish between the different footprints of an instrument if it has more than 1.",
+      "properties": {
+        "Footprint": {
+          "description": "The largest width of an instrument's footprint as measured on the Earths surface. The largest Footprint takes the place of SwathWidth in the Orbit Backtrack Algorithm if SwathWidth does not exist.",
+          "type": "number"
+        },
+        "FootprintUnit": {
+          "description": "The Footprint value's unit.",
+          "enum": ["Kilometer", "Meter"]
+        },
+        "Description": {
+          "description": "The description element allows the user of the record to be able to distinguish between the different footprints of an instrument if it has more than 1.",
+          "type": "string"
+        }
+      },
+      "required": ["Footprint", "FootprintUnit"]
+    },
     "OrbitParametersType": {
       "type": "object",
       "additionalProperties": false,
       "description": "Orbit parameters for the collection used by the Orbital Backtrack Algorithm.",
       "properties": {
         "SwathWidth": {
-          "description": "Width of the swath at the equator in Kilometers.",
+          "description": "Total observable width of the satellite sensor nominally measured at the equator.",
           "type": "number"
         },
-        "Period": {
-          "description": "Orbital period in decimal minutes.",
+        "SwathWidthUnit": {
+          "description": "The SwathWidth value's unit.",
+          "enum": ["Kilometer", "Meter"]
+        },
+        "Footprints" : {
+          "description": "A list of instrument footprints or field of views. A footprint holds the largest width of the described footprint as measured on the earths surface along with the width's unit. An optional description element exists to be able to distinguish between the footprints, if that is desired. This element is optional. If this element is used at least 1 footprint must exist in the list.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FootprintType"
+          },
+          "minItems": 1
+        },
+        "OrbitPeriod": {
+          "description": "The time in decimal minutes the satellite takes to make one full orbit.",
           "type": "number"
+        },
+        "OrbitPeriodUnit": {
+          "description": "The Orbit Period value's unit.",
+          "enum": ["Decimal Minute"]
         },
         "InclinationAngle": {
-          "description": "Inclination of the orbit. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite. Data Unit: Degree.",
+          "description": "The heading of the satellite as it crosses the equator on the ascending pass. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite.",
           "type": "number"
         },
+        "InclinationAngleUnit": {
+          "description": "The InclinationAngle value's unit.",
+          "enum": ["Degree"]
+        },
         "NumberOfOrbits": {
-          "description": "Indicates the number of orbits.",
+          "description": "The number of full orbits composing each granule. This may be a fraction of an orbit.",
           "type": "number"
         },
         "StartCircularLatitude": {
           "description": "The latitude start of the orbit relative to the equator. This is used by the backtrack search algorithm to treat the orbit as if it starts from the specified latitude. This is optional and will default to 0 if not specified.",
           "type": "number"
+        },
+        "StartCircularLatitudeUnit": {
+          "description": "The StartCircularLatitude value's unit.",
+          "enum": ["Degree"]
         }
       },
-      "required": ["SwathWidth", "Period", "InclinationAngle", "NumberOfOrbits"]
+      "anyOf": [{
+        "required": ["SwathWidth", "SwathWidthUnit"]
+      }, {
+        "required": ["Footprints"]
+      }],
+      "required": ["OrbitPeriod", "OrbitPeriodUnit", "InclinationAngle", "InclinationAngleUnit", "NumberOfOrbits"],
+      "dependencies": {
+        "StartCircularLatitude": ["StartCircularLatitudeUnit"]
+      }
     },
     "GranuleSpatialRepresentationEnum": {
       "type": "string",
@@ -719,8 +779,8 @@
       }
     },
     "TilingIdentificationSystemNameEnum": {
-       "type": "string",
-       "enum": ["CALIPSO", "MISR", "MODIS Tile EASE", "MODIS Tile SIN", "WELD Alaska Tile", "WELD CONUS Tile", "WRS-1", "WRS-2", "Military Grid Reference System"]
+      "type": "string",
+      "enum": ["CALIPSO", "MISR", "MODIS Tile EASE", "MODIS Tile SIN", "WELD Alaska Tile", "WELD CONUS Tile", "WRS-1", "WRS-2", "Military Grid Reference System"]
     },
     "SpatialInformationType": {
       "type": "object",
@@ -1150,6 +1210,10 @@
         }
       }
     },
+    "StandardProductType": {
+      "description": "This element is reserved for NASA records only. A Standard Product is a product that has been vetted to ensure that they are complete, consistent, maintain integrity, and satifies the goals of the Earth Observing System mission. The NASA product owners have also commmitted to archiving and maintaining the data products. More information can be found here: https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-standard-products.",
+      "type": "boolean"
+    },
     "CollectionDataTypeEnum": {
       "description": "This element is used to identify the collection's ready for end user consumption latency from when the data was acquired by an instrument. NEAR_REAL_TIME is defined to be ready for end user consumption 1 to 3 hours after data acquisition. LOW_LATENCY is defined to be ready for consumption 3 to 24 hours after data acquisition. EXPEDITED is defined to be 1 to 4 days after data acquisition. SCIENCE_QUALITY is defined to mean that a collection has been fully and completely processed which usually takes between 2 to 3 weeks after data acquisition. OTHER is defined for collection where the latency is between EXPEDITED and SCIENCE_QUALITY.",
       "type": "string",
@@ -1168,11 +1232,11 @@
         "Category":{
           "description": "Top-level controlled keyword hierarchical level that contains the largest general location where the collection data was taken from.",
           "$ref": "#/definitions/KeywordStringType"
-          },
+        },
         "Type":{
           "description": "Second-tier controlled keyword hierarchical level that contains the regional location where the collection data was taken from",
           "$ref": "#/definitions/KeywordStringType"
-          },
+        },
         "Subregion1":{
           "description": "Third-tier controlled keyword hierarchical level that contains the regional sub-location where the collection data was taken from",
           "$ref": "#/definitions/KeywordStringType"
@@ -1564,11 +1628,11 @@
         },
         "ShortName": {
           "description": "This is the short name of the data center. The controlled vocabulary for data center short names is maintained in the Keyword Management System (KMS).",
-           "$ref": "#/definitions/DataCenterShortNameType"
+          "$ref": "#/definitions/DataCenterShortNameType"
         },
         "LongName": {
           "description": "This is the long name of the data center.",
-           "$ref": "#/definitions/LongNameType"
+          "$ref": "#/definitions/LongNameType"
         },
         "Uuid": {
           "description": "Uuid of the data center.",
@@ -1705,14 +1769,14 @@
           "description": "Mechanisms of contacting.",
           "type": "array",
           "items": {
-             "$ref": "#/definitions/ContactMechanismType"
+            "$ref": "#/definitions/ContactMechanismType"
           }
         },
-         "Addresses": {
+        "Addresses": {
           "description": "Contact addresses.",
           "type": "array",
           "items": {
-             "$ref": "#/definitions/AddressType"
+            "$ref": "#/definitions/AddressType"
           }
         }
       }
@@ -1788,22 +1852,22 @@
           "maxLength": 4000
         },
         "URLContentType": {
-            "description": "A keyword describing the distinct content type of the online resource to this resource. (e.g., 'DATACENTER URL', 'DATA CONTACT URL', 'DISTRIBUTION URL'). The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096?gtm_keyword=Related%20URL%20Content%20Types&gtm_scheme=rucontenttype.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 80
+          "description": "A keyword describing the distinct content type of the online resource to this resource. (e.g., 'DATACENTER URL', 'DATA CONTACT URL', 'DISTRIBUTION URL'). The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096?gtm_keyword=Related%20URL%20Content%20Types&gtm_scheme=rucontenttype.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
         },
         "Type": {
-            "description": "A keyword describing the type of the online resource to this resource. This helps the GUI to know what to do with this resource. (e.g., 'GET DATA', 'GET SERVICE', 'GET VISUALIZATION'). The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096?gtm_keyword=Related%20URL%20Content%20Types&gtm_scheme=rucontenttype.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 80
+          "description": "A keyword describing the type of the online resource to this resource. This helps the GUI to know what to do with this resource. (e.g., 'GET DATA', 'GET SERVICE', 'GET VISUALIZATION'). The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096?gtm_keyword=Related%20URL%20Content%20Types&gtm_scheme=rucontenttype.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
         },
         "Subtype": {
-            "description": "A keyword describing the subtype of the online resource to this resource. This further helps the GUI to know what to do with this resource. (e.g., 'MEDIA', 'BROWSE', 'OPENDAP', 'OPENSEARCH', 'WEB COVERAGE SERVICES', 'WEB FEATURE SERVICES', 'WEB MAPPING SERVICES', 'SSW', 'ESI'). The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096?gtm_keyword=Related%20URL%20Content%20Types&gtm_scheme=rucontenttype.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 80
+          "description": "A keyword describing the subtype of the online resource to this resource. This further helps the GUI to know what to do with this resource. (e.g., 'MEDIA', 'BROWSE', 'OPENDAP', 'OPENSEARCH', 'WEB COVERAGE SERVICES', 'WEB FEATURE SERVICES', 'WEB MAPPING SERVICES', 'SSW', 'ESI'). The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096?gtm_keyword=Related%20URL%20Content%20Types&gtm_scheme=rucontenttype.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
         },
         "URL": {
           "description": "The URL for the relevant web page (e.g., the URL of the responsible organization's home page, the URL of the collection landing page, the URL of the download site for the collection).",
@@ -1812,103 +1876,103 @@
           "maxLength": 1024
         },
         "GetData": {
-               "description": "The data distribution information for the relevant web page (e.g., browse, media).",
-               "$ref": "#/definitions/GetDataType"
+          "description": "The data distribution information for the relevant web page (e.g., browse, media).",
+          "$ref": "#/definitions/GetDataType"
         },
         "GetService": {
-            "description": "The service distribution for the relevant web page (e.g., OPeNDAP, OpenSearch, WCS, WFS, WMS).",
-            "$ref": "#/definitions/GetServiceType"
+          "description": "The service distribution for the relevant web page (e.g., OPeNDAP, OpenSearch, WCS, WFS, WMS).",
+          "$ref": "#/definitions/GetServiceType"
         }
       },
       "required": ["URL", "URLContentType", "Type"]
     },
     "GetDataType": {
-        "description": "Represents the information needed for a DistributionURL where data is retrieved.",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-            "Format": {
-                "description": "The format of the data.  The controlled vocabulary for formats is maintained in the Keyword Management System (KMS)",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 80
-            },
-            "MimeType": {
-                "description": "The mime type of the service.",
-                "$ref": "#/definitions/URLMimeTypeEnum"
-            },
-            "Size": {
-                "description": "The size of the data.",
-                "type": "number"
-            },
-            "Unit": {
-                "description": "Unit of information, together with Size determines total size in bytes of the data.",
-                "type": "string",
-                "enum": ["KB", "MB", "GB", "TB", "PB"]
-            },
-            "Fees": {
-                "description": "The fee for ordering the collection data.  The fee is entered as a number, in US Dollars.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 80
-            },
-            "Checksum": {
-                "description": "The checksum, usually a SHA1 or md5 checksum for the data file.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 50
-            }
+      "description": "Represents the information needed for a DistributionURL where data is retrieved.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Format": {
+          "description": "The format of the data.  The controlled vocabulary for formats is maintained in the Keyword Management System (KMS)",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
         },
-        "required": ["Format", "Size", "Unit"]
+        "MimeType": {
+          "description": "The mime type of the service.",
+          "$ref": "#/definitions/URLMimeTypeEnum"
+        },
+        "Size": {
+          "description": "The size of the data.",
+          "type": "number"
+        },
+        "Unit": {
+          "description": "Unit of information, together with Size determines total size in bytes of the data.",
+          "type": "string",
+          "enum": ["KB", "MB", "GB", "TB", "PB"]
+        },
+        "Fees": {
+          "description": "The fee for ordering the collection data.  The fee is entered as a number, in US Dollars.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "Checksum": {
+          "description": "The checksum, usually a SHA1 or md5 checksum for the data file.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50
+        }
+      },
+      "required": ["Format", "Size", "Unit"]
     },
     "GetServiceType": {
-        "description": "Represents a Service through a URL where the service will act on data and return the result to the caller.",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-            "Format": {
-                "description": "The format of the data.",
-                "$ref": "#/definitions/GetServiceTypeFormatEnum"
-            },
-            "MimeType": {
-                "description": "The mime type of the service.",
-                "$ref": "#/definitions/URLMimeTypeEnum"
-            },
-            "Protocol": {
-                "description": "The protocol of the service.",
-                "type": "string",
-                "enum": ["HTTP", "HTTPS", "FTP", "FTPS", "Not provided"]
-            },
-            "FullName": {
-                "description": "The full name of the service.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 80
-            },
-            "DataID": {
-                "description": "The data identifier of the data provided by the service. Typically, this is a file name.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 80
-            },
-            "DataType": {
-                "description": "The data type of the data provided by the service.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 80
-            },
-            "URI": {
-                "description": "The URI of the data provided by the service.",
-                "type": "array",
-                "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 1024
-                },
-                "minItems": 1
-            }
+      "description": "Represents a Service through a URL where the service will act on data and return the result to the caller.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Format": {
+          "description": "The format of the data.",
+          "$ref": "#/definitions/GetServiceTypeFormatEnum"
         },
-        "required": [ "MimeType", "Protocol", "FullName", "DataID", "DataType"]
+        "MimeType": {
+          "description": "The mime type of the service.",
+          "$ref": "#/definitions/URLMimeTypeEnum"
+        },
+        "Protocol": {
+          "description": "The protocol of the service.",
+          "type": "string",
+          "enum": ["HTTP", "HTTPS", "FTP", "FTPS", "Not provided"]
+        },
+        "FullName": {
+          "description": "The full name of the service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "DataID": {
+          "description": "The data identifier of the data provided by the service. Typically, this is a file name.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "DataType": {
+          "description": "The data type of the data provided by the service.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "URI": {
+          "description": "The URI of the data provided by the service.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "minItems": 1
+        }
+      },
+      "required": [ "MimeType", "Protocol", "FullName", "DataID", "DataType"]
     },
     "OnlineResourceType": {
       "type": "object",
@@ -2220,7 +2284,7 @@
         }
       }
     },
-   "ScienceKeywordType": {
+    "ScienceKeywordType": {
       "type": "object",
       "additionalProperties": false,
       "description": "Enables specification of Earth science keywords related to the collection.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).",
@@ -2750,14 +2814,37 @@
     "URLMimeTypeEnum": {
       "type": "string",
       "enum": ["application/json", "application/xml", "application/x-netcdf", "application/gml+xml", "application/opensearchdescription+xml",
-               "application/vnd.google-earth.kml+xml", "image/gif", "image/tiff", "image/bmp", "text/csv",
-               "text/xml", "application/pdf", "application/x-hdf", "application/xhdf5",
-               "application/octet-stream", "application/vnd.google-earth.kmz", "image/jpeg", "image/png",
-               "image/vnd.collada+xml", "text/html", "text/plain", "Not provided"]
+        "application/vnd.google-earth.kml+xml", "image/gif", "image/tiff", "image/bmp", "text/csv",
+        "text/xml", "application/pdf", "application/x-hdf", "application/xhdf5",
+        "application/octet-stream", "application/vnd.google-earth.kmz", "image/jpeg", "image/png",
+        "image/vnd.collada+xml", "text/html", "text/plain", "Not provided"]
     },
     "GetServiceTypeFormatEnum": {
       "type": "string",
       "enum": ["ascii", "binary", "GRIB", "BUFR", "HDF4", "HDF5", "HDF-EOS4", "HDF-EOS5", "jpeg", "png", "tiff", "geotiff", "kml", "Not provided"]
+    },
+    "MetadataSpecificationType": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "This object requires any metadata record that is validated by this schema to provide information about the schema.",
+      "properties": {
+        "URL": {
+          "description": "This element represents the URL where the schema lives. The schema can be downloaded.",
+          "type": "string",
+          "enum": ["https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0"]
+        },
+        "Name": {
+          "description": "This element represents the name of the schema.",
+          "type": "string",
+          "enum": ["UMM-C"]
+        },
+        "Version": {
+          "description": "This element represents the version of the schema.",
+          "type": "string",
+          "enum": ["1.17.0"]
+        }
+      },
+      "required": ["URL", "Name", "Version"]
     }
   }
 }
