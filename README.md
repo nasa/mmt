@@ -406,8 +406,8 @@ And to start the server, use the following:
 
 Note: MMT will use the following urls for loading the snippet (see .env file):
 
-    metadata_preview_js_url="https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.38.js"
-    metadata_preview_css_url="https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.38.min.css"
+    metadata_preview_js_url="https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.22.2.4-3.js"
+    metadata_preview_css_url="https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.22.2.4-3.min.css"
 
 So you'll need to be on the VPN to use the latest snippet.  If it doesn't matter if you
 are using the latest, you can point to `access.earthdata.nasa.gov` instead and MMT

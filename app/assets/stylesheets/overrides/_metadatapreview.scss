@@ -6,14 +6,14 @@
   background: white;
 }
 #metadata-preview table th {
-  padding: 0.5em;
+  padding: 0.325em;
   background: white;
   text-align: left;
   border: none
 
 }
 #metadata-preview table td {
-  padding: 0.5em;
+  padding: 0.325em;
 }
 #metadata-preview table img {
   border: none;
@@ -36,5 +36,5 @@
 }
 
 th {
-  white-space: nowrap;
+  word-wrap: normal ;
 }
