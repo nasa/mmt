@@ -1,16 +1,4 @@
 GIT
-  remote: https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git
-  revision: 111f8bdc735b31072c93551a7a9e74315d78dc91
-  ref: 111f8bdc735
-  specs:
-    cmr_metadata_preview (0.2.11)
-      georuby
-      globalid (= 0.4.2)
-      racc (= 1.5.2)
-      rails (~> 5.2.0)
-      sprockets (< 4.0)
-
-GIT
   remote: https://github.com/johannesthoma/libxml-to-hash
   revision: c216e816474e909357a606ebc6fb08172ec3524a
   specs:
@@ -169,7 +157,6 @@ GEM
     fuubar (2.5.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
-    georuby (2.5.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.10.0)
@@ -387,7 +374,6 @@ DEPENDENCIES
   capybara
   capybara-screenshot
   carmen (~> 1.0.2)
-  cmr_metadata_preview!
   coffee-rails
   dotenv-rails
   factory_bot_rails
