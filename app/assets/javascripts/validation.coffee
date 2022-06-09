@@ -226,10 +226,11 @@ $(document).ready ->
       when 'enum' then "#{field} value [#{$('#' + error.id + ' option:selected').text()}] does not match a valid selection option"
       when 'anyOf'
         # the stock message is: "should match some schema in anyOf", which is not as useful to the user
-        if "#{field}" == "Orbit Parameters"
+        if field != null && field == "Orbit Parameters"
           "Swath Width or Footprints is required"
         else
           "#{field} should have one schema option completed"
+
       # UseConstraintsType is the only place a 'not' validation is used
       # so this is a very specific message
       when 'not' then 'License Url and License Text cannot be used together'
