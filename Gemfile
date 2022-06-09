@@ -84,7 +84,7 @@ gem 'dotenv-rails'
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
 # make sure to delete the local config when done making changes to merge into master
 # bundle config --delete local.cmr_metadata_preview
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: 'e6843ed6c7fc6f3aa2f79bb274897858aff0be3d'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: 'b3d5e399add89f64f558fd8703ec3f052cd671fe'
 
 
 group :development, :test do
