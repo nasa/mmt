@@ -181,7 +181,13 @@
         <script>
           document.addEventListener("DOMContentLoaded", function() {
             const element = document.getElementById('metadata-preview');
-            const config = { conceptId: '<%= @concept_id %>', conceptType: 'collection', token: "<%= @preview_token %>", graphQlHost: '<%= Rails.configuration.graphql_server %>' }
+            const config = {
+              conceptId: '<%= @concept_id %>',
+              conceptType: 'collection',
+              conceptUrlTemplate: '/{conceptType}/{conceptId}',
+              token: "<%= @preview_token %>",
+              graphQlHost: '<%= Rails.configuration.graphql_server %>'
+            }
             MetadataPreview.init(config, element);
           });
         </script>
