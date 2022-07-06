@@ -56,9 +56,11 @@ module Cmr
 
         if is_urs_token?(token)
           # passing the URS token to CMR requires the client id
-          { 'Echo-Token' => "#{token}:#{@client_id}" }
+          Rails.logger.info "Token Header with client id"
+          { 'Authorization' => "Bearer #{token}:#{@client_id}" }
         else
-          { 'Echo-Token' => token }
+          Rails.logger.info "Token Header no client id"
+          { 'Authorization' => "Bearer #{token}" }
         end
       end
     end
