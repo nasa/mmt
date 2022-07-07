@@ -79,7 +79,7 @@ module Proposal
     # Action called before endpoints to validate a token and authorize a user
     # Expects to be passed an 'Echo-Token' of format 'LaunchpadToken' in the headers.
     def validate_token_and_user
-      passed_token = request.headers.fetch('Echo-Token', nil)
+      passed_token = request.headers.fetch('Authorization', nil)
 
       # Navigate a browser elsewhere if there is no token
       redirect_to root_path and return if passed_token.blank?
