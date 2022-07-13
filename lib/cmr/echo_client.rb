@@ -20,9 +20,9 @@ module Cmr
       post(url, body.to_json, content_type.merge(echo_security_token))
     end
 
-    def get_order_option(id, echo_provider_token)
+    def get_order_option(id, token)
       url = "/legacy-services/rest/option_definitions/#{id}"
-      get(url, {}, { 'Echo-Token' => echo_provider_token })
+      get(url, {}, { 'Authorization' => "Bearer #{token}" })
     end
 
     def delete_order_option(id, echo_provider_token)
@@ -30,9 +30,9 @@ module Cmr
       delete(url, nil, nil, { 'Echo-Token' => echo_provider_token })
     end
 
-    def get_order_option_assignments(options, echo_provider_token)
+    def get_order_option_assignments(options, token)
       url = '/legacy-services/rest/catalog_item_option_assignments.json'
-      get(url, options, { 'Echo-Token' => echo_provider_token })
+      get(url, options, { 'Authorization' => "Bearer #{token}" })
     end
 
     def add_order_option_assignments(id, order_option, echo_provider_token)
