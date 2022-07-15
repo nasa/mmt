@@ -101,6 +101,16 @@ module Cmr
         clean_response.env[:request_headers]['Echo-Token-snippet'] = echo_token_snippet
 
         clean_response.inspect
+      elsif faraday_response.env.fetch(:request_headers, {})['Authorization'] && !body_only
+        clean_response = faraday_response.deep_dup
+
+        bearer_token = clean_response.env[:request_headers].delete('Authorization')
+
+        bearer_token_snippet = truncate_token(bearer_token)
+
+        clean_response.env[:request_headers]['Authorization-snippet'] = bearer_token_snippet
+
+        clean_response.inspect
       elsif body_only
         faraday_response.body.inspect
       else
