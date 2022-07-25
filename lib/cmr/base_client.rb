@@ -50,7 +50,7 @@ module Cmr
 
         mock_token = 'ABC-1' if token == 'access_token_admin'
 
-        token.present? ? { 'Echo-Token' => mock_token } : {}
+        token.present? ? { 'Authorization' => mock_token } : {}
       else
         return {} unless token.present?
 
