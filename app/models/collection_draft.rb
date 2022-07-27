@@ -80,7 +80,7 @@ class CollectionDraft < Draft
     self.entry_title = draft['EntryTitle']
   end
 
-  def update_draft(params, editing_user_id, keyword_recommendations = [], accepted_recommended_keywords = [])
+  def update_draft(params, editing_user_id, keyword_recommendations = [], accepted_recommended_keywords = [], page="")
     if params
       # RAILS 5.1 This is simpler than permit with a full json structure for collection
       # rethink this in light of CSRF solutions that prevent illegal items in params
@@ -88,7 +88,7 @@ class CollectionDraft < Draft
       when ActionController::Parameters
         params = params.permit!.to_h
       end
-
+      puts("page value=",page)
       if params['template_name']
         self.template_name = params['template_name'].empty? ? nil : params['template_name']
       end
@@ -104,10 +104,14 @@ class CollectionDraft < Draft
       Rails.logger.info("Audit Log: Metadata update attempt where #{editing_user_id} modified #{self.class} parameters: #{json_params}")
 
       # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters
+      # puts("json params value=",json_params)
+      # puts("params value=",params)
       json_params = convert_data_contacts_params(json_params)
       json_params = convert_data_centers_params(json_params)
-      unless json_params.key?("StandardProduct")
-        self.draft.delete("StandardProduct")
+      if page == "data-identification"
+        unless json_params.key?("StandardProduct")
+          self.draft.delete("StandardProduct")
+        end
       end
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)

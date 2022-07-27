@@ -81,7 +81,7 @@ class CollectionDraftsController < BaseDraftsController
     keyword_recommendations = params[:keyword_recommendations] ? keyword_recommendations_array(params[:keyword_recommendations]) : []
     accepted_recommended_keywords = params[:accepted_recommended_keywords] ? keyword_recommendations_array(params[:accepted_recommended_keywords]) : []
 
-    if get_resource.update_draft(params[:draft], current_user.urs_uid, keyword_recommendations, accepted_recommended_keywords)
+    if get_resource.update_draft(params[:draft], current_user.urs_uid, keyword_recommendations, accepted_recommended_keywords, params[:page])
       Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} successfully modified #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id}")
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
 
