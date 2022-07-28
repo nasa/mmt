@@ -1,5 +1,6 @@
 # :nodoc:
 class CollectionDraftsController < BaseDraftsController
+  include CollectionsHelper
   include DraftsHelper
   include ControlledKeywords
   include CMRCollectionsHelper
@@ -27,7 +28,7 @@ class CollectionDraftsController < BaseDraftsController
 
   def show
     super
-
+    @preview_token = create_collection_preview_token(token)
     @errors = validate_metadata
     flash.now[:alert] = 'Warning: Your Collection Draft has missing or invalid fields.' unless @errors.blank?
 
@@ -77,12 +78,22 @@ class CollectionDraftsController < BaseDraftsController
   def update
     authorize get_resource
 
-    if get_resource.update_draft(params[:draft], current_user.urs_uid)
+    keyword_recommendations = params[:keyword_recommendations] ? keyword_recommendations_array(params[:keyword_recommendations]) : []
+    accepted_recommended_keywords = params[:accepted_recommended_keywords] ? keyword_recommendations_array(params[:accepted_recommended_keywords]) : []
+
+    if get_resource.update_draft(params[:draft], current_user.urs_uid, keyword_recommendations, accepted_recommended_keywords, params[:page])
       Rails.logger.info("Audit Log: Metadata update attempt when #{current_user.urs_uid} successfully modified #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider #{current_user.provider_id}")
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.update.flash.success")
 
       if gkr_enabled? && params[:recommended_keywords_viewed] == 'true'
         get_resource.record_recommendation_provided(params[:gkr_request_id], params[:recommended_keyword_list])
+
+        gkr_request_uuid = params[:gkr_request_id]
+        accepted_keyword_uuids = accepted_recommended_keywords.map { |keyword| params[:keyword_uuid][keyword]}
+        rejected_keyword_uuids = params[:keyword_uuid].values - accepted_keyword_uuids
+        new_keywords = get_resource.draft.fetch('ScienceKeywords', []).map { |keyword| construct_keyword_string(keyword, "")} - params[:recommended_keyword_list].split(',')
+        send_feedback(current_user.urs_uid, request.uuid, current_user.provider_id, gkr_request_uuid, accepted_keyword_uuids, rejected_keyword_uuids, new_keywords)
+
       end
 
       if params[:next_section] == 'descriptive_keywords' && get_resource.gkr_logging_active?
@@ -178,39 +189,77 @@ class CollectionDraftsController < BaseDraftsController
       Rails.logger.info("User #{current_user.urs_uid} attempted to ingest collection draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
 
       @ingest_errors = generate_ingest_errors(ingested_response)
+
+      # ingest errors are handled in the view, so not needed in the flash
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error")
       render :show
     end
   end
 
   def download_json
+    if Rails.env.development?
+      render json: JSON.pretty_generate(get_resource.draft) if Rails.env.development?
+      return
+    end
+
     authorization_header = request.headers['Authorization']
 
-    if authorization_header.nil? || !authorization_header.start_with?('Bearer')
+    if authorization_header.nil?
       render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
       return
     end
     token = authorization_header.split(' ', 2)[1] || ''
 
-    if Rails.configuration.proposal_mode
-      token_response = cmr_client.validate_dmmt_token(token)
+    # Handle EDL authentication
+    if authorization_header.start_with?('Bearer')
+      if Rails.configuration.proposal_mode
+        token_response = cmr_client.validate_dmmt_token(token)
+      else
+        token_response = cmr_client.validate_mmt_token(token)
+      end
+      token_info = token_response.body
+      token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
+      urs_uid = token_info['uid']
     else
-      token_response = cmr_client.validate_mmt_token(token)
+      render json: JSON.pretty_generate(get_resource.draft)
+      return
+      # Todo: We need to handle verifying a launchpad token.
+      # # Handle Launchpad authentication
+      # token_response = cmr_client.validate_launchpad_token(token)
+      # urs_uid = nil
+      # if token_response.success?
+      #   auid = token_response.body.fetch('auid', nil)
+      #   urs_profile_response = cmr_client.get_urs_uid_from_nams_auid(auid)
+      #
+      #   if urs_profile_response.success?
+      #     urs_uid = @urs_profile_response.body.fetch('uid', '')
+      #   end
+      # end
+    end
+
+    # If we don't have a urs_uid, exit out with unauthorized
+    if urs_uid.nil?
+      render json: JSON.pretty_generate({ "error": 'unauthorized' }), status: 401
+      return
     end
 
     authorized = false
 
     if token_response.success?
-      token_info = token_response.body
-      token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
-      token_user = User.find_by(urs_uid: token_info['uid']) # the user assoc with the token
+      token_user = User.find_by(urs_uid: urs_uid) # the user assoc with the token
       draft_user = User.find_by(id: get_resource.user_id) # the user assoc with the draft collection record
 
       unless token_user.nil?
         if Rails.configuration.proposal_mode
           # For proposals, users only have access to proposals created by them.
           # Verify the user owns the draft
-          authorized = true if token_user.urs_uid == draft_user.urs_uid
+          if token_user.urs_uid == draft_user.urs_uid
+            authorized = true
+          else
+            if is_non_nasa_draft_approver?(user: token_user, token: token)
+              authorized = true
+            end
+          end
         else
           # For drafts, users have access to any drafts in their provider list
           # Verify the user has permissions for this provider
@@ -245,7 +294,7 @@ class CollectionDraftsController < BaseDraftsController
         @modal_response[:status_text] = 'This draft will be published with no issues.'
       end
     else
-      errors = Array.wrap(validation_response.error_messages)
+      errors = generate_ingest_errors(validation_response)
 
       @modal_response[:status_text] = 'This draft is not ready to be published.'
       @modal_response[:errors] = errors
@@ -313,14 +362,48 @@ class CollectionDraftsController < BaseDraftsController
 
     if string.include? 'did not contain a required property'
       # error is about required fields
-      required_field = string.match(/contain a required property of '(.*)'/).captures.first
       field = fields.split('/')
+      required_field = string.match(/contain a required property of '(.*)'/).captures.first
       top_field = field[0] || required_field
+
       # For ArchiveAndDistributionInformation parent_field is needed to distinguish FileArchiveInformation or FileDistributionInformation
-      parent_field = ''
-      if top_field == 'ArchiveAndDistributionInformation'
-        parent_field = field[1]
+      parent_field = if top_field == 'ArchiveAndDistributionInformation'
+                       field[1]
+                     else
+                       ''
+                     end
+
+      # for UseConstraints, we need to figure out if the required field error is
+      # correct due to the oneOf constraint
+      if top_field == 'UseConstraints'
+        # check which option
+        use_constraints = get_resource.draft['UseConstraints']
+
+        use_constraint_option = if !use_constraints['LicenseText'].nil?
+                                  'LicenseText'
+                                elsif !use_constraints['LicenseURL'].nil?
+                                  # the Linkage field is what shows up as missing
+                                  # if another field in LicenseURL is populated
+                                  'Linkage'
+                                elsif !(use_constraints['Description'].nil? && use_constraints['FreeAndOpenData'].nil?)
+                                  'Description'
+                                else
+                                  'none'
+                                end
+
+        requireds = string.scan(/contain a required property of '(.*)'/).flatten
+
+        if requireds.include?(use_constraint_option)
+          # if the use constraint option is listed as a missing required field, set it
+          required_field = use_constraint_option
+        else
+          # the use constraint option is not listed as a missing required field,
+          # so it shouldn't be an error
+          return
+        end
+
       end
+
       {
         field: required_field,
         parent_field: parent_field,
@@ -332,11 +415,7 @@ class CollectionDraftsController < BaseDraftsController
     else # If the error is not about required fields
       # if the last field is an array index, use the last section of the field path that isn't a number
       field = fields.split('/').select do |f|
-        begin
-          false if Float(f)
-        rescue
-          true
-        end
+        !is_number?(f)
       end
       {
         field: field.last,
@@ -371,6 +450,8 @@ class CollectionDraftsController < BaseDraftsController
       'has an invalid selection'
     when /has an invalid selection option/
       'has an invalid selection'
+    when /contains additional properties/
+      'has invalid additional fields'
     end
   end
 
@@ -769,6 +850,7 @@ class CollectionDraftsController < BaseDraftsController
 
     @gkr_request_id = results[:id]
     @recommended_keywords = results[:recommendations]
+    @keyword_uuids = results[:uuids]
     @keyword_recommendations = reconcile_recommendations(@recommended_keywords)
   end
 

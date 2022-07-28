@@ -19,6 +19,8 @@ module DraftsHelper
   CollectionDataTypeOptions = [
     ['Science Quality', 'SCIENCE_QUALITY'],
     ['Near Real Time', 'NEAR_REAL_TIME'],
+    ['Low Latency', 'LOW_LATENCY'],
+    ['Expedited', 'EXPEDITED'],
     ['Other', 'OTHER']
   ]
   CollectionProgressOptions = [
@@ -115,6 +117,10 @@ module DraftsHelper
     ['TB'],
     ['PB']
   ]
+  FootprintUnitOptions = [
+    ['Kilometer'],
+    ['Meter']
+  ]
   GeographicCoordinateUnitsOptions = [
     ['Decimal Degrees'],
     ['Kilometers'],
@@ -158,6 +164,9 @@ module DraftsHelper
     ['At Nadir'],
     ['Scan Extremes']
   ]
+  InclinationAngleUnitOption = [
+    ["Degree"]
+  ]
   MetadataAssociationTypeOptions = [
     ['Science Associated', 'SCIENCE ASSOCIATED'],
     ['Dependent', 'DEPENDENT'],
@@ -190,6 +199,9 @@ module DraftsHelper
     ['text/html'],
     ['text/plain'],
     ['Not provided']
+  ]
+  OrbitPeriodUnitOptions =[
+    ["Decimal Minute"]
   ]
   ProcessingLevelIdOptions = [
     ['Not Provided'],
@@ -262,7 +274,13 @@ module DraftsHelper
     ['Minimum Altitude'],
     ['Minimum Depth']
   ]
-
+  StartCircularLatitudeUnitOption = [
+    ["Degree"]
+  ]
+  SwathWidthUnitOption = [
+    ["Kilometer"],
+    ["Meter"]
+  ]
   SINGLE_FIELDSET_FORMS = %w(
     collection_information
     collection_citations
@@ -324,6 +342,10 @@ module DraftsHelper
 
   def keyword_recommendation_list(recommended_keywords)
     recommended_keywords.join(',')
+  end
+
+  def keyword_recommendations_array(recommended_keywords)
+    recommended_keywords.split(',').map(&:strip)
   end
 
   def options_for_subregion_select(country, value = nil)

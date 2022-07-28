@@ -34,8 +34,8 @@ describe 'Publishing collection draft records', js: true do
       it 'contains the expected factory values' do
         within '.direct-distribution-information' do
           expect(page).to have_field('Region', with: 'us-east-2')
-          expect(page).to have_field('S3 Credentials API Endpoint', with: 'link.com')
-          expect(page).to have_field('S3 Credentials API Documentation URL', with: 'amazon.com')
+          expect(page).to have_field('S3 Credentials API Endpoint', with: 'https://link.com')
+          expect(page).to have_field('S3 Credentials API Documentation URL', with: 'https://amazon.com')
           within ('.simple-multiple.s3-bucket-and-object-prefix-names') do
             expect(page).to have_field(with: 'prefix-1')
             expect(page).to have_field(with: 'prefix-2')
@@ -60,7 +60,6 @@ describe 'Publishing collection draft records', js: true do
             click_on 'Done'
           end
           click_on 'Publish'
-          find('label.tab-label', text: 'Additional Information').click
         end
 
         it 'displays a confirmation message' do
@@ -68,13 +67,13 @@ describe 'Publishing collection draft records', js: true do
         end
 
         it 'shows the new information in the preview' do
-          within '.direct-distribution-information-preview' do
-            within all('li.direct-distribution-information')[0] do
-              expect(page).to have_content('Region: us-east-1')
-              expect(page).to have_content('S3 Bucket and Object Prefix Names: prefix-4, prefix-5, prefix-6')
-              expect(page).to have_content('S3 Credentials API Endpoint: linkage.com')
-              expect(page).to have_content('S3 Credentials API Documentation URL: aws.com')
-            end
+          within '#metadata-preview' do
+            expect(page).to have_content('us-east-1')
+            expect(page).to have_content('prefix-4')
+            expect(page).to have_content('prefix-5')
+            expect(page).to have_content('prefix-6')
+            expect(page).to have_content('linkage.com')
+            expect(page).to have_content('aws.com')
           end
         end
       end
@@ -102,7 +101,6 @@ describe 'Publishing collection draft records', js: true do
             click_on 'Done'
           end
           click_on 'Publish'
-          find('label.tab-label', text: 'Citation Information').click
         end
 
         it 'displays a confirmation message' do
@@ -110,7 +108,7 @@ describe 'Publishing collection draft records', js: true do
         end
 
         it 'shows the new information in the preview' do
-          within 'div.associated-dois-preview' do
+          within '#metadata-preview' do
             expect(page).to have_content('Associated DOI')
             expect(page).to have_content('Associated DOI Title')
             expect(page).to have_content('Associated DOI Authority')
@@ -144,15 +142,9 @@ describe 'Publishing collection draft records', js: true do
     end
 
     it 'displays the published metadata' do
-      within '.collection-short-name' do
+      within '#metadata-preview' do
         expect(page).to have_content('12345')
-      end
-
-      within '.collection-title' do
         expect(page).to have_content('Draft Title')
-      end
-
-      within '.collection-overview-table' do
         expect(page).to have_no_css('td', text: 'Not Provided', count: 8)
       end
     end
@@ -248,11 +240,9 @@ describe 'Publishing collection draft records', js: true do
       click_on 'Publish'
     end
 
-    it 'displays a generic error message' do
+    it 'fails to publish and displays the error returned from CMR and a generic error message' do
       expect(page).to have_content('Collection Draft was not published successfully')
-    end
 
-    it 'displays the error returned from CMR' do
       within 'section.errors' do
         expect(page).to have_content('This draft has the following errors:')
         expect(page).to have_link('Spatial Extent', href: edit_collection_draft_path(draft, 'spatial_information'))
@@ -269,11 +259,9 @@ describe 'Publishing collection draft records', js: true do
       click_on 'Publish'
     end
 
-    it 'displays a generic error message' do
+    it 'fails to publish and displays the error returned from CMR and a generic error message' do
       expect(page).to have_content('Collection Draft was not published successfully')
-    end
 
-    it 'displays the error returned from CMR' do
       within 'section.errors' do
         expect(page).to have_content('This draft has the following errors:')
         within '.ingest-error-0' do

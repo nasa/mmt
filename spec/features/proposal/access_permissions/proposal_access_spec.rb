@@ -97,9 +97,8 @@ describe 'Proposal access in Draft MMT', reset_provider: true do
         expect(page).to have_content('Submit for Review')
         expect(page).to have_content('Draft Proposal Submission: In Work')
         expect(page).to have_content('Metadata Fields')
-        within 'section.collection-general-overview' do
-          expect(page).to have_content('Metadata Preview')
-          expect(page).to have_content('Short Name: My Example Proposal 1', normalize_ws: true)
+        within '#metadata-preview' do
+          expect(page).to have_content('My Example Proposal 1', normalize_ws: true)
         end
       end
 

@@ -33,13 +33,15 @@ class UmmPreviewURL < UmmPreviewElement
         concat content_tag(:p, metadata['Description']) if metadata['Description']
         concat(get_url(metadata))
         concat(content_tag(:ul, class: 'arrow-tag-group-list') do
-          if url_type(metadata)
-            concat content_tag(:li, url_type(metadata), class: 'arrow-tag-group-item')
-          end
-          if url_subtype(metadata)
-            concat content_tag(:li, url_subtype(metadata), class: 'arrow-tag-group-item')
-          end
+          concat content_tag(:li, url_type(metadata), class: 'arrow-tag-group-item') if url_type(metadata)
+          concat content_tag(:li, url_subtype(metadata), class: 'arrow-tag-group-item') if url_subtype(metadata)
         end)
+        if metadata['Format'] || metadata['MimeType']
+          concat(content_tag(:p, class: 'spaced-content') do
+            concat content_tag(:span, metadata['Format']) if metadata['Format']
+            concat content_tag(:span, metadata['MimeType']) if metadata['MimeType']
+          end)
+        end
       end)
     end
   end
@@ -72,7 +74,7 @@ class UmmPreviewURL < UmmPreviewElement
     elsif related_url? && metadata['URL']
       link_to metadata['URL'], metadata['URL'], title: url_content_type(metadata)
     else
-      'Not Provided'
+      'URL Not Provided'
     end
   end
 end

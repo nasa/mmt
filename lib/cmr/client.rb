@@ -19,6 +19,9 @@ module Cmr
       clients << UvgClient.new(@config['uvg_root'], urs_client_id)
       clients << DmmtClient.new(@config['dmmt_root'], urs_client_id)
       clients << GkrClient.new(@config['gkr_root'], urs_client_id)
+      launchpad_token_service_root = 'launchpad_sbx_token_service_root'
+      launchpad_token_service_root = 'launchpad_token_service_root' if ENV['launchpad_production'] == 'true'
+      clients << LaunchpadTokenServiceClient.new(@config[launchpad_token_service_root], urs_client_id)
       @clients = clients
     end
 

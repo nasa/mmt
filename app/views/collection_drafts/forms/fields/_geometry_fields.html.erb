@@ -32,8 +32,8 @@
       prefix: name_prefix,
       required: true
     ) %>
-    <a href="javascript:void(0)" class="clear-radio-button" data-content="coordinate-system-type">Clear</a>
-    <div class="coordinate-system-type-group">
+    <a href="javascript:void(0)" class="clear-radio-button" data-clear-fields="coordinate-system-type-clear-link-clear-fields" data-hide-fields="coordinate-system-type-clear-link-hide-fields" data-radio-fields="coordinate-system-type-clear-link-radio-fields">Clear</a>
+    <div class="coordinate-system-type-group coordinate-system-type-clear-link-radio-fields">
       <p class="radio-group">
         <%= radio_button_tag(name_to_param("#{name_prefix}|coordinate_system|"), 'CARTESIAN', coordinate_system == 'CARTESIAN', class: 'coordinate-system-select validate', data: { level: remove_pipes(name_prefix) }) %>
         <%= mmt_label(

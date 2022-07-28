@@ -1,6 +1,8 @@
 shared_examples_for 'Variable Fill Value Full Preview' do
   it 'displays the stored values correctly within the preview' do
     within '.umm-preview.fill_values' do
+      expect(page).to have_css('.umm-preview-field-container', count: 7)
+      
       within '#variable_draft_draft_fill_values_preview, #variable_fill_values_preview' do
         expect(page).to have_css('h6', text: 'Fill Value 1')
 

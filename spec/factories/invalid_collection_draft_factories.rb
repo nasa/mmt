@@ -257,7 +257,7 @@ FactoryBot.define do
     draft {
       all_required_fields.merge(
         'Platforms' => [{
-          'Type'      => 'Aircraft',
+          'Type'      => 'Jet',
           'ShortName' => 'A340-600',
           'LongName'  => 'Airbus A340-600',
           'Instruments' => [{
@@ -276,7 +276,7 @@ FactoryBot.define do
     draft {
       all_required_fields.merge(
         'Platforms' => [{
-          'Type'      => 'Aircraft',
+          'Type'      => 'Jet',
           'ShortName' => 'A340-600',
           'LongName'  => 'Airbus A340-600',
           'Instruments' => [{

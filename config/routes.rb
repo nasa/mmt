@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :provider_holdings, only: [:index, :show]
 
   # PUMPness
+  get '/permissions/tea_configuration' => 'permissions#download_tea_configuration'
   resources :permissions
 
   resources :system_identity_permissions, only: [:index, :edit, :update]

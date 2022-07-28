@@ -27,7 +27,6 @@ describe 'When visiting the template index page', js:true do
       click_on 'An Example Template'
 
       expect(page).to have_content('An Example Template') # in the breadcrumbs
-      expect(page).to have_content('Metadata Preview')
     end
 
     context 'when there are multiple records' do

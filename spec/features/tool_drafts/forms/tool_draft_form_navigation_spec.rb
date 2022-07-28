@@ -25,11 +25,10 @@ describe 'Tool Drafts form navigation', js: true do
             expect(page).to have_content(next_form_title)
           end
 
-          # this can be added back when it can be done from the show page
-          # because Tool Information does not update when chosen from the same page
-          # it 'displays a confirmation message' do
-          #   expect(page).to have_content('Tool Draft Updated Successfully!')
-          # end
+          it 'displays a confirmation message' do
+            skip 'Tool Information does not update when chosen from the same page' if next_form_name == 'tool_information'
+            expect(page).to have_content('Tool Draft Updated Successfully!')
+          end
 
           it "saves the form and renders the #{next_form_title} form" do
             within 'header .collection-basics > h2' do
@@ -83,11 +82,10 @@ describe 'Tool Drafts form navigation', js: true do
             expect(page).to have_content(next_form_title)
           end
 
-          # this can be added back when it can be done from the show page
-          # because Tool Information does not update when chosen from the same page
-          # it 'displays a confirmation message' do
-          #   expect(page).to have_content('Tool Draft Updated Successfully!')
-          # end
+          it 'displays a confirmation message' do
+            skip 'Tool Information does not update when chosen from the same page' if next_form_name == 'tool_information'
+            expect(page).to have_content('Tool Draft Updated Successfully!')
+          end
 
           it "saves the form and renders the #{next_form_title} form" do
 \

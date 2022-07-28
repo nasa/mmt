@@ -11,11 +11,10 @@ describe 'Saving Data Contacts and Data Centers', js: true do
       draft = create(:collection_draft_all_required_fields, user: User.where(urs_uid: 'testuser').first)
       visit collection_draft_path(draft)
 
-      find('.tab-label', text: 'Additional Information').click
     end
 
     it 'has the Data Center on the preview page' do
-      within '.data-centers-preview' do
+      within '#metadata-preview' do
         expect(page).to have_content('AARHUS-HYDRO')
         expect(page).to have_content('Hydrogeophysics Group, Aarhus University')
       end
@@ -39,19 +38,12 @@ describe 'Saving Data Contacts and Data Centers', js: true do
         end
 
         expect(page).to have_content('Metadata Fields')
-        find('.tab-label', text: 'Additional Information').click
       end
 
       it 'displays the Data Contact on the preview page' do
-        within '.data-contacts-preview' do
+        within '#metadata-preview' do
           expect(page).to have_content('NDC Group Name')
-          expect(page).to have_content('Data Center Contact, User Services')
           expect(page).to have_content('Big Name Research Lab')
-        end
-      end
-
-      it 'still displays the Data Center on the preview page' do
-        within '.data-centers-preview' do
           expect(page).to have_content('AARHUS-HYDRO')
           expect(page).to have_content('Hydrogeophysics Group, Aarhus University')
         end
@@ -74,11 +66,10 @@ describe 'Saving Data Contacts and Data Centers', js: true do
           end
 
           expect(page).to have_content('Metadata Fields')
-          find('.tab-label', text: 'Additional Information').click
         end
 
         it 'displays both Data Centers on the preview page' do
-          within '.data-centers-preview' do
+          within '#metadata-preview' do
             expect(page).to have_content('AARHUS-HYDRO')
             expect(page).to have_content('Hydrogeophysics Group, Aarhus University')
 
@@ -89,9 +80,8 @@ describe 'Saving Data Contacts and Data Centers', js: true do
         end
 
         it 'still displays the Data Contact on the preview page' do
-          within '.data-contacts-preview' do
+          within '#metadata-preview' do
             expect(page).to have_content('NDC Group Name')
-            expect(page).to have_content('Data Center Contact, User Services')
             expect(page).to have_content('Big Name Research Lab')
           end
         end

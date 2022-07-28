@@ -30,15 +30,16 @@
               <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="selected_collections[]" /></th>
             <% end %>
             <th>Entry Title</th>
-            <th>Short Name</th>
+            <th><%= sort_by_link('Short Name', 'short_name', @query, nil, '') %></th>
             <th>Version</th>
+            <th><%= sort_by_link('Provider', 'provider_id', @query, nil, '') %></th>
           </tr>
         </thead>
 
         <tbody>
           <% if @associations.blank? %>
             <tr>
-              <td colspan="4">
+              <td colspan="5">
                 No Collection Associations found.
               </td>
             </tr>
@@ -51,6 +52,7 @@
                 <td><%= link_to collection.fetch('umm', {}).fetch('entry-title'), collection_path(collection.fetch('meta', {}).fetch('concept-id')) %></td>
                 <td><%= collection.fetch('umm', {}).fetch('short-name') %></td>
                 <td><%= collection.fetch('umm', {}).fetch('version-id') %></td>
+                <td><%= collection.fetch('meta', {})['provider-id'] %></td>
               </tr>
             <% end %>
           <% end %>

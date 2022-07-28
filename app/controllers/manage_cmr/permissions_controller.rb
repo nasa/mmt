@@ -144,6 +144,20 @@ class PermissionsController < ManageCmrController
     end
   end
 
+  def download_tea_configuration
+    provider = current_user.provider_id
+    tea_token = token
+    tea_configuration_response = cmr_client.get_tea_configuration(provider, tea_token)
+    tea_configuration = tea_configuration_response.body
+    if tea_configuration_response.error?
+      Rails.logger.error("Error retrieving TEA configuration: #{tea_configuration_response.clean_inspect}")
+      flash[:error] = tea_configuration_response.error_message
+      redirect_to permissions_path
+    else
+      send_data tea_configuration, type: 'application/text; charset=utf-8', disposition: "attachment; filename=tea_configuration-#{Date.today}.yaml", target: '_blank'
+    end
+  end
+
   private
 
   def collection_permission_params

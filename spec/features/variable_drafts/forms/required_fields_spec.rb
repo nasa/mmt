@@ -1,4 +1,4 @@
-describe 'Conditionally required fields', js: true do
+describe 'Variable Drafts Conditionally required fields', js: true do
   before do
     login
   end

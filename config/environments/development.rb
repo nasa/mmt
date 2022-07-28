@@ -126,4 +126,10 @@ Rails.application.configure do
   config.tophat_url = 'https://cdn.sit.earthdata.nasa.gov/tophat2/tophat2.js'
 
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
+  # GraphQl server
+  config.graphql_server = 'http://localhost:6005/dev/api'
+
+  # Metadata preview urls
+  config.metadata_preview_js_url = ENV['metadata_preview_js_url']
+  config.metadata_preview_css_url = ENV['metadata_preview_css_url']
 end

@@ -1,8 +1,9 @@
 describe 'Valid Variable Draft Index Ranges Preview' do
+  let(:variable_draft) { create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first) }
+
   before do
     login
-    @draft = create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first)
-    visit variable_draft_path(@draft)
+    visit variable_draft_path(variable_draft)
   end
 
   context 'When examining the Index Ranges section' do
@@ -11,8 +12,8 @@ describe 'Valid Variable Draft Index Ranges Preview' do
         within '.umm-preview.variable_information' do
           expect(page).to have_css('.umm-preview-field-container', count: 3)
 
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_index_ranges_lat_range'))
-          expect(page).to have_link(nil, href: edit_variable_draft_path(@draft, 'variable_information', anchor: 'variable_draft_draft_index_ranges_lon_range'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'variable_information', anchor: 'variable_draft_draft_index_ranges_lat_range'))
+          expect(page).to have_link(nil, href: edit_variable_draft_path(variable_draft, 'variable_information', anchor: 'variable_draft_draft_index_ranges_lon_range'))
         end
       end
     end

@@ -1,4 +1,4 @@
-describe 'Collection Draft editing', js: true do
+describe 'Collection Draft editing',js: true do
   before do
     login
   end
@@ -18,12 +18,12 @@ describe 'Collection Draft editing', js: true do
         click_on 'Done'
       end
       click_link 'invalid-draft-accept'
-      find('.tab-label', text: 'Additional Information').click
     end
 
     # Verifying explicitly that the entry has data.
     it 'has a data contact in the data center' do
-      expect(page).to have_content('Little Johnny Drop Tables')
+      expect(page).to have_content('Little Johnny')
+      expect(page).to have_content('Drop Tables')
     end
 
     context 'when editing a data contact' do
@@ -54,7 +54,6 @@ describe 'Collection Draft editing', js: true do
           within '.nav-top' do
             click_on 'Done'
           end
-          find('.tab-label', text: 'Additional Information').click
         end
 
         it 'saves the data center' do

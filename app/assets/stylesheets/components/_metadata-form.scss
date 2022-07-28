@@ -168,12 +168,34 @@
     cursor: pointer;
   }
 
+  a.remove-recommendation {
+    color: $red;
+    font-size: 1.4em;
+    padding: 0.6em;
+    cursor: pointer;
+  }
+
+  a.accept-recommendation {
+    color: $ocean-blue;
+    font-size: 1.4em;
+    padding: 0.6em;
+    cursor: pointer;
+  }
+
   .recommended-science-keywords {
     background-color: $dark-green;
   }
 
   .eui-info-box .fa-times-circle {
     color: $red;
+  }
+
+  .fa-plus-circle {
+    color: $ocean-blue;
+  }
+
+  .fa-check-square {
+    color: $dark-green;
   }
 }
 

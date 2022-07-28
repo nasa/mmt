@@ -141,7 +141,7 @@ Rails.application.configure do
   config.loss_report_enabled = false
 
   # Feature toggle for GKR (GCMD Keyword Recommender) recommendations
-  config.gkr_enabled = false
+  config.gkr_enabled = true
 
   config.cmr_env = 'ops'
   config.echo_env = 'ops'
@@ -161,4 +161,11 @@ Rails.application.configure do
   config.tag_manager_id = 'GTM-WNP7MLF'
 
   config.cmr_email_frequency = ENV['cmr_email_frequency']&.to_i || 3600
+
+  # GraphQl server
+  config.graphql_server = 'https://graphql.earthdata.nasa.gov/api'
+
+  # Metadata preview urls
+  config.metadata_preview_js_url = ENV['metadata_preview_js_url']
+  config.metadata_preview_css_url = ENV['metadata_preview_css_url']
 end

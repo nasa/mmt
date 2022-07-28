@@ -1,4 +1,6 @@
 module CollectionsHelper
+  include Cmr::Util
+
   DELETE_CONFIRMATION_TEXT = 'I want to delete this collection and the associated records'.freeze
   DOWNLOAD_XML_OPTIONS = [
     { format: 'atom',     title: 'ATOM' },
@@ -39,6 +41,10 @@ module CollectionsHelper
   def nrt_badge(metadata)
     if metadata['CollectionDataType'] == 'NEAR_REAL_TIME'
       content_tag(:span, 'NRT', class: 'eui-badge nrt')
+    elsif metadata['CollectionDataType'] == 'LOW_LATENCY'
+      content_tag(:span, 'LOW LATENCY', class: 'eui-badge nrt')
+    elsif metadata['CollectionDataType'] == 'EXPEDITED'
+      content_tag(:span, 'EXPEDITED', class: 'eui-badge nrt')
     end
   end
 
@@ -110,5 +116,13 @@ module CollectionsHelper
       concat(content_tag(:p, "Deleting this collection will delete all #{delete_text}."))
       concat(content_tag(:p, "Please confirm that you wish to continue by entering \"#{CollectionsHelper::DELETE_CONFIRMATION_TEXT}\" below."))
     end
+  end
+
+  def create_collection_preview_token(token)
+    return 'ABC-1' if Rails.env.development?
+    if is_urs_token?(token)
+      token = "Bearer #{token}"
+    end
+    token
   end
 end

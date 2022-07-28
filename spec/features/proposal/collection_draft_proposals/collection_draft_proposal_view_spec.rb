@@ -1,4 +1,4 @@
-describe 'Viewing Unsubmitted Collection Draft Proposals' do
+describe 'Viewing Unsubmitted Collection Draft Proposals', js: true do
   before do
     real_login(method: 'urs')
     set_as_proposal_mode_mmt(with_draft_user_acl: true)
@@ -33,13 +33,14 @@ describe 'Viewing Unsubmitted Collection Draft Proposals' do
     it 'does not have the metadata download option' do
       expect(page).to have_no_content('Metadata Download:')
     end
-    
+
     it 'has a hidden search dropdown in proposal mode' do
       within '.quick-search' do
-        expect(page).to have_css('.search-dropdown-short')
-        expect(page).to have_css('.search-disabled-radio-buttons')
+        expect(page).to have_css('.search-dropdown-short', :visible => false)
+        expect(page).to have_css('.search-disabled-radio-buttons', :visible => false)
       end
     end
+
 
   end
 

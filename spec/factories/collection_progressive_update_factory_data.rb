@@ -708,7 +708,12 @@ def progressive_update_first
           }
         ]
       }
-    ]
+    ],
+    'MetadataSpecification' => {
+      'Name' => 'UMM-C',
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0',
+      'Version' => '1.17.0'
+    }
   }
 end
 
@@ -1485,6 +1490,11 @@ def progressive_update_with_errors
           }
         ]
       }
-    ]
+    ],
+    'MetadataSpecification' => {
+      'Name' => 'UMM-C',
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0',
+      'Version' => '1.17.0'
+    }
   }
 end

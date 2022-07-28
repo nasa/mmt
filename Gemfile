@@ -4,7 +4,7 @@ ruby "2.7.2"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # We have not investigated the cost of moving to rails 6, but expect it to make
 # more breaking changes.  Rails 5 is still supported.
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 5.2.8'
 # Rails currently limits all of the action*/active* gems
 # activesupport limits tzinfo
 
@@ -27,10 +27,6 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
 
-# See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'libv8', '~> 7.3'
-gem 'mini_racer', '~> 0.2.15'
-
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
@@ -50,7 +46,7 @@ gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
 gem 'bootstrap3-datetimepicker-rails'
 gem 'breadcrumbs_on_rails'
 gem 'builder'
-gem 'carmen', '~>1.0.2'  # countries and subdivisions
+gem 'carmen', '~>1.0.2' # countries and subdivisions
 gem 'factory_bot_rails'
 gem 'faker'
 gem 'figaro'
@@ -77,12 +73,18 @@ gem 'aasm'
 
 gem 'browser'
 
+gem 'actionpack', '>= 5.2.8'
+
+gem 'pg', '<1.3'
+
+gem 'dotenv-rails'
+
 # collections metadata preview
 # run this command to work from a local copy of the gem's repo
 # bundle config local.cmr_metadata_preview /path/to/local/git/repository
 # make sure to delete the local config when done making changes to merge into master
 # bundle config --delete local.cmr_metadata_preview
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: 'a63c41cadfa'
+gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: 'e6843ed6c7fc6f3aa2f79bb274897858aff0be3d'
 
 
 group :development, :test do
@@ -122,8 +124,4 @@ group :test do
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'webdrivers'
-end
-
-group :production do
-  gem 'pg'
 end

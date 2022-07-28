@@ -2,6 +2,7 @@ class CollectionDraft < Draft
   # TODO: we currently allow one to be created, but may allow more in the future
   # should we just make this has_one for now?
   has_many :keyword_recommendations, as: :recommendable, dependent: :destroy
+  before_save :set_metadata_specification
 
   DRAFT_FORMS = %w(
     collection_information
@@ -79,7 +80,7 @@ class CollectionDraft < Draft
     self.entry_title = draft['EntryTitle']
   end
 
-  def update_draft(params, editing_user_id)
+  def update_draft(params, editing_user_id, keyword_recommendations = [], accepted_recommended_keywords = [], page="")
     if params
       # RAILS 5.1 This is simpler than permit with a full json structure for collection
       # rethink this in light of CSRF solutions that prevent illegal items in params
@@ -87,10 +88,11 @@ class CollectionDraft < Draft
       when ActionController::Parameters
         params = params.permit!.to_h
       end
-
       if params['template_name']
         self.template_name = params['template_name'].empty? ? nil : params['template_name']
       end
+
+      params = filter_recommended_keywords(params, keyword_recommendations, accepted_recommended_keywords) unless keyword_recommendations.empty?
 
       # Convert {'0' => {'id' => '123'}} to [{'id' => '123'}]
       params = convert_to_arrays(params.clone)
@@ -103,7 +105,11 @@ class CollectionDraft < Draft
       # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters
       json_params = convert_data_contacts_params(json_params)
       json_params = convert_data_centers_params(json_params)
-
+      if page == "data-identification"
+        unless json_params.key?("StandardProduct")
+          self.draft.delete("StandardProduct")
+        end
+      end
       # Merge new params into draft
       new_draft = self.draft.merge(json_params)
 
@@ -121,6 +127,33 @@ class CollectionDraft < Draft
     end
     # This keeps an empty form from sending the user back to draft_path when clicking on Next
     true
+  end
+
+  def keyword_to_string(keyword_array)
+    result = ''
+    keyword_array.each do |key, value|
+      if result.blank?
+        result += value
+      else
+        result += ' > ' + value
+      end
+    end
+    result
+  end
+
+  def filter_recommended_keywords(draft, keyword_recommendations, accepted_recommended_keywords)
+    unless draft['science_keywords'].blank?
+      draft['science_keywords'].each do |index, science_keyword|
+        unless science_keyword.blank?
+          science_keyword_as_string = keyword_to_string(science_keyword)
+          if keyword_recommendations.include?(science_keyword_as_string) && !accepted_recommended_keywords.include?(science_keyword_as_string)
+            #remove from draft
+            draft['science_keywords'].delete(index)
+          end
+        end
+      end
+    end
+    draft
   end
 
   def add_metadata_dates(date: Time.now.utc, save_record: true)
@@ -203,6 +236,7 @@ class CollectionDraft < Draft
     latitude_resolution
     longitude_resolution
     swath_width
+    footprint
     inclination_angle
     number_of_orbits
     start_circular_latitude
@@ -218,6 +252,8 @@ class CollectionDraft < Draft
   )
   BOOLEAN_KEYS = %w(
     ends_at_present_flag
+    free_and_open_data
+    standard_product
   )
 
   SCIENCE_KEYWORD_LEVELS = %w(
@@ -268,8 +304,8 @@ class CollectionDraft < Draft
             if key == 'orbit_parameters'
               # There are two fields named 'Period' but only one of them is a number.
               # Convert the correct 'Period' to a number
-              period = value['period']
-              value['period'] = convert_to_number(period)
+              orbit_period = value['orbit_period']
+              value['orbit_period'] = convert_to_number(orbit_period)
               object[key] = value
             end
             object[key] = convert_to_arrays(value)
@@ -453,5 +489,16 @@ class CollectionDraft < Draft
   ## Feature Toggle for GKR recommendations
   def gkr_enabled?
     Rails.configuration.gkr_enabled
+  end
+
+  def set_metadata_specification
+    metadata_specification = {
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0',
+      'Name' => 'UMM-C',
+      'Version' => '1.17.0'
+    }
+    unless self.draft['MetadataSpecification'] == metadata_specification
+      self.draft['MetadataSpecification'] = metadata_specification
+    end
   end
 end

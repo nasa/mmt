@@ -1,6 +1,6 @@
 # :nodoc:
 class ApplicationController < ActionController::Base
-  include Pundit
+  include Pundit::Authorization
   include PermissionChecking
 
   # Prevent CSRF attacks by raising an exception.
@@ -406,7 +406,7 @@ class ApplicationController < ActionController::Base
     # this is additional logging just for Launchpad
     # it can be removed once Launchpad has been live and stable in
     # production for a while, with MMT-1615
-    return if Rails.env.test? || session[:login_method] == 'urs'
+    return if session[:login_method] == 'urs'
 
     all_session_keys = LAUNCHPAD_SESSION_KEYS | URS_SESSION_KEYS
     # additional token and login keys

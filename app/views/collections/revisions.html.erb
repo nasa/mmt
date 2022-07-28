@@ -4,14 +4,18 @@
   <%= nrt_badge(@collection) %>
 <% end %>
 
-<% if @errors && !@errors.empty? %>
+<% if @ingest_errors && !@ingest_errors.empty? %>
   <section class="errors">
     <div class="eui-banner--danger">
       <div class="eui-banner__message">
         <ul class="no-bullet">
-          <% @errors.each do |error| %>
-            <li>
-              <%= "#{error[:field]}, " if error[:field] %>
+          <% @ingest_errors.each do |error, index| %>
+            <li class="ingest-error-<%= index %>">
+              <% if error[:field] && error[:page] %>
+                <%= link_to name_to_title(error[:field].to_s), edit_collection_draft_path(@collection, error[:page]) %>
+              <% else %>
+                <%= "#{error[:field]}," if error[:field] %>
+              <% end %>
               <%= error[:error] %>
               <% if error[:request_id] %>
                 <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>

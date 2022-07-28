@@ -50,6 +50,7 @@ describe 'Invalid Tool Draft Related URL Preview' do
                   expect(page).to have_css('p', text: 'Test related url')
                   expect(page).to have_css('li', text: 'GET SERVICE')
                   expect(page).to have_css('li', text: 'SOFTWARE PACKAGE')
+                  expect(page).to have_content('URL Not Provided')
                 end
               end
             end

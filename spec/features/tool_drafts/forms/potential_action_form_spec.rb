@@ -76,7 +76,7 @@ describe 'Tool Drafts Potential Action Form', js: true do
       fill_in 'tool_draft_draft_potential_action_target_response_content_type_0', with: 'new_test_record target content_type_0'
       click_on 'Add another Response Content Type'
       fill_in 'tool_draft_draft_potential_action_target_response_content_type_1', with: 'new_test_record target content_type_1'
-      fill_in 'tool_draft_draft_potential_action_target_url_template', with: 'new_test_record target url_template'
+      fill_in 'tool_draft_draft_potential_action_target_url_template', with: 'http://example.com/{+a}{+b}'
       select 'GET', from: 'tool_draft_draft_potential_action_target_http_method_0'
       click_on 'Add another Http Method'
       select 'POST', from: 'tool_draft_draft_potential_action_target_http_method_1'
@@ -110,7 +110,7 @@ describe 'Tool Drafts Potential Action Form', js: true do
         expect(page).to have_field('tool_draft_draft_potential_action_target_description', with: 'new_test_record target description')
         expect(page).to have_field('tool_draft_draft_potential_action_target_response_content_type_0', with: 'new_test_record target content_type_0')
         expect(page).to have_field('tool_draft_draft_potential_action_target_response_content_type_1', with: 'new_test_record target content_type_1')
-        expect(page).to have_field('Url Template', with: 'new_test_record target url_template')
+        expect(page).to have_field('Url Template', with: 'http://example.com/{+a}{+b}')
         expect(page).to have_css('#tool_draft_draft_potential_action_target_http_method_0', text: 'GET')
         expect(page).to have_css('#tool_draft_draft_potential_action_target_http_method_1', text: 'POST')
         expect(page).to have_css('.eui-accordion__header > h3', text: 'Query Input')
@@ -130,6 +130,7 @@ describe 'Tool Drafts Potential Action Form', js: true do
       draft = create(:empty_tool_draft, user: User.where(urs_uid: 'testuser').first)
       visit edit_tool_draft_path(draft, 'potential_action')
       fill_in 'tool_draft_draft_potential_action_target_description', with: 'new_test_record target description'
+      fill_in 'tool_draft_draft_potential_action_target_url_template', with: 'http://example.com/{+a}{+b}{{c}'
     end
     context "when clicking 'Save' to save the form" do
       before do
@@ -139,7 +140,7 @@ describe 'Tool Drafts Potential Action Form', js: true do
       end
       it 'display error messages' do
         expect(page).to have_content('Type is required')
-        expect(page).to have_content('Url Template is required')
+        expect(page).to have_content('Url Template is an incorrect format')
         expect(page).to have_content('Http Method is required')
       end
     end

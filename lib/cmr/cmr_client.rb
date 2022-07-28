@@ -431,11 +431,21 @@ module Cmr
     # Create and update
     def ingest_subscription(subscription, provider_id, native_id, token)
       url = if Rails.env.development? || Rails.env.test?
+              # CMR does a check to ensure the subscriber id exists in EDL.
+              # So add this user to local cmr.
+              add_users_to_local_cmr([JSON.parse(subscription)['SubscriberId']], nil)
               "http://localhost:3002/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             else
               "/ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             end
-      headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json' }
+      # This is a slight hack until we use subscription model 1.1
+      # We can not seem to request 1.0 from CMR in the headers
+      if JSON.parse(subscription).key?('MetadataSpecification')
+        headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.1' }
+      else
+        headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.0' }
+      end
+
 
       put(url, subscription, headers.merge(token_header(token)))
     end
@@ -446,7 +456,7 @@ module Cmr
             else
               "/ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             end
-      headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json' }
+      headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.0' }
 
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
@@ -458,7 +468,7 @@ module Cmr
 
       url = "http://localhost:3002/providers/#{provider_id}/granules/#{encode_if_needed(native_id)}"
       headers = {
-        'Accept' => 'application/json',
+        'Accept' => 'application/json;version=1.0',
         'Content-Type' =>  "application/vnd.nasa.cmr.umm+json; version=1.6; charset=utf-8"
       }
 
@@ -517,6 +527,15 @@ module Cmr
               '/access-control/groups'
             end
       get(url, options, token_header(token))
+    end
+
+    def get_tea_configuration(provider, token)
+      url = "/configuration/tea/provider/#{provider}"
+      if is_urs_token?(token)
+        token = 'Bearer ' + token
+      end
+      headers = { 'Authorization' => token }
+      get(url, {}, headers)
     end
 
     def create_group(group, token)
@@ -690,6 +709,7 @@ module Cmr
             else
               '/search/subscriptions.umm_json'
             end
+
       get(url, options, token_header(token))
     end
 

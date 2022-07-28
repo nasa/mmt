@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'CMR Response as HTML page' do
+describe 'CMR Response as HTML page',js:true do
   context 'when a CMR request returns a 500 error with an HTML body' do
     before do
       login

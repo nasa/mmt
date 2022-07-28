@@ -42,7 +42,27 @@
       </p>
     </div>
 
-    <%= render partial: 'cmr_metadata_preview/metadata_preview', locals: { metadata: @collection, is_mmt: true, editable: false, edsc_url: nil, concept_id: nil, additional_information: { 'root_url' => "#{cmr_search_root_url}/", 'services' => @services, 'tools' => @tools, 'is_dmmt' => true } } %>
+    <% if Rails.env.test? %>
+      <div id="metadata-preview">
+        <%= @collection.to_json  %>
+      </div>
+    <% else %>
+      <div id="metadata-preview">
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const element = document.getElementById('metadata-preview');
+          const config = {
+            conceptId: '<%= @concept_id %>',
+            conceptType: 'collection',
+            conceptUrlTemplate: '/{conceptType}/{conceptId}',
+            token: '<%= @preview_token %>',
+            graphQlHost: '<%= Rails.configuration.graphql_server %>'
+          }
+          MetadataPreview.init(config, element);
+        });
+      </script>
+    <% end %>
     <%= render partial: 'shared/download_xml', locals: {
       concept_id: @concept_id,
       revision_id: @revision_id,

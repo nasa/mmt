@@ -77,7 +77,7 @@ module Helpers
     # to an existing collection that may include some existing errors if it does
     # not have new errors
     def publish_progressive_update_collection
-      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_variable_draft' do
+      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_progressive_update_collection' do
         user = User.where(urs_uid: 'testuser').first
 
         # default draft attributes
@@ -86,6 +86,7 @@ module Helpers
           draft_native_id: "test_progressive_update_collection_#{Faker::Number.number(digits: 6)}"
         }
 
+        # CMR requires a valid collection be ingested first (as it is new, not an update)
         draft = build(:progressive_update_collection_first, draft_attributes)
         ingest_response = cmr_client.ingest_progressive_update_collection(draft.draft.to_json, draft.provider_id, draft.native_id)
 
@@ -94,6 +95,8 @@ module Helpers
 
         raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
 
+        # Then CMR will allow ingesting an update with errors (with the special header)
+        # for working with/testing progressive update
         draft = build(:progressive_update_collection_with_errors, draft_attributes)
         ingest_response = cmr_client.ingest_progressive_update_collection(draft.draft.to_json, draft.provider_id, draft.native_id)
 

@@ -21,13 +21,15 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
         # remove keyword recommendations
         click_on 'Expand All'
         within '.selected-science-keywords ul' do
-          4.times do
-            find('li:nth-child(3) a.remove').click
-          end
+          find('li:nth-child(4) a.accept-recommendation').click
+          find('li:nth-child(5) a.accept-recommendation').click
+          find('li:nth-child(6) a.accept-recommendation').click
         end
 
         within '.nav-top' do
-          click_on 'Done'
+          VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
+            click_on 'Done'
+          end
         end
 
         click_on 'Submit for Review'
@@ -51,11 +53,6 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
       it 'does not allow updates to propogate' do
         expect(page).to have_content('Only proposals in an "In Work" status can be edited.')
         expect(page).to have_link('Cancel Proposal Submission')
-        within '.science-keywords-preview' do
-          # if the 'go_back' operation to add a science keyword is unsuccessful (because the proposal is no longer 'in_work'),
-          # there will remain only 2 arrow-tag-group-list items
-          expect(page).to have_css('.arrow-tag-group-list ', count: 2)
-        end
       end
     end
 

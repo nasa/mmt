@@ -37,6 +37,7 @@ describe 'Progressive Update Collection Draft', reset_provider: true, js: true d
       context 'When introducing a new error to the draft and attempting to publish' do
         before do
           # introduce a new error
+          # this is a "General Error" that does not have error and path attributes
           within '.progress-indicator' do
             click_on 'Processing Level - Required field complete'
           end
@@ -55,6 +56,7 @@ describe 'Progressive Update Collection Draft', reset_provider: true, js: true d
           within '#check-cmr-validation-draft-modal' do
             expect(page).to have_content('This draft is not ready to be published.')
             expect(page).to have_content('Please use the progress indicators on the draft preview page to address the following:')
+            expect(page).to have_link('ProcessingLevel')
             expect(page).to have_content('#/ProcessingLevel: required key [Id] not found')
 
             expect(page).to have_no_link('Yes, Publish Collection Draft')
@@ -71,41 +73,138 @@ describe 'Progressive Update Collection Draft', reset_provider: true, js: true d
           within '#check-cmr-validation-draft-modal' do
             expect(page).to have_content('This draft will be published with the following issues:')
             expect(page).to have_content('Existing Errors: After translating item to UMM-C the metadata had the following existing error(s):')
+            expect(page).to have_content('Warnings: After translating item to UMM-C the metadata had the following issue(s):')
+
             expect(page).to have_content('[:TemporalExtents 0 :RangeDateTimes 0] BeginningDateTime [2011-07-04T00:23:48.000Z] must be no later than EndingDateTime [1995-10-01T03:13:03.000Z]')
             expect(page).to have_content('[:Platforms] The Platform ShortName [ERS-3] must be unique. This record contains duplicates')
-            expect(page).to have_content('[:AdditionalAttributes 0] Parameter Range Begin is not allowed for type [STRING]')
             expect(page).to have_content('[:Projects] Projects must be unique. This contains duplicates named [IceBridge]')
+            expect(page).to have_content('[:AdditionalAttributes 0] Parameter Range Begin is not allowed for type [STRING]')
             expect(page).to have_content('[:MetadataAssociations] Metadata Associations must be unique. This contains duplicates named [(EntryId [C1234453343-ECHO_REST] & Version [1])]')
-            expect(page).to have_content('[:TilingIdentificationSystems] Tiling Identification Systems must be unique. This contains duplicates named [CALIPSO]')
-            expect(page).to have_content('Warnings: After translating item to UMM-C the metadata had the following issue(s):')
+
             expect(page).to have_content('[:RelatedUrls 0 :URL] [https=>//vertex.daac.asf.alaska.edu/] is not a valid URL')
+
             expect(page).to have_content('Are you sure you want to publish this draft now?')
             expect(page).to have_link('Yes, Publish Collection Draft')
           end
         end
+      end
 
-        context 'when publishing the draft' do
-          before do
-            click_on 'Yes, Publish Collection Draft'
+      context 'When fixing some errors' do
+        before do
+          click_on 'Tiling Identification Systems'
+          click_on 'Expand All'
+
+          within '#draft_tiling_identification_systems_1' do
+            select 'MISR', from: 'Tiling Identification System Name'
           end
 
-          it 'successfully publishes the update and displays the provided warnings' do
-            expect(page).to have_content('Collection Draft Published Successfully!')
+          within '.nav-top' do
+            click_on 'Done'
+          end
+        end
 
-            expect(page).to have_content('Collection was published with the following issues:')
-            expect(page).to have_content('Existing Errors: After translating item to UMM-C the metadata had the following existing error(s):')
-            expect(page).to have_content('[:TemporalExtents 0 :RangeDateTimes 0] BeginningDateTime [2011-07-04T00:23:48.000Z] must be no later than EndingDateTime [1995-10-01T03:13:03.000Z]')
-            expect(page).to have_content('[:Platforms] The Platform ShortName [ERS-3] must be unique. This record contains duplicates')
-            expect(page).to have_content('[:AdditionalAttributes 0] Parameter Range Begin is not allowed for type [STRING]')
-            expect(page).to have_content('[:Projects] Projects must be unique. This contains duplicates named [IceBridge]')
-            expect(page).to have_content('[:MetadataAssociations] Metadata Associations must be unique. This contains duplicates named [(EntryId [C1234453343-ECHO_REST] & Version [1])]')
-            expect(page).to have_content('[:TilingIdentificationSystems] Tiling Identification Systems must be unique. This contains duplicates named [CALIPSO]')
-            expect(page).to have_content('Warnings: After translating item to UMM-C the metadata had the following issue(s):')
-            expect(page).to have_no_content('Metadata Fields')
-            expect(page).to have_no_css('ul.progress-indicator')
+        context 'when attempting to publish the draft' do
+          before do
+            click_on 'Publish Collection Draft'
+          end
+
+          it 'indicates the draft can be published with errors' do
+            within '#check-cmr-validation-draft-modal' do
+              expect(page).to have_content('This draft will be published with the following issues:')
+              expect(page).to have_content('Existing Errors: After translating item to UMM-C the metadata had the following existing error(s):')
+              expect(page).to have_content('Warnings: After translating item to UMM-C the metadata had the following issue(s):')
+
+              expect(page).to have_content('[:TemporalExtents 0 :RangeDateTimes 0] BeginningDateTime [2011-07-04T00:23:48.000Z] must be no later than EndingDateTime [1995-10-01T03:13:03.000Z];;')
+              expect(page).to have_content('[:Platforms] The Platform ShortName [ERS-3] must be unique. This record contains duplicates')
+              expect(page).to have_content('[:AdditionalAttributes 0] Parameter Range Begin is not allowed for type [STRING]')
+              expect(page).to have_content('[:Projects] Projects must be unique. This contains duplicates named [IceBridge]')
+              expect(page).to have_content('[:MetadataAssociations] Metadata Associations must be unique. This contains duplicates named [(EntryId [C1234453343-ECHO_REST] & Version [1])]')
+
+              expect(page).to have_content('[:RelatedUrls 0 :URL] [https=>//vertex.daac.asf.alaska.edu/] is not a valid URL')
+              expect(page).to have_content('Are you sure you want to publish this draft now?')
+              expect(page).to have_link('Yes, Publish Collection Draft')
+            end
+          end
+
+          context 'when publishing the draft with errors' do
+            before do
+              click_on 'Yes, Publish Collection Draft'
+            end
+
+            it 'successfully publishes the update and displays the provided warnings' do
+              expect(page).to have_content('Collection Draft Published Successfully!')
+
+              expect(page).to have_content('Collection was published with the following issues:')
+              expect(page).to have_content('Warnings: After translating item to UMM-C the metadata had the following issue(s):')
+
+              expect(page).to have_content('Existing Errors: After translating item to UMM-C the metadata had the following existing error(s):')
+              expect(page).to have_content('[:TemporalExtents 0 :RangeDateTimes 0] BeginningDateTime [2011-07-04T00:23:48.000Z] must be no later than EndingDateTime [1995-10-01T03:13:03.000Z]')
+              expect(page).to have_content('[:Platforms] The Platform ShortName [ERS-3] must be unique. This record contains duplicates')
+              expect(page).to have_content('[:AdditionalAttributes 0] Parameter Range Begin is not allowed for type [STRING]')
+              expect(page).to have_content('[:Projects] Projects must be unique. This contains duplicates named [IceBridge]')
+              expect(page).to have_content('[:MetadataAssociations] Metadata Associations must be unique. This contains duplicates named [(EntryId [C1234453343-ECHO_REST] & Version [1])]')
+
+            end
+
+            context 'when adding the fixed errors back into the draft' do
+              before do
+                # add errors back
+                # should be a "UMM Validation Error" which has path and error attributes
+                click_on 'Edit Collection Record'
+
+                click_on 'Tiling Identification Systems'
+                click_on 'Expand All'
+
+                within '#draft_tiling_identification_systems_1' do
+                  select 'CALIPSO', from: 'Tiling Identification System Name'
+                end
+
+                within '.nav-top' do
+                  click_on 'Done'
+                end
+              end
+
+              context 'when attempting to publish the draft' do
+                before do
+                  click_on 'Publish Collection Draft'
+                end
+
+                it 'indicates the draft cannot be published' do
+                  within '#check-cmr-validation-draft-modal' do
+                    expect(page).to have_content('This draft is not ready to be published.')
+                    expect(page).to have_content('Please use the progress indicators on the draft preview page to address the following:')
+                    expect(page).to have_link('TilingIdentificationSystems')
+                    expect(page).to have_content('Tiling Identification Systems must be unique. This contains duplicates named [CALIPSO].')
+
+                    expect(page).to have_no_link('Yes, Publish Collection Draft')
+                  end
+                end
+              end
+            end
+
+            context 'when attempting to revert the collection to the revision with the fixed errors' do
+              before do
+                # go to revisions page
+                click_on 'Revisions'
+
+                # revert to collection with all errors
+                within 'tbody tr:nth-last-child(2)' do
+                  click_on 'Revert to this Revision'
+                end
+                click_on 'Yes'
+              end
+
+              it 'fails to revert and displays the error returned from CMR and a generic error message' do
+                expect(page).to have_content('Revision was not created successfully')
+
+                expect(page).to have_link('Tiling Identification Systems')
+                expect(page).to have_content('Tiling Identification Systems must be unique. This contains duplicates named [CALIPSO].')
+              end
+            end
           end
         end
       end
+
     end
   end
 

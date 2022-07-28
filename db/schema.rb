@@ -10,9 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_13_183338) do
+ActiveRecord::Schema.define(version: 2022_03_10_191059) do
 
-  create_table "draft_proposals", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "draft_proposals", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.text "draft"
     t.string "short_name"
@@ -29,7 +32,7 @@ ActiveRecord::Schema.define(version: 2021_10_13_183338) do
     t.string "submitter_id"
   end
 
-  create_table "drafts", force: :cascade do |t|
+  create_table "drafts", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.text "draft"
     t.datetime "created_at", null: false
@@ -44,7 +47,7 @@ ActiveRecord::Schema.define(version: 2021_10_13_183338) do
 
   create_table "keyword_recommendations", force: :cascade do |t|
     t.string "recommendable_type"
-    t.integer "recommendable_id"
+    t.bigint "recommendable_id"
     t.boolean "recommendation_provided", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -54,7 +57,7 @@ ActiveRecord::Schema.define(version: 2021_10_13_183338) do
   end
 
   create_table "proposal_keyword_recommendations", force: :cascade do |t|
-    t.integer "draft_proposal_id"
+    t.bigint "draft_proposal_id"
     t.boolean "recommendation_provided", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -63,7 +66,7 @@ ActiveRecord::Schema.define(version: 2021_10_13_183338) do
     t.index ["draft_proposal_id"], name: "index_proposal_keyword_recommendations_on_draft_proposal_id"
   end
 
-  create_table "sessions", force: :cascade do |t|
+  create_table "sessions", id: :serial, force: :cascade do |t|
     t.string "session_id", null: false
     t.text "data"
     t.datetime "created_at"
@@ -72,7 +75,7 @@ ActiveRecord::Schema.define(version: 2021_10_13_183338) do
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
-  create_table "templates", force: :cascade do |t|
+  create_table "templates", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.text "draft"
     t.string "entry_title"
@@ -86,7 +89,7 @@ ActiveRecord::Schema.define(version: 2021_10_13_183338) do
     t.index ["provider_id", "template_name"], name: "index_templates_on_provider_id_and_template_name", unique: true
   end
 
-  create_table "user_invites", force: :cascade do |t|
+  create_table "user_invites", id: :serial, force: :cascade do |t|
     t.string "manager_name"
     t.string "manager_email"
     t.string "user_first_name"
@@ -101,7 +104,7 @@ ActiveRecord::Schema.define(version: 2021_10_13_183338) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "urs_uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

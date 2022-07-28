@@ -48,10 +48,77 @@ http_interactions:
       encoding: UTF-8
       string: '{"uuid":"958c6431-979b-4b92-b790-7d9e68c7fecd","description":"This
         is a long description of the collection","recommendations":[{"uuid":"9035dad1-01e5-4d9b-a150-653e76be2f91","keyword":"EARTH
-        SCIENCE>OCEANS>SALINITY/DENSITY","score":0.99872225522995,"yes_count":0,"no_count":0},{"uuid":"10a88521-4325-4b72-88dc-82d389232a5e","keyword":"EARTH
-        SCIENCE>OCEANS>OCEAN TEMPERATURE","score":0.999270498752594,"yes_count":0,"no_count":0},{"uuid":"010d9779-7d6c-4361-9bce-6ae0e457bdb0","keyword":"EARTH
-        SCIENCE>OCEANS>OCEAN OPTICS","score":0.99998939037323,"yes_count":0,"no_count":0},{"uuid":"4a774160-67c6-4cc9-992c-724db9952ecd","keyword":"EARTH
-        SCIENCE>OCEANS>OCEAN CHEMISTRY","score":0.999970674514771,"yes_count":0,"no_count":0}]}'
-    http_version:
+        SCIENCE > OCEANS > SALINITY/DENSITY","score":0.99872225522995,"yes_count":0,"no_count":0},{"uuid":"10a88521-4325-4b72-88dc-82d389232a5e","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN TEMPERATURE","score":0.999270498752594,"yes_count":0,"no_count":0},{"uuid":"010d9779-7d6c-4361-9bce-6ae0e457bdb0","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN OPTICS","score":0.99998939037323,"yes_count":0,"no_count":0},{"uuid":"4a774160-67c6-4cc9-992c-724db9952ecd","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN CHEMISTRY","score":0.999970674514771,"yes_count":0,"no_count":0}]}'
   recorded_at: Wed, 18 Nov 2020 16:42:03 GMT
-recorded_with: VCR 5.1.0
+- request:
+    method: put
+    uri: https://gkr.sit.earthdatacloud.nasa.gov/api/requests/958c6431-979b-4b92-b790-7d9e68c7fecd
+    body:
+      encoding: UTF-8
+      string: '{"recommendations":{"4a774160-67c6-4cc9-992c-724db9952ecd":true,"010d9779-7d6c-4361-9bce-6ae0e457bdb0":true,"9035dad1-01e5-4d9b-a150-653e76be2f91":false,"10a88521-4325-4b72-88dc-82d389232a5e":false},
+      "keywords":["EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE > SURFACE TEMPERATURE > MAXIMUM/MINIMUM TEMPERATURE > 24 HOUR MAXIMUM TEMPERATURE", 
+      "EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS > SEDIMENTARY ROCKS > SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES > LUMINESCENCE"]}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '209'
+      connection:
+      - keep-alive
+      date:
+      - Thu, 10 Mar 2022 00:24:55 GMT
+      server:
+      - ServerTokens ProductOnly
+      vary:
+      - Accept, Cookie
+      allow:
+      - GET, PUT, HEAD, OPTIONS
+      x-frame-options:
+      - DENY
+      x-content-type-options:
+      - nosniff
+      x-xss-protection:
+      - 1; mode=block
+      referrer-policy:
+      - same-origin
+      x-request-id:
+      - iKKH_B22PiIldTDbz_MG2IAjYYYom0N1GiAikH_aeWTBZAlSUo8oCg==
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 0570243541aa4edb51d3f1e60aee5a32.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD79-C2
+      x-amz-cf-id:
+      - iKKH_B22PiIldTDbz_MG2IAjYYYom0N1GiAikH_aeWTBZAlSUo8oCg==
+    body:
+      encoding: UTF-8
+      string: '{"updated":[{"uuid":"4a774160-67c6-4cc9-992c-724db9952ecd","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN CHEMISTRY","score":0.999970674514771,"yes_count":1,"no_count":0},{"uuid":"010d9779-7d6c-4361-9bce-6ae0e457bdb0","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN OPTICS","score":0.99998939037323,"yes_count":1,"no_count":0},{"uuid":"9035dad1-01e5-4d9b-a150-653e76be2f91","keyword":"EARTH
+        SCIENCE > OCEANS > SALINITY/DENSITY","score":0.99872225522995,"yes_count":0,"no_count":1},{"uuid":"10a88521-4325-4b72-88dc-82d389232a5e","keyword":"EARTH
+        SCIENCE > OCEANS > OCEAN TEMPERATURE","score":0.999270498752594,"yes_count":0,"no_count":1}], "not_found":[], 
+        "new_recommendations":[{"uuid":"d380319f-365c-45a4-96c1-8b9022a99ade", "keyword":"EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC TEMPERATURE > SURFACE TEMPERATURE > MAXIMUM/MINIMUM TEMPERATURE > 24 HOUR MAXIMUM TEMPERATURE"}, 
+        {"uuid":"19f6fa07-ef4a-4298-a350-740834959a7f", "keyword":"EARTH SCIENCE > SOLID EARTH > ROCKS/MINERALS/CRYSTALS > SEDIMENTARY ROCKS > SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES > LUMINESCENCE"}]}'
+  recorded_at: Thu, 10 Mar 2022 00:24:55 GMT
+recorded_with: VCR 6.0.0

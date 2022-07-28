@@ -27,7 +27,7 @@
         <legend aria-label='Select Provider' aria-hidden='true'>Select Provider for Search</legend>
         <!-- legend tags for 508 compliance -->
         <div class="row">
-          <%= select_tag "provider_id", options_for_select(@provider_ids, @query['provider_id']), class: 'single-select', prompt: 'Select a Provider', 'aria-label': 'Select a Provider' %>
+          <%= select_tag "provider_id", options_for_select(@provider_ids, @query['provider_id']), class: 'single-select', prompt: 'Search all Providers', 'aria-label': 'Search all Providers' %>
         </div>
       </fieldset>
     </div>

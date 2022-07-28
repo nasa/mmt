@@ -4,7 +4,7 @@
 def all_required_fields
   {
     'Platforms' => [{
-      'Type'      => 'Aircraft',
+      'Type'      => 'Jet',
       'ShortName' => 'A340-600',
       'LongName'  => 'Airbus A340-600',
     }],
@@ -33,6 +33,11 @@ def all_required_fields
     'SpatialExtent' => {
       'GranuleSpatialRepresentation' => 'CARTESIAN'
     },
+    'MetadataSpecification' => {
+      'Name' => 'UMM-C',
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0',
+      'Version' => '1.17.0'
+    },
     'TemporalExtents' => [{
       'PrecisionOfSeconds' => 1,
       'EndsAtPresentFlag' => false,
@@ -60,8 +65,13 @@ def collection_one
       'StartDate' => '2015-07-01T00:00:00Z',
       'EndDate'   => '2015-12-25T00:00:00Z'
     }],
+    'MetadataSpecification' => {
+      'Name' => 'UMM-C',
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0',
+      'Version' => '1.17.0'
+    },
     'Platforms' => [{
-      'Type'      => 'Aircraft',
+      'Type'      => 'Jet',
       'ShortName' => 'A340-600',
       'LongName'  => 'Airbus A340-600',
       'Characteristics' => [{
@@ -590,10 +600,12 @@ def collection_one
       'Title'     => 'Associated DOI Title',
       'Authority' => 'Associated DOI Authority'
     }],
+    'StandardProduct' => false,
     'CollectionProgress' => 'ACTIVE',
     'Quality'            => 'Metadata quality summary',
     'UseConstraints' => {
       'Description' => 'These are some use constraints',
+      'FreeAndOpenData' => true,
       'LicenseURL' => {
         'Linkage' => 'http://example.com'
       }
@@ -955,8 +967,8 @@ def collection_one
         'prefix-2',
         'prefix-3'
       ],
-      'S3CredentialsAPIEndpoint' => 'link.com',
-      'S3CredentialsAPIDocumentationURL' => 'amazon.com'
+      'S3CredentialsAPIEndpoint' => 'https://link.com',
+      'S3CredentialsAPIDocumentationURL' => 'https://amazon.com'
     }
   }
 end

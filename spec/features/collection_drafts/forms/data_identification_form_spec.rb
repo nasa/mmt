@@ -31,6 +31,11 @@ describe 'Data identification form', js: true do
         select 'Other', from: 'Collection Data Type'
       end
 
+      # Standard Product
+      within '.standard-product' do
+        choose 'draft_standard_product_true'
+      end
+
       # Processing level
       within '.processing-level-fields' do
         select '1A', from: 'ID'
@@ -42,12 +47,14 @@ describe 'Data identification form', js: true do
 
       # Use Constraints
       within '.use-constraints' do
-        within '.use_constraint_type_group' do
+        within '.use-constraint-type-group' do
           choose 'use_constraint_type_Url_LicenseURL'
         end
 
-        within '.license-description-field' do
+        within '.description-only-fields' do
           fill_in 'Description', with: 'These are some use constraints for the data identification form spec'
+
+          choose 'draft_use_constraints_free_and_open_data_true'
         end
 
         within '.license-url-fields' do
@@ -89,6 +96,11 @@ describe 'Data identification form', js: true do
         # CollectionDataType
         expect(page).to have_field('Collection Data Type', with: 'OTHER')
 
+        # Standard Product
+        within '.standard-product-type-group' do
+          expect(page).to have_checked_field('True')
+        end
+
         # Processing Level
         within '.processing-level-fields' do
           expect(page).to have_field('ID', with: '1A')
@@ -100,8 +112,12 @@ describe 'Data identification form', js: true do
 
         # Use Constraints
         within '.use-constraints' do
-          within '.license-description-field' do
+          within '.description-only-fields' do
             expect(page).to have_field('Description', with: 'These are some use constraints for the data identification form spec')
+
+            within '.free-and-open-data-field' do
+              expect(page).to have_checked_field('True')
+            end
           end
           within '.license-url-fields' do
             expect(page).to have_field('Linkage', with: 'https://data-identification-form-spec-linkage.example.com')
@@ -169,11 +185,27 @@ describe 'Data identification form', js: true do
       click_on 'Expand All'
     end
 
+    context 'when no Use Constraints type option has been chosen' do
+      it 'displays the unselected radio buttons' do
+        within '.use-constraint-type-group' do
+          expect(page).to have_unchecked_field('use_constraint_type_Description_DescriptionOnly')
+          expect(page).to have_unchecked_field('use_constraint_type_Url_LicenseURL')
+          expect(page).to have_unchecked_field('use_constraint_type_Text_LicenseText')
+        end
+      end
+
+      it 'does not display the form fields' do
+        expect(page).to have_css('.description-only-fields', visible: false)
+        expect(page).to have_css('.license-url-fields', visible: false)
+        expect(page).to have_css('.license-text-field', visible: false)
+      end
+    end
+
     context 'when modifying the Use Constraint fields' do
       context 'when a required icon should not be shown' do
         context 'when Description Only is selected' do
           before do
-            within '.use_constraint_type_group' do
+            within '.use-constraint-type-group' do
               choose 'use_constraint_type_Description_DescriptionOnly'
             end
           end
@@ -189,7 +221,7 @@ describe 'Data identification form', js: true do
 
         context 'when License URL is selected' do
           before do
-            within '.use_constraint_type_group' do
+            within '.use-constraint-type-group' do
               choose 'use_constraint_type_Url_LicenseURL'
             end
           end
@@ -207,7 +239,7 @@ describe 'Data identification form', js: true do
 
         context 'when License Text is selected' do
           before do
-            within '.use_constraint_type_group' do
+            within '.use-constraint-type-group' do
               choose 'use_constraint_type_Text_LicenseText'
             end
           end
@@ -226,7 +258,7 @@ describe 'Data identification form', js: true do
       context 'when a required icon should be shown' do
         context 'when Description Only is selected' do
           before do
-            within '.use_constraint_type_group' do
+            within '.use-constraint-type-group' do
               choose 'use_constraint_type_Description_DescriptionOnly'
             end
 
@@ -249,7 +281,7 @@ describe 'Data identification form', js: true do
 
         context 'when License URL is selected' do
           before do
-            within '.use_constraint_type_group' do
+            within '.use-constraint-type-group' do
               choose 'use_constraint_type_Url_LicenseURL'
             end
 
@@ -277,7 +309,7 @@ describe 'Data identification form', js: true do
 
         context 'when License Text is selected' do
           before do
-            within '.use_constraint_type_group' do
+            within '.use-constraint-type-group' do
               choose 'use_constraint_type_Text_LicenseText'
             end
 
