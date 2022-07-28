@@ -88,7 +88,6 @@ class CollectionDraft < Draft
       when ActionController::Parameters
         params = params.permit!.to_h
       end
-      puts("page value=",page)
       if params['template_name']
         self.template_name = params['template_name'].empty? ? nil : params['template_name']
       end
@@ -104,8 +103,6 @@ class CollectionDraft < Draft
       Rails.logger.info("Audit Log: Metadata update attempt where #{editing_user_id} modified #{self.class} parameters: #{json_params}")
 
       # reconfigure params into UMM schema structure and existing data if they are for DataContacts or DataCenters
-      # puts("json params value=",json_params)
-      # puts("params value=",params)
       json_params = convert_data_contacts_params(json_params)
       json_params = convert_data_centers_params(json_params)
       if page == "data-identification"
