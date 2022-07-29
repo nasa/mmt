@@ -81,7 +81,7 @@ module Cmr
       concept_id = create_concept_id_from_group(group)
       response = proposal_mode_safe_post(
         '/api/user_groups',
-        "name=#{group['name']}&description=#{URI.encode(group['description'])}&tag=#{group['provider_id']}&shared_user_group=true",
+        "name=#{group['name']}&description=#{URI.encode(group['description'])}&tag=#{group['provider_id']}",
         'Authorization' => "Bearer #{get_client_token}"
       )
       response.body['concept_id'] = concept_id if response.success?
@@ -92,7 +92,7 @@ module Cmr
     def add_user_to_edl_group(user_id, group_name, provider_id)
       proposal_mode_safe_post(
         "/api/user_groups/#{group_name}/user",
-        "user_id=#{user_id}&tag=#{provider_id}&shared_user_group=true",
+        "user_id=#{user_id}&tag=#{provider_id}",
         'Authorization' => "Bearer #{get_client_token}"
       )
     end
@@ -101,8 +101,7 @@ module Cmr
       delete(
         "/api/user_groups/#{group_name}/user",
         { 'user_id' => user_id,
-          'tag' => provider_id,
-          'shared_user_group' => true },
+          'tag' => provider_id },
         nil,
         'Authorization' => "Bearer #{get_client_token}"
       )
@@ -112,8 +111,7 @@ module Cmr
       name, provider_id = concept_id_to_name_provider(concept_id)
       delete(
         "/api/user_groups/#{name}",
-        { 'tag' => provider_id,
-          'shared_user_group' => true },
+        { 'tag' => provider_id },
         nil,
         'Authorization' => "Bearer #{get_client_token}"
       )
@@ -122,8 +120,8 @@ module Cmr
     def get_edl_group(concept_id)
       name, provider_id = concept_id_to_name_provider(concept_id)
       response = get("/api/user_groups/#{name}",
-                     { 'tag' => provider_id,
-                       'shared_user_group' => true },
+                     { 'tag' => provider_id
+                       },
                      'Authorization' => "Bearer #{get_client_token}")
       if response.success?
         response.body['concept_id'] = concept_id
@@ -135,8 +133,7 @@ module Cmr
     def get_edl_group_members(concept_id)
       name, provider_id = concept_id_to_name_provider(concept_id)
       response = get("/api/user_groups/group_members/#{name}",
-                     { 'tag' => provider_id,
-                       'shared_user_group' => true },
+                     { 'tag' => provider_id },
                        'Authorization' => "Bearer #{get_client_token}")
       users = response.body['users'] if response.success? && response.body.is_a?(Hash)
       return Cmr::Response.new(Faraday::Response.new(status: response.status, body: users.map { |user| user['uid'] } )) if users && users.length > 0
@@ -162,8 +159,7 @@ module Cmr
     def get_groups_for_providers(provider_ids)
       response = get('/api/user_groups/search',
                      {
-                       'name' => '',
-                       'shared_user_group' => true
+                       'name' => ''
                      },
                      'Authorization' => "Bearer #{get_client_token}")
       return [] if response.error?
@@ -177,8 +173,7 @@ module Cmr
 
     def get_groups_for_user_id(user_id)
       response = get('/api/user_groups/search',
-                     { 'user_id' => user_id,
-                       'shared_user_group' => true },
+                     { 'user_id' => user_id },
                      'Authorization' => "Bearer #{get_client_token}")
       return [] if response.error?
 
@@ -201,7 +196,7 @@ module Cmr
       if options['member'].blank?
         provider_groups = get_groups_for_provider_list(providers)
         status = provider_groups.empty? ? 400 : 200
-        return Cmr::Response.new(Faraday::Response.new(status: status, body: reformat_search_results(provider_groups)))
+        return Cmr::Response.new(Faraday::Response.new(status: status, body: reformat_search_results(provider_groups, options[:page_num], options[:page_size])))
       end
 
       # Search by list of users, then filter that list by provider.
@@ -231,7 +226,7 @@ module Cmr
 
       response = proposal_mode_safe_post(
         "/api/user_groups/#{group['name']}/update",
-        "tag=#{provider_id}&description=#{URI.encode(new_description)}&shared_user_group=true",
+        "tag=#{provider_id}&description=#{URI.encode(new_description)}",
         'Authorization' => "Bearer #{get_client_token}"
       )
       response.body['concept_id'] = concept_id
@@ -249,6 +244,7 @@ module Cmr
     protected
 
     def get_client_token
+      # return 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDQxNDE2MiwiaWF0IjoxNjU5MTE4MTYyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.OjmD4wXlJIYDvT917TyROvyFFTC9yxxvDv0l9WJwYa39nbBJC9wUpbEA3HW_wb9TA2lOYaQZw85SzTT5rUecFNl_bhiixBIA7KlbA0Asu_tB9E-oO3z1uHxHHBw2hgR-KgNCJfqaKqnjYDPvLpyoEV5qeec76eVdqW5-H0V7vobGGyDpVIo3Gq0hj06EcbBAQafBFdqVfgj6WktgJPAhGbFzPJvQIgRbHZPJi37P8Hw6X97QDSam2phX-ZriM-Qf0sGV2XOpNuoZHBRyj7R543-bo5-lQzl-nF3apkgUPQKkkgVlSL-yM506E0IinzTI2rEEazMnmy-7mCdMgfV_PA'
       # URS API says that the client token expires in 3600 (1 hr)
       # so cache token for one hour, and if needed will run request again
       client_access = Rails.cache.fetch('client_token', expires_in: 55.minutes) do
@@ -272,22 +268,37 @@ module Cmr
     end
 
     # make the search results match the structure of the cmr results
-    def reformat_search_results(results)
+    def reformat_search_results(results, page_num=1, page_size=25)
       items = results.map do |item|
         { 'name' => item['name'],
           'description' => item['description'],
           'provider_id' => item['tag'],
-          'concept_id' => create_concept_id_from_group(item),
-          'member_count' => get_edl_group_member_count(create_concept_id_from_group(item)) }
+          'concept_id' => create_concept_id_from_group(item)
+        }
       end
 
+      index = 0
+      if (page_num)
+        lower = (page_num-1)*page_size
+        upper = (page_num)*page_size
+      else
+        lower = 0
+        upper = 1000000
+      end
+      items.each do |item|
+        if (index >= lower and index <= upper)
+          item['member_count'] = get_edl_group_member_count(create_concept_id_from_group(item))
+        else
+          item['member_count']  = 0
+        end
+        index = index + 1
+      end
       { 'hits' => items.length, 'items' => items }
     end
 
     def get_edl_group_member_count(concept_id)
       response = get_edl_group_members(concept_id)
       return response.body.length if response.success?
-
       0
     end
 

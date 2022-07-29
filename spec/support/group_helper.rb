@@ -13,11 +13,11 @@ module Helpers
         # If members were provided, include them in the payload
         group_params['members'] = members if members.any?
 
-        group_response = cmr_client.create_group(group_params, admin ? 'access_token_admin' : 'access_token')
+        group_response = cmr_client.create_edl_group(group_params)
 
-        raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
-
-        wait_for_cmr
+        # raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
+        #
+        # wait_for_cmr
 
         group_response.body
       end
@@ -35,12 +35,12 @@ module Helpers
       end
     end
 
+    # Need to change from random_group_name to just "group_name"
     def random_group_name
-      # Using multiple categories helps ensure randomized results if multiple
-      # requests come in quickly
-      category = %w(galaxy moon star star_cluster).sample
-
-      Faker::Space.unique.send(category)
+      return '58732ce072d1ecb9b24d'
+      # hex = SecureRandom.hex(10)
+      # puts("hex=#{hex}")
+      # hex
     end
 
     def random_group_description
