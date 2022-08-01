@@ -18,7 +18,7 @@ class OrderOptionAssignmentsController < ManageCmrController
     collections.fetch('items', []).each do |collection|
       id = collection['meta']['concept-id']
       options = { 'catalog_item[]' => id }
-      assignments_response = cmr_client.get_order_option_assignments(options, token)
+      assignments_response = cmr_client.get_order_option_assignments(options, echo_provider_token)
       if assignments_response.success?
         option_defs = Array.wrap(get_order_option_defs(assignments_response.body))
 

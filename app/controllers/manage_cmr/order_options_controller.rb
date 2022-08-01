@@ -45,7 +45,7 @@ class OrderOptionsController < ManageCmrController
   def show
     order_option_id = params[:id]
 
-    response = cmr_client.get_order_option(order_option_id, token)
+    response = cmr_client.get_order_option(order_option_id, echo_provider_token)
     if response.success?
       @order_option = response.parsed_body['option_definition']
 
@@ -61,7 +61,7 @@ class OrderOptionsController < ManageCmrController
 
   def edit
     @order_option_id = params[:id]
-    response = cmr_client.get_order_option(@order_option_id, token)
+    response = cmr_client.get_order_option(@order_option_id, echo_provider_token)
     if response.success?
       @order_option = response.parsed_body['option_definition']
 
