@@ -141,6 +141,11 @@ Rails.application.routes.draw do
       get :edit, path: 'edit(/:form)'
     end
   end
+  get '/tool_drafts/:id/download_json' => 'tool_drafts#download_json'
+
+  namespace :api, constraints: { format: 'json' }  do
+    resource :tool_drafts, only: [:create]
+  end
 
   resources :collection_drafts, controller: 'collection_drafts', draft_type: 'CollectionDraft', as: 'collection_drafts' do
     member do
