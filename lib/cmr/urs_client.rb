@@ -244,7 +244,6 @@ module Cmr
     protected
 
     def get_client_token
-      # return 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDQxNDE2MiwiaWF0IjoxNjU5MTE4MTYyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.OjmD4wXlJIYDvT917TyROvyFFTC9yxxvDv0l9WJwYa39nbBJC9wUpbEA3HW_wb9TA2lOYaQZw85SzTT5rUecFNl_bhiixBIA7KlbA0Asu_tB9E-oO3z1uHxHHBw2hgR-KgNCJfqaKqnjYDPvLpyoEV5qeec76eVdqW5-H0V7vobGGyDpVIo3Gq0hj06EcbBAQafBFdqVfgj6WktgJPAhGbFzPJvQIgRbHZPJi37P8Hw6X97QDSam2phX-ZriM-Qf0sGV2XOpNuoZHBRyj7R543-bo5-lQzl-nF3apkgUPQKkkgVlSL-yM506E0IinzTI2rEEazMnmy-7mCdMgfV_PA'
       # URS API says that the client token expires in 3600 (1 hr)
       # so cache token for one hour, and if needed will run request again
       client_access = Rails.cache.fetch('client_token', expires_in: 55.minutes) do
