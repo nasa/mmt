@@ -16,23 +16,23 @@ module Cmr
       url = '/legacy-services/rest/option_definitions'
       content_type = { 'Content-Type' => 'application/json' }
       body = { 'option_definition' => order_option }
-      echo_security_token = { 'Echo-Token' => echo_provider_token }
+      echo_security_token = { 'Authorization' => "Bearer #{echo_provider_token}" }
       post(url, body.to_json, content_type.merge(echo_security_token))
     end
 
-    def get_order_option(id, token)
+    def get_order_option(id, echo_provider_token)
       url = "/legacy-services/rest/option_definitions/#{id}"
-      get(url, {}, { 'Authorization' => "Bearer #{token}" })
+      get(url, {}, { 'Authorization' => "Bearer #{echo_provider_token}" })
     end
 
     def delete_order_option(id, echo_provider_token)
       url = "/legacy-services/rest/option_definitions/#{id}"
-      delete(url, nil, nil, { 'Echo-Token' => echo_provider_token })
+      delete(url, nil, nil, { 'Authorization' => "Bearer #{echo_provider_token}" })
     end
 
-    def get_order_option_assignments(options, token)
+    def get_order_option_assignments(options, echo_provider_token)
       url = '/legacy-services/rest/catalog_item_option_assignments.json'
-      get(url, options, { 'Authorization' => "Bearer #{token}" })
+      get(url, options, { 'Authorization' => "Bearer #{echo_provider_token}" })
     end
 
     def add_order_option_assignments(id, order_option, echo_provider_token)
@@ -44,13 +44,13 @@ module Cmr
               'option_definition_id' => order_option
           }
       }
-      echo_security_token = { 'Echo-Token' => echo_provider_token }
+      echo_security_token = { 'Authorization' => "Bearer #{echo_provider_token}" }
       post(url, body.to_json, content_type.merge(echo_security_token))
     end
 
     def delete_order_option_assignments(option_assignment_guid, echo_provider_token)
       url = "/legacy-services/rest/catalog_item_option_assignments/#{option_assignment_guid}"
-      delete(url, nil, nil, { 'Echo-Token' => echo_provider_token })
+      delete(url, nil, nil, { 'Authorization' => "Bearer #{echo_provider_token}" })
     end
   end
 end
