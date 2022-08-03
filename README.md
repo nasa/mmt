@@ -381,7 +381,7 @@ In your terminal, run:
 In order for the collection preview to run in MMT, you will need to run a local instance of graphdb and graphql.   Here are the steps:
 
 #### Graph DB
-Go into directory 'graph-db' in CMR, start the server with:
+From your mmt directory(or any directory), start the server with:
 
     docker run -it -p 8182:8182 tinkerpop/gremlin-server conf/gremlin-server-rest-modern.yaml
 
@@ -404,16 +404,29 @@ And to start the server, use the following:
     
     CMR_ROOT_URL=http://localhost:3003 MMT_ROOT_URL=http://localhost:3000 DRAFT_MMT_ROOT_URL=http://localhost:3000 npm start
 
+You will know the server is running when you see the following:
+
+    Server ready: http://localhost:6005 🚀
+
+    Enter "rp" to replay the last request
+
+    ⠋ [Webpack] Watch service...    
+
 Note: MMT will use the following urls for loading the snippet (see .env file):
 
-    metadata_preview_js_url="https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.38.js"
-    metadata_preview_css_url="https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.0.0.38.min.css"
+    metadata_preview_js_url="https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.22.2.4-3.js"
+    metadata_preview_css_url="https://access.sit.earthdata.nasa.gov/plugin/metadata-preview.22.2.4-3.min.css"
 
 So you'll need to be on the VPN to use the latest snippet.  If it doesn't matter if you
 are using the latest, you can point to `access.earthdata.nasa.gov` instead and MMT
 will run without the need of being on the VPN.   To find out which version is supported in 
 production, look into the footer of the web page: 
 https://access.earthdata.nasa.gov 
+
+Note: If you get the following error: Cannot find module 'serverless-webpack'
+You will need to install serverless-webpack:
+
+    serverless plugin install --name serverless-webpack
 
 ##### Note:
 
