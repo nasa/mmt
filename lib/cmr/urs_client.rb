@@ -79,13 +79,16 @@ module Cmr
     def create_edl_group(group)
       group['provider_id'] = 'CMR' if group['provider_id'].nil?
       concept_id = create_concept_id_from_group(group)
-      response = proposal_mode_safe_post(
+      name = group['name'] || ''
+      description = group['description'] || ''
+      provider_id = group['provider_id'] || ''
+      response = post(
         '/api/user_groups',
-        "name=#{group['name']}&description=#{URI.encode(group['description'])}&tag=#{group['provider_id']}",
+        "name=#{name}&description=#{URI.encode(description)}&tag=#{provider_id}",
         'Authorization' => "Bearer #{get_client_token}"
       )
       response.body['concept_id'] = concept_id if response.success?
-      add_new_members(group['name'], group['members'], group['provider_id']) if group['members']
+      add_new_members(name, group['members'], provider_id) if group['members']
       response
     end
 
@@ -211,11 +214,14 @@ module Cmr
 
     # TODO: This entire method should be transactional with rollback.s
     def update_edl_group(concept_id, group)
-      new_description = group['description']
+      new_description = group['description'] || ''
 
       group_members_response = get_edl_group_members(concept_id)
       existing_members = group_members_response.body if group_members_response.success?
-      new_members = group['members']
+      if existing_members.nil?
+        existing_members = []
+      end
+      new_members = group['members'] || []
 
       members_to_add = new_members.reject { |x| existing_members.include? x }
       name, provider_id = concept_id_to_name_provider(concept_id)
@@ -224,7 +230,7 @@ module Cmr
       members_to_remove = existing_members.reject { |x| new_members.include? x }
       remove_old_members(name, members_to_remove, provider_id)
 
-      response = proposal_mode_safe_post(
+      response = post(
         "/api/user_groups/#{group['name']}/update",
         "tag=#{provider_id}&description=#{URI.encode(new_description)}",
         'Authorization' => "Bearer #{get_client_token}"
@@ -309,7 +315,11 @@ module Cmr
       "#{group['name']}__#{provider_id}"
     end
 
+    # I'm not going to worry about this now, since it will
+    # be replaced with a uuid soon.
     def concept_id_to_name_provider(concept_id)
+      return ['',''] if concept_id.nil?
+      return ['',''] if concept_id == {}
       name = concept_id.split('__')[0]
       provider_id = concept_id.split('__')[1]
       [name, provider_id]

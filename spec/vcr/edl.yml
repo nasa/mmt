@@ -1537,4 +1537,62 @@ http_interactions:
       encoding: UTF-8
       string: '{"access_token":"eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDQxODUxOSwiaWF0IjoxNjU5MTIyNTE5LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.RCD6Q2vq_-RR1R535PgS2U3IRYg1d9eIiZrWHgW6WSuEzwB0ic9r68WoyNQ4ZEn7xz0QJVZJh6ub9bxdQB3aLsHO8AZQl4GZJgemiDBPMLd7D1OIB9P7FM3FgSxPTma_BdVz9SpfAgh0WAUvwzWnJbVk87Xc0GAvUM_AozVNMVhGqGZztuPbnDan94MqjV2Si76dWmwEisSGfCo3R6afd9sBx4AviZjszmckEsknYus4EtkgJQHbizGAfXuh2_2wZM8ciwMA7hFTmBpzAbf8Ywjy5kJDboLJdhPGlIj0xMlTyAnzrUb4U5eDbRrb59kt55uNXt35z4bRvsKSQlltQg","token_type":"Bearer","expires_in":1296000}'
   recorded_at: Fri, 29 Jul 2022 19:21:58 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/?tag=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Wed, 03 Aug 2022 21:16:30 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      www-authenticate:
+      - Bearer realm="Earthdata Login",error="invalid_token"
+      vary:
+      - Accept
+      x-request-id:
+      - 87f44252-28e4-46b1-81c2-cd27f7067e4c
+      x-runtime:
+      - '0.003941'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"invalid_token"}'
+  recorded_at: Wed, 03 Aug 2022 21:16:30 GMT
 recorded_with: VCR 6.1.0
