@@ -89,7 +89,9 @@ module Cmr
       )
       response.body['concept_id'] = concept_id if response.success?
       add_new_members(name, group['members'], provider_id) if group['members']
+      puts("the response is #{response.body}")
       response
+
     end
 
     def add_user_to_edl_group(user_id, group_name, provider_id)
@@ -169,7 +171,8 @@ module Cmr
 
       # if provider_ids? is nil, filter out groups without tags
       response.body.select! do |x|
-        provider_ids.nil? ? x['tag'] : provider_ids.include?(x['tag'])
+        tag = x['tag'] || ''
+        provider_ids.nil? ? tag != '' : provider_ids.include?(tag)
       end
       response.body
     end

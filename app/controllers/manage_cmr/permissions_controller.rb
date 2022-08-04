@@ -249,7 +249,7 @@ class PermissionsController < ManageCmrController
     filters['provider'] = [current_user.provider_id, 'CMR'] if policy(:system_group).read?
 
     # Retrieve the first page of groups
-    groups_response = cmr_client.get_cmr_groups(filters, token)
+    groups_response = cmr_client.get_edl_groups(filters)
 
     # Request groups
     until groups_response.error? || groups_response.body['items'].blank?

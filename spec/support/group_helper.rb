@@ -2,6 +2,7 @@ module Helpers
   # :nodoc:
   module GroupHelper
     def create_group(provider_id: 'MMT_2', name: random_group_name, description: random_group_description, members: [], admin: false)
+      puts("name is #{name}")
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#create_group' do
         group_params = {
           'name'        => name,
@@ -20,16 +21,18 @@ module Helpers
         # wait_for_cmr
 
         group_response.body
+        puts "body=#{group_response.body}"
+        group_response.body
       end
     end
 
     def delete_group(concept_id:, admin: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#create_group' do
-        group_response = cmr_client.delete_group(concept_id, admin ? 'access_token_admin' : 'access_token')
+        group_response = cmr_client.delete_edl_group(concept_id)
 
         raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
 
-        wait_for_cmr
+        # wait_for_cmr
 
         group_response.success?
       end
