@@ -1,5 +1,5 @@
 # skipped until cmr handles group names properly.
-xdescribe PermissionsController, reset_provider: true do
+describe PermissionsController, reset_provider: true do
   before do
     set_as_mmt_proper
   end
@@ -63,21 +63,26 @@ xdescribe PermissionsController, reset_provider: true do
     end
 
     it 'renders the #show view' do
-      get :show, params: { id: @permission['concept_id'] }
+      VCR.use_cassette('edl', record: :new_episodes) do
+        get :show, params: { id: @permission['concept_id'] }
+      end
 
       expect(response).to render_template(:show)
     end
 
     it 'sets the permission instance variable' do
-      get :show, params: { id: @permission['concept_id'] }
-
+      VCR.use_cassette('edl', record: :new_episodes) do
+        get :show, params: { id: @permission['concept_id'] }
+      end
       expect(assigns(:permission).keys).to eq(%w(group_permissions catalog_item_identity))
     end
 
     it 'requests groups from cmr' do
       expect_any_instance_of(Cmr::CmrClient).to receive('get_permission').and_call_original
 
-      get :show, params: { id: @permission['concept_id'] }
+      VCR.use_cassette('edl', record: :new_episodes) do
+        get :show, params: { id: @permission['concept_id'] }
+      end
     end
   end
 

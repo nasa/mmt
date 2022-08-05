@@ -207,7 +207,7 @@ class PermissionsController < ManageCmrController
         next
       end
 
-      group_response = cmr_client.get_group(group_permission['group_id'], token)
+      group_response = cmr_client.get_edl_group(group_permission['group_id'])
 
       hydrate_group_permissions(group_permission)
 

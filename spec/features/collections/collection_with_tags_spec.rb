@@ -1,5 +1,5 @@
 # skip until cmr doesn't check group name
-xdescribe 'Collections with Tags', js: true do
+describe 'Collections with Tags', js: true do
   tag_1_key = 'tag.collection.example.01'
   tag_1_description = 'This is sample tag #1'
   tag_2_key = 'tag.collection.example.02'
@@ -11,7 +11,7 @@ xdescribe 'Collections with Tags', js: true do
 
     # create system group and permissions for tags
     VCR.use_cassette('edl', record: :new_episodes) do
-      @sys_group_response = create_group(provider_id: nil, admin: true, members: ['admin', 'adminuser'])
+      @sys_group_response = create_group(provider_id: nil, name: 'tags_test_group6', admin: true, members: ['chris.gokey']) # admin', 'adminuser']
       @acl_concept = setup_tag_permissions(@sys_group_response['concept_id'])
     end
     reindex_permitted_groups
@@ -104,7 +104,7 @@ xdescribe 'Collections with Tags', js: true do
       end
     end
 
-    context "when retrieving the collection's tags succeeds but retrieving the tag information fails" do
+    context "when retrieving the collection's tags succeeds but retrieving the tag information fails", js:true do
       before do
         tags_fail_response = cmr_fail_response(JSON.parse('{"error": "this is a tags retrieval failure response"}'), 403)
         allow_any_instance_of(Cmr::CmrClient).to receive(:get_tags).and_return(tags_fail_response)
