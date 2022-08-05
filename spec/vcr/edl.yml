@@ -1,0 +1,1542 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/search?name=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:28 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"ae89444b212ec89ccac9662c1ad51360"
+      x-request-id:
+      - 406ef2d3-27cd-4e36-b657-c16ff8b2fc90
+      x-runtime:
+      - '0.047953'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '[{"name":"Io","description":"Corrupti ut ut porro.","app_uid":null,"tag":"MMT_2","shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"name":"TestGroup","description":"Test
+        Shared App group from API","app_uid":null,"tag":null,"shared_user_group":true,"client_id":null,"created_by":"testapp"},{"name":"TestGroup1","description":"Shared
+        UI group","app_uid":null,"tag":null,"shared_user_group":true,"client_id":null,"created_by":"testapp"},{"name":"TestGroupnew","description":"New
+        App group from API","app_uid":null,"tag":null,"shared_user_group":true,"client_id":null,"created_by":"testapp"},{"name":"makai_test_group","description":"This
+        is a new group description","app_uid":null,"tag":null,"shared_user_group":true,"client_id":null,"created_by":"pg_app_test"},{"name":"EDL::jf_group_12::MMT_1","description":"description","app_uid":"mmt_test","tag":null,"shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"EDL::jf_group_13::MMT_1","description":"description","app_uid":"mmt_test","tag":null,"shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"EDL::jf_group_14::MMT_1","description":"description","app_uid":"mmt_test","tag":null,"shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"EDL::jf_group_15::MMT_1","description":"description","app_uid":"mmt_test","tag":null,"shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"EDL::jf_group_18::MMT_1","description":"description","app_uid":"mmt_test","tag":null,"shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"jf1__MMT_1","description":"description","app_uid":null,"tag":null,"shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"name":"jf2__MMT_2","description":"description","app_uid":null,"tag":null,"shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"name":"AG1200211473-CMR","description":"ECHO
+        Operations Team","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"693390","description":"Neque
+        repellendus saepe exercitationem.","app_uid":null,"tag":"MMT_2","shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"name":"AG1200212911-COL_LDEO","description":"Local
+        admin group for provider COL_LDEO","app_uid":"mmt_test","tag":"COL_LDEO","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200233258-EDF_TS3","description":"testing","app_uid":"mmt_test","tag":"EDF_TS3","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212882-EDF_TS3","description":"Admins
+        for the EDF_TS3 group.","app_uid":"mmt_test","tag":"EDF_TS3","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303070-NSIDCV0","description":"These
+        users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"NSIDCV0","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212850-JASON","description":"A
+        group to give permission to users of JASON to ingest data","app_uid":"mmt_test","tag":"JASON","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212860-ETIM12","description":"A
+        group to give permission to users of ETIM12 to ingest data","app_uid":"mmt_test","tag":"ETIM12","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200211477-CMR","description":"This
+        group as read permissions on all providers. CMR related test group.\r\n\r\nWhen
+        a new provider is added, ensure that this group is updated with the proper
+        permission.","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212858-ETIM3","description":"A
+        group to give permission to users of ETIM3 to ingest data","app_uid":"mmt_test","tag":"ETIM3","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200234757-GES_DISC","description":"Users
+        that have access to read metadata from the GES_DISC provider","app_uid":"mmt_test","tag":"GES_DISC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212857-EDF_DEV06","description":"Local
+        admin group for EDF_DEV06","app_uid":"mmt_test","tag":"EDF_DEV06","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200344957-EDF_DEV06","description":"This
+        group is for users of DEV06 CMR provider connected to the EDF_DEV06 mode in
+        the EDF.","app_uid":"mmt_test","tag":"EDF_DEV06","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212920-EC470_2","description":"Local
+        admin group for provider EC470_2","app_uid":"mmt_test","tag":"EC470_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212875-EDF_DEV01","description":"local
+        Administrator Group for EDF_DEV01","app_uid":"mmt_test","tag":"EDF_DEV01","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212928-SCIOPS","description":"Local
+        admin group for provider SCIOPS","app_uid":"mmt_test","tag":"SCIOPS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"c5df6a402b24e549cb7e89c4074e169c","description":"Maiores
+        esse necessitatibus qui.","app_uid":null,"tag":"MMT_2","shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"name":"fac030151a72f483d1c8","description":"Veritatis
+        maiores non magni.","app_uid":null,"tag":"MMT_2","shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"name":"AG1200341757-PODAAC","description":"The
+        super group for provider PODAAC","app_uid":"mmt_test","tag":"PODAAC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303072-PODAAC","description":"These
+        users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"PODAAC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212921-JAXA","description":"Local
+        admin group for provider JAXA","app_uid":"mmt_test","tag":"JAXA","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200269328-ESDIS","description":"Ingest","app_uid":"mmt_test","tag":"ESDIS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200211475-CMR","description":"Membership
+        in this group gives access to the echo-form-tool option selections.","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200370272-EDF_TS2","description":"Francell''s
+        Test Group for EDF_TS2","app_uid":"mmt_test","tag":"EDF_TS2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200267189-E2E_DEMO","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"E2E_DEMO","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200411465-CEOS_EXTRA","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"CEOS_EXTRA","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212919-MMT_2","description":"Local
+        admin group for provider MMT_2","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212861-ETIM13","description":"A
+        group to give permission to users of ETIM13 to ingest data","app_uid":"mmt_test","tag":"ETIM13","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200268864-ESDIS","description":"Administrators
+        Group for ESDIS Provider","app_uid":"mmt_test","tag":"ESDIS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200232078-TIM_YAK","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"TIM_YAK","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200231956-TIM_PROV","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"TIM_PROV","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212913-UMD_GLCF","description":"Local
+        admin group for provider UMD_GLCF","app_uid":"mmt_test","tag":"UMD_GLCF","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212880-ETIM5","description":"A
+        group to give permission to users of ETIM5 to ingest data","app_uid":"mmt_test","tag":"ETIM5","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212883-EDF_DEV07","description":"Local
+        admin group","app_uid":"mmt_test","tag":"EDF_DEV07","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212849-ETIM2","description":"A
+        group to give permission to users of ETIM2 to ingest data","app_uid":"mmt_test","tag":"ETIM2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200268893-ESDIS","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"ESDIS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200268896-ESDIS","description":"Ingest
+        permissions","app_uid":"mmt_test","tag":"ESDIS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200211476-CMR","description":"Used
+        for testing groups","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212852-ETIM6","description":"A
+        group to give permission to users of ETIM6 to ingest data","app_uid":"mmt_test","tag":"ETIM6","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303009-GES_DISC","description":"users
+        will be given GES_DISC curator privileges in Dashboard","app_uid":"mmt_test","tag":"GES_DISC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303074-ASF","description":"These
+        users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"ASF","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212846-LPDAAC_TBD","description":"The
+        super group for provider LPDAAC_TBD","app_uid":"mmt_test","tag":"LPDAAC_TBD","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212872-EDF_DEV05","description":"Local
+        admin groups for EDF_DEV05","app_uid":"mmt_test","tag":"EDF_DEV05","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200301542-CMR","description":"Users
+        in this group have the arc curator role in CMR dashboard","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212844-LARC_ASDC","description":"test
+        group","app_uid":"mmt_test","tag":"LARC_ASDC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212933-EC470_1","description":"Local
+        admin group for provider EC470_1","app_uid":"mmt_test","tag":"EC470_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303062-LARC","description":"
+        These users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"LARC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212843-LARC_ASDC","description":"The
+        super group for provider LARC_ASDC","app_uid":"mmt_test","tag":"LARC_ASDC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212916-NOAA","description":"Local
+        admin group for provider NOAA","app_uid":"mmt_test","tag":"NOAA","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303068-LARC_ASDC","description":"These
+        users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"LARC_ASDC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212908-NOAA_NCDC","description":"Local
+        admin group for provider NOAA_NCDC","app_uid":"mmt_test","tag":"NOAA_NCDC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212899-NSF_BCO","description":"Local
+        admin group for provider NSF_BCO","app_uid":"mmt_test","tag":"NSF_BCO","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212842-LARC","description":"The
+        super group for provider LARC","app_uid":"mmt_test","tag":"LARC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212915-UN","description":"Local
+        admin group for provider UN","app_uid":"mmt_test","tag":"UN","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212838-OPS_BMGT","description":"The
+        super group for provider OPS_BMGT","app_uid":"mmt_test","tag":"OPS_BMGT","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212909-DIF_PROV1","description":"Metadata
+        authors","app_uid":"mmt_test","tag":"DIF_PROV1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212845-OPS_ECHO10","description":"The
+        super group for provider OPS_ECHO10","app_uid":"mmt_test","tag":"OPS_ECHO10","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200230560-MMT_1","description":"all
+        the avengers","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200376142-MMT_1","description":"Testing
+        Group for francell_test_2","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212853-ETIM7","description":"A
+        group to give permission to users of ETIM7 to ingest data","app_uid":"mmt_test","tag":"ETIM7","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200411590-GHRSSTCWIC","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"GHRSSTCWIC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200233262-PROV_NAME","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"PROV_NAME","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200233194-MMT_1","description":"description","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200233255-MMT_1","description":"desc","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212931-MMT_1","description":"Description","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212907-UN_UNEP","description":"Local
+        admin group for provider UN_UNEP","app_uid":"mmt_test","tag":"UN_UNEP","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200231032-MMT_1","description":"description
+        description","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212930-MMT_1","description":"Local
+        admin group for provider MMT_1","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200213226-MMT_1","description":"Testing
+        admin group rights","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"my_group_test","description":"my
+        description","app_uid":null,"tag":"MMT_1","shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"name":"my_test_2","description":"my
+        description","app_uid":null,"tag":"MMT_2","shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"name":"Rhea","description":"Reiciendis
+        impedit quod nisi.","app_uid":null,"tag":"MMT_2","shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"name":"Hyades","description":"Voluptas
+        autem dolorem qui.","app_uid":null,"tag":"MMT_2","shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"name":"AG1200212873-DEMO_PROV","description":"local
+        admin group","app_uid":"mmt_test","tag":"DEMO_PROV","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200211474-CMR","description":"ECHO
+        System User","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200231914-DEMO_PROV","description":"TGOFF
+        setting up a test group.  can remove","app_uid":"mmt_test","tag":"DEMO_PROV","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200262387-CMR","description":"Development
+        Read Only  Group for Testing of providers in SIT environment.","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200369194-CMR","description":"Francell
+        Group for Testing","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200237205-KK_CUL","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"KK_CUL","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212831-USGS_EROS","description":"The
+        super group for provider USGS_EROS","app_uid":"mmt_test","tag":"USGS_EROS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200211472-CMR","description":"Privileged
+        Users from Development, Internal Test, Dan, and Andy.","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212839-LAADS","description":"The
+        super group for provider LAADS","app_uid":"mmt_test","tag":"LAADS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303061-LAADS","description":"These
+        users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"LAADS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212855-ETIM10","description":"A
+        group to give permission to users of ETIM10 to ingest data","app_uid":"mmt_test","tag":"ETIM10","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212881-ETIM8","description":"A
+        group to give permission to users of ETIM8 to ingest data","app_uid":"mmt_test","tag":"ETIM8","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212918-NOAA_NCEI","description":"Local
+        admin group for provider NOAA_NCEI","app_uid":"mmt_test","tag":"NOAA_NCEI","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212869-ETIM14","description":"A
+        group to give permission to users of ETIM14 to ingest data","app_uid":"mmt_test","tag":"ETIM14","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"7735_test","description":"test
+        for 7735","app_uid":"mmt_test","tag":"7735","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200411562-TCHERRY_A","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"TCHERRY_A","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212865-ETIM22","description":"A
+        group to give permission to users of ETIM22 to ingest data","app_uid":"mmt_test","tag":"ETIM22","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"dz_test_group","description":"test
+        description","app_uid":"mmt_test","tag":"prov1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200379366-CSDA","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"CSDA","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212923-ESA","description":"Group
+        for docBUILDER","app_uid":"mmt_test","tag":"ESA","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200412002-ESA","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"ESA","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212862-ETIM15","description":"A
+        group to give permission to users of ETIM15 to ingest data","app_uid":"mmt_test","tag":"ETIM15","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212900-AU_AADC","description":"Local
+        admin group for provider AU_AADC","app_uid":"mmt_test","tag":"AU_AADC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212917-EUMETSAT","description":"Local
+        admin group for provider EUMETSAT","app_uid":"mmt_test","tag":"EUMETSAT","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200232015-TIM_PROV4","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"TIM_PROV4","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212836-OBPG","description":"Provider
+        administrator group","app_uid":"mmt_test","tag":"OBPG","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212840-GSFCS4PA","description":"The
+        super group for provider GSFCS4PA","app_uid":"mmt_test","tag":"GSFCS4PA","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200231033-MMT_1","description":"World
+        Council Marvel","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212932-MMT_1","description":"foo","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200232124-MMT_1","description":"desc","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200301555-MMT_1","description":"Users
+        in this group have the MMT_1 DAAC curator role in CMR dashboard","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200234758-GIBS","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"GIBS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200241143-XYZA_PROV","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"XYZA_PROV","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212929-JAMES_ETIM","description":"Local
+        admin group for provider JAMES_ETIM","app_uid":"mmt_test","tag":"JAMES_ETIM","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200267852-E2E_18_3","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"E2E_18_3","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200375058-OMINRT","description":"The
+        group of users that manages OMINRT data holdings.","app_uid":"mmt_test","tag":"OMINRT","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200237233-MH_CUL","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"MH_CUL","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212867-EDF_TS2","description":"Local
+        admin group","app_uid":"mmt_test","tag":"EDF_TS2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212914-UN_WDC","description":"Local
+        admin group for provider UN_WDC","app_uid":"mmt_test","tag":"UN_WDC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212904-GES_DISC","description":"The
+        docBUILDER application and users who administer and test it","app_uid":"mmt_test","tag":"GES_DISC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212902-GES_DISC","description":"Local
+        admin group","app_uid":"mmt_test","tag":"GES_DISC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200363943-EDF_DEV01","description":"For
+        Metadata Readonly purposes","app_uid":"mmt_test","tag":"EDF_DEV01","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200369373-SCIOPS","description":"Group
+        for testing subscriptions in SCIOPS","app_uid":"mmt_test","tag":"SCIOPS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200269329-SCIOPS","description":"ingest
+        test","app_uid":"mmt_test","tag":"SCIOPS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200211478-CMR","description":"System
+        Level Group for Global Operations ","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200362672-SCIOPS","description":"DraftMMT
+        Users (Non-NASA)","app_uid":"mmt_test","tag":"SCIOPS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200364891-SCIOPS","description":"DraftMMT
+        Approver (Non-NASA) - SCIOPS","app_uid":"mmt_test","tag":"SCIOPS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200267290-HMR_TME","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"HMR_TME","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200411894-NRSCC","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"NRSCC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212879-ETIM11","description":"A
+        group to give permission to users of ETIM11 to ingest data","app_uid":"mmt_test","tag":"ETIM11","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200267880-E2E_18_4","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"E2E_18_4","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212901-CCPROV","description":"Testing","app_uid":"mmt_test","tag":"CCPROV","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212866-GCMDCMR2","description":"Local
+        admin group","app_uid":"mmt_test","tag":"GCMDCMR2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212863-ETIM16","description":"A
+        group to give permission to users of ETIM16 to ingest data","app_uid":"mmt_test","tag":"ETIM16","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200213192-CMR","description":"EDSC
+        sys user needs to ''see all''","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212870-EDF_OPS","description":"Admin","app_uid":"mmt_test","tag":"EDF_OPS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200370182-EDF_OPS","description":"Francell''s
+        Email test group for EDF_OPS","app_uid":"mmt_test","tag":"EDF_OPS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200231985-TIM_PROV3","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"TIM_PROV3","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200231117-MMT_2","description":"Test","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200370157-MMT_2","description":"Testing
+        Group","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200370046-MMT_2","description":"Test
+        Group for Francell''s Testing","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200230556-MMT_2","description":"some
+        new description of avengers","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200377140-MMT_2","description":"Group
+        for Francell Testing","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200375172-MMT_2","description":"Francell
+        Testing","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200371408-MMT_2","description":null,"app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200211483-CMR","description":"Group
+        of MMT Developers which need special permissions to hit ACL controlled CMR
+        endpoints.","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200360785-MMT_2","description":"Non-NASA
+        User Group for MMT_2","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200235005-MMT_2","description":"Allows
+        access to provider context for MMT_2 for users","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212854-ETIM9","description":"A
+        group to give permission to users of ETIM9 to ingest data","app_uid":"mmt_test","tag":"ETIM9","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212878-DEV07","description":"Local
+        admin group for DEV07","app_uid":"mmt_test","tag":"DEV07","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212893-GCMDADAPT","description":"Local
+        admin group","app_uid":"mmt_test","tag":"GCMDADAPT","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212894-GCMDADAPT","description":"Test
+        hidden collections.","app_uid":"mmt_test","tag":"GCMDADAPT","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212896-CMR_ONLY","description":"foo","app_uid":"mmt_test","tag":"CMR_ONLY","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG123456-CMR_ONLY","description":null,"app_uid":"mmt_test","tag":"CMR_ONLY","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200211482-CMR","description":"CMR
+        System Engineering group","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212895-CMR_ONLY","description":"bar","app_uid":"mmt_test","tag":"CMR_ONLY","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200375161-CMR_ONLY","description":"testing,
+        123","app_uid":"mmt_test","tag":"CMR_ONLY","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200382583-CMR_ONLY","description":"s3_access_control_demo_grp_2","app_uid":"mmt_test","tag":"CMR_ONLY","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200269330-CATALINO","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"CATALINO","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200412366-CMR7732","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"CMR7732","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200241115-XYZ_PROV","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"XYZ_PROV","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303341-ARCTEST","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"ARCTEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303376-ARCTEST","description":"These
+        users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"ARCTEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200369130-ARCTEST","description":"Test
+        CMR Dashboard ARC Curator","app_uid":"mmt_test","tag":"ARCTEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212934-LEO_PROV","description":"Local
+        admin group for provider LEO_PROV","app_uid":"mmt_test","tag":"LEO_PROV","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200377880-LEO_PROV","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"LEO_PROV","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212835-ASF","description":"The
+        super group for provider ASF","app_uid":"mmt_test","tag":"ASF","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212892-EDF_DEV08","description":"Local
+        admin group","app_uid":"mmt_test","tag":"EDF_DEV08","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200363949-EDF_DEV08","description":"EDF_DEV08
+        provider Readonly","app_uid":"mmt_test","tag":"EDF_DEV08","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200411402-PTCHERRY","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"PTCHERRY","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200411362-FEDEO","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"FEDEO","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212859-ETIM4","description":"A
+        group to give permission to users of ETIM4 to ingest data","app_uid":"mmt_test","tag":"ETIM4","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212926-SCIOPSTEST","description":"Local
+        admin group for provider SCIOPSTEST","app_uid":"mmt_test","tag":"SCIOPSTEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200369219-SCIOPSTEST","description":"Francell''s
+        Second Group for testing Email Subscriptions","app_uid":"mmt_test","tag":"SCIOPSTEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200369062-SCIOPSTEST","description":"SCIOPSTEST
+        Group for Subscription Emails","app_uid":"mmt_test","tag":"SCIOPSTEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200362674-SCIOPSTEST","description":"DraftMMT
+        Users (Non-NASA).","app_uid":"mmt_test","tag":"SCIOPSTEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200365002-SCIOPSTEST","description":"A
+        group to access approver functions in dMMT for SCIOPSTEST.","app_uid":"mmt_test","tag":"SCIOPSTEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212848-EDF_DEV09","description":"Local
+        admin group for EDF_DEV09","app_uid":"mmt_test","tag":"EDF_DEV09","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200363952-EDF_DEV09","description":"EDF_DEV09
+        Provider ReadOnly","app_uid":"mmt_test","tag":"EDF_DEV09","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200411430-PROV_CH","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"PROV_CH","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212927-STATE_MA","description":"Local
+        admin group for provider STATE_MA","app_uid":"mmt_test","tag":"STATE_MA","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212877-EDF_DEV02","description":"users
+        who can manage the provider","app_uid":"mmt_test","tag":"EDF_DEV02","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200363946-EDF_DEV02","description":"Readonly
+        for EDF_DEV02 provider","app_uid":"mmt_test","tag":"EDF_DEV02","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200211479-CMR","description":"Earthdata
+        Search group","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212830-GHRC","description":"The
+        super group for provider GHRC","app_uid":"mmt_test","tag":"GHRC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303064-GHRC","description":"These
+        users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"GHRC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200381994-ORNL_CLOUD","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"ORNL_CLOUD","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212847-DEV08","description":"Local
+        admin group for DEV08","app_uid":"mmt_test","tag":"DEV08","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212905-NOAA_NGDC","description":"Local
+        admin group for provider NOAA_NGDC","app_uid":"mmt_test","tag":"NOAA_NGDC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212856-ETIM20","description":"A
+        group to give permission to users of ETIM20 to ingest data","app_uid":"mmt_test","tag":"ETIM20","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212832-LPDAAC_ECS","description":"The
+        super group for provider LPDAAC_ECS","app_uid":"mmt_test","tag":"LPDAAC_ECS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303058-LPDAAC_ECS","description":"These
+        users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"LPDAAC_ECS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212864-ETIM21","description":"A
+        group to give permission to users of ETIM21 to ingest data","app_uid":"mmt_test","tag":"ETIM21","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303076-ORNL_DAAC","description":"These
+        users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"ORNL_DAAC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212924-ISRO","description":"Local
+        admin group for provider ISRO","app_uid":"mmt_test","tag":"ISRO","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212925-PRIV_FIX","description":"Local
+        admin group for provider PRIV_FIX","app_uid":"mmt_test","tag":"PRIV_FIX","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212834-NSIDC_ECS","description":"Internal
+        NSIDC staff. ","app_uid":"mmt_test","tag":"NSIDC_ECS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212833-NSIDC_ECS","description":"The
+        super group for provider NSIDC_ECS","app_uid":"mmt_test","tag":"NSIDC_ECS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303060-NSIDC_ECS","description":"These
+        users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"NSIDC_ECS","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212910-OB_DAAC","description":"Local
+        admin group","app_uid":"mmt_test","tag":"OB_DAAC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200303066-OB_DAAC","description":"These
+        users will be given curator privileges in Dashboard","app_uid":"mmt_test","tag":"OB_DAAC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200371727-EEDTEST","description":"The
+        group of users that manages EEDTEST data holdings.","app_uid":"mmt_test","tag":"EEDTEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200277635-E2E_TEST","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"E2E_TEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200376225-E2E_TEST","description":"test_sub_group","app_uid":"mmt_test","tag":"E2E_TEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200231969-TIM_PROV2","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"TIM_PROV2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200330074-AMD_KOPRI","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"AMD_KOPRI","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG746-YAK4","description":"Local
+        admin group for provider YAK4","app_uid":"mmt_test","tag":"YAK4","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200237177-PQ_CUL","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"PQ_CUL","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212851-ETIM1","description":"A
+        group to give permission to users of ETIM1 to ingest data","app_uid":"mmt_test","tag":"ETIM1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212912-TEST_470_2","description":"Local
+        admin group for provider TEST_470_2","app_uid":"mmt_test","tag":"TEST_470_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212876-NOAA_TEST","description":"Local
+        Admin Group","app_uid":"mmt_test","tag":"NOAA_TEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200411866-CCMEO","description":"Provider
+        Admin Group","app_uid":"mmt_test","tag":"CCMEO","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212841-SEDAC","description":"The
+        super group for provider SEDAC","app_uid":"mmt_test","tag":"SEDAC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200301621-SEDAC","description":"These
+        users will be given DAAC curator privileges in Dashboard","app_uid":"mmt_test","tag":"SEDAC","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212885-GCMDTEST","description":"Local
+        Admin Group","app_uid":"mmt_test","tag":"GCMDTEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200279600-GCMDTEST","description":"SCOTT
+        TEST - READ ONLY","app_uid":"mmt_test","tag":"GCMDTEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200369064-MMT_1","description":"Group
+        for Charles testing","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200364859-MMT_1","description":"A
+        group for developers to test approver permissions in dMMT.","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200362666-CMR","description":"Dev
+        testing MMT-1435 in SIT","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200363955-MMT_1","description":"Non-Nasa
+        permissions to access dMMT in SIT","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200232076-MMT_1","description":"desc","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200237314-MMT_1","description":"Testing
+        Permissions and messages for Variables","app_uid":"mmt_test","tag":"MMT_1","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200212897-NON_PROFIT","description":"Local
+        admin group for provider NON_PROFIT","app_uid":"mmt_test","tag":"NON_PROFIT","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"DEMO_TEST_GROUP","description":null,"app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200211480-CMR","description":"A
+        group of users who wish to create tagging resources in the SIT environment","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200301545-CMR","description":"Users
+        in this group have the admin role in CMR dashboard","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"AG1200369055-CMR","description":"Group
+        belong to dashboard''s Metadata Quality (MDQ) team","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"will_test_group","description":"This
+        is a test group","app_uid":"mmt_test","tag":"E2E_TEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"will_test_group_2","description":"another
+        test","app_uid":"mmt_test","tag":"E2E_TEST","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"name":"NASA_Test_Group_With_Members","description":"NASA
+        is seriously the coolest, with the coolest members!","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"}]'
+  recorded_at: Fri, 05 Aug 2022 06:35:29 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/Io?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:30 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      x-request-id:
+      - e90b22bb-02eb-4824-bf90-4caf1e3541f8
+      x-runtime:
+      - '0.007938'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"Invalid user group"}'
+  recorded_at: Fri, 05 Aug 2022 06:35:29 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/693390?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:30 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      x-request-id:
+      - 47bbb3d7-d2d3-430b-b9ff-542c3cc6562f
+      x-runtime:
+      - '0.008032'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"Invalid user group"}'
+  recorded_at: Fri, 05 Aug 2022 06:35:30 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/c5df6a402b24e549cb7e89c4074e169c?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:32 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      x-request-id:
+      - 2034774a-ce85-4daf-9539-4c4206a6618b
+      x-runtime:
+      - '0.007221'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"Invalid user group"}'
+  recorded_at: Fri, 05 Aug 2022 06:35:32 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/fac030151a72f483d1c8?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:33 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      x-request-id:
+      - fd4ba2dd-feab-4e80-8b0b-6aed069b2920
+      x-runtime:
+      - '0.008186'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"Invalid user group"}'
+  recorded_at: Fri, 05 Aug 2022 06:35:32 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/AG1200212919-MMT_2?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:33 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"13a81838e4889e7d07a79b32ce2e9334"
+      x-request-id:
+      - 118479bd-63de-421d-ba1e-cef3025d625c
+      x-runtime:
+      - '0.030833'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"echo_sys","first_name":"ECHO","last_name":"SYSTEM","email_address":"testbedops@echo.nasa.gov"},{"uid":"rosy.cordova","first_name":"rosy","last_name":"cordova","email_address":"rosy.m.cordova@nasa.gov"},{"uid":"bademilu","first_name":"bryant","last_name":"ademiluyi","email_address":"
+        bryant.ademiluyi@nasa.gov"},{"uid":"francell","first_name":"Willard","last_name":"Gray","email_address":"willard.f.gray@nasa.gov"},{"uid":"francell_test_2","first_name":"W
+        Francell","last_name":"Gray","email_address":"francellgray@gmail.com"},{"uid":"tstevens","first_name":"Tyler","last_name":"Stevens","email_address":"tyler.b.stevens@nasa.gov"},{"uid":"tcherry","first_name":"Thomas","last_name":"Cherry","email_address":"thomas.a.cherry@nasa.gov"},{"uid":"scantrell8277","first_name":"Simon","last_name":"Cantrell","email_address":"simon.cantrell@nasa.gov"},{"uid":"rabbott","first_name":"Ryan","last_name":"Abbott","email_address":"ryan@element84.com"},{"uid":"ryan.d.cody","first_name":"Ryan","last_name":"Cody","email_address":"ryan.d.cody@nasa.gov"},{"uid":"ryan_miller","first_name":"Ryan","last_name":"Miller","email_address":"ryan.miller-1@nasa.gov"},{"uid":"rarxd5taqea","first_name":"Rvrhzxhtra","last_name":"Vetxvbpmxf","email_address":"uozydogeyyyujukey@tjbh.eyyy"},{"uid":"pquinn","first_name":"Patrick","last_name":"Quinn","email_address":"patrick@element84.com"},{"uid":"mmorahan","first_name":"Michael","last_name":"Morahan","email_address":"michael.p.morahan@nasa.gov"},{"uid":"macrouch","first_name":"Matthew","last_name":"Crouch","email_address":"matthew@element84.com"},{"uid":"mreese84","first_name":"Mark","last_name":"Reese","email_address":"mreese@element84.com"},{"uid":"kathleen_carr","first_name":"Kathleen","last_name":"Carr","email_address":"kathleen_carr@raytheon.com"},{"uid":"jmccoy1","first_name":"Juanisa","last_name":"McCoy","email_address":"juanisa.j.mccoy@nasa.gov"},{"uid":"jdfarley","first_name":"John","last_name":"Farley","email_address":"john.farley@nasa.gov"},{"uid":"jsiarto","first_name":"Jeff","last_name":"Siarto","email_address":"jeff@element84.com"},{"uid":"tranhohoanvu","first_name":"Hoan-Vu","last_name":"Tran-Ho","email_address":"hoan.v.tranho@nasa.gov"},{"uid":"hvtranho","first_name":"Hoan
+        Vu","last_name":"Tran Ho","email_address":"hv.tranho@gmail.com"},{"uid":"francell_test","first_name":"Francell","last_name":"Gray","email_address":"w_francell_gray@raytheon.com"},{"uid":"dmistry","first_name":"Deep","last_name":"Mistry","email_address":"deep.mistry@nasa.gov"},{"uid":"dz_test_user1","first_name":"Daniel","last_name":"Zamora","email_address":"daniel.p.zamora@nasa.gov"},{"uid":"dshum","first_name":"Dana","last_name":"Shum","email_address":"dshum@raytheon.com"},{"uid":"chris.gokey","first_name":"Christopher","last_name":"Gokey","email_address":"christopher.d.gokey@nasa.gov"},{"uid":"cmt21","first_name":"Christian","last_name":"Trummer","email_address":"christian.m.trummer@nasa.gov"},{"uid":"chuang14","first_name":"Charles","last_name":"Huang","email_address":"charles.huang@nasa.gov"},{"uid":"aaleman","first_name":"Alicia","last_name":"Aleman","email_address":"aaleman7@gmail.com"}]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:33 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/my_test_2?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:34 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      x-request-id:
+      - 7fe2488a-1622-47e1-80be-1b3291d82aec
+      x-runtime:
+      - '0.007610'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"Invalid user group"}'
+  recorded_at: Fri, 05 Aug 2022 06:35:34 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/Rhea?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:35 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      x-request-id:
+      - efe8807c-8879-41d7-82c2-46e4bb644e60
+      x-runtime:
+      - '0.007433'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"Invalid user group"}'
+  recorded_at: Fri, 05 Aug 2022 06:35:35 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/Hyades?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:36 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      x-request-id:
+      - 90e58a4a-09bf-49c2-b95e-c9c92999d5b8
+      x-runtime:
+      - '0.007583'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"Invalid user group"}'
+  recorded_at: Fri, 05 Aug 2022 06:35:36 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/AG1200231117-MMT_2?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:37 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"77b12889f18541386a9509afcfcd1097"
+      x-request-id:
+      - 4dbcc44e-8ec0-4611-b30a-8b2ff2a861a6
+      x-runtime:
+      - '0.008852'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"rabbott","first_name":"Ryan","last_name":"Abbott","email_address":"ryan@element84.com"}]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:36 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/AG1200370157-MMT_2?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:37 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"af48badbf6defcb1f2d2403003e8fd6a"
+      x-request-id:
+      - 6182b4be-93d7-471e-b026-48112b072180
+      x-runtime:
+      - '0.010301'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"francell","first_name":"Willard","last_name":"Gray","email_address":"willard.f.gray@nasa.gov"},{"uid":"francell_test_2","first_name":"W
+        Francell","last_name":"Gray","email_address":"francellgray@gmail.com"}]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:37 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/AG1200370046-MMT_2?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:38 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"084329d358970141db0026177e9ebeb3"
+      x-request-id:
+      - 9eebe6bd-01c4-4bb3-bc28-139b978ae19c
+      x-runtime:
+      - '0.009249'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"francell","first_name":"Willard","last_name":"Gray","email_address":"willard.f.gray@nasa.gov"},{"uid":"francell_test","first_name":"Francell","last_name":"Gray","email_address":"w_francell_gray@raytheon.com"}]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:38 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/AG1200230556-MMT_2?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:39 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"2a7abf158b3d059a045a226c4e437088"
+      x-request-id:
+      - 958fdaa2-7fe1-4265-82b8-3118c5aaa521
+      x-runtime:
+      - '0.009545'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"rspec_user1577","first_name":"First","last_name":"Last","email_address":"rspec_user1586@urs.test.nasa.gov"},{"uid":"chuang14","first_name":"Charles","last_name":"Huang","email_address":"charles.huang@nasa.gov"}]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:39 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/AG1200377140-MMT_2?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:40 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"084329d358970141db0026177e9ebeb3"
+      x-request-id:
+      - 9d01a833-d386-4f63-b5c4-6861a53490b8
+      x-runtime:
+      - '0.008984'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"francell","first_name":"Willard","last_name":"Gray","email_address":"willard.f.gray@nasa.gov"},{"uid":"francell_test","first_name":"Francell","last_name":"Gray","email_address":"w_francell_gray@raytheon.com"}]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:40 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/AG1200375172-MMT_2?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:41 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"084329d358970141db0026177e9ebeb3"
+      x-request-id:
+      - 9ce87e89-5d42-4688-afd7-7b3d6d6ac707
+      x-runtime:
+      - '0.008884'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"francell","first_name":"Willard","last_name":"Gray","email_address":"willard.f.gray@nasa.gov"},{"uid":"francell_test","first_name":"Francell","last_name":"Gray","email_address":"w_francell_gray@raytheon.com"}]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:40 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/AG1200371408-MMT_2?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:41 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"adac7b84dc3b7394d8385aa0c65fe27a"
+      x-request-id:
+      - f86a8e37-97ad-4878-9a0f-00eb1ea32d20
+      x-runtime:
+      - '0.008957'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:41 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/AG1200360785-MMT_2?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:42 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"f60ae6d9750b66d74d32a3ce3e55b703"
+      x-request-id:
+      - d28cb43f-359a-4011-b71c-f9e83f2f8678
+      x-runtime:
+      - '0.009158'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"tranhohoanvu","first_name":"Hoan-Vu","last_name":"Tran-Ho","email_address":"hoan.v.tranho@nasa.gov"},{"uid":"chris.gokey","first_name":"Christopher","last_name":"Gokey","email_address":"christopher.d.gokey@nasa.gov"},{"uid":"wvalenci","first_name":"William","last_name":"Valencia","email_address":"william.m.valencia@nasa.gov"},{"uid":"uvg_test","first_name":"UVG","last_name":"TESTER","email_address":"brownm09@live.com"}]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:42 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/AG1200235005-MMT_2?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:43 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"f524cf51c19bad640beae8bca442f3d6"
+      x-request-id:
+      - 49398109-3b98-4cec-8af8-584248a5eaf2
+      x-runtime:
+      - '0.009281'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"charleshuang","first_name":"Charles","last_name":"Huang","email_address":"charleshuang80@gmail.com"}]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:43 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/NASA_Test_Group_With_Members?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:44 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"f13a08832cac845ef6526e4c83ba4c94"
+      x-request-id:
+      - 82c9117e-8340-4951-8605-39598279081d
+      x-runtime:
+      - '0.009154'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"q6ddmkhivmuhk","first_name":"Execktamwrwcqs","last_name":"02Wvhznnzjtrunff","email_address":"pvblvweo@hqdybllrn.sghjz"},{"uid":"qhw5mjoxgs2vjptmvzco","first_name":"06dutmtxyfxma","last_name":"Sppfwzsbwz","email_address":"jkbvtdzjtheltsmgx@ybgcztxabzqnzmmvf.ygen"},{"uid":"rarxd5taqea","first_name":"Rvrhzxhtra","last_name":"Vetxvbpmxf","email_address":"uozydogeyyyujukey@tjbh.eyyy"}]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:44 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups
+    body:
+      encoding: UTF-8
+      string: name=58732ce072d1ecb9b24d&description=Facilis%20mollitia%20qui%20voluptatem.&tag=MMT_2
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:47 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"b634da9fc8eaedd0145008dc08fd2b9d"
+      x-request-id:
+      - 4172a36d-4bb5-4cfb-b968-1b64ee903f19
+      x-runtime:
+      - '0.018347'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"name":"58732ce072d1ecb9b24d","app_uid":"mmt_test","description":"Facilis
+        mollitia qui voluptatem.","client_id":"81FEem91NlTQreWv2UgtXQ","shared_user_group":false,"created_by":"mmt_test","tag":"MMT_2"}'
+  recorded_at: Fri, 05 Aug 2022 06:35:47 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/58732ce072d1ecb9b24d?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:48 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"4e3ebfdc5c28d97ed2f8c0da3661e748"
+      x-request-id:
+      - f8d6ad88-d047-42e1-b321-a7a3bb91eacb
+      x-runtime:
+      - '0.008737'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"group_id":"da0d8649-7b0b-4578-8ad9-f2cb5732125d","name":"58732ce072d1ecb9b24d","description":"Facilis
+        mollitia qui voluptatem.","shared_user_group":false,"tag":"MMT_2","created_by":"mmt_test","app_uid":"mmt_test","client_id":"81FEem91NlTQreWv2UgtXQ"}'
+  recorded_at: Fri, 05 Aug 2022 06:35:47 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/58732ce072d1ecb9b24d?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:48 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"adac7b84dc3b7394d8385aa0c65fe27a"
+      x-request-id:
+      - 7481003f-1ce6-407d-8535-cfe7076dfdfb
+      x-runtime:
+      - '0.009579'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[]}'
+  recorded_at: Fri, 05 Aug 2022 06:35:48 GMT
+- request:
+    method: delete
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/58732ce072d1ecb9b24d?tag=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2MDk1OTk4NiwiaWF0IjoxNjU5NjYzOTg2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.to0_XTwT_htZkfUB3dL5a0ujHQICqxsSCZptguExVT4TgUNwb4-4SoCAvmVxczFeV8S1WzJ2yzdme0g-xHD4bN-kIrTzB01EuTTHHNE3cBUioBEkvazROgv43E0u3xKJB9FsvGPSy26Dzej4rX4AKiQc6q9fTiZ29mXA4dLv2yLk0Aiag_fpNKx34Ug7JC16Itqm4c4Q06qX-MfudLlJJfBtNuis2wCU9-V-Nnm9movtCjI94LrZXpslo20fCazzOXuDP0YcSbYAwHM0XdFYvD0_mwQJgszc5AE_AaBa_hvGRP5lwwxhHdvLcfzvnrMpeSZ6_2ZM7hppKEFpgUl4bg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 05 Aug 2022 06:35:49 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"44136fa355b3678a1146ad16f7e8649e"
+      x-request-id:
+      - b6606364-1f93-425c-93d7-650b045e41d0
+      x-runtime:
+      - '0.015752'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: "{}"
+  recorded_at: Fri, 05 Aug 2022 06:35:49 GMT
+recorded_with: VCR 6.1.0
