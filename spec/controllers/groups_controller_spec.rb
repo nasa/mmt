@@ -45,6 +45,12 @@ describe GroupsController, reset_provider: true do
       end
     end
 
+    after :all do
+      VCR.use_cassette('edl', record: :new_episodes) do
+        delete_group(concept_id: @concept_id)
+      end
+    end
+
     before do
       sign_in
     end

@@ -67,7 +67,7 @@ describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to
 
   it 'cannot update_group' do
     VCR.use_cassette('edl', record: :new_episodes) do
-      expect { cmr_client.update._edl_group({}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+      expect { cmr_client.update_edl_group({}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
     end
   end
 
