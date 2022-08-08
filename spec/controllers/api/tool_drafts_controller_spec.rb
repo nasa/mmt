@@ -25,12 +25,11 @@ describe Api::ToolDraftsController do
     assert_equal(parsed_body['error'], 'unauthorized')
   end
 
-  # it 'create draft record' do
-  #   # The draft is created by a MMT_2 user
-  #   # The user requesting the document does not have MMT_2 in their provider list, only 'LARC'
-  #   allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: {'Content-Type':'application/json; charset=utf-8'}))
-  #   puts"@@@@@=#{@tool_draft}"
-  #   post :create, params: { draft: @tool_draft }
-  # end
+  it 'create draft record' do
+    response = Faraday.post("http://localhost:3000/api/tool_drafts") do |req|
+      req.body = '{"draft": {"Name": "a name", "LongName": "a tool description", "Version": "10.0"}}'
+    end
+    expect(response.status).to eq(204)
+  end
 
 end
