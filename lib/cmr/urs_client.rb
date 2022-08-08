@@ -78,7 +78,6 @@ module Cmr
 
     def create_edl_group(group)
       group['provider_id'] = 'CMR' if group['provider_id'].nil?
-      concept_id = create_concept_id_from_group(group)
       name = group['name'] || ''
       description = group['description'] || ''
       provider_id = group['provider_id'] || ''
@@ -87,58 +86,49 @@ module Cmr
         "name=#{name}&description=#{URI.encode(description)}&tag=#{provider_id}",
         'Authorization' => "Bearer #{get_client_token}"
       )
-      response.body['concept_id'] = concept_id if response.success?
-      add_new_members(name, group['members'], provider_id) if group['members']
-      puts("the response is #{response.body}")
-      response
-
-    end
-
-    def add_user_to_edl_group(user_id, group_name, provider_id)
-      proposal_mode_safe_post(
-        "/api/user_groups/#{group_name}/user",
-        "user_id=#{user_id}&tag=#{provider_id}",
-        'Authorization' => "Bearer #{get_client_token}"
-      )
-    end
-
-    def remove_user_from_edl_group(user_id, group_name, provider_id)
-      delete(
-        "/api/user_groups/#{group_name}/user",
-        { 'user_id' => user_id,
-          'tag' => provider_id },
-        nil,
-        'Authorization' => "Bearer #{get_client_token}"
-      )
-    end
-
-    def delete_edl_group(concept_id)
-      name, provider_id = concept_id_to_name_provider(concept_id)
-      delete(
-        "/api/user_groups/#{name}",
-        { 'tag' => provider_id },
-        nil,
-        'Authorization' => "Bearer #{get_client_token}"
-      )
-    end
-
-    def get_edl_group(concept_id)
-      name, provider_id = concept_id_to_name_provider(concept_id)
-      response = get("/api/user_groups/#{name}",
-                     { 'tag' => provider_id
-                       },
-                     'Authorization' => "Bearer #{get_client_token}")
       if response.success?
-        response.body['concept_id'] = concept_id
-        response.body['provider_id'] = provider_id
+        group_id = response.body['group_id']
+        add_new_members(group_id, group['members']) if group['members']
       end
       response
     end
 
-    def get_edl_group_members(concept_id)
-      name, provider_id = concept_id_to_name_provider(concept_id)
-      response = get("/api/user_groups/group_members/#{name}",
-                     { 'tag' => provider_id },
+    def add_user_to_edl_group(user_id, group_id)
+      proposal_mode_safe_post(
+        "/api/user_groups/#{group_id}/user",
+        "user_id=#{user_id}",
+        'Authorization' => "Bearer #{get_client_token}"
+      )
+    end
+
+    def remove_user_from_edl_group(user_id, group_id)
+      delete(
+        "/api/user_groups/#{group_id}/user",
+        { 'user_id' => user_id },
+        nil,
+        'Authorization' => "Bearer #{get_client_token}"
+      )
+    end
+
+    def delete_edl_group(group_id)
+      delete(
+        "/api/user_groups/#{group_id}",
+        {},
+        nil,
+        'Authorization' => "Bearer #{get_client_token}"
+      )
+    end
+
+    def get_edl_group(group_id)
+      response = get("/api/user_groups/#{group_id}",
+                     {},
+                     'Authorization' => "Bearer #{get_client_token}")
+      response
+    end
+
+    def get_edl_group_members(group_id)
+      response = get("/api/user_groups/group_members/#{group_id}",
+                     {},
                        'Authorization' => "Bearer #{get_client_token}")
       users = response.body['users'] if response.success? && response.body.is_a?(Hash)
       return Cmr::Response.new(Faraday::Response.new(status: response.status, body: users.map { |user| user['uid'] } )) if users && users.length > 0
@@ -216,10 +206,10 @@ module Cmr
     end
 
     # TODO: This entire method should be transactional with rollback.s
-    def update_edl_group(concept_id, group)
+    def update_edl_group(group_id, group)
       new_description = group['description'] || ''
 
-      group_members_response = get_edl_group_members(concept_id)
+      group_members_response = get_edl_group_members(group_id)
       existing_members = group_members_response.body if group_members_response.success?
       if existing_members.nil?
         existing_members = []
@@ -227,27 +217,26 @@ module Cmr
       new_members = group['members'] || []
 
       members_to_add = new_members.reject { |x| existing_members.include? x }
-      name, provider_id = concept_id_to_name_provider(concept_id)
-      add_new_members(name, members_to_add, provider_id)
+      add_new_members(group_id, members_to_add)
 
       members_to_remove = existing_members.reject { |x| new_members.include? x }
-      remove_old_members(name, members_to_remove, provider_id)
+      remove_old_members(group_id, members_to_remove)
 
       response = post(
-        "/api/user_groups/#{group['name']}/update",
-        "tag=#{provider_id}&description=#{URI.encode(new_description)}",
+        "/api/user_groups/#{group['group_id']}/update",
+        "&description=#{URI.encode(new_description)}",
         'Authorization' => "Bearer #{get_client_token}"
       )
-      response.body['concept_id'] = concept_id
+      response.body['group_id'] = group_id
       response
     end
 
-    def add_new_members(group_name, new_members, provider_id)
-      new_members.each { |user_id| add_user_to_edl_group(user_id, group_name, provider_id) }
+    def add_new_members(group_id, new_members)
+      new_members.each { |user_id| add_user_to_edl_group(user_id, group_id) }
     end
 
-    def remove_old_members(group_name, old_members, provider_id)
-      old_members.each { |user_id| remove_user_from_edl_group(user_id, group_name, provider_id) }
+    def remove_old_members(group_id, old_members)
+      old_members.each { |user_id| remove_user_from_edl_group(user_id, group_id) }
     end
 
     protected
@@ -280,8 +269,7 @@ module Cmr
       items = results.map do |item|
         { 'name' => item['name'],
           'description' => item['description'],
-          'provider_id' => item['tag'],
-          'concept_id' => create_concept_id_from_group(item)
+          'provider_id' => item['tag']
         }
       end
 
@@ -295,7 +283,7 @@ module Cmr
       end
       items.each do |item|
         if (index >= lower and index <= upper)
-          item['member_count'] = get_edl_group_member_count(create_concept_id_from_group(item))
+          item['member_count'] = get_edl_group_member_count(item['group_id'])
         else
           item['member_count']  = 0
         end
@@ -304,28 +292,10 @@ module Cmr
       { 'hits' => items.length, 'items' => items }
     end
 
-    def get_edl_group_member_count(concept_id)
-      response = get_edl_group_members(concept_id)
+    def get_edl_group_member_count(group_id)
+      response = get_edl_group_members(group_id)
       return response.body.length if response.success?
       0
-    end
-
-    # At this point, the EDL groups api does not support a unique group_identifier
-    # such as a concept_id.  We construct one here and store it in the name field of the
-    # group. This is a temporary fix until the api is enhanced.
-    def create_concept_id_from_group(group)
-      provider_id = group['provider_id'].nil? ? group['tag'] : group['provider_id']
-      "#{group['name']}__#{provider_id}"
-    end
-
-    # I'm not going to worry about this now, since it will
-    # be replaced with a uuid soon.
-    def concept_id_to_name_provider(concept_id)
-      return ['',''] if concept_id.nil?
-      return ['',''] if concept_id == {}
-      name = concept_id.split('__')[0]
-      provider_id = concept_id.split('__')[1]
-      [name, provider_id]
     end
   end
 end

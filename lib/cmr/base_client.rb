@@ -123,7 +123,6 @@ module Cmr
     end
 
     def proposal_mode_safe_post(url, body, headers = {})
-      puts "url=#{url} #{body}"
       request(:post, url, nil, body, headers)
     end
 

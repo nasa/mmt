@@ -40,14 +40,13 @@ describe GroupsController, reset_provider: true do
     before :all do
       VCR.use_cassette('edl', record: :new_episodes) do
         group_response = create_group
-        @concept_id = group_response['concept_id']
-        puts("concept id is #{@concept_id}")
+        @group_id = group_response['group_id']
       end
     end
 
     after :all do
       VCR.use_cassette('edl', record: :new_episodes) do
-        delete_group(concept_id: @concept_id)
+        delete_group(concept_id: @group_id)
       end
     end
 
@@ -57,15 +56,15 @@ describe GroupsController, reset_provider: true do
 
     it 'renders the #show view' do
       VCR.use_cassette('edl', record: :new_episodes) do
-        get :show, params: { id: @concept_id }
+        get :show, params: { id: @group_id }
         expect(response).to render_template(:show)
       end
     end
 
     it 'requests the group from cmr' do
       VCR.use_cassette('edl', record: :new_episodes) do
-        expect_any_instance_of(Cmr::UrsClient).to receive('get_edl_group').with(@concept_id).and_call_original
-        get :show, params: { id: @concept_id }
+        expect_any_instance_of(Cmr::UrsClient).to receive('get_edl_group').with(@group_id).and_call_original
+        get :show, params: { id: @group_id }
       end
     end
 
@@ -75,7 +74,7 @@ describe GroupsController, reset_provider: true do
       end
 
       it 'redirects the user to the manage collections page' do
-        get :show, params: { id: @concept_id }
+        get :show, params: { id: @group_id }
 
         expect(response).to redirect_to(manage_collections_path)
       end

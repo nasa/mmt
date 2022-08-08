@@ -18,8 +18,6 @@ module Helpers
         # raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
         #
         # wait_for_cmr
-
-        group_response.body
         group_response.body
       end
     end
@@ -38,7 +36,7 @@ module Helpers
 
     # Need to change from random_group_name to just "group_name"
     def random_group_name
-      return '58732ce072d1ecb9b24d'
+      return '58732ce0dddssssjkjjaasa72ddd331eadycb9b6663ddddddddsdddddff3xx24dd6666dee'
       # hex = SecureRandom.hex(10)
       # puts("hex=#{hex}")
       # hex
