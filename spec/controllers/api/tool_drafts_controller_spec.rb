@@ -1,4 +1,4 @@
-describe ToolDraftsController do
+describe Api::ToolDraftsController do
   before do
     set_as_mmt_proper
     @request.headers['Authorization'] = 'Bearer access-token'
@@ -10,7 +10,7 @@ describe ToolDraftsController do
     # The draft is created by a MMT_2 user
     # The user requesting the document does have MMT_2 in their provider list.
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: {'Content-Type':'application/json; charset=utf-8'}))
-    get :download_json, params: { id: @tool_draft.id }
+    get :show, params: { id: @tool_draft.id }
     parsed_body = JSON.parse(response.body)
     draft_json = @tool_draft.draft
     assert_equal(parsed_body['Name'], draft_json['Name'])
@@ -20,9 +20,17 @@ describe ToolDraftsController do
     # The draft is created by a MMT_2 user
     # The user requesting the document does not have MMT_2 in their provider list, only 'LARC'
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: {'Content-Type':'application/json; charset=utf-8'}))
-    get :download_json, params: { id: @tool_draft.id }
+    get :show, params: { id: @tool_draft.id }
     parsed_body = JSON.parse(response.body)
     assert_equal(parsed_body['error'], 'unauthorized')
   end
+
+  # it 'create draft record' do
+  #   # The draft is created by a MMT_2 user
+  #   # The user requesting the document does not have MMT_2 in their provider list, only 'LARC'
+  #   allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: {'Content-Type':'application/json; charset=utf-8'}))
+  #   puts"@@@@@=#{@tool_draft}"
+  #   post :create, params: { draft: @tool_draft }
+  # end
 
 end
