@@ -11,7 +11,7 @@ describe 'Groups breadcrumbs and header', js:true do
 
   after :all do
     VCR.use_cassette('edl', record: :new_episodes) do
-      delete_group(concept_id: @group['concept_id'])
+      delete_group(concept_id: @group['group_id'])
     end
   end
 
@@ -19,7 +19,7 @@ describe 'Groups breadcrumbs and header', js:true do
     login
 
     VCR.use_cassette('edl', record: :new_episodes) do
-      visit group_path(@group['concept_id'])
+      visit group_path(@group['group_id'])
     end
   end
 

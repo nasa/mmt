@@ -12,7 +12,7 @@ describe 'Collections with Tags', js: true do
     # create system group and permissions for tags
     VCR.use_cassette('edl', record: :new_episodes) do
       @sys_group_response = create_group(provider_id: nil, name: 'tags_test_group6', admin: true, members: ['chris.gokey']) # admin', 'adminuser']
-      @acl_concept = setup_tag_permissions(@sys_group_response['concept_id'])
+      @acl_concept = setup_tag_permissions(@sys_group_response['group_id'])
     end
     reindex_permitted_groups
 
@@ -28,7 +28,7 @@ describe 'Collections with Tags', js: true do
   after(:all) do
     VCR.use_cassette('edl', record: :new_episodes) do
       remove_group_permissions(@acl_concept)
-      delete_group(concept_id: @sys_group_response['concept_id'], admin: true)
+      delete_group(concept_id: @sys_group_response['group_id'], admin: true)
     end
     reindex_permitted_groups
   end

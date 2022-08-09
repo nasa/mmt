@@ -3,19 +3,21 @@
 
 describe 'Filtering groups', reset_provider: true, js: true do
   before :all do
-    create_group(
-      name: 'Group 1',
-      description: 'test group',
-      provider_id: 'MMT_2',
-      members: %w[qhw5mjoxgs2vjptmvzco]
-    )
+    VCR.use_cassette('edl', record: :new_episodes) do
+      create_group(
+        name: 'Group_1',
+        description: 'test group',
+        provider_id: 'MMT_2',
+        members: %w[qhw5mjoxgs2vjptmvzco]
+      )
 
-    create_group(
-      name: 'Group 2',
-      description: 'test group 2',
-      provider_id: 'MMT_2',
-      members: %w[qhw5mjoxgs2vjptmvzco rarxd5taqea q6ddmkhivmuhk]
-    )
+      create_group(
+        name: 'Group_2',
+        description: 'test group 2',
+        provider_id: 'MMT_2',
+        members: %w[qhw5mjoxgs2vjptmvzco rarxd5taqea q6ddmkhivmuhk]
+      )
+    end
   end
 
   context 'when viewing the groups page' do
@@ -24,7 +26,9 @@ describe 'Filtering groups', reset_provider: true, js: true do
       # the groups in all the providers
       login(providers: %w[MMT_1 MMT_2 LARC SEDAC NSIDC_ECS])
 
-      visit groups_path
+      VCR.use_cassette('edl', record: :new_episodes) do
+        visit groups_path
+      end
     end
 
     it 'displays only the groups from the current provider by default' do

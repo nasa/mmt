@@ -24,6 +24,13 @@ module Helpers
 
     def delete_group(concept_id:, admin: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#create_group' do
+
+        if admin
+          group_members_response = cmr_client.get_edl_group_members(concept_id)
+          existing_members = group_members_response.body if group_members_response.success?
+          cmr_client.remove_old_members(concept_id, existing_members) unless existing_members.nil?
+        end
+
         group_response = cmr_client.delete_edl_group(concept_id)
 
         raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')

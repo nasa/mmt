@@ -39,7 +39,7 @@ describe PermissionsController, reset_provider: true do
 
       permission = {
         group_permissions: [{
-          group_id: @group['concept_id'],
+          group_id: @group['group_id'],
           permissions: %w(read order)
         }, {
           user_type: 'registered',
@@ -56,6 +56,12 @@ describe PermissionsController, reset_provider: true do
         }
       }
       @permission = add_group_permissions(permission)
+    end
+
+    after :all do
+      VCR.use_cassette('edl', record: :new_episodes) do
+        delete_group(concept_id: @group['group_id'], admin: true)
+      end
     end
 
     before do
