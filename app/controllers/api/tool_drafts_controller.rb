@@ -13,8 +13,15 @@ class Api::ToolDraftsController < ToolDraftsController
     user = User.find_or_create_by(urs_uid: request.headers["User"])
     set_resource(resource_class.new(provider_id: provider_id, user: user, draft: {}))
     json_params = JSON.parse(request.body.read())
-    get_resource.draft = json_params['draft']
-    get_resource.save
+    if !json_params.is_a?(Hash)
+      json_params = JSON.parse(json_params)
+    end
+    get_resource.draft = json_params
+    if get_resource.save
+      render json: JSON.pretty_generate(get_resource.draft), status: 200
+    else
+      render json: JSON.pretty_generate({'error': 'Could not create tool draft'}), status: 500
+    end
   end
 
   def show

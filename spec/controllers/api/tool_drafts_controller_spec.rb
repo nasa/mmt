@@ -1,6 +1,7 @@
 describe Api::ToolDraftsController do
   before do
     set_as_mmt_proper
+    sign_in
     @request.headers['Authorization'] = 'Bearer access-token'
     @tool_draft = create(:full_tool_draft, user: create(:user, :multiple_providers))
     @test_user2 = create(:user2) # belong to LARC
@@ -25,11 +26,24 @@ describe Api::ToolDraftsController do
     assert_equal(parsed_body['error'], 'unauthorized')
   end
 
-  it 'create draft record' do
-    response = Faraday.post("http://localhost:3000/api/tool_drafts") do |req|
-      req.body = '{"draft": {"Name": "a name", "LongName": "a tool description", "Version": "10.0"}}'
-    end
-    expect(response.status).to eq(204)
+  it 'create draft record with correct request headers' do
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: {'Content-Type':'application/json; charset=utf-8'}))
+    jsonContent = '{"Name": "a name", "LongName": "a tool long name", "Version": "10.0"}'
+    request.headers.merge!({'User' => 'testuser'})
+    request.headers.merge!({'Provider' => 'LARC'})
+    post :create, body: jsonContent
+    assert_equal(response.status, 200)
+    parsed_body = JSON.parse(response.body)
+    assert_equal(parsed_body['Name'], 'a name')
+    assert_equal(parsed_body['LongName'], 'a tool long name')
+    assert_equal(parsed_body['Version'], '10.0')
   end
-
+  it 'create draft record with in correct request headers' do
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: {'Content-Type':'application/json; charset=utf-8'}))
+    jsonContent = '{"Name": "a name", "LongName": "a tool long name", "Version": "10.0"}'
+    post :create, body: jsonContent
+    assert_equal(response.status, 500)
+    parsed_body = JSON.parse(response.body)
+    assert_equal(parsed_body['error'], 'Could not create tool draft')
+  end
 end
