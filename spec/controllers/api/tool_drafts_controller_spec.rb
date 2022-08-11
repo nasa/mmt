@@ -34,9 +34,7 @@ describe Api::ToolDraftsController do
     post :create, body: jsonContent
     assert_equal(response.status, 200)
     parsed_body = JSON.parse(response.body)
-    assert_equal(parsed_body['Name'], 'a name')
-    assert_equal(parsed_body['LongName'], 'a tool long name')
-    assert_equal(parsed_body['Version'], '10.0')
+    assert_equal(parsed_body, 2)
   end
   it 'create draft record with in correct request headers' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: {'Content-Type':'application/json; charset=utf-8'}))

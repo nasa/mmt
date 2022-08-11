@@ -18,7 +18,7 @@ class Api::ToolDraftsController < ToolDraftsController
     end
     get_resource.draft = json_params
     if get_resource.save
-      render json: JSON.pretty_generate(get_resource.draft), status: 200
+      render json: JSON.pretty_generate(get_resource.id), status: 200
     else
       render json: JSON.pretty_generate({'error': 'Could not create tool draft'}), status: 500
     end
