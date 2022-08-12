@@ -21,6 +21,7 @@ class Api::ToolDraftsController < ToolDraftsController
       Rails.logger.info("Audit Log: #{user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
       render json: JSON.pretty_generate(get_resource.id), status: 200
     else
+      errors_list = generate_model_error
       Rails.logger.info("Audit Log: #{user.urs_uid} could not create #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
       render json: JSON.pretty_generate({'error': 'Could not create tool draft'}), status: 500
     end
@@ -33,6 +34,7 @@ class Api::ToolDraftsController < ToolDraftsController
       Rails.logger.info("Audit Log: #{user.urs_uid} successfully updated #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
       render json: JSON.pretty_generate(get_resource.id), status: 200
     else
+      errors_list = generate_model_error
       Rails.logger.info("Audit Log: #{user.urs_uid} could not update #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
       render json: JSON.pretty_generate({'error': 'Could not update tool draft'}), status: 500
     end
