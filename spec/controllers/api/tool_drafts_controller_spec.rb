@@ -13,8 +13,12 @@ describe Api::ToolDraftsController do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: {'Content-Type':'application/json; charset=utf-8'}))
     get :show, params: { id: @tool_draft.id }
     parsed_body = JSON.parse(response.body)
+    if !parsed_body.is_a?(Hash)
+      parsed_body = JSON.parse(parsed_body)
+    end
+    response_draft = parsed_body['draft']
     draft_json = @tool_draft.draft
-    assert_equal(parsed_body['Name'], draft_json['Name'])
+    assert_equal(response_draft['VersionDescription'], draft_json['VersionDescription'])
   end
 
   it 'it responds unauthorized if the user does not belong to the provider list.' do
