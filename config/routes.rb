@@ -146,6 +146,7 @@ Rails.application.routes.draw do
     resource :tool_drafts, only: [:create]
     get '/tool_drafts/:id' => 'tool_drafts#show'
     get '/keywords/:id' => 'keywords#show'
+    put '/tool_drafts/:id' => 'tool_drafts#update'
   end
 
   resources :collection_drafts, controller: 'collection_drafts', draft_type: 'CollectionDraft', as: 'collection_drafts' do
