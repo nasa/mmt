@@ -2,10 +2,10 @@ class Api::ToolDraftsController < ToolDraftsController
   include ManageMetadataHelper
 
   protect_from_forgery with: :null_session
-  before_action :proposal_approver_permissions, except: [:create, :show]
-  before_action :set_resource, only: [:show]
-  skip_before_action :ensure_user_is_logged_in, only: [:create, :show]
-  skip_before_action :set_form, only: [:show]
+  before_action :proposal_approver_permissions, except: [:create, :show, :update]
+  before_action :set_resource, only: [:show, :update]
+  skip_before_action :ensure_user_is_logged_in, only: [:create, :show, :update]
+  skip_before_action :set_form, only: [:show, :update]
   skip_before_action :set_preview, only: [:show]
 
   def create
@@ -21,6 +21,14 @@ class Api::ToolDraftsController < ToolDraftsController
       render json: JSON.pretty_generate(get_resource.id), status: 200
     else
       render json: JSON.pretty_generate({'error': 'Could not create tool draft'}), status: 500
+    end
+  end
+
+  def update
+    if get_resource.update(resource_params)
+      render json: JSON.pretty_generate(get_resource.id), status: 200
+    else
+      render json: JSON.pretty_generate({'error': 'Could not update tool draft'}), status: 500
     end
   end
 
