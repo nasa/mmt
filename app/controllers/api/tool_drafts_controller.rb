@@ -26,7 +26,7 @@ class Api::ToolDraftsController < ToolDraftsController
 
   def show
     if Rails.env.development?
-      render json: JSON.pretty_generate(get_resource.draft) if Rails.env.development?
+      render json: draft_json_result if Rails.env.development?
       return
     end
 
@@ -49,7 +49,7 @@ class Api::ToolDraftsController < ToolDraftsController
       token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
       urs_uid = token_info['uid']
     else
-      render json: JSON.pretty_generate(get_resource.draft)
+      render json: JSON.pretty_generate(draft_json_result)
       return
       # Todo: We need to handle verifying a launchpad token.
       # # Handle Launchpad authentication
@@ -97,9 +97,17 @@ class Api::ToolDraftsController < ToolDraftsController
     end
 
     if authorized
-      render json: JSON.pretty_generate(get_resource.draft)
+      render json: JSON.pretty_generate(draft_json_result)
     else
       render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401
     end
+  end
+
+  def draft_json_result
+    json = {}
+    json['id'] = get_resource.id
+    json['draft'] = get_resource.draft
+    json['user_id'] = get_resource.user_id
+    JSON.pretty_generate(json)
   end
 end
