@@ -30,7 +30,7 @@ describe Api::ToolDraftsController do
     assert_equal(parsed_body['error'], 'unauthorized')
   end
 
-  it 'create draft record with correct request headers' do
+  it 'create draft record with correct request headers and send update' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: {'Content-Type':'application/json; charset=utf-8'}))
     jsonContent = '{"Name": "a name", "LongName": "a tool long name", "Version": "10.0"}'
     request.headers.merge!({'User' => 'testuser'})
@@ -39,8 +39,15 @@ describe Api::ToolDraftsController do
     assert_equal(response.status, 200)
     parsed_body = JSON.parse(response.body)
     assert_equal(parsed_body, 2)
+    jsonContent = '{"Name": "a name updated", "LongName": "a tool long name", "Version": "10.0"}'
+    request.headers.merge!({'User' => 'testuser'})
+    request.headers.merge!({'Provider' => 'LARC'})
+    put :update, body: jsonContent, params: { id: 2 }
+    assert_equal(response.status, 200)
+    parsed_body = JSON.parse(response.body)
+    assert_equal(parsed_body, 2)
   end
-  it 'create draft record with in correct request headers' do
+  it 'create draft record with incorrect request headers' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: {'Content-Type':'application/json; charset=utf-8'}))
     jsonContent = '{"Name": "a name", "LongName": "a tool long name", "Version": "10.0"}'
     post :create, body: jsonContent
