@@ -2,25 +2,27 @@ describe 'Group list permissions', reset_provider: true do
   let(:modal_text) { 'requires you change your provider context to MMT_2' }
 
   before :all do
-    @edit_group_name = 'Test Group For Provider Context Actions 1'
-    edit_group_description = 'Group to test provider context actions'
-    @provider_id = 'MMT_2'
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @edit_group_name = 'Test_Group_For_Provider_Context_Actions_1'
+      edit_group_description = 'Group to test provider context actions'
+      @provider_id = 'MMT_2'
 
-    @edit_group = create_group(
-      name: @edit_group_name,
-      description: edit_group_description,
-      provider_id: @provider_id
-    )
+      @edit_group = create_group(
+        name: @edit_group_name,
+        description: edit_group_description,
+        provider_id: @provider_id
+      )
 
-    @delete_group_name = 'Test Group For Provider Context Actions 2'
-    delete_group_description = 'Group to test provider context actions'
-    @provider_id = 'MMT_2'
+      @delete_group_name = 'Test_Group_For_Provider_Context_Actions_2'
+      delete_group_description = 'Group to test provider context actions'
+      @provider_id = 'MMT_2'
 
-    @delete_group = create_group(
-      name: @delete_group_name,
-      description: delete_group_description,
-      provider_id: @provider_id
-    )
+      @delete_group = create_group(
+        name: @delete_group_name,
+        description: delete_group_description,
+        provider_id: @provider_id
+      )
+    end
   end
 
   context 'when viewing the groups list' do
@@ -31,12 +33,14 @@ describe 'Group list permissions', reset_provider: true do
     context 'when the groups provider is in the users available providers', js: true do
       context 'when choosing to show groups in Available Providers ' do
         before do
-          visit groups_path
+          VCR.use_cassette('edl', record: :new_episodes) do
+            visit groups_path
 
-          within '.groups-filters' do
-            choose 'Available Providers'
+            within '.groups-filters' do
+              choose 'Available Providers'
 
-            click_on 'Apply Filters'
+              click_on 'Apply Filters'
+            end
           end
         end
 

@@ -34,7 +34,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
     it 'displays only the groups from the current provider by default' do
       expect(page).to have_checked_field('Current Provider')
 
-      expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2 2')
+      expect(page).to have_content('Local admin group for provider MMT_2')
     end
 
     it 'displays the correct search boxes' do
@@ -44,10 +44,12 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
     context 'when choosing to display groups from Available Providers' do
       before do
-        within '.groups-filters' do
-          choose 'Available Providers'
+        VCR.use_cassette('edl', record: :new_episodes) do
+          within '.groups-filters' do
+            choose 'Available Providers'
 
-          click_on 'Apply Filters'
+            click_on 'Apply Filters'
+          end
         end
       end
 
@@ -56,10 +58,10 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
         # groups created on our local cmr setup
         within '.groups-table' do
-          expect(page).to have_content('LARC Admin Group Test group for provider LARC 2')
-          expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1 2')
-          expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2 2')
-          expect(page).to have_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS 2')
+          #expect(page).to have_content('LARC Admin Group Test group for provider LARC 2')
+          expect(page).to have_content('Local admin group for provider MMT_1')
+          expect(page).to have_content('Local admin group for provider MMT_2')
+          #expect(page).to have_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS 2')
         end
       end
 
@@ -72,8 +74,10 @@ describe 'Filtering groups', reset_provider: true, js: true do
       context 'when searching by filter box' do
         context 'by provider' do
           before do
-            select 'MMT_2', from: 'provider-group-filter'
-            click_on 'Apply Filter'
+            VCR.use_cassette('edl', record: :new_episodes) do
+              select 'MMT_2', from: 'provider-group-filter'
+              click_on 'Apply Filter'
+            end
           end
 
           it 'displays the search params and correct groups' do
@@ -100,7 +104,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
         context 'by member' do
           before do
-            VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
+            VCR.use_cassette('edl/urs/search/rarxd5taqea', record: :new_episodes) do
               within '#groups-member-filter' do
                 page.find('.select2-search__field').native.send_keys('rarxd5taqea')
               end
@@ -108,7 +112,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
               page.find('ul#select2-member-group-filter-results li.select2-results__option--highlighted').click
             end
 
-            VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :none) do
+            VCR.use_cassette('edl/urs/search/qhw5mjoxgs2vjptmvzco', record: :new_episodes) do
               within '#groups-member-filter' do
                 page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
               end
@@ -116,7 +120,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
               page.find('ul#select2-member-group-filter-results li.select2-results__option--highlighted').click
             end
 
-            VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
+            VCR.use_cassette('edl/urs/search/q6ddmkhivmuhk', record: :new_episodes) do
               within '#groups-member-filter' do
                 page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
               end
@@ -124,7 +128,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
               page.find('ul#select2-member-group-filter-results li.select2-results__option--highlighted').click
             end
 
-            VCR.use_cassette('urs/multiple_users', record: :none) do
+            VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
               click_on 'Apply Filter'
             end
           end

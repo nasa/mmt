@@ -1,13 +1,17 @@
 describe 'Updating groups', reset_provider: true, js: true do
   before do
-    @group = create_group
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @group = create_group
 
-    login
+      login
+    end
   end
 
   context 'when visiting edit group form' do
     before do
-      visit edit_group_path(@group['concept_id'])
+      VCR.use_cassette('edl', record: :new_episodes) do
+        visit edit_group_path(@group['group_id'])
+      end
     end
 
     it 'the name field is disabled' do
@@ -63,7 +67,7 @@ describe 'Updating groups', reset_provider: true, js: true do
         end
 
         within '.group-form' do
-          VCR.use_cassette('urs/multiple_users', record: :none) do
+          VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
             click_on 'Submit'
           end
         end
@@ -88,14 +92,14 @@ describe 'Updating groups', reset_provider: true, js: true do
 
       context 'when removing members' do
         before do
-          VCR.use_cassette('urs/multiple_users', record: :none) do
+          VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
             click_on 'Edit'
 
             within '.group-form' do
               find('.select2-selection__choice[title="Execktamwrwcqs 02Wvhznnzjtrunff"] span.select2-selection__choice__remove').click
               find('.select2-selection__choice[title="06dutmtxyfxma Sppfwzsbwz"] span.select2-selection__choice__remove').click
 
-              VCR.use_cassette('urs/rarxd5taqea', record: :none) do
+              VCR.use_cassette('edl/urs/rarxd5taqea', record: :new_episodes) do
                 click_on 'Submit'
               end
             end
@@ -117,12 +121,14 @@ describe 'Updating groups', reset_provider: true, js: true do
 
   context 'when viewing a group that has group members that have not authorized MMT' do
     before do
-      cmr_client.add_group_members(@group['concept_id'], %w(non_auth_user_1 non_auth_user_2), 'access_token')
+      VCR.use_cassette('edl', record: :new_episodes) do
+        cmr_client.add_new_members(@group['group_id'], %w(non_auth_user_1 non_auth_user_2))
+      end
 
       # within '#group-members' do
-        VCR.use_cassette('urs/multiple_users', record: :none) do
-          VCR.use_cassette('urs/non_authorized_users', record: :none) do
-            visit group_path(@group['concept_id'])
+        VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
+          VCR.use_cassette('edl/urs/non_authorized_users', record: :new_episodes) do
+            visit group_path(@group['group_id'])
           end
         end
       # end
@@ -142,8 +148,8 @@ describe 'Updating groups', reset_provider: true, js: true do
 
     context 'when updating the group' do
       before do
-        VCR.use_cassette('urs/non_authorized_users', record: :none) do
-          visit edit_group_path(@group['concept_id'])
+        VCR.use_cassette('edl/urs/non_authorized_users', record: :new_episodes) do
+          visit edit_group_path(@group['group_id'])
         end
 
         fill_in 'Description', with: 'New Testing Description'
@@ -161,7 +167,7 @@ describe 'Updating groups', reset_provider: true, js: true do
         end
 
         within '.group-form' do
-          VCR.use_cassette('urs/mixed_authorization', record: :none) do
+          VCR.use_cassette('edl/urs/mixed_authorization', record: :new_episodes) do
             click_on 'Submit'
           end
         end

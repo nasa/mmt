@@ -3,13 +3,15 @@ describe 'Invalid Group' do
     bad_concept_id = 'aabbccddee'
 
     before do
-      login
-      visit group_path(bad_concept_id)
+      VCR.use_cassette('edl', record: :new_episodes) do
+        login
+        visit group_path(bad_concept_id)
+      end
     end
 
     it 'displays an error message' do
       expect(page).to have_css('div.eui-banner--danger')
-      expect(page).to have_content("Concept-id [#{bad_concept_id}] is not valid")
+      expect(page).to have_content("Invalid user group or the group is not created by you")
     end
 
     it 'redirects to groups index page' do

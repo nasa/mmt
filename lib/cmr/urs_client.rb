@@ -139,7 +139,7 @@ module Cmr
 
     def get_groups_for_provider_list(providers)
       groups = get_groups_for_providers(providers)
-      groups.uniq { |group| group['name'] }
+      groups.uniq { |group| group['group_id'] }
     end
 
     def get_groups_for_user_list(ids)
@@ -267,7 +267,8 @@ module Cmr
     # make the search results match the structure of the cmr results
     def reformat_search_results(results, page_num=1, page_size=25)
       items = results.map do |item|
-        { 'name' => item['name'],
+        { 'group_id' => item['group_id'],
+          'name' => item['name'],
           'description' => item['description'],
           'provider_id' => item['tag']
         }
