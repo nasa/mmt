@@ -142,6 +142,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :api , constraints: { format: 'csv' } do
+    get '/keywords/:id' => 'kms_keywords#show'
+  end
+
   resources :collection_drafts, controller: 'collection_drafts', draft_type: 'CollectionDraft', as: 'collection_drafts' do
     member do
       get :edit, path: 'edit(/:form)'
