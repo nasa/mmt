@@ -22,7 +22,6 @@ module Cmr
       headers = parsed_csv.shift
       result['headers'] = headers
       result['keywords'] = parsed_csv
-      # result = result.to_json
       result
     end
   end
