@@ -30,7 +30,12 @@ class Api::ToolDraftsController < ToolDraftsController
   def update
     provider_id = request.headers["Provider"]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
-    if get_resource.update(resource_params)
+    json_params = JSON.parse(request.body.read())
+    if !json_params.is_a?(Hash)
+      json_params = JSON.parse(json_params)
+    end
+    get_resource.draft = json_params
+    if get_resource.save
       Rails.logger.info("Audit Log: #{user.urs_uid} successfully updated #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
       render json: JSON.pretty_generate(get_resource.id), status: 200
     else
