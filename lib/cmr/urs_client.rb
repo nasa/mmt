@@ -183,7 +183,7 @@ module Cmr
     # Note: If provider is nil has special meaning, it will return all groups (that have a tag)
     def get_edl_groups(options)
       providers = options['provider']
-
+      
       unless providers.nil? || options['show_system_groups'].nil?
         providers << 'CMR' if options['show_system_groups']
       end
@@ -223,10 +223,11 @@ module Cmr
       remove_old_members(group_id, members_to_remove)
 
       response = post(
-        "/api/user_groups/#{group['group_id']}/update",
+        "/api/user_groups/#{group_id}/update",
         "&description=#{URI.encode(new_description)}",
         'Authorization' => "Bearer #{get_client_token}"
       )
+
       response.body['group_id'] = group_id
       response
     end
@@ -281,14 +282,12 @@ module Cmr
       else
         lower = 0
         upper = 1000000
+        page_size = 1000000
       end
+      items = items[lower, page_size]
+      items = Array.new if items.nil?
       items.each do |item|
-        if (index >= lower and index <= upper)
-          item['member_count'] = get_edl_group_member_count(item['group_id'])
-        else
-          item['member_count']  = 0
-        end
-        index = index + 1
+        item['member_count'] = get_edl_group_member_count(item['group_id'])
       end
       { 'hits' => items.length, 'items' => items }
     end
