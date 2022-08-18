@@ -86,8 +86,10 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
   context 'when editing a permission' do
     context 'when the permission provider is not in my available providers' do
       before do
-        login(provider: 'MMT_1', providers: ['MMT_1'])
-        visit edit_permission_path(permission['concept_id'])
+        VCR.use_cassette('edl', record: :new_episodes) do
+          login(provider: 'MMT_1', providers: ['MMT_1'])
+          visit edit_permission_path(permission['concept_id'])
+        end
       end
 
       it 'displays the correct message' do
@@ -100,8 +102,10 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
 
     context 'when the permission provider is within my available providers' do
       before do
-        login(provider: 'MMT_1', providers: %w[MMT_1 MMT_2])
-        visit edit_permission_path(permission['concept_id'])
+        VCR.use_cassette('edl', record: :new_episodes) do
+          login(provider: 'MMT_1', providers: %w[MMT_1 MMT_2])
+          visit edit_permission_path(permission['concept_id'])
+        end
       end
 
       it 'displays the correct message' do

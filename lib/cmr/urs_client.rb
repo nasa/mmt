@@ -77,10 +77,10 @@ module Cmr
     end
 
     def create_edl_group(group)
-      group['provider_id'] = 'CMR' if group['provider_id'].nil?
+      group['tag'] = 'CMR' if group['tag'].nil?
       name = group['name'] || ''
       description = group['description'] || ''
-      provider_id = group['provider_id'] || ''
+      provider_id = group['tag'] || ''
       response = post(
         '/api/user_groups',
         "name=#{name}&description=#{URI.encode(description)}&tag=#{provider_id}",
@@ -282,13 +282,20 @@ module Cmr
       else
         lower = 0
         upper = 1000000
-        page_size = 1000000
       end
-      items = items[lower, page_size]
-      items = Array.new if items.nil?
+
       items.each do |item|
-        item['member_count'] = get_edl_group_member_count(item['group_id'])
+        if (index >= lower and index <= upper)
+          item['member_count'] = get_edl_group_member_count(item['group_id'])
+        else
+          item['member_count']  = 0
+        end
+        index = index + 1
       end
+
+      # return empty items if the lower bounds exceeds the number of items
+      return { 'hits' => items.length, 'items' => {} } if lower > items.length
+
       { 'hits' => items.length, 'items' => items }
     end
 

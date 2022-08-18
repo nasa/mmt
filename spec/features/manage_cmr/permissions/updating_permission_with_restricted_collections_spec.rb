@@ -19,11 +19,13 @@ describe 'Updating Collection Permissions when collections are not accessible by
     restricted_concept_1 = collection_concept_from_keyword('MYD29E1D_5', 'access_token_admin')
     restricted_concept_2 = collection_concept_from_keyword('AE_SI12_3', 'access_token_admin')
 
-    @group_name = "Test Group NSIDC_ECS #{Faker::Number.number(digits: 6)}"
-    @group = create_group(
-      name: @group_name,
-      provider_id: 'NSIDC_ECS'
-    )
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @group_name = "Test_Group_NSIDC_ECS_#{Faker::Number.number(digits: 6)}"
+      @group = create_group(
+        name: @group_name,
+        provider_id: 'NSIDC_ECS'
+      )
+    end
 
     wait_for_cmr
 
@@ -31,7 +33,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
     collection_permission_some_restricted = {
       group_permissions: [{
-        group_id: @group['concept_id'],
+        group_id: @group['group_id'],
         permissions: [ "read", "order" ]
       }],
       catalog_item_identity: {
@@ -57,7 +59,7 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
     collection_permission_all_restricted = {
       group_permissions: [{
-        group_id: @group['concept_id'],
+        group_id: @group['group_id'],
         permissions: [ "read", "order" ]
       }],
       catalog_item_identity: {
@@ -82,7 +84,9 @@ describe 'Updating Collection Permissions when collections are not accessible by
   after :all do
     remove_group_permissions(@collection_permission_some_restricted['concept_id'])
     remove_group_permissions(@collection_permission_all_restricted['concept_id'])
-    delete_group(concept_id: @group['concept_id'])
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @group['group_id'])
+    end
 
     reindex_permitted_groups
   end
@@ -94,9 +98,10 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
     context 'when updating a collection permission and the user has no access to any of the selected collections', js: true do
       before do
-        visit edit_permission_path(@collection_permission_all_restricted['concept_id'])
-
-        wait_for_jQuery
+        VCR.use_cassette('edl', record: :new_episodes) do
+          visit edit_permission_path(@collection_permission_all_restricted['concept_id'])
+        end
+        #wait_for_jQuery
       end
 
       it 'displays the collection permission edit form with 0 of 2 selected collections' do
@@ -156,9 +161,10 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
     context 'when updating a collection permission and the user has access to some of the selected collections', js: true do
       before do
-        visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
-
-        wait_for_jQuery
+        VCR.use_cassette('edl', record: :new_episodes) do
+          visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
+        end
+        #wait_for_jQuery
       end
 
       it 'displays the collection permission with 1 of 3 selected collection' do
@@ -232,11 +238,13 @@ describe 'Updating Collection Permissions as an admin user when collections are 
     restricted_concept_1 = collection_concept_from_keyword('MYD29E1D_5', 'access_token_admin')
     restricted_concept_2 = collection_concept_from_keyword('AE_SI12_3', 'access_token_admin')
 
-    @group_name = "Test Group NSIDC_ECS #{Faker::Number.number(digits: 8)}"
-    @group = create_group(
-      name: @group_name,
-      provider_id: 'NSIDC_ECS'
-    )
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @group_name = "Test_Group_NSIDC_ECS_#{Faker::Number.number(digits: 8)}"
+      @group = create_group(
+        name: @group_name,
+        provider_id: 'NSIDC_ECS'
+      )
+  end
 
     wait_for_cmr
 
@@ -244,7 +252,7 @@ describe 'Updating Collection Permissions as an admin user when collections are 
 
     collection_permission_some_restricted = {
       group_permissions: [{
-        group_id: @group['concept_id'],
+        group_id: @group['group_id'],
         permissions: [ "read", "order" ]
       }],
       catalog_item_identity: {
@@ -270,7 +278,7 @@ describe 'Updating Collection Permissions as an admin user when collections are 
 
     collection_permission_all_restricted = {
       group_permissions: [{
-        group_id: @group['concept_id'],
+        group_id: @group['group_id'],
         permissions: [ "read", "order" ]
       }],
       catalog_item_identity: {
@@ -295,7 +303,9 @@ describe 'Updating Collection Permissions as an admin user when collections are 
   after :all do
     remove_group_permissions(@collection_permission_some_restricted['concept_id'])
     remove_group_permissions(@collection_permission_all_restricted['concept_id'])
-    delete_group(concept_id: @group['concept_id'])
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @group['group_id'])
+    end
 
     reindex_permitted_groups
   end
@@ -307,9 +317,10 @@ describe 'Updating Collection Permissions as an admin user when collections are 
 
     context 'when viewing the edit form of the collection permission that has some restricted collections', js: true do
       before do
-        visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
-
-        wait_for_jQuery
+        VCR.use_cassette('edl', record: :new_episodes) do
+          visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
+        end
+        #wait_for_jQuery
       end
 
       it 'displays the collection permission with 3 of 3 selected collection' do
@@ -336,7 +347,9 @@ describe 'Updating Collection Permissions as an admin user when collections are 
 
     context 'when viewing the show page of the collection permission that has some restricted collections' do
       before do
-        visit permission_path(@collection_permission_some_restricted['concept_id'])
+        VCR.use_cassette('edl', record: :new_episodes) do
+          visit permission_path(@collection_permission_some_restricted['concept_id'])
+        end
       end
 
       it 'displays the collection permission information with 3 of 3 selected collections' do
