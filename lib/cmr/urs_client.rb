@@ -77,10 +77,10 @@ module Cmr
     end
 
     def create_edl_group(group)
-      group['provider_id'] = 'CMR' if group['provider_id'].nil?
+      group['tag'] = 'CMR' if group['tag'].nil?
       name = group['name'] || ''
       description = group['description'] || ''
-      provider_id = group['provider_id'] || ''
+      provider_id = group['tag'] || ''
       response = post(
         '/api/user_groups',
         "name=#{name}&description=#{URI.encode(description)}&tag=#{provider_id}",
@@ -183,7 +183,7 @@ module Cmr
     # Note: If provider is nil has special meaning, it will return all groups (that have a tag)
     def get_edl_groups(options)
       providers = options['provider']
-
+      
       unless providers.nil? || options['show_system_groups'].nil?
         providers << 'CMR' if options['show_system_groups']
       end
@@ -223,10 +223,11 @@ module Cmr
       remove_old_members(group_id, members_to_remove)
 
       response = post(
-        "/api/user_groups/#{group['group_id']}/update",
+        "/api/user_groups/#{group_id}/update",
         "&description=#{URI.encode(new_description)}",
         'Authorization' => "Bearer #{get_client_token}"
       )
+
       response.body['group_id'] = group_id
       response
     end
@@ -282,6 +283,7 @@ module Cmr
         lower = 0
         upper = 1000000
       end
+
       items.each do |item|
         if (index >= lower and index <= upper)
           item['member_count'] = get_edl_group_member_count(item['group_id'])
@@ -290,6 +292,10 @@ module Cmr
         end
         index = index + 1
       end
+
+      # return empty items if the lower bounds exceeds the number of items
+      return { 'hits' => items.length, 'items' => {} } if lower > items.length
+
       { 'hits' => items.length, 'items' => items }
     end
 
