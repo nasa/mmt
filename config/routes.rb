@@ -141,7 +141,7 @@ Rails.application.routes.draw do
       get :edit, path: 'edit(/:form)'
     end
   end
-
+  
   namespace :api , constraints: { format: 'json' } do
     resource :tool_drafts, only: [:create]
     get '/tool_drafts/:id' => 'tool_drafts#show'
