@@ -42,7 +42,7 @@ describe Api::ToolDraftsController do
     jsonContent = '{"Name": "a name updated", "LongName": "a tool long name", "Version": "10.0"}'
     request.headers.merge!({'User' => 'testuser'})
     request.headers.merge!({'Provider' => 'LARC'})
-    put :update, body: jsonContent, params: { id: 2 }
+    put :update, body: jsonContent, params: { id: parsed_body['id'] }
     assert_equal(response.status, 200)
     parsed_body = JSON.parse(response.body)
     assert_equal(parsed_body['draft']['Name'], 'a name updated')
