@@ -8,7 +8,7 @@ class Api::KmsKeywordsController < BaseDraftsController
 
   def show
     keyword_scheme = params[:id]
-    keywords = cmr_client.get_keywords(keyword_scheme)
+    keywords = cmr_client.get_kms_keywords(keyword_scheme)
     render json: keywords
     return
   end

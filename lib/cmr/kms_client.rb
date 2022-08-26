@@ -1,7 +1,7 @@
 require 'csv'
 module Cmr
   class KmsClient < BaseClient
-    def get_keywords(keyword_scheme)
+    def get_kms_keywords(keyword_scheme)
       url = "/kms/concepts/concept_scheme/#{keyword_scheme}/?format=csv"
       response = Rails.cache.fetch("#{keyword_scheme}", expires_in: 60.seconds) do
         get(url)
