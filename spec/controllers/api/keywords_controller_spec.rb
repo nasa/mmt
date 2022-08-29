@@ -1,4 +1,4 @@
-describe Api::KeywordsController do
+describe Api::CmrKeywordsController do
   before do
     set_as_mmt_proper
     sign_in

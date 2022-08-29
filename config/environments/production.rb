@@ -144,6 +144,7 @@ Rails.application.configure do
   config.gkr_enabled = true
 
   config.cmr_env = 'ops'
+  config.kms_env = 'ops'
   config.echo_env = 'ops'
   config.urs_register_url = 'https://urs.earthdata.nasa.gov/users/new'
 

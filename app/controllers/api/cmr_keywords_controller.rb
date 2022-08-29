@@ -1,4 +1,4 @@
-class Api::KeywordsController < BaseDraftsController
+class Api::CmrKeywordsController < BaseDraftsController
   include ManageMetadataHelper
 
   before_action :proposal_approver_permissions, except: [:show]
