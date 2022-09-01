@@ -1,25 +1,27 @@
 describe 'Saving Provider Object Permissions from the group show page', reset_provider: true do
   before :all do
-    @provider_group_name = 'Test Group for Creating Provider Object Permissions from group page'
-    @provider_group_description = 'Group for creating provider object permissions'
-    @provider_group = create_group(
-      name: @provider_group_name,
-      description: @provider_group_description,
-      provider_id: 'MMT_2'
-    )
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @provider_group_name = 'Test_Group_for_Creating_Provider_Object_Permissions_from_group_page'
+      @provider_group_description = 'Group for creating provider object permissions'
+      @provider_group = create_group(
+        name: @provider_group_name,
+        description: @provider_group_description,
+        provider_id: 'MMT_2'
+      )
 
-    wait_for_cmr
+      #wait_for_cmr
 
-    @system_group_name = 'Test System Group for Provider Permissions from group page'
-    @system_group_description = 'System Group for creating provider permissions'
-    @system_group = create_group(
-      name: @system_group_name,
-      description: @system_group_description,
-      provider_id: nil,
-      admin: true
-    )
+      @system_group_name = 'Test_System_Group_for_Provider_Permissions_from_group_page'
+      @system_group_description = 'System Group for creating provider permissions'
+      @system_group = create_group(
+        name: @system_group_name,
+        description: @system_group_description,
+        provider_id: nil,
+        admin: true
+      )
 
-    wait_for_cmr
+      #wait_for_cmr
+    end
   end
 
   after :all do
@@ -27,7 +29,7 @@ describe 'Saving Provider Object Permissions from the group show page', reset_pr
     # (they won't be removed by reset_provider)
     permissions_options = {
       'page_size' => 50,
-      'permitted_group' => @system_group['concept_id']
+      'permitted_group' => @system_group['group_id']
     }
 
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token').body.fetch('items', [])
@@ -35,7 +37,9 @@ describe 'Saving Provider Object Permissions from the group show page', reset_pr
     permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
 
     # delete the system group
-    delete_group(concept_id: @system_group['concept_id'], admin: true)
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @system_group['group_id'], admin: true)
+    end
   end
 
   context 'when logging in as a provider admin' do
@@ -45,7 +49,9 @@ describe 'Saving Provider Object Permissions from the group show page', reset_pr
 
     context 'when visiting the provider group page' do
       before do
-        visit group_path(@provider_group['concept_id'])
+        VCR.use_cassette('edl', record: :new_episodes) do
+          visit group_path(@provider_group['group_id'])
+        end
       end
 
       it 'displays the group show page' do
@@ -126,7 +132,9 @@ describe 'Saving Provider Object Permissions from the group show page', reset_pr
 
     context 'when visiting the provider group page' do
       before do
-        visit group_path(@provider_group['concept_id'])
+        VCR.use_cassette('edl', record: :new_episodes) do
+          visit group_path(@provider_group['group_id'])
+        end
       end
 
       it 'displays the group show page' do
@@ -149,7 +157,9 @@ describe 'Saving Provider Object Permissions from the group show page', reset_pr
 
     context 'when visiting the system group page' do
       before do
-        visit group_path(@system_group['concept_id'])
+        VCR.use_cassette('edl', record: :new_episodes) do
+          visit group_path(@system_group['group_id'])
+        end
       end
 
       it 'displays the system group show page' do

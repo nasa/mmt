@@ -1,25 +1,31 @@
 describe 'Provider Identity Permissions pages and form' do
   before :all do
-    @group_name = 'Test Group for Provider Object Permissions'
-    @group_description = 'Group for provider object permissions management'
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @group_name = 'Test_Group_for_Provider_Object_Permissions'
+      @group_description = 'Group for provider object permissions management'
 
-    @group = create_group(
-      name: @group_name,
-      description: @group_description
-    )
+      @group = create_group(
+        name: @group_name,
+        description: @group_description
+      )
+    end
 
     wait_for_cmr
   end
 
   after :all do
-    delete_group(concept_id: @group['concept_id'])
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @group['group_id'])
+    end
   end
 
   context 'when viewing the provider identities permisisons index page as an administrator' do
     before do
       login_admin
 
-      visit provider_identity_permissions_path
+      VCR.use_cassette('edl', record: :new_episodes) do
+        visit provider_identity_permissions_path
+      end
     end
 
     it 'shows the table with system and provider groups' do
@@ -41,7 +47,9 @@ describe 'Provider Identity Permissions pages and form' do
 
     context 'when there are groups' do
       before do
-        visit provider_identity_permissions_path
+        VCR.use_cassette('edl', record: :new_episodes) do
+          visit provider_identity_permissions_path
+        end
       end
 
       it 'shows the table with the provider group' do
@@ -56,11 +64,13 @@ describe 'Provider Identity Permissions pages and form' do
 
     context 'when no groups are returned' do
       before do
-        failure = '{"errors":["An Internal Error has occurred."]}'
-        failure_response = Cmr::Response.new(Faraday::Response.new(status: 500, body: JSON.parse(failure), response_headers: {}))
-        allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).and_return(failure_response)
+        VCR.use_cassette('edl', record: :new_episodes) do
+          failure = '{"errors":["An Internal Error has occurred."]}'
+          failure_response = Cmr::Response.new(Faraday::Response.new(status: 500, body: JSON.parse(failure), response_headers: {}))
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_edl_groups).and_return(failure_response)
 
-        visit provider_identity_permissions_path
+          visit provider_identity_permissions_path
+        end
       end
 
       it 'does not show any groups' do
@@ -70,7 +80,9 @@ describe 'Provider Identity Permissions pages and form' do
 
     context 'when visiting the provider identities form for the group' do
       before do
-        visit edit_provider_identity_permission_path(@group['concept_id'])
+        VCR.use_cassette('edl', record: :new_episodes) do
+          visit edit_provider_identity_permission_path(@group['group_id'])
+        end
       end
 
       it 'displays the page with the form and table of provider targets' do

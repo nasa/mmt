@@ -71,14 +71,18 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
   context 'when the user has the required permissions' do
     before :all do
       # create a group
-      @service_option_assignment_group = create_group(name: 'Service Option Association Group for Permissions [CREATE]', members: ['testuser'])
-      # give the group permission to create
-      @create_permissions = add_permissions_to_group(@service_option_assignment_group['concept_id'], 'create', 'OPTION_ASSIGNMENT', 'MMT_2')
+      VCR.use_cassette('edl', record: :new_episodes) do
+        @service_option_assignment_group = create_group(name: 'Service_Option_Association_Group_for_Permissions_[CREATE]', members: ['testuser'])
+      end
+        # give the group permission to create
+      @create_permissions = add_permissions_to_group(@service_option_assignment_group['group_id'], 'create', 'OPTION_ASSIGNMENT', 'MMT_2')
     end
 
     after :all do
       remove_group_permissions(@create_permissions['concept_id'])
-      delete_group(concept_id: @service_option_assignment_group['concept_id'])
+      VCR.use_cassette('edl', record: :new_episodes) do
+        delete_group(concept_id: @service_option_assignment_group['group_id'])
+      end
     end
 
     context 'when there is a timeout error' do

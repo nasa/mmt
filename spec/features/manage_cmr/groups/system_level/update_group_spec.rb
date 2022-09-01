@@ -1,29 +1,33 @@
 describe 'Updating System Level Groups', js: true do
   context 'when editing a system level group as an admin' do
     before :all do
-      @group_name = random_group_name
-      @group_description = random_group_description
+      VCR.use_cassette('edl', record: :new_episodes) do
+        @group_name = random_group_name
+        @group_description = random_group_description
 
-      @group = create_group(
-        name: @group_name,
-        description: @group_description,
-        provider_id: nil, # System Level groups do not have a provider_id
-        admin: true,
-        members: %w(rarxd5taqea qhw5mjoxgs2vjptmvzco q6ddmkhivmuhk)
-      )
+        @group = create_group(
+          name: @group_name,
+          description: @group_description,
+          provider_id: nil, # System Level groups do not have a provider_id
+          admin: true,
+          members: %w(rarxd5taqea qhw5mjoxgs2vjptmvzco q6ddmkhivmuhk)
+        )
+      end
     end
 
     after :all do
       # System level groups need to be cleaned up to avoid attempting to create
       # a group with the same name in another test (Random names don't seem to be reliable)
-      delete_group(concept_id: @group['concept_id'], admin: true)
+      VCR.use_cassette('edl', record: :new_episodes) do
+        delete_group(concept_id: @group['group_id'], admin: true)
+      end
     end
 
     before do
       login_admin
 
-      VCR.use_cassette('urs/multiple_users', record: :none) do
-        visit edit_group_path(@group['concept_id'])
+      VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
+        visit edit_group_path(@group['group_id'])
       end
     end
 
@@ -50,7 +54,7 @@ describe 'Updating System Level Groups', js: true do
         fill_in 'Description', with: new_group_description
 
         within '.group-form' do
-          VCR.use_cassette('urs/multiple_users', record: :none) do
+          VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
             click_on 'Submit'
           end
         end

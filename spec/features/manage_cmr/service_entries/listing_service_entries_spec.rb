@@ -3,11 +3,15 @@ describe 'Listing Service Entries' do
 
   before :all do
     # create a group
-    @service_entry_group = create_group(name: 'Service Entries Group for Permissions [LIST]', members: ['testuser'])
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_[LIST]', members: ['testuser'])
+    end
   end
 
   after :all do
-    delete_group(concept_id: @service_entry_group['concept_id'])
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
   end
 
   context 'when viewing the index page' do
@@ -124,7 +128,7 @@ describe 'Listing Service Entries' do
 
     context 'when authorized to create service entries' do
       before do
-        @create_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'create', 'EXTENDED_SERVICE', 'MMT_2')
+        @create_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'create', 'EXTENDED_SERVICE', 'MMT_2')
 
         VCR.use_cassette('echo_soap/service_management_service/service_entries/list', record: :none) do
           visit service_entries_path
@@ -142,7 +146,7 @@ describe 'Listing Service Entries' do
 
     context 'when authorized to edit service entries' do
       before do
-        @update_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'update', 'EXTENDED_SERVICE', 'MMT_2')
+        @update_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'update', 'EXTENDED_SERVICE', 'MMT_2')
 
         VCR.use_cassette('echo_soap/service_management_service/service_entries/list', record: :none) do
           visit service_entries_path
@@ -162,7 +166,7 @@ describe 'Listing Service Entries' do
 
     context 'when authorized to delete service entries' do
       before do
-        @delete_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2')
+        @delete_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2')
 
         VCR.use_cassette('echo_soap/service_management_service/service_entries/list', record: :none) do
           visit service_entries_path

@@ -27,14 +27,18 @@ describe 'Resubmitting Provider Orders' do
     end
 
     before :all do
-      # create a group
-      @orders_group = create_group(name: 'Orders Group for Permissions [RESUBMIT]', members: ['testuser'], provider_id: 'NSIDC_ECS')
-      @resubmit_permissions = add_permissions_to_group(@orders_group['concept_id'], 'create', 'PROVIDER_ORDER_RESUBMISSION', 'NSIDC_ECS')
+      VCR.use_cassette('edl', record: :new_episodes) do
+        # create a group
+        @orders_group = create_group(name: 'Orders_Group_for_Permissions_[RESUBMIT]', members: ['testuser'], provider_id: 'NSIDC_ECS')
+        @resubmit_permissions = add_permissions_to_group(@orders_group['group_id'], 'create', 'PROVIDER_ORDER_RESUBMISSION', 'NSIDC_ECS')
+      end
     end
 
     after :all do
-      remove_group_permissions(@resubmit_permissions['concept_id'])
-      delete_group(concept_id: @orders_group['concept_id'])
+      VCR.use_cassette('edl', record: :new_episodes) do
+        remove_group_permissions(@resubmit_permissions['concept_id'])
+        delete_group(concept_id: @orders_group['group_id'], admin: true)
+      end
 
       reindex_permitted_groups
     end

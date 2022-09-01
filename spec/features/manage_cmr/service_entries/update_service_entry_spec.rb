@@ -3,13 +3,16 @@ describe 'Updating a Service Entry', reset_provider: true do
 
   before :all do
     # create a group
-    @service_entry_group = create_group(name: 'Service Entry Group', members: ['testuser'])
-
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @service_entry_group = create_group(name: 'Service_Entry_Group', members: ['testuser'])
+    end
     wait_for_cmr
   end
 
   after :all do
-    delete_group(concept_id: @service_entry_group['concept_id'])
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
   end
 
   before do
@@ -38,7 +41,7 @@ describe 'Updating a Service Entry', reset_provider: true do
 
     context 'when the user has the required permissions', js: true do
       before :all do
-        @group_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'update', 'EXTENDED_SERVICE', 'MMT_2')
+        @group_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'update', 'EXTENDED_SERVICE', 'MMT_2')
       end
 
       after :all do

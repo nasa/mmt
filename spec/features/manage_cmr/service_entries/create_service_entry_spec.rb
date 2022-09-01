@@ -1,11 +1,15 @@
 describe 'Creating a Service Entry', js: true do
   before :all do
     # create a group
-    @service_entry_group = create_group(name: 'Service Entry Group', members: ['testuser'])
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @service_entry_group = create_group(name: 'Service_Entry_Group', members: ['testuser'])
+    end
   end
 
   after :all do
-    delete_group(concept_id: @service_entry_group['concept_id'])
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
   end
 
   before do
@@ -35,11 +39,11 @@ describe 'Creating a Service Entry', js: true do
 
   context 'when the user has the required permissions' do
     before :all do
-      @group_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'create', 'EXTENDED_SERVICE', 'MMT_2')
+      @group_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'create', 'EXTENDED_SERVICE', 'MMT_2')
     end
 
     after :all do
-      remove_group_permissions(@group_permissions['concept_id'])
+      remove_group_permissions(@group_permissions['group_id'])
     end
 
     context 'when viewing the new service entry form' do
