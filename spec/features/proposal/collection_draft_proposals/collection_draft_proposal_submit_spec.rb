@@ -102,10 +102,12 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
           context 'when no groups have the create acl' do
             before do
-              @group = create_group(name: 'Approver Email Fail Test Group', members: ['testuser'])
+              VCR.use_cassette('edl', record: :new_episodes) do
+                @group = create_group(name: 'Approver_Email_Fail_Test_Group', members: ['testuser'])
+              end
               # This is the wrong permission with one member in the right group
               # This tests that the correct permission is being checked.
-              @permission = add_permissions_to_group(@group['concept_id'], 'delete', 'NON_NASA_DRAFT_APPROVER', 'MMT_2')
+              @permission = add_permissions_to_group(@group['group_id'], 'delete', 'NON_NASA_DRAFT_APPROVER', 'MMT_2')
               set_as_proposal_mode_mmt(with_draft_user_acl: true)
               mock_urs_get_users(count: 2)
               @email_count = ActionMailer::Base.deliveries.count
@@ -115,7 +117,9 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
             after do
               set_as_mmt_proper
               remove_group_permissions(@permission['concept_id'])
-              delete_group(concept_id: @group['concept_id'], admin: true)
+              VCR.use_cassette('edl', record: :new_episodes) do
+                delete_group(concept_id: @group['group_id'], admin: true)
+              end
             end
 
             it 'does not send e-mails to approvers' do
@@ -126,8 +130,10 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
           context 'when successfully sending emails' do
             before do
-              @group = create_group(name: 'Approver Email Success Test Group', members: ['testuser'])
-              @permission = add_permissions_to_group(@group['concept_id'], 'create', 'NON_NASA_DRAFT_APPROVER', 'MMT_2')
+              VCR.use_cassette('edl', record: :new_episodes) do
+                @group = create_group(name: 'Approver_Email_Success_Test_Group', members: ['testuser'])
+              end
+              @permission = add_permissions_to_group(@group['group_id'], 'create', 'NON_NASA_DRAFT_APPROVER', 'MMT_2')
               set_as_proposal_mode_mmt(with_draft_user_acl: true)
               mock_urs_get_users(count: 2)
               @email_count = ActionMailer::Base.deliveries.count
@@ -137,7 +143,9 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
             after do
               set_as_mmt_proper
               remove_group_permissions(@permission['concept_id'])
-              delete_group(concept_id: @group['concept_id'], admin: true)
+              VCR.use_cassette('edl', record: :new_episodes) do
+                delete_group(concept_id: @group['group_id'], admin: true)
+              end
             end
 
             it 'sends emails' do

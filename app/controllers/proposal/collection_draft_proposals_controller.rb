@@ -280,7 +280,7 @@ module Proposal
 
         # For each group that has this acl, collect the users to send to URS
         approver_groups_list.each do |group|
-          group_member_response = cmr_client.get_group_members(group, token)
+          group_member_response = cmr_client.get_edl_group_members(group['group_id'])
           next unless group_member_response.success?
 
           approvers_urs_users += group_member_response.body

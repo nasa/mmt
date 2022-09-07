@@ -161,8 +161,10 @@ describe 'Searching published collections', js: true, reset_provider: true do
       @ingest_response, _concept_response = publish_collection_draft(short_name: tag_collection_short_name)
 
       # create system group and permissions for tags
-      @sys_group_response = create_group(provider_id: nil, admin: true, members: ['admin', 'adminuser'])
-      @acl_concept = setup_tag_permissions(@sys_group_response['concept_id'])
+      VCR.use_cassette('edl', record: :new_episodes) do
+        @sys_group_response = create_group(provider_id: nil, admin: true, members: ['admin', 'adminuser'])
+      end
+      @acl_concept = setup_tag_permissions(@sys_group_response['group_id'])
       reindex_permitted_groups
 
       # create tags
@@ -174,7 +176,9 @@ describe 'Searching published collections', js: true, reset_provider: true do
 
     after :all do
       remove_group_permissions(@acl_concept)
-      delete_group(concept_id: @sys_group_response['concept_id'], admin: true)
+      VCR.use_cassette('edl', record: :new_episodes) do
+        delete_group(concept_id: @sys_group_response['group_id'], admin: true)
+      end
       reindex_permitted_groups
     end
 

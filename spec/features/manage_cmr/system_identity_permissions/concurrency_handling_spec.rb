@@ -1,25 +1,29 @@
 describe 'Concurrent Users Editing System Permissions', js: true do
   before do
-    @group_name = 'Test System Permissions Group 1'
-    @group_response = create_group(
-      name: @group_name,
-      description: 'Group to test system permissions',
-      provider_id: nil,
-      admin: true)
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @group_name = 'Test_System_Permissions_Group_1'
+      @group_response = create_group(
+        name: @group_name,
+        description: 'Group to test system permissions',
+        provider_id: nil,
+        admin: true)
+      end
   end
 
   after do
     # delete system permissions for the group
     permissions_options = {
       'page_size' => 30,
-      'permitted_group' => @group_response['concept_id']
+      'permitted_group' => @group_response['group_id']
     }
 
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
     permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
 
     # delete the group
-    delete_group(concept_id: @group_response['concept_id'], admin: true)
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @group_response['group_id'], admin: true)
+    end
   end
 
   # These tests generally follow the format of:
@@ -33,23 +37,25 @@ describe 'Concurrent Users Editing System Permissions', js: true do
   context 'when incorrectly deleting' do
     before do
       login_admin
-      visit edit_system_identity_permission_path(@group_response['concept_id'])
-      # By adding permissions after the 'user' loads the page, the system would
-      # have a revision id in the update function that does not match the empty
-      # revision id it got from the view/edit
-      # If not prevented, this would manifest as deleting the other user's changes
-      add_group_permissions(
-        { 'group_permissions' =>
-          [{
-            'group_id' => @group_response['concept_id'],
-            'permissions' => ['create']
-          }],
-          'system_identity' =>
-          {
-            'target' => 'DASHBOARD_ADMIN'
-          } }, 'access_token_admin'
-      )
-      click_on 'Submit'
+      VCR.use_cassette('edl', record: :new_episodes) do
+        visit edit_system_identity_permission_path(@group_response['group_id'])
+        # By adding permissions after the 'user' loads the page, the system would
+        # have a revision id in the update function that does not match the empty
+        # revision id it got from the view/edit
+        # If not prevented, this would manifest as deleting the other user's changes
+        add_group_permissions(
+          { 'group_permissions' =>
+            [{
+              'group_id' => @group_response['group_id'],
+              'permissions' => ['create']
+            }],
+            'system_identity' =>
+            {
+              'target' => 'DASHBOARD_ADMIN'
+            } }, 'access_token_admin'
+        )
+        click_on 'Submit'
+      end
     end
 
     it 'does not succeed' do
@@ -61,20 +67,22 @@ describe 'Concurrent Users Editing System Permissions', js: true do
     before do
       login_admin
 
-      add_group_permissions(
-        { 'group_permissions' =>
-          [{
-            'group_id' => @group_response['concept_id'],
-            'permissions' => ['create']
-          }],
-          'system_identity' =>
-          {
-            'target' => 'TAG_GROUP'
-          } }, 'access_token_admin'
-      )
+      VCR.use_cassette('edl', record: :new_episodes) do
+        add_group_permissions(
+          { 'group_permissions' =>
+            [{
+              'group_id' => @group_response['group_id'],
+              'permissions' => ['create']
+            }],
+            'system_identity' =>
+            {
+              'target' => 'TAG_GROUP'
+            } }, 'access_token_admin'
+        )
 
-      visit system_identity_permissions_path
-      click_on @group_name
+        visit system_identity_permissions_path
+        click_on @group_name
+      end
 
       uncheck('system_permissions_TAG_GROUP_', option: 'create')
 
@@ -116,20 +124,22 @@ describe 'Concurrent Users Editing System Permissions', js: true do
       # When loading the page, the user has the permission to create in DASHBOARD_ADMIN
       # But another user deletes that permission before this one submits the page.
       # If not prevented, this would manifest as creating over the other user's delete
-      response = add_group_permissions(
-        { 'group_permissions' =>
-          [{
-            'group_id' => @group_response['concept_id'],
-            'permissions' => ['create']
-          }],
-          'system_identity' =>
-          {
-            'target' => 'DASHBOARD_ADMIN'
-          } }, 'access_token_admin'
-      )
-      visit edit_system_identity_permission_path(@group_response['concept_id'])
-      remove_group_permissions(response['concept_id'])
-      click_on 'Submit'
+      VCR.use_cassette('edl', record: :new_episodes) do
+        response = add_group_permissions(
+          { 'group_permissions' =>
+            [{
+              'group_id' => @group_response['group_id'],
+              'permissions' => ['create']
+            }],
+            'system_identity' =>
+            {
+              'target' => 'DASHBOARD_ADMIN'
+            } }, 'access_token_admin'
+        )
+        visit edit_system_identity_permission_path(@group_response['group_id'])
+        remove_group_permissions(response['concept_id'])
+        click_on 'Submit'
+      end
     end
 
     it 'does not succeed' do
@@ -144,32 +154,34 @@ describe 'Concurrent Users Editing System Permissions', js: true do
       # But another user updates the permissions while this one is still deciding
       # on changes.  When this user submits the document as it was loaded,
       # the user would be overwriting the intervening user's added permissions.
-      response = add_group_permissions(
-        { 'group_permissions' =>
-          [{
-            'group_id' => @group_response['concept_id'],
-            'permissions' => ['read']
-          }],
-          'system_identity' =>
-          {
-            'target' => 'USER'
-          } }, 'access_token_admin'
-      )
-      visit edit_system_identity_permission_path(@group_response['concept_id'])
-      cmr_client.update_permission(
-        { 'group_permissions' =>
-          [{
-            'group_id' => @group_response['concept_id'],
-            'permissions' => %w[read update]
-          }],
-          'system_identity' =>
-          {
-            'target' => 'USER'
-          } }, response['concept_id'], 'access_token_admin'
-      )
-      check('system_permissions_USER_', option: 'read')
+      VCR.use_cassette('edl', record: :new_episodes) do
+        response = add_group_permissions(
+          { 'group_permissions' =>
+            [{
+              'group_id' => @group_response['group_id'],
+              'permissions' => ['read']
+            }],
+            'system_identity' =>
+            {
+              'target' => 'USER'
+            } }, 'access_token_admin'
+        )
+        visit edit_system_identity_permission_path(@group_response['group_id'])
+        cmr_client.update_permission(
+          { 'group_permissions' =>
+            [{
+              'group_id' => @group_response['group_id'],
+              'permissions' => %w[read update]
+            }],
+            'system_identity' =>
+            {
+              'target' => 'USER'
+            } }, response['concept_id'], 'access_token_admin'
+        )
+        check('system_permissions_USER_', option: 'read')
 
-      click_on 'Submit'
+        click_on 'Submit'
+      end
     end
 
     it 'does not succeed' do

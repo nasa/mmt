@@ -26,7 +26,9 @@ describe 'System Identity Permissions pages and form' do
     context 'when visiting the system identities index page' do
       context 'when there are system groups' do
         before do
-          visit system_identity_permissions_path
+          VCR.use_cassette('edl', record: :new_episodes) do
+            visit system_identity_permissions_path
+          end
         end
 
         it 'shows the page with table of system level groups' do
@@ -45,9 +47,11 @@ describe 'System Identity Permissions pages and form' do
         before do
           failure = '{"errors":["An Internal Error has occurred."]}'
           failure_response = Cmr::Response.new(Faraday::Response.new(status: 500, body: JSON.parse(failure), response_headers: {}))
-          allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).and_return(failure_response)
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_edl_groups).and_return(failure_response)
 
-          visit system_identity_permissions_path
+          VCR.use_cassette('edl', record: :new_episodes) do
+            visit system_identity_permissions_path
+          end
         end
 
         it 'does not show any groups' do
@@ -58,7 +62,9 @@ describe 'System Identity Permissions pages and form' do
 
     context 'when visiting the system identities form for a System Group' do
       before do
-        visit edit_system_identity_permission_path(concept_id)
+        VCR.use_cassette('edl', record: :new_episodes) do
+          visit edit_system_identity_permission_path(concept_id)
+        end
       end
 
       it 'displays the form and table of system targets' do

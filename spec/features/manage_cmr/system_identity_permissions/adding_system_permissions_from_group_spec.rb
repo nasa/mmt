@@ -1,20 +1,22 @@
 describe 'Saving System Object Permissions from the system group show page' do
   before :all do
-    @group_name = 'Test System Permissions Group 1 from group page'
-    @group_description = 'Group to test system permissions'
-    @group_response = create_group(
-      name: @group_name,
-      description: @group_description,
-      provider_id: nil,
-      admin: true
-    )
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @group_name = 'Test_System_Permissions_Group_1_from_group_page'
+      @group_description = 'Group to test system permissions'
+      @group_response = create_group(
+        name: @group_name,
+        description: @group_description,
+        provider_id: nil,
+        admin: true
+      )
+    end
   end
 
   after :all do
     # delete system permissions for the group
     permissions_options = {
       'page_size' => 30,
-      'permitted_group' => @group_response['concept_id']
+      'permitted_group' => @group_response['group_id']
     }
 
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
@@ -22,14 +24,18 @@ describe 'Saving System Object Permissions from the system group show page' do
     permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
 
     # delete the group
-    delete_group(concept_id: @group_response['concept_id'], admin: true)
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @group_response['group_id'], admin: true)
+    end
   end
 
   context 'when logging in as a system admin and visiting the system group show page' do
     before do
       login_admin
 
-      visit group_path(@group_response['concept_id'])
+      VCR.use_cassette('edl', record: :new_episodes) do
+        visit group_path(@group_response['group_id'])
+      end
     end
 
     it 'displays the system group show page' do
@@ -51,7 +57,9 @@ describe 'Saving System Object Permissions from the system group show page' do
 
     context 'when clicking on the link to manage system permissions' do
       before do
-        click_on 'System Object Permissions'
+        VCR.use_cassette('edl', record: :new_episodes) do
+          click_on 'System Object Permissions'
+        end
       end
 
       it 'displays the System Object Permissions page' do
@@ -61,7 +69,9 @@ describe 'Saving System Object Permissions from the system group show page' do
 
       context 'when clicking Cancel' do
         before do
-          click_on 'Cancel'
+          VCR.use_cassette('edl', record: :new_episodes) do
+            click_on 'Cancel'
+          end
         end
 
         it 'returns to the system group page' do
@@ -88,7 +98,9 @@ describe 'Saving System Object Permissions from the system group show page' do
           check('system_permissions_TAG_GROUP_', option: 'update')
 
           within '.system-permissions-form' do
-            click_on 'Submit'
+            VCR.use_cassette('edl', record: :new_episodes) do
+              click_on 'Submit'
+            end
           end
 
           wait_for_cmr
