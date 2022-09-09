@@ -1,3 +1,4 @@
+# skipped until cmr handles group names properly.
 describe PermissionsController, reset_provider: true do
   before do
     set_as_mmt_proper
@@ -29,14 +30,16 @@ describe PermissionsController, reset_provider: true do
 
   describe 'GET #show' do
     before :all do
-      @group_name = 'Permissions Controller Test Group'
-      @group = create_group(name: @group_name, members: ['testuser'])
+      @group_name = 'Permissions_Controller_Test_Group'
+      VCR.use_cassette('edl', record: :new_episodes) do
+        @group = create_group(name: @group_name, members: ['testuser'])
+      end
 
       @permission_name = 'Permissions Permission Name'
 
       permission = {
         group_permissions: [{
-          group_id: @group['concept_id'],
+          group_id: @group['group_id'],
           permissions: %w(read order)
         }, {
           user_type: 'registered',
@@ -52,8 +55,13 @@ describe PermissionsController, reset_provider: true do
           collection_applicable: true
         }
       }
-
       @permission = add_group_permissions(permission)
+    end
+
+    after :all do
+      VCR.use_cassette('edl', record: :new_episodes) do
+        delete_group(concept_id: @group['group_id'], admin: true)
+      end
     end
 
     before do
@@ -61,21 +69,26 @@ describe PermissionsController, reset_provider: true do
     end
 
     it 'renders the #show view' do
-      get :show, params: { id: @permission['concept_id'] }
+      VCR.use_cassette('edl', record: :new_episodes) do
+        get :show, params: { id: @permission['concept_id'] }
+      end
 
       expect(response).to render_template(:show)
     end
 
     it 'sets the permission instance variable' do
-      get :show, params: { id: @permission['concept_id'] }
-
+      VCR.use_cassette('edl', record: :new_episodes) do
+        get :show, params: { id: @permission['concept_id'] }
+      end
       expect(assigns(:permission).keys).to eq(%w(group_permissions catalog_item_identity))
     end
 
     it 'requests groups from cmr' do
       expect_any_instance_of(Cmr::CmrClient).to receive('get_permission').and_call_original
 
-      get :show, params: { id: @permission['concept_id'] }
+      VCR.use_cassette('edl', record: :new_episodes) do
+        get :show, params: { id: @permission['concept_id'] }
+      end
     end
   end
 
@@ -83,7 +96,9 @@ describe PermissionsController, reset_provider: true do
     before do
       sign_in
 
-      get :new
+      VCR.use_cassette('edl', record: :new_episodes) do
+        get :new
+      end
     end
 
     it 'renders the #new view' do

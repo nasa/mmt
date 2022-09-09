@@ -1,15 +1,19 @@
 describe 'Deleting a Service Entry' do
   before :all do
     # create a group
-    @service_entry_group = create_group(name: 'Service Entries Group for Permissions [DELETE]', members: ['testuser'])
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_[DELETE]', members: ['testuser'])
+    end
 
     # give the group permission to delete
-    @delete_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2')
+    @delete_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2')
   end
 
   after :all do
-    remove_group_permissions(@delete_permissions['concept_id'])
-    delete_group(concept_id: @service_entry_group['concept_id'])
+    remove_group_permissions(@delete_permissions['group_id'])
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
   end
 
   before do

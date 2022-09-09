@@ -10,11 +10,15 @@ describe 'Provider context', reset_provider: true, js: true do
     before :all do
       clear_provider_context_permissions
 
-      add_provider_context_permission(%w(MMT_1 MMT_2))
+      VCR.use_cassette('edl', record: :new_episodes) do
+        add_provider_context_permission(%w(MMT_1 MMT_2))
+      end
     end
 
     after :all do
-      delete_provider_context_permission('MMT_1')
+      VCR.use_cassette('edl', record: :new_episodes) do
+        delete_provider_context_permission('MMT_1')
+      end
     end
 
     context 'when a user logs in for the first time' do
@@ -150,11 +154,15 @@ describe 'Provider context', reset_provider: true, js: true do
     before :all do
       clear_provider_context_permissions
 
-      add_provider_context_permission('MMT_2')
+      VCR.use_cassette('edl', record: :new_episodes) do
+        add_provider_context_permission('MMT_2')
+      end
     end
 
     after :all do
-      delete_provider_context_permission('MMT_1')
+      VCR.use_cassette('edl', record: :new_episodes) do
+        delete_provider_context_permission('MMT_1')
+      end
     end
 
     it 'saves the provider as the users provider' do
@@ -210,7 +218,9 @@ describe 'Provider context', reset_provider: true, js: true do
 
     before :all do
       clear_provider_context_permissions
-      add_provider_context_permission(%w(MMT_1 MMT_2 NSIDC_ECS))
+      VCR.use_cassette('edl', record: :new_episodes) do
+        add_provider_context_permission(%w(MMT_1 MMT_2 NSIDC_ECS))
+      end
     end
 
     after :all do

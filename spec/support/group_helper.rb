@@ -13,34 +13,40 @@ module Helpers
         # If members were provided, include them in the payload
         group_params['members'] = members if members.any?
 
-        group_response = cmr_client.create_group(group_params, admin ? 'access_token_admin' : 'access_token')
+        group_response = cmr_client.create_edl_group(group_params)
 
-        raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
-
-        wait_for_cmr
-
+        # raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
+        #
+        # wait_for_cmr
         group_response.body
       end
     end
 
     def delete_group(concept_id:, admin: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#create_group' do
-        group_response = cmr_client.delete_group(concept_id, admin ? 'access_token_admin' : 'access_token')
+
+        if admin
+          group_members_response = cmr_client.get_edl_group_members(concept_id)
+          existing_members = group_members_response.body if group_members_response.success?
+          cmr_client.remove_old_members(concept_id, existing_members) unless existing_members.nil?
+        end
+
+        group_response = cmr_client.delete_edl_group(concept_id)
 
         raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
 
-        wait_for_cmr
+        # wait_for_cmr
 
         group_response.success?
       end
     end
 
+    # Need to change from random_group_name to just "group_name"
     def random_group_name
-      # Using multiple categories helps ensure randomized results if multiple
-      # requests come in quickly
-      category = %w(galaxy moon star star_cluster).sample
-
-      Faker::Space.unique.send(category)
+      return '58732ce0dddssssjkjjaasa72ddd331eadycb9b6663ddddddddsdddddff3xx24dd6666dee'
+      # hex = SecureRandom.hex(10)
+      # puts("hex=#{hex}")
+      # hex
     end
 
     def random_group_description

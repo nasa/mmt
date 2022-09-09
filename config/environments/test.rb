@@ -89,7 +89,7 @@ Rails.application.configure do
   config.gkr_enabled = true
 
   # Feature toggle for EDL groups
-  config.edl_groups_enabled = false
+  config.edl_groups_enabled = true
 
   config.cmr_env = 'sit'
   config.kms_env = 'sit'

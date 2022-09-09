@@ -5,13 +5,17 @@ describe 'Non-NASA Draft User Permissions for Draft MMT', reset_provider: true d
 
   context 'when the user has permissions for Non-NASA Draft User' do
     before :all do
-      @non_nasa_draft_users_group = create_group(name: 'Non-NASA Draft Users Group', members: ['testuser'], provider_id: 'MMT_2')
-      @non_nasa_permissions = add_permissions_to_group(@non_nasa_draft_users_group['concept_id'], 'create', 'NON_NASA_DRAFT_USER', 'MMT_2')
+      VCR.use_cassette('edl', record: :new_episodes) do
+        @non_nasa_draft_users_group = create_group(name: 'Non_NASA_Draft_Users_Group', members: ['testuser'], provider_id: 'MMT_2')
+      end
+      @non_nasa_permissions = add_permissions_to_group(@non_nasa_draft_users_group['group_id'], 'create', 'NON_NASA_DRAFT_USER', 'MMT_2')
     end
 
     after :all do
       remove_group_permissions(@non_nasa_permissions['concept_id'])
-      delete_group(concept_id: @non_nasa_draft_users_group['concept_id'])
+      VCR.use_cassette('edl', record: :new_episodes) do
+        delete_group(concept_id: @non_nasa_draft_users_group['group_id'], admin: true)
+      end
     end
 
     before do

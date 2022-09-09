@@ -24,7 +24,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
       page_num: page
     }
 
-    groups_response = cmr_client.get_cmr_groups(filters, token)
+    groups_response = cmr_client.get_edl_groups(filters)
 
     group_list = if groups_response.success?
                    group_list = groups_response.body.fetch('items', [])
@@ -47,7 +47,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
     # assemble provider permissions for the table of checkboxes
     @group_provider_permissions, @revision_ids = assemble_permissions_for_table(permissions: group_provider_permissions_list, type: 'provider', group_id: @group_id)
 
-    group_response = cmr_client.get_group(@group_id, token)
+    group_response = cmr_client.get_edl_group(@group_id)
     if group_response.success?
       @group = group_response.body
 

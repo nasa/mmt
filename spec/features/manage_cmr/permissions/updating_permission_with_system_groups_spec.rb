@@ -1,8 +1,10 @@
 describe 'Updating Collection Permissions with System Groups', reset_provider: true do
   before :all do
-    @group_name = random_group_name
-    @group = create_group(name: @group_name, admin: false)
-    admin_2_group_concept = group_concept_from_name('Administrators_2', 'access_token_admin')
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @group_name = random_group_name
+      @group = create_group(name: @group_name, admin: false)
+      admin_2_group_concept = group_concept_from_name('Administrators_2', 'access_token_admin')
+    end
 
     wait_for_cmr
 

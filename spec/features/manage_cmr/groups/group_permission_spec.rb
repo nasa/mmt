@@ -2,25 +2,27 @@ describe 'Group permissions', reset_provider: true do
   modal_text = 'requires you change your provider context to MMT_2'
 
   before :all do
-    edit_group_name = 'Test Group For New Invites 1'
-    edit_group_description = 'Group to invite users to'
-    @provider_id = 'MMT_2'
+    VCR.use_cassette('edl', record: :new_episodes) do
+      edit_group_name = 'Test_Group_For_New_Invites_1'
+      edit_group_description = 'Group to invite users to'
+      @provider_id = 'MMT_2'
 
-    @edit_group = create_group(
-      name: edit_group_name,
-      description: edit_group_description,
-      provider_id: @provider_id
-    )
+      @edit_group = create_group(
+        name: edit_group_name,
+        description: edit_group_description,
+        provider_id: @provider_id
+      )
 
-    delete_group_name = 'Test Group For New Invites 2'
-    delete_group_description = 'Group to invite users to'
-    @provider_id = 'MMT_2'
+      delete_group_name = 'Test_Group_For_New_Invites_2'
+      delete_group_description = 'Group to invite users to'
+      @provider_id = 'MMT_2'
 
-    @delete_group = create_group(
-      name: delete_group_name,
-      description: delete_group_description,
-      provider_id: @provider_id
-    )
+      @delete_group = create_group(
+        name: delete_group_name,
+        description: delete_group_description,
+        provider_id: @provider_id
+      )
+    end
   end
 
   context 'when viewing a group' do
@@ -31,9 +33,11 @@ describe 'Group permissions', reset_provider: true do
     context 'when the groups provider is in the users available providers', js: true do
       context 'when clicking the edit button' do
         before do
-          visit group_path(@edit_group['concept_id'])
+          VCR.use_cassette('edl', record: :new_episodes) do
+            visit group_path(@edit_group['group_id'])
 
-          click_on 'Edit'
+            click_on 'Edit'
+          end
         end
 
         it 'displays a modal informing the user they need to switch providers' do
@@ -59,9 +63,11 @@ describe 'Group permissions', reset_provider: true do
 
       context 'when clicking the delete button' do
         before do
-          visit group_path(@delete_group['concept_id'])
+          VCR.use_cassette('edl', record: :new_episodes) do
+            visit group_path(@delete_group['group_id'])
 
-          click_on 'Delete'
+            click_on 'Delete'
+          end
         end
 
         it 'displays a modal informing the user they need to switch providers' do

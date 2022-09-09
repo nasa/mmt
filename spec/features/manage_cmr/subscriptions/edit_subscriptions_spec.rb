@@ -1,8 +1,10 @@
 describe 'Edit/Updating Subscriptions', reset_provider: true do
   before :all do
-    @subscriptions_group = create_group(members: ['testuser', 'typical'])
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @subscriptions_group = create_group(members: ['testuser', 'typical'])
+    end
     # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['concept_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
+    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['group_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
     @c_ingest_response, _c_concept_response = publish_collection_draft
 
     clear_cache
@@ -10,8 +12,10 @@ describe 'Edit/Updating Subscriptions', reset_provider: true do
 
   after :all do
     remove_group_permissions(@subscriptions_permissions['concept_id'])
-    delete_group(concept_id: @subscriptions_group['concept_id'])
-
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @subscriptions_group['group_id'])
+    end
+    
     clear_cache
   end
 

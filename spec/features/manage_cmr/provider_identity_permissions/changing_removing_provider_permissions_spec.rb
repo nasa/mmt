@@ -1,16 +1,18 @@
 describe 'Changing or Removing Provider Identity Permissions', reset_provider: true do
   before :all do
-    @group_name = 'Test Group for Updating Provider Object Permissions'
-    @group = create_group(
-      name: @group_name,
-      description: 'Group for updating provider object permissions'
-    )
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @group_name = 'Test_Group_for_Updating_Provider_Object_Permissions'
+      @group = create_group(
+        name: @group_name,
+        description: 'Group for updating provider object permissions'
+      )
+    end
 
     wait_for_cmr
 
     provider_perm_1 = {
       'group_permissions' => [{
-        'group_id' => @group['concept_id'],
+        'group_id' => @group['group_id'],
         'permissions' => ['read']
       }],
       'provider_identity' => {
@@ -21,7 +23,7 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
 
     provider_perm_2 = {
       'group_permissions' => [{
-        'group_id' => @group['concept_id'],
+        'group_id' => @group['group_id'],
         'permissions' => ['update']
       }],
       'provider_identity' => {
@@ -32,7 +34,7 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
 
     provider_perm_3 = {
       'group_permissions' => [{
-        'group_id' => @group['concept_id'],
+        'group_id' => @group['group_id'],
         'permissions' => ['create', 'delete']
       }],
       'provider_identity' => {
@@ -51,8 +53,10 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
     before do
       login
 
-      visit provider_identity_permissions_path
-      click_on @group_name
+      VCR.use_cassette('edl', record: :new_episodes) do
+        visit provider_identity_permissions_path
+        click_on @group_name
+      end
     end
 
     it 'has the correct permissions checked' do

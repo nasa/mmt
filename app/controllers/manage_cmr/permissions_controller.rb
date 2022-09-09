@@ -207,7 +207,7 @@ class PermissionsController < ManageCmrController
         next
       end
 
-      group_response = cmr_client.get_group(group_permission['group_id'], token)
+      group_response = cmr_client.get_edl_group(group_permission['group_id'])
 
       hydrate_group_permissions(group_permission)
 
@@ -241,15 +241,15 @@ class PermissionsController < ManageCmrController
 
     filters = {
       'provider'  => current_user.provider_id,
-      'page_num'  => 1,
-      'page_size' => 50
+      :page_num  => 1,
+      :page_size => 50
     }
 
     # get groups for provider AND System Groups if user has Read permissions on System Groups
     filters['provider'] = [current_user.provider_id, 'CMR'] if policy(:system_group).read?
 
     # Retrieve the first page of groups
-    groups_response = cmr_client.get_cmr_groups(filters, token)
+    groups_response = cmr_client.get_edl_groups(filters)
 
     # Request groups
     until groups_response.error? || groups_response.body['items'].blank?
@@ -262,10 +262,10 @@ class PermissionsController < ManageCmrController
       break if Rails.env.test?
 
       # Increment page number
-      filters['page_num'] += 1
+      filters[:page_num] += 1
 
       # Request the next page
-      groups_response = cmr_client.get_cmr_groups(filters, token)
+      groups_response = cmr_client.get_edl_groups(filters)
     end
 
     all_groups
@@ -275,10 +275,10 @@ class PermissionsController < ManageCmrController
     all_groups = get_groups
 
     all_groups.each do |group|
-      group['name'] += ' (SYS)' if check_if_system_group?(group, group['concept_id'])
+      group['name'] += ' (SYS)' if check_if_system_group?(group, group['group_id'])
     end
 
-    @groups = all_groups.map { |group| [group['name'], group['concept_id']] }
+    @groups = all_groups.map { |group| [group['name'], group['group_id']] }
 
     # add options for registered users and guest users
     @groups.unshift(['All Registered Users', 'registered'])

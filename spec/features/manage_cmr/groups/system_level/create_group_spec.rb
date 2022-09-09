@@ -27,7 +27,7 @@ describe 'Creating System Level Groups', reset_provider: true do
       # Because this is a system level group, it never gets cleaned up, we need to ensure
       # that it's as random as possible. A random Superhero name combined with the current
       # timestamp should do.
-      let(:group_name) { "#{Faker::Superhero.name} #{Time.now.to_i}" }
+      let(:group_name) { "#{Faker::Superhero.name} #{Time.now.to_i}".parameterize.underscore }
       let(:group_description) { Faker::Lorem.paragraph }
 
       before do
@@ -36,26 +36,26 @@ describe 'Creating System Level Groups', reset_provider: true do
         check 'System Level Group?'
         fill_in 'Description', with: group_description
 
-        VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
+        VCR.use_cassette('edl/urs/search/rarxd5taqea', record: :new_episodes) do
           page.find('.select2-search__field').native.send_keys('rarxd5taqea')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
-        VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :none) do
+        VCR.use_cassette('edl/urs/search/qhw5mjoxgs2vjptmvzco', record: :new_episodes) do
           page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
-        VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
+        VCR.use_cassette('edl/urs/search/q6ddmkhivmuhk', record: :new_episodes) do
           page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
         within '.group-form' do
-          VCR.use_cassette('urs/multiple_users', record: :none) do
+          VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
             click_on 'Submit'
           end
         end

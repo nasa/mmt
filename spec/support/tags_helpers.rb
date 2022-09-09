@@ -24,6 +24,7 @@ module Helpers
       response['concept_id']
     end
 
+
     def create_tags(tag_key, description = nil)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::TagsHelpers#create_tags' do
         response = cmr_client.create_tag(tag_key, 'access_token_admin', description)

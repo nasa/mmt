@@ -1,18 +1,20 @@
 describe 'Changing or Removing System Identity Permissions' do
   before :all do
-    @group_name = 'Test System Permissions Group 2'
-    @group_response = create_group(
-      name: @group_name,
-      description: 'Group to test system permissions',
-      provider_id: nil,
-      admin: true
-    )
+    VCR.use_cassette('edl', record: :new_episodes) do
+      @group_name = 'Test_System_Permissions_Group_2'
+      @group_response = create_group(
+        name: @group_name,
+        description: 'Group to test system permissions',
+        provider_id: nil,
+        admin: true
+      )
+    end
 
     wait_for_cmr
 
     system_perm_1 = {
       'group_permissions' => [{
-        'group_id'    => @group_response['concept_id'],
+        'group_id'    => @group_response['group_id'],
         'permissions' => %w(update)
       }],
       'system_identity' => {
@@ -22,7 +24,7 @@ describe 'Changing or Removing System Identity Permissions' do
 
     system_perm_2 = {
       'group_permissions' => [{
-        'group_id'    => @group_response['concept_id'],
+        'group_id'    => @group_response['group_id'],
         'permissions' => %w(create)
       }],
       'system_identity' => {
@@ -32,7 +34,7 @@ describe 'Changing or Removing System Identity Permissions' do
 
     system_perm_3 = {
       'group_permissions' => [{
-        'group_id'    => @group_response['concept_id'],
+        'group_id'    => @group_response['group_id'],
         'permissions' => %w(create delete)
       }],
       'system_identity' => {
@@ -50,13 +52,15 @@ describe 'Changing or Removing System Identity Permissions' do
   after :all do
     permissions_options = {
       'page_size' => 50,
-      'permitted_group' => @group_response['concept_id']
+      'permitted_group' => @group_response['group_id']
     }
     permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
 
     permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
 
-    delete_group(concept_id: @group_response['concept_id'], admin: true)
+    VCR.use_cassette('edl', record: :new_episodes) do
+      delete_group(concept_id: @group_response['group_id'], admin: true)
+    end
 
     reindex_permitted_groups
   end
@@ -65,9 +69,11 @@ describe 'Changing or Removing System Identity Permissions' do
     before do
       login_admin
 
-      visit system_identity_permissions_path
+      VCR.use_cassette('edl', record: :new_episodes) do
+        visit system_identity_permissions_path
 
-      click_on @group_name
+        click_on @group_name
+      end
     end
 
     it 'has the correct permissions checked' do
@@ -86,7 +92,9 @@ describe 'Changing or Removing System Identity Permissions' do
         uncheck('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'delete')
 
         within '.system-permissions-form' do
-          click_on 'Submit'
+          VCR.use_cassette('edl', record: :new_episodes) do
+            click_on 'Submit'
+          end
         end
 
         wait_for_cmr

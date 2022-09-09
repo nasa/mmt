@@ -29,8 +29,12 @@ describe 'Groups', reset_provider: true do
     end
 
     context 'when submitting the form without errors' do
+      before :all do
+        visit new_group_path
+      end
+
       context 'when submitting the form with members', js: true do
-        let(:group_name)        { 'NASA Test Group With Members' }
+        let(:group_name)        { 'NASA_Test_Group_With_Members' }
         let(:group_description) { 'NASA is seriously the coolest, with the coolest members!' }
 
         before do
@@ -56,7 +60,7 @@ describe 'Groups', reset_provider: true do
           end
 
           within '.group-form' do
-            VCR.use_cassette('urs/multiple_users', record: :none) do
+            VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
               click_on 'Submit'
             end
           end
@@ -78,7 +82,7 @@ describe 'Groups', reset_provider: true do
       end
 
       context 'when submitting the form without members' do
-        let(:group_name)        { 'NASA Test Group no members' }
+        let(:group_name)        { 'NASA_Test_Group_no_members' }
         let(:group_description) { 'NASA is seriously the coolest.' }
 
         before do
@@ -86,7 +90,9 @@ describe 'Groups', reset_provider: true do
           fill_in 'Description', with: group_description
 
           within '.group-form' do
-            click_on 'Submit'
+            VCR.use_cassette('edl/urs/without_users', record: :new_episodes) do
+              click_on 'Submit'
+            end
           end
 
           wait_for_cmr

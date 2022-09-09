@@ -520,14 +520,14 @@ module Cmr
 
     ### CMR Groups, via Access Control
 
-    def get_cmr_groups(options, token)
-      url = if Rails.env.development? || Rails.env.test?
-              'http://localhost:3011/groups'
-            else
-              '/access-control/groups'
-            end
-      get(url, options, token_header(token))
-    end
+    # def get_cmr_groups(options, token)
+    #   url = if Rails.env.development? || Rails.env.test?
+    #           'http://localhost:3011/groups'
+    #         else
+    #           '/access-control/groups'
+    #         end
+    #   get(url, options, token_header(token))
+    # end
 
     def get_tea_configuration(provider, token)
       url = "/configuration/tea/provider/#{provider}"
@@ -538,48 +538,48 @@ module Cmr
       get(url, {}, headers)
     end
 
-    def create_group(group, token)
-      url = if Rails.env.development? || Rails.env.test?
-              add_users_to_local_cmr(group['members'], token) if group['members']
-              'http://localhost:3011/groups'
-            else
-              '/access-control/groups'
-            end
-      headers = {
-        'Content-Type' => 'application/json'
-      }
-      post(url, group.to_json, headers.merge(token_header(token)))
-    end
+    # def create_group(group, token)
+    #   url = if Rails.env.development? || Rails.env.test?
+    #           add_users_to_local_cmr(group['members'], token) if group['members']
+    #           'http://localhost:3011/groups'
+    #         else
+    #           '/access-control/groups'
+    #         end
+    #   headers = {
+    #     'Content-Type' => 'application/json'
+    #   }
+    #   post(url, group.to_json, headers.merge(token_header(token)))
+    # end
 
-    def update_group(concept_id, group, token)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3011/groups/#{concept_id}"
-            else
-              "/access-control/groups/#{concept_id}"
-            end
-      headers = {
-        'Content-Type' => 'application/json'
-      }
-      put(url, group.to_json, headers.merge(token_header(token)))
-    end
+    # def update_group(concept_id, group, token)
+    #   url = if Rails.env.development? || Rails.env.test?
+    #           "http://localhost:3011/groups/#{concept_id}"
+    #         else
+    #           "/access-control/groups/#{concept_id}"
+    #         end
+    #   headers = {
+    #     'Content-Type' => 'application/json'
+    #   }
+    #   put(url, group.to_json, headers.merge(token_header(token)))
+    # end
 
-    def get_group(concept_id, token)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3011/groups/#{concept_id}"
-            else
-              "/access-control/groups/#{concept_id}"
-            end
-      get(url, {}, token_header(token))
-    end
+    # def get_group(concept_id, token)
+    #   url = if Rails.env.development? || Rails.env.test?
+    #           "http://localhost:3011/groups/#{concept_id}"
+    #         else
+    #           "/access-control/groups/#{concept_id}"
+    #         end
+    #   get(url, {}, token_header(token))
+    # end
 
-    def delete_group(concept_id, token)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3011/groups/#{concept_id}"
-            else
-              "/access-control/groups/#{concept_id}"
-            end
-      delete(url, {}, nil, token_header(token))
-    end
+    # def delete_group(concept_id, token)
+    #   url = if Rails.env.development? || Rails.env.test?
+    #           "http://localhost:3011/groups/#{concept_id}"
+    #         else
+    #           "/access-control/groups/#{concept_id}"
+    #         end
+    #   delete(url, {}, nil, token_header(token))
+    # end
 
     def add_users_to_local_cmr(user_uids, token) # need token?
       # curl -H "Content-Type: application/json" http://localhost:3008/urs/users -d
@@ -591,34 +591,34 @@ module Cmr
       post(url, users.to_json, token_header(token))
     end
 
-    def add_group_members(concept_id, user_uids, token)
-      # if using local cmr, need to add users to it
-      url = if Rails.env.development? || Rails.env.test?
-              add_users_to_local_cmr(user_uids, token)
-              "http://localhost:3011/groups/#{concept_id}/members"
-            else
-              "/access-control/groups/#{concept_id}/members"
-            end
-      post(url, user_uids.to_json, token_header(token))
-    end
+    # def add_group_members(concept_id, user_uids, token)
+    #   # if using local cmr, need to add users to it
+    #   url = if Rails.env.development? || Rails.env.test?
+    #           add_users_to_local_cmr(user_uids, token)
+    #           "http://localhost:3011/groups/#{concept_id}/members"
+    #         else
+    #           "/access-control/groups/#{concept_id}/members"
+    #         end
+    #   post(url, user_uids.to_json, token_header(token))
+    # end
 
-    def remove_group_members(concept_id, user_uids, token)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3011/groups/#{concept_id}/members"
-            else
-              "/access-control/groups/#{concept_id}/members"
-            end
-      delete(url, {}, user_uids.to_json, token_header(token))
-    end
+    # def remove_group_members(concept_id, user_uids, token)
+    #   url = if Rails.env.development? || Rails.env.test?
+    #           "http://localhost:3011/groups/#{concept_id}/members"
+    #         else
+    #           "/access-control/groups/#{concept_id}/members"
+    #         end
+    #   delete(url, {}, user_uids.to_json, token_header(token))
+    # end
 
-    def get_group_members(concept_id, token)
-      url = if Rails.env.development? || Rails.env.test?
-              "http://localhost:3011/groups/#{concept_id}/members"
-            else
-              "/access-control/groups/#{concept_id}/members"
-            end
-      get(url, {}, token_header(token))
-    end
+    # def get_group_members(concept_id, token)
+    #   url = if Rails.env.development? || Rails.env.test?
+    #           "http://localhost:3011/groups/#{concept_id}/members"
+    #         else
+    #           "/access-control/groups/#{concept_id}/members"
+    #         end
+    #   get(url, {}, token_header(token))
+    # end
 
     ### CMR Permissions (aka ACLs), via Access Control
 

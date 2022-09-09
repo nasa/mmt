@@ -1,5 +1,7 @@
 module Cmr
   class UrsClient < BaseClient
+    include ProviderHoldings
+
     def urs_login_path(callback_url: ENV['urs_login_callback_url'], associate: false)
       callback_url = ENV['urs_association_callback_url'] if associate
 
@@ -74,6 +76,170 @@ module Cmr
       proposal_mode_safe_post("/oauth/tokens/user", "token=#{token}&client_id=#{dmmt_client_id}")
     end
 
+    def create_edl_group(group)
+      group['tag'] = 'CMR' if group['tag'].nil?
+      name = group['name'] || ''
+      description = group['description'] || ''
+      provider_id = group['tag'] || ''
+      response = post(
+        '/api/user_groups',
+        "name=#{name}&description=#{URI.encode(description)}&tag=#{provider_id}",
+        'Authorization' => "Bearer #{get_client_token}"
+      )
+      if response.success?
+        group_id = response.body['group_id']
+        add_new_members(group_id, group['members']) if group['members']
+      end
+      response
+    end
+
+    def add_user_to_edl_group(user_id, group_id)
+      proposal_mode_safe_post(
+        "/api/user_groups/#{group_id}/user",
+        "user_id=#{user_id}",
+        'Authorization' => "Bearer #{get_client_token}"
+      )
+    end
+
+    def remove_user_from_edl_group(user_id, group_id)
+      delete(
+        "/api/user_groups/#{group_id}/user",
+        { 'user_id' => user_id },
+        nil,
+        'Authorization' => "Bearer #{get_client_token}"
+      )
+    end
+
+    def delete_edl_group(group_id)
+      delete(
+        "/api/user_groups/#{group_id}",
+        {},
+        nil,
+        'Authorization' => "Bearer #{get_client_token}"
+      )
+    end
+
+    def get_edl_group(group_id)
+      response = get("/api/user_groups/#{group_id}",
+                     {},
+                     'Authorization' => "Bearer #{get_client_token}")
+      response
+    end
+
+    def get_edl_group_members(group_id)
+      response = get("/api/user_groups/group_members/#{group_id}",
+                     {},
+                       'Authorization' => "Bearer #{get_client_token}")
+      users = response.body['users'] if response.success? && response.body.is_a?(Hash)
+      return Cmr::Response.new(Faraday::Response.new(status: response.status, body: users.map { |user| user['uid'] } )) if users && users.length > 0
+
+      # empty response case
+      Cmr::Response.new(Faraday::Response.new(status: response.status, body: []))
+    end
+
+    def get_groups_for_provider_list(providers)
+      groups = get_groups_for_providers(providers)
+      groups.uniq { |group| group['group_id'] }
+    end
+
+    def get_groups_for_user_list(ids)
+      return [] if ids.blank?
+
+      groups = []
+      ids.each { |user_id| groups += get_groups_for_user_id(user_id) }
+      resp = groups.uniq { |group| group['name'] }
+      reformat_search_results(resp)
+    end
+
+    def get_groups_for_providers(provider_ids)
+      response = get('/api/user_groups/search',
+                     {
+                       'name' => ''
+                     },
+                     'Authorization' => "Bearer #{get_client_token}")
+      return [] if response.error?
+
+      # if provider_ids? is nil, filter out groups without tags
+      response.body.select! do |x|
+        tag = x['tag'] || ''
+        provider_ids.nil? ? tag != '' : provider_ids.include?(tag)
+      end
+      response.body
+    end
+
+    def get_groups_for_user_id(user_id)
+      response = get('/api/user_groups/search',
+                     { 'user_id' => user_id },
+                     'Authorization' => "Bearer #{get_client_token}")
+      return [] if response.error?
+
+      response.body
+    end
+
+    # Options can contain 3 keys:
+    # provider: filter the groups using the specified provider list.
+    # member: filter the groups using the specific member list.
+    # show_system_groups: whether system groups should be included in the results
+    # Note: If provider is nil has special meaning, it will return all groups (that have a tag)
+    def get_edl_groups(options)
+      providers = options['provider']
+      
+      unless providers.nil? || options['show_system_groups'].nil?
+        providers << 'CMR' if options['show_system_groups']
+      end
+
+      # If no user filter, just do a provider level search.
+      if options['member'].blank?
+        provider_groups = get_groups_for_provider_list(providers)
+        status = provider_groups.empty? ? 400 : 200
+        return Cmr::Response.new(Faraday::Response.new(status: status, body: reformat_search_results(provider_groups, options[:page_num], options[:page_size])))
+      end
+
+      # Search by list of users, then filter that list by provider.
+      users = options['member'] || []
+      user_groups = get_groups_for_user_list(users)
+      user_groups['items'].select! do |x|
+        providers.nil? ? x['provider_id'] : providers.include?(x['provider_id'])
+      end
+      user_groups['hits'] = user_groups['items'].length
+      Cmr::Response.new(Faraday::Response.new(status: 200, body: user_groups))
+    end
+
+    # TODO: This entire method should be transactional with rollback.s
+    def update_edl_group(group_id, group)
+      new_description = group['description'] || ''
+
+      group_members_response = get_edl_group_members(group_id)
+      existing_members = group_members_response.body if group_members_response.success?
+      if existing_members.nil?
+        existing_members = []
+      end
+      new_members = group['members'] || []
+
+      members_to_add = new_members.reject { |x| existing_members.include? x }
+      add_new_members(group_id, members_to_add)
+
+      members_to_remove = existing_members.reject { |x| new_members.include? x }
+      remove_old_members(group_id, members_to_remove)
+
+      response = post(
+        "/api/user_groups/#{group_id}/update",
+        "&description=#{URI.encode(new_description)}",
+        'Authorization' => "Bearer #{get_client_token}"
+      )
+
+      response.body['group_id'] = group_id
+      response
+    end
+
+    def add_new_members(group_id, new_members)
+      new_members.each { |user_id| add_user_to_edl_group(user_id, group_id) }
+    end
+
+    def remove_old_members(group_id, old_members)
+      old_members.each { |user_id| remove_user_from_edl_group(user_id, group_id) }
+    end
+
     protected
 
     def get_client_token
@@ -97,6 +263,46 @@ module Cmr
       super.tap do |conn|
         conn.basic_auth(ENV['urs_username'], ENV['urs_password'])
       end
+    end
+
+    # make the search results match the structure of the cmr results
+    def reformat_search_results(results, page_num=1, page_size=25)
+      items = results.map do |item|
+        { 'group_id' => item['group_id'],
+          'name' => item['name'],
+          'description' => item['description'],
+          'provider_id' => item['tag']
+        }
+      end
+
+      index = 0
+      if (page_num)
+        lower = (page_num-1)*page_size
+        upper = (page_num)*page_size
+      else
+        lower = 0
+        upper = 1000000
+      end
+
+      items.each do |item|
+        if (index >= lower and index <= upper)
+          item['member_count'] = get_edl_group_member_count(item['group_id'])
+        else
+          item['member_count']  = 0
+        end
+        index = index + 1
+      end
+
+      # return empty items if the lower bounds exceeds the number of items
+      return { 'hits' => items.length, 'items' => {} } if lower > items.length
+
+      { 'hits' => items.length, 'items' => items }
+    end
+
+    def get_edl_group_member_count(group_id)
+      response = get_edl_group_members(group_id)
+      return response.body.length if response.success?
+      0
     end
   end
 end
