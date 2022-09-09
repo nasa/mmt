@@ -75,6 +75,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :urs_client
 
+  def kms_client
+    @kms_client ||= Cmr::Client.client_for_environment(Rails.configuration.kms_env, Rails.configuration.services)
+  end
+  helper_method :kms_client
+
   # echo_client have request-specific state (namely timeout duration left for request), so need to serve
   # these objects out per http request.
   def echo_client
