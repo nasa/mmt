@@ -127,6 +127,7 @@ Rails.application.configure do
   config.edl_groups_enabled = false
 
   config.cmr_env = 'uat'
+  config.kms_env = 'uat'
   config.echo_env = 'uat'
   config.urs_register_url = 'https://uat.urs.earthdata.nasa.gov/users/new'
 

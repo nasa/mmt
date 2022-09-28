@@ -70,6 +70,7 @@
     <!-- Standard Product -->
     <div class="row">
       <div class="col-12">
+        <input type='hidden' name='page' value="data-identification" />
         <%= render partial: 'collection_drafts/forms/type', locals: {
           type: 'standard_product',
           values: draft.draft['StandardProduct'],
