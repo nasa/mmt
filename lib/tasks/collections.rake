@@ -29,7 +29,7 @@ namespace :collections do
         metadata_response = connection.get("search/collections.native?concept_id=#{collection_concept_id}") do |req|
           # Some providers require users be authenticated to view their collections, you can set an
           # environment variable with your token to access them
-          req.headers['Echo-token'] = ENV['CMR_SIT_TOKEN'] if ENV.key?('CMR_SIT_TOKEN')
+          req.headers['Authorization'] = ENV['CMR_SIT_TOKEN'] if ENV.key?('CMR_SIT_TOKEN')
         end
 
         if metadata_response.success?
@@ -52,7 +52,7 @@ namespace :collections do
             req.headers['concept-id'] = collection_concept_id
 
             # Ingesting to local CMR so we can set the token with those we've created
-            req.headers['Echo-token'] = get_collections_token
+            req.headers['Authorization'] = get_collections_token
 
             # The body here is the xml downloaded from SIT that represents this collection
             req.body = collection_details.text
