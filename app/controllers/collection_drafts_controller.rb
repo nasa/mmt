@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # :nodoc:
 class CollectionDraftsController < BaseDraftsController
   include CollectionsHelper
@@ -15,6 +17,28 @@ class CollectionDraftsController < BaseDraftsController
   skip_before_action :ensure_user_is_logged_in, only: [:download_json]
 
   layout 'collection_preview', only: [:show]
+
+  def upload_json
+    set_resource_by_model
+
+    uploaded_file = params[:uploaded_collection_draft]
+
+    # if the user has uploaded a .json file
+    if uploaded_file
+      json_params = JSON.parse(uploaded_file.read)
+      get_resource.draft = json_params
+      if get_resource.save
+        Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}#{Rails.configuration.proposal_mode ? '' : " for provider: #{current_user.provider_id}"}")
+        flash[:success] = 'Collection draft was upload and created successfully.'
+        redirect_to get_resource
+      else
+        flash[:error] = 'Error uploading collection draft. Try again.'
+      end
+    else
+      flash[:error] = 'No file was chosen. Please upload a .json file'
+      redirect_to manage_collections_path
+    end
+  end
 
   def new
     set_resource_by_model
@@ -47,7 +71,7 @@ class CollectionDraftsController < BaseDraftsController
     authorize get_resource
 
     if get_resource.save && get_resource.update_draft(params[:draft], current_user.urs_uid)
-      Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}#{Rails.configuration.proposal_mode ? '' : ' for provider: ' + current_user.provider_id}")
+      Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}#{Rails.configuration.proposal_mode ? '' : " for provider: #{current_user.provider_id}"}")
       flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success")
       case params[:commit]
       when 'Done'
@@ -205,25 +229,25 @@ class CollectionDraftsController < BaseDraftsController
     authorization_header = request.headers['Authorization']
 
     if authorization_header.nil?
-      render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
+      render json: JSON.pretty_generate({ 'error': 'unauthorized' }), status: 401
       return
     end
     token = authorization_header.split(' ', 2)[1] || ''
 
     # Handle EDL authentication
     if authorization_header.start_with?('Bearer')
-      if Rails.configuration.proposal_mode
-        token_response = cmr_client.validate_dmmt_token(token)
-      else
-        token_response = cmr_client.validate_mmt_token(token)
-      end
+      token_response = if Rails.configuration.proposal_mode
+                         cmr_client.validate_dmmt_token(token)
+                       else
+                         cmr_client.validate_mmt_token(token)
+                       end
       token_info = token_response.body
-      token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
+      token_info = JSON.parse token_info if token_info.instance_of?(String) # for some reason the mock isn't return hash but json string.
       urs_uid = token_info['uid']
     else
       render json: JSON.pretty_generate(get_resource.draft)
       return
-      # Todo: We need to handle verifying a launchpad token.
+      # TODO: We need to handle verifying a launchpad token.
       # # Handle Launchpad authentication
       # token_response = cmr_client.validate_launchpad_token(token)
       # urs_uid = nil
