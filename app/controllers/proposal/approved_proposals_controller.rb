@@ -77,7 +77,7 @@ module Proposal
     private
 
     # Action called before endpoints to validate a token and authorize a user
-    # Expects to be passed an 'Echo-Token' of format 'LaunchpadToken' in the headers.
+    # Expects to be passed an 'Authorization' of format 'LaunchpadToken' in the headers.
     def validate_token_and_user
       passed_token = request.headers.fetch('Authorization', nil)
 
