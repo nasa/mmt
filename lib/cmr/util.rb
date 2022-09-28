@@ -28,6 +28,14 @@ module Cmr
       end
     end
 
+    def authorization_header(token)
+      if is_urs_token?(token)
+        { 'Authorization' => "Bearer #{token}" }
+      else
+        { 'Authorization' => "#{token}" }
+      end
+    end
+
     def truncate_token(token)
       return nil if token.nil?
 

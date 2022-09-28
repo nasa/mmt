@@ -53,13 +53,7 @@ module Cmr
         token.present? ? { 'Authorization' => mock_token } : {}
       else
         return {} unless token.present?
-
-        if is_urs_token?(token)
-          # passing the URS token to CMR requires the client id
-          { 'Authorization' => "Bearer #{token}:#{@client_id}" }
-        else
-          { 'Authorization' => "Bearer #{token}" }
-        end
+        authorization_header(token)
       end
     end
 
