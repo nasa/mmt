@@ -4,7 +4,7 @@ describe 'Group list permissions', reset_provider: true, js: true do
 
   before :all do
     # Rails.cache.clear
-    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
     # VCR.use_cassette('edl', record: :new_episodes) do
       @edit_group_name = 'Test_Group_For_Provider_Context_Actions_14a'
       edit_group_description = 'Group to test provider context actions'
@@ -36,7 +36,7 @@ describe 'Group list permissions', reset_provider: true, js: true do
     context 'when the groups provider is in the users available providers', js: true do
       context 'when choosing to show groups in Available Providers ' do
         before do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
           # VCR.use_cassette('edl', record: :new_episodes) do
             visit groups_path
 

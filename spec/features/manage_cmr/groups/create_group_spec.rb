@@ -1,3 +1,4 @@
+require "rspec/mocks/standalone"
 describe 'Groups', reset_provider: true do
   context 'when visiting the new group form' do
     before do
@@ -41,25 +42,31 @@ describe 'Groups', reset_provider: true do
           fill_in 'Name', with: group_name
           fill_in 'Description', with: group_description
 
-          VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
+          Rails.cache.clear
+          VCR.use_cassette("urs/search/rarxd5taqea/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          # VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
             page.find('.select2-search__field').native.send_keys('rarxd5taqea')
 
             page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           end
 
-          VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :none) do
+          VCR.use_cassette("urs/search/qhw5mjoxgs2vjptmvzco/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          # VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :none) do
             page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
 
             page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           end
 
-          VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
+          VCR.use_cassette("urs/search/q6ddmkhivmuhk/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          # VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :none) do
             page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
 
             page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           end
 
           within '.group-form' do
+
+            # VCR.use_cassette("edl/urs/multiple_users/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
             VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
               click_on 'Submit'
             end
@@ -90,6 +97,7 @@ describe 'Groups', reset_provider: true do
           fill_in 'Description', with: group_description
 
           within '.group-form' do
+            # VCR.use_cassette("edl/urs/without_users/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
             VCR.use_cassette('edl/urs/without_users', record: :new_episodes) do
               click_on 'Submit'
             end

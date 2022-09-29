@@ -8,7 +8,7 @@ module Helpers
           'description' => description
         }
         # System level groups don't have a provider_id
-        group_params['provider_id'] = provider_id unless provider_id.nil?
+        group_params['tag'] = provider_id unless provider_id.nil?
 
         # If members were provided, include them in the payload
         group_params['members'] = members if members.any?

@@ -232,7 +232,10 @@ http_interactions:
       - chunked
     body:
       encoding: UTF-8
-      string: '[{"group_id":"d0d5d50e-734d-4adc-8c45-f6951827f168","name":"Io","description":"Corrupti
+      string: '[{"group_id":"c5363cee-ae77-4ab5-bbd0-1bfb71b5f635","name":"Test_Group_For_Provider_Context_Actions_13b","description":"Group
+        to test provider context actions","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"66b29138-54d6-40f5-a1d1-d80d323556b1","name":"Test_Group_For_Provider_Context_Actions_14a","description":"Group
+        to test provider context actions","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"5086529e-93af-414d-ba89-cb85510ecc54","name":"Test_Group_For_Provider_Context_Actions_14b","description":"Group
+        to test provider context actions","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"d0d5d50e-734d-4adc-8c45-f6951827f168","name":"Io","description":"Corrupti
         ut ut porro.","app_uid":null,"tag":"MMT_2","shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"group_id":"2981cb3c-80d0-4b97-9599-f82227e315d0","name":"TestGroup","description":"Test
         Shared App group from API","app_uid":null,"tag":null,"shared_user_group":true,"client_id":null,"created_by":"testapp"},{"group_id":"1d443419-6806-45e5-b249-154119345ec8","name":"TestGroup1","description":"Shared
         UI group","app_uid":null,"tag":null,"shared_user_group":true,"client_id":null,"created_by":"testapp"},{"group_id":"6e11d148-9675-4b1b-97e3-f69cfcd679b4","name":"TestGroupnew","description":"New
@@ -486,10 +489,7 @@ http_interactions:
         to test provider context actions","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"13856755-281e-4f1c-8edd-50df02909596","name":"Test_Group_For_New_Invites_1","description":"Group
         to invite users to","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"d1e9fe32-c32c-4044-9018-56b787c77c58","name":"Test_Group_For_New_Invites_2","description":"Group
         to invite users to","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"b7efd131-3ae2-46e2-844e-f568e7e1fe93","name":"Test_Group_For_Provider_Context_Actions_13a","description":"Group
-        to test provider context actions","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"c5363cee-ae77-4ab5-bbd0-1bfb71b5f635","name":"Test_Group_For_Provider_Context_Actions_13b","description":"Group
-        to test provider context actions","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"66b29138-54d6-40f5-a1d1-d80d323556b1","name":"Test_Group_For_Provider_Context_Actions_14a","description":"Group
-        to test provider context actions","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"5086529e-93af-414d-ba89-cb85510ecc54","name":"Test_Group_For_Provider_Context_Actions_14b","description":"Group
-        to test provider context actions","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"}]'
+        to test provider context actions","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"}]'
   recorded_at: Wed, 28 Sep 2022 18:42:59 GMT
 - request:
     method: get
@@ -1595,7 +1595,9 @@ http_interactions:
       - chunked
     body:
       encoding: UTF-8
-      string: '[{"group_id":"d0d5d50e-734d-4adc-8c45-f6951827f168","name":"Io","description":"Corrupti
+      string: '[{"group_id":"66b29138-54d6-40f5-a1d1-d80d323556b1","name":"Test_Group_For_Provider_Context_Actions_14a","description":"Group
+        to test provider context actions","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"5086529e-93af-414d-ba89-cb85510ecc54","name":"Test_Group_For_Provider_Context_Actions_14b","description":"Group
+        to test provider context actions","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"d0d5d50e-734d-4adc-8c45-f6951827f168","name":"Io","description":"Corrupti
         ut ut porro.","app_uid":null,"tag":"MMT_2","shared_user_group":true,"client_id":null,"created_by":"mmt_test"},{"group_id":"2981cb3c-80d0-4b97-9599-f82227e315d0","name":"TestGroup","description":"Test
         Shared App group from API","app_uid":null,"tag":null,"shared_user_group":true,"client_id":null,"created_by":"testapp"},{"group_id":"1d443419-6806-45e5-b249-154119345ec8","name":"TestGroup1","description":"Shared
         UI group","app_uid":null,"tag":null,"shared_user_group":true,"client_id":null,"created_by":"testapp"},{"group_id":"6e11d148-9675-4b1b-97e3-f69cfcd679b4","name":"TestGroupnew","description":"New
@@ -1850,9 +1852,7 @@ http_interactions:
         to invite users to","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"d1e9fe32-c32c-4044-9018-56b787c77c58","name":"Test_Group_For_New_Invites_2","description":"Group
         to invite users to","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"b7efd131-3ae2-46e2-844e-f568e7e1fe93","name":"Test_Group_For_Provider_Context_Actions_13a","description":"Group
         to test provider context actions","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"c5363cee-ae77-4ab5-bbd0-1bfb71b5f635","name":"Test_Group_For_Provider_Context_Actions_13b","description":"Group
-        to test provider context actions","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"66b29138-54d6-40f5-a1d1-d80d323556b1","name":"Test_Group_For_Provider_Context_Actions_14a","description":"Group
-        to test provider context actions","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"},{"group_id":"5086529e-93af-414d-ba89-cb85510ecc54","name":"Test_Group_For_Provider_Context_Actions_14b","description":"Group
-        to test provider context actions","app_uid":"mmt_test","tag":"MMT_2","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"}]'
+        to test provider context actions","app_uid":"mmt_test","tag":"CMR","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"}]'
   recorded_at: Wed, 28 Sep 2022 18:43:04 GMT
 - request:
     method: get
@@ -3368,4 +3368,120 @@ http_interactions:
       encoding: UTF-8
       string: '{"users":[{"uid":"francell","first_name":"Willard","last_name":"Gray","email_address":"willard.f.gray@nasa.gov"},{"uid":"francell_test","first_name":"Francell","last_name":"Gray","email_address":"w_francell_gray@raytheon.com"}]}'
   recorded_at: Wed, 28 Sep 2022 18:43:07 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/66b29138-54d6-40f5-a1d1-d80d323556b1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Thu, 29 Sep 2022 14:09:00 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      www-authenticate:
+      - Bearer realm="Earthdata Login",error="invalid_token"
+      vary:
+      - Accept
+      x-request-id:
+      - 0fb1a116-a2f6-4a67-b9c1-44e5e9d58a04
+      x-runtime:
+      - '0.041476'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"invalid_token"}'
+  recorded_at: Thu, 29 Sep 2022 14:09:00 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/5086529e-93af-414d-ba89-cb85510ecc54
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Thu, 29 Sep 2022 14:09:00 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      www-authenticate:
+      - Bearer realm="Earthdata Login",error="invalid_token"
+      vary:
+      - Accept
+      x-request-id:
+      - bf0a0caf-4d9e-4470-8f3b-c9e2bd197f59
+      x-runtime:
+      - '0.051799'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"invalid_token"}'
+  recorded_at: Thu, 29 Sep 2022 14:09:00 GMT
 recorded_with: VCR 6.1.0
