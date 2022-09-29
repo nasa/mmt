@@ -1,6 +1,9 @@
+require "rspec/mocks/standalone"
 describe 'Groups breadcrumbs and header', js:true do
   before :all do
-    VCR.use_cassette('edl', record: :new_episodes) do
+    # Rails.cache.clear
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+    # VCR.use_cassette('edl', record: :new_episodes) do
       @group = create_group(
         name: 'Breadcrumbs_Test_Group_01',
         description: 'test group',
@@ -10,15 +13,16 @@ describe 'Groups breadcrumbs and header', js:true do
   end
 
   after :all do
-    VCR.use_cassette('edl', record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+    # VCR.use_cassette('edl', record: :new_episodes) do
       delete_group(concept_id: @group['group_id'])
     end
   end
 
   before do
     login
-
-    VCR.use_cassette('edl', record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+    # VCR.use_cassette('edl', record: :new_episodes) do
       visit group_path(@group['group_id'])
     end
   end
