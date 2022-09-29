@@ -18,28 +18,6 @@ class CollectionDraftsController < BaseDraftsController
 
   layout 'collection_preview', only: [:show]
 
-  def upload_json
-    set_resource_by_model
-
-    uploaded_file = params[:uploaded_collection_draft]
-
-    # if the user has uploaded a .json file
-    if uploaded_file
-      json_params = JSON.parse(uploaded_file.read)
-      get_resource.draft = json_params
-      if get_resource.save
-        Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}#{Rails.configuration.proposal_mode ? '' : " for provider: #{current_user.provider_id}"}")
-        flash[:success] = 'Collection draft was upload and created successfully.'
-        redirect_to get_resource
-      else
-        flash[:error] = 'Error uploading collection draft. Try again.'
-      end
-    else
-      flash[:error] = 'No file was chosen. Please upload a .json file'
-      redirect_to manage_collections_path
-    end
-  end
-
   def new
     set_resource_by_model
 
@@ -217,6 +195,28 @@ class CollectionDraftsController < BaseDraftsController
       # ingest errors are handled in the view, so not needed in the flash
       flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.publish.flash.error")
       render :show
+    end
+  end
+
+  def upload_json
+    set_resource_by_model
+
+    uploaded_file = params[:uploaded_collection_draft]
+
+    # if the user has uploaded a .json file -> save the file
+    if uploaded_file
+      json_params = JSON.parse(uploaded_file.read)
+      get_resource.draft = json_params
+      if get_resource.save
+        Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}#{Rails.configuration.proposal_mode ? '' : " for provider: #{current_user.provider_id}"}")
+        flash[:success] = 'Collection draft was upload and created successfully.'
+        redirect_to get_resource
+      else
+        flash[:error] = 'Error uploading collection draft. Try again.'
+      end
+    else
+      flash[:error] = 'No file was chosen. Please upload a .json file'
+      redirect_to manage_collections_path
     end
   end
 

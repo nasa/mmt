@@ -30,14 +30,21 @@
                   title: 'Select Template Name'
                 ) %>
                 </p>
-                <p>
-                  <%#= form_tag(upload_json_path, multipart: true) do %>
-<!--                            <label for="file">File to Upload</label> <%#= file_field_tag :file, accept: 'application/json' %>-->
-                  <%#= link_to 'Upload File', upload_json_path, class: 'eui-btn--blue submit' %>
-                  <%# end %>
-<!--                </p>-->
-                <%= submit_tag 'Create New Record', { class: 'draft eui-btn--blue submit' } %>
+                <%= submit_tag 'Create New Record', { id:'submit-btn', class: 'draft eui-btn--blue submit create-draft', style: 'display:show;', } %>
             <% end %>
+            <div class="upload-json-form" style="display: none">
+              <%= form_tag(upload_json_path, multipart: true, method: :post) do %>
+                <label>
+                  File to upload
+                </label>
+                <%= file_field_tag(
+                      "uploaded_collection_draft",
+                      accept: 'application/json',
+                      class: 'upload-file'
+                    )%>
+                <%= submit_tag 'Create New Record', { class: 'draft eui-btn--blue submit' } %>
+              <% end %>
+            </div>
           <% else %>
             <div class="row">
               <%= link_to 'Create New Record', new_collection_draft_path, class: 'eui-btn--blue submit' %>
@@ -51,16 +58,6 @@
         </div>
         <% if Rails.configuration.templates_enabled %>
           <%= link_to 'Manage Templates', collection_templates_path, id: 'collection_templates_index' %>
-        <% end %>
-
-        <%= form_tag(upload_json_path, multipart: true, method: :post) do %>
-          <label>
-            File to upload
-          </label>
-          <%= file_field_tag "uploaded_collection_draft", accept: 'application/json'%>
-          <%= submit_tag 'Create New Record', { class: 'draft eui-btn--blue submit' } %>
-<!--          <label for="file">File to Upload</label> <%#= file_field_tag :upload_collection_draft, accept: 'application/json' %>-->
-          <%#= link_to 'Upload File', upload_json_path, class: 'eui-btn--blue submit' %>
         <% end %>
       </div>
     </section>
