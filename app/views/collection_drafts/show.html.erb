@@ -67,6 +67,10 @@
           <% end %>
         <% end %>
 
+        <% if resource_name == 'collection_draft' %>
+          <%= link_to 'Download JSON', "/collection_drafts/#{@collection_draft.id}.json", download: '', class: 'eui-btn--link bar-after' %>
+        <% end %>
+
         <%= link_to "Delete #{name_to_title(resource_name)}", "#delete-draft-modal", class: 'display-modal eui-btn--link' %>
         <div id="delete-draft-modal" class="eui-modal-content">
           <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>

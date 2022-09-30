@@ -14,6 +14,7 @@
           <th><%= short_name_header(resource_name) %></th>
           <th><%= entry_title_header(resource_name) %></th>
           <th>Last Modified</th>
+          <th>Download JSON</th>
         </tr>
       </thead>
       <tbody>
@@ -35,6 +36,9 @@
             </td>
             <td>
               <%= draft.updated_at.to_s(:date) %>
+            </td>
+            <td>
+            <%= link_to "Download JSON", "/#{resource_name}s/#{draft.id}.json", download: '', class: 'eui-btn--link' %>
             </td>
           </tr>
         <% end %>
