@@ -1,4 +1,4 @@
-describe CollectionDraftsController, js:true do
+describe CollectionDraftsController do
   before do
     set_as_mmt_proper
     @request.headers['Authorization'] = 'Bearer access-token'
