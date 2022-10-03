@@ -196,6 +196,28 @@ class CollectionDraftsController < BaseDraftsController
     end
   end
 
+  def upload_json
+    set_resource_by_model
+
+    uploaded_file = params[:uploaded_collection_draft]
+
+    # if the user has uploaded a .json file -> save the file
+    if uploaded_file
+      json_params = JSON.parse(uploaded_file.read)
+      get_resource.draft = json_params
+      if get_resource.save
+        Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}#{Rails.configuration.proposal_mode ? '' : " for provider: #{current_user.provider_id}"}")
+        flash[:success] = 'Collection draft was upload and created successfully.'
+        redirect_to get_resource
+      else
+        flash[:error] = 'Error uploading collection draft. Try again.'
+      end
+    else
+      flash[:error] = 'No file was chosen. Please upload a .json file'
+      redirect_to manage_collections_path
+    end
+  end
+
   def download_json
     if Rails.env.development?
       render json: JSON.pretty_generate(get_resource.draft) if Rails.env.development?

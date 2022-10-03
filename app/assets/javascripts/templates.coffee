@@ -6,8 +6,16 @@ $(document).ready ->
     switch($(this).val())
       when 'blank'
         $('.template-select').hide()
+        $('.upload-json-form').hide()
+        $('#submit-btn').show()
       when 'template'
         $('.template-select').show()
+        $('.upload-json-form').hide()
+        $('#submit-btn').show()
+      when 'upload'
+        $('.upload-json-form').show()
+        $('#submit-btn').hide()
+        $('.template-select').hide()
 
   # When the user clicks on the save as template link, click the invisible button
   # to submit the form and change pages
