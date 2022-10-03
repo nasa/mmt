@@ -5,7 +5,7 @@ describe CollectionDraftsController do
     @collection_draft = create(:full_collection_draft, user: create(:user, :multiple_providers))
     @unauthorized_draft = create(:collection_draft_all_required_fields, user: create(:user, :multiple_providers))
     @test_user2 = create(:user2) # belong to LARC
-    @file = fixture_file_upload('files/upload_collection_draft_test.json')
+    @file = fixture_file_upload('upload_files/upload_collection_draft_test.json')
 
   end
 
@@ -34,10 +34,10 @@ describe CollectionDraftsController do
     end
     it 'when a collection draft is upload' do
       # Calls upload_json in CollectionDraftController with a valid .json file (@file).
-      # Since passing a valid .json file it will create a new collection draft from the content that's in the uploaded file
-      # and redirect to collection_draft_path with an id = 3.
+      # Since passing a valid .json file it will create a new collection draft from the content that in the uploaded file
+      # and redirect to preview page with the new draft.
       post :upload_json, params: { uploaded_collection_draft: @file }
-      expect(response).to redirect_to(collection_draft_path(id: 3)) # Passing 3 for id because that is the id for the uploaded collection draft
+      expect(response.header['Location']).to include ('/collection_drafts/') # Checking if the draft was upload and redirected to collection_drafts
     end
     it 'when no collection draft is upload' do
       post :upload_json
