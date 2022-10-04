@@ -62,6 +62,9 @@ describe 'Collection Draft creation', js: true do
             before do
               @file = "#{Rails.root}/#{id}.json"
               click_on 'Download JSON'
+
+              # Seems to need a brief (>0.1) pause to actually find the file.
+              sleep(1)
             end
             after do
               FileUtils.rm @file if File.exist?(@file)
