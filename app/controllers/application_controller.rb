@@ -382,7 +382,9 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    puts("******* francell token=#{token}")
     response = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id)
+    puts("******* francell response=#{response.body}, error=#{response.error?}")
     if response.error?
       return
     end
