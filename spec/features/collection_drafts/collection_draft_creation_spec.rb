@@ -53,6 +53,24 @@ describe 'Collection Draft creation', js: true do
             expect(page).to have_content('Drafts')
             expect(page).to have_content('123')
           end
+
+          it 'renders the Download JSON link' do
+            expect(page).to have_link('Download JSON')
+          end
+          context 'when downloading the JSON' do
+            let(:id)  {current_url.gsub(/.*\//, '')}
+            before do
+              @file = "#{Rails.root}/#{id}.json"
+              click_on 'Download JSON'
+            end
+            after do
+              FileUtils.rm @file if File.exist?(@file)
+            end
+      
+            it 'downloads the file' do
+              expect(File.exist?(@file)).to eq(true)
+            end
+          end
         end
 
         context 'when accessing a collection draft\'s json' do
