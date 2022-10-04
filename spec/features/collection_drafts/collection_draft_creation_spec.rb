@@ -60,7 +60,7 @@ describe 'Collection Draft creation', js: true do
           context 'when downloading the JSON' do
             let(:id)  {current_url.gsub(/.*\//, '')}
             before do
-              @file = "#{Rails.root}/#{id}.json"
+              @file = "#{Rails.root}/123-#{id}.json"
               click_on 'Download JSON'
 
               # Seems to need a brief (>0.1) pause to actually find the file.
