@@ -25,8 +25,6 @@ class ManageProposalController < ManageMetadataController
                       cmr_client.dmmt_get_approved_proposals(token)
                     end
 
-    puts("******** francell dmmt response = #{dmmt_response.body} proposals=#{dmmt_response.body['proposals']}")
-
     if dmmt_response.success?
       Rails.logger.info("MMT successfully received approved proposals from dMMT at #{current_user.urs_uid}'s request.")
 
