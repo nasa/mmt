@@ -11,6 +11,12 @@ class ServiceEntriesController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
 
     # Default the page to 1
@@ -56,6 +62,12 @@ class ServiceEntriesController < ManageCmrController
 
     @service_entry = generate_payload
 
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     response = echo_client.create_service_entry(echo_provider_token, @service_entry)
 
     if response.error?
@@ -73,6 +85,12 @@ class ServiceEntriesController < ManageCmrController
   def update
     authorize :service_entry
 
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     @service_entry = generate_payload
 
     response = echo_client.update_service_entry(echo_provider_token, @service_entry)
@@ -89,6 +107,12 @@ class ServiceEntriesController < ManageCmrController
 
   def destroy
     authorize :service_entry
+
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
 
     response = echo_client.remove_service_entry(echo_provider_token, params[:id])
 
@@ -127,6 +151,12 @@ class ServiceEntriesController < ManageCmrController
   end
 
   def set_service_entry
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     result = echo_client.get_service_entries(echo_provider_token, params[:id])
 
     if result.success?

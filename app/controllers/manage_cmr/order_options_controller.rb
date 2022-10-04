@@ -4,6 +4,12 @@ class OrderOptionsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     permitted = params.to_unsafe_h unless params.nil?# need to understand what this is doing more, think related to nested parameters not permitted.
 
     # Default the page to 1
@@ -29,6 +35,12 @@ class OrderOptionsController < ManageCmrController
     # Scope will always be PROVIDER
     @order_option['scope'] = 'PROVIDER'
 
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     response = cmr_client.create_order_option(@order_option, echo_provider_token)
 
     if response.success?
@@ -44,6 +56,12 @@ class OrderOptionsController < ManageCmrController
 
   def show
     order_option_id = params[:id]
+
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
 
     response = cmr_client.get_order_option(order_option_id, echo_provider_token)
     if response.success?
@@ -61,6 +79,13 @@ class OrderOptionsController < ManageCmrController
 
   def edit
     @order_option_id = params[:id]
+
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     response = cmr_client.get_order_option(@order_option_id, echo_provider_token)
     if response.success?
       @order_option = response.parsed_body['option_definition']
@@ -83,6 +108,12 @@ class OrderOptionsController < ManageCmrController
 
     add_breadcrumb @order_option.fetch('name', nil), order_option_path(@order_option_id)
     add_breadcrumb 'Edit', edit_order_option_path(@order_option_id)
+
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
 
     soap_xml_response = echo_client.deprecate_order_options(echo_provider_token, Array.wrap(@order_option_id))
 
@@ -111,6 +142,12 @@ class OrderOptionsController < ManageCmrController
   end
 
   def destroy
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     response = cmr_client.delete_order_option(params[:id], echo_provider_token)
     if response.success?
       flash[:success] = 'Order Option was successfully deleted.'
@@ -123,6 +160,12 @@ class OrderOptionsController < ManageCmrController
   end
 
   def deprecate
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     soap_xml_response = echo_client.deprecate_order_options(echo_provider_token, Array.wrap(params[:id]))
     if soap_xml_response.success?
       flash[:success] = 'Order Option was successfully deprecated.'
