@@ -64,7 +64,6 @@ class OrderOptionsController < ManageCmrController
     end
 
     response = cmr_client.get_order_option(order_option_id, echo_provider_token)
-    puts("******** francell2 response from calling get order option is #{response.body}, success=#{response.success?}")
     if response.success?
       @order_option = response.parsed_body['option_definition']
 
@@ -73,7 +72,6 @@ class OrderOptionsController < ManageCmrController
       add_breadcrumb @order_option.fetch('name', nil), order_option_path(order_option_id)
     else
       Rails.logger.error("Get Order Option Definition Error: #{response.clean_inspect}")
-      puts("******** francell2 error from calling get order option is #{response.parsed_body['errors']['error']}")
       flash[:error] = response.parsed_body['errors']['error']
       redirect_to order_options_path
     end

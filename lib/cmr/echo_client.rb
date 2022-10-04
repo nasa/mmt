@@ -22,7 +22,6 @@ module Cmr
 
     def get_order_option(id, echo_provider_token)
       url = "/legacy-services/rest/option_definitions/#{id}"
-      puts("*********** francell2 authorization header=#{authorization_header(echo_provider_token)}, token=#{echo_provider_token}")
       get(url, {}, authorization_header(echo_provider_token))
     end
 
