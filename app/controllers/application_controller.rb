@@ -284,7 +284,7 @@ class ApplicationController < ActionController::Base
   helper_method :token
 
   def echo_provider_token
-    set_provider_context_token if session[:echo_provider_token].nil?
+    set_provider_context_token # if session[:echo_provider_token].nil?
 
     session[:echo_provider_token]
   end
