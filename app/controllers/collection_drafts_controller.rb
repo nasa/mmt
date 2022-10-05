@@ -218,7 +218,7 @@ class CollectionDraftsController < BaseDraftsController
         flash[:error] = 'Error uploading collection draft. Try again.'
       end
     elsif json_params.nil?
-      flash[:error] = 'There was an error in the uploaded .json file. Please check the file and try again.'
+      flash[:error] = 'There was an error parsing the uploaded .json file. Please check the file and try again.'
       redirect_to manage_collections_path
     else
       flash[:error] = 'No file was chosen. Please upload a .json file'
