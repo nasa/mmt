@@ -1,19 +1,21 @@
 # These tests are for the Groups Index page filtering by search boxes, which
 # filter by provider(s) and/or member(s)
-
+require "rspec/mocks/standalone"
 describe 'Filtering groups', reset_provider: true, js: true do
   before :all do
-    VCR.use_cassette('edl', record: :new_episodes) do
+    # Rails.cache.clear
+
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       create_group(
-        name: 'Group_1',
-        description: 'test group',
+        name: 'Group_3',
+        description: 'test group 3',
         provider_id: 'MMT_2',
         members: %w[qhw5mjoxgs2vjptmvzco]
       )
 
       create_group(
-        name: 'Group_2',
-        description: 'test group 2',
+        name: 'Group_4',
+        description: 'test group 4',
         provider_id: 'MMT_2',
         members: %w[qhw5mjoxgs2vjptmvzco rarxd5taqea q6ddmkhivmuhk]
       )
@@ -26,7 +28,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
       # the groups in all the providers
       login(providers: %w[MMT_1 MMT_2 LARC SEDAC NSIDC_ECS])
 
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         visit groups_path
       end
     end
@@ -44,7 +46,8 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
     context 'when choosing to display groups from Available Providers' do
       before do
-        VCR.use_cassette('edl', record: :new_episodes) do
+
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           within '.groups-filters' do
             choose 'Available Providers'
 
@@ -66,7 +69,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
       end
 
       it 'displays the correct search boxes' do
-        # provider select should include all avaliable providers
+        # provider select should include all available providers
         expect(page).to have_select('provider-group-filter', options: %w[MMT_1 MMT_2 LARC SEDAC NSIDC_ECS])
         expect(page).to have_select('member-group-filter')
       end
@@ -74,7 +77,8 @@ describe 'Filtering groups', reset_provider: true, js: true do
       context 'when searching by filter box' do
         context 'by provider' do
           before do
-            VCR.use_cassette('edl', record: :new_episodes) do
+
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               select 'MMT_2', from: 'provider-group-filter'
               click_on 'Apply Filter'
             end
@@ -83,17 +87,17 @@ describe 'Filtering groups', reset_provider: true, js: true do
           it 'displays the search params and correct groups' do
             expect(page).to have_css('li.select2-selection__choice', text: 'MMT_2')
 
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+              click_on 'Last'
+            end
+
             within '.groups-table' do
-              within all('tr')[1] do
-                expect(page).to have_content('Group 1 test group MMT_2 1')
-              end
               within all('tr')[2] do
-                expect(page).to have_content('Group 2 test group 2 MMT_2 3')
+                expect(page).to have_content('Group_3 test group 3 MMT_2 1')
               end
               within all('tr')[3] do
-                expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2 2')
+                expect(page).to have_content('Group_4 test group 4 MMT_2 3')
               end
-
               expect(page).to have_no_content('LARC Admin Group Test group for provider LARC 2')
               expect(page).to have_no_content('MMT_1 Admin Group Test group for provider MMT_1 2')
               expect(page).to have_no_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS 2')
@@ -104,7 +108,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
         context 'by member' do
           before do
-            VCR.use_cassette('edl/urs/search/rarxd5taqea', record: :new_episodes) do
+            VCR.use_cassette("edl/urs/search/rarxd5taqea/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               within '#groups-member-filter' do
                 page.find('.select2-search__field').native.send_keys('rarxd5taqea')
               end
@@ -112,7 +116,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
               page.find('ul#select2-member-group-filter-results li.select2-results__option--highlighted').click
             end
 
-            VCR.use_cassette('edl/urs/search/qhw5mjoxgs2vjptmvzco', record: :new_episodes) do
+            VCR.use_cassette("edl/urs/search/hw5mjoxgs2vjptmvzco/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               within '#groups-member-filter' do
                 page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
               end
@@ -120,7 +124,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
               page.find('ul#select2-member-group-filter-results li.select2-results__option--highlighted').click
             end
 
-            VCR.use_cassette('edl/urs/search/q6ddmkhivmuhk', record: :new_episodes) do
+            VCR.use_cassette("edl/urs/search/q6ddmkhivmuhk/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               within '#groups-member-filter' do
                 page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
               end
@@ -128,7 +132,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
               page.find('ul#select2-member-group-filter-results li.select2-results__option--highlighted').click
             end
 
-            VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
+            VCR.use_cassette('edl/urs/multiple_users', record: :none) do
               click_on 'Apply Filter'
             end
           end
@@ -139,10 +143,10 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
             within '.groups-table' do
               within all('tr')[1] do
-                expect(page).to have_content('Group 2 test group 2 MMT_2 3')
+                expect(page).to have_content('Group_2 test group 2 MMT_2 3')
               end
 
-              expect(page).to have_no_content('Group 1 test group MMT_2 1')
+              expect(page).to have_no_content('Group_4 test group 4 MMT_2 1')
               expect(page).to have_no_content('MMT_2 Admin Group Test group for provider MMT_2 2')
 
               expect(page).to have_no_content('LARC Admin Group Test group for provider LARC 2')
