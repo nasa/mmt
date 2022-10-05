@@ -198,18 +198,16 @@ class CollectionDraftsController < BaseDraftsController
 
   def upload_json
     set_resource_by_model
-
     uploaded_file = params[:uploaded_collection_draft]
-    json_params = begin
-                    JSON.parse(uploaded_file.read)
-                  rescue
-                    nil
-                  end
-
-    # if the user has uploaded a .json file -> save the file
-    if uploaded_file && json_params
-
-      get_resource.draft = json_params
+    if uploaded_file
+      # Checking if uploaded json is parseable, if not throw an error and redirect
+      get_resource.draft = begin
+                             JSON.parse(uploaded_file.read)
+                           rescue
+                             flash[:error] = 'There was an error parsing the uploaded .json file. Please check the file and try again.'
+                             redirect_to manage_collections_path
+                             return
+                           end
       if get_resource.save
         Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}#{Rails.configuration.proposal_mode ? '' : " for provider: #{current_user.provider_id}"}")
         flash[:success] = 'Collection draft was upload and created successfully.'
@@ -217,9 +215,6 @@ class CollectionDraftsController < BaseDraftsController
       else
         flash[:error] = 'Error uploading collection draft. Try again.'
       end
-    elsif json_params.nil?
-      flash[:error] = 'There was an error parsing the uploaded .json file. Please check the file and try again.'
-      redirect_to manage_collections_path
     else
       flash[:error] = 'No file was chosen. Please upload a .json file'
       redirect_to manage_collections_path
