@@ -169,7 +169,7 @@ module Cmr
 
     def get_groups_for_user_id(user_id)
       response = get('/api/user_groups/search',
-                     { 'user_id' => user_id },
+                     { 'user_ids' => user_id },
                      'Authorization' => "Bearer #{get_client_token}")
       return [] if response.error?
 
