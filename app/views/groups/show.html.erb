@@ -58,7 +58,7 @@
       <p><%= @group.fetch('name', nil) %> has no members.</p>
     <% end %>
 
-    <% if current_provider?(@group['tag']) || check_if_system_group?(@group, @group_id) %>
+    <% if current_provider?(@group['provider_id']) || check_if_system_group?(@group, @group_id) %>
       <%= link_to 'Edit', edit_group_path(@group['group_id']), class: 'eui-btn' %>
       <%= link_to 'Delete', '#delete-group-modal', class: 'display-modal eui-btn eui-btn--red' %>
       <div id='delete-group-modal' class="eui-modal-content">
@@ -69,9 +69,9 @@
           <%= link_to 'Yes', group_path(name: @group['name']), method: :delete, class: 'eui-btn--blue spinner' %>
         </p>
       </div>
-    <% elsif available_provider?(@group['tag']) %>
-      <%= link_to 'Edit', '#not-current-provider-modal', class: 'eui-btn display-modal not-current-provider', data: { 'provider': @group['tag'], record_action: 'edit-group' } %>
-      <%= link_to 'Delete', '#not-current-provider-modal', class: 'eui-btn eui-btn--red display-modal not-current-provider', data: { 'provider': @group['tag'], record_action: 'delete-group' } %>
+    <% elsif available_provider?(@group['provider_id']) %>
+      <%= link_to 'Edit', '#not-current-provider-modal', class: 'eui-btn display-modal not-current-provider', data: { 'provider': @group['provider_id'], record_action: 'edit-group' } %>
+      <%= link_to 'Delete', '#not-current-provider-modal', class: 'eui-btn eui-btn--red display-modal not-current-provider', data: { 'provider': @group['provider_id'], record_action: 'delete-group' } %>
       <%= render partial: 'shared/not_current_provider_modal', locals: {
         options: { group: @group, name: @group['name'], group_id: @group_id }
         } %>

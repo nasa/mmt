@@ -1,12 +1,11 @@
-require "rspec/mocks/standalone"
 describe 'Group list permissions', reset_provider: true, js: true do
   let(:modal_text) { 'requires you change your provider context to MMT_2' }
 
   before :all do
     # Rails.cache.clear
-    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-    # VCR.use_cassette('edl', record: :new_episodes) do
-      @edit_group_name = 'Test_Group_For_Provider_Context_Actions_14a'
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+    # VCR.use_cassette('edl', record: :none) do
+      @edit_group_name = 'Test_Group_For_Provider_Context_Actions_Oct6c'
       edit_group_description = 'Group to test provider context actions'
       @provider_id = 'MMT_2'
 
@@ -16,7 +15,7 @@ describe 'Group list permissions', reset_provider: true, js: true do
         provider_id: @provider_id
       )
 
-      @delete_group_name = 'Test_Group_For_Provider_Context_Actions_14b'
+      @delete_group_name = 'Test_Group_For_Provider_Context_Actions_Oct6d'
       delete_group_description = 'Group to test provider context actions'
       @provider_id = 'MMT_2'
 
@@ -36,8 +35,8 @@ describe 'Group list permissions', reset_provider: true, js: true do
     context 'when the groups provider is in the users available providers', js: true do
       context 'when choosing to show groups in Available Providers ' do
         before do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-          # VCR.use_cassette('edl', record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          # VCR.use_cassette('edl', record: :none) do
             visit groups_path
 
             within '.groups-filters' do
@@ -49,6 +48,10 @@ describe 'Group list permissions', reset_provider: true, js: true do
 
         context 'when clicking the edit button' do
           before do
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+              click_on 'Last'
+            end
+
             within '.groups-table' do
               within('tr', text: @edit_group_name) do
                 click_on 'Edit'
@@ -63,8 +66,10 @@ describe 'Group list permissions', reset_provider: true, js: true do
           context 'when clicking Yes' do
             before do
               # click_on 'Yes'
-              find('.not-current-provider-link').click
-              wait_for_jQuery
+              VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+                find('.not-current-provider-link').click
+                wait_for_jQuery
+              end
             end
 
             it 'switches the provider context' do
@@ -79,9 +84,15 @@ describe 'Group list permissions', reset_provider: true, js: true do
 
         context 'when clicking the delete button' do
           before do
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+              click_on 'Last'
+            end
+
             within '.groups-table' do
               within('tr', text: @delete_group_name) do
-                click_on 'Delete'
+                VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+                  click_on 'Delete'
+                end
               end
             end
           end
@@ -93,8 +104,10 @@ describe 'Group list permissions', reset_provider: true, js: true do
           context 'when clicking Yes' do
             before do
               # click_on 'Yes'
-              find('.not-current-provider-link').click
-              wait_for_jQuery
+              VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+                find('.not-current-provider-link').click
+                wait_for_jQuery
+              end
             end
 
             it 'switches the provider context and deletes the record' do
