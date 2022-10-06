@@ -382,7 +382,6 @@ class ApplicationController < ActionController::Base
         return
       end
     end
-    current_provider_guid
     response = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id)
     if response.error?
       return
