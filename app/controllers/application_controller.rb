@@ -2,6 +2,7 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
   include PermissionChecking
+  include EchoSoap
 
   # Prevent CSRF attacks by raising an exception.
   protect_from_forgery with: :exception
@@ -381,7 +382,7 @@ class ApplicationController < ActionController::Base
         return
       end
     end
-
+    current_provider_guid
     response = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id)
     if response.error?
       return
