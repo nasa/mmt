@@ -10,7 +10,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Basic bW10X3Rlc3Q6Q0xQVHhSUTloZ3ZQOW9zUA==
+      - Basic oauth_token
   response:
     status:
       code: 200

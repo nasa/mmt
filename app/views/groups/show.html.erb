@@ -75,6 +75,14 @@
       <%= render partial: 'shared/not_current_provider_modal', locals: {
         options: { group: @group, name: @group['name'], group_id: @group_id }
         } %>
+
+    <% elsif available_provider?(@group['tag']) %>
+      <%= link_to 'Edit', '#not-current-provider-modal', class: 'eui-btn display-modal not-current-provider', data: { 'provider': @group['tag'], record_action: 'edit-group' } %>
+      <%= link_to 'Delete', '#not-current-provider-modal', class: 'eui-btn eui-btn--red display-modal not-current-provider', data: { 'provider': @group['tag'], record_action: 'delete-group' } %>
+      <%= render partial: 'shared/not_current_provider_modal', locals: {
+        options: { group: @group, name: @group['name'], group_id: @group_id }
+      } %>
+
     <% end %>
   </section>
 </div>

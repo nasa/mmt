@@ -5,7 +5,7 @@ describe 'Group permissions', reset_provider: true, js: true do
   before :all do
     # Rails.cache.clear
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
-      edit_group_name = 'Test_Group_For_New_Invites_1cc'
+      edit_group_name = 'Test_Group_For_New_Invites_1ab'
       edit_group_description = 'Group to invite users to'
       @provider_id = 'MMT_2'
 
@@ -15,7 +15,7 @@ describe 'Group permissions', reset_provider: true, js: true do
         provider_id: @provider_id
       )
 
-      delete_group_name = 'Test_Group_For_New_Invites_2dd'
+      delete_group_name = 'Test_Group_For_New_Invites_2ab'
       delete_group_description = 'Group to invite users to'
       @provider_id = 'MMT_2'
 
@@ -29,7 +29,7 @@ describe 'Group permissions', reset_provider: true, js: true do
 
   context 'when viewing a group' do
     before do
-      login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
+      login(provider: 'MMT_2', providers: %w(MMT_1 MMT_2))
     end
 
     context 'when the groups provider is in the users available providers', js: true do
@@ -38,6 +38,7 @@ describe 'Group permissions', reset_provider: true, js: true do
           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
             visit group_path(@edit_group['group_id'])
             click_on 'Edit'
+
           end
         end
 

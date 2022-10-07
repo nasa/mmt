@@ -1,11 +1,11 @@
+require "rspec/mocks/standalone"
 describe 'Group list permissions', reset_provider: true, js: true do
   let(:modal_text) { 'requires you change your provider context to MMT_2' }
 
   before :all do
     # Rails.cache.clear
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
-    # VCR.use_cassette('edl', record: :none) do
-      @edit_group_name = 'Test_Group_For_Provider_Context_Actions_Oct6c'
+      @edit_group_name = 'Test_Group_For_Provider_Context_Actions_14ab'
       edit_group_description = 'Group to test provider context actions'
       @provider_id = 'MMT_2'
 
@@ -15,7 +15,7 @@ describe 'Group list permissions', reset_provider: true, js: true do
         provider_id: @provider_id
       )
 
-      @delete_group_name = 'Test_Group_For_Provider_Context_Actions_Oct6d'
+      @delete_group_name = 'Test_Group_For_Provider_Context_Actions_15ab'
       delete_group_description = 'Group to test provider context actions'
       @provider_id = 'MMT_2'
 
@@ -36,7 +36,6 @@ describe 'Group list permissions', reset_provider: true, js: true do
       context 'when choosing to show groups in Available Providers ' do
         before do
           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
-          # VCR.use_cassette('edl', record: :none) do
             visit groups_path
 
             within '.groups-filters' do

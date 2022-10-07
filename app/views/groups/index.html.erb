@@ -117,10 +117,25 @@
                 <td>
                   <%= link_to 'Delete', "#not-current-provider-modal-#{index}", class: 'display-modal not-current-provider', data: { 'provider': group['provider_id'], record_action: 'delete-group' } %>
                 </td>
+
                 <%= render partial: 'shared/not_current_provider_modal', locals: {
                   modal_index: index,
                   options: { group: group, name: group['name'], group_id: group['group_id'] }
                   } %>
+
+              <% elsif available_provider?(group['tag']) %>
+                <td>
+                  <%= link_to 'Edit', "#not-current-provider-modal-#{index}", class: 'display-modal not-current-provider', data: { 'provider': group['tag'], record_action: 'edit-group' } %>
+                </td>
+                <td>
+                  <%= link_to 'Delete', "#not-current-provider-modal-#{index}", class: 'display-modal not-current-provider', data: { 'provider': group['tag'], record_action: 'delete-group' } %>
+                </td>
+
+                <%= render partial: 'shared/not_current_provider_modal', locals: {
+                  modal_index: index,
+                  options: { group: group, name: group['name'], group_id: group['group_id'] }
+                } %>
+
               <% else %>
                 <td></td>
                 <td></td>
