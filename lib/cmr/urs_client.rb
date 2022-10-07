@@ -77,10 +77,10 @@ module Cmr
     end
 
     def create_edl_group(group)
-      group['tag'] = 'CMR' if group['tag'].nil?
+      group['provider_id'] = 'CMR' if group['provider_id'].nil?
       name = group['name'] || ''
       description = group['description'] || ''
-      provider_id = group['tag'] || ''
+      provider_id = group['provider_id'] || ''
       response = post(
         '/api/user_groups',
         "name=#{name}&description=#{URI.encode(description)}&tag=#{provider_id}",
@@ -90,6 +90,7 @@ module Cmr
         group_id = response.body['group_id']
         add_new_members(group_id, group['members']) if group['members']
       end
+      response.body['provider_id'] = response.body['tag'] if response.body['provider_id'].nil?
       response
     end
 
@@ -111,18 +112,22 @@ module Cmr
     end
 
     def delete_edl_group(group_id)
-      delete(
+      response = delete(
         "/api/user_groups/#{group_id}",
         {},
         nil,
         'Authorization' => "Bearer #{get_client_token}"
       )
+      response.body['provider_id'] = response.body['tag'] if response.body['provider_id'].nil?
+      response
     end
 
     def get_edl_group(group_id)
       response = get("/api/user_groups/#{group_id}",
                      {},
                      'Authorization' => "Bearer #{get_client_token}")
+
+      response.body['provider_id'] = response.body['tag'] if response.body['provider_id'].nil?
       response
     end
 
@@ -169,7 +174,7 @@ module Cmr
 
     def get_groups_for_user_id(user_id)
       response = get('/api/user_groups/search',
-                     { 'user_id' => user_id },
+                     { 'user_ids' => user_id },
                      'Authorization' => "Bearer #{get_client_token}")
       return [] if response.error?
 
@@ -228,6 +233,8 @@ module Cmr
         'Authorization' => "Bearer #{get_client_token}"
       )
 
+
+      response.body['provider_id'] = response.body['tag'] if response.body['provider_id'].nil?
       response.body['group_id'] = group_id
       response
     end

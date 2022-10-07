@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/users?search=rarxd5taqea
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Tue, 04 Oct 2022 15:57:39 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"a0bdc0645e7373290b13812e23ae2d44"
+      x-request-id:
+      - 260906fa-8e09-4886-a5f7-f1fa11b8a3c9
+      x-runtime:
+      - '0.069136'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"rarxd5taqea","first_name":"Rvrhzxhtra","last_name":"Vetxvbpmxf","email_address":"uozydogeyyyujukey@tjbh.eyyy","country":"Macedonia","study_area":null,"registered_date":"2012-08-29T11:02:42.000Z","allow_auth_app_emails":true}]}'
+  recorded_at: Tue, 04 Oct 2022 15:57:39 GMT
+recorded_with: VCR 6.1.0

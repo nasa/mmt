@@ -2,9 +2,9 @@
 module GroupsHelper
   def check_if_system_group?(group, group_id)
     if ::Rails.application.config.edl_groups_enabled
-      group['tag'] == 'CMR'
+      group['provider_id'] == 'CMR'
     else
-      group['tag'].nil? && group_id =~ /(CMR)$/ ? true : false
+      group['provider_id'].nil? && group_id =~ /(CMR)$/ ? true : false
     end
   end
 
@@ -13,7 +13,7 @@ module GroupsHelper
   end
 
   def current_group_provider_acl_admin?
-    current_provider?(@group['tag']) ? @user_is_current_provider_acl_admin : @user_is_current_group_provider_acl_admin
+    current_provider?(@group['provider_id']) ? @user_is_current_provider_acl_admin : @user_is_current_group_provider_acl_admin
   end
 
   def render_manage_provider_or_system_permissions_title
@@ -50,10 +50,10 @@ module GroupsHelper
         concat(link_to("Provider Object Permissions for #{current_user.provider_id}", edit_provider_identity_permission_path(@group_id, redirect_to: request.fullpath)))
       else
         # for provider groups, Provider Permissions should only be managed for the group's provider
-        if current_provider?(@group['tag'])
-          concat(link_to("Provider Object Permissions for #{@group['tag']}", edit_provider_identity_permission_path(@group_id, redirect_to: request.fullpath)))
+        if current_provider?(@group['provider_id'])
+          concat(link_to("Provider Object Permissions for #{@group['provider_id']}", edit_provider_identity_permission_path(@group_id, redirect_to: request.fullpath)))
         else
-          concat(link_to("Provider Object Permissions for #{@group['tag']}", '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @group['tag'], record_action: 'edit-provider-identity-permissions' }))
+          concat(link_to("Provider Object Permissions for #{@group['provider_id']}", '#not-current-provider-modal', class: 'display-modal not-current-provider', data: { 'provider': @group['tag'], record_action: 'edit-provider-identity-permissions' }))
         end
       end
     end)

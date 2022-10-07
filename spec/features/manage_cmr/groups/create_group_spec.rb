@@ -60,7 +60,7 @@ describe 'Groups', reset_provider: true do
           end
 
           within '.group-form' do
-            VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
+            VCR.use_cassette("edl/urs/multiple_users/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               click_on 'Submit'
             end
           end
@@ -82,15 +82,15 @@ describe 'Groups', reset_provider: true do
       end
 
       context 'when submitting the form without members' do
-        let(:group_name)        { 'NASA_Test_Group_no_members' }
-        let(:group_description) { 'NASA is seriously the coolest.' }
+        let(:group_name)        { 'NASA_Test_Group_no_members_1' }
+        let(:group_description) { 'NASA is seriously the coolest_1.' }
 
         before do
           fill_in 'Name', with: group_name
           fill_in 'Description', with: group_description
 
           within '.group-form' do
-            VCR.use_cassette('edl/urs/without_users', record: :new_episodes) do
+            VCR.use_cassette("edl/urs/without_users/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               click_on 'Submit'
             end
           end
