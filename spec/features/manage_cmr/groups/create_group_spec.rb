@@ -1,4 +1,3 @@
-require "rspec/mocks/standalone"
 describe 'Groups', reset_provider: true do
   context 'when visiting the new group form' do
     before do

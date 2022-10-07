@@ -29,7 +29,7 @@ describe 'Group permissions', reset_provider: true, js: true do
 
   context 'when viewing a group' do
     before do
-      login(provider: 'MMT_2', providers: %w(MMT_1 MMT_2))
+      login(provider: 'MMT_1', providers: %w(MMT_1 MMT_2))
     end
 
     context 'when the groups provider is in the users available providers', js: true do

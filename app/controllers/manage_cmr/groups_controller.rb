@@ -61,6 +61,7 @@ class GroupsController < ManageCmrController
                  else
                    []
                  end
+    puts("group list=#{group_list}")
     @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
   end
 
@@ -77,7 +78,7 @@ class GroupsController < ManageCmrController
       request_group_members(@group_id)
 
       set_collection_permissions
-      check_if_current_group_provider_acl_administrator(group_provider: @group['tag']) unless current_provider?(@group['tag'])
+      check_if_current_group_provider_acl_administrator(group_provider: @group['provider_id']) unless current_provider?(@group['provider_id'])
 
       add_breadcrumb @group.fetch('name'), group_path(@group_id)
     else
@@ -99,7 +100,7 @@ class GroupsController < ManageCmrController
   def create
     @group = group_params
     @is_system_group = params[:system_group]
-    @group['tag'] = current_user.provider_id unless @is_system_group
+    @group['provider_id'] = current_user.provider_id unless @is_system_group
 
     group_creation_response = if edl_groups_enabled?
                                 urs_client.create_edl_group(@group)
@@ -168,7 +169,7 @@ class GroupsController < ManageCmrController
 
     @is_system_group = params[:system_group] || false
 
-    @group['tag'] = current_user.provider_id unless @is_system_group
+    @group['provider_id'] = current_user.provider_id unless @is_system_group
 
     update_response = if edl_groups_enabled?
                         urs_client.update_edl_group(params[:id], @group)
