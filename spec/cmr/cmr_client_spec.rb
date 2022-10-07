@@ -41,15 +41,15 @@ describe Cmr::Client do
       # should mirror how the token is shortened
       let(:test_urs_snippet) { test_urs_token.truncate([40 / 4, 8].max, omission: '') }
 
-      before { allow_any_instance_of(Cmr::BaseClient).to receive(:token_header).with(test_urs_token).and_return('Echo-Token' => test_urs_token) }
+      before { allow_any_instance_of(Cmr::BaseClient).to receive(:token_header).with(test_urs_token).and_return('Authorization' => test_urs_token) }
 
       it '`clean_inspect` does not contain the full token' do
         response = cmr_client.get_collections({ 'short_name' => 'term' }, test_urs_token)
 
-        expect(response.clean_inspect).to include('Echo-Token-snippet')
+        expect(response.clean_inspect).to include('Authorization-snippet')
         expect(response.clean_inspect).to include(test_urs_snippet)
 
-        expect(response.clean_inspect).not_to include('"Echo-Token"=>')
+        expect(response.clean_inspect).not_to include('"Authorization"=>')
         expect(response.clean_inspect).not_to include(test_urs_token)
       end
 

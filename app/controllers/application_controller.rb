@@ -378,12 +378,15 @@ class ApplicationController < ActionController::Base
         session[:echo_provider_token] = ''
 
         flash[:error] = 'Because you are not on the VPN and in development, the attempt to set an echo_provider_token failed. You will be unable to perform Manage Cmr actions that require the token.<br/>If you need to perform any Manage Cmr actions in development you should log out, get on the VPN, and then log back in'
-
         return
       end
     end
+    response = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id)
+    if response.error?
+      return
+    end
 
-    session[:echo_provider_token] = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id).parsed_body
+    session[:echo_provider_token] = response.parsed_body
   end
 
   # Custom error messaging for Pundit

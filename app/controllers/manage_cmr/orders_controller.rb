@@ -25,6 +25,12 @@ class OrdersController < ManageCmrController
   end
 
   def search
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       Rails.logger.info("starting request - #{request.uuid} timeout=#{echo_client.timeout}")
       init_time_tracking_variables
@@ -92,6 +98,12 @@ class OrdersController < ManageCmrController
   end
 
   def determine_order_guids
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     # Order Guid takes precedence over filters, if an order_guid is present
     # search for that rather than using the filters
     log_time_spent 'determine_order_guids' do

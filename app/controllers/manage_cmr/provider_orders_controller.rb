@@ -36,6 +36,12 @@ class ProviderOrdersController < ManageCmrController
 
       method = params['cancel'] == 'Yes' ? 'cancelled' : 'closed'
 
+      if echo_provider_token.blank?
+        flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+        redirect_back(fallback_location: manage_collections_path)
+        return
+      end
+
       result = log_time_spent "Provider Order request" do
         if method == 'cancelled'
           echo_client.accept_provider_order_cancellation(echo_provider_token, order_guid, provider_tracking_id, catalog_items, status_message)
@@ -60,6 +66,12 @@ class ProviderOrdersController < ManageCmrController
   end
 
   def resubmit
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     init_time_tracking_variables
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       authorize :provider_order
@@ -91,6 +103,12 @@ class ProviderOrdersController < ManageCmrController
   private
 
   def generate_provider_order(guid)
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     order_response = log_time_spent "individual get_orders request in generate_provider_order with #{guid}" do
       echo_client.timeout = time_left
       echo_client.get_orders(echo_provider_token, guid)
