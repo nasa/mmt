@@ -1,9 +1,7 @@
 # These tests are for the Groups Index page filtering by search boxes, which
 # filter by provider(s) and/or member(s)
-require "rspec/mocks/standalone"
 describe 'Filtering groups', reset_provider: true, js: true do
   before :all do
-    # Rails.cache.clear
 
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       create_group(
@@ -19,6 +17,35 @@ describe 'Filtering groups', reset_provider: true, js: true do
         provider_id: 'MMT_2',
         members: %w[qhw5mjoxgs2vjptmvzco rarxd5taqea q6ddmkhivmuhk]
       )
+
+      create_group(
+        name: 'Group_5',
+        description: 'test group 3',
+        provider_id: 'MMT_1',
+        members: %w[mmt1a]
+      )
+
+      create_group(
+        name: 'Group_6',
+        description: 'test group 6',
+        provider_id: 'LARC',
+        members: %w[larc1a]
+      )
+
+      create_group(
+        name: 'Group_7',
+        description: 'test group 7',
+        provider_id: 'NSIDC_ECS',
+        members: %w[nsidcecs1a]
+      )
+
+      create_group(
+        name: 'Group_8',
+        description: 'test group 8',
+        provider_id: 'SEDAC',
+        members: %w[sedac1a]
+      )
+
     end
   end
 

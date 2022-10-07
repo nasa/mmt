@@ -1,7 +1,5 @@
-require "rspec/mocks/standalone"
 describe 'Groups breadcrumbs and header', js:true do
   before :all do
-    # Rails.cache.clear
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       @group = create_group(
         name: 'Breadcrumbs_Test_Group_01',

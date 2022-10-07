@@ -1,9 +1,7 @@
-require "rspec/mocks/standalone"
 describe 'Group permissions', reset_provider: true, js: true do
   modal_text = 'requires you change your provider context to MMT_2'
 
   before :all do
-    # Rails.cache.clear
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       edit_group_name = 'Test_Group_For_New_Invites_1ab'
       edit_group_description = 'Group to invite users to'

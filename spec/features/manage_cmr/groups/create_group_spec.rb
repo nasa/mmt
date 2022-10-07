@@ -1,7 +1,6 @@
 describe 'Groups', reset_provider: true do
   context 'when visiting the new group form' do
     before do
-      # Rails.cache.clear
       login
 
       visit new_group_path
