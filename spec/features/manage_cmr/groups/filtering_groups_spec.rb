@@ -19,7 +19,7 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
       create_group(
         name: 'Group_5',
-        description: 'test group 3',
+        description: 'test group 5',
         provider_id: 'MMT_1',
         members: %w[mmt1a]
       )

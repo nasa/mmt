@@ -45,7 +45,7 @@ Capybara.register_driver :headless_chrome do |app|
   # https://about.gitlab.com/2017/12/19/moving-to-headless-chrome/
   # https://developers.google.com/web/updates/2017/04/headless-chrome#faq
   options = Selenium::WebDriver::Chrome::Options.new(
-    args: %w[headless disable-gpu no-sandbox --window-size=1440,2000 --enable-features=NetworkService,NetworkServiceInProcess]
+    args: %w[headless disable-gpu no-sandbox --window-size=1440,9000 --enable-features=NetworkService,NetworkServiceInProcess]
     # args: %w[headless disable-gpu no-sandbox --window-size=1920,1080 --enable-features=NetworkService,NetworkServiceInProcess]
   )
 
