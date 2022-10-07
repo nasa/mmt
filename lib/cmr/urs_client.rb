@@ -92,7 +92,6 @@ module Cmr
       end
       response.body['provider_id'] = response.body['tag'] if response.body['provider_id'].nil?
       response
-
     end
 
     def add_user_to_edl_group(user_id, group_id)

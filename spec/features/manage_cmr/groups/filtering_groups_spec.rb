@@ -2,7 +2,6 @@
 # filter by provider(s) and/or member(s)
 describe 'Filtering groups', reset_provider: true, js: true do
   before :all do
-
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       create_group(
         name: 'Group_3',
@@ -73,7 +72,6 @@ describe 'Filtering groups', reset_provider: true, js: true do
 
     context 'when choosing to display groups from Available Providers' do
       before do
-
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           within '.groups-filters' do
             choose 'Available Providers'
@@ -104,7 +102,6 @@ describe 'Filtering groups', reset_provider: true, js: true do
       context 'when searching by filter box' do
         context 'by provider' do
           before do
-
             VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               select 'MMT_2', from: 'provider-group-filter'
               click_on 'Apply Filter'

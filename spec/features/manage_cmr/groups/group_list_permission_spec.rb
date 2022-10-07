@@ -38,6 +38,7 @@ describe 'Group list permissions', reset_provider: true, js: true do
 
             within '.groups-filters' do
               choose 'Available Providers'
+
               click_on 'Apply Filters'
             end
           end

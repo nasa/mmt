@@ -60,7 +60,6 @@ describe 'Groups', reset_provider: true do
           end
 
           within '.group-form' do
-
             VCR.use_cassette("edl/urs/multiple_users/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               click_on 'Submit'
             end
@@ -91,7 +90,6 @@ describe 'Groups', reset_provider: true do
           fill_in 'Description', with: group_description
 
           within '.group-form' do
-
             VCR.use_cassette("edl/urs/without_users/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               click_on 'Submit'
             end

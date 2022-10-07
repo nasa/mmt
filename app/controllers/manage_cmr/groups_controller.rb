@@ -61,7 +61,6 @@ class GroupsController < ManageCmrController
                  else
                    []
                  end
-    puts("group list=#{group_list}")
     @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
   end
 

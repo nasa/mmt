@@ -35,6 +35,7 @@ describe 'Group permissions', reset_provider: true, js: true do
         before do
           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
             visit group_path(@edit_group['group_id'])
+
             click_on 'Edit'
 
           end
