@@ -52,7 +52,7 @@ namespace :testing do
       'Accept' => 'application/json',
       'Content-Type' => "application/#{Rails.configuration.umm_c_version}; charset=utf-8",
       'Client-Id' => 'MMT',
-      'Echo-Token' => token
+      'Authorization' => token
     }
 
     count.to_i.times do |index|

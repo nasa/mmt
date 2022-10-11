@@ -141,7 +141,7 @@ Rails.application.routes.draw do
       get :edit, path: 'edit(/:form)'
     end
   end
-  
+
   namespace :api , constraints: { format: 'json' } do
     resource :tool_drafts, only: [:create]
     get '/tool_drafts/:id' => 'tool_drafts#show'
@@ -199,6 +199,7 @@ Rails.application.routes.draw do
 
   resource :manage_collections, only: :show
   post 'manage_collections/make_new_draft' => 'manage_collections#make_new_draft', as: 'make_new_draft_manage_collections'
+  post 'collection_drafts/upload_json' => 'collection_drafts#upload_json', as: 'upload_json'
   resource :manage_variables, only: :show, controller: 'manage_variables'
   resource :manage_services, only: :show, controller: 'manage_services'
   resource :manage_tools, only: :show, controller: 'manage_tools'

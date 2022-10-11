@@ -62,7 +62,7 @@ module Helpers
         provider_response = cmr_conn.post do |req|
           req.url('http://localhost:3002/providers')
           req.headers['Content-Type'] = 'application/json'
-          req.headers['Echo-Token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
 
           # CMR expects double quotes in the JSON body
           req.body = "{\"provider-id\": \"#{provider_name}\", \"short-name\": \"#{provider_name}\", \"cmr-only\": true}"
@@ -78,7 +78,7 @@ module Helpers
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::CmrHelper#delete_provider' do
         cmr_conn = Faraday.new
         provider_response = cmr_conn.delete do |req|
-          req.headers['Echo-Token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
           req.url("http://localhost:3002/providers/#{provider_id}")
         end
 

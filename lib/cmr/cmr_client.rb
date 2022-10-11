@@ -288,7 +288,7 @@ module Cmr
         'Accept' => 'application/json',
         'Content-Type' => "application/#{Rails.configuration.umm_c_version}; charset=utf-8",
         'Cmr-Test-Existing-Errors' => 'true',
-        'Echo-Token' => 'mock-echo-system-token'
+        'Authorization' => 'mock-echo-system-token'
       }
 
       put(url, metadata, headers)
@@ -623,7 +623,7 @@ module Cmr
     ### CMR Permissions (aka ACLs), via Access Control
 
     def add_group_permissions(request_object, token)
-      # Example: curl -XPOST -i -H "Content-Type: application/json" -H "Echo-Token: XXXXX" https://cmr.sit.earthdata.nasa.gov/access-control/acls -d \
+      # Example: curl -XPOST -i -H "Content-Type: application/json" -H "Authorization: Bearer XXXXX" https://cmr.sit.earthdata.nasa.gov/access-control/acls -d \
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3011/acls'
             else
@@ -674,7 +674,7 @@ module Cmr
     end
 
     def delete_permission(concept_id, token, revision_id = nil)
-      # curl -XDELETE -i -H "Echo-Token: mock-echo-system-token" https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200000000-CMR
+      # curl -XDELETE -i -H "Authorization: mock-echo-system-token" https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200000000-CMR
       url = if Rails.env.development? || Rails.env.test?
               "http://localhost:3011/acls/#{concept_id}"
             else
@@ -691,7 +691,7 @@ module Cmr
       # https://cmr.sit.earthdata.nasa.gov/access-control/site/access_control_api_docs.html#get-permissions
       # one of `concept_id`, `system_object`(i.e. GROUP), or `provider` AND `target`(i.e. HOLDINGS)
       # one of `user_type`('guest' or 'registered') or `user_id`
-      # example: curl -g -i -H "Echo-Token: XXXX" "https://cmr.sit.earthdata.nasa.gov/access-control/permissions?user_type=guest&concept_id[]=C1200000000-PROV1&concept_id[]=C1200000001-PROV1"
+      # example: curl -g -i -H "Authorization: Bearer XXXX" "https://cmr.sit.earthdata.nasa.gov/access-control/permissions?user_type=guest&concept_id[]=C1200000000-PROV1&concept_id[]=C1200000001-PROV1"
       url = if Rails.env.development? || Rails.env.test?
               'http://localhost:3011/permissions'
             else

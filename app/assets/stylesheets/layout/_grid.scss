@@ -100,6 +100,9 @@ section {
     background: $white;
     box-shadow: 0 -3px 3px rgba($true-black, 0.15);
     min-height: 300px;
+    max-width: 1790px;
+    margin: 0 auto;
+    position: relative;
   }
 }
 
