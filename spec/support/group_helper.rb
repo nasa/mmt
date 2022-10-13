@@ -53,7 +53,7 @@ module Helpers
       Faker::Lorem.sentence
     end
 
-    def add_group_permissions(permission_params, token = 'access_token')
+    def add_group_permissions(permission_params, token)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_group_permissions' do
         permission_response = cmr_client.add_group_permissions(permission_params, token)
 
@@ -65,7 +65,7 @@ module Helpers
       end
     end
 
-    def add_permissions_to_group(group_id, permissions, target, provider_id)
+    def add_permissions_to_group(group_id, permissions, target, provider_id, token)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
         permission_params = {
           group_permissions: [{
@@ -78,11 +78,11 @@ module Helpers
           }
         }
 
-        add_group_permissions(permission_params)
+        add_group_permissions(permission_params, token)
       end
     end
 
-    def add_associated_permissions_to_group(group_id: 'AG1200000001-CMR', name: 'Test Permission', provider_id: 'MMT_2', permissions: ['read'])
+    def add_associated_permissions_to_group(group_id: 'AG1200000001-CMR', name: 'Test Permission', provider_id: 'MMT_2', permissions: ['read'], token: 'Please provide a token')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
         permission_params = {
           group_permissions: [
@@ -99,13 +99,15 @@ module Helpers
           }
         }
 
-        add_group_permissions(permission_params)
+        add_group_permissions(permission_params, token)
       end
     end
 
     def remove_group_permissions(concept_id)
+      token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzA3Njk4NjAsImlhdCI6MTY2NTU4NTg2MCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.hR39xfz1SpqEl1l0vzo_MUbYuSg0T_OHfxXNsBoYHXRXmMtDCkB7uGPAnskM78Re0wZXXmwHmk0IxU6W8dbzZZd7KLrhmLJX-B0sMNdXO0S7El2UulZsRQfaTPJov7J4hZZTXhq8u7O3daasysXopeiUI_3qh9flb12svh58knUEPflwYhisMVShj7iqrKVNzO2gCf4poRCkmyqZAeRdwgIaKZTR5k7p1fUbB6mgFxpiftgkFCFETGB8VhiGj9aE0hFW6f4Dn9kpEqnM1axiQ-PePwz4y_yyYBNIPBhGLTmh75aNqMlmd97WpKy_1NrAyMvF3C9EfCiGZOHN5Opk_A'
+
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#remove_group_permissions' do
-        acl_response = cmr_client.delete_permission(concept_id, 'access_token_admin')
+        acl_response = cmr_client.delete_permission(concept_id, token)
 
         raise Array.wrap(acl_response.body['errors']).join(' /// ') if acl_response.body.key?('errors')
 

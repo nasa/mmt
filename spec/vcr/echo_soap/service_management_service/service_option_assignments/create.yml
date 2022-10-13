@@ -17,7 +17,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       strict-transport-security:
       - max-age=31536000
@@ -40,6 +40,59 @@ http_interactions:
       string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns3:AddServiceOptionAssignmentsResponse
         xmlns:ns2="http://echo.nasa.gov/echo/v10/types" xmlns:ns3="http://echo.nasa.gov/echo/v10"
         xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns3:result><ns2:Item>6000705A-4D82-8150-082A-92409EDC6BD3</ns2:Item><ns2:Item>BFA2FDCA-A793-EC08-27FF-5B0FA2DA1636</ns2:Item></ns3:result></ns3:AddServiceOptionAssignmentsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    http_version: 
   recorded_at: Thu, 16 Feb 2017 13:11:41 GMT
-recorded_with: VCR 3.0.1
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=OPTION_ASSIGNMENT&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '32'
+      connection:
+      - keep-alive
+      date:
+      - Thu, 13 Oct 2022 16:40:48 GMT
+      cmr-request-id:
+      - d6a4c5c0-0d26-4f6d-8f17-bc4bada32912
+      x-request-id:
+      - 0FEzeLn02o1l0YgaS39UBxbmuYwMeYmUhleb_UW2JA3PS5qGJOSMMw==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 3752ccf5503decd10d1a32bdcf2a0cb4.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW55-C2
+      x-amz-cf-id:
+      - 0FEzeLn02o1l0YgaS39UBxbmuYwMeYmUhleb_UW2JA3PS5qGJOSMMw==
+    body:
+      encoding: UTF-8
+      string: '{"OPTION_ASSIGNMENT":["create"]}'
+  recorded_at: Thu, 13 Oct 2022 16:40:50 GMT
+recorded_with: VCR 6.1.0
