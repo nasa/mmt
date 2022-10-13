@@ -107,7 +107,7 @@ namespace :cmr do
       provider_response = cmr_conn.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-Token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
 
         # CMR expects double quotes in the JSON body
         req.body = "{\"provider-id\": \"#{args.provider_id}\", \"short-name\": \"#{args.provider_id}\", \"cmr-only\": true}"
@@ -128,7 +128,7 @@ namespace :cmr do
     else
       cmr_conn = Faraday.new
       provider_response = cmr_conn.delete do |req|
-        req.headers['Echo-Token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.url("http://localhost:3002/providers/#{args.provider_id}")
       end
 

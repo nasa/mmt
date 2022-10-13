@@ -15,7 +15,7 @@ http_interactions:
       - MMT
       Echo-ClientId:
       - MMT
-      Echo-Token:
+      Authorization:
       - echo_provider_token
   response:
     status:

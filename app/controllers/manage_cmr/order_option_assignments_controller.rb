@@ -15,6 +15,12 @@ class OrderOptionAssignmentsController < ManageCmrController
 
     @collections_to_list = []
 
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     collections.fetch('items', []).each do |collection|
       id = collection['meta']['concept-id']
       options = { 'catalog_item[]' => id }
@@ -63,6 +69,12 @@ class OrderOptionAssignmentsController < ManageCmrController
     error_count = 0
     @order_option = params.fetch('order-options', '')
 
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     Array.wrap(params['collectionsChooser_toList']).each do |concept_id|
       response = cmr_client.add_order_option_assignments(concept_id, @order_option, echo_provider_token)
       success_count += 1 unless response.error?
@@ -83,6 +95,12 @@ class OrderOptionAssignmentsController < ManageCmrController
   def destroy
     success_count = 0
     error_count = 0
+
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
 
     params.fetch(:order_option_assignment, []).each do |assignment_guid|
       response = cmr_client.delete_order_option_assignments(assignment_guid, echo_provider_token)
@@ -112,6 +130,12 @@ class OrderOptionAssignmentsController < ManageCmrController
   def get_order_option_defs(option_infos)
     return [] if option_infos.empty?
 
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     guids = []
 
     option_infos.each do |option_info|
@@ -125,6 +149,12 @@ class OrderOptionAssignmentsController < ManageCmrController
   end
 
   def get_order_options
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     order_option_response = get_order_option_list(echo_provider_token)
     order_option_list = Array.wrap(order_option_response.fetch('Result', []))
 

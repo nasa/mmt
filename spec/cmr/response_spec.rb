@@ -8,11 +8,13 @@ describe 'CMR Response' do
     let(:test_launchpad_snippet) { test_launchpad_token.truncate(50, omission: '') }
 
     it 'truncates URS tokens in hash responses' do
+      allow_any_instance_of(Cmr::Util).to receive(:is_urs_token?).and_return(true)
       cmr_response = cmr_fail_response('errors' => ["Token [#{test_urs_token}] is not a valid URS or Launchpad token."])
       expect(cmr_response.clean_inspect).to include({ 'errors' => ["Token beginning with #{test_urs_snippet} is not a valid URS or Launchpad token."] }.to_s)
     end
 
     it 'truncates URS tokens in string responses' do
+      allow_any_instance_of(Cmr::Util).to receive(:is_urs_token?).and_return(true)
       cmr_response = cmr_fail_response("Token [#{test_urs_token}] is not a valid URS or Launchpad token.")
       expect(cmr_response.clean_inspect).to include("Token beginning with #{test_urs_snippet} is not a valid URS or Launchpad token.")
     end

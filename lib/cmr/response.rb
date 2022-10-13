@@ -91,14 +91,14 @@ module Cmr
 
     def clean_inspect(body_only: false)
       errors
-      if faraday_response.env.fetch(:request_headers, {})['Echo-Token'] && !body_only
+      if faraday_response.env.fetch(:request_headers, {})['Authorization'] && !body_only
         clean_response = faraday_response.deep_dup
 
-        echo_token = clean_response.env[:request_headers].delete('Echo-Token')
+        bearer_token = clean_response.env[:request_headers].delete('Authorization')
 
-        echo_token_snippet = truncate_token(echo_token)
+        bearer_token_snippet = truncate_token(bearer_token)
 
-        clean_response.env[:request_headers]['Echo-Token-snippet'] = echo_token_snippet
+        clean_response.env[:request_headers]['Authorization-snippet'] = bearer_token_snippet
 
         clean_response.inspect
       elsif body_only

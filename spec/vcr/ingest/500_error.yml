@@ -13,7 +13,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json; charset=utf-8
-      Echo-Token:
+      Authorization:
       - "???"
   response:
     status:
@@ -232,7 +232,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json
-      Echo-Token:
+      Authorization:
       - "???"
   response:
     status:

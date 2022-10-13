@@ -15,6 +15,10 @@
                   <%= radio_button_tag("base", "template", false, class: 'draft-base-select')%>
                   <label for="base_template">Create From Template</label>
                 </p>
+                <p class="radio-group">
+                  <%= radio_button_tag("base", "upload", false, class: 'draft-base-select')%>
+                  <label for="base_upload">Create From File</label>
+                </p>
               </div>
                 <p>
                 <%= select_tag(
@@ -26,8 +30,21 @@
                   title: 'Select Template Name'
                 ) %>
                 </p>
-                <%= submit_tag 'Create New Record', { class: 'draft eui-btn--blue submit' } %>
+                <%= submit_tag 'Create New Record', { id:'submit-btn', class: 'draft eui-btn--blue submit', style: 'display:show;', } %>
             <% end %>
+            <div class="upload-json-form" style="display: none">
+              <%= form_tag(upload_json_path, multipart: true, method: :post) do %>
+                <label>
+                  File to upload
+                </label>
+                <%= file_field_tag(
+                      "uploaded_collection_draft",
+                      accept: 'application/json',
+                      class: 'upload-file'
+                    )%>
+                <%= submit_tag 'Create New Record', { class: 'draft eui-btn--blue submit' } %>
+              <% end %>
+            </div>
           <% else %>
             <div class="row">
               <%= link_to 'Create New Record', new_collection_draft_path, class: 'eui-btn--blue submit' %>

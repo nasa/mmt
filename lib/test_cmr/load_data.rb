@@ -100,35 +100,35 @@ module Cmr
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"provider-id": "SEDAC", "short-name": "SEDAC", "cmr-only": true}'
       end
       # Provider LARC
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"provider-id": "LARC", "short-name": "LARC", "cmr-only": true}'
       end
       # Provider MMT_1
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"provider-id": "MMT_1", "short-name": "MMT_1", "cmr-only": true}'
       end
       # Provider MMT_2
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"provider-id": "MMT_2", "short-name": "MMT_2", "cmr-only": true}'
       end
       # Provider NSIDC_ECS
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"provider-id": "NSIDC_ECS", "short-name": "NSIDC_ECS", "cmr-only": true}'
       end
 
@@ -137,35 +137,35 @@ module Cmr
       connection.post do |req|
         req.url('http://localhost:3008/providers')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '[{"provider":{"id":"provguid1","provider_id":"SEDAC"}}]'
       end
       # Provider LARC
       connection.post do |req|
         req.url('http://localhost:3008/providers')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '[{"provider":{"id":"provguid2","provider_id":"LARC"}}]'
       end
       # Provider MMT_1
       connection.post do |req|
         req.url('http://localhost:3008/providers')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '[{"provider":{"id":"provguid3","provider_id":"MMT_1"}}]'
       end
       # Provider MMT_2
       connection.post do |req|
         req.url('http://localhost:3008/providers')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '[{"provider":{"id":"provguid4","provider_id":"MMT_2"}}]'
       end
       # Provider NSIDC_ECS
       connection.post do |req|
         req.url('http://localhost:3008/providers')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '[{"provider":{"id":"provguid5","provider_id":"NSIDC_ECS"}}]'
       end
 
@@ -180,7 +180,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/groups')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"name": "Administrators_2", "description": "The group of users that manages the CMR."}'
       end
       admin_group_concept = JSON.parse(resp.body)['concept_id']
@@ -189,7 +189,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/groups')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"name": "SEDAC Admin Group", "description": "Test group for provider", "provider_id": "SEDAC"}'
       end
       sedac_group_concept = JSON.parse(resp.body)['concept_id']
@@ -198,7 +198,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/groups')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"name": "LARC Admin Group", "description": "Test group for provider", "provider_id": "LARC"}'
       end
       larc_group_concept = JSON.parse(resp.body)['concept_id']
@@ -207,7 +207,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/groups')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"name": "MMT_1 Admin Group", "description": "Test group for provider", "provider_id": "MMT_1"}'
       end
       mmt_1_group_concept = JSON.parse(resp.body)['concept_id']
@@ -216,7 +216,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/groups')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"name": "MMT_2 Admin Group", "description": "Test group for provider", "provider_id": "MMT_2"}'
       end
       mmt_2_group_concept = JSON.parse(resp.body)['concept_id']
@@ -225,7 +225,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/groups')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"name": "NSIDC_ECS Admin Group", "description": "Test group for provider", "provider_id": "NSIDC_ECS"}'
       end
       nsidc_group_concept = JSON.parse(resp.body)['concept_id']
@@ -241,14 +241,14 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"permissions": ["read"], "user_type": "guest"}, {"permissions": ["read"], "user_type": "registered"}], "catalog_item_identity": {"name": "SEDAC All Collections and Granules", "provider_id": "SEDAC", "collection_applicable": true, "granule_applicable": true}}'
       end
       puts "Catalog Item ACL for guest and registered users for SEDAC #{resp.body}"
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"user_type": "guest", "permissions": ["read", "update"]}, {"user_type": "registered", "permissions": ["read", "update"]}], "provider_identity": {"target": "INGEST_MANAGEMENT_ACL", "provider_id": "SEDAC"}}'
       end
       puts "ACL for INGEST_MANAGEMENT_ACL for guest and registered users for SEDAC #{resp.body}"
@@ -256,14 +256,14 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"permissions": ["read"], "user_type": "guest"}, {"permissions": ["read"], "user_type": "registered"}], "catalog_item_identity": {"name": "LARC All Collections and Granules", "provider_id": "LARC", "collection_applicable": true, "granule_applicable": true}}'
       end
       puts "Catalog Item ACL for guest and registered users for LARC #{resp.body}"
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"user_type": "guest", "permissions": ["read", "update"]}, {"user_type": "registered", "permissions": ["read", "update"]}], "provider_identity": {"target": "INGEST_MANAGEMENT_ACL", "provider_id": "LARC"}}'
       end
       puts "ACL for INGEST_MANAGEMENT_ACL for guest and registered users for LARC #{resp.body}"
@@ -271,14 +271,14 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"permissions": ["read"], "user_type": "guest"}, {"permissions": ["read"], "user_type": "registered"}], "catalog_item_identity": {"name": "MMT_1 All Collections and Granules", "provider_id": "MMT_1", "collection_applicable": true, "granule_applicable": true}}'
       end
       puts "Catalog Item ACL for guest and registered users for MMT_1 #{resp.body}"
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"user_type": "guest", "permissions": ["read", "update"]}, {"user_type": "registered", "permissions": ["read", "update"]}], "provider_identity": {"target": "INGEST_MANAGEMENT_ACL", "provider_id": "MMT_1"}}'
       end
       puts "ACL for INGEST_MANAGEMENT_ACL for guest and registered users for MMT_1 #{resp.body}"
@@ -286,14 +286,14 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"permissions": ["read"], "user_type": "guest"}, {"permissions": ["read"], "user_type": "registered"}], "catalog_item_identity": {"name": "MMT_2 All Collections and Granules", "provider_id": "MMT_2", "collection_applicable": true, "granule_applicable": true}}'
       end
       puts "Catalog Item ACL for guest and registered users for MMT_2 #{resp.body}"
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"user_type": "guest", "permissions": ["read", "update"]}, {"user_type": "registered", "permissions": ["read", "update"]}], "provider_identity": {"target": "INGEST_MANAGEMENT_ACL", "provider_id": "MMT_2"}}'
       end
       puts "ACL for INGEST_MANAGEMENT_ACL for guest and registered users for MMT_2 #{resp.body}"
@@ -323,7 +323,7 @@ module Cmr
       resp = connection.post do |req|
         req.url("http://localhost:3011/groups/#{admin_group_concept}/members")
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '["admin", "adminuser"]'
       end
       puts "add admin and adminuser to Administrators_2: #{resp.body}"
@@ -331,7 +331,7 @@ module Cmr
       resp = connection.post do |req|
         req.url("http://localhost:3011/groups/#{sedac_group_concept}/members")
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '["admin", "adminuser"]'
       end
       puts "add admin and adminuser to SEDAC group: #{resp.body}"
@@ -339,7 +339,7 @@ module Cmr
       resp = connection.post do |req|
         req.url("http://localhost:3011/groups/#{larc_group_concept}/members")
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '["typical", "testuser"]'
       end
       puts "add typical and testuser to LARC group: #{resp.body}"
@@ -347,7 +347,7 @@ module Cmr
       resp = connection.post do |req|
         req.url("http://localhost:3011/groups/#{mmt_1_group_concept}/members")
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '["typical", "testuser"]'
       end
       puts "add typical and testuser to MMT_1 group: #{resp.body}"
@@ -355,7 +355,7 @@ module Cmr
       resp = connection.post do |req|
         req.url("http://localhost:3011/groups/#{mmt_2_group_concept}/members")
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '["typical", "testuser"]'
       end
       puts "add typical and testuser to MMT_2 group: #{resp.body}"
@@ -363,7 +363,7 @@ module Cmr
       resp = connection.post do |req|
         req.url("http://localhost:3011/groups/#{nsidc_group_concept}/members")
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '["typical", "testuser"]'
       end
       puts "add typical and testuser to NSIDC_ECS group: #{resp.body}"
@@ -382,7 +382,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + admin_group_concept + '", "permissions": ["read", "create", "update", "delete"]}, {"user_type":"registered", "permissions":["read"]}], "system_identity": {"target": "ANY_ACL"}}'
       end
       puts "ANY_ACL CRUD access for Administrators_2 and read for registered users: #{resp.body}"
@@ -391,7 +391,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + mmt_2_group_concept + '", "permissions": ["read"]}, {"group_id": "' + admin_group_concept + '", "permissions": ["read"]}], "provider_identity": {"target": "PROVIDER_CONTEXT", "provider_id": "MMT_2"}}'
       end
       puts "ACL for admin and typical user to read PROVIDER_CONTEXT for MMT_2 #{resp.body}"
@@ -404,7 +404,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + admin_group_concept + '","permissions": ["read", "create"]}], "system_identity": {"target": "GROUP"}}'
       end
       puts "acl for system level groups for Administrators_2 in access control #{resp.body}"
@@ -412,7 +412,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + sedac_group_concept + '", "permissions": ["read", "create"]}], "provider_identity": {"target": "GROUP", "provider_id": "SEDAC"}}'
       end
       puts "ACL for Provider Identity GROUP for admin users for SEDAC #{resp.body}"
@@ -420,7 +420,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + larc_group_concept + '", "permissions": ["read", "create"]}], "provider_identity": {"target": "GROUP", "provider_id": "LARC"}}'
       end
       puts "ACL for Provider Identity GROUP for typical and testuser for LARC #{resp.body}"
@@ -428,7 +428,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + mmt_1_group_concept + '", "permissions": ["read", "create"]}], "provider_identity": {"target": "GROUP", "provider_id": "MMT_1"}}'
       end
       puts "ACL for Provider Identity GROUP for typical users for MMT_1 #{resp.body}"
@@ -436,7 +436,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + mmt_2_group_concept + '", "permissions": ["read", "create"]}], "provider_identity": {"target": "GROUP", "provider_id": "MMT_2"}}'
       end
       puts "ACL for Provider Identity GROUP for typical users for MMT_2 #{resp.body}"
@@ -444,7 +444,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + nsidc_group_concept + '", "permissions": ["read", "create"]}], "provider_identity": {"target": "GROUP", "provider_id": "NSIDC_ECS"}}'
       end
       puts "ACL for Provider Identity GROUP for typical users for NSIDC_ECS #{resp.body}"
@@ -459,7 +459,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + mmt_1_group_concept + '", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "MMT_1"}}'
       end
       puts "ACL for CRUD permissions for typical users on Provider Identity ACLs for MMT_1 #{resp.body}"
@@ -467,7 +467,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + mmt_2_group_concept + '", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "MMT_2"}}'
       end
       puts "ACL for CRUD permissions for typical users on Provider Identity ACLs for MMT_2 #{resp.body}"
@@ -475,7 +475,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + nsidc_group_concept + '", "permissions": ["read", "create", "update", "delete"]}, {"group_id": "AG1200000001-CMR", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "NSIDC_ECS"}}'
       end
       puts "ACL for CRUD permissions for admin and typical user on Provider Identity ACLs for NSIDC_ECS #{resp.body}"
@@ -490,7 +490,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + larc_group_concept + '", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "LARC"}}'
       end
       puts "ACL for typical users to read and create catalog item ACLs for LARC #{resp.body}"
@@ -498,7 +498,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + mmt_1_group_concept + '", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "MMT_1"}}'
       end
       puts "ACL for typical users to read and create catalog item ACLs for MMT_1 #{resp.body}"
@@ -506,7 +506,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + mmt_2_group_concept + '", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "MMT_2"}}'
       end
       puts "ACL for typical users to read and create catalog item ACLs for MMT_2 #{resp.body}"
@@ -515,7 +515,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"permissions": ["read"], "group_id": "' + admin_group_concept + '"}], "catalog_item_identity": {"name": "NSIDC_ECS All Collections and Granules for admins", "provider_id": "NSIDC_ECS", "collection_applicable": true, "granule_applicable": true}}'
       end
       puts "Catalog Item ACL for admin users for NSIDC_ECS #{resp.body}"
@@ -523,7 +523,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"group_id": "' + nsidc_group_concept + '", "permissions": ["read", "create", "update", "delete"]}, {"group_id": "' + admin_group_concept + '", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "NSIDC_ECS"}}'
       end
       puts "ACL for admin and typical user to read and create catalog item ACLs for NSIDC_ECS, via access control #{resp.body}"
@@ -545,7 +545,7 @@ module Cmr
       resp = connection.post do |req|
         req.url('http://localhost:3011/acls')
         req.headers['Content-Type'] = 'application/json'
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"group_permissions": [{"permissions": ["read"], "user_type": "guest"}, {"permissions": ["read"], "user_type": "registered"}], "catalog_item_identity": {"name": "NSIDC_ECS single collection", "provider_id": "NSIDC_ECS", "collection_applicable": true, "granule_applicable": true, "collection_identifier": {"concept_ids": ["' + @nsidc_test_case_collection + '"]}}}'
       end
       puts "Collection Permission for single entry title for NSIDC_ECS, via access control #{resp.inspect}"
@@ -569,7 +569,7 @@ module Cmr
       # This method reindexes groups, which may be required when ACLs are added or changed in mock echo
       resp = connection.post do |req|
         req.url('http://localhost:3002/jobs/reindex-collection-permitted-groups')
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
       end
       # puts "Reindexing permitted groups: #{resp.inspect}"
     end
@@ -580,14 +580,14 @@ module Cmr
       # Wait for the CMR queue to be empty
       resp = connection.post do |req|
         req.url('http://localhost:2999/message-queue/wait-for-terminal-states')
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
       end
       # puts "Waiting for CMR queue to empty: #{resp.inspect}"
 
       # Refresh the ElasticSearch index
       resp = connection.post do |req|
         req.url('http://localhost:9210/_refresh')
-        req.headers['Echo-token'] = 'mock-echo-system-token'
+        req.headers['Authorization'] = 'mock-echo-system-token'
       end
       # puts "Refreshing the ElasticSearch index: #{resp.inspect}"
     end
@@ -616,7 +616,7 @@ module Cmr
             content_type = 'application/dif10+xml' if data['type'] == 'dif10'
             content_type = 'application/iso:smap+xml' if data['type'] == 'iso-smap'
             req.headers['Content-Type'] = content_type
-            req.headers['Echo-token'] = 'mock-echo-system-token'
+            req.headers['Authorization'] = 'mock-echo-system-token'
             req.body = data['metadata']
 
           end
@@ -634,7 +634,7 @@ module Cmr
             granule_response = connection.put do |granule_req|
               granule_req.url("http://localhost:3002/providers/LARC/granules/granule-#{index}")
               granule_req.headers['Content-Type'] = 'application/echo10+xml'
-              granule_req.headers['Echo-token'] = 'mock-echo-system-token'
+              granule_req.headers['Authorization'] = 'mock-echo-system-token'
               granule_req.body = data['granule']
             end
 
@@ -674,7 +674,7 @@ module Cmr
         # When a provider is deleted all of the data associated with that provider is
         # also deleted. CMR then needs to re-index, which is asyncronous
         response = connection.delete do |req|
-          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
           # CMR made a change to prevent providers that have any collections from being deleted
           # this header allows us to delete providers with collections for our tests
           req.headers['force-full-provider-delete'] = 'true'
@@ -692,7 +692,7 @@ module Cmr
         resp = connection.post do |req|
           req.url('http://localhost:3002/providers')
           req.headers['Content-Type'] = 'application/json'
-          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
           req.body = '{"provider-id": "' + provider_id + '", "short-name": "' + provider_id + '", "cmr-only": true}'
         end
         # puts "recreate provider in CMR ingest: #{resp.body}"
@@ -700,7 +700,7 @@ module Cmr
         resp = connection.post do |req|
           req.url('http://localhost:3008/providers')
           req.headers['Content-Type'] = 'application/json'
-          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
           req.body = '[{"provider":{"id":"' + guid + '","provider_id":"' + provider_id + '"}}]'
         end
         # puts "recreate provider in mock echo: #{resp.body}"
@@ -709,7 +709,7 @@ module Cmr
         group_resp = connection.post do |req|
           req.url('http://localhost:3011/groups')
           req.headers['Content-Type'] = 'application/json'
-          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
           req.body = '{"name": "' + provider_id + ' Admin Group", "description": "Test group for provider", "provider_id": "' + provider_id + '"}'
         end
         # get the new provider group's concept id
@@ -720,7 +720,7 @@ module Cmr
         connection.post do |req|
           req.url("http://localhost:3011/groups/#{group_concept_id}/members")
           req.headers['Content-Type'] = 'application/json'
-          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
           req.body = '["typical", "testuser"]'
         end
 
@@ -728,7 +728,7 @@ module Cmr
         resp = connection.post do |req|
           req.url('http://localhost:3011/acls')
           req.headers['Content-Type'] = 'application/json'
-          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
           req.body = '{"group_permissions": [{"permissions": ["read"], "user_type": "guest"}, {"permissions": ["read"], "user_type": "registered"}], "catalog_item_identity": {"name": "' + provider_id + ' All Collections and Granules", "provider_id": "' + provider_id + '", "collection_applicable": true, "granule_applicable": true}}'
         end
         # puts "recreate collection permissions for guest and registered users for #{provider_id} #{resp.body}"
@@ -737,7 +737,7 @@ module Cmr
         resp = connection.post do |req|
           req.url('http://localhost:3011/acls')
           req.headers['Content-Type'] = 'application/json'
-          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
           req.body = '{"group_permissions": [{"user_type": "guest", "permissions": ["read", "update"]}, {"user_type": "registered", "permissions": ["read", "update"]}], "provider_identity": {"target": "INGEST_MANAGEMENT_ACL", "provider_id": "' + provider_id + '"}}'
         end
         # puts "ACL for INGEST_MANAGEMENT_ACL for guest and registered users for #{provider_id} #{resp.body}"
@@ -746,7 +746,7 @@ module Cmr
         connection.post do |req|
           req.url('http://localhost:3011/acls')
           req.headers['Content-Type'] = 'application/json'
-          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
           req.body = '{"group_permissions": [{"group_id": "' + group_concept_id + '", "permissions": ["read", "create"]}], "provider_identity": {"target": "GROUP", "provider_id": "' + provider_id + '"}}'
         end
 
@@ -754,7 +754,7 @@ module Cmr
         connection.post do |req|
           req.url('http://localhost:3011/acls')
           req.headers['Content-Type'] = 'application/json'
-          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
           req.body = '{"group_permissions": [{"group_id": "' + group_concept_id + '", "permissions": ["read"]}, {"group_id": "' + 'AG1200000001-CMR' + '", "permissions": ["read"]}], "provider_identity": {"target": "PROVIDER_CONTEXT", "provider_id": "' + provider_id + '"}}'
         end
 
@@ -762,7 +762,7 @@ module Cmr
         resp = connection.post do |req|
           req.url('http://localhost:3011/acls')
           req.headers['Content-Type'] = 'application/json'
-          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
           req.body = '{"group_permissions": [{"group_id": "' + group_concept_id + '", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "PROVIDER_OBJECT_ACL", "provider_id": "' + provider_id + '"}}'
         end
 
@@ -770,7 +770,7 @@ module Cmr
         resp = connection.post do |req|
           req.url('http://localhost:3011/acls')
           req.headers['Content-Type'] = 'application/json'
-          req.headers['Echo-token'] = 'mock-echo-system-token'
+          req.headers['Authorization'] = 'mock-echo-system-token'
 
           req.body = '{"group_permissions": [{"group_id": "' + group_concept_id + '", "permissions": ["read", "create", "update", "delete"]}], "provider_identity": {"target": "CATALOG_ITEM_ACL", "provider_id": "' + provider_id + '"}}'
         end

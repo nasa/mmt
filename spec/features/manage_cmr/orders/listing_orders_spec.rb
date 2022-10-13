@@ -246,6 +246,7 @@ describe 'Searching Orders' do
 
     context 'when searching with bad token' do
       before do
+        allow_any_instance_of(Cmr::Util).to receive(:is_urs_token?).and_return(true)
         fill_in 'Order GUID', with: 'bad_token'
 
 

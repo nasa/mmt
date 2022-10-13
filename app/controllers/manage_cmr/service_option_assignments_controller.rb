@@ -23,6 +23,12 @@ class ServiceOptionAssignmentsController < ManageCmrController
       }
     end
 
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     response = echo_client.create_service_option_assignments(echo_provider_token, payload)
 
     if response.success?
@@ -41,6 +47,12 @@ class ServiceOptionAssignmentsController < ManageCmrController
   def update
     # Initialize the assignments array for the view
     @assignments = []
+
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
 
     assignments_response = echo_client.get_service_option_assignments_by_service(echo_provider_token, service_option_assignment_params['service_entries_toList'])
 
@@ -125,6 +137,12 @@ class ServiceOptionAssignmentsController < ManageCmrController
   def destroy
     authorize :service_option_assignment
 
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     response = echo_client.remove_service_option_assignments(echo_provider_token, service_option_assignment_params.fetch('service_option_assignment', []))
 
     if response.success?
@@ -160,6 +178,11 @@ class ServiceOptionAssignmentsController < ManageCmrController
   end
 
   def set_service_options
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
 
     service_option_response = echo_client.get_service_options_names(echo_provider_token)
     @service_options = if service_option_response.success?
