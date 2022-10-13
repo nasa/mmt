@@ -104,8 +104,6 @@ module Helpers
     end
 
     def remove_group_permissions(concept_id)
-      token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzA3Njk4NjAsImlhdCI6MTY2NTU4NTg2MCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.hR39xfz1SpqEl1l0vzo_MUbYuSg0T_OHfxXNsBoYHXRXmMtDCkB7uGPAnskM78Re0wZXXmwHmk0IxU6W8dbzZZd7KLrhmLJX-B0sMNdXO0S7El2UulZsRQfaTPJov7J4hZZTXhq8u7O3daasysXopeiUI_3qh9flb12svh58knUEPflwYhisMVShj7iqrKVNzO2gCf4poRCkmyqZAeRdwgIaKZTR5k7p1fUbB6mgFxpiftgkFCFETGB8VhiGj9aE0hFW6f4Dn9kpEqnM1axiQ-PePwz4y_yyYBNIPBhGLTmh75aNqMlmd97WpKy_1NrAyMvF3C9EfCiGZOHN5Opk_A'
-
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#remove_group_permissions' do
         acl_response = cmr_client.delete_permission(concept_id, token)
 
