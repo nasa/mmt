@@ -1,12 +1,16 @@
 describe 'Collection Search Results Pagination', js: true do
   before do
     login
-    visit manage_collections_path
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      visit manage_collections_path
+    end
   end
 
   context 'when viewing collection search results with multiple pages' do
     before do
-      click_on 'Search Collections'
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        click_on 'Search Collections'
+      end
     end
 
     it 'displays pagination links' do
@@ -22,7 +26,9 @@ describe 'Collection Search Results Pagination', js: true do
     context 'when clicking on the next link' do
       before do
         # click next link
-        click_on 'Next Page'
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          click_on 'Next Page'
+        end
       end
 
       it 'displays the next page' do
@@ -33,11 +39,15 @@ describe 'Collection Search Results Pagination', js: true do
     context 'when clicking on the previous link' do
       before do
         # click next link
-        click_on 'Next Page'
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          click_on 'Next Page'
+        end
         # assert page 2 visible
         expect(page).to have_css('.active-page', text: '2')
         # click previous link
-        click_on 'Previous Page'
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          click_on 'Previous Page'
+        end
       end
 
       it 'displays the previous page' do
@@ -48,11 +58,15 @@ describe 'Collection Search Results Pagination', js: true do
     context 'when clicking on the first page link' do
       before do
         # click next link
-        click_on 'Next Page'
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          click_on 'Next Page'
+        end
         # assert page 2 visible
         expect(page).to have_css('.active-page', text: '2')
         # click first page link
-        click_on 'First Page'
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          click_on 'First Page'
+        end
       end
 
       it 'displays the first page' do
@@ -67,7 +81,9 @@ describe 'Collection Search Results Pagination', js: true do
     context 'when clicking on the last page link' do
       before do
         # click last page link
-        click_on 'Last Page'
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          click_on 'Last Page'
+        end
       end
 
       it 'displays the last page' do
@@ -87,7 +103,9 @@ describe 'Collection Search Results Pagination', js: true do
     context 'when clicking on a specific page link' do
       before do
         # click page 2 link
-        click_on 'Page 2'
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          click_on 'Page 2'
+        end
       end
 
       it 'displays the new page' do
@@ -99,7 +117,9 @@ describe 'Collection Search Results Pagination', js: true do
   context 'when viewing collection search results with only one page' do
     before do
       fill_in 'keyword', with: 'DEM_100M_1'
-      click_on 'Search Collections'
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        click_on 'Search Collections'
+      end
     end
 
     it 'does not display pagination links' do
