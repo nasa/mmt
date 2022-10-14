@@ -63,7 +63,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
 
     context 'when viewing the service option assignment display page' do
       before do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_without_correct_permissions_vcr", record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_without_correct_permissions_vcr", record: :new_episodes) do
           allow_any_instance_of(ServiceOptionAssignmentPolicy).to receive(:create?).and_return(false)
           visit service_option_assignments_path
           wait_for_jQuery(10)
@@ -77,19 +77,19 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
 
     context 'when the user has the required permissions' do
       before :all do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
           @service_option_assignment_group = create_group(name: "Service_Option_Association_Group_for_Permissions_Create_#{SecureRandom.uuid.gsub('-', '')}", members: ['testuser'])
         end
         @token = 'Generate a JWT token'
 
         # give the group permission to create
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
           @create_permissions = add_permissions_to_group(@service_option_assignment_group['group_id'], 'create', 'OPTION_ASSIGNMENT', 'MMT_2', @token)
         end
       end
 
       after :all do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
           remove_group_permissions(@create_permissions['concept_id'])
           delete_group(concept_id: @service_option_assignment_group['group_id'])
         end
@@ -162,7 +162,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
     context 'when submitting the service option assignment form' do
       context 'with invalid values' do
         before do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
             visit new_service_option_assignments_path
             click_on 'Submit'
           end
