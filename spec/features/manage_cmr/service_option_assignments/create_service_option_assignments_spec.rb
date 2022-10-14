@@ -89,7 +89,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
       end
 
       after :all do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           remove_group_permissions(@create_permissions['concept_id'])
           delete_group(concept_id: @service_option_assignment_group['group_id'])
         end
@@ -162,7 +162,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
     context 'when submitting the service option assignment form' do
       context 'with invalid values' do
         before do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
             visit new_service_option_assignments_path
             click_on 'Submit'
           end

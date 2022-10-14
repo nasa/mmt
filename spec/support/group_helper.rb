@@ -105,6 +105,7 @@ module Helpers
 
     def remove_group_permissions(concept_id)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#remove_group_permissions' do
+        token = @token? @token : 'access_token_admin'
         acl_response = cmr_client.delete_permission(concept_id, token)
 
         raise Array.wrap(acl_response.body['errors']).join(' /// ') if acl_response.body.key?('errors')

@@ -45,14 +45,12 @@ module Cmr
     # Token "ABC-1" is created on local cmr start up for Admin user
     # Token "ABC-2" is created on local cmr start up for Typical user
     def token_header(token, use_real = false)
-      if (Rails.env.development? || Rails.env.test?) && !use_real
-        # mock_token = 'ABC-2'
-        #
-        # mock_token = 'ABC-1' if token == 'access_token_admin'
-        # # authorization_header(token)
-        # token.present? ? { 'Authorization' => token } : {}
-        return {} unless token.present?
-        authorization_header(token)
+      if (Rails.env.development? || Rails.env.test?) && !use_real && token.length < 15
+        mock_token = 'ABC-2'
+
+        mock_token = 'ABC-1' if token == 'access_token_admin'
+
+        token.present? ? { 'Authorization' => mock_token } : {}
       else
         return {} unless token.present?
         authorization_header(token)
