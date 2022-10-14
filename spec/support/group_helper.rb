@@ -69,7 +69,7 @@ module Helpers
       end
     end
 
-    def add_permissions_to_group(group_id, permissions, target, provider_id, token)
+    def add_permissions_to_group(group_id, permissions, target, provider_id, token='access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
         permission_params = {
           group_permissions: [{
