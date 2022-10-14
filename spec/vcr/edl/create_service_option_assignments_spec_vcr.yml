@@ -1911,7 +1911,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2NzA2MDI1MiwiaWF0IjoxNjY1NzY0MjUyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.G0db3-D6eKIb6FDU586vZcVXrxnBW0Li-5W5xo5tsJFN6tLwaJIAfj4e5_fnPmi-mHTDa_foy5A1thUSXhs05S2duCnObw2C6gMGHwD1JuVIHfvHFelMXVXvGg77v671H4iw8X2hn-ZZROkCuPtyBk94Fx_l-2KVd5RxMsIrSJhN0P7KVz3F_ouWUxQxZyFRnRQpvXnx5Q9sG3AIkL1qmPSr7Wj19ZSHov5lT2nHoYvTVKvbjVoo6ZVL0tadqlsUxyaZ0Dtt0CdE437HbdVZAYH1WMMlXZsdVECQCSwf2NnJ_3cxu2u5Zqshvlne0cq9vu-mfGXZNHbSks7Bh8lW1Q
+      - Bearer access_token
   response:
     status:
       code: 200
@@ -1970,7 +1970,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2NzA2MDI1MiwiaWF0IjoxNjY1NzY0MjUyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.G0db3-D6eKIb6FDU586vZcVXrxnBW0Li-5W5xo5tsJFN6tLwaJIAfj4e5_fnPmi-mHTDa_foy5A1thUSXhs05S2duCnObw2C6gMGHwD1JuVIHfvHFelMXVXvGg77v671H4iw8X2hn-ZZROkCuPtyBk94Fx_l-2KVd5RxMsIrSJhN0P7KVz3F_ouWUxQxZyFRnRQpvXnx5Q9sG3AIkL1qmPSr7Wj19ZSHov5lT2nHoYvTVKvbjVoo6ZVL0tadqlsUxyaZ0Dtt0CdE437HbdVZAYH1WMMlXZsdVECQCSwf2NnJ_3cxu2u5Zqshvlne0cq9vu-mfGXZNHbSks7Bh8lW1Q
+      - Bearer access_token
   response:
     status:
       code: 200
@@ -2032,7 +2032,7 @@ http_interactions:
       Client-Id:
       - MMT
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzA3Njk4NjAsImlhdCI6MTY2NTU4NTg2MCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.hR39xfz1SpqEl1l0vzo_MUbYuSg0T_OHfxXNsBoYHXRXmMtDCkB7uGPAnskM78Re0wZXXmwHmk0IxU6W8dbzZZd7KLrhmLJX-B0sMNdXO0S7El2UulZsRQfaTPJov7J4hZZTXhq8u7O3daasysXopeiUI_3qh9flb12svh58knUEPflwYhisMVShj7iqrKVNzO2gCf4poRCkmyqZAeRdwgIaKZTR5k7p1fUbB6mgFxpiftgkFCFETGB8VhiGj9aE0hFW6f4Dn9kpEqnM1axiQ-PePwz4y_yyYBNIPBhGLTmh75aNqMlmd97WpKy_1NrAyMvF3C9EfCiGZOHN5Opk_A
+      - Bearer access_token
   response:
     status:
       code: 200
@@ -2086,7 +2086,7 @@ http_interactions:
       Client-Id:
       - MMT
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzA3Njk4NjAsImlhdCI6MTY2NTU4NTg2MCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.hR39xfz1SpqEl1l0vzo_MUbYuSg0T_OHfxXNsBoYHXRXmMtDCkB7uGPAnskM78Re0wZXXmwHmk0IxU6W8dbzZZd7KLrhmLJX-B0sMNdXO0S7El2UulZsRQfaTPJov7J4hZZTXhq8u7O3daasysXopeiUI_3qh9flb12svh58knUEPflwYhisMVShj7iqrKVNzO2gCf4poRCkmyqZAeRdwgIaKZTR5k7p1fUbB6mgFxpiftgkFCFETGB8VhiGj9aE0hFW6f4Dn9kpEqnM1axiQ-PePwz4y_yyYBNIPBhGLTmh75aNqMlmd97WpKy_1NrAyMvF3C9EfCiGZOHN5Opk_A
+      - Bearer access_token
   response:
     status:
       code: 200
@@ -2136,7 +2136,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2NzA2MDI1MiwiaWF0IjoxNjY1NzY0MjUyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.G0db3-D6eKIb6FDU586vZcVXrxnBW0Li-5W5xo5tsJFN6tLwaJIAfj4e5_fnPmi-mHTDa_foy5A1thUSXhs05S2duCnObw2C6gMGHwD1JuVIHfvHFelMXVXvGg77v671H4iw8X2hn-ZZROkCuPtyBk94Fx_l-2KVd5RxMsIrSJhN0P7KVz3F_ouWUxQxZyFRnRQpvXnx5Q9sG3AIkL1qmPSr7Wj19ZSHov5lT2nHoYvTVKvbjVoo6ZVL0tadqlsUxyaZ0Dtt0CdE437HbdVZAYH1WMMlXZsdVECQCSwf2NnJ_3cxu2u5Zqshvlne0cq9vu-mfGXZNHbSks7Bh8lW1Q
+      - Bearer access_token
   response:
     status:
       code: 401
