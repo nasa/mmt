@@ -47,10 +47,9 @@ module Helpers
 
     # Need to change from random_group_name to just "group_name"
     def random_group_name
-      return '58732ce0dddssssjkjjaasa72ddd331eadycb9b6663ddddddddsdddddff3xx24dd6666dee'
-      # hex = SecureRandom.hex(10)
-      # puts("hex=#{hex}")
-      # hex
+      hex = SecureRandom.hex(10).gsub('-','')
+      puts("hex=#{hex}")
+      hex
     end
 
     def random_group_description
