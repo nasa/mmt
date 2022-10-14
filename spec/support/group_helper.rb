@@ -1,6 +1,10 @@
 module Helpers
   # :nodoc:
   module GroupHelper
+    def uuid
+      return SecureRandom.uuid.gsub('-','')
+    end
+
     def create_group(provider_id: 'MMT_2', name: random_group_name, description: random_group_description, members: [], admin: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#create_group' do
         group_params = {
@@ -65,7 +69,7 @@ module Helpers
       end
     end
 
-    def add_permissions_to_group(group_id, permissions, target, provider_id)
+    def add_permissions_to_group(group_id, permissions, target, provider_id, token)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
         permission_params = {
           group_permissions: [{
@@ -78,7 +82,7 @@ module Helpers
           }
         }
 
-        add_group_permissions(permission_params)
+        add_group_permissions(permission_params, token)
       end
     end
 
