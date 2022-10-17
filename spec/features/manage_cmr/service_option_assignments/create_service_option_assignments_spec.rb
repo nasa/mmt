@@ -80,7 +80,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           @service_option_assignment_group = create_group(name: "Service_Option_Association_Group_for_Permissions_Create_#{SecureRandom.uuid.gsub('-', '')}", members: ['testuser'])
         end
-        @token = 'Generate a JWT token'
+        @token = 'Generate a JWT token from sit.urs.earthdata.nasa.gov'
 
         # give the group permission to create
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do

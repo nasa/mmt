@@ -624,20 +624,20 @@ module Cmr
 
     def add_group_permissions(request_object, token)
       # Example: curl -XPOST -i -H "Content-Type: application/json" -H "Authorization: Bearer XXXXX" https://cmr.sit.earthdata.nasa.gov/access-control/acls -d \
-      url = if Rails.env.development? || (Rails.env.test? && token.length < 15)
-              'http://localhost:3011/acls'
-            else
+      url = if !Rails.env.development? && token.length > 30 # e.g. a JWT token
               '/access-control/acls'
+            else
+              'http://localhost:3011/acls'
             end
       post(url, request_object.to_json, token_header(token))
     end
 
     def get_permissions(options, token)
       # Example: curl -i "http://localhost:3011/acls?provider=MMT_1&include_full_acl=true"
-      url = if Rails.env.development? || (Rails.env.test? && token.length < 15)
-              'http://localhost:3011/acls'
-            else
+      url = if !Rails.env.development? && token.length > 30 # e.g. a JWT token
               '/access-control/acls'
+            else
+              'http://localhost:3011/acls'
             end
       # options = {'provider' => provider_id, 'include_full_acl' => true}
       get(url, options, token_header(token))
@@ -645,10 +645,10 @@ module Cmr
 
     def get_permission(concept_id, token)
       # Example: curl -i "http://localhost:3011/acls/#{concept_id}"
-      url = if Rails.env.development? || (Rails.env.test? && token.length < 15)
-              "http://localhost:3011/acls/#{concept_id}?include-full-acl=true"
-            else
+      url = if !Rails.env.development? && token.length > 30 # e.g. a JWT token
               "/access-control/acls/#{concept_id}?include-full-acl=true"
+            else
+              "http://localhost:3011/acls/#{concept_id}?include-full-acl=true"
             end
 
       headers = {
@@ -661,10 +661,10 @@ module Cmr
     end
 
     def update_permission(request_object, concept_id, token, revision_id = nil)
-      url = if Rails.env.development? || (Rails.env.test? && token.length < 15)
-              "http://localhost:3011/acls/#{concept_id}"
-            else
+      url = if !Rails.env.development? && token.length > 30 # e.g. a JWT token
               "/access-control/acls/#{concept_id}"
+            else
+              "http://localhost:3011/acls/#{concept_id}"
             end
 
       headers = { 'Content-Type' => 'application/json' }
@@ -675,10 +675,10 @@ module Cmr
 
     def delete_permission(concept_id, token, revision_id = nil)
       # curl -XDELETE -i -H "Authorization: mock-echo-system-token" https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200000000-CMR
-      url = if Rails.env.development? || (Rails.env.test? && token.length < 15)
-              "http://localhost:3011/acls/#{concept_id}"
-            else
+      url = if !Rails.env.development? && token.length > 30 # e.g. a JWT token
               "/access-control/acls/#{concept_id}"
+            else
+              "http://localhost:3011/acls/#{concept_id}"
             end
 
       headers = { 'Content-Type' => 'application/json' }
@@ -692,7 +692,7 @@ module Cmr
       # one of `concept_id`, `system_object`(i.e. GROUP), or `provider` AND `target`(i.e. HOLDINGS)
       # one of `user_type`('guest' or 'registered') or `user_id`
       # example: curl -g -i -H "Authorization: Bearer XXXX" "https://cmr.sit.earthdata.nasa.gov/access-control/permissions?user_type=guest&concept_id[]=C1200000000-PROV1&concept_id[]=C1200000001-PROV1"
-      url = if Rails.env.development? || (Rails.env.test? && token.length < 15)
+      url = if !Rails.env.development? && token.length > 30 # e.g. a JWT token
               'http://localhost:3011/permissions'
             else
               '/access-control/permissions'
