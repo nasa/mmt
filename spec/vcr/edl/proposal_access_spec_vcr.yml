@@ -1,0 +1,630 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/oauth/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Basic bW10X3Rlc3Q6Q0xQVHhSUTloZ3ZQOW9zUA==
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Sat, 15 Oct 2022 01:18:30 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"7ab28e14dc9d870349deb12096c5452f"
+      x-request-id:
+      - 66fe4142-6b4f-4a73-a065-a484ac278a8b
+      x-runtime:
+      - '0.012882'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"access_token","token_type":"Bearer","expires_in":1296000}'
+  recorded_at: Sat, 15 Oct 2022 01:18:30 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups
+    body:
+      encoding: UTF-8
+      string: name=Non_NASA_Draft_Users_Group_fa69fff60cde4c23886111f963375b74&description=Magni%20laborum%20voluptatem%20at.&tag=MMT_2
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Sat, 15 Oct 2022 01:18:30 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"30db1b724274cb458681df12220f4c9f"
+      x-request-id:
+      - f80bfe43-99ab-4351-a199-5c5b3b0e711b
+      x-runtime:
+      - '0.012241'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"name":"Non_NASA_Draft_Users_Group_fa69fff60cde4c23886111f963375b74","app_uid":"mmt_test","description":"Magni
+        laborum voluptatem at.","client_id":"81FEem91NlTQreWv2UgtXQ","shared_user_group":false,"created_by":"mmt_test","tag":"MMT_2","group_id":"6d6bb2b1-eab4-43dd-95e2-a33d4467ec80"}'
+  recorded_at: Sat, 15 Oct 2022 01:18:30 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/6d6bb2b1-eab4-43dd-95e2-a33d4467ec80/user
+    body:
+      encoding: UTF-8
+      string: user_id=chris.gokey
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Sat, 15 Oct 2022 01:18:30 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"32bfcefd42a7609f292f6c8e1623ddf4"
+      x-request-id:
+      - '03850aa4-9366-4570-ad3a-7c91cc80c427'
+      x-runtime:
+      - '0.013265'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"chris.gokey successfully added to user group Non_NASA_Draft_Users_Group_fa69fff60cde4c23886111f963375b74"}'
+  recorded_at: Sat, 15 Oct 2022 01:18:30 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/6d6bb2b1-eab4-43dd-95e2-a33d4467ec80/user
+    body:
+      encoding: UTF-8
+      string: user_id=rosy.cordova
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Sat, 15 Oct 2022 01:18:31 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"1772de45ea7fcf8d9426f9e78afa286f"
+      x-request-id:
+      - 42496984-f6bb-469a-93ac-6a7ab77ac81a
+      x-runtime:
+      - '0.015416'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"rosy.cordova successfully added to user group Non_NASA_Draft_Users_Group_fa69fff60cde4c23886111f963375b74"}'
+  recorded_at: Sat, 15 Oct 2022 01:18:31 GMT
+- request:
+    method: delete
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200442598-CMR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '67'
+      connection:
+      - keep-alive
+      date:
+      - Sat, 15 Oct 2022 01:18:31 GMT
+      access-control-allow-origin:
+      - "*"
+      server:
+      - ServerTokens ProductOnly
+      x-request-id:
+      - pCrVk1-172Yn8a5IN544wZ6XQS1-ZzVBV0DXEYQyMJfO9hCnRf69Kw==
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 48b6fc9d15ba6889c31b21c9446001f4.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW55-C2
+      x-amz-cf-id:
+      - pCrVk1-172Yn8a5IN544wZ6XQS1-ZzVBV0DXEYQyMJfO9hCnRf69Kw==
+    body:
+      encoding: UTF-8
+      string: '{"errors":["ACL with concept id [ACL1200442598-CMR] was deleted."]}'
+  recorded_at: Sat, 15 Oct 2022 01:18:31 GMT
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls
+    body:
+      encoding: UTF-8
+      string: '{"group_permissions":[{"group_id":"6d6bb2b1-eab4-43dd-95e2-a33d4467ec80","permissions":["create"]}],"provider_identity":{"provider_id":"MMT_2","target":"NON_NASA_DRAFT_USER"}}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '50'
+      connection:
+      - keep-alive
+      date:
+      - Sat, 15 Oct 2022 01:19:00 GMT
+      cmr-request-id:
+      - d3cacba2-9339-4113-b08e-b9555e4e3d5f
+      x-request-id:
+      - efx5ZUrsQXop-dZQK1gZfxWY289jccqHMlDgVF9ArF1XS8YBkKPAmg==
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 c4afcfec80e8a573f647bcf1d4f73ff6.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW55-C2
+      x-amz-cf-id:
+      - efx5ZUrsQXop-dZQK1gZfxWY289jccqHMlDgVF9ArF1XS8YBkKPAmg==
+    body:
+      encoding: UTF-8
+      string: '{"revision_id":1,"concept_id":"ACL1200442600-CMR"}'
+  recorded_at: Sat, 15 Oct 2022 01:19:00 GMT
+- request:
+    method: delete
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200442600-CMR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '50'
+      connection:
+      - keep-alive
+      date:
+      - Sat, 15 Oct 2022 01:47:17 GMT
+      cmr-request-id:
+      - 0f493f62-f58b-4461-97bf-2ad90ca175ab
+      x-request-id:
+      - lYOGhs8LpOOoA159eIfIle9w6rnW6VJeVx0ipUMKXftLJ4JBEka83w==
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 6784ac36b8d920a78daf15294a50025e.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD79-C3
+      x-amz-cf-id:
+      - lYOGhs8LpOOoA159eIfIle9w6rnW6VJeVx0ipUMKXftLJ4JBEka83w==
+    body:
+      encoding: UTF-8
+      string: '{"revision-id":2,"concept-id":"ACL1200442600-CMR"}'
+  recorded_at: Sat, 15 Oct 2022 01:47:17 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/6d6bb2b1-eab4-43dd-95e2-a33d4467ec80
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Sat, 15 Oct 2022 01:47:18 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"e4bae3c995c9ab91e64191b63d03c0b2"
+      x-request-id:
+      - 3504bfff-9216-4b12-9c83-ac6b5a663aa6
+      x-runtime:
+      - '0.012126'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"rosy.cordova","first_name":"rosy","last_name":"cordova","email_address":"rosy.m.cordova@nasa.gov"},{"uid":"chris.gokey","first_name":"Christopher","last_name":"Gokey","email_address":"christopher.d.gokey@nasa.gov"}]}'
+  recorded_at: Sat, 15 Oct 2022 01:47:18 GMT
+- request:
+    method: delete
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/6d6bb2b1-eab4-43dd-95e2-a33d4467ec80/user?user_id=rosy.cordova
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Sat, 15 Oct 2022 01:47:18 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"f7bfc2fc9f2a58e74a9073def8c7ebf4"
+      x-request-id:
+      - 3a0edaea-1f1d-4d44-a927-e3ba46fb627b
+      x-runtime:
+      - '0.016266'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"rosy.cordova successfully deleted from group Non_NASA_Draft_Users_Group_fa69fff60cde4c23886111f963375b74"}'
+  recorded_at: Sat, 15 Oct 2022 01:47:18 GMT
+- request:
+    method: delete
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/6d6bb2b1-eab4-43dd-95e2-a33d4467ec80/user?user_id=chris.gokey
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Sat, 15 Oct 2022 01:47:18 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"4bfcc4104ac9baa9eee6c94e8589ae90"
+      x-request-id:
+      - aea76995-c2ef-4d94-bda1-1dede7d9b684
+      x-runtime:
+      - '0.013521'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"chris.gokey successfully deleted from group Non_NASA_Draft_Users_Group_fa69fff60cde4c23886111f963375b74"}'
+  recorded_at: Sat, 15 Oct 2022 01:47:18 GMT
+- request:
+    method: delete
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/6d6bb2b1-eab4-43dd-95e2-a33d4467ec80
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Sat, 15 Oct 2022 01:47:18 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"44136fa355b3678a1146ad16f7e8649e"
+      x-request-id:
+      - 3a2b2fe8-558e-4c8a-9ca1-72fb264dc060
+      x-runtime:
+      - '0.011675'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: "{}"
+  recorded_at: Sat, 15 Oct 2022 01:47:18 GMT
+recorded_with: VCR 6.1.0
