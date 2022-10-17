@@ -56,7 +56,7 @@ http_interactions:
       - chunked
     body:
       encoding: UTF-8
-      string: '{"access_token":"eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2Njk4NzQxNiwiaWF0IjoxNjY1NjkxNDE2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.IGVyg5Gai-9dWTlddYoD-hjHqGHmY6l-zEl3mS5la6pWpnRoXFrzp3pjpK-oVSTB7z4RT_v2czKnWJYsrcRFadp9uNkl-x53fF2uh93S5g4QGkwW9yHagDeJo9DdEhc6vFs_FUxeSnUhycaWnmLt5IZms7Z8CY154X-obs7piRKXIFx9HEDZsisoVpOo6QbL6MmmXGI9nwx6b0T_anjKrT5_4PKQmjKKApak8ho2Sfo36DKaofgfrflKYU0n0zksWeQn81r5t8PXSjY7QLAnfgDP2hAbz_utPEupIZAK_NLT8qu8S24BOsFv_Tcaunl1c7fAR79oWqst9e4d_QMIWw","token_type":"Bearer","expires_in":1296000}'
+      string: '{"access_token":"access_token","token_type":"Bearer","expires_in":1296000}'
   recorded_at: Thu, 13 Oct 2022 20:03:35 GMT
 - request:
     method: post
@@ -68,7 +68,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2Njk4NzQxNiwiaWF0IjoxNjY1NjkxNDE2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.IGVyg5Gai-9dWTlddYoD-hjHqGHmY6l-zEl3mS5la6pWpnRoXFrzp3pjpK-oVSTB7z4RT_v2czKnWJYsrcRFadp9uNkl-x53fF2uh93S5g4QGkwW9yHagDeJo9DdEhc6vFs_FUxeSnUhycaWnmLt5IZms7Z8CY154X-obs7piRKXIFx9HEDZsisoVpOo6QbL6MmmXGI9nwx6b0T_anjKrT5_4PKQmjKKApak8ho2Sfo36DKaofgfrflKYU0n0zksWeQn81r5t8PXSjY7QLAnfgDP2hAbz_utPEupIZAK_NLT8qu8S24BOsFv_Tcaunl1c7fAR79oWqst9e4d_QMIWw
+      - Bearer access_token
   response:
     status:
       code: 200
@@ -127,7 +127,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2Njk4NzQxNiwiaWF0IjoxNjY1NjkxNDE2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.IGVyg5Gai-9dWTlddYoD-hjHqGHmY6l-zEl3mS5la6pWpnRoXFrzp3pjpK-oVSTB7z4RT_v2czKnWJYsrcRFadp9uNkl-x53fF2uh93S5g4QGkwW9yHagDeJo9DdEhc6vFs_FUxeSnUhycaWnmLt5IZms7Z8CY154X-obs7piRKXIFx9HEDZsisoVpOo6QbL6MmmXGI9nwx6b0T_anjKrT5_4PKQmjKKApak8ho2Sfo36DKaofgfrflKYU0n0zksWeQn81r5t8PXSjY7QLAnfgDP2hAbz_utPEupIZAK_NLT8qu8S24BOsFv_Tcaunl1c7fAR79oWqst9e4d_QMIWw
+      - Bearer access_token
   response:
     status:
       code: 400
@@ -183,7 +183,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2Njk4NzQxNiwiaWF0IjoxNjY1NjkxNDE2LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.IGVyg5Gai-9dWTlddYoD-hjHqGHmY6l-zEl3mS5la6pWpnRoXFrzp3pjpK-oVSTB7z4RT_v2czKnWJYsrcRFadp9uNkl-x53fF2uh93S5g4QGkwW9yHagDeJo9DdEhc6vFs_FUxeSnUhycaWnmLt5IZms7Z8CY154X-obs7piRKXIFx9HEDZsisoVpOo6QbL6MmmXGI9nwx6b0T_anjKrT5_4PKQmjKKApak8ho2Sfo36DKaofgfrflKYU0n0zksWeQn81r5t8PXSjY7QLAnfgDP2hAbz_utPEupIZAK_NLT8qu8S24BOsFv_Tcaunl1c7fAR79oWqst9e4d_QMIWw
+      - Bearer access_token
   response:
     status:
       code: 400

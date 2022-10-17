@@ -8,7 +8,9 @@ describe 'Provider context', reset_provider: true, js: true do
     end
 
     before :all do
-      clear_provider_context_permissions
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+        clear_provider_context_permissions
+      end
 
       VCR.use_cassette('edl', record: :new_episodes) do
         add_provider_context_permission(%w(MMT_1 MMT_2))
@@ -152,7 +154,9 @@ describe 'Provider context', reset_provider: true, js: true do
     end
 
     before :all do
-      clear_provider_context_permissions
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+        clear_provider_context_permissions
+      end
 
       VCR.use_cassette('edl', record: :new_episodes) do
         add_provider_context_permission('MMT_2')
@@ -198,7 +202,9 @@ describe 'Provider context', reset_provider: true, js: true do
     end
 
     before :all do
-      clear_provider_context_permissions
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+        clear_provider_context_permissions
+      end
     end
 
     it 'displays a message' do
@@ -217,14 +223,18 @@ describe 'Provider context', reset_provider: true, js: true do
     end
 
     before :all do
-      clear_provider_context_permissions
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+        clear_provider_context_permissions
+      end
       VCR.use_cassette('edl', record: :new_episodes) do
         add_provider_context_permission(%w(MMT_1 MMT_2 NSIDC_ECS))
       end
     end
 
     after :all do
-      clear_provider_context_permissions
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+        clear_provider_context_permissions
+      end
     end
 
     context 'when the user loses a provider while logged out' do
