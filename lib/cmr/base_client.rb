@@ -50,16 +50,10 @@ module Cmr
 
         mock_token = 'ABC-1' if token == 'access_token_admin'
 
-        token.present? ? { 'Echo-Token' => mock_token } : {}
+        token.present? ? { 'Authorization' => mock_token } : {}
       else
         return {} unless token.present?
-
-        if is_urs_token?(token)
-          # passing the URS token to CMR requires the client id
-          { 'Echo-Token' => "#{token}:#{@client_id}" }
-        else
-          { 'Echo-Token' => token }
-        end
+        authorization_header(token)
       end
     end
 

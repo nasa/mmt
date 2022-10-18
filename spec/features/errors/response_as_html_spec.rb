@@ -8,7 +8,7 @@ describe 'CMR Response as HTML page',js:true do
       visit collection_draft_path(draft)
 
       # Adding question marks to token causes a 500 error for now
-      bad_response = { 'Echo-Token' => '???' }
+      bad_response = { 'Authorization' => '???' }
       allow_any_instance_of(Cmr::BaseClient).to receive(:token_header).and_return(bad_response)
 
       # Record the request so we can keep testing for 500 errors

@@ -21,10 +21,26 @@ module Cmr
 
         jwt_json['typ'] == 'JWT' && jwt_json['origin'] == 'Earthdata Login'
       rescue
+        # It is not a JWT token, so it must be a launchpad token
+        return false
+
+        # Deprecated below, so we can't use waiver anymore in EDL, as it causes
+        # an issue with retrieving a provider token for SOAP requests.
+        # The provider token length is <= 100, so it thinks the token is a
+        # launchpad token but is really a provider token.
+        #
         # this block allows proper function when URS token is not a JWT (waiver turned off),
         # because the parse or decode operations will raise an error if URS token isn't a JWT;
         # non-JWT URS token max length is 100, Launchpad token is much longer
-        token.length <= 100
+        # token.length <= 100
+      end
+    end
+
+    def authorization_header(token)
+      if is_urs_token?(token)
+        { 'Authorization' => "Bearer #{token}" }
+      else
+        { 'Authorization' => "#{token}" }
       end
     end
 

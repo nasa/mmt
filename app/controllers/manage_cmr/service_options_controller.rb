@@ -7,6 +7,11 @@ class ServiceOptionsController < ManageCmrController
   RESULTS_PER_PAGE = 25
 
   def index
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
 
     # Default the page to 1
     #
@@ -37,6 +42,12 @@ class ServiceOptionsController < ManageCmrController
 
   def create
     @service_option = generate_payload
+
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
 
     response = echo_client.create_service_option(echo_provider_token, @service_option)
 
@@ -97,6 +108,12 @@ class ServiceOptionsController < ManageCmrController
   end
 
   def set_service_option
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
     service_option_response = get_service_option_list(echo_provider_token, params[:id])
     service_options = Array.wrap(service_option_response.fetch('Result', []))
     @service_option = service_options[0] unless service_options.empty?
