@@ -1,70 +1,231 @@
 ---
 http_interactions:
-- request:
-    method: post
-    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ServiceManagementServicePortImpl
-    body:
-      encoding: UTF-8
-      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionDefinitionNames
-        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
-        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:optionGuids
-        xsi:nil="true"/></ns2:GetServiceOptionDefinitionNames><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    headers:
-      User-Agent:
-      - Faraday v0.8.11
-      Content-Type:
-      - text/xml
-  response:
-    status:
-      code: 200
-      message: 
-    headers:
-      strict-transport-security:
-      - max-age=31536000
-      date:
-      - Thu, 16 Feb 2017 17:01:18 GMT
-      accept:
-      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
-      soapaction:
-      - '""'
-      content-type:
-      - text/xml; charset=UTF-8
-      content-length:
-      - '3574'
-      server:
-      - Jetty(9.2.z-SNAPSHOT)
-      connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns3:GetServiceOptionDefinitionNamesResponse
-        xmlns:ns2="http://echo.nasa.gov/echo/v10/types" xmlns:ns3="http://echo.nasa.gov/echo/v10"
-        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns3:result><ns2:Item><ns2:Name>Sem</ns2:Name><ns2:Guid>10DC6461-FCD2-E167-BF08-1F75C7D63274</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Mollis
-        Cursus Ullamcorper Ornare</ns2:Name><ns2:Guid>2A306BA5-ABFE-B7B0-8AC0-813F0229F5F7</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Sollicitudin
-        Tortor Consectetur</ns2:Name><ns2:Guid>8B623CCD-C7E5-9086-80AA-3433BB31C528</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Risus
-        Malesuada Sit</ns2:Name><ns2:Guid>EF9E9B03-0ED5-1D2C-ACC8-FA2489DDD0B8</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Ipsum
-        Vulputate Tellus Fusce</ns2:Name><ns2:Guid>178A2F9C-C5DC-387F-46CF-8B79F27258EC</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Sit
-        Purus Fusce</ns2:Name><ns2:Guid>A2DC0EA0-8088-DE49-F418-B790773F087F</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Fusce
-        Magna Lorem</ns2:Name><ns2:Guid>10C431C9-ED88-2105-2364-E59343DB2344</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Pellentesque
-        Ullamcorper Egestas</ns2:Name><ns2:Guid>B3FE3D91-1F38-5614-A04A-4724BCE0B91D</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Pellentesque
-        Mollis Quam Vehicula Ligula</ns2:Name><ns2:Guid>C5BBA232-A779-296A-6921-1F1B5287EFFC</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Ornare
-        Cursus Venenatissss</ns2:Name><ns2:Guid>A5E5598B-76A6-1A7C-B4CB-F01268A819A8</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Nullam
-        Bibendum Tortor Cras</ns2:Name><ns2:Guid>49760922-5767-5280-D0F0-9E897F353D0C</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Tortor
-        Parturient Fusce</ns2:Name><ns2:Guid>4ACBFCF2-87B1-2A1A-6ED7-6B8F1AE3BF5A</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Dolor
-        Tortor Elit Commodo Vehicula</ns2:Name><ns2:Guid>BF40578F-8B27-648F-7D9A-F14D64CA2ED8</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Vestibulum
-        Ridiculus</ns2:Name><ns2:Guid>A700514B-9AB7-EA4A-3971-277F3891C3D4</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Inceptos
-        Fermentum Nullam</ns2:Name><ns2:Guid>756A3241-39BB-93A1-6EE2-3FB675CD528E</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Tristique
-        Mattis Ornare Dapibus Ligula</ns2:Name><ns2:Guid>84E0DBC0-5A45-E766-40D7-5EFE61CDF2E1</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Praesent
-        commodo cursus magna, vel scelerisque nisl consectetur et</ns2:Name><ns2:Guid>1B16E888-2A28-78A3-971D-6B5E13AEF3F3</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Mollis
-        Vehicula</ns2:Name><ns2:Guid>3ACB563E-B982-7005-DECE-26A967E463FA</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Mollis
-        VehiculaMalesuada Tellus Egestas Ridiculus</ns2:Name><ns2:Guid>7B06B36E-723D-4C12-BF01-D31C44FFB459</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Ligula
-        Vulputate</ns2:Name><ns2:Guid>7D16785B-72AF-2660-810E-EB81AE6455F3</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Inceptos
-        Nibh Sem</ns2:Name><ns2:Guid>3CC2C209-1D0D-4A18-679B-D94F2D741789</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Tristique
-        Vulputate Sem Magna</ns2:Name><ns2:Guid>11CF8CC1-6B2F-CE7E-28E2-D95F7BCBB7BC</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Inceptos
-        Mattis Quam Sollicitudin</ns2:Name><ns2:Guid>937F9783-4904-B895-FEA6-E9279F39AEB4</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Bibendum
-        Mollis Lorem Elit Condimentum</ns2:Name><ns2:Guid>35FB523D-EE0A-E32A-733E-F2DA6ED49107</ns2:Guid></ns2:Item><ns2:Item><ns2:Name>Fusce
-        Tortor Magna Porta</ns2:Name><ns2:Guid>E06772E3-2019-406F-0A7C-830DC174C15D</ns2:Guid></ns2:Item></ns3:result></ns3:GetServiceOptionDefinitionNamesResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    http_version: 
-  recorded_at: Thu, 16 Feb 2017 17:01:25 GMT
-recorded_with: VCR 3.0.1
+  - request:
+      method: get
+      uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Client-Id:
+          - MMT
+        Accept:
+          - application/json; charset=utf-8
+        Authorization:
+          - access_token
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        content-length:
+          - '30'
+        connection:
+          - keep-alive
+        date:
+          - Wed, 12 Oct 2022 20:25:18 GMT
+        cmr-request-id:
+          - ea4f175e-f99a-414a-91b8-a81f8cb2f8f3
+        x-request-id:
+          - I3dUCqy-dKXZbUtegYKK82Qq6VK6oP3Lr3n_-JKsJTCPfBuguK-oLw==
+        vary:
+          - Accept-Encoding, User-Agent
+        server:
+          - ServerTokens ProductOnly
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Miss from cloudfront
+        via:
+          - 1.1 c620e5f042fe306b2cbec99aa10cb456.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - IAH50-C1
+        x-amz-cf-id:
+          - I3dUCqy-dKXZbUtegYKK82Qq6VK6oP3Lr3n_-JKsJTCPfBuguK-oLw==
+      body:
+        encoding: UTF-8
+        string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+    recorded_at: Wed, 12 Oct 2022 20:25:19 GMT
+  - request:
+      method: get
+      uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=OPTION_ASSIGNMENT&user_id=testuser
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Client-Id:
+          - MMT
+        Accept:
+          - application/json; charset=utf-8
+        Authorization:
+          - access_token
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        content-length:
+          - '32'
+        connection:
+          - keep-alive
+        date:
+          - Wed, 12 Oct 2022 20:25:19 GMT
+        cmr-request-id:
+          - 8f6bff1a-326e-47af-90b3-b1c705aec978
+        x-request-id:
+          - h6Y3YGPcoEFNWE5SjbIpi8s0yTeEmKXrWKUiWjscFBROsbMxnzKMyg==
+        vary:
+          - Accept-Encoding, User-Agent
+        server:
+          - ServerTokens ProductOnly
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Miss from cloudfront
+        via:
+          - 1.1 6bc9f5a524cd42997b988e13bf451cd8.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - IAH50-C1
+        x-amz-cf-id:
+          - h6Y3YGPcoEFNWE5SjbIpi8s0yTeEmKXrWKUiWjscFBROsbMxnzKMyg==
+      body:
+        encoding: UTF-8
+        string: '{"OPTION_ASSIGNMENT":["create"]}'
+    recorded_at: Wed, 12 Oct 2022 20:25:20 GMT
+  - request:
+      method: post
+      uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ServiceManagementServicePortImpl
+      body:
+        encoding: UTF-8
+        string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionDefinitionNames
+          xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+          xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:optionGuids
+          xsi:nil="true"/></ns2:GetServiceOptionDefinitionNames><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Content-Type:
+          - text/xml
+    response:
+      status:
+        code: 500
+        message: Server Error
+      headers:
+        content-type:
+          - text/xml;charset=utf-8
+        content-length:
+          - '938'
+        connection:
+          - keep-alive
+        date:
+          - Wed, 12 Oct 2022 20:27:51 GMT
+        accept:
+          - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        soapaction:
+          - '""'
+        server:
+          - ServerTokens ProductOnly
+        x-request-id:
+          - UhVw0R0Ot0xYjNx9h6r3D39_F26dw1laYSrCfZ1f_Y7qRNGFr424LQ==
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Error from cloudfront
+        via:
+          - 1.1 c8fc06f86464f0d2b6c79379eb99a0d4.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - DFW55-C2
+        x-amz-cf-id:
+          - UhVw0R0Ot0xYjNx9h6r3D39_F26dw1laYSrCfZ1f_Y7qRNGFr424LQ==
+      body:
+        encoding: UTF-8
+        string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Client</faultcode><faultstring>Token
+          [access_XXX] does not exist</faultstring><detail><ns4:ItemNotFoundFault xmlns:ns2="http://echo.nasa.gov/echo/v10"
+          xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns4:ErrorCode>TokenNotFound</ns4:ErrorCode><ns4:OpsMessage
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><ns4:SystemMessage>Token
+          [access_XXX] does not exist</ns4:SystemMessage><ns4:Timestamp>2022-10-12T20:27:51.553Z</ns4:Timestamp><ns4:ErrorInstanceId>9BDFBE5A-6B1D-E16E-5E20-3A98AADBF14B</ns4:ErrorInstanceId><ns4:Arguments><ns4:Argument><ns4:Name>Token</ns4:Name><ns4:Value>access_token</ns4:Value></ns4:Argument></ns4:Arguments></ns4:ItemNotFoundFault></detail></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    recorded_at: Wed, 12 Oct 2022 20:27:52 GMT
+  - request:
+      method: post
+      uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ProviderServicePortImpl
+      body:
+        encoding: UTF-8
+        string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetProviderNames
+          xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+          xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:guids
+          xsi:nil="true"/></ns2:GetProviderNames><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Content-Type:
+          - text/xml
+    response:
+      status:
+        code: 500
+        message: Server Error
+      headers:
+        content-type:
+          - text/xml;charset=utf-8
+        content-length:
+          - '938'
+        connection:
+          - keep-alive
+        date:
+          - Fri, 14 Oct 2022 10:29:36 GMT
+        accept:
+          - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        soapaction:
+          - '""'
+        server:
+          - ServerTokens ProductOnly
+        x-request-id:
+          - DGqlXa_2YdHXmowtxh4RNdyk9lvjL5cT68GWZ47FsGpN3ye0A0A8Yw==
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Error from cloudfront
+        via:
+          - 1.1 798fb06c416f07d7eaba25e2728dc5ac.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - IAD79-C3
+        x-amz-cf-id:
+          - DGqlXa_2YdHXmowtxh4RNdyk9lvjL5cT68GWZ47FsGpN3ye0A0A8Yw==
+      body:
+        encoding: UTF-8
+        string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Client</faultcode><faultstring>Token
+          [access_XXX] does not exist</faultstring><detail><ns4:ItemNotFoundFault xmlns:ns2="http://echo.nasa.gov/echo/v10"
+          xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns4:ErrorCode>TokenNotFound</ns4:ErrorCode><ns4:OpsMessage
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><ns4:SystemMessage>Token
+          [access_XXX] does not exist</ns4:SystemMessage><ns4:Timestamp>2022-10-14T10:29:36.649Z</ns4:Timestamp><ns4:ErrorInstanceId>227F1575-E778-5169-F7AA-5C588CB72E04</ns4:ErrorInstanceId><ns4:Arguments><ns4:Argument><ns4:Name>Token</ns4:Name><ns4:Value>access_token</ns4:Value></ns4:Argument></ns4:Arguments></ns4:ItemNotFoundFault></detail></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    recorded_at: Fri, 14 Oct 2022 10:29:38 GMT
+recorded_with: VCR 6.1.0

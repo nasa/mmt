@@ -53,7 +53,7 @@ module Helpers
       Faker::Lorem.sentence
     end
 
-    def add_group_permissions(permission_params, token = 'access_token')
+    def add_group_permissions(permission_params, token='access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_group_permissions' do
         permission_response = cmr_client.add_group_permissions(permission_params, token)
 
@@ -65,7 +65,7 @@ module Helpers
       end
     end
 
-    def add_permissions_to_group(group_id, permissions, target, provider_id)
+    def add_permissions_to_group(group_id, permissions, target, provider_id, token = 'access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
         permission_params = {
           group_permissions: [{
@@ -78,11 +78,11 @@ module Helpers
           }
         }
 
-        add_group_permissions(permission_params)
+        add_group_permissions(permission_params, token)
       end
     end
 
-    def add_associated_permissions_to_group(group_id: 'AG1200000001-CMR', name: 'Test Permission', provider_id: 'MMT_2', permissions: ['read'])
+    def add_associated_permissions_to_group(group_id: 'AG1200000001-CMR', name: 'Test Permission', provider_id: 'MMT_2', permissions: ['read'], token: 'access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
         permission_params = {
           group_permissions: [
@@ -99,13 +99,14 @@ module Helpers
           }
         }
 
-        add_group_permissions(permission_params)
+        add_group_permissions(permission_params, token)
       end
     end
 
     def remove_group_permissions(concept_id)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#remove_group_permissions' do
-        acl_response = cmr_client.delete_permission(concept_id, 'access_token_admin')
+        token = @token? @token : 'access_token_admin'
+        acl_response = cmr_client.delete_permission(concept_id, token)
 
         raise Array.wrap(acl_response.body['errors']).join(' /// ') if acl_response.body.key?('errors')
 
