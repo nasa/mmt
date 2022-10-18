@@ -6,7 +6,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
   before do
     service_entries_by_provider_response = Echo::Response.new(Faraday::Response.new(status: 200, body: File.read('spec/fixtures/service_management/service_entries_by_provider.xml')))
     allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_entries_by_provider).and_return(service_entries_by_provider_response)
-    @token = 'Generate a JWT token'
+    @token = 'jwt_access_token'
     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     allow_any_instance_of(ServiceOptionAssignmentPolicy).to receive(:create?).and_return(true)
 
@@ -41,6 +41,8 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
     login
+
+    allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
   end
 
   context 'when the user does not have the required permissions' do
@@ -80,7 +82,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           @service_option_assignment_group = create_group(name: "Service_Option_Association_Group_for_Permissions_Create_#{SecureRandom.uuid.gsub('-', '')}", members: ['testuser'])
         end
-        @token = 'Generate a JWT token from sit.urs.earthdata.nasa.gov'
+        @token = 'jwt_access_token'
 
         # give the group permission to create
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do

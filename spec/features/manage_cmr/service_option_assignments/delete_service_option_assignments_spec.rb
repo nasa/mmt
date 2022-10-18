@@ -1,6 +1,6 @@
 describe 'Deleting a Service Option Assignment', reset_provider: true, js: true do
   before :all do
-    @token = 'Generate a JWT token from sit.urs.earthdata.nasa.gov'
+    @token = 'jwt_access_token'
     # create a group
     VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       @service_option_assignment_group = create_group(name: "Service_Option_Association_Group_for_Permissions_Delete_#{SecureRandom.uuid.gsub('-', '')}", members: ['testuser'])
@@ -12,7 +12,7 @@ describe 'Deleting a Service Option Assignment', reset_provider: true, js: true 
   end
 
   after :all do
-    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       remove_group_permissions(@delete_permissions['concept_id'])
       delete_group(concept_id: @service_option_assignment_group['group_id'])
     end
@@ -22,13 +22,16 @@ describe 'Deleting a Service Option Assignment', reset_provider: true, js: true 
     VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       service_entries_by_provider_response = Echo::Response.new(Faraday::Response.new(status: 200, body: File.read('spec/fixtures/service_management/service_entries_by_provider.xml')))
       allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_entries_by_provider).and_return(service_entries_by_provider_response)
-      @token = 'Generate a JWT token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
 
       collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
       login
+
+      # needs to be after login because login makes a mock call which sets the token as access_token
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+
       visit service_option_assignments_path
       wait_for_jQuery(10)
 
