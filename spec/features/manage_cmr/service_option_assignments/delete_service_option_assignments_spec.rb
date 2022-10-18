@@ -1,25 +1,25 @@
 describe 'Deleting a Service Option Assignment', reset_provider: true, js: true do
   before :all do
-    @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzEyMDM2MTQsImlhdCI6MTY2NjAxOTYxNCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.1IQK5HoRq_f-kEt9KQifJgRCOIw2MqeZ8xLny2LOLWpuTs7Kl6iJ3Ub1UO19IqNoUSmujwmvBTkypZJRJbEyBW6VyVr47hZhNMLC3ksuyiOQEmUK5jXgmzZTslsKzMNYICVFaP7xn4q6mtgkQDtv_E1MRwq-2Jp1y4N3ox_PeOWE2zA_JDWIZN40aM_oZIokQoV3VkQYor4ErGwTm_1vpGq0GApeGnc448_quXn1-jU348AK2WCLBgUeMKANQxPZZt-bxq0_wZyW0NFBos6CqSaobsvQZ1Sbk2sbKCPxNbGUSfmqYVeg0gN19hI-Lqg2_XuCFiNgcdQd9yrxWnl3uw'
+    @token = 'jwt_access_token'
     # create a group
-    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       @service_option_assignment_group = create_group(name: "Service_Option_Association_Group_for_Permissions_Delete_#{SecureRandom.uuid.gsub('-', '')}", members: ['testuser'])
     end
     # give the group permission to delete
-    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       @delete_permissions = add_permissions_to_group(@service_option_assignment_group['group_id'], 'delete', 'OPTION_ASSIGNMENT', 'MMT_2', @token)
     end
   end
 
   after :all do
-    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       remove_group_permissions(@delete_permissions['concept_id'])
       delete_group(concept_id: @service_option_assignment_group['group_id'])
     end
   end
 
   before do
-    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       service_entries_by_provider_response = Echo::Response.new(Faraday::Response.new(status: 200, body: File.read('spec/fixtures/service_management/service_entries_by_provider.xml')))
       allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_entries_by_provider).and_return(service_entries_by_provider_response)
 
@@ -29,7 +29,7 @@ describe 'Deleting a Service Option Assignment', reset_provider: true, js: true 
       login
 
       # needs to be after login because login makes a mock call which sets the token as access_token
-      @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzEyMDM2MTQsImlhdCI6MTY2NjAxOTYxNCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.1IQK5HoRq_f-kEt9KQifJgRCOIw2MqeZ8xLny2LOLWpuTs7Kl6iJ3Ub1UO19IqNoUSmujwmvBTkypZJRJbEyBW6VyVr47hZhNMLC3ksuyiOQEmUK5jXgmzZTslsKzMNYICVFaP7xn4q6mtgkQDtv_E1MRwq-2Jp1y4N3ox_PeOWE2zA_JDWIZN40aM_oZIokQoV3VkQYor4ErGwTm_1vpGq0GApeGnc448_quXn1-jU348AK2WCLBgUeMKANQxPZZt-bxq0_wZyW0NFBos6CqSaobsvQZ1Sbk2sbKCPxNbGUSfmqYVeg0gN19hI-Lqg2_XuCFiNgcdQd9yrxWnl3uw'
+      @token = 'jwt_access_token'
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
 
       visit service_option_assignments_path
@@ -48,7 +48,7 @@ describe 'Deleting a Service Option Assignment', reset_provider: true, js: true 
         find('.add_button').click
       end
     end
-    VCR.use_cassette('echo_soap/service_management_service/service_option_assignments/list', record: :new_episodes) do
+    VCR.use_cassette('echo_soap/service_management_service/service_option_assignments/list', record: :none) do
       click_on 'Display Assignments'
     end
   end
@@ -69,7 +69,7 @@ describe 'Deleting a Service Option Assignment', reset_provider: true, js: true 
   context 'when authorized to delete service entries' do
     context 'when clicking delete with assignments selected' do
       before do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
 
           within '#service-option-assignments' do
             first("td input[type='checkbox']").set(true)
@@ -94,7 +94,7 @@ describe 'Deleting a Service Option Assignment', reset_provider: true, js: true 
 
       context 'when accepting the confirmation dialog' do
         before do
-          VCR.use_cassette('echo_soap/service_management_service/service_option_assignments/delete', record: :new_episodes) do
+          VCR.use_cassette('echo_soap/service_management_service/service_option_assignments/delete', record: :none) do
             click_on 'Yes'
           end
         end
