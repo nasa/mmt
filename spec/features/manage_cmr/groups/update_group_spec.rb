@@ -2,7 +2,7 @@ require "rspec/mocks/standalone"
 describe 'Updating groups', reset_provider: true, js: true do
   before do
     Rails.cache.clear
-    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('access_token
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('jwt_access_token')
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
     # VCR.use_cassette('edl', record: :new_episodes) do
       @group = create_group(name:'')
