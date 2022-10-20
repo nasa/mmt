@@ -45,7 +45,7 @@ module Cmr
     # Token "ABC-1" is created on local cmr start up for Admin user
     # Token "ABC-2" is created on local cmr start up for Typical user
     def token_header(token, use_real = false)
-      if (Rails.env.development? || Rails.env.test?) && !use_real
+      if Rails.env.development? || (Rails.env.test? && token.length < 50 && token != 'jwt_access_token')
         mock_token = 'ABC-2'
 
         mock_token = 'ABC-1' if token == 'access_token_admin'

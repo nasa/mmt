@@ -43,10 +43,8 @@ module Helpers
 
     # Need to change from random_group_name to just "group_name"
     def random_group_name
-      return '58732ce0dddssssjkjjaasa72ddd331eadycb9b6663ddddddddsdddddff3xx24dd6666dee'
-      # hex = SecureRandom.hex(10)
-      # puts("hex=#{hex}")
-      # hex
+      hex = SecureRandom.hex(10).gsub('-', '')
+      hex
     end
 
     def random_group_description
@@ -56,7 +54,6 @@ module Helpers
     def add_group_permissions(permission_params, token = 'access_token')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_group_permissions' do
         permission_response = cmr_client.add_group_permissions(permission_params, token)
-
         raise Array.wrap(permission_response.body['errors']).join(' /// ') if permission_response.body.key?('errors')
 
         wait_for_cmr
@@ -103,9 +100,9 @@ module Helpers
       end
     end
 
-    def remove_group_permissions(concept_id)
+    def remove_group_permissions(concept_id, token = 'access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#remove_group_permissions' do
-        acl_response = cmr_client.delete_permission(concept_id, 'access_token_admin')
+        acl_response = cmr_client.delete_permission(concept_id, token)
 
         raise Array.wrap(acl_response.body['errors']).join(' /// ') if acl_response.body.key?('errors')
 
