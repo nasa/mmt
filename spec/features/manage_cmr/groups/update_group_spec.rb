@@ -2,7 +2,7 @@ require "rspec/mocks/standalone"
 describe 'Updating groups', reset_provider: true, js: true do
   before do
     Rails.cache.clear
-    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2NzUwMzEwMywiaWF0IjoxNjY2MjA3MTAzLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.GE1vKsGx4OtE5KdHu5Sc9wBIdLMiJMeXrPEsZ-FVEfcCdQyuhP9_4uZxJz267a2p4734NFsR3OeSflUkRtD9xamdCBNl5bcQFWLA0An8saccVuEv63jdnVl6F5xr5TGlcM1wpu_adNhCJTR5bvmgUiztbaWz3Zpact62ktJJT2m6WkttdMYH_Y1X3h63blhL-lVrl_fre4VzMEnB8vZdNvwwFiiVV2JW65HPjbM0C3nOqtgZGOkA8M4CeRcXyguO7ULJHaqwKBjNUPvHtGXDP8gD0X2ucgGFUEkxskX6BLTGepUlcUMxsou8qERo5JRlqJXPXwTGZfhEiDkntVX_kQ')
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('access_token
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
     # VCR.use_cassette('edl', record: :new_episodes) do
       @group = create_group(name:'')
