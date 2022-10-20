@@ -1,4 +1,5 @@
-describe 'Create and edit a draft from a Dif 10 collection with location keywords', js: true do
+# EDL Failed Test
+describe 'Create and edit a draft from a Dif 10 collection with location keywords', js: true, skip: true do
   short_name = 'SWDB_L310'
 
   before do

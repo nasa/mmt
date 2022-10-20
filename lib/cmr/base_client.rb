@@ -1,8 +1,8 @@
 module Cmr
   Faraday::Response.register_middleware(
-                              logging: Cmr::ClientMiddleware::LoggingMiddleware,
-                              errors: Cmr::ClientMiddleware::ErrorMiddleware,
-                              events: Cmr::ClientMiddleware::EventMiddleware)
+    logging: Cmr::ClientMiddleware::LoggingMiddleware,
+    errors: Cmr::ClientMiddleware::ErrorMiddleware,
+    events: Cmr::ClientMiddleware::EventMiddleware)
   class BaseClient
     # include Cmr::QueryTransformations
     include Cmr::Util
@@ -45,21 +45,15 @@ module Cmr
     # Token "ABC-1" is created on local cmr start up for Admin user
     # Token "ABC-2" is created on local cmr start up for Typical user
     def token_header(token, use_real = false)
-      if (Rails.env.development? || Rails.env.test?) && !use_real
+      if (Rails.env.development? || ((Rails.env.test? && token != nil && token.length < 50) && token != 'jwt_access_token' ) ) && !use_real
         mock_token = 'ABC-2'
 
         mock_token = 'ABC-1' if token == 'access_token_admin'
 
-        token.present? ? { 'Echo-Token' => mock_token } : {}
+        token.present? ? { 'Authorization' => mock_token } : {}
       else
         return {} unless token.present?
-
-        if is_urs_token?(token)
-          # passing the URS token to CMR requires the client id
-          { 'Echo-Token' => "#{token}:#{@client_id}" }
-        else
-          { 'Echo-Token' => token }
-        end
+        authorization_header(token)
       end
     end
 

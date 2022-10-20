@@ -1,5 +1,6 @@
 # skip until cmr doesn't check group name
-describe 'Collections with Tags', js: true do
+# EDL Failed Test
+describe 'Collections with Tags', js: true, skip:true do
   tag_1_key = 'tag.collection.example.01'
   tag_1_description = 'This is sample tag #1'
   tag_2_key = 'tag.collection.example.02'

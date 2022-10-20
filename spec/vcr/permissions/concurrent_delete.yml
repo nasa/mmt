@@ -13,7 +13,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json; charset=utf-8
-      Echo-Token:
+      Authorization:
       - ABC-1
   response:
     status:
@@ -50,7 +50,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json; charset=utf-8
-      Echo-Token:
+      Authorization:
       - ABC-1
   response:
     status:
@@ -85,7 +85,7 @@ http_interactions:
       - Faraday v0.8.11
       Client-Id:
       - MMT
-      Echo-Token:
+      Authorization:
       - ABC-1
   response:
     status:
@@ -137,7 +137,7 @@ http_interactions:
       - MMT
       Cmr-Revision-Id:
       - '2'
-      Echo-Token:
+      Authorization:
       - ABC-1
   response:
     status:
@@ -174,7 +174,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json; charset=utf-8
-      Echo-Token:
+      Authorization:
       - ABC-1
   response:
     status:
@@ -211,7 +211,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json; charset=utf-8
-      Echo-Token:
+      Authorization:
       - ABC-1
   response:
     status:
@@ -246,7 +246,7 @@ http_interactions:
       - Faraday v0.8.11
       Client-Id:
       - MMT
-      Echo-Token:
+      Authorization:
       - ABC-1
   response:
     status:

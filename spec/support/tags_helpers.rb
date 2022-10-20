@@ -1,6 +1,6 @@
 module Helpers
   module TagsHelpers
-    def setup_tag_permissions(group_concept_id)
+    def setup_tag_permissions(group_concept_id, token='access_token_admin')
       # this method is necessary because the local cmr system token is not
       # automatically provided the system Tags ACL
       # this can be removed with MMT-2360 after CMR-6654 is worked
@@ -15,7 +15,7 @@ module Helpers
         }
       }
 
-      response = add_group_permissions(permission_params, 'access_token_admin')
+      response = add_group_permissions(permission_params, token)
 
       reindex_permitted_groups
       wait_for_cmr

@@ -175,13 +175,13 @@ module Helpers
       allow_any_instance_of(ApplicationController).to receive(:server_session_expires_in).and_return(-5)
     end
 
-    def add_provider_context_permission(provider_ids)
+    def add_provider_context_permission(provider_ids, token='access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#add_provider_context_permission' do
 
-        sys_admin_group_concept = group_concept_from_name('Administrators_2', 'access_token_admin')
+        sys_admin_group_concept = group_concept_from_name('Administrators_2', token)
 
         Array.wrap(provider_ids).each do |provider_id|
-          provider_group_concept = group_concept_from_name("#{provider_id} Admin Group", 'access_token_admin')
+          provider_group_concept = group_concept_from_name("#{provider_id} Admin Group", token)
 
           permission_params = {
             group_permissions: [{
@@ -197,32 +197,32 @@ module Helpers
             }
           }
 
-          add_group_permissions(permission_params, 'access_token_admin')
+          add_group_permissions(permission_params, token)
         end
 
         wait_for_cmr
       end
     end
 
-    def delete_provider_context_permission(provider_id)
+    def delete_provider_context_permission(provider_id, token='access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#delete_provider_context_permission' do
-        permission = provider_context_permission_for_provider(provider_id)
+        permission = provider_context_permission_for_provider(provider_id, token)
 
-        remove_group_permissions(permission['concept_id']) if permission
+        remove_group_permissions(permission['concept_id'], token) if permission
 
         wait_for_cmr
       end
     end
 
-    def clear_provider_context_permissions
-      ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#clear_provider_context_permissions' do
-        provider_context_permissions.fetch('items', []).each do |permission|
-          remove_group_permissions(permission['concept_id'])
-        end
-      end
+    def clear_provider_context_permissions(token='access_token_admin')
+      # ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#clear_provider_context_permissions' do
+      #   provider_context_permissions(token).fetch('items', []).each do |permission|
+      #     remove_group_permissions(permission['concept_id'], token)
+      #   end
+      # end
     end
 
-    def provider_context_permissions
+    def provider_context_permissions(token='access_token')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#provider_context_permissions' do
         permission_options = {
           permitted_user: 'testuser',
@@ -231,13 +231,13 @@ module Helpers
           page_size: 2000,
           page_num: 1
         }
-        cmr_client.get_permissions(permission_options, 'access_token').body
+        cmr_client.get_permissions(permission_options, token).body
       end
     end
 
-    def provider_context_permission_for_provider(provider_id)
+    def provider_context_permission_for_provider(provider_id, token='access_token')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::UserHelpers#provider_context_permission_for_provider' do
-        provider_context_permissions.fetch('items', []).each do |permission|
+        provider_context_permissions(token).fetch('items', []).each do |permission|
           return permission if permission.fetch('acl', {}).fetch('provider_identity', {})['provider_id'] == provider_id
         end
       end

@@ -60,7 +60,7 @@ http_interactions:
       - application/vnd.nasa.cmr.umm+json
       Client-Id:
       - MMT
-      Echo-Token:
+      Authorization:
       - ABC-2
   response:
     status:
@@ -98,7 +98,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json; charset=utf-8
-      Echo-Token:
+      Authorization:
       - ABC-2
   response:
     status:
@@ -133,7 +133,7 @@ http_interactions:
       - Faraday v1.0.1
       Client-Id:
       - MMT
-      Echo-Token:
+      Authorization:
       - ABC-2
   response:
     status:
@@ -179,7 +179,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json; charset=utf-8
-      Echo-Token:
+      Authorization:
       - ABC-2
   response:
     status:
@@ -216,7 +216,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json; charset=utf-8
-      Echo-Token:
+      Authorization:
       - ABC-2
   response:
     status:
@@ -253,7 +253,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json; charset=utf-8
-      Echo-Token:
+      Authorization:
       - ABC-2
   response:
     status:
@@ -290,7 +290,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json; charset=utf-8
-      Echo-Token:
+      Authorization:
       - ABC-2
   response:
     status:
@@ -325,7 +325,7 @@ http_interactions:
       - Faraday v1.0.1
       Client-Id:
       - MMT
-      Echo-Token:
+      Authorization:
       - ABC-2
   response:
     status:
@@ -371,7 +371,7 @@ http_interactions:
       - MMT
       Accept:
       - application/json; charset=utf-8
-      Echo-Token:
+      Authorization:
       - ABC-2
   response:
     status:

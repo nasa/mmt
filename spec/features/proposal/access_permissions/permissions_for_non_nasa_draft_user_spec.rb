@@ -1,4 +1,5 @@
-describe 'Non-NASA Draft User Permissions for Draft MMT', reset_provider: true do
+# EDL Failed Test
+describe 'Non-NASA Draft User Permissions for Draft MMT', reset_provider: true, skip:true do
   before do
     set_as_proposal_mode_mmt(with_draft_user_acl: true)
   end

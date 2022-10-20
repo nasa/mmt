@@ -66,6 +66,10 @@ describe 'Collection Drafts listed on the Manage Collections page', js: true do
         expect(page).to have_content('<Blank Short Name>', count: (draft_display_max_count * 2))
       end
 
+      it 'the Collection Drafts index page has links for Downloading JSON' do
+        expect(page).to have_link('Download JSON', count: (draft_display_max_count * 2))
+      end
+
       context 'when "<Blank Short Name>" is clicked on' do
         before do
           click_on '<Blank Short Name>', match: :first
