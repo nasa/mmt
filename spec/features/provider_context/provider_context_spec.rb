@@ -116,7 +116,7 @@ describe 'Provider context', reset_provider: true, js:true do
           @token = 'jwt_access_token'
           allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
           allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('edl_client_token')
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
             visit permissions_path
             click_on 'Create a Permission'
           end
@@ -190,7 +190,7 @@ describe 'Provider context', reset_provider: true, js:true do
     before do
       login(provider:nil, providers: %w(MMT_1 MMT_2))
       visit '/'
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         select 'MMT_2', from: 'select_provider'
       end
       wait_for_jQuery
@@ -198,7 +198,7 @@ describe 'Provider context', reset_provider: true, js:true do
     end
 
     before :all do
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         # add_provider_context_permission(%w(MMT_1 MMT_2 NSIDC_ECS))
       end
     end
