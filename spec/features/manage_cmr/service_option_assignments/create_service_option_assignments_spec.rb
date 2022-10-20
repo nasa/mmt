@@ -1,6 +1,5 @@
 require 'rails_helper'
-# EDL Failed Test
-describe 'Creating a Service Option Assignment', reset_provider: true, js: true, skip:true do
+describe 'Creating a Service Option Assignment', reset_provider: true, js: true do
   let(:timeout_error_html_body) { File.read(File.join(Rails.root, 'spec', 'fixtures', 'service_management', 'timeout.html')) }
 
   before do
