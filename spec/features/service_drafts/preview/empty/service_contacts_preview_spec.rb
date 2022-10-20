@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'Empty Service Draft Service Contacts Preview', skip:true do
+describe 'Empty Service Draft Service Contacts Preview' do
   let(:service_draft) { create(:empty_service_draft, user: User.where(urs_uid: 'testuser').first) }
 
   before do

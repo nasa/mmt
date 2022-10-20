@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'Reverting to previous collections', js: true, skip:true do
+describe 'Reverting to previous collections', js: true do
   before do
     login
   end

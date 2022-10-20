@@ -2,8 +2,7 @@
 
 require 'rails_helper'
 
-# EDL Failed Test
-describe 'Draft deletion', js: true, skip:true do
+describe 'Draft deletion', js: true do
   before do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)

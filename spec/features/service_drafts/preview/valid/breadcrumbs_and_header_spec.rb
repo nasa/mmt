@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'Valid Service Drafts breadcrumbs and header', skip:true do
+describe 'Valid Service Drafts breadcrumbs and header' do
   let(:service_draft) { create(:full_service_draft, user: User.where(urs_uid: 'testuser').first) }
   let(:draft) { service_draft.draft }
 

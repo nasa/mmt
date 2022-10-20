@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'Valid Service Service Constraints Preview', skip:true do
+describe 'Valid Service Service Constraints Preview' do
   before do
     login
     ingest_response, @concept_response = publish_service_draft

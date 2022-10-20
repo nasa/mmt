@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'Downloading Tool JSON', reset_provider: true, js: true, skip:true do
+describe 'Downloading Tool JSON', reset_provider: true, js: true do
   before :all do
     @ingest_response, _concept_response, @native_id = publish_tool_draft
   end

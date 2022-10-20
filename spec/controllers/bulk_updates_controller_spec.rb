@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe BulkUpdatesController, reset_provider: true, skip:true do
+describe BulkUpdatesController, reset_provider: true do
   before do
     set_as_mmt_proper
   end

@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'Valid Variable Draft Measurement Identifiers Preview', skip:true do
+describe 'Valid Variable Draft Measurement Identifiers Preview' do
   let(:variable_draft) { create(:full_variable_draft, user: User.where(urs_uid: 'testuser').first) }
 
   before do

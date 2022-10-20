@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'Empty Variable Draft Fill Value Preview', skip:true do
+describe 'Empty Variable Draft Fill Value Preview' do
   let(:variable_draft) { create(:empty_variable_draft, user: User.where(urs_uid: 'testuser').first) }
 
   before do

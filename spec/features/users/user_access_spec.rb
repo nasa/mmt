@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'User Access', skip:true do
+describe 'User Access' do
   context 'when proposal mode is turned off' do
     before do
       set_as_mmt_proper
