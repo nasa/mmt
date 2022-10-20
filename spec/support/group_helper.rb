@@ -1,6 +1,10 @@
 module Helpers
   # :nodoc:
   module GroupHelper
+    def uuid
+      return SecureRandom.uuid.gsub('-','')
+    end
+
     def create_group(provider_id: 'MMT_2', name: random_group_name, description: random_group_description, members: [], admin: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#create_group' do
         group_params = {
@@ -43,10 +47,7 @@ module Helpers
 
     # Need to change from random_group_name to just "group_name"
     def random_group_name
-      return '58732ce0dddssssjkjjaasa72ddd331eadycb9b6663ddddddddsdddddff3xx24dd6666dee'
-      # hex = SecureRandom.hex(10)
-      # puts("hex=#{hex}")
-      # hex
+      SecureRandom.hex(10).gsub('-','')
     end
 
     def random_group_description
@@ -103,9 +104,8 @@ module Helpers
       end
     end
 
-    def remove_group_permissions(concept_id)
+    def remove_group_permissions(concept_id, token='access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#remove_group_permissions' do
-        token = @token? @token : 'access_token_admin'
         acl_response = cmr_client.delete_permission(concept_id, token)
 
         raise Array.wrap(acl_response.body['errors']).join(' /// ') if acl_response.body.key?('errors')

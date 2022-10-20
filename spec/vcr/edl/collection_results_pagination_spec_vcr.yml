@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '30'
+      connection:
+      - keep-alive
+      date:
+      - Thu, 13 Oct 2022 20:13:56 GMT
+      cmr-request-id:
+      - a7c56797-1647-461f-bcb9-e181176a8ab6
+      x-request-id:
+      - 3UIKQk_e6XPZhmXMwv3Rb9g_qEgLMuh81SiCUTur1acjGGot7pseoQ==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 d46ce076a982464ef839aecddf72a812.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAH50-C1
+      x-amz-cf-id:
+      - 3UIKQk_e6XPZhmXMwv3Rb9g_qEgLMuh81SiCUTur1acjGGot7pseoQ==
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+  recorded_at: Thu, 13 Oct 2022 20:13:56 GMT
+recorded_with: VCR 6.1.0

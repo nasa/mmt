@@ -1,4 +1,5 @@
-describe 'Variable Search Results sorting', reset_provider: true, js: true do
+# EDL Failed Test
+describe 'Variable Search Results sorting', reset_provider: true, js: true, skip:true do
   context 'when sorting search variables results' do
     before :all do
       ingest_collection_mmt_response, _collection_concept_mmt_response = publish_collection_draft

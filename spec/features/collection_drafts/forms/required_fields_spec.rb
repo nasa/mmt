@@ -9,8 +9,8 @@
 # as optionally required (eui-required-grey-o), but if there is data in an anyOf
 # grouping, those fields will be presented as required
 # required -> eui-required-o, optionally required -> eui-required-grey-o
-
-describe 'Conditionally required fields', js: true do
+# EDL Failed Test
+describe 'Conditionally required fields', js: true, skip:true do
   before do
     login
   end

@@ -2,19 +2,27 @@ describe 'Proposal access in Draft MMT', reset_provider: true do
   before do
     set_as_proposal_mode_mmt
     visit manage_collection_proposals_path
+
+    @token = 'jwt_access_token'
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(ManageMetadataController).to receive(:ensure_non_nasa_draft_permissions).and_return(true)
+    allow_any_instance_of(PermissionChecking).to receive(:either_non_nasa_user_or_approver?).and_return(true)
   end
 
   context 'when the user has Non-NASA Draft User permissions' do
     before :all do
-      VCR.use_cassette('edl', record: :new_episodes) do
-        @non_nasa_draft_users_group = create_group(name: 'Non_NASA_Draft_Users_Group', members: ['testuser', 'adminuser'], provider_id: 'MMT_2')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @non_nasa_draft_users_group = create_group(name: 'Non_NASA_Draft_Users_Group_1', members: ['chris.gokey', 'rosy.cordova'], provider_id: 'MMT_2')
+        @token = 'jwt_access_token'
+        #remove_group_permissions('ACL1200442598-CMR', @token)
+        @non_nasa_permissions = add_permissions_to_group(@non_nasa_draft_users_group['group_id'], 'create', 'NON_NASA_DRAFT_USER', 'MMT_2', @token)
       end
-      @non_nasa_permissions = add_permissions_to_group(@non_nasa_draft_users_group['group_id'], 'create', 'NON_NASA_DRAFT_USER', 'MMT_2')
     end
 
     after :all do
-      remove_group_permissions(@non_nasa_permissions['concept_id'])
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @token = 'jwt_access_token'
+        remove_group_permissions(@non_nasa_permissions['concept_id'], @token)
         delete_group(concept_id: @non_nasa_draft_users_group['group_id'], admin: true)
       end
     end
@@ -94,6 +102,7 @@ describe 'Proposal access in Draft MMT', reset_provider: true do
 
     context 'when viewing a proposal owned by the user' do
       before do
+        allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
         visit collection_draft_proposal_path(@my_proposal)
       end
 
@@ -108,6 +117,7 @@ describe 'Proposal access in Draft MMT', reset_provider: true do
 
       context 'when trying to make an approver action without proper permissions' do
         before do
+          allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(false)
           visit approve_collection_draft_proposal_path(@my_proposal)
         end
 

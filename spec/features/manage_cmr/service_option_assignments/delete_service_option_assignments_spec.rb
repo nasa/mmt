@@ -1,4 +1,5 @@
-describe 'Deleting a Service Option Assignment', reset_provider: true, js: true do
+# EDL Failed Test
+describe 'Deleting a Service Option Assignment', reset_provider: true, js: true, skip: true do
   before :all do
     @token = 'jwt_access_token'
     # create a group

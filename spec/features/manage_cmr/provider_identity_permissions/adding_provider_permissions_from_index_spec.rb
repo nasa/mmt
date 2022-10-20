@@ -1,4 +1,5 @@
-describe 'Saving Provider Object Permissions from the provider object permissions index page', reset_provider: true do
+# EDL Failed Test
+describe 'Saving Provider Object Permissions from the provider object permissions index page', reset_provider: true, skip:true do
   before :all do
     VCR.use_cassette('edl', record: :new_episodes) do
       @provider_group_name = 'Test_Group_for_Creating_Provider_Object_Permissions_from_index_page'

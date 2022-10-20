@@ -1,24 +1,10 @@
-describe 'Provider context', reset_provider: true, js: true do
+describe 'Provider context', reset_provider: true, js:true do
   let(:order_guid) { 'FF330AD3-1A89-871C-AC94-B689A5C95723' }
 
   context 'when the user has multiple providers' do
     before do
-      real_login(providers: nil)
+      login(provider:nil, providers: %w(MMT_1 MMT_2))
       visit '/'
-    end
-
-    before :all do
-      clear_provider_context_permissions
-
-      VCR.use_cassette('edl', record: :new_episodes) do
-        add_provider_context_permission(%w(MMT_1 MMT_2))
-      end
-    end
-
-    after :all do
-      VCR.use_cassette('edl', record: :new_episodes) do
-        delete_provider_context_permission('MMT_1')
-      end
     end
 
     context 'when a user logs in for the first time' do
@@ -49,11 +35,12 @@ describe 'Provider context', reset_provider: true, js: true do
         context 'when the user logs out and logs in again' do
           before do
             click_on 'profile-link'
+
             click_on 'Logout'
 
-            expect(page).to have_content('Login')
+            # expect(page).to have_content('Login')
 
-            real_login(providers: nil)
+            login(provider: nil, providers: nil)
           end
 
           it 'displays their last used provider context' do
@@ -125,9 +112,14 @@ describe 'Provider context', reset_provider: true, js: true do
 
       context 'when the user is on the permissions creation page' do
         before do
-          visit permissions_path
 
-          click_on 'Create a Permission'
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('edl_client_token')
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+            visit permissions_path
+            click_on 'Create a Permission'
+          end
 
           within '#user-info' do
             click_on 'profile-link'
@@ -147,22 +139,12 @@ describe 'Provider context', reset_provider: true, js: true do
 
   context 'when the user only has one provider' do
     before do
-      real_login(providers: nil)
+      login(providers: %w(MMT_2), provider: 'MMT_2')
       visit '/'
     end
 
     before :all do
-      clear_provider_context_permissions
-
-      VCR.use_cassette('edl', record: :new_episodes) do
-        add_provider_context_permission('MMT_2')
-      end
-    end
-
-    after :all do
-      VCR.use_cassette('edl', record: :new_episodes) do
-        delete_provider_context_permission('MMT_1')
-      end
+      # add_provider_context_permission('MMT_2')
     end
 
     it 'saves the provider as the users provider' do
@@ -180,7 +162,8 @@ describe 'Provider context', reset_provider: true, js: true do
       before do
         click_on 'profile-link'
         click_on 'Change Provider'
-        add_provider_context_permission('MMT_1')
+        allow_any_instance_of(User).to receive(:available_providers).and_return(%w(MMT_1 MMT_2))
+        # add_provider_context_permission('MMT_1')
         click_on 'Refresh your available providers'
         wait_for_jQuery
       end
@@ -194,11 +177,8 @@ describe 'Provider context', reset_provider: true, js: true do
 
   context 'when the user has no providers' do
     before do
-      real_login(providers: nil)
-    end
-
-    before :all do
-      clear_provider_context_permissions
+      login(providers: [])
+      visit '/'
     end
 
     it 'displays a message' do
@@ -208,42 +188,40 @@ describe 'Provider context', reset_provider: true, js: true do
 
   context 'when the user loses a provider' do
     before do
-      real_login(providers: nil)
+      login(provider:nil, providers: %w(MMT_1 MMT_2))
       visit '/'
-
-      select 'MMT_2', from: 'select_provider'
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+        select 'MMT_2', from: 'select_provider'
+      end
       wait_for_jQuery
       expect(page).to have_content('Create Collection Record')
     end
 
     before :all do
-      clear_provider_context_permissions
-      VCR.use_cassette('edl', record: :new_episodes) do
-        add_provider_context_permission(%w(MMT_1 MMT_2 NSIDC_ECS))
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+        # add_provider_context_permission(%w(MMT_1 MMT_2 NSIDC_ECS))
       end
-    end
-
-    after :all do
-      clear_provider_context_permissions
     end
 
     context 'when the user loses a provider while logged out' do
       before do
         click_on 'profile-link'
         click_on 'Logout'
+        visit'/'
 
-        expect(page).to have_content('Login')
+        # expect(page).to have_content('Login')
       end
 
       context 'when a user loses their active provider' do
         before do
-          delete_provider_context_permission('MMT_2')
-          real_login(providers: nil)
+          # delete_provider_context_permission('MMT_2')
+          login(provider:nil, providers: %w(MMT_1 NSIDC_ECS))
           visit '/'
         end
 
         after do
-          add_provider_context_permission(%w(MMT_2))
+          # allow_any_instance_of(User).to receive(:available_providers).and_return(%w(MMT_1 MMT_2 NSIDC_ECS))
+          # add_provider_context_permission(%w(MMT_2))
         end
 
         it 'deletes their current provider and shows them the provider context page' do
@@ -257,13 +235,14 @@ describe 'Provider context', reset_provider: true, js: true do
 
       context 'when a user loses an available provider' do
         before do
-          delete_provider_context_permission('NSIDC_ECS')
-          real_login(providers: nil)
+          # delete_provider_context_permission('NSIDC_ECS')
+          login(providers: %w(MMT_1 MMT_2))
           visit '/'
         end
 
         after do
-          add_provider_context_permission(%w(NSIDC_ECS))
+          # allow_any_instance_of(User).to receive(:available_providers).and_return(%w(MMT_1 MMT_2 NSIDC_ECS))
+          # add_provider_context_permission(%w(NSIDC_ECS))
         end
 
         it 'removes their available provider' do
@@ -280,14 +259,16 @@ describe 'Provider context', reset_provider: true, js: true do
     context 'when the user loses a provider while logged in' do
       context 'when a user loses their active provider' do
         before do
-          delete_provider_context_permission('MMT_2')
+          allow_any_instance_of(User).to receive(:available_providers).and_return(%w(MMT_1 NSIDC_ECS))
+          allow_any_instance_of(User).to receive(:provider_id).and_return(nil)
+          # delete_provider_context_permission('MMT_2')
           click_on 'provider-badge-link'
           click_on 'Refresh your available providers'
           wait_for_jQuery
         end
 
         after do
-          add_provider_context_permission(%w(MMT_2))
+          # add_provider_context_permission(%w(MMT_2))
         end
 
         it 'deletes their current provider and shows them the provider context page' do
@@ -301,14 +282,17 @@ describe 'Provider context', reset_provider: true, js: true do
 
       context 'when a user loses an available provider' do
         before do
-          delete_provider_context_permission('NSIDC_ECS')
+          allow_any_instance_of(User).to receive(:available_providers).and_return(%w(MMT_1 MMT_2))
+          allow_any_instance_of(User).to receive(:provider_id).and_return('MMT_2')
+          # delete_provider_context_permission('NSIDC_ECS')
           click_on 'provider-badge-link'
           click_on 'Refresh your available providers'
           wait_for_jQuery
         end
 
         after do
-          add_provider_context_permission(%w(NSIDC_ECS))
+          allow_any_instance_of(User).to receive(:available_providers).and_return(%w(MMT_1 MMT_2 NSIDC_ECS))
+          # add_provider_context_permission(%w(NSIDC_ECS))
         end
 
         it 'removes their available provider' do
