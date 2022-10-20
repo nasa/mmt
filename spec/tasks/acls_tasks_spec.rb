@@ -1,4 +1,5 @@
-describe 'Using rake tasks to add a user to groups for local group and acl manual testing and development', reset_provider: true do
+# EDL Failed Test
+describe 'Using rake tasks to add a user to groups for local group and acl manual testing and development', reset_provider: true, skip:true do
   before do
     Rake::Task.define_task(:environment)
     Rake.application.rake_require 'tasks/acls'

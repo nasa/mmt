@@ -1,8 +1,8 @@
 # TODO: When CMR-6310 has been finished, we should add a test for viewing the
 # subscription page with no subscriptions. Until we have the provider reset,
 # that test would be flaky and fail intermittently because of CMR's update time.
-
-describe 'Viewing a list of subscriptions', reset_provider: true do
+# EDL Failed Test
+describe 'Viewing a list of subscriptions', reset_provider: true, skip:true do
   before :all do
     VCR.use_cassette('edl', record: :new_episodes) do
       @subscriptions_group = create_group(members: ['testuser', 'typical'])

@@ -1,4 +1,5 @@
-describe 'Deleting a Service Option Assignment', reset_provider: true, js: true do
+# EDL Failed Test
+describe 'Deleting a Service Option Assignment', reset_provider: true, js: true, skip: true do
   before :all do
     # create a group
     VCR.use_cassette('edl', record: :new_episodes) do

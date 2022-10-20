@@ -1,4 +1,5 @@
-describe 'Show Existing Tool Collection Associations', js: true, reset_provider: true do
+# EDL Failed Test
+describe 'Show Existing Tool Collection Associations', js: true, reset_provider: true, skip:true do
 
   native_id = Faker::Crypto.md5
 
