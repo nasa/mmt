@@ -1,4 +1,5 @@
-describe 'Services permissions', reset_provider: true, js: true do
+# EDL Failed Test
+describe 'Services permissions', reset_provider: true, js: true, skip:true do
   let(:modal_text) { 'requires you change your provider context to MMT_2' }
 
   context 'when viewing a service' do
