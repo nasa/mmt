@@ -1,6 +1,4 @@
-# skip until cmr doesn't check group name
-# EDL Failed Test
-describe 'Collections with Tags', js: true, skip:true do
+describe 'Collections with Tags', js: true do
   tag_1_key = 'tag.collection.example.01'
   tag_1_description = 'This is sample tag #1'
   tag_2_key = 'tag.collection.example.02'
@@ -33,16 +31,20 @@ describe 'Collections with Tags', js: true, skip:true do
 
   context 'when viewing a collection with tags' do
     before do
-      @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
-      login
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        login
+      end
     end
 
     context 'when retrieving all tag information succeeds' do
       before do
-        @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-        visit collection_path(@ingest_response['concept-id'], revision_id: 2)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+          visit collection_path(@ingest_response['concept-id'], revision_id: 2)
+        end
       end
 
       it 'does not have an error banner because of the revision_id parameter' do
@@ -79,11 +81,13 @@ describe 'Collections with Tags', js: true, skip:true do
 
     context "when retrieving the collection's tags fails" do
       before do
-        @token = 'jwt_access_token'
-        json_fail_response = cmr_fail_response(JSON.parse('{"errors": "this is a json failure response"}'), 403)
-        allow_any_instance_of(Cmr::CmrClient).to receive(:search_collections).and_return(json_fail_response)
-        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-        visit collection_path(@ingest_response['concept-id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          json_fail_response = cmr_fail_response(JSON.parse('{"errors": "this is a json failure response"}'), 403)
+          allow_any_instance_of(Cmr::CmrClient).to receive(:search_collections).and_return(json_fail_response)
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+          visit collection_path(@ingest_response['concept-id'])
+        end
       end
 
       it 'displays an error message' do
@@ -117,11 +121,13 @@ describe 'Collections with Tags', js: true, skip:true do
 
     context "when retrieving the collection's tags succeeds but retrieving the tag information fails", js:true do
       before do
-        @token = 'jwt_access_token'
-        tags_fail_response = cmr_fail_response(JSON.parse('{"error": "this is a tags retrieval failure response"}'), 403)
-        allow_any_instance_of(Cmr::CmrClient).to receive(:get_tags).and_return(tags_fail_response)
-        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-        visit collection_path(@ingest_response['concept-id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          tags_fail_response = cmr_fail_response(JSON.parse('{"error": "this is a tags retrieval failure response"}'), 403)
+          allow_any_instance_of(Cmr::CmrClient).to receive(:get_tags).and_return(tags_fail_response)
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+          visit collection_path(@ingest_response['concept-id'])
+        end
       end
 
       it 'displays the the Tags link with the correct number of tags' do
