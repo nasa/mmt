@@ -1,7 +1,7 @@
 # These tests are for the Groups Index page filtering by radio buttons/checkboxes
 # which set current or available providers, or to show system groups
-
-describe 'Groups list page', js: true, reset_provider: true do
+# EDL Failed Test
+describe 'Groups list page', js: true, reset_provider: true, skip:true do
   context 'when there are system level groups' do
     context 'when logging in as a regular user with all the providers' do
       before do

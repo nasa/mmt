@@ -1,5 +1,6 @@
 # Running reset provider in order to verify approvers get emails when proposals are submitted
-describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, js: true do
+# EDL Failed Test
+describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, js: true, skip:true do
   before do
     real_login(method: 'urs')
   end
