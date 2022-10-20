@@ -1,8 +1,8 @@
 module Cmr
   Faraday::Response.register_middleware(
-                              logging: Cmr::ClientMiddleware::LoggingMiddleware,
-                              errors: Cmr::ClientMiddleware::ErrorMiddleware,
-                              events: Cmr::ClientMiddleware::EventMiddleware)
+    logging: Cmr::ClientMiddleware::LoggingMiddleware,
+    errors: Cmr::ClientMiddleware::ErrorMiddleware,
+    events: Cmr::ClientMiddleware::EventMiddleware)
   class BaseClient
     # include Cmr::QueryTransformations
     include Cmr::Util

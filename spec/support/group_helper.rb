@@ -47,16 +47,14 @@ module Helpers
 
     # Need to change from random_group_name to just "group_name"
     def random_group_name
-      hex = SecureRandom.hex(10).gsub('-','')
-      puts("hex=#{hex}")
-      hex
+      SecureRandom.hex(10).gsub('-','')
     end
 
     def random_group_description
       Faker::Lorem.sentence
     end
 
-    def add_group_permissions(permission_params, token = 'access_token')
+    def add_group_permissions(permission_params, token='access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_group_permissions' do
         permission_response = cmr_client.add_group_permissions(permission_params, token)
 
@@ -68,7 +66,7 @@ module Helpers
       end
     end
 
-    def add_permissions_to_group(group_id, permissions, target, provider_id, token='access_token_admin')
+    def add_permissions_to_group(group_id, permissions, target, provider_id, token = 'access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
         permission_params = {
           group_permissions: [{
@@ -85,7 +83,7 @@ module Helpers
       end
     end
 
-    def add_associated_permissions_to_group(group_id: 'AG1200000001-CMR', name: 'Test Permission', provider_id: 'MMT_2', permissions: ['read'])
+    def add_associated_permissions_to_group(group_id: 'AG1200000001-CMR', name: 'Test Permission', provider_id: 'MMT_2', permissions: ['read'], token: 'access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
         permission_params = {
           group_permissions: [
@@ -102,7 +100,7 @@ module Helpers
           }
         }
 
-        add_group_permissions(permission_params)
+        add_group_permissions(permission_params, token)
       end
     end
 
