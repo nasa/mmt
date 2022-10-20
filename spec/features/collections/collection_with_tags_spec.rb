@@ -9,7 +9,7 @@ describe 'Collections with Tags', js: true do
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       # ingest collection
       @ingest_response, _concept_response = publish_collection_draft(native_id: '12345678903', token: @token, revision_count: 2, short_name: short_name)
-      @sys_group_response = create_group(provider_id: nil, description:'my group description', admin: true, members: ['hvtranho'])
+      @sys_group_response = create_group(provider_id: nil, description:'my group description', admin: true, members: ['admin'])
       @acl_concept = setup_tag_permissions(@sys_group_response['group_id'], @token)
       reindex_permitted_groups
       # create tags
