@@ -16,7 +16,7 @@ module Cmr
     # umm_json gives us the metadata record in the 'umm' portion. but that does not include entry-id
     def get_collections(options = {}, token = nil)
       # search collections via GET
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               'http://localhost:3003/collections.umm-json'
             else
               '/search/collections.umm-json'
@@ -75,7 +75,7 @@ module Cmr
 
     def search_collections(options = {}, token)
       # search collections via GET, using `.json` extension
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               'http://localhost:3003/collections.json'
             else
               '/search/collections.json'
@@ -127,7 +127,7 @@ module Cmr
     end
 
     def get_concept(concept_id, token, headers, revision_id = nil, download_format = nil)
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3003/concepts/#{concept_id}"
             else
               "/search/concepts/#{concept_id}"
@@ -155,8 +155,8 @@ module Cmr
       response
     end
 
-    def get_tag(tag_key)
-      url = if Rails.env.development? || Rails.env.test?
+    def get_tag(tag_key, token = nil)
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3003/tags/#{tag_key}"
             else
               "/search/tags/#{tag_key}"
@@ -168,8 +168,8 @@ module Cmr
       get(url, {}, headers)
     end
 
-    def get_tags(options)
-      url = if Rails.env.development? || Rails.env.test?
+    def get_tags(options, token = nil)
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               'http://localhost:3003/tags'
             else
               '/search/tags'
@@ -184,7 +184,11 @@ module Cmr
     # MMT does not allow users to create and associate tags, but we need to
     # have these methods for testing purposes
     def create_tag(tag_key, token, description = nil)
-      url = 'http://localhost:3003/tags'
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+              'http://localhost:3003/tags'
+            else
+              '/search/tags'
+            end
       body = { tag_key: tag_key }
       body[:description] = description unless description.nil?
       headers = { 'Content-Type' => 'application/json' }
@@ -193,7 +197,11 @@ module Cmr
     end
 
     def associate_tag_by_collection_short_name(tag_key, short_name, token)
-      url = "http://localhost:3003/tags/#{tag_key}/associations/by_query"
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+              "http://localhost:3003/tags/#{tag_key}/associations/by_query"
+            else
+              "/search/tags/#{tag_key}/associations/by_query"
+            end
       body = { condition: { short_name: short_name } }
       headers = { 'Content-Type' => 'application/json' }
 
@@ -256,7 +264,7 @@ module Cmr
 
     def ingest_collection(metadata, provider_id, native_id, token, content_type = nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
             else
               "/ingest/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
@@ -704,7 +712,7 @@ module Cmr
     end
 
     def get_subscriptions(options = {}, token = nil)
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               'http://localhost:3003/subscriptions.umm_json'
             else
               '/search/subscriptions.umm_json'

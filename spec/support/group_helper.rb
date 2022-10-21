@@ -57,7 +57,6 @@ module Helpers
     def add_group_permissions(permission_params, token='access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_group_permissions' do
         permission_response = cmr_client.add_group_permissions(permission_params, token)
-
         raise Array.wrap(permission_response.body['errors']).join(' /// ') if permission_response.body.key?('errors')
 
         wait_for_cmr

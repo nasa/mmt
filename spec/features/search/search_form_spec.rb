@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'Search bar and dropdown behavior', skip:true do
+describe 'Search bar and dropdown behavior', js: true do
   let(:short_name)  { 'MIRCCMF' }
   let(:entry_title) { 'MISR FIRSTLOOK radiometric camera-by-camera Cloud Mask V001' }
 
