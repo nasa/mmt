@@ -97,6 +97,7 @@ describe 'Updating groups', reset_provider: true, js: true do
             end
           end
         end
+
         it 'displays only remaining group members' do
           within '#group-members' do
             expect(page).to have_selector('tbody > tr', count: 1)
