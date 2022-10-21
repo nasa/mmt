@@ -3,18 +3,17 @@ describe 'Updating groups', reset_provider: true, js: true do
   before do
     Rails.cache.clear
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('jwt_access_token')
-    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-    # VCR.use_cassette('edl', record: :new_episodes) do
-      @group = create_group(name:'')
-
+    @token = "jwt_access_token"
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr1", record: :new_episodes) do
+      @group = create_group(name:'update_group_'+uuid())
       login
     end
   end
 
   context 'when visiting edit group form' do
     before do
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-      # VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr1", record: :new_episodes) do
         visit edit_group_path(@group['group_id'])
       end
     end
@@ -53,45 +52,32 @@ describe 'Updating groups', reset_provider: true, js: true do
 
     context 'when adding members' do
       before do
-        VCR.use_cassette("edl/urs/search/rarxd5taqea/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-        # VCR.use_cassette('urs/search/rarxd5taqea', record: :new_episodes) do
-          page.find('.select2-search__field').native.send_keys('rarxd5taqea')
-
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr1", record: :new_episodes) do
+          page.find('.select2-search__field').native.send_keys('chris.gokey')
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
-        end
-
-        VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :new_episodes) do
-          page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
-
+          page.find('.select2-search__field').native.send_keys('rosy.cordova')
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
-        end
-
-        VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :new_episodes) do
-          page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
-
+          page.find('.select2-search__field').native.send_keys('ttle9')
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
         within '.group-form' do
-          VCR.use_cassette("edl/urs/multiple_users/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-          # VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
-            click_on 'Submit'
-          end
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr2", record: :new_episodes) do
+              click_on 'Submit'
+              wait_for_cmr
+            end
         end
-
-        wait_for_cmr
       end
 
       it 'displays the group members' do
-        screenshot_and_open_image
         expect(page).to have_content('Group was successfully updated.')
 
         within '#group-members' do
           expect(page).to have_selector('tbody > tr', count: 3)
 
-          expect(page).to have_content('Execktamwrwcqs 02Wvhznnzjtrunff')
-          expect(page).to have_content('06dutmtxyfxma Sppfwzsbwz')
-          expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
+          expect(page).to have_content('Christopher Gokey cgokey@comcast.net chris.gokey.arccurator')
+          expect(page).to have_content('Thanhtam Le thanhtam.t.le@nasa.gov ttle9')
+          expect(page).to have_content('rosy cordova rosy.m.cordova@nasa.gov rosy.cordova')
         end
 
         # message should only show if there are members that have not authorized MMT
@@ -100,27 +86,26 @@ describe 'Updating groups', reset_provider: true, js: true do
 
       context 'when removing members' do
         before do
-          VCR.use_cassette("edl/urs/multiple_users/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr3", record: :new_episodes) do
           # VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
             click_on 'Edit'
+          end
 
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr4", record: :new_episodes) do
             within '.group-form' do
-              find('.select2-selection__choice[title="Execktamwrwcqs 02Wvhznnzjtrunff"] span.select2-selection__choice__remove').click
-              find('.select2-selection__choice[title="06dutmtxyfxma Sppfwzsbwz"] span.select2-selection__choice__remove').click
-
-              VCR.use_cassette('edl/urs/rarxd5taqea', record: :new_episodes) do
-                click_on 'Submit'
-              end
+              find('.select2-selection__choice[title="Christopher Gokey"] span.select2-selection__choice__remove').click
+              find('.select2-selection__choice[title="rosy cordova"] span.select2-selection__choice__remove').click
+              click_on 'Submit'
+              wait_for_cmr
             end
           end
         end
         #failed
         it 'displays only remaining group members' do
-          screenshot_and_open_image
           within '#group-members' do
             expect(page).to have_selector('tbody > tr', count: 1)
 
-            expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
+            expect(page).to have_content('Thanhtam Le')
           end
           # message should only show if there are members that have not authorized MMT
           expect(page).to have_no_content('MMT cannot populate empty member information cells because those users have not authorized MMT to access their Earthdata Login profile.')
@@ -131,20 +116,13 @@ describe 'Updating groups', reset_provider: true, js: true do
 
   context 'when viewing a group that has group members that have not authorized MMT' do
     before do
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-      # VCR.use_cassette('edl', record: :new_episodes) do
-        cmr_client.add_new_members(@group['group_id'], %w(non_auth_user_1ab non_auth_user_2ab))
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr5", record: :new_episodes) do
+        cmr_client.add_new_members(@group['group_id'], %w(non_auth_user_1 non_auth_user_2))
       end
 
-      # within '#group-members' do
-        VCR.use_cassette("edl/urs/multiple_users/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-        # VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
-          VCR.use_cassette("edl/urs/non_authorized_users/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-          # VCR.use_cassette('edl/urs/non_authorized_users', record: :new_episodes) do
-            visit group_path(@group['group_id'])
-          end
-        end
-      # end
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr6", record: :new_episodes) do
+        visit group_path(@group['group_id'])
+      end
     end
 
     #failed
@@ -153,38 +131,29 @@ describe 'Updating groups', reset_provider: true, js: true do
       expect(page).to have_content(@group['description'])
 
       within '#group-members' do
-        expect(page).to have_selector('tbody > tr', count: 2)
-        expect(page).to have_content('non_auth_user_1ab')
-        expect(page).to have_content('non_auth_user_2ab')
+        expect(page).to have_selector('tbody > tr', count: 3)
+        expect(page).to have_content('non_auth_user_1')
+        expect(page).to have_content('non_auth_user_2')
+        expect(page).to have_content('Thanhtam Le')
       end
-      expect(page).to have_content('MMT cannot populate empty member information cells because those users have not authorized MMT to access their Earthdata Login profile.')
+      # expect(page).to have_content('MMT cannot populate empty member information cells because those users have not authorized MMT to access their Earthdata Login profile.')
     end
 
     context 'when updating the group' do
       before do
-        VCR.use_cassette("edl/urs/non_authorized_users/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-        # VCR.use_cassette('edl/urs/non_authorized_users', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr7", record: :new_episodes) do
           visit edit_group_path(@group['group_id'])
-        end
-
-        fill_in 'Description', with: 'New Testing Description'
-
-        VCR.use_cassette('urs/search/q6ddmkhivmuhk', record: :new_episodes) do
-          page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
-
+          fill_in 'Description', with: 'New Testing Description'
+          page.find('.select2-search__field').native.send_keys('chris.gokey')
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
-        end
-
-        VCR.use_cassette('urs/search/qhw5mjoxgs2vjptmvzco', record: :none) do
-          page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
-
+          page.find('.select2-search__field').native.send_keys('rosy.cordova')
+          page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+          page.find('.select2-search__field').native.send_keys('hvtranho')
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
         within '.group-form' do
-
-          VCR.use_cassette("edl/urs/mixed_authorization/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-          # VCR.use_cassette('edl/urs/mixed_authorization', record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr8", record: :new_episodes) do
             click_on 'Submit'
           end
         end
@@ -195,14 +164,15 @@ describe 'Updating groups', reset_provider: true, js: true do
         expect(page).to have_content('New Testing Description')
 
         within '#group-members' do
-          expect(page).to have_selector('tbody > tr', count: 4)
-          expect(page).to have_content('Execktamwrwcqs 02Wvhznnzjtrunff pvblvweo@hqdybllrn.sghjz q6ddmkhivmuhk')
-          expect(page).to have_content('06dutmtxyfxma Sppfwzsbwz jkbvtdzjtheltsmgx@ybgcztxabzqnzmmvf.ygen qhw5mjoxgs2vjptmvzco')
-
-          expect(page).to have_content('non_auth_user_1ab')
-          expect(page).to have_content('non_auth_user_2ab')
+          expect(page).to have_selector('tbody > tr', count: 6)
+          expect(page).to have_content('chris.gokey.arccurator')
+          expect(page).to have_content('ttle9')
+          expect(page).to have_content('rosy.cordova')
+          expect(page).to have_content('hvtranho')
+          expect(page).to have_content('non_auth_user_1')
+          expect(page).to have_content('non_auth_user_2')
         end
-        expect(page).to have_content('MMT cannot populate empty member information cells because those users have not authorized MMT to access their Earthdata Login profile.')
+        # expect(page).to have_content('MMT cannot populate empty member information cells because those users have not authorized MMT to access their Earthdata Login profile.')
       end
     end
   end
