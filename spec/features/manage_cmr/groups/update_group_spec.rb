@@ -87,7 +87,6 @@ describe 'Updating groups', reset_provider: true, js: true do
       context 'when removing members' do
         before do
           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr3", record: :new_episodes) do
-          # VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
             click_on 'Edit'
           end
 
@@ -125,7 +124,6 @@ describe 'Updating groups', reset_provider: true, js: true do
       end
     end
 
-    #failed
     it 'shows the group information and members, including users that have not authorized MMT' do
       expect(page).to have_content(@group['name'])
       expect(page).to have_content(@group['description'])
@@ -136,7 +134,6 @@ describe 'Updating groups', reset_provider: true, js: true do
         expect(page).to have_content('non_auth_user_2')
         expect(page).to have_content('Thanhtam Le')
       end
-      # expect(page).to have_content('MMT cannot populate empty member information cells because those users have not authorized MMT to access their Earthdata Login profile.')
     end
 
     context 'when updating the group' do
@@ -159,7 +156,6 @@ describe 'Updating groups', reset_provider: true, js: true do
         end
       end
 
-      #failed
       it 'shows the updated description, new members, and non authorized group members' do
         expect(page).to have_content('New Testing Description')
 
@@ -172,7 +168,6 @@ describe 'Updating groups', reset_provider: true, js: true do
           expect(page).to have_content('non_auth_user_1')
           expect(page).to have_content('non_auth_user_2')
         end
-        # expect(page).to have_content('MMT cannot populate empty member information cells because those users have not authorized MMT to access their Earthdata Login profile.')
       end
     end
   end
