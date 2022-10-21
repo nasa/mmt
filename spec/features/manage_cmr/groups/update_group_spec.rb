@@ -1,11 +1,9 @@
-require "rspec/mocks/standalone"
 describe 'Updating groups', reset_provider: true, js: true do
   before do
-    Rails.cache.clear
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('jwt_access_token')
     @token = "jwt_access_token"
     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
-    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr1", record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr1", record: :none) do
       @group = create_group(name:'update_group_'+uuid())
       login
     end
@@ -13,7 +11,7 @@ describe 'Updating groups', reset_provider: true, js: true do
 
   context 'when visiting edit group form' do
     before do
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr1", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr1", record: :none) do
         visit edit_group_path(@group['group_id'])
       end
     end
@@ -52,7 +50,7 @@ describe 'Updating groups', reset_provider: true, js: true do
 
     context 'when adding members' do
       before do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr1", record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr1", record: :none) do
           page.find('.select2-search__field').native.send_keys('chris.gokey')
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
           page.find('.select2-search__field').native.send_keys('rosy.cordova')
@@ -62,7 +60,7 @@ describe 'Updating groups', reset_provider: true, js: true do
         end
 
         within '.group-form' do
-            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr2", record: :new_episodes) do
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr2", record: :none) do
               click_on 'Submit'
               wait_for_cmr
             end
@@ -86,11 +84,11 @@ describe 'Updating groups', reset_provider: true, js: true do
 
       context 'when removing members' do
         before do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr3", record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr3", record: :none) do
             click_on 'Edit'
           end
 
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr4", record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr4", record: :none) do
             within '.group-form' do
               find('.select2-selection__choice[title="Christopher Gokey"] span.select2-selection__choice__remove').click
               find('.select2-selection__choice[title="rosy cordova"] span.select2-selection__choice__remove').click
@@ -115,11 +113,11 @@ describe 'Updating groups', reset_provider: true, js: true do
 
   context 'when viewing a group that has group members that have not authorized MMT' do
     before do
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr5", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr5", record: :none) do
         cmr_client.add_new_members(@group['group_id'], %w(non_auth_user_1 non_auth_user_2))
       end
 
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr6", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr6", record: :none) do
         visit group_path(@group['group_id'])
       end
     end
@@ -138,7 +136,7 @@ describe 'Updating groups', reset_provider: true, js: true do
 
     context 'when updating the group' do
       before do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr7", record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr7", record: :none) do
           visit edit_group_path(@group['group_id'])
           fill_in 'Description', with: 'New Testing Description'
           page.find('.select2-search__field').native.send_keys('chris.gokey')
@@ -150,7 +148,7 @@ describe 'Updating groups', reset_provider: true, js: true do
         end
 
         within '.group-form' do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr8", record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr8", record: :none) do
             click_on 'Submit'
           end
         end
