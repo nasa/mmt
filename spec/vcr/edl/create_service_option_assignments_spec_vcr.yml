@@ -2183,4 +2183,220 @@ http_interactions:
       string: '{"error":"User group (Service_Option_Association_Group_for_Permissions_Create_bd5a1968dcea41f29059e4118ed77113)
         has active group members, cannot be deleted"}'
   recorded_at: Fri, 14 Oct 2022 16:17:36 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '38'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 18 Oct 2022 19:31:49 GMT
+      cmr-request-id:
+      - 82a75987-9917-44e5-ab7f-7638c238081a
+      x-request-id:
+      - byVyQpfRPyjggZczAK2aDKrVNL3ao09eGcyASOwmKBn3qAVSWbB29A==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 3072c658bb2e308b174aea92028efcd6.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD79-C3
+      x-amz-cf-id:
+      - byVyQpfRPyjggZczAK2aDKrVNL3ao09eGcyASOwmKBn3qAVSWbB29A==
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":["create"]}'
+  recorded_at: Tue, 18 Oct 2022 19:31:51 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '38'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 18 Oct 2022 19:31:50 GMT
+      cmr-request-id:
+      - 5d4db3ac-9f23-4047-b3fb-63575cc2547b
+      x-request-id:
+      - sF8Ve0Yllj_ea8Ic96ZmQFMEuBPvgmoT1jCIkGivIZR6nQud8lTUmA==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 03efa14de61e5d90be5300eba235f560.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD79-C3
+      x-amz-cf-id:
+      - sF8Ve0Yllj_ea8Ic96ZmQFMEuBPvgmoT1jCIkGivIZR6nQud8lTUmA==
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":["create"]}'
+  recorded_at: Tue, 18 Oct 2022 19:31:51 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '38'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 18 Oct 2022 19:31:50 GMT
+      cmr-request-id:
+      - c9ba62cf-518d-4bd5-bb18-d670649b0f9e
+      x-request-id:
+      - rAUXiycSBDywHk_FmdFABx-V_dZ2cZTJsrwR_eT1-KvW6Pzrbwm3Rw==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 b811db48800bf619dbaff61a71022f7e.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD79-C3
+      x-amz-cf-id:
+      - rAUXiycSBDywHk_FmdFABx-V_dZ2cZTJsrwR_eT1-KvW6Pzrbwm3Rw==
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":["create"]}'
+  recorded_at: Tue, 18 Oct 2022 19:31:52 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '38'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 18 Oct 2022 19:31:50 GMT
+      cmr-request-id:
+      - 6ab7c9ab-524e-4f0b-a6ab-19cbeaef9954
+      x-request-id:
+      - VydWjtU8BKsR55YMHlIlluIthX_Vs6Mnil3hseOBz0V00kij_FvPDg==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 c3fbf93d9b0f1f9b36fcc420314f3186.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD79-C3
+      x-amz-cf-id:
+      - VydWjtU8BKsR55YMHlIlluIthX_Vs6Mnil3hseOBz0V00kij_FvPDg==
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":["create"]}'
+  recorded_at: Tue, 18 Oct 2022 19:31:52 GMT
 recorded_with: VCR 6.1.0

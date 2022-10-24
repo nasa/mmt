@@ -1,32 +1,28 @@
-# skip until cmr doesn't check group name
 describe 'Collections with Tags', js: true do
   tag_1_key = 'tag.collection.example.01'
   tag_1_description = 'This is sample tag #1'
   tag_2_key = 'tag.collection.example.02'
-  short_name = "Tagging Collection Example Collection #{Faker::Number.number(digits: 6)}"
+  short_name = "Tagging Collection Example Collection 471291393"
 
   before(:all) do
-    # ingest collection
-    @ingest_response, _concept_response = publish_collection_draft(revision_count: 2, short_name: short_name)
-
-    # create system group and permissions for tags
-    VCR.use_cassette('edl', record: :new_episodes) do
-      @sys_group_response = create_group(provider_id: nil, name: 'tags_test_group6', admin: true, members: ['chris.gokey']) # admin', 'adminuser']
-      @acl_concept = setup_tag_permissions(@sys_group_response['group_id'])
+    @token = 'jwt_access_token'
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      # ingest collection
+      @ingest_response, _concept_response = publish_collection_draft(native_id: '12345678903', token: @token, revision_count: 2, short_name: short_name)
+      @sys_group_response = create_group(provider_id: nil, description:'my group description', admin: true, members: ['admin'])
+      @acl_concept = setup_tag_permissions(@sys_group_response['group_id'], @token)
+      reindex_permitted_groups
+      # create tags
+      create_tags(tag_1_key, tag_1_description, @token)
+      create_tags(tag_2_key, nil, @token)
+      # associate with a collection
+      associate_tag_to_collection_by_short_name(tag_1_key, short_name, @token)
+      associate_tag_to_collection_by_short_name(tag_2_key, short_name, @token)
     end
-    reindex_permitted_groups
-
-    # create tag(s)
-    create_tags(tag_1_key, tag_1_description)
-    create_tags(tag_2_key)
-
-    # associate tag with collection
-    associate_tag_to_collection_by_short_name(tag_1_key, short_name)
-    associate_tag_to_collection_by_short_name(tag_2_key, short_name)
   end
 
   after(:all) do
-    VCR.use_cassette('edl', record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       remove_group_permissions(@acl_concept)
       delete_group(concept_id: @sys_group_response['group_id'], admin: true)
     end
@@ -35,12 +31,20 @@ describe 'Collections with Tags', js: true do
 
   context 'when viewing a collection with tags' do
     before do
-      login
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        login
+      end
     end
 
     context 'when retrieving all tag information succeeds' do
       before do
-        visit collection_path(@ingest_response['concept-id'], revision_id: 2)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+          visit collection_path(@ingest_response['concept-id'], revision_id: 2)
+        end
       end
 
       it 'does not have an error banner because of the revision_id parameter' do
@@ -56,7 +60,11 @@ describe 'Collections with Tags', js: true do
       context 'when clicking on the Tags link' do
         before do
           within '.action' do
-            click_on 'Tags (2)'
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+              @token = 'jwt_access_token'
+              allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+              click_on 'Tags (2)'
+            end
           end
         end
 
@@ -73,10 +81,13 @@ describe 'Collections with Tags', js: true do
 
     context "when retrieving the collection's tags fails" do
       before do
-        json_fail_response = cmr_fail_response(JSON.parse('{"errors": "this is a json failure response"}'), 403)
-        allow_any_instance_of(Cmr::CmrClient).to receive(:search_collections).and_return(json_fail_response)
-
-        visit collection_path(@ingest_response['concept-id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          json_fail_response = cmr_fail_response(JSON.parse('{"errors": "this is a json failure response"}'), 403)
+          allow_any_instance_of(Cmr::CmrClient).to receive(:search_collections).and_return(json_fail_response)
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+          visit collection_path(@ingest_response['concept-id'])
+        end
       end
 
       it 'displays an error message' do
@@ -92,7 +103,11 @@ describe 'Collections with Tags', js: true do
       context 'when clicking on the Tags link' do
         before do
           within '.action' do
-            click_on 'Tags (0)'
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+              @token = 'jwt_access_token'
+              allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+              click_on 'Tags (0)'
+            end
           end
         end
 
@@ -106,10 +121,13 @@ describe 'Collections with Tags', js: true do
 
     context "when retrieving the collection's tags succeeds but retrieving the tag information fails", js:true do
       before do
-        tags_fail_response = cmr_fail_response(JSON.parse('{"error": "this is a tags retrieval failure response"}'), 403)
-        allow_any_instance_of(Cmr::CmrClient).to receive(:get_tags).and_return(tags_fail_response)
-
-        visit collection_path(@ingest_response['concept-id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          tags_fail_response = cmr_fail_response(JSON.parse('{"error": "this is a tags retrieval failure response"}'), 403)
+          allow_any_instance_of(Cmr::CmrClient).to receive(:get_tags).and_return(tags_fail_response)
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+          visit collection_path(@ingest_response['concept-id'])
+        end
       end
 
       it 'displays the the Tags link with the correct number of tags' do
@@ -121,7 +139,11 @@ describe 'Collections with Tags', js: true do
       context 'when clicking on the Tags link' do
         before do
           within '.action' do
-            click_on 'Tags (2)'
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+              @token = 'jwt_access_token'
+              allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+              click_on 'Tags (2)'
+            end
           end
         end
 

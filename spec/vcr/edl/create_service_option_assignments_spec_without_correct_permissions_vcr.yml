@@ -276,4 +276,112 @@ http_interactions:
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><ns4:SystemMessage>Token
         [access_XXX] does not exist</ns4:SystemMessage><ns4:Timestamp>2022-10-14T10:20:37.934Z</ns4:Timestamp><ns4:ErrorInstanceId>38A618DC-5DEC-0F37-CEC6-A6C414509CCE</ns4:ErrorInstanceId><ns4:Arguments><ns4:Argument><ns4:Name>Token</ns4:Name><ns4:Value>access_token</ns4:Value></ns4:Argument></ns4:Arguments></ns4:ItemNotFoundFault></detail></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
   recorded_at: Fri, 14 Oct 2022 10:20:39 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '38'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 18 Oct 2022 19:28:58 GMT
+      cmr-request-id:
+      - 85965d33-1f8b-4d73-8e42-a8f22a80bd34
+      x-request-id:
+      - ceUkf4gSWD8qA9bpDkKaFyDRll3DT-sg9XbZDWSuyaRw2ZMqgKJRog==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 10d5043185168ff98a7c4be514b70520.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW3-C1
+      x-amz-cf-id:
+      - ceUkf4gSWD8qA9bpDkKaFyDRll3DT-sg9XbZDWSuyaRw2ZMqgKJRog==
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":["create"]}'
+  recorded_at: Tue, 18 Oct 2022 19:29:00 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '38'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 18 Oct 2022 19:29:12 GMT
+      cmr-request-id:
+      - fe9bb146-7d08-4834-8c67-95b6b841be4a
+      x-request-id:
+      - "-ZxbMQ6RBUR6u16tmVJ1BhA00fNQuPpFAUps0b4LiXE_3N-Um8afBg=="
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 0b411dbb186753d7d6bc75c4c3de15a0.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW3-C1
+      x-amz-cf-id:
+      - "-ZxbMQ6RBUR6u16tmVJ1BhA00fNQuPpFAUps0b4LiXE_3N-Um8afBg=="
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":["create"]}'
+  recorded_at: Tue, 18 Oct 2022 19:29:14 GMT
 recorded_with: VCR 6.1.0

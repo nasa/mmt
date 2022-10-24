@@ -1,345 +1,345 @@
 ---
 http_interactions:
-- request:
-    method: get
-    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Faraday v1.10.0
-      Client-Id:
-      - MMT
-      Accept:
-      - application/json; charset=utf-8
-      Authorization:
-      - access_token
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      content-length:
-      - '30'
-      connection:
-      - keep-alive
-      date:
-      - Thu, 13 Oct 2022 20:59:03 GMT
-      cmr-request-id:
-      - 0a6ce7d6-3e62-435d-90f0-54a894c376de
-      x-request-id:
-      - xC2NylPFt62UOBuXtLImzdvq4o_6q9b8Y_j6O4BJmXsXkG9mgB2CUQ==
-      vary:
-      - Accept-Encoding, User-Agent
-      server:
-      - ServerTokens ProductOnly
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-      strict-transport-security:
-      - max-age=31536000
-      x-cache:
-      - Miss from cloudfront
-      via:
-      - 1.1 2cd1423c218193e9646892449fb7844a.cloudfront.net (CloudFront)
-      x-amz-cf-pop:
-      - SFO5-C1
-      x-amz-cf-id:
-      - xC2NylPFt62UOBuXtLImzdvq4o_6q9b8Y_j6O4BJmXsXkG9mgB2CUQ==
-    body:
-      encoding: UTF-8
-      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
-  recorded_at: Thu, 13 Oct 2022 20:59:05 GMT
-- request:
-    method: post
-    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ServiceManagementServicePortImpl
-    body:
-      encoding: UTF-8
-      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionAssignmentsByService
-        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
-        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzA3Njk4NjAsImlhdCI6MTY2NTU4NTg2MCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.hR39xfz1SpqEl1l0vzo_MUbYuSg0T_OHfxXNsBoYHXRXmMtDCkB7uGPAnskM78Re0wZXXmwHmk0IxU6W8dbzZZd7KLrhmLJX-B0sMNdXO0S7El2UulZsRQfaTPJov7J4hZZTXhq8u7O3daasysXopeiUI_3qh9flb12svh58knUEPflwYhisMVShj7iqrKVNzO2gCf4poRCkmyqZAeRdwgIaKZTR5k7p1fUbB6mgFxpiftgkFCFETGB8VhiGj9aE0hFW6f4Dn9kpEqnM1axiQ-PePwz4y_yyYBNIPBhGLTmh75aNqMlmd97WpKy_1NrAyMvF3C9EfCiGZOHN5Opk_A</ns2:token><ns2:serviceEntryGuids><ns3:Item>3E5F3D05-C8F5-C540-4484-F3E67A7D5E62</ns3:Item><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item></ns2:serviceEntryGuids></ns2:GetServiceOptionAssignmentsByService><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    headers:
-      User-Agent:
-      - Faraday v1.10.0
-      Content-Type:
-      - text/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      content-type:
-      - text/xml;charset=utf-8
-      transfer-encoding:
-      - chunked
-      connection:
-      - keep-alive
-      vary:
-      - Accept-Encoding
-      date:
-      - Thu, 13 Oct 2022 20:59:03 GMT
-      accept:
-      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
-      soapaction:
-      - '""'
-      server:
-      - ServerTokens ProductOnly
-      x-request-id:
-      - dykB0oyC3ncbGQmW67V5ZMvouZWSNi9t01y7gq-lnAJJyh8IpFd2Hw==
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-      strict-transport-security:
-      - max-age=31536000
-      x-cache:
-      - Miss from cloudfront
-      via:
-      - 1.1 3566cbcd49f71967b52a565888e4d272.cloudfront.net (CloudFront)
-      x-amz-cf-pop:
-      - SFO5-C1
-      x-amz-cf-id:
-      - dykB0oyC3ncbGQmW67V5ZMvouZWSNi9t01y7gq-lnAJJyh8IpFd2Hw==
-    body:
-      encoding: ASCII-8BIT
-      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns3:GetServiceOptionAssignmentsByServiceResponse
-        xmlns:ns2="http://echo.nasa.gov/echo/v10/types" xmlns:ns3="http://echo.nasa.gov/echo/v10"
-        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns3:result><ns2:Item><ns2:Guid>A8937901-8755-3F75-8E73-4E851AD8853A</ns2:Guid><ns2:ServiceOptionDefinitionGuid>35FB523D-EE0A-E32A-733E-F2DA6ED49107</ns2:ServiceOptionDefinitionGuid><ns2:ServiceEntryGuid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns2:ServiceEntryGuid><ns2:CatalogItemGuid>C1200019403-MMT_2</ns2:CatalogItemGuid><ns2:AppliesOnlyToGranules>true</ns2:AppliesOnlyToGranules></ns2:Item><ns2:Item><ns2:Guid>283D0822-5321-2A51-E0C5-69F8C99D925E</ns2:Guid><ns2:ServiceOptionDefinitionGuid>A700514B-9AB7-EA4A-3971-277F3891C3D4</ns2:ServiceOptionDefinitionGuid><ns2:ServiceEntryGuid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns2:ServiceEntryGuid><ns2:CatalogItemGuid>C1200190013-MMT_2</ns2:CatalogItemGuid><ns2:AppliesOnlyToGranules>false</ns2:AppliesOnlyToGranules></ns2:Item></ns3:result></ns3:GetServiceOptionAssignmentsByServiceResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
-  recorded_at: Thu, 13 Oct 2022 20:59:06 GMT
-- request:
-    method: post
-    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ServiceManagementServicePortImpl
-    body:
-      encoding: UTF-8
-      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceEntries
-        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
-        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzA3Njk4NjAsImlhdCI6MTY2NTU4NTg2MCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.hR39xfz1SpqEl1l0vzo_MUbYuSg0T_OHfxXNsBoYHXRXmMtDCkB7uGPAnskM78Re0wZXXmwHmk0IxU6W8dbzZZd7KLrhmLJX-B0sMNdXO0S7El2UulZsRQfaTPJov7J4hZZTXhq8u7O3daasysXopeiUI_3qh9flb12svh58knUEPflwYhisMVShj7iqrKVNzO2gCf4poRCkmyqZAeRdwgIaKZTR5k7p1fUbB6mgFxpiftgkFCFETGB8VhiGj9aE0hFW6f4Dn9kpEqnM1axiQ-PePwz4y_yyYBNIPBhGLTmh75aNqMlmd97WpKy_1NrAyMvF3C9EfCiGZOHN5Opk_A</ns2:token><ns2:serviceEntryGuids><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item></ns2:serviceEntryGuids></ns2:GetServiceEntries><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    headers:
-      User-Agent:
-      - Faraday v1.10.0
-      Content-Type:
-      - text/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      content-type:
-      - text/xml;charset=utf-8
-      transfer-encoding:
-      - chunked
-      connection:
-      - keep-alive
-      vary:
-      - Accept-Encoding
-      date:
-      - Thu, 13 Oct 2022 20:59:04 GMT
-      accept:
-      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
-      soapaction:
-      - '""'
-      server:
-      - ServerTokens ProductOnly
-      x-request-id:
-      - w-LRlvAj1Zch1BFhXJzIYLaGNWUqLsfxOmNwF_vc55m8sc-Juqu4_g==
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-      strict-transport-security:
-      - max-age=31536000
-      x-cache:
-      - Miss from cloudfront
-      via:
-      - 1.1 7b5e90ec4988c1c340392b828c6f9f4a.cloudfront.net (CloudFront)
-      x-amz-cf-pop:
-      - SFO5-C1
-      x-amz-cf-id:
-      - w-LRlvAj1Zch1BFhXJzIYLaGNWUqLsfxOmNwF_vc55m8sc-Juqu4_g==
-    body:
-      encoding: ASCII-8BIT
-      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns3:GetServiceEntriesResponse
-        xmlns:ns2="http://echo.nasa.gov/echo/v10/types" xmlns:ns3="http://echo.nasa.gov/echo/v10"
-        xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns3:result><ns2:Item><ns2:Guid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns2:Guid><ns2:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns2:ProviderGuid><ns2:Name>Polaris</ns2:Name><ns2:Url>http://fritsch.io/dallas</ns2:Url><ns2:Description>Et
-        nostrum voluptas perferendis eos omnis libero nam.</ns2:Description><ns2:EntryType>SERVICE_IMPLEMENTATION</ns2:EntryType><ns2:TagGuids><ns2:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200190013-MMT_2</ns2:Item><ns2:Item>SERVICE-INTERFACE_102DF03A-D4F8-793A-D920-E6D1B11F8A24</ns2:Item><ns2:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200019403-MMT_2</ns2:Item></ns2:TagGuids></ns2:Item><ns2:Item><ns2:Guid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns2:Guid><ns2:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns2:ProviderGuid><ns2:Name>Polaris</ns2:Name><ns2:Url>http://fritsch.io/dallas</ns2:Url><ns2:Description>Et
-        nostrum voluptas perferendis eos omnis libero nam.</ns2:Description><ns2:EntryType>SERVICE_IMPLEMENTATION</ns2:EntryType><ns2:TagGuids><ns2:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200190013-MMT_2</ns2:Item><ns2:Item>SERVICE-INTERFACE_102DF03A-D4F8-793A-D920-E6D1B11F8A24</ns2:Item><ns2:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200019403-MMT_2</ns2:Item></ns2:TagGuids></ns2:Item></ns3:result></ns3:GetServiceEntriesResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
-  recorded_at: Thu, 13 Oct 2022 20:59:06 GMT
-- request:
-    method: post
-    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ServiceManagementServicePortImpl
-    body:
-      encoding: UTF-8
-      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionDefinitions
-        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
-        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzA3Njk4NjAsImlhdCI6MTY2NTU4NTg2MCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.hR39xfz1SpqEl1l0vzo_MUbYuSg0T_OHfxXNsBoYHXRXmMtDCkB7uGPAnskM78Re0wZXXmwHmk0IxU6W8dbzZZd7KLrhmLJX-B0sMNdXO0S7El2UulZsRQfaTPJov7J4hZZTXhq8u7O3daasysXopeiUI_3qh9flb12svh58knUEPflwYhisMVShj7iqrKVNzO2gCf4poRCkmyqZAeRdwgIaKZTR5k7p1fUbB6mgFxpiftgkFCFETGB8VhiGj9aE0hFW6f4Dn9kpEqnM1axiQ-PePwz4y_yyYBNIPBhGLTmh75aNqMlmd97WpKy_1NrAyMvF3C9EfCiGZOHN5Opk_A</ns2:token><ns2:optionGuids><ns3:Item>35FB523D-EE0A-E32A-733E-F2DA6ED49107</ns3:Item><ns3:Item>A700514B-9AB7-EA4A-3971-277F3891C3D4</ns3:Item></ns2:optionGuids></ns2:GetServiceOptionDefinitions><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    headers:
-      User-Agent:
-      - Faraday v1.10.0
-      Content-Type:
-      - text/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      content-type:
-      - text/xml;charset=utf-8
-      transfer-encoding:
-      - chunked
-      connection:
-      - keep-alive
-      vary:
-      - Accept-Encoding
-      date:
-      - Thu, 13 Oct 2022 20:59:04 GMT
-      accept:
-      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
-      soapaction:
-      - '""'
-      server:
-      - ServerTokens ProductOnly
-      x-request-id:
-      - "-HgXxsPEG22sbJBLFEJh5CgDm1NdURa1R2UGRCIxx0Fa_TeMVLstkg=="
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-      strict-transport-security:
-      - max-age=31536000
-      x-cache:
-      - Miss from cloudfront
-      via:
-      - 1.1 32814ee4b53f3642b74e20a0ba5944f6.cloudfront.net (CloudFront)
-      x-amz-cf-pop:
-      - SFO5-C1
-      x-amz-cf-id:
-      - "-HgXxsPEG22sbJBLFEJh5CgDm1NdURa1R2UGRCIxx0Fa_TeMVLstkg=="
-    body:
-      encoding: ASCII-8BIT
-      string: |-
-        <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns3:GetServiceOptionDefinitionsResponse xmlns:ns2="http://echo.nasa.gov/echo/v10/types" xmlns:ns3="http://echo.nasa.gov/echo/v10" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns3:result><ns2:Item><ns2:Guid>35FB523D-EE0A-E32A-733E-F2DA6ED49107</ns2:Guid><ns2:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns2:ProviderGuid><ns2:Name>Bibendum Mollis Lorem Elit Condimentum</ns2:Name><ns2:Description>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</ns2:Description><ns2:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
-                    &lt;model&gt;
-                      &lt;instance&gt;
-                        &lt;prov:options xmlns:prov="http://myorganization.gov/orderoptions"&gt;
-                          &lt;prov:filename&gt;data.txt&lt;/prov:filename&gt;
-                          &lt;prov:filesize&gt;10&lt;/prov:filesize&gt;
-                        &lt;/prov:options&gt;
-                      &lt;/instance&gt;
-                    &lt;/model&gt;
-                    &lt;ui&gt;
-                      &lt;input label="File Name" ref="prov:filename" type="xsd:string"&gt;
-                        &lt;constraints&gt;
-                          &lt;constraint&gt;
-                            &lt;xpath&gt;string-length(prov:filename) &amp;lt; 25&lt;/xpath&gt;
-                            &lt;alert&gt;File names must be less than 25 characters&lt;/alert&gt;
-                          &lt;/constraint&gt;
-                          &lt;constraint&gt;
-                            &lt;pattern&gt;^[A-Za-z]+[A-Za-z0-9]*\.?[A-Za-z0-9]*$&lt;/pattern&gt;
-                            &lt;alert&gt;
-                              File names must start with a letter and
-                              not contain illegal characters
-                            &lt;/alert&gt;
-                          &lt;/constraint&gt;
-                        &lt;/constraints&gt;
-                      &lt;/input&gt;
-                      &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
-                      &lt;/range&gt;
-                    &lt;/ui&gt;
-                  &lt;/form&gt;</ns2:Form><ns2:LastUpdate>2017-01-17T18:34:43.394Z</ns2:LastUpdate></ns2:Item><ns2:Item><ns2:Guid>A700514B-9AB7-EA4A-3971-277F3891C3D4</ns2:Guid><ns2:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns2:ProviderGuid><ns2:Name>Vestibulum Ridiculus</ns2:Name><ns2:Description>Cras mattis consectetur purus sit amet fermentum. Etiam porta sem malesuada magna mollis euismod. Nulla vitae elit libero, a pharetra augue. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</ns2:Description><ns2:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
-                    &lt;model&gt;
-                      &lt;instance&gt;
-                        &lt;prov:options xmlns:prov="http://myorganization.gov/orderoptions"&gt;
-                          &lt;prov:filename&gt;data.txt&lt;/prov:filename&gt;
-                          &lt;prov:filesize&gt;10&lt;/prov:filesize&gt;
-                        &lt;/prov:options&gt;
-                      &lt;/instance&gt;
-                    &lt;/model&gt;
-                    &lt;ui&gt;
-                      &lt;input label="File Name" ref="prov:filename" type="xsd:string"&gt;
-                        &lt;constraints&gt;
-                          &lt;constraint&gt;
-                            &lt;xpath&gt;string-length(prov:filename) &amp;lt; 25&lt;/xpath&gt;
-                            &lt;alert&gt;File names must be less than 25 characters&lt;/alert&gt;
-                          &lt;/constraint&gt;
-                          &lt;constraint&gt;
-                            &lt;pattern&gt;^[A-Za-z]+[A-Za-z0-9]*\.?[A-Za-z0-9]*$&lt;/pattern&gt;
-                            &lt;alert&gt;
-                              File names must start with a letter and
-                              not contain illegal characters
-                            &lt;/alert&gt;
-                          &lt;/constraint&gt;
-                        &lt;/constraints&gt;
-                      &lt;/input&gt;
-                      &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
-                      &lt;/range&gt;
-                    &lt;/ui&gt;
-                  &lt;/form&gt;</ns2:Form><ns2:LastUpdate>2017-01-17T17:04:53.868Z</ns2:LastUpdate></ns2:Item></ns3:result></ns3:GetServiceOptionDefinitionsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
-  recorded_at: Thu, 13 Oct 2022 20:59:07 GMT
-- request:
-    method: get
-    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=OPTION_ASSIGNMENT&user_id=testuser
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Faraday v1.10.0
-      Client-Id:
-      - MMT
-      Accept:
-      - application/json; charset=utf-8
-      Authorization:
-      - access_token
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      content-length:
-      - '32'
-      connection:
-      - keep-alive
-      date:
-      - Thu, 13 Oct 2022 20:59:05 GMT
-      cmr-request-id:
-      - 77475969-f8be-4915-a1ce-ab3526bddd39
-      x-request-id:
-      - Oq7HfEEoWCmMTNxtV4w_L7gFfQn7zXXVkIXsxvubCFwibrSnyWE0zA==
-      vary:
-      - Accept-Encoding, User-Agent
-      server:
-      - ServerTokens ProductOnly
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-      strict-transport-security:
-      - max-age=31536000
-      x-cache:
-      - Miss from cloudfront
-      via:
-      - 1.1 e5089b0e0858be18714ab2104dc8c370.cloudfront.net (CloudFront)
-      x-amz-cf-pop:
-      - SFO5-C1
-      x-amz-cf-id:
-      - Oq7HfEEoWCmMTNxtV4w_L7gFfQn7zXXVkIXsxvubCFwibrSnyWE0zA==
-    body:
-      encoding: UTF-8
-      string: '{"OPTION_ASSIGNMENT":["delete"]}'
-  recorded_at: Thu, 13 Oct 2022 20:59:07 GMT
+  - request:
+      method: get
+      uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Client-Id:
+          - MMT
+        Accept:
+          - application/json; charset=utf-8
+        Authorization:
+          - access_token
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        content-length:
+          - '30'
+        connection:
+          - keep-alive
+        date:
+          - Thu, 13 Oct 2022 20:59:03 GMT
+        cmr-request-id:
+          - 0a6ce7d6-3e62-435d-90f0-54a894c376de
+        x-request-id:
+          - xC2NylPFt62UOBuXtLImzdvq4o_6q9b8Y_j6O4BJmXsXkG9mgB2CUQ==
+        vary:
+          - Accept-Encoding, User-Agent
+        server:
+          - ServerTokens ProductOnly
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Miss from cloudfront
+        via:
+          - 1.1 2cd1423c218193e9646892449fb7844a.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - SFO5-C1
+        x-amz-cf-id:
+          - xC2NylPFt62UOBuXtLImzdvq4o_6q9b8Y_j6O4BJmXsXkG9mgB2CUQ==
+      body:
+        encoding: UTF-8
+        string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+    recorded_at: Thu, 13 Oct 2022 20:59:05 GMT
+  - request:
+      method: post
+      uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ServiceManagementServicePortImpl
+      body:
+        encoding: UTF-8
+        string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionAssignmentsByService
+          xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+          xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzA3Njk4NjAsImlhdCI6MTY2NTU4NTg2MCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.hR39xfz1SpqEl1l0vzo_MUbYuSg0T_OHfxXNsBoYHXRXmMtDCkB7uGPAnskM78Re0wZXXmwHmk0IxU6W8dbzZZd7KLrhmLJX-B0sMNdXO0S7El2UulZsRQfaTPJov7J4hZZTXhq8u7O3daasysXopeiUI_3qh9flb12svh58knUEPflwYhisMVShj7iqrKVNzO2gCf4poRCkmyqZAeRdwgIaKZTR5k7p1fUbB6mgFxpiftgkFCFETGB8VhiGj9aE0hFW6f4Dn9kpEqnM1axiQ-PePwz4y_yyYBNIPBhGLTmh75aNqMlmd97WpKy_1NrAyMvF3C9EfCiGZOHN5Opk_A</ns2:token><ns2:serviceEntryGuids><ns3:Item>3E5F3D05-C8F5-C540-4484-F3E67A7D5E62</ns3:Item><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item></ns2:serviceEntryGuids></ns2:GetServiceOptionAssignmentsByService><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Content-Type:
+          - text/xml
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        content-type:
+          - text/xml;charset=utf-8
+        transfer-encoding:
+          - chunked
+        connection:
+          - keep-alive
+        vary:
+          - Accept-Encoding
+        date:
+          - Thu, 13 Oct 2022 20:59:03 GMT
+        accept:
+          - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        soapaction:
+          - '""'
+        server:
+          - ServerTokens ProductOnly
+        x-request-id:
+          - dykB0oyC3ncbGQmW67V5ZMvouZWSNi9t01y7gq-lnAJJyh8IpFd2Hw==
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Miss from cloudfront
+        via:
+          - 1.1 3566cbcd49f71967b52a565888e4d272.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - SFO5-C1
+        x-amz-cf-id:
+          - dykB0oyC3ncbGQmW67V5ZMvouZWSNi9t01y7gq-lnAJJyh8IpFd2Hw==
+      body:
+        encoding: ASCII-8BIT
+        string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns3:GetServiceOptionAssignmentsByServiceResponse
+          xmlns:ns2="http://echo.nasa.gov/echo/v10/types" xmlns:ns3="http://echo.nasa.gov/echo/v10"
+          xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns3:result><ns2:Item><ns2:Guid>A8937901-8755-3F75-8E73-4E851AD8853A</ns2:Guid><ns2:ServiceOptionDefinitionGuid>35FB523D-EE0A-E32A-733E-F2DA6ED49107</ns2:ServiceOptionDefinitionGuid><ns2:ServiceEntryGuid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns2:ServiceEntryGuid><ns2:CatalogItemGuid>C1200019403-MMT_2</ns2:CatalogItemGuid><ns2:AppliesOnlyToGranules>true</ns2:AppliesOnlyToGranules></ns2:Item><ns2:Item><ns2:Guid>283D0822-5321-2A51-E0C5-69F8C99D925E</ns2:Guid><ns2:ServiceOptionDefinitionGuid>A700514B-9AB7-EA4A-3971-277F3891C3D4</ns2:ServiceOptionDefinitionGuid><ns2:ServiceEntryGuid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns2:ServiceEntryGuid><ns2:CatalogItemGuid>C1200190013-MMT_2</ns2:CatalogItemGuid><ns2:AppliesOnlyToGranules>false</ns2:AppliesOnlyToGranules></ns2:Item></ns3:result></ns3:GetServiceOptionAssignmentsByServiceResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    recorded_at: Thu, 13 Oct 2022 20:59:06 GMT
+  - request:
+      method: post
+      uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ServiceManagementServicePortImpl
+      body:
+        encoding: UTF-8
+        string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceEntries
+          xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+          xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzA3Njk4NjAsImlhdCI6MTY2NTU4NTg2MCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.hR39xfz1SpqEl1l0vzo_MUbYuSg0T_OHfxXNsBoYHXRXmMtDCkB7uGPAnskM78Re0wZXXmwHmk0IxU6W8dbzZZd7KLrhmLJX-B0sMNdXO0S7El2UulZsRQfaTPJov7J4hZZTXhq8u7O3daasysXopeiUI_3qh9flb12svh58knUEPflwYhisMVShj7iqrKVNzO2gCf4poRCkmyqZAeRdwgIaKZTR5k7p1fUbB6mgFxpiftgkFCFETGB8VhiGj9aE0hFW6f4Dn9kpEqnM1axiQ-PePwz4y_yyYBNIPBhGLTmh75aNqMlmd97WpKy_1NrAyMvF3C9EfCiGZOHN5Opk_A</ns2:token><ns2:serviceEntryGuids><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item></ns2:serviceEntryGuids></ns2:GetServiceEntries><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Content-Type:
+          - text/xml
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        content-type:
+          - text/xml;charset=utf-8
+        transfer-encoding:
+          - chunked
+        connection:
+          - keep-alive
+        vary:
+          - Accept-Encoding
+        date:
+          - Thu, 13 Oct 2022 20:59:04 GMT
+        accept:
+          - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        soapaction:
+          - '""'
+        server:
+          - ServerTokens ProductOnly
+        x-request-id:
+          - w-LRlvAj1Zch1BFhXJzIYLaGNWUqLsfxOmNwF_vc55m8sc-Juqu4_g==
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Miss from cloudfront
+        via:
+          - 1.1 7b5e90ec4988c1c340392b828c6f9f4a.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - SFO5-C1
+        x-amz-cf-id:
+          - w-LRlvAj1Zch1BFhXJzIYLaGNWUqLsfxOmNwF_vc55m8sc-Juqu4_g==
+      body:
+        encoding: ASCII-8BIT
+        string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns3:GetServiceEntriesResponse
+          xmlns:ns2="http://echo.nasa.gov/echo/v10/types" xmlns:ns3="http://echo.nasa.gov/echo/v10"
+          xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns3:result><ns2:Item><ns2:Guid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns2:Guid><ns2:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns2:ProviderGuid><ns2:Name>Polaris</ns2:Name><ns2:Url>http://fritsch.io/dallas</ns2:Url><ns2:Description>Et
+          nostrum voluptas perferendis eos omnis libero nam.</ns2:Description><ns2:EntryType>SERVICE_IMPLEMENTATION</ns2:EntryType><ns2:TagGuids><ns2:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200190013-MMT_2</ns2:Item><ns2:Item>SERVICE-INTERFACE_102DF03A-D4F8-793A-D920-E6D1B11F8A24</ns2:Item><ns2:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200019403-MMT_2</ns2:Item></ns2:TagGuids></ns2:Item><ns2:Item><ns2:Guid>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns2:Guid><ns2:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns2:ProviderGuid><ns2:Name>Polaris</ns2:Name><ns2:Url>http://fritsch.io/dallas</ns2:Url><ns2:Description>Et
+          nostrum voluptas perferendis eos omnis libero nam.</ns2:Description><ns2:EntryType>SERVICE_IMPLEMENTATION</ns2:EntryType><ns2:TagGuids><ns2:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200190013-MMT_2</ns2:Item><ns2:Item>SERVICE-INTERFACE_102DF03A-D4F8-793A-D920-E6D1B11F8A24</ns2:Item><ns2:Item>DATASET_07ACF84C-6360-0BC7-92A8-E95A958DDE12_C1200019403-MMT_2</ns2:Item></ns2:TagGuids></ns2:Item></ns3:result></ns3:GetServiceEntriesResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    recorded_at: Thu, 13 Oct 2022 20:59:06 GMT
+  - request:
+      method: post
+      uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ServiceManagementServicePortImpl
+      body:
+        encoding: UTF-8
+        string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionDefinitions
+          xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+          xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzA3Njk4NjAsImlhdCI6MTY2NTU4NTg2MCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.hR39xfz1SpqEl1l0vzo_MUbYuSg0T_OHfxXNsBoYHXRXmMtDCkB7uGPAnskM78Re0wZXXmwHmk0IxU6W8dbzZZd7KLrhmLJX-B0sMNdXO0S7El2UulZsRQfaTPJov7J4hZZTXhq8u7O3daasysXopeiUI_3qh9flb12svh58knUEPflwYhisMVShj7iqrKVNzO2gCf4poRCkmyqZAeRdwgIaKZTR5k7p1fUbB6mgFxpiftgkFCFETGB8VhiGj9aE0hFW6f4Dn9kpEqnM1axiQ-PePwz4y_yyYBNIPBhGLTmh75aNqMlmd97WpKy_1NrAyMvF3C9EfCiGZOHN5Opk_A</ns2:token><ns2:optionGuids><ns3:Item>35FB523D-EE0A-E32A-733E-F2DA6ED49107</ns3:Item><ns3:Item>A700514B-9AB7-EA4A-3971-277F3891C3D4</ns3:Item></ns2:optionGuids></ns2:GetServiceOptionDefinitions><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Content-Type:
+          - text/xml
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        content-type:
+          - text/xml;charset=utf-8
+        transfer-encoding:
+          - chunked
+        connection:
+          - keep-alive
+        vary:
+          - Accept-Encoding
+        date:
+          - Thu, 13 Oct 2022 20:59:04 GMT
+        accept:
+          - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        soapaction:
+          - '""'
+        server:
+          - ServerTokens ProductOnly
+        x-request-id:
+          - "-HgXxsPEG22sbJBLFEJh5CgDm1NdURa1R2UGRCIxx0Fa_TeMVLstkg=="
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Miss from cloudfront
+        via:
+          - 1.1 32814ee4b53f3642b74e20a0ba5944f6.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - SFO5-C1
+        x-amz-cf-id:
+          - "-HgXxsPEG22sbJBLFEJh5CgDm1NdURa1R2UGRCIxx0Fa_TeMVLstkg=="
+      body:
+        encoding: ASCII-8BIT
+        string: |-
+          <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns3:GetServiceOptionDefinitionsResponse xmlns:ns2="http://echo.nasa.gov/echo/v10/types" xmlns:ns3="http://echo.nasa.gov/echo/v10" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns3:result><ns2:Item><ns2:Guid>35FB523D-EE0A-E32A-733E-F2DA6ED49107</ns2:Guid><ns2:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns2:ProviderGuid><ns2:Name>Bibendum Mollis Lorem Elit Condimentum</ns2:Name><ns2:Description>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</ns2:Description><ns2:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
+                      &lt;model&gt;
+                        &lt;instance&gt;
+                          &lt;prov:options xmlns:prov="http://myorganization.gov/orderoptions"&gt;
+                            &lt;prov:filename&gt;data.txt&lt;/prov:filename&gt;
+                            &lt;prov:filesize&gt;10&lt;/prov:filesize&gt;
+                          &lt;/prov:options&gt;
+                        &lt;/instance&gt;
+                      &lt;/model&gt;
+                      &lt;ui&gt;
+                        &lt;input label="File Name" ref="prov:filename" type="xsd:string"&gt;
+                          &lt;constraints&gt;
+                            &lt;constraint&gt;
+                              &lt;xpath&gt;string-length(prov:filename) &amp;lt; 25&lt;/xpath&gt;
+                              &lt;alert&gt;File names must be less than 25 characters&lt;/alert&gt;
+                            &lt;/constraint&gt;
+                            &lt;constraint&gt;
+                              &lt;pattern&gt;^[A-Za-z]+[A-Za-z0-9]*\.?[A-Za-z0-9]*$&lt;/pattern&gt;
+                              &lt;alert&gt;
+                                File names must start with a letter and
+                                not contain illegal characters
+                              &lt;/alert&gt;
+                            &lt;/constraint&gt;
+                          &lt;/constraints&gt;
+                        &lt;/input&gt;
+                        &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
+                        &lt;/range&gt;
+                      &lt;/ui&gt;
+                    &lt;/form&gt;</ns2:Form><ns2:LastUpdate>2017-01-17T18:34:43.394Z</ns2:LastUpdate></ns2:Item><ns2:Item><ns2:Guid>A700514B-9AB7-EA4A-3971-277F3891C3D4</ns2:Guid><ns2:ProviderGuid>07ACF84C-6360-0BC7-92A8-E95A958DDE12</ns2:ProviderGuid><ns2:Name>Vestibulum Ridiculus</ns2:Name><ns2:Description>Cras mattis consectetur purus sit amet fermentum. Etiam porta sem malesuada magna mollis euismod. Nulla vitae elit libero, a pharetra augue. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</ns2:Description><ns2:Form>&lt;form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms"&gt;
+                      &lt;model&gt;
+                        &lt;instance&gt;
+                          &lt;prov:options xmlns:prov="http://myorganization.gov/orderoptions"&gt;
+                            &lt;prov:filename&gt;data.txt&lt;/prov:filename&gt;
+                            &lt;prov:filesize&gt;10&lt;/prov:filesize&gt;
+                          &lt;/prov:options&gt;
+                        &lt;/instance&gt;
+                      &lt;/model&gt;
+                      &lt;ui&gt;
+                        &lt;input label="File Name" ref="prov:filename" type="xsd:string"&gt;
+                          &lt;constraints&gt;
+                            &lt;constraint&gt;
+                              &lt;xpath&gt;string-length(prov:filename) &amp;lt; 25&lt;/xpath&gt;
+                              &lt;alert&gt;File names must be less than 25 characters&lt;/alert&gt;
+                            &lt;/constraint&gt;
+                            &lt;constraint&gt;
+                              &lt;pattern&gt;^[A-Za-z]+[A-Za-z0-9]*\.?[A-Za-z0-9]*$&lt;/pattern&gt;
+                              &lt;alert&gt;
+                                File names must start with a letter and
+                                not contain illegal characters
+                              &lt;/alert&gt;
+                            &lt;/constraint&gt;
+                          &lt;/constraints&gt;
+                        &lt;/input&gt;
+                        &lt;range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"&gt;
+                        &lt;/range&gt;
+                      &lt;/ui&gt;
+                    &lt;/form&gt;</ns2:Form><ns2:LastUpdate>2017-01-17T17:04:53.868Z</ns2:LastUpdate></ns2:Item></ns3:result></ns3:GetServiceOptionDefinitionsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    recorded_at: Thu, 13 Oct 2022 20:59:07 GMT
+  - request:
+      method: get
+      uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=OPTION_ASSIGNMENT&user_id=testuser
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Client-Id:
+          - MMT
+        Accept:
+          - application/json; charset=utf-8
+        Authorization:
+          - access_token
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        content-length:
+          - '32'
+        connection:
+          - keep-alive
+        date:
+          - Thu, 13 Oct 2022 20:59:05 GMT
+        cmr-request-id:
+          - 77475969-f8be-4915-a1ce-ab3526bddd39
+        x-request-id:
+          - Oq7HfEEoWCmMTNxtV4w_L7gFfQn7zXXVkIXsxvubCFwibrSnyWE0zA==
+        vary:
+          - Accept-Encoding, User-Agent
+        server:
+          - ServerTokens ProductOnly
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Miss from cloudfront
+        via:
+          - 1.1 e5089b0e0858be18714ab2104dc8c370.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - SFO5-C1
+        x-amz-cf-id:
+          - Oq7HfEEoWCmMTNxtV4w_L7gFfQn7zXXVkIXsxvubCFwibrSnyWE0zA==
+      body:
+        encoding: UTF-8
+        string: '{"OPTION_ASSIGNMENT":["delete"]}'
+    recorded_at: Thu, 13 Oct 2022 20:59:07 GMT
 recorded_with: VCR 6.1.0

@@ -1,231 +1,231 @@
 ---
 http_interactions:
-- request:
-    method: get
-    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Faraday v1.10.0
-      Client-Id:
-      - MMT
-      Accept:
-      - application/json; charset=utf-8
-      Authorization:
-      - access_token
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      content-length:
-      - '30'
-      connection:
-      - keep-alive
-      date:
-      - Wed, 12 Oct 2022 20:25:18 GMT
-      cmr-request-id:
-      - ea4f175e-f99a-414a-91b8-a81f8cb2f8f3
-      x-request-id:
-      - I3dUCqy-dKXZbUtegYKK82Qq6VK6oP3Lr3n_-JKsJTCPfBuguK-oLw==
-      vary:
-      - Accept-Encoding, User-Agent
-      server:
-      - ServerTokens ProductOnly
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-      strict-transport-security:
-      - max-age=31536000
-      x-cache:
-      - Miss from cloudfront
-      via:
-      - 1.1 c620e5f042fe306b2cbec99aa10cb456.cloudfront.net (CloudFront)
-      x-amz-cf-pop:
-      - IAH50-C1
-      x-amz-cf-id:
-      - I3dUCqy-dKXZbUtegYKK82Qq6VK6oP3Lr3n_-JKsJTCPfBuguK-oLw==
-    body:
-      encoding: UTF-8
-      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
-  recorded_at: Wed, 12 Oct 2022 20:25:19 GMT
-- request:
-    method: get
-    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=OPTION_ASSIGNMENT&user_id=testuser
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Faraday v1.10.0
-      Client-Id:
-      - MMT
-      Accept:
-      - application/json; charset=utf-8
-      Authorization:
-      - access_token
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      content-length:
-      - '32'
-      connection:
-      - keep-alive
-      date:
-      - Wed, 12 Oct 2022 20:25:19 GMT
-      cmr-request-id:
-      - 8f6bff1a-326e-47af-90b3-b1c705aec978
-      x-request-id:
-      - h6Y3YGPcoEFNWE5SjbIpi8s0yTeEmKXrWKUiWjscFBROsbMxnzKMyg==
-      vary:
-      - Accept-Encoding, User-Agent
-      server:
-      - ServerTokens ProductOnly
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-      strict-transport-security:
-      - max-age=31536000
-      x-cache:
-      - Miss from cloudfront
-      via:
-      - 1.1 6bc9f5a524cd42997b988e13bf451cd8.cloudfront.net (CloudFront)
-      x-amz-cf-pop:
-      - IAH50-C1
-      x-amz-cf-id:
-      - h6Y3YGPcoEFNWE5SjbIpi8s0yTeEmKXrWKUiWjscFBROsbMxnzKMyg==
-    body:
-      encoding: UTF-8
-      string: '{"OPTION_ASSIGNMENT":["create"]}'
-  recorded_at: Wed, 12 Oct 2022 20:25:20 GMT
-- request:
-    method: post
-    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ServiceManagementServicePortImpl
-    body:
-      encoding: UTF-8
-      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionDefinitionNames
-        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
-        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:optionGuids
-        xsi:nil="true"/></ns2:GetServiceOptionDefinitionNames><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    headers:
-      User-Agent:
-      - Faraday v1.10.0
-      Content-Type:
-      - text/xml
-  response:
-    status:
-      code: 500
-      message: Server Error
-    headers:
-      content-type:
-      - text/xml;charset=utf-8
-      content-length:
-      - '938'
-      connection:
-      - keep-alive
-      date:
-      - Wed, 12 Oct 2022 20:27:51 GMT
-      accept:
-      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
-      soapaction:
-      - '""'
-      server:
-      - ServerTokens ProductOnly
-      x-request-id:
-      - UhVw0R0Ot0xYjNx9h6r3D39_F26dw1laYSrCfZ1f_Y7qRNGFr424LQ==
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-      strict-transport-security:
-      - max-age=31536000
-      x-cache:
-      - Error from cloudfront
-      via:
-      - 1.1 c8fc06f86464f0d2b6c79379eb99a0d4.cloudfront.net (CloudFront)
-      x-amz-cf-pop:
-      - DFW55-C2
-      x-amz-cf-id:
-      - UhVw0R0Ot0xYjNx9h6r3D39_F26dw1laYSrCfZ1f_Y7qRNGFr424LQ==
-    body:
-      encoding: UTF-8
-      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Client</faultcode><faultstring>Token
-        [access_XXX] does not exist</faultstring><detail><ns4:ItemNotFoundFault xmlns:ns2="http://echo.nasa.gov/echo/v10"
-        xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns4:ErrorCode>TokenNotFound</ns4:ErrorCode><ns4:OpsMessage
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><ns4:SystemMessage>Token
-        [access_XXX] does not exist</ns4:SystemMessage><ns4:Timestamp>2022-10-12T20:27:51.553Z</ns4:Timestamp><ns4:ErrorInstanceId>9BDFBE5A-6B1D-E16E-5E20-3A98AADBF14B</ns4:ErrorInstanceId><ns4:Arguments><ns4:Argument><ns4:Name>Token</ns4:Name><ns4:Value>access_token</ns4:Value></ns4:Argument></ns4:Arguments></ns4:ItemNotFoundFault></detail></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
-  recorded_at: Wed, 12 Oct 2022 20:27:52 GMT
-- request:
-    method: post
-    uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ProviderServicePortImpl
-    body:
-      encoding: UTF-8
-      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetProviderNames
-        xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
-        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:guids
-        xsi:nil="true"/></ns2:GetProviderNames><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    headers:
-      User-Agent:
-      - Faraday v1.10.0
-      Content-Type:
-      - text/xml
-  response:
-    status:
-      code: 500
-      message: Server Error
-    headers:
-      content-type:
-      - text/xml;charset=utf-8
-      content-length:
-      - '938'
-      connection:
-      - keep-alive
-      date:
-      - Fri, 14 Oct 2022 10:29:36 GMT
-      accept:
-      - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
-      soapaction:
-      - '""'
-      server:
-      - ServerTokens ProductOnly
-      x-request-id:
-      - DGqlXa_2YdHXmowtxh4RNdyk9lvjL5cT68GWZ47FsGpN3ye0A0A8Yw==
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-      strict-transport-security:
-      - max-age=31536000
-      x-cache:
-      - Error from cloudfront
-      via:
-      - 1.1 798fb06c416f07d7eaba25e2728dc5ac.cloudfront.net (CloudFront)
-      x-amz-cf-pop:
-      - IAD79-C3
-      x-amz-cf-id:
-      - DGqlXa_2YdHXmowtxh4RNdyk9lvjL5cT68GWZ47FsGpN3ye0A0A8Yw==
-    body:
-      encoding: UTF-8
-      string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Client</faultcode><faultstring>Token
-        [access_XXX] does not exist</faultstring><detail><ns4:ItemNotFoundFault xmlns:ns2="http://echo.nasa.gov/echo/v10"
-        xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns4:ErrorCode>TokenNotFound</ns4:ErrorCode><ns4:OpsMessage
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><ns4:SystemMessage>Token
-        [access_XXX] does not exist</ns4:SystemMessage><ns4:Timestamp>2022-10-14T10:29:36.649Z</ns4:Timestamp><ns4:ErrorInstanceId>227F1575-E778-5169-F7AA-5C588CB72E04</ns4:ErrorInstanceId><ns4:Arguments><ns4:Argument><ns4:Name>Token</ns4:Name><ns4:Value>access_token</ns4:Value></ns4:Argument></ns4:Arguments></ns4:ItemNotFoundFault></detail></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
-  recorded_at: Fri, 14 Oct 2022 10:29:38 GMT
+  - request:
+      method: get
+      uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=testuser
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Client-Id:
+          - MMT
+        Accept:
+          - application/json; charset=utf-8
+        Authorization:
+          - access_token
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        content-length:
+          - '30'
+        connection:
+          - keep-alive
+        date:
+          - Wed, 12 Oct 2022 20:25:18 GMT
+        cmr-request-id:
+          - ea4f175e-f99a-414a-91b8-a81f8cb2f8f3
+        x-request-id:
+          - I3dUCqy-dKXZbUtegYKK82Qq6VK6oP3Lr3n_-JKsJTCPfBuguK-oLw==
+        vary:
+          - Accept-Encoding, User-Agent
+        server:
+          - ServerTokens ProductOnly
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Miss from cloudfront
+        via:
+          - 1.1 c620e5f042fe306b2cbec99aa10cb456.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - IAH50-C1
+        x-amz-cf-id:
+          - I3dUCqy-dKXZbUtegYKK82Qq6VK6oP3Lr3n_-JKsJTCPfBuguK-oLw==
+      body:
+        encoding: UTF-8
+        string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+    recorded_at: Wed, 12 Oct 2022 20:25:19 GMT
+  - request:
+      method: get
+      uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=OPTION_ASSIGNMENT&user_id=testuser
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Client-Id:
+          - MMT
+        Accept:
+          - application/json; charset=utf-8
+        Authorization:
+          - access_token
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        content-length:
+          - '32'
+        connection:
+          - keep-alive
+        date:
+          - Wed, 12 Oct 2022 20:25:19 GMT
+        cmr-request-id:
+          - 8f6bff1a-326e-47af-90b3-b1c705aec978
+        x-request-id:
+          - h6Y3YGPcoEFNWE5SjbIpi8s0yTeEmKXrWKUiWjscFBROsbMxnzKMyg==
+        vary:
+          - Accept-Encoding, User-Agent
+        server:
+          - ServerTokens ProductOnly
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Miss from cloudfront
+        via:
+          - 1.1 6bc9f5a524cd42997b988e13bf451cd8.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - IAH50-C1
+        x-amz-cf-id:
+          - h6Y3YGPcoEFNWE5SjbIpi8s0yTeEmKXrWKUiWjscFBROsbMxnzKMyg==
+      body:
+        encoding: UTF-8
+        string: '{"OPTION_ASSIGNMENT":["create"]}'
+    recorded_at: Wed, 12 Oct 2022 20:25:20 GMT
+  - request:
+      method: post
+      uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ServiceManagementServicePortImpl
+      body:
+        encoding: UTF-8
+        string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionDefinitionNames
+          xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+          xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:optionGuids
+          xsi:nil="true"/></ns2:GetServiceOptionDefinitionNames><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Content-Type:
+          - text/xml
+    response:
+      status:
+        code: 500
+        message: Server Error
+      headers:
+        content-type:
+          - text/xml;charset=utf-8
+        content-length:
+          - '938'
+        connection:
+          - keep-alive
+        date:
+          - Wed, 12 Oct 2022 20:27:51 GMT
+        accept:
+          - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        soapaction:
+          - '""'
+        server:
+          - ServerTokens ProductOnly
+        x-request-id:
+          - UhVw0R0Ot0xYjNx9h6r3D39_F26dw1laYSrCfZ1f_Y7qRNGFr424LQ==
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Error from cloudfront
+        via:
+          - 1.1 c8fc06f86464f0d2b6c79379eb99a0d4.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - DFW55-C2
+        x-amz-cf-id:
+          - UhVw0R0Ot0xYjNx9h6r3D39_F26dw1laYSrCfZ1f_Y7qRNGFr424LQ==
+      body:
+        encoding: UTF-8
+        string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Client</faultcode><faultstring>Token
+          [access_XXX] does not exist</faultstring><detail><ns4:ItemNotFoundFault xmlns:ns2="http://echo.nasa.gov/echo/v10"
+          xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns4:ErrorCode>TokenNotFound</ns4:ErrorCode><ns4:OpsMessage
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><ns4:SystemMessage>Token
+          [access_XXX] does not exist</ns4:SystemMessage><ns4:Timestamp>2022-10-12T20:27:51.553Z</ns4:Timestamp><ns4:ErrorInstanceId>9BDFBE5A-6B1D-E16E-5E20-3A98AADBF14B</ns4:ErrorInstanceId><ns4:Arguments><ns4:Argument><ns4:Name>Token</ns4:Name><ns4:Value>access_token</ns4:Value></ns4:Argument></ns4:Arguments></ns4:ItemNotFoundFault></detail></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    recorded_at: Wed, 12 Oct 2022 20:27:52 GMT
+  - request:
+      method: post
+      uri: https://cmr.sit.earthdata.nasa.gov/legacy-services/echo-v10/ProviderServicePortImpl
+      body:
+        encoding: UTF-8
+        string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetProviderNames
+          xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
+          xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>access_token</ns2:token><ns2:guids
+          xsi:nil="true"/></ns2:GetProviderNames><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+      headers:
+        User-Agent:
+          - Faraday v1.10.0
+        Content-Type:
+          - text/xml
+    response:
+      status:
+        code: 500
+        message: Server Error
+      headers:
+        content-type:
+          - text/xml;charset=utf-8
+        content-length:
+          - '938'
+        connection:
+          - keep-alive
+        date:
+          - Fri, 14 Oct 2022 10:29:36 GMT
+        accept:
+          - text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        soapaction:
+          - '""'
+        server:
+          - ServerTokens ProductOnly
+        x-request-id:
+          - DGqlXa_2YdHXmowtxh4RNdyk9lvjL5cT68GWZ47FsGpN3ye0A0A8Yw==
+        x-content-type-options:
+          - nosniff
+        x-frame-options:
+          - SAMEORIGIN
+        x-xss-protection:
+          - 1; mode=block
+        strict-transport-security:
+          - max-age=31536000
+        x-cache:
+          - Error from cloudfront
+        via:
+          - 1.1 798fb06c416f07d7eaba25e2728dc5ac.cloudfront.net (CloudFront)
+        x-amz-cf-pop:
+          - IAD79-C3
+        x-amz-cf-id:
+          - DGqlXa_2YdHXmowtxh4RNdyk9lvjL5cT68GWZ47FsGpN3ye0A0A8Yw==
+      body:
+        encoding: UTF-8
+        string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Client</faultcode><faultstring>Token
+          [access_XXX] does not exist</faultstring><detail><ns4:ItemNotFoundFault xmlns:ns2="http://echo.nasa.gov/echo/v10"
+          xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns4:ErrorCode>TokenNotFound</ns4:ErrorCode><ns4:OpsMessage
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><ns4:SystemMessage>Token
+          [access_XXX] does not exist</ns4:SystemMessage><ns4:Timestamp>2022-10-14T10:29:36.649Z</ns4:Timestamp><ns4:ErrorInstanceId>227F1575-E778-5169-F7AA-5C588CB72E04</ns4:ErrorInstanceId><ns4:Arguments><ns4:Argument><ns4:Name>Token</ns4:Name><ns4:Value>access_token</ns4:Value></ns4:Argument></ns4:Arguments></ns4:ItemNotFoundFault></detail></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    recorded_at: Fri, 14 Oct 2022 10:29:38 GMT
 recorded_with: VCR 6.1.0

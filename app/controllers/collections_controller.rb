@@ -277,7 +277,7 @@ class CollectionsController < ManageCollectionsController
       @num_tags = @tag_keys.count
 
       unless @tag_keys.blank?
-        cmr_tag_response = cmr_client.get_tags({ tag_key: @tag_keys })
+        cmr_tag_response = cmr_client.get_tags({ tag_key: @tag_keys }, token)
         if cmr_tag_response.success?
           @tags_info = cmr_tag_response.body['items']
         else
