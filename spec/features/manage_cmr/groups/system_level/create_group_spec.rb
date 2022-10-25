@@ -40,26 +40,26 @@ describe 'Creating System Level Groups', reset_provider: true do
         check 'System Level Group?'
         fill_in 'Description', with: group_description
 
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           page.find('.select2-search__field').native.send_keys('rarxd5taqea')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
         within '.group-form' do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: none) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
             click_on 'Submit'
           end
         end
