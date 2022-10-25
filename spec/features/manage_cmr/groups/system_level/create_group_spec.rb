@@ -1,8 +1,11 @@
-# EDL Failed Test
-describe 'Creating System Level Groups', reset_provider: true, skip:true do
+describe 'Creating System Level Groups', reset_provider: true do
   context 'when viewing new groups form as an admin user' do
     before do
       login_admin
+
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
 
       visit new_group_path
     end
@@ -28,8 +31,8 @@ describe 'Creating System Level Groups', reset_provider: true, skip:true do
       # Because this is a system level group, it never gets cleaned up, we need to ensure
       # that it's as random as possible. A random Superhero name combined with the current
       # timestamp should do.
-      let(:group_name) { "#{Faker::Superhero.name} #{Time.now.to_i}".parameterize.underscore }
-      let(:group_description) { Faker::Lorem.paragraph }
+      let(:group_name) { "apocalypse_fist_1666707530" }
+      let(:group_description) { "Incidunt quae repellendus. Ex accusantium ipsam. Qui quia doloribus." }
 
       before do
         # fill in group
@@ -37,26 +40,26 @@ describe 'Creating System Level Groups', reset_provider: true, skip:true do
         check 'System Level Group?'
         fill_in 'Description', with: group_description
 
-        VCR.use_cassette('edl/urs/search/rarxd5taqea', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: none) do
           page.find('.select2-search__field').native.send_keys('rarxd5taqea')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
-        VCR.use_cassette('edl/urs/search/qhw5mjoxgs2vjptmvzco', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: none) do
           page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
-        VCR.use_cassette('edl/urs/search/q6ddmkhivmuhk', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: none) do
           page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
         within '.group-form' do
-          VCR.use_cassette('edl/urs/multiple_users', record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: none) do
             click_on 'Submit'
           end
         end
