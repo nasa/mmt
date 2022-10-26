@@ -1,4 +1,3 @@
-# EDL Failed Test
 describe 'Permissions Permissions', js: true, reset_provider: true do
   let(:permission_name) { "Testing Collection Permission #{Faker::Number.number(digits: 5)}" }
   let(:collection_permission) do
