@@ -1,9 +1,10 @@
-# EDL Failed Test
-describe 'Group show page Manage System and Provider Object Permissions', skip:true do
+require "rspec/mocks/standalone"
+describe 'Group show page Manage System and Provider Object Permissions',js: true do
   before :all do
-    VCR.use_cassette('edl', record: :new_episodes) do
-      @admin_group_name = 'Test_Admin_Group_Manage_Provider_and_System_Permissions'
-      @admin_group_description = 'test admin group'
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('access_token')
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @admin_group_name = 'Test_Admin_Group_Manage_Provider_and_System_Permissions1'
+      @admin_group_description = 'test admin group1'
       @admin_group = create_group(
         name: @admin_group_name,
         description: @admin_group_description,
@@ -11,8 +12,8 @@ describe 'Group show page Manage System and Provider Object Permissions', skip:t
         admin: true
       )
 
-      @provider_group_name = 'Test_MMT_2_Group_Manage_Provider_and_System_Permissions'
-      @provider_group_description = 'test group'
+      @provider_group_name = 'Test_MMT_2_Group_Manage_Provider_and_System_Permissions1'
+      @provider_group_description = 'test group1'
       @provider_group = create_group(
         name: @provider_group_name,
         description: @provider_group_description,
@@ -22,7 +23,7 @@ describe 'Group show page Manage System and Provider Object Permissions', skip:t
   end
 
   after :all do
-    VCR.use_cassette('edl', record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       delete_group(concept_id: @admin_group['group_id'], admin: true)
       delete_group(concept_id: @provider_group['group_id'])
     end
@@ -35,7 +36,7 @@ describe 'Group show page Manage System and Provider Object Permissions', skip:t
 
     context 'when visiting a system group page', js: true do
       before do
-        VCR.use_cassette('edl', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           visit group_path(@admin_group['group_id'])
         end
       end
@@ -53,14 +54,14 @@ describe 'Group show page Manage System and Provider Object Permissions', skip:t
 
       it 'displays the links to manage Provider and System Object Permissions' do
         expect(page).to have_content('Manage Provider and System Object Permissions')
-        expect(page).to have_link('System Object Permissions', href: edit_system_identity_permission_path(@admin_group['concept_id'], redirect_to: page.current_path))
-        expect(page).to have_link('Provider Object Permissions for MMT_2', href: edit_provider_identity_permission_path(@admin_group['concept_id'], redirect_to: page.current_path))
+        expect(page).to have_link('System Object Permissions', href: edit_system_identity_permission_path(@admin_group['group_id'], redirect_to: page.current_path))
+        expect(page).to have_link('Provider Object Permissions for MMT_2', href: edit_provider_identity_permission_path(@admin_group['group_id'], redirect_to: page.current_path))
       end
     end
 
     context 'when visiting a provider group page' do
       before do
-        VCR.use_cassette('edl', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           visit group_path(@provider_group['group_id'])
         end
       end
@@ -74,7 +75,7 @@ describe 'Group show page Manage System and Provider Object Permissions', skip:t
 
       it 'displays the links to manage Provider Object Permissions' do
         expect(page).to have_content('Manage Provider Object Permissions')
-        expect(page).to have_link('Provider Object Permissions for MMT_2', href: edit_provider_identity_permission_path(@provider_group['concept_id'], redirect_to: page.current_path))
+        expect(page).to have_link('Provider Object Permissions for MMT_2', href: edit_provider_identity_permission_path(@provider_group['group_id'], redirect_to: page.current_path))
       end
 
       it 'does not display the link to manage System Object Permissions' do
@@ -86,7 +87,7 @@ describe 'Group show page Manage System and Provider Object Permissions', skip:t
   context 'when logging in to a different provider context as a System Admin and visiting the provider group page' do
     before do
       login_admin(provider: 'MMT_1', providers: %w[MMT_1 MMT_2])
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         visit group_path(@provider_group['group_id'])
       end
     end
@@ -108,8 +109,10 @@ describe 'Group show page Manage System and Provider Object Permissions', skip:t
     end
 
     context 'when clicking on the manage provider object permissions link', js: true do
-      before do
-        click_on 'Provider Object Permissions for MMT_2'
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        before do
+          click_on 'Provider Object Permissions for MMT_2'
+        end
       end
 
       it 'displays the modal to change provider context' do
