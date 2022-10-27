@@ -1,4 +1,3 @@
-# EDL Failed Test
 describe 'Creating a Service Entry', js: true do
   before do
     @token = 'jwt_access_token'
