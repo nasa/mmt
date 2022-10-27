@@ -116,111 +116,111 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
           end
         end
 
-        # These tests are commented because in order to test the Administrators part we need to have
-        # system admin access with our token.
+        # There are some tests that are commented because in order to test the Administrators part we need to have
+        # system admin access with our token
         # Todo: look into how to get system admin access to test these test cases
 
-        # context 'when logging out and logging in as an admin user' do
-        #   before do
-        #     login_admin
-        #     token = 'generate_jwt_token'
-        #     allow_any_instance_of(ApplicationController).to receive(:token).and_return(token)
-        #   end
+        context 'when logging out and logging in as an admin user' do
+          before do
+            login_admin
+            token = 'jwt_access_token'
+            allow_any_instance_of(ApplicationController).to receive(:token).and_return(token)
+          end
 
-        #   context 'when viewing the collection permission' do
-        #     before do
-        #       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-        #         visit permission_path(@collection_permission['concept_id'])
-        #       end
-        #     end
-        #
-        #     it 'displays the permission information' do
-        #       expect(page).to have_content(@collection_permission_name)
-        #
-        #       within '#permission-groups-table' do
-        #         expect(page).to have_content(@group['name'])
-        #         expect(page).to have_content('All Registered Users')
-        #       end
-        #     end
-        #
-        #     it 'displays the system groups' do
-        #       within '#permission-groups-table' do
-        #         expect(page).to have_content('Administrators SYS')
-        #         expect(page).to have_content('Administrators_2 SYS')
-        #       end
-        #     end
-        #
-        #     context 'when editing the collection permission' do
-        #       before do
-        #         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-        #           click_on 'Edit'
-        #         end
-        #       end
-        #
-        #       it 'displays the permission information on the form' do
-        #         expect(page).to have_field('Name', with: @collection_permission_name, readonly: true)
-        #
-        #         expect(page).to have_checked_field('Collections')
-        #         expect(page).to have_checked_field('Granules')
-        #
-        #         within '#search_and_order_groups_cell' do
-        #           expect(page).to have_css('li.select2-selection__choice', text: @group['name'])
-        #           expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
-        #         end
-        #       end
-        #
-        #       it 'displays the system groups on the form' do
-        #         within '#search_groups_cell' do
-        #           expect(page).to have_css('li.select2-selection__choice', text: 'Administrators_2 (SYS)')
-        #         end
-        #
-        #         within '#search_and_order_groups_cell' do
-        #           expect(page).to have_css('li.select2-selection__choice', text: 'Administrators (SYS)')
-        #         end
-        #       end
-        #
-        #       context 'when submitting the updates' do
-        #         before do
-        #           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
-        #
-        #             uncheck('Granules')
-        #
-        #             within '#collection-access-constraints-container' do
-        #               fill_in('Minimum Value', with: 5)
-        #               fill_in('Maximum Value', with: 25)
-        #               check('Include Undefined')
-        #             end
-        #
-        #             within '#search_and_order_groups_cell' do
-        #               page.find('.select2-selection__choice[title="Administrators (SYS)"] > .select2-selection__choice__remove').click
-        #             end
-        #
-        #             click_on 'Submit'
-        #           end
-        #         end
-        #
-        #         it 'displays the updated collection permission information' do
-        #           expect(page).to have_content(@collection_permission_name)
-        #
-        #           within '#collection-constraint-summary' do
-        #             expect(page).to have_content('between 5.0 and 25.0')
-        #             expect(page).to have_content('(or are undefined)')
-        #           end
-        #
-        #           within '#granule-constraint-summary' do
-        #             expect(page).to have_content('This permission does not grant access to granules.')
-        #           end
-        #
-        #           within '#permission-groups-table' do
-        #             expect(page).to have_content(@group['name'])
-        #             expect(page).to have_content('All Registered Users')
-        #             expect(page).to have_content('Administrators_2 SYS')
-        #           end
-        #         end
-        #       end
-        #     end
-        #   end
-        # end
+          context 'when viewing the collection permission' do
+            before do
+              VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_2", record: :none) do
+                visit permission_path(@collection_permission['concept_id'])
+              end
+            end
+
+            it 'displays the permission information' do
+              expect(page).to have_content(@collection_permission_name)
+
+              within '#permission-groups-table' do
+                expect(page).to have_content(@group['name'])
+                expect(page).to have_content('All Registered Users')
+              end
+            end
+
+            # it 'displays the system groups' do
+            #   within '#permission-groups-table' do
+            #     expect(page).to have_content('Administrators SYS')
+            #     expect(page).to have_content('Administrators_2 SYS')
+            #   end
+            # end
+
+            context 'when editing the collection permission' do
+              before do
+                VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_2", record: :none) do
+                  click_on 'Edit'
+                end
+              end
+
+              it 'displays the permission information on the form' do
+                expect(page).to have_field('Name', with: @collection_permission_name, readonly: true)
+
+                expect(page).to have_checked_field('Collections')
+                expect(page).to have_checked_field('Granules')
+
+                within '#search_and_order_groups_cell' do
+                  expect(page).to have_css('li.select2-selection__choice', text: @group['name'])
+                  expect(page).to have_css('li.select2-selection__choice', text: 'All Registered Users')
+                end
+              end
+
+              # it 'displays the system groups on the form' do
+              #   within '#search_groups_cell' do
+              #     expect(page).to have_css('li.select2-selection__choice', text: 'Administrators_2 (SYS)')
+              #   end
+              #
+              #   within '#search_and_order_groups_cell' do
+              #     expect(page).to have_css('li.select2-selection__choice', text: 'Administrators (SYS)')
+              #   end
+              # end
+
+              context 'when submitting the updates' do
+                before do
+                  VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_3", record: :none) do
+
+                    uncheck('Granules')
+
+                    within '#collection-access-constraints-container' do
+                      fill_in('Minimum Value', with: 5)
+                      fill_in('Maximum Value', with: 25)
+                      check('Include Undefined')
+                    end
+
+                    # within '#search_and_order_groups_cell' do
+                    #   page.find('.select2-selection__choice[title="Administrators (SYS)"] > .select2-selection__choice__remove').click
+                    # end
+
+                    click_on 'Submit'
+                  end
+                end
+
+                it 'displays the updated collection permission information' do
+                  expect(page).to have_content(@collection_permission_name)
+
+                  within '#collection-constraint-summary' do
+                    expect(page).to have_content('between 5.0 and 25.0')
+                    expect(page).to have_content('(or are undefined)')
+                  end
+
+                  within '#granule-constraint-summary' do
+                    expect(page).to have_content('This permission does not grant access to granules.')
+                  end
+
+                  within '#permission-groups-table' do
+                    expect(page).to have_content(@group['name'])
+                    expect(page).to have_content('All Registered Users')
+                    # expect(page).to have_content('Administrators_2 SYS')
+                  end
+                end
+              end
+            end
+          end
+        end
       end
     end
   end
