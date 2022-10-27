@@ -5,25 +5,20 @@ describe 'Viewing a Service Entry', reset_provider: true do
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
     # create a group
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
-      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_VIEW_02', members: ['admin'])
+      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_VIEW_05', members: ['admin'])
     end
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
     login
   end
 
-  # after :all do
-  #   VCR.use_cassette('edl', record: :new_episodes) do
-  #     delete_group(concept_id: @service_entry_group['group_id'])
-  #   end
-  # end
-
-  # before do
-  #   collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-  #   allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
-  #
-  #   login
-  # end
+  after do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@token)
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
+  end
 
   context 'when viewing the service entry' do
     let(:guid) { 'E7B6371A-31CD-0AAC-FF18-78A78289BD65' }
@@ -69,9 +64,12 @@ describe 'Viewing a Service Entry', reset_provider: true do
         end
       end
 
-      # after do
-      #   remove_group_permissions(@update_permissions['concept_id'])
-      # end
+      after do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          remove_group_permissions(@update_permissions['concept_id'], @token)
+        end
+      end
 
       it 'displays an edit button for each record' do
         expect(page).to have_link('Edit')
@@ -92,9 +90,12 @@ describe 'Viewing a Service Entry', reset_provider: true do
         end
       end
 
-      # after do
-      #   remove_group_permissions(@delete_permissions['concept_id'])
-      # end
+      after do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          remove_group_permissions(@delete_permissions['concept_id'], @token)
+        end
+      end
 
       it 'displays a delete button for each record' do
         expect(page).to have_link('Delete')

@@ -7,7 +7,7 @@ describe 'Updating a Service Entry', reset_provider: true do
       @token = 'jwt_access_token'
       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
-      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Update_02', members: ['admin'])
+      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Update_03', members: ['admin'])
       collections_response = cmr_success_response(File.read('spec/fixtures/cmr_search.json'))
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
       login
@@ -15,17 +15,13 @@ describe 'Updating a Service Entry', reset_provider: true do
     wait_for_cmr
   end
 
-  # after :all do
-  #   VCR.use_cassette('edl', record: :new_episodes) do
-  #     delete_group(concept_id: @service_entry_group['group_id'])
-  #   end
-  # end
-
-  # before do
-  #   collections_response = cmr_success_response(File.read('spec/fixtures/cmr_search.json'))
-  #   allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
-  #   login
-  # end
+  after do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@token)
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
+  end
 
   context 'when viewing the edit service entry form' do
     context 'when the user does not have the required permissions' do
@@ -58,15 +54,12 @@ describe 'Updating a Service Entry', reset_provider: true do
         end
       end
 
-      # after :all do
-      #   remove_group_permissions(@group_permissions['concept_id'])
-      # end
-
-      # before do
-      #   VCR.use_cassette('echo_soap/service_management_service/service_entries/edit', record: :none) do
-      #     visit edit_service_entry_path(guid)
-      #   end
-      # end
+      after :all do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          remove_group_permissions(@group_permissions['concept_id'], @token) unless !@group_permissions
+        end
+      end
 
       it 'displays the service entry form' do
         expect(page).to have_content('Editing Wolf 359')
