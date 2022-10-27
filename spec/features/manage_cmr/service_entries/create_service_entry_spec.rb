@@ -1,30 +1,37 @@
 # EDL Failed Test
-describe 'Creating a Service Entry', js: true, skip:true do
-  before :all do
-    # create a group
-    VCR.use_cassette('edl', record: :new_episodes) do
-      @service_entry_group = create_group(name: 'Service_Entry_Group', members: ['testuser'])
-    end
-  end
-
-  after :all do
-    VCR.use_cassette('edl', record: :new_episodes) do
-      delete_group(concept_id: @service_entry_group['group_id'])
-    end
-  end
-
+describe 'Creating a Service Entry', js: true do
   before do
+    @token = 'jwt_access_token'
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+    # create a group
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @service_entry_group = create_group(provider_id: nil, name: 'Service_Entry_Group_15', members: ['admin'])
+    end
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
-
     login
   end
+
+  # after :all do
+  #   VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+  #     puts("delete_group:#{@service_entry_group['group_id']}")
+  #     delete_group(concept_id: @service_entry_group['group_id'])
+  #   end
+  # end
+
+  # before do
+  #   collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
+  #   allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
+  #   login
+  # end
 
   context 'when the user does not have the required permissions' do
     context 'when viewing the new service entry form' do
       before do
         VCR.use_cassette('echo_soap/service_management_service/service_entries/new', record: :none) do
           visit new_service_entry_path
+          # screenshot_and_open_image
         end
       end
 
@@ -39,13 +46,24 @@ describe 'Creating a Service Entry', js: true, skip:true do
   end
 
   context 'when the user has the required permissions' do
-    before :all do
-      @group_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'create', 'EXTENDED_SERVICE', 'MMT_2')
+    before do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        # cmr_client.delete_permission('ACL1200443647-CMR', @token)
+        @group_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'create', 'EXTENDED_SERVICE', 'MMT_2', @token)
+        puts("Group permission=#{@group_permissions}")
+        allow_any_instance_of(ServiceEntryPolicy).to receive(:create?).and_return(true)
+      end
     end
 
-    after :all do
-      remove_group_permissions(@group_permissions['group_id'])
-    end
+    # after :all do
+    #   VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :new_episodes) do
+    #     puts("remove_group_permissions:#{@group_permissions['concept_id']}")
+    #     remove_group_permissions(@group_permissions['concept_id'])
+    #   end
+    # end
 
     context 'when viewing the new service entry form' do
       before do
