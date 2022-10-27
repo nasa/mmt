@@ -1,0 +1,228 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups
+    body:
+      encoding: UTF-8
+      string: name=Service_Entries_Group_for_Update_02&description=Tenetur%20qui%20eaque%20repudiandae.&tag=MMT_2
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Thu, 27 Oct 2022 00:08:12 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"af11bab97f874e0b9014af9ec853aae3"
+      x-request-id:
+      - 4a3a9f7f-fe17-4edb-9935-7e02d4de346b
+      x-runtime:
+      - '0.062327'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"name":"Service_Entries_Group_for_Update_02","app_uid":"mmt_test","description":"Tenetur
+        qui eaque repudiandae.","client_id":"81FEem91NlTQreWv2UgtXQ","shared_user_group":false,"created_by":"mmt_test","tag":"MMT_2","group_id":"edfae237-8530-4bcc-b698-65aa81b481ad"}'
+  recorded_at: Thu, 27 Oct 2022 00:08:11 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/edfae237-8530-4bcc-b698-65aa81b481ad/user
+    body:
+      encoding: UTF-8
+      string: user_id=hvtranho
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Thu, 27 Oct 2022 00:08:12 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"0c751a53f69828b600d2811590a253ac"
+      x-request-id:
+      - 50d0c0f2-f9f9-4f9a-832c-ec01531f946b
+      x-runtime:
+      - '0.098830'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"hvtranho successfully added to user group Service_Entries_Group_for_Update_02"}'
+  recorded_at: Thu, 27 Oct 2022 00:08:12 GMT
+- request:
+    method: delete
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200443661-CMR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '50'
+      connection:
+      - keep-alive
+      date:
+      - Thu, 27 Oct 2022 00:08:13 GMT
+      cmr-request-id:
+      - b091f1b1-a07a-448f-b8f1-dd3dd0b914c4
+      x-request-id:
+      - 0Zm433wSLuT0TV-z4VHSLr4lmTYZWXnfhrVoYjZdYY5KRF52iMXuKQ==
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 1e7c8e0b556ec29f3f59b4495fb42852.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAH50-C3
+      x-amz-cf-id:
+      - 0Zm433wSLuT0TV-z4VHSLr4lmTYZWXnfhrVoYjZdYY5KRF52iMXuKQ==
+    body:
+      encoding: UTF-8
+      string: '{"revision-id":2,"concept-id":"ACL1200443661-CMR"}'
+  recorded_at: Thu, 27 Oct 2022 00:08:13 GMT
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls
+    body:
+      encoding: UTF-8
+      string: '{"group_permissions":[{"group_id":"edfae237-8530-4bcc-b698-65aa81b481ad","permissions":["update"]}],"provider_identity":{"provider_id":"MMT_2","target":"EXTENDED_SERVICE"}}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '50'
+      connection:
+      - keep-alive
+      date:
+      - Thu, 27 Oct 2022 00:08:14 GMT
+      cmr-request-id:
+      - c40d630a-91d9-4bf8-a84f-5310a6aca7d1
+      x-request-id:
+      - XeQPuvXg9Q2KJQWgTYF1GDG5Z6E-hhHPGHaAjGxJn3nJBlC0-ID9xA==
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 d43e30683e06d5a961780768e13e3c18.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAH50-C3
+      x-amz-cf-id:
+      - XeQPuvXg9Q2KJQWgTYF1GDG5Z6E-hhHPGHaAjGxJn3nJBlC0-ID9xA==
+    body:
+      encoding: UTF-8
+      string: '{"revision_id":1,"concept_id":"ACL1200443663-CMR"}'
+  recorded_at: Thu, 27 Oct 2022 00:08:14 GMT
+recorded_with: VCR 6.1.0
