@@ -5,7 +5,7 @@ describe 'Deleting a Service Entry' do
       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       # create a group
-      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_DELETE_04', members: ['admin'])
+      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_DELETE_06', members: ['admin'])
       # give the group permission to delete
       @delete_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2', @token)
       allow_any_instance_of(ServiceEntryPolicy).to receive(:destroy?).and_return(true)
@@ -13,16 +13,14 @@ describe 'Deleting a Service Entry' do
     end
   end
 
-  # after :all do
-  #   remove_group_permissions(@delete_permissions['group_id'])
-  #   VCR.use_cassette('edl', record: :new_episodes) do
-  #     delete_group(concept_id: @service_entry_group['group_id'])
-  #   end
-  # end
-
-  # before do
-  #   login
-  # end
+  after do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @token = 'jwt_access_token'
+      remove_group_permissions(@delete_permissions['concept_id'], @token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@token)
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
+  end
 
   context 'when authorized to delete service entries' do
     let(:guid) { '9A924C8A-CA74-F245-542D-AE1D2D09E932' }

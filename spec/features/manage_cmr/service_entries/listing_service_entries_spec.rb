@@ -7,15 +7,17 @@ describe 'Listing Service Entries' do
       @token = 'jwt_access_token'
       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
-      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_LIST_03', members: ['admin'])
+      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_LIST_05', members: ['admin'])
     end
   end
 
-  # after :all do
-  #   VCR.use_cassette('edl', record: :new_episodes) do
-  #     delete_group(concept_id: @service_entry_group['group_id'])
-  #   end
-  # end
+  after do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@token)
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
+  end
 
   context 'when viewing the index page' do
     before do
@@ -143,9 +145,12 @@ describe 'Listing Service Entries' do
         end
       end
 
-      # after do
-      #   remove_group_permissions(@create_permissions['concept_id'])
-      # end
+      after do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          remove_group_permissions(@create_permissions['concept_id'], @token)
+        end
+      end
 
       it 'displays an edit button for each record' do
         expect(page).to have_link('Create a Service Entry')
@@ -166,9 +171,12 @@ describe 'Listing Service Entries' do
         end
       end
 
-      # after do
-      #   remove_group_permissions(@update_permissions['concept_id'])
-      # end
+      after do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          remove_group_permissions(@update_permissions['concept_id'], @token)
+        end
+      end
 
       it 'displays an edit button for each record' do
         within '.service-entries-table' do
@@ -191,9 +199,12 @@ describe 'Listing Service Entries' do
         end
       end
 
-      # after do
-      #   remove_group_permissions(@delete_permissions['concept_id'])
-      # end
+      after do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          remove_group_permissions(@create_permissions['concept_id'], @token)
+        end
+      end
 
       it 'displays a delete button for each record' do
         within '.service-entries-table' do
