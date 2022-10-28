@@ -3,7 +3,7 @@ describe 'Updating System Level Groups', js: true do
   context 'when editing a system level group as an admin' do
     before :all do
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
         @group_name = "8b1394ff7be2a459c055"
         @group_description = "Id suscipit enim sint"
       
@@ -21,7 +21,7 @@ describe 'Updating System Level Groups', js: true do
       # System level groups need to be cleaned up to avoid attempting to create
       # a group with the same name in another test (Random names don't seem to be reliable)
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
         delete_group(concept_id: @group['group_id'], admin: true)
       end
     end
@@ -29,7 +29,7 @@ describe 'Updating System Level Groups', js: true do
     before do
       login_admin
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
         visit edit_group_path(@group['group_id'])
       end
     end
@@ -58,7 +58,7 @@ describe 'Updating System Level Groups', js: true do
 
         within '.group-form' do
           allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr1", record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr1", record: :none) do
             click_on 'Submit'
           end
         end
