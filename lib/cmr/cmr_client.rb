@@ -32,7 +32,7 @@ module Cmr
 
       query = defaults.merge(query)
 
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3003/collections.#{response_format}"
             else
               "/search/collections.#{response_format}"
