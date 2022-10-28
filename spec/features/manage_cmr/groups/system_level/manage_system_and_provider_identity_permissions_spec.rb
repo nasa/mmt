@@ -1,7 +1,8 @@
 require "rspec/mocks/standalone"
 describe 'Group show page Manage System and Provider Object Permissions',js: true do
   before :all do
-    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('access_token')
+    Rails.cache.clear
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       @admin_group_name = 'Test_Admin_Group_Manage_Provider_and_System_Permissions1'
       @admin_group_description = 'test admin group1'

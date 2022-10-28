@@ -10,7 +10,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer access_token
+      - Bearer client_access_token
   response:
     status:
       code: 200
@@ -69,7 +69,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer access_token
+      - Bearer client_access_token
   response:
     status:
       code: 200
@@ -128,7 +128,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer access_token
+      - Bearer client_access_token
   response:
     status:
       code: 200
@@ -187,7 +187,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer access_token
+      - Bearer client_access_token
   response:
     status:
       code: 200
@@ -245,7 +245,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer access_token
+      - Bearer client_access_token
   response:
     status:
       code: 200
@@ -304,7 +304,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer access_token
+      - Bearer client_access_token
   response:
     status:
       code: 200
@@ -362,7 +362,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer access_token
+      - Bearer client_access_token
   response:
     status:
       code: 200
@@ -420,7 +420,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer access_token
+      - Bearer client_access_token
   response:
     status:
       code: 200
@@ -468,4 +468,62 @@ http_interactions:
       encoding: UTF-8
       string: "{}"
   recorded_at: Tue, 25 Oct 2022 20:05:51 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/oauth/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Basic bW10X3Rlc3Q6Q0xQVHhSUTloZ3ZQOW9zUA==
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 28 Oct 2022 18:55:37 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"a7f43be8d03379038f63efaabc2a2f88"
+      x-request-id:
+      - 1178606b-5318-46ec-9712-457a8a8b5466
+      x-runtime:
+      - '0.013719'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2ODI3OTMzNywiaWF0IjoxNjY2OTgzMzM3LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.BboP8LVYXVXgKbSjQsy8iddmK7IMgXVBaKZL8Tn0nM7JcOmeaTXwGSNQvMA_sVLN08-F_vwW8TsVHMBLbaY3u7jRe7juC-idzIbfR6-bg8SFEh6Ep2HuMwO6Yish2qSaDIUc00Osy_iCwNGznTQ4un9rsOr9y30VeY1p8ClLpRlOa53ePm8nAcf79OKsnzWNJLA_dDRwnnqdzVWLnK8wLwP7KQkeCjcAbKBef8RCpyUl-it44gVoLuzmyEySCK9ZdgrB4tQCGB8Ac3RjQ4Nlcr6ApCDaqz_oOV90-f2DtVJiE7RWX87uuncJbKeHISrGVopFEhL5mhm_7dd2Wxe7pQ","token_type":"Bearer","expires_in":1296000}'
+  recorded_at: Fri, 28 Oct 2022 18:55:37 GMT
 recorded_with: VCR 6.1.0

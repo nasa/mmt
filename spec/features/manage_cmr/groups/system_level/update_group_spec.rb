@@ -2,11 +2,11 @@ require "rspec/mocks/standalone"
 describe 'Updating System Level Groups', js: true do
   context 'when editing a system level group as an admin' do
     before :all do
-      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('access_token')
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :new_episodes) do
         @group_name = "8b1394ff7be2a459c055"
         @group_description = "Id suscipit enim sint"
-
+      
         @group = create_group(
           name: @group_name,
           description: @group_description,
@@ -20,16 +20,16 @@ describe 'Updating System Level Groups', js: true do
     after :all do
       # System level groups need to be cleaned up to avoid attempting to create
       # a group with the same name in another test (Random names don't seem to be reliable)
-      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('access_token')
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :new_episodes) do
         delete_group(concept_id: @group['group_id'], admin: true)
       end
     end
 
     before do
       login_admin
-      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('access_token')
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :new_episodes) do
         visit edit_group_path(@group['group_id'])
       end
     end
@@ -51,14 +51,14 @@ describe 'Updating System Level Groups', js: true do
     end
 
     context 'when updating the system level group' do
-      let(:new_group_description) { 'Id suscipit enim sint' }
+      let(:new_group_description) { ' New system group description' }
 
       before do
         fill_in 'Description', with: new_group_description
 
         within '.group-form' do
-          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('access_token')
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr1", record: :new_episodes) do
             click_on 'Submit'
           end
         end
