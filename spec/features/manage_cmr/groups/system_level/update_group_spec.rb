@@ -51,7 +51,7 @@ describe 'Updating System Level Groups', js: true do
     end
 
     context 'when updating the system level group' do
-      let(:new_group_description) { ' New system group description' }
+      let(:new_group_description) { 'New system group description' }
 
       before do
         fill_in 'Description', with: new_group_description
