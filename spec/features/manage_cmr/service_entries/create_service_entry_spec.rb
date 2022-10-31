@@ -4,7 +4,7 @@ describe 'Creating a Service Entry', js: true do
     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
-      @service_entry_group = create_group(provider_id: nil, name: 'Service_Entry_Group_Create_13', members: ['admin'])
+      @service_entry_group = create_group(provider_id: nil, name: 'Service_Entry_Group_Create_14', members: ['admin'])
     end
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
