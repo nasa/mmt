@@ -6,7 +6,6 @@ describe 'Deleting a Service Entry', js: true do
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       # create a group
       @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_DELETE_19', members: ['hvtranho'])
-      puts("Group=#{@service_entry_group}")
       # give the group permission to delete
       @delete_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2', @token)
       allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
