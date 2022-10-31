@@ -30,35 +30,35 @@ describe 'Creating System Level Groups', reset_provider: true do
       let(:group_name) { "t_xi_1666987811" }
       let(:group_description) { "Laborum debitis quibusdam. Quaerat voluptatem incidunt. Harum vero sint." }
 
-        before do
-          # fill in group
-          fill_in 'Name', with: group_name
-          check 'System Level Group?'
-          fill_in 'Description', with: group_description
-          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+      before do
+        # fill in group
+        fill_in 'Name', with: group_name
+        check 'System Level Group?'
+        fill_in 'Description', with: group_description
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
+          page.find('.select2-search__field').native.send_keys('rarxd5taqea')
+
+          page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+        end
+
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
+          page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
+
+          page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+        end
+
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
+          page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
+
+          page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+        end
+
+        within '.group-form' do
           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
-            page.find('.select2-search__field').native.send_keys('rarxd5taqea')
-
-            page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
+            click_on 'Submit'
           end
-
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
-            page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
-
-            page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
-          end
-
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
-            page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
-
-            page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
-          end
-
-          within '.group-form' do
-            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
-              click_on 'Submit'
-            end
-          end
+        end
 
         wait_for_cmr
       end
@@ -68,9 +68,9 @@ describe 'Creating System Level Groups', reset_provider: true do
         expect(page).to have_content(group_name)
         expect(page).to have_content(group_description)
 
-          # SYS badge
-          expect(page).to have_content('SYS')
-          expect(page).to have_css('span.eui-badge--sm')
+        # SYS badge
+        expect(page).to have_content('SYS')
+        expect(page).to have_css('span.eui-badge--sm')
 
         within '#group-members' do
           expect(page).to have_selector('tbody > tr', count: 3)
