@@ -1,5 +1,12 @@
-describe 'Group show page Manage Provider Object Permissions' do
+describe 'Group show page Manage Provider Object Permissions', js:true do
+  before do
+    @token = 'jwt_access_token'
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+  end
+
   before :all do
+
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       @test_group_name_admin = 'Test_MMT_2_Group_Manage_Provider_Permissions'
       @test_group_description_admin = 'test group'
