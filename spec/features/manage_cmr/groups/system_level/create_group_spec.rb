@@ -3,10 +3,6 @@ describe 'Creating System Level Groups', reset_provider: true do
     before do
       login_admin
 
-      @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
-      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
-
       visit new_group_path
     end
 
@@ -31,35 +27,35 @@ describe 'Creating System Level Groups', reset_provider: true do
       # Because this is a system level group, it never gets cleaned up, we need to ensure
       # that it's as random as possible. A random Superhero name combined with the current
       # timestamp should do.
-      let(:group_name) { "apocalypse_fist_1666707530" }
-      let(:group_description) { "Incidunt quae repellendus. Ex accusantium ipsam. Qui quia doloribus." }
+      let(:group_name) { "t_xi_1666987811" }
+      let(:group_description) { "Laborum debitis quibusdam. Quaerat voluptatem incidunt. Harum vero sint." }
 
       before do
         # fill in group
         fill_in 'Name', with: group_name
         check 'System Level Group?'
         fill_in 'Description', with: group_description
-
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
           page.find('.select2-search__field').native.send_keys('rarxd5taqea')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
           page.find('.select2-search__field').native.send_keys('qhw5mjoxgs2vjptmvzco')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
           page.find('.select2-search__field').native.send_keys('q6ddmkhivmuhk')
 
           page.find('ul#select2-group_members-results li.select2-results__option--highlighted').click
         end
 
         within '.group-form' do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
             click_on 'Submit'
           end
         end
@@ -69,7 +65,6 @@ describe 'Creating System Level Groups', reset_provider: true do
 
       it 'redirects to the group show page and shows the system level group information' do
         expect(page).to have_content('Group was successfully created.')
-
         expect(page).to have_content(group_name)
         expect(page).to have_content(group_description)
 

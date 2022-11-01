@@ -1,11 +1,9 @@
-describe 'Group show page Manage System and Provider Object Permissions' do
+describe 'Group show page Manage System and Provider Object Permissions',js: true do
   before do
-    @token = 'jwt_access_token'
-    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
-      @admin_group_name = 'Test_Admin_Group_Manage_Provider_and_System_Permissions'
-      @admin_group_description = 'test admin group'
+      @admin_group_name = 'Test_Admin_Group_Manage_Provider_and_System_Permissions1'
+      @admin_group_description = 'test admin group1'
       @admin_group = create_group(
         name: @admin_group_name,
         description: @admin_group_description,
@@ -13,8 +11,8 @@ describe 'Group show page Manage System and Provider Object Permissions' do
         admin: true
       )
 
-      @provider_group_name = 'Test_MMT_2_Group_Manage_Provider_and_System_Permissions'
-      @provider_group_description = 'test group'
+      @provider_group_name = 'Test_MMT_2_Group_Manage_Provider_and_System_Permissions1'
+      @provider_group_description = 'test group1'
       @provider_group = create_group(
         name: @provider_group_name,
         description: @provider_group_description,
@@ -24,7 +22,7 @@ describe 'Group show page Manage System and Provider Object Permissions' do
   end
 
   after :all do
-    VCR.use_cassette('edl', record: :none) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       delete_group(concept_id: @admin_group['group_id'], admin: true)
       delete_group(concept_id: @provider_group['group_id'])
     end
@@ -37,7 +35,7 @@ describe 'Group show page Manage System and Provider Object Permissions' do
 
     context 'when visiting a system group page', js: true do
       before do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr2", record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           visit group_path(@admin_group['group_id'])
         end
       end
@@ -110,8 +108,10 @@ describe 'Group show page Manage System and Provider Object Permissions' do
     end
 
     context 'when clicking on the manage provider object permissions link', js: true do
-      before do
-        click_on 'Provider Object Permissions for MMT_2'
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        before do
+          click_on 'Provider Object Permissions for MMT_2'
+        end
       end
 
       it 'displays the modal to change provider context' do
