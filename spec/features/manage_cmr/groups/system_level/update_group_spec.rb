@@ -1,7 +1,6 @@
-require "rspec/mocks/standalone"
 describe 'Updating System Level Groups', js: true do
   context 'when editing a system level group as an admin' do
-    before :all do
+    before do
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
         @group_name = "8b1394ff7be2a459c055"
