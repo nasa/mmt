@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - application/json; charset=utf-8
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImNocmlzLmdva2V5IiwiZXhwIjoxNjcxMjE1NzkwLCJpYXQiOjE2NjYwMzE3OTAsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.shK3TShs68UJ9rZdy1fXU8m1B5Z_vRoZYOfn-B764TfU4BTc3Kj1l4oNM0Pcdhan5EtLLytVVWvSgGD3ECN2YjR5a9Dm-nnOLM-lGjeGd4yH6x757NWzP1W6cxz2YFxtko5Z28y7PFt7nCIzCsEW285QsteUDj-t52XTmJowxMnYTyOAgmYYc2SsvinF-DfEM1YjgfVAr4cnmIcqwpl1HEaX1HgBxuxeXlyKySD_0-n_ntUNreVBqdWGLf-Fu3BTW2rsJLuOij0vYiDxjx2mdCm-xJN8ChCaUOBMdoAn1v1aY5f_RRDizc5xri1w5ROyV9yA0OGTaMiz0Bn7_LP_Zw
+      - Bearer Bearer jwt_access_token
   response:
     status:
       code: 200
@@ -3852,7 +3852,7 @@ http_interactions:
       Accept:
       - application/json; charset=utf-8
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImNocmlzLmdva2V5IiwiZXhwIjoxNjcxMjE1NzkwLCJpYXQiOjE2NjYwMzE3OTAsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.shK3TShs68UJ9rZdy1fXU8m1B5Z_vRoZYOfn-B764TfU4BTc3Kj1l4oNM0Pcdhan5EtLLytVVWvSgGD3ECN2YjR5a9Dm-nnOLM-lGjeGd4yH6x757NWzP1W6cxz2YFxtko5Z28y7PFt7nCIzCsEW285QsteUDj-t52XTmJowxMnYTyOAgmYYc2SsvinF-DfEM1YjgfVAr4cnmIcqwpl1HEaX1HgBxuxeXlyKySD_0-n_ntUNreVBqdWGLf-Fu3BTW2rsJLuOij0vYiDxjx2mdCm-xJN8ChCaUOBMdoAn1v1aY5f_RRDizc5xri1w5ROyV9yA0OGTaMiz0Bn7_LP_Zw
+      - Bearer Bearer jwt_access_token
   response:
     status:
       code: 200
@@ -3908,7 +3908,7 @@ http_interactions:
       Client-Id:
       - MMT
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImNocmlzLmdva2V5IiwiZXhwIjoxNjcxMjE1NzkwLCJpYXQiOjE2NjYwMzE3OTAsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.shK3TShs68UJ9rZdy1fXU8m1B5Z_vRoZYOfn-B764TfU4BTc3Kj1l4oNM0Pcdhan5EtLLytVVWvSgGD3ECN2YjR5a9Dm-nnOLM-lGjeGd4yH6x757NWzP1W6cxz2YFxtko5Z28y7PFt7nCIzCsEW285QsteUDj-t52XTmJowxMnYTyOAgmYYc2SsvinF-DfEM1YjgfVAr4cnmIcqwpl1HEaX1HgBxuxeXlyKySD_0-n_ntUNreVBqdWGLf-Fu3BTW2rsJLuOij0vYiDxjx2mdCm-xJN8ChCaUOBMdoAn1v1aY5f_RRDizc5xri1w5ROyV9yA0OGTaMiz0Bn7_LP_Zw
+      - Bearer Bearer jwt_access_token
   response:
     status:
       code: 200
@@ -4038,7 +4038,7 @@ http_interactions:
       Client-Id:
       - MMT
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImNocmlzLmdva2V5IiwiZXhwIjoxNjcxMjE1NzkwLCJpYXQiOjE2NjYwMzE3OTAsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.shK3TShs68UJ9rZdy1fXU8m1B5Z_vRoZYOfn-B764TfU4BTc3Kj1l4oNM0Pcdhan5EtLLytVVWvSgGD3ECN2YjR5a9Dm-nnOLM-lGjeGd4yH6x757NWzP1W6cxz2YFxtko5Z28y7PFt7nCIzCsEW285QsteUDj-t52XTmJowxMnYTyOAgmYYc2SsvinF-DfEM1YjgfVAr4cnmIcqwpl1HEaX1HgBxuxeXlyKySD_0-n_ntUNreVBqdWGLf-Fu3BTW2rsJLuOij0vYiDxjx2mdCm-xJN8ChCaUOBMdoAn1v1aY5f_RRDizc5xri1w5ROyV9yA0OGTaMiz0Bn7_LP_Zw
+      - Bearer Bearer jwt_access_token
   response:
     status:
       code: 200
@@ -4106,7 +4106,7 @@ http_interactions:
       Client-Id:
       - MMT
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImNocmlzLmdva2V5IiwiZXhwIjoxNjcxMjE1NzkwLCJpYXQiOjE2NjYwMzE3OTAsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.shK3TShs68UJ9rZdy1fXU8m1B5Z_vRoZYOfn-B764TfU4BTc3Kj1l4oNM0Pcdhan5EtLLytVVWvSgGD3ECN2YjR5a9Dm-nnOLM-lGjeGd4yH6x757NWzP1W6cxz2YFxtko5Z28y7PFt7nCIzCsEW285QsteUDj-t52XTmJowxMnYTyOAgmYYc2SsvinF-DfEM1YjgfVAr4cnmIcqwpl1HEaX1HgBxuxeXlyKySD_0-n_ntUNreVBqdWGLf-Fu3BTW2rsJLuOij0vYiDxjx2mdCm-xJN8ChCaUOBMdoAn1v1aY5f_RRDizc5xri1w5ROyV9yA0OGTaMiz0Bn7_LP_Zw
+      - Bearer Bearer jwt_access_token
   response:
     status:
       code: 200
@@ -4174,7 +4174,7 @@ http_interactions:
       Client-Id:
       - MMT
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImNocmlzLmdva2V5IiwiZXhwIjoxNjcxMjE1NzkwLCJpYXQiOjE2NjYwMzE3OTAsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.shK3TShs68UJ9rZdy1fXU8m1B5Z_vRoZYOfn-B764TfU4BTc3Kj1l4oNM0Pcdhan5EtLLytVVWvSgGD3ECN2YjR5a9Dm-nnOLM-lGjeGd4yH6x757NWzP1W6cxz2YFxtko5Z28y7PFt7nCIzCsEW285QsteUDj-t52XTmJowxMnYTyOAgmYYc2SsvinF-DfEM1YjgfVAr4cnmIcqwpl1HEaX1HgBxuxeXlyKySD_0-n_ntUNreVBqdWGLf-Fu3BTW2rsJLuOij0vYiDxjx2mdCm-xJN8ChCaUOBMdoAn1v1aY5f_RRDizc5xri1w5ROyV9yA0OGTaMiz0Bn7_LP_Zw
+      - Bearer Bearer jwt_access_token
   response:
     status:
       code: 200
