@@ -1,7 +1,6 @@
 # This file contains tests to verify that the draft MMT cannot make any PUT,
 # POST, or DELETE calls through the CMR client
-# EDL Failed Test
-describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to CMR', skip:true do
+describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to CMR' do
   before do
     login
     set_as_proposal_mode_mmt
@@ -67,7 +66,7 @@ describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to
 
   it 'cannot update_group' do
     VCR.use_cassette('edl', record: :new_episodes) do
-      expect { cmr_client.update_edl_group({}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+      expect { cmr_client.update_edl_group('123', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
     end
   end
 
