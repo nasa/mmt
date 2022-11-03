@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'Downloading Service JSON', js: true, skip:true do
+describe 'Downloading Service JSON', js: true do
   before :all do
     @ingest_response, _concept_response = publish_service_draft
   end
