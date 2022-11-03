@@ -59,19 +59,19 @@ describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to
   end
 
   it 'cannot create_group' do
-    VCR.use_cassette('edl', record: :new_episodes) do
+    VCR.use_cassette('edl', record: :none) do
       expect { cmr_client.create_edl_group({}) }.to raise_error('A requested action is not allowed in the current configuration.')
     end
   end
 
   it 'cannot update_group' do
-    VCR.use_cassette('edl', record: :new_episodes) do
+    VCR.use_cassette('edl', record: :none) do
       expect { cmr_client.update_edl_group('123', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
     end
   end
 
   it 'cannot delete_group' do
-    VCR.use_cassette('edl', record: :new_episodes) do
+    VCR.use_cassette('edl', record: :none) do
       expect { cmr_client.delete_edl_group({}) }.to raise_error('A requested action is not allowed in the current configuration.')
     end
   end
