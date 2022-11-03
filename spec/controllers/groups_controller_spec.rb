@@ -1,5 +1,5 @@
 # EDL Failed Test
-describe GroupsController, reset_provider: true, skip: true do
+describe GroupsController, reset_provider: true do
   before do
     set_as_mmt_proper
   end
@@ -10,14 +10,14 @@ describe GroupsController, reset_provider: true, skip: true do
     end
 
     it 'renders the #index view' do
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         get :index
         expect(response).to render_template(:index)
       end
     end
 
     it 'requests groups from cmr' do
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         expect_any_instance_of(Cmr::UrsClient).to receive('get_edl_groups').and_call_original
         get :index
       end
@@ -29,7 +29,7 @@ describe GroupsController, reset_provider: true, skip: true do
       end
 
       it 'redirects the user to the manage collections page' do
-        VCR.use_cassette('edl', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           get :index
           expect(response).to redirect_to(manage_collections_path)
         end
@@ -38,15 +38,20 @@ describe GroupsController, reset_provider: true, skip: true do
   end
 
   describe 'GET #show' do
-    before :all do
-      VCR.use_cassette('edl', record: :new_episodes) do
+    before do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         group_response = create_group
         @group_id = group_response['group_id']
       end
     end
 
-    after :all do
-      VCR.use_cassette('edl', record: :new_episodes) do
+    after do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         delete_group(concept_id: @group_id)
       end
     end
@@ -56,14 +61,14 @@ describe GroupsController, reset_provider: true, skip: true do
     end
 
     it 'renders the #show view' do
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         get :show, params: { id: @group_id }
         expect(response).to render_template(:show)
       end
     end
 
     it 'requests the group from cmr' do
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         expect_any_instance_of(Cmr::UrsClient).to receive('get_edl_group').with(@group_id).and_call_original
         get :show, params: { id: @group_id }
       end
