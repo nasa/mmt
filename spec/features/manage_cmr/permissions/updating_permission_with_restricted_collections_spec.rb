@@ -2,90 +2,93 @@
 # when there are selected collections that they do not have access to see. We need
 # to test and make sure that scenario has been prevented
 
-# EDL Failed Test
-describe 'Updating Collection Permissions when collections are not accessible by the user', skip: true do
+describe 'Updating Collection Permissions when collections are not accessible by the user test 1', js: true do
   # this collection should be visible to all Registered users
-  let(:entry_title_visible_to_all) { 'Near-Real-Time SSMIS EASE-Grid Daily Global Ice Concentration and Snow Extent V004' }
-  let(:entry_id_visible_to_all) { 'NISE_4' }
+  let(:entry_title_visible_to_all) { 'Near Real-Time SSM/I EASE-Grid Daily Global Ice Concentration and Snow Extent V002' }
+  let(:entry_id_visible_to_all) { 'NISE_2' }
 
   # these collections should only be visible to admin users
-  let(:restricted_entry_title_1) { 'MODIS/Aqua Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V005' }
-  let(:restricted_entry_id_1) { 'MYD29E1D_5' }
+  let(:restricted_entry_title_1) { 'MODIS/Aqua Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V006' }
+  let(:restricted_entry_id_1) { 'MYD29E1D_6' }
   let(:restricted_entry_title_2) { 'AMSR-E/Aqua Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V003' }
   let(:restricted_entry_id_2) { 'AE_SI12_3' }
+  before do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
 
-  before :all do
-    # grab the concept ids of these collections. some are restricted, so we need the admin token
-    concept_visible_to_all = collection_concept_from_keyword('NISE_4', 'access_token_admin')
-    restricted_concept_1 = collection_concept_from_keyword('MYD29E1D_5', 'access_token_admin')
-    restricted_concept_2 = collection_concept_from_keyword('AE_SI12_3', 'access_token_admin')
+      # This token needs to be where the user does not have admin access to NSIDC_ECS provider
+      @token = 'jwt_access_token'
 
-    VCR.use_cassette('edl', record: :new_episodes) do
-      @group_name = "Test_Group_NSIDC_ECS_#{Faker::Number.number(digits: 6)}"
+      # grab the concept ids of these collections. some are restricted, so we need the admin token
+      concept_visible_to_all = collection_concept_from_keyword('NISE_2', @token)
+      restricted_concept_1 = collection_concept_from_keyword('MYD29E1D_5', @token)
+      restricted_concept_2 = collection_concept_from_keyword('AE_SI12_2', @token)
+
+      @group_name = "Test_Group_NSIDC_ECS_Restricted_Permission_61"
       @group = create_group(
         name: @group_name,
         provider_id: 'NSIDC_ECS'
       )
+
+      wait_for_cmr
+
+      @collection_permission_some_restricted_name = 'Testing Collection Permission with SOME restricted collections 61'
+
+      collection_permission_some_restricted = {
+        group_permissions: [{
+                              group_id: @group['group_id'],
+                              permissions: [ "read", "order" ]
+                            }],
+        catalog_item_identity: {
+          "name": @collection_permission_some_restricted_name,
+          "provider_id": "NSIDC_ECS",
+          "collection_applicable": true,
+          "granule_applicable": true,
+          "collection_identifier": {
+            "concept_ids": [
+              restricted_concept_1,
+              restricted_concept_2,
+              concept_visible_to_all
+            ]
+          }
+        }
+      }
+
+      @collection_permission_some_restricted = add_group_permissions(collection_permission_some_restricted, @token)
+
+      wait_for_cmr
+
+      @collection_permission_all_restricted_name = 'Testing Collection Permission with ALL restricted collections permission 61'
+
+      collection_permission_all_restricted = {
+        group_permissions: [{
+          group_id: @group['group_id'],
+          permissions: [ "read", "order" ]
+        }],
+        catalog_item_identity: {
+          "name": @collection_permission_all_restricted_name,
+          "provider_id": "NSIDC_ECS",
+          "collection_applicable": true,
+          "granule_applicable": false,
+          "collection_identifier": {
+            "concept_ids": [
+              restricted_concept_1,
+              restricted_concept_2
+            ]
+          }
+        }
+      }
+
+      @collection_permission_all_restricted = add_group_permissions(collection_permission_all_restricted, @token)
+
+      reindex_permitted_groups
     end
-
-    wait_for_cmr
-
-    @collection_permission_some_restricted_name = "Testing Collection Permission with SOME restricted collections #{Faker::Number.number(digits: 6)}"
-
-    collection_permission_some_restricted = {
-      group_permissions: [{
-        group_id: @group['group_id'],
-        permissions: [ "read", "order" ]
-      }],
-      catalog_item_identity: {
-        "name": @collection_permission_some_restricted_name,
-        "provider_id": "NSIDC_ECS",
-        "collection_applicable": true,
-        "granule_applicable": true,
-        "collection_identifier": {
-          "concept_ids": [
-            restricted_concept_1,
-            restricted_concept_2,
-            concept_visible_to_all
-          ]
-        }
-      }
-    }
-
-    @collection_permission_some_restricted = add_group_permissions(collection_permission_some_restricted)
-
-    wait_for_cmr
-
-    @collection_permission_all_restricted_name = "Testing Collection Permission with ALL restricted collections #{Faker::Number.number(digits: 6)}"
-
-    collection_permission_all_restricted = {
-      group_permissions: [{
-        group_id: @group['group_id'],
-        permissions: [ "read", "order" ]
-      }],
-      catalog_item_identity: {
-        "name": @collection_permission_all_restricted_name,
-        "provider_id": "NSIDC_ECS",
-        "collection_applicable": true,
-        "granule_applicable": false,
-        "collection_identifier": {
-          "concept_ids": [
-            restricted_concept_1,
-            restricted_concept_2
-          ]
-        }
-      }
-    }
-
-    @collection_permission_all_restricted = add_group_permissions(collection_permission_all_restricted)
-
-    reindex_permitted_groups
   end
 
   after :all do
-    remove_group_permissions(@collection_permission_some_restricted['concept_id'])
-    remove_group_permissions(@collection_permission_all_restricted['concept_id'])
-    VCR.use_cassette('edl', record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+      remove_group_permissions(@collection_permission_some_restricted['concept_id'], @token)
+      remove_group_permissions(@collection_permission_all_restricted['concept_id'], @token)
       delete_group(concept_id: @group['group_id'])
     end
 
@@ -95,14 +98,16 @@ describe 'Updating Collection Permissions when collections are not accessible by
   context 'when logging in as a user that has restricted access to the provider collections' do
     before do
       login(provider: 'NSIDC_ECS', providers: %w(MMT_2 NSIDC_ECS))
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     end
 
     context 'when updating a collection permission and the user has no access to any of the selected collections', js: true do
       before do
-        VCR.use_cassette('edl', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
           visit edit_permission_path(@collection_permission_all_restricted['concept_id'])
+          choose('Selected Collections')
+          wait_for_jQuery(10)
         end
-        #wait_for_jQuery
       end
 
       it 'displays the collection permission edit form with 0 of 2 selected collections' do
@@ -134,7 +139,10 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
       context 'when updating the collection permission with no changes' do
         before do
-          click_on 'Submit'
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_submit_vcr", record: :none) do
+            choose('All Collections')
+            click_on 'Submit'
+          end
         end
 
         it 'successfully updates the collection permission without a validation error and redirects to the show page and displaying the collection permission information with 0 of 2 selected collections' do
@@ -145,9 +153,9 @@ describe 'Updating Collection Permissions when collections are not accessible by
           expect(page).to have_content(@collection_permission_all_restricted_name)
 
           # we should not see the entry ids of selected collections in the collection permission
-          expect(page).to have_no_content('MYD29E1D 5')
+          expect(page).to have_no_content('MYD29E1D 6')
           expect(page).to have_no_content('AE_SI12 3')
-          expect(page).to have_no_content('NISE 4')
+          expect(page).to have_no_content('NISE 2')
 
           within '#granule-constraint-summary' do
             expect(page).to have_content('This permission does not grant access to granules.')
@@ -162,10 +170,11 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
     context 'when updating a collection permission and the user has access to some of the selected collections', js: true do
       before do
-        VCR.use_cassette('edl', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_some_vcr", record: :none) do
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
           visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
+          wait_for_jQuery(10)
         end
-        #wait_for_jQuery
       end
 
       it 'displays the collection permission with 1 of 3 selected collection' do
@@ -195,21 +204,21 @@ describe 'Updating Collection Permissions when collections are not accessible by
 
       context 'when updating the collection permission with no changes' do
         before do
-          click_on 'Submit'
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_submit_vcr", record: :none) do
+            click_on 'Submit'
+          end
         end
 
         it 'successfully updates the collection permission and redirects to the show page and displaying the collection permission information with 1 of 3 selected collections' do
           expect(page).to have_content('Collection Permission was successfully updated.')
-
           expect(page).to have_content(@collection_permission_some_restricted_name)
 
           # entry id that we expect to see
-          expect(page).to have_content('NISE 4')
+          expect(page).to have_content('NISE 2')
 
           # entry ids in the collection permission we do not expect to see
-          expect(page).to have_no_content('MYD29E1D 5')
+          expect(page).to have_no_content('MYD29E1D 6')
           expect(page).to have_no_content('AE_SI12 3')
-
           within '#permission-groups-table' do
             expect(page).to have_content(@group_name)
           end
@@ -222,90 +231,94 @@ end
 # we need to duplicate the test and completely separate the regular login from
 # login_admin, otherwise if the admin tests run first, somehow the regular login
 # gets admin access
-# EDL Failaed Test
-describe 'Updating Collection Permissions as an admin user when collections are not accessible by regular users', skip:true do
+describe 'Updating Collection Permissions as an admin user when collections are not accessible by regular users' do
   # this collection should be visible to all Registered users
-  let(:entry_title_visible_to_all) { 'Near-Real-Time SSMIS EASE-Grid Daily Global Ice Concentration and Snow Extent V004' }
-  let(:entry_id_visible_to_all) { 'NISE_4' }
+  let(:entry_title_visible_to_all) { 'Near Real-Time SSM/I EASE-Grid Daily Global Ice Concentration and Snow Extent V002' }
+  let(:entry_id_visible_to_all) { 'NISE_2' }
 
   # these collections should only be visible to admin users
   let(:restricted_entry_title_1) { 'MODIS/Aqua Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V005' }
   let(:restricted_entry_id_1) { 'MYD29E1D_5' }
-  let(:restricted_entry_title_2) { 'AMSR-E/Aqua Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V003' }
-  let(:restricted_entry_id_2) { 'AE_SI12_3' }
+  let(:restricted_entry_title_2) { 'AMSR-E/Aqua Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V002' }
+  let(:restricted_entry_id_2) { 'AE_SI12_2' }
 
-  before :all do
-    # grab the concept ids of these collections. some are restricted, so we need the admin token
-    concept_visible_to_all = collection_concept_from_keyword('NISE_4', 'access_token_admin')
-    restricted_concept_1 = collection_concept_from_keyword('MYD29E1D_5', 'access_token_admin')
-    restricted_concept_2 = collection_concept_from_keyword('AE_SI12_3', 'access_token_admin')
+  before do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_admin_vcr", record: :none) do
+      # This token needs to be where the user does not have admin access to NSIDC_ECS provider
+      @token = 'jwt_access_token'
 
-    VCR.use_cassette('edl', record: :new_episodes) do
-      @group_name = "Test_Group_NSIDC_ECS_#{Faker::Number.number(digits: 8)}"
+      # grab the concept ids of these collections. some are restricted, so we need the admin token
+      concept_visible_to_all = collection_concept_from_keyword('NISE_2', @token)
+      restricted_concept_1 = collection_concept_from_keyword('MYD29E1D_5', @token)
+      restricted_concept_2 = collection_concept_from_keyword('AE_SI12_2', @token)
+
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      @group_name = "Test_Group_NSIDC_ECS_Admin_12"
       @group = create_group(
         name: @group_name,
         provider_id: 'NSIDC_ECS'
       )
-  end
 
-    wait_for_cmr
 
-    @collection_permission_some_restricted_name = "Testing Collection Permission with SOME restricted collections #{Faker::Number.number(digits: 8)}"
+      wait_for_cmr
 
-    collection_permission_some_restricted = {
-      group_permissions: [{
-        group_id: @group['group_id'],
-        permissions: [ "read", "order" ]
-      }],
-      catalog_item_identity: {
-        "name": @collection_permission_some_restricted_name,
-        "provider_id": "NSIDC_ECS",
-        "collection_applicable": true,
-        "granule_applicable": true,
-        "collection_identifier": {
-          "concept_ids": [
-            restricted_concept_1,
-            restricted_concept_2,
-            concept_visible_to_all
-          ]
+      @collection_permission_some_restricted_name = "Testing Collection Permission with SOME restricted collections 12"
+
+      collection_permission_some_restricted = {
+        group_permissions: [{
+          group_id: @group['group_id'],
+          permissions: [ "read", "order" ]
+        }],
+        catalog_item_identity: {
+          "name": @collection_permission_some_restricted_name,
+          "provider_id": "NSIDC_ECS",
+          "collection_applicable": true,
+          "granule_applicable": true,
+          "collection_identifier": {
+            "concept_ids": [
+              restricted_concept_1,
+              restricted_concept_2,
+              concept_visible_to_all
+            ]
+          }
         }
       }
-    }
 
-    @collection_permission_some_restricted = add_group_permissions(collection_permission_some_restricted)
+      @collection_permission_some_restricted = add_group_permissions(collection_permission_some_restricted, @token)
 
-    wait_for_cmr
+      wait_for_cmr
 
-    @collection_permission_all_restricted_name = "Testing Collection Permission with ALL restricted collections #{Faker::Number.number(digits: 8)}"
+      @collection_permission_all_restricted_name = "Testing Collection Permission with ALL restricted collections 12"
 
-    collection_permission_all_restricted = {
-      group_permissions: [{
-        group_id: @group['group_id'],
-        permissions: [ "read", "order" ]
-      }],
-      catalog_item_identity: {
-        "name": @collection_permission_all_restricted_name,
-        "provider_id": "NSIDC_ECS",
-        "collection_applicable": true,
-        "granule_applicable": false,
-        "collection_identifier": {
-          "concept_ids": [
-            restricted_concept_1,
-            restricted_concept_2
-          ]
+      collection_permission_all_restricted = {
+        group_permissions: [{
+          group_id: @group['group_id'],
+          permissions: [ "read", "order" ]
+        }],
+        catalog_item_identity: {
+          "name": @collection_permission_all_restricted_name,
+          "provider_id": "NSIDC_ECS",
+          "collection_applicable": true,
+          "granule_applicable": false,
+          "collection_identifier": {
+            "concept_ids": [
+              restricted_concept_1,
+              restricted_concept_2
+            ]
+          }
         }
       }
-    }
 
-    @collection_permission_all_restricted = add_group_permissions(collection_permission_all_restricted)
+      @collection_permission_all_restricted = add_group_permissions(collection_permission_all_restricted, @token)
 
-    reindex_permitted_groups
+      reindex_permitted_groups
+    end
   end
 
   after :all do
-    remove_group_permissions(@collection_permission_some_restricted['concept_id'])
-    remove_group_permissions(@collection_permission_all_restricted['concept_id'])
-    VCR.use_cassette('edl', record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_admin_vcr", record: :none) do
+      remove_group_permissions(@collection_permission_some_restricted['concept_id'], @token)
+      remove_group_permissions(@collection_permission_all_restricted['concept_id'], @token)
       delete_group(concept_id: @group['group_id'])
     end
 
@@ -314,15 +327,18 @@ describe 'Updating Collection Permissions as an admin user when collections are 
 
   context 'when logging in as an admin user that has full access to the provider collections' do
     before do
-      login_admin(provider: 'NSIDC_ECS', providers: %w(MMT_2 NSIDC_ECS))
+      login(provider: 'NSIDC_ECS', providers: %w(MMT_2 NSIDC_ECS))
+      token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(token)
+
     end
 
     context 'when viewing the edit form of the collection permission that has some restricted collections', js: true do
       before do
-        VCR.use_cassette('edl', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_admin_1_vcr", record: :none) do
           visit edit_permission_path(@collection_permission_some_restricted['concept_id'])
+          wait_for_jQuery(10)
         end
-        #wait_for_jQuery
       end
 
       it 'displays the collection permission with 3 of 3 selected collection' do
@@ -349,8 +365,11 @@ describe 'Updating Collection Permissions as an admin user when collections are 
 
     context 'when viewing the show page of the collection permission that has some restricted collections' do
       before do
-        VCR.use_cassette('edl', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_admin_submit_vcr", record: :none) do
           visit permission_path(@collection_permission_some_restricted['concept_id'])
+          token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(token)
+
         end
       end
 
@@ -358,9 +377,9 @@ describe 'Updating Collection Permissions as an admin user when collections are 
         expect(page).to have_content(@collection_permission_some_restricted_name)
 
         # we should see all 3 entry ids
-        expect(page).to have_content('NISE 4')
+        expect(page).to have_content('NISE 2')
         expect(page).to have_content('MYD29E1D 5')
-        expect(page).to have_content('AE_SI12 3')
+        expect(page).to have_content('AE_SI12 2')
 
         within '#permission-groups-table' do
           expect(page).to have_content(@group_name)

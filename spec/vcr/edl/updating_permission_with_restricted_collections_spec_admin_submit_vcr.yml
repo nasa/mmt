@@ -1,0 +1,302 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?system_object=ANY_ACL&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - Bearer Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '14'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 02 Nov 2022 17:50:30 GMT
+      cmr-request-id:
+      - fb45a50c-fc93-4659-bde8-3aa2a59c540e
+      x-request-id:
+      - w8w13q6RRaQQFL7iYXHseAmxBW5MFtFChzyakWKbgv7pzr9DwBldGw==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 7dcaa43cd0535d889b549e6a30a57aa0.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-P2
+      x-amz-cf-id:
+      - w8w13q6RRaQQFL7iYXHseAmxBW5MFtFChzyakWKbgv7pzr9DwBldGw==
+    body:
+      encoding: UTF-8
+      string: '{"ANY_ACL":[]}'
+  recorded_at: Wed, 02 Nov 2022 17:50:30 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=NSIDC_ECS&target=PROVIDER_OBJECT_ACL&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - Bearer Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '26'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 02 Nov 2022 17:50:31 GMT
+      cmr-request-id:
+      - b7dc5647-bd7b-48a8-90d1-05f2c6c484f0
+      x-request-id:
+      - uAo_MsJM_Lv1czYVxj6Vcu88iV5Ayc-hzVPhUpD0SCR9HJQqSAwFzQ==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 7b00c3fd9220034414107b03e53b1b8e.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-P2
+      x-amz-cf-id:
+      - uAo_MsJM_Lv1czYVxj6Vcu88iV5Ayc-hzVPhUpD0SCR9HJQqSAwFzQ==
+    body:
+      encoding: UTF-8
+      string: '{"PROVIDER_OBJECT_ACL":[]}'
+  recorded_at: Wed, 02 Nov 2022 17:50:31 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200444826-CMR?include-full-acl=true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - Bearer Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '644'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 02 Nov 2022 17:50:32 GMT
+      cmr-request-id:
+      - 9e2e7e1b-a35f-49d3-ad43-4a3811fbc49c
+      x-request-id:
+      - iVswcvk2gCKx2QBtZ1QehWBqtJp1ft3dSE-4o07_paZBcWM7KuIuKA==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 94be61e339880d0097634de6934f7710.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-P2
+      x-amz-cf-id:
+      - iVswcvk2gCKx2QBtZ1QehWBqtJp1ft3dSE-4o07_paZBcWM7KuIuKA==
+    body:
+      encoding: UTF-8
+      string: '{"group_permissions":[{"group_id":"435f9505-15fc-47d1-8942-18947c1e7ba5","permissions":["read","order"]}],"catalog_item_identity":{"name":"Testing
+        Collection Permission with SOME restricted collections 12","provider_id":"NSIDC_ECS","collection_applicable":true,"granule_applicable":true,"collection_identifier":{"concept_ids":["C24080-NSIDC_ECS","C24098-NSIDC_ECS","C24112-NSIDC_ECS"],"entry_titles":["MODIS/Aqua
+        Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V005","AMSR-E/Aqua
+        Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V002","Near Real-Time
+        SSM/I EASE-Grid Daily Global Ice Concentration and Snow Extent V002"]}}}'
+  recorded_at: Wed, 02 Nov 2022 17:50:32 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/435f9505-15fc-47d1-8942-18947c1e7ba5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer Bearer clinet_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Wed, 02 Nov 2022 17:50:32 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"5173c7fa94662a97f8a42af905a1043d"
+      x-request-id:
+      - b253ab3c-8b61-4969-8d46-35f34d193fc1
+      x-runtime:
+      - '0.009111'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"group_id":"435f9505-15fc-47d1-8942-18947c1e7ba5","name":"Test_Group_NSIDC_ECS_Admin_12","description":"Ducimus
+        unde in non.","shared_user_group":false,"tag":"NSIDC_ECS","created_by":"mmt_test","app_uid":"mmt_test","client_id":"81FEem91NlTQreWv2UgtXQ"}'
+  recorded_at: Wed, 02 Nov 2022 17:50:32 GMT
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/search/collections.umm-json
+    body:
+      encoding: UTF-8
+      string: concept_id%5B%5D=C24080-NSIDC_ECS&concept_id%5B%5D=C24098-NSIDC_ECS&concept_id%5B%5D=C24112-NSIDC_ECS&page_size=3&provider_id=NSIDC_ECS&sort_key=entry_title
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/vnd.nasa.cmr.legacy_umm_results+json; charset=utf-8
+      content-length:
+      - '1803'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 02 Nov 2022 17:50:32 GMT
+      x-frame-options:
+      - SAMEORIGIN
+      access-control-allow-origin:
+      - "*"
+      x-xss-protection:
+      - 1; mode=block
+      cmr-request-id:
+      - 92aa32ea-8c3b-4800-80ee-ec9ce448615f
+      strict-transport-security:
+      - max-age=31536000
+      cmr-search-after:
+      - '["near real-time ssm/i ease-grid daily global ice concentration and snow
+        extent v002",0.0,31200.0,"NISE","2",24112,11]'
+      cmr-hits:
+      - '3'
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      x-content-type-options:
+      - nosniff
+      cmr-took:
+      - '124'
+      x-request-id:
+      - pmOHFGvtMtbHqbaiYs2JZ83UkOVv-r4M7_j26SQegd8qsZo6MtZ1aw==
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 d32136caad5f6a80e6bec65185c2a290.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-P2
+      x-amz-cf-id:
+      - pmOHFGvtMtbHqbaiYs2JZ83UkOVv-r4M7_j26SQegd8qsZo6MtZ1aw==
+    body:
+      encoding: UTF-8
+      string: '{"hits":3,"took":123,"items":[{"meta":{"revision-id":11,"deleted":false,"format":"application/echo10+xml","provider-id":"NSIDC_ECS","has-formats":false,"has-spatial-subsetting":false,"native-id":"AMSR-E/Aqua
+        Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V002","has-transforms":false,"has-variables":false,"concept-id":"C24098-NSIDC_ECS","revision-date":"2015-02-24T13:25:35.227Z","has-temporal-subsetting":false,"concept-type":"collection"},"umm":{"entry-title":"AMSR-E/Aqua
+        Daily L3 12.5 km Tb, Sea Ice Conc., & Snow Depth Polar Grids V002","entry-id":"AE_SI12_2","short-name":"AE_SI12","version-id":"2"}},{"meta":{"revision-id":11,"deleted":false,"format":"application/echo10+xml","provider-id":"NSIDC_ECS","has-formats":false,"has-spatial-subsetting":false,"native-id":"MODIS/Aqua
+        Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V005","has-transforms":false,"has-variables":false,"concept-id":"C24080-NSIDC_ECS","revision-date":"2015-02-24T13:25:33.337Z","has-temporal-subsetting":false,"concept-type":"collection"},"umm":{"entry-title":"MODIS/Aqua
+        Sea Ice Extent and IST Daily L3 Global 4km EASE-Grid Day V005","entry-id":"MYD29E1D_5","short-name":"MYD29E1D","version-id":"5"}},{"meta":{"revision-id":11,"deleted":false,"format":"application/echo10+xml","provider-id":"NSIDC_ECS","has-formats":false,"has-spatial-subsetting":false,"native-id":"Near
+        Real-Time SSM/I EASE-Grid Daily Global Ice Concentration and Snow Extent V002","has-transforms":false,"has-variables":false,"concept-id":"C24112-NSIDC_ECS","revision-date":"2015-02-24T13:25:37.275Z","has-temporal-subsetting":false,"concept-type":"collection"},"umm":{"entry-title":"Near
+        Real-Time SSM/I EASE-Grid Daily Global Ice Concentration and Snow Extent V002","entry-id":"NISE_2","short-name":"NISE","version-id":"2"}}]}'
+  recorded_at: Wed, 02 Nov 2022 17:50:33 GMT
+recorded_with: VCR 6.1.0
