@@ -1,6 +1,4 @@
-# skipped until cmr handles group names properly.
-# EDL Failed Test
-describe PermissionsController, reset_provider: true, skip:true do
+describe PermissionsController, reset_provider: true do
   before do
     set_as_mmt_proper
   end
@@ -30,9 +28,12 @@ describe PermissionsController, reset_provider: true, skip:true do
   end
 
   describe 'GET #show' do
-    before :all do
-      @group_name = 'Permissions_Controller_Test_Group'
-      VCR.use_cassette('edl', record: :new_episodes) do
+    before do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      @group_name = 'Permissions_Controller_Test_Group_012'
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         @group = create_group(name: @group_name, members: ['testuser'])
       end
 
@@ -56,11 +57,14 @@ describe PermissionsController, reset_provider: true, skip:true do
           collection_applicable: true
         }
       }
-      @permission = add_group_permissions(permission)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @permission = add_group_permissions(permission, @token)
+      end
     end
 
-    after :all do
-      VCR.use_cassette('edl', record: :new_episodes) do
+    after do
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         delete_group(concept_id: @group['group_id'], admin: true)
       end
     end
@@ -70,7 +74,11 @@ describe PermissionsController, reset_provider: true, skip:true do
     end
 
     it 'renders the #show view' do
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         get :show, params: { id: @permission['concept_id'] }
       end
 
@@ -78,16 +86,21 @@ describe PermissionsController, reset_provider: true, skip:true do
     end
 
     it 'sets the permission instance variable' do
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         get :show, params: { id: @permission['concept_id'] }
+        @result = assigns(:permission).keys
       end
-      expect(assigns(:permission).keys).to eq(%w(group_permissions catalog_item_identity))
+      expect(@result).to eq(%w(group_permissions catalog_item_identity))
     end
 
     it 'requests groups from cmr' do
       expect_any_instance_of(Cmr::CmrClient).to receive('get_permission').and_call_original
 
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         get :show, params: { id: @permission['concept_id'] }
       end
     end
@@ -97,7 +110,7 @@ describe PermissionsController, reset_provider: true, skip:true do
     before do
       sign_in
 
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         get :new
       end
     end
