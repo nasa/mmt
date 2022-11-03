@@ -1,4 +1,3 @@
-# EDL Failed Test
 describe GroupsController, reset_provider: true do
   before do
     set_as_mmt_proper
