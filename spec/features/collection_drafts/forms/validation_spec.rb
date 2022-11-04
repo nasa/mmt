@@ -81,8 +81,7 @@ bad_datetime_values = ['2000-12-0100:00:00', '2000-01-33T00:00:00', '2000-02-01T
 # string, time string, datetime string, date string values (CMR ingests all string values/symbols)
 good_string_values = ['\.[]{}()<>*+-=!?^$|✅❤️', 'string', '\string\|/', '20153324-01-01T00']
 
-# EDL Failed Test
-describe 'Data validation for a collection draft form', js: true, skip:true do
+describe 'Data validation for a collection draft form', js: true do
   before do
     login
     @draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)
@@ -215,10 +214,10 @@ describe 'Data validation for a collection draft form', js: true, skip:true do
       choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
       fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-10-27T00:00:00Z'
       find('body').click
+      find('#draft_temporal_extents_0 > div.eui-accordion__header > div.eui-accordion__icon').click
 
       good_integer_values.each do |test|
         fill_in 'Precision Of Seconds', with: test
-        find('body').click
         puts "Integer: #{test}" if debug
         expect(page).to have_no_selector(validation_error)
       end
