@@ -9,8 +9,7 @@
 # as optionally required (eui-required-grey-o), but if there is data in an anyOf
 # grouping, those fields will be presented as required
 # required -> eui-required-o, optionally required -> eui-required-grey-o
-# EDL Failed Test
-describe 'Conditionally required fields', js: true, skip:true do
+describe 'Conditionally required fields', js: true do
   before do
     login
   end
@@ -43,8 +42,8 @@ describe 'Conditionally required fields', js: true, skip:true do
       context 'when filling in a form field that causes fields to become required' do
         before do
           fill_in 'Description', with: 'Testing'
-
           find('body').click
+          find('#draft_related_urls_0 > div.eui-accordion__header > div.eui-accordion__icon').click
         end
 
         it 'displays the required icons' do
