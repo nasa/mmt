@@ -43,16 +43,15 @@ describe 'Conditionally required fields', js: true do
         before do
           fill_in 'Description', with: 'Testing'
           find('body').click
+          find('#draft_related_urls_0 > div.eui-accordion__header > div.eui-accordion__icon').click
         end
 
         it 'displays the required icons' do
-          find('#draft_related_urls_0 > div.eui-accordion__header > div.eui-accordion__icon').click
           expect(page).to have_css('label.eui-required-o', count: 3)
         end
 
         context 'when clearing a field that causes fields to become required' do
           before do
-            find('#draft_related_urls_0 > div.eui-accordion__header > div.eui-accordion__icon').click
             fill_in 'Description', with: ''
           end
 
