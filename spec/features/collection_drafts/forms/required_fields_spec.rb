@@ -47,11 +47,13 @@ describe 'Conditionally required fields', js: true do
         end
 
         it 'displays the required icons' do
+          sleep(5)
           expect(page).to have_css('label.eui-required-o', count: 3)
         end
 
         context 'when clearing a field that causes fields to become required' do
           before do
+            sleep(5)
             fill_in 'Description', with: ''
           end
 
