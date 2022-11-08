@@ -121,7 +121,7 @@ http_interactions:
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceEntries
         xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
-        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzIxNTA2MDUsImlhdCI6MTY2Njk2NjYwNSwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.lK7s9ZaSQfV_UHd4neH7uUyJKJK9Y4d3XEDJ439Ph_PiIVBp0SjmNMFXvqb_VLkkVUiD5B0v_-5nnlngx7eu1CSfWgjxjeTQysGOayL6KB31FYUfTZfgXqovval_6rhXNaOtye7aWct7ZW1DugUqW6LkxBgpI13EgivkEWEaq7kJlfuLhsMFqzNRB7dswOxsCmMf4wMkBPS2LJMnUdIL5FDNzgCb6ZBsmt9y4ZXKkfwxURRNLmZoem4bTnRgL8FQeaVixdGKe2YD7BXqRAXwDzq0FODB3uZNkQSrR4pTlKPcjDIKsGU6MXtY-mXDEwLFnKkbhnAFhjMv6PJVnrEIGw</ns2:token><ns2:serviceEntryGuids><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item></ns2:serviceEntryGuids></ns2:GetServiceEntries><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>jwt_access_token</ns2:token><ns2:serviceEntryGuids><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item><ns3:Item>A19EDB8C-2253-3B19-E70D-1AC053DAC384</ns3:Item></ns2:serviceEntryGuids></ns2:GetServiceEntries><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
     headers:
       User-Agent:
       - Faraday v1.10.0
@@ -182,7 +182,7 @@ http_interactions:
       string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionDefinitions
         xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
-        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE2NzIxNTA2MDUsImlhdCI6MTY2Njk2NjYwNSwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.lK7s9ZaSQfV_UHd4neH7uUyJKJK9Y4d3XEDJ439Ph_PiIVBp0SjmNMFXvqb_VLkkVUiD5B0v_-5nnlngx7eu1CSfWgjxjeTQysGOayL6KB31FYUfTZfgXqovval_6rhXNaOtye7aWct7ZW1DugUqW6LkxBgpI13EgivkEWEaq7kJlfuLhsMFqzNRB7dswOxsCmMf4wMkBPS2LJMnUdIL5FDNzgCb6ZBsmt9y4ZXKkfwxURRNLmZoem4bTnRgL8FQeaVixdGKe2YD7BXqRAXwDzq0FODB3uZNkQSrR4pTlKPcjDIKsGU6MXtY-mXDEwLFnKkbhnAFhjMv6PJVnrEIGw</ns2:token><ns2:optionGuids><ns3:Item>35FB523D-EE0A-E32A-733E-F2DA6ED49107</ns3:Item><ns3:Item>A700514B-9AB7-EA4A-3971-277F3891C3D4</ns3:Item></ns2:optionGuids></ns2:GetServiceOptionDefinitions><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
+        xmlns:ns4="http://echo.nasa.gov/ingest/v10"><ns2:token>jwt_access_token</ns2:token><ns2:optionGuids><ns3:Item>35FB523D-EE0A-E32A-733E-F2DA6ED49107</ns3:Item><ns3:Item>A700514B-9AB7-EA4A-3971-277F3891C3D4</ns3:Item></ns2:optionGuids></ns2:GetServiceOptionDefinitions><to_str/></SOAP-ENV:Body></SOAP-ENV:Envelope>
     headers:
       User-Agent:
       - Faraday v1.10.0
