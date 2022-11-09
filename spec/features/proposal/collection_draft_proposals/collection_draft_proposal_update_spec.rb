@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'Collection Draft Proposal Update', reset_provider: true, skip: true do
+describe 'Collection Draft Proposal Update', reset_provider: true do
   before do
     real_login(method: 'urs')
   end
