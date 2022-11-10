@@ -1,14 +1,19 @@
 # EDL Failed Test
-describe 'Saving System Object Permissions from the system object permissions index page', skip:true do
+describe 'Saving System Object Permissions from the system object permissions index page', js:true do
+  before do
+    @token = 'jwt_access_token'
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+    allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+  end
   before :all do
-    VCR.use_cassette('edl', record: :new_episodes) do
-      @group_name = 'Test_System_Permissions_Group_1_from_index_page'
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+      @group_name = 'Test_System_Permissions_Group_1_from_index_page_testing_3'
       @group_response = create_group(
         name: @group_name,
         description: 'Group to test system permissions',
         provider_id: nil,
         admin: true)
-      end
+    end
   end
 
   after :all do
@@ -17,13 +22,12 @@ describe 'Saving System Object Permissions from the system object permissions in
       'page_size' => 30,
       'permitted_group' => @group_response['group_id']
     }
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+      permissions_response_items = cmr_client.get_permissions(permissions_options, @token).body.fetch('items', [])
 
-    permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
+      permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
 
-    permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
-
-    # delete the group
-    VCR.use_cassette('edl', record: :new_episodes) do
+      # delete the group
       delete_group(concept_id: @group_response['group_id'], admin: true)
     end
   end
@@ -31,9 +35,15 @@ describe 'Saving System Object Permissions from the system object permissions in
   context 'when logging in as a system admin and visiting the system object permissions index page' do
     before do
       login_admin
-
-      VCR.use_cassette('edl', record: :new_episodes) do
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+        allow_any_instance_of(ApplicationController).to receive(:user_has_system_permission_to).and_return(true)
         visit system_identity_permissions_path(@group_response['group_id'])
+        # The group that is created for this test is on page on 11 of the table so we need to navigate to page 11
+        click_on 'Last'
+        click_on '14'
+        click_on '11'
+
       end
     end
 
@@ -42,15 +52,15 @@ describe 'Saving System Object Permissions from the system object permissions in
       expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
 
       within '.system-permissions-group-table' do
-        expect(page).to have_content('Administrators')
-        expect(page).to have_content('Administrators_2')
         expect(page).to have_content(@group_name)
       end
     end
 
     context 'when clicking on the system group' do
       before do
-        click_on @group_name
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+          click_on @group_name
+        end
       end
 
       it 'displays the System Object Permissions page' do
@@ -60,7 +70,7 @@ describe 'Saving System Object Permissions from the system object permissions in
 
       context 'when clicking Cancel' do
         before do
-          VCR.use_cassette('edl', record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
             click_on 'Cancel'
           end
         end
@@ -70,8 +80,6 @@ describe 'Saving System Object Permissions from the system object permissions in
           expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
 
           within '.system-permissions-group-table' do
-            expect(page).to have_content('Administrators')
-            expect(page).to have_content('Administrators_2')
             expect(page).to have_content(@group_name)
           end
         end
@@ -83,13 +91,14 @@ describe 'Saving System Object Permissions from the system object permissions in
           check('system_permissions_METRIC_DATA_POINT_SAMPLE_', option: 'read')
           check('system_permissions_EXTENDED_SERVICE_', option: 'delete')
           check('system_permissions_TAG_GROUP_', option: 'update')
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
 
-          within '.system-permissions-form' do
-            VCR.use_cassette('edl', record: :new_episodes) do
-              click_on 'Submit'
+            within '.system-permissions-form' do
+              VCR.use_cassette('edl', record: :new_episodes) do
+                click_on 'Submit'
+              end
             end
           end
-
           wait_for_cmr
         end
 
