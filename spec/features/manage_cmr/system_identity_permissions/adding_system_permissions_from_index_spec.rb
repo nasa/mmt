@@ -1,4 +1,3 @@
-# EDL Failed Test
 describe 'Saving System Object Permissions from the system object permissions index page', js:true do
   before do
     @token = 'jwt_access_token'
@@ -6,8 +5,8 @@ describe 'Saving System Object Permissions from the system object permissions in
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
   end
   before :all do
-    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
-      @group_name = 'Test_System_Permissions_Group_1_from_index_page_testing_3'
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+      @group_name = 'Test_System_Permissions_Group_1_from_index_page_testing_5'
       @group_response = create_group(
         name: @group_name,
         description: 'Group to test system permissions',
@@ -22,7 +21,7 @@ describe 'Saving System Object Permissions from the system object permissions in
       'page_size' => 30,
       'permitted_group' => @group_response['group_id']
     }
-    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       permissions_response_items = cmr_client.get_permissions(permissions_options, @token).body.fetch('items', [])
 
       permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
@@ -42,7 +41,7 @@ describe 'Saving System Object Permissions from the system object permissions in
         # The group that is created for this test is on page on 11 of the table so we need to navigate to page 11
         click_on 'Last'
         click_on '14'
-        click_on '11'
+        click_on '10'
 
       end
     end
@@ -58,7 +57,7 @@ describe 'Saving System Object Permissions from the system object permissions in
 
     context 'when clicking on the system group' do
       before do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
           click_on @group_name
         end
       end
@@ -70,7 +69,7 @@ describe 'Saving System Object Permissions from the system object permissions in
 
       context 'when clicking Cancel' do
         before do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
             click_on 'Cancel'
           end
         end
@@ -87,22 +86,23 @@ describe 'Saving System Object Permissions from the system object permissions in
 
       context 'when selecting and saving system permissions' do
         before do
-          check('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'create')
-          check('system_permissions_METRIC_DATA_POINT_SAMPLE_', option: 'read')
-          check('system_permissions_EXTENDED_SERVICE_', option: 'delete')
-          check('system_permissions_TAG_GROUP_', option: 'update')
-          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
-
-            within '.system-permissions-form' do
-              VCR.use_cassette('edl', record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+            @token = 'jwt_access_token'
+            allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+            allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+            check('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'create')
+            check('system_permissions_METRIC_DATA_POINT_SAMPLE_', option: 'read')
+            check('system_permissions_EXTENDED_SERVICE_', option: 'delete')
+            check('system_permissions_TAG_GROUP_', option: 'update')
+              within '.system-permissions-form' do
                 click_on 'Submit'
               end
             end
+            wait_for_cmr
           end
-          wait_for_cmr
-        end
 
         it 'displays a success message and no error message on the index page' do
+          screenshot_and_open_image
           expect(page).to have_content('System Object Permissions')
           expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
 
