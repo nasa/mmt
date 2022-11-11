@@ -1,4 +1,3 @@
-# EDL Failed Test
 describe 'Changing or Removing System Identity Permissions', js: true do
   before do
     @token = 'jwt_access_token'
