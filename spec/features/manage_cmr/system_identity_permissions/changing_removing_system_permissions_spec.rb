@@ -90,7 +90,6 @@ describe 'Changing or Removing System Identity Permissions', js: true do
     end
 
     it 'has the correct permissions checked' do
-      screenshot_and_open_image
       expect(page).to have_checked_field('system_permissions_SYSTEM_CALENDAR_EVENT_', with: 'update')
       expect(page).to have_checked_field('system_permissions_SYSTEM_INITIALIZER_', with: 'create')
       expect(page).to have_checked_field('system_permissions_SYSTEM_OPTION_DEFINITION_', with: 'create')
