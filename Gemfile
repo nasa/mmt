@@ -34,7 +34,7 @@ gem 'jquery-rails'
 gem 'jbuilder'
 
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', group: :doc
+gem 'sdoc', '2.3.1', group: :doc
 
 # Use Unicorn as the app server
 gem 'unicorn'

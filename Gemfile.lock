@@ -214,8 +214,6 @@ GEM
     parser (3.1.2.1)
       ast (~> 2.4.1)
     pg (1.2.3)
-    psych (4.0.6)
-      stringio
     public_suffix (5.0.0)
     pundit (2.2.0)
       activesupport (>= 3.0.0)
@@ -257,8 +255,7 @@ GEM
     rainbow (3.1.1)
     raindrops (0.20.0)
     rake (13.0.6)
-    rdoc (6.4.0)
-      psych (>= 4.0.0)
+    rdoc (6.3.3)
     regexp_parser (2.6.0)
     rexml (3.2.5)
     rspec-core (3.12.0)
@@ -306,8 +303,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sdoc (2.4.0)
-      rdoc (>= 5.0)
+    sdoc (2.3.1)
+      rdoc (>= 5.0, < 6.4.0)
     selenium-webdriver (4.6.1)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -327,7 +324,6 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     sqlite3 (1.5.3-x86_64-darwin)
-    stringio (3.0.2)
     tdiff (0.3.4)
     thor (1.2.1)
     thread_safe (0.3.6)
@@ -409,7 +405,7 @@ DEPENDENCIES
   rubocop
   ruby-saml (>= 1.7.0)
   sassc-rails
-  sdoc
+  sdoc (= 2.3.1)
   selenium-webdriver
   simplecov
   sprockets (~> 3.7.0)
