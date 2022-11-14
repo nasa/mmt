@@ -3,10 +3,11 @@ describe 'Saving Provider Object Permissions from the group show page', reset_pr
     @token = 'jwt_access_token'
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
   end
   before :all do
     VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
-      @provider_group_name = 'Test_Group_for_Creating_Provider_Object_Permissions_from_group_page_testing_10'
+      @provider_group_name = 'Test_Group_for_Creating_Provider_Object_Permissions_from_group_page_testing_15'
       @provider_group_description = 'Group for creating provider object permission'
       @provider_group = create_group(
         name: @provider_group_name,
@@ -14,7 +15,7 @@ describe 'Saving Provider Object Permissions from the group show page', reset_pr
         provider_id: 'MMT_2'
       )
 
-      @system_group_name = 'Test_System_Group_for_Provider_Permissions_from_group_page_testing_10'
+      @system_group_name = 'Test_System_Group_for_Provider_Permissions_from_group_page_testing_15'
       @system_group_description = 'System Group for creating provider permissions'
       @system_group = create_group(
         name: @system_group_name,
@@ -53,10 +54,7 @@ describe 'Saving Provider Object Permissions from the group show page', reset_pr
     context 'when visiting the provider group page' do
       before do
         VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
-          # mocking user_has_permission_to as true
-          allow_any_instance_of(ApplicationController).to receive(:user_has_permission_to).and_return(true)
           visit group_path(@provider_group['group_id'])
-
         end
       end
 

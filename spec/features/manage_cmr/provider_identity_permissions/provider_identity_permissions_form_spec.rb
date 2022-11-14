@@ -4,6 +4,7 @@ describe 'Provider Identity Permissions pages and form' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
   end
 
   before :all do
@@ -32,7 +33,7 @@ describe 'Provider Identity Permissions pages and form' do
       login_admin
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
 
-      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         allow_any_instance_of(ApplicationController).to receive(:user_has_permission_to).and_return(true)
 
         visit provider_identity_permissions_path
@@ -43,7 +44,6 @@ describe 'Provider Identity Permissions pages and form' do
 
     it 'shows the table with system and provider groups' do
       within '.provider-permissions-group-table' do
-        screenshot_and_open_image
         expect(page).to have_content(@group_name)
 
         # Since this test is not testing for these groups and with the new implementation it is not easy to find
@@ -67,7 +67,6 @@ describe 'Provider Identity Permissions pages and form' do
     context 'when there are groups' do
       before do
         VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
-          allow_any_instance_of(ApplicationController).to receive(:user_has_permission_to).and_return(true)
           visit provider_identity_permissions_path
           click_on 'Last'
         end

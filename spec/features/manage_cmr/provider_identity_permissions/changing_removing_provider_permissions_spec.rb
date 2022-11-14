@@ -4,11 +4,12 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
   end
 
   before :all do
     @token = 'jwt_access_token'
-    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
       @group_name = 'Test_Group_for_Updating_Provider_Object_Permissions_test_40'
       @group = create_group(
         name: @group_name,
@@ -63,9 +64,7 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
       login
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
 
-      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
-        allow_any_instance_of(ApplicationController).to receive(:user_has_permission_to).and_return(true)
-
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         visit provider_identity_permissions_path
         click_on 'Last'
         click_on @group_name

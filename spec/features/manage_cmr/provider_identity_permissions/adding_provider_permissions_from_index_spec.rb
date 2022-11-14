@@ -3,6 +3,7 @@ describe 'Saving Provider Object Permissions from the provider object permission
     @token = 'jwt_access_token'
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
   end
 
   before :all do
@@ -35,7 +36,7 @@ describe 'Saving Provider Object Permissions from the provider object permission
       'page_size' => 50,
       'permitted_group' => @system_group['group_id']
     }
-    VCR.use_cassette('edl', record: :none) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
       permissions_response_items = cmr_client.get_permissions(permissions_options, ).body.fetch('items', [])
 
       permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
@@ -61,8 +62,6 @@ describe 'Saving Provider Object Permissions from the provider object permission
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
 
         VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
-          allow_any_instance_of(ApplicationController).to receive(:user_has_permission_to).and_return(true)
-
           visit provider_identity_permissions_path
           click_on 'Last'
         end
@@ -151,7 +150,6 @@ describe 'Saving Provider Object Permissions from the provider object permission
     context 'when visiting the provider object permissions index page' do
       before do
         VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
-          allow_any_instance_of(ApplicationController).to receive(:user_has_permission_to).and_return(true)
           visit provider_identity_permissions_path
           click_on 'Last'
         end
