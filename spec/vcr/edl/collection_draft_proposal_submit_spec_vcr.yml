@@ -1,0 +1,507 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls?include_full_acl=true&page_num=1&page_size=2000&permitted_user=testuser&target=PROVIDER_CONTEXT
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json;charset=utf-8
+      content-length:
+      - '32'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 14 Nov 2022 23:25:38 GMT
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      access-control-allow-origin:
+      - "*"
+      cmr-hits:
+      - '0'
+      cmr-took:
+      - '334'
+      cmr-request-id:
+      - dbabda0b-43b1-4948-9fd0-a5e88f67cb05
+      x-request-id:
+      - jG-OGpz18bkdlQt5B3_y2PmGajrCG0ZdvIST-o6fNe8DRaoolYI0fg==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 6115ccbf06ce7bea7cea8806dfa86752.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD79-C3
+      x-amz-cf-id:
+      - jG-OGpz18bkdlQt5B3_y2PmGajrCG0ZdvIST-o6fNe8DRaoolYI0fg==
+    body:
+      encoding: UTF-8
+      string: '{"hits":0,"took":216,"items":[]}'
+  recorded_at: Mon, 14 Nov 2022 23:25:37 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/collections.umm-json?native_id=full_collection_draft_proposal_id
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/vnd.nasa.cmr.legacy_umm_results+json; charset=utf-8
+      content-length:
+      - '32'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 14 Nov 2022 23:25:55 GMT
+      x-frame-options:
+      - SAMEORIGIN
+      access-control-allow-origin:
+      - "*"
+      x-xss-protection:
+      - 1; mode=block
+      cmr-request-id:
+      - 6ed70edd-7aee-4b08-9aa5-abf94e50e82d
+      strict-transport-security:
+      - max-age=31536000
+      cmr-hits:
+      - '0'
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      x-content-type-options:
+      - nosniff
+      cmr-took:
+      - '115'
+      x-request-id:
+      - B_KWpP-_W9p_2z02A_N1GJHaXs46PqKUSiya2SoL1S3q--qLzYQ3qA==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 c9bcf1ef5ff6ccbffc94a95572996802.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD79-C3
+      x-amz-cf-id:
+      - B_KWpP-_W9p_2z02A_N1GJHaXs46PqKUSiya2SoL1S3q--qLzYQ3qA==
+    body:
+      encoding: UTF-8
+      string: '{"hits":0,"took":114,"items":[]}'
+  recorded_at: Mon, 14 Nov 2022 23:25:55 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/collections.umm-json?native_id=full_collection_draft_proposal_id
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/vnd.nasa.cmr.legacy_umm_results+json; charset=utf-8
+      content-length:
+      - '31'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 14 Nov 2022 23:25:56 GMT
+      x-frame-options:
+      - SAMEORIGIN
+      access-control-allow-origin:
+      - "*"
+      x-xss-protection:
+      - 1; mode=block
+      cmr-request-id:
+      - 3faefad7-f219-4654-8401-3a6bbc3e0270
+      strict-transport-security:
+      - max-age=31536000
+      cmr-hits:
+      - '0'
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      x-content-type-options:
+      - nosniff
+      cmr-took:
+      - '46'
+      x-request-id:
+      - 5A_pMShWMzvNvawuwir_MbmbCwTc5DVekpuzHOPlOE9lDCsmaHiw1g==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 1299a022d10cdc620f209ba0440a48e8.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD79-C3
+      x-amz-cf-id:
+      - 5A_pMShWMzvNvawuwir_MbmbCwTc5DVekpuzHOPlOE9lDCsmaHiw1g==
+    body:
+      encoding: UTF-8
+      string: '{"hits":0,"took":45,"items":[]}'
+  recorded_at: Mon, 14 Nov 2022 23:25:56 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls?include_full_acl=true&provider=MMT_2&target=NON_NASA_DRAFT_APPROVER
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json;charset=utf-8
+      content-length:
+      - '32'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 14 Nov 2022 23:26:04 GMT
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      access-control-allow-origin:
+      - "*"
+      cmr-hits:
+      - '0'
+      cmr-took:
+      - '158'
+      cmr-request-id:
+      - 7902dd66-5d8e-4fec-a0de-c47389de8dee
+      x-request-id:
+      - 1GSqT1tSghCpYRAIxpSiu2miclXwOiDMhQFy64IJm-AK36T96GZ6mQ==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 e4c06b6e6eb895470e2fd65bbc93b3b6.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD79-C3
+      x-amz-cf-id:
+      - 1GSqT1tSghCpYRAIxpSiu2miclXwOiDMhQFy64IJm-AK36T96GZ6mQ==
+    body:
+      encoding: UTF-8
+      string: '{"hits":0,"took":158,"items":[]}'
+  recorded_at: Mon, 14 Nov 2022 23:26:03 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/collections.umm-json?native_id=dmmt_collection_1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/vnd.nasa.cmr.legacy_umm_results+json; charset=utf-8
+      content-length:
+      - '31'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 14 Nov 2022 23:26:31 GMT
+      x-frame-options:
+      - SAMEORIGIN
+      access-control-allow-origin:
+      - "*"
+      x-xss-protection:
+      - 1; mode=block
+      cmr-request-id:
+      - 714a112d-8a1f-4f47-8eba-9959bdd1a7b9
+      strict-transport-security:
+      - max-age=31536000
+      cmr-hits:
+      - '0'
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      x-content-type-options:
+      - nosniff
+      cmr-took:
+      - '36'
+      x-request-id:
+      - K8i5_Wkh_5Kj4LO6pctOAn-3VpYH_B6N-1YFyRZilqGlxCE5IQQLUg==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 18d8a69a30308aa071168e8aed30be36.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO20-C1
+      x-amz-cf-id:
+      - K8i5_Wkh_5Kj4LO6pctOAn-3VpYH_B6N-1YFyRZilqGlxCE5IQQLUg==
+    body:
+      encoding: UTF-8
+      string: '{"hits":0,"took":35,"items":[]}'
+  recorded_at: Mon, 14 Nov 2022 23:26:31 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/collections.umm-json?native_id=dmmt_collection_1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/vnd.nasa.cmr.legacy_umm_results+json; charset=utf-8
+      content-length:
+      - '31'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 14 Nov 2022 23:26:32 GMT
+      x-frame-options:
+      - SAMEORIGIN
+      access-control-allow-origin:
+      - "*"
+      x-xss-protection:
+      - 1; mode=block
+      cmr-request-id:
+      - 1a06c4eb-2ad2-4a95-9a86-4474ad9249d8
+      strict-transport-security:
+      - max-age=31536000
+      cmr-hits:
+      - '0'
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      x-content-type-options:
+      - nosniff
+      cmr-took:
+      - '33'
+      x-request-id:
+      - bM3uRfCO257H5a_Iee3IbcUscHUtxRW7NEn8Ds5Ux2TldxCXmQY0eQ==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 dfd0a9d31e7c22e1ecdaa3c92763b966.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO20-C1
+      x-amz-cf-id:
+      - bM3uRfCO257H5a_Iee3IbcUscHUtxRW7NEn8Ds5Ux2TldxCXmQY0eQ==
+    body:
+      encoding: UTF-8
+      string: '{"hits":0,"took":32,"items":[]}'
+  recorded_at: Mon, 14 Nov 2022 23:26:32 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/collections.umm-json?native_id=dmmt_collection_1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/vnd.nasa.cmr.legacy_umm_results+json; charset=utf-8
+      content-length:
+      - '31'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 14 Nov 2022 23:26:33 GMT
+      x-frame-options:
+      - SAMEORIGIN
+      access-control-allow-origin:
+      - "*"
+      x-xss-protection:
+      - 1; mode=block
+      cmr-request-id:
+      - f3a12c0e-a553-435c-84d3-ebb79c977a90
+      strict-transport-security:
+      - max-age=31536000
+      cmr-hits:
+      - '0'
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      x-content-type-options:
+      - nosniff
+      cmr-took:
+      - '37'
+      x-request-id:
+      - tMVEvCfFw_ScC5RkX_JI6iz9_Ud1EerzfX6mMDQSotZ3jkBkCfHOWA==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 0ee59da61923d229aa7d17cdea2474a8.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO20-C1
+      x-amz-cf-id:
+      - tMVEvCfFw_ScC5RkX_JI6iz9_Ud1EerzfX6mMDQSotZ3jkBkCfHOWA==
+    body:
+      encoding: UTF-8
+      string: '{"hits":0,"took":36,"items":[]}'
+  recorded_at: Mon, 14 Nov 2022 23:26:33 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/collections.umm-json?native_id=dmmt_collection_1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/vnd.nasa.cmr.legacy_umm_results+json; charset=utf-8
+      content-length:
+      - '31'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 14 Nov 2022 23:26:34 GMT
+      x-frame-options:
+      - SAMEORIGIN
+      access-control-allow-origin:
+      - "*"
+      x-xss-protection:
+      - 1; mode=block
+      cmr-request-id:
+      - daeabe59-4eb6-4b9c-b547-048eb1a85bc2
+      strict-transport-security:
+      - max-age=31536000
+      cmr-hits:
+      - '0'
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      x-content-type-options:
+      - nosniff
+      cmr-took:
+      - '31'
+      x-request-id:
+      - V90OQLnqB3BEhzUZsEjcBZCjy4FxcGT6S5tbUHG8JhAO2rs64BB6_Q==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 affc2fdf5df0fb7bfb7e10bab49bc714.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO20-C1
+      x-amz-cf-id:
+      - V90OQLnqB3BEhzUZsEjcBZCjy4FxcGT6S5tbUHG8JhAO2rs64BB6_Q==
+    body:
+      encoding: UTF-8
+      string: '{"hits":0,"took":30,"items":[]}'
+  recorded_at: Mon, 14 Nov 2022 23:26:33 GMT
+recorded_with: VCR 6.1.0
