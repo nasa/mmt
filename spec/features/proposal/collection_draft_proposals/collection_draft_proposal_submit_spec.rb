@@ -287,7 +287,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         set_as_proposal_mode_mmt(with_required_acl: true)
-        @collection_draft_proposal = create(:empty_collection_draft_proposal)
+        @collection_draft_proposal = create(:empty_collection_draft_proposal_native_id)
         visit collection_draft_proposal_path(@collection_draft_proposal)
         click_on 'Submit for Review'
       end
@@ -431,7 +431,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         # Testing bad data, do not change this to use the mock methods.
         set_as_proposal_mode_mmt(with_draft_user_acl: true)
-        @collection_draft_proposal = create(:empty_collection_draft_proposal, user: get_user)
+        @collection_draft_proposal = create(:empty_collection_draft_proposal_native_id, user: get_user)
         @collection_draft_proposal.proposal_status = 'submitted'
         @collection_draft_proposal.save
       end

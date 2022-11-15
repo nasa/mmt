@@ -191,7 +191,7 @@ http_interactions:
   recorded_at: Tue, 15 Nov 2022 17:31:13 GMT
 - request:
     method: get
-    uri: https://cmr.sit.earthdata.nasa.gov/search/collections.umm-json?native_id=dmmt_collection_1
+    uri: https://cmr.sit.earthdata.nasa.gov/search/collections.umm-json?native_id=empty_collection_draft_native_id
     body:
       encoding: US-ASCII
       string: ''
@@ -254,7 +254,7 @@ http_interactions:
   recorded_at: Tue, 15 Nov 2022 17:31:19 GMT
 - request:
     method: get
-    uri: https://cmr.sit.earthdata.nasa.gov/search/collections.umm-json?native_id=dmmt_collection_1
+    uri: https://cmr.sit.earthdata.nasa.gov/search/collections.umm-json?native_id=empty_collection_draft_native_id
     body:
       encoding: US-ASCII
       string: ''
