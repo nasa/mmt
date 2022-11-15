@@ -25,6 +25,10 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
     context 'when user goes back in browser to edit a submitted proposal' do
       before do
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
             click_on 'Descriptive Keywords'
@@ -40,6 +44,10 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
         end
 
         within '.nav-top' do
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
             VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
               click_on 'Done'
@@ -66,6 +74,10 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
         click_on 'Add Keyword'
 
         within '.nav-top' do
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
             click_on 'Done'
           end
@@ -80,7 +92,13 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
     context 'when the submit proposal button is clicked' do
       before do
-        click_on 'Submit for Review'
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          click_on 'Submit for Review'
+        end
       end
 
       context 'when clicking yes to submit a proposal' do
@@ -141,10 +159,9 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
               allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
               allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
               VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_fail", record: :none) do
-                @group = create_group(name: 'Approver_Email_Fail_Test_Group_005', members: ['testuser'])
+                @group = create_group(name: 'Approver_Email_Fail_Test_Group_011', members: ['testuser'])
                 # This is the wrong permission with one member in the right group
                 # This tests that the correct permission is being checked.
-                # cmr_client.delete_permission('ACL1200442551-CMR', @token)
                 @permission = add_permissions_to_group(@group['group_id'], 'delete', 'NON_NASA_DRAFT_APPROVER', 'MMT_2', @token)
                 set_as_proposal_mode_mmt(with_draft_user_acl: true)
                 mock_urs_get_users(count: 2)
@@ -177,9 +194,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
               allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
               allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
               VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_success", record: :none) do
-                @group = create_group(name: 'Approver_Email_Success_Test_Group_005', members: ['hvtranho', 'admin', 'adminuser'])
-                puts("Group created=#{@group}")
-                cmr_client.delete_permission('ACL1200442551-CMR', @token)
+                @group = create_group(name: 'Approver_Email_Success_Test_Group_011', members: ['hvtranho', 'admin', 'adminuser'])
                 @permission = add_permissions_to_group(@group['group_id'], 'create', 'NON_NASA_DRAFT_APPROVER', 'MMT_2', @token)
                 set_as_proposal_mode_mmt(with_draft_user_acl: true)
                 mock_urs_get_users(count: 2)
