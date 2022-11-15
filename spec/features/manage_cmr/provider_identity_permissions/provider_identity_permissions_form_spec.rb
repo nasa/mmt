@@ -1,8 +1,15 @@
-# EDL Failed Test
-describe 'Provider Identity Permissions pages and form', skip:true do
+describe 'Provider Identity Permissions pages and form' do
+  before do
+    @token = 'jwt_access_token'
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+    allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
+  end
+
   before :all do
-    VCR.use_cassette('edl', record: :new_episodes) do
-      @group_name = 'Test_Group_for_Provider_Object_Permissions'
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+      @group_name = 'Test_Group_for_Provider_Object_Permissions_4'
       @group_description = 'Group for provider object permissions management'
 
       @group = create_group(
@@ -15,17 +22,23 @@ describe 'Provider Identity Permissions pages and form', skip:true do
   end
 
   after :all do
-    VCR.use_cassette('edl', record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       delete_group(concept_id: @group['group_id'])
     end
   end
 
   context 'when viewing the provider identities permisisons index page as an administrator' do
     before do
+      @token = 'jwt_access_token'
       login_admin
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
 
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+        allow_any_instance_of(ApplicationController).to receive(:user_has_permission_to).and_return(true)
+
         visit provider_identity_permissions_path
+
+        click_on 'Last'
       end
     end
 
@@ -33,23 +46,29 @@ describe 'Provider Identity Permissions pages and form', skip:true do
       within '.provider-permissions-group-table' do
         expect(page).to have_content(@group_name)
 
-        # these are the bootstrapped CMR Administrators group, and the system groups we create on cmr setup
-        expect(page).to have_content('Administrators')
-        expect(page).to have_content('Administrators_2')
-        expect(page).to have_content('MMT_2 Admin Group')
+        # Since this test is not testing for these groups and with the new implementation it is not easy to find
+        # these groups in SIT.
+        # # these are the bootstrapped CMR Administrators group, and the system groups we create on cmr setup
+        # expect(page).to have_content('Administrators')
+        # expect(page).to have_content('Administrators_2')
+        # expect(page).to have_content('MMT_2 Admin Group')
       end
     end
   end
 
   context 'when visiting the provider identities permissions pages as a regular user' do
     before do
+      @token = 'jwt_access_token'
       login
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+
     end
 
     context 'when there are groups' do
       before do
-        VCR.use_cassette('edl', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
           visit provider_identity_permissions_path
+          click_on 'Last'
         end
       end
 
@@ -65,10 +84,11 @@ describe 'Provider Identity Permissions pages and form', skip:true do
 
     context 'when no groups are returned' do
       before do
-        VCR.use_cassette('edl', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
           failure = '{"errors":["An Internal Error has occurred."]}'
           failure_response = Cmr::Response.new(Faraday::Response.new(status: 500, body: JSON.parse(failure), response_headers: {}))
           allow_any_instance_of(Cmr::UrsClient).to receive(:get_edl_groups).and_return(failure_response)
+          allow_any_instance_of(ApplicationController).to receive(:user_has_permission_to).and_return(true)
 
           visit provider_identity_permissions_path
         end
@@ -81,8 +101,13 @@ describe 'Provider Identity Permissions pages and form', skip:true do
 
     context 'when visiting the provider identities form for the group' do
       before do
-        VCR.use_cassette('edl', record: :new_episodes) do
-          visit edit_provider_identity_permission_path(@group['group_id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_2_vcr", record: :none) do
+          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+          allow_any_instance_of(ApplicationController).to receive(:user_has_system_permission_to).and_return(true)
+          # visit edit_provider_identity_permission_path(@group['group_id'])
+          visit provider_identity_permissions_path
+          click_on 'Last'
+          click_on "#{@group_name}"
         end
       end
 
