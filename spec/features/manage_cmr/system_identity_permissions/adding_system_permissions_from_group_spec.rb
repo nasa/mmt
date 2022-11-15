@@ -1,13 +1,14 @@
-# EDL Failed Test
-describe 'Saving System Object Permissions from the system group show page', js:true do
+describe 'Saving System Object Permissions from the system group show page', js: true do
   before do
     @token = 'jwt_access_token'
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+    allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
   end
   before :all do
     VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
-      @group_name = 'Test_System_Permissions_Group_1_from_group_page_4'
+      @group_name = 'Test_System_Permissions_Group_1_from_group_page_10'
       @group_description = 'Group to test system permissions'
       @group_response = create_group(
         name: @group_name,
@@ -37,8 +38,7 @@ describe 'Saving System Object Permissions from the system group show page', js:
     before do
       login_admin
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
-        allow_any_instance_of(ApplicationController).to receive(:user_has_system_permission_to).and_return(true)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_2_vcr", record: :none) do
         visit group_path(@group_response['group_id'])
       end
     end
@@ -106,8 +106,6 @@ describe 'Saving System Object Permissions from the system group show page', js:
             within '.system-permissions-form' do
               allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
               allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
-              allow_any_instance_of(ApplicationController).to receive(:user_has_system_permission_to).and_return(true)
-
               click_on 'Submit'
             end
           end

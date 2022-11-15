@@ -1,8 +1,10 @@
-describe 'Saving System Object Permissions from the system object permissions index page', js:true do
+describe 'Saving System Object Permissions from the system object permissions index page', js: true do
   before do
     @token = 'jwt_access_token'
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+    allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
   end
   before :all do
     VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
@@ -35,8 +37,7 @@ describe 'Saving System Object Permissions from the system object permissions in
     before do
       login_admin
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
-        allow_any_instance_of(ApplicationController).to receive(:user_has_system_permission_to).and_return(true)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         visit system_identity_permissions_path(@group_response['group_id'])
         # The group that is created for this test is on page on 11 of the table so we need to navigate to page 11
         click_on 'Last'
@@ -94,15 +95,14 @@ describe 'Saving System Object Permissions from the system object permissions in
             check('system_permissions_METRIC_DATA_POINT_SAMPLE_', option: 'read')
             check('system_permissions_EXTENDED_SERVICE_', option: 'delete')
             check('system_permissions_TAG_GROUP_', option: 'update')
-              within '.system-permissions-form' do
-                click_on 'Submit'
-              end
+            within '.system-permissions-form' do
+              click_on 'Submit'
             end
-            wait_for_cmr
           end
+          wait_for_cmr
+        end
 
         it 'displays a success message and no error message on the index page' do
-          screenshot_and_open_image
           expect(page).to have_content('System Object Permissions')
           expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
 

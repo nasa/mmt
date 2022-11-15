@@ -1,4 +1,4 @@
-describe 'System Identity Permissions pages and form', js:true do
+describe 'System Identity Permissions pages and form', js: true do
   # concept_id for Administrators_2 group created on cmr setup
   # let(:concept_id) { group_concept_from_name('Administrators_2', 'access_token_admin') }
 
@@ -23,14 +23,14 @@ describe 'System Identity Permissions pages and form', js:true do
       @token = 'jwt_access_token'
       login_admin
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
 
     end
 
     context 'when visiting the system identities index page' do
       context 'when there are system groups' do
         before do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
-            allow_any_instance_of(ApplicationController).to receive(:user_has_system_permission_to).and_return(true)
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
             visit system_identity_permissions_path
           end
         end
@@ -54,7 +54,7 @@ describe 'System Identity Permissions pages and form', js:true do
           failure_response = Cmr::Response.new(Faraday::Response.new(status: 500, body: JSON.parse(failure), response_headers: {}))
           allow_any_instance_of(Cmr::UrsClient).to receive(:get_edl_groups).and_return(failure_response)
 
-          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
             allow_any_instance_of(ApplicationController).to receive(:user_has_permission_to).and_return(true)
             visit system_identity_permissions_path
           end
@@ -69,9 +69,9 @@ describe 'System Identity Permissions pages and form', js:true do
     context 'when visiting the system identities form for a System Group' do
       before do
         @token = 'jwt_access_token'
-        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
           login_admin
-          allow_any_instance_of(ApplicationController).to receive(:user_has_system_permission_to).and_return(true)
+          # allow_any_instance_of(ApplicationController).to receive(:user_has_system_permission_to).and_return(true)
           allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
           allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
           @group_name = 'Test_System_Identity_Permission_form_8'

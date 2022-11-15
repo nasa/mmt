@@ -4,6 +4,7 @@ describe 'Changing or Removing System Identity Permissions', js: true do
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
   end
   before :all do
     VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
@@ -77,8 +78,7 @@ describe 'Changing or Removing System Identity Permissions', js: true do
       login_admin
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
 
-      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
-        allow_any_instance_of(ApplicationController).to receive(:user_has_system_permission_to).and_return(true)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
         visit system_identity_permissions_path
         # The group that is created for this test is on page on 9 of the table so we need to navigate to page 9
         click_on 'Last'
@@ -105,7 +105,7 @@ describe 'Changing or Removing System Identity Permissions', js: true do
         uncheck('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'delete')
 
         within '.system-permissions-form' do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
             click_on 'Submit'
           end
         end
