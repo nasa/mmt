@@ -839,7 +839,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.0
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTgyNjA5OSwiaWF0IjoxNjY4NTMwMDk5LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.06iVXOsNj34crKCFZ4RR1MsqdN7o1ts_8_RbYg3SHkR0CFxLa9jwxbrVsgJYuq4h7vqgYwpurN0l_iI2C96mV7Or-FcnY38vBraO9oNGuR0SQtdWaQANf3QgL86QPos2YSyrMydsnEwRpdDDjU_91Qf3oRizSxR7jIJfIiP0RKXxxUb_65xBmemWDfgWOIZPOdawqFjqHMXaJpOhquOmzSbUuRqNGw-W7KCvv4jOpr-v5HvGjhkktEMdTkUfKN0lwPzncY7yXUufRm7m80iX-t7PMOfLfM_bR7MGuyKA4sbjlbBGDqp7nho01cMXujJFViFmq0VfA9EtZUOPPW4g0w
+      - Bearer access_token
   response:
     status:
       code: 200
