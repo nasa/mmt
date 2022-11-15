@@ -36,7 +36,6 @@ describe 'System Identity Permissions pages and form', js: true do
         end
 
         it 'shows the page with table of system level groups' do
-          screenshot_and_open_image
           expect(page).to have_content('System Object Permissions')
           expect(page).to have_content('Click on a System Group to access the system object permissions for that group.')
 
@@ -86,7 +85,6 @@ describe 'System Identity Permissions pages and form', js: true do
       end
 
       it 'displays the form and table of system targets' do
-        screenshot_and_open_image
         expect(page).to have_content('Service_Entry_Group_35 System Object Permissions')
         expect(page).to have_content("Set permissions for the Service_Entry_Group_35 group by checking the appropriate boxes below and clicking 'Submit'.")
 
