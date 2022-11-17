@@ -78,7 +78,7 @@ describe 'Changing or Removing System Identity Permissions', js: true do
       login_admin
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
 
-      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         visit system_identity_permissions_path
         # The group that is created for this test is on page on 9 of the table so we need to navigate to page 9
         click_on 'Last'
@@ -105,7 +105,7 @@ describe 'Changing or Removing System Identity Permissions', js: true do
         uncheck('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'delete')
 
         within '.system-permissions-form' do
-          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
             click_on 'Submit'
           end
         end
