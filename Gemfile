@@ -52,8 +52,8 @@ gem 'faker'
 gem 'figaro'
 gem 'font-awesome-rails'
 #gem 'jquery-ui-rails'	# for $(document).tooltip()
-#Need to use this branch to get jquery-ui 1.13.0
-gem 'jquery-ui-rails' #, github: 'nescalera/jquery-ui-rails', branch: 'jquery-ui-1.13.0'
+#Need to use this branch to get jquery-ui 1.13.2
+gem 'jquery-ui-rails', github: 'william-valencia/jquery-ui-rails', branch: 'jquery-ui-1.13.2'
 gem 'json-schema'
 gem 'kaminari'
 gem 'momentjs-rails' # js lib for dates
