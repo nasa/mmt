@@ -1,8 +1,14 @@
-# EDL Failed Test
-describe 'Saving System Object Permissions from the system group show page', skip:true do
+describe 'Saving System Object Permissions from the system group show page', js: true do
+  before do
+    @token = 'jwt_access_token'
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+    allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+    allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
+  end
   before :all do
-    VCR.use_cassette('edl', record: :new_episodes) do
-      @group_name = 'Test_System_Permissions_Group_1_from_group_page'
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+      @group_name = 'Test_System_Permissions_Group_1_from_group_page_10'
       @group_description = 'Group to test system permissions'
       @group_response = create_group(
         name: @group_name,
@@ -19,13 +25,11 @@ describe 'Saving System Object Permissions from the system group show page', ski
       'page_size' => 30,
       'permitted_group' => @group_response['group_id']
     }
-
-    permissions_response_items = cmr_client.get_permissions(permissions_options, 'access_token_admin').body.fetch('items', [])
-
-    permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
-
     # delete the group
-    VCR.use_cassette('edl', record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+      permissions_response_items = cmr_client.get_permissions(permissions_options, @token).body.fetch('items', [])
+      permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }
+
       delete_group(concept_id: @group_response['group_id'], admin: true)
     end
   end
@@ -33,8 +37,8 @@ describe 'Saving System Object Permissions from the system group show page', ski
   context 'when logging in as a system admin and visiting the system group show page' do
     before do
       login_admin
-
-      VCR.use_cassette('edl', record: :new_episodes) do
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_2_vcr", record: :none) do
         visit group_path(@group_response['group_id'])
       end
     end
@@ -58,7 +62,7 @@ describe 'Saving System Object Permissions from the system group show page', ski
 
     context 'when clicking on the link to manage system permissions' do
       before do
-        VCR.use_cassette('edl', record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
           click_on 'System Object Permissions'
         end
       end
@@ -70,7 +74,7 @@ describe 'Saving System Object Permissions from the system group show page', ski
 
       context 'when clicking Cancel' do
         before do
-          VCR.use_cassette('edl', record: :new_episodes) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
             click_on 'Cancel'
           end
         end
@@ -93,13 +97,15 @@ describe 'Saving System Object Permissions from the system group show page', ski
 
       context 'when selecting and saving system permissions' do
         before do
-          check('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'create')
-          check('system_permissions_METRIC_DATA_POINT_SAMPLE_', option: 'read')
-          check('system_permissions_EXTENDED_SERVICE_', option: 'delete')
-          check('system_permissions_TAG_GROUP_', option: 'update')
+          VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+            check('system_permissions_SYSTEM_OPTION_DEFINITION_', option: 'create')
+            check('system_permissions_METRIC_DATA_POINT_SAMPLE_', option: 'read')
+            check('system_permissions_EXTENDED_SERVICE_', option: 'delete')
+            check('system_permissions_TAG_GROUP_', option: 'update')
 
-          within '.system-permissions-form' do
-            VCR.use_cassette('edl', record: :new_episodes) do
+            within '.system-permissions-form' do
+              allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
               click_on 'Submit'
             end
           end
