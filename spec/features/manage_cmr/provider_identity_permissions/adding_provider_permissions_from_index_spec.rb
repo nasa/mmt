@@ -36,7 +36,7 @@ describe 'Saving Provider Object Permissions from the provider object permission
       'page_size' => 50,
       'permitted_group' => @system_group['group_id']
     }
-    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       permissions_response_items = cmr_client.get_permissions(permissions_options, ).body.fetch('items', [])
 
       permissions_response_items.each { |perm_item| remove_group_permissions(perm_item['concept_id']) }

@@ -1,7 +1,7 @@
 describe 'Collection Permissions form', js: true do
   context 'when visiting new collection permission page as a regular user' do
     before do
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette('edl', record: :none) do
         login
         
         visit new_permission_path
@@ -227,7 +227,7 @@ describe 'Collection Permissions form', js: true do
 
   context 'when visiting new collection permission page as an admin' do
     before do
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette('edl', record: :none) do
         login_admin
 
         visit new_permission_path
