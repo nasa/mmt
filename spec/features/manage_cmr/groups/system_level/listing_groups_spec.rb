@@ -3,7 +3,7 @@ describe 'Listing System Level Groups', reset_provider: true do
     before do
       login_admin(providers: %w[MMT_1 MMT_2 LARC SEDAC NSIDC_ECS])
 
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette('edl', record: :none) do
         visit groups_path
 
         within '.groups-filters' do

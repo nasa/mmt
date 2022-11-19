@@ -2,7 +2,7 @@
 xdescribe 'Groups Associated Collection Permissions', reset_provider: true do
   context 'when creating a new group with an associated collection permission' do
     before :all do
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette('edl', record: :none) do
         @group_id = create_group['concept_id']
 
         # collection permissions should show as associated permission on the group page

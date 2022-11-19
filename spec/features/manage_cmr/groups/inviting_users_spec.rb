@@ -81,7 +81,7 @@ describe 'Inviting users', reset_provider: true, js: true do
       @group_description = 'Group to invite users to'
       @provider_id = 'MMT_2'
 
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette('edl', record: :none) do
         @group = create_group(
           name: @group_name,
           description: @group_description,

@@ -9,7 +9,7 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
 
   before :all do
     @token = 'jwt_access_token'
-    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       @group_name = 'Test_Group_for_Updating_Provider_Object_Permissions_test_40'
       @group = create_group(
         name: @group_name,
