@@ -8,18 +8,17 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     allow_any_instance_of(User).to receive(:urs_uid).and_return('ttle9')
-
-    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_2_vcr", record: :none) do
-      @subscriptions_group = create_group(name: 'Test_subscription_group668', members: ['testuser', 'ttle9', 'hvtranho'])
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_4_vcr", record: :none) do
+      @subscriptions_group = create_group(name: 'Test_subscription_group66844', members: ['testuser', 'ttle9', 'hvtranho'])
 
       # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
       @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['group_id'], ['read', 'update'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2', @token)
-      @c_ingest_response, _c_concept_response = publish_collection_draft(token: @token, native_id: 'index_subscription_12699314')
+      @c_ingest_response, _c_concept_response = publish_collection_draft(token: @token, native_id: 'index_subscription_1269931444')
 
       clear_cache
 
-      _ingest_response, @search_response, @subscription = publish_new_subscription(name: 'Test_subscription_2345_01', collection_concept_id: @c_ingest_response['concept-id'], subscriber_id:'ttle9', email_address:'thanhtam.t.le@nasa.gov', token:@token, query:"bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30&entry_title=334eb338-09c8-41ef-b00f-db3b365db492", native_id: 'ingest_nativeId_125')
-      _ingest_response2, @search_response2, @subscription2 = publish_new_subscription(name: 'Test_subscription_2345_02',collection_concept_id: @c_ingest_response['concept-id'], subscriber_id:'ttle9', email_address:'thanhtam.t.le@nasa.gov', token:@token, query:"bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30&entry_title=9fed60ea-b092-4cf3-83a9-7e38171f4f6f", native_id: 'ingest_nativeId_135')
+      _ingest_response, @search_response, @subscription = publish_new_subscription(name: 'Test_subscription_2345_01444', collection_concept_id: @c_ingest_response['concept-id'], subscriber_id:'ttle9', email_address:'thanhtam.t.le@nasa.gov', token:@token, query:"bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30&entry_title=334eb338-09c8-41ef-b00f-db3b364db444", native_id: 'ingest_nativeId_12544')
+      _ingest_response2, @search_response2, @subscription2 = publish_new_subscription(name: 'Test_subscription_2345_02444',collection_concept_id: @c_ingest_response['concept-id'], subscriber_id:'ttle9', email_address:'thanhtam.t.le@nasa.gov', token:@token, query:"bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30&entry_title=9fed60ea-b092-4cf3-83a9-7e48174f4f4f", native_id: 'ingest_nativeId_13544')
     end
   end
 
@@ -31,9 +30,14 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
   end
 
   context 'when the user has read access and not update access' do
+    before do
+      # Update is needed because both Create and Edit are checked in the code
+      allow_any_instance_of(SubscriptionPolicy).to receive(:update?).and_return(false)
+    end
+
     context 'when viewing the manage CMR page' do
       before do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_2_vcr", record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_4_vcr", record: :none) do
           allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
           allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
           allow_any_instance_of(User).to receive(:urs_uid).and_return('ttle9')
@@ -49,7 +53,7 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
 
     context 'when viewing the index page' do
       before do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_2_vcr", record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_4_vcr", record: :none) do
           allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
           allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
           allow_any_instance_of(User).to receive(:urs_uid).and_return('ttle9')
@@ -58,8 +62,8 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
       end
 
       it 'displays expected subscriptions without edit or delete links' do
-        expect(page).to have_link('Create a Subscription')
-        expect(page).to have_content('Showing all 10 Subscriptions')
+        expect(page).to have_no_link('Create a Subscription')
+        expect(page).to have_content('Showing all 3 Subscriptions')
         within '.subscriptions-table' do
           expect(page).to have_content('Name')
           expect(page).to have_content('Query')
@@ -73,16 +77,17 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
           expect(page).to have_content(@subscription2['SubscriberId'])
           expect(page).to have_content(@subscription2['Name'])
           expect(page).to have_content(@subscription2['Query'])
-          expect(page).to have_link('Edit')
-          expect(page).to have_link('Delete')
+          expect(page).to have_no_link('Edit')
+          expect(page).to have_no_link('Delete')
         end
       end
     end
   end
 
+
   context 'when viewing the index page with full permissions' do
     before do
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_2_vcr", record: :none) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_4_vcr", record: :none) do
         visit subscriptions_path
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
       end
@@ -90,7 +95,7 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
 
     it 'displays expected subscriptions and edit and delete links' do
       expect(page).to have_link('Create a Subscription')
-      expect(page).to have_content('Showing all 10 Subscriptions')
+      expect(page).to have_content('Showing all 3 Subscriptions')
       within '.subscriptions-table' do
         expect(page).to have_content('Name')
         expect(page).to have_content('Query')
@@ -115,7 +120,7 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
     before do
       # Granting read permission in CMR for verifying proper ingest, so we need
       # to return false for this test
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_2_vcr", record: :none) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_4_vcr", record: :none) do
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         allow_any_instance_of(SubscriptionPolicy).to receive(:show?).and_return(false)
         visit subscriptions_path
@@ -135,7 +140,7 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
 
   context 'when there are subscriptions for multiple providers' do
     before do
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_3_vcr", record: :none) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_4_vcr", record: :none) do
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
         @token = 'jwt_access_token'
         allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
@@ -155,13 +160,8 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
     end
 
     before 'visit_subscription_path' do
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_3_vcr", record: :none) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_4_vcr", record: :none) do
         visit subscriptions_path
-        click_on 'Last'
-        click_on 'Previous'
-        click_on 'Previous'
-        click_on 'Previous'
-        click_on 'Previous'
       end
     end
 
