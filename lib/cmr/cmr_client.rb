@@ -89,7 +89,8 @@ module Cmr
     # GET endpoint because the subscription service in CMR is currently using it
     # when CMR changes, we should update to the POST.
     def test_query(query, token, headers = {})
-      url = if Rails.env.development? || Rails.env.test?
+      puts("******** Test query token=#{token}")
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3003/granules.umm_json?#{query}"
             else
               "/search/granules.umm_json?#{query}"
@@ -438,7 +439,7 @@ module Cmr
 
     # Create and update
     def ingest_subscription(subscription, provider_id, native_id, token)
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               # CMR does a check to ensure the subscriber id exists in EDL.
               # So add this user to local cmr.
               add_users_to_local_cmr([JSON.parse(subscription)['SubscriberId']], nil)
@@ -471,16 +472,19 @@ module Cmr
 
     # MMT does not need to ingest granules in any environment that is not dev or
     # test.
-    def ingest_granule(metadata, provider_id, native_id)
-      return unless Rails.env.development? || Rails.env.test?
-
-      url = "http://localhost:3002/providers/#{provider_id}/granules/#{encode_if_needed(native_id)}"
+    def ingest_granule(metadata, provider_id, native_id, token)
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+              "http://localhost:3002/providers/#{provider_id}/granules/#{encode_if_needed(native_id)}"
+            elsif Rails.env.test?
+              "/providers/#{provider_id}/granules/#{encode_if_needed(native_id)}"
+            else
+              return
+            end
       headers = {
         'Accept' => 'application/json;version=1.0',
         'Content-Type' =>  "application/vnd.nasa.cmr.umm+json; version=1.6; charset=utf-8"
       }
-
-      put(url, metadata, headers.merge(token_header('token')))
+      put(url, metadata, headers.merge(token_header(token)))
     end
 
     #####################

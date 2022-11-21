@@ -1,0 +1,1304 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups
+    body:
+      encoding: UTF-8
+      string: name=TEST_QUERY_EDIT_SUBSCR_GROUP_060&description=Iure%20est%20et%20voluptatem.&tag=MMT_2
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 18 Nov 2022 20:55:50 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"6426a0406af47b345e7e03703d28bd56"
+      x-request-id:
+      - 6117d824-be5a-417c-9792-a046a6320513
+      x-runtime:
+      - '0.013803'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"name":"TEST_QUERY_EDIT_SUBSCR_GROUP_060","app_uid":"mmt_test","description":"Iure
+        est et voluptatem.","client_id":"81FEem91NlTQreWv2UgtXQ","shared_user_group":false,"created_by":"mmt_test","tag":"MMT_2","group_id":"8d886812-c2dd-4482-b8a9-33515fb08b17"}'
+  recorded_at: Fri, 18 Nov 2022 20:55:50 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/8d886812-c2dd-4482-b8a9-33515fb08b17/user
+    body:
+      encoding: UTF-8
+      string: user_id=hvtranho
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 18 Nov 2022 20:55:51 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"7847ba4484980abfea57f926f404ddf4"
+      x-request-id:
+      - 7f5fc424-b985-4d8a-8303-378bfe25eab4
+      x-runtime:
+      - '0.013991'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"hvtranho successfully added to user group TEST_QUERY_EDIT_SUBSCR_GROUP_060"}'
+  recorded_at: Fri, 18 Nov 2022 20:55:51 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/8d886812-c2dd-4482-b8a9-33515fb08b17/user
+    body:
+      encoding: UTF-8
+      string: user_id=ttle9
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 18 Nov 2022 20:55:51 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"6e1a9ee70feb8040834876c1022c1359"
+      x-request-id:
+      - 5ee1ad9c-d267-4645-96b5-b29513973dd7
+      x-runtime:
+      - '0.013218'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"ttle9 successfully added to user group TEST_QUERY_EDIT_SUBSCR_GROUP_060"}'
+  recorded_at: Fri, 18 Nov 2022 20:55:51 GMT
+- request:
+    method: delete
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200451064-CMR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '50'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 18 Nov 2022 20:55:53 GMT
+      cmr-request-id:
+      - 5102f270-bcd8-4273-a137-0aced08e3723
+      x-request-id:
+      - iFRe7o01o9YtdVkaUvoz23qKiv807dCWroGwBEYad_uzm68xXcwasQ==
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 dbb909966903df95f63a00d4241f7b7c.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD89-P2
+      x-amz-cf-id:
+      - iFRe7o01o9YtdVkaUvoz23qKiv807dCWroGwBEYad_uzm68xXcwasQ==
+    body:
+      encoding: UTF-8
+      string: '{"revision-id":2,"concept-id":"ACL1200451064-CMR"}'
+  recorded_at: Fri, 18 Nov 2022 20:55:53 GMT
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls
+    body:
+      encoding: UTF-8
+      string: '{"group_permissions":[{"group_id":"8d886812-c2dd-4482-b8a9-33515fb08b17","permissions":["update","read"]}],"provider_identity":{"provider_id":"MMT_2","target":"SUBSCRIPTION_MANAGEMENT"}}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '50'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 18 Nov 2022 20:55:54 GMT
+      cmr-request-id:
+      - fe6ac39a-4f59-4b05-83e4-5fe3a3f19fa6
+      x-request-id:
+      - QAbkfPF3KPqQ0LS7MBQOkcO6XQxnSXst71GOinZ49B6EgkPVJ7o0-Q==
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 0459f0f7053eeb224fd9fe0f5db5970a.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD89-P2
+      x-amz-cf-id:
+      - QAbkfPF3KPqQ0LS7MBQOkcO6XQxnSXst71GOinZ49B6EgkPVJ7o0-Q==
+    body:
+      encoding: UTF-8
+      string: '{"revision_id":1,"concept_id":"ACL1200451069-CMR"}'
+  recorded_at: Fri, 18 Nov 2022 20:55:53 GMT
+- request:
+    method: put
+    uri: https://cmr.sit.earthdata.nasa.gov/ingest/providers/MMT_2/collections/test_query_editing_spec_005
+    body:
+      encoding: UTF-8
+      string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
+        1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0","Version":"1.17.0"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
+        1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
+        2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
+        2 PC Unit","DataType":"STRING"}],"Instruments":[{"ShortName":"ATM","LongName":"Airborne
+        Topographic Mapper","Characteristics":[{"Name":"test 1 PI Name","Description":"test
+        1 PI Description","Value":"test 1 PI Value","Unit":"test 1 PI Unit","DataType":"STRING"},{"Name":"test
+        2 PI Name","Description":"test 2 PI Description","Value":"test 2 PI Value","Unit":"test
+        2 PI Unit","DataType":"STRING"}],"Technique":"test 1 PI Technique","NumberOfInstruments":234,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test 1 PS Technique","Characteristics":[{"Name":"test
+        1 PS Name","Description":"test 1 PS Description","Value":"test 1 PS Value","Unit":"test
+        1 PS Unit","DataType":"STRING"},{"Name":"test 2 PS Name","Description":"test
+        2 PS Description","Value":"test 2 PS Value","Unit":"test 2 PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP
+        L-BAND RADIOMETER","LongName":"SMAP L-Band Radiometer","Technique":"test 1b
+        PS Technique","Characteristics":[{"Name":"test 1b PS Name","Description":"test
+        1b PS Description","Value":"test 1b PS Value","Unit":"test 1b PS Unit","DataType":"STRING"},{"Name":"test
+        2b PS Name","Description":"test 2b PS Description","Value":"test 2b PS Value","Unit":"test
+        2b PS Unit","DataType":"STRING"}]}],"OperationalModes":["test 1a Op","test
+        1b Op"]},{"ShortName":"LVIS","LongName":"Land, Vegetation, and Ice Sensor","Characteristics":[{"Name":"test
+        1d PI Name","Description":"test 1d PI Description","Value":"test 1d PI Value","Unit":"test
+        1d PI Unit","DataType":"STRING"},{"Name":"test 2d PI Name","Description":"test
+        2d PI Description","Value":"test 2d PI Value","Unit":"test 2d PI Unit","DataType":"STRING"}],"Technique":"test
+        1d PI Technique","NumberOfInstruments":345,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test 1d PS Technique","Characteristics":[{"Name":"test
+        1d PS Name","Description":"test 1d PS Description","Value":"test 1d PS Value","Unit":"test
+        1d PS Unit","DataType":"STRING"},{"Name":"test 2d PS Name","Description":"test
+        2d PS Description","Value":"test 2d PS Value","Unit":"test 2d PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP
+        L-BAND RADIOMETER","LongName":"SMAP L-Band Radiometer","Technique":"test 1db
+        PS Technique","Characteristics":[{"Name":"test 1db PS Name","Description":"test
+        1db PS Description","Value":"test 1db PS Value","Unit":"test 1db PS Unit","DataType":"STRING"},{"Name":"test
+        2db PS Name","Description":"test 2db PS Description","Value":"test 2db PS
+        Value","Unit":"test 2db PS Unit","DataType":"STRING"}]}],"OperationalModes":["test
+        1da Op","test 1db Op"]}]},{"Type":"Earth Observation Satellites","ShortName":"SMAP","LongName":"Soil
+        Moisture Active and Passive Observatory","Characteristics":[{"Name":"test
+        a1 PC Name","Description":"test a1 PC Description","Value":"test a1 PC Value","Unit":"test
+        a1 PC Unit","DataType":"STRING"},{"Name":"test a2 PC Name","Description":"test
+        a2 PC Description","Value":"test a2 PC Value","Unit":"test a2 PC Unit","DataType":"STRING"}],"Instruments":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Characteristics":[{"Name":"test a1 PI Name","Description":"test
+        a1 PI Description","Value":"test a1 PI Value","Unit":"test a1 PI Unit","DataType":"STRING"},{"Name":"test
+        a2 PI Name","Description":"test a2 PI Description","Value":"test a2 PI Value","Unit":"test
+        a2 PI Unit","DataType":"STRING"}],"Technique":"test a1 PI Technique","NumberOfInstruments":456,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test a1 PS Technique","Characteristics":[{"Name":"test
+        a1 PS Name","Description":"test a1 PS Description","Value":"test a1 PS Value","Unit":"test
+        a1 PS Unit","DataType":"STRING"},{"Name":"test a2 PS Name","Description":"test
+        a2 PS Description","Value":"test a2 PS Value","Unit":"test a2 PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP
+        L-BAND RADIOMETER","LongName":"SMAP L-Band Radiometer","Technique":"test a1b
+        PS Technique","Characteristics":[{"Name":"test a1b PS Name","Description":"test
+        a1b PS Description","Value":"test a1b PS Value","Unit":"test a1b PS Unit","DataType":"STRING"},{"Name":"test
+        a2b PS Name","Description":"test a2b PS Description","Value":"test a2b PS
+        Value","Unit":"test a2b PS Unit","DataType":"STRING"}]}],"OperationalModes":["test
+        a1a Op","test a1b Op"]},{"ShortName":"SMAP L-BAND RADIOMETER","LongName":"SMAP
+        L-Band Radiometer","Characteristics":[{"Name":"test a1d PI Name","Description":"test
+        a1d PI Description","Value":"test a1d PI Value","Unit":"test a1d PI Unit","DataType":"STRING"},{"Name":"test
+        a2d PI Name","Description":"test a2d PI Description","Value":"test a2d PI
+        Value","Unit":"test a2d PI Unit","DataType":"STRING"}],"Technique":"test a1d
+        PI Technique","NumberOfInstruments":567,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test a1d PS Technique","Characteristics":[{"Name":"test
+        a1d PS Name","Description":"test a1d PS Description","Value":"test a1d PS
+        Value","Unit":"test a1d PS Unit","DataType":"STRING"},{"Name":"test a2d PS
+        Name","Description":"test a2d PS Description","Value":"test a2d PS Value","Unit":"test
+        a2d PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP L-BAND RADIOMETER","LongName":"SMAP
+        L-Band Radiometer","Technique":"test a1db PS Technique","Characteristics":[{"Name":"test
+        a1db PS Name","Description":"test a1db PS Description","Value":"test a1db
+        PS Value","Unit":"test a1db PS Unit","DataType":"STRING"},{"Name":"test a2db
+        PS Name","Description":"test a2db PS Description","Value":"test a2db PS Value","Unit":"test
+        a2db PS Unit","DataType":"STRING"}]}],"OperationalModes":["test a1da Op","test
+        a1db Op"]}]}],"Abstract":"This is a long description of the collection","VersionDescription":"Version
+        1 Description","Purpose":"This is the purpose field","DataLanguage":"eng","DataDates":[{"Type":"CREATE","Date":"2015-07-01T00:00:00Z"},{"Type":"UPDATE","Date":"2015-07-05T00:00:00Z"}],"DataCenters":[{"Roles":["ARCHIVER"],"ShortName":"AARHUS-HYDRO","LongName":"Hydrogeophysics
+        Group, Aarhus University ","ContactInformation":{"ServiceHours":"9-6, M-F","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataCenterURL","Type":"HOME
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DataCenterURL","Type":"HOME
+        PAGE","URL":"http://example.com/2"}]}},{"Roles":["ORIGINATOR","DISTRIBUTOR"],"ShortName":"ESA/ED","LongName":"Educational
+        Office, Ecological Society of America","ContactInformation":{"ServiceHours":"10-2,
+        M-W","ContactInstruction":"Email only","ContactMechanisms":[{"Type":"Email","Value":"example@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataCenterURL","Type":"HOME
+        PAGE","URL":"http://example.com/"}]},"ContactPersons":[{"Roles":["Investigator","Metadata
+        Author"],"FirstName":"First Name 3","MiddleName":"Middle Name 3","LastName":"Last
+        Name 3","ContactInformation":{"ServiceHours":"1-4, M-W","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example5@example.com"},{"Type":"Email","Value":"example6@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"}]}}],"ContactGroups":[{"Roles":["User Services"],"GroupName":"Group
+        Name 2","ContactInformation":{"ServiceHours":"9-5, M-F","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example7@example.com"},{"Type":"Email","Value":"example8@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"}]}}]}],"ContactPersons":[{"Roles":["Science
+        Contact","Technical Contact"],"FirstName":"First Name","MiddleName":"Middle
+        Name","LastName":"Last Name","NonDataCenterAffiliation":"Famous University","ContactInformation":{"ServiceHours":"10-2,
+        M-W","ContactInstruction":"Email only","ContactMechanisms":[{"Type":"Email","Value":"example1@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/2"}]}}],"ContactGroups":[{"Roles":["User Services","Science
+        Software Development"],"GroupName":"Group Name","NonDataCenterAffiliation":"Famous
+        University","ContactInformation":{"ServiceHours":"9-5, M-F","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example3@example.com"},{"Type":"Email","Value":"example4@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/2"}]}}],"ProcessingLevel":{"Id":"1A","ProcessingLevelDescription":"Level
+        1 Description"},"CollectionCitations":[{"Version":"v1","Title":"Citation title","Creator":"Citation
+        creator","Editor":"Citation editor","SeriesName":"Citation series name","ReleaseDate":"2015-07-01T00:00:00Z","ReleasePlace":"Citation
+        release place","Publisher":"Citation publisher","IssueIdentification":"Citation
+        issue identification","DataPresentationForm":"Citation data presentation form","OtherCitationDetails":"Citation
+        other details","OnlineResource":{"Linkage":"http://example.com","Description":"Example
+        Description","Name":"Example related URL Title 1"}},{"Version":"v2","Title":"Citation
+        title 1","Creator":"Citation creator 1","OnlineResource":{"Linkage":"http://example2.com","Description":"Example
+        2 Description","Name":"Example 2 related URL Title"}}],"DOI":{"DOI":"Citation
+        DOI","Authority":"Citation DOI Authority"},"AssociatedDOIs":[{"DOI":"Associated
+        DOI","Title":"Associated DOI Title","Authority":"Associated DOI Authority"}],"StandardProduct":false,"CollectionProgress":"ACTIVE","Quality":"Metadata
+        quality summary","UseConstraints":{"Description":"These are some use constraints","FreeAndOpenData":true,"LicenseURL":{"Linkage":"http://example.com"}},"AccessConstraints":{"Value":42,"Description":"Access
+        constraint description"},"MetadataAssociations":[{"Type":"SCIENCE ASSOCIATED","EntryId":"12345","Description":"Metadata
+        association description","Version":"23"},{"Type":"LARGER CITATION WORKS","EntryId":"123abc"}],"PublicationReferences":[{"Title":"Publication
+        reference title","Publisher":"Publication reference publisher","DOI":{"DOI":"Publication
+        reference DOI","Authority":"Publication reference authority"},"Author":"Publication
+        reference author","PublicationDate":"2015-07-01T00:00:00Z","Series":"Publication
+        reference series","Edition":"Publication reference edition","Volume":"Publication
+        reference volume","Issue":"Publication reference issue","ReportNumber":"Publication
+        reference report number","PublicationPlace":"Publication reference publication
+        place","Pages":"Publication reference pages","ISBN":"1234567890123","OtherReferenceDetails":"Publication
+        reference details","OnlineResource":{"Linkage":"http://example.com","Description":"Example
+        Description","Name":"Example URL Title"}},{"Title":"Publication reference
+        title 1","ISBN":"9876543210987"}],"ScienceKeywords":[{"Category":"EARTH SCIENCE","Topic":"ATMOSPHERE","Term":"ATMOSPHERIC
+        TEMPERATURE","VariableLevel1":"SURFACE TEMPERATURE","VariableLevel2":"MAXIMUM/MINIMUM
+        TEMPERATURE","VariableLevel3":"24 HOUR MAXIMUM TEMPERATURE"},{"Category":"EARTH
+        SCIENCE","Topic":"SOLID EARTH","Term":"ROCKS/MINERALS/CRYSTALS","VariableLevel1":"SEDIMENTARY
+        ROCKS","VariableLevel2":"SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES","VariableLevel3":"LUMINESCENCE"}],"AncillaryKeywords":["Ancillary
+        keyword 1","Ancillary keyword 2"],"AdditionalAttributes":[{"Name":"Attribute
+        1","Description":"Description","DataType":"INT","MeasurementResolution":"Measurement
+        Resolution","ParameterRangeBegin":"1","ParameterRangeEnd":"5","ParameterUnitsOfMeasure":"Parameter
+        Units Of Measure","ParameterValueAccuracy":"Parameter Value Accuracy","ValueAccuracyExplanation":"Value
+        Accuracy Explanation","Group":"Group","UpdateDate":"2015-09-14T00:00:00Z"},{"Name":"Attribute
+        2","Description":"Description 2","DataType":"STRING"}],"RelatedUrls":[{"Description":"Related
+        URL 1 Description","URLContentType":"CollectionURL","Type":"DATA SET LANDING
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DistributionURL","Type":"GET
+        DATA","Subtype":"Earthdata Search","URL":"https://search.earthdata.nasa.gov/","GetData":{"Format":"JPEG","MimeType":"Not
+        provided","Size":42,"Unit":"KB","Fees":"0","Checksum":"sdfgfgksghafgsdvbasf"}},{"Description":"Related
+        URL 3 Description","URLContentType":"DistributionURL","Type":"USE SERVICE
+        API","Subtype":"OPENDAP DATA","URL":"https://example.com/","GetService":{"Format":"ascii","MimeType":"Not
+        provided","Protocol":"HTTPS","FullName":"Earthdata Search","DataID":"data_id","DataType":"data
+        type","URI":["uri"]}},{"Description":"This is data citation policy","URLContentType":"PublicationURL","Type":"VIEW
+        RELATED INFORMATION","Subtype":"DATA CITATION POLICY","URL":"https://example.com/data-citation-policy"},{"Description":"This
+        is general documentation","URLContentType":"PublicationURL","Type":"VIEW RELATED
+        INFORMATION","Subtype":"GENERAL DOCUMENTATION","URL":"https://example.com/documentation-1"},{"Description":"This
+        is how-to documentation","URLContentType":"PublicationURL","Type":"VIEW RELATED
+        INFORMATION","Subtype":"HOW-TO","URL":"https://example.com/documentation-2"},{"Description":"This
+        is anomalies documentation","URLContentType":"PublicationURL","Type":"VIEW
+        RELATED INFORMATION","Subtype":"ANOMALIES","URL":"https://example.com/documentation-3"}],"MetadataLanguage":"eng","MetadataDates":[{"Type":"CREATE","Date":"2010-12-25T00:00:00Z"},{"Type":"UPDATE","Date":"2010-12-30T00:00:00Z"}],"DirectoryNames":[{"ShortName":"Short
+        Directory 1","LongName":"Long Directory 1"},{"ShortName":"Short Directory
+        2","LongName":"Long Directory 2"}],"SpatialExtent":{"SpatialCoverageType":"HORIZONTAL","GranuleSpatialRepresentation":"CARTESIAN","HorizontalSpatialDomain":{"ZoneIdentifier":"Zone
+        ID","Geometry":{"CoordinateSystem":"CARTESIAN","BoundingRectangles":[{"WestBoundingCoordinate":-180.0,"NorthBoundingCoordinate":90.0,"EastBoundingCoordinate":180.0,"SouthBoundingCoordinate":-90.0},{"WestBoundingCoordinate":-96.9284587,"NorthBoundingCoordinate":58.968602,"EastBoundingCoordinate":-56.9284587,"SouthBoundingCoordinate":18.968602}]},"ResolutionAndCoordinateSystem":{"Description":"ResolutionAndCoordinateSystem
+        Description","GeodeticModel":{"HorizontalDatumName":"HorizontalDatumName Text","EllipsoidName":"EllipsoidName
+        Text","SemiMajorAxis":1.0,"DenominatorOfFlatteningRatio":1.0},"HorizontalDataResolution":{"VariesResolution":"Varies","PointResolution":"Point","NonGriddedResolutions":[{"XDimension":1,"YDimension":2,"Unit":"Meters","ViewingAngleType":"At
+        Nadir","ScanDirection":"Cross Track"}],"NonGriddedRangeResolutions":[{"MinimumXDimension":3,"MinimumYDimension":4,"MaximumXDimension":5,"MaximumYDimension":6,"Unit":"Meters","ViewingAngleType":"At
+        Nadir","ScanDirection":"Cross Track"}],"GriddedResolutions":[{"XDimension":7,"Unit":"Meters"},{"YDimension":8,"Unit":"Decimal
+        Degrees"}],"GriddedRangeResolutions":[{"MinimumXDimension":9,"MaximumXDimension":10,"Unit":"Meters"}],"GenericResolutions":[{"XDimension":11,"Unit":"Decimal
+        Degrees"}]}}}},"TilingIdentificationSystems":[{"TilingIdentificationSystemName":"MISR","Coordinate1":{"MinimumValue":-50,"MaximumValue":50},"Coordinate2":{"MinimumValue":-30,"MaximumValue":30}},{"TilingIdentificationSystemName":"MODIS
+        Tile EASE","Coordinate1":{"MinimumValue":-25,"MaximumValue":25},"Coordinate2":{"MinimumValue":-15,"MaximumValue":15}}],"SpatialInformation":{"SpatialCoverageType":"VERTICAL","VerticalCoordinateSystem":{"AltitudeSystemDefinition":{"DatumName":"Datum","DistanceUnits":"HectoPascals","Resolutions":[1.0,2.0,3.0]},"DepthSystemDefinition":{"DatumName":"Datum
+        2","DistanceUnits":"Fathoms","Resolutions":[12.0,22.0,32.0]}}},"LocationKeywords":[{"Category":"GEOGRAPHIC
+        REGION","Type":"ARCTIC"},{"Category":"OCEAN","Type":"ATLANTIC OCEAN"}],"TemporalExtents":[{"PrecisionOfSeconds":1,"EndsAtPresentFlag":false,"SingleDateTimes":["2015-07-01T00:00:00Z","2015-12-25T00:00:00Z"]},{"PrecisionOfSeconds":10,"EndsAtPresentFlag":false,"RangeDateTimes":[{"BeginningDateTime":"2014-07-01T00:00:00Z","EndingDateTime":"2014-08-01T00:00:00Z"},{"BeginningDateTime":"2015-07-01T00:00:00Z","EndingDateTime":"2015-08-01T00:00:00Z"}]},{"PrecisionOfSeconds":30,"EndsAtPresentFlag":false,"PeriodicDateTimes":[{"Name":"test
+        1 Periodic Extent","StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-08-01T00:00:00Z","DurationUnit":"DAY","DurationValue":5,"PeriodCycleDurationUnit":"DAY","PeriodCycleDurationValue":1},{"Name":"test
+        2 Periodic Extent","StartDate":"2016-07-01T00:00:00Z","EndDate":"2016-08-01T00:00:00Z","DurationUnit":"MONTH","DurationValue":4,"PeriodCycleDurationUnit":"MONTH","PeriodCycleDurationValue":2}]}],"TemporalKeywords":["Monthly
+        Climatology","Weekly Climatology"],"PaleoTemporalCoverages":[{"StartDate":"50
+        Ga","EndDate":"25 Ga","ChronostratigraphicUnits":[{"Eon":"test 1 Eon","Era":"test
+        1 Era","Epoch":"test 1 Epoch","Stage":"test 1 Stage","DetailedClassification":"test
+        1 Detailed Classification","Period":"test 1 Period"},{"Eon":"test 2 Eon","Era":"test
+        2 Era","Epoch":"test 2 Epoch","Stage":"test 2 Stage","DetailedClassification":"test
+        2 Detailed Classification","Period":"test 2 Period"},{"Eon":"test 3 Eon text
+        1"}]}],"ISOTopicCategories":["farming","climatologyMeteorologyAtmosphere","health"],"ArchiveAndDistributionInformation":{"FileArchiveInformation":[{"Format":"kml","FormatType":"Native","FormatDescription":"A
+        format description","AverageFileSize":2,"AverageFileSizeUnit":"MB","TotalCollectionFileSize":25,"TotalCollectionFileSizeUnit":"GB","Description":"A
+        file archive information description"},{"Format":"jpeg","FormatType":"Supported","FormatDescription":"A
+        format description","AverageFileSize":3,"AverageFileSizeUnit":"MB","TotalCollectionFileSize":99,"TotalCollectionFileSizeUnit":"TB","Description":"Another
+        file archive information description"}],"FileDistributionInformation":[{"Format":"tiff","FormatType":"Native","FormatDescription":"A
+        format description","Media":["disc","file","online"],"AverageFileSize":2,"AverageFileSizeUnit":"KB","TotalCollectionFileSize":10,"TotalCollectionFileSizeUnit":"TB","Description":"File
+        distribution information description","Fees":"$2,900"}]},"DirectDistributionInformation":{"Region":"us-east-2","S3BucketAndObjectPrefixNames":["prefix-1","prefix-2","prefix-3"],"S3CredentialsAPIEndpoint":"https://link.com","S3CredentialsAPIDocumentationURL":"https://amazon.com"},"ShortName":"701750_Chameleon
+        Thirteen","Version":"1","EntryTitle":"test_query_editing_spec_006","CollectionDataType":"SCIENCE_QUALITY"}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/vnd.nasa.cmr.umm+json; version=1.17.0; charset=utf-8
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '217'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 18 Nov 2022 20:55:58 GMT
+      cmr-request-id:
+      - a08a3aef-65a9-43fc-be5f-0c25d557081d
+      x-request-id:
+      - iWinAPQRDlQD1drBJYplrnvmziVkMLa51FFST2caG48lwFZOcPpaIw==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 074df32306fddeb7d54ca41312e6888e.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD89-P2
+      x-amz-cf-id:
+      - iWinAPQRDlQD1drBJYplrnvmziVkMLa51FFST2caG48lwFZOcPpaIw==
+    body:
+      encoding: UTF-8
+      string: '{"concept-id":"C1200451054-MMT_2","revision-id":4,"warnings":["After
+        translating item to UMM-C the metadata had the following issue(s): [:DOI :DOI]
+        DOI [Citation DOI] is improperly formatted."],"existing-errors":null}'
+  recorded_at: Fri, 18 Nov 2022 20:55:57 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/concepts/C1200451054-MMT_2/4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/vnd.nasa.cmr.umm+json; version=1.17.0; charset=utf-8
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/vnd.nasa.cmr.umm+json;version=1.17.0; charset=utf-8
+      content-length:
+      - '21859'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 18 Nov 2022 20:55:58 GMT
+      x-frame-options:
+      - SAMEORIGIN
+      access-control-allow-origin:
+      - "*"
+      x-xss-protection:
+      - 1; mode=block
+      cmr-request-id:
+      - 5ba20c84-0b88-41cf-8106-a29e5da57c91
+      strict-transport-security:
+      - max-age=31536000
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      x-content-type-options:
+      - nosniff
+      x-request-id:
+      - Vs9_dCeFjjDvwbxhrS9Q_Tz3W3_2L8i1FoNRtod0SeLs9YwOcsY-oQ==
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 8348c06ca24c7faf1ae00ad6facc20b2.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD89-P2
+      x-amz-cf-id:
+      - Vs9_dCeFjjDvwbxhrS9Q_Tz3W3_2L8i1FoNRtod0SeLs9YwOcsY-oQ==
+    body:
+      encoding: UTF-8
+      string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
+        1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0","Version":"1.17.0"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
+        1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
+        2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
+        2 PC Unit","DataType":"STRING"}],"Instruments":[{"ShortName":"ATM","LongName":"Airborne
+        Topographic Mapper","Characteristics":[{"Name":"test 1 PI Name","Description":"test
+        1 PI Description","Value":"test 1 PI Value","Unit":"test 1 PI Unit","DataType":"STRING"},{"Name":"test
+        2 PI Name","Description":"test 2 PI Description","Value":"test 2 PI Value","Unit":"test
+        2 PI Unit","DataType":"STRING"}],"Technique":"test 1 PI Technique","NumberOfInstruments":234,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test 1 PS Technique","Characteristics":[{"Name":"test
+        1 PS Name","Description":"test 1 PS Description","Value":"test 1 PS Value","Unit":"test
+        1 PS Unit","DataType":"STRING"},{"Name":"test 2 PS Name","Description":"test
+        2 PS Description","Value":"test 2 PS Value","Unit":"test 2 PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP
+        L-BAND RADIOMETER","LongName":"SMAP L-Band Radiometer","Technique":"test 1b
+        PS Technique","Characteristics":[{"Name":"test 1b PS Name","Description":"test
+        1b PS Description","Value":"test 1b PS Value","Unit":"test 1b PS Unit","DataType":"STRING"},{"Name":"test
+        2b PS Name","Description":"test 2b PS Description","Value":"test 2b PS Value","Unit":"test
+        2b PS Unit","DataType":"STRING"}]}],"OperationalModes":["test 1a Op","test
+        1b Op"]},{"ShortName":"LVIS","LongName":"Land, Vegetation, and Ice Sensor","Characteristics":[{"Name":"test
+        1d PI Name","Description":"test 1d PI Description","Value":"test 1d PI Value","Unit":"test
+        1d PI Unit","DataType":"STRING"},{"Name":"test 2d PI Name","Description":"test
+        2d PI Description","Value":"test 2d PI Value","Unit":"test 2d PI Unit","DataType":"STRING"}],"Technique":"test
+        1d PI Technique","NumberOfInstruments":345,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test 1d PS Technique","Characteristics":[{"Name":"test
+        1d PS Name","Description":"test 1d PS Description","Value":"test 1d PS Value","Unit":"test
+        1d PS Unit","DataType":"STRING"},{"Name":"test 2d PS Name","Description":"test
+        2d PS Description","Value":"test 2d PS Value","Unit":"test 2d PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP
+        L-BAND RADIOMETER","LongName":"SMAP L-Band Radiometer","Technique":"test 1db
+        PS Technique","Characteristics":[{"Name":"test 1db PS Name","Description":"test
+        1db PS Description","Value":"test 1db PS Value","Unit":"test 1db PS Unit","DataType":"STRING"},{"Name":"test
+        2db PS Name","Description":"test 2db PS Description","Value":"test 2db PS
+        Value","Unit":"test 2db PS Unit","DataType":"STRING"}]}],"OperationalModes":["test
+        1da Op","test 1db Op"]}]},{"Type":"Earth Observation Satellites","ShortName":"SMAP","LongName":"Soil
+        Moisture Active and Passive Observatory","Characteristics":[{"Name":"test
+        a1 PC Name","Description":"test a1 PC Description","Value":"test a1 PC Value","Unit":"test
+        a1 PC Unit","DataType":"STRING"},{"Name":"test a2 PC Name","Description":"test
+        a2 PC Description","Value":"test a2 PC Value","Unit":"test a2 PC Unit","DataType":"STRING"}],"Instruments":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Characteristics":[{"Name":"test a1 PI Name","Description":"test
+        a1 PI Description","Value":"test a1 PI Value","Unit":"test a1 PI Unit","DataType":"STRING"},{"Name":"test
+        a2 PI Name","Description":"test a2 PI Description","Value":"test a2 PI Value","Unit":"test
+        a2 PI Unit","DataType":"STRING"}],"Technique":"test a1 PI Technique","NumberOfInstruments":456,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test a1 PS Technique","Characteristics":[{"Name":"test
+        a1 PS Name","Description":"test a1 PS Description","Value":"test a1 PS Value","Unit":"test
+        a1 PS Unit","DataType":"STRING"},{"Name":"test a2 PS Name","Description":"test
+        a2 PS Description","Value":"test a2 PS Value","Unit":"test a2 PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP
+        L-BAND RADIOMETER","LongName":"SMAP L-Band Radiometer","Technique":"test a1b
+        PS Technique","Characteristics":[{"Name":"test a1b PS Name","Description":"test
+        a1b PS Description","Value":"test a1b PS Value","Unit":"test a1b PS Unit","DataType":"STRING"},{"Name":"test
+        a2b PS Name","Description":"test a2b PS Description","Value":"test a2b PS
+        Value","Unit":"test a2b PS Unit","DataType":"STRING"}]}],"OperationalModes":["test
+        a1a Op","test a1b Op"]},{"ShortName":"SMAP L-BAND RADIOMETER","LongName":"SMAP
+        L-Band Radiometer","Characteristics":[{"Name":"test a1d PI Name","Description":"test
+        a1d PI Description","Value":"test a1d PI Value","Unit":"test a1d PI Unit","DataType":"STRING"},{"Name":"test
+        a2d PI Name","Description":"test a2d PI Description","Value":"test a2d PI
+        Value","Unit":"test a2d PI Unit","DataType":"STRING"}],"Technique":"test a1d
+        PI Technique","NumberOfInstruments":567,"ComposedOf":[{"ShortName":"ADS","LongName":"Automated
+        DNA Sequencer","Technique":"test a1d PS Technique","Characteristics":[{"Name":"test
+        a1d PS Name","Description":"test a1d PS Description","Value":"test a1d PS
+        Value","Unit":"test a1d PS Unit","DataType":"STRING"},{"Name":"test a2d PS
+        Name","Description":"test a2d PS Description","Value":"test a2d PS Value","Unit":"test
+        a2d PS Unit","DataType":"STRING"}]},{"ShortName":"SMAP L-BAND RADIOMETER","LongName":"SMAP
+        L-Band Radiometer","Technique":"test a1db PS Technique","Characteristics":[{"Name":"test
+        a1db PS Name","Description":"test a1db PS Description","Value":"test a1db
+        PS Value","Unit":"test a1db PS Unit","DataType":"STRING"},{"Name":"test a2db
+        PS Name","Description":"test a2db PS Description","Value":"test a2db PS Value","Unit":"test
+        a2db PS Unit","DataType":"STRING"}]}],"OperationalModes":["test a1da Op","test
+        a1db Op"]}]}],"Abstract":"This is a long description of the collection","VersionDescription":"Version
+        1 Description","Purpose":"This is the purpose field","DataLanguage":"eng","DataDates":[{"Type":"CREATE","Date":"2015-07-01T00:00:00Z"},{"Type":"UPDATE","Date":"2015-07-05T00:00:00Z"}],"DataCenters":[{"Roles":["ARCHIVER"],"ShortName":"AARHUS-HYDRO","LongName":"Hydrogeophysics
+        Group, Aarhus University ","ContactInformation":{"ServiceHours":"9-6, M-F","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataCenterURL","Type":"HOME
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DataCenterURL","Type":"HOME
+        PAGE","URL":"http://example.com/2"}]}},{"Roles":["ORIGINATOR","DISTRIBUTOR"],"ShortName":"ESA/ED","LongName":"Educational
+        Office, Ecological Society of America","ContactInformation":{"ServiceHours":"10-2,
+        M-W","ContactInstruction":"Email only","ContactMechanisms":[{"Type":"Email","Value":"example@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataCenterURL","Type":"HOME
+        PAGE","URL":"http://example.com/"}]},"ContactPersons":[{"Roles":["Investigator","Metadata
+        Author"],"FirstName":"First Name 3","MiddleName":"Middle Name 3","LastName":"Last
+        Name 3","ContactInformation":{"ServiceHours":"1-4, M-W","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example5@example.com"},{"Type":"Email","Value":"example6@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"}]}}],"ContactGroups":[{"Roles":["User Services"],"GroupName":"Group
+        Name 2","ContactInformation":{"ServiceHours":"9-5, M-F","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example7@example.com"},{"Type":"Email","Value":"example8@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"}]}}]}],"ContactPersons":[{"Roles":["Science
+        Contact","Technical Contact"],"FirstName":"First Name","MiddleName":"Middle
+        Name","LastName":"Last Name","NonDataCenterAffiliation":"Famous University","ContactInformation":{"ServiceHours":"10-2,
+        M-W","ContactInstruction":"Email only","ContactMechanisms":[{"Type":"Email","Value":"example1@example.com"},{"Type":"Email","Value":"example2@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/2"}]}}],"ContactGroups":[{"Roles":["User Services","Science
+        Software Development"],"GroupName":"Group Name","NonDataCenterAffiliation":"Famous
+        University","ContactInformation":{"ServiceHours":"9-5, M-F","ContactInstruction":"Email
+        only","ContactMechanisms":[{"Type":"Email","Value":"example3@example.com"},{"Type":"Email","Value":"example4@example.com"}],"Addresses":[{"StreetAddresses":["300
+        E Street Southwest","Room 203","Address line 3"],"City":"Washington","StateProvince":"DC","PostalCode":"20546","Country":"United
+        States"},{"StreetAddresses":["8800 Greenbelt Road"],"City":"Greenbelt","StateProvince":"MD","PostalCode":"20771","Country":"United
+        States"}],"RelatedUrls":[{"Description":"Related URL 1 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DataContactURL","Type":"HOME
+        PAGE","URL":"http://example.com/2"}]}}],"ProcessingLevel":{"Id":"1A","ProcessingLevelDescription":"Level
+        1 Description"},"CollectionCitations":[{"Version":"v1","Title":"Citation title","Creator":"Citation
+        creator","Editor":"Citation editor","SeriesName":"Citation series name","ReleaseDate":"2015-07-01T00:00:00Z","ReleasePlace":"Citation
+        release place","Publisher":"Citation publisher","IssueIdentification":"Citation
+        issue identification","DataPresentationForm":"Citation data presentation form","OtherCitationDetails":"Citation
+        other details","OnlineResource":{"Linkage":"http://example.com","Description":"Example
+        Description","Name":"Example related URL Title 1"}},{"Version":"v2","Title":"Citation
+        title 1","Creator":"Citation creator 1","OnlineResource":{"Linkage":"http://example2.com","Description":"Example
+        2 Description","Name":"Example 2 related URL Title"}}],"DOI":{"DOI":"Citation
+        DOI","Authority":"Citation DOI Authority"},"AssociatedDOIs":[{"DOI":"Associated
+        DOI","Title":"Associated DOI Title","Authority":"Associated DOI Authority"}],"StandardProduct":false,"CollectionProgress":"ACTIVE","Quality":"Metadata
+        quality summary","UseConstraints":{"Description":"These are some use constraints","FreeAndOpenData":true,"LicenseURL":{"Linkage":"http://example.com"}},"AccessConstraints":{"Value":42,"Description":"Access
+        constraint description"},"MetadataAssociations":[{"Type":"SCIENCE ASSOCIATED","EntryId":"12345","Description":"Metadata
+        association description","Version":"23"},{"Type":"LARGER CITATION WORKS","EntryId":"123abc"}],"PublicationReferences":[{"Title":"Publication
+        reference title","Publisher":"Publication reference publisher","DOI":{"DOI":"Publication
+        reference DOI","Authority":"Publication reference authority"},"Author":"Publication
+        reference author","PublicationDate":"2015-07-01T00:00:00Z","Series":"Publication
+        reference series","Edition":"Publication reference edition","Volume":"Publication
+        reference volume","Issue":"Publication reference issue","ReportNumber":"Publication
+        reference report number","PublicationPlace":"Publication reference publication
+        place","Pages":"Publication reference pages","ISBN":"1234567890123","OtherReferenceDetails":"Publication
+        reference details","OnlineResource":{"Linkage":"http://example.com","Description":"Example
+        Description","Name":"Example URL Title"}},{"Title":"Publication reference
+        title 1","ISBN":"9876543210987"}],"ScienceKeywords":[{"Category":"EARTH SCIENCE","Topic":"ATMOSPHERE","Term":"ATMOSPHERIC
+        TEMPERATURE","VariableLevel1":"SURFACE TEMPERATURE","VariableLevel2":"MAXIMUM/MINIMUM
+        TEMPERATURE","VariableLevel3":"24 HOUR MAXIMUM TEMPERATURE"},{"Category":"EARTH
+        SCIENCE","Topic":"SOLID EARTH","Term":"ROCKS/MINERALS/CRYSTALS","VariableLevel1":"SEDIMENTARY
+        ROCKS","VariableLevel2":"SEDIMENTARY ROCK PHYSICAL/OPTICAL PROPERTIES","VariableLevel3":"LUMINESCENCE"}],"AncillaryKeywords":["Ancillary
+        keyword 1","Ancillary keyword 2"],"AdditionalAttributes":[{"Name":"Attribute
+        1","Description":"Description","DataType":"INT","MeasurementResolution":"Measurement
+        Resolution","ParameterRangeBegin":"1","ParameterRangeEnd":"5","ParameterUnitsOfMeasure":"Parameter
+        Units Of Measure","ParameterValueAccuracy":"Parameter Value Accuracy","ValueAccuracyExplanation":"Value
+        Accuracy Explanation","Group":"Group","UpdateDate":"2015-09-14T00:00:00Z"},{"Name":"Attribute
+        2","Description":"Description 2","DataType":"STRING"}],"RelatedUrls":[{"Description":"Related
+        URL 1 Description","URLContentType":"CollectionURL","Type":"DATA SET LANDING
+        PAGE","URL":"http://example.com/"},{"Description":"Related URL 2 Description","URLContentType":"DistributionURL","Type":"GET
+        DATA","Subtype":"Earthdata Search","URL":"https://search.earthdata.nasa.gov/","GetData":{"Format":"JPEG","MimeType":"Not
+        provided","Size":42,"Unit":"KB","Fees":"0","Checksum":"sdfgfgksghafgsdvbasf"}},{"Description":"Related
+        URL 3 Description","URLContentType":"DistributionURL","Type":"USE SERVICE
+        API","Subtype":"OPENDAP DATA","URL":"https://example.com/","GetService":{"Format":"ascii","MimeType":"Not
+        provided","Protocol":"HTTPS","FullName":"Earthdata Search","DataID":"data_id","DataType":"data
+        type","URI":["uri"]}},{"Description":"This is data citation policy","URLContentType":"PublicationURL","Type":"VIEW
+        RELATED INFORMATION","Subtype":"DATA CITATION POLICY","URL":"https://example.com/data-citation-policy"},{"Description":"This
+        is general documentation","URLContentType":"PublicationURL","Type":"VIEW RELATED
+        INFORMATION","Subtype":"GENERAL DOCUMENTATION","URL":"https://example.com/documentation-1"},{"Description":"This
+        is how-to documentation","URLContentType":"PublicationURL","Type":"VIEW RELATED
+        INFORMATION","Subtype":"HOW-TO","URL":"https://example.com/documentation-2"},{"Description":"This
+        is anomalies documentation","URLContentType":"PublicationURL","Type":"VIEW
+        RELATED INFORMATION","Subtype":"ANOMALIES","URL":"https://example.com/documentation-3"}],"MetadataLanguage":"eng","MetadataDates":[{"Type":"CREATE","Date":"2010-12-25T00:00:00Z"},{"Type":"UPDATE","Date":"2010-12-30T00:00:00Z"}],"DirectoryNames":[{"ShortName":"Short
+        Directory 1","LongName":"Long Directory 1"},{"ShortName":"Short Directory
+        2","LongName":"Long Directory 2"}],"SpatialExtent":{"SpatialCoverageType":"HORIZONTAL","GranuleSpatialRepresentation":"CARTESIAN","HorizontalSpatialDomain":{"ZoneIdentifier":"Zone
+        ID","Geometry":{"CoordinateSystem":"CARTESIAN","BoundingRectangles":[{"WestBoundingCoordinate":-180.0,"NorthBoundingCoordinate":90.0,"EastBoundingCoordinate":180.0,"SouthBoundingCoordinate":-90.0},{"WestBoundingCoordinate":-96.9284587,"NorthBoundingCoordinate":58.968602,"EastBoundingCoordinate":-56.9284587,"SouthBoundingCoordinate":18.968602}]},"ResolutionAndCoordinateSystem":{"Description":"ResolutionAndCoordinateSystem
+        Description","GeodeticModel":{"HorizontalDatumName":"HorizontalDatumName Text","EllipsoidName":"EllipsoidName
+        Text","SemiMajorAxis":1.0,"DenominatorOfFlatteningRatio":1.0},"HorizontalDataResolution":{"VariesResolution":"Varies","PointResolution":"Point","NonGriddedResolutions":[{"XDimension":1,"YDimension":2,"Unit":"Meters","ViewingAngleType":"At
+        Nadir","ScanDirection":"Cross Track"}],"NonGriddedRangeResolutions":[{"MinimumXDimension":3,"MinimumYDimension":4,"MaximumXDimension":5,"MaximumYDimension":6,"Unit":"Meters","ViewingAngleType":"At
+        Nadir","ScanDirection":"Cross Track"}],"GriddedResolutions":[{"XDimension":7,"Unit":"Meters"},{"YDimension":8,"Unit":"Decimal
+        Degrees"}],"GriddedRangeResolutions":[{"MinimumXDimension":9,"MaximumXDimension":10,"Unit":"Meters"}],"GenericResolutions":[{"XDimension":11,"Unit":"Decimal
+        Degrees"}]}}}},"TilingIdentificationSystems":[{"TilingIdentificationSystemName":"MISR","Coordinate1":{"MinimumValue":-50,"MaximumValue":50},"Coordinate2":{"MinimumValue":-30,"MaximumValue":30}},{"TilingIdentificationSystemName":"MODIS
+        Tile EASE","Coordinate1":{"MinimumValue":-25,"MaximumValue":25},"Coordinate2":{"MinimumValue":-15,"MaximumValue":15}}],"SpatialInformation":{"SpatialCoverageType":"VERTICAL","VerticalCoordinateSystem":{"AltitudeSystemDefinition":{"DatumName":"Datum","DistanceUnits":"HectoPascals","Resolutions":[1.0,2.0,3.0]},"DepthSystemDefinition":{"DatumName":"Datum
+        2","DistanceUnits":"Fathoms","Resolutions":[12.0,22.0,32.0]}}},"LocationKeywords":[{"Category":"GEOGRAPHIC
+        REGION","Type":"ARCTIC"},{"Category":"OCEAN","Type":"ATLANTIC OCEAN"}],"TemporalExtents":[{"PrecisionOfSeconds":1,"EndsAtPresentFlag":false,"SingleDateTimes":["2015-07-01T00:00:00Z","2015-12-25T00:00:00Z"]},{"PrecisionOfSeconds":10,"EndsAtPresentFlag":false,"RangeDateTimes":[{"BeginningDateTime":"2014-07-01T00:00:00Z","EndingDateTime":"2014-08-01T00:00:00Z"},{"BeginningDateTime":"2015-07-01T00:00:00Z","EndingDateTime":"2015-08-01T00:00:00Z"}]},{"PrecisionOfSeconds":30,"EndsAtPresentFlag":false,"PeriodicDateTimes":[{"Name":"test
+        1 Periodic Extent","StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-08-01T00:00:00Z","DurationUnit":"DAY","DurationValue":5,"PeriodCycleDurationUnit":"DAY","PeriodCycleDurationValue":1},{"Name":"test
+        2 Periodic Extent","StartDate":"2016-07-01T00:00:00Z","EndDate":"2016-08-01T00:00:00Z","DurationUnit":"MONTH","DurationValue":4,"PeriodCycleDurationUnit":"MONTH","PeriodCycleDurationValue":2}]}],"TemporalKeywords":["Monthly
+        Climatology","Weekly Climatology"],"PaleoTemporalCoverages":[{"StartDate":"50
+        Ga","EndDate":"25 Ga","ChronostratigraphicUnits":[{"Eon":"test 1 Eon","Era":"test
+        1 Era","Epoch":"test 1 Epoch","Stage":"test 1 Stage","DetailedClassification":"test
+        1 Detailed Classification","Period":"test 1 Period"},{"Eon":"test 2 Eon","Era":"test
+        2 Era","Epoch":"test 2 Epoch","Stage":"test 2 Stage","DetailedClassification":"test
+        2 Detailed Classification","Period":"test 2 Period"},{"Eon":"test 3 Eon text
+        1"}]}],"ISOTopicCategories":["farming","climatologyMeteorologyAtmosphere","health"],"ArchiveAndDistributionInformation":{"FileArchiveInformation":[{"Format":"kml","FormatType":"Native","FormatDescription":"A
+        format description","AverageFileSize":2,"AverageFileSizeUnit":"MB","TotalCollectionFileSize":25,"TotalCollectionFileSizeUnit":"GB","Description":"A
+        file archive information description"},{"Format":"jpeg","FormatType":"Supported","FormatDescription":"A
+        format description","AverageFileSize":3,"AverageFileSizeUnit":"MB","TotalCollectionFileSize":99,"TotalCollectionFileSizeUnit":"TB","Description":"Another
+        file archive information description"}],"FileDistributionInformation":[{"Format":"tiff","FormatType":"Native","FormatDescription":"A
+        format description","Media":["disc","file","online"],"AverageFileSize":2,"AverageFileSizeUnit":"KB","TotalCollectionFileSize":10,"TotalCollectionFileSizeUnit":"TB","Description":"File
+        distribution information description","Fees":"$2,900"}]},"DirectDistributionInformation":{"Region":"us-east-2","S3BucketAndObjectPrefixNames":["prefix-1","prefix-2","prefix-3"],"S3CredentialsAPIEndpoint":"https://link.com","S3CredentialsAPIDocumentationURL":"https://amazon.com"},"ShortName":"701750_Chameleon
+        Thirteen","Version":"1","EntryTitle":"test_query_editing_spec_006","CollectionDataType":"SCIENCE_QUALITY"}'
+  recorded_at: Fri, 18 Nov 2022 20:55:58 GMT
+- request:
+    method: put
+    uri: https://cmr.sit.earthdata.nasa.gov/ingest/providers/MMT_2/subscriptions/mmt_subscription_test_query_editing_005
+    body:
+      encoding: UTF-8
+      string: '{"Name":"test_query_editing_005","CollectionConceptId":"C1200451054-MMT_2","Query":"bounding_box=-10,-5,10,5\u0026attribute[]=float,PERCENTAGE,25.5,30\u0026entry_title=f94be6cb-4008-4461-a31a-5ff8fa168266","SubscriberId":"hvtranho","EmailAddress":"hv.tranho@gmail.com"}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/vnd.nasa.cmr.umm+json;version=1.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/xml
+      content-length:
+      - '189'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 18 Nov 2022 20:56:01 GMT
+      cmr-request-id:
+      - 2db88454-1674-4591-92fc-0568c9ecd1ae
+      x-request-id:
+      - bosTd_10S683-CVOLT9kKKgajWMqojnG30dzoLezpiUcCTT3kB_wbg==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 b18bcd54d0f77ca53d7c0ba4b9e54284.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD89-P2
+      x-amz-cf-id:
+      - bosTd_10S683-CVOLT9kKKgajWMqojnG30dzoLezpiUcCTT3kB_wbg==
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><result><concept-id>SUB1200451055-MMT_2</concept-id><native-id>mmt_subscription_test_query_editing_005</native-id><revision-id>4</revision-id></result>
+  recorded_at: Fri, 18 Nov 2022 20:56:01 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/subscriptions.umm_json?ConceptId=SUB1200451055-MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/vnd.nasa.cmr.umm_results+json;version=1.1; charset=utf-8
+      content-length:
+      - '769'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 18 Nov 2022 20:56:01 GMT
+      x-frame-options:
+      - SAMEORIGIN
+      access-control-allow-origin:
+      - "*"
+      x-xss-protection:
+      - 1; mode=block
+      cmr-request-id:
+      - 8368c82c-cd9c-4d46-a93a-e40e46653282
+      strict-transport-security:
+      - max-age=31536000
+      cmr-search-after:
+      - '["test_query_editing_005","MMT_2","test_query_editing_005","MMT_2"]'
+      cmr-hits:
+      - '1'
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      x-content-type-options:
+      - nosniff
+      cmr-took:
+      - '55'
+      x-request-id:
+      - Ypv4d2e7Jid3ds9GZMKAzp5BZVXgxPzOMFP5ngEM2g62KLvUHcJg-w==
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 5035c434ac92f0eed9f2b400824fa6e8.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD89-P2
+      x-amz-cf-id:
+      - Ypv4d2e7Jid3ds9GZMKAzp5BZVXgxPzOMFP5ngEM2g62KLvUHcJg-w==
+    body:
+      encoding: UTF-8
+      string: '{"hits":1,"took":54,"items":[{"meta":{"revision-id":3,"deleted":false,"format":"application/vnd.nasa.cmr.umm+json","provider-id":"MMT_2","user-id":"hvtranho","creation-date":"2022-11-18T18:34:43.792Z","native-id":"mmt_subscription_test_query_editing_005","concept-id":"SUB1200451055-MMT_2","revision-date":"2022-11-18T20:25:06.743Z","concept-type":"subscription"},"umm":{"Name":"test_query_editing_005","CollectionConceptId":"C1200451054-MMT_2","Query":"bounding_box=-10,-5,10,5&attribute[]=float,PERCENTAGE,25.5,30&entry_title=a9ff32ed-0a6a-40b3-aaf4-a0a1b1856de8","SubscriberId":"hvtranho","EmailAddress":"hv.tranho@gmail.com","Type":"granule","MetadataSpecification":{"URL":"https://cdn.earthdata.nasa.gov/umm/subscription/v1.1","Name":"UMM-Sub","Version":"1.1"}}}]}'
+  recorded_at: Fri, 18 Nov 2022 20:56:01 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/subscriptions.umm_json?concept_id=SUB1200451055-MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/vnd.nasa.cmr.umm_results+json;version=1.1; charset=utf-8
+      content-length:
+      - '769'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 18 Nov 2022 20:56:03 GMT
+      x-frame-options:
+      - SAMEORIGIN
+      access-control-allow-origin:
+      - "*"
+      x-xss-protection:
+      - 1; mode=block
+      cmr-request-id:
+      - 0d5215be-da34-4abc-a910-eb5483a95baf
+      strict-transport-security:
+      - max-age=31536000
+      cmr-search-after:
+      - '["test_query_editing_005","MMT_2","test_query_editing_005","MMT_2"]'
+      cmr-hits:
+      - '1'
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      x-content-type-options:
+      - nosniff
+      cmr-took:
+      - '53'
+      x-request-id:
+      - nkwwkYanb9tu8ps3JLQbep903BYb5wRRhG3ioLc_eABOIdFlkPSDZg==
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 2c0478fce3b7f4f5348678901d1bf60a.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD89-P2
+      x-amz-cf-id:
+      - nkwwkYanb9tu8ps3JLQbep903BYb5wRRhG3ioLc_eABOIdFlkPSDZg==
+    body:
+      encoding: UTF-8
+      string: '{"hits":1,"took":51,"items":[{"meta":{"revision-id":4,"deleted":false,"format":"application/vnd.nasa.cmr.umm+json","provider-id":"MMT_2","user-id":"hvtranho","creation-date":"2022-11-18T18:34:43.792Z","native-id":"mmt_subscription_test_query_editing_005","concept-id":"SUB1200451055-MMT_2","revision-date":"2022-11-18T20:56:00.935Z","concept-type":"subscription"},"umm":{"Name":"test_query_editing_005","CollectionConceptId":"C1200451054-MMT_2","Query":"bounding_box=-10,-5,10,5&attribute[]=float,PERCENTAGE,25.5,30&entry_title=f94be6cb-4008-4461-a31a-5ff8fa168266","SubscriberId":"hvtranho","EmailAddress":"hv.tranho@gmail.com","Type":"granule","MetadataSpecification":{"URL":"https://cdn.earthdata.nasa.gov/umm/subscription/v1.1","Name":"UMM-Sub","Version":"1.1"}}}]}'
+  recorded_at: Fri, 18 Nov 2022 20:56:03 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/users?uids%5B%5D=hvtranho
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 18 Nov 2022 20:56:03 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"f618ed23a3cf81128b55ae823370b0d6"
+      x-request-id:
+      - 1633c3e3-d36d-49f5-8970-9fda4690b6f3
+      x-runtime:
+      - '0.010525'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"hvtranho","first_name":"Hoan Vu","last_name":"Tran
+        Ho","email_address":"hv.tranho@gmail.com","email_verified":true,"country":"United
+        States","study_area":"Other","registered_date":"2015-09-15T15:27:12.000Z","allow_auth_app_emails":true,"agreed_to_meris_eula":false,"agreed_to_sentinel_eula":false}]}'
+  recorded_at: Fri, 18 Nov 2022 20:56:03 GMT
+- request:
+    method: delete
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200451069-CMR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '50'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 18 Nov 2022 20:56:17 GMT
+      cmr-request-id:
+      - 497ff6a7-0a40-43bf-8139-a756ed644560
+      x-request-id:
+      - elhYTW6D9P3Y44lTwuf40km2a6dlprtz0pv1hkTmfkLMNkSNruKoVw==
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 15cde442051269a0307a638d23683c8c.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD79-C3
+      x-amz-cf-id:
+      - elhYTW6D9P3Y44lTwuf40km2a6dlprtz0pv1hkTmfkLMNkSNruKoVw==
+    body:
+      encoding: UTF-8
+      string: '{"revision-id":2,"concept-id":"ACL1200451069-CMR"}'
+  recorded_at: Fri, 18 Nov 2022 20:56:17 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/8d886812-c2dd-4482-b8a9-33515fb08b17
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 18 Nov 2022 20:56:18 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"6880a4d6bd72c464b5450862d849c25f"
+      x-request-id:
+      - df746930-0e32-47a6-94f7-c028425c9071
+      x-runtime:
+      - '0.010889'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"hvtranho","first_name":"Hoan Vu","last_name":"Tran
+        Ho","email_address":"hv.tranho@gmail.com"},{"uid":"ttle9","first_name":"Thanhtam","last_name":"Le","email_address":"thanhtam.t.le@nasa.gov"}]}'
+  recorded_at: Fri, 18 Nov 2022 20:56:18 GMT
+- request:
+    method: delete
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/8d886812-c2dd-4482-b8a9-33515fb08b17/user?user_id=hvtranho
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 18 Nov 2022 20:56:18 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"9b944989838ca54e28c24e20ef1c2d73"
+      x-request-id:
+      - d78ecb3f-f00b-4b7f-88fb-ab40e5145029
+      x-runtime:
+      - '0.016420'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"hvtranho successfully deleted from group TEST_QUERY_EDIT_SUBSCR_GROUP_060"}'
+  recorded_at: Fri, 18 Nov 2022 20:56:18 GMT
+- request:
+    method: delete
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/8d886812-c2dd-4482-b8a9-33515fb08b17/user?user_id=ttle9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 18 Nov 2022 20:56:19 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"89fc13e194073a4d37dc343052ae9b82"
+      x-request-id:
+      - dd7279f9-ef96-4f24-b9bc-8b9b7cd1cc1f
+      x-runtime:
+      - '0.012039'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"ttle9 successfully deleted from group TEST_QUERY_EDIT_SUBSCR_GROUP_060"}'
+  recorded_at: Fri, 18 Nov 2022 20:56:19 GMT
+- request:
+    method: delete
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/8d886812-c2dd-4482-b8a9-33515fb08b17
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 18 Nov 2022 20:56:19 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"44136fa355b3678a1146ad16f7e8649e"
+      x-request-id:
+      - 2f719da0-ad2a-40c0-b244-c592ff4d2a77
+      x-runtime:
+      - '0.011906'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: "{}"
+  recorded_at: Fri, 18 Nov 2022 20:56:19 GMT
+recorded_with: VCR 6.1.0
