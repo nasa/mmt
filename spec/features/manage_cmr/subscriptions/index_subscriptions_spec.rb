@@ -74,6 +74,7 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
           expect(page).to have_content(@subscription['Query'])
           expect(page).to have_content(@subscription['SubscriberId'])
           expect(page).to have_content(@subscription['CollectionConceptId'])
+          expect(page).to have_content(@subscription2['CollectionConceptId'])
           expect(page).to have_content(@subscription2['SubscriberId'])
           expect(page).to have_content(@subscription2['Name'])
           expect(page).to have_content(@subscription2['Query'])
