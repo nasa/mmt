@@ -1,33 +1,57 @@
-# EDL Failed Test
-describe 'Creating Subscriptions', reset_provider: true, skip:true do
+describe 'Creating Subscriptions', reset_provider: true do
   before do
-    login
+    @token = 'jwt_access_token'
+    @client_token = 'client_token'
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
+    allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      login
+    end
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('hvtranho')
+    allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
   end
 
   context 'when subscriptions is turned on' do
-    before :all do
-      VCR.use_cassette('edl', record: :new_episodes) do
-        @subscriptions_group = create_group(members: ['testuser', 'typical'])
+    before do
+      @token = 'jwt_access_token'
+      @client_token = 'client_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @subscriptions_group = create_group(name: 'CREATE_SUBSCRIPTION_SPEC_GROUP_007', members: ['hvtranho', 'ttle9'], provider_id: 'MMT_2')
+        # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
+        # cmr_client.delete_permission('ACL1200451125-CMR', @token)
+        @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['group_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2', @token)
+        @c_ingest_response, @c_concept_response = publish_collection_draft(entry_title: 'create_subscription_spec_007',native_id: 'create_subscription_spec_007',token: @token)
       end
-      # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-      @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['group_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
-      @c_ingest_response, @c_concept_response = publish_collection_draft
-
       clear_cache
     end
 
-    after :all do
-      remove_group_permissions(@subscriptions_permissions['concept_id'])
-      VCR.use_cassette('edl', record: :new_episodes) do
-        delete_group(concept_id: @subscriptions_group['group_id'])
+    after do
+      @token = 'jwt_access_token'
+      @client_token = 'client_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        remove_group_permissions(@subscriptions_permissions['concept_id'], @token)
+        delete_group(concept_id: @subscriptions_group['group_id'], admin: true)
       end
-
       clear_cache
     end
 
     context 'when visiting the new subscription form' do
       before do
-        visit new_subscription_path
+        @token = 'jwt_access_token'
+        @client_token = 'client_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          visit new_subscription_path
+        end
       end
 
       context 'when submitting the form without errors', js: true do
@@ -39,11 +63,11 @@ describe 'Creating Subscriptions', reset_provider: true, skip:true do
           fill_in 'Query', with: query
           fill_in 'Collection Concept ID', with: collection_concept_id
 
-          VCR.use_cassette('urs/search/rarxd5taqea', record: :none) do
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
             within '.subscriber-group' do
               all('.select2-container .select2-selection').first.click
             end
-            page.find('.select2-search__field').native.send_keys('rarxd5taqea')
+            page.find('.select2-search__field').native.send_keys('hvtranho')
 
             page.find('ul#select2-subscriber-results li.select2-results__option--highlighted').click
           end
@@ -52,8 +76,14 @@ describe 'Creating Subscriptions', reset_provider: true, skip:true do
         context 'when submitting a subscription that succeeds' do
           before do
             fill_in 'Subscription Name', with: name
+            @token = 'jwt_access_token'
+            @client_token = 'client_token'
+            allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+            allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
+            allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+            allow_any_instance_of(SubscriptionsController).to receive(:native_id).and_return('mmt_subscription_submit_test_success')
             # TODO: Remove when we can reset_provider - CMR-6332
-            VCR.use_cassette('urs/rarxd5taqea', record: :none) do
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               within '.subscription-form' do
                 click_on 'Submit'
               end
@@ -71,12 +101,18 @@ describe 'Creating Subscriptions', reset_provider: true, skip:true do
           let(:name2) { 'Exciting Subscription with Important Data4' }
           let(:query2) { 'point=100,20&attribute[]=float,X\Y\Z,7&instrument=1B&cloud_cover=-80.0,120.0&equator_crossing_date=2000-01-01T10:00:00Z,2010-03-10T12:00:00Z&cycle[]=1' }
           before do
-            @native_id_failure = 'test_native_id'
-            @ingest_response, _search_response, _subscription = publish_new_subscription(name: name2, query: query2, collection_concept_id: collection_concept_id, native_id: @native_id_failure)
+            @token = 'jwt_access_token'
+            @client_token = 'client_token'
+            allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+            allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
+            allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+            allow_any_instance_of(SubscriptionsController).to receive(:native_id).and_return('mmt_subscription_submit_test_fails')
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+              @native_id_failure = 'test_native_id'
+              @ingest_response, _search_response, _subscription = publish_new_subscription(name: name2, query: query2, collection_concept_id: collection_concept_id, native_id: @native_id_failure, token: @token)
 
-            fill_in 'Subscription Name', with: name2
-            fill_in 'Query', with: query2
-            VCR.use_cassette('urs/rarxd5taqea', record: :none) do
+              fill_in 'Subscription Name', with: name2
+              fill_in 'Query', with: query2
               within '.subscription-form' do
                 click_on 'Submit'
               end
@@ -84,7 +120,7 @@ describe 'Creating Subscriptions', reset_provider: true, skip:true do
           end
 
           it 'fails to create the subscription' do
-            expect(page).to have_content("The subscriber-id [rarxd5taqea] has already subscribed to the collection with concept-id [#{collection_concept_id}] using the query")
+            expect(page).to have_content("The subscriber-id [hvtranho] has already subscribed to the collection with concept-id [#{collection_concept_id}] using the query")
             expect(page).to have_content('Subscribers must use unique queries for each Collection.')
           end
 
@@ -93,7 +129,7 @@ describe 'Creating Subscriptions', reset_provider: true, skip:true do
             expect(page).to have_field('Query', with: query2)
 
             within '.select2-container' do
-              expect(page).to have_css('.select2-selection__rendered', text: 'Rvrhzxhtra Vetxvbpmxf')
+              expect(page).to have_css('.select2-selection__rendered', text: 'Hoan Vu Tran Ho')
             end
           end
         end
@@ -108,7 +144,14 @@ describe 'Creating Subscriptions', reset_provider: true, skip:true do
 
     context 'when visiting the Manage Cmr page' do
       before do
-        visit manage_cmr_path
+        @token = 'jwt_access_token'
+        @client_token = 'client_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          visit manage_cmr_path
+        end
       end
 
       it 'does not display the Subscriptions callout box' do
@@ -118,7 +161,14 @@ describe 'Creating Subscriptions', reset_provider: true, skip:true do
 
     context 'when visiting the new subscription form' do
       before do
-        visit new_subscription_path
+        @token = 'jwt_access_token'
+        @client_token = 'client_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          visit new_subscription_path
+        end
       end
 
       it 'displays the Manage Cmr page' do
