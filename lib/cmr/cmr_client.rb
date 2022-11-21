@@ -89,7 +89,6 @@ module Cmr
     # GET endpoint because the subscription service in CMR is currently using it
     # when CMR changes, we should update to the POST.
     def test_query(query, token, headers = {})
-      puts("******** Test query token=#{token}")
       url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3003/granules.umm_json?#{query}"
             else
@@ -472,8 +471,8 @@ module Cmr
 
     # MMT does not need to ingest granules in any environment that is not dev or
     # test.
-    def ingest_granule(metadata, provider_id, native_id, token)
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+    def ingest_granule(metadata, provider_id, native_id, token = nil)
+      url = if Rails.env.development? || token.nil? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3002/providers/#{provider_id}/granules/#{encode_if_needed(native_id)}"
             elsif Rails.env.test?
               "/providers/#{provider_id}/granules/#{encode_if_needed(native_id)}"
