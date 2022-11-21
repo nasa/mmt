@@ -11,6 +11,7 @@ describe 'Edit/Updating Subscriptions', reset_provider: true, js: true do
       # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
       @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['group_id'], ['read', 'update'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2', @token)
       @c_ingest_response, _c_concept_response = publish_collection_draft(token: @token, native_id: 'edit_subscriptions_12')
+
       clear_cache
     end
   end
@@ -24,7 +25,6 @@ describe 'Edit/Updating Subscriptions', reset_provider: true, js: true do
 
   context 'when visiting the show page and clicking the edit button' do
     before do
-
       # make a record
       # @native_id = 'test native id'
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -45,6 +45,7 @@ describe 'Edit/Updating Subscriptions', reset_provider: true, js: true do
 
   context 'when visiting the edit page' do
     before do
+      # @native_id = 'test_native_id'
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         @ingest_response, _search_response, _subscription = publish_new_subscription(name: 'Test_edit_subscriptions_133',native_id: 'ingest_nativeId_1234', collection_concept_id: @c_ingest_response['concept-id'], subscriber_id:'ttle9', email_address:'thanhtam.t.le@nasa.gov', token:@token, query:"bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30&entry_title=9fed60ea-b092-4cf3-83a9-7e123777f4f6f")
         visit edit_subscription_path(@ingest_response['concept_id'])
@@ -66,13 +67,12 @@ describe 'Edit/Updating Subscriptions', reset_provider: true, js: true do
 
       it 'takes the user to the show page and has the correct data' do
         expect(page).to have_content(@new_name)
-        expect(page).to have_content('Query: bounding_box=-10,-5,10,5&attribute[]=float,PERCENTAGE,25.5,30&entry_title=9fed60ea-b092-4cf3-83a9-7e133171f4f6f')
-        expect(page).to have_content('Collection Concept ID: C1200451147-MMT_2')
+        expect(page).to have_content(@ingest_response['Query'])
+        expect(page).to have_content(@c_ingest_response['concept-id'])
         within '#subscriber' do
-          expect(page).to have_content('Subscriber Name')
-          expect(page).to have_content('Earthdata Login Username')
-          expect(page).to have_content('Email')
-          expect(page).to have_content('Thanhtam Le')
+          expect(page).to have_content(@ingest_response['SubscriberId'])
+          expect(page).to have_content(@ingest_response['EmailAddress'])
+          expect(page).to have_content('ttle9')
         end
       end
     end
@@ -85,7 +85,7 @@ describe 'Edit/Updating Subscriptions', reset_provider: true, js: true do
         @new_name = 'A Different Name'
         fill_in 'Subscription Name', with: @new_name
         @second_native_id = 'test_edit_id_2'
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_2_vcr", record: :none) do
           click_on 'Submit'
         end
       end
@@ -95,15 +95,13 @@ describe 'Edit/Updating Subscriptions', reset_provider: true, js: true do
       end
 
       it 'takes the user to the show page and has the correct data' do
-        expect(page).to have_content('Test_edit_subscriptions_122')
-        expect(page).to have_content('Collection Concept ID: C1200451147-MMT_2')
-        expect(page).to have_content('Query: bounding_box=-10,-5,10,5&attribute[]=float,PERCENTAGE,25.5,30&entry_title=9fed60ea-b092-4cf3-83a9-7e133171f4f6f')
-        expect(page).to have_content(@c_ingest_response['C1200451147-MMT_2'])
+        expect(page).to have_content(@new_name)
+        expect(page).to have_content(@ingest_response['Query'])
+        expect(page).to have_content(@c_ingest_response['concept-id'])
         within '#subscriber' do
-          expect(page).to have_content('Subscriber Name')
-          expect(page).to have_content('Earthdata Login Username')
-          expect(page).to have_content('Email')
-          expect(page).to have_content('Thanhtam Le')
+          expect(page).to have_content(@ingest_response['SubscriberId'])
+          expect(page).to have_content(@ingest_response['EmailAddress'])
+          expect(page).to have_content('ttle9')
         end
       end
     end
