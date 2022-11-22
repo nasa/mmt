@@ -524,6 +524,6 @@ http_interactions:
       - chunked
     body:
       encoding: UTF-8
-      string: '{"access_token":"eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2ODI3OTMzNywiaWF0IjoxNjY2OTgzMzM3LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.BboP8LVYXVXgKbSjQsy8iddmK7IMgXVBaKZL8Tn0nM7JcOmeaTXwGSNQvMA_sVLN08-F_vwW8TsVHMBLbaY3u7jRe7juC-idzIbfR6-bg8SFEh6Ep2HuMwO6Yish2qSaDIUc00Osy_iCwNGznTQ4un9rsOr9y30VeY1p8ClLpRlOa53ePm8nAcf79OKsnzWNJLA_dDRwnnqdzVWLnK8wLwP7KQkeCjcAbKBef8RCpyUl-it44gVoLuzmyEySCK9ZdgrB4tQCGB8Ac3RjQ4Nlcr6ApCDaqz_oOV90-f2DtVJiE7RWX87uuncJbKeHISrGVopFEhL5mhm_7dd2Wxe7pQ","token_type":"Bearer","expires_in":1296000}'
+      string: '{"access_token":"access_token","token_type":"Bearer","expires_in":1296000}'
   recorded_at: Fri, 28 Oct 2022 18:55:37 GMT
 recorded_with: VCR 6.1.0

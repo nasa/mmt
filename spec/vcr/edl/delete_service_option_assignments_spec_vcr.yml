@@ -55,7 +55,7 @@ http_interactions:
           - chunked
       body:
         encoding: UTF-8
-        string: '{"access_token":"eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2NzQxMTM4NywiaWF0IjoxNjY2MTE1Mzg3LCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.p6ijNbzRsWLARrPh__yulYCOuIc_HbPqqMeeJaHmjJN1W1LeTS78uNmy-dyi3-SOaYvqU7VToJUrldzVwe5OGUQUaYHXTS_NDO-DOgF5WdRIJf-xXtdaMLIqcdjR2V0cu0mHlvqWseSYnaCGTXYE6wI78hUchq1HOc_9Du7YEJ2RzILu0ahD77m5A-Z74OWYukNNqUkHB5DcrA0jPgNCJ6mJybPXWX5-r_SBkIVn4r5pt44GSy2XfjTUBBD7MrlQ2_ELBUDm1HeSaxfgwGX9ff-AjC-nbmJj3ddF73puT-RyDX34kxxM4-OAqxO8GL1zKiN3tdPzhB2y5DFLOCGKEw","token_type":"Bearer","expires_in":1296000}'
+        string: '{"access_token":"access_token","token_type":"Bearer","expires_in":1296000}'
     recorded_at: Tue, 18 Oct 2022 17:49:49 GMT
   - request:
       method: post

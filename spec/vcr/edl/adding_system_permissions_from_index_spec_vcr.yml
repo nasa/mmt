@@ -7315,7 +7315,7 @@ http_interactions:
       - chunked
     body:
       encoding: UTF-8
-      string: '{"access_token":"eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTQ4OTQ0MCwiaWF0IjoxNjY4MTkzNDQwLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.spE9taqLCP5n81mY0jBfpWGKfZ0lUzMumYPuqGENDxgtbGsBps8cNs3qeu5qvPF8J98QgXQnhhTlLb5S1U0AKXYa51biQf4RDZkRfk7FxinTsneyM6wkdOaCq_rVT_QOet0gDmEN6bfg-5VHluaf6oV14pHI-S0zW_nN_DKWzVyUSfTeVfvPIljp2F4KxjUUP-LufbgY_9rzjIWgIcTzpsGgvtPJk72pgm4uMKuvrDFVjUkixlSFCREbnEFTr_dyi2ARTWeTabPN3u2Sgpl3l89bNNucDyOBPdKfoLfWukclL44P2gYbPYQb2HHZOl91ifPf-T6rozWjY2msjcW_LQ","token_type":"Bearer","expires_in":1296000}'
+      string: '{"access_token":"access_token","token_type":"Bearer","expires_in":1296000}'
   recorded_at: Fri, 11 Nov 2022 19:03:59 GMT
 - request:
     method: get

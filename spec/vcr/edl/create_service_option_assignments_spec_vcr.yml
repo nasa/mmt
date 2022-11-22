@@ -1899,7 +1899,7 @@ http_interactions:
       - chunked
     body:
       encoding: UTF-8
-      string: '{"access_token":"eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2NzA2MDI1MiwiaWF0IjoxNjY1NzY0MjUyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.G0db3-D6eKIb6FDU586vZcVXrxnBW0Li-5W5xo5tsJFN6tLwaJIAfj4e5_fnPmi-mHTDa_foy5A1thUSXhs05S2duCnObw2C6gMGHwD1JuVIHfvHFelMXVXvGg77v671H4iw8X2hn-ZZROkCuPtyBk94Fx_l-2KVd5RxMsIrSJhN0P7KVz3F_ouWUxQxZyFRnRQpvXnx5Q9sG3AIkL1qmPSr7Wj19ZSHov5lT2nHoYvTVKvbjVoo6ZVL0tadqlsUxyaZ0Dtt0CdE437HbdVZAYH1WMMlXZsdVECQCSwf2NnJ_3cxu2u5Zqshvlne0cq9vu-mfGXZNHbSks7Bh8lW1Q","token_type":"Bearer","expires_in":1296000}'
+      string: '{"access_token":"access_token","token_type":"Bearer","expires_in":1296000}'
   recorded_at: Fri, 14 Oct 2022 16:17:32 GMT
 - request:
     method: post
