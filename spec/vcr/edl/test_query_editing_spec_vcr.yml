@@ -1301,4 +1301,598 @@ http_interactions:
       encoding: UTF-8
       string: "{}"
   recorded_at: Fri, 18 Nov 2022 20:56:19 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=hvtranho
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - Faraday v1.10.0
+      Client-Id:
+        - MMT
+      Accept:
+        - application/json; charset=utf-8
+      Authorization:
+        - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+        - '30'
+      connection:
+        - keep-alive
+      date:
+        - Thu, 17 Nov 2022 20:09:36 GMT
+      cmr-request-id:
+        - 413ddd0e-cab4-41ac-aae1-4a264d003109
+      x-request-id:
+        - qr0U4gV0QRw67xr4V13xnaUe2UxMmHxtS3V9UQ52W9vQfyK0-M9GbQ==
+      vary:
+        - Accept-Encoding, User-Agent
+      server:
+        - ServerTokens ProductOnly
+      x-content-type-options:
+        - nosniff
+      x-frame-options:
+        - SAMEORIGIN
+      x-xss-protection:
+        - 1; mode=block
+      strict-transport-security:
+        - max-age=31536000
+      x-cache:
+        - Miss from cloudfront
+      via:
+        - 1.1 a49beccddd651bd6995de9c2682b9a94.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+        - SFO5-C1
+      x-amz-cf-id:
+        - qr0U4gV0QRw67xr4V13xnaUe2UxMmHxtS3V9UQ52W9vQfyK0-M9GbQ==
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+  recorded_at: Thu, 17 Nov 2022 20:09:37 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?concept_id=C1200450602-MMT_2&user_id=hvtranho
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - Faraday v1.10.0
+      Client-Id:
+        - MMT
+      Accept:
+        - application/json; charset=utf-8
+      Authorization:
+        - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+        - '56'
+      connection:
+        - keep-alive
+      date:
+        - Thu, 17 Nov 2022 22:28:41 GMT
+      cmr-request-id:
+        - 2cfd676d-1110-4e8e-947b-23d2b291ecef
+      x-request-id:
+        - xtNIQLpIxcVtQLKVUeLe0BHSNfKvFaAAWBEUlTKXXdjGI5TKEESoxg==
+      vary:
+        - Accept-Encoding, User-Agent
+      server:
+        - ServerTokens ProductOnly
+      x-content-type-options:
+        - nosniff
+      x-frame-options:
+        - SAMEORIGIN
+      x-xss-protection:
+        - 1; mode=block
+      strict-transport-security:
+        - max-age=31536000
+      x-cache:
+        - Miss from cloudfront
+      via:
+        - 1.1 4a628119373a320de50f1e6bc0e5f87a.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+        - SFO5-P2
+      x-amz-cf-id:
+        - xtNIQLpIxcVtQLKVUeLe0BHSNfKvFaAAWBEUlTKXXdjGI5TKEESoxg==
+    body:
+      encoding: UTF-8
+      string: '{"C1200450602-MMT_2":["read","update","delete","order"]}'
+  recorded_at: Thu, 17 Nov 2022 22:28:41 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?concept_id=C1200450688-MMT_2&user_id=hvtranho
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - Faraday v1.10.0
+      Client-Id:
+        - MMT
+      Accept:
+        - application/json; charset=utf-8
+      Authorization:
+        - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+        - '56'
+      connection:
+        - keep-alive
+      date:
+        - Thu, 17 Nov 2022 23:02:11 GMT
+      cmr-request-id:
+        - 77445d7c-4900-4d09-9e90-697a9dcb6e62
+      x-request-id:
+        - hf4eQqZwa5DWcAMteGCAW_LS3yFqdwYLANWhBdP_QZ3D_SMJ3LsblQ==
+      vary:
+        - Accept-Encoding, User-Agent
+      server:
+        - ServerTokens ProductOnly
+      x-content-type-options:
+        - nosniff
+      x-frame-options:
+        - SAMEORIGIN
+      x-xss-protection:
+        - 1; mode=block
+      strict-transport-security:
+        - max-age=31536000
+      x-cache:
+        - Miss from cloudfront
+      via:
+        - 1.1 61729b32280fd6715c2a3b0dbb7e571a.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+        - SFO5-C1
+      x-amz-cf-id:
+        - hf4eQqZwa5DWcAMteGCAW_LS3yFqdwYLANWhBdP_QZ3D_SMJ3LsblQ==
+    body:
+      encoding: UTF-8
+      string: '{"C1200450688-MMT_2":["read","update","delete","order"]}'
+  recorded_at: Thu, 17 Nov 2022 23:02:11 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=SUBSCRIPTION_MANAGEMENT&user_id=hvtranho
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - Faraday v1.10.0
+      Client-Id:
+        - MMT
+      Accept:
+        - application/json; charset=utf-8
+      Authorization:
+        - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+        - '45'
+      connection:
+        - keep-alive
+      date:
+        - Thu, 17 Nov 2022 23:23:52 GMT
+      cmr-request-id:
+        - dfa2ac1e-7cf8-469e-9e62-706faef7f33b
+      x-request-id:
+        - G-Cgm-EG7PWUL-LDOO5WMaX-Tbc35iggPF-oyMN5YNsCL6L59uzyMQ==
+      vary:
+        - Accept-Encoding, User-Agent
+      server:
+        - ServerTokens ProductOnly
+      x-content-type-options:
+        - nosniff
+      x-frame-options:
+        - SAMEORIGIN
+      x-xss-protection:
+        - 1; mode=block
+      strict-transport-security:
+        - max-age=31536000
+      x-cache:
+        - Miss from cloudfront
+      via:
+        - 1.1 3ebe5e903d733a5e00724b1dfdba02bc.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+        - IAD79-C3
+      x-amz-cf-id:
+        - G-Cgm-EG7PWUL-LDOO5WMaX-Tbc35iggPF-oyMN5YNsCL6L59uzyMQ==
+    body:
+      encoding: UTF-8
+      string: '{"SUBSCRIPTION_MANAGEMENT":["read","update"]}'
+  recorded_at: Thu, 17 Nov 2022 23:23:51 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?concept_id=C1200450734-MMT_2&user_id=hvtranho
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - Faraday v1.10.0
+      Client-Id:
+        - MMT
+      Accept:
+        - application/json; charset=utf-8
+      Authorization:
+        - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+        - '56'
+      connection:
+        - keep-alive
+      date:
+        - Thu, 17 Nov 2022 23:47:13 GMT
+      cmr-request-id:
+        - 8d72795f-9f4a-4f60-8b78-9166a3c0410e
+      x-request-id:
+        - rn_EcM-MI8h3ykvCGLqGObdnSULNAJLi_QsNBLDSUxFDBFnekg7cnw==
+      vary:
+        - Accept-Encoding, User-Agent
+      server:
+        - ServerTokens ProductOnly
+      x-content-type-options:
+        - nosniff
+      x-frame-options:
+        - SAMEORIGIN
+      x-xss-protection:
+        - 1; mode=block
+      strict-transport-security:
+        - max-age=31536000
+      x-cache:
+        - Miss from cloudfront
+      via:
+        - 1.1 6aa8d2883437a2897f326bfc58beed3c.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+        - IAD89-P2
+      x-amz-cf-id:
+        - rn_EcM-MI8h3ykvCGLqGObdnSULNAJLi_QsNBLDSUxFDBFnekg7cnw==
+    body:
+      encoding: UTF-8
+      string: '{"C1200450734-MMT_2":["read","update","delete","order"]}'
+  recorded_at: Thu, 17 Nov 2022 23:47:13 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?concept_id=C1200450741-MMT_2&user_id=hvtranho
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - Faraday v1.10.0
+      Client-Id:
+        - MMT
+      Accept:
+        - application/json; charset=utf-8
+      Authorization:
+        - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+        - '56'
+      connection:
+        - keep-alive
+      date:
+        - Thu, 17 Nov 2022 23:51:40 GMT
+      cmr-request-id:
+        - b81c25b3-b386-406e-9e64-13e8b4fe3e6e
+      x-request-id:
+        - WYUeTznKvfPF6fol5yvu7fnzOBvlB6BEMAya9f1bH9YBFM9RNC3v7A==
+      vary:
+        - Accept-Encoding, User-Agent
+      server:
+        - ServerTokens ProductOnly
+      x-content-type-options:
+        - nosniff
+      x-frame-options:
+        - SAMEORIGIN
+      x-xss-protection:
+        - 1; mode=block
+      strict-transport-security:
+        - max-age=31536000
+      x-cache:
+        - Miss from cloudfront
+      via:
+        - 1.1 94be61e339880d0097634de6934f7710.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+        - SFO5-P2
+      x-amz-cf-id:
+        - WYUeTznKvfPF6fol5yvu7fnzOBvlB6BEMAya9f1bH9YBFM9RNC3v7A==
+    body:
+      encoding: UTF-8
+      string: '{"C1200450741-MMT_2":["read","update","delete","order"]}'
+  recorded_at: Thu, 17 Nov 2022 23:51:40 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?concept_id=C1200450793-MMT_2&user_id=hvtranho2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - Faraday v1.10.0
+      Client-Id:
+        - MMT
+      Accept:
+        - application/json; charset=utf-8
+      Authorization:
+        - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+        - '56'
+      connection:
+        - keep-alive
+      date:
+        - Fri, 18 Nov 2022 02:48:38 GMT
+      cmr-request-id:
+        - aa99b5ae-5e76-4407-8512-8ecd1b853cba
+      x-request-id:
+        - te3eU5jvNxJtGUZMDHkKb6ZNJVUpUl8xi3o-BHB3UhrXGuvxD-vEcw==
+      vary:
+        - Accept-Encoding, User-Agent
+      server:
+        - ServerTokens ProductOnly
+      x-content-type-options:
+        - nosniff
+      x-frame-options:
+        - SAMEORIGIN
+      x-xss-protection:
+        - 1; mode=block
+      strict-transport-security:
+        - max-age=31536000
+      x-cache:
+        - Miss from cloudfront
+      via:
+        - 1.1 521101b4b5baafcfa7548a73a3442cea.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+        - BOS50-P1
+      x-amz-cf-id:
+        - te3eU5jvNxJtGUZMDHkKb6ZNJVUpUl8xi3o-BHB3UhrXGuvxD-vEcw==
+    body:
+      encoding: UTF-8
+      string: '{"C1200450793-MMT_2":["read","update","delete","order"]}'
+  recorded_at: Fri, 18 Nov 2022 02:48:38 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?concept_id=C1200450801-MMT_2&user_id=hvtranho2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - Faraday v1.10.0
+      Client-Id:
+        - MMT
+      Accept:
+        - application/json; charset=utf-8
+      Authorization:
+        - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+        - '56'
+      connection:
+        - keep-alive
+      date:
+        - Fri, 18 Nov 2022 02:53:00 GMT
+      cmr-request-id:
+        - 504f1ea0-e988-4754-ab9a-ff79ab12586e
+      x-request-id:
+        - aZXlgEvdxwnpZsWpqvNfn5k2BnstmO0YFr4aYPXLa2E6UNlhWbiaaw==
+      vary:
+        - Accept-Encoding, User-Agent
+      server:
+        - ServerTokens ProductOnly
+      x-content-type-options:
+        - nosniff
+      x-frame-options:
+        - SAMEORIGIN
+      x-xss-protection:
+        - 1; mode=block
+      strict-transport-security:
+        - max-age=31536000
+      x-cache:
+        - Miss from cloudfront
+      via:
+        - 1.1 7b5e90ec4988c1c340392b828c6f9f4a.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+        - SFO5-C1
+      x-amz-cf-id:
+        - aZXlgEvdxwnpZsWpqvNfn5k2BnstmO0YFr4aYPXLa2E6UNlhWbiaaw==
+    body:
+      encoding: UTF-8
+      string: '{"C1200450801-MMT_2":["read","update","delete","order"]}'
+  recorded_at: Fri, 18 Nov 2022 02:53:00 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?concept_id=C1200450804-NSIDC_ECS&user_id=hvtranho2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - Faraday v1.10.0
+      Client-Id:
+        - MMT
+      Accept:
+        - application/json; charset=utf-8
+      Authorization:
+        - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+        - '34'
+      connection:
+        - keep-alive
+      date:
+        - Fri, 18 Nov 2022 02:53:53 GMT
+      cmr-request-id:
+        - 9848ff91-c764-4b02-8ec3-63a177197490
+      x-request-id:
+        - 0xKEqWs-v1c4VvsjG4m7c4d_UkWgkDoylPbV_uOlauIIjfa8aOW3cA==
+      vary:
+        - Accept-Encoding, User-Agent
+      server:
+        - ServerTokens ProductOnly
+      x-content-type-options:
+        - nosniff
+      x-frame-options:
+        - SAMEORIGIN
+      x-xss-protection:
+        - 1; mode=block
+      strict-transport-security:
+        - max-age=31536000
+      x-cache:
+        - Miss from cloudfront
+      via:
+        - 1.1 224823a6628648ffb35c8965e13a7142.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+        - LAX53-P4
+      x-amz-cf-id:
+        - 0xKEqWs-v1c4VvsjG4m7c4d_UkWgkDoylPbV_uOlauIIjfa8aOW3cA==
+    body:
+      encoding: UTF-8
+      string: '{"C1200450804-NSIDC_ECS":["read"]}'
+  recorded_at: Fri, 18 Nov 2022 02:53:53 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?concept_id=C1200450918-MMT_2&user_id=hvtranho
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - Faraday v1.10.0
+      Client-Id:
+        - MMT
+      Accept:
+        - application/json; charset=utf-8
+      Authorization:
+        - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+        - '56'
+      connection:
+        - keep-alive
+      date:
+        - Fri, 18 Nov 2022 15:34:15 GMT
+      cmr-request-id:
+        - a680b17b-7234-4bf3-baab-2ce7578b4e33
+      x-request-id:
+        - 98vFAUlqhgc_MdNU_-FFfY64GMdjmTquO2qHTo5JRK5NaqLHFRoOeA==
+      vary:
+        - Accept-Encoding, User-Agent
+      server:
+        - ServerTokens ProductOnly
+      x-content-type-options:
+        - nosniff
+      x-frame-options:
+        - SAMEORIGIN
+      x-xss-protection:
+        - 1; mode=block
+      strict-transport-security:
+        - max-age=31536000
+      x-cache:
+        - Miss from cloudfront
+      via:
+        - 1.1 dbb909966903df95f63a00d4241f7b7c.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+        - IAD89-P2
+      x-amz-cf-id:
+        - 98vFAUlqhgc_MdNU_-FFfY64GMdjmTquO2qHTo5JRK5NaqLHFRoOeA==
+    body:
+      encoding: UTF-8
+      string: '{"C1200450918-MMT_2":["read","update","delete","order"]}'
+  recorded_at: Fri, 18 Nov 2022 15:34:15 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?concept_id=C1200450949-MMT_2&user_id=hvtranho
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - Faraday v1.10.0
+      Client-Id:
+        - MMT
+      Accept:
+        - application/json; charset=utf-8
+      Authorization:
+        - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+        - '56'
+      connection:
+        - keep-alive
+      date:
+        - Fri, 18 Nov 2022 16:55:45 GMT
+      cmr-request-id:
+        - d9737f93-6c8a-4775-bcd7-f43aae746bf8
+      x-request-id:
+        - A1ClzH3fU0DMMVHb0cc_89NsHRzQyDiMW5YXyMEMjIrtNA2gr2ZKGQ==
+      vary:
+        - Accept-Encoding, User-Agent
+      server:
+        - ServerTokens ProductOnly
+      x-content-type-options:
+        - nosniff
+      x-frame-options:
+        - SAMEORIGIN
+      x-xss-protection:
+        - 1; mode=block
+      strict-transport-security:
+        - max-age=31536000
+      x-cache:
+        - Miss from cloudfront
+      via:
+        - 1.1 573f3bf892e6baf323888f7038237db2.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+        - IAD89-P2
+      x-amz-cf-id:
+        - A1ClzH3fU0DMMVHb0cc_89NsHRzQyDiMW5YXyMEMjIrtNA2gr2ZKGQ==
+    body:
+      encoding: UTF-8
+      string: '{"C1200450949-MMT_2":["read","update","delete","order"]}'
+  recorded_at: Fri, 18 Nov 2022 16:55:45 GMT
 recorded_with: VCR 6.1.0
