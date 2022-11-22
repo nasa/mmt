@@ -391,7 +391,7 @@ module Helpers
       end
     end
 
-    def ingest_granules(collection_entry_title:, count:, provider: 'MMT_2', token:)
+    def ingest_granules(collection_entry_title:, count:, provider: 'MMT_2', token: nil)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#ingest_granules' do
         granule_json = JSON.parse(File.read('spec/fixtures/granules/granule_01.json'))
         count.times do |x|
