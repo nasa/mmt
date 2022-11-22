@@ -1,13 +1,12 @@
 describe 'Testing Queries when creating Subscriptions', reset_provider: true, js: true do
   before do
-    @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjc0MjQ0NzA4LCJpYXQiOjE2NjkwNjA3MDgsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.DbId48dKbMlWuIWgIQfBF5E068LCBQ2YQJJhOdWxul5yvkzmpr4s2DCG7RrtIuZ5VKghUDKd1a34PXO6m0-nYE2zyhTgaB5SpH0YJbhY8oYtthmx4cONbhaIi0cJ6jTX4HyJqN51Sa-8YFOiJmCG1fQXRnTu_EM-nIwfUuo3b_8rad0yzc9e5uBGxia-WOyraELhyQbA1xUj_r_WkZ1Jspe_oyBz0gBbVNcJwLEIFWCxlM8c-SC8NdwHZ1q_6cZ5yQaA2UjM6N7hBT_8P0gGo-AF6C02mCYl4pg7HXTXjrpNQdwPg4tbSgnUpkNreGeCL3ER6kKXSz91oofGQI6oxw'
-    @client_token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTgyODEyMiwiaWF0IjoxNjY4NTMyMTIyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.kufh1GEAHMNMe-j9xJwAtiYR8MX-jnAPT9V7U0NVB2HSocOwSD2JfsVwrkFaKQqHug_DPyEmMbwWCe6aR7Tkdpb7-vq6KUxMPOdu3Kx3kNxhloq3_Rhv9Ob82UlzOsPhHhWWpYPGYpzh_kI1PJveWqSWtTsK8u2WzbfYYwYj5SNRhGgdCg2NJsSbkg6eB4PfgXMBl6vyY-K_TLkKVYHp7ScPyxhRZMyQPagLJOmjEf3Xg6nM4tkjZrBb04N3QEsXimEmu1IJO3whgJ8cC1cMbFnqL5P5qDWE0wQ-fHfvnMndu0j-BsafQfgpQBmsDV-l7tlF7nK3bBYjxW0oHkHUwQ'
+    @token = 'jwt_access_token'
+    @client_token = 'client_token'
     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       @subscriptions_group = create_group(name: 'TEST_QUERY_SUBSCR_GROUP_030', members: ['hvtranho'], provider_id: 'MMT_2')
-      # cmr_client.delete_permission('ACL1200451187-CMR', @token)
       # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
       @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['group_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2', @token)
       login
@@ -23,8 +22,8 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
   end
 
   after do
-    @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjc0MjQ0NzA4LCJpYXQiOjE2NjkwNjA3MDgsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.DbId48dKbMlWuIWgIQfBF5E068LCBQ2YQJJhOdWxul5yvkzmpr4s2DCG7RrtIuZ5VKghUDKd1a34PXO6m0-nYE2zyhTgaB5SpH0YJbhY8oYtthmx4cONbhaIi0cJ6jTX4HyJqN51Sa-8YFOiJmCG1fQXRnTu_EM-nIwfUuo3b_8rad0yzc9e5uBGxia-WOyraELhyQbA1xUj_r_WkZ1Jspe_oyBz0gBbVNcJwLEIFWCxlM8c-SC8NdwHZ1q_6cZ5yQaA2UjM6N7hBT_8P0gGo-AF6C02mCYl4pg7HXTXjrpNQdwPg4tbSgnUpkNreGeCL3ER6kKXSz91oofGQI6oxw'
-    @client_token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTgyODEyMiwiaWF0IjoxNjY4NTMyMTIyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.kufh1GEAHMNMe-j9xJwAtiYR8MX-jnAPT9V7U0NVB2HSocOwSD2JfsVwrkFaKQqHug_DPyEmMbwWCe6aR7Tkdpb7-vq6KUxMPOdu3Kx3kNxhloq3_Rhv9Ob82UlzOsPhHhWWpYPGYpzh_kI1PJveWqSWtTsK8u2WzbfYYwYj5SNRhGgdCg2NJsSbkg6eB4PfgXMBl6vyY-K_TLkKVYHp7ScPyxhRZMyQPagLJOmjEf3Xg6nM4tkjZrBb04N3QEsXimEmu1IJO3whgJ8cC1cMbFnqL5P5qDWE0wQ-fHfvnMndu0j-BsafQfgpQBmsDV-l7tlF7nK3bBYjxW0oHkHUwQ'
+    @token = 'jwt_access_token'
+    @client_token = 'client_token'
     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
@@ -37,8 +36,8 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
 
   context 'when the form is incomplete' do
     before do
-      @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjc0MjQ0NzA4LCJpYXQiOjE2NjkwNjA3MDgsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.DbId48dKbMlWuIWgIQfBF5E068LCBQ2YQJJhOdWxul5yvkzmpr4s2DCG7RrtIuZ5VKghUDKd1a34PXO6m0-nYE2zyhTgaB5SpH0YJbhY8oYtthmx4cONbhaIi0cJ6jTX4HyJqN51Sa-8YFOiJmCG1fQXRnTu_EM-nIwfUuo3b_8rad0yzc9e5uBGxia-WOyraELhyQbA1xUj_r_WkZ1Jspe_oyBz0gBbVNcJwLEIFWCxlM8c-SC8NdwHZ1q_6cZ5yQaA2UjM6N7hBT_8P0gGo-AF6C02mCYl4pg7HXTXjrpNQdwPg4tbSgnUpkNreGeCL3ER6kKXSz91oofGQI6oxw'
-      @client_token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTgyODEyMiwiaWF0IjoxNjY4NTMyMTIyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.kufh1GEAHMNMe-j9xJwAtiYR8MX-jnAPT9V7U0NVB2HSocOwSD2JfsVwrkFaKQqHug_DPyEmMbwWCe6aR7Tkdpb7-vq6KUxMPOdu3Kx3kNxhloq3_Rhv9Ob82UlzOsPhHhWWpYPGYpzh_kI1PJveWqSWtTsK8u2WzbfYYwYj5SNRhGgdCg2NJsSbkg6eB4PfgXMBl6vyY-K_TLkKVYHp7ScPyxhRZMyQPagLJOmjEf3Xg6nM4tkjZrBb04N3QEsXimEmu1IJO3whgJ8cC1cMbFnqL5P5qDWE0wQ-fHfvnMndu0j-BsafQfgpQBmsDV-l7tlF7nK3bBYjxW0oHkHUwQ'
+      @token = 'jwt_access_token'
+      @client_token = 'client_token'
       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
@@ -65,8 +64,8 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
       fill_in 'Name', with: 'valid_test_name'
       fill_in 'Query', with: 'day_night_flag=day&updated_since=2020-05-06T16:23:09Z&production_date[]=2000-01-01T10:00:00Z,2021-03-10T12:00:00Z'
       fill_in 'Collection Concept ID', with: @ingest_response['concept-id']
-      @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjc0MjQ0NzA4LCJpYXQiOjE2NjkwNjA3MDgsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.DbId48dKbMlWuIWgIQfBF5E068LCBQ2YQJJhOdWxul5yvkzmpr4s2DCG7RrtIuZ5VKghUDKd1a34PXO6m0-nYE2zyhTgaB5SpH0YJbhY8oYtthmx4cONbhaIi0cJ6jTX4HyJqN51Sa-8YFOiJmCG1fQXRnTu_EM-nIwfUuo3b_8rad0yzc9e5uBGxia-WOyraELhyQbA1xUj_r_WkZ1Jspe_oyBz0gBbVNcJwLEIFWCxlM8c-SC8NdwHZ1q_6cZ5yQaA2UjM6N7hBT_8P0gGo-AF6C02mCYl4pg7HXTXjrpNQdwPg4tbSgnUpkNreGeCL3ER6kKXSz91oofGQI6oxw'
-      @client_token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTgyODEyMiwiaWF0IjoxNjY4NTMyMTIyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.kufh1GEAHMNMe-j9xJwAtiYR8MX-jnAPT9V7U0NVB2HSocOwSD2JfsVwrkFaKQqHug_DPyEmMbwWCe6aR7Tkdpb7-vq6KUxMPOdu3Kx3kNxhloq3_Rhv9Ob82UlzOsPhHhWWpYPGYpzh_kI1PJveWqSWtTsK8u2WzbfYYwYj5SNRhGgdCg2NJsSbkg6eB4PfgXMBl6vyY-K_TLkKVYHp7ScPyxhRZMyQPagLJOmjEf3Xg6nM4tkjZrBb04N3QEsXimEmu1IJO3whgJ8cC1cMbFnqL5P5qDWE0wQ-fHfvnMndu0j-BsafQfgpQBmsDV-l7tlF7nK3bBYjxW0oHkHUwQ'
+      @token = 'jwt_access_token'
+      @client_token = 'client_token'
       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
@@ -83,7 +82,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     # context 'when the query starts with a "?"' do
     #   before do
     #     @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q'
-    #     @client_token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTgyODEyMiwiaWF0IjoxNjY4NTMyMTIyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.kufh1GEAHMNMe-j9xJwAtiYR8MX-jnAPT9V7U0NVB2HSocOwSD2JfsVwrkFaKQqHug_DPyEmMbwWCe6aR7Tkdpb7-vq6KUxMPOdu3Kx3kNxhloq3_Rhv9Ob82UlzOsPhHhWWpYPGYpzh_kI1PJveWqSWtTsK8u2WzbfYYwYj5SNRhGgdCg2NJsSbkg6eB4PfgXMBl6vyY-K_TLkKVYHp7ScPyxhRZMyQPagLJOmjEf3Xg6nM4tkjZrBb04N3QEsXimEmu1IJO3whgJ8cC1cMbFnqL5P5qDWE0wQ-fHfvnMndu0j-BsafQfgpQBmsDV-l7tlF7nK3bBYjxW0oHkHUwQ'
+    #     @client_token = 'client_token'
     #     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     #     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
     #     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
@@ -110,8 +109,8 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
 
     context 'when there is an error communicating with CMR' do
       before do
-        @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjc0MjQ0NzA4LCJpYXQiOjE2NjkwNjA3MDgsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.DbId48dKbMlWuIWgIQfBF5E068LCBQ2YQJJhOdWxul5yvkzmpr4s2DCG7RrtIuZ5VKghUDKd1a34PXO6m0-nYE2zyhTgaB5SpH0YJbhY8oYtthmx4cONbhaIi0cJ6jTX4HyJqN51Sa-8YFOiJmCG1fQXRnTu_EM-nIwfUuo3b_8rad0yzc9e5uBGxia-WOyraELhyQbA1xUj_r_WkZ1Jspe_oyBz0gBbVNcJwLEIFWCxlM8c-SC8NdwHZ1q_6cZ5yQaA2UjM6N7hBT_8P0gGo-AF6C02mCYl4pg7HXTXjrpNQdwPg4tbSgnUpkNreGeCL3ER6kKXSz91oofGQI6oxw'
-        @client_token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTgyODEyMiwiaWF0IjoxNjY4NTMyMTIyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.kufh1GEAHMNMe-j9xJwAtiYR8MX-jnAPT9V7U0NVB2HSocOwSD2JfsVwrkFaKQqHug_DPyEmMbwWCe6aR7Tkdpb7-vq6KUxMPOdu3Kx3kNxhloq3_Rhv9Ob82UlzOsPhHhWWpYPGYpzh_kI1PJveWqSWtTsK8u2WzbfYYwYj5SNRhGgdCg2NJsSbkg6eB4PfgXMBl6vyY-K_TLkKVYHp7ScPyxhRZMyQPagLJOmjEf3Xg6nM4tkjZrBb04N3QEsXimEmu1IJO3whgJ8cC1cMbFnqL5P5qDWE0wQ-fHfvnMndu0j-BsafQfgpQBmsDV-l7tlF7nK3bBYjxW0oHkHUwQ'
+        @token = 'jwt_access_token'
+        @client_token = 'client_token'
         allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
@@ -134,7 +133,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     #   context 'when more than max granules are found' do
     #     before do
     #       @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q'
-    #       @client_token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTgyODEyMiwiaWF0IjoxNjY4NTMyMTIyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.kufh1GEAHMNMe-j9xJwAtiYR8MX-jnAPT9V7U0NVB2HSocOwSD2JfsVwrkFaKQqHug_DPyEmMbwWCe6aR7Tkdpb7-vq6KUxMPOdu3Kx3kNxhloq3_Rhv9Ob82UlzOsPhHhWWpYPGYpzh_kI1PJveWqSWtTsK8u2WzbfYYwYj5SNRhGgdCg2NJsSbkg6eB4PfgXMBl6vyY-K_TLkKVYHp7ScPyxhRZMyQPagLJOmjEf3Xg6nM4tkjZrBb04N3QEsXimEmu1IJO3whgJ8cC1cMbFnqL5P5qDWE0wQ-fHfvnMndu0j-BsafQfgpQBmsDV-l7tlF7nK3bBYjxW0oHkHUwQ'
+    #       @client_token = 'client_token'
     #       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     #       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
     #       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
@@ -160,7 +159,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     #   context 'when fewer than one granule per day are found' do
     #     before do
     #       @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q'
-    #       @client_token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTgyODEyMiwiaWF0IjoxNjY4NTMyMTIyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.kufh1GEAHMNMe-j9xJwAtiYR8MX-jnAPT9V7U0NVB2HSocOwSD2JfsVwrkFaKQqHug_DPyEmMbwWCe6aR7Tkdpb7-vq6KUxMPOdu3Kx3kNxhloq3_Rhv9Ob82UlzOsPhHhWWpYPGYpzh_kI1PJveWqSWtTsK8u2WzbfYYwYj5SNRhGgdCg2NJsSbkg6eB4PfgXMBl6vyY-K_TLkKVYHp7ScPyxhRZMyQPagLJOmjEf3Xg6nM4tkjZrBb04N3QEsXimEmu1IJO3whgJ8cC1cMbFnqL5P5qDWE0wQ-fHfvnMndu0j-BsafQfgpQBmsDV-l7tlF7nK3bBYjxW0oHkHUwQ'
+    #       @client_token = 'client_token'
     #       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     #       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
     #       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
@@ -186,7 +185,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     #   context 'when no granules are found' do
     #     before do
     #       @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q'
-    #       @client_token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTgyODEyMiwiaWF0IjoxNjY4NTMyMTIyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.kufh1GEAHMNMe-j9xJwAtiYR8MX-jnAPT9V7U0NVB2HSocOwSD2JfsVwrkFaKQqHug_DPyEmMbwWCe6aR7Tkdpb7-vq6KUxMPOdu3Kx3kNxhloq3_Rhv9Ob82UlzOsPhHhWWpYPGYpzh_kI1PJveWqSWtTsK8u2WzbfYYwYj5SNRhGgdCg2NJsSbkg6eB4PfgXMBl6vyY-K_TLkKVYHp7ScPyxhRZMyQPagLJOmjEf3Xg6nM4tkjZrBb04N3QEsXimEmu1IJO3whgJ8cC1cMbFnqL5P5qDWE0wQ-fHfvnMndu0j-BsafQfgpQBmsDV-l7tlF7nK3bBYjxW0oHkHUwQ'
+    #       @client_token = 'client_token'
     #       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     #       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
     #       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
@@ -210,8 +209,8 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
 
   context 'when the user does not have permissions to view a collection' do
     before do
-      @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjc0MjQ0NzA4LCJpYXQiOjE2NjkwNjA3MDgsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.DbId48dKbMlWuIWgIQfBF5E068LCBQ2YQJJhOdWxul5yvkzmpr4s2DCG7RrtIuZ5VKghUDKd1a34PXO6m0-nYE2zyhTgaB5SpH0YJbhY8oYtthmx4cONbhaIi0cJ6jTX4HyJqN51Sa-8YFOiJmCG1fQXRnTu_EM-nIwfUuo3b_8rad0yzc9e5uBGxia-WOyraELhyQbA1xUj_r_WkZ1Jspe_oyBz0gBbVNcJwLEIFWCxlM8c-SC8NdwHZ1q_6cZ5yQaA2UjM6N7hBT_8P0gGo-AF6C02mCYl4pg7HXTXjrpNQdwPg4tbSgnUpkNreGeCL3ER6kKXSz91oofGQI6oxw'
-      @client_token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY2OTgyODEyMiwiaWF0IjoxNjY4NTMyMTIyLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.kufh1GEAHMNMe-j9xJwAtiYR8MX-jnAPT9V7U0NVB2HSocOwSD2JfsVwrkFaKQqHug_DPyEmMbwWCe6aR7Tkdpb7-vq6KUxMPOdu3Kx3kNxhloq3_Rhv9Ob82UlzOsPhHhWWpYPGYpzh_kI1PJveWqSWtTsK8u2WzbfYYwYj5SNRhGgdCg2NJsSbkg6eB4PfgXMBl6vyY-K_TLkKVYHp7ScPyxhRZMyQPagLJOmjEf3Xg6nM4tkjZrBb04N3QEsXimEmu1IJO3whgJ8cC1cMbFnqL5P5qDWE0wQ-fHfvnMndu0j-BsafQfgpQBmsDV-l7tlF7nK3bBYjxW0oHkHUwQ'
+      @token = 'jwt_access_token'
+      @client_token = 'client_token'
       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
