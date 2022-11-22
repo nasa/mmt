@@ -95,7 +95,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     #       wait_for_jQuery
     #     end
     #   end
-    #
+    # Got issue with VCR can't match URIs properly, so this test will be done manually
     #   it 'displays the right number of e-mails' do
     #     expect(page).to have_content('Estimate Done')
     #     expect(page).to have_content('Query: ?day_night_flag=day&updated_since=2020-05-06T16:23:09Z&production_date[]=2000-01-01T10:00:00Z,2021-03-10T12:00:00Z')
@@ -144,7 +144,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     #         wait_for_jQuery
     #       end
     #     end
-    #
+    # Got issue with VCR can't match URIs properly, so this test will be done manually
     #     it 'displays the right count of e-mails' do
     #       granule_count = (24 * 3600 / Rails.configuration.cmr_email_frequency).ceil
     #       expect(page).to have_content('Estimate Done')
@@ -171,7 +171,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     #         wait_for_jQuery
     #       end
     #     end
-    #
+    # Got issue with VCR can't match URIs properly, so this test will be done manually
     #     it 'displays the right amount of e-mails' do
     #       expect(page).to have_content('Estimate Done')
     #       expect(page).to have_content("Estimate: 0 notification/day")
@@ -194,7 +194,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     #         wait_for_jQuery
     #       end
     #     end
-    #
+    # Got issue with VCR can't match URIs properly, so this test will be done manually
     #     it 'displays the right amount of e-mails' do
     #       expect(page).to have_content('Estimate Done')
     #       expect(page).to have_content("Estimate: 0 notifications/day")
