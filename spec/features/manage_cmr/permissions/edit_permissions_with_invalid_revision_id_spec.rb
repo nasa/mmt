@@ -31,7 +31,7 @@ describe 'Edit collection permissions', reset_provider: true, js: true do
       collection_permission_response = cmr_fail_response(JSON.parse(File.read('spec/fixtures/collection_permissions/invalid_permission_response.json')))
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_permissions).and_return(collection_permission_response)
 
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette('edl', record: :none) do
         visit edit_permission_path(@collection_permission_for_invalid_revision['concept_id'])
       end
     end
@@ -50,7 +50,7 @@ describe 'Edit collection permissions', reset_provider: true, js: true do
                  'include_full_acl' => true}
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_permissions).with(options, 'access_token').and_return(collection_permission_response)
 
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette('edl', record: :none) do
         visit edit_permission_path(@collection_permission_for_invalid_revision['concept_id'])
       
         click_on 'Submit'

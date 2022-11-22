@@ -6,7 +6,7 @@ describe 'Resubmitting Provider Orders' do
       # The order guid belongs to NSIDC_ECS
       login(provider: 'EDF_OPS', providers: %w(MMT_2 EDF_OPS))
 
-      VCR.use_cassette('echo_soap/order_processing_service/provider_orders/terminal_order', record: :new_episodes) do
+      VCR.use_cassette('echo_soap/order_processing_service/provider_orders/terminal_order', record: :none) do
         visit provider_order_path(order_guid)
       end
     end
@@ -24,14 +24,14 @@ describe 'Resubmitting Provider Orders' do
       # The order guid belongs to NSIDC_ECS
       login(provider: 'NSIDC_ECS', providers: %w(MMT_2 NSIDC_ECS))
 
-      VCR.use_cassette('echo_soap/order_processing_service/provider_orders/terminal_order', record: :new_episodes) do
+      VCR.use_cassette('echo_soap/order_processing_service/provider_orders/terminal_order', record: :none) do
         visit provider_order_path(order_guid)
       end
 
     end
 
     before :all do
-      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         # create a group
         @token = 'jwt_access_token'
         @orders_group = create_group(name: "Orders_Group_for_Permissions_RESUBMIT_#{SecureRandom.uuid.gsub('-', '')}", members: ['testuser'], provider_id: 'NSIDC_ECS')
@@ -41,7 +41,7 @@ describe 'Resubmitting Provider Orders' do
     end
 
     after :all do
-      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         remove_group_permissions(@resubmit_permissions['concept_id'], @token)
         delete_group(concept_id: @orders_group['group_id'], admin: true)
         reindex_permitted_groups
@@ -54,7 +54,7 @@ describe 'Resubmitting Provider Orders' do
 
     context 'when resubmitting the order' do
       before do
-        VCR.use_cassette('echo_soap/order_processing_service/provider_orders/resubmit', record: :new_episodes) do
+        VCR.use_cassette('echo_soap/order_processing_service/provider_orders/resubmit', record: :none) do
           click_on 'Resubmit'
         end
       end

@@ -2,7 +2,7 @@ describe 'Chooser expected behaviors', js: true do
   context 'when using the chooser' do
     before do
       login
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette('edl', record: :none) do
         visit new_permission_path
         find('#collection_option_selected').click()
       end
@@ -24,7 +24,7 @@ describe 'Chooser expected behaviors', js: true do
       ingest_response, concept_response_1 = publish_collection_draft
       @entry_id_1 = "#{concept_response_1.body['ShortName']}_#{concept_response_1.body['Version']} | #{concept_response_1.body['EntryTitle']}"
       login
-      VCR.use_cassette('edl', record: :new_episodes) do
+      VCR.use_cassette('edl', record: :none) do
         visit new_permission_path
         find('#collection_option_selected').click()
       end

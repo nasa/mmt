@@ -47,7 +47,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
   context 'when the user does not have the required permissions' do
     context 'when viewing the new service option assignment form' do
       before do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_without_correct_permissions_vcr", record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_without_correct_permissions_vcr", record: :none) do
           allow_any_instance_of(ServiceOptionAssignmentPolicy).to receive(:create?).and_return(false)
           visit new_service_option_assignments_path
         end
@@ -64,7 +64,7 @@ describe 'Creating a Service Option Assignment', reset_provider: true, js: true 
 
     context 'when viewing the service option assignment display page' do
       before do
-        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_without_correct_permissions_vcr", record: :new_episodes) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_without_correct_permissions_vcr", record: :none) do
           allow_any_instance_of(ServiceOptionAssignmentPolicy).to receive(:create?).and_return(false)
           visit service_option_assignments_path
           wait_for_jQuery(10)

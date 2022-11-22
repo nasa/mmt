@@ -1,0 +1,723 @@
+---
+http_interactions:
+- request:
+    method: delete
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200449805-CMR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '50'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 15 Nov 2022 20:19:50 GMT
+      cmr-request-id:
+      - e00ebe8d-3b98-40a1-874d-b66e9f158de9
+      x-request-id:
+      - OqR_V8Ud7v0jYd1qXFG_3gKpmlJluIwkjUVQ9MHqxfd3yJoXreEbNw==
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 617383234aa18e133ce6e5179e83aa88.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - OqR_V8Ud7v0jYd1qXFG_3gKpmlJluIwkjUVQ9MHqxfd3yJoXreEbNw==
+    body:
+      encoding: UTF-8
+      string: '{"revision-id":3,"concept-id":"ACL1200449805-CMR"}'
+  recorded_at: Tue, 15 Nov 2022 20:19:50 GMT
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls
+    body:
+      encoding: UTF-8
+      string: '{"group_permissions":[{"group_id":"4233a7c0-3716-4f78-b7fd-feff34dea01d","permissions":["read"]}],"system_identity":{"target":"USER"}}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '50'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 15 Nov 2022 20:19:51 GMT
+      cmr-request-id:
+      - 6083e5a0-6bcd-40a2-80a0-9267d8d03e19
+      x-request-id:
+      - 75yfASdmPHqOz_vAoCT06zeLDvHBlna4fbdxT_H6FUgE4SdAYXwHGg==
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 85331abd84b5669394785900a34f7b14.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - 75yfASdmPHqOz_vAoCT06zeLDvHBlna4fbdxT_H6FUgE4SdAYXwHGg==
+    body:
+      encoding: UTF-8
+      string: '{"revision_id":1,"concept_id":"ACL1200449814-CMR"}'
+  recorded_at: Tue, 15 Nov 2022 20:19:51 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=chris.gokey
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '30'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 15 Nov 2022 20:19:52 GMT
+      cmr-request-id:
+      - 3e97d78c-9c82-4f1f-b554-fc803137d014
+      x-request-id:
+      - XvZbti_ZhXcyLFdR2hABd8m9gEHUQeSkgdYESEZGmQO59eoQIFcKMA==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 3566cbcd49f71967b52a565888e4d272.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - XvZbti_ZhXcyLFdR2hABd8m9gEHUQeSkgdYESEZGmQO59eoQIFcKMA==
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+  recorded_at: Tue, 15 Nov 2022 20:19:52 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?system_object=ANY_ACL&user_id=chris.gokey
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '47'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 15 Nov 2022 20:19:53 GMT
+      cmr-request-id:
+      - 4ffaf149-2863-4bb7-8905-def2601febb4
+      x-request-id:
+      - YSNPFZ3DXFXWff48snT2LIHrg4MCDo4S2rDf9RQN_v3BhkCUx3Oc1A==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 2f6759c17f128a7a3caee8d7fd76340e.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - YSNPFZ3DXFXWff48snT2LIHrg4MCDo4S2rDf9RQN_v3BhkCUx3Oc1A==
+    body:
+      encoding: UTF-8
+      string: '{"ANY_ACL":["read","create","update","delete"]}'
+  recorded_at: Tue, 15 Nov 2022 20:19:53 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls?identity_type=system&include_full_acl=true&page_size=50
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json;charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      date:
+      - Tue, 15 Nov 2022 20:19:53 GMT
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      access-control-allow-origin:
+      - "*"
+      cmr-hits:
+      - '23'
+      cmr-took:
+      - '157'
+      cmr-search-after:
+      - '["system - user_context","ACL1200213987-CMR"]'
+      cmr-request-id:
+      - e8abafdf-db53-44a7-8d5a-635eaddf25d1
+      x-request-id:
+      - b9tpF50PPbt5itDKGXxLIj1LrimqxyVEVZLFoGaI_KJfPgHNfnevqQ==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 0d60533443ead16cd68819273caf966e.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - b9tpF50PPbt5itDKGXxLIj1LrimqxyVEVZLFoGaI_KJfPgHNfnevqQ==
+    body:
+      encoding: ASCII-8BIT
+      string: '{"hits":23,"took":100,"items":[{"concept_id":"ACL1200214047-CMR","revision_id":91,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["delete","create","read","update"],"group_id":"AG1200211474-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211483-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["create","read","update"]},{"group_id":"AG1200301545-CMR","permissions":["read"]},{"group_id":"AG1200301542-CMR","permissions":["read"]},{"group_id":"AG1200211473-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200369055-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200369194-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200211476-CMR","permissions":["create","read","update","delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["delete","create","read","update"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60","permissions":["create","read","update","delete"]},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create","read","update"]},{"group_id":"f2b263d1-d303-4379-b0c1-f072c4dcce2c","permissions":["read"]},{"group_id":"268e8878-2cd0-4d43-a5c5-28bc06f68df4","permissions":["read"]},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["create","read","update","delete"]},{"group_id":"58b87405-fcae-48c4-a56e-13c1cc502c69","permissions":["create","read","update","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create","read","update","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create","read","update","delete"]},{"group_id":"AG1200362666-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"79C2DE93AFDA6C67E04400144F4EC171","system_identity":{"target":"ANY_ACL"}},"name":"System
+        - ANY_ACL","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200214047-CMR"},{"concept_id":"ACL1200213963-CMR","revision_id":62,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["delete"],"group_id":"AG1200211473-CMR"},{"permissions":["delete"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200369194-CMR","permissions":["delete"]},{"group_id":"AG1200211476-CMR","permissions":["delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["delete"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["delete"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"5B189AA4-3AC9-CB52-F470-721D9128CCAA","system_identity":{"target":"ARCHIVE_RECORD"}},"name":"System
+        - ARCHIVE_RECORD","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213963-CMR"},{"concept_id":"ACL1200301610-CMR","revision_id":22,"identity_type":"System","acl":{"group_permissions":[{"group_id":"AG1200301542-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200369194-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200211476-CMR","permissions":["create","read","update","delete"]},{"group_id":"268e8878-2cd0-4d43-a5c5-28bc06f68df4","permissions":["create","read","update","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create","read","update","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create","read","update","delete"]}],"system_identity":{"target":"DASHBOARD_ARC_CURATOR"}},"name":"System
+        - DASHBOARD_ARC_CURATOR","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200301610-CMR"},{"concept_id":"ACL1200368960-CMR","revision_id":19,"identity_type":"System","acl":{"group_permissions":[{"user_type":"guest","permissions":["create"]},{"group_id":"AG1200369055-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200369194-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200211476-CMR","permissions":["create","read","update","delete"]},{"group_id":"58b87405-fcae-48c4-a56e-13c1cc502c69","permissions":["create","read","update","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create","read","update","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create","read","update","delete"]}],"system_identity":{"target":"DASHBOARD_MDQ_CURATOR"}},"name":"System
+        - DASHBOARD_MDQ_CURATOR","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200368960-CMR"},{"concept_id":"ACL1200213960-CMR","revision_id":67,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["update"],"group_id":"AG1200211473-CMR"},{"permissions":["update"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211483-CMR","permissions":[]},{"group_id":"AG1200211478-CMR","permissions":["update"]},{"group_id":"AG1200369194-CMR","permissions":["update"]},{"group_id":"AG1200211476-CMR","permissions":["update"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["update"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["update"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60","permissions":[]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["update"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["update"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["update"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"289CCF40-F7E8-CDC1-F5DC-EB42854C54C9","system_identity":{"target":"ERROR_MESSAGE"}},"name":"System
+        - ERROR_MESSAGE","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213960-CMR"},{"concept_id":"ACL1200213976-CMR","revision_id":65,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["delete"],"group_id":"AG1200211473-CMR"},{"permissions":["delete"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200369194-CMR","permissions":["delete"]},{"group_id":"AG1200211476-CMR","permissions":["delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["delete"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["delete"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"A746C87C-B18C-711B-8B5E-4D46CFAAC78F","system_identity":{"target":"EVENT_NOTIFICATION"}},"name":"System
+        - EVENT_NOTIFICATION","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213976-CMR"},{"concept_id":"ACL1200213957-CMR","revision_id":68,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["delete"],"group_id":"AG1200211473-CMR"},{"permissions":["delete"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200369194-CMR","permissions":["delete"]},{"group_id":"AG1200211476-CMR","permissions":["delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["delete"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["delete"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"6021907d-be79-432c-85ec-435dacbeb609","permissions":["delete"]},{"group_id":"c94ff4e9-90cb-4499-98ce-4957be40c5b9","permissions":["delete"]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]},{"group_id":"3d9b4dcb-3e18-4288-a00f-007105c6ae7b","permissions":["delete"]},{"group_id":"b0acd2aa-a7ce-47f4-84aa-fb8dea89cbea","permissions":["delete"]},{"group_id":"cddceee5-9769-427c-abf1-49ded4bec10a","permissions":["delete"]}],"legacy_guid":"5C146937-ED3B-F836-B699-9F09AF9A1099","system_identity":{"target":"EXTENDED_SERVICE"}},"name":"System
+        - EXTENDED_SERVICE","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213957-CMR"},{"concept_id":"ACL1200213956-CMR","revision_id":64,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["create"],"group_id":"AG1200211473-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211478-CMR","permissions":["create"]},{"group_id":"AG1200369194-CMR","permissions":["create"]},{"group_id":"AG1200211476-CMR","permissions":["create"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["create"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"A253615D-7354-5F7D-8340-B66C585BAA57","system_identity":{"target":"EXTENDED_SERVICE_ACTIVATION"}},"name":"System
+        - EXTENDED_SERVICE_ACTIVATION","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213956-CMR"},{"concept_id":"ACL1200213966-CMR","revision_id":75,"identity_type":"System","acl":{"group_permissions":[{"permissions":["create","read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211483-CMR","permissions":["create","read"]},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["create","read"]},{"group_id":"AG1200211473-CMR","permissions":["create","read"]},{"group_id":"AG1200369194-CMR","permissions":["create","read"]},{"group_id":"AG1200211476-CMR","permissions":["create","read"]},{"permissions":["create","read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60","permissions":["create","read"]},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create","read"]},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["create","read"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create","read"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create","read"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["create","read"]}],"legacy_guid":"79C2DE93AFD76C67E04400144F4EC171","system_identity":{"target":"GROUP"}},"name":"System
+        - GROUP","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213966-CMR"},{"concept_id":"ACL1200213985-CMR","revision_id":73,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["read","update"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":["read","update"],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211483-CMR","permissions":["read","update"]},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read","update"]},{"group_id":"AG1200211473-CMR","permissions":["read","update"]},{"group_id":"AG1200369194-CMR","permissions":["read","update"]},{"group_id":"AG1200211476-CMR","permissions":["read","update"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["read","update"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":["read","update"],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60","permissions":["read","update"]},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read","update"]},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["read","update"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read","update"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read","update"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["read"]}],"legacy_guid":"7C41C335-A914-9774-27F8-F523A76796F8","system_identity":{"target":"INGEST_MANAGEMENT_ACL"}},"name":"System
+        - INGEST_MANAGEMENT_ACL","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213985-CMR"},{"concept_id":"ACL1200213958-CMR","revision_id":70,"identity_type":"System","acl":{"group_permissions":[{"permissions":["read"],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":["read"],"group_id":"AG1200211473-CMR"},{"permissions":["read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read"]},{"group_id":"AG1200369194-CMR","permissions":["read"]},{"group_id":"AG1200211476-CMR","permissions":["read"]},{"permissions":["read"],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["read"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"6021907d-be79-432c-85ec-435dacbeb609","permissions":["read"]},{"group_id":"c94ff4e9-90cb-4499-98ce-4957be40c5b9","permissions":["read"]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]},{"group_id":"3d9b4dcb-3e18-4288-a00f-007105c6ae7b","permissions":["read"]},{"group_id":"b0acd2aa-a7ce-47f4-84aa-fb8dea89cbea","permissions":["read"]},{"group_id":"cddceee5-9769-427c-abf1-49ded4bec10a","permissions":["read"]}],"legacy_guid":"A8F17DB5-95C0-B634-3638-6BD5E5EC8F12","system_identity":{"target":"METRIC_DATA_POINT_SAMPLE"}},"name":"System
+        - METRIC_DATA_POINT_SAMPLE","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213958-CMR"},{"concept_id":"ACL1200213977-CMR","revision_id":70,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":["delete","read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read"]},{"group_id":"AG1200211473-CMR","permissions":["read","delete"]},{"group_id":"AG1200369194-CMR","permissions":["read","delete"]},{"group_id":"AG1200211476-CMR","permissions":["read","delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["delete","read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read"]},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["read","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read","delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["read","delete"]}],"legacy_guid":"D3599294-016E-4EA7-30EE-1795760D301A","system_identity":{"target":"ORDER_AND_ORDER_ITEMS"}},"name":"System
+        - ORDER_AND_ORDER_ITEMS","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213977-CMR"},{"concept_id":"ACL1200213989-CMR","revision_id":67,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["delete","create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211473-CMR","permissions":["create","delete"]},{"group_id":"AG1200369194-CMR","permissions":["create","delete"]},{"group_id":"AG1200211476-CMR","permissions":["create","delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["delete","create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["create","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create","delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["create","delete"]}],"legacy_guid":"A2804990-9CCB-23B7-A033-61B56FFCD9D7","system_identity":{"target":"PROVIDER"}},"name":"System
+        - PROVIDER","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213989-CMR"},{"concept_id":"ACL1200213973-CMR","revision_id":66,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":["read"],"group_id":"AG1200211473-CMR"},{"permissions":["read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read"]},{"group_id":"AG1200369194-CMR","permissions":["read"]},{"group_id":"AG1200211476-CMR","permissions":["read"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["read"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"4AB4254C-12A3-0A3C-3371-5FF55AB0731A","system_identity":{"target":"SYSTEM_AUDIT_REPORT"}},"name":"System
+        - SYSTEM_AUDIT_REPORT","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213973-CMR"},{"concept_id":"ACL1200445585-CMR","revision_id":4,"identity_type":"System","acl":{"group_permissions":[{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["create"]},{"group_id":"3d9b4dcb-3e18-4288-a00f-007105c6ae7b","permissions":["create"]},{"group_id":"b0acd2aa-a7ce-47f4-84aa-fb8dea89cbea","permissions":["create"]},{"group_id":"cddceee5-9769-427c-abf1-49ded4bec10a","permissions":["create"]}],"system_identity":{"target":"SYSTEM_OPTION_DEFINITION"}},"name":"System
+        - SYSTEM_OPTION_DEFINITION","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200445585-CMR"},{"concept_id":"ACL1200213974-CMR","revision_id":62,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["create"],"group_id":"AG1200211473-CMR"},{"permissions":["create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211478-CMR","permissions":["create"]},{"group_id":"AG1200369194-CMR","permissions":["create"]},{"group_id":"AG1200211476-CMR","permissions":["create"]},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["create"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["create"]}],"legacy_guid":"02BD8D50-BEFA-4A9A-17C2-2B0129B136AA","system_identity":{"target":"SYSTEM_OPTION_DEFINITION_DEPRECATION"}},"name":"System
+        - SYSTEM_OPTION_DEFINITION_DEPRECATION","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213974-CMR"},{"concept_id":"ACL1200449807-CMR","revision_id":1,"identity_type":"System","acl":{"group_permissions":[{"group_id":"4233a7c0-3716-4f78-b7fd-feff34dea01d","permissions":["create"]}],"system_identity":{"target":"TAG_GROUP"}},"name":"System
+        - TAG_GROUP","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200449807-CMR"},{"concept_id":"ACL1200213968-CMR","revision_id":63,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["create"],"group_id":"AG1200211473-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211478-CMR","permissions":["create"]},{"group_id":"AG1200369194-CMR","permissions":["create"]},{"group_id":"AG1200211476-CMR","permissions":["create"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["create"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"7D5C0FED-B760-CEB6-F38D-AB3D9D7AA995","system_identity":{"target":"TAXONOMY"}},"name":"System
+        - TAXONOMY","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213968-CMR"},{"concept_id":"ACL1200213981-CMR","revision_id":62,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["create"],"group_id":"AG1200211473-CMR"},{"permissions":["create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211478-CMR","permissions":["create"]},{"group_id":"AG1200369194-CMR","permissions":["create"]},{"group_id":"AG1200211476-CMR","permissions":["create"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["create"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"C1B3130F-8EEA-3626-29E4-DB43E82EDF79","system_identity":{"target":"TAXONOMY_ENTRY"}},"name":"System
+        - TAXONOMY_ENTRY","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213981-CMR"},{"concept_id":"ACL1200213978-CMR","revision_id":67,"identity_type":"System","acl":{"group_permissions":[{"permissions":["delete","read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read","delete"]},{"group_id":"AG1200211473-CMR","permissions":["read","delete"]},{"group_id":"AG1200369194-CMR","permissions":["read","delete"]},{"group_id":"AG1200211476-CMR","permissions":["read","delete"]},{"permissions":["delete","read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read","delete"]},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["read","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read","delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["read","delete"]}],"legacy_guid":"91DA3FD6-4B5D-E006-B7E3-49953CBE9D3E","system_identity":{"target":"TOKEN"}},"name":"System
+        - TOKEN","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213978-CMR"},{"concept_id":"ACL1200213967-CMR","revision_id":63,"identity_type":"System","acl":{"group_permissions":[{"permissions":["create"],"group_id":"AG1200211473-CMR"},{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211478-CMR","permissions":["create"]},{"group_id":"AG1200369194-CMR","permissions":["create"]},{"group_id":"AG1200211476-CMR","permissions":["create"]},{"permissions":["create"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"F3B27B30-BA53-D2E3-FD10-6ED856114283","system_identity":{"target":"TOKEN_REVOCATION"}},"name":"System
+        - TOKEN_REVOCATION","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213967-CMR"},{"concept_id":"ACL1200449814-CMR","revision_id":1,"identity_type":"System","acl":{"group_permissions":[{"group_id":"4233a7c0-3716-4f78-b7fd-feff34dea01d","permissions":["read"]}],"system_identity":{"target":"USER"}},"name":"System
+        - USER","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200449814-CMR"},{"concept_id":"ACL1200213987-CMR","revision_id":63,"identity_type":"System","acl":{"group_permissions":[{"permissions":["read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":["read"],"group_id":"AG1200211473-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read"]},{"group_id":"AG1200369194-CMR","permissions":["read"]},{"group_id":"AG1200211476-CMR","permissions":["read"]},{"permissions":["read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["read"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["read"]}],"legacy_guid":"67CA6948-0997-FF51-BA3D-4D1D0BD39EF9","system_identity":{"target":"USER_CONTEXT"}},"name":"System
+        - USER_CONTEXT","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213987-CMR"}]}'
+  recorded_at: Tue, 15 Nov 2022 20:19:53 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/4233a7c0-3716-4f78-b7fd-feff34dea01d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer client_access_token
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Tue, 15 Nov 2022 20:19:53 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      x-request-id:
+      - e91a72e1-2f18-4cfa-bbb2-77c15380eaa8
+      x-runtime:
+      - '0.007204'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"Invalid user group or the group is not created by you"}'
+  recorded_at: Tue, 15 Nov 2022 20:19:53 GMT
+- request:
+    method: put
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200449814-CMR
+    body:
+      encoding: UTF-8
+      string: '{"group_permissions":[{"group_id":"4233a7c0-3716-4f78-b7fd-feff34dea01d","permissions":["read","update"]}],"system_identity":{"target":"USER"}}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '50'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 15 Nov 2022 20:19:54 GMT
+      cmr-request-id:
+      - 7bc7965c-8450-44b6-8bbd-a432af866e0e
+      x-request-id:
+      - LtSQhAQnRMfpF45es9Eo8FfscuZP6hGA1cPMA0_6t2i6d7Pmyq8agw==
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 5750cab2900ee4d5c9d37c11c5a3d474.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - LtSQhAQnRMfpF45es9Eo8FfscuZP6hGA1cPMA0_6t2i6d7Pmyq8agw==
+    body:
+      encoding: UTF-8
+      string: '{"revision_id":2,"concept_id":"ACL1200449814-CMR"}'
+  recorded_at: Tue, 15 Nov 2022 20:19:54 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=chris.gokey
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '30'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 15 Nov 2022 20:19:55 GMT
+      cmr-request-id:
+      - 4f253a4e-0621-47a7-8a2c-2260e0336f49
+      x-request-id:
+      - Tfc3cpvJnHwsdFLTu1kIIc65DAzTZXw_DE1GVkyQcfUc9NQp5Xe61w==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 b5546ff55405d525045e7263ba6db012.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - Tfc3cpvJnHwsdFLTu1kIIc65DAzTZXw_DE1GVkyQcfUc9NQp5Xe61w==
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+  recorded_at: Tue, 15 Nov 2022 20:19:55 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?system_object=ANY_ACL&user_id=chris.gokey
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '47'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 15 Nov 2022 20:19:55 GMT
+      cmr-request-id:
+      - 840c2640-a96f-4abd-a99d-7a1c23d69b30
+      x-request-id:
+      - rKwILS7gkGlAiFJ1zHyESpkeE8ygNj-pXxx6nuVLHgBlYFqlTpU5EA==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 9b05bee34f8fe26600ed49d4c4b99986.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - rKwILS7gkGlAiFJ1zHyESpkeE8ygNj-pXxx6nuVLHgBlYFqlTpU5EA==
+    body:
+      encoding: UTF-8
+      string: '{"ANY_ACL":["read","create","update","delete"]}'
+  recorded_at: Tue, 15 Nov 2022 20:19:55 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls?identity_type=system&include_full_acl=true&page_size=50
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json;charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      date:
+      - Tue, 15 Nov 2022 20:19:56 GMT
+      access-control-expose-headers:
+      - CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out,
+        CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+      access-control-allow-origin:
+      - "*"
+      cmr-hits:
+      - '23'
+      cmr-took:
+      - '167'
+      cmr-search-after:
+      - '["system - user_context","ACL1200213987-CMR"]'
+      cmr-request-id:
+      - b69ad9b5-6a83-41e5-be80-557406fa898b
+      x-request-id:
+      - TaSSRODrOVGXLKT5QIjyAPdxLdC_2PnQnWncaciVyspoC0FgEgbdXA==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 216f781ed7a0653429ac7a72888ca4c4.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - TaSSRODrOVGXLKT5QIjyAPdxLdC_2PnQnWncaciVyspoC0FgEgbdXA==
+    body:
+      encoding: ASCII-8BIT
+      string: '{"hits":23,"took":100,"items":[{"concept_id":"ACL1200214047-CMR","revision_id":91,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["delete","create","read","update"],"group_id":"AG1200211474-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211483-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["create","read","update"]},{"group_id":"AG1200301545-CMR","permissions":["read"]},{"group_id":"AG1200301542-CMR","permissions":["read"]},{"group_id":"AG1200211473-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200369055-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200369194-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200211476-CMR","permissions":["create","read","update","delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["delete","create","read","update"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60","permissions":["create","read","update","delete"]},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create","read","update"]},{"group_id":"f2b263d1-d303-4379-b0c1-f072c4dcce2c","permissions":["read"]},{"group_id":"268e8878-2cd0-4d43-a5c5-28bc06f68df4","permissions":["read"]},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["create","read","update","delete"]},{"group_id":"58b87405-fcae-48c4-a56e-13c1cc502c69","permissions":["create","read","update","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create","read","update","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create","read","update","delete"]},{"group_id":"AG1200362666-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"79C2DE93AFDA6C67E04400144F4EC171","system_identity":{"target":"ANY_ACL"}},"name":"System
+        - ANY_ACL","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200214047-CMR"},{"concept_id":"ACL1200213963-CMR","revision_id":62,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["delete"],"group_id":"AG1200211473-CMR"},{"permissions":["delete"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200369194-CMR","permissions":["delete"]},{"group_id":"AG1200211476-CMR","permissions":["delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["delete"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["delete"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"5B189AA4-3AC9-CB52-F470-721D9128CCAA","system_identity":{"target":"ARCHIVE_RECORD"}},"name":"System
+        - ARCHIVE_RECORD","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213963-CMR"},{"concept_id":"ACL1200301610-CMR","revision_id":22,"identity_type":"System","acl":{"group_permissions":[{"group_id":"AG1200301542-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200369194-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200211476-CMR","permissions":["create","read","update","delete"]},{"group_id":"268e8878-2cd0-4d43-a5c5-28bc06f68df4","permissions":["create","read","update","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create","read","update","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create","read","update","delete"]}],"system_identity":{"target":"DASHBOARD_ARC_CURATOR"}},"name":"System
+        - DASHBOARD_ARC_CURATOR","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200301610-CMR"},{"concept_id":"ACL1200368960-CMR","revision_id":19,"identity_type":"System","acl":{"group_permissions":[{"user_type":"guest","permissions":["create"]},{"group_id":"AG1200369055-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200369194-CMR","permissions":["create","read","update","delete"]},{"group_id":"AG1200211476-CMR","permissions":["create","read","update","delete"]},{"group_id":"58b87405-fcae-48c4-a56e-13c1cc502c69","permissions":["create","read","update","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create","read","update","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create","read","update","delete"]}],"system_identity":{"target":"DASHBOARD_MDQ_CURATOR"}},"name":"System
+        - DASHBOARD_MDQ_CURATOR","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200368960-CMR"},{"concept_id":"ACL1200213960-CMR","revision_id":67,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["update"],"group_id":"AG1200211473-CMR"},{"permissions":["update"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211483-CMR","permissions":[]},{"group_id":"AG1200211478-CMR","permissions":["update"]},{"group_id":"AG1200369194-CMR","permissions":["update"]},{"group_id":"AG1200211476-CMR","permissions":["update"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["update"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["update"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60","permissions":[]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["update"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["update"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["update"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"289CCF40-F7E8-CDC1-F5DC-EB42854C54C9","system_identity":{"target":"ERROR_MESSAGE"}},"name":"System
+        - ERROR_MESSAGE","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213960-CMR"},{"concept_id":"ACL1200213976-CMR","revision_id":65,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["delete"],"group_id":"AG1200211473-CMR"},{"permissions":["delete"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200369194-CMR","permissions":["delete"]},{"group_id":"AG1200211476-CMR","permissions":["delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["delete"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["delete"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"A746C87C-B18C-711B-8B5E-4D46CFAAC78F","system_identity":{"target":"EVENT_NOTIFICATION"}},"name":"System
+        - EVENT_NOTIFICATION","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213976-CMR"},{"concept_id":"ACL1200213957-CMR","revision_id":68,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["delete"],"group_id":"AG1200211473-CMR"},{"permissions":["delete"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200369194-CMR","permissions":["delete"]},{"group_id":"AG1200211476-CMR","permissions":["delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["delete"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["delete"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"6021907d-be79-432c-85ec-435dacbeb609","permissions":["delete"]},{"group_id":"c94ff4e9-90cb-4499-98ce-4957be40c5b9","permissions":["delete"]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]},{"group_id":"3d9b4dcb-3e18-4288-a00f-007105c6ae7b","permissions":["delete"]},{"group_id":"b0acd2aa-a7ce-47f4-84aa-fb8dea89cbea","permissions":["delete"]},{"group_id":"cddceee5-9769-427c-abf1-49ded4bec10a","permissions":["delete"]}],"legacy_guid":"5C146937-ED3B-F836-B699-9F09AF9A1099","system_identity":{"target":"EXTENDED_SERVICE"}},"name":"System
+        - EXTENDED_SERVICE","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213957-CMR"},{"concept_id":"ACL1200213956-CMR","revision_id":64,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["create"],"group_id":"AG1200211473-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211478-CMR","permissions":["create"]},{"group_id":"AG1200369194-CMR","permissions":["create"]},{"group_id":"AG1200211476-CMR","permissions":["create"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["create"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"A253615D-7354-5F7D-8340-B66C585BAA57","system_identity":{"target":"EXTENDED_SERVICE_ACTIVATION"}},"name":"System
+        - EXTENDED_SERVICE_ACTIVATION","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213956-CMR"},{"concept_id":"ACL1200213966-CMR","revision_id":75,"identity_type":"System","acl":{"group_permissions":[{"permissions":["create","read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211483-CMR","permissions":["create","read"]},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["create","read"]},{"group_id":"AG1200211473-CMR","permissions":["create","read"]},{"group_id":"AG1200369194-CMR","permissions":["create","read"]},{"group_id":"AG1200211476-CMR","permissions":["create","read"]},{"permissions":["create","read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60","permissions":["create","read"]},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create","read"]},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["create","read"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create","read"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create","read"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["create","read"]}],"legacy_guid":"79C2DE93AFD76C67E04400144F4EC171","system_identity":{"target":"GROUP"}},"name":"System
+        - GROUP","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213966-CMR"},{"concept_id":"ACL1200213985-CMR","revision_id":73,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["read","update"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":["read","update"],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211483-CMR","permissions":["read","update"]},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read","update"]},{"group_id":"AG1200211473-CMR","permissions":["read","update"]},{"group_id":"AG1200369194-CMR","permissions":["read","update"]},{"group_id":"AG1200211476-CMR","permissions":["read","update"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["read","update"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":["read","update"],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60","permissions":["read","update"]},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read","update"]},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["read","update"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read","update"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read","update"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["read"]}],"legacy_guid":"7C41C335-A914-9774-27F8-F523A76796F8","system_identity":{"target":"INGEST_MANAGEMENT_ACL"}},"name":"System
+        - INGEST_MANAGEMENT_ACL","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213985-CMR"},{"concept_id":"ACL1200213958-CMR","revision_id":70,"identity_type":"System","acl":{"group_permissions":[{"permissions":["read"],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":["read"],"group_id":"AG1200211473-CMR"},{"permissions":["read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read"]},{"group_id":"AG1200369194-CMR","permissions":["read"]},{"group_id":"AG1200211476-CMR","permissions":["read"]},{"permissions":["read"],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["read"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"6021907d-be79-432c-85ec-435dacbeb609","permissions":["read"]},{"group_id":"c94ff4e9-90cb-4499-98ce-4957be40c5b9","permissions":["read"]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]},{"group_id":"3d9b4dcb-3e18-4288-a00f-007105c6ae7b","permissions":["read"]},{"group_id":"b0acd2aa-a7ce-47f4-84aa-fb8dea89cbea","permissions":["read"]},{"group_id":"cddceee5-9769-427c-abf1-49ded4bec10a","permissions":["read"]}],"legacy_guid":"A8F17DB5-95C0-B634-3638-6BD5E5EC8F12","system_identity":{"target":"METRIC_DATA_POINT_SAMPLE"}},"name":"System
+        - METRIC_DATA_POINT_SAMPLE","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213958-CMR"},{"concept_id":"ACL1200213977-CMR","revision_id":70,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":["delete","read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read"]},{"group_id":"AG1200211473-CMR","permissions":["read","delete"]},{"group_id":"AG1200369194-CMR","permissions":["read","delete"]},{"group_id":"AG1200211476-CMR","permissions":["read","delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["delete","read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read"]},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["read","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read","delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["read","delete"]}],"legacy_guid":"D3599294-016E-4EA7-30EE-1795760D301A","system_identity":{"target":"ORDER_AND_ORDER_ITEMS"}},"name":"System
+        - ORDER_AND_ORDER_ITEMS","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213977-CMR"},{"concept_id":"ACL1200213989-CMR","revision_id":67,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["delete","create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211473-CMR","permissions":["create","delete"]},{"group_id":"AG1200369194-CMR","permissions":["create","delete"]},{"group_id":"AG1200211476-CMR","permissions":["create","delete"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["delete","create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["create","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create","delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["create","delete"]}],"legacy_guid":"A2804990-9CCB-23B7-A033-61B56FFCD9D7","system_identity":{"target":"PROVIDER"}},"name":"System
+        - PROVIDER","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213989-CMR"},{"concept_id":"ACL1200213973-CMR","revision_id":66,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":["read"],"group_id":"AG1200211473-CMR"},{"permissions":["read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read"]},{"group_id":"AG1200369194-CMR","permissions":["read"]},{"group_id":"AG1200211476-CMR","permissions":["read"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["read"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"4AB4254C-12A3-0A3C-3371-5FF55AB0731A","system_identity":{"target":"SYSTEM_AUDIT_REPORT"}},"name":"System
+        - SYSTEM_AUDIT_REPORT","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213973-CMR"},{"concept_id":"ACL1200445585-CMR","revision_id":4,"identity_type":"System","acl":{"group_permissions":[{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["create"]},{"group_id":"3d9b4dcb-3e18-4288-a00f-007105c6ae7b","permissions":["create"]},{"group_id":"b0acd2aa-a7ce-47f4-84aa-fb8dea89cbea","permissions":["create"]},{"group_id":"cddceee5-9769-427c-abf1-49ded4bec10a","permissions":["create"]}],"system_identity":{"target":"SYSTEM_OPTION_DEFINITION"}},"name":"System
+        - SYSTEM_OPTION_DEFINITION","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200445585-CMR"},{"concept_id":"ACL1200213974-CMR","revision_id":62,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["create"],"group_id":"AG1200211473-CMR"},{"permissions":["create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211478-CMR","permissions":["create"]},{"group_id":"AG1200369194-CMR","permissions":["create"]},{"group_id":"AG1200211476-CMR","permissions":["create"]},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["create"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["create"]}],"legacy_guid":"02BD8D50-BEFA-4A9A-17C2-2B0129B136AA","system_identity":{"target":"SYSTEM_OPTION_DEFINITION_DEPRECATION"}},"name":"System
+        - SYSTEM_OPTION_DEFINITION_DEPRECATION","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213974-CMR"},{"concept_id":"ACL1200449807-CMR","revision_id":1,"identity_type":"System","acl":{"group_permissions":[{"group_id":"4233a7c0-3716-4f78-b7fd-feff34dea01d","permissions":["create"]}],"system_identity":{"target":"TAG_GROUP"}},"name":"System
+        - TAG_GROUP","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200449807-CMR"},{"concept_id":"ACL1200213968-CMR","revision_id":63,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["create"],"group_id":"AG1200211473-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211478-CMR","permissions":["create"]},{"group_id":"AG1200369194-CMR","permissions":["create"]},{"group_id":"AG1200211476-CMR","permissions":["create"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["create"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"7D5C0FED-B760-CEB6-F38D-AB3D9D7AA995","system_identity":{"target":"TAXONOMY"}},"name":"System
+        - TAXONOMY","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213968-CMR"},{"concept_id":"ACL1200213981-CMR","revision_id":62,"identity_type":"System","acl":{"group_permissions":[{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["create"],"group_id":"AG1200211473-CMR"},{"permissions":["create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211478-CMR","permissions":["create"]},{"group_id":"AG1200369194-CMR","permissions":["create"]},{"group_id":"AG1200211476-CMR","permissions":["create"]},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["create"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":["create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"C1B3130F-8EEA-3626-29E4-DB43E82EDF79","system_identity":{"target":"TAXONOMY_ENTRY"}},"name":"System
+        - TAXONOMY_ENTRY","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213981-CMR"},{"concept_id":"ACL1200213978-CMR","revision_id":67,"identity_type":"System","acl":{"group_permissions":[{"permissions":["delete","read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read","delete"]},{"group_id":"AG1200211473-CMR","permissions":["read","delete"]},{"group_id":"AG1200369194-CMR","permissions":["read","delete"]},{"group_id":"AG1200211476-CMR","permissions":["read","delete"]},{"permissions":["delete","read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read","delete"]},{"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee","permissions":["read","delete"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read","delete"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read","delete"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["read","delete"]}],"legacy_guid":"91DA3FD6-4B5D-E006-B7E3-49953CBE9D3E","system_identity":{"target":"TOKEN"}},"name":"System
+        - TOKEN","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213978-CMR"},{"concept_id":"ACL1200213967-CMR","revision_id":63,"identity_type":"System","acl":{"group_permissions":[{"permissions":["create"],"group_id":"AG1200211473-CMR"},{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":[],"group_id":"AG1200211472-CMR"},{"permissions":["create"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":[],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200211478-CMR","permissions":["create"]},{"group_id":"AG1200369194-CMR","permissions":["create"]},{"group_id":"AG1200211476-CMR","permissions":["create"]},{"permissions":["create"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":[],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["create"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["create"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["create"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["create"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":[]}],"legacy_guid":"F3B27B30-BA53-D2E3-FD10-6ED856114283","system_identity":{"target":"TOKEN_REVOCATION"}},"name":"System
+        - TOKEN_REVOCATION","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213967-CMR"},{"concept_id":"ACL1200449814-CMR","revision_id":2,"identity_type":"System","acl":{"group_permissions":[{"group_id":"4233a7c0-3716-4f78-b7fd-feff34dea01d","permissions":["read","update"]}],"system_identity":{"target":"USER"}},"name":"System
+        - USER","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200449814-CMR"},{"concept_id":"ACL1200213987-CMR","revision_id":63,"identity_type":"System","acl":{"group_permissions":[{"permissions":["read"],"group_id":"AG1200211474-CMR"},{"permissions":[],"group_id":"AG1200211475-CMR"},{"permissions":["read"],"group_id":"AG1200211472-CMR"},{"permissions":["read"],"group_id":"AG1200211473-CMR"},{"permissions":[],"group_id":"AG1200211483-CMR"},{"permissions":[],"group_id":"AG1200211477-CMR"},{"permissions":[],"group_id":"AG1200211479-CMR"},{"permissions":["read"],"group_id":"AG1200213192-CMR"},{"permissions":[],"group_id":"AG1200211482-CMR"},{"group_id":"AG1200262387-CMR","permissions":["read"]},{"group_id":"AG1200211478-CMR","permissions":["read"]},{"group_id":"AG1200369194-CMR","permissions":["read"]},{"group_id":"AG1200211476-CMR","permissions":["read"]},{"permissions":["read"],"group_id":"adb932a3-0c53-4b22-abee-d362cf60ff1b"},{"permissions":[],"group_id":"af712868-ea62-474c-9400-76800716dae9"},{"permissions":["read"],"group_id":"99443d84-c551-44af-841e-1ce7435ec2db"},{"permissions":["read"],"group_id":"fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee"},{"permissions":[],"group_id":"ea611d93-34a0-467e-b1f2-25db885f8c60"},{"permissions":[],"group_id":"6f8f072a-4410-4f3f-880a-f2da746c563c"},{"permissions":[],"group_id":"12dd0889-3d61-48df-9a40-9c8411a9b699"},{"permissions":["read"],"group_id":"537f8ca3-856b-4caa-8e84-7986ed2c3035"},{"permissions":[],"group_id":"ee7ff303-20ba-4583-828a-7a5f2f44d58e"},{"group_id":"d25dc547-14a7-454b-bb7c-5a7e809c76f2","permissions":["read"]},{"group_id":"8c6fcef7-e39d-4723-9721-0568925e70c6","permissions":["read"]},{"group_id":"1c87b778-938d-4a55-af59-db46d9316053","permissions":["read"]},{"group_id":"a603975e-16bb-4d94-8faf-642e3143f7f0","permissions":["read"]},{"group_id":"AG1200211480-CMR","permissions":[]},{"group_id":"b3fd1730-e2ae-476e-b7bd-5ff2880973a4","permissions":["read"]}],"legacy_guid":"67CA6948-0997-FF51-BA3D-4D1D0BD39EF9","system_identity":{"target":"USER_CONTEXT"}},"name":"System
+        - USER_CONTEXT","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200213987-CMR"}]}'
+  recorded_at: Tue, 15 Nov 2022 20:19:56 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=NON_NASA_DRAFT_APPROVER&user_id=chris.gokey
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '30'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 15 Nov 2022 20:19:56 GMT
+      cmr-request-id:
+      - 070cbcbb-2211-4b77-9de1-c9ca21e3187b
+      x-request-id:
+      - fQDp3rUAU4ie8QuiVmOvb8e0HyyrWypTiQgO3r0C3gFOE7qc6jkRGQ==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 32814ee4b53f3642b74e20a0ba5944f6.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - fQDp3rUAU4ie8QuiVmOvb8e0HyyrWypTiQgO3r0C3gFOE7qc6jkRGQ==
+    body:
+      encoding: UTF-8
+      string: '{"NON_NASA_DRAFT_APPROVER":[]}'
+  recorded_at: Tue, 15 Nov 2022 20:19:56 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/ingest/providers/MMT_2/bulk-update/collections/status
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '25'
+      connection:
+      - keep-alive
+      date:
+      - Tue, 15 Nov 2022 20:19:57 GMT
+      cmr-request-id:
+      - ed8053a2-d2d8-4358-9ef8-c73c530d6650
+      x-request-id:
+      - JEw2bwimSwRk6kqXT9vrpfvvbltrERV1yfn1IW1rAicUL2luHygIbA==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 f6e2aa8788731292478df0dab2377dd8.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - JEw2bwimSwRk6kqXT9vrpfvvbltrERV1yfn1IW1rAicUL2luHygIbA==
+    body:
+      encoding: UTF-8
+      string: '{"status":200,"tasks":[]}'
+  recorded_at: Tue, 15 Nov 2022 20:19:57 GMT
+recorded_with: VCR 6.1.0

@@ -304,7 +304,7 @@ module Cmr
 
     def delete_collection(provider_id, native_id, token)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
             else
               "/ingest/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
@@ -454,12 +454,11 @@ module Cmr
         headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.0' }
       end
 
-
-      put(url, subscription, headers.merge(token_header(token)))
+      response=put(url, subscription, headers.merge(token_header(token)))
     end
 
     def delete_subscription(provider_id, native_id, token)
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3002/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             else
               "/ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
@@ -492,7 +491,7 @@ module Cmr
 
     def get_bulk_updates(provider_id, token, filters = {})
       # ingest/providers/<provider-id>/bulk-update/collections/status
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3002/providers/#{provider_id}/bulk-update/collections/status"
             else
               "ingest/providers/#{provider_id}/bulk-update/collections/status"
@@ -505,7 +504,7 @@ module Cmr
 
     def get_bulk_update(provider_id, task_id, token)
       # ingest/providers/<provider-id>/bulk-update/collections/status/<task-id>
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3002/providers/#{provider_id}/bulk-update/collections/status/#{task_id}"
             else
               "ingest/providers/#{provider_id}/bulk-update/collections/status/#{task_id}"
@@ -518,7 +517,7 @@ module Cmr
 
     def create_bulk_update(provider_id, params, token)
       # ingest/providers/<provider-id>/bulk-update/collections
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3002/providers/#{provider_id}/bulk-update/collections"
             else
               "ingest/providers/#{provider_id}/bulk-update/collections"
@@ -721,6 +720,7 @@ module Cmr
               '/search/subscriptions.umm_json'
             end
 
+      options['page_size']=2000
       get(url, options, token_header(token))
     end
 

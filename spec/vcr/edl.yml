@@ -1,0 +1,176 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/search?name=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer access_token
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 18 Nov 2022 14:27:46 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      www-authenticate:
+      - Bearer realm="Earthdata Login",error="invalid_token"
+      vary:
+      - Accept
+      x-request-id:
+      - c480f265-06e9-445d-b804-c3d721f23b1a
+      x-runtime:
+      - '0.003325'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"invalid_token"}'
+  recorded_at: Fri, 18 Nov 2022 14:27:46 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/oauth/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Basic bW10X3Rlc3Q6Q0xQVHhSUTloZ3ZQOW9zUA==
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 18 Nov 2022 14:35:31 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"2ab689e358b6d6eeb1cce763a3d71657"
+      x-request-id:
+      - 6c31c764-dc55-4477-beec-e5fe66b9255c
+      x-runtime:
+      - '0.027474'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY3MDA3ODEzMSwiaWF0IjoxNjY4NzgyMTMxLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.0wkLIyK6-sstVQ2i3CyHi_LcNevqH2yVSaEvlmsZ-YPXgQ5tFv6gPJDgOlNprYjbWf7so-Xqo4gU7zkzxg9cSN71X6FWPKkZO469VmD7109DsFXgIZpfpJdCi-j9xx1ILoF5K8Zi_VJ8kSbus__ZLUu5nP6RftoecHeF-QnJerF4B1uaVIYdWmiawC7D_jLPq5aVWzDY50U0t_LJDMYoyRcwK27aCUE1C0POglMMGm084eXEKZ5ndC3Gt2_RIW9PpmNhiOAe3LDowXaA96zBM5iUp8075Wud2Lq1V-FIWSrnlpB6NQtPTO8Hk2ZyOwRnr7cknxdKrNhK5P4kmtHRug","token_type":"Bearer","expires_in":1296000}'
+  recorded_at: Fri, 18 Nov 2022 14:35:31 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups
+    body:
+      encoding: UTF-8
+      string: name=Test_Group_For_New_Invites&description=Group%20to%20invite%20users%20to&tag=MMT_2
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiQ2xpZW50IiwiY2xpZW50X2lkIjoiODFGRWVtOTFObFRRcmVXdjJVZ3RYUSIsImV4cCI6MTY3MDA3ODEzMSwiaWF0IjoxNjY4NzgyMTMxLCJpc3MiOiJFYXJ0aGRhdGEgTG9naW4ifQ.0wkLIyK6-sstVQ2i3CyHi_LcNevqH2yVSaEvlmsZ-YPXgQ5tFv6gPJDgOlNprYjbWf7so-Xqo4gU7zkzxg9cSN71X6FWPKkZO469VmD7109DsFXgIZpfpJdCi-j9xx1ILoF5K8Zi_VJ8kSbus__ZLUu5nP6RftoecHeF-QnJerF4B1uaVIYdWmiawC7D_jLPq5aVWzDY50U0t_LJDMYoyRcwK27aCUE1C0POglMMGm084eXEKZ5ndC3Gt2_RIW9PpmNhiOAe3LDowXaA96zBM5iUp8075Wud2Lq1V-FIWSrnlpB6NQtPTO8Hk2ZyOwRnr7cknxdKrNhK5P4kmtHRug
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 18 Nov 2022 14:35:31 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      x-request-id:
+      - 4df66ad2-62fb-4f22-992f-1b3b52e2702c
+      x-runtime:
+      - '0.021060'
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":"Group name with same name and attributes is already in use,
+        please user another name"}'
+  recorded_at: Fri, 18 Nov 2022 14:35:31 GMT
+recorded_with: VCR 6.1.0

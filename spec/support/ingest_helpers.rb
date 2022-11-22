@@ -366,7 +366,7 @@ module Helpers
       end
     end
 
-    def publish_new_subscription(token: nil, name: nil, collection_concept_id: nil, query: nil, subscriber_id: nil, email_address: nil, provider: 'MMT_2', native_id: nil, revision: 1)
+    def publish_new_subscription(name: nil, collection_concept_id: nil, query: nil, subscriber_id: nil, email_address: nil, provider: 'MMT_2', native_id: nil, revision: 1, token:'token')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_new_subscription' do
         random = SecureRandom.uuid
         subscription = {

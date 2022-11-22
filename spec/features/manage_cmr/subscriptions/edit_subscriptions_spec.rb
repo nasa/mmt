@@ -1,35 +1,34 @@
-# EDL Failed Test
-describe 'Edit/Updating Subscriptions', reset_provider: true, skip: true do
-  before :all do
-    VCR.use_cassette('edl', record: :new_episodes) do
-      @subscriptions_group = create_group(members: ['testuser', 'typical'])
-    end
-    # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-    @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['group_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2')
-    @c_ingest_response, _c_concept_response = publish_collection_draft
+describe 'Edit/Updating Subscriptions', reset_provider: true, js: true do
+  before do
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+    @token = 'jwt_access_token'
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('ttle9')
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @subscriptions_group = create_group(name: 'Test_edit_subscriptions_group1222', members: ['testuser', 'ttle9', 'hvtranho'])
 
-    clear_cache
-  end
+      # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
+      @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['group_id'], ['read', 'update'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2', @token)
+      @c_ingest_response, _c_concept_response = publish_collection_draft(token: @token, native_id: 'edit_subscriptions_12')
 
-  after :all do
-    remove_group_permissions(@subscriptions_permissions['concept_id'])
-    VCR.use_cassette('edl', record: :new_episodes) do
-      delete_group(concept_id: @subscriptions_group['group_id'])
+      clear_cache
     end
-    
-    clear_cache
   end
 
   before do
     login
-    # make a record
-    @ingest_response, search_response, @subscription = publish_new_subscription(collection_concept_id: @c_ingest_response['concept-id'])
-    @native_id = search_response.body['items'].first['meta']['native-id']
+    allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(User).to receive(:urs_uid).and_return('ttle9')
   end
 
   context 'when visiting the show page and clicking the edit button' do
     before do
-      VCR.use_cassette('urs/rarxd5taqea', record: :none) do
+      # make a record
+      # @native_id = 'test native id'
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @ingest_response, _search_response, _subscription = publish_new_subscription(name: 'Test_edit_subscriptions_122',native_id: 'ingest_nativeId_1234', collection_concept_id: @c_ingest_response['concept-id'], subscriber_id:'ttle9', email_address:'thanhtam.t.le@nasa.gov', token:@token, query:"bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30&entry_title=9fed60ea-b092-4cf3-83a9-7e133171f4f6f")
         visit subscription_path(@ingest_response['concept_id'])
         click_on 'Edit'
       end
@@ -37,17 +36,18 @@ describe 'Edit/Updating Subscriptions', reset_provider: true, skip: true do
 
     it 'takes the user to the edit page' do
       expect(page).to have_content('Edit MMT_2 Subscription')
-      expect(page).to have_field('Subscription Name', with: @subscription['Name'])
-      expect(page).to have_field('Query', with: @subscription['Query'])
-      expect(page).to have_field('Subscriber', with: @subscription['SubscriberId'], disabled: true)
-      expect(page).to have_field('Collection Concept ID', with: @subscription['CollectionConceptId'], disabled: true)
+      expect(page).to have_field('Subscription Name', with: 'Test_edit_subscriptions_122')
+      expect(page).to have_field('Query', with: 'bounding_box=-10,-5,10,5&attribute[]=float,PERCENTAGE,25.5,30&entry_title=9fed60ea-b092-4cf3-83a9-7e133171f4f6f')
+      expect(page).to have_field('Subscriber', with: 'ttle9', disabled: true)
+      expect(page).to have_field('Collection Concept ID', with: 'C1200451147-MMT_2', disabled: true)
     end
   end
 
   context 'when visiting the edit page' do
     before do
-      # go to show page
-      VCR.use_cassette('urs/rarxd5taqea', record: :none) do
+      # @native_id = 'test_native_id'
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @ingest_response, _search_response, _subscription = publish_new_subscription(name: 'Test_edit_subscriptions_133',native_id: 'ingest_nativeId_1234', collection_concept_id: @c_ingest_response['concept-id'], subscriber_id:'ttle9', email_address:'thanhtam.t.le@nasa.gov', token:@token, query:"bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30&entry_title=9fed60ea-b092-4cf3-83a9-7e123777f4f6f")
         visit edit_subscription_path(@ingest_response['concept_id'])
       end
     end
@@ -56,8 +56,7 @@ describe 'Edit/Updating Subscriptions', reset_provider: true, skip: true do
       before do
         @new_name = 'A Different Name'
         fill_in 'Subscription Name', with: @new_name
-
-        VCR.use_cassette('urs/rarxd5taqea', record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_1_vcr", record: :none) do
           click_on 'Submit'
         end
       end
@@ -68,12 +67,12 @@ describe 'Edit/Updating Subscriptions', reset_provider: true, skip: true do
 
       it 'takes the user to the show page and has the correct data' do
         expect(page).to have_content(@new_name)
-        expect(page).to have_content(@subscription['Query'])
-        expect(page).to have_content(@subscription['CollectionConceptId'])
+        expect(page).to have_content(@ingest_response['Query'])
+        expect(page).to have_content(@c_ingest_response['concept-id'])
         within '#subscriber' do
-          expect(page).to have_content(@subscription['SubscriberId'])
-          expect(page).to have_content(@subscription['EmailAddress'])
-          expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
+          expect(page).to have_content(@ingest_response['SubscriberId'])
+          expect(page).to have_content(@ingest_response['EmailAddress'])
+          expect(page).to have_content('ttle9')
         end
       end
     end
@@ -86,10 +85,7 @@ describe 'Edit/Updating Subscriptions', reset_provider: true, skip: true do
         @new_name = 'A Different Name'
         fill_in 'Subscription Name', with: @new_name
         @second_native_id = 'test_edit_id_2'
-
-        _ingest_response, _search_response, _subscription = publish_new_subscription(name: @new_name, native_id: @second_native_id, collection_concept_id: @c_ingest_response['concept-id'])
-
-        VCR.use_cassette('urs/rarxd5taqea', record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_2_vcr", record: :none) do
           click_on 'Submit'
         end
       end
@@ -100,12 +96,12 @@ describe 'Edit/Updating Subscriptions', reset_provider: true, skip: true do
 
       it 'takes the user to the show page and has the correct data' do
         expect(page).to have_content(@new_name)
-        expect(page).to have_content(@subscription['Query'])
+        expect(page).to have_content(@ingest_response['Query'])
         expect(page).to have_content(@c_ingest_response['concept-id'])
         within '#subscriber' do
-          expect(page).to have_content(@subscription['SubscriberId'])
-          expect(page).to have_content(@subscription['EmailAddress'])
-          expect(page).to have_content('Rvrhzxhtra Vetxvbpmxf')
+          expect(page).to have_content(@ingest_response['SubscriberId'])
+          expect(page).to have_content(@ingest_response['EmailAddress'])
+          expect(page).to have_content('ttle9')
         end
       end
     end

@@ -1,5 +1,4 @@
-# EDL Failed Test
-describe 'User Permissions for Non-NASA Workflow in MMT', js: true, skip:true do
+describe 'User Permissions for Non-NASA Workflow in MMT', js: true do
   before do
     allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_user?).and_return(true)
     # TODO: at some point will need to do this with Launchpad login
