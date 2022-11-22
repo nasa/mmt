@@ -5,10 +5,9 @@ describe 'Saving System Object Permissions from the system group show page', js:
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
     allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
-  end
-  before :all do
+
     VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
-      @group_name = 'Test_System_Permissions_Group_1_from_group_page_10'
+      @group_name = 'Test_System_Permissions_Group_1_from_group_page_15'
       @group_description = 'Group to test system permissions'
       @group_response = create_group(
         name: @group_name,
@@ -19,7 +18,7 @@ describe 'Saving System Object Permissions from the system group show page', js:
     end
   end
 
-  after :all do
+  after do
     # delete system permissions for the group
     permissions_options = {
       'page_size' => 30,
@@ -38,7 +37,7 @@ describe 'Saving System Object Permissions from the system group show page', js:
     before do
       login_admin
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_2_vcr", record: :none) do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         visit group_path(@group_response['group_id'])
       end
     end
