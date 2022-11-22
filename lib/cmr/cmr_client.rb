@@ -470,19 +470,16 @@ module Cmr
 
     # MMT does not need to ingest granules in any environment that is not dev or
     # test.
-    def ingest_granule(metadata, provider_id, native_id, token = nil)
-      url = if Rails.env.development? || token.nil? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
-              "http://localhost:3002/providers/#{provider_id}/granules/#{encode_if_needed(native_id)}"
-            elsif Rails.env.test?
-              "/providers/#{provider_id}/granules/#{encode_if_needed(native_id)}"
-            else
-              return
-            end
+    def ingest_granule(metadata, provider_id, native_id)
+      return unless Rails.env.development? || Rails.env.test?
+
+      url = "http://localhost:3002/providers/#{provider_id}/granules/#{encode_if_needed(native_id)}"
       headers = {
         'Accept' => 'application/json;version=1.0',
         'Content-Type' =>  "application/vnd.nasa.cmr.umm+json; version=1.6; charset=utf-8"
       }
-      put(url, metadata, headers.merge(token_header(token)))
+
+      put(url, metadata, headers.merge(token_header('token')))
     end
 
     #####################

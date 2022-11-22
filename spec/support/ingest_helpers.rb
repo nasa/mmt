@@ -391,15 +391,15 @@ module Helpers
       end
     end
 
-    def ingest_granules(collection_entry_title:, count:, provider: 'MMT_2', token: nil)
+    def ingest_granules(collection_entry_title:, count:, provider: 'MMT_2')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#ingest_granules' do
         granule_json = JSON.parse(File.read('spec/fixtures/granules/granule_01.json'))
-        count.times do |x|
-          id = "granule_ingest_test_xyz_#{x}"
+        count.times do
+          id = SecureRandom.uuid
           granule_json['CollectionReference'] = { 'EntryTitle' => collection_entry_title }
           granule_json['GranuleUR'] = id
-          response = cmr_client.ingest_granule(granule_json.to_json, provider, "testing_subscription_#{id}", token)
-          # puts response.clean_inspect unless response.success?
+          response = cmr_client.ingest_granule(granule_json.to_json, provider, "testing_subscription_#{id}")
+          puts response.clean_inspect unless response.success?
         end
       end
     end
