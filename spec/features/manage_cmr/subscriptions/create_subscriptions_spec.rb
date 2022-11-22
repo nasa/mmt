@@ -22,7 +22,6 @@ describe 'Creating Subscriptions', reset_provider: true do
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         @subscriptions_group = create_group(name: 'CREATE_SUBSCRIPTION_SPEC_GROUP_007', members: ['hvtranho', 'ttle9'], provider_id: 'MMT_2')
         # the ACL is currently configured to work like Ingest, U covers CUD (of CRUD)
-        # cmr_client.delete_permission('ACL1200451125-CMR', @token)
         @subscriptions_permissions = add_permissions_to_group(@subscriptions_group['group_id'], ['update', 'read'], 'SUBSCRIPTION_MANAGEMENT', 'MMT_2', @token)
         @c_ingest_response, @c_concept_response = publish_collection_draft(entry_title: 'create_subscription_spec_007',native_id: 'create_subscription_spec_007',token: @token)
       end

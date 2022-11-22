@@ -81,7 +81,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
 
     # context 'when the query starts with a "?"' do
     #   before do
-    #     @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q'
+    #     @token = 'jwt_access_token'
     #     @client_token = 'client_token'
     #     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     #     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
@@ -132,7 +132,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     # context 'when the test succeeds' do
     #   context 'when more than max granules are found' do
     #     before do
-    #       @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q'
+    #       @token = 'jwt_access_token'
     #       @client_token = 'client_token'
     #       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     #       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
@@ -158,7 +158,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     #
     #   context 'when fewer than one granule per day are found' do
     #     before do
-    #       @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q'
+    #       @token = 'jwt_access_token'
     #       @client_token = 'client_token'
     #       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     #       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
@@ -184,7 +184,7 @@ describe 'Testing Queries when creating Subscriptions', reset_provider: true, js
     #
     #   context 'when no granules are found' do
     #     before do
-    #       @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6Imh2dHJhbmhvIiwiZXhwIjoxNjczODg4MTI1LCJpYXQiOjE2Njg3MDQxMjUsImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.FxXUUeX71oazuafGetO8yu16kGFhNwZvxcAwDUf-i4afG1hyik0Ye62kFZXgVXekseP0lH9nnoaU0Szto7UVE95mP9TIGsZr4P1vUvUcVPAat1-qqyDOF8MtAlNGw7z_54i_ciSHuBJbUJGcXnFA0ux-4tX9DDEJnRjnDVu5KfityaGgZXMqKQkZ3Nx00lSR4IfSKG6ayxTT-7D-6wuJ4qOxQQ-LxxB49JRkmr9Dl_ZQT5nVpvHI4dxqcysQSTVivPRDZ5odCi6BhEgItZrpltGwOsodtJXCcl60xrVl26ngmk1qxejcK_ta1VWtobpsEPeLE7SdDFUN1j4fAiS97Q'
+    #       @token = 'jwt_access_token'
     #       @client_token = 'client_token'
     #       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     #       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
