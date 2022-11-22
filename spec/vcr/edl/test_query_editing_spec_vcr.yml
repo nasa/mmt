@@ -1315,7 +1315,8 @@ http_interactions:
       Accept:
         - application/json; charset=utf-8
       Authorization:
-        - Bearer jwt_access_token  response:
+        - Bearer jwt_access_token
+  response:
     status:
       code: 200
       message: OK
@@ -1368,7 +1369,8 @@ http_interactions:
       Accept:
         - application/json; charset=utf-8
       Authorization:
-        - Bearer jwt_access_token  response:
+        - Bearer jwt_access_token
+  response:
     status:
       code: 200
       message: OK
@@ -1421,7 +1423,8 @@ http_interactions:
       Accept:
         - application/json; charset=utf-8
       Authorization:
-        - Bearer jwt_access_token  response:
+        - Bearer jwt_access_token
+  response:
     status:
       code: 200
       message: OK
@@ -1474,7 +1477,8 @@ http_interactions:
       Accept:
         - application/json; charset=utf-8
       Authorization:
-        - Bearer jwt_access_token  response:
+        - Bearer jwt_access_token
+  response:
     status:
       code: 200
       message: OK
@@ -1527,7 +1531,8 @@ http_interactions:
       Accept:
         - application/json; charset=utf-8
       Authorization:
-        - Bearer jwt_access_token  response:
+        - Bearer jwt_access_token
+  response:
     status:
       code: 200
       message: OK
@@ -1580,7 +1585,8 @@ http_interactions:
       Accept:
         - application/json; charset=utf-8
       Authorization:
-        - Bearer jwt_access_token  response:
+        - Bearer jwt_access_token
+  response:
     status:
       code: 200
       message: OK
