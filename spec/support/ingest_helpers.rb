@@ -366,7 +366,7 @@ module Helpers
       end
     end
 
-    def publish_new_subscription(name: nil, collection_concept_id: nil, query: nil, subscriber_id: nil, email_address: nil, provider: 'MMT_2', native_id: nil, revision: 1)
+    def publish_new_subscription(name: nil, collection_concept_id: nil, query: nil, subscriber_id: nil, email_address: nil, provider: 'MMT_2', native_id: nil, revision: 1, token:'token')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_new_subscription' do
         random = SecureRandom.uuid
         subscription = {
@@ -377,13 +377,13 @@ module Helpers
           'EmailAddress' => email_address || 'uozydogeyyyujukey@tjbh.eyyy'
         }
 
-        ingest_response = cmr_client.ingest_subscription(subscription.to_json, provider, native_id || "mmt_subscription_#{random}", 'token')
+        ingest_response = cmr_client.ingest_subscription(subscription.to_json, provider, native_id || "mmt_subscription_#{random}", token)
 
         raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
 
         wait_for_cmr
 
-        search_response = cmr_client.get_subscriptions({ 'ConceptId' => ingest_response.parsed_body['result']['concept_id'] }, 'token')
+        search_response = cmr_client.get_subscriptions({ 'ConceptId' => ingest_response.parsed_body['result']['concept_id'] }, token)
 
         raise Array.wrap(search_response.body['errors']).join(' /// ') unless search_response.success?
 

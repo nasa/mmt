@@ -438,7 +438,7 @@ module Cmr
 
     # Create and update
     def ingest_subscription(subscription, provider_id, native_id, token)
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               # CMR does a check to ensure the subscriber id exists in EDL.
               # So add this user to local cmr.
               add_users_to_local_cmr([JSON.parse(subscription)['SubscriberId']], nil)
@@ -454,12 +454,11 @@ module Cmr
         headers = { 'Content-Type' => 'application/vnd.nasa.cmr.umm+json;version=1.0' }
       end
 
-
-      put(url, subscription, headers.merge(token_header(token)))
+      response=put(url, subscription, headers.merge(token_header(token)))
     end
 
     def delete_subscription(provider_id, native_id, token)
-      url = if Rails.env.development? || Rails.env.test?
+      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
               "http://localhost:3002/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             else
               "/ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
@@ -718,6 +717,7 @@ module Cmr
               '/search/subscriptions.umm_json'
             end
 
+      options['page_size']=2000
       get(url, options, token_header(token))
     end
 
