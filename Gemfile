@@ -34,7 +34,7 @@ gem 'jquery-rails'
 gem 'jbuilder'
 
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', group: :doc
+gem 'sdoc', '2.3.1', group: :doc
 
 # Use Unicorn as the app server
 gem 'unicorn'
@@ -51,7 +51,12 @@ gem 'factory_bot_rails'
 gem 'faker'
 gem 'figaro'
 gem 'font-awesome-rails'
-gem 'jquery-ui-rails'	# for $(document).tooltip()
+#gem 'jquery-ui-rails'	# for $(document).tooltip()
+#Need to use this branch to get jquery-ui 1.13.2
+#Can remove if jquery-ui-rails actually gets updated but it hasnt been updated since 2017
+#If we need to update jquery ui again, we can do so with the same repository
+#Just need to point the submodule to the correct jquery-ui version then run "rake build"
+gem 'jquery-ui-rails', github: 'william-valencia/jquery-ui-rails', branch: 'jquery-ui-1.13.2'
 gem 'json-schema'
 gem 'kaminari'
 gem 'momentjs-rails' # js lib for dates
