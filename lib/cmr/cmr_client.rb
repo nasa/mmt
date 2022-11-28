@@ -16,7 +16,8 @@ module Cmr
     # umm_json gives us the metadata record in the 'umm' portion. but that does not include entry-id
     def get_collections(options = {}, token = nil)
       # search collections via GET
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      puts("Token in get collection #{token}")
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               'http://localhost:3003/collections.umm-json'
             else
               '/search/collections.umm-json'
@@ -32,7 +33,7 @@ module Cmr
 
       query = defaults.merge(query)
 
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               "http://localhost:3003/collections.#{response_format}"
             else
               "/search/collections.#{response_format}"
@@ -75,7 +76,7 @@ module Cmr
 
     def search_collections(options = {}, token)
       # search collections via GET, using `.json` extension
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               'http://localhost:3003/collections.json'
             else
               '/search/collections.json'
@@ -89,7 +90,7 @@ module Cmr
     # GET endpoint because the subscription service in CMR is currently using it
     # when CMR changes, we should update to the POST.
     def test_query(query, token, headers = {})
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               "http://localhost:3003/granules.umm_json?#{query}"
             else
               "/search/granules.umm_json?#{query}"
@@ -127,7 +128,7 @@ module Cmr
     end
 
     def get_concept(concept_id, token, headers, revision_id = nil, download_format = nil)
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               "http://localhost:3003/concepts/#{concept_id}"
             else
               "/search/concepts/#{concept_id}"
@@ -264,7 +265,7 @@ module Cmr
 
     def ingest_collection(metadata, provider_id, native_id, token, content_type = nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
             else
               "/ingest/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
@@ -304,7 +305,7 @@ module Cmr
 
     def delete_collection(provider_id, native_id, token)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               "http://localhost:3002/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
             else
               "/ingest/providers/#{provider_id}/collections/#{encode_if_needed(native_id)}"
@@ -438,7 +439,7 @@ module Cmr
 
     # Create and update
     def ingest_subscription(subscription, provider_id, native_id, token)
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               # CMR does a check to ensure the subscriber id exists in EDL.
               # So add this user to local cmr.
               add_users_to_local_cmr([JSON.parse(subscription)['SubscriberId']], nil)
@@ -458,7 +459,7 @@ module Cmr
     end
 
     def delete_subscription(provider_id, native_id, token)
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               "http://localhost:3002/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
             else
               "/ingest/providers/#{provider_id}/subscriptions/#{encode_if_needed(native_id)}"
@@ -488,7 +489,7 @@ module Cmr
 
     def get_bulk_updates(provider_id, token, filters = {})
       # ingest/providers/<provider-id>/bulk-update/collections/status
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               "http://localhost:3002/providers/#{provider_id}/bulk-update/collections/status"
             else
               "ingest/providers/#{provider_id}/bulk-update/collections/status"
@@ -501,7 +502,7 @@ module Cmr
 
     def get_bulk_update(provider_id, task_id, token)
       # ingest/providers/<provider-id>/bulk-update/collections/status/<task-id>
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               "http://localhost:3002/providers/#{provider_id}/bulk-update/collections/status/#{task_id}"
             else
               "ingest/providers/#{provider_id}/bulk-update/collections/status/#{task_id}"
@@ -514,7 +515,7 @@ module Cmr
 
     def create_bulk_update(provider_id, params, token)
       # ingest/providers/<provider-id>/bulk-update/collections
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               "http://localhost:3002/providers/#{provider_id}/bulk-update/collections"
             else
               "ingest/providers/#{provider_id}/bulk-update/collections"
@@ -632,6 +633,7 @@ module Cmr
     def add_group_permissions(request_object, token)
       # Example: curl -XPOST -i -H "Content-Type: application/json" -H "Authorization: Bearer XXXXX" https://cmr.sit.earthdata.nasa.gov/access-control/acls -d \
       url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
+              'http://localhost:3011/acls'
             else
               '/access-control/acls'
             end
@@ -710,7 +712,8 @@ module Cmr
     end
 
     def get_subscriptions(options = {}, token = nil)
-      url = if Rails.env.development? || (Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token')
+      puts("Token in Subscription: #{token}")
+      url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               'http://localhost:3003/subscriptions.umm_json'
             else
               '/search/subscriptions.umm_json'
