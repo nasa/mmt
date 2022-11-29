@@ -16,7 +16,6 @@ module Cmr
     # umm_json gives us the metadata record in the 'umm' portion. but that does not include entry-id
     def get_collections(options = {}, token = nil)
       # search collections via GET
-      puts("Token in get collection #{token}")
       url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               'http://localhost:3003/collections.umm-json'
             else
@@ -712,7 +711,6 @@ module Cmr
     end
 
     def get_subscriptions(options = {}, token = nil)
-      puts("Token in Subscription: #{token}")
       url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
               'http://localhost:3003/subscriptions.umm_json'
             else
