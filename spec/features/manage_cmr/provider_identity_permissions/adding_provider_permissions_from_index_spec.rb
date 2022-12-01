@@ -102,7 +102,6 @@ describe 'Saving Provider Object Permissions from the provider object permission
             expect(page).to have_content('Click on a Group to access the provider object permissions for that group.')
 
             within '.provider-permissions-group-table' do
-              # expect(page).to have_content('MMT_2 Admin Group')
               expect(page).to have_content(@provider_group_name)
             end
           end
@@ -191,7 +190,6 @@ describe 'Saving Provider Object Permissions from the provider object permission
             expect(page).to have_content('Click on a Group to access the provider object permissions for that group.')
 
             within '.provider-permissions-group-table' do
-              # expect(page).to have_content('MMT_2 Admin Group')
               expect(page).to have_content(@provider_group_name)
             end
           end

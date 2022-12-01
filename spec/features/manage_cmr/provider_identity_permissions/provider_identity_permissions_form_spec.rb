@@ -45,13 +45,6 @@ describe 'Provider Identity Permissions pages and form' do
     it 'shows the table with system and provider groups' do
       within '.provider-permissions-group-table' do
         expect(page).to have_content(@group_name)
-
-        # Since this test is not testing for these groups and with the new implementation it is not easy to find
-        # these groups in SIT.
-        # # these are the bootstrapped CMR Administrators group, and the system groups we create on cmr setup
-        # expect(page).to have_content('Administrators')
-        # expect(page).to have_content('Administrators_2')
-        # expect(page).to have_content('MMT_2 Admin Group')
       end
     end
   end
