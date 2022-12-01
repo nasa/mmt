@@ -38,8 +38,6 @@ describe 'Provider context', reset_provider: true, js:true do
 
             click_on 'Logout'
 
-            # expect(page).to have_content('Login')
-
             login(provider: nil, providers: nil)
           end
 
@@ -163,7 +161,6 @@ describe 'Provider context', reset_provider: true, js:true do
         click_on 'profile-link'
         click_on 'Change Provider'
         allow_any_instance_of(User).to receive(:available_providers).and_return(%w(MMT_1 MMT_2))
-        # add_provider_context_permission('MMT_1')
         click_on 'Refresh your available providers'
         wait_for_jQuery
       end
@@ -197,24 +194,16 @@ describe 'Provider context', reset_provider: true, js:true do
       expect(page).to have_content('Create Collection Record')
     end
 
-    before :all do
-      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
-        # add_provider_context_permission(%w(MMT_1 MMT_2 NSIDC_ECS))
-      end
-    end
-
     context 'when the user loses a provider while logged out' do
       before do
         click_on 'profile-link'
         click_on 'Logout'
         visit'/'
 
-        # expect(page).to have_content('Login')
       end
 
       context 'when a user loses their active provider' do
         before do
-          # delete_provider_context_permission('MMT_2')
           login(provider:nil, providers: %w(MMT_1 NSIDC_ECS))
           visit '/'
         end
@@ -235,7 +224,6 @@ describe 'Provider context', reset_provider: true, js:true do
 
       context 'when a user loses an available provider' do
         before do
-          # delete_provider_context_permission('NSIDC_ECS')
           login(providers: %w(MMT_1 MMT_2))
           visit '/'
         end
@@ -292,7 +280,6 @@ describe 'Provider context', reset_provider: true, js:true do
 
         after do
           allow_any_instance_of(User).to receive(:available_providers).and_return(%w(MMT_1 MMT_2 NSIDC_ECS))
-          # add_provider_context_permission(%w(NSIDC_ECS))
         end
 
         it 'removes their available provider' do

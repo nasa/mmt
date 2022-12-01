@@ -95,9 +95,5 @@ module Mmt
     # Log request UUID so we can track requests across threaded log messages
     config.log_tags = [:uuid]
 
-    # log edl_groups_enabled state at startup
-    config.after_initialize do
-      Rails.logger.info("Startup: edl_groups_enabled=#{Rails.configuration.edl_groups_enabled} ")
-    end
   end
 end

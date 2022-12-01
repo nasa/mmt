@@ -1,11 +1,7 @@
 # :nodoc:
 module GroupsHelper
   def check_if_system_group?(group, group_id)
-    if ::Rails.application.config.edl_groups_enabled
       group['provider_id'] == 'CMR'
-    else
-      group['provider_id'].nil? && group_id =~ /(CMR)$/ ? true : false
-    end
   end
 
   def group_provider(group)
