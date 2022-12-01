@@ -214,25 +214,26 @@ module Cmr
     def update_edl_group(group_id, group)
       new_description = group['description'] || ''
 
-      group_members_response = get_edl_group_members(group_id)
-      existing_members = group_members_response.body if group_members_response.success?
-      if existing_members.nil?
-        existing_members = []
-      end
-      new_members = group['members'] || []
-
-      members_to_add = new_members.reject { |x| existing_members.include? x }
-      add_new_members(group_id, members_to_add)
-
-      members_to_remove = existing_members.reject { |x| new_members.include? x }
-      remove_old_members(group_id, members_to_remove)
-
       response = post(
         "/api/user_groups/#{group_id}/update",
         "&description=#{URI.encode(new_description)}",
         'Authorization' => "Bearer #{get_client_token}"
       )
 
+      if response.success?
+        group_members_response = get_edl_group_members(group_id)
+        existing_members = group_members_response.body if group_members_response.success?
+        if existing_members.nil?
+          existing_members = []
+        end
+        new_members = group['members'] || []
+
+        members_to_add = new_members.reject { |x| existing_members.include? x }
+        add_new_members(group_id, members_to_add)
+
+        members_to_remove = existing_members.reject { |x| new_members.include? x }
+        remove_old_members(group_id, members_to_remove)
+      end
 
       response.body['provider_id'] = response.body['tag'] if response.body['provider_id'].nil?
       response.body['group_id'] = group_id
