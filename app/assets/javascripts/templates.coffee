@@ -22,11 +22,10 @@ $(document).ready ->
     $(this).addClass('disabled')
     $(this).bind('click',false)
 
-  #When the user click on "Download JSON" from the table, this fucntion disables the download link for that click row
-  $("td").on 'click', (e) ->
+  # When the user click on "Download JSON" from the table, this fucntion disables the download link for that clicked row
+  $("td.download_json_link").on 'click', (e) ->
     $(this).addClass('disabled')
     $(this).bind('click',false)
-
 
   # When the user clicks on the save as template link, click the invisible button
   # to submit the form and change pages
