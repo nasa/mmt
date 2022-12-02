@@ -1,4 +1,9 @@
-describe 'Using rake tasks to add a user to groups for local group and acl manual testing and development', reset_provider: true do
+# This test file is calling get_cmr_groups but CMR groups is no longer a thing anymore.
+# We tried replacing all of get_cmr_groups calls with get_edl_groups but the test file
+# is trying to do a rake task to add a user to groups for local groups and acl manual testing
+# which will not work with EDL because it needs to go out to SIT.
+# After replacing the calls the response value coming back is null for the groups.
+describe 'Using rake tasks to add a user to groups for local group and acl manual testing and development', reset_provider: true, skip:true do
   before do
     Rake::Task.define_task(:environment)
     Rake.application.rake_require 'tasks/acls'

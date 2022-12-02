@@ -12,7 +12,7 @@ class TagsController < ManageMetadataController
     tag_keys = params[:tag_key]
     query = { tag_key: tag_keys }
 
-    cmr_tag_response = cmr_client.get_tags(query)
+    cmr_tag_response = cmr_client.get_tags(query, token)
     if cmr_tag_response.success?
       render json: cmr_tag_response.body['items'], status: :ok
     else

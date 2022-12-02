@@ -1,18 +1,22 @@
 describe 'Creating a Service Entry', js: true do
-  before :all do
-    # create a group
-    @service_entry_group = create_group(name: 'Service Entry Group', members: ['testuser'])
-  end
-
-  after :all do
-    delete_group(concept_id: @service_entry_group['concept_id'])
-  end
-
   before do
+    @token = 'jwt_access_token'
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @service_entry_group = create_group(provider_id: nil, name: 'Service_Entry_Group_Create_14', members: ['admin'])
+    end
     collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
-
     login
+  end
+
+  after do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@token)
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
   end
 
   context 'when the user does not have the required permissions' do
@@ -34,17 +38,27 @@ describe 'Creating a Service Entry', js: true do
   end
 
   context 'when the user has the required permissions' do
-    before :all do
-      @group_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'create', 'EXTENDED_SERVICE', 'MMT_2')
+    before do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        @group_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'create', 'EXTENDED_SERVICE', 'MMT_2', @token)
+        allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+        allow_any_instance_of(User).to receive(:urs_uid).and_return('hvtranho')
+      end
     end
 
-    after :all do
-      remove_group_permissions(@group_permissions['concept_id'])
+    after do
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @token = 'jwt_access_token'
+        remove_group_permissions(@group_permissions['concept_id'], @token)
+      end
     end
 
     context 'when viewing the new service entry form' do
       before do
-        VCR.use_cassette('echo_soap/service_management_service/service_entries/new', record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           visit new_service_entry_path
         end
       end
@@ -70,7 +84,9 @@ describe 'Creating a Service Entry', js: true do
         context 'with invalid values', js: true do
           before do
             within '#service-entry-form' do
-              click_on 'Submit'
+              VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+                click_on 'Submit'
+              end
             end
           end
 
@@ -87,8 +103,9 @@ describe 'Creating a Service Entry', js: true do
                 within '#service_entry_entry_type' do
                   find('option[value="SERVICE_IMPLEMENTATION"]').select_option
                 end
-
-                click_on 'Submit'
+                VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+                  click_on 'Submit'
+                end
               end
             end
 
@@ -103,8 +120,9 @@ describe 'Creating a Service Entry', js: true do
                   within '#service_entry_entry_type' do
                     find('option[value="SERVICE_IMPLEMENTATION"]').select_option
                   end
-
-                  click_on 'Submit'
+                  VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+                    click_on 'Submit'
+                  end
                 end
               end
 
@@ -137,7 +155,7 @@ describe 'Creating a Service Entry', js: true do
               find('.add_button').click
             end
 
-            VCR.use_cassette('echo_soap/service_management_service/service_entries/create', record: :none) do
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               within '#service-entry-form' do
                 click_on 'Submit'
               end

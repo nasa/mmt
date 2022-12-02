@@ -55,7 +55,6 @@ class SubscriptionsController < ManageCmrController
   def create
     authorize :subscription
     @subscription = subscription_params
-    native_id = "mmt_subscription_#{SecureRandom.uuid}"
 
     subscription_response = cmr_client.ingest_subscription(@subscription.to_json, current_user.provider_id, native_id, token)
     if subscription_response.success?
@@ -69,6 +68,10 @@ class SubscriptionsController < ManageCmrController
       set_previously_selected_subscriber(@subscription['SubscriberId'])
       render :new
     end
+  end
+
+  def native_id
+    "mmt_subscription_#{SecureRandom.uuid}"
   end
 
   def update

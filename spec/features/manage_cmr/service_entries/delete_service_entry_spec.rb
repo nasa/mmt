@@ -1,19 +1,26 @@
-describe 'Deleting a Service Entry' do
-  before :all do
-    # create a group
-    @service_entry_group = create_group(name: 'Service Entries Group for Permissions [DELETE]', members: ['testuser'])
-
-    # give the group permission to delete
-    @delete_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2')
-  end
-
-  after :all do
-    remove_group_permissions(@delete_permissions['concept_id'])
-    delete_group(concept_id: @service_entry_group['concept_id'])
-  end
-
+describe 'Deleting a Service Entry', js: true do
   before do
-    login
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      # create a group
+      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_DELETE_19', members: ['hvtranho'])
+      # give the group permission to delete
+      @delete_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2', @token)
+      allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+      allow_any_instance_of(User).to receive(:urs_uid).and_return('hvtranho')
+      login
+    end
+  end
+
+  after do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @token = 'jwt_access_token'
+      remove_group_permissions(@delete_permissions['concept_id'], @token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@token)
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
   end
 
   context 'when authorized to delete service entries' do
@@ -21,7 +28,7 @@ describe 'Deleting a Service Entry' do
 
     context 'when viewing the service entry' do
       before do
-        VCR.use_cassette('echo_soap/service_management_service/service_entries/view', record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           visit service_entry_path(guid)
         end
       end
@@ -47,7 +54,7 @@ describe 'Deleting a Service Entry' do
 
         context 'when accepting the confirmation dialog', js: true do
           before do
-            VCR.use_cassette('echo_soap/service_management_service/service_entries/delete', record: :none) do
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               click_on 'Yes'
             end
           end
@@ -65,14 +72,14 @@ describe 'Deleting a Service Entry' do
 
     context 'when viewing the service entry index page' do
       before do
-        VCR.use_cassette('echo_soap/service_management_service/service_entries/list', record: :none) do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
           visit service_entries_path
         end
       end
 
       it 'displays the delete button for each service entry' do
         within '.service-entries-table' do
-          expect(page).to have_text('Delete', count: 25)
+          expect(page).to have_text('Delete', count: 1)
         end
       end
 
@@ -97,7 +104,7 @@ describe 'Deleting a Service Entry' do
 
         context 'when accepting the confirmation dialog', js: true do
           before do
-            VCR.use_cassette('echo_soap/service_management_service/service_entries/delete', record: :none) do
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
               click_on 'Yes'
             end
           end

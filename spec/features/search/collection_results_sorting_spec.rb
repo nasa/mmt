@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Collection Search Results sorting', reset_provider: true, js: true do
   context 'when sorting search collections results' do
     before :all do

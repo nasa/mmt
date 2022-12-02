@@ -214,12 +214,14 @@ describe 'Data validation for a collection draft form', js: true do
       choose 'draft_temporal_extents_0_temporal_range_type_SingleDateTime'
       fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-10-27T00:00:00Z'
       find('body').click
+      find('#draft_temporal_extents_0 > div.eui-accordion__header > div.eui-accordion__icon').click
 
       good_integer_values.each do |test|
         fill_in 'Precision Of Seconds', with: test
         find('body').click
         puts "Integer: #{test}" if debug
         expect(page).to have_no_selector(validation_error)
+        find('#draft_temporal_extents_0 > div.eui-accordion__header > div.eui-accordion__icon').click
       end
 
       bad_integer_values.each do |test|

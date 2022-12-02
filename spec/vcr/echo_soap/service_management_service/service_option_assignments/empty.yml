@@ -17,7 +17,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message: null
     headers:
       strict-transport-security:
       - max-age=31536000
@@ -40,7 +40,6 @@ http_interactions:
       string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionAssignmentsByServiceResponse
         xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
         xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result/></ns2:GetServiceOptionAssignmentsByServiceResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    http_version: 
   recorded_at: Fri, 10 Feb 2017 14:30:48 GMT
 - request:
     method: post
@@ -59,7 +58,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message: null
     headers:
       strict-transport-security:
       - max-age=31536000
@@ -82,7 +81,6 @@ http_interactions:
       string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceEntriesResponse
         xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
         xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result/></ns2:GetServiceEntriesResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    http_version: 
   recorded_at: Fri, 10 Feb 2017 14:30:48 GMT
 - request:
     method: post
@@ -101,7 +99,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message: null
     headers:
       strict-transport-security:
       - max-age=31536000
@@ -124,6 +122,59 @@ http_interactions:
       string: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetServiceOptionDefinitionsResponse
         xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types"
         xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"><ns2:result/></ns2:GetServiceOptionDefinitionsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
-    http_version: 
   recorded_at: Fri, 10 Feb 2017 14:30:48 GMT
-recorded_with: VCR 3.0.1
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/permissions?provider=MMT_2&target=OPTION_ASSIGNMENT&user_id=testuser
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '32'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 07 Nov 2022 18:23:10 GMT
+      cmr-request-id:
+      - dcef5d25-43f6-4f50-8924-e486f209eb97
+      x-request-id:
+      - TPgSI3_Fi3UQMXaSZn1tefmcBK4ZCgddaYRhelZxQhFKsjd_z6OF-A==
+      vary:
+      - Accept-Encoding, User-Agent
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 801c4cdd177872a11b03f54a2b3b464e.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO53-C1
+      x-amz-cf-id:
+      - TPgSI3_Fi3UQMXaSZn1tefmcBK4ZCgddaYRhelZxQhFKsjd_z6OF-A==
+    body:
+      encoding: UTF-8
+      string: '{"OPTION_ASSIGNMENT":["delete"]}'
+  recorded_at: Mon, 07 Nov 2022 18:23:10 GMT
+recorded_with: VCR 6.1.0

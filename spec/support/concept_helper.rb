@@ -7,18 +7,18 @@ module Helpers
 
     def group_concept_from_name(name, token = 'access_token')
       filter = { 'name' => name }
-      group_response = cmr_client.get_cmr_groups(filter, token)
+      group_response = cmr_client.get_edl_groups(filter)
 
-      raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless group_response.success?
+      raise Array.wrap(group_response.body['errors']).join(' /// ') unless group_response.success?
 
-      group_response.body.fetch('items', [{}]).first['concept_id']
+      group_response.body.fetch('items', [{}]).first['group_id']
     end
 
     def collection_concept_from_keyword(keyword, token = 'access_token')
       query = { 'keyword' => keyword }
       search_response = cmr_client.get_collections_by_post(query, token)
 
-      raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless search_response.success?
+      raise Array.wrap(search_response.body['errors']).join(' /// ') unless search_response.success?
 
       record = search_response.body.fetch('items', [{}]).first
       record.fetch('meta', {}).fetch('concept-id', nil)

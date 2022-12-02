@@ -1,0 +1,476 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/48d272d5-4235-4e48-b92a-12b1762343ce
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 21 Oct 2022 00:00:35 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"f239381d2d8c6ae300b4a00e50c32242"
+      x-request-id:
+      - bdde030c-cb1a-40b1-be66-2f3ec8ccf81f
+      x-runtime:
+      - '0.101671'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"ttle9","first_name":"Thanhtam","last_name":"Le","email_address":"thanhtam.t.le@nasa.gov"},{"uid":"non_auth_user_1","first_name":"Chris","last_name":"Gokey","email_address":"nonauthuser1@gmail.com"},{"uid":"non_auth_user_2","first_name":"David","last_name":"Gokey","email_address":"nonauthuser2@gmail.com"}]}'
+  recorded_at: Fri, 21 Oct 2022 00:00:35 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/48d272d5-4235-4e48-b92a-12b1762343ce/user
+    body:
+      encoding: UTF-8
+      string: user_id=chris.gokey.arccurator
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 21 Oct 2022 00:00:35 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"d206895bfa157a9185039e167344e8c4"
+      x-request-id:
+      - f936635f-ae0c-4a85-b5f2-2711bcc77c11
+      x-runtime:
+      - '0.101001'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"chris.gokey.arccurator successfully added to user group update_group_4c284e7d14bd47b098df14c99b9f798e"}'
+  recorded_at: Fri, 21 Oct 2022 00:00:35 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/48d272d5-4235-4e48-b92a-12b1762343ce/user
+    body:
+      encoding: UTF-8
+      string: user_id=rosy.cordova
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 21 Oct 2022 00:00:35 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"65cfd324863ac784a8711a7aece3db0c"
+      x-request-id:
+      - 631ee98c-1bc5-4995-9a08-243d7620b2af
+      x-runtime:
+      - '0.086084'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"rosy.cordova successfully added to user group update_group_4c284e7d14bd47b098df14c99b9f798e"}'
+  recorded_at: Fri, 21 Oct 2022 00:00:35 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/48d272d5-4235-4e48-b92a-12b1762343ce/user
+    body:
+      encoding: UTF-8
+      string: user_id=hvtranho2
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 21 Oct 2022 00:00:36 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"60b600dda50ebb4dffa34450a100bd91"
+      x-request-id:
+      - bb2c237f-956e-4ceb-8d45-0ababc881dea
+      x-runtime:
+      - '0.037755'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"msg":"hvtranho2 successfully added to user group update_group_4c284e7d14bd47b098df14c99b9f798e"}'
+  recorded_at: Fri, 21 Oct 2022 00:00:35 GMT
+- request:
+    method: post
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/48d272d5-4235-4e48-b92a-12b1762343ce/update
+    body:
+      encoding: UTF-8
+      string: "&description=New%20Testing%20Description"
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 21 Oct 2022 00:00:36 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"d47a877bad8413b777d984ab7ce72c66"
+      x-request-id:
+      - 51d9b86e-6291-4d63-a51b-aec5d7c21506
+      x-runtime:
+      - '0.027098'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"description":"Successfully updated user group update_group_4c284e7d14bd47b098df14c99b9f798e"}'
+  recorded_at: Fri, 21 Oct 2022 00:00:36 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/48d272d5-4235-4e48-b92a-12b1762343ce
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 21 Oct 2022 00:00:36 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"5a0052e261d1aa2050466f1efc63bd25"
+      x-request-id:
+      - f4a279d7-916b-4a5f-a575-5c46400287c8
+      x-runtime:
+      - '0.009066'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"group_id":"48d272d5-4235-4e48-b92a-12b1762343ce","name":"update_group_4c284e7d14bd47b098df14c99b9f798e","description":"New
+        Testing Description","shared_user_group":false,"tag":"MMT_2","created_by":"mmt_test","app_uid":"mmt_test","client_id":"81FEem91NlTQreWv2UgtXQ"}'
+  recorded_at: Fri, 21 Oct 2022 00:00:36 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/48d272d5-4235-4e48-b92a-12b1762343ce
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 21 Oct 2022 00:00:36 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"34df0370d5676b8f699be9666fbe5e63"
+      x-request-id:
+      - 1b4834d7-730a-4b02-a1fb-17546f5d3e07
+      x-runtime:
+      - '0.011132'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"rosy.cordova","first_name":"rosy","last_name":"cordova","email_address":"rosy.m.cordova@nasa.gov"},{"uid":"chris.gokey.arccurator","first_name":"Christopher","last_name":"Gokey","email_address":"cgokey@comcast.net"},{"uid":"hvtranho2","first_name":"Hoan
+        Vu","last_name":"Tran Ho","email_address":"hv.tranho@yahoo.com"},{"uid":"ttle9","first_name":"Thanhtam","last_name":"Le","email_address":"thanhtam.t.le@nasa.gov"},{"uid":"non_auth_user_1","first_name":"Chris","last_name":"Gokey","email_address":"nonauthuser1@gmail.com"},{"uid":"non_auth_user_2","first_name":"David","last_name":"Gokey","email_address":"nonauthuser2@gmail.com"}]}'
+  recorded_at: Fri, 21 Oct 2022 00:00:36 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/users?uids%5B%5D=chris.gokey.arccurator&uids%5B%5D=hvtranho2&uids%5B%5D=non_auth_user_1&uids%5B%5D=non_auth_user_2&uids%5B%5D=rosy.cordova&uids%5B%5D=ttle9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Fri, 21 Oct 2022 00:00:36 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"e25198d1ab04753a2a140db5a43dedd1"
+      x-request-id:
+      - bef14145-9968-46a2-b56c-703d16160674
+      x-runtime:
+      - '0.011391'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"ttle9","first_name":"Thanhtam","last_name":"Le","email_address":"thanhtam.t.le@nasa.gov","email_verified":false,"country":"United
+        States","study_area":"Other","registered_date":"2022-01-20T18:59:46.000Z","allow_auth_app_emails":true,"agreed_to_meris_eula":false,"agreed_to_sentinel_eula":false},{"uid":"non_auth_user_1","first_name":"Chris","last_name":"Gokey","email_address":"nonauthuser1@gmail.com","email_verified":false,"country":"United
+        States","study_area":null,"registered_date":"2022-10-20T23:53:38.000Z","allow_auth_app_emails":true,"agreed_to_meris_eula":false,"agreed_to_sentinel_eula":false},{"uid":"non_auth_user_2","first_name":"David","last_name":"Gokey","email_address":"nonauthuser2@gmail.com","email_verified":false,"country":"United
+        States","study_area":null,"registered_date":"2022-10-20T23:58:54.000Z","allow_auth_app_emails":false,"agreed_to_meris_eula":false,"agreed_to_sentinel_eula":false},{"uid":"chris.gokey.arccurator","first_name":"Christopher","last_name":"Gokey","email_address":"cgokey@comcast.net","email_verified":false,"country":"United
+        States","study_area":"Other","registered_date":"2019-07-31T19:38:55.000Z","allow_auth_app_emails":true,"agreed_to_meris_eula":false,"agreed_to_sentinel_eula":false},{"uid":"hvtranho2","first_name":"Hoan
+        Vu","last_name":"Tran Ho","email_address":"hv.tranho@yahoo.com","email_verified":false,"country":"United
+        States","study_area":"Other","registered_date":"2020-07-23T18:56:43.000Z","allow_auth_app_emails":true,"agreed_to_meris_eula":false,"agreed_to_sentinel_eula":false},{"uid":"rosy.cordova","first_name":"rosy","last_name":"cordova","email_address":"rosy.m.cordova@nasa.gov","email_verified":true,"country":"United
+        States","study_area":"Other","registered_date":"2015-06-23T17:16:47.000Z","allow_auth_app_emails":true,"agreed_to_meris_eula":true,"agreed_to_sentinel_eula":true}]}'
+  recorded_at: Fri, 21 Oct 2022 00:00:36 GMT
+recorded_with: VCR 6.1.0

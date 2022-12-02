@@ -112,7 +112,7 @@ Rails.application.configure do
   config.subscriptions_enabled = true
 
   # Feature toggle for Content Security Policy (CSP) logging.
-  config.csplog_enabled = true
+  config.csplog_enabled = false
 
   # Feature toggle for UMM-T
   config.umm_t_enabled = true
@@ -123,9 +123,6 @@ Rails.application.configure do
   # Feature toggle for GKR (GCMD Keyword Recommender) recommendations
   config.gkr_enabled = true
   config.gkr_enabled = false if ENV['proposal_mode'] == 'true'
-
-  # Feature toggle for EDL groups
-  config.edl_groups_enabled = false
 
   config.cmr_env = 'sit'
   config.kms_env = 'sit'
