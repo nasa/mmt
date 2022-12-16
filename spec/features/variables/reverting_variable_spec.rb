@@ -22,7 +22,6 @@ describe 'Reverting to previous variables', skip: true, js: true do
     end
 
     it 'displays the correct phrasing for reverting records' do
-      screenshot_and_open_image
       expect(page).to have_content('Revert to this Revision', count: 1)
     end
 
@@ -36,7 +35,6 @@ describe 'Reverting to previous variables', skip: true, js: true do
       end
 
       it 'displays all the correct revision information' do
-        screenshot_and_open_image
         expect(page).to have_content('Revision Created Successfully!')
 
         expect(page).to have_content('Published', count: 1)
