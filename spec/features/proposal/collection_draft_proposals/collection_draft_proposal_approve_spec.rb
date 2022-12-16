@@ -22,7 +22,6 @@ describe 'Collection Draft Proposal Approve', js: true do
 
     context 'when approving the proposal' do
       before do
-        allow_any_instance_of(Cmr::Response).to receive(:success?).and_return(true)
         click_on 'Approve Proposal Submission'
       end
 
@@ -58,7 +57,6 @@ describe 'Collection Draft Proposal Approve', js: true do
 
     context 'when the approving fails' do
       before do
-        allow_any_instance_of(Cmr::Response).to receive(:success?).and_return(true)
         # After loading the page, manipulate the state of the proposal so that
         # approve will fail in order to execute the else code in the controller.
         mock_publish(@collection_draft_proposal)
