@@ -97,6 +97,9 @@ en:
             success: 'Collection Draft Published Successfully!'
             error: 'Collection Draft was not published successfully'
       collection_draft_proposals:
+        validate:
+          flash:
+            error: 'Collection Draft Proposal was not validated successfully'
         create:
           flash:
             success: 'Collection Draft Proposal Created Successfully!'
