@@ -319,8 +319,7 @@ module Cmr
         'Accept' => 'application/json',
         'Content-Type' => "application/#{Rails.configuration.umm_c_version}; charset=utf-8"
       }
-
-      post(url, metadata, headers)
+      send_to_validation(url, metadata, headers)
     end
 
     def ingest_variable(metadata:, provider_id:, native_id:, collection_concept_id:, token:, headers_override: nil)

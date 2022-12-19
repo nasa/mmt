@@ -167,10 +167,9 @@ module Proposal
 
     def approve
       authorize get_resource
-
+      validation_response = cmr_client.validate_collection(get_resource.draft.to_json, get_resource.provider_id || 'SCIOPS', get_resource.native_id)
       get_resource.add_status_history('approved', session[:name])
-
-      if get_resource.approve && get_resource.save
+      if validation_response.success? && get_resource.approve && get_resource.save
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} successfully approved #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
 
         submitter_from_resource_response = submitter_from_resource
@@ -180,6 +179,9 @@ module Proposal
         ProposalMailer.proposal_approved_notification(get_user_info, get_resource.draft['ShortName'], get_resource.draft['Version'], params['id'], get_resource.proposal_status).deliver_now
 
         flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.approve.flash.success")
+      elsif !validation_response.success?
+        Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully validate #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id}. Validation errors: #{validation_response.body}")
+        flash[:error] = validation_response.error_message(i18n: I18n.t("controllers.draft.#{plural_resource_name}.validate.flash.error"), force_i18n_preface: true)
       else
         Rails.logger.info("Audit Log: User #{current_user.urs_uid} unsuccessfully attempted to approve #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} (a #{get_resource.request_type} metadata request).")
         flash[:error] = I18n.t("controllers.draft.#{plural_resource_name}.approve.flash.error")
