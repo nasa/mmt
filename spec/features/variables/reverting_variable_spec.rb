@@ -1,4 +1,4 @@
-describe 'Reverting to previous variables', skip: true, js: true do
+describe 'Reverting to previous variables', skip:true, js: true do
   before :all do
     @collection_ingest_response, _collection_concept_response = publish_collection_draft
     @collection_ingest_response2, @collection_concept_response2 = publish_collection_draft

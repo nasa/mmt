@@ -30,7 +30,7 @@
                   title: 'Select Template Name'
                 ) %>
                 </p>
-                <%= submit_tag 'Create New Record', { id:'submit-btn', class: 'draft eui-btn--blue submit', style: 'display:show;', } %>
+                <%= submit_tag 'Create New Record', { id:'submit-btn', class: 'draft eui-btn--blue submit', style: 'display:show;' } %>
             <% end %>
             <div class="upload-json-form" style="display: none">
               <%= form_tag(upload_json_path, multipart: true, method: :post) do %>
@@ -42,7 +42,7 @@
                       accept: 'application/json',
                       class: 'upload-file'
                     )%>
-                <%= submit_tag 'Create New Record', { class: 'draft eui-btn--blue submit' } %>
+                <%= submit_tag 'Create New Record', { class: 'draft eui-btn--blue submit' 'eui-btn--blue spinner'} %>
               <% end %>
             </div>
           <% else %>

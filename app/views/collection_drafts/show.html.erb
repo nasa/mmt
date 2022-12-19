@@ -68,8 +68,11 @@
         <% end %>
 
         <% if resource_name == 'collection_draft' %>
-          <%= link_to 'Download JSON', "/collection_drafts/#{@collection_draft.id}.json", download: "#{@collection_draft.display_short_name}-#{@collection_draft.id}.json", class: 'eui-btn--link bar-after' %>
-        <% end %>
+          <%= link_to 'Download JSON', "/collection_drafts/#{@collection_draft.id}.json", download: "#{@collection_draft.display_short_name}-#{@collection_draft.id}.json", class: 'eui-btn--link bar-after', id: 'download_json_link' %>
+          <span id="hidden-downloading-msg" style="color: rgb(31,107,162); display: none">Downloading...</span>
+          <span id="spinner-animation" class="fa fa-circle-o-notch fa-spin" style="display: none; color: rgb(31, 107, 162)"></span>
+          <span id="hidden-after-bar" class="eui-btn--link bar-after" style="display: none; color: rgb(31,107,162)"></span>
+      <% end %>
 
         <%= link_to "Delete #{name_to_title(resource_name)}", "#delete-draft-modal", class: 'display-modal eui-btn--link' %>
         <div id="delete-draft-modal" class="eui-modal-content">
