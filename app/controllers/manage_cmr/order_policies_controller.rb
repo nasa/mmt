@@ -79,29 +79,14 @@ class OrderPoliciesController < ManageCmrController
   private
 
   def set_policy
-    # Get the provider's policies (will only ever be one)
-    result = echo_client.get_providers_policies(token, current_provider_guid)
-
-    # Check for an error OR nil, rather than returning an empty list or error it returns nil
-    @policy = result.parsed_body.fetch('Item', {}) unless result.error? || result.parsed_body.fetch('Item', {}).fetch('xsi:nil', 'false') == 'true'
-
+    result = cmr_client.get_provider_policies(token, current_user.provider_id)
+    @policy = result.body.fetch('data', {}).fetch('providerPolicy', {}) unless result.error?
     if result.error?
       Rails.logger.error("#{request.uuid} - OrderPoliciesController#set_policy - Retrieve Providers Policies Error: #{result.clean_inspect}")
       flash[:error] = I18n.t("controllers.order_policies.set_policy.flash.timeout_error", request: request.uuid) if result.timeout_error?
     end
-
     # Default value in case of error
     @policy = {} if defined?(@policy).nil?
-
-    # This comes to us as a Hash containing 'Item' but is returned as a simple array. For the purposes
-    # of rendering this and DRYing up the code, we'll convert this here so its the same in all uses
-    if @policy.key?('SupportedTransactions')
-      @policy['SupportedTransactions'] = @policy.fetch('SupportedTransactions', {}).fetch('Item', [])
-    end
-
-    if @policy.key?('CollectionsSupportingDuplicateOrderItems')
-      @policy['CollectionsSupportingDuplicateOrderItems'] = @policy.fetch('CollectionsSupportingDuplicateOrderItems', {}).fetch('Item', [])
-    end
   end
 
   def generate_upsert_payload

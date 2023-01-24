@@ -1,5 +1,35 @@
 module Cmr
   class CmrClient < BaseClient
+    def get_provider_policies(token, provider_id)
+      variables = {}
+      variables['providerId'] = provider_id
+      query = {}
+      query['variables'] = variables
+      query['query'] = "query ProviderPolicy($providerId: String!) {
+                          providerPolicy(providerId: $providerId) {
+                            id,
+                            providerId,
+                            endpoint,
+                            retryAttempts,
+                            retryWaitTime,
+                            orderingSuspendedUntilDate,
+                            maxItemsPerOrder,
+                            overrideNotifyEnabled,
+                            referenceProps,
+                            sslPolicy {
+                              id,
+                              sslEnabled,
+                              updatedAt
+                            }
+                            createdAt,
+                            updatedAt
+                          }
+                        }"
+      url = '/ordering/api'
+      headers = { 'Content-Type' => 'application/json' }
+      headers = headers.merge(authorization_header(token))
+      post(url, query.to_json, headers)
+    end
     def get_language_codes
       # Will be replaced by CMR at some point
       codes = File.readlines(File.join(Rails.root, 'lib', 'assets', 'language_codes')).map do |line|
