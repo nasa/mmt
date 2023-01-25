@@ -299,6 +299,12 @@
       "description": "This sub-element if true, describes to end users and machines that this collection's data is free of charge and open for any use the user sees fit.",
       "type": "boolean"
     },
+    "EULAIdentifierType": {
+      "description": "Allows an End User License Agreement to be associated with a collection. This allows a service to check if an end user has accepted a EULA for this collection (data set) before it will allow data to be downloaded or used.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
     "UseConstraintsType": {
       "description": "This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.",
       "oneOf": [{
@@ -311,6 +317,14 @@
           },
           "FreeAndOpenData": {
             "$ref": "#/definitions/FreeAndOpenDataType"
+          },
+          "EULAIdentifiers": {
+            "description": "A list of End User license Agreement identifiers that are associated to a collection. These identifiers can be found in the Earthdata Login application where End User License Agreements are stored. These identifiers allow services to check if an end user has accepted a license agreement before allowing data to be downloaded.",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/EULAIdentifierType"
+            },
+            "minItems": 1
           }
         },
         "required": ["Description"]
@@ -328,6 +342,14 @@
           },
           "FreeAndOpenData": {
             "$ref": "#/definitions/FreeAndOpenDataType"
+          },
+          "EULAIdentifiers": {
+            "description": "A list of End User license Agreement identifiers that are associated to a collection. These identifiers can be found in the Earthdata Login application where End User License Agreements are stored. These identifiers allow services to check if an end user has accepted a license agreement before allowing data to be downloaded.",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/EULAIdentifierType"
+            },
+            "minItems": 1
           }
         },
         "required": ["LicenseURL"]
@@ -347,6 +369,14 @@
           },
           "FreeAndOpenData": {
             "$ref": "#/definitions/FreeAndOpenDataType"
+          },
+          "EULAIdentifiers": {
+            "description": "A list of End User license Agreement identifiers that are associated to a collection. These identifiers can be found in the Earthdata Login application where End User License Agreements are stored. These identifiers allow services to check if an end user has accepted a license agreement before allowing data to be downloaded.",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/EULAIdentifierType"
+            },
+            "minItems": 1
           }
         },
         "required": ["LicenseText"]
