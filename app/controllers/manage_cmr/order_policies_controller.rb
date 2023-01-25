@@ -127,9 +127,34 @@ class OrderPoliciesController < ManageCmrController
     @policy
   end
 
-  def upsert_policy
-    response = echo_client.set_provider_policies(token, current_provider_guid, generate_upsert_payload)
+  def generate_order_policy_payload
+    @policy = {
+      retryAttempts: params.fetch('retry_attempts'),
+      retryWaitTime: params.fetch('retry_wait_time'),
+      endpoint: params.fetch('end_point'),
+      overrideNotifyEnabled: params.fetch('override_notification_enabled', '0'),
+      sslPolicy: {
+        sslEnabled: params.fetch('ssl_policy', {}).fetch('ssl_enabled', '0'),
+        sslCertificate: params.fetch('ssl_policy', {}).fetch('ssl_certificate', '')
+      }
+    }
+    unless params.fetch('max_items_per_order').empty?
+      @policy[:maxItemsPerOrder] = params.fetch('max_items_per_order')
+    end
 
+    unless params.fetch('ordering_suspended_until_date').empty?
+      @policy[:orderingSuspendedUntilDate] = params.fetch('ordering_suspended_until_date')
+    end
+
+    unless params.fetch('properties').empty?
+      @policy[:referenceProps] = params.fetch('properties')
+    end
+    @policy
+  end
+
+  def upsert_policy
+    response = cmr_client.set_provider_policies(token, current_user.provider_id, generate_order_policy_payload)
+    puts("########## response=#{response.body}")
     if response.error?
       Rails.logger.error("#{request.uuid} - OrderPoliciesController#upsert_policy - Set Providers Policies Error: #{response.clean_inspect}")
       flash[:error] = I18n.t("controllers.order_policies.upsert_policy.flash.timeout_error", request: request.uuid) if response.timeout_error?
