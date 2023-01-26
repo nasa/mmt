@@ -25,7 +25,7 @@ class OrderPoliciesController < ManageCmrController
   def create
     # Attempt to upsert the policies
     upsert_response = create_provider_policy
-    puts("TTTTTTTEEEEEEESSSSSSTTTT upsert_response=#{upsert_response.body}")
+    
     if upsert_response.error?
       @policy.deep_stringify_keys!
       Rails.logger.error("Create Order Policies Error: #{upsert_response.clean_inspect}")
