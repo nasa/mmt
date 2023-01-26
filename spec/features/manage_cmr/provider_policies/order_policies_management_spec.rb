@@ -34,9 +34,6 @@ describe 'Viewing Order Policies', js: true do
 
       context 'when clicking the create order policies button' do
         before do
-          # collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-          # allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
-
           VCR.use_cassette("provider_policies/#{File.basename(__FILE__, '.rb')}_order_policies_empty_vcr", record: :none) do
             click_on 'Create Order Policies'
           end
@@ -101,7 +98,7 @@ describe 'Viewing Order Policies', js: true do
 
           context 'when clicking the edit order policies button' do
             before do
-              VCR.use_cassette('echo_soap/provider_service/order_policies/edit', record: :none) do
+              VCR.use_cassette("provider_policies/#{File.basename(__FILE__, '.rb')}_edit_order_policies_vcr", record: :none) do
                 click_on 'Edit'
               end
             end
@@ -112,11 +109,7 @@ describe 'Viewing Order Policies', js: true do
               expect(page).to have_field('retry_attempts', with: 3)
               expect(page).to have_field('retry_wait_time', with: 60)
 
-              expect(page).to have_checked_field('supported_transactions_cancel')
-
               expect(page).to have_field('end_point', with: '/path_to.html')
-
-              expect(page).to have_css('#collections_supporting_duplicate_order_items_toList option[value="C1200189943-MMT_2"]')
             end
 
             context 'when submitting the updated values on the order policies form' do
@@ -124,9 +117,7 @@ describe 'Viewing Order Policies', js: true do
                 fill_in 'Retry Attempts', with: 5
                 fill_in 'Retry Wait Time', with: 30
 
-                uncheck 'Cancel'
-
-                VCR.use_cassette('echo_soap/provider_service/order_policies/updated', record: :none) do
+                VCR.use_cassette("provider_policies/#{File.basename(__FILE__, '.rb')}_submit_updated_order_policies_vcr", record: :none) do
                   click_on 'Submit'
                 end
               end
@@ -136,13 +127,11 @@ describe 'Viewing Order Policies', js: true do
 
                 expect(page).to have_content('Retry Attempts: 5')
                 expect(page).to have_content('Retry Wait Time: 30')
-
-                # expect(page).to have_content('QUOTE')
               end
 
               context 'when clicking the remove order policies button' do
                 before do
-                  VCR.use_cassette('echo_soap/provider_service/order_policies/destroy', record: :none) do
+                  VCR.use_cassette("provider_policies/#{File.basename(__FILE__, '.rb')}_delete_order_policies_vcr", record: :none) do
                     click_on 'Delete'
 
                     # Confirmation Dialog
@@ -162,22 +151,8 @@ describe 'Viewing Order Policies', js: true do
           context 'when clicking on the Test Endpoint Connection button' do
             context 'when the endpoint is valid' do
               before do
-                mock_response = Echo::Response.new(Faraday::Response.new(status: 200, body: '<?xml version="1.0" encoding="UTF-8"?>
-                  <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/>
-                      <SOAP-ENV:Body><ns2:TestEndpointConnectionResponse xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults"/></SOAP-ENV:Body>
-                  </SOAP-ENV:Envelope>'))
-
-                allow_any_instance_of(Echo::Provider).to receive(:test_endpoint_connection).and_return(mock_response)
-
-                VCR.use_cassette('echo_soap/provider_service/order_policies/edit', record: :none) do
-                  click_on 'Edit'
-                end
-
-                fill_in 'End Point', with: 'http://f5eil01v.edn.ecs.nasa.gov/dev07/ewoc/services/OrderFulfillmentPort'
-                VCR.use_cassette('echo_soap/provider_service/order_policies/updated-url-1', record: :none) do
-                  click_on 'Submit'
-                end
-
+                mock_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: '{"data":{"testProviderConnection":{"status":200}}}'))
+                allow_any_instance_of(Cmr::GraphqlClient).to receive(:test_endpoint_connection).and_return(mock_response)
                 click_on 'Test Endpoint Connection'
                 wait_for_jQuery
               end
@@ -189,42 +164,16 @@ describe 'Viewing Order Policies', js: true do
 
             context 'when the endpoint is invalid' do
               before do
-                mock_response = Echo::Response.new(Faraday::Response.new(response_headers: {}, status: 500, body: '<?xml version="1.0" encoding="UTF-8"?>
-                  <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/>
-                      <SOAP-ENV:Body>
-                          <SOAP-ENV:Fault>
-                              <faultcode>SOAP-ENV:Client</faultcode>
-                              <faultstring>The endpoint is not a valid URL.</faultstring>
-                              <detail>
-                                  <ns4:ValidationFault xmlns:ns2="http://echo.nasa.gov/echo/v10" xmlns:ns3="http://echo.nasa.gov/echo/v10/types" xmlns:ns4="http://echo.nasa.gov/echo/v10/faults">
-                                      <ns4:ErrorCode>ProviderPoliciesInvalid</ns4:ErrorCode><ns4:OpsMessage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
-                                      <ns4:SystemMessage>The endpoint is not a valid URL.</ns4:SystemMessage>
-                                      <ns4:Timestamp>2017-03-03T18:42:23.635Z</ns4:Timestamp>
-                                      <ns4:ErrorInstanceId>3C7B4E56-ACDA-4E54-359D-17F0AA52F54F</ns4:ErrorInstanceId>
-                                      <ns4:ObjectType>Endpoint</ns4:ObjectType>
-                                  </ns4:ValidationFault>
-                              </detail>
-                          </SOAP-ENV:Fault>
-                      </SOAP-ENV:Body>
-                  </SOAP-ENV:Envelope>'))
+                mock_response = Cmr::Response.new(Faraday::Response.new(response_headers: {}, status: 500, body: '{"errors":[{"message":"An unknown error occurred. Please refer to the ID d84a338e-0bb6-4051-b8d5-09febad7fd74 when contacting Earthdata Operations (support@earthdata.nasa.gov).","locations":[{"line":2,"column":27}],"path":["testProviderConnection"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"stacktrace":["Error: An unknown error occurred. Please refer to the ID d84a338e-0bb6-4051-b8d5-09febad7fd74 when contacting Earthdata Operations (support@earthdata.nasa.gov).","    at Object.\u003canonymous\u003e (/var/task/src/graphql/handler.js:1:106987)","    at Generator.next (\u003canonymous\u003e)","    at At (/var/task/src/graphql/handler.js:1:105980)","    at o (/var/task/src/graphql/handler.js:1:106866)","    at /var/task/src/graphql/handler.js:1:106927","    at new Promise (\u003canonymous\u003e)","    at Object.\u003canonymous\u003e (/var/task/src/graphql/handler.js:1:106806)","    at Object.fallbackError (/var/task/src/graphql/handler.js:1:107162)","    at middleware (/var/task/node_modules/graphql-shield/dist/generator.js:51:42)","    at processTicksAndRejections (node:internal/process/task_queues:96:5)"]}}}],"data":{"testProviderConnection":null}}'))
 
-                allow_any_instance_of(Echo::Provider).to receive(:test_endpoint_connection).and_return(mock_response)
-
-                VCR.use_cassette('echo_soap/provider_service/order_policies/edit', record: :none) do
-                  click_on 'Edit'
-                end
-
-                fill_in 'End Point', with: 'fail .com'
-                VCR.use_cassette('echo_soap/provider_service/order_policies/updated-url-2', record: :none) do
-                  click_on 'Submit'
-                end
+                allow_any_instance_of(Cmr::GraphqlClient).to receive(:test_endpoint_connection).and_return(mock_response)
 
                 click_on 'Test Endpoint Connection'
                 wait_for_jQuery
               end
 
               it 'should display a message that the endpoint test was unsuccessful' do
-                expect(page).to have_content('The endpoint is not a valid URL.')
+                expect(page).to have_content('Test endpoint connection failed. Please try again.')
               end
             end
           end

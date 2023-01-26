@@ -25,7 +25,7 @@ class OrderPoliciesController < ManageCmrController
   def create
     # Attempt to upsert the policies
     upsert_response = create_provider_policy
-    
+
     if upsert_response.error?
       @policy.deep_stringify_keys!
       Rails.logger.error("Create Order Policies Error: #{upsert_response.clean_inspect}")
@@ -77,8 +77,6 @@ class OrderPoliciesController < ManageCmrController
 
   def set_policy
     result = cmr_client.get_provider_policy(token, current_user.provider_id)
-    puts("############ result=#{result.inspect}")
-    puts("################# result.body=#{result.body.to_json}")
     @policy = result.body.fetch('data', {}).fetch('providerPolicy', {}) unless result.error?
     if result.error?
       Rails.logger.error("#{request.uuid} - OrderPoliciesController#set_policy - Retrieve Providers Policies Error: #{result.clean_inspect}")
@@ -114,23 +112,19 @@ class OrderPoliciesController < ManageCmrController
 
   def update_provider_policy
     response = cmr_client.update_provider_policy(token, current_user.provider_id, generate_order_policy_payload)
-    puts("@@@@@@@ update response=#{response.inspect}")
     if response.error?
       Rails.logger.error("#{request.uuid} - OrderPoliciesController#upsert_policy - Update Providers Policies Error: #{response.clean_inspect}")
       flash[:error] = I18n.t("controllers.order_policies.upsert_policy.flash.timeout_error", request: request.uuid) if response.timeout_error?
     end
-
     response
   end
 
   def create_provider_policy
     response = cmr_client.create_provider_policy(token, current_user.provider_id, generate_order_policy_payload)
-    puts("@@@@@@@ create response=#{response.inspect}")
     if response.error?
       Rails.logger.error("#{request.uuid} - OrderPoliciesController#upsert_policy - Create Providers Policies Error: #{response.clean_inspect}")
       flash[:error] = I18n.t("controllers.order_policies.upsert_policy.flash.timeout_error", request: request.uuid) if response.timeout_error?
     end
-
     response
   end
 end

@@ -118,10 +118,10 @@ module Cmr
                           $endpoint: String!
                           $retryAttempts: Int!
                           $retryWaitTime: Int!
-                          $orderingSuspendedUntilDate: Timestamp!
-                          $maxItemsPerOrder: Int!
-                          $overrideNotifyEnabled: Boolean!
-                          $referenceProps: String!
+                          $orderingSuspendedUntilDate: Timestamp
+                          $maxItemsPerOrder: Int
+                          $overrideNotifyEnabled: Boolean
+                          $referenceProps: String
                           $sslPolicy: SslPolicyInput!
                         ) {
                             updateProviderPolicy(
