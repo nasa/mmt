@@ -9,12 +9,9 @@ describe 'Viewing Order Policies', js: true do
     context 'when viewing the order policies page and there is a timeout error' do
       before do
         # mock a timeout error
-        echo_response = echo_fail_response(timeout_error_html_body, status = 504, headers = {'content-type' => 'text/html'})
-        allow_any_instance_of(Echo::Provider).to receive(:get_providers_policies).and_return(echo_response)
-
-        VCR.use_cassette('echo_soap/provider_service/order_policies/empty', record: :none) do
-          visit order_policies_path
-        end
+        cmr_response = cmr_fail_response(timeout_error_html_body, status = 504)
+        allow_any_instance_of(Cmr::GraphqlClient).to receive(:get_provider_policy).and_return(cmr_response)
+        visit order_policies_path
       end
 
       it 'displays the appropriate error message' do
@@ -26,7 +23,7 @@ describe 'Viewing Order Policies', js: true do
 
     context 'when viewing the order policies page' do
       before do
-        VCR.use_cassette('echo_soap/provider_service/order_policies/empty', record: :none) do
+        VCR.use_cassette("provider_policies/#{File.basename(__FILE__, '.rb')}_order_policies_empty_vcr", record: :none) do
           visit order_policies_path
         end
       end
@@ -37,10 +34,10 @@ describe 'Viewing Order Policies', js: true do
 
       context 'when clicking the create order policies button' do
         before do
-          collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-          allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
+          # collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
+          # allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
-          VCR.use_cassette('echo_soap/provider_service/order_policies/empty', record: :none) do
+          VCR.use_cassette("provider_policies/#{File.basename(__FILE__, '.rb')}_order_policies_empty_vcr", record: :none) do
             click_on 'Create Order Policies'
           end
         end
@@ -48,23 +45,17 @@ describe 'Viewing Order Policies', js: true do
         it 'displays the new order policies form' do
           expect(page).to have_content('New MMT_2 Order Policies')
 
-          wait_for_jQuery
-
-          # Check that all 6 results appear on the page
-          expect(page).to have_selector('#collections_supporting_duplicate_order_items_fromList option', count: 6)
-
-          # Check for 2 specific results
-          expect(page).to have_css('#collections_supporting_duplicate_order_items_fromList option[value="C1200189943-MMT_2"]')
-          expect(page).to have_css('#collections_supporting_duplicate_order_items_fromList option[value="C1200189951-MMT_2"]')
+          expect(page).to have_content('Retry Information')
+          expect(page).to have_content('Retry Attempts')
+          expect(page).to have_field('retry_attempts')
+          expect(page).to have_content('Retry Wait Time')
+          expect(page).to have_field('retry_wait_time')
         end
 
         context 'when submitting an invalid order policies form' do
           before do
             fill_in 'Retry Attempts', with: ''
             fill_in 'Retry Wait Time', with: ''
-
-            uncheck 'Cancel'
-
             fill_in 'End Point', with: ''
 
             click_on 'Submit'
@@ -82,22 +73,11 @@ describe 'Viewing Order Policies', js: true do
             fill_in 'Retry Attempts', with: 3
             fill_in 'Retry Wait Time', with: 60
 
-            check 'Cancel'
-
-            # Concept ID of the collection 'My testing title 02'
-            within '#collections_supporting_duplicate_order_items_fromList' do
-              find('option[value="C1200189943-MMT_2"]').select_option
-            end
-
-            within '.button-container' do
-              find('.add_button').click
-            end
-
             fill_in 'End Point', with: '/path_to.html'
 
             fill_in 'properties', with: '<test>user provided xml</test>'
 
-            VCR.use_cassette('echo_soap/provider_service/order_policies/create', record: :none) do
+            VCR.use_cassette("provider_policies/#{File.basename(__FILE__, '.rb')}_submit_order_policies_vcr", record: :none) do
               click_on 'Submit'
             end
           end
@@ -111,10 +91,7 @@ describe 'Viewing Order Policies', js: true do
             expect(page).to have_content('End Point: /path_to.html')
             expect(page).to have_content('Suspend Ordering Until: Ordering Not Suspended')
 
-            expect(page).to have_content('CANCEL')
             expect(page).to have_content('Always Send Status Updates: No')
-
-            expect(page).to have_content('My testing title 02')
 
             expect(page).to have_content('<test>user provided xml</test>')
 

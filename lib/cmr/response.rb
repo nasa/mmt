@@ -12,6 +12,10 @@ module Cmr
       status >= 400 || (body.is_a?(Hash) && !body['errors'].blank?)
     end
 
+    def timeout_error?
+      status == 504
+    end
+
     def success?
       !error?
     end

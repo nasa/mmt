@@ -1,0 +1,76 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/ordering/api
+    body:
+      encoding: UTF-8
+      string: '{"variables":{"providerId":"MMT_2"},"query":"query ProviderPolicy($providerId:
+        String!) {\n                          providerPolicy(providerId: $providerId)
+        {\n                            id,\n                            providerId,\n                            endpoint,\n                            retryAttempts,\n                            retryWaitTime,\n                            orderingSuspendedUntilDate,\n                            maxItemsPerOrder,\n                            overrideNotifyEnabled,\n                            referenceProps,\n                            sslPolicy
+        {\n                              id,\n                              sslEnabled,\n                              sslCertificate,\n                              updatedAt\n                            }\n                            createdAt,\n                            updatedAt\n                          }\n                        }"}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.2
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Authorization:
+      - access_token
+  response:
+    status:
+      code: 500
+      message: Internal Server Error
+    headers:
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '830'
+      connection:
+      - keep-alive
+      date:
+      - Thu, 26 Jan 2023 18:05:38 GMT
+      access-control-allow-credentials:
+      - 'true'
+      x-amzn-trace-id:
+      - Root=1-63d2c0ed-26d77417488200f01507daf2;Sampled=0
+      x-powered-by:
+      - Express
+      etag:
+      - W/"33e-40po84egeuydeOUqDk4hmzzmluc"
+      vary:
+      - Origin
+      x-amz-apigw-id:
+      - fXMVQE36oAMFkAA=
+      x-amzn-remapped-content-length:
+      - '830'
+      server:
+      - ServerTokens ProductOnly
+      x-request-id:
+      - TLQl7vj4ILCcb-v4zWXfCvk4jYIeTKgVnb8dKc0RlVxmhytY2yJdTA==
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-requestid:
+      - 8f097346-15da-48df-8140-747e562b49cc
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 fc9b6e8f934a073c1a1983c7599b93ba.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-P2
+      x-amz-cf-id:
+      - TLQl7vj4ILCcb-v4zWXfCvk4jYIeTKgVnb8dKc0RlVxmhytY2yJdTA==
+    body:
+      encoding: UTF-8
+      string: '{"data":{"providerPolicy":null}}'
+  recorded_at: Thu, 26 Jan 2023 18:05:38 GMT
+recorded_with: VCR 6.1.0
