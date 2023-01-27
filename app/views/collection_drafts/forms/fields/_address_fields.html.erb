@@ -62,12 +62,19 @@
         help: 'definitions/AddressType/properties/StateProvince'
       ) %>
 
-      <% country = Carmen::Country.named(address['Country']) %>
+      <%
+        country_codes = Carmen::Country.all.sort
+        country_codes.each do |code|
+          if(code.to_s == address['Country'])
+            @country = code
+          end
+        end
+      %>
 
       <!-- TODO need to add data required level -->
-      <% use_text_field = country.nil? || !country.subregions? ? true : false %>
+      <% use_text_field = @country.nil? || @country.subregions? ? true : false %>
       <%= text_field_tag name_to_param("#{name_prefix}|state_province|"), address['StateProvince'], class: 'full-width validate state-province-text-field', disabled: !use_text_field, style: "#{'display: none;' if !use_text_field}", data: { level: remove_pipes(name_prefix) } %>
-      <%= select_tag name_to_param("#{name_prefix}|state_province|"), options_for_subregion_select(country, address['StateProvince']), class: 'mmt-fake-enum half-width state-province-select', disabled: use_text_field, style: "#{'display: none;' if use_text_field}", data: { level: remove_pipes(name_prefix) } %>
+      <%= select_tag name_to_param("#{name_prefix}|state_province|"), options_for_subregion_select(@country, address['StateProvince']), class: 'mmt-fake-enum half-width state-province-select', disabled: use_text_field, style: "#{'display: none;' if use_text_field}", data: { level: remove_pipes(name_prefix) } %>
     </div>
     <div class="col-3">
       <%= mmt_text_field(
