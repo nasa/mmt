@@ -103,12 +103,12 @@
     <div class="row">
       <div class="col-6">
         <%= label_tag 'retry_attempts', 'Retry Attempts', class: 'eui-required-o' %>
-        <%= text_field_tag('retry_attempts', @policy['retryAttempts'] || '', class: 'full-width') %>
+        <%= text_field_tag('retry_attempts', @policy.fetch('retryAttempts', ''), class: 'full-width') %>
         <p class="form-description">Number of times that CMR will try to connect to the provider if the transmission fails.</p>
       </div>
       <div class="col-6">
         <%= label_tag 'retry_wait_time', 'Retry Wait Time', class: 'eui-required-o' %>
-        <%= text_field_tag('retry_wait_time', @policy['retryWaitTime'] || '', class: 'full-width') %>
+        <%= text_field_tag('retry_wait_time', @policy.fetch('retryWaitTime', ''), class: 'full-width') %>
         <p class="form-description">Amount of time (in seconds) that CMR will wait before trying to connect.</p>
       </div>
     </div>
@@ -117,7 +117,7 @@
   <fieldset>
     <h3>Status Update Notifications</h3>
     <div class="row checkbox-group">
-      <label><%= check_box_tag('override_notification_enabled', 1, @policy['overrideNotifyEnabled'] || false) %>
+      <label><%= check_box_tag('override_notification_enabled', 1, @policy.fetch('overrideNotifyEnabled', false)) %>
         Always send status updates</label>
     </div>
   </fieldset>
@@ -126,11 +126,11 @@
     <h3>Routing Location</h3>
     <div class="row">
       <%= label_tag 'end_point', 'End Point', class: 'eui-required-o' %>
-      <%= text_field_tag('end_point', @policy['endpoint'] || '', class: 'full-width required') %>
+      <%= text_field_tag('end_point', @policy.fetch('endpoint', ''), class: 'full-width required') %>
     </div>
     <div class="row">
       <%= label_tag 'ordering_suspended_until_date', 'Suspend Ordering Until' %>
-      <%= text_field_tag('ordering_suspended_until_date', nil,  class: 'full-width datetimepicker', data: { 'date-default-date': @policy['orderingSuspendedUntilDate'] || '', 'date-view-date': @policy.fetch('orderingSuspendedUntilDate', Time.now.utc.beginning_of_day.iso8601) }) %>
+      <%= text_field_tag('ordering_suspended_until_date', nil,  class: 'full-width datetimepicker', data: { 'date-default-date': @policy.fetch('orderingSuspendedUntilDate', ''), 'date-view-date': @policy.fetch('orderingSuspendedUntilDate', Time.now.utc.beginning_of_day.iso8601) }) %>
     </div>
   </fieldset>
 
@@ -140,7 +140,7 @@
     <div class="row">
       <div class="col-6">
         <%= label_tag 'max_items_per_order', 'Maximum Items Per Order' %>
-        <%= text_field_tag('max_items_per_order', @policy['maxItemsPerOrder'] || '', class: 'full-width') %>
+        <%= text_field_tag('max_items_per_order', @policy.fetch('maxItemsPerOrder', ''), class: 'full-width') %>
         <p class="form-description">The maximum number of items that a user can have in a single order. This value is the total quantity of items. If left blank, there is no maximum enforced.</p>
       </div>
     </div>
@@ -166,15 +166,8 @@
           SSL Enabled</label>
       </div>
       <div class="col-6 align-r">
-        <% updatedAt = '' %>
-        <% unless @policy.empty? %>
-          <% sslPolicy = @policy['sslPolicy'] %>
-          <% unless sslPolicy.blank? %>
-            <% updatedAt = sslPolicy['updatedAt'] %>
-          <% end %>
-        <% end %>
-        <% unless updatedAt.blank? %>
-          <em class="form-description">Last Updated on <%= echo_formatted_date(updatedAt) %></em>
+        <% unless @policy.fetch('sslPolicy', {}).empty? %>
+          <em class="form-description">Last Updated on <%= echo_formatted_date(@policy.fetch('sslPolicy', {}).fetch('updatedAt', '')) %></em>
         <% end %>
       </div>
     </div>
@@ -183,7 +176,7 @@
   <fieldset>
     <%= label_tag 'properties', 'Custom Properties' %>
     <div class="row">
-      <%= text_area_tag('properties', @policy['referenceProps'] || '', rows: 5, class: 'full-width') %>
+      <%= text_area_tag('properties', @policy.fetch('referenceProps', ''), rows: 5, class: 'full-width') %>
     </div>
   </fieldset>
 
