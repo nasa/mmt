@@ -112,7 +112,7 @@ Rails.application.configure do
   config.subscriptions_enabled = true
 
   # Feature toggle for Content Security Policy (CSP) logging.
-  config.csplog_enabled = true
+  config.csplog_enabled = false
 
   # Feature toggle for UMM-T
   config.umm_t_enabled = true
@@ -147,4 +147,7 @@ Rails.application.configure do
   # Metadata preview urls
   config.metadata_preview_js_url = ENV['metadata_preview_js_url']
   config.metadata_preview_css_url = ENV['metadata_preview_css_url']
+
+  #Feature toggle for using legacy order service
+  config.use_legacy_order_service = false
 end
