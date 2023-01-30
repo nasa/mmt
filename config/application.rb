@@ -56,6 +56,9 @@ module Mmt
     config.proposal_mode = false
     config.proposal_mode = true if ENV['proposal_mode'] == 'true'
 
+    #Feature toggle for using legacy order service
+    config.use_legacy_order_service = ENV['use_legacy_order_service'] == 'true'
+
     config.middleware.insert_after Rails::Rack::Logger, MiddlewareHealthcheck
 
     # Launchpad Session Cookie name
