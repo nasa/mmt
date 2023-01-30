@@ -86,11 +86,19 @@ class OrderPoliciesController < ManageCmrController
   end
 
   def test_endpoint_connection
-    if use_legacy_order_service?
-      legacy_check_endpoint_connection
-    else
-      check_endpoint_connection
-    end
+    response = if use_legacy_order_service?
+                 echo_client.test_endpoint_connection(token, current_provider_guid)
+               else
+                 cmr_client.test_endpoint_connection(token, current_user.provider_id)
+               end
+
+    message = if response.error?
+                response.error_message
+              else
+                'Test endpoint connection was successful.'
+              end
+
+    render json: { message: message }
   end
 
   private
@@ -170,29 +178,6 @@ class OrderPoliciesController < ManageCmrController
     response
   end
 
-  def check_endpoint_connection
-    response = cmr_client.test_endpoint_connection(token, current_user.provider_id)
-    message = if response.error?
-                response.body.fetch('errors', []).first['message']
-              else
-                'Test endpoint connection was successful.'
-              end
-
-    render json: { message: message }
-  end
-
-  def legacy_check_endpoint_connection
-    response = echo_client.test_endpoint_connection(token, current_provider_guid)
-
-    message = if response.error?
-                response.error_message
-              else
-                'Test endpoint connection was successful.'
-              end
-
-    render json: { message: message }
-  end
-
   def remove_policy
     cmr_client.remove_provider_policy(token, current_user.provider_id)
   end
@@ -239,7 +224,7 @@ class OrderPoliciesController < ManageCmrController
   def update_provider_policy
     response = cmr_client.update_provider_policy(token, current_user.provider_id, generate_order_policy_payload)
     if response.error?
-      Rails.logger.error("#{request.uuid} - OrderPoliciesController#upsert_policy - Update Providers Policies Error: #{response.clean_inspect}")
+      Rails.logger.error("#{request.uuid} - OrderPoliciesController#update_provider_policy - Update Providers Policies Error: #{response.clean_inspect}")
       flash[:error] = I18n.t("controllers.order_policies.upsert_policy.flash.timeout_error", request: request.uuid) if response.timeout_error?
     end
     response
@@ -248,7 +233,7 @@ class OrderPoliciesController < ManageCmrController
   def create_provider_policy
     response = cmr_client.create_provider_policy(token, current_user.provider_id, generate_order_policy_payload)
     if response.error?
-      Rails.logger.error("#{request.uuid} - OrderPoliciesController#upsert_policy - Create Providers Policies Error: #{response.clean_inspect}")
+      Rails.logger.error("#{request.uuid} - OrderPoliciesController#create_provider_policy - Create Providers Policies Error: #{response.clean_inspect}")
       flash[:error] = I18n.t("controllers.order_policies.upsert_policy.flash.timeout_error", request: request.uuid) if response.timeout_error?
     end
     response
