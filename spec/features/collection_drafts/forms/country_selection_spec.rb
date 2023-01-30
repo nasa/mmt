@@ -16,7 +16,6 @@ describe 'Country selection', skip: true, js: true do
       within '#data-centers' do
         select 'United States', from: 'Country'
       end
-      wait_for_jQuery
     end
 
     it 'changes the State / Province text field to a select field' do
@@ -25,7 +24,6 @@ describe 'Country selection', skip: true, js: true do
 
     it 'populates the select field with the correct options' do
       expect(page).to have_select('State / Province', with_options: ['Alaska'])
-      screenshot_and_open_image
     end
 
     context 'when selecting a different country' do
@@ -37,7 +35,6 @@ describe 'Country selection', skip: true, js: true do
 
       it 'updates the select with the correct options' do
         expect(page).to have_select('State / Province', with_options: ['Aberdeenshire'])
-        screenshot_and_open_image
       end
     end
 
