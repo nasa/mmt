@@ -1,4 +1,6 @@
 [*]
 indent_style = space
 indent_size = 2
+[*.{erb,rb}]
+insert_final_newline = true
 
