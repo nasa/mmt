@@ -92,11 +92,12 @@ class OrderPoliciesController < ManageCmrController
                  cmr_client.test_endpoint_connection(token, current_user.provider_id)
                end
 
-    message = if response.error?
-                response.error_message
-              else
-                'Test endpoint connection was successful.'
-              end
+    if response.error?
+      Rails.logger.error("Test Endpoint Connection Error: #{response.clean_inspect}")
+      message = 'Test endpoint connection failed. Please try again.'
+    else
+      message = 'Test endpoint connection was successful.'
+    end
 
     render json: { message: message }
   end

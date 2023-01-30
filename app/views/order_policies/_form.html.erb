@@ -1,4 +1,5 @@
 <% if Rails.configuration.use_legacy_order_service %>
+  <!-- THIS PAGE IS USING LEGACY ORDER SERVICE -->
   <fieldset>
     <h3>Retry Information</h3>
     <div class="row">
@@ -98,6 +99,7 @@
     <%= link_to 'Cancel', :back, class: 'eui-btn' %>
   </fieldset>
 <% else %>
+  <!-- THIS PAGE IS NOT USING LEGACY ORDER SERVICE -->
   <fieldset>
     <h3>Retry Information</h3>
     <div class="row">
