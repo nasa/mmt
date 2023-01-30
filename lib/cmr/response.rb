@@ -77,7 +77,12 @@ module Cmr
     def error_message(i18n: nil, force_i18n_preface: nil)
       message = error_messages(i18n: i18n).first
       if message.is_a?(Hash)
-        message.fetch('errors', []).first
+        temp = message.fetch('errors', []).first
+        if temp.nil?
+          temp = message.fetch('message', '')
+        end
+        message = temp
+        message
       else
         message
       end
