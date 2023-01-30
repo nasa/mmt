@@ -606,7 +606,6 @@ def collection_one
     'UseConstraints' => {
       'Description' => 'These are some use constraints',
       'FreeAndOpenData' => true,
-      'EulaIdentifier' => ['EULA 1, EULA 2'],
       'LicenseURL' => {
         'Linkage' => 'http://example.com'
       }
