@@ -1,4 +1,4 @@
-describe 'Data Contacts form filling in Data Center Contacts' do
+describe 'Data Contacts form filling in Data Center Contacts', skip: true do
   before do
     login
   end

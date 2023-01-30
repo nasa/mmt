@@ -74,7 +74,7 @@ module Mmt
 
     # Store boolean values are in sqlite3 databases as 1 and 0 instead of 't' and
     # 'f' after migrating old data.
-    config.active_record.sqlite3.represent_boolean_as_integer = true
+    # config.active_record.sqlite3.represent_boolean_as_integer = true
 
     # Don't require `belongs_to` associations by default. In Rails 5 default was changed to true.
     config.active_record.belongs_to_required_by_default = false
