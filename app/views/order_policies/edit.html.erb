@@ -3,11 +3,7 @@
     <h2>Editing <%= current_user.provider_id %> Order Policies</h2>
 
     <%= form_tag(order_policies_path, method: :put, id: "order-policies-form") do %>
-      <% if Rails.configuration.use_legacy_order_service %>
-        <%= render partial: "legacy_form" %>
-      <% else %>
-        <%= render partial: "form" %>
-      <% end %>
+      <%= render partial: "form" %>
     <% end %>
   </section>
 </div>
