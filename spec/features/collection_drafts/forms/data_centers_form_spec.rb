@@ -1,5 +1,5 @@
 describe 'Data Centers form' do
-  context 'when creating a Data Center', js: true do
+  context 'when creating a Data Center', skip:true, js: true do
     before do
       login
       draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)

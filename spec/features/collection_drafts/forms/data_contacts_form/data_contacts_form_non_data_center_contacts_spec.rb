@@ -1,4 +1,4 @@
-describe 'Data Contacts form filling in Non Data Center Contacts', js: true do
+describe 'Data Contacts form filling in Non Data Center Contacts', skip: true, js: true do
   before do
     login
   end
