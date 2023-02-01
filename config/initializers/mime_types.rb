@@ -7,4 +7,4 @@ Mime::Type.register 'application/dif10+xml', :dif10
 Mime::Type.register 'application/dif+xml', :dif
 Mime::Type.register 'application/echo10+xml', :echo10
 Mime::Type.register 'application/iso19115+xml', :iso19115
-Mime::Type.register 'application/iso:smap+xml', :iso_smap
+# Mime::Type.register 'application/iso:smap+xml', :iso_smap
