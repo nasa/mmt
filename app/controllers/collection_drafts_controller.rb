@@ -849,7 +849,6 @@ class CollectionDraftsController < BaseDraftsController
     set_keyword_recommendations  if @form == 'descriptive_keywords' && gkr_enabled? && get_resource.keyword_recommendation_needed?
     set_platform_types           if @form == 'acquisition_information'
     set_instruments              if @form == 'acquisition_information'
-    set_instruments              if @form == 'acquisition_information'
     set_projects                 if @form == 'acquisition_information'
     set_temporal_keywords        if @form == 'temporal_information'
     set_location_keywords        if @form == 'spatial_information'
