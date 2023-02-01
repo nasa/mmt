@@ -1,9 +1,9 @@
 class UmmC1170To1172 < ActiveRecord::Migration[5.2]
   def up
     metadata_specification = {
-      'URL' => "https://cdn.earthdata.nasa.gov/umm/collection/v1.17.1",
+      'URL' => "https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2",
       'Name' => "UMM-C",
-      'Version' => "1.17.1"
+      'Version' => "1.17.2"
     }
     collection_drafts = CollectionDraft.where.not(draft: {})
     proposals = CollectionDraftProposal.where.not(draft: {})
