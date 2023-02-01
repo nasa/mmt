@@ -1,7 +1,12 @@
 # :nodoc:
 class OrderPoliciesController < ManageCmrController
   before_action :set_collections, only: [:index, :new, :edit]
-  before_action :set_policy, only: [:index, :new, :edit]
+
+  if Rails.configuration.use_legacy_order_service
+    before_action :legacy_set_policy, only: [:index, :new, :edit]
+  else
+    before_action :set_policy, only: [:index, :new, :edit]
+  end
 
   add_breadcrumb 'Order Policies', :order_policies_path
 
