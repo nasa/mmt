@@ -1,4 +1,4 @@
-# class UmmC1170To1172 < ActiveRecord::Migration[5.2]
+class UmmC1170To1172 < ActiveRecord::Migration[5.2]
 #   def up
 #     metadata_specification = {
 #       'URL' => "https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2",
@@ -48,4 +48,4 @@
 #       puts(draft)
 #     end
 #   end
-# end
+end
