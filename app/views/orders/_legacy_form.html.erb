@@ -1,8 +1,8 @@
-<!-- THIS PAGE IS NOT USING LEGACY ORDER SERVICE -->
+<!-- THIS PAGE IS USING LEGACY ORDER SERVICE -->
 <fieldset>
   <div class="row">
     <%= label_tag 'states', 'Filter by Order States' %>
-    <%= select_tag('states', options_for_select(OrdersHelper::ORDER_STATES, nil), class: 'full-width', multiple: true) %>
+    <%= select_tag('states', options_for_select(OrdersHelper::LEGACY_ORDER_STATES, nil), class: 'full-width', multiple: true) %>
   </div>
 </fieldset>
 

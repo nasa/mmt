@@ -21,8 +21,11 @@
 
     <%= form_tag(search_orders_path, method: :put, class: "track-orders-form", id: "track-orders-form") do %>
       <h3>Order Search</h3>
-
-      <%= render partial: "form" %>
+      <% if Rails.configuration.use_legacy_order_service %>
+        <%= render partial: "legacy_form" %>
+      <% else %>
+        <%= render partial: "form" %>
+      <% end %>
     <% end %>
   </section>
 </div>
