@@ -4,6 +4,7 @@ class OrdersController < ManageCmrController
   add_breadcrumb 'Track Orders', :orders_path
 
   def index
+    puts("####### OrdersController INDEX")
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       Rails.logger.info "User #{current_user.urs_uid} is starting a Track Orders search"
 
@@ -12,6 +13,7 @@ class OrdersController < ManageCmrController
   end
 
   def show
+    puts("####### OrdersController SHOW")
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       init_time_tracking_variables
       echo_client.timeout = time_left
@@ -25,6 +27,41 @@ class OrdersController < ManageCmrController
   end
 
   def search
+    puts("####### OrdersController Search")
+    if use_legacy_order_service?
+      legacy_order_search
+    else
+      order_search
+    end
+  end
+
+  private
+
+  def order_search
+    puts("##### OrdersController order_search")
+    logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
+      response = if params['order_guid'].present?
+                   cmr_client.get_order(token, params['order_guid'])
+                 else
+                   payload = {
+                     'states' => (params['states'] || OrdersHelper::ORDER_STATES),
+                     'date_type' => params['date_type'],
+                     'from_date' => params['from_date'],
+                     'to_date' => params['to_date']
+                   }
+                   cmr_client.get_orders(token, current_user.provider_id, payload)
+                 end
+      puts("#####1 response=#{response.inspect}")
+      if response.errors
+        redirect_to orders_path, flash: "Error!!!!"
+        return
+      end
+      puts("#####2 response=#{response.inspect}")
+    end
+  end
+
+  def legacy_order_search
+    puts("##### OrdersController legacy_order_search")
     if echo_provider_token.blank?
       flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
       redirect_back(fallback_location: manage_collections_path)
@@ -69,8 +106,6 @@ class OrdersController < ManageCmrController
     flash.now[:alert] = "The order request #{request.uuid} timed out retrieving results.  Limit your search criteria and try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}."
     render :index
   end
-
-  private
 
   # this speeds things up dramatically by collecting all the owner guids and performing 1 query to grab ALL the
   # user info details, it will then cache them and this cache is used further down in the processing.
