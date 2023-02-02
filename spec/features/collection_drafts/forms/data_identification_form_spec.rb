@@ -55,6 +55,17 @@ describe 'Data identification form', js: true do
           fill_in 'Description', with: 'These are some use constraints for the data identification form spec'
 
           choose 'draft_use_constraints_free_and_open_data_true'
+
+          find('.multiple-item-0').fill_in with: 'EULA 1'
+          click_on 'Add another EULA Identifiers'
+          find('.multiple-item-1').fill_in with: 'EULA 2'
+
+          # Testing removing a EULA Identifier field
+          click_on 'Add another EULA Identifiers'
+          find('.multiple-item-2').fill_in with: 'EULA 3'
+          within '.multiple-item-2' do
+            find('.remove').click
+          end
         end
 
         within '.license-url-fields' do
@@ -81,7 +92,6 @@ describe 'Data identification form', js: true do
 
       it 'displays a confirmation message and populates the form with the values' do
         expect(page).to have_content('Collection Draft Updated Successfully!')
-
         within '.multiple.dates' do
           within '.multiple-item-0' do
             expect(page).to have_field('Type', with: 'CREATE')
@@ -117,6 +127,11 @@ describe 'Data identification form', js: true do
 
             within '.free-and-open-data-field' do
               expect(page).to have_checked_field('True')
+            end
+            within '.eula-identifiers' do
+              expect(page).to have_field(with: 'EULA 1')
+              expect(page).to have_field(with: 'EULA 2')
+              expect(page).not_to have_field(with: 'EULA 3')
             end
           end
           within '.license-url-fields' do
