@@ -260,6 +260,7 @@ module ControlledKeywords
         @country_codes << code
       end
     end
+    @country_codes
   end
 
   # Returns and sets:
