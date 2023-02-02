@@ -54,6 +54,7 @@ module Cmr
       sslPolicy = {}
       sslPolicy['sslEnabled'] = payload[:sslPolicy][:sslEnabled] == '1' ? true : false
       sslPolicy['sslCertificate'] = payload[:sslPolicy][:sslCertificate]
+      sslPolicy['sslCertificate'] = sslPolicy['sslCertificate'].gsub(/\r\n/, "\n")
       variables['sslPolicy'] = sslPolicy
       query = {}
       query['variables'] = variables
@@ -110,6 +111,7 @@ module Cmr
       sslPolicy = {}
       sslPolicy['sslEnabled'] = payload[:sslPolicy][:sslEnabled] == '1' ? true : false
       sslPolicy['sslCertificate'] = payload[:sslPolicy][:sslCertificate]
+      sslPolicy['sslCertificate'] = sslPolicy['sslCertificate'].gsub(/\r\n/, "\n")
       variables['sslPolicy'] = sslPolicy
       query = {}
       query['variables'] = variables
