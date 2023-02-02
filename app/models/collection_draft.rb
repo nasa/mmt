@@ -225,8 +225,6 @@ class CollectionDraft < Draft
     size
     longitude
     latitude
-    minimum_value
-    maximum_value
     west_bounding_coordinate
     north_bounding_coordinate
     east_bounding_coordinate
