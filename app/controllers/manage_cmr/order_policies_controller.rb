@@ -174,10 +174,10 @@ class OrderPoliciesController < ManageCmrController
   end
 
   def legacy_upsert_policy
-    response = echo_client.set_provider_policies(token, current_provider_guid, generate_upsert_payload)
+    response = echo_client.set_provider_policies(token, current_provider_guid, legacy_generate_upsert_payload)
 
     if response.error?
-      Rails.logger.error("#{request.uuid} - OrderPoliciesController#upsert_policy - Set Providers Policies Error: #{response.clean_inspect}")
+      Rails.logger.error("#{request.uuid} - OrderPoliciesController#legacy_upsert_policy - Set Providers Policies Error: #{response.clean_inspect}")
       flash[:error] = I18n.t("controllers.order_policies.upsert_policy.flash.timeout_error", request: request.uuid) if response.timeout_error?
     end
 
