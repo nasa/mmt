@@ -17,6 +17,7 @@
   <%= render partial: 'shared/assets' %>
   <%= render partial: 'shared/google_tag_manager_head' %>
 
+  <%= javascript_pack_tag 'application' %>
 </head>
 
 <body class="application-layout <%= 'proposal-mode-body' if Rails.configuration.proposal_mode %>">

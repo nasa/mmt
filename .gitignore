@@ -65,3 +65,10 @@ nohup.out
 #ignore package
 package-lock.json
 package.json
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
