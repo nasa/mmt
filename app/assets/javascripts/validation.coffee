@@ -832,6 +832,13 @@ $(document).ready ->
         # then there is an error
         if $(this).val() && greaterPair.val() && pairedFieldComparison($(this).val(), greaterPair.val())
           id = $(this).attr('id')
+          # If Tiling Identification System is present and the Tiling Identification Name is
+          # Military Grid Reference System then no validation needs to be perfromed
+          if $('#tiling-identification-system') == []
+            [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
+            titlingIdentifier = $("#draft_tiling_identification_systems_"+index+"_tiling_identification_system_name").val()
+            if(titlingIdentifier && titlingIdentifier=='Military Grid Reference System')
+              return
           # Populate the dataPath, pairedField, and keyword from the specific
           # case we are in.
           [dataPath, pairedField, keyword] = switch
@@ -844,7 +851,6 @@ $(document).ready ->
             when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/.test id
               [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
               ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue", 'Maximum Value', 'minGreaterThanMax']
-
           # The other errors which are likely to occur here are required errors
           # (which means we shouldn't be here because it is blank), and format
           # errors. We don't need to tell the user about this error if they are
