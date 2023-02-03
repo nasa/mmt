@@ -595,7 +595,6 @@ class CollectionDraftsController < BaseDraftsController
   end
 
   def validate_tiling_identification_systems_paired_fields(errors, metadata)
-    # if metadata['TilingIdentificationSystems'][0]['TilingIdentificationSystemName'] != 'Military Grid Reference System'
       tiling_systems = metadata['TilingIdentificationSystems']
       tiling_systems&.each_with_index do |system, index|
         coordinate1_min = system.fetch('Coordinate1', {}).fetch('MinimumValue', nil)
@@ -613,8 +612,6 @@ class CollectionDraftsController < BaseDraftsController
           errors << error
         end
       end
-    # end
-
     errors
   end
 
