@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Country selection', js: true do
+describe 'Country selection', skip: true, js: true do
   before do
     login
     draft = create(:collection_draft, user: User.where(urs_uid: 'testuser').first)

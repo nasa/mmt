@@ -56,6 +56,9 @@ module Mmt
     config.proposal_mode = false
     config.proposal_mode = true if ENV['proposal_mode'] == 'true'
 
+    #Feature toggle for using legacy order service
+    config.use_legacy_order_service = ENV['use_legacy_order_service'] == 'true'
+
     config.middleware.insert_after Rails::Rack::Logger, MiddlewareHealthcheck
 
     # Launchpad Session Cookie name
@@ -74,7 +77,6 @@ module Mmt
 
     # Store boolean values are in sqlite3 databases as 1 and 0 instead of 't' and
     # 'f' after migrating old data.
-    config.active_record.sqlite3.represent_boolean_as_integer = true
 
     # Don't require `belongs_to` associations by default. In Rails 5 default was changed to true.
     config.active_record.belongs_to_required_by_default = false

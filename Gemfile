@@ -4,7 +4,7 @@ ruby "2.7.2"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # We have not investigated the cost of moving to rails 6, but expect it to make
 # more breaking changes.  Rails 5 is still supported.
-gem 'rails', '~> 5.2.8'
+gem 'rails', '~> 6.0'
 # Rails currently limits all of the action*/active* gems
 # activesupport limits tzinfo
 
@@ -78,7 +78,7 @@ gem 'aasm'
 
 gem 'browser'
 
-gem 'actionpack', '>= 5.2.8'
+gem 'actionpack', '~> 6.0'
 
 gem 'pg', '<1.3'
 

@@ -1,31 +1,50 @@
 # :nodoc:
 class OrderPoliciesController < ManageCmrController
   before_action :set_collections, only: [:index, :new, :edit]
-  before_action :set_policy, only: [:index, :new, :edit]
+
+  if Rails.configuration.use_legacy_order_service
+    before_action :legacy_set_policy, only: [:index, :new, :edit]
+  else
+    before_action :set_policy, only: [:index, :new, :edit]
+  end
 
   add_breadcrumb 'Order Policies', :order_policies_path
 
   def index
-    set_policy
+    if use_legacy_order_service?
+      legacy_set_policy
+    else
+      set_policy
+    end
   end
 
   def new
-    set_policy
+    if use_legacy_order_service?
+      legacy_set_policy
+    else
+      set_policy
+    end
 
     add_breadcrumb 'New', new_order_policies_path
-
     redirect_to edit_order_policies_path, flash: { notice: "Order Policies already exist for #{current_user.provider_id}." } unless @policy.empty?
   end
 
   def edit
-    set_policy
+    if use_legacy_order_service?
+      legacy_set_policy
+    else
+      set_policy
+    end
 
     add_breadcrumb 'Edit', edit_order_policies_path
   end
 
   def create
-    # Attempt to upsert the policies
-    upsert_response = upsert_policy
+    upsert_response = if use_legacy_order_service?
+                        legacy_upsert_policy
+                      else
+                        create_provider_policy
+                      end
 
     if upsert_response.error?
       @policy.deep_stringify_keys!
@@ -38,8 +57,11 @@ class OrderPoliciesController < ManageCmrController
   end
 
   def update
-    # Attempt to upsert the policies
-    upsert_response = upsert_policy
+    upsert_response = if use_legacy_order_service?
+                        legacy_upsert_policy
+                      else
+                        update_provider_policy
+                      end
 
     if upsert_response.error?
       @policy.deep_stringify_keys!
@@ -52,7 +74,11 @@ class OrderPoliciesController < ManageCmrController
   end
 
   def destroy
-    response = echo_client.remove_provider_policies(token, current_provider_guid)
+    response = if use_legacy_order_service?
+                 legacy_remove_policy
+               else
+                 remove_policy
+               end
 
     if response.error?
       Rails.logger.error("Delete Order Policies Error: #{response.clean_inspect}")
@@ -65,20 +91,25 @@ class OrderPoliciesController < ManageCmrController
   end
 
   def test_endpoint_connection
-    response = echo_client.test_endpoint_connection(token, current_provider_guid)
+    response = if use_legacy_order_service?
+                 echo_client.test_endpoint_connection(token, current_provider_guid)
+               else
+                 cmr_client.test_endpoint_connection(token, current_user.provider_id)
+               end
 
-    message = if response.error?
-                response.error_message
-              else
-                'Test endpoint connection was successful.'
-              end
+    if response.error?
+      Rails.logger.error("Test Endpoint Connection Error: #{response.clean_inspect}")
+      message = 'Test endpoint connection failed. Please try again.'
+    else
+      message = 'Test endpoint connection was successful.'
+    end
 
     render json: { message: message }
   end
 
   private
 
-  def set_policy
+  def legacy_set_policy
     # Get the provider's policies (will only ever be one)
     result = echo_client.get_providers_policies(token, current_provider_guid)
 
@@ -104,7 +135,7 @@ class OrderPoliciesController < ManageCmrController
     end
   end
 
-  def generate_upsert_payload
+  def legacy_generate_upsert_payload
     # SUBMIT is given to all orders, no need to select it
     provided_supported_transactions = %w(SUBMIT)
 
@@ -142,14 +173,75 @@ class OrderPoliciesController < ManageCmrController
     @policy
   end
 
-  def upsert_policy
-    response = echo_client.set_provider_policies(token, current_provider_guid, generate_upsert_payload)
+  def legacy_upsert_policy
+    response = echo_client.set_provider_policies(token, current_provider_guid, legacy_generate_upsert_payload)
 
     if response.error?
-      Rails.logger.error("#{request.uuid} - OrderPoliciesController#upsert_policy - Set Providers Policies Error: #{response.clean_inspect}")
+      Rails.logger.error("#{request.uuid} - OrderPoliciesController#legacy_upsert_policy - Set Providers Policies Error: #{response.clean_inspect}")
       flash[:error] = I18n.t("controllers.order_policies.upsert_policy.flash.timeout_error", request: request.uuid) if response.timeout_error?
     end
 
+    response
+  end
+
+  def remove_policy
+    cmr_client.remove_provider_policy(token, current_user.provider_id)
+  end
+
+  def legacy_remove_policy
+    echo_client.remove_provider_policies(token, current_provider_guid)
+  end
+
+  def set_policy
+    result = cmr_client.get_provider_policy(token, current_user.provider_id)
+    @policy = result.body.fetch('data', {}).fetch('providerPolicy', {}) unless result.error?
+    if result.error?
+      Rails.logger.error("#{request.uuid} - OrderPoliciesController#set_policy - Retrieve Providers Policies Error: #{result.clean_inspect}")
+      flash[:error] = I18n.t("controllers.order_policies.set_policy.flash.timeout_error", request: request.uuid) if result.timeout_error?
+    end
+    @policy = {} if @policy.nil?
+  end
+
+  def generate_order_policy_payload
+    @policy = {
+      retryAttempts: params.fetch('retry_attempts'),
+      retryWaitTime: params.fetch('retry_wait_time'),
+      endpoint: params.fetch('end_point'),
+      overrideNotifyEnabled: params.fetch('override_notification_enabled', '0'),
+      sslPolicy: {
+        sslEnabled: params.fetch('ssl_policy', {}).fetch('ssl_enabled', '0'),
+        sslCertificate: params.fetch('ssl_policy', {}).fetch('ssl_certificate', '')
+      }
+    }
+    unless params.fetch('max_items_per_order').empty?
+      @policy[:maxItemsPerOrder] = params.fetch('max_items_per_order')
+    end
+
+    unless params.fetch('ordering_suspended_until_date').empty?
+      @policy[:orderingSuspendedUntilDate] = params.fetch('ordering_suspended_until_date')
+    end
+
+    unless params.fetch('properties').empty?
+      @policy[:referenceProps] = params.fetch('properties')
+    end
+    @policy
+  end
+
+  def update_provider_policy
+    response = cmr_client.update_provider_policy(token, current_user.provider_id, generate_order_policy_payload)
+    if response.error?
+      Rails.logger.error("#{request.uuid} - OrderPoliciesController#update_provider_policy - Update Providers Policies Error: #{response.clean_inspect}")
+      flash[:error] = I18n.t("controllers.order_policies.upsert_policy.flash.timeout_error", request: request.uuid) if response.timeout_error?
+    end
+    response
+  end
+
+  def create_provider_policy
+    response = cmr_client.create_provider_policy(token, current_user.provider_id, generate_order_policy_payload)
+    if response.error?
+      Rails.logger.error("#{request.uuid} - OrderPoliciesController#create_provider_policy - Create Providers Policies Error: #{response.clean_inspect}")
+      flash[:error] = I18n.t("controllers.order_policies.upsert_policy.flash.timeout_error", request: request.uuid) if response.timeout_error?
+    end
     response
   end
 end
