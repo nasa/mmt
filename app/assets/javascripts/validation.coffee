@@ -834,7 +834,7 @@ $(document).ready ->
           id = $(this).attr('id')
           # If Tiling Identification System is present and the Tiling Identification Name is
           # Military Grid Reference System then no validation needs to be perfromed
-          if $('#tiling-identification-system') == []
+          if($('#draft_tiling_identification_systems_0_tiling_identification_system_name').val() != undefined )
             [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
             titlingIdentifier = $("#draft_tiling_identification_systems_"+index+"_tiling_identification_system_name").val()
             if(titlingIdentifier && titlingIdentifier=='Military Grid Reference System')
