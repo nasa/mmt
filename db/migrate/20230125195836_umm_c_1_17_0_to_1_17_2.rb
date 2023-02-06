@@ -15,7 +15,6 @@ class UmmC1170To1172 < ActiveRecord::Migration[5.2]
       if draft['MetadataSpecification'].present?
         draft['MetadataSpecification'] = metadata_specification
         record.save
-        puts(record.draft)
       end
     end
 
@@ -46,8 +45,8 @@ class UmmC1170To1172 < ActiveRecord::Migration[5.2]
       end
 
       # Removes TilingIdentificationSystems if there is a Military Grid Reference System enum present
-      if draft['TilingIdentificationSystems'].present? && draft['TilingIdentificationSystems'][0]['TilingIdentificationSystemName'] == 'Military Grid Reference System'
-        draft.delete('TilingIdentificationSystems')
+      if draft['TilingIdentificationSystems'].present?
+        draft['TilingIdentificationSystems'].delete_if { |system| system['TilingIdentificationSystemName'] == 'Military Grid Reference System' }
       end
       record.save
       puts(record.draft)
