@@ -4,7 +4,6 @@ class OrdersController < ManageCmrController
   add_breadcrumb 'Track Orders', :orders_path
 
   def index
-    puts("####### OrdersController INDEX")
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       Rails.logger.info "User #{current_user.urs_uid} is starting a Track Orders search"
 
@@ -13,7 +12,64 @@ class OrdersController < ManageCmrController
   end
 
   def show
-    puts("####### OrdersController SHOW")
+    if use_legacy_order_service?
+      legacy_show_order
+    else
+      show_order
+    end
+  end
+
+  def search
+    if use_legacy_order_service?
+      legacy_search_order
+    else
+      search_order
+    end
+  end
+
+  def resubmit
+    response = cmr_client.resubmit_order(token, params['id'])
+    if response.error?
+      Rails.logger.error("#{request.uuid} - OrdersController#resubmit - Resubmit Order Error: #{response.clean_inspect}")
+      error_message = { error: "#{response.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+      flash.now[:alert] = error_message
+      return
+    end
+    new_order_id = response.body.fetch('data', {}).fetch('resubmitOrder', {}).fetch('id', '')
+    success_message = "Order successfully resubmitted. New order ID is #{new_order_id}"
+    Rails.logger.info success_message
+    flash[:success] = success_message
+    redirect_to order_path(new_order_id)
+  end
+
+  def edit
+    response = cmr_client.get_order(token, params['id'])
+    if response.errors
+      Rails.logger.error("#{request.uuid} - OrdersController#edit - Search Order Error: #{response.clean_inspect}")
+      err_message = { error: "#{response.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+      flash.now[:alert] = err_message
+      render :index
+    end
+    @order = response.body.fetch('data', {}).fetch('order', {})
+    render :edit
+  end
+
+  def destroy
+    order_id = params['order_guid']
+    status_message = params['status_message']
+    response = cmr_client.close_order(token, order_id, status_message)
+    if response.errors
+      Rails.logger.error("#{request.uuid} - OrdersController#destroy - Close Order Error: #{response.clean_inspect}")
+      err_message = { error: "#{response.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+      flash.now[:alert] = err_message
+      return
+    end
+    redirect_to order_path(order_id)
+  end
+
+  private
+
+  def legacy_show_order
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       init_time_tracking_variables
       echo_client.timeout = time_left
@@ -26,42 +82,48 @@ class OrdersController < ManageCmrController
     render :index
   end
 
-  def search
-    puts("####### OrdersController Search")
-    if use_legacy_order_service?
-      legacy_order_search
+  def show_order
+    response = cmr_client.get_order(token, params['id'])
+    if response.errors
+      Rails.logger.error("#{request.uuid} - OrdersController#show_order - Search Order Error: #{response.clean_inspect}")
+      err_message = { error: "#{response.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+      flash.now[:alert] = err_message
+      render :index
+    end
+    @order = response.body.fetch('data', {}).fetch('order', {})
+    add_breadcrumb @order.fetch('id'), order_path(@order.fetch('id'))
+    render :show
+  end
+
+  def search_order
+    single_order_search = params['order_guid'].present?
+    response = if single_order_search
+                 cmr_client.get_order(token, params['order_guid'])
+               else
+                 payload = {
+                   'ursId' => params['user_id'],
+                   'states' => (params['states'] || OrdersHelper::ORDER_STATES),
+                   'dateType' => params['date_type'],
+                   'startDate' => params['from_date'],
+                   'endDate' => params['to_date']
+                 }
+                 cmr_client.get_orders(token, current_user.provider_id, payload)
+               end
+    if response.errors
+      Rails.logger.error("#{request.uuid} - OrdersController#search_order - Search Order Error: #{response.clean_inspect}")
+      err_message = { error: "#{response.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+      redirect_to orders_path, flash: err_message
+      return
+    end
+    if single_order_search
+      @orders = Array.wrap(response.body.fetch('data', {}).fetch('order', {}))
     else
-      order_search
+      @orders = response.body.fetch('data', {}).fetch('orders', [])
     end
+    render :search
   end
 
-  private
-
-  def order_search
-    puts("##### OrdersController order_search")
-    logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
-      response = if params['order_guid'].present?
-                   cmr_client.get_order(token, params['order_guid'])
-                 else
-                   payload = {
-                     'states' => (params['states'] || OrdersHelper::ORDER_STATES),
-                     'date_type' => params['date_type'],
-                     'from_date' => params['from_date'],
-                     'to_date' => params['to_date']
-                   }
-                   cmr_client.get_orders(token, current_user.provider_id, payload)
-                 end
-      puts("#####1 response=#{response.inspect}")
-      if response.errors
-        redirect_to orders_path, flash: "Error!!!!"
-        return
-      end
-      puts("#####2 response=#{response.inspect}")
-    end
-  end
-
-  def legacy_order_search
-    puts("##### OrdersController legacy_order_search")
+  def legacy_search_order
     if echo_provider_token.blank?
       flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
       redirect_back(fallback_location: manage_collections_path)
@@ -169,6 +231,5 @@ class OrdersController < ManageCmrController
       end
     end
   end
-
 
 end

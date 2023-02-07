@@ -23,8 +23,6 @@ module OrdersHelper
     SUBMIT_FAILED
     SUBMIT_REJECTED
     PROCESSING
-    CANCELLING
-    CANCELLED
     CLOSED
   ).freeze
 

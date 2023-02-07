@@ -1,0 +1,28 @@
+<div class="row row-content">
+  <section>
+    <h2>Close Order</h2>
+    <%= form_tag(order_path, method: :delete, id: "close-order-form") do %>
+      <%= hidden_field_tag 'order_guid', @order.fetch('id'), readonly: true %>
+      <%= hidden_field_tag 'previous_request_uuid', "#{request.uuid}" %>
+
+      <fieldset>
+        <div class="row">
+          <label for="status_message" class="eui-required-o">Status Message</label>
+          <%= text_field_tag 'status_message', nil, class: 'full-width' %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <%= link_to 'Close Order', "#close-order-modal", class: 'display-modal eui-btn eui-btn--red' %>
+        <div id="close-order-modal" class="eui-modal-content">
+          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+          <p>Are you sure you want to close the order?</p>
+          <p>
+            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+            <%= submit_tag 'Yes', name: 'close', class: 'eui-btn--blue spinner' %>
+          </p>
+        </div>
+      </fieldset>
+    <% end %>
+  </section>
+</div>
