@@ -4,7 +4,6 @@ module Cmr
       url = '/ordering/api'
       headers = { 'Content-Type' => 'application/json' }
       headers = headers.merge(authorization_header(token))
-      puts("########## query=#{query.to_json}")
       post(url, query.to_json, headers)
     end
 
