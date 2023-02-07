@@ -34,6 +34,9 @@ Rails.application.routes.draw do
     collection do
       put 'search'
     end
+    member do
+      post 'resubmit'
+    end
   end
   resources :provider_orders, only: [:show, :edit, :destroy] do
     member do
