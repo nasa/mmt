@@ -36,7 +36,7 @@ class OrdersController < ManageCmrController
       return
     end
     new_order_id = response.body.fetch('data', {}).fetch('resubmitOrder', {}).fetch('id', '')
-    success_message = "Order successfully resubmitted. New order ID is #{new_order_id}"
+    success_message = "Order successfully resubmitted. New order GUID is #{new_order_id}"
     Rails.logger.info success_message
     flash[:success] = success_message
     redirect_to order_path(new_order_id)

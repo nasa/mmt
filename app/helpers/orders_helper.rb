@@ -37,6 +37,10 @@ module OrdersHelper
     OrdersHelper::TERMINAL_ORDER_STATES.include?(order_state)
   end
 
+  def order_is_closeable(order_state)
+    return ['CLOSED'].include?(order_state) ? false : true
+  end
+
   def safe_date_output(date_text, default_message)
     if date_text.nil? or date_text.empty?
       default_message
