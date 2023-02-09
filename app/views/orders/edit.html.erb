@@ -13,15 +13,7 @@
       </fieldset>
 
       <fieldset>
-        <%= link_to 'Close Order', "#close-order-modal", class: 'display-modal eui-btn eui-btn--red' %>
-        <div id="close-order-modal" class="eui-modal-content">
-          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-          <p>Are you sure you want to close the order?</p>
-          <p>
-            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <%= submit_tag 'Yes', name: 'close', class: 'eui-btn--blue spinner' %>
-          </p>
-        </div>
+        <%= button_tag 'Close Order', class: 'eui-btn--red' %>
       </fieldset>
     <% end %>
   </section>
