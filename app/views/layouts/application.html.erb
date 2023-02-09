@@ -14,10 +14,11 @@
 
   <%= csrf_meta_tag %>
 
+  <%= javascript_pack_tag 'application' %>
+  <%= stylesheet_pack_tag 'application' %>
+
   <%= render partial: 'shared/assets' %>
   <%= render partial: 'shared/google_tag_manager_head' %>
-
-  <%= javascript_pack_tag 'application' %>
 </head>
 
 <body class="application-layout <%= 'proposal-mode-body' if Rails.configuration.proposal_mode %>">

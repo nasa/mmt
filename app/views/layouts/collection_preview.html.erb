@@ -12,13 +12,14 @@
   <meta name="description" content="">
 
   <%= csrf_meta_tag %>
+  <%= javascript_pack_tag 'application' %>
+  <%= stylesheet_pack_tag 'application' %>
 
   <%= render partial: 'shared/assets' %>
   <%= render partial: 'shared/google_tag_manager_head' %>
   <script defer src="<%= Rails.configuration.metadata_preview_js_url %>"></script>
   <link href="<%= Rails.configuration.metadata_preview_css_url %>" rel="stylesheet" type="text/css">
 
-  <%= javascript_pack_tag 'application' %>
 </head>
 
 <body class="dashboard <%= 'proposal-mode-body offset-background-image' if Rails.configuration.proposal_mode %>">

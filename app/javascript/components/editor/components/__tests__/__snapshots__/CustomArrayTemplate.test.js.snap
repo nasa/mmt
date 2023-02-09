@@ -1,0 +1,252 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom Array Template renders the custom array template and adds an array 1`] = `
+<div>
+  <form
+    class="rjsf"
+  >
+    <div
+      class="form-group"
+    >
+      <div
+        class="field field-array field-array-of-undefined"
+        data-testid="custom-array-template"
+      >
+        <h5>
+          <hr
+            class="border-0 bg-secondary"
+            style="height: 1px;"
+          />
+        </h5>
+        <p />
+        <br />
+        <div
+          class="array-item"
+          style="margin-bottom: 25px;"
+        >
+          <div
+            class="mb-2  d-flex align-items-center row"
+          >
+            <div
+              class="array-item col-lg-9 col-9"
+              data-testid="custom-array-element"
+            >
+              <div
+                class="form-group"
+              >
+                <div
+                  class="p-0 container-fluid"
+                >
+                  <div
+                    class="row"
+                    style="margin-bottom: 10px;"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                       
+                      <div
+                        class="form-group"
+                      >
+                        <div
+                          class="mb-0 form-group"
+                        >
+                          <label
+                            class="form-label"
+                          >
+                            First Name
+                          </label>
+                          <input
+                            class="form-control"
+                            id="root"
+                            placeholder=""
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: 10px;"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                       
+                      <div
+                        class="form-group"
+                      >
+                        <div
+                          class="mb-0 form-group"
+                        >
+                          <label
+                            class="form-label"
+                          >
+                            Last Name
+                          </label>
+                          <input
+                            class="form-control"
+                            id="root"
+                            placeholder=""
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: 10px;"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                       
+                      <div
+                        class="form-group"
+                      >
+                        <div
+                          class="mb-0 form-group"
+                        >
+                          <label
+                            class="form-label"
+                          >
+                            Age
+                          </label>
+                          <input
+                            class="form-control"
+                            id="root"
+                            placeholder=""
+                            type="integer"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="custom-array-template-remove-btn"
+          >
+            <button
+              class="btn"
+              type="button"
+            >
+              <span
+                style="color: red; margin-left: -10px;"
+              >
+                <i
+                  class="fa-solid fa-circle-minus fa-2xl"
+                />
+              </span>
+               
+              <span
+                style="color: red; font-weight: bold; text-decoration: underline;"
+              >
+                Remove
+                 
+              </span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="custom-array-template-add-btn"
+          data-testid="custom-array-template-add-btn"
+        >
+          <button
+            class="btn"
+            type="button"
+          >
+            <span
+              style="color: rgb(31, 107, 162);"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-2xl"
+              />
+            </span>
+             
+            <span
+              style="color: rgb(31, 107, 162); font-weight: bold; text-decoration: underline;"
+            >
+              Add another
+               
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`Custom Array Template renders the custom array template. 1.) Adds a field 2.) removes the added field 1`] = `
+<div>
+  <form
+    class="rjsf"
+  >
+    <div
+      class="form-group"
+    >
+      <div
+        class="field field-array field-array-of-undefined"
+        data-testid="custom-array-template"
+      >
+        <h5>
+          <hr
+            class="border-0 bg-secondary"
+            style="height: 1px;"
+          />
+        </h5>
+        <p />
+        <br />
+        <div
+          class="custom-array-template-add-btn"
+          data-testid="custom-array-template-add-btn"
+        >
+          <button
+            class="btn"
+            type="button"
+          >
+            <span
+              style="color: rgb(31, 107, 162);"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-2xl"
+              />
+            </span>
+             
+            <span
+              style="color: rgb(31, 107, 162); font-weight: bold; text-decoration: underline;"
+            >
+              Add another
+               
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+`;

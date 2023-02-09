@@ -1,0 +1,68 @@
+// Fixes conflicts with react editor
+#react-editor-form .sidebar_column {
+  display: flex;
+}
+#react-editor-form .col-md-12 {
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+}
+
+#react-editor-form .col-md-6 {
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+}
+
+#react-editor-form .col {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+#react-editor-form .col-12 {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+#react-editor-form .col-9 {
+  padding-left: 5px;
+}
+#react-editor-form .col-sm-8 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#react-editor-form {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+#react-editor-form .container {
+  margin-left: 25px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#react-editor-form .form-group.field.field-object {
+  padding: 5px;
+}
+// Fixes conflicts with other forms
+.eui-callout-box .row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+section .umm-preview {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+.col-6 {
+  padding-left: 0px;
+}
+section.action {
+  margin-left: 20px;
+}
+.row {
+  margin-left: 0px;
+}
+.collection-basics {
+  margin-left: 20px;
+}
+.highlight {
+  padding: 1.6em;
+}

@@ -10,13 +10,13 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="">
+  <%= javascript_pack_tag 'application' %>
+  <%= stylesheet_pack_tag 'application' %>
 
   <%= csrf_meta_tag %>
 
   <%= render partial: 'shared/assets' %>
   <%= render partial: 'shared/google_tag_manager_head' %>
-
-  <%= javascript_pack_tag 'application' %>
 </head>
 
 <body class="dashboard <%= 'proposal-mode-body offset-background-image' if Rails.configuration.proposal_mode %>">

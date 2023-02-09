@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Progress field navigation test array field navigate to edit a field in array 1`] = `
+<div>
+  <span
+    class="field-circle"
+    data-testid="progress-field__related-ur-ls_2_required_pass"
+  >
+    <span
+      class="progressField"
+      data-testid="progress-field__related-ur-ls_link"
+    >
+      <i
+        class="eui-icon eui-required icon-green pass-required-circle"
+        title="Related URLs"
+      />
+    </span>
+  </span>
+</div>
+`;
