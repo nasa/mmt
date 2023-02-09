@@ -1,13 +1,13 @@
 <div class="row row-content">
   <section>
     <h2>Close Order</h2>
-    <%= form_tag(order_path, method: :delete, id: "close-order-form") do %>
+    <%= form_tag(order_path, method: :delete, class: "close-order-form", id: "close-order-form") do %>
       <%= hidden_field_tag 'order_guid', @order.fetch('id'), readonly: true %>
       <%= hidden_field_tag 'previous_request_uuid', "#{request.uuid}" %>
 
       <fieldset>
         <div class="row">
-          <label for="status_message" class="eui-required-o">Status Message</label>
+          <%= label_tag 'status_message', 'Status Message', class: 'eui-required-o' %>
           <%= text_field_tag 'status_message', nil, class: 'full-width' %>
         </div>
       </fieldset>

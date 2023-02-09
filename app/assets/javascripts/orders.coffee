@@ -1,4 +1,14 @@
 $(document).ready ->
+
+  $('#close-order-form').validate
+    rules:
+      'status_message':
+        required: true
+
+    messages:
+      'status_message':
+        required: 'Status Message is required.'
+
   $('#order-by-guid-form').validate
     rules:
       'order_guid':

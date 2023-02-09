@@ -1,0 +1,151 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/ordering/api
+    body:
+      encoding: UTF-8
+      string: '{"variables":{"id":"order_guid","message":"Provider message"},"query":"mutation
+        CloseOrder(\n                          $id: String!\n                          $message:
+        String!\n                        ) {\n                          closeOrder
+        (\n                            id: $id\n                            message:
+        $message\n                          ) {\n                            id\n                            state\n                          }\n                        }"}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Authorization:
+      - access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '830'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 08 Feb 2023 21:43:35 GMT
+      access-control-allow-credentials:
+      - 'true'
+      x-amzn-trace-id:
+      - Root=1-63e41783-5d959a734a3c062e43f44642;Sampled=0
+      x-powered-by:
+      - Express
+      etag:
+      - W/"33e-aHe1qcbF8JYaIqMHXsA4QeJkZ8k"
+      vary:
+      - Origin
+      x-amz-apigw-id:
+      - ACicpG3NIAMF9Sg=
+      x-amzn-remapped-content-length:
+      - '830'
+      server:
+      - ServerTokens ProductOnly
+      x-request-id:
+      - Q0xjKgeUqwUUrfqpiQIHpi1Lt-nVPMr_HArUad43ydQDKJvQxWTs3g==
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-requestid:
+      - 22e4a3ae-4c2b-4fdf-9553-abb27cd5805e
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 7644cbb67f4f24c9050687ef3a2fd358.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW55-C2
+      x-amz-cf-id:
+      - Q0xjKgeUqwUUrfqpiQIHpi1Lt-nVPMr_HArUad43ydQDKJvQxWTs3g==
+    body:
+      encoding: UTF-8
+      string: '{"data":{"closeOrder":{"id":"order_guid","state":"CLOSED"}}}'
+  recorded_at: Wed, 08 Feb 2023 21:43:35 GMT
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/ordering/api
+    body:
+      encoding: UTF-8
+      string: '{"variables":{"id":"order_guid"},"query":"query Order ($id: String!)
+        {\n                          order (id: $id) {\n                            id\n                            clientIdentity\n                            collectionConceptId\n                            notificationLevel\n                            providerId\n                            providerTrackingId\n                            state\n                            closedDate\n                            submittedAt\n                            createdAt\n                            updatedAt\n                            orderItems
+        {\n                              id\n                              granuleConceptId\n                              granuleUr\n                              producerGranuleId\n                            }\n                            user
+        {\n                              id\n                              ursId\n                            }\n                            contact
+        {\n                              id\n                              email\n                              firstName\n                              lastName\n                              userDomain\n                              userRegion\n                            }\n                          }\n                        }"}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Authorization:
+      - access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '830'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 08 Feb 2023 22:39:12 GMT
+      access-control-allow-credentials:
+      - 'true'
+      x-amzn-trace-id:
+      - Root=1-63e4248c-1b6bd8a363a40d80260370fc;Sampled=0
+      x-powered-by:
+      - Express
+      etag:
+      - W/"33e-alEdBnNo/aAoIbw664KTjDguCoA"
+      vary:
+      - Origin
+      x-amz-apigw-id:
+      - ACqmEFsTIAMFwhQ=
+      x-amzn-remapped-content-length:
+      - '830'
+      server:
+      - ServerTokens ProductOnly
+      x-request-id:
+      - v4HGdHLmxNQx3h9bkVcEmEJ9otnUD8sH9fT2aaNdK5uT_MD-DuqHfQ==
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-requestid:
+      - 96e06781-3bfe-4fba-8b8e-33ff043e8756
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 20a6b94d909c5fbd6d0657efecdf6fe2.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW55-C2
+      x-amz-cf-id:
+      - v4HGdHLmxNQx3h9bkVcEmEJ9otnUD8sH9fT2aaNdK5uT_MD-DuqHfQ==
+    body:
+      encoding: UTF-8
+      string: '{"data":{"order":{"id":"order_guid","clientIdentity":"cmr-test-user","collectionConceptId":"C1200441865-CMRORDER","notificationLevel":"INFO","providerId":"CMRORDER","providerTrackingId":"600031841","state":"CLOSED","closedDate":"2023-02-07T17:52:42.576Z","submittedAt":"2023-02-07T16:06:55.320Z","createdAt":"2022-12-16T16:22:25.344Z","updatedAt":"2023-02-07T17:52:42.579Z","orderItems":[{"id":"699770d6-0ac0-4168-97c4-b8ae9e071c5d","granuleConceptId":"G1200441869-CMRORDER","granuleUr":"CMRORDER-Test-Granule1","producerGranuleId":"cmrorder-test-granule1"},{"id":"93c320f8-ec0d-40ef-bea8-e572323a5cfd","granuleConceptId":"G1200441870-CMRORDER","granuleUr":"CMRORDER-Test-Granule2","producerGranuleId":"cmrorder-test-granule2"}],"user":{"ursId":"cmr-test-user"},"contact":{"id":"de81a5d1-54e1-48e8-9f68-d1a476d06661","email":"testuser1@example.com","firstName":"Test UserOne","lastName":"test_user_1","userDomain":"GOVERNMENT","userRegion":"USA"}}}}'
+  recorded_at: Wed, 08 Feb 2023 22:39:12 GMT
+recorded_with: VCR 6.1.0
