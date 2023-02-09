@@ -279,26 +279,5 @@ module Cmr
       send_request(token, query)
     end
 
-    def close_order(token, order_id, message)
-      variables = {}
-      variables['id'] = order_id
-      variables['message'] = message
-      query = {}
-      query['variables'] = variables
-      query['query'] = "mutation CloseOrder(
-                          $id: String!
-                          $message: String!
-                        ) {
-                          closeOrder (
-                            id: $id
-                            message: $message
-                          ) {
-                            id
-                            state
-                          }
-                        }"
-      send_request(token, query)
-    end
-
   end
 end

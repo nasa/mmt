@@ -22,8 +22,6 @@ describe 'Resubmit Order', js: true do
       expect(page).to have_content('User Region: USA')
       expect(page).to have_content('Client Identity: cmr-test-user')
 
-      expect(page).to have_link('Close Order')
-
       within '#catalog-items-table' do
         expect(page).to have_content('G1200441869-CMRORDER')
         expect(page).to have_content('CMRORDER-Test-Granule1')

@@ -59,9 +59,6 @@
       <% if policy(:provider_order).resubmit? && state_is_terminal(@order.fetch('state')) %>
         <%= link_to 'Resubmit Order', resubmit_order_path(@order.fetch('id')), method: :post, class: 'eui-btn--blue' %>
       <% end %>
-      <% if order_is_closeable(@order.fetch('state')) %>
-        <%= link_to 'Close Order', edit_order_path(@order.fetch('id')), class: 'eui-btn--blue' %>
-      <% end %>
 
       <h3>Order Items</h3>
       <table id="catalog-items-table">
