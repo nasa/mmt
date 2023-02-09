@@ -4,7 +4,6 @@ class ProviderOrdersController < ManageCmrController
   add_breadcrumb 'Track Orders', :orders_path
 
   def show
-    puts("### ProviderOrdersController SHOW")
     init_time_tracking_variables
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       @provider_order = generate_provider_order(params['id'])
@@ -16,7 +15,6 @@ class ProviderOrdersController < ManageCmrController
   end
 
   def edit
-    puts("### ProviderOrdersController EDIT")
     init_time_tracking_variables
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       @provider_order = generate_provider_order(params['id'])
@@ -29,7 +27,6 @@ class ProviderOrdersController < ManageCmrController
   end
 
   def destroy
-    puts("### ProviderOrdersController DESTROY")
     init_time_tracking_variables
     logger.tagged("#{current_user.urs_uid} #{controller_name}_controller") do
       order_guid = params['order_guid']
@@ -69,7 +66,6 @@ class ProviderOrdersController < ManageCmrController
   end
 
   def resubmit
-    puts("### ProviderOrdersController RESUBMIT")
     if echo_provider_token.blank?
       flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
       redirect_back(fallback_location: manage_collections_path)
