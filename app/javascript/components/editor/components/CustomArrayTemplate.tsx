@@ -71,7 +71,7 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
         </p>
         <br />
         {items && items.map((element: any, index: number) => (
-          <div key={element.key} className={element.className} style={{ borderLeft: 'solid 10px rgb(240,240,240', marginBottom: '25px' }} ref={this.scrollRef[index]}>
+          <div key={element.key} className={element.className} style={{ borderLeft: 'solid 10px rgb(240,240,240', marginBottom: '25px', paddingLeft: 5 }} ref={this.scrollRef[index]}>
             <Row className="mb-2  d-flex align-items-center">
               <>
                 <Col xs="9" lg="9" key={element.key} className={element.className} data-testid="custom-array-element">

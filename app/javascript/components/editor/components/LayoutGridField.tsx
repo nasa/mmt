@@ -35,11 +35,14 @@ export default class LayoutGridField extends ObjectField<ObjectFieldProps, never
   renderRow(layoutGridSchema: LayoutGridSchemaProps) {
     const rows = layoutGridSchema['ui:row']
     const group = layoutGridSchema['ui:group']
+    const groupDescription = layoutGridSchema['ui:group-description']
 
     if (group) {
       const { fields, formContext } = this.props.registry
       const { TitleField } = fields
-      const { required } = this.props
+      const { required, schema } = this.props
+      const { description = '' } = schema
+
       const title = group && typeof group === 'string' ? group : null
       return (
         <fieldset
@@ -54,6 +57,11 @@ export default class LayoutGridField extends ObjectField<ObjectFieldProps, never
               />
             ) : null}
           </span>
+          { groupDescription ? (
+            <div style={{ paddingBottom: 30 }}>
+              { description }
+            </div>
+          ) : null }
           <div className="row" key={JSON.stringify(rows)}>{this.renderChildren(rows)}</div>
         </fieldset>
       )
@@ -65,11 +73,12 @@ export default class LayoutGridField extends ObjectField<ObjectFieldProps, never
     const { children, ...colProps } = layoutGridSchema['ui:col']
 
     const group = layoutGridSchema['ui:group']
-
+    const groupDescription = layoutGridSchema['ui:group-description']
     if (group) {
       const { fields, formContext } = this.props.registry
       const { TitleField } = fields
-      const { required } = this.props
+      const { required, schema } = this.props
+      const { description = '' } = schema
       const title = group && typeof group === 'string' ? group : null
 
       return (
@@ -86,6 +95,11 @@ export default class LayoutGridField extends ObjectField<ObjectFieldProps, never
                 />
               ) : null}
             </span>
+            { groupDescription ? (
+              <div style={{ paddingBottom: 30 }}>
+                { description }
+              </div>
+            ) : null }
             {this.renderChildren(children)}
           </fieldset>
         </Col>

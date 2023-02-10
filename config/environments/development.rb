@@ -134,5 +134,5 @@ Rails.application.configure do
   config.metadata_preview_js_url = ENV['metadata_preview_js_url']
   config.metadata_preview_css_url = ENV['metadata_preview_css_url']
 
-  config.react_forms_enabled = false
+  config.react_forms_enabled = true
 end

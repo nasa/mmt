@@ -217,15 +217,12 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
     const {
       uiSchema,
       formData,
-      registry,
       options
     } = this.props
     const { editor } = options
     const uiControlledFields = uiSchema['ui:controlledFields']
     const title = uiSchema['ui:title']
-    const { fields } = registry
-    const { TitleField } = fields
-    const { root, lastUpdated, loading } = this.state
+    const { root, loading } = this.state
     let data: any = root
     if (editor?.focusField) {
       if (title === editor.focusField) {
@@ -256,13 +253,6 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
     })
     return (
       <div className={`${title}`} ref={this.scrollRef}>
-        <span key={JSON.stringify(lastUpdated)} data-testid={`controlled-fields__row-title-field--${kebabCase(title)}`}>
-          {title ? (
-            <TitleField
-              title={title}
-            />
-          ) : null}
-        </span>
         {rows}
       </div>
     )

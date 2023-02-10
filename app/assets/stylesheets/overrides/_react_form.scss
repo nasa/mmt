@@ -42,6 +42,10 @@
 #react-editor-form .form-group.field.field-object {
   padding: 5px;
 }
+#react-editor-form fieldset {
+  background-color: transparent;
+  border-left: none;
+}
 // Fixes conflicts with other forms
 .eui-callout-box .row {
   margin-left: 0px;
@@ -65,4 +69,7 @@ section.action {
 }
 .highlight {
   padding: 1.6em;
+}
+.internal fieldset {
+  padding-left: 5px;
 }
