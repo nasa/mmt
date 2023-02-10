@@ -82,6 +82,7 @@ const toolInformationUiSchema = {
     'ui:layout_grid': {
       'ui:row': [
         {
+          'ui:group': 'URL',
           'ui:col': {
             md: 12,
             children: [
