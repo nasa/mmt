@@ -30,7 +30,7 @@ describe 'Progressive Update Collection Draft', reset_provider: true, js: true d
     context 'when viewing the collection draft preview page' do
       it 'the collection draft progress circles indicate validation errors' do
         within '.progress-indicator' do
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red', count: 4)
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red', count: 5)
         end
       end
 
@@ -229,7 +229,7 @@ describe 'Progressive Update Collection Draft', reset_provider: true, js: true d
     context 'when viewing the collection draft preview page' do
       it 'the collection draft progress circles indicate validation errors' do
         within '.progress-indicator' do
-          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red', count: 4)
+          expect(page).to have_css('.eui-icon.eui-fa-minus-circle.icon-red', count: 5)
         end
       end
 

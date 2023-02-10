@@ -597,22 +597,26 @@ class CollectionDraftsController < BaseDraftsController
   def validate_tiling_identification_systems_paired_fields(errors, metadata)
     tiling_systems = metadata['TilingIdentificationSystems']
     tiling_systems&.each_with_index do |system, index|
-      coordinate1_min = system.fetch('Coordinate1', {}).fetch('MinimumValue', nil)
-      coordinate1_max = system.fetch('Coordinate1', {}).fetch('MaximumValue', nil)
-      coordinate2_min = system.fetch('Coordinate2', {}).fetch('MinimumValue', nil)
-      coordinate2_max = system.fetch('Coordinate2', {}).fetch('MaximumValue', nil)
+      # Since 'Military Grid Reference System' is now an alpha-numeric field (UMM 1.17.2) there is no need to check if the
+      # value for min is lower then max. Therefore, if TilingIdentificationSystemName is Military Grid Reference System
+      # return errors else if it is any other field still do the check.
+      if system.fetch('TilingIdentificationSystemName') != 'Military Grid Reference System'
+        coordinate1_min = system.fetch('Coordinate1', {}).fetch('MinimumValue', nil)
+        coordinate1_max = system.fetch('Coordinate1', {}).fetch('MaximumValue', nil)
+        coordinate2_min = system.fetch('Coordinate2', {}).fetch('MinimumValue', nil)
+        coordinate2_max = system.fetch('Coordinate2', {}).fetch('MaximumValue', nil)
 
-      if coordinate1_min && coordinate1_max && coordinate1_min > coordinate1_max
-        error = "The property '#/TilingIdentificationSystems/#{index}/Coordinate1/MinimumValue' is larger than MaximumValue"
-        errors << error
-      end
+        if coordinate1_min && coordinate1_max && coordinate1_min > coordinate1_max
+          error = "The property '#/TilingIdentificationSystems/#{index}/Coordinate1/MinimumValue' is larger than MaximumValue"
+          errors << error
+        end
 
-      if coordinate2_min && coordinate2_max && coordinate2_min > coordinate2_max
-        error = "The property '#/TilingIdentificationSystems/#{index}/Coordinate2/MinimumValue' is larger than MaximumValue"
-        errors << error
+        if coordinate2_min && coordinate2_max && coordinate2_min > coordinate2_max
+          error = "The property '#/TilingIdentificationSystems/#{index}/Coordinate2/MinimumValue' is larger than MaximumValue"
+          errors << error
+        end
       end
     end
-
     errors
   end
 

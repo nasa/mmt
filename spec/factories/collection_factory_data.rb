@@ -826,18 +826,18 @@ def collection_one
     'TilingIdentificationSystems' => [{
       'TilingIdentificationSystemName' => 'MISR',
       'Coordinate1' => {
-        'MinimumValue' => -50, 'MaximumValue' => 50
+        'MinimumValue' => "-50", 'MaximumValue' => "50"
       },
       'Coordinate2' => {
-        'MinimumValue' => -30, 'MaximumValue' => 30
+        'MinimumValue' => "-30", 'MaximumValue' => "30"
       }
     }, {
       'TilingIdentificationSystemName' => 'MODIS Tile EASE',
       'Coordinate1' => {
-        'MinimumValue' => -25, 'MaximumValue' => 25
+        'MinimumValue' => '-25', 'MaximumValue' => '25'
       },
       'Coordinate2' => {
-        'MinimumValue' => -15, 'MaximumValue' => 15
+        'MinimumValue' => '-15', 'MaximumValue' => '15'
       }
     }],
     'SpatialInformation' => {

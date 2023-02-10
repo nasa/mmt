@@ -801,10 +801,14 @@
       "description": "Defines the minimum and maximum value for one dimension of a two dimensional coordinate system.",
       "properties": {
         "MinimumValue": {
-          "type": "number"
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
         },
         "MaximumValue": {
-          "type": "number"
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
         }
       }
     },
