@@ -71,10 +71,10 @@ class ProgressField extends React.Component<ProgressFieldProps, never> {
     const fieldName = name.replace(/\s/g, '_')
     if (index) {
       editor.setArrayField(index)
-      navigate(`/tool_drafts/${id}/edit/${sectionName}`, { replace: false })
+      navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })
     } else {
       editor.setFocusField(fieldName)
-      navigate(`/tool_drafts/${id}/edit/${sectionName}`, { replace: false })
+      navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })
     }
   }
   render() {

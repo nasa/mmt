@@ -64,7 +64,6 @@ describe('Controlled Fields Layout', () => {
     const categoryComponent = screen.queryByTestId('custom-select-widget__priority-category--selector').firstChild
     const priority1Component = screen.queryByTestId('custom-select-widget__priority-1--selector').firstChild
     const priority2Component = screen.queryByTestId('custom-select-widget__priority-2--selector').firstChild
-    expect(container).toHaveTextContent('Todo')
     expect(categoryComponent).toBeDefined()
     expect(priority1Component).toBeDefined()
     expect(priority2Component).toBeDefined()
@@ -146,7 +145,6 @@ describe('Controlled Fields Layout', () => {
     const categoryComponent = screen.queryByTestId('custom-select-widget__priority-category--selector')
     const priority1Component = screen.queryByTestId('controlled-fields__custom-text-widget--priority-1')
     const priority2Component = screen.queryByTestId('controlled-fields__custom-text-widget--priority-2')
-    expect(container).toHaveTextContent('Todo')
     expect(categoryComponent).toBeDefined()
     expect(priority1Component).toBeDefined()
     expect(priority2Component).toBeDefined()

@@ -6,12 +6,16 @@ import {
   BrowserRouter
 } from 'react-router-dom'
 import ProgressSection from '../ProgressSection'
+import UmmToolsModel from '../../../model/UmmToolsModel'
+import MetadataEditor from '../../../MetadataEditor'
 
 // Moved this ino a separate file for consistency, but it really should be included
 // with ProgressSection.test.js once the comments in ProgressFieldNavigation.test.js
 // are resolved.
 describe('Progress field navigation test array field', () => {
   test('navigate to edit a field in array', async () => {
+    const model = new UmmToolsModel()
+    const editor = new MetadataEditor(model)
     const props = {
       section: 'Tool Contacts',
       status: 'Pass',
@@ -30,7 +34,8 @@ describe('Progress field navigation test array field', () => {
           status: 'Not Started',
           required: false
         }
-      ]
+      ],
+      editor
     }
     const { queryByTestId, container } = render(
       <BrowserRouter>

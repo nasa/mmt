@@ -22,7 +22,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
         <br />
         <div
           class="array-item"
-          style="margin-bottom: 25px;"
+          style="margin-bottom: 25px; padding-left: 5px;"
         >
           <div
             class="mb-2  d-flex align-items-center row"

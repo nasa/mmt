@@ -37,7 +37,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
         this.setState({ saving: false })
         if (navigateNext) {
           const section = editor.nextSection()
-          navigate(`/tool_drafts/${draft.apiId}/edit/${section.displayName.replace(/\s/g, '_')}`, { replace: false })
+          navigate(`/${editor.documentType}/${draft.apiId}/edit/${section.displayName.replace(/\s/g, '_')}`, { replace: false })
           editor.navigateTo(section)
         }
       }).catch((error) => {
@@ -60,10 +60,10 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
         this.setState({ saving: false })
         // this will be needed to redirect to the preview page which is rendered by rails
         setTimeout(() => {
-          window.location.href = `/tool_drafts/${draft.apiId}`
+          window.location.href = `/${editor.documentType}/${draft.apiId}`
         }, 50)
         // } else {
-        // navigate(`/tool_drafts/${draft.apiId}`, { replace: false })
+        // navigate(`/${editor.documentType}/${draft.apiId}`, { replace: false })
         // }
       }).catch((error) => {
         this.setState({ status: `error saving draft! ${error.message}` })

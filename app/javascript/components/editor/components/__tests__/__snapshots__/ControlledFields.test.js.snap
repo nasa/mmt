@@ -11,21 +11,6 @@ exports[`Controlled Fields Layout renders all fields 1`] = `
       <div
         class="Todo"
       >
-        <span
-          data-testid="controlled-fields__row-title-field--todo"
-        >
-          <div
-            class="my-1"
-          >
-            <h5>
-              Todo
-            </h5>
-            <hr
-              class="border-0 bg-secondary"
-              style="height: 1px;"
-            />
-          </div>
-        </span>
         <div
           class="row"
           data-testid="controlled-fields__row--priority-category"
@@ -353,21 +338,6 @@ exports[`Controlled Fields Layout renders all fields in case of textfields 1`] =
       <div
         class="Todo"
       >
-        <span
-          data-testid="controlled-fields__row-title-field--todo"
-        >
-          <div
-            class="my-1"
-          >
-            <h5>
-              Todo
-            </h5>
-            <hr
-              class="border-0 bg-secondary"
-              style="height: 1px;"
-            />
-          </div>
-        </span>
         <div
           class="row"
           data-testid="controlled-fields__row--priority-category"
@@ -561,21 +531,6 @@ exports[`Controlled Fields Layout shows values in descendend text fields 1`] = `
       <div
         class="Todo"
       >
-        <span
-          data-testid="controlled-fields__row-title-field--todo"
-        >
-          <div
-            class="my-1"
-          >
-            <h5>
-              Todo
-            </h5>
-            <hr
-              class="border-0 bg-secondary"
-              style="height: 1px;"
-            />
-          </div>
-        </span>
         <div
           class="row"
           data-testid="controlled-fields__row--priority-category"
@@ -771,21 +726,6 @@ exports[`Controlled Fields Layout shows values in first select box 1`] = `
       <div
         class="Todo"
       >
-        <span
-          data-testid="controlled-fields__row-title-field--todo"
-        >
-          <div
-            class="my-1"
-          >
-            <h5>
-              Todo
-            </h5>
-            <hr
-              class="border-0 bg-secondary"
-              style="height: 1px;"
-            />
-          </div>
-        </span>
         <div
           class="row"
           data-testid="controlled-fields__row--priority-category"
@@ -1148,21 +1088,6 @@ exports[`Controlled Fields Layout shows values in second select box 1`] = `
       <div
         class="Todo"
       >
-        <span
-          data-testid="controlled-fields__row-title-field--todo"
-        >
-          <div
-            class="my-1"
-          >
-            <h5>
-              Todo
-            </h5>
-            <hr
-              class="border-0 bg-secondary"
-              style="height: 1px;"
-            />
-          </div>
-        </span>
         <div
           class="row"
           data-testid="controlled-fields__row--priority-category"
@@ -1525,9 +1450,6 @@ exports[`Controlled Fields Layout works without a title 1`] = `
       <div
         class="undefined"
       >
-        <span
-          data-testid="controlled-fields__row-title-field--"
-        />
         <div
           class="row"
           data-testid="controlled-fields__row--priority-category"

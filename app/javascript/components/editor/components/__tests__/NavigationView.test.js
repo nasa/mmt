@@ -123,7 +123,6 @@ describe('Navigation View Component', () => {
       saveButton.click()
     })
     expect(editor.saveDraft).toHaveBeenCalledTimes(1)
-    // expect(screen.getByText('Draft Saved')).toBeInTheDocument()
     expect(container).toMatchSnapshot()
   })
 

@@ -38,12 +38,12 @@ class ProgressSection extends React.Component<ProgressSectionProps, never> {
   }
   navigateTo() {
     const {
-      section, router
+      section, router, editor
     } = this.props
     const { navigate, params } = router
     const { id } = params
     const sectionName = section.replace(/\s/g, '_')
-    navigate(`/tool_drafts/${id}/edit/${sectionName}`, { replace: false })
+    navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })
   }
   render() {
     const {

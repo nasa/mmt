@@ -90,7 +90,7 @@ class NavigationItem extends React.Component<NavigationItemProps, NavigationView
             editor.setArrayField(undefined)
             editor.setFocusField(undefined)
             editor.navigateTo(section)
-            navigate(`/tool_drafts/${id}/edit/${section.displayName.replace(/\s/g, '_')}`, { replace: false })
+            navigate(`/${editor.documentType}/${id}/edit/${section.displayName.replace(/\s/g, '_')}`, { replace: false })
           }}
         >
           <span style={{

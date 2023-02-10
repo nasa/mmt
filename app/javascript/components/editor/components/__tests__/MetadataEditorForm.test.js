@@ -118,7 +118,7 @@ describe('UMM Tools Form', () => {
         <Routes>
           <Route path="/tool_drafts/new" element={<MetadataEditorForm editor={editor} />} />
           <Route path="/tool_drafts/:id" element={<MetadataEditorForm editor={editor} />} />
-          <Route path={`/${editor.model.documentType}/:id/edit/:sectionName`} element={<MetadataEditorForm editor={editor} />} />
+          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
         </Routes>
       </MemoryRouter>
     )
@@ -135,7 +135,7 @@ describe('UMM Tools Form', () => {
         <Routes>
           <Route path="/tool_drafts/new" element={<MetadataEditorForm editor={editor} />} />
           <Route path="/tool_drafts/:id" element={<MetadataEditorForm editor={editor} />} />
-          <Route path={`/${editor.model.documentType}/:id/edit/:sectionName`} element={<MetadataEditorForm editor={editor} />} />
+          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
         </Routes>
       </MemoryRouter>
     )

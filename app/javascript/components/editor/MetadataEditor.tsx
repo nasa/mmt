@@ -41,6 +41,10 @@ export default class MetadataEditor {
     this.model.draft = newValue
   }
 
+  get documentType() {
+    return this.model.documentType
+  }
+
   get documentTypeForDisplay() {
     return this.model.documentTypeForDisplay
   }
