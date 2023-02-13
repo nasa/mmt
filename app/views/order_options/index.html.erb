@@ -1,6 +1,7 @@
 <% if Rails.configuration.use_legacy_order_service %>
   <%= render partial: "legacy_index" %>
 <% else %>
+  <!-- THIS PAGE IS NOT USING LEGACY ORDER SERVICE -->
   <div class="row row-content">
     <section>
       <h2><%= current_user.provider_id %> Order Options</h2>

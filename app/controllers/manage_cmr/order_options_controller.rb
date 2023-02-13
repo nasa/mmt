@@ -18,28 +18,10 @@ class OrderOptionsController < ManageCmrController
   end
 
   def create
-    @order_option = params[:order_option]
-    @order_option.delete(:sort_key) if @order_option[:sort_key].blank?
-
-    # Scope will always be PROVIDER
-    @order_option['scope'] = 'PROVIDER'
-
-    if echo_provider_token.blank?
-      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
-      redirect_back(fallback_location: manage_collections_path)
-      return
-    end
-
-    response = cmr_client.create_order_option(@order_option, echo_provider_token)
-
-    if response.success?
-      order_option_id = response.parsed_body['option_definition']['id']
-      flash[:success] = 'Order Option was successfully created.'
-      redirect_to order_option_path(order_option_id)
+    if use_legacy_order_service?
+      legacy_create_order_option
     else
-      Rails.logger.error("Create Order Option Error: #{response.clean_inspect}")
-      flash.now[:error] = response.parsed_body['errors']['error']
-      render :new
+      create_order_option
     end
   end
 
@@ -76,6 +58,97 @@ class OrderOptionsController < ManageCmrController
   end
 
   def deprecate
+    if use_legacy_order_service?
+      legacy_deprecate_order_option
+    else
+      deprecate_order_option
+    end
+  end
+
+  private
+
+  def create_order_option
+    order_option = params[:order_option]
+    order_option.delete(:sort_key) if order_option[:sort_key].blank?
+    # Scope will always be PROVIDER
+    order_option['scope'] = 'PROVIDER'
+    puts("######## order_option=#{order_option.to_json}")
+    native_id = "#{current_user.provider_id}-TEST-001"
+    response = cmr_client.create_update_order_option(order_option: order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
+    if response.success?
+      order_option_concept_id = response.body.fetch('concept_id', '')
+      order_option_response = cmr_client.get_order_options(concept_id: order_option_concept_id, provider_id: current_user.provider_id, token: token)
+      if order_option_response.error?
+        Rails.logger.error("#{request.uuid} - OrderOptionsController#create_order_option - Retrieving Order Option Error: #{response.clean_inspect}")
+        flash[:error] = order_option_response.error_message
+        redirect_back(fallback_location: manage_collections_path)
+        return
+      end
+      new_order_option = order_option_response.body.fetch('items', [])[0] unless response.body.fetch('items', []).empty?
+      order_option_id = new_order_option['umm']['Id']
+      flash[:success] = 'Order Option was successfully created.'
+      redirect_to order_option_path(order_option_id)
+    else
+      Rails.logger.error("Create Order Option Error: #{response.clean_inspect}")
+      flash.now[:error] = response.error_message
+      render :new
+    end
+  end
+
+  def legacy_create_order_option
+    @order_option = params[:order_option]
+    @order_option.delete(:sort_key) if @order_option[:sort_key].blank?
+
+    # Scope will always be PROVIDER
+    @order_option['scope'] = 'PROVIDER'
+
+    if echo_provider_token.blank?
+      flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
+    response = cmr_client.create_order_option(@order_option, echo_provider_token)
+
+    if response.success?
+      order_option_id = response.parsed_body['option_definition']['id']
+      flash[:success] = 'Order Option was successfully created.'
+      redirect_to order_option_path(order_option_id)
+    else
+      Rails.logger.error("Create Order Option Error: #{response.clean_inspect}")
+      flash.now[:error] = response.parsed_body['errors']['error']
+      render :new
+    end
+  end
+
+  def deprecate_order_option
+    order_option_id = params[:id]
+
+    response = cmr_client.get_order_options(id: order_option_id, provider_id: current_user.provider_id, token: token)
+    if response.error?
+      Rails.logger.error("#{request.uuid} - OrderOptionsController#deprecate_order_option - Retrieving Order Option Error: #{response.clean_inspect}")
+      flash[:error] = response.error_message
+      redirect_back(fallback_location: manage_collections_path)
+      return
+    end
+
+    existing_order_option = response.body.fetch('items', [])[0] unless response.body.fetch('items', []).empty?
+    native_id = existing_order_option['meta']['native-id']
+    updating_order_option = existing_order_option.fetch('umm', {})
+
+    updating_order_option['Deprecated'] = true
+
+    update_response = cmr_client.create_update_order_option(order_option: updating_order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
+    if update_response.success?
+      flash[:success] = 'Order Option was successfully deprecated.'
+    else
+      Rails.logger.error("Deprecate Order Option Error: #{update_response.clean_inspect}")
+      flash[:error] = update_response.error_message
+    end
+    redirect_to order_options_path
+  end
+
+  def legacy_deprecate_order_option
     if echo_provider_token.blank?
       flash[:error] = "Error retrieving echo provider token.  Try logging in with launchpad"
       redirect_back(fallback_location: manage_collections_path)
@@ -92,19 +165,8 @@ class OrderOptionsController < ManageCmrController
     redirect_to order_options_path
   end
 
-  private
-
-  def create_order_option
-
-  end
-
-  def legacy_create_order_option
-
-  end
-
   def delete_order_option
     response = cmr_client.delete_order_option(native_id: params[:id], provider_id: current_user.provider_id, token: token)
-    puts("########### delete response=#{response.inspect}")
     if response.success?
       flash[:success] = 'Order Option was successfully deleted.'
     else
@@ -169,31 +231,34 @@ class OrderOptionsController < ManageCmrController
   end
 
   def update_order_option
-    @order_option_id = params[:id]
-    response = cmr_client.get_order_options(id: @order_option_id, provider_id: current_user.provider_id, token: token)
+    order_option_id = params[:id]
+    order_option_param = params[:order_option]
+
+    response = cmr_client.get_order_options(id: order_option_id, provider_id: current_user.provider_id, token: token)
     if response.error?
       Rails.logger.error("#{request.uuid} - OrderOptionsController#update_order_option - Retrieving Order Option Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
       render :edit and return
     end
-    @order_option = response.body.fetch('items', [])[0] unless response.body.fetch('items', []).empty?
-    order_option = params[:order_option]
-    if order_option.fetch(:SortKey, '').blank?
-      @order_option['umm'].delete(:SortKey)
-    else
-      @order_option['umm']['SortKey'] = order_option.fetch(:SortKey, '')
-    end
-    @order_option['umm']['Name'] = order_option.fetch('Name', '')
-    @order_option['umm']['Description'] = order_option.fetch('Description', '')
-    @order_option['umm']['Form'] = order_option.fetch('Form', '')
-    @order_option['umm']['Scope'] = 'PROVIDER'
-    native_id = @order_option['meta']['native-id']
 
-    update_response = cmr_client.create_update_order_option(order_option: @order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
-    puts("$$$$$$$$$$ update response=#{update_response.inspect}")
+    existing_order_option = response.body.fetch('items', [])[0] unless response.body.fetch('items', []).empty?
+    native_id = existing_order_option['meta']['native-id']
+    updating_order_option = existing_order_option.fetch('umm', {})
+
+    if order_option_param.fetch(:SortKey, '').blank?
+      updating_order_option.delete(:SortKey)
+    else
+      updating_order_option['SortKey'] = order_option_param.fetch(:SortKey, '')
+    end
+    updating_order_option['Name'] = order_option_param.fetch('Name', '')
+    updating_order_option['Description'] = order_option_param.fetch('Description', '')
+    updating_order_option['Form'] = order_option_param.fetch('Form', '')
+    updating_order_option['Scope'] = 'PROVIDER'
+
+    update_response = cmr_client.create_update_order_option(order_option: updating_order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
     if update_response.success?
       flash[:success] = 'Order Option was successfully updated.'
-      redirect_to order_option_path(@order_option_id)
+      redirect_to order_option_path(order_option_id)
     else
       Rails.logger.error("Update Order Option Error: #{update_response.clean_inspect}")
       flash[:error] = update_response.error_message

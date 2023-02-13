@@ -1,4 +1,9 @@
-<% umm = @order_option.fetch('umm', {}) %>
+<!-- THIS PAGE IS NOT USING LEGACY ORDER SERVICE -->
+<% if new_form == false %>
+  <% umm = @order_option.fetch('umm', {}) %>
+<% else %>
+  <% umm = {} %>
+<% end %>
 <%= hidden_field_tag 'orderOpt', @order_option %>
 <fieldset>
   <div class="row">
