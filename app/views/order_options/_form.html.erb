@@ -1,33 +1,35 @@
+<% umm = @order_option.fetch('umm', {}) %>
+<%= hidden_field_tag 'orderOpt', @order_option %>
 <fieldset>
   <div class="row">
     <div class="col-8">
-      <%= label_tag('order_option[name]', 'Name', class: 'required eui-required-o', for: 'order_option_name') %>
+      <%= label_tag('order_option[Name]', 'Name', class: 'required eui-required-o', for: 'order_option_name') %>
 
-      <%= text_field_tag('order_option[name]', @order_option['name'], class: 'required full-width', maxlength: 30) %>
+      <%= text_field_tag('order_option[Name]', umm.fetch('Name', ''), class: 'required full-width', maxlength: 30) %>
       <% if new_form == false %>
-      <p class="form-description">You must change the name of this option definition when updating it.</p>
+        <p class="form-description">You must change the name of this option definition when updating it.</p>
       <% end %>
     </div>
 
     <div class="col-4">
-      <%= label_tag('order_option[sort_key]', 'Sort Key', for: 'order_option_sort_key') %>
-      <%= text_field_tag('order_option[sort_key]', @order_option['sort_key'], maxlength: 5, class: 'full-width') %>
+      <%= label_tag('order_option[SortKey]', 'Sort Key', for: 'order_option_sort_key') %>
+      <%= text_field_tag('order_option[SortKey]', umm.fetch('SortKey', ''), maxlength: 5, class: 'full-width') %>
     </div>
   </div>
 </fieldset>
 
 <fieldset>
   <div class="row">
-    <%= label_tag('order_option[description]', 'Description', class: 'eui-required-o') %>
-    <%= text_area_tag('order_option[description]', @order_option['description'], class: 'required') %>
+    <%= label_tag('order_option[Description]', 'Description', class: 'eui-required-o') %>
+    <%= text_area_tag('order_option[Description]', umm.fetch('Description', ''), class: 'required') %>
   </div>
 </fieldset>
 
 <fieldset>
   <div class="row">
-    <%= label_tag('order_option[form]', 'Form XML', class: 'eui-required-o') %>
-    <%= text_area_tag('order_option[form]', @order_option['form'], class: 'required textarea-tall') %>
-  </div>  
+    <%= label_tag('order_option[Form]', 'Form XML', class: 'eui-required-o') %>
+    <%= text_area_tag('order_option[Form]', umm.fetch('Form', ''), class: 'required textarea-tall') %>
+  </div>
 </fieldset>
 
 <fieldset>

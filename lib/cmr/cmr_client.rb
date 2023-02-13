@@ -712,6 +712,30 @@ module Cmr
       get(url, options, token_header(token))
     end
 
+    def get_order_options(provider_id:, token:, id: nil)
+      options = {}
+      options[:provider_id] = provider_id
+      options[:id] = id if id
+      options[:page_size] = 2000
+      get('/search/order-options.umm_json', options, token_header(token))
+    end
+
+    def delete_order_option(provider_id:, native_id:, token:)
+      url = "/ingest/providers/#{provider_id}/order-options/#{encode_if_needed(native_id)}"
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+      delete(url, {}, nil, headers.merge(token_header(token)))
+    end
+
+    def create_update_order_option(order_option:, provider_id:, native_id:, token:)
+      puts("@@@@@@@ order_option.to_json=#{order_option.to_json[0..300]}")
+      url = "/ingest/providers/#{provider_id}/order-options/#{encode_if_needed(native_id)}"
+      headers = {
+        'Accept' => 'application/json; charset=utf-8',
+        'Content-Type' => 'application/json'
+      }
+      post(url, order_option.to_json, headers.merge(token_header(token)))
+    end
+
     private
 
     def valid_uri?(uri)
