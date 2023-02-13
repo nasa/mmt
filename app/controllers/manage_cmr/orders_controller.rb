@@ -28,12 +28,12 @@ class OrdersController < ManageCmrController
   end
 
   def resubmit
-    response = cmr_client.resubmit_order(token, params['id'])
+    old_order_id = params['id']
+    response = cmr_client.resubmit_order(token, old_order_id)
     if response.error?
-      Rails.logger.error("#{request.uuid} - OrdersController#resubmit - Resubmit Order Error: #{response.clean_inspect}")
-      error_message = { error: "#{response.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
-      flash.now[:alert] = error_message
-      return
+      Rails.logger.error("#{request.uuid} - OrdersController#resubmit_order - Resubmit Order Error: #{response.clean_inspect}")
+      flash[:error] = response.error_message
+      redirect_to order_path(old_order_id) and return
     end
     new_order_id = response.body.fetch('data', {}).fetch('resubmitOrder', {}).fetch('id', '')
     success_message = "Order successfully resubmitted. New order GUID is #{new_order_id}"
