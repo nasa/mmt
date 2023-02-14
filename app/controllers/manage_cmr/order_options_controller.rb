@@ -74,27 +74,27 @@ class OrderOptionsController < ManageCmrController
     end
     # Scope will always be PROVIDER
     order_option['Scope'] = 'PROVIDER'
-    native_id = "sampleXR2Native639Id"
-    meta = {}
-    meta['Name'] = 'Order Option'
-    meta['Version'] = '1.0.0'
-    meta['URL'] = 'https://cdn.earthdata.nasa.gov/generics/order-option/v1.0.0'
-    order_option['MetadataSpecification'] = meta
-    puts("######## order_option=#{order_option.to_json}")
+    order_option['Id'] = SecureRandom.uuid
+    native_id = SecureRandom.uuid
+
+    metadata_specification = {}
+    metadata_specification['Name'] = Rails.configuration.order_option_label
+    metadata_specification['Version'] = Rails.configuration.order_option_version
+    metadata_specification['URL'] = Rails.configuration.order_option_url
+    order_option['MetadataSpecification'] = metadata_specification
+
     response = cmr_client.create_update_order_option(order_option: order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
-    puts("@@@@@ response create=#{response.inspect}")
     if response.success?
       order_option_concept_id = response.body.fetch('concept_id', '')
       order_option_response = cmr_client.get_order_options(concept_id: order_option_concept_id, provider_id: current_user.provider_id, token: token)
-      puts("@@@@@ response order_option_response=#{order_option_response.inspect}")
       if order_option_response.error?
         Rails.logger.error("#{request.uuid} - OrderOptionsController#create_order_option - Retrieving Order Option Error: #{response.clean_inspect}")
         flash[:error] = order_option_response.error_message
         redirect_back(fallback_location: manage_collections_path)
         return
       end
-      new_order_option = order_option_response.body.fetch('items', [])[0] unless response.body.fetch('items', []).empty?
-      order_option_id = new_order_option['umm']['Id']
+      new_order_option = order_option_response.body.fetch('items', [])[0] unless order_option_response.body.fetch('items', []).empty?
+      order_option_id = new_order_option.fetch('umm', {}).fetch('Id')
       flash[:success] = 'Order Option was successfully created.'
       redirect_to order_option_path(order_option_id)
     else
@@ -142,7 +142,7 @@ class OrderOptionsController < ManageCmrController
     end
 
     existing_order_option = response.body.fetch('items', [])[0] unless response.body.fetch('items', []).empty?
-    native_id = existing_order_option['meta']['native-id']
+    native_id = existing_order_option.fetch('meta', {}).fetch('native-id', '')
     updating_order_option = existing_order_option.fetch('umm', {})
 
     updating_order_option['Deprecated'] = true
@@ -251,7 +251,7 @@ class OrderOptionsController < ManageCmrController
     end
 
     existing_order_option = response.body.fetch('items', [])[0] unless response.body.fetch('items', []).empty?
-    native_id = existing_order_option['meta']['native-id']
+    native_id = existing_order_option.fetch('meta', {}).fetch('native-id', '')
     updating_order_option = existing_order_option.fetch('umm', {})
 
     if order_option_param.fetch(:SortKey, '').blank?
@@ -265,7 +265,6 @@ class OrderOptionsController < ManageCmrController
     updating_order_option['Scope'] = 'PROVIDER'
 
     update_response = cmr_client.create_update_order_option(order_option: updating_order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
-    puts("########## update=#{update_response.inspect}")
     if update_response.success?
       flash[:success] = 'Order Option was successfully updated.'
       redirect_to order_option_path(order_option_id)

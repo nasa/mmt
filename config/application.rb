@@ -52,6 +52,10 @@ module Mmt
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.4'
     config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.1'
 
+    config.order_option_label = 'Order Option'
+    config.order_option_version = '1.0.0'
+    config.order_option_url = 'https://cdn.earthdata.nasa.gov/generics/order-option/v1.0.0'
+
     # Is this the Proposal Mode version of MMT?
     config.proposal_mode = false
     config.proposal_mode = true if ENV['proposal_mode'] == 'true'
