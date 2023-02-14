@@ -50,9 +50,9 @@ class Api::DraftsController < BaseDraftsController
   end
 
   def validate_token
-    #if Rails.env.development?
-    #  return
-    #end
+    if Rails.env.development?
+      return
+    end
 
     authorization_header = request.headers['Authorization']
   
