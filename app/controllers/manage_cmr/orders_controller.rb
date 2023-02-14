@@ -32,7 +32,8 @@ class OrdersController < ManageCmrController
     response = cmr_client.resubmit_order(token, old_order_id)
     if response.error?
       Rails.logger.error("#{request.uuid} - OrdersController#resubmit_order - Resubmit Order Error: #{response.clean_inspect}")
-      flash[:error] = response.error_message
+      err_message = "#{response.error_message}.  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to(Rails.configuration.support_email, 'Earthdata Support')}"
+      flash[:error] = err_message
       redirect_to order_path(old_order_id) and return
     end
     new_order_id = response.body.fetch('data', {}).fetch('resubmitOrder', {}).fetch('id', '')
@@ -53,16 +54,17 @@ class OrdersController < ManageCmrController
       render :show
     end
   rescue Faraday::TimeoutError
-    flash.now[:alert] = "The order request #{request.uuid} timed out retrieving results.  Limit your search criteria and try again or contact #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}."
+    flash.now[:alert] = "The order request #{request.uuid} timed out retrieving results.  Limit your search criteria and try again or contact #{view_context.mail_to(Rails.configuration.support_email, 'Earthdata Support')}."
     render :index
   end
 
   def show_order
-    response = cmr_client.get_order(token, params['id'])
+    @cmr_client_get_order = cmr_client.get_order(token, params['id'])
+    response = @cmr_client_get_order
     if response.errors
       Rails.logger.error("#{request.uuid} - OrdersController#show_order - Search Order Error: #{response.clean_inspect}")
-      err_message = { error: "#{response.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
-      flash.now[:alert] = err_message
+      err_message = "#{response.error_message}.  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to(Rails.configuration.support_email, 'Earthdata Support')}"
+      flash[:error] = err_message
       render :index
     end
     @order = response.body.fetch('data', {}).fetch('order', {})
@@ -86,7 +88,7 @@ class OrdersController < ManageCmrController
                end
     if response.errors
       Rails.logger.error("#{request.uuid} - OrdersController#search_order - Search Order Error: #{response.clean_inspect}")
-      err_message = { error: "#{response.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+      err_message = "#{response.error_message}.  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to(Rails.configuration.support_email, 'Earthdata Support')}"
       redirect_to orders_path, flash: err_message
       return
     end
@@ -116,9 +118,9 @@ class OrdersController < ManageCmrController
 
           if orders_obj.errors
             if orders_obj.errors.match(/Could not find order with guid/)
-              err_message = { alert: "#{orders_obj.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+              err_message = { alert: "#{orders_obj.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to(Rails.configuration.support_email, 'Earthdata Support')}" }
             else
-              err_message = { error: "#{orders_obj.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to('support@earthdata.nasa.gov', 'Earthdata Support')}" }
+              err_message = { error: "#{orders_obj.errors}  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to(Rails.configuration.support_email, 'Earthdata Support')}" }
             end
             redirect_to orders_path, flash: err_message
             return
