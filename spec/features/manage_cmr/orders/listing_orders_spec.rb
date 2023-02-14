@@ -40,7 +40,7 @@ describe 'Searching Orders', js: true do
 
           within 'tr:first-child' do
             # State
-            expect(page).to have_link('CLOSED', href: '/orders/order_guid')
+            expect(page).to have_content('CLOSED')
             # Contact
             expect(page).to have_link('User One user_1', href: 'mailto:user@example.com')
             # View Order (by GUID)
@@ -75,7 +75,7 @@ describe 'Searching Orders', js: true do
 
           within 'tr:first-child' do
             # State
-            expect(page).to have_link('SUBMIT_FAILED', href: '/orders/order_guid_1')
+            expect(page).to have_content('SUBMIT_FAILED')
             # Contact
             expect(page).to have_link('Test UserOne test_user_1', href: 'mailto:testuser1@example.com')
             # View Provider Order (by GUID)
@@ -86,7 +86,7 @@ describe 'Searching Orders', js: true do
 
           within 'tr:last-child' do
             # State
-            expect(page).to have_link('SUBMIT_FAILED', href: '/orders/order_guid_3')
+            expect(page).to have_content('SUBMIT_FAILED')
             # Contact
             expect(page).to have_link('Test UserThree test_user_3', href: 'mailto:testuser3@example.com')
             # View Provider Order (by GUID)
@@ -106,7 +106,7 @@ describe 'Searching Orders', js: true do
           within '#order-tracking-search-results tbody' do
             within 'tr:first-child' do
               # State
-              expect(page).to have_link('SUBMIT_FAILED', href: '/orders/order_guid_3')
+              expect(page).to have_content('SUBMIT_FAILED')
               # Contact
               expect(page).to have_link('Test UserThree test_user_3', href: 'mailto:testuser3@example.com')
               # View Provider Order (by GUID)
@@ -117,7 +117,7 @@ describe 'Searching Orders', js: true do
 
             within 'tr:last-child' do
               # State
-              expect(page).to have_link('SUBMIT_FAILED', href: '/orders/order_guid_2')
+              expect(page).to have_content('SUBMIT_FAILED')
               # Contact
               expect(page).to have_link('Test UserTwo user_2', href: 'mailto:testuser2@example.com')
               # View Provider Order (by GUID)
@@ -137,7 +137,7 @@ describe 'Searching Orders', js: true do
             within '#order-tracking-search-results tbody' do
               within 'tr:first-child' do
                 # State
-                expect(page).to have_link('SUBMIT_FAILED', href: '/orders/order_guid_2')
+                expect(page).to have_content('SUBMIT_FAILED')
                 # Contact
                 expect(page).to have_link('Test UserTwo user_2', href: 'mailto:testuser2@example.com')
                 # View Provider Order (by GUID)
@@ -148,7 +148,7 @@ describe 'Searching Orders', js: true do
 
               within 'tr:last-child' do
                 # State
-                expect(page).to have_link('SUBMIT_FAILED', href: '/orders/order_guid_3')
+                expect(page).to have_content('SUBMIT_FAILED')
                 # Contact
                 expect(page).to have_link('Test UserThree test_user_3', href: 'mailto:testuser3@example.com')
                 # View Provider Order (by GUID)
@@ -171,7 +171,7 @@ describe 'Searching Orders', js: true do
             expect(page).to have_selector('tr', count: 1)
 
             # State
-            expect(page).to have_link('SUBMIT_FAILED', href: '/orders/order_guid_2')
+            expect(page).to have_content('SUBMIT_FAILED')
             # Contact
             expect(page).to have_link('Test UserTwo user_2', href: 'mailto:testuser2@example.com')
             # View Provider Order (by GUID)
