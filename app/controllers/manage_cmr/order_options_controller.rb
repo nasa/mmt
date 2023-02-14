@@ -69,15 +69,24 @@ class OrderOptionsController < ManageCmrController
 
   def create_order_option
     order_option = params[:order_option]
-    order_option.delete(:sort_key) if order_option[:sort_key].blank?
+    if order_option.fetch(:SortKey, '').blank?
+      order_option.delete(:SortKey)
+    end
     # Scope will always be PROVIDER
-    order_option['scope'] = 'PROVIDER'
+    order_option['Scope'] = 'PROVIDER'
+    native_id = "sampleXR2Native639Id"
+    meta = {}
+    meta['Name'] = 'Order Option'
+    meta['Version'] = '1.0.0'
+    meta['URL'] = 'https://cdn.earthdata.nasa.gov/generics/order-option/v1.0.0'
+    order_option['MetadataSpecification'] = meta
     puts("######## order_option=#{order_option.to_json}")
-    native_id = "#{current_user.provider_id}-TEST-001"
     response = cmr_client.create_update_order_option(order_option: order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
+    puts("@@@@@ response create=#{response.inspect}")
     if response.success?
       order_option_concept_id = response.body.fetch('concept_id', '')
       order_option_response = cmr_client.get_order_options(concept_id: order_option_concept_id, provider_id: current_user.provider_id, token: token)
+      puts("@@@@@ response order_option_response=#{order_option_response.inspect}")
       if order_option_response.error?
         Rails.logger.error("#{request.uuid} - OrderOptionsController#create_order_option - Retrieving Order Option Error: #{response.clean_inspect}")
         flash[:error] = order_option_response.error_message
@@ -256,6 +265,7 @@ class OrderOptionsController < ManageCmrController
     updating_order_option['Scope'] = 'PROVIDER'
 
     update_response = cmr_client.create_update_order_option(order_option: updating_order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
+    puts("########## update=#{update_response.inspect}")
     if update_response.success?
       flash[:success] = 'Order Option was successfully updated.'
       redirect_to order_option_path(order_option_id)
