@@ -5,8 +5,6 @@ describe 'Deprecating Order Options' do
       VCR.use_cassette("order_options/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         visit order_options_path
       end
-      save_and_open_page
-      screenshot_and_open_image
     end
 
     it "lists available order options with 'Deprecate' links." do
@@ -85,7 +83,7 @@ describe 'Deprecating Order Options' do
         end
 
         within('#deprecate-option-modal-9') do
-          VCR.use_cassette("order_options/#{File.basename(__FILE__, '.rb')}_deprecate_vcr", record: :new_episodes) do
+          VCR.use_cassette("order_options/#{File.basename(__FILE__, '.rb')}_deprecate_vcr", record: :none) do
             click_on 'Yes'
           end
         end

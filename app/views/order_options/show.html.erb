@@ -1,5 +1,5 @@
 <% if Rails.configuration.use_legacy_order_service %>
-  <%= render partial: "legacy_index" %>
+  <%= render partial: "legacy_show" %>
 <% else %>
   <!-- THIS PAGE IS NOT USING LEGACY ORDER SERVICE -->
   <div class="row row-content">
@@ -10,7 +10,7 @@
 
       <p>
         <span class="inline-label">Last Update:</span> <%= echo_formatted_date(meta.fetch('revision-date', ''), default: 'Never Updated') %> |
-        <span class="inline-label">Scope:</span> <%= umm.fetch('Scope', '').humanize %> |
+        <span class="inline-label">Scope:</span> <%= umm.fetch('Scope', '') %> |
         <span class="inline-label">Deprecated:</span> <%= umm.fetch('Deprecated', false) %> |
         <span class="inline-label">Sort Key:</span> <%= umm.fetch('SortKey', '') %>
       </p>

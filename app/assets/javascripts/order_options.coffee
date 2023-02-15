@@ -14,6 +14,12 @@ $(document).ready ->
         required: true
       'order_option[form]':
         required: true
+      'order_option[Name]':
+        required: true
+      'order_option[Description]':
+        required: true
+      'order_option[Form]':
+        required: true
 
     messages:
       'order_option[name]':
@@ -23,4 +29,10 @@ $(document).ready ->
       'order_option[scope]':
         required: 'Scope is required.'
       'order_option[form]':
+        required: 'Form XML is required.'
+      'order_option[Name]':
+        required: 'Name is required.'
+      'order_option[Description]':
+        required: 'Description is required.'
+      'order_option[Form]':
         required: 'Form XML is required.'

@@ -1,9 +1,9 @@
-# MMT-593
-require 'rails_helper'
-
-describe 'Updating Order Options' do
+describe 'Updating Order Options', js: true do
   let(:order_option_guid) {'848DA05B-51A2-1F3D-6783-6C27E5EA74B4'}
-  let(:echo_form)          { '<form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms">
+  let(:echo_form) { '<?xml version="1.0" encoding="utf-8"?>
+    <form xmlns="http://echo.nasa.gov/v9/echoforms"
+                 targetNamespace="http://myorganization.gov/echoforms"
+                 xmlns:xsd="http://www.w3.org/2001/XMLSchema">
       <model>
         <instance>
           <prov:options xmlns:prov="http://myorganization.gov/orderoptions">
@@ -13,7 +13,7 @@ describe 'Updating Order Options' do
         </instance>
       </model>
       <ui>
-        <input label="File Name" ref="prov:filename" type="xsd:string">
+        <input ref="prov:filename" type="xsd:string" label="File Name">
           <constraints>
             <constraint>
               <xpath>string-length(prov:filename) &lt; 25</xpath>
@@ -28,27 +28,31 @@ describe 'Updating Order Options' do
             </constraint>
           </constraints>
         </input>
-        <range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int">
+        <range ref="prov:filesize" type="xsd:int" start="0"
+               step="10" end="1000" label="File Size (MB)">
         </range>
       </ui>
     </form>'
   }
 
-  let(:echo_form_update)          { '<form xmlns="http://echo.nasa.gov/v9/echoforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myorganization.gov/echoforms">
+  let(:echo_form_update) { '<?xml version="1.0" encoding="utf-8"?>
+    <form xmlns="http://echo.nasa.gov/v10/echoforms"
+                 targetNamespace="http://myorganization.gov/echoforms"
+                 xmlns:xsd="http://www.w3.org/2001/XMLSchema">
       <model>
         <instance>
           <prov:options xmlns:prov="http://myorganization.gov/orderoptions">
-            <prov:filename>data_update.txt</prov:filename>
-            <prov:filesize>20</prov:filesize>
+            <prov:filename>data.txt</prov:filename>
+            <prov:filesize>10</prov:filesize>
           </prov:options>
         </instance>
       </model>
       <ui>
-        <input label="File Name" ref="prov:filename" type="xsd:string">
+        <input ref="prov:filename" type="xsd:string" label="File Name">
           <constraints>
             <constraint>
               <xpath>string-length(prov:filename) &lt; 25</xpath>
-              <alert>File names must be less than 25 characters</alert>
+              <alert>File names must be less than 20 characters</alert>
             </constraint>
             <constraint>
               <pattern>^[A-Za-z]+[A-Za-z0-9]*\.?[A-Za-z0-9]*$</pattern>
@@ -59,7 +63,8 @@ describe 'Updating Order Options' do
             </constraint>
           </constraints>
         </input>
-        <range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int">
+        <range ref="prov:filesize" type="xsd:int" start="0"
+               step="10" end="1000" label="File Size (MB)">
         </range>
       </ui>
     </form>'
@@ -69,53 +74,34 @@ describe 'Updating Order Options' do
     before do
       login
 
-      VCR.use_cassette('echo_rest/order_options/1001-update', record: :none) do
+      VCR.use_cassette("order_options/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         visit edit_order_option_path(order_option_guid)
       end
     end
 
     it 'Displays the Order Option Definition in populated fields' do
+      
+      expect(page).to have_field('order_option_Name')
+      expect(find_field('order_option_Name').value).to eq 'Test Order Option ABC-1001'
 
-      expect(page).to have_content('You must change the name of this option definition when updating it.')
+      expect(page).to have_field('order_option_SortKey')
+      expect(find_field('order_option_SortKey').value).to eq ''
 
-      expect(page).to have_field('Name')
-      expect(find_field('Name').value).to eq '1001'
+      expect(page).to have_field('order_option_Description')
+      expect(find_field('order_option_Description').value).to eq 'Test description'
 
-      expect(page).to have_field('Sort Key')
-      expect(find_field('Sort Key').value).to eq nil
-
-      expect(page).to have_field('Description')
-      expect(find_field('Description').value).to eq 'test'
-
-      expect(page).to have_field('Form XML')
-      expect(find_field('Form XML').value).to eq echo_form
-    end
-
-    context 'When updating the Order Option with the same name' do
-
-      before do
-        fill_in 'Sort Key', with: 'AAA'
-
-        VCR.use_cassette('echo_rest/order_options/1001-update-page-error', record: :none) do
-          within '.order-options' do
-            click_on 'Submit'
-          end
-        end
-      end
-
-      it 'Displays an error message inidicating the name must be unique' do
-        expect(page).to have_content('The option definition name [1001] must be unique')
-      end
+      expect(page).to have_field('order_option_Form')
+      expect(find_field('order_option_Form').value).to eq echo_form
     end
 
     context 'When successfully updating an Order Option' do
 
       before do
-        fill_in 'Name', with: '1001 - UPDATE'
-        fill_in 'Sort Key', with: 'BBB'
-        fill_in 'Form XML', with: echo_form_update
+        fill_in 'order_option_Name', with: '1001 - UPDATE'
+        fill_in 'order_option_SortKey', with: 'BBB'
+        fill_in 'order_option_Form', with: echo_form_update
 
-        VCR.use_cassette('echo_rest/order_options/1001-update-page-update-ok', record: :none) do
+        VCR.use_cassette("order_options/#{File.basename(__FILE__, '.rb')}_update_ok_vcr", record: :none) do
           within '.order-options' do
             click_on 'Submit'
           end
@@ -125,19 +111,9 @@ describe 'Updating Order Options' do
       it 'Displays a success message and shows the updated Order Option' do
         expect(page).to have_content('Order Option was successfully updated')
 
-        # use parts of the ECHO form xml, because spaces and newlines may be read differently by Selenium
-        expect(page).to have_content('xmlns="http://echo.nasa.gov/v9/echoforms')
-        expect(page).to have_content('prov:options xmlns:prov="http://myorganization.gov/orderoptions"')
-        expect(page).to have_content('constraints')
-        expect(page).to have_content('pattern')
-        expect(page).to have_content('range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"')
-
-        # updated parts of the form
-        expect(page).to have_content('<prov:filename>data_update.txt</prov:filename>')
-        expect(page).to have_content('<prov:filesize>20</prov:filesize>')
-        expect(page).to have_content('pattern')
-
-        expect(page).to have_content('1001 - UPDATE')
+        expect(page).to have_content('xmlns="http://echo.nasa.gov/v10/echoforms')
+        expect(page).to have_content('File names must be less than 20 characters')
+        expect(page).to have_content('Order Option ABC-1001')
         expect(page).to have_content('Scope: PROVIDER ')
         expect(page).to have_content('Deprecated: false')
         expect(page).to have_content('Sort Key: BBB')

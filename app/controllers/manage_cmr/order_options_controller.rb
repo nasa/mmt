@@ -74,8 +74,8 @@ class OrderOptionsController < ManageCmrController
     end
     # Scope will always be PROVIDER
     order_option['Scope'] = 'PROVIDER'
-    order_option['Id'] = SecureRandom.uuid
-    native_id = SecureRandom.uuid
+    order_option['Id'] = get_order_option_id
+    native_id = get_native_id
 
     metadata_specification = {}
     metadata_specification['Name'] = Rails.configuration.order_option_label
@@ -84,9 +84,13 @@ class OrderOptionsController < ManageCmrController
     order_option['MetadataSpecification'] = metadata_specification
 
     response = cmr_client.create_update_order_option(order_option: order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
+
+    order_option_response_concept_id = response.body.fetch('concept-id', '')
     if response.success?
-      order_option_concept_id = response.body.fetch('concept_id', '')
-      order_option_response = cmr_client.get_order_options(concept_id: order_option_concept_id, provider_id: current_user.provider_id, token: token)
+      # Wait for CMR before retrieving the new record
+      sleep 5
+      order_option_response = cmr_client.get_order_options(concept_id: order_option_response_concept_id, provider_id: current_user.provider_id, token: token)
+
       if order_option_response.error?
         Rails.logger.error("#{request.uuid} - OrderOptionsController#create_order_option - Retrieving Order Option Error: #{response.clean_inspect}")
         flash[:error] = order_option_response.error_message
@@ -148,7 +152,7 @@ class OrderOptionsController < ManageCmrController
     updating_order_option['Deprecated'] = true
 
     update_response = cmr_client.create_update_order_option(order_option: updating_order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
-    puts("@@@@@@@@@ deprecate response=#{update_response.body.to_json}")
+
     if update_response.success?
       flash[:success] = 'Order Option was successfully deprecated.'
     else
@@ -357,7 +361,6 @@ class OrderOptionsController < ManageCmrController
     # Default the page to 1
     page = permitted.fetch('page', 1)
     order_options_response = cmr_client.get_order_options(provider_id: current_user.provider_id, token: token)
-    puts("@@@@@@@@@ order_options_response=#{order_options_response.body.to_json}")
     if order_options_response.error?
       Rails.logger.error("#{request.uuid} - OrderOptionsController#set_order_options - Retrieving Order Options Error: #{order_options_response.clean_inspect}")
       flash[:error] = order_options_response.error_message
@@ -383,5 +386,13 @@ class OrderOptionsController < ManageCmrController
 
     order_option_list = Array.wrap(order_option_response.fetch('Result', [])).sort_by { |option| option.fetch('Name', '').downcase }
     @order_options = Kaminari.paginate_array(order_option_list, total_count: order_option_list.count).page(page).per(RESULTS_PER_PAGE)
+  end
+
+  def get_native_id
+    SecureRandom.uuid
+  end
+
+  def get_order_option_id
+    SecureRandom.uuid
   end
 end
