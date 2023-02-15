@@ -10,8 +10,11 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="">
-  <%= javascript_pack_tag 'application' %>
-  <%= stylesheet_pack_tag 'application' %>
+
+  <% unless Rails.env.test? %>
+    <%= javascript_pack_tag 'application' %>
+    <%= stylesheet_pack_tag 'application' %>
+  <% end %>
 
   <%= csrf_meta_tag %>
 
