@@ -13,10 +13,10 @@
 
   <%= csrf_meta_tag %>
 
-  <% unless Rails.env.test? %>
-    <%= javascript_pack_tag 'application' %>
-    <%= stylesheet_pack_tag 'application' %>
-  <% end %>
+  <%# unless Rails.env.test? %>
+  <%= javascript_pack_tag 'application' %>
+  <%= stylesheet_pack_tag 'application' %>
+  <%# end %>
 
   <%= render partial: 'shared/assets' %>
   <%= render partial: 'shared/google_tag_manager_head' %>
