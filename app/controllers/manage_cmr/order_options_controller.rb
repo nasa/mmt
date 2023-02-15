@@ -148,6 +148,7 @@ class OrderOptionsController < ManageCmrController
     updating_order_option['Deprecated'] = true
 
     update_response = cmr_client.create_update_order_option(order_option: updating_order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
+    puts("@@@@@@@@@ deprecate response=#{update_response.body.to_json}")
     if update_response.success?
       flash[:success] = 'Order Option was successfully deprecated.'
     else
@@ -356,6 +357,7 @@ class OrderOptionsController < ManageCmrController
     # Default the page to 1
     page = permitted.fetch('page', 1)
     order_options_response = cmr_client.get_order_options(provider_id: current_user.provider_id, token: token)
+    puts("@@@@@@@@@ order_options_response=#{order_options_response.body.to_json}")
     if order_options_response.error?
       Rails.logger.error("#{request.uuid} - OrderOptionsController#set_order_options - Retrieving Order Options Error: #{order_options_response.clean_inspect}")
       flash[:error] = order_options_response.error_message

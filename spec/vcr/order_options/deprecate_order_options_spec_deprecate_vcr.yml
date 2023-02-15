@@ -1,0 +1,111 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/order-options.umm_json?id=8e8cad47-1d53-4796-b283-16e8ecf034e5&page_size=2000&provider_id=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Client-Id:
+      - MMT
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '35'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 15 Feb 2023 00:07:10 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - d312b318-f185-420a-9583-6a17e6dad40b
+      x-request-id:
+      - 8LYzzXY90ErwtBP8tvDIZ-GoacrF4x2OJQYxoLKxLmITT1dvmKhvvg==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 f1234553b388306d833e1a4591227882.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - 8LYzzXY90ErwtBP8tvDIZ-GoacrF4x2OJQYxoLKxLmITT1dvmKhvvg==
+    body:
+      encoding: UTF-8
+      string: '{"errors":["Token does not exist"]}'
+  recorded_at: Wed, 15 Feb 2023 00:07:10 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/order-options.umm_json?page_size=2000&provider_id=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Client-Id:
+      - MMT
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '35'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 15 Feb 2023 00:07:10 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - 9caeb194-14df-44b8-b4b7-9eae99ad0459
+      x-request-id:
+      - A4k3gdmyHjc4nFdZP3Y2StlPAcnvW5OiyF0TgcKgG4y51gObUpHY1w==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 2cd1423c218193e9646892449fb7844a.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - A4k3gdmyHjc4nFdZP3Y2StlPAcnvW5OiyF0TgcKgG4y51gObUpHY1w==
+    body:
+      encoding: UTF-8
+      string: '{"errors":["Token does not exist"]}'
+  recorded_at: Wed, 15 Feb 2023 00:07:10 GMT
+recorded_with: VCR 6.1.0
