@@ -721,7 +721,7 @@ module Cmr
       get('/search/order-options.umm_json', options, token_header(token))
     end
 
-    def delete_order_option(provider_id:, native_id:, token:)
+    def remove_order_option(provider_id:, native_id:, token:)
       url = "/ingest/providers/#{provider_id}/order-options/#{encode_if_needed(native_id)}"
       headers = { 'Accept' => 'application/json; charset=utf-8' }
       delete(url, {}, nil, headers.merge(token_header(token)))

@@ -180,7 +180,7 @@ class OrderOptionsController < ManageCmrController
   end
 
   def delete_order_option
-    response = cmr_client.delete_order_option(native_id: params[:id], provider_id: current_user.provider_id, token: token)
+    response = cmr_client.remove_order_option(native_id: params[:id], provider_id: current_user.provider_id, token: token)
     if response.success?
       flash[:success] = 'Order Option was successfully deleted.'
     else
