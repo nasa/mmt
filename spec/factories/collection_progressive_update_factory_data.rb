@@ -711,8 +711,8 @@ def progressive_update_first
     ],
     'MetadataSpecification' => {
       'Name' => 'UMM-C',
-      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0',
-      'Version' => '1.17.0'
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2',
+      'Version' => '1.17.2'
     }
   }
 end
@@ -1402,23 +1402,23 @@ def progressive_update_with_errors
       {
         'TilingIdentificationSystemName' => 'CALIPSO',
         'Coordinate1' => {
-          'MinimumValue' => -100,
-          'MaximumValue' => -50
+          'MinimumValue' => '-100',
+          'MaximumValue' => '-50'
         },
         'Coordinate2' => {
-          'MinimumValue' => 50,
-          'MaximumValue' => 100
+          'MinimumValue' => '50',
+          'MaximumValue' => '100'
         }
       },
       {
         'TilingIdentificationSystemName' => 'CALIPSO',
         'Coordinate1' => {
-          'MinimumValue' => -100,
-          'MaximumValue' => -50
+          'MinimumValue' => '-100',
+          'MaximumValue' => '-50'
         },
         'Coordinate2' => {
-          'MinimumValue' => 50,
-          'MaximumValue' => 100
+          'MinimumValue' => '50',
+          'MaximumValue' => '100'
         }
       }
     ],
@@ -1493,8 +1493,8 @@ def progressive_update_with_errors
     ],
     'MetadataSpecification' => {
       'Name' => 'UMM-C',
-      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0',
-      'Version' => '1.17.0'
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2',
+      'Version' => '1.17.2'
     }
   }
 end

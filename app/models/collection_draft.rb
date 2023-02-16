@@ -225,8 +225,6 @@ class CollectionDraft < Draft
     size
     longitude
     latitude
-    minimum_value
-    maximum_value
     west_bounding_coordinate
     north_bounding_coordinate
     east_bounding_coordinate
@@ -493,11 +491,11 @@ class CollectionDraft < Draft
 
   def set_metadata_specification
     metadata_specification = {
-      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0',
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2',
       'Name' => 'UMM-C',
-      'Version' => '1.17.0'
+      'Version' => '1.17.2'
     }
-    unless self.draft['MetadataSpecification'] == metadata_specification
+    if self.draft['MetadataSpecification'].nil?
       self.draft['MetadataSpecification'] = metadata_specification
     end
   end
