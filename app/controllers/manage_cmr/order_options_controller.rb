@@ -87,10 +87,7 @@ class OrderOptionsController < ManageCmrController
 
     order_option_response_concept_id = response.body.fetch('concept-id', '')
     if response.success?
-      # Wait for CMR before retrieving the new record
-      sleep 5
-      order_option_response = cmr_client.get_order_options(concept_id: order_option_response_concept_id, provider_id: current_user.provider_id, token: token)
-
+      order_option_response = retrieve_new_order_option(concept_id: order_option_response_concept_id, count: 3)
       if order_option_response.error?
         Rails.logger.error("#{request.uuid} - OrderOptionsController#create_order_option - Retrieving Order Option Error: #{response.clean_inspect}")
         flash[:error] = order_option_response.error_message
@@ -386,6 +383,22 @@ class OrderOptionsController < ManageCmrController
 
     order_option_list = Array.wrap(order_option_response.fetch('Result', [])).sort_by { |option| option.fetch('Name', '').downcase }
     @order_options = Kaminari.paginate_array(order_option_list, total_count: order_option_list.count).page(page).per(RESULTS_PER_PAGE)
+  end
+
+  def retrieve_new_order_option(concept_id:, count: 1)
+    start = Time.new
+    response = {}
+    count.times do |i|
+      response = cmr_client.get_order_options(concept_id: concept_id, provider_id: current_user.provider_id, token: token)
+      if (response.success? && response.body.fetch('hits', 0) > 0) || response.error?
+        return response
+      end
+      # Wait for CMR indexing
+      sleep 1
+    end
+    duration = Time.new - start
+    Rails.logger.error("#{request.uuid} - OrderOptionsController#retrieve_new_order_option - Tried #{count} times to fetch new Order Option. Duration: #{duration} seconds")
+    response
   end
 
   def get_native_id
