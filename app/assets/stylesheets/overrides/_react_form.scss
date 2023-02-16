@@ -30,8 +30,8 @@
   padding-right: 0px;
 }
 #react-editor-form {
-  margin-left: 0px;
-  margin-right: 0px;
+  //margin-left: 0px;
+  //margin-right: 0px;
 }
 #react-editor-form .container {
   margin-left: 25px;
@@ -58,12 +58,13 @@ section .umm-preview {
 .col-6 {
   padding-left: 0px;
 }
-section.action {
-  margin-left: 20px;
-}
+//section.action {
+//  margin-left: 20px;
+//}
 .row {
   margin-left: 0px;
 }
+
 .collection-basics {
   margin-left: 20px;
 }
@@ -75,4 +76,8 @@ section.action {
 }
 #search .quick-search #search-submit-button {
   width: auto;
+}
+.content {
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
