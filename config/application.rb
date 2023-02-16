@@ -56,6 +56,8 @@ module Mmt
     config.order_option_version = '1.0.0'
     config.order_option_url = 'https://cdn.earthdata.nasa.gov/generics/order-option/v1.0.0'
 
+    config.support_email = 'support@earthdata.nasa.gov'
+
     # Is this the Proposal Mode version of MMT?
     config.proposal_mode = false
     config.proposal_mode = true if ENV['proposal_mode'] == 'true'
