@@ -1,13 +1,13 @@
 class Api::DraftsController < BaseDraftsController
   include ManageMetadataHelper
-  
+
   protect_from_forgery with: :null_session
   before_action :proposal_approver_permissions, except: [:create, :show, :update]
   before_action :set_resource, only: [:show, :update]
   before_action :validate_token, only: [:create, :show, :update]
   skip_before_action :ensure_user_is_logged_in, only: [:create, :show, :update]
   skip_before_action :add_top_level_breadcrumbs, only: [:create, :show, :update]
-  
+
   def create
     provider_id = request.headers["Provider"]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
@@ -26,7 +26,7 @@ class Api::DraftsController < BaseDraftsController
       render json: JSON.pretty_generate({'error': 'Could not create draft'}), status: 500
     end
   end
-  
+
   def update
     provider_id = request.headers["Provider"]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
@@ -55,13 +55,13 @@ class Api::DraftsController < BaseDraftsController
     end
 
     authorization_header = request.headers['Authorization']
-  
+
     if authorization_header.nil?
       render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
       return
     end
     token = authorization_header
-  
+
     # Handle EDL authentication
     if authorization_header.start_with?('Bearer')
       token = authorization_header.split(' ', 2)[1] || ''
@@ -80,7 +80,7 @@ class Api::DraftsController < BaseDraftsController
       if token_response.success?
         auid = token_response.body.fetch('auid', nil)
         @urs_profile_response = cmr_client.get_urs_uid_from_nams_auid(auid)
-    
+
         if @urs_profile_response.success?
           urs_uid = @urs_profile_response.body.fetch('uid', '')
         end

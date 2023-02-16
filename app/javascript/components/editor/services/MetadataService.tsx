@@ -15,12 +15,12 @@ export class MetadataService {
   }
 
   async fetchDraft(id: number): Promise<Draft> {
-    const url = `/api/${this.getMmtUrlPath()}/${id}`
+    const url = `/api/drafts/${id}?draft_type=ToolDraft`
     const requestOptions = {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        Authorization: `Basic ${this.token}`,
+        Authorization: `${this.token}`,
         'Client-Id': 'mmt-react-ui',
         'X-Request-Id': uuid()
       }
@@ -38,13 +38,13 @@ export class MetadataService {
   }
 
   async saveDraft(draft: Draft): Promise<Draft> {
-    const url = `/api/${this.getMmtUrlPath()}/`
+    const url = '/api/drafts/?draft_type=ToolDraft'
     const requestOptions = {
       method: 'POST',
       body: JSON.stringify(draft.json),
       headers: {
         Accept: 'application/json',
-        Authorization: `Basic ${this.token}`,
+        Authorization: `${this.token}`,
         'Client-Id': 'mmt-react-ui',
         'X-Request-Id': uuid(),
         Provider: this.providerId,
@@ -64,13 +64,13 @@ export class MetadataService {
   }
 
   async updateDraft(draft: Draft): Promise<Draft> {
-    const url = `/api/${this.getMmtUrlPath()}/${draft.apiId}`
+    const url = `/api/drafts/${draft.apiId}?draft_type=ToolDraft`
     const requestOptions = {
       method: 'PUT',
       body: JSON.stringify(draft.json),
       headers: {
         Accept: 'application/json',
-        Authorization: `Basic ${this.token}`,
+        Authorization: `${this.token}`,
         'Client-Id': 'mmt-react-ui',
         'X-Request-Id': uuid(),
         Provider: this.providerId,

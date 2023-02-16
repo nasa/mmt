@@ -9,15 +9,17 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 interface UmmToolsFormProps {
-  heading: string
+  heading: string,
+  token: string
 }
 class UmmToolsForm extends React.Component<UmmToolsFormProps, never> {
   model: UmmToolsModel
   editor: MetadataEditor
   constructor(props:UmmToolsFormProps) {
     super(props)
+    const { token } = this.props
     this.model = new UmmToolsModel()
-    this.editor = new MetadataEditor(this.model)
+    this.editor = new MetadataEditor(this.model, token)
   }
 
   render() {

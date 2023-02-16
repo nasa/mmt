@@ -16,7 +16,7 @@ global.fetch = require('jest-fetch-mock')
 
 async function mockFetch(url) {
   switch (url) {
-    case '/api/tool_drafts/': {
+    case '/api/drafts/?draft_type=ToolDraft': {
       return {
         ok: true,
         status: 200,
@@ -29,7 +29,7 @@ async function mockFetch(url) {
         })
       }
     }
-    case '/api/tool_drafts/1': {
+    case '/api/drafts/1?draft_type=ToolDraft': {
       return {
         ok: true,
         status: 200,
@@ -42,7 +42,7 @@ async function mockFetch(url) {
         })
       }
     }
-    case '/api/tool_drafts/2': {
+    case '/api/drafts/2?draft_type=ToolDraft': {
       return {
         ok: true,
         status: 200,

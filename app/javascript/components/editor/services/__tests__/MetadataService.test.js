@@ -4,7 +4,7 @@ import { MetadataService } from '../MetadataService'
 describe('Testing MetadataService', () => {
   async function mockFetch(url) {
     switch (url) {
-      case '/api/tool_drafts/1': {
+      case '/api/drafts/1?draft_type=ToolDraft': {
         return {
           ok: true,
           status: 200,
@@ -17,7 +17,7 @@ describe('Testing MetadataService', () => {
           })
         }
       }
-      case '/api/tool_drafts/101': {
+      case '/api/drafts/101?draft_type=ToolDraft': {
         return {
           ok: false,
           status: 404,
@@ -26,7 +26,7 @@ describe('Testing MetadataService', () => {
           })
         }
       }
-      case '/api/tool_drafts/55': {
+      case '/api/drafts/55?draft_type=ToolDraft': {
         return {
           ok: true,
           status: 200,
@@ -35,7 +35,7 @@ describe('Testing MetadataService', () => {
           })
         }
       }
-      case '/api/tool_drafts/200': {
+      case '/api/drafts/200?draft_type=ToolDraft': {
         return {
           ok: false,
           status: 404,
@@ -44,7 +44,7 @@ describe('Testing MetadataService', () => {
           })
         }
       }
-      case '/api/tool_drafts/': {
+      case '/api/drafts/?draft_type=ToolDraft': {
         return {
           ok: true,
           status: 200,
