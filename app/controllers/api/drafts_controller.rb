@@ -74,8 +74,7 @@ class Api::DraftsController < BaseDraftsController
       token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
       urs_uid = token_info['uid']
     else
-      # Todo: We need to handle verifying a launchpad token.
-      # # Handle Launchpad authentication
+      # Handle Launchpad authentication
       token_response = cmr_client.validate_launchpad_token(token)
       urs_uid = nil
       if token_response.success?
