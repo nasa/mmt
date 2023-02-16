@@ -1,13 +1,13 @@
-class Api::ToolDraftsController < ToolDraftsController
+class Api::DraftsController < BaseDraftsController
   include ManageMetadataHelper
-
+  
   protect_from_forgery with: :null_session
   before_action :proposal_approver_permissions, except: [:create, :show, :update]
   before_action :set_resource, only: [:show, :update]
+  before_action :validate_token, only: [:create, :show, :update]
   skip_before_action :ensure_user_is_logged_in, only: [:create, :show, :update]
-  skip_before_action :set_form, only: [:show, :update]
-  skip_before_action :set_preview, only: [:show]
-
+  skip_before_action :add_top_level_breadcrumbs, only: [:create, :show, :update]
+  
   def create
     provider_id = request.headers["Provider"]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
@@ -23,10 +23,10 @@ class Api::ToolDraftsController < ToolDraftsController
     else
       errors_list = generate_model_error
       Rails.logger.info("Audit Log: #{user.urs_uid} could not create #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
-      render json: JSON.pretty_generate({'error': 'Could not create tool draft'}), status: 500
+      render json: JSON.pretty_generate({'error': 'Could not create draft'}), status: 500
     end
   end
-
+  
   def update
     provider_id = request.headers["Provider"]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
@@ -41,26 +41,30 @@ class Api::ToolDraftsController < ToolDraftsController
     else
       errors_list = generate_model_error
       Rails.logger.info("Audit Log: #{user.urs_uid} could not update #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
-      render json: JSON.pretty_generate({'error': 'Could not update tool draft'}), status: 500
+      render json: JSON.pretty_generate({'error': 'Could not update draft'}), status: 500
     end
   end
 
   def show
+    render json: draft_json_result
+  end
+
+  def validate_token
     if Rails.env.development?
-      render json: draft_json_result if Rails.env.development?
       return
     end
 
     authorization_header = request.headers['Authorization']
-
+  
     if authorization_header.nil?
       render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
       return
     end
-    token = authorization_header.split(' ', 2)[1] || ''
-
+    token = authorization_header
+  
     # Handle EDL authentication
     if authorization_header.start_with?('Bearer')
+      token = authorization_header.split(' ', 2)[1] || ''
       if Rails.configuration.proposal_mode
         token_response = cmr_client.validate_dmmt_token(token)
       else
@@ -70,20 +74,17 @@ class Api::ToolDraftsController < ToolDraftsController
       token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
       urs_uid = token_info['uid']
     else
-      render json: JSON.pretty_generate(draft_json_result)
-      return
-      # Todo: We need to handle verifying a launchpad token.
-      # # Handle Launchpad authentication
-      # token_response = cmr_client.validate_launchpad_token(token)
-      # urs_uid = nil
-      # if token_response.success?
-      #   auid = token_response.body.fetch('auid', nil)
-      #   urs_profile_response = cmr_client.get_urs_uid_from_nams_auid(auid)
-      #
-      #   if urs_profile_response.success?
-      #     urs_uid = @urs_profile_response.body.fetch('uid', '')
-      #   end
-      # end
+      # Handle Launchpad authentication
+      token_response = cmr_client.validate_launchpad_token(token)
+      urs_uid = nil
+      if token_response.success?
+        auid = token_response.body.fetch('auid', nil)
+        @urs_profile_response = cmr_client.get_urs_uid_from_nams_auid(auid)
+    
+        if @urs_profile_response.success?
+          urs_uid = @urs_profile_response.body.fetch('uid', '')
+        end
+      end
     end
 
     # If we don't have a urs_uid, exit out with unauthorized
@@ -96,30 +97,17 @@ class Api::ToolDraftsController < ToolDraftsController
 
     if token_response.success?
       token_user = User.find_by(urs_uid: urs_uid) # the user assoc with the token
-      draft_user = User.find_by(id: get_resource.user_id) # the user assoc with the draft collection record
 
       unless token_user.nil?
-        if Rails.configuration.proposal_mode
-          # For proposals, users only have access to proposals created by them.
-          # Verify the user owns the draft
-          if token_user.urs_uid == draft_user.urs_uid
-            authorized = true
-          else
-            if is_non_nasa_draft_approver?(user: token_user, token: token)
-              authorized = true
-            end
-          end
-        else
-          # For drafts, users have access to any drafts in their provider list
-          # Verify the user has permissions for this provider
-          authorized = true if token_user.available_providers.include? get_resource.provider_id
-        end
+        # For drafts, users have access to any drafts in their provider list
+        # Verify the user has permissions for this provider
+        provider_id = request.headers["Provider"]
+        provider_id = get_resource.provider_id unless get_resource.nil?
+        authorized = true if token_user.available_providers.include? provider_id
       end
     end
 
-    if authorized
-      render json: JSON.pretty_generate(draft_json_result)
-    else
+    unless authorized
       render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401
     end
   end
@@ -131,4 +119,11 @@ class Api::ToolDraftsController < ToolDraftsController
     json['user_id'] = get_resource.user_id
     JSON.pretty_generate(json)
   end
+
+  # The singular name for the resource class based on the draft_type
+  # @return [String]
+  def resource_name
+      @resource_name ||= params[:draft_type]
+  end
+  helper_method :resource_name
 end
