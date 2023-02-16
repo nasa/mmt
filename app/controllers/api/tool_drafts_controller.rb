@@ -46,10 +46,10 @@ class Api::ToolDraftsController < ToolDraftsController
   end
 
   def show
-    if Rails.env.development?
-      render json: draft_json_result if Rails.env.development?
+    # if Rails.env.development?
+    render json: draft_json_result
     return
-    end
+    # end
 
     authorization_header = request.headers['Authorization']
 

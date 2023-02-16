@@ -13,10 +13,10 @@
 
   <%= csrf_meta_tag %>
 
-  <% unless Rails.env.test? %>
-    <%= javascript_pack_tag 'application' %>
-    <%= stylesheet_pack_tag 'application' %>
-  <% end %>
+  <%# unless Rails.env.test? %>
+    <%#= javascript_pack_tag 'application' %>
+    <%#= stylesheet_pack_tag 'application' %>
+  <%# end %>
 
   <%= render partial: 'shared/assets' %>
   <%= render partial: 'shared/google_tag_manager_head' %>
@@ -24,6 +24,7 @@
   <link href="<%= Rails.configuration.metadata_preview_css_url %>" rel="stylesheet" type="text/css">
 
 </head>
+<h1>Header 2</h1>
 
 <body class="dashboard <%= 'proposal-mode-body offset-background-image' if Rails.configuration.proposal_mode %>">
 
