@@ -52,6 +52,8 @@ module Mmt
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.4'
     config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.1'
 
+    config.support_email = 'support@earthdata.nasa.gov'
+
     # Is this the Proposal Mode version of MMT?
     config.proposal_mode = false
     config.proposal_mode = true if ENV['proposal_mode'] == 'true'
