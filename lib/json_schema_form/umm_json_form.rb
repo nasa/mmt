@@ -1,6 +1,5 @@
 # Subclass of JsonFile that accepts a filename that represents a UMM form layout
 class UmmJsonForm < JsonFile
-  include CamelCase
   # The UmmJsonSchema object this layout is representing
   attr_accessor :schema
 

@@ -2,7 +2,6 @@
 
 class CollectionTemplatesController < CollectionDraftsController
   include CMRCollectionsHelper
-  include CamelCase
   # The syntax here differs from CollectionDraftsController in order to add
   # to things to an existing list.  If the before_action #action only: #list
   # syntax is used, it overwrites the parent list.  This saves redeclarations.
