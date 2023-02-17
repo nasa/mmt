@@ -1,4 +1,5 @@
 class CollectionDraft < Draft
+  include CamelCase
   # TODO: we currently allow one to be created, but may allow more in the future
   # should we just make this has_one for now?
   has_many :keyword_recommendations, as: :recommendable, dependent: :destroy
