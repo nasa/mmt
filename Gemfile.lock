@@ -421,7 +421,6 @@ DEPENDENCIES
   activerecord-import
   activerecord-session_store
   autoprefixer-rails
-  awrence
   better_errors
   binding_of_caller
   bootstrap3-datetimepicker-rails
