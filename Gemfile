@@ -122,3 +122,7 @@ group :test do
   gem 'simplecov', require: false
   gem 'webdrivers'
 end
+
+gem "shakapacker", "= 6.5"
+
+gem "react-rails", "= 2.6"

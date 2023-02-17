@@ -1,0 +1,16 @@
+.react-datepicker__month-select {
+  width: auto;
+}
+
+.react-datepicker__year-select {
+  width: auto;
+}
+
+.react-datepicker__current-month {
+  font-size: 1.0rem;
+  margin-bottom: 5px;
+}
+
+.react-datepicker__day--outside-month {
+  color: grey;
+}

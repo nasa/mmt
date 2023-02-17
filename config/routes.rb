@@ -146,9 +146,9 @@ Rails.application.routes.draw do
   end
 
   namespace :api , constraints: { format: 'json' } do
-    resource :tool_drafts, :controller => "drafts", draft_type: 'ToolDraft', only: [:create]
-    get '/tool_drafts/:id' => 'drafts#show', draft_type: 'ToolDraft'
-    put '/tool_drafts/:id' => 'drafts#update', draft_type: 'ToolDraft'    
+    resource :drafts, :controller => "drafts", only: [:create]
+    get '/drafts/:id' => 'drafts#show'
+    put '/drafts/:id' => 'drafts#update'
     get '/cmr_keywords/:id' => 'cmr_keywords#show'
     get '/kms_keywords/:id' => 'kms_keywords#show'
   end

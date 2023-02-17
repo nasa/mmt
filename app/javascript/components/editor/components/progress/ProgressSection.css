@@ -1,0 +1,20 @@
+.section-circle {
+    font-size: 2.60em; 
+    display: block; 
+    float: left; 
+    margin-right: 10px
+}
+
+.section-label {
+    font-size: 16px;
+    font-family: sans-serif;
+    padding-left: 4px
+}
+
+.pass-circle {
+    color: rgb(24, 156, 84)
+}
+
+.invalid-circle {
+    color: rgb(24, 156, 84)
+}

@@ -7,18 +7,18 @@
   <div class="eui-banner--warn">
     <p class="eui-banner__message">
       <%= link_to("You need to change your current provider to #{@not_authorized_request['action']} this #{resource_name.titleize}. Click here to change your provider.",
-      "#", id: "change-current-provider-banner-link",
-      data: { "provider": get_resource.provider_id, action_link: "change-provider-#{@not_authorized_request['action']}-draft" }) %>
+                  "#", id: "change-current-provider-banner-link",
+                  data: { "provider": get_resource.provider_id, action_link: "change-provider-#{@not_authorized_request['action']}-draft" }) %>
     </p>
     <%= link_to 'Show Draft', send("#{resource_name}_path", get_resource),
-    class: 'is-invisible', id: 'change-provider-show-draft' %>
+                class: 'is-invisible', id: 'change-provider-show-draft' %>
     <%= link_to 'Edit Draft', send("edit_#{resource_name}_path", get_resource, form: @not_authorized_request['form']),
-    class: 'is-invisible', id: 'change-provider-edit-draft' %>
+                class: 'is-invisible', id: 'change-provider-edit-draft' %>
   </div>
   <div class="no-access">
     <h3 class="access-title">Not Current Provider</h3>
     <p class="access-message">
-      It appears you need to change your current provider to access to this content.<br />
+      It appears you need to change your current provider to access to this content.<br/>
       Please check the message above to access this content.
     </p>
   </div>
@@ -32,7 +32,8 @@
       <% if @json_form.invalid_keys(ignore_required_fields: false).any? || (resource_name == 'variable_draft' && get_resource.collection_concept_id.blank?) %>
         <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
         <div id="invalid-draft-modal" class="eui-modal-content">
-          <p>This <%= published_resource_name %> draft is not ready to be published. Please use the progress indicators on the draft preview page to address incomplete or invalid fields.</p>
+          <p>This <%= published_resource_name %> draft is not ready to be published. Please use the progress indicators
+            on the draft preview page to address incomplete or invalid fields.</p>
           <p>
             <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
           </p>
@@ -67,7 +68,8 @@
                   <% end %>
                   <%= error[:error] %>
                   <% if error[:request_id] %>
-                    <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click here to submit feedback</a>
+                    <a href="javascript:feedback.showForm({details: '\nFill in details above this line. Please try to be as specific as possible.\n--------------------\n\nRequest ID: <%= error[:request_id] %>'});">Click
+                      here to submit feedback</a>
                   <% end %>
                 </li>
               <% end %>
@@ -76,35 +78,38 @@
         </div>
       </section>
     <% end %>
-
-    <% if resource_name == 'variable_draft' %>
-      <%= render partial: 'drafts/shared/collection_association_progress_panel' %>
+    <% if resource_name == 'tool_draft' and Rails.configuration.react_forms_enabled %>
+      <section id="react-editor-form" class="metadata">
+        <%= react_component("editor/UmmToolsForm", {token: @react_token}) %>
+      </section>
+    <% else %>
+        <% if resource_name == 'variable_draft' %>
+          <%= render partial: 'drafts/shared/collection_association_progress_panel' %>
+        <% end %>
+        <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
     <% end %>
+      <div class="row content">
+        <% if @preview.sidebars.blank? %>
+          <!-- No sidebar -->
+          <section class="umm-preview">
+            <% @preview.forms.each do |form| %>
+              <%= form.render %>
+            <% end %>
+          </section>
+        <% else %>
+          <!-- With sidebar -->
+          <section class="preview">
+            <% @preview.forms.each do |form| %>
+              <%= form.render %>
+            <% end %>
+          </section>
 
-    <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
-
-    <div class="row content">
-      <% if @preview.sidebars.blank? %>
-        <!-- No sidebar -->
-        <section class="umm-preview">
-          <% @preview.forms.each do |form| %>
-            <%= form.render %>
-          <% end %>
-        </section>
-      <% else %>
-        <!-- With sidebar -->
-        <section class="preview">
-          <% @preview.forms.each do |form| %>
-            <%= form.render %>
-          <% end %>
-        </section>
-
-        <aside class="umm-preview-sidebar">
-          <% @preview.sidebars.each do |sidebar| %>
-            <%= sidebar.render_sidebar %>
-          <% end %>
-        </aside>
-      <% end %>
+          <aside class="umm-preview-sidebar">
+            <% @preview.sidebars.each do |sidebar| %>
+              <%= sidebar.render_sidebar %>
+            <% end %>
+          </aside>
+        <% end %>
     </div>
   </div>
 <% end %>

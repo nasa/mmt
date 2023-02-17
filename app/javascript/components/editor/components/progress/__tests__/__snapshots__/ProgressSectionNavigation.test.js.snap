@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Progress field navigation test array field navigate to edit a field in array 1`] = `
+<div>
+  <div
+    data-testid="progress-section__tool-contacts_pass"
+    style="display: flex; align-items: center;"
+  >
+    <div
+      class="section-circle"
+    >
+      <i
+        class="eui-icon eui-check pass-circle"
+      />
+    </div>
+    <div>
+      <div
+        class="section-label"
+      >
+        <a
+          data-testid="progress-section__tool-contacts_link"
+          href=""
+        >
+          Tool Contacts
+        </a>
+      </div>
+      <div>
+        <span
+          data-testid="progress-field__contact-groups_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__contact-groups_null_required_not-started"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__contact-groups_link"
+            >
+              <i
+                class="eui-icon eui-required-o not-started-required-circle"
+                title="ContactGroups"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__contact-persons_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__contact-persons_null_not-required_not-started"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__contact-persons_link"
+            >
+              <i
+                class="eui-icon eui-fa-circle-o not-started-not-required-circle"
+                title="ContactPersons"
+              />
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
