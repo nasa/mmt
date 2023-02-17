@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+}
+
+.sidebar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  width: 25%;
+  height: 25vh;
+  padding-top: 10px;
+  margin-left: 20px;
+}
+
+.link-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.box>* {
+  flex: 1 1 160px;
+}
+
+.shortWidget {
+  width: 200px;
+}
+
+input[type=text] {
+  border-radius: 5px;
+}
+textarea {
+  border-radius: 5px;
+}

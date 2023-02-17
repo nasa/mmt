@@ -1,0 +1,11 @@
+.errorListItem {
+    cursor: pointer;
+    font-size: 14px;
+}
+.error-list:hover {
+    background-color: rgb(245, 245, 245);
+}
+.error-list {
+    font-size: 14px;
+    vertical-align: middle;
+}

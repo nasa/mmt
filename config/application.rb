@@ -52,6 +52,8 @@ module Mmt
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.4'
     config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.1'
 
+    config.support_email = 'support@earthdata.nasa.gov'
+
     # Is this the Proposal Mode version of MMT?
     config.proposal_mode = false
     config.proposal_mode = true if ENV['proposal_mode'] == 'true'
@@ -92,6 +94,7 @@ module Mmt
       '(unknown)'
     end
 
+    config.react.server_renderer_extensions = ["jsx", "js", "tsx", "ts"]
     config.version = load_version
 
     # Log request UUID so we can track requests across threaded log messages

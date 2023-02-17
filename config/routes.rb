@@ -34,6 +34,9 @@ Rails.application.routes.draw do
     collection do
       put 'search'
     end
+    member do
+      post 'resubmit'
+    end
   end
   resources :provider_orders, only: [:show, :edit, :destroy] do
     member do
@@ -143,10 +146,10 @@ Rails.application.routes.draw do
   end
 
   namespace :api , constraints: { format: 'json' } do
-    resource :tool_drafts, only: [:create]
-    get '/tool_drafts/:id' => 'tool_drafts#show'
+    resource :drafts, :controller => "drafts", only: [:create]
+    get '/drafts/:id' => 'drafts#show'
+    put '/drafts/:id' => 'drafts#update'
     get '/cmr_keywords/:id' => 'cmr_keywords#show'
-    put '/tool_drafts/:id' => 'tool_drafts#update'
     get '/kms_keywords/:id' => 'kms_keywords#show'
   end
 

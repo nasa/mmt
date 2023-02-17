@@ -1,0 +1,38 @@
+<!-- THIS PAGE IS USING LEGACY ORDER SERVICE -->
+<fieldset>
+  <div class="row">
+    <%= label_tag 'states', 'Filter by Order States' %>
+    <%= select_tag('states', options_for_select(OrdersHelper::LEGACY_ORDER_STATES, nil), class: 'full-width', multiple: true) %>
+  </div>
+</fieldset>
+
+<fieldset>
+  <div class="row">
+    <%= label_tag 'user_id', 'Filter by User ID' %>
+    <%= text_field_tag('user_id', nil, class: 'full-width') %>
+  </div>
+</fieldset>
+
+<fieldset>
+  <div class="row space-bot">
+    <%= label_tag 'date_type', 'Filter by Date/Time of', class: 'eui-required-o' %>
+    <%= select_tag('date_type', options_for_select([ ['Creation date', 'CREATION_DATE'], ['Submission date', 'SUBMISSION_DATE'], ['Updated Date', 'LAST_UPDATE_DATE']], nil), prompt: 'Select a date type', class: 'full-width') %>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <%= label_tag 'from_date', 'From', class: 'eui-required-o' %>
+      <%= datetime_field_tag('from_date', nil, class: 'full-width datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SS', data: { 'date-format' => 'YYYY-MM-DD[T]HH:mm:ss', 'date-min-date' => false }).gsub('datetime-local','datetime').html_safe %>
+    </div>
+    <div class="col-6">
+      <%= label_tag 'to_date', 'To', class: 'eui-required-o' %>
+      <%= datetime_field_tag('to_date', nil, class: 'full-width datetimepicker', placeholder: 'YYYY-MM-DDTHH:MM:SS', data: { 'date-format' => 'YYYY-MM-DD[T]HH:mm:ss', 'date-min-date' => false }).gsub('datetime-local','datetime').html_safe %>
+    </div>
+  </div>
+</fieldset>
+
+<%= hidden_field_tag 'previous_request_uuid', "#{request.uuid}" %>
+
+<fieldset>
+  <%= button_tag 'Submit', class: 'eui-btn--blue' %>
+</fieldset>

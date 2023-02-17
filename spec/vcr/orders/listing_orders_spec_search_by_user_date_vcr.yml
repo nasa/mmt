@@ -1,0 +1,81 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/ordering/api
+    body:
+      encoding: UTF-8
+      string: '{"variables":{"ursId":"user_1","providerId":"MMT_2","states":["VALIDATED","PENDING_SUBMISSION","SUBMITTING","SUBMIT_FAILED","SUBMIT_REJECTED","PROCESSING","CLOSED"],"createdAt":{"startDate":"2017-01-25T00:00:00","endDate":"2017-01-31T00:00:00"}},"query":"query
+        Order (\n                          $providerId: String!\n                          $ursId:
+        String\n                          $states: [OrderState]\n                          $createdAt:
+        DateRangeInput\n                       ) {\n                         orders(\n                           providerId:
+        $providerId\n                           ursId: $ursId\n                           states:
+        $states\n                           createdAt: $createdAt\n                         )
+        {\n                           id\n                           clientIdentity\n                           collectionConceptId\n                           notificationLevel\n                           providerId\n                           providerTrackingId\n                           state\n                           closedDate\n                           submittedAt\n                           createdAt\n                           updatedAt\n                           user
+        {\n                             ursId\n                           }\n                           contact
+        {\n                             id\n                             email\n                             firstName\n                             lastName\n                             userDomain\n                             userRegion\n                           }\n                         }\n                       }"}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Authorization:
+      - access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '830'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 08 Feb 2023 16:20:55 GMT
+      access-control-allow-credentials:
+      - 'true'
+      x-amzn-trace-id:
+      - Root=1-63e3cbe3-2c5469a77246347d2752d920;Sampled=0
+      x-powered-by:
+      - Express
+      etag:
+      - W/"33e-/Zd65e7yd3ZvRyIEf4rthaKvZEs"
+      vary:
+      - Origin
+      x-amz-apigw-id:
+      - ABzLpFVyIAMFZ7Q=
+      x-amzn-remapped-content-length:
+      - '830'
+      server:
+      - ServerTokens ProductOnly
+      x-request-id:
+      - grApe4AmTA1AJ53GaJ66VG6VFRGmSwu1UCsIEEAO5bVL3kkxlD0xCw==
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-requestid:
+      - bd341b9e-3c5f-41dd-b3d2-bb794c65a9cb
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 68d323cfd4a0f1ae252f92c083654190.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD89-P2
+      x-amz-cf-id:
+      - grApe4AmTA1AJ53GaJ66VG6VFRGmSwu1UCsIEEAO5bVL3kkxlD0xCw==
+    body:
+      encoding: UTF-8
+      string: '{"data":{"orders":[{"id":"order_guid_1","clientIdentity":"cmr-test-user","collectionConceptId":"C1200441865-CMRORDER","notificationLevel":"INFO","providerId":"CMRORDER","providerTrackingId":"600031841","state":"SUBMIT_FAILED","closedDate":"2023-02-07T17:52:42.576Z","submittedAt":"2023-02-07T16:06:55.320Z","createdAt":"2022-12-16T16:22:25.344Z","updatedAt":"2023-02-07T17:52:42.579Z","user":{"ursId":"cmr-test-user"},"contact":{"id":"de81a5d1-54e1-48e8-9f68-d1a476d06661","email":"testuser1@example.com","firstName":"Test UserOne","lastName":"test_user_1","userDomain":"GOVERNMENT","userRegion":"USA"}}]}}'
+  recorded_at: Wed, 08 Feb 2023 16:20:55 GMT
+recorded_with: VCR 6.1.0
