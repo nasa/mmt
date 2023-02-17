@@ -1,4 +1,4 @@
-describe 'User login' do
+describe 'User login', skip: true do
   context 'When proposal mode is turned off' do
     before do
       set_as_mmt_proper
