@@ -43,7 +43,9 @@ class BaseDraftsController < DraftsController
 
     add_breadcrumb fetch_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
-    add_breadcrumb @json_form.get_form(@current_form).title, send("edit_#{resource_name}_path", get_resource, @current_form)
+    unless @json_form.get_form(@current_form).nil?
+      add_breadcrumb @json_form.get_form(@current_form).title, send("edit_#{resource_name}_path", get_resource, @current_form)
+    end
   end
 
   def create

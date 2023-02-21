@@ -6,7 +6,6 @@
 
   <div class="col-5 form-nav">
     <label for="next-section-<%= location %>">Save &amp; Jump To: </label>
-
     <%= select_tag 'jump_to_section', options_for_select(draft_forms.map { |form| [form.parsed_json['title'], form.parsed_json['id']] }, draft_form.parsed_json['id']), class: 'jump-to-section', id: "next-section-#{location}" %>
   </div>
 

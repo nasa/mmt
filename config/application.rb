@@ -47,7 +47,7 @@ module Mmt
 
     # Versions of UMM for the different metadata types MMT is on
 
-    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.17.0'
+    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.17.2'
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.8.1'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.4'
     config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.1'
@@ -98,6 +98,7 @@ module Mmt
       '(unknown)'
     end
 
+    config.react.server_renderer_extensions = ["jsx", "js", "tsx", "ts"]
     config.version = load_version
 
     # Log request UUID so we can track requests across threaded log messages

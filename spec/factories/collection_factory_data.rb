@@ -35,8 +35,8 @@ def all_required_fields
     },
     'MetadataSpecification' => {
       'Name' => 'UMM-C',
-      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0',
-      'Version' => '1.17.0'
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2',
+      'Version' => '1.17.2'
     },
     'TemporalExtents' => [{
       'PrecisionOfSeconds' => 1,
@@ -67,8 +67,8 @@ def collection_one
     }],
     'MetadataSpecification' => {
       'Name' => 'UMM-C',
-      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0',
-      'Version' => '1.17.0'
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2',
+      'Version' => '1.17.2'
     },
     'Platforms' => [{
       'Type'      => 'Jet',
@@ -826,18 +826,18 @@ def collection_one
     'TilingIdentificationSystems' => [{
       'TilingIdentificationSystemName' => 'MISR',
       'Coordinate1' => {
-        'MinimumValue' => -50, 'MaximumValue' => 50
+        'MinimumValue' => "-50", 'MaximumValue' => "50"
       },
       'Coordinate2' => {
-        'MinimumValue' => -30, 'MaximumValue' => 30
+        'MinimumValue' => "-30", 'MaximumValue' => "30"
       }
     }, {
       'TilingIdentificationSystemName' => 'MODIS Tile EASE',
       'Coordinate1' => {
-        'MinimumValue' => -25, 'MaximumValue' => 25
+        'MinimumValue' => '-25', 'MaximumValue' => '25'
       },
       'Coordinate2' => {
-        'MinimumValue' => -15, 'MaximumValue' => 15
+        'MinimumValue' => '-15', 'MaximumValue' => '15'
       }
     }],
     'SpatialInformation' => {
