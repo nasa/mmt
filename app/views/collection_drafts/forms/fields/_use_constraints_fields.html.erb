@@ -1,5 +1,5 @@
 <div class="license-group">
-  <% description_only_checked = !(use_constraints['Description'].nil? && use_constraints['FreeAndOpenData'].nil? && use_constraints['EulaIdentifiers'].nil?) && use_constraints['LicenseURL'].nil? && use_constraints['LicenseText'].nil? %>
+  <% description_only_checked = !(use_constraints['Description'].nil? && use_constraints['FreeAndOpenData'].nil? && use_constraints['EULAIdentifiers'].nil?) && use_constraints['LicenseURL'].nil? && use_constraints['LicenseText'].nil? %>
   <% license_url_checked =  !use_constraints['LicenseURL'].nil? %>
   <% license_text_checked =  !use_constraints['LicenseText'].nil? %>
 
@@ -56,7 +56,7 @@
     </div>
 
     <!-- EULA Identifier -->
-    <% eula_identifiers = use_constraints['EulaIdentifiers'] || [nil] # [nil] creates at least one field %>
+    <% eula_identifiers = use_constraints['EULAIdentifiers'] || [nil] # [nil] creates at least one field %>
     <div class="multiple simple-multiple eula-identifiers">
       <%= mmt_label(
             name: 'eula_identifiers',
@@ -65,7 +65,7 @@
           ) %>
       <%= mmt_help_icon(
             title: 'EULA Identifier',
-            help: 'definitions/EULAIdentifiersType'
+            help: 'definitions/EULAIdentifierType'
           ) %>
 
       <% eula_identifiers.each_with_index do |eula_identifier, index| %>
