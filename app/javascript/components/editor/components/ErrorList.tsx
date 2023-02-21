@@ -32,9 +32,25 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
       editor.setFocusField(null)
       editor.setFocusField(currentSelect)
     }
+    if (currentSelect) {
+      this.setState({ currentSelect: null })
+    }
+  }
+  isRequired(error:FormError):boolean {
+    if (error.name === 'required') {
+      return true
+    }
+    if (error.name === 'minItems') {
+      const { params } = error
+      const { limit } = params
+      if (limit === 1) {
+        return true
+      }
+    }
+    return false
   }
   progressCircle(error: FormError): React.ReactNode {
-    const icon = `eui-icon eui-fa-circle-o icon-red ${error.name === 'required' ? 'eui-required-o' : ''}`
+    const icon = `eui-icon eui-fa-circle-o icon-red ${this.isRequired(error) ? 'eui-required-o' : ''}`
     return (
       <i style={{ height: 12, fontSize: 14, width: 14 }} className={`${icon}`} />
     )

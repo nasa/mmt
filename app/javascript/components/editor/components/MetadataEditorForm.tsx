@@ -8,17 +8,19 @@ import {
 import Form from '@rjsf/bootstrap-4'
 import JSONView from './JSONView'
 import MetadataEditor from '../MetadataEditor'
-import CustomTextWidget from './widgets/CustomTextWidget'
 import CustomTextareaWidget from './widgets/CustomTextareaWidget'
 import LayoutGridField from './LayoutGridField'
 import CustomDateTimeWidget from './widgets/CustomDateTimeWidget'
 import CustomFieldTemplate from './CustomFieldTemplate'
 import CustomArrayTemplate from './CustomArrayTemplate'
-import ToolKeywordsField from './ToolkeywordsField'
 import ControlledFields from './ControlledFields'
 import withRouter from './withRouter'
 import NavigationView from './NavigationView'
 import CustomSelectWidget from './widgets/CustomSelectWidget'
+import CustomCountrySelectWidget from './widgets/CustomCountrySelectWidget'
+import StreetAddressesField from './StreetAddresseField'
+import CustomTextWidget from './widgets/CustomTextWidget'
+import KeywordsField from './KeywordPicker'
 
 type MetadataEditorFormProps = {
   router?: RouterType
@@ -104,14 +106,16 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, Metada
     }
     const fields = {
       layout: LayoutGridField,
-      toolKeywordsField: ToolKeywordsField,
-      controlled: ControlledFields
+      controlled: ControlledFields,
+      streetAddresses: StreetAddressesField,
+      keywordPicker: KeywordsField
     }
     const widgets = {
       TextWidget: CustomTextWidget,
       TextareaWidget: CustomTextareaWidget,
       // SelectWidget: CustomSelectWidget,
-      DateTimeWidget: CustomDateTimeWidget
+      DateTimeWidget: CustomDateTimeWidget,
+      CountrySelectWiget: CustomCountrySelectWidget
     }
     const {
       formSchema: schema, formData, uiSchema, draft

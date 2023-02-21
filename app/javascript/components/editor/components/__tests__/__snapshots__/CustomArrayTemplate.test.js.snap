@@ -28,7 +28,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
             class="mb-2  d-flex align-items-center row"
           >
             <div
-              class="array-item col-lg-9 col-9"
+              class="array-item col-lg-12 col-12"
               data-testid="custom-array-element"
             >
               <div
@@ -139,7 +139,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
               type="button"
             >
               <span
-                style="color: red; margin-left: -10px;"
+                style="color: red; margin-left: -8px;"
               >
                 <i
                   class="fa-solid fa-circle-minus fa-2xl"
