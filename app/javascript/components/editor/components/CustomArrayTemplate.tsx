@@ -32,12 +32,15 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
   componentDidUpdate(): void {
     const { options } = this.props
     const { editor } = options
+    // Keep this setTimeout at 200 ms. If it is anything less than 200ms it will set the
+    // FocusArrayField to null before the page renders causing a console error.
     if (editor.focusArrayField) {
       setTimeout(() => {
         editor.setArrayField(null)
-      }, 100)
+      }, 200)
     }
   }
+
   render() {
     const {
       className, items, canAdd, title, onAddClick, schema, uiSchema, options
@@ -47,7 +50,8 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
     items.forEach(() => {
       this.scrollRef.push(React.createRef())
     })
-    if (editor?.focusArrayField >= 0) {
+
+    if (editor?.focusArrayField >= 0 && editor.focusArrayField) {
       setTimeout(() => {
         this.scrollRef[editor.focusArrayField]?.current?.scrollIntoView({ behavior: 'smooth' })
       }, 200)
@@ -74,14 +78,14 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
           <div key={element.key} className={element.className} style={{ borderLeft: 'solid 10px rgb(240,240,240', marginBottom: '25px', paddingLeft: 5 }} ref={this.scrollRef[index]}>
             <Row className="mb-2  d-flex align-items-center">
               <>
-                <Col xs="9" lg="9" key={element.key} className={element.className} data-testid="custom-array-element">
+                <Col xs="12" lg="12" key={element.key} className={element.className} data-testid="custom-array-element">
                   {element.children}
                 </Col>
               </>
             </Row>
             <div className="custom-array-template-remove-btn">
               <button className="btn" onClick={element.onDropIndexClick(element.index)} type="button">
-                <span style={{ color: 'red', marginLeft: '-10px' }}>
+                <span style={{ color: 'red', marginLeft: '-8px' }}>
                   <i className="fa-solid fa-circle-minus fa-2xl" />
                 </span>
                 {' '}

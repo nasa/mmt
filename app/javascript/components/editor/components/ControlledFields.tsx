@@ -130,13 +130,16 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
       let value = existingValue || enumValue
       if (enums.length === 1) {
         const [first] = enums
+        const priorValue = formData[name]
         formData[name] = first
         value = formData[name]
+        if (priorValue !== value) {
+          setTimeout(() => {
+            onChange(formData, null)
+          })
+        }
       }
 
-      setTimeout(() => {
-        onChange(formData, null)
-      })
       return (
         <span
           key={`controlled-fields__custom-text-widget--${name}-${value}`}
@@ -156,7 +159,6 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
                 onChange(changes, null)
               })
             }}
-            description={fieldSchema.description}
             schema={fieldSchema}
             id=""
           />
@@ -200,6 +202,12 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
                 const changes: any = _.cloneDeep(this.state)
                 delete changes.root
                 delete changes.lastUpdated
+
+                if (enums.length === 1) {
+                  const [first] = enums
+                  formData[name] = first
+                  value = formData[name]
+                }
                 this.copyFormDataToChanges(formData, changes)
                 onChange(changes, null)
               })

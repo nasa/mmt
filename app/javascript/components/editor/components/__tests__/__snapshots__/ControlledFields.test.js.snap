@@ -454,9 +454,7 @@ exports[`Controlled Fields Layout renders all fields in case of textfields 1`] =
               <div
                 class="custom-text-widget-header"
                 data-testid="custom-text-widget__--text-header"
-              >
-                <span />
-              </div>
+              />
               <input
                 class="custom-text-widget-input"
                 data-testid="custom-text-widget__--text-input"
@@ -487,9 +485,7 @@ exports[`Controlled Fields Layout renders all fields in case of textfields 1`] =
               <div
                 class="custom-text-widget-header"
                 data-testid="custom-text-widget__--text-header"
-              >
-                <span />
-              </div>
+              />
               <input
                 class="custom-text-widget-input"
                 data-testid="custom-text-widget__--text-input"

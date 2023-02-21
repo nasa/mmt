@@ -6,6 +6,7 @@ import organizationUiSchema from '../data/configuration/uiSchemas/tools/organiza
 import UmmModel from './UmmModel'
 import descriptiveKeywordsUiSchema from '../data/configuration/uiSchemas/tools/descriptive_keywords'
 import potentialActionUiSchema from '../data/configuration/uiSchemas/tools/potential_action'
+import toolContactsUISchema from '../data/configuration/uiSchemas/tools/tool_contacts'
 
 export default class UmmToolsModel extends UmmModel {
   get documentTypeForDisplay() {
@@ -33,7 +34,12 @@ export default class UmmToolsModel extends UmmModel {
       const toolKeywords: any = uiSchema.ToolKeywords
       toolKeywords['ui:service'] = this.service
       toolKeywords['ui:keyword_scheme'] = 'science_keywords'
-      return uiSchema
+      toolKeywords['ui:picker_title'] = 'TOOL KEYWORD'
+      toolKeywords['ui:scheme_values'] = [
+        'ToolCategory', 'ToolTopic', 'ToolTerm', 'ToolSpecificTerm'
+      ]
+      toolKeywords['ui:keyword_scheme_column_names'] = ['toolkeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3']
+      return { ...uiSchema, ...base }
     }
     if (this.currentSection.displayName === 'Tool Organizations') {
       const uiSchema: any = organizationUiSchema
@@ -43,6 +49,12 @@ export default class UmmToolsModel extends UmmModel {
       organizations['ui:keyword_scheme_column_names'] = ['short_name', 'long_name', 'url']
       return { ...uiSchema, ...base }
     }
+
+    if (this.currentSection.displayName === 'Tool Contacts') {
+      const uiSchema: any = toolContactsUISchema
+      return { ...uiSchema, ...base }
+    }
+
     if (this.currentSection.displayName === 'Potential Action') {
       const uiSchema: any = potentialActionUiSchema
       return { ...uiSchema, ...base }

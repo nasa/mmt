@@ -1,7 +1,0 @@
-.rbt-menu>.dropdown-item {
-  white-space: pre-wrap;
-}
-
-.rbt-menu>.dropdown-item::after {
-  display: none;
-}

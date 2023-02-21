@@ -500,6 +500,24 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                           </span>
                         </span>
                       </span>
+                      <span
+                        data-testid="progress-field__ancillary-keywords_null"
+                      >
+                        <span
+                          class="field-circle"
+                          data-testid="progress-field__ancillary-keywords_null_not-required_not-started"
+                        >
+                          <span
+                            class="progressField"
+                            data-testid="progress-field__ancillary-keywords_link"
+                          >
+                            <i
+                              class="eui-icon eui-fa-circle-o not-started-not-required-circle"
+                              title="AncillaryKeywords"
+                            />
+                          </span>
+                        </span>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -5768,6 +5786,24 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
                               title="ToolKeywords"
+                            />
+                          </span>
+                        </span>
+                      </span>
+                      <span
+                        data-testid="progress-field__ancillary-keywords_null"
+                      >
+                        <span
+                          class="field-circle"
+                          data-testid="progress-field__ancillary-keywords_null_not-required_not-started"
+                        >
+                          <span
+                            class="progressField"
+                            data-testid="progress-field__ancillary-keywords_link"
+                          >
+                            <i
+                              class="eui-icon eui-fa-circle-o not-started-not-required-circle"
+                              title="AncillaryKeywords"
                             />
                           </span>
                         </span>

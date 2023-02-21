@@ -31,7 +31,7 @@ const toolsConfiguration: FormSection[] = [
   },
   {
     displayName: 'Descriptive Keywords',
-    properties: ['ToolKeywords']
+    properties: ['ToolKeywords', 'AncillaryKeywords']
   },
   {
     displayName: 'Tool Organizations',
