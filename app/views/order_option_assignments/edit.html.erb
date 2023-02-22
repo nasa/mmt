@@ -51,9 +51,9 @@
                 <td class="align-c">
                   <% unless collection['option-def'].nil? %>
                     <% collection_concept_id = collection.fetch('meta', {}).fetch('concept-id', '') %>
-                    <%# service_concept_id = collection.fetch('option-def',{}).fetch('service_concept_id','') %>
-                    <% order_option_concept_id = collection.fetch('option-def',{}).fetch('meta', {}).fetch('concept-id','') %>
-                    <%= check_box_tag('order_option_assignment[]', collection_concept_id + '@' + order_option_concept_id, false) %>
+                    <% service_concept_id = collection.fetch('option-def',{}).fetch('service_concept_id','') %>
+                    <%# order_option_concept_id = collection.fetch('option-def',{}).fetch('meta', {}).fetch('concept-id','') %>
+                    <%= check_box_tag('order_option_assignment[]', collection_concept_id + '@' + service_concept_id, false) %>
                   <% end %>
                 </td>
                 <td>

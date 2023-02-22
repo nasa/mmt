@@ -729,13 +729,13 @@ module Cmr
       delete("/search/services/#{service_concept_id}/associations", {}, payload.to_json, token_header(token))
     end
 
-    def delete_collection_order_option_association(order_option_concept_id:, collection_concept_id:, token:)
-      payload = []
-      concept_id = {}
-      concept_id[:concept_id] = order_option_concept_id
-      payload << concept_id
-      delete("/search/associate/#{collection_concept_id}", {}, payload.to_json, token_header(token))
-    end
+    # def delete_collection_order_option_association(order_option_concept_id:, collection_concept_id:, token:)
+    #   payload = []
+    #   concept_id = {}
+    #   concept_id[:concept_id] = order_option_concept_id
+    #   payload << concept_id
+    #   delete("/search/associate/#{collection_concept_id}", {}, payload.to_json, token_header(token))
+    # end
 
     def remove_order_option(provider_id:, native_id:, token:)
       url = "/ingest/providers/#{provider_id}/order-options/#{encode_if_needed(native_id)}"

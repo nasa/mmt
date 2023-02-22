@@ -81,16 +81,16 @@ class OrderOptionAssignmentsController < ManageCmrController
     params.fetch(:order_option_assignment, []).each do |assignment|
       association = assignment.split('@')
       collection_concept_id = association[0]
-      #service_concept_id = association[1]
-      # delete_service_assoc_response = cmr_client.delete_collection_service_association(service_concept_id: service_concept_id, collection_concept_id: collection_concept_id, token: token)
-      # puts("#### delete_response=#{delete_service_assoc_response.inspect}")
-      # success_count += 1 unless delete_service_assoc_response.error?
-      # error_count += 1 if delete_service_assoc_response.error?
-      order_option_concept_id = association[1]
-      delete_order_option_assoc_response = cmr_client.delete_collection_order_option_association(order_option_concept_id: order_option_concept_id, collection_concept_id: collection_concept_id, token: token)
-      puts("#### delete_response=#{delete_order_option_assoc_response.inspect}")
-      success_count += 1 unless delete_order_option_assoc_response.error?
-      error_count += 1 if delete_order_option_assoc_response.error?
+      service_concept_id = association[1]
+      delete_service_assoc_response = cmr_client.delete_collection_service_association(service_concept_id: service_concept_id, collection_concept_id: collection_concept_id, token: token)
+      puts("#### delete_response=#{delete_service_assoc_response.inspect}")
+      success_count += 1 unless delete_service_assoc_response.error?
+      error_count += 1 if delete_service_assoc_response.error?
+      # order_option_concept_id = association[1]
+      # delete_order_option_assoc_response = cmr_client.delete_collection_order_option_association(order_option_concept_id: order_option_concept_id, collection_concept_id: collection_concept_id, token: token)
+      # puts("#### delete_response=#{delete_order_option_assoc_response.inspect}")
+      # success_count += 1 unless delete_order_option_assoc_response.error?
+      # error_count += 1 if delete_order_option_assoc_response.error?
     end
 
     flash_messages = {}
