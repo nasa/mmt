@@ -1,47 +1,54 @@
-<div class="row row-content">
-  <section>
-    <h2><%= @order_option['name'] %></h2>
+<% if Rails.configuration.use_legacy_order_service %>
+  <%= render partial: "legacy_show" %>
+<% else %>
+  <!-- THIS PAGE IS NOT USING LEGACY ORDER SERVICE -->
+  <div class="row row-content">
+    <% meta = @order_option.fetch('meta', {}) %>
+    <% umm = @order_option.fetch('umm', {}) %>
+    <section>
+      <h2><%= umm.fetch('Name', '') %></h2>
 
-    <p>
-      <span class="inline-label">Last Update:</span> <%= echo_formatted_date(@order_option['last_update'], default: 'Never Updated') %> |
-      <span class="inline-label">Scope:</span> <%= @order_option['scope'] %> |
-      <span class="inline-label">Deprecated:</span> <%= @order_option['deprecated'] %> |
-      <span class="inline-label">Sort Key:</span> <%= @order_option['sort_key'] %>
-    </p>
+      <p>
+        <span class="inline-label">Last Update:</span> <%= echo_formatted_date(meta.fetch('revision-date', ''), default: 'Never Updated') %> |
+        <span class="inline-label">Scope:</span> <%= umm.fetch('Scope', '') %> |
+        <span class="inline-label">Deprecated:</span> <%= umm.fetch('Deprecated', false) %> |
+        <span class="inline-label">Sort Key:</span> <%= umm.fetch('SortKey', '') %>
+      </p>
 
-    <p>
-      <span class="inline-label">Description:</span>
-      <%= @order_option['description'] %>
-    </p>
+      <p>
+        <span class="inline-label">Description:</span>
+        <%= umm.fetch('Description', '') %>
+      </p>
 
-    <div class="row">
-      <span class="inline-label">Form XML:</span>
+      <div class="row">
+        <span class="inline-label">Form XML:</span>
 
-      <pre><%= @order_option['form'] %></pre>
-    </div>
+        <pre><%= umm.fetch('Form', '') %></pre>
+      </div>
 
-    <%= link_to 'Edit', edit_order_option_path(@order_option['id']), class: 'eui-btn' %>
+      <%= link_to 'Edit', edit_order_option_path(umm.fetch('Id', '')), class: 'eui-btn' %>
 
-    <% unless @order_option.fetch('deprecated', false) %>
+      <% unless umm.fetch('Deprecated', false) %>
         <%= link_to 'Deprecate', "#deprecate-order-option-modal", class: 'display-modal eui-btn' %>
         <div id="deprecate-order-option-modal" class="eui-modal-content">
           <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
           <p>Are you sure you want to deprecate this order option? This action cannot be undone.</p>
           <p>
             <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <%= link_to 'Yes', order_option_deprecate_path(@order_option['id']), method: :post, class: 'eui-btn--blue spinner' %>
+            <%= link_to 'Yes', order_option_deprecate_path(umm.fetch('Id', '')), method: :post, class: 'eui-btn--blue spinner' %>
           </p>
         </div>
-    <% end %>
+      <% end %>
 
-    <%= link_to 'Delete', "#delete-order-option-modal", class: 'display-modal eui-btn eui-btn--red' %>
-    <div id="delete-order-option-modal" class="eui-modal-content">
-      <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-      <p>Are you sure you want to delete this order option?</p>
-      <p>
-        <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-        <%= link_to 'Yes', order_option_path(@order_option['id']), method: :delete, class: 'eui-btn--blue spinner' %>
-      </p>
-    </div>
-  </section>
-</div>
+      <%= link_to 'Delete', "#delete-order-option-modal", class: 'display-modal eui-btn eui-btn--red' %>
+      <div id="delete-order-option-modal" class="eui-modal-content">
+        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+        <p>Are you sure you want to delete this order option?</p>
+        <p>
+          <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+          <%= link_to 'Yes', order_option_path(meta.fetch('native-id', '')), method: :delete, class: 'eui-btn--blue spinner' %>
+        </p>
+      </div>
+    </section>
+  </div>
+<% end %>

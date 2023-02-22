@@ -5,3 +5,11 @@
 .rbt-menu>.dropdown-item::after {
   display: none;
 }
+
+.eui-item-list-pane {
+  overflow: scroll;
+}
+
+#keyword-picker {
+  font-size: 12px;
+}

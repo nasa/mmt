@@ -737,6 +737,21 @@ module Cmr
       delete("/search/associate/#{collection_concept_id}", {}, payload.to_json, token_header(token))
     end
 
+    def remove_order_option(provider_id:, native_id:, token:)
+      url = "/ingest/providers/#{provider_id}/order-options/#{encode_if_needed(native_id)}"
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+      delete(url, {}, nil, headers.merge(token_header(token)))
+    end
+
+    def create_update_order_option(order_option:, provider_id:, native_id:, token:)
+      url = "/ingest/providers/#{provider_id}/order-options/#{encode_if_needed(native_id)}"
+      headers = {
+        'Accept' => 'application/json; charset=utf-8',
+        'Content-Type' => 'application/json'
+      }
+      post(url, order_option.to_json, headers.merge(token_header(token)))
+    end
+
     private
 
     def valid_uri?(uri)

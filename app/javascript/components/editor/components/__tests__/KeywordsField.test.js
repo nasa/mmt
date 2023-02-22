@@ -3,61 +3,36 @@ import Form from '@rjsf/bootstrap-4'
 import {
   render, fireEvent, screen
 } from '@testing-library/react'
-import ToolKeywordsField from '../ToolkeywordsField'
+import ToolKeywordsField from '../KeywordPicker'
 
-const keywords = {
-  category: [
-    {
-      value: 'EARTH SCIENCE SERVICES',
-      subfields: [
-        'topic'
-      ],
-      topic: [
-        {
-          value: 'DATA ANALYSIS AND VISUALIZATION',
-          subfields: [
-            'term'
-          ],
-          term: [
-            {
-              value: 'CALIBRATION/VALIDATION',
-              uuid: '4f938731-d686-4d89-b72b-ff60474bb1f0'
-            },
-            {
-              value: 'GEOGRAPHIC INFORMATION SYSTEMS',
-              uuid: '794e3c3b-791f-44de-9ff3-358d8ed74733',
-              subfields: [
-                'variable_level_1'
-              ],
-              variable_level_1: [
-                {
-                  value: 'MOBILE GEOGRAPHIC INFORMATION SYSTEMS',
-                  uuid: '0dd83b2a-e83f-4a0c-a1ff-2fbdbbcce62d'
-                },
-                {
-                  value: 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS',
-                  uuid: '565cb301-44de-446c-8fe3-4b5cce428315'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          value: 'DATA MANAGEMENT/DATA HANDLING',
-          subfields: [
-            'term'
-          ],
-          term: [
-            {
-              value: 'CATALOGING',
-              uuid: '434d40e2-4e0b-408a-9811-ff878f4f0fb0'
-            }
-          ]
-        }
-      ]
-    }
+const keywords = [
+  [
+    'TOOL KEYWORD',
+    'EARTH SCIENCE SERVICES',
+    'DATA ANALYSIS AND VISUALIZATION',
+    'CALIBRATION/VALIDATION'
+  ],
+  [
+    'TOOL KEYWORD',
+    'EARTH SCIENCE SERVICES',
+    'DATA ANALYSIS AND VISUALIZATION',
+    'GEOGRAPHIC INFORMATION SYSTEMS',
+    'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+  ],
+  [
+    'TOOL KEYWORD',
+    'EARTH SCIENCE SERVICES',
+    'DATA ANALYSIS AND VISUALIZATION',
+    'GEOGRAPHIC INFORMATION SYSTEMS',
+    'MOBILE GEOGRAPHIC INFORMATION SYSTEMS'
+  ],
+  [
+    'TOOL KEYWORD',
+    'EARTH SCIENCE SERVICES',
+    'DATA MANAGEMENT/DATA HANDLING',
+    'CATALOGING'
   ]
-}
+]
 
 const schema = {
   ToolKeywords: {
@@ -87,7 +62,10 @@ const fields = {
 const uiSchema = {
   'ui:title': 'Tool Keyword',
   'ui:field': 'toolKeywordsField',
-  'ui:keywords': keywords
+  'ui:keywords': keywords,
+  'ui:scheme_values': [
+    'ToolCategory', 'ToolTopic', 'ToolTerm', 'ToolSpecificTerm'
+  ]
 }
 const props = {
   formData: [{}]
@@ -99,10 +77,10 @@ describe('Tool Keywords Field', () => {
       formData: [{}]
     }
     const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
-    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--earth-science-services')
+    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
 
-    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--data-analysis-and-visualization')
+    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--DATA ANALYSIS AND VISUALIZATION')
     fireEvent.click(await clickParent2)
 
     const clickFinalOption = screen.queryByTestId('tool-keyword__final-option--calibration-validation')
@@ -124,13 +102,13 @@ describe('Tool Keywords Field', () => {
   it('Adding a science keyword with ToolSpecificTerm', async () => {
     const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
 
-    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--earth-science-services')
+    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
 
-    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--data-analysis-and-visualization')
+    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--DATA ANALYSIS AND VISUALIZATION')
     fireEvent.click(await clickParent2)
 
-    const clickParent3 = screen.queryByTestId('tool-keyword__parent-item--geographic-information-systems')
+    const clickParent3 = screen.queryByTestId('tool-keyword__parent-item--GEOGRAPHIC INFORMATION SYSTEMS')
     fireEvent.click(await clickParent3)
 
     const selectOption = screen.queryByTestId('tool-keyword__final-option--desktop-geographic-information-systems')
@@ -146,13 +124,13 @@ describe('Tool Keywords Field', () => {
   it('Adding a science keyword with ToolSoecificTerm and removing from added keyword', async () => {
     const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
 
-    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--earth-science-services')
+    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
 
-    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--data-analysis-and-visualization')
+    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--DATA ANALYSIS AND VISUALIZATION')
     fireEvent.click(await clickParent2)
 
-    const clickParent3 = screen.queryByTestId('tool-keyword__parent-item--geographic-information-systems')
+    const clickParent3 = screen.queryByTestId('tool-keyword__parent-item--GEOGRAPHIC INFORMATION SYSTEMS')
     fireEvent.click(await clickParent3)
 
     const selectOption = screen.queryByTestId('tool-keyword__final-option--desktop-geographic-information-systems')
@@ -172,30 +150,30 @@ describe('Tool Keywords Field', () => {
   it('Selecting Previous Section Test', async () => {
     const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
 
-    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--earth-science-services')
+    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
 
-    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--data-analysis-and-visualization')
+    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--DATA ANALYSIS AND VISUALIZATION')
     fireEvent.click(await clickParent2)
 
-    const clickParent3 = screen.queryByTestId('tool-keyword__parent-item--geographic-information-systems')
+    const clickParent3 = screen.queryByTestId('tool-keyword__parent-item--GEOGRAPHIC INFORMATION SYSTEMS')
     fireEvent.click(await clickParent3)
 
     const clickPreviousFirst = screen.queryByTestId('tool-keyword__select-previous--tool-keyword')
     fireEvent.click(await clickPreviousFirst)
 
-    const clickParent1Again = screen.queryByTestId('tool-keyword__parent-item--earth-science-services')
+    const clickParent1Again = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1Again)
 
-    const clickParent2Again = screen.queryByTestId('tool-keyword__parent-item--data-analysis-and-visualization')
+    const clickParent2Again = screen.queryByTestId('tool-keyword__parent-item--DATA ANALYSIS AND VISUALIZATION')
     fireEvent.click(await clickParent2Again)
 
     const clickPreviousSecond = screen.queryByTestId('tool-keyword__select-previous--data-analysis-and-visualization')
 
     fireEvent.click(await clickPreviousSecond)
-    fireEvent.click(await screen.queryByTestId('tool-keyword__parent-item--data-analysis-and-visualization'))
+    fireEvent.click(await screen.queryByTestId('tool-keyword__parent-item--DATA ANALYSIS AND VISUALIZATION'))
 
-    fireEvent.click(await screen.queryByTestId('tool-keyword__parent-item--geographic-information-systems'))
+    fireEvent.click(await screen.queryByTestId('tool-keyword__parent-item--GEOGRAPHIC INFORMATION SYSTEMS'))
     expect(container).toMatchSnapshot()
 
     const clickPrevious = screen.queryByTestId('tool-keyword__select-previous--geographic-information-systems')
@@ -205,13 +183,13 @@ describe('Tool Keywords Field', () => {
   it('Test Adding the Same Keyword with ToolSpecificTerm', async () => {
     const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
 
-    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--earth-science-services')
+    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
 
-    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--data-analysis-and-visualization')
+    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--DATA ANALYSIS AND VISUALIZATION')
     fireEvent.click(await clickParent2)
 
-    const clickParent3 = screen.queryByTestId('tool-keyword__parent-item--geographic-information-systems')
+    const clickParent3 = screen.queryByTestId('tool-keyword__parent-item--GEOGRAPHIC INFORMATION SYSTEMS')
     fireEvent.click(await clickParent3)
 
     const clickFinalOption = screen.queryByTestId('tool-keyword__final-option--mobile-geographic-information-systems')
@@ -232,10 +210,10 @@ describe('Tool Keywords Field', () => {
   it('Test Adding the Same Keyword without ToolSpecificTerm', async () => {
     const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
 
-    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--earth-science-services')
+    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
 
-    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--data-management-data-handling')
+    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--DATA MANAGEMENT/DATA HANDLING')
     fireEvent.click(await clickParent2)
 
     const clickFinalOption = screen.queryByTestId('tool-keyword__final-option--cataloging')
@@ -264,13 +242,13 @@ describe('Tool Keywords Field', () => {
     fireEvent.change(searchField, { target: { value: 'Earth' } })
     fireEvent.keyDown(searchField, { key: 'ArrowDown' })
     fireEvent.keyDown(searchField, { key: 'Enter' })
-    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--earth-science-services')
+    const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
 
-    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--data-analysis-and-visualization')
+    const clickParent2 = screen.queryByTestId('tool-keyword__parent-item--DATA ANALYSIS AND VISUALIZATION')
     fireEvent.click(await clickParent2)
 
-    const clickParent3 = screen.queryByTestId('tool-keyword__parent-item--geographic-information-systems')
+    const clickParent3 = screen.queryByTestId('tool-keyword__parent-item--GEOGRAPHIC INFORMATION SYSTEMS')
     fireEvent.click(await clickParent3)
 
     fireEvent.change(searchField, { target: { value: 'Mobile' } })

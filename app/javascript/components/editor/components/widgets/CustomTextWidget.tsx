@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable jsx-a11y/no-autofocus */
 import React from 'react'
 import { kebabCase } from 'lodash'
@@ -5,10 +6,9 @@ import { observer } from 'mobx-react'
 import MetadataEditor from '../../MetadataEditor'
 
 type CustomTextWidgetProps = {
-  label: string,
-  description: string,
+  label?: string,
   options: {
-    title: string
+    title?: string
     editor: MetadataEditor
   },
   schema: {
@@ -29,14 +29,14 @@ type CustomTextWidgetState = {
 
 class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomTextWidgetState> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: {options:{editor:MetadataEditor}}
+  static defaultProps: { options: { editor: MetadataEditor } }
   inputRef: React.RefObject<HTMLInputElement>
 
   constructor(props: CustomTextWidgetProps) {
     super(props)
     const { value = '' } = this.props
     this.state = {
-      value,
+      value: value == null ? '' : value,
       charsUsed: value != null ? value.length : 0
     }
     this.inputRef = React.createRef()
@@ -58,19 +58,22 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
         }, 100)
       }
     }
+
     return (
       <>
         <div className="custom-text-widget-header" data-testid={`custom-text-widget__${kebabCase(label)}--text-header`}>
-          <span>
-            {title}
-            {required ? '*' : ''}
-          </span>
+          {title && (
+            <span>
+              {title}
+              {required ? '*' : ''}
+            </span>
+          )}
           {maxLength && (
-          <span style={{ float: 'right' }}>
-            {charsUsed}
-            /
-            {maxLength}
-          </span>
+            <span style={{ float: 'right' }}>
+              {charsUsed}
+              /
+              {maxLength}
+            </span>
           )}
         </div>
 
@@ -87,7 +90,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           // This onClick determines if a textbox is inside of an array, if yes, then only focus on the selected textbox and display the description
           // Example of an array element id: id = 'root_0_description'
           // Example of a controlled filed id: id = 'root_description'
-          onClick={() => (id.split('_').length >= 3 ? editor.setFocusField(id) : editor.setFocusField(label))}
+          onClick={() => (id && id.split('_').length >= 2 ? editor.setFocusField(id) : editor.setFocusField(label))}
           onChange={(e) => {
             const { value } = e.target
             const len = value.length
@@ -96,7 +99,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           }}
         />
         <span style={{ fontStyle: 'italic' }} data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
-          {focusField.toLowerCase() === label.toLowerCase() || focusField.toLowerCase() === id.toLowerCase() ? description : ''}
+          {(focusField.toLowerCase() === label.toLowerCase() && label !== '') || focusField.toLowerCase() === id.toLowerCase() ? description : ''}
         </span>
       </>
     )

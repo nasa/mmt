@@ -1,0 +1,68 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/order-options.umm_json?id=848DA05B-51A2-1F3D-6783-6C27E5EA74B4&page_size=2000&provider_id=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Client-Id:
+      - MMT
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '35'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 15 Feb 2023 19:21:55 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - 8b083505-4b90-48cc-898d-205b0bdec6f6
+      x-request-id:
+      - sHCDVIfxsKeYB8fxRn5okR17dF285YDNzPKkI6zcsXM8l-L0tsRvtA==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 c53ea9ac133c11d00dcd94dcb2a8b5ac.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - LAX53-P4
+      x-amz-cf-id:
+      - sHCDVIfxsKeYB8fxRn5okR17dF285YDNzPKkI6zcsXM8l-L0tsRvtA==
+    body:
+      encoding: UTF-8
+      string: '{"hits":1,"took":22,"items":[{"meta":{"revision-id":1,"deleted":false,"provider-id":"ETIM22","user-id":"hvtranho","native-id":"09e96dcb-c48f-40a0-a625-873a5ab23c3b","concept-id":"OO1200459723-ETIM22","revision-date":"2023-02-15T18:06:13.434Z","concept-type":"order-option"},"umm":{"Name":"Test
+        Order Option ABC-1001","Description":"Test description","Form":"\u003c?xml
+        version=\"1.0\" encoding=\"utf-8\"?\u003e\r\n    \u003cform xmlns=\"http://echo.nasa.gov/v9/echoforms\"\r\n                 targetNamespace=\"http://myorganization.gov/echoforms\"\r\n                 xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\u003e\r\n      \u003cmodel\u003e\r\n        \u003cinstance\u003e\r\n          \u003cprov:options
+        xmlns:prov=\"http://myorganization.gov/orderoptions\"\u003e\r\n            \u003cprov:filename\u003edata.txt\u003c/prov:filename\u003e\r\n            \u003cprov:filesize\u003e10\u003c/prov:filesize\u003e\r\n          \u003c/prov:options\u003e\r\n        \u003c/instance\u003e\r\n      \u003c/model\u003e\r\n      \u003cui\u003e\r\n        \u003cinput
+        ref=\"prov:filename\" type=\"xsd:string\" label=\"File Name\"\u003e\r\n          \u003cconstraints\u003e\r\n            \u003cconstraint\u003e\r\n              \u003cxpath\u003estring-length(prov:filename)
+        \u0026lt; 25\u003c/xpath\u003e\r\n              \u003calert\u003eFile names
+        must be less than 25 characters\u003c/alert\u003e\r\n            \u003c/constraint\u003e\r\n            \u003cconstraint\u003e\r\n              \u003cpattern\u003e^[A-Za-z]+[A-Za-z0-9]*\\.?[A-Za-z0-9]*$\u003c/pattern\u003e\r\n              \u003calert\u003e\r\n                File
+        names must start with a letter and\r\n                not contain illegal
+        characters\r\n              \u003c/alert\u003e\r\n            \u003c/constraint\u003e\r\n          \u003c/constraints\u003e\r\n        \u003c/input\u003e\r\n        \u003crange
+        ref=\"prov:filesize\" type=\"xsd:int\" start=\"0\"\r\n               step=\"10\"
+        end=\"1000\" label=\"File Size (MB)\"\u003e\r\n        \u003c/range\u003e\r\n      \u003c/ui\u003e\r\n    \u003c/form\u003e","Scope":"PROVIDER","Id":"8e8cad47-1d53-4796-b283-16e8ecf034e5","MetadataSpecification":{"Name":"Order
+        Option","Version":"1.0.0","URL":"https://cdn.earthdata.nasa.gov/generics/order-option/v1.0.0"}}}]}'
+  recorded_at: Wed, 15 Feb 2023 19:21:55 GMT
+recorded_with: VCR 6.1.0

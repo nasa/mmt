@@ -3,6 +3,9 @@ type FormError = {
   name: string;
   property: string;
   stack: string;
+  params?: {
+    limit: number
+  }
 };
 
 interface HTMLTextAreaElement extends HTMLElement {focus(): boolean | undefined; }
