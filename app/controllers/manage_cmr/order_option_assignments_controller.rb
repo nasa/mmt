@@ -75,7 +75,30 @@ class OrderOptionAssignmentsController < ManageCmrController
   end
 
   def destroy_order_option_assignments
+    success_count = 0
+    error_count = 0
 
+    params.fetch(:order_option_assignment, []).each do |assignment|
+      association = assignment.split('@')
+      collection_concept_id = association[0]
+      #service_concept_id = association[1]
+      # delete_service_assoc_response = cmr_client.delete_collection_service_association(service_concept_id: service_concept_id, collection_concept_id: collection_concept_id, token: token)
+      # puts("#### delete_response=#{delete_service_assoc_response.inspect}")
+      # success_count += 1 unless delete_service_assoc_response.error?
+      # error_count += 1 if delete_service_assoc_response.error?
+      order_option_concept_id = association[1]
+      delete_order_option_assoc_response = cmr_client.delete_collection_order_option_association(order_option_concept_id: order_option_concept_id, collection_concept_id: collection_concept_id, token: token)
+      puts("#### delete_response=#{delete_order_option_assoc_response.inspect}")
+      success_count += 1 unless delete_order_option_assoc_response.error?
+      error_count += 1 if delete_order_option_assoc_response.error?
+    end
+
+    flash_messages = {}
+    flash_messages[:success] = "Deleted #{success_count} #{'order option assignment'.pluralize(success_count)} successfully." if success_count > 0
+    flash_messages[:error] = "Failed to delete #{error_count} #{'order option assignment'.pluralize(error_count)}." if error_count > 0
+    flash_messages[:notice] = 'No order option assignments provided to delete.' if error_count.zero? && success_count.zero?
+
+    redirect_to order_option_assignments_path, flash: flash_messages
   end
 
   def legacy_destroy_order_option_assignments
@@ -104,7 +127,59 @@ class OrderOptionAssignmentsController < ManageCmrController
   end
 
   def edit_order_option_assignments
+    collections = get_provider_collections(concept_id: params['collectionsChooser_toList'], page_size: params['collectionsChooser_toList'].count)
 
+    @collections_to_list = []
+
+    collections.fetch('items', []).each do |collection|
+      puts("@@@@ processing #{collection['meta']['concept-id']}")
+      concept_id = collection['meta']['concept-id']
+      options = {}
+      options[:concept_id] = concept_id
+      collection_info_response = cmr_client.get_collections(options, token)
+      if collection_info_response.success?
+        associated_services = collection_info_response.body.fetch('items', []).first.fetch('meta', {}).fetch('association-details', {}).fetch('services', [])
+        order_options = []
+        unless associated_services.empty?
+          associated_services.each do |service|
+            order_option_concept_id = service.fetch('data', {}).fetch('order_option', '')
+            service_concept_id = service.fetch('concept-id', '')
+            puts("@@@ order_option_concept_id=#{order_option_concept_id}")
+            order_option = get_order_option_def(order_option_concept_id)
+            puts("#### order_option name=#{order_option.fetch('umm', {}).fetch('Name', '')}")
+            order_option['service_concept_id'] = service_concept_id
+            order_options << order_option unless order_option.empty?
+          end
+        end
+        if !order_options.empty?
+          order_options.each do |option_def|
+            puts("@@@@ found order option=#{option_def.fetch('umm', {}).fetch('Name', '')}")
+            collection_copy = collection.clone
+            collection_copy['option-def'] = option_def
+
+            @collections_to_list << collection_copy
+          end
+        else
+          @collections_to_list << collection
+        end
+      else
+        Rails.logger.error(collection_info_response.body)
+        flash[:error] = collection_info_response.body['errors'].inspect
+      end
+
+      puts("###### @collections_to_list=#{@collections_to_list.length}")
+
+      empty_assignment_cnt = 0
+      @collections_to_list.each do |coll|
+        empty_assignment_cnt += 1 if coll['option-def'].nil?
+      end
+
+      @all_empty_assignments = false
+
+      if empty_assignment_cnt == @collections_to_list.length
+        @all_empty_assignments = true
+      end
+    end
   end
 
   def legacy_edit_order_option_assignments
@@ -167,6 +242,15 @@ class OrderOptionAssignmentsController < ManageCmrController
     end
   end
 
+  def get_order_option_def(order_option_concept_id)
+    order_option = {}
+    order_option_response = cmr_client.get_order_options(provider_id: current_user.provider_id, concept_id: order_option_concept_id, token: token)
+    if order_option_response.success?
+      order_option = order_option_response.body.fetch('items', [])[0] unless order_option_response.body.fetch('items', []).empty?
+    end
+    order_option
+  end
+
   def legacy_get_order_option_defs(option_infos)
     return [] if option_infos.empty?
 
@@ -209,6 +293,21 @@ class OrderOptionAssignmentsController < ManageCmrController
   end
 
   def get_order_options
-    # todo
+    order_options_response = cmr_client.get_order_options(provider_id: current_user.provider_id, token: token)
+    if order_options_response.error?
+      flash[:error] = I18n.t("controllers.manage_cmr.get_order_option_list.flash.error", request: request.uuid)
+      Rails.logger.error("#{request.uuid} - OrderOptionAssignmentsController#get_order_options - Retrieve Order Options Error, message=#{ex.message}, stacktrace=#{ex.backtrace}")
+      return
+    end
+    order_option_list = Array.wrap(order_options_response.body.fetch('items', []))
+
+    order_option_select_values = []
+
+    order_option_list.select { |option| option.fetch('umm', {}).fetch('Deprecated', false) == false }.each do |order_option|
+      opt = [order_option.fetch('umm', {}).fetch('Name', ''), order_option.fetch('umm', {}).fetch('Id', '')]
+      order_option_select_values << opt
+    end
+
+    order_option_select_values.sort
   end
 end

@@ -1,0 +1,90 @@
+<div class="row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Order Option Assignments</h2>
+
+    <div id="edit-order-option-assignments-page">
+
+      <%= form_tag(order_option_assignments_path, method: :delete, id: 'edit-order-option-assignments-form') %>
+
+      <fieldset>
+        <%= label_tag('show-no-assigned-options', class: 'show-unassigned-collections') do %>
+          <%= check_box_tag('show-no-assigned-options', id: 'show-no-assigned-options') %>
+          Include selected collections with no assigned options?
+        <% end %>
+      </fieldset>
+
+      <fieldset>
+        <table id="collections-table" class="tablesorter">
+          <thead>
+          <tr>
+            <th class="align-c">
+              <input type="checkbox" name="checkall" class="checkall" data-group="order_option_assignment[]" />
+            </th>
+            <th>
+              Collection
+            </th>
+            <th>
+              Short Name
+            </th>
+            <th>
+              Version ID
+            </th>
+            <th>
+              Option Definition
+            </th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <% if @all_empty_assignments %>
+            <tr id="no-assignments-msg" >
+              <td colspan="7">
+                No assignments found for the selected collections.
+              </td>
+            </tr>
+          <% end %>
+          <% @collections_to_list.each do |collection| %>
+            <tr <%= collection['option-def'].nil? ? 'class=hidden-row' : '' %>>
+              <td class="align-c">
+                <% unless collection['option-def'].nil? %>
+                  <%= check_box_tag('order_option_assignment[]', collection['option-assignment-guid'], false) %>
+                <% end %>
+              </td>
+              <td>
+                <%=collection['umm']['entry-title']%>
+              </td>
+              <td>
+                <%=collection['umm']['short-name']%>
+              </td>
+              <td>
+                <%=collection['umm']['version-id']%>
+              </td>
+              <td>
+                <%=collection.fetch('option-def',{}).fetch('Name','') %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+          <tfoot>
+          <tr>
+            <th colspan="5">Select one or more collections.</th>
+          </tr>
+          </tfoot>
+        </table>
+      </fieldset>
+
+      <fieldset>
+        <%= link_to 'Delete Selected Assignments', '#delete-assignments-modal', class: 'eui-btn eui-btn--red display-modal' %>
+
+        <div id='delete-assignments-modal' class="eui-modal-content">
+          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+          <p>Are you sure you want to delete the order option assignments for the selected collections?</p>
+          <p>
+            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+            <%= submit_tag 'Yes', class: 'eui-btn--blue spinner'%>
+          </p>
+        </div>
+      </fieldset>
+    </div>
+  </section>
+</div>

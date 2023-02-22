@@ -712,6 +712,31 @@ module Cmr
       get(url, options, token_header(token))
     end
 
+    def get_order_options(provider_id:, token:, id: nil, concept_id: nil)
+      options = {}
+      options[:provider_id] = provider_id
+      options[:id] = id if id
+      options[:concept_id] = concept_id if concept_id
+      options[:page_size] = 2000
+      get('/search/order-options.umm_json', options, token_header(token))
+    end
+
+    def delete_collection_service_association(service_concept_id:, collection_concept_id:, token:)
+      payload = []
+      concept_id = {}
+      concept_id[:concept_id] = collection_concept_id
+      payload << concept_id
+      delete("/search/services/#{service_concept_id}/associations", {}, payload.to_json, token_header(token))
+    end
+
+    def delete_collection_order_option_association(order_option_concept_id:, collection_concept_id:, token:)
+      payload = []
+      concept_id = {}
+      concept_id[:concept_id] = order_option_concept_id
+      payload << concept_id
+      delete("/search/associate/#{collection_concept_id}", {}, payload.to_json, token_header(token))
+    end
+
     private
 
     def valid_uri?(uri)
