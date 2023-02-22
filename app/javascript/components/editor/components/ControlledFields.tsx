@@ -128,7 +128,7 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
       const existingValue = formData[name]
 
       let value = existingValue || enumValue
-      if (enums.length === 1) {
+      if (enums.length === 1 && this.isRequired(name)) {
         const [first] = enums
         const priorValue = formData[name]
         formData[name] = first
@@ -170,11 +170,18 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
       const title = fieldUiSchema != null ? fieldUiSchema['ui:title'] : name
       let value = formData[name]
       // If there is only 1 choice auto select it.
-      if (enums.length === 1) {
+      if (enums.length === 1 && this.isRequired(name)) {
         const [first] = enums
+        const priorValue = formData[name]
         formData[name] = first
         value = formData[name]
+        if (priorValue !== value) {
+          setTimeout(() => {
+            onChange(formData, null)
+          })
+        }
       }
+
       if (!this.isRequired(name)) {
         enums.unshift(null)
       }
