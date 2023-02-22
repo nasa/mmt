@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react'
 import React from 'react'
 import { Card } from 'react-bootstrap'
+import JSONPretty from 'react-json-pretty'
 import MetadataEditor from '../MetadataEditor'
 
 type JSONViewProps = {
@@ -17,7 +18,7 @@ class JSONView extends React.Component<JSONViewProps, JSONViewState> {
       <Card>
         <Card.Header>JSON</Card.Header>
         <Card.Body id="json-text-field">
-          {JSON.stringify(editor.fullData)}
+          <JSONPretty data={editor.fullData} />
         </Card.Body>
       </Card>
     )

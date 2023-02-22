@@ -69,3 +69,4 @@ nohup.out
 yarn-debug.log*
 .yarn-integrity
 /public/
+serviceaccount.pfx
