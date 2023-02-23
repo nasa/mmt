@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   fireEvent,
+  getByRole,
   render, screen, within
 } from '@testing-library/react'
 import Form from '@rjsf/bootstrap-4'
@@ -12,7 +13,7 @@ import CustomSelectWidget from '../widgets/CustomSelectWidget'
 import CustomTextWidget from '../widgets/CustomTextWidget'
 
 const keywords = [
-  ['alpha', 'beta', 'gamma'],
+  ['alpha', 'beta', 'gamma', 'delta'],
   ['alpha', 'beta', 'delta'],
   ['alpha', 'theta', ''],
   ['epsilon', 'zeta']
@@ -45,13 +46,15 @@ const fields = {
 const uiSchema = {
   'ui:field': 'controlled',
   'ui:title': 'Todo',
-  'ui:controlledFields': ['priorityCategory', 'priority1', 'priority2'],
-  'ui:keywords': keywords
+  'ui:controlledFields': ['priorityCategory', 'priority1', 'priority2', 'value'],
+  'ui:keywords': keywords,
+  value: { 'ui:title': 'the value', 'ui:widget': CustomTextWidget }
 }
 const model = new UmmToolsModel()
 const editor = new MetadataEditor(model)
 ControlledFields.defaultProps = { options: { editor } }
 CustomSelectWidget.defaultProps = { title: uiSchema['ui:title'], options: { editor } }
+CustomTextWidget.defaultProps = { options: { editor } }
 
 describe('Controlled Fields Layout', () => {
   it('renders all fields', async () => {
@@ -64,13 +67,16 @@ describe('Controlled Fields Layout', () => {
     const categoryComponent = screen.queryByTestId('custom-select-widget__priority-category--selector').firstChild
     const priority1Component = screen.queryByTestId('custom-select-widget__priority-1--selector').firstChild
     const priority2Component = screen.queryByTestId('custom-select-widget__priority-2--selector').firstChild
+    const priority3Component = screen.queryByTestId('custom-text-widget__the-value--text-input')
     expect(categoryComponent).toBeDefined()
     expect(priority1Component).toBeDefined()
     expect(priority2Component).toBeDefined()
+    expect(priority3Component).toBeDefined()
 
     expect(categoryComponent).not.toBeNull()
     expect(priority1Component).not.toBeNull()
     expect(priority2Component).not.toBeNull()
+    expect(priority3Component).not.toBeNull()
 
     expect(container).toMatchSnapshot()
   })
@@ -114,6 +120,71 @@ describe('Controlled Fields Layout', () => {
     expect(p1Component).not.toHaveTextContent('gamma')
 
     expect(container).toMatchSnapshot()
+  })
+
+  it('shows values in third, text box', async () => {
+    const { container } = render(
+      <BrowserRouter>
+        <Form schema={schema} uiSchema={uiSchema} fields={fields} />
+      </BrowserRouter>
+    )
+
+    const categoryComponent = screen.queryByTestId('custom-select-widget__priority-category--selector').firstChild
+
+    expect(categoryComponent).not.toBeNull()
+    fireEvent.keyDown(categoryComponent, { key: 'ArrowDown' })
+    fireEvent.click(await within(categoryComponent).getByText('alpha'))
+
+    const priority1Component = screen.queryByTestId('custom-select-widget__priority-1--selector').firstChild
+    expect(priority1Component).not.toBeNull()
+    fireEvent.keyDown(priority1Component, { key: 'ArrowDown' })
+    fireEvent.click(await within(priority1Component).getByText('beta'))
+
+    const priority2Component = screen.queryByTestId('custom-select-widget__priority-2--selector').firstChild
+    expect(priority2Component).not.toBeNull()
+    fireEvent.keyDown(priority2Component, { key: 'ArrowDown' })
+    fireEvent.click(await within(priority2Component).getByText('gamma'))
+
+    const priority4Component = screen.queryByTestId('custom-text-widget__the-value--text-input')
+    expect(priority4Component).toHaveValue('delta')
+    expect(container).toMatchSnapshot()
+  })
+
+  it('it clears the next boxes', async () => {
+    const { container } = render(
+      <BrowserRouter>
+        <Form schema={schema} uiSchema={uiSchema} fields={fields} />
+      </BrowserRouter>
+    )
+
+    const categoryComponent = screen.queryByTestId('custom-select-widget__priority-category--selector').firstChild
+    expect(categoryComponent).not.toBeNull()
+    fireEvent.keyDown(categoryComponent, { key: 'ArrowDown' })
+    fireEvent.click(await within(categoryComponent).getByText('alpha'))
+
+    const priority1Component = screen.queryByTestId('custom-select-widget__priority-1--selector').firstChild
+    expect(priority1Component).not.toBeNull()
+    fireEvent.keyDown(priority1Component, { key: 'ArrowDown' })
+    fireEvent.click(await within(priority1Component).getByText('beta'))
+    const checkPriority1Component = screen.queryByTestId('custom-select-widget__priority-1--selector')
+    expect(checkPriority1Component).toHaveTextContent('beta')
+    expect(container).toMatchSnapshot()
+
+    const priority2Component = screen.queryByTestId('custom-select-widget__priority-2--selector').firstChild
+    expect(priority2Component).not.toBeNull()
+    fireEvent.keyDown(priority2Component, { key: 'ArrowDown' })
+    fireEvent.click(await within(priority2Component).getByText('gamma'))
+
+    const priority3Component = screen.queryByTestId('custom-text-widget__the-value--text-input')
+    expect(priority3Component).toHaveValue('delta')
+
+    const clearCategoryComponent = screen.queryByTestId('custom-select-widget__priority-category--selector').firstChild
+    expect(clearCategoryComponent).not.toBeNull()
+    fireEvent.keyDown(clearCategoryComponent, { key: 'ArrowDown' })
+    fireEvent.click(await within(clearCategoryComponent).getByText('epsilon'))
+
+    const clearPriority1Component = screen.queryByTestId('custom-select-widget__priority-1--selector')
+    expect(clearPriority1Component).not.toHaveTextContent('beta')
   })
 
   it('works without a title', async () => {
