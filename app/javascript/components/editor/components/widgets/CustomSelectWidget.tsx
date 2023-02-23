@@ -60,9 +60,11 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps> {
   render() {
     const selectOptions: SelectOptions[] = []
     const {
-      required, label = '', onChange, schema, options, registry, placeholder, isLoading
+      required, label = '', onChange, schema, options, registry, isLoading
     } = this.props
-
+    let {
+      placeholder
+    } = this.props
     const { definitions } = registry
     const { items = {} } = schema
     const retrievedSchema = retrieveSchema(items, definitions)
@@ -76,10 +78,9 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps> {
         listOfEnums.push(currentEnum)
       })
     }
+    selectOptions.push({ value: null, label: '✓' })
     listOfEnums.forEach((currentEnum: string) => {
-      if (currentEnum === null) {
-        selectOptions.push({ value: currentEnum, label: '✓' })
-      } else {
+      if (currentEnum) {
         selectOptions.push({ value: currentEnum, label: currentEnum })
       }
     })
@@ -94,6 +95,9 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps> {
           this.selectRef.current.focus.bind()
         }, 200)
       }
+    }
+    if (!placeholder) {
+      placeholder = `Select ${title}`
     }
     return (
       <div className="custom-select-widget" data-testid={`custom-select-widget__${kebabCase(label)}`}>

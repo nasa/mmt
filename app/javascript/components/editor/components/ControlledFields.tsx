@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactNode } from 'react'
@@ -65,37 +66,20 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
   isTextField(name: string) {
     const { uiSchema } = this.props
     const fieldUiSchema = uiSchema[name]
-    if (fieldUiSchema && (fieldUiSchema['ui:widget'] === 'CustomTextWidget')) {
+    if (fieldUiSchema && (fieldUiSchema['ui:widget'] === CustomTextWidget)) {
       return true
     }
     return false
   }
 
   clearDescendents(name: string, value: string) {
-    const { root } = this.state
-    let data: any = root
     const { uiSchema } = this.props
     const fields = uiSchema['ui:controlledFields']
     const pos = fields.indexOf(name)
     const values: any = {}
     values[name] = value
     for (let i = pos + 1; i < fields.length; i += 1) {
-      const value = values[fields[i - 1]]
-      if (value != null) {
-        data = data[value]
-        if (data && (Object.keys(data).length === 1)) {
-          if (this.isRequired(fields[i]) || this.isTextField(fields[i])) {
-            const [first] = Object.keys(data)
-            values[fields[i]] = first
-          } else {
-            values[fields[i]] = null
-          }
-        } else {
-          values[fields[i]] = null
-        }
-      } else {
-        values[fields[i]] = null
-      }
+      values[fields[i]] = null
     }
     return values
   }
@@ -128,7 +112,7 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
       const existingValue = formData[name]
 
       let value = existingValue || enumValue
-      if (enums.length === 1 && this.isRequired(name)) {
+      if (enums.length === 1) {
         const [first] = enums
         const priorValue = formData[name]
         formData[name] = first
@@ -150,15 +134,7 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
             required={this.isRequired(name)}
             label={title}
             value={value}
-            onChange={(value: any) => {
-              const values: object = { [name]: value, ...this.clearDescendents(name, value) }
-              this.setState(values, () => {
-                const changes: any = _.cloneDeep(this.state)
-                delete changes.root
-                delete changes.lastUpdated
-                onChange(changes, null)
-              })
-            }}
+            onChange={() => undefined}
             schema={fieldSchema}
             id=""
           />
@@ -168,19 +144,7 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
 
     if (!widget) {
       const title = fieldUiSchema != null ? fieldUiSchema['ui:title'] : name
-      let value = formData[name]
-      // If there is only 1 choice auto select it.
-      if (enums.length === 1 && this.isRequired(name)) {
-        const [first] = enums
-        const priorValue = formData[name]
-        formData[name] = first
-        value = formData[name]
-        if (priorValue !== value) {
-          setTimeout(() => {
-            onChange(formData, null)
-          })
-        }
-      }
+      const value = formData[name]
 
       if (!this.isRequired(name)) {
         enums.unshift(null)
@@ -209,12 +173,6 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
                 const changes: any = _.cloneDeep(this.state)
                 delete changes.root
                 delete changes.lastUpdated
-
-                if (enums.length === 1) {
-                  const [first] = enums
-                  formData[name] = first
-                  value = formData[name]
-                }
                 this.copyFormDataToChanges(formData, changes)
                 onChange(changes, null)
               })

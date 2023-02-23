@@ -30,12 +30,15 @@
   padding-right: 0px;
 }
 #react-editor-form {
-  //margin-left: 0px;
-  //margin-right: 0px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
 }
-#react-editor-form .container {
-  padding-left: 0px;
-  padding-right: 0px;
+#react-editor-form-containter {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 #react-editor-form .form-group.field.field-object {
   padding: 5px;
@@ -56,11 +59,20 @@ section .umm-preview {
 .col-6 {
   padding-left: 0px;
 }
-//section.action {
-//  margin-left: 20px;
-//}
 .row {
   margin-left: 0px;
+}
+#react-editor-form .row-content {
+  box-shadow: none;
+}
+
+#react-editor-form .row {
+  display: flex;
+}
+
+#react-editor-form #metadata-form {
+  display: flex;
+  flex-direction: column;
 }
 
 .collection-basics {
