@@ -712,15 +712,6 @@ module Cmr
       get(url, options, token_header(token))
     end
 
-    def get_order_options(provider_id:, token:, id: nil, concept_id: nil)
-      options = {}
-      options[:provider_id] = provider_id
-      options[:id] = id if id
-      options[:concept_id] = concept_id if concept_id
-      options[:page_size] = 2000
-      get('/search/order-options.umm_json', options, token_header(token))
-    end
-
     def delete_collection_service_association(service_concept_id:, collection_concept_id:, token:)
       payload = []
       concept_id = {}
@@ -729,13 +720,31 @@ module Cmr
       delete("/search/services/#{service_concept_id}/associations", {}, payload.to_json, token_header(token))
     end
 
-    # def delete_collection_order_option_association(order_option_concept_id:, collection_concept_id:, token:)
-    #   payload = []
-    #   concept_id = {}
-    #   concept_id[:concept_id] = order_option_concept_id
-    #   payload << concept_id
-    #   delete("/search/associate/#{collection_concept_id}", {}, payload.to_json, token_header(token))
-    # end
+    def create_collection_service_association(collection_concept_id:, service_concept_id:, order_option_concept_id:, token:)
+      url = "/search/services/#{service_concept_id}/associations"
+      payload = []
+      association = {}
+      association[:concept_id] = collection_concept_id
+      data = {}
+      data[:order_option] = order_option_concept_id
+      association[:data] = data
+      payload << association
+      puts("#### create_collection_service_association payload=#{payload.to_json}")
+      headers = {
+        'Accept' => 'application/json; charset=utf-8',
+        'Content-Type' => 'application/json'
+      }
+      post(url, payload.to_json, headers.merge(token_header(token)))
+    end
+
+    def get_order_options(provider_id:, token:, id: nil, concept_id: nil)
+      options = {}
+      options[:provider_id] = provider_id
+      options[:id] = id if id
+      options[:concept_id] = concept_id if concept_id
+      options[:page_size] = 2000
+      get('/search/order-options.umm_json', options, token_header(token))
+    end
 
     def remove_order_option(provider_id:, native_id:, token:)
       url = "/ingest/providers/#{provider_id}/order-options/#{encode_if_needed(native_id)}"

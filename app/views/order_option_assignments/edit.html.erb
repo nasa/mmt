@@ -1,6 +1,7 @@
 <% if Rails.configuration.use_legacy_order_service %>
   <%= render partial: "legacy_edit" %>
 <% else %>
+  <!-- THIS PAGE IS NOT USING LEGACY SERVICE -->
   <div class="row row-content">
     <section>
       <h2><%= current_user.provider_id %> Order Option Assignments</h2>
@@ -52,7 +53,6 @@
                   <% unless collection['option-def'].nil? %>
                     <% collection_concept_id = collection.fetch('meta', {}).fetch('concept-id', '') %>
                     <% service_concept_id = collection.fetch('option-def',{}).fetch('service_concept_id','') %>
-                    <%# order_option_concept_id = collection.fetch('option-def',{}).fetch('meta', {}).fetch('concept-id','') %>
                     <%= check_box_tag('order_option_assignment[]', collection_concept_id + '@' + service_concept_id, false) %>
                   <% end %>
                 </td>
