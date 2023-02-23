@@ -759,6 +759,51 @@ module Cmr
       post(url, order_option.to_json, headers.merge(token_header(token)))
     end
 
+    def get_data_quality_summaries(provider_id:, concept_id: nil, native_id: nil, id: nil, token:)
+      options = {}
+      options[:provider_id] = provider_id
+      options[:concept_id] = concept_id if concept_id
+      options[:native_id] = native_id if native_id
+      options[:id] = id if id
+      options[:page_size] = 2000
+      get('/search/data-quality-summaries.umm_json', options, token_header(token))
+    end
+
+    def create_update_data_quality_summary(data_quality_summary:, provider_id:, native_id:, token:)
+      url = "/ingest/providers/#{provider_id}/data-quality-summaries/#{encode_if_needed(native_id)}"
+      headers = {
+        'Accept' => 'application/json; charset=utf-8',
+        'Content-Type' => 'application/json'
+      }
+      post(url, data_quality_summary.to_json, headers.merge(token_header(token)))
+    end
+
+    def remove_data_quality_summary(provider_id:, native_id:, token:)
+      url = "/ingest/providers/#{provider_id}/data-quality-summaries/#{encode_if_needed(native_id)}"
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+      delete(url, {}, nil, headers.merge(token_header(token)))
+    end
+
+    def create_collection_association(collection_concept_id:, concept_id:, token:)
+      url = "/search/associate/#{provider_id}/#{collection_concept_id}"
+      payload = []
+      concept = {}
+      concept[:concept_id] = concept_id
+      payload << concept
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+      post(url, payload.to_json, headers.merge(token_header(token)))
+    end
+
+    def remove_collection_association(collection_concept_id:, concept_id:, token:)
+      url = "/search/associate/#{provider_id}/#{collection_concept_id}"
+      payload = []
+      concept = {}
+      concept[:concept_id] = concept_id
+      payload << concept
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+      delete(url, payload.to_json, headers.merge(token_header(token)))
+    end
+
     private
 
     def valid_uri?(uri)
