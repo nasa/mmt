@@ -27,12 +27,13 @@
           </tr>
         <% else %>
           <% @summaries.each_with_index do |summary, index| %>
+            <% meta = summary.fetch('meta', {}) %>
             <% umm = summary.fetch('umm', {}) %>
             <tr>
-              <td><%= link_to umm.fetch('Name', ''), data_quality_summary_path(umm.fetch('Id', '')) %></td>
+              <td><%= link_to umm.fetch('Name', ''), data_quality_summary_path(meta.fetch('concept-id', '')) %></td>
               <td><%= strip_tags(umm.fetch('Summary', '')) %></td>
               <td>
-                <%= link_to 'Edit', edit_data_quality_summary_path(umm.fetch('Id', '')) %>
+                <%= link_to 'Edit', edit_data_quality_summary_path(meta.fetch('concept-id', '')) %>
               </td>
               <td>
                 <%= link_to 'Delete', "#delete-summary-modal-#{index}", class: 'display-modal' %>
@@ -41,7 +42,7 @@
                   <p>Are you sure you want to delete the data quality summary named '<%= umm.fetch('Name', '') %>'?</p>
                   <p>
                     <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                    <%= link_to 'Yes', data_quality_summary_path(umm.fetch('Id', '')), method: :delete, class: 'eui-btn--blue spinner' %>
+                    <%= link_to 'Yes', data_quality_summary_path(meta.fetch('native-id', '')), method: :delete, class: 'eui-btn--blue spinner' %>
                   </p>
                 </div>
               </td>

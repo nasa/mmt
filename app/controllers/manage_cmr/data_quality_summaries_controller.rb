@@ -1,8 +1,6 @@
 class DataQualitySummariesController < ManageCmrController
   include DataManagementHelper
 
-  before_action :set_summary, only: [:show, :edit]
-
   add_breadcrumb 'Data Quality Summaries', :data_quality_summaries_path
 
   RESULTS_PER_PAGE = 25
@@ -17,8 +15,10 @@ class DataQualitySummariesController < ManageCmrController
 
   def show
     if use_legacy_order_service?
+      legacy_set_summary
       add_breadcrumb @summary.fetch('Name'), data_quality_summary_path(@summary.fetch('Guid', nil))
     else
+      set_data_quality_summary
       add_breadcrumb @summary.fetch('umm', {}).fetch('Name', ''), data_quality_summary_path(@summary.fetch('umm', {}).fetch('Id', ''))
     end
   end
@@ -31,15 +31,43 @@ class DataQualitySummariesController < ManageCmrController
 
   def edit
     if use_legacy_order_service?
+      legacy_set_summary
       add_breadcrumb @summary.fetch('Name'), data_quality_summary_path(@summary.fetch('Guid', nil))
       add_breadcrumb 'Edit', edit_data_quality_summary_path(@summary.fetch('Guid', nil))
     else
+      set_data_quality_summary
       add_breadcrumb @summary.fetch('umm', {}).fetch('Name', ''), data_quality_summary_path(@summary.fetch('umm', {}).fetch('Id', ''))
       add_breadcrumb 'Edit', edit_data_quality_summary_path(@summary.fetch('umm', {}).fetch('Id', ''))
     end
   end
 
   def create
+    if use_legacy_order_service?
+      legacy_create
+    else
+      create_data_quality_summary
+    end
+  end
+
+  def update
+    if use_legacy_order_service?
+      legacy_update_data_quality_summary
+    else
+      update_data_quality_summary
+    end
+  end
+
+  def destroy
+    if use_legacy_order_service?
+      legacy_destroy
+    else
+      destroy_data_quality_summary
+    end
+  end
+
+  private
+
+  def legacy_create
     @summary = legacy_generate_payload
 
     response = echo_client.create_data_quality_summary_definition(token, @summary)
@@ -54,28 +82,55 @@ class DataQualitySummariesController < ManageCmrController
     end
   end
 
-  def update
-    if use_legacy_order_service?
-      legacy_update_data_quality_summary
+  def create_data_quality_summary
+    @summary = generate_payload
+    native_id = SecureRandom.uuid
+    response = cmr_client.create_update_data_quality_summary(data_quality_summary: @summary, provider_id: current_user.provider_id, native_id: native_id, token: token)
+    if response.error?
+      Rails.logger.error("Create Data Quality Summary Error: #{response.clean_inspect}")
+      flash[:error] = response.error_message
+      render :new
     else
-      update_data_quality_summary
+      redirect_to data_quality_summary_path(response.body.fetch('concept-id', '')), flash: { success: 'Data Quality Summary successfully created' }
     end
   end
 
-  def destroy
-    response = echo_client.remove_data_quality_summary_definition(token, params[:id])
+  def generate_payload
+    summary = {}
+    summary['Name'] = params.fetch('name', '')
+    summary['Summary'] = params.fetch('summary', '')
+    summary['Id'] = SecureRandom.uuid
 
+    metadata_specification = {}
+    metadata_specification['Name'] = Rails.configuration.data_quality_summary_label
+    metadata_specification['Version'] = Rails.configuration.data_quality_summary_version
+    metadata_specification['URL'] = Rails.configuration.data_quality_summary_url
+    summary['MetadataSpecification'] = metadata_specification
+    summary
+  end
+
+  def legacy_destroy
+    response = echo_client.remove_data_quality_summary_definition(token, params[:id])
     if response.error?
       Rails.logger.error("Delete Data Quality Summary Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
     else
       flash[:success] = 'Data Quality Summary successfully deleted'
     end
-
     redirect_to data_quality_summaries_path
   end
 
-  private
+  def destroy_data_quality_summary
+    native_id = params[:id]
+    response = cmr_client.remove_data_quality_summary(provider_id: current_user.provider_id, native_id: native_id, token: token)
+    if response.error?
+      Rails.logger.error("Delete Data Quality Summary Error: #{response.clean_inspect}")
+      flash[:error] = response.error_message
+    else
+      flash[:success] = 'Data Quality Summary successfully deleted'
+    end
+    redirect_to data_quality_summaries_path
+  end
 
   def legacy_update_data_quality_summary
     @summary = legacy_generate_payload
@@ -93,9 +148,9 @@ class DataQualitySummariesController < ManageCmrController
   end
 
   def update_data_quality_summary
-    summary_id = params.fetch('id', '')
+    concept_id = params.fetch('id', '')
 
-    summary_response = cmr_client.get_data_quality_summaries(id: summary_id, provider_id: current_user.provider_id, token: token)
+    summary_response = cmr_client.get_data_quality_summaries(concept_id: concept_id, provider_id: current_user.provider_id, token: token)
 
     if summary_response.error?
       Rails.logger.error("#{request.uuid} - DataQualitySummariesController#update_data_quality_summary - Retrieving Data Quality Summary Error: #{summary_response.clean_inspect}")
@@ -110,16 +165,14 @@ class DataQualitySummariesController < ManageCmrController
     updating_summary['Name'] = params.fetch('name', '')
     updating_summary['Summary'] = params.fetch('summary', '')
 
-    puts("@@@@@@@@ updating summary payload=#{updating_summary.inspect}")
-
     response = cmr_client.create_update_data_quality_summary(data_quality_summary: updating_summary, provider_id: current_user.provider_id, native_id: native_id, token: token)
-    puts("@@@@@@@@ updating summary response=#{response.inspect}")
+
     if response.error?
       Rails.logger.error("Update Data Quality Summary Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
       render :edit
     else
-      redirect_to data_quality_summary_path(summary_id), flash: { success: 'Data Quality Summary successfully updated' }
+      redirect_to data_quality_summary_path(concept_id), flash: { success: 'Data Quality Summary successfully updated' }
     end
   end
 
@@ -130,7 +183,7 @@ class DataQualitySummariesController < ManageCmrController
 
     response = cmr_client.get_data_quality_summaries(provider_id: current_user.provider_id, token: token)
     if response.error?
-      Rails.logger.error("#{request.uuid} - DataQualitySummariesController#index - Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}")
+      Rails.logger.error("#{request.uuid} - DataQualitySummariesController#load_data_quality_summaries - Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
     end
     summary_list = response.body.fetch('items', []) unless response.error?
@@ -159,7 +212,7 @@ class DataQualitySummariesController < ManageCmrController
     end
 
     if response.error?
-      Rails.logger.error("#{request.uuid} - DataQualitySummariesController#index - Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}")
+      Rails.logger.error("#{request.uuid} - DataQualitySummariesController#legacy_load_data_quality_summaries - Retrieve Data Quality Summary Definition Name GUIDs Error: #{response.clean_inspect}")
       flash[:error] = I18n.t("controllers.data_quality_summaries.index.flash.timeout_error", data: "data quality summary definition name guids", request: request.uuid) if response.timeout_error?
     end
 
@@ -170,7 +223,7 @@ class DataQualitySummariesController < ManageCmrController
       if summary_response.success?
         summary_list << summary_response
       else
-        Rails.logger.error("#{request.uuid} - DataQualitySummariesController#index - Retrieve Data Quality Summary Definition Error: #{summary_response.clean_inspect}")
+        Rails.logger.error("#{request.uuid} - DataQualitySummariesController#legacy_load_data_quality_summaries - Retrieve Data Quality Summary Definition Error: #{summary_response.clean_inspect}")
         flash[:error] = I18n.t("controllers.data_quality_summaries.index.flash.timeout_error", data: "data quality summary definitions", request: request.uuid) if summary_response.timeout_error?
       end
     end
@@ -198,28 +251,18 @@ class DataQualitySummariesController < ManageCmrController
     if result.success?
       @summary = result.parsed_body
     else
-      Rails.logger.error("#{request.uuid} - DataQualitySummariesController#set_summary - Retrieve Data Quality Summary Definition Error: #{result.clean_inspect}")
+      Rails.logger.error("#{request.uuid} - DataQualitySummariesController#legacy_set_summary - Retrieve Data Quality Summary Definition Error: #{result.clean_inspect}")
       flash[:error] = I18n.t("controllers.data_quality_summaries.set_summary.flash.timeout_error", request: request.uuid) if result.timeout_error?
     end
   end
 
   def set_data_quality_summary
-    response = cmr_client.get_data_quality_summaries(id: params[:id], provider_id: current_user.provider_id, token: token)
-    puts("$$$$$$$$$$ set_data_quality_summary response=#{response.body.inspect}")
+    response = cmr_client.get_data_quality_summaries(concept_id: params[:id], provider_id: current_user.provider_id, token: token)
     if response.success?
       @summary = response.body.fetch('items', []).first unless response.body.fetch('items', []).empty?
     else
       Rails.logger.error("#{request.uuid} - DataQualitySummariesController#set_data_quality_summary - Retrieving Data Quality Summary Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
-    end
-  end
-
-  def set_summary
-    puts("@@@@@@@@@@@@@@@@@@@@@@@@ Set summary called")
-    if use_legacy_order_service?
-      legacy_set_summary
-    else
-      set_data_quality_summary
     end
   end
 end
