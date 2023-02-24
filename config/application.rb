@@ -56,6 +56,10 @@ module Mmt
     config.order_option_version = '1.0.0'
     config.order_option_url = 'https://cdn.earthdata.nasa.gov/generics/order-option/v1.0.0'
 
+    config.data_quality_summary_label = 'Data Quality Summary'
+    config.data_quality_summary_version = '1.0.0'
+    config.data_quality_summary_url = 'https://cdn.earthdata.nasa.gov/generics/data-quality-summary/v1.0.0'
+
     config.support_email = 'support@earthdata.nasa.gov'
 
     # Is this the Proposal Mode version of MMT?
