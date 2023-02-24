@@ -143,7 +143,6 @@ class OrderOptionAssignmentsController < ManageCmrController
 
   def edit_order_option_assignments
     collections = get_provider_collections(concept_id: params['collectionsChooser_toList'], page_size: params['collectionsChooser_toList'].count)
-
     @collections_to_list = []
 
     collections.fetch('items', []).each do |collection|

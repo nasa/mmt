@@ -729,7 +729,6 @@ module Cmr
       data[:order_option] = order_option_concept_id
       association[:data] = data
       payload << association
-      puts("#### create_collection_service_association payload=#{payload.to_json}")
       headers = {
         'Accept' => 'application/json; charset=utf-8',
         'Content-Type' => 'application/json'
