@@ -152,8 +152,10 @@ class OrderOptionAssignmentsController < ManageCmrController
         associated_services.each do |service|
           order_option_concept_id = service.fetch('data', {}).fetch('order_option', '')
           service_concept_id = service.fetch('concept-id', '')
+          service_def = get_service_def(service_concept_id)
           order_option = get_order_option_def(order_option_concept_id)
           order_option['service_concept_id'] = service_concept_id
+          order_option['service_name'] = service_def.fetch('umm', {}).fetch('Name', '')
           order_options << order_option unless order_option.empty?
         end
       end
@@ -248,6 +250,17 @@ class OrderOptionAssignmentsController < ManageCmrController
       order_option = order_option_response.body.fetch('items', [])[0] unless order_option_response.body.fetch('items', []).empty?
     end
     order_option
+  end
+
+  def get_service_def(service_concept_id)
+    service = {}
+    options = {}
+    options[:concept_id] = service_concept_id
+    service_response = cmr_client.get_services(options, token)
+    if service_response.success?
+      service = service_response.body.fetch('items', [])[0] unless service_response.body.fetch('items', []).empty?
+    end
+    service
   end
 
   def legacy_get_order_option_defs(option_infos)

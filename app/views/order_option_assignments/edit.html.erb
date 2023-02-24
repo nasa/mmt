@@ -36,6 +36,9 @@
               <th>
                 Option Definition
               </th>
+              <th>
+                Service
+              </th>
             </tr>
             </thead>
 
@@ -68,12 +71,15 @@
                 <td>
                   <%=collection.fetch('option-def',{}).fetch('umm', {}).fetch('Name','') %>
                 </td>
+                <td>
+                  <%=collection.fetch('option-def',{}).fetch('service_name','') %>
+                </td>
               </tr>
             <% end %>
             </tbody>
             <tfoot>
             <tr>
-              <th colspan="5">Select one or more collections.</th>
+              <th colspan="6">Select one or more collections.</th>
             </tr>
             </tfoot>
           </table>
