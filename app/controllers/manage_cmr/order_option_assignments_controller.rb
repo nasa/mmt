@@ -147,35 +147,26 @@ class OrderOptionAssignmentsController < ManageCmrController
     @collections_to_list = []
 
     collections.fetch('items', []).each do |collection|
-      concept_id = collection['meta']['concept-id']
-      options = {}
-      options[:concept_id] = concept_id
-      collection_info_response = cmr_client.get_collections(options, token)
-      if collection_info_response.success?
-        associated_services = collection_info_response.body.fetch('items', []).first.fetch('meta', {}).fetch('association-details', {}).fetch('services', [])
-        order_options = []
-        unless associated_services.empty?
-          associated_services.each do |service|
-            order_option_concept_id = service.fetch('data', {}).fetch('order_option', '')
-            service_concept_id = service.fetch('concept-id', '')
-            order_option = get_order_option_def(order_option_concept_id)
-            order_option['service_concept_id'] = service_concept_id
-            order_options << order_option unless order_option.empty?
-          end
+      associated_services = collection.fetch('meta', {}).fetch('association-details', {}).fetch('services', [])
+      order_options = []
+      unless associated_services.empty?
+        associated_services.each do |service|
+          order_option_concept_id = service.fetch('data', {}).fetch('order_option', '')
+          service_concept_id = service.fetch('concept-id', '')
+          order_option = get_order_option_def(order_option_concept_id)
+          order_option['service_concept_id'] = service_concept_id
+          order_options << order_option unless order_option.empty?
         end
-        if !order_options.empty?
-          order_options.each do |option_def|
-            collection_copy = collection.clone
-            collection_copy['option-def'] = option_def
+      end
+      if !order_options.empty?
+        order_options.each do |option_def|
+          collection_copy = collection.clone
+          collection_copy['option-def'] = option_def
 
-            @collections_to_list << collection_copy
-          end
-        else
-          @collections_to_list << collection
+          @collections_to_list << collection_copy
         end
       else
-        Rails.logger.error(collection_info_response.body)
-        flash[:error] = collection_info_response.body['errors'].inspect
+        @collections_to_list << collection
       end
 
       empty_assignment_cnt = 0
