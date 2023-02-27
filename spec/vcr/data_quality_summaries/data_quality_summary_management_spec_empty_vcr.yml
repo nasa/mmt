@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/data-quality-summaries.umm_json?page_size=2000&provider_id=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Client-Id:
+      - MMT
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '46'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 27 Feb 2023 15:57:55 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - 5aae92dc-be36-43af-b0b4-010b7d8e96fc
+      x-request-id:
+      - OYirqZDcvyPvyJpeabFQNPoOJL7xcIk8Mw5BSHpttmmy9aDicHxUbQ==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 aae94205fef749bc8580cf140c626670.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - OYirqZDcvyPvyJpeabFQNPoOJL7xcIk8Mw5BSHpttmmy9aDicHxUbQ==
+    body:
+      encoding: UTF-8
+      string: '{"hits":0,"took":12,"items":[]}'
+  recorded_at: Mon, 27 Feb 2023 15:57:55 GMT
+recorded_with: VCR 6.1.0
