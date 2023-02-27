@@ -84,7 +84,6 @@ class OrderOptionsController < ManageCmrController
     order_option['MetadataSpecification'] = metadata_specification
 
     response = cmr_client.create_update_order_option(order_option: order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
-
     order_option_response_concept_id = response.body.fetch('concept-id', '')
     if response.success?
       order_option_response = retrieve_new_order_option(concept_id: order_option_response_concept_id, count: 3)
@@ -95,9 +94,9 @@ class OrderOptionsController < ManageCmrController
         return
       end
       new_order_option = order_option_response.body.fetch('items', [])[0] unless order_option_response.body.fetch('items', []).empty?
-      order_option_id = new_order_option.fetch('umm', {}).fetch('Id')
+      order_option_concept_id = new_order_option.fetch('meta', {}).fetch('concept-id', '')
       flash[:success] = 'Order Option was successfully created.'
-      redirect_to order_option_path(order_option_id)
+      redirect_to order_option_path(order_option_concept_id)
     else
       Rails.logger.error("Create Order Option Error: #{response.clean_inspect}")
       flash.now[:error] = response.error_message
@@ -132,9 +131,9 @@ class OrderOptionsController < ManageCmrController
   end
 
   def deprecate_order_option
-    order_option_id = params[:id]
+    order_option_concept_id = params[:id]
 
-    response = cmr_client.get_order_options(id: order_option_id, provider_id: current_user.provider_id, token: token)
+    response = cmr_client.get_order_options(concept_id: order_option_concept_id, provider_id: current_user.provider_id, token: token)
     if response.error?
       Rails.logger.error("#{request.uuid} - OrderOptionsController#deprecate_order_option - Retrieving Order Option Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
@@ -206,12 +205,12 @@ class OrderOptionsController < ManageCmrController
   end
 
   def edit_order_option
-    @order_option_id = params[:id]
-    response = cmr_client.get_order_options(id: @order_option_id, provider_id: current_user.provider_id, token: token)
+    @order_option_concept_id = params[:id]
+    response = cmr_client.get_order_options(concept_id: @order_option_concept_id, provider_id: current_user.provider_id, token: token)
     if response.success?
       @order_option = response.body.fetch('items', [])[0] unless response.body.fetch('items', []).empty?
-      add_breadcrumb @order_option.fetch('umm', {}).fetch('Name', ''), order_option_path(@order_option_id)
-      add_breadcrumb 'Edit', edit_order_option_path(@order_option_id)
+      add_breadcrumb @order_option.fetch('umm', {}).fetch('Name', ''), order_option_path(@order_option_concept_id)
+      add_breadcrumb 'Edit', edit_order_option_path(@order_option_concept_id)
     else
       Rails.logger.error("#{request.uuid} - OrderOptionsController#edit_order_option - Retrieving Order Option Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
@@ -242,10 +241,10 @@ class OrderOptionsController < ManageCmrController
   end
 
   def update_order_option
-    order_option_id = params[:id]
+    order_option_concept_id = params[:id]
     order_option_param = params[:order_option]
 
-    response = cmr_client.get_order_options(id: order_option_id, provider_id: current_user.provider_id, token: token)
+    response = cmr_client.get_order_options(concept_id: order_option_concept_id, provider_id: current_user.provider_id, token: token)
     if response.error?
       Rails.logger.error("#{request.uuid} - OrderOptionsController#update_order_option - Retrieving Order Option Error: #{response.clean_inspect}")
       flash[:error] = response.error_message
@@ -269,7 +268,7 @@ class OrderOptionsController < ManageCmrController
     update_response = cmr_client.create_update_order_option(order_option: updating_order_option, provider_id: current_user.provider_id, native_id: native_id, token: token)
     if update_response.success?
       flash[:success] = 'Order Option was successfully updated.'
-      redirect_to order_option_path(order_option_id)
+      redirect_to order_option_path(order_option_concept_id)
     else
       Rails.logger.error("Update Order Option Error: #{update_response.clean_inspect}")
       flash[:error] = update_response.error_message
@@ -320,7 +319,7 @@ class OrderOptionsController < ManageCmrController
   end
 
   def show_order_option
-    response = cmr_client.get_order_options(id: params[:id], provider_id: current_user.provider_id, token: token)
+    response = cmr_client.get_order_options(concept_id: params[:id], provider_id: current_user.provider_id, token: token)
     if response.success?
       @order_option = response.body.fetch('items', [])[0] unless response.body.fetch('items', []).empty?
     else
