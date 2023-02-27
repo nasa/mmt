@@ -1,35 +1,11 @@
-# MMT-129
-
-require 'rails_helper'
-
-describe 'Viewing Data Quality Summaries' do
-  context 'when viewing the data quality summaries page and there is a timeout error',js:true do
-    let(:timeout_error_html_body) { File.read(File.join(Rails.root, 'spec', 'fixtures', 'service_management', 'timeout.html')) }
-
-    before do
-      login
-
-      visit manage_cmr_path
-
-      # mock a timeout error
-      echo_response = echo_fail_response(timeout_error_html_body, status = 504, headers = {'content-type' => 'text/html'})
-      allow_any_instance_of(Echo::DataManagement).to receive(:get_data_quality_summary_definition_name_guids).and_return(echo_response)
-
-      click_on 'View Summaries'
-    end
-
-    it 'displays the appropriate error message' do
-      expect(page).to have_css('.eui-banner--danger', text: '504 ERROR: We are unable to retrieve data quality summary definition name guids at this time. If this error persists, please contact Earthdata Support about')
-    end
-  end
-
+describe 'Viewing Data Quality Summaries', js: true do
   context 'when viewing the data quality summaries page with no summaries' do
     before do
       login
 
       visit manage_cmr_path
 
-      VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/empty', record: :none) do
+      VCR.use_cassette("data_quality_summaries/#{File.basename(__FILE__, '.rb')}_empty_vcr", record: :none) do
         click_on 'View Summaries'
       end
     end
@@ -39,15 +15,13 @@ describe 'Viewing Data Quality Summaries' do
     end
   end
 
-  context 'when creating a data quality summary', js: true do
+  context 'when creating a data quality summary' do
     before do
       login
 
       visit manage_cmr_path
 
-      VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/list', record: :none) do
-        click_on 'Create a Summary'
-      end
+      click_on 'Create a Summary'
     end
 
     it 'displays the new data quality summary form' do
@@ -83,8 +57,8 @@ describe 'Viewing Data Quality Summaries' do
       context 'when submitting a valid data quality summaries form' do
         before do
           fill_in 'Name', with: 'DQS #1'
-
-          VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/create', record: :none) do
+          allow_any_instance_of(DataQualitySummariesController).to receive(:get_native_id).and_return('a_native_id')
+          VCR.use_cassette("data_quality_summaries/#{File.basename(__FILE__, '.rb')}_create_vcr", record: :none) do
             click_on 'Submit'
           end
         end
@@ -98,7 +72,7 @@ describe 'Viewing Data Quality Summaries' do
 
         context 'when clicking the edit link for a data quality summary' do
           before do
-            VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/created', record: :none) do
+            VCR.use_cassette("data_quality_summaries/#{File.basename(__FILE__, '.rb')}_created_vcr", record: :none) do
               # Breadcrumbs link
               click_on 'Data Quality Summaries'
 
@@ -117,7 +91,7 @@ describe 'Viewing Data Quality Summaries' do
             before do
               fill_in 'Name', with: 'DQS #1 MODIFIED'
 
-              VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/update', record: :none) do
+              VCR.use_cassette("data_quality_summaries/#{File.basename(__FILE__, '.rb')}_update_vcr", record: :none) do
                 click_on 'Submit'
               end
             end
@@ -130,7 +104,7 @@ describe 'Viewing Data Quality Summaries' do
 
             context 'when clicking the delete button for a data quality summary' do
               before do
-                VCR.use_cassette('echo_soap/data_management_service/data_quality_summaries/deleted', record: :none) do
+                VCR.use_cassette("data_quality_summaries/#{File.basename(__FILE__, '.rb')}_delete_vcr", record: :none) do
                   click_on 'Delete'
 
                   # Confirmation Dialog
