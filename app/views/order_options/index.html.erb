@@ -32,13 +32,13 @@
             <% meta = order_option.fetch('meta', {}) %>
             <% umm = order_option.fetch('umm', {}) %>
             <tr>
-              <td><%= link_to umm.fetch('Name', ''), order_option_path(umm.fetch('Id', '')) %></td>
+              <td><%= link_to umm.fetch('Name', ''), order_option_path(meta.fetch('concept-id', '')) %></td>
               <td><%= umm.fetch('Scope', '').humanize %></td>
               <td><%= umm.fetch('Deprecated', false) %></td>
               <td><%= echo_formatted_date(meta.fetch('revision-date', ''), default: 'Never Updated') %></td>
 
               <td>
-                <%= link_to 'Edit', edit_order_option_path(umm.fetch('Id', '')) %>
+                <%= link_to 'Edit', edit_order_option_path(meta.fetch('concept-id', '')) %>
               </td>
               <td>
                 <% unless umm.fetch('Deprecated', false) == true %>
@@ -48,7 +48,7 @@
                     <p>Are you sure you want to deprecate the order option named '<%= umm.fetch('Name', '') %>'? This action cannot be undone.</p>
                     <p>
                       <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-                      <%= link_to 'Yes', order_option_deprecate_path(umm.fetch('Id', '')), method: :post, class: 'eui-btn--blue spinner' %>
+                      <%= link_to 'Yes', order_option_deprecate_path(meta.fetch('concept-id', '')), method: :post, class: 'eui-btn--blue spinner' %>
                     </p>
                   </div>
                 <% end %>
