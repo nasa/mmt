@@ -26,7 +26,7 @@
         <pre><%= umm.fetch('Form', '') %></pre>
       </div>
 
-      <%= link_to 'Edit', edit_order_option_path(umm.fetch('Id', '')), class: 'eui-btn' %>
+      <%= link_to 'Edit', edit_order_option_path(meta.fetch('concept-id', '')), class: 'eui-btn' %>
 
       <% unless umm.fetch('Deprecated', false) %>
         <%= link_to 'Deprecate', "#deprecate-order-option-modal", class: 'display-modal eui-btn' %>
@@ -35,7 +35,7 @@
           <p>Are you sure you want to deprecate this order option? This action cannot be undone.</p>
           <p>
             <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <%= link_to 'Yes', order_option_deprecate_path(umm.fetch('Id', '')), method: :post, class: 'eui-btn--blue spinner' %>
+            <%= link_to 'Yes', order_option_deprecate_path(meta.fetch('concept-id', '')), method: :post, class: 'eui-btn--blue spinner' %>
           </p>
         </div>
       <% end %>

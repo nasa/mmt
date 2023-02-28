@@ -1,5 +1,367 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Controlled Fields Layout it clears the next boxes 1`] = `
+<div>
+  <form
+    class="rjsf"
+  >
+    <div
+      class="form-group"
+    >
+      <div
+        class="Todo"
+      >
+        <div
+          class="row"
+          data-testid="controlled-fields__row--priority-category"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-select-widget--priority-category"
+            >
+              <div
+                class="custom-select-widget"
+                data-testid="custom-select-widget__priority-category"
+              >
+                <div>
+                  <span>
+                    priorityCategory
+                  </span>
+                </div>
+                <div
+                  data-testid="custom-select-widget__priority-category--selector"
+                >
+                  <div
+                    class=" css-b62m3t-container"
+                  >
+                    <span
+                      class="css-1f43avz-a11yText-A11yText"
+                      id="react-select-25-live-region"
+                    />
+                    <span
+                      aria-atomic="false"
+                      aria-live="polite"
+                      aria-relevant="additions text"
+                      class="css-1f43avz-a11yText-A11yText"
+                    />
+                    <div
+                      class=" css-1s2u09g-control"
+                    >
+                      <div
+                        class=" css-319lph-ValueContainer"
+                      >
+                        <div
+                          class=" css-qc6sy-singleValue"
+                        >
+                          alpha
+                        </div>
+                        <div
+                          class=" css-6j8wv5-Input"
+                          data-value=""
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            autocapitalize="none"
+                            autocomplete="off"
+                            autocorrect="off"
+                            class=""
+                            id="react-select-25-input"
+                            role="combobox"
+                            spellcheck="false"
+                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                            tabindex="0"
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class=" css-1hb7zxy-IndicatorsContainer"
+                      >
+                        <span
+                          class=" css-1okebmr-indicatorSeparator"
+                        />
+                        <div
+                          aria-hidden="true"
+                          class=" css-tlfecz-indicatorContainer"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="css-tj5bde-Svg"
+                            focusable="false"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            width="20"
+                          >
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+        <div
+          class="row"
+          data-testid="controlled-fields__row--priority-1"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-select-widget--priority-1"
+            >
+              <div
+                class="custom-select-widget"
+                data-testid="custom-select-widget__priority-1"
+              >
+                <div>
+                  <span>
+                    priority1
+                  </span>
+                </div>
+                <div
+                  data-testid="custom-select-widget__priority-1--selector"
+                >
+                  <div
+                    class=" css-b62m3t-container"
+                  >
+                    <span
+                      class="css-1f43avz-a11yText-A11yText"
+                      id="react-select-28-live-region"
+                    />
+                    <span
+                      aria-atomic="false"
+                      aria-live="polite"
+                      aria-relevant="additions text"
+                      class="css-1f43avz-a11yText-A11yText"
+                    />
+                    <div
+                      class=" css-1s2u09g-control"
+                    >
+                      <div
+                        class=" css-319lph-ValueContainer"
+                      >
+                        <div
+                          class=" css-qc6sy-singleValue"
+                        >
+                          beta
+                        </div>
+                        <div
+                          class=" css-6j8wv5-Input"
+                          data-value=""
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            autocapitalize="none"
+                            autocomplete="off"
+                            autocorrect="off"
+                            class=""
+                            id="react-select-28-input"
+                            role="combobox"
+                            spellcheck="false"
+                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                            tabindex="0"
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class=" css-1hb7zxy-IndicatorsContainer"
+                      >
+                        <span
+                          class=" css-1okebmr-indicatorSeparator"
+                        />
+                        <div
+                          aria-hidden="true"
+                          class=" css-tlfecz-indicatorContainer"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="css-tj5bde-Svg"
+                            focusable="false"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            width="20"
+                          >
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+        <div
+          class="row"
+          data-testid="controlled-fields__row--priority-2"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-select-widget--priority-2"
+            >
+              <div
+                class="custom-select-widget"
+                data-testid="custom-select-widget__priority-2"
+              >
+                <div>
+                  <span>
+                    priority2
+                  </span>
+                </div>
+                <div
+                  data-testid="custom-select-widget__priority-2--selector"
+                >
+                  <div
+                    class=" css-b62m3t-container"
+                  >
+                    <span
+                      class="css-1f43avz-a11yText-A11yText"
+                      id="react-select-27-live-region"
+                    />
+                    <span
+                      aria-atomic="false"
+                      aria-live="polite"
+                      aria-relevant="additions text"
+                      class="css-1f43avz-a11yText-A11yText"
+                    />
+                    <div
+                      class=" css-1s2u09g-control"
+                    >
+                      <div
+                        class=" css-319lph-ValueContainer"
+                      >
+                        <div
+                          class=" css-14el2xx-placeholder"
+                          id="react-select-27-placeholder"
+                        >
+                          Select priority2
+                        </div>
+                        <div
+                          class=" css-6j8wv5-Input"
+                          data-value=""
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-describedby="react-select-27-placeholder"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            autocapitalize="none"
+                            autocomplete="off"
+                            autocorrect="off"
+                            class=""
+                            id="react-select-27-input"
+                            role="combobox"
+                            spellcheck="false"
+                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                            tabindex="0"
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class=" css-1hb7zxy-IndicatorsContainer"
+                      >
+                        <span
+                          class=" css-1okebmr-indicatorSeparator"
+                        />
+                        <div
+                          aria-hidden="true"
+                          class=" css-tlfecz-indicatorContainer"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="css-tj5bde-Svg"
+                            focusable="false"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            width="20"
+                          >
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+        <div
+          class="row"
+          data-testid="controlled-fields__row--value"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-text-widget--value"
+            >
+              <div
+                class="custom-text-widget-header"
+                data-testid="custom-text-widget__the-value--text-header"
+              >
+                <span>
+                  the value
+                </span>
+              </div>
+              <input
+                class="custom-text-widget-input"
+                data-testid="custom-text-widget__the-value--text-input"
+                disabled=""
+                name="the value"
+                style="min-width: 100%;"
+                type="text"
+                value=""
+              />
+              <span
+                data-testid="custom-text-widget--description-field__the-value"
+                style="font-style: italic;"
+              />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
 exports[`Controlled Fields Layout renders all fields 1`] = `
 <div>
   <form
@@ -158,7 +520,9 @@ exports[`Controlled Fields Layout renders all fields 1`] = `
                         <div
                           class=" css-14el2xx-placeholder"
                           id="react-select-3-placeholder"
-                        />
+                        >
+                          Select priority1
+                        </div>
                         <div
                           class=" css-6j8wv5-Input"
                           data-value=""
@@ -258,7 +622,9 @@ exports[`Controlled Fields Layout renders all fields 1`] = `
                         <div
                           class=" css-14el2xx-placeholder"
                           id="react-select-4-placeholder"
-                        />
+                        >
+                          Select priority2
+                        </div>
                         <div
                           class=" css-6j8wv5-Input"
                           data-value=""
@@ -310,6 +676,41 @@ exports[`Controlled Fields Layout renders all fields 1`] = `
                   </div>
                 </div>
               </div>
+            </span>
+          </div>
+        </div>
+        <div
+          class="row"
+          data-testid="controlled-fields__row--value"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-text-widget--value"
+            >
+              <div
+                class="custom-text-widget-header"
+                data-testid="custom-text-widget__the-value--text-header"
+              >
+                <span>
+                  the value
+                </span>
+              </div>
+              <input
+                class="custom-text-widget-input"
+                data-testid="custom-text-widget__the-value--text-input"
+                disabled=""
+                name="the value"
+                style="min-width: 100%;"
+                type="text"
+                value=""
+              />
+              <span
+                data-testid="custom-text-widget--description-field__the-value"
+                style="font-style: italic;"
+              />
             </span>
           </div>
         </div>
@@ -366,7 +767,7 @@ exports[`Controlled Fields Layout renders all fields in case of textfields 1`] =
                   >
                     <span
                       class="css-1f43avz-a11yText-A11yText"
-                      id="react-select-17-live-region"
+                      id="react-select-36-live-region"
                     />
                     <span
                       aria-atomic="false"
@@ -382,7 +783,7 @@ exports[`Controlled Fields Layout renders all fields in case of textfields 1`] =
                       >
                         <div
                           class=" css-14el2xx-placeholder"
-                          id="react-select-17-placeholder"
+                          id="react-select-36-placeholder"
                         >
                           Select priorityCategory
                         </div>
@@ -392,14 +793,14 @@ exports[`Controlled Fields Layout renders all fields in case of textfields 1`] =
                         >
                           <input
                             aria-autocomplete="list"
-                            aria-describedby="react-select-17-placeholder"
+                            aria-describedby="react-select-36-placeholder"
                             aria-expanded="false"
                             aria-haspopup="true"
                             autocapitalize="none"
                             autocomplete="off"
                             autocorrect="off"
                             class=""
-                            id="react-select-17-input"
+                            id="react-select-36-input"
                             role="combobox"
                             spellcheck="false"
                             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -502,6 +903,41 @@ exports[`Controlled Fields Layout renders all fields in case of textfields 1`] =
             </span>
           </div>
         </div>
+        <div
+          class="row"
+          data-testid="controlled-fields__row--value"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-text-widget--value"
+            >
+              <div
+                class="custom-text-widget-header"
+                data-testid="custom-text-widget__the-value--text-header"
+              >
+                <span>
+                  the value
+                </span>
+              </div>
+              <input
+                class="custom-text-widget-input"
+                data-testid="custom-text-widget__the-value--text-input"
+                disabled=""
+                name="the value"
+                style="min-width: 100%;"
+                type="text"
+                value=""
+              />
+              <span
+                data-testid="custom-text-widget--description-field__the-value"
+                style="font-style: italic;"
+              />
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <div>
@@ -555,7 +991,7 @@ exports[`Controlled Fields Layout shows values in descendend text fields 1`] = `
                   >
                     <span
                       class="css-1f43avz-a11yText-A11yText"
-                      id="react-select-19-live-region"
+                      id="react-select-38-live-region"
                     />
                     <span
                       aria-atomic="false"
@@ -586,7 +1022,7 @@ exports[`Controlled Fields Layout shows values in descendend text fields 1`] = `
                             autocomplete="off"
                             autocorrect="off"
                             class=""
-                            id="react-select-19-input"
+                            id="react-select-38-input"
                             role="combobox"
                             spellcheck="false"
                             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -904,7 +1340,9 @@ exports[`Controlled Fields Layout shows values in first select box 1`] = `
                         <div
                           class=" css-14el2xx-placeholder"
                           id="react-select-6-placeholder"
-                        />
+                        >
+                          Select priority1
+                        </div>
                         <div
                           class=" css-6j8wv5-Input"
                           data-value=""
@@ -1004,7 +1442,9 @@ exports[`Controlled Fields Layout shows values in first select box 1`] = `
                         <div
                           class=" css-14el2xx-placeholder"
                           id="react-select-7-placeholder"
-                        />
+                        >
+                          Select priority2
+                        </div>
                         <div
                           class=" css-6j8wv5-Input"
                           data-value=""
@@ -1056,6 +1496,41 @@ exports[`Controlled Fields Layout shows values in first select box 1`] = `
                   </div>
                 </div>
               </div>
+            </span>
+          </div>
+        </div>
+        <div
+          class="row"
+          data-testid="controlled-fields__row--value"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-text-widget--value"
+            >
+              <div
+                class="custom-text-widget-header"
+                data-testid="custom-text-widget__the-value--text-header"
+              >
+                <span>
+                  the value
+                </span>
+              </div>
+              <input
+                class="custom-text-widget-input"
+                data-testid="custom-text-widget__the-value--text-input"
+                disabled=""
+                name="the value"
+                style="min-width: 100%;"
+                type="text"
+                value=""
+              />
+              <span
+                data-testid="custom-text-widget--description-field__the-value"
+                style="font-style: italic;"
+              />
             </span>
           </div>
         </div>
@@ -1366,7 +1841,9 @@ exports[`Controlled Fields Layout shows values in second select box 1`] = `
                         <div
                           class=" css-14el2xx-placeholder"
                           id="react-select-13-placeholder"
-                        />
+                        >
+                          Select priority2
+                        </div>
                         <div
                           class=" css-6j8wv5-Input"
                           data-value=""
@@ -1421,6 +1898,41 @@ exports[`Controlled Fields Layout shows values in second select box 1`] = `
             </span>
           </div>
         </div>
+        <div
+          class="row"
+          data-testid="controlled-fields__row--value"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-text-widget--value"
+            >
+              <div
+                class="custom-text-widget-header"
+                data-testid="custom-text-widget__the-value--text-header"
+              >
+                <span>
+                  the value
+                </span>
+              </div>
+              <input
+                class="custom-text-widget-input"
+                data-testid="custom-text-widget__the-value--text-input"
+                disabled=""
+                name="the value"
+                style="min-width: 100%;"
+                type="text"
+                value=""
+              />
+              <span
+                data-testid="custom-text-widget--description-field__the-value"
+                style="font-style: italic;"
+              />
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <div>
@@ -1435,7 +1947,7 @@ exports[`Controlled Fields Layout shows values in second select box 1`] = `
 </div>
 `;
 
-exports[`Controlled Fields Layout works without a title 1`] = `
+exports[`Controlled Fields Layout shows values in third, text box 1`] = `
 <div>
   <form
     class="rjsf"
@@ -1444,7 +1956,7 @@ exports[`Controlled Fields Layout works without a title 1`] = `
       class="form-group"
     >
       <div
-        class="undefined"
+        class="Todo"
       >
         <div
           class="row"
@@ -1474,7 +1986,7 @@ exports[`Controlled Fields Layout works without a title 1`] = `
                   >
                     <span
                       class="css-1f43avz-a11yText-A11yText"
-                      id="react-select-14-live-region"
+                      id="react-select-17-live-region"
                     />
                     <span
                       aria-atomic="false"
@@ -1489,10 +2001,9 @@ exports[`Controlled Fields Layout works without a title 1`] = `
                         class=" css-319lph-ValueContainer"
                       >
                         <div
-                          class=" css-14el2xx-placeholder"
-                          id="react-select-14-placeholder"
+                          class=" css-qc6sy-singleValue"
                         >
-                          Select priorityCategory
+                          alpha
                         </div>
                         <div
                           class=" css-6j8wv5-Input"
@@ -1500,14 +2011,13 @@ exports[`Controlled Fields Layout works without a title 1`] = `
                         >
                           <input
                             aria-autocomplete="list"
-                            aria-describedby="react-select-14-placeholder"
                             aria-expanded="false"
                             aria-haspopup="true"
                             autocapitalize="none"
                             autocomplete="off"
                             autocorrect="off"
                             class=""
-                            id="react-select-14-input"
+                            id="react-select-17-input"
                             role="combobox"
                             spellcheck="false"
                             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -1576,7 +2086,7 @@ exports[`Controlled Fields Layout works without a title 1`] = `
                   >
                     <span
                       class="css-1f43avz-a11yText-A11yText"
-                      id="react-select-15-live-region"
+                      id="react-select-20-live-region"
                     />
                     <span
                       aria-atomic="false"
@@ -1591,23 +2101,23 @@ exports[`Controlled Fields Layout works without a title 1`] = `
                         class=" css-319lph-ValueContainer"
                       >
                         <div
-                          class=" css-14el2xx-placeholder"
-                          id="react-select-15-placeholder"
-                        />
+                          class=" css-qc6sy-singleValue"
+                        >
+                          beta
+                        </div>
                         <div
                           class=" css-6j8wv5-Input"
                           data-value=""
                         >
                           <input
                             aria-autocomplete="list"
-                            aria-describedby="react-select-15-placeholder"
                             aria-expanded="false"
                             aria-haspopup="true"
                             autocapitalize="none"
                             autocomplete="off"
                             autocorrect="off"
                             class=""
-                            id="react-select-15-input"
+                            id="react-select-20-input"
                             role="combobox"
                             spellcheck="false"
                             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -1676,7 +2186,167 @@ exports[`Controlled Fields Layout works without a title 1`] = `
                   >
                     <span
                       class="css-1f43avz-a11yText-A11yText"
-                      id="react-select-16-live-region"
+                      id="react-select-21-live-region"
+                    />
+                    <span
+                      aria-atomic="false"
+                      aria-live="polite"
+                      aria-relevant="additions text"
+                      class="css-1f43avz-a11yText-A11yText"
+                    />
+                    <div
+                      class=" css-1s2u09g-control"
+                    >
+                      <div
+                        class=" css-319lph-ValueContainer"
+                      >
+                        <div
+                          class=" css-qc6sy-singleValue"
+                        >
+                          gamma
+                        </div>
+                        <div
+                          class=" css-6j8wv5-Input"
+                          data-value=""
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            autocapitalize="none"
+                            autocomplete="off"
+                            autocorrect="off"
+                            class=""
+                            id="react-select-21-input"
+                            role="combobox"
+                            spellcheck="false"
+                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                            tabindex="0"
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class=" css-1hb7zxy-IndicatorsContainer"
+                      >
+                        <span
+                          class=" css-1okebmr-indicatorSeparator"
+                        />
+                        <div
+                          aria-hidden="true"
+                          class=" css-tlfecz-indicatorContainer"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="css-tj5bde-Svg"
+                            focusable="false"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            width="20"
+                          >
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+        <div
+          class="row"
+          data-testid="controlled-fields__row--value"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-text-widget--value"
+            >
+              <div
+                class="custom-text-widget-header"
+                data-testid="custom-text-widget__the-value--text-header"
+              >
+                <span>
+                  the value
+                </span>
+              </div>
+              <input
+                class="custom-text-widget-input"
+                data-testid="custom-text-widget__the-value--text-input"
+                disabled=""
+                name="the value"
+                style="min-width: 100%;"
+                type="text"
+                value="delta"
+              />
+              <span
+                data-testid="custom-text-widget--description-field__the-value"
+                style="font-style: italic;"
+              />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`Controlled Fields Layout works without a title 1`] = `
+<div>
+  <form
+    class="rjsf"
+  >
+    <div
+      class="form-group"
+    >
+      <div
+        class="undefined"
+      >
+        <div
+          class="row"
+          data-testid="controlled-fields__row--priority-category"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-select-widget--priority-category"
+            >
+              <div
+                class="custom-select-widget"
+                data-testid="custom-select-widget__priority-category"
+              >
+                <div>
+                  <span>
+                    priorityCategory
+                  </span>
+                </div>
+                <div
+                  data-testid="custom-select-widget__priority-category--selector"
+                >
+                  <div
+                    class=" css-b62m3t-container"
+                  >
+                    <span
+                      class="css-1f43avz-a11yText-A11yText"
+                      id="react-select-33-live-region"
                     />
                     <span
                       aria-atomic="false"
@@ -1692,22 +2362,228 @@ exports[`Controlled Fields Layout works without a title 1`] = `
                       >
                         <div
                           class=" css-14el2xx-placeholder"
-                          id="react-select-16-placeholder"
-                        />
+                          id="react-select-33-placeholder"
+                        >
+                          Select priorityCategory
+                        </div>
                         <div
                           class=" css-6j8wv5-Input"
                           data-value=""
                         >
                           <input
                             aria-autocomplete="list"
-                            aria-describedby="react-select-16-placeholder"
+                            aria-describedby="react-select-33-placeholder"
                             aria-expanded="false"
                             aria-haspopup="true"
                             autocapitalize="none"
                             autocomplete="off"
                             autocorrect="off"
                             class=""
-                            id="react-select-16-input"
+                            id="react-select-33-input"
+                            role="combobox"
+                            spellcheck="false"
+                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                            tabindex="0"
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class=" css-1hb7zxy-IndicatorsContainer"
+                      >
+                        <span
+                          class=" css-1okebmr-indicatorSeparator"
+                        />
+                        <div
+                          aria-hidden="true"
+                          class=" css-tlfecz-indicatorContainer"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="css-tj5bde-Svg"
+                            focusable="false"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            width="20"
+                          >
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+        <div
+          class="row"
+          data-testid="controlled-fields__row--priority-1"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-select-widget--priority-1"
+            >
+              <div
+                class="custom-select-widget"
+                data-testid="custom-select-widget__priority-1"
+              >
+                <div>
+                  <span>
+                    priority1
+                  </span>
+                </div>
+                <div
+                  data-testid="custom-select-widget__priority-1--selector"
+                >
+                  <div
+                    class=" css-b62m3t-container"
+                  >
+                    <span
+                      class="css-1f43avz-a11yText-A11yText"
+                      id="react-select-34-live-region"
+                    />
+                    <span
+                      aria-atomic="false"
+                      aria-live="polite"
+                      aria-relevant="additions text"
+                      class="css-1f43avz-a11yText-A11yText"
+                    />
+                    <div
+                      class=" css-1s2u09g-control"
+                    >
+                      <div
+                        class=" css-319lph-ValueContainer"
+                      >
+                        <div
+                          class=" css-14el2xx-placeholder"
+                          id="react-select-34-placeholder"
+                        >
+                          Select priority1
+                        </div>
+                        <div
+                          class=" css-6j8wv5-Input"
+                          data-value=""
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-describedby="react-select-34-placeholder"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            autocapitalize="none"
+                            autocomplete="off"
+                            autocorrect="off"
+                            class=""
+                            id="react-select-34-input"
+                            role="combobox"
+                            spellcheck="false"
+                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                            tabindex="0"
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class=" css-1hb7zxy-IndicatorsContainer"
+                      >
+                        <span
+                          class=" css-1okebmr-indicatorSeparator"
+                        />
+                        <div
+                          aria-hidden="true"
+                          class=" css-tlfecz-indicatorContainer"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="css-tj5bde-Svg"
+                            focusable="false"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            width="20"
+                          >
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+        <div
+          class="row"
+          data-testid="controlled-fields__row--priority-2"
+          style="margin-top: 5px; margin-bottom: 5px;"
+        >
+          <div
+            class="col-md-12"
+          >
+            <span
+              data-testid="controlled-fields__custom-select-widget--priority-2"
+            >
+              <div
+                class="custom-select-widget"
+                data-testid="custom-select-widget__priority-2"
+              >
+                <div>
+                  <span>
+                    priority2
+                  </span>
+                </div>
+                <div
+                  data-testid="custom-select-widget__priority-2--selector"
+                >
+                  <div
+                    class=" css-b62m3t-container"
+                  >
+                    <span
+                      class="css-1f43avz-a11yText-A11yText"
+                      id="react-select-35-live-region"
+                    />
+                    <span
+                      aria-atomic="false"
+                      aria-live="polite"
+                      aria-relevant="additions text"
+                      class="css-1f43avz-a11yText-A11yText"
+                    />
+                    <div
+                      class=" css-1s2u09g-control"
+                    >
+                      <div
+                        class=" css-319lph-ValueContainer"
+                      >
+                        <div
+                          class=" css-14el2xx-placeholder"
+                          id="react-select-35-placeholder"
+                        >
+                          Select priority2
+                        </div>
+                        <div
+                          class=" css-6j8wv5-Input"
+                          data-value=""
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-describedby="react-select-35-placeholder"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            autocapitalize="none"
+                            autocomplete="off"
+                            autocorrect="off"
+                            class=""
+                            id="react-select-35-input"
                             role="combobox"
                             spellcheck="false"
                             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"

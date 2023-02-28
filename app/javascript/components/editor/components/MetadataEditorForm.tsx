@@ -128,51 +128,53 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, Metada
 
     const { status } = this.state
     return (
-      <Container id="metadata-form">
-        <Row>
-          <Col sm={8}>
-            <h1>{ heading }</h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={8}>
-            {status && (
+      <div id="react-editor-form-containter">
+        <Container id="metadata-form">
+          <Row>
+            <Col sm={8}>
+              <h1>{ heading }</h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={8}>
+              {status && (
               <Alert key={status} variant="warning">
                 {status}
               </Alert>
-            )}
-          </Col>
-        </Row>
-        <Row className="sidebar_column">
-          <Col sm={8}>
-            <Form
-              key={`${JSON.stringify(draft.key)}`}
-              schema={schema}
-              formData={formData}
-              uiSchema={uiSchema}
-              fields={fields}
-              FieldTemplate={CustomFieldTemplate}
-              ArrayFieldTemplate={CustomArrayTemplate}
-              widgets={widgets}
-              onChange={(e: OnChangeType) => {
-                editor.formData = e.formData
-                editor.formErrors = e.errors
-              }}
+              )}
+            </Col>
+          </Row>
+          <Row className="sidebar_column">
+            <Col sm={8}>
+              <Form
+                key={`${JSON.stringify(draft.key)}`}
+                schema={schema}
+                formData={formData}
+                uiSchema={uiSchema}
+                fields={fields}
+                FieldTemplate={CustomFieldTemplate}
+                ArrayFieldTemplate={CustomArrayTemplate}
+                widgets={widgets}
+                onChange={(e: OnChangeType) => {
+                  editor.formData = e.formData
+                  editor.formErrors = e.errors
+                }}
               // liveValidate = {true}
-              showErrorList
-            />
-          </Col>
+                showErrorList
+              />
+            </Col>
 
-          <div className="sidebar">
-            <NavigationView editor={editor} />
-          </div>
-        </Row>
-        <Row id="metadata-preview" style={{ marginTop: 10, marginBottom: 50 }}>
-          <Col sm={8}>
-            <JSONView editor={editor} />
-          </Col>
-        </Row>
-      </Container>
+            <div className="sidebar">
+              <NavigationView editor={editor} />
+            </div>
+          </Row>
+          <Row id="metadata-preview" style={{ marginTop: 10, marginBottom: 50 }}>
+            <Col sm={8}>
+              <JSONView editor={editor} />
+            </Col>
+          </Row>
+        </Container>
+      </div>
     )
   }
 }
