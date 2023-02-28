@@ -1,6 +1,6 @@
 <% umm = @summary.fetch('umm', {}) %>
 <% meta = @summary.fetch('meta', {}) %>
-<%= hidden_field_tag('id', umm.fetch('Id', '')) %>
+<%= hidden_field_tag('id', meta.fetch('concept-id', '')) %>
 <%= hidden_field_tag('native_id', meta.fetch('native-id', '')) %>
 <%= hidden_field_tag('data_quality_summary', @summary) %>
 <fieldset>

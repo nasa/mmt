@@ -4,6 +4,7 @@
   <!-- THIS PAGE IS NOT USING LEGACY SERVICE -->
   <div class="row row-content">
     <section>
+      <% meta = @summary.fetch('meta', {}) %>
       <% umm = @summary.fetch('umm', {}) %>
       <h2><%= umm.fetch('Name', '') %></h2>
 
@@ -11,7 +12,7 @@
         <%= raw umm.fetch('Summary', '') %>
       </div>
 
-      <%= link_to 'Edit', edit_data_quality_summary_path(umm.fetch('Id', '')), class: 'eui-btn' %>
+      <%= link_to 'Edit', edit_data_quality_summary_path(meta.fetch('concept-id', '')), class: 'eui-btn' %>
 
       <%= link_to 'Delete', "#delete-summary-modal", class: 'display-modal eui-btn eui-btn--red' %>
       <div id="delete-summary-modal" class="eui-modal-content">
@@ -19,7 +20,7 @@
         <p>Are you sure you want to delete this data quality summary?</p>
         <p>
           <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-          <%= link_to 'Yes', data_quality_summary_path(umm.fetch('Id', '')), method: :delete, class: 'eui-btn--blue spinner' %>
+          <%= link_to 'Yes', data_quality_summary_path(meta.fetch('native-id', '')), method: :delete, class: 'eui-btn--blue spinner' %>
         </p>
       </div>
     </section>
