@@ -759,12 +759,10 @@ module Cmr
       post(url, order_option.to_json, headers.merge(token_header(token)))
     end
 
-    def get_data_quality_summaries(provider_id:, concept_id: nil, native_id: nil, id: nil, token:)
+    def get_data_quality_summaries(provider_id:, concept_id: nil, token:)
       options = {}
       options[:provider_id] = provider_id
       options[:concept_id] = concept_id if concept_id
-      options[:native_id] = native_id if native_id
-      options[:id] = id if id
       options[:page_size] = 2000
       get('/search/data-quality-summaries.umm_json', options, token_header(token))
     end
