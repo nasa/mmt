@@ -1,5 +1,5 @@
 describe 'Updating Order Options', js: true do
-  let(:order_option_guid) {'848DA05B-51A2-1F3D-6783-6C27E5EA74B4'}
+  let(:order_option_concept_id) {'OO1200459850-CMR_ONLY'}
   let(:echo_form) { '<?xml version="1.0" encoding="utf-8"?>
     <form xmlns="http://echo.nasa.gov/v9/echoforms"
                  targetNamespace="http://myorganization.gov/echoforms"
@@ -75,12 +75,12 @@ describe 'Updating Order Options', js: true do
       login
 
       VCR.use_cassette("order_options/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
-        visit edit_order_option_path(order_option_guid)
+        visit edit_order_option_path(order_option_concept_id)
       end
     end
 
     it 'Displays the Order Option Definition in populated fields' do
-      
+
       expect(page).to have_field('order_option_Name')
       expect(find_field('order_option_Name').value).to eq 'Test Order Option ABC-1001'
 

@@ -71,7 +71,7 @@ http_interactions:
   recorded_at: Wed, 15 Feb 2023 21:03:35 GMT
 - request:
     method: get
-    uri: https://cmr.sit.earthdata.nasa.gov/search/order-options.umm_json?concept_id=848DA05B-51A2-1F3D-6783-6C27E5EA74B4&page_size=2000&provider_id=MMT_2
+    uri: https://cmr.sit.earthdata.nasa.gov/search/order-options.umm_json?concept_id=OO1200459850-CMR_ONLY&page_size=2000&provider_id=MMT_2
     body:
       encoding: US-ASCII
       string: ''
