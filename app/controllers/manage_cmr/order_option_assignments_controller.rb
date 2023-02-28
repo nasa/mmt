@@ -103,6 +103,7 @@ class OrderOptionAssignmentsController < ManageCmrController
       collection_concept_id = association[0]
       service_concept_id = association[1]
 
+      # The order-option is on the association payload, deleting the association
       delete_service_assoc_response = cmr_client.delete_collection_service_association(service_concept_id: service_concept_id, collection_concept_id: collection_concept_id, token: token)
       success_count += 1 unless delete_service_assoc_response.error?
       error_count += 1 if delete_service_assoc_response.error?
