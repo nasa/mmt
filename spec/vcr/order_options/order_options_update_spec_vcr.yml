@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://cmr.sit.earthdata.nasa.gov/search/order-options.umm_json?concept_id=848DA05B-51A2-1F3D-6783-6C27E5EA74B4&page_size=2000&provider_id=MMT_2
+    uri: https://cmr.sit.earthdata.nasa.gov/search/order-options.umm_json?concept_id=OO1200459850-CMR_ONLY&page_size=2000&provider_id=MMT_2
     body:
       encoding: US-ASCII
       string: ''
@@ -52,7 +52,7 @@ http_interactions:
       - eaOU8Z7BnKwr-43cgRTKhmlzM8dRo68Eq1gLNecJrWRb8NtcWfuWVg==
     body:
       encoding: UTF-8
-      string: '{"hits":1,"took":22,"items":[{"meta":{"revision-id":1,"deleted":false,"provider-id":"ETIM22","user-id":"hvtranho","native-id":"09e96dcb-c48f-40a0-a625-873a5ab23c3b","concept-id":"OO1200459723-ETIM22","revision-date":"2023-02-15T18:06:13.434Z","concept-type":"order-option"},"umm":{"Name":"Test
+      string: '{"hits":1,"took":22,"items":[{"meta":{"revision-id":1,"deleted":false,"provider-id":"ETIM22","user-id":"hvtranho","native-id":"09e96dcb-c48f-40a0-a625-873a5ab23c3b","concept-id":"OO1200459850-CMR_ONLY","revision-date":"2023-02-15T18:06:13.434Z","concept-type":"order-option"},"umm":{"Name":"Test
         Order Option ABC-1001","Description":"Test description","Form":"\u003c?xml
         version=\"1.0\" encoding=\"utf-8\"?\u003e\r\n    \u003cform xmlns=\"http://echo.nasa.gov/v9/echoforms\"\r\n                 targetNamespace=\"http://myorganization.gov/echoforms\"\r\n                 xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\u003e\r\n      \u003cmodel\u003e\r\n        \u003cinstance\u003e\r\n          \u003cprov:options
         xmlns:prov=\"http://myorganization.gov/orderoptions\"\u003e\r\n            \u003cprov:filename\u003edata.txt\u003c/prov:filename\u003e\r\n            \u003cprov:filesize\u003e10\u003c/prov:filesize\u003e\r\n          \u003c/prov:options\u003e\r\n        \u003c/instance\u003e\r\n      \u003c/model\u003e\r\n      \u003cui\u003e\r\n        \u003cinput
