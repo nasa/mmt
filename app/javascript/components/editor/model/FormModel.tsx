@@ -9,6 +9,7 @@ export default interface FormModel {
   draft: Draft;
   fullSchema: any;
   fullErrors: FormError[];
+  publishErrors: string[];
   formData: { [key: string]: object };
   formSchema: object;
   formErrors: FormError[];

@@ -17,12 +17,11 @@ exports[`Progress Section Test renders in case section empty 1`] = `
       <div
         class="section-label"
       >
-        <a
+        <div
           data-testid="progress-section__tool-contacts_link"
-          href=""
         >
           Tool Contacts
-        </a>
+        </div>
       </div>
       <div>
         <span
@@ -84,12 +83,11 @@ exports[`Progress Section Test renders in case section not passed 1`] = `
       <div
         class="section-label"
       >
-        <a
+        <div
           data-testid="progress-section__tool-information_link"
-          href=""
         >
           Tool Information
-        </a>
+        </div>
       </div>
       <div>
         <span
@@ -277,12 +275,11 @@ exports[`Progress Section Test renders in case section passed 1`] = `
       <div
         class="section-label"
       >
-        <a
+        <div
           data-testid="progress-section__tool-information_link"
-          href=""
         >
           Tool Information
-        </a>
+        </div>
       </div>
       <div>
         <span
@@ -470,12 +467,11 @@ exports[`Progress Section Test renders in case section status unknown 1`] = `
       <div
         class="section-label"
       >
-        <a
+        <div
           data-testid="progress-section__tool-contacts_link"
-          href=""
         >
           Tool Contacts
-        </a>
+        </div>
       </div>
       <div>
         <span

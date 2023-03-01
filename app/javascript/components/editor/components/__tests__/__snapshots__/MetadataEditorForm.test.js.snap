@@ -28,6 +28,13 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
         />
       </div>
       <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
+      </div>
+      <div
         class="sidebar_column row"
       >
         <div
@@ -5105,12 +5112,34 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
           class="col-sm-8"
         >
           <div
-            class="fade alert alert-warning show"
+            class="fade alert alert-warning alert-dismissible show"
             role="alert"
           >
+            <button
+              class="close"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+              >
+                ×
+              </span>
+              <span
+                class="sr-only"
+              >
+                Close alert
+              </span>
+            </button>
             error retrieving draft! Error code: 404
           </div>
         </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
       </div>
       <div
         class="sidebar_column row"
@@ -10288,12 +10317,34 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
           class="col-sm-8"
         >
           <div
-            class="fade alert alert-warning show"
+            class="fade alert alert-warning alert-dismissible show"
             role="alert"
           >
+            <button
+              class="close"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+              >
+                ×
+              </span>
+              <span
+                class="sr-only"
+              >
+                Close alert
+              </span>
+            </button>
             error saving draft! 500 error
           </div>
         </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
       </div>
       <div
         class="sidebar_column row"
@@ -15463,6 +15514,13 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
             Create/Update a Tool Record
           </h1>
         </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
       </div>
       <div
         class="row"

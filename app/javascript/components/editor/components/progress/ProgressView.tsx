@@ -37,10 +37,31 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
           navigate(`/tool_draft/${draft.apiId}/edit/${editor.currentSection.displayName.replace(/\s/g, '_')}`, { replace: false })
         }
       }).catch((error) => {
-        this.setState({ status: `error saving draft! ${error.message}` })
+        this.setState({ status: `Error saving draft! ${error.message}` })
       })
     })
   }
+
+  saveAndPublish() {
+    const { editor } = this.props
+    const {
+      draft
+    } = editor
+    this.setState({ status: null }, () => {
+      editor.saveDraft(draft).then((draft) => {
+        editor.draft = draft
+        this.setState({ status: 'Draft Saved' })
+        editor.publishDraft(draft).then((draft) => {
+          editor.draft = draft
+        }).catch((error) => {
+          this.setState({ status: `Error publishing draft! ${error.message}` })
+        })
+      }).catch((error) => {
+        this.setState({ status: `Error saving draft! ${error.message}` })
+      })
+    })
+  }
+
   render() {
     const {
       editor, router
@@ -85,7 +106,14 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
                   Save &amp; Continue
                 </span>
               </Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Save &amp; Publish</Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  this.saveAndPublish()
+                }}
+              >
+                Save &amp; Publish
+
+              </Dropdown.Item>
               <Dropdown.Item onClick={() => {
                 navigate(`/tool_draft/progress/${draft.apiId}`, { replace: false })
               }}

@@ -17,12 +17,11 @@ exports[`Progress field navigation test array field navigate to edit a field in 
       <div
         class="section-label"
       >
-        <a
+        <div
           data-testid="progress-section__tool-contacts_link"
-          href=""
         >
           Tool Contacts
-        </a>
+        </div>
       </div>
       <div>
         <span

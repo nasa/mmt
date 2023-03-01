@@ -582,6 +582,13 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
         />
       </div>
       <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
+      </div>
+      <div
         class="sidebar_column row"
       >
         <div

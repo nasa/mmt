@@ -28,6 +28,13 @@ exports[`Error List test testing invalid field onClick 1`] = `
         />
       </div>
       <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
+      </div>
+      <div
         class="sidebar_column row"
       >
         <div

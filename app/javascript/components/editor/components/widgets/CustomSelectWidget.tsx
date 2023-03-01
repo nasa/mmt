@@ -19,7 +19,7 @@ type CustomSelectWidgetProps = {
     editor: MetadataEditor
   },
   registry: {
-    definitions: any
+    definitions: unknown
   }
   value: string,
   placeholder: string,

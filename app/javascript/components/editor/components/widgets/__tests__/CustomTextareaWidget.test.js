@@ -134,7 +134,7 @@ describe('Custom Text Area Widget Component', () => {
       id: ''
     }
 
-    const { getByTestId, container } = render(
+    const { getByTestId } = render(
       <BrowserRouter>
         <CustomTextareaWidget {...props} />
       </BrowserRouter>

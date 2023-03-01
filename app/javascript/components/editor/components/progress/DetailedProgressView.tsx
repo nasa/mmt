@@ -35,9 +35,10 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
     this.setState({ status: null }, () => {
       editor.fetchDraft(Number(id)).then((draft) => {
         editor.draft = draft
-        // this.setState({ status: `Draft ${id} retrieved.` })
+        editor.loading = false
       }).catch((error) => {
-        this.setState({ status: `error retrieving draft! ${error.message}` })
+        editor.loading = false
+        this.setState({ status: `Error retrieving draft! ${error.message}` })
       })
     })
   }
@@ -77,7 +78,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
     return ProgressCircleType.Pass
   }
 
-  fieldsForSection(section: FormSection, draft: any): Array<FieldInfo> {
+  fieldsForSection(section: FormSection, draft: unknown): Array<FieldInfo> {
     const fields: Array<FieldInfo> = []
 
     const {
@@ -182,6 +183,31 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
         </div>
       )
     })
+
+    // if (loading) {
+    //   return (
+    //     <div id="react-editor-form-containter">
+    //       <Card
+    //         style={{
+    //           display: 'flex',
+    //           width: 1000,
+    //           height: 400,
+    //           alignItems: 'center',
+    //           justifyContent: 'center'
+    //         }}
+    //         id="metadata-form"
+    //       >
+    //         <div style={{ display: 'flex', alignItems: 'center' }}>
+    //           <h5>Loading...&nbsp;&nbsp;</h5>
+    //           <div className="spinner-grow text-success" role="status">
+    //             <span className="sr-only">Loading...</span>
+    //           </div>
+    //         </div>
+    //       </Card>
+    //     </div>
+    //   )
+    // }
+
     return (
       <Container>
         <Row>

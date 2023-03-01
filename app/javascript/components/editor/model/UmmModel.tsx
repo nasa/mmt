@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   makeObservable, observable, computed, toJS
 } from 'mobx'
@@ -8,6 +9,7 @@ import FormModel from './FormModel'
 
 export default class UmmModel implements FormModel {
   fullErrors: FormError[]
+  publishErrors: string[]
   formErrors: FormError[]
   draft: Draft
   json: object
@@ -18,6 +20,7 @@ export default class UmmModel implements FormModel {
   constructor() {
     this.draft = new Draft()
     this.fullErrors = []
+    this.publishErrors = []
     this.formErrors = []
     this.fullSchema = schema
     const first = this.formSections[0]
@@ -29,6 +32,7 @@ export default class UmmModel implements FormModel {
       fullData: computed,
       fullErrors: observable,
       formErrors: observable,
+      publishErrors: observable,
       currentSection: observable,
       uiSchema: computed
     })

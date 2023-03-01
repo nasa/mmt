@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 import {
-  Alert, Button, ButtonGroup, Dropdown, ListGroup
+  Button, ButtonGroup, Dropdown, ListGroup
 } from 'react-bootstrap'
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -8,6 +8,7 @@ import Form from '@rjsf/bootstrap-4'
 import NavigationItem from './NavigationItem'
 import MetadataEditor from '../MetadataEditor'
 import withRouter from './withRouter'
+import Status from '../model/Status'
 
 type ProgressViewProps = {
   router?: RouterType
@@ -41,16 +42,39 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
           editor.navigateTo(section)
         }
       }).catch((error) => {
-        this.setState({ status: `error saving draft! ${error.message}` })
+        editor.status = new Status('warning', `error saving draft! ${error.message}`)
+        this.setState({ saving: false })
+      })
+    })
+  }
+
+  saveAndPublish() {
+    const { editor } = this.props
+    const {
+      draft
+    } = editor
+    this.setState({ status: null }, () => {
+      editor.saveDraft(draft).then((draft) => {
+        editor.draft = draft
+        editor.publishDraft(draft).then((draft) => {
+          editor.draft = draft
+          editor.status = new Status('success', `Draft Published! ${draft.conceptId}/${draft.revisionId}`)
+          editor.publishErrors = null
+        }).catch((errors) => {
+          editor.status = null
+          editor.publishErrors = errors
+        })
+      }).catch((error) => {
+        editor.status = new Status('warning', `error saving draft! ${error.message}`)
+        this.setState({ saving: false })
       })
     })
   }
 
   saveDraftAndPreview() {
     const {
-      editor, router
+      editor
     } = this.props
-    const { navigate } = router
     const {
       draft
     } = editor
@@ -66,7 +90,8 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
         // navigate(`/${editor.documentType}/${draft.apiId}`, { replace: false })
         // }
       }).catch((error) => {
-        this.setState({ status: `error saving draft! ${error.message}` })
+        editor.status = new Status('warning', `error saving draft! ${error.message}`)
+        this.setState({ saving: false })
       })
     })
   }
@@ -114,7 +139,24 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
                   Save
                 </span>
               </Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Save &amp; Publish</Dropdown.Item>
+
+              <Dropdown.Item onClick={() => {
+                this.saveDraft(true)
+              }}
+              >
+                <span data-testid="navigationview--save-and-continue-button">
+                  Save &amp; Continue
+                </span>
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  this.saveAndPublish()
+                }}
+              >
+                Save &amp; Publish
+
+              </Dropdown.Item>
+
               <Dropdown.Item onClick={() => {
                 this.saveDraftAndPreview()
               }}
@@ -134,7 +176,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
                   editor.draft = draft
                   this.setState({ status: 'Changes discarded' })
                 }).catch((error) => {
-                  this.setState({ status: `Error cancelling. ${error.message}` })
+                  editor.status = new Status('warning', `Error cancelling. ${error.message}`)
                 })
               })
             }}
