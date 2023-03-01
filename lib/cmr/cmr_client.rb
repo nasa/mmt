@@ -711,7 +711,7 @@ module Cmr
 
       get(url, options, token_header(token))
     end
-    
+
     def delete_collection_service_association(service_concept_id:, collection_concept_id:, token:)
       payload = []
       concept_id = {}
@@ -735,7 +735,7 @@ module Cmr
       }
       post(url, payload.to_json, headers.merge(token_header(token)))
     end
-
+    
     def get_order_options(provider_id:, token:, concept_id: nil)
       options = {}
       options[:provider_id] = provider_id
