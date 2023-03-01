@@ -3,6 +3,7 @@ describe Api::DraftsController do
     set_as_mmt_proper
     sign_in
     @request.headers['Authorization'] = 'Bearer access-token'
+    @empty_tool_draft = create(:empty_tool_draft, user: create(:user, :multiple_providers))
     @tool_draft = create(:full_tool_draft, user: create(:user, :multiple_providers))
     @test_user2 = create(:user2) # belong to LARC
   end
@@ -58,19 +59,22 @@ describe Api::DraftsController do
 
   it 'can publish a tool record with errors' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    jsonContent = '{"Name": "a name", "LongName": "a tool long name", "Version": "10.0"}'
+    jsonContent = @empty_tool_draft.draft.to_json
     request.headers.merge!({ 'User' => 'testuser' })
     request.headers.merge!({ 'Provider' => 'MMT_1' })
-    post :publish, body: jsonContent, params: { id: 1, draft_type: "ToolDraft" }
+    post :publish, body: jsonContent, params: { id: @empty_tool_draft.id, draft_type: "ToolDraft" }
     result = response.parsed_body
     assert_equal(response.status, 500)
     assert_equal(result.dig('errors'), [
+      "#: required key [Name] not found",
+      "#: required key [LongName] not found",
       "#: required key [Type] not found",
+      "#: required key [Version] not found",
       "#: required key [Description] not found",
       "#: required key [ToolKeywords] not found",
       "#: required key [Organizations] not found",
-      "#: required key [URL] not found"
-    ])
+      "#: required key [URL] not found"]
+    )
   end
 
   it 'can publish a tool record with success' do
@@ -78,7 +82,7 @@ describe Api::DraftsController do
     tool_draft = FactoryBot.build(:full_tool_draft).draft.to_json
     request.headers.merge!({ 'User' => 'testuser' })
     request.headers.merge!({ 'Provider' => 'MMT_1' })
-    post :publish, body: tool_draft, params: { id: 1, draft_type: "ToolDraft" }
+    post :publish, body: tool_draft, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
     result = response.parsed_body
     assert_equal(response.status, 200)
     expect(result.dig("concept_id")).not_to be(nil)
