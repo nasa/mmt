@@ -1,0 +1,161 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/order-options.umm_json?concept_id=OO1200457533-EDF_DEV01&page_size=2000&provider_id=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Client-Id:
+      - MMT
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      date:
+      - Fri, 24 Feb 2023 02:56:57 GMT
+      last-modified:
+      - Wed, 24 Jun 2020 17:18:12 GMT
+      etag:
+      - W/"50e92818043aa94d30a1537542261f20"
+      server:
+      - AmazonS3
+      vary:
+      - Accept-Encoding
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 9c81639f33cc2c26621812a05e08bf2c.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - LAX53-P4
+      x-amz-cf-id:
+      - fsmdv6j1gPyo6HxNF9GwPeM77qwVqJNdm4Mep24nxIGqTYKVZP5kQw==
+      x-xss-protection:
+      - 1; mode=block
+      x-frame-options:
+      - SAMEORIGIN
+      x-content-type-options:
+      - nosniff
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: ASCII-8BIT
+      string: '{"hits":29,"took":30,"items":[{
+  "meta": {
+    "revision-id": 5,
+    "deleted": false,
+    "provider-id": "CMR_ONLY",
+    "user-id": "testuser",
+    "native-id": "order-option-EDSC-tester",
+    "concept-id": "OO1200459555-CMR_ONLY",
+    "revision-date": "2023-02-15T19:56:34.396Z",
+    "concept-type": "order-option"
+  },
+  "umm": {
+    "Id": "16D0C594-70A7-20E6-1305-87E74590510C",
+    "Name": "AST14DMO.3 Order",
+    "Description": "AST14DMO.3 Order Description",
+    "Form": "<form/>",
+    "Scope": "PROVIDER",
+    "SortKey": "",
+    "Deprecated": false,
+    "MetadataSpecification": {
+      "Name": "Order Option",
+      "Version": "1.0.0",
+      "URL": "https://cdn.earthdata.nasa.gov/generics/order-option/v1.0.0"
+    }
+  }
+}]}'
+  recorded_at: Fri, 24 Feb 2023 02:56:57 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/order-options.umm_json?concept_id=OO1200457534-EDF_DEV01&page_size=2000&provider_id=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Client-Id:
+      - MMT
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      last-modified:
+      - Wed, 24 Jun 2020 17:18:12 GMT
+      server:
+      - AmazonS3
+      date:
+      - Fri, 24 Feb 2023 02:56:58 GMT
+      etag:
+      - W/"50e92818043aa94d30a1537542261f20"
+      vary:
+      - Accept-Encoding
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 b5afed9af6ab9ac8245e8872d677a7bc.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - LAX53-P4
+      x-amz-cf-id:
+      - dgXHgV8ocGY0kXTJ_Ticrgps04Cxc0tMa38QuECxIbVN7CRuJjwRyA==
+      x-xss-protection:
+      - 1; mode=block
+      x-frame-options:
+      - SAMEORIGIN
+      x-content-type-options:
+      - nosniff
+      strict-transport-security:
+      - max-age=31536000
+    body:
+      encoding: ASCII-8BIT
+      string: '{"hits":29,"took":30,"items":[{
+  "meta": {
+    "revision-id": 5,
+    "deleted": false,
+    "provider-id": "CMR_ONLY",
+    "user-id": "testuser",
+    "native-id": "order-option-EDSC-tester",
+    "concept-id": "OO1200459594-CMR_ONLY",
+    "revision-date": "2023-02-15T19:56:34.396Z",
+    "concept-type": "order-option"
+  },
+  "umm": {
+    "Id": "16D0C594-70A7-20E6-1305-87E74590511C",
+    "Name": "AST14DMO.4 Order",
+    "Description": "AST14DMO.4 Order Description",
+    "Form": "<form/>",
+    "Scope": "PROVIDER",
+    "SortKey": "",
+    "Deprecated": false,
+    "MetadataSpecification": {
+      "Name": "Order Option",
+      "Version": "1.0.0",
+      "URL": "https://cdn.earthdata.nasa.gov/generics/order-option/v1.0.0"
+    }
+  }
+}]}'
+  recorded_at: Fri, 24 Feb 2023 02:56:57 GMT
+recorded_with: VCR 6.1.0
