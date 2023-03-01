@@ -2,11 +2,11 @@ class Api::DraftsController < BaseDraftsController
   include ManageMetadataHelper
 
   protect_from_forgery with: :null_session
-  before_action :proposal_approver_permissions, except: [:create, :show, :update]
-  before_action :set_resource, only: [:show, :update]
-  before_action :validate_token, only: [:create, :show, :update]
-  skip_before_action :ensure_user_is_logged_in, only: [:create, :show, :update]
-  skip_before_action :add_top_level_breadcrumbs, only: [:create, :show, :update]
+  before_action :proposal_approver_permissions, except: [:create, :show, :update, :publish]
+  before_action :set_resource, only: [:show, :update, :publish]
+  before_action :validate_token, only: [:create, :show, :update, :publish]
+  skip_before_action :ensure_user_is_logged_in, only: [:create, :show, :update, :publish]
+  skip_before_action :add_top_level_breadcrumbs, only: [:create, :show, :update, :publish]
 
   def create
     provider_id = request.headers["Provider"]
@@ -38,6 +38,32 @@ class Api::DraftsController < BaseDraftsController
     if get_resource.save
       Rails.logger.info("Audit Log: #{user.urs_uid} successfully updated #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
       render json: draft_json_result, status: 200
+    else
+      errors_list = generate_model_error
+      Rails.logger.info("Audit Log: #{user.urs_uid} could not update #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
+      render json: JSON.pretty_generate({'error': 'Could not update draft'}), status: 500
+    end
+  end
+
+  def publish
+    provider_id = request.headers["Provider"]
+    user = User.find_or_create_by(urs_uid: request.headers["User"])
+    json_params = JSON.parse(request.body.read())
+    if !json_params.is_a?(Hash)
+      json_params = JSON.parse(json_params)
+    end
+    get_resource.draft = json_params
+    if get_resource.save
+      if (params[:draft_type] == 'ToolDraft')
+        ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: token)
+        if ingested_response.success?
+          Rails.logger.info("Audit Log: #{user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
+          result = ingested_response.body
+          render json: draft_json_result(concept_id: result.dig('concept-id'), revision_id: result.dig('revision-id') ), status: 200
+        else
+          render json: draft_json_result(errors: ingested_response.errors), status: 500
+        end
+      end
     else
       errors_list = generate_model_error
       Rails.logger.info("Audit Log: #{user.urs_uid} could not update #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
@@ -112,11 +138,14 @@ class Api::DraftsController < BaseDraftsController
     end
   end
 
-  def draft_json_result
+  def draft_json_result(errors: {}, concept_id: nil, revision_id: nil)
     json = {}
     json['id'] = get_resource.id
     json['draft'] = get_resource.draft
     json['user_id'] = get_resource.user_id
+    json['errors'] = errors
+    json['concept_id'] = concept_id
+    json['revision_id'] = revision_id
     JSON.pretty_generate(json)
   end
 
