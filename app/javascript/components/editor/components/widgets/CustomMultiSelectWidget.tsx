@@ -7,7 +7,7 @@ type CustomMultiSelectWidgetProps = {
   label: string,
   schema: {
     items: {
-      $ref: any
+      $ref: unknown
       enum: string[]
     }
   },
@@ -17,7 +17,9 @@ type CustomMultiSelectWidgetProps = {
   value: string[],
   required: boolean,
   onChange: (value: string[]) => void,
-  registry: any
+  registry: {
+    definitions: unknown
+  }
 }
 
 type SelectOptions = {

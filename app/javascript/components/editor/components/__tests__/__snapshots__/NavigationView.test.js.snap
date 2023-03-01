@@ -28,6 +28,13 @@ exports[`Navigation View Component cancels changes 1`] = `
         />
       </div>
       <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
+      </div>
+      <div
         class="sidebar_column row"
       >
         <div
@@ -5109,6 +5116,35 @@ exports[`Navigation View Component error canceling changes 1`] = `
       >
         <div
           class="col-sm-8"
+        >
+          <div
+            class="fade alert alert-warning alert-dismissible show"
+            role="alert"
+          >
+            <button
+              class="close"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+              >
+                ×
+              </span>
+              <span
+                class="sr-only"
+              >
+                Close alert
+              </span>
+            </button>
+            Error cancelling. 500 error
+          </div>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
         />
       </div>
       <div
@@ -6031,12 +6067,6 @@ exports[`Navigation View Component error canceling changes 1`] = `
               Cancel
             </button>
               
-            <div
-              class="alert-warning"
-              style="font-size: 10px; height: 20px; display: inline;"
-            >
-              Error cancelling. 500 error
-            </div>
           </div>
           <div
             class="list-group"
@@ -18420,6 +18450,13 @@ exports[`Navigation View Component saves and previews 1`] = `
         />
       </div>
       <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
+      </div>
+      <div
         class="sidebar_column row"
       >
         <div
@@ -19348,7 +19385,19 @@ exports[`Navigation View Component saves and previews 1`] = `
                 </a>
                 <a
                   class="dropdown-item"
-                  href="#/action-2"
+                  href="#"
+                  role="button"
+                >
+                  <span
+                    data-testid="navigationview--save-and-continue-button"
+                  >
+                    Save & Continue
+                  </span>
+                </a>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  role="button"
                 >
                   Save & Publish
                 </a>
@@ -23530,6 +23579,35 @@ exports[`Navigation View Component saves and previews with error 1`] = `
       >
         <div
           class="col-sm-8"
+        >
+          <div
+            class="fade alert alert-warning alert-dismissible show"
+            role="alert"
+          >
+            <button
+              class="close"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+              >
+                ×
+              </span>
+              <span
+                class="sr-only"
+              >
+                Close alert
+              </span>
+            </button>
+            error saving draft! 500 error
+          </div>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
         />
       </div>
       <div
@@ -24461,7 +24539,19 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                 </a>
                 <a
                   class="dropdown-item"
-                  href="#/action-2"
+                  href="#"
+                  role="button"
+                >
+                  <span
+                    data-testid="navigationview--save-and-continue-button"
+                  >
+                    Save & Continue
+                  </span>
+                </a>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  role="button"
                 >
                   Save & Publish
                 </a>
@@ -24487,17 +24577,6 @@ exports[`Navigation View Component saves and previews with error 1`] = `
               Cancel
             </button>
               
-            <div
-              class="spinner-border"
-              role="status"
-              style="width: 24px; height: 24px;"
-            />
-            <div
-              class="alert-warning"
-              style="font-size: 10px; height: 20px; display: inline;"
-            >
-              error saving draft! 500 error
-            </div>
           </div>
           <div
             class="list-group"
@@ -28654,6 +28733,35 @@ exports[`Navigation View Component saves but receives error 1`] = `
       >
         <div
           class="col-sm-8"
+        >
+          <div
+            class="fade alert alert-warning alert-dismissible show"
+            role="alert"
+          >
+            <button
+              class="close"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+              >
+                ×
+              </span>
+              <span
+                class="sr-only"
+              >
+                Close alert
+              </span>
+            </button>
+            error saving draft! 500 error
+          </div>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
         />
       </div>
       <div
@@ -29585,7 +29693,19 @@ exports[`Navigation View Component saves but receives error 1`] = `
                 </a>
                 <a
                   class="dropdown-item"
-                  href="#/action-2"
+                  href="#"
+                  role="button"
+                >
+                  <span
+                    data-testid="navigationview--save-and-continue-button"
+                  >
+                    Save & Continue
+                  </span>
+                </a>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  role="button"
                 >
                   Save & Publish
                 </a>
@@ -29611,17 +29731,6 @@ exports[`Navigation View Component saves but receives error 1`] = `
               Cancel
             </button>
               
-            <div
-              class="spinner-border"
-              role="status"
-              style="width: 24px; height: 24px;"
-            />
-            <div
-              class="alert-warning"
-              style="font-size: 10px; height: 20px; display: inline;"
-            >
-              error saving draft! 500 error
-            </div>
           </div>
           <div
             class="list-group"
@@ -33797,7 +33906,19 @@ exports[`Navigation View Component saves draft 1`] = `
         </a>
         <a
           class="dropdown-item"
-          href="#/action-2"
+          href="#"
+          role="button"
+        >
+          <span
+            data-testid="navigationview--save-and-continue-button"
+          >
+            Save & Continue
+          </span>
+        </a>
+        <a
+          class="dropdown-item"
+          href="#"
+          role="button"
         >
           Save & Publish
         </a>

@@ -8,7 +8,7 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import './KeywordPicker.css'
 import { MetadataService } from '../services/MetadataService'
-import { parseCmrResponse } from '../utils/cmr_keywords'
+import { Node, parseCmrResponse } from '../utils/cmr_keywords'
 
 type KeywordPickerProps = {
   formData: any,
@@ -67,7 +67,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
         const initalValue = uiSchema['ui:picker_title']
 
         service.fetchCmrKeywords(keywordScheme).then((keywords) => {
-          const newOtherKeyword = { toolkeywords: [{ value: initalValue, subfields: [keywordSchemeColumnNames.at(1)], ...keywords }] }
+          const newOtherKeyword = { toolkeywords: [{ value: initalValue, subfields: [keywordSchemeColumnNames.at(1)], ...keywords }] } as Node
           const paths = parseCmrResponse(newOtherKeyword, keywordSchemeColumnNames)
           this.initializeKeywords(paths)
           this.setState({ loading: false })

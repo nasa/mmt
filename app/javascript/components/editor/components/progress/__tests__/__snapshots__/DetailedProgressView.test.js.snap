@@ -57,12 +57,11 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__tool-information_link"
-                        href=""
                       >
                         Tool Information
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -250,12 +249,11 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__related-ur-ls_link"
-                        href=""
                       >
                         Related URLs
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -317,12 +315,11 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__compatibility-and-usability_link"
-                        href=""
                       >
                         Compatibility And Usability
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -474,12 +471,11 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__descriptive-keywords_link"
-                        href=""
                       >
                         Descriptive Keywords
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -541,12 +537,11 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__tool-organizations_link"
-                        href=""
                       >
                         Tool Organizations
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -590,12 +585,11 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__tool-contacts_link"
-                        href=""
                       >
                         Tool Contacts
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -657,12 +651,11 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__potential-action_link"
-                        href=""
                       >
                         Potential Action
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -5322,7 +5315,7 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
               class="fade alert alert-warning show"
               role="alert"
             >
-              error retrieving draft! Error code: 404
+              Error retrieving draft! Error code: 404
             </div>
           </div>
         </div>
@@ -5365,12 +5358,11 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__tool-information_link"
-                        href=""
                       >
                         Tool Information
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -5558,12 +5550,11 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__related-ur-ls_link"
-                        href=""
                       >
                         Related URLs
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -5607,12 +5598,11 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__compatibility-and-usability_link"
-                        href=""
                       >
                         Compatibility And Usability
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -5764,12 +5754,11 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__descriptive-keywords_link"
-                        href=""
                       >
                         Descriptive Keywords
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -5831,12 +5820,11 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__tool-organizations_link"
-                        href=""
                       >
                         Tool Organizations
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -5880,12 +5868,11 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__tool-contacts_link"
-                        href=""
                       >
                         Tool Contacts
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span
@@ -5947,12 +5934,11 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                     <div
                       class="section-label"
                     >
-                      <a
+                      <div
                         data-testid="progress-section__potential-action_link"
-                        href=""
                       >
                         Potential Action
-                      </a>
+                      </div>
                     </div>
                     <div>
                       <span

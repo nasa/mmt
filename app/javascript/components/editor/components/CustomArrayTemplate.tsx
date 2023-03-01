@@ -1,18 +1,28 @@
 /* eslint-disable react/static-property-placement */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { observer } from 'mobx-react'
-import React from 'react'
+import React, { MouseEventHandler, ReactNode } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import MetadataEditor from '../MetadataEditor'
 
+type Element = {
+  index: number,
+  key: string,
+  children: ReactNode,
+  className: string,
+  onDropIndexClick: (index:number) => MouseEventHandler<HTMLButtonElement>
+}
+
 type CustomArrayTemplateProps = {
   className: string,
-  items: string[]
+  items: Element[]
   canAdd: boolean
   onAddClick: (event: object) => void
   title: string
-  schema: any,
-  uiSchema: any,
+  schema: {
+    description: string
+  }
+  uiSchema: unknown,
   options: {
     editor: MetadataEditor
   }
@@ -74,7 +84,7 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
           {schema.description}
         </p>
         <br />
-        {items && items.map((element: any, index: number) => (
+        {items && items.map((element: Element, index: number) => (
           <div key={element.key} className={element.className} style={{ borderLeft: 'solid 10px rgb(240,240,240', marginBottom: '25px', paddingLeft: 5 }} ref={this.scrollRef[index]}>
             <Row className="mb-2  d-flex align-items-center">
               <>

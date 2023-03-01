@@ -21,20 +21,17 @@ import CustomCountrySelectWidget from './widgets/CustomCountrySelectWidget'
 import StreetAddressesField from './StreetAddresseField'
 import CustomTextWidget from './widgets/CustomTextWidget'
 import KeywordsField from './KeywordPicker'
+import Status from '../model/Status'
 
 type MetadataEditorFormProps = {
   router?: RouterType
   editor: MetadataEditor;
   heading: string;
 };
-type MetadataEditorFormState = {
-  status: string
-}
 
-class MetadataEditorForm extends React.Component<MetadataEditorFormProps, MetadataEditorFormState> {
+class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never> {
   constructor(props: MetadataEditorFormProps) {
     super(props)
-    this.state = { status: null }
     const { editor } = this.props
     CustomTextWidget.defaultProps = { options: { editor } }
     CustomTextareaWidget.defaultProps = { options: { editor } }
@@ -66,25 +63,28 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, Metada
       }
     }
 
-    this.setState({ status: null }, () => {
-      if (id) {
-        editor.fetchDraft(Number(id)).then((draft) => {
-          editor.draft = draft
-        }).catch((error) => {
-          this.setState({ status: `error retrieving draft! ${error.message}` })
-        })
-      } else {
-        editor.saveDraft(editor.draft).then((draft) => {
-          editor.draft = draft
-          navigate(`/${editor.model.documentType}/${draft.apiId}/edit/${editor.currentSection.displayName.replace(/\s/g, '_')}`, { replace: false })
-        }).catch((error) => {
-          this.setState({ status: `error saving draft! ${error.message}` })
-        })
-      }
-    })
+    if (id) {
+      editor.loading = true
+      editor.fetchDraft(Number(id)).then((draft) => {
+        editor.draft = draft
+        editor.loading = false
+      }).catch((error) => {
+        editor.status = new Status('warning', `error retrieving draft! ${error.message}`)
+        editor.loading = false
+      })
+    } else {
+      editor.saveDraft(editor.draft).then((draft) => {
+        editor.draft = draft
+        editor.loading = false
+        navigate(`/${editor.model.documentType}/${draft.apiId}/edit/${editor.currentSection.displayName.replace(/\s/g, '_')}`, { replace: false })
+      }).catch((error) => {
+        editor.status = new Status('warning', `error saving draft! ${error.message}`)
+        editor.loading = false
+      })
+    }
   }
 
-  componentDidUpdate(prevProps: Readonly<MetadataEditorFormProps>, prevState: Readonly<MetadataEditorFormState>, snapshot?: any): void {
+  componentDidUpdate(prevProps: Readonly<MetadataEditorFormProps>): void {
     const oldSection = prevProps.editor.currentSection
     const { router, editor } = this.props
     const { params } = router
@@ -118,7 +118,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, Metada
       CountrySelectWiget: CustomCountrySelectWidget
     }
     const {
-      formSchema: schema, formData, uiSchema, draft
+      formSchema: schema, formData, uiSchema, draft, publishErrors, status
     } = editor
 
     type OnChangeType = {
@@ -126,7 +126,30 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, Metada
       errors: FormError[];
     };
 
-    const { status } = this.state
+    // if (loading) {
+    //   return (
+    //     <div id="react-editor-form-containter">
+    //       <Card
+    //         style={{
+    //           display: 'flex',
+    //           width: 1000,
+    //           height: 800,
+    //           alignItems: 'center',
+    //           justifyContent: 'center'
+    //         }}
+    //         id="metadata-form"
+    //       >
+    //         <div style={{ display: 'flex', alignItems: 'center' }}>
+    //           <h5>Loading...&nbsp;&nbsp;</h5>
+    //           <div className="spinner-grow text-success" role="status">
+    //             <span className="sr-only">Loading...</span>
+    //           </div>
+    //         </div>
+    //       </Card>
+    //     </div>
+    //   )
+    // }
+
     return (
       <div id="react-editor-form-containter">
         <Container id="metadata-form">
@@ -138,12 +161,24 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, Metada
           <Row>
             <Col sm={8}>
               {status && (
-              <Alert key={status} variant="warning">
-                {status}
+              <Alert key={status.type} variant={status.type} onClose={() => { editor.status = null }} dismissible>
+                {status.message}
               </Alert>
               )}
             </Col>
           </Row>
+
+          <Row>
+            <Col sm={8}>
+              {publishErrors && publishErrors.length > 0 && (
+              <Alert key={JSON.stringify(status)} variant="warning" onClose={() => { editor.publishErrors = null }} dismissible>
+                <h5>Errors Publishing Record</h5>
+                { publishErrors.map((error) => (<div>{error}</div>)) }
+              </Alert>
+              )}
+            </Col>
+          </Row>
+
           <Row className="sidebar_column">
             <Col sm={8}>
               <Form

@@ -5,7 +5,8 @@ import { MetadataService } from './services/MetadataService'
 import FormModel from './model/FormModel'
 import Draft from './model/Draft'
 import { removeNulls } from './utils/json_utils'
-import FormProperties from './FormProperties'
+import FormProperties from './model/FormProperties'
+import Status from './model/Status'
 
 export default class MetadataEditor {
   model: FormModel
@@ -24,6 +25,7 @@ export default class MetadataEditor {
       fullData: computed,
       formData: computed,
       fullErrors: computed,
+      publishErrors: computed,
       formErrors: computed,
       uiSchema: computed
     })
@@ -33,6 +35,13 @@ export default class MetadataEditor {
   //
   // Accessors
   //
+
+  get loading(): boolean {
+    return this.formProps.loading
+  }
+  set loading(loading:boolean) {
+    this.formProps.setLoading(loading)
+  }
   get draft() {
     return this.model.draft
   }
@@ -84,6 +93,21 @@ export default class MetadataEditor {
 
   set fullErrors(errors) {
     this.model.fullErrors = errors
+  }
+
+  set publishErrors(errors) {
+    this.model.publishErrors = errors
+  }
+
+  get publishErrors() {
+    return this.model.publishErrors
+  }
+
+  set status(status:Status) {
+    this.formProps.setStatus(status)
+  }
+  get status() {
+    return this.formProps.status
   }
 
   // Form schema/data
@@ -162,6 +186,10 @@ export default class MetadataEditor {
       return this.service.saveDraft(draft)
     }
     return this.service.updateDraft(draft)
+  }
+
+  async publishDraft(draft: Draft): Promise<Draft> {
+    return this.service.publishDraft(draft)
   }
 
   async fetchKmsKeywords(keywordScheme: string): Promise<object> {

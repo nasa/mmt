@@ -10,7 +10,7 @@ import CustomSelectWidget from './widgets/CustomSelectWidget'
 import CustomTextWidget from './widgets/CustomTextWidget'
 import { MetadataService } from '../services/MetadataService'
 import MetadataEditor from '../MetadataEditor'
-import { buildMap, parseCmrResponse } from '../utils/cmr_keywords'
+import { Node, buildMap, parseCmrResponse } from '../utils/cmr_keywords'
 
 /**
  * Custom field component for handling controlled fields
@@ -18,7 +18,7 @@ import { buildMap, parseCmrResponse } from '../utils/cmr_keywords'
 
 type ControlledFieldsState = {
   loading: boolean,
-  root: DictionaryType,
+  root: Node,
   lastUpdated: Date
 }
 

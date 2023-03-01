@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FunctionComponent } from 'react'
 import ObjectField, { ObjectFieldProps } from 'react-jsonschema-form/lib/components/fields/ObjectField'
 import { retrieveSchema } from 'react-jsonschema-form/lib/utils'
@@ -105,14 +106,7 @@ export default class LayoutGridField extends ObjectField<ObjectFieldProps, never
         </Col>
       )
     }
-    const {
-      type = '',
-      keywordScheme,
-      keywordSchemeColumnNames = [],
-      keywords,
-      ...rest
-    } = colProps
-    return <Col {...colProps} key={JSON.stringify(colProps)}>{this.renderChildren(children)}</Col>
+    return <Col {...colProps}>{this.renderChildren(children)}</Col>
   }
 
   renderChildren(childrenLayoutGridSchema: LayoutGridSchemaProps) {
