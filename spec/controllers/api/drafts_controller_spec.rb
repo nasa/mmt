@@ -79,10 +79,10 @@ describe Api::DraftsController do
 
   it 'can publish a tool record with success' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    tool_draft = FactoryBot.build(:full_tool_draft).draft.to_json
+    tool_draft_json = @tool_draft.draft.to_json
     request.headers.merge!({ 'User' => 'testuser' })
     request.headers.merge!({ 'Provider' => 'MMT_1' })
-    post :publish, body: tool_draft, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
+    post :publish, body: tool_draft_json, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
     result = response.parsed_body
     assert_equal(response.status, 200)
     expect(result.dig("concept_id")).not_to be(nil)
