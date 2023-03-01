@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -228,7 +229,7 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
   // ContactGroups[1].ContactInformation.ContactMechanisms[1].Value is a Required Property
   // would build a map like this:
   // { "ContactGroups[1]" : { "ContactInformation" : { "ContactMechanisms[1]": { "Type is a Required Property": { errorProperty: "{full path of the error}"}, "Value is a Required Property" }}}}
-  buildErrorMap(errors: FormError[]): any {
+  buildErrorMap(errors: FormError[]): unknown {
     const root = {}
     errors.forEach((error) => {
       const parts = error.stack.split('.')
