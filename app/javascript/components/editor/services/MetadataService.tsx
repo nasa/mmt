@@ -63,6 +63,35 @@ export class MetadataService {
     return Promise.reject(new Error(`Error code: ${response.status}`))
   }
 
+  async publishDraft(draft: Draft): Promise<Draft> {
+    const url = `/api/drafts/${draft.apiId}/publish?draft_type=ToolDraft`
+    const requestOptions = {
+      method: 'POST',
+      body: JSON.stringify(draft.json),
+      headers: {
+        Accept: 'application/json',
+        Authorization: `${this.token}`,
+        'Client-Id': 'mmt-react-ui',
+        'X-Request-Id': uuid(),
+        Provider: this.providerId,
+        User: this.userId
+      }
+    }
+    const response = await fetch(url, requestOptions)
+    if (response.ok) {
+      const data = await response.json()
+      const draft = new Draft()
+      draft.json = data.draft
+      draft.apiId = data.id
+      draft.apiUserId = data.user_id
+      draft.conceptId = data.concept_id
+      draft.revisionId = data.revision_id
+      return draft
+    }
+    const data = await response.json()
+    return Promise.reject(data.errors)
+  }
+
   async updateDraft(draft: Draft): Promise<Draft> {
     const url = `/api/drafts/${draft.apiId}?draft_type=ToolDraft`
     const requestOptions = {

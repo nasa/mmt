@@ -19,7 +19,7 @@ type CustomSelectWidgetProps = {
     editor: MetadataEditor
   },
   registry: {
-    definitions: any
+    definitions: unknown
   }
   value: string,
   placeholder: string,
@@ -35,10 +35,10 @@ type SelectOptions = {
 
 class CustomSelectWidget extends React.Component<CustomSelectWidgetProps> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: {options:{editor:MetadataEditor}}
+  static defaultProps: { options: { editor: MetadataEditor } }
   selectRef: React.RefObject<Select>
 
-  constructor(props:CustomSelectWidgetProps) {
+  constructor(props: CustomSelectWidgetProps) {
     super(props)
     this.selectRef = React.createRef()
   }
@@ -104,7 +104,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps> {
         <div>
           <span>
             {title}
-            {required && title ? '*' : ''}
+            {required && title ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
           </span>
         </div>
         <div data-testid={`custom-select-widget__${kebabCase(label)}--selector`}>

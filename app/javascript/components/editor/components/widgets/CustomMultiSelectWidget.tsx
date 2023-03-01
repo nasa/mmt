@@ -7,7 +7,7 @@ type CustomMultiSelectWidgetProps = {
   label: string,
   schema: {
     items: {
-      $ref: any
+      $ref: unknown
       enum: string[]
     }
   },
@@ -17,7 +17,9 @@ type CustomMultiSelectWidgetProps = {
   value: string[],
   required: boolean,
   onChange: (value: string[]) => void,
-  registry: any
+  registry: {
+    definitions: unknown
+  }
 }
 
 type SelectOptions = {
@@ -78,7 +80,7 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
         <div>
           <span>
             {title ?? 'Values'}
-            {required ? '*' : ''}
+            {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
           </span>
         </div>
         <div data-testid={`custom-multi-select-widget__${kebabCase(label)}--selector`}>

@@ -34,7 +34,7 @@ describe('Navigation Item Component', () => {
       </Router>
     )
     const toolInformation = screen.queryByTestId('navigationitem--tool-information')
-    expect(getByTestId(toolInformation, 'errorlist__name-is-a-required-property')).toHaveTextContent('Name is a required property')
+    expect(getByTestId(toolInformation, 'error-list-item__Name is a required property')).toHaveTextContent('Name is a required property')
     expect(container).toMatchSnapshot()
   })
 

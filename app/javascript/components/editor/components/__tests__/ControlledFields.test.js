@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   fireEvent,
-  getByRole,
   render, screen, within
 } from '@testing-library/react'
 import Form from '@rjsf/bootstrap-4'

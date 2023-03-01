@@ -28,6 +28,13 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
         />
       </div>
       <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
+      </div>
+      <div
         class="sidebar_column row"
       >
         <div
@@ -63,7 +70,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                           >
                             <span>
                               Name
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -108,7 +118,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                           >
                             <span>
                               Long Name
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -153,7 +166,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                           >
                             <span>
                               Version
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -241,7 +257,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             <div>
                               <span>
                                 Type
-                                *
+                                <i
+                                  class="eui-icon eui-required-o"
+                                  style="color: green; padding: 5px;"
+                                />
                               </span>
                             </div>
                             <div
@@ -383,7 +402,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                           >
                             <span>
                               Description
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -560,7 +582,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                 <div>
                                                   <span>
                                                     URL Content Type
-                                                    *
+                                                    <i
+                                                      class="eui-icon eui-required-o"
+                                                      style="color: green; padding: 5px;"
+                                                    />
                                                   </span>
                                                 </div>
                                                 <div
@@ -663,7 +688,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                 <div>
                                                   <span>
                                                      URL Type
-                                                    *
+                                                    <i
+                                                      class="eui-icon eui-required-o"
+                                                      style="color: green; padding: 5px;"
+                                                    />
                                                   </span>
                                                 </div>
                                                 <div
@@ -872,7 +900,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                         >
                                           <span>
                                             URL Value
-                                            *
+                                            <i
+                                              class="eui-icon eui-required-o"
+                                              style="color: green; padding: 5px;"
+                                            />
                                           </span>
                                           <span
                                             style="float: right;"
@@ -954,104 +985,122 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
           >
             <div
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
                   style="font-weight: bold; font-size: 17px;"
                 >
                   <i
-                    class="eui-icon eui-fa-circle red-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
                   />
                    
                   Tool Information
                 </span>
               </button>
-              <div
-                class="error-list"
-                data-testid="errorlist__description-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Description"
+              <div>
+                <div
+                  class="error-list"
+                  data-testid="error-list-title__root"
+                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
-                  Description is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-url-content-type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.URLContentType"
-                >
-                  URL.URLContentType is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.Type"
-                >
-                  URL.Type is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-url-value-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.URLValue"
-                >
-                  URL.URLValue is a required property
-                </span>
+                  <span
+                    style="margin-top: -50px;"
+                  />
+                  <ul
+                    style="margin-bottom: -2px;"
+                  >
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Description is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Description is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list"
+                      data-testid="error-list-title__URL"
+                      style="margin-top: 0px; margin-bottom: 3px;"
+                    >
+                      <h6
+                        style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px; margin-left: 19px;"
+                      >
+                        URL
+                      </h6>
+                      <ul
+                        style="margin-bottom: -2px;"
+                      >
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__URLContentType is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            URLContentType is a required property
+                          </li>
+                        </div>
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__Type is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            Type is a required property
+                          </li>
+                        </div>
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__URLValue is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            URLValue is a required property
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                  </ul>
+                </div>
               </div>
             </div>
             <div
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Related URLs
@@ -1060,16 +1109,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
             </div>
             <div
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Compatibility And Usability
@@ -1078,16 +1127,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
             </div>
             <div
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Descriptive Keywords
@@ -1096,16 +1145,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
             </div>
             <div
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Organizations
@@ -1114,16 +1163,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
             </div>
             <div
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Contacts
@@ -1132,16 +1181,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
             </div>
             <div
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Potential Action
@@ -5105,12 +5154,34 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
           class="col-sm-8"
         >
           <div
-            class="fade alert alert-warning show"
+            class="fade alert alert-warning alert-dismissible show"
             role="alert"
           >
+            <button
+              class="close"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+              >
+                ×
+              </span>
+              <span
+                class="sr-only"
+              >
+                Close alert
+              </span>
+            </button>
             error retrieving draft! Error code: 404
           </div>
         </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
       </div>
       <div
         class="sidebar_column row"
@@ -5148,7 +5219,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                           >
                             <span>
                               Name
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -5193,7 +5267,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                           >
                             <span>
                               Long Name
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -5238,7 +5315,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                           >
                             <span>
                               Version
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -5326,7 +5406,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             <div>
                               <span>
                                 Type
-                                *
+                                <i
+                                  class="eui-icon eui-required-o"
+                                  style="color: green; padding: 5px;"
+                                />
                               </span>
                             </div>
                             <div
@@ -5470,7 +5553,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                           >
                             <span>
                               Description
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -5647,7 +5733,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                 <div>
                                                   <span>
                                                     URL Content Type
-                                                    *
+                                                    <i
+                                                      class="eui-icon eui-required-o"
+                                                      style="color: green; padding: 5px;"
+                                                    />
                                                   </span>
                                                 </div>
                                                 <div
@@ -5750,7 +5839,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                 <div>
                                                   <span>
                                                      URL Type
-                                                    *
+                                                    <i
+                                                      class="eui-icon eui-required-o"
+                                                      style="color: green; padding: 5px;"
+                                                    />
                                                   </span>
                                                 </div>
                                                 <div
@@ -5959,7 +6051,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                         >
                                           <span>
                                             URL Value
-                                            *
+                                            <i
+                                              class="eui-icon eui-required-o"
+                                              style="color: green; padding: 5px;"
+                                            />
                                           </span>
                                           <span
                                             style="float: right;"
@@ -6041,172 +6136,178 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
           >
             <div
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
                   style="font-weight: bold; font-size: 17px;"
                 >
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Information
                 </span>
               </button>
-              <div
-                class="error-list"
-                data-testid="errorlist__name-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Name"
+              <div>
+                <div
+                  class="error-list"
+                  data-testid="error-list-title__root"
+                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
-                  Name is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__long-name-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__LongName"
-                >
-                  LongName is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Type"
-                >
-                  Type is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__version-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Version"
-                >
-                  Version is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__description-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Description"
-                >
-                  Description is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-url-content-type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.URLContentType"
-                >
-                  URL.URLContentType is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.Type"
-                >
-                  URL.Type is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-url-value-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.URLValue"
-                >
-                  URL.URLValue is a required property
-                </span>
+                  <span
+                    style="margin-top: -50px;"
+                  />
+                  <ul
+                    style="margin-bottom: -2px;"
+                  >
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Name is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Name is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__LongName is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Long Name is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Type is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Type is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Version is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Version is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Description is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Description is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list"
+                      data-testid="error-list-title__URL"
+                      style="margin-top: 0px; margin-bottom: 3px;"
+                    >
+                      <h6
+                        style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px; margin-left: 19px;"
+                      >
+                        URL
+                      </h6>
+                      <ul
+                        style="margin-bottom: -2px;"
+                      >
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__URLContentType is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            URLContentType is a required property
+                          </li>
+                        </div>
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__Type is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            Type is a required property
+                          </li>
+                        </div>
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__URLValue is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            URLValue is a required property
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                  </ul>
+                </div>
               </div>
             </div>
             <div
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Related URLs
@@ -6215,16 +6316,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
             </div>
             <div
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Compatibility And Usability
@@ -6233,16 +6334,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
             </div>
             <div
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Descriptive Keywords
@@ -6251,16 +6352,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
             </div>
             <div
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Organizations
@@ -6269,16 +6370,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
             </div>
             <div
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Contacts
@@ -6287,16 +6388,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
             </div>
             <div
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Potential Action
@@ -10288,12 +10389,34 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
           class="col-sm-8"
         >
           <div
-            class="fade alert alert-warning show"
+            class="fade alert alert-warning alert-dismissible show"
             role="alert"
           >
+            <button
+              class="close"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+              >
+                ×
+              </span>
+              <span
+                class="sr-only"
+              >
+                Close alert
+              </span>
+            </button>
             error saving draft! 500 error
           </div>
         </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
       </div>
       <div
         class="sidebar_column row"
@@ -10331,7 +10454,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                           >
                             <span>
                               Name
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -10376,7 +10502,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                           >
                             <span>
                               Long Name
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -10421,7 +10550,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                           >
                             <span>
                               Version
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -10509,7 +10641,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             <div>
                               <span>
                                 Type
-                                *
+                                <i
+                                  class="eui-icon eui-required-o"
+                                  style="color: green; padding: 5px;"
+                                />
                               </span>
                             </div>
                             <div
@@ -10653,7 +10788,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                           >
                             <span>
                               Description
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -10830,7 +10968,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                 <div>
                                                   <span>
                                                     URL Content Type
-                                                    *
+                                                    <i
+                                                      class="eui-icon eui-required-o"
+                                                      style="color: green; padding: 5px;"
+                                                    />
                                                   </span>
                                                 </div>
                                                 <div
@@ -10933,7 +11074,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                 <div>
                                                   <span>
                                                      URL Type
-                                                    *
+                                                    <i
+                                                      class="eui-icon eui-required-o"
+                                                      style="color: green; padding: 5px;"
+                                                    />
                                                   </span>
                                                 </div>
                                                 <div
@@ -11142,7 +11286,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                         >
                                           <span>
                                             URL Value
-                                            *
+                                            <i
+                                              class="eui-icon eui-required-o"
+                                              style="color: green; padding: 5px;"
+                                            />
                                           </span>
                                           <span
                                             style="float: right;"
@@ -11224,172 +11371,178 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
           >
             <div
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
                   style="font-weight: bold; font-size: 17px;"
                 >
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Information
                 </span>
               </button>
-              <div
-                class="error-list"
-                data-testid="errorlist__name-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Name"
+              <div>
+                <div
+                  class="error-list"
+                  data-testid="error-list-title__root"
+                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
-                  Name is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__long-name-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__LongName"
-                >
-                  LongName is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Type"
-                >
-                  Type is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__version-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Version"
-                >
-                  Version is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__description-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Description"
-                >
-                  Description is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-url-content-type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.URLContentType"
-                >
-                  URL.URLContentType is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.Type"
-                >
-                  URL.Type is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-url-value-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.URLValue"
-                >
-                  URL.URLValue is a required property
-                </span>
+                  <span
+                    style="margin-top: -50px;"
+                  />
+                  <ul
+                    style="margin-bottom: -2px;"
+                  >
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Name is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Name is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__LongName is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Long Name is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Type is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Type is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Version is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Version is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Description is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Description is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list"
+                      data-testid="error-list-title__URL"
+                      style="margin-top: 0px; margin-bottom: 3px;"
+                    >
+                      <h6
+                        style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px; margin-left: 19px;"
+                      >
+                        URL
+                      </h6>
+                      <ul
+                        style="margin-bottom: -2px;"
+                      >
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__URLContentType is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            URLContentType is a required property
+                          </li>
+                        </div>
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__Type is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            Type is a required property
+                          </li>
+                        </div>
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__URLValue is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            URLValue is a required property
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                  </ul>
+                </div>
               </div>
             </div>
             <div
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Related URLs
@@ -11398,16 +11551,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
             </div>
             <div
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Compatibility And Usability
@@ -11416,16 +11569,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
             </div>
             <div
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Descriptive Keywords
@@ -11434,16 +11587,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
             </div>
             <div
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Organizations
@@ -11452,16 +11605,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
             </div>
             <div
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Contacts
@@ -11470,16 +11623,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
             </div>
             <div
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Potential Action
@@ -15472,6 +15625,13 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
         />
       </div>
       <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        />
+      </div>
+      <div
         class="sidebar_column row"
       >
         <div
@@ -15507,7 +15667,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                           >
                             <span>
                               Name
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -15552,7 +15715,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                           >
                             <span>
                               Long Name
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -15597,7 +15763,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                           >
                             <span>
                               Version
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -15685,7 +15854,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             <div>
                               <span>
                                 Type
-                                *
+                                <i
+                                  class="eui-icon eui-required-o"
+                                  style="color: green; padding: 5px;"
+                                />
                               </span>
                             </div>
                             <div
@@ -15827,7 +15999,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                           >
                             <span>
                               Description
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -16004,7 +16179,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                 <div>
                                                   <span>
                                                     URL Content Type
-                                                    *
+                                                    <i
+                                                      class="eui-icon eui-required-o"
+                                                      style="color: green; padding: 5px;"
+                                                    />
                                                   </span>
                                                 </div>
                                                 <div
@@ -16107,7 +16285,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                 <div>
                                                   <span>
                                                      URL Type
-                                                    *
+                                                    <i
+                                                      class="eui-icon eui-required-o"
+                                                      style="color: green; padding: 5px;"
+                                                    />
                                                   </span>
                                                 </div>
                                                 <div
@@ -16316,7 +16497,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                         >
                                           <span>
                                             URL Value
-                                            *
+                                            <i
+                                              class="eui-icon eui-required-o"
+                                              style="color: green; padding: 5px;"
+                                            />
                                           </span>
                                           <span
                                             style="float: right;"
@@ -16398,104 +16582,122 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
           >
             <div
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
                   style="font-weight: bold; font-size: 17px;"
                 >
                   <i
-                    class="eui-icon eui-fa-circle red-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
                   />
                    
                   Tool Information
                 </span>
               </button>
-              <div
-                class="error-list"
-                data-testid="errorlist__description-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Description"
+              <div>
+                <div
+                  class="error-list"
+                  data-testid="error-list-title__root"
+                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
-                  Description is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-url-content-type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.URLContentType"
-                >
-                  URL.URLContentType is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.Type"
-                >
-                  URL.Type is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-url-value-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.URLValue"
-                >
-                  URL.URLValue is a required property
-                </span>
+                  <span
+                    style="margin-top: -50px;"
+                  />
+                  <ul
+                    style="margin-bottom: -2px;"
+                  >
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Description is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                         
+                        Description is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list"
+                      data-testid="error-list-title__URL"
+                      style="margin-top: 0px; margin-bottom: 3px;"
+                    >
+                      <h6
+                        style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px; margin-left: 19px;"
+                      >
+                        URL
+                      </h6>
+                      <ul
+                        style="margin-bottom: -2px;"
+                      >
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__URLContentType is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            URLContentType is a required property
+                          </li>
+                        </div>
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__Type is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            Type is a required property
+                          </li>
+                        </div>
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__URLValue is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                             
+                            URLValue is a required property
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                  </ul>
+                </div>
               </div>
             </div>
             <div
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Related URLs
@@ -16504,16 +16706,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
             </div>
             <div
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Compatibility And Usability
@@ -16522,16 +16724,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
             </div>
             <div
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Descriptive Keywords
@@ -16540,16 +16742,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
             </div>
             <div
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Organizations
@@ -16558,16 +16760,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
             </div>
             <div
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Contacts
@@ -16576,16 +16778,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
             </div>
             <div
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Potential Action

@@ -80,7 +80,7 @@ describe('Custom Select Widget Component', () => {
         <CustomSelectWidget {...props} />
       </BrowserRouter>
     )
-    expect(screen.getByTestId('custom-select-widget__my-test-data-label')).toHaveTextContent('My Test Data Label*')
+    expect(screen.getByTestId('custom-select-widget__my-test-data-label')).toHaveTextContent('My Test Data Label')
     expect(container).toMatchSnapshot()
   })
 
@@ -104,7 +104,7 @@ describe('Custom Select Widget Component', () => {
         <CustomSelectWidget {...props} />
       </BrowserRouter>
     )
-    expect(screen.getByTestId('custom-select-widget__my-test-data-label')).toHaveTextContent('MyTestDataLabel*')
+    expect(screen.getByTestId('custom-select-widget__my-test-data-label')).toHaveTextContent('MyTestDataLabel')
     expect(container).toMatchSnapshot()
   })
   it('should call onChange when the first option is selected then second option', async () => {
@@ -194,15 +194,15 @@ describe('Custom Select Widget Component', () => {
   test('testing autofocus for a custom select widget', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
-    const { container, getByTestId } = render(
+    const { container, getAllByTestId } = render(
       <MemoryRouter initialEntries={['/tool_drafts/2/edit/Tool_Information']}>
         <Routes>
           <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
         </Routes>
       </MemoryRouter>
     )
-    const clickTextField = getByTestId('error-list__Type')
-    fireEvent.click(await clickTextField)
+    const clickTextField = getAllByTestId('error-list-item__Type is a required property')
+    fireEvent.click(await clickTextField[0])
     expect(container).toMatchSnapshot()
   })
 })

@@ -90,7 +90,7 @@ describe('Detailed Progress View', () => {
       </MemoryRouter>
     )
     await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
-    expect(screen.getByText('error retrieving draft! Error code: 404')).toBeInTheDocument()
+    expect(screen.getByText('Error retrieving draft! Error code: 404')).toBeInTheDocument()
     expect(container).toMatchSnapshot()
   })
 })

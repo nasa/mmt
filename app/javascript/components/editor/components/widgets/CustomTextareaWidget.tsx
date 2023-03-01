@@ -26,7 +26,7 @@ type CustomTextAreaWidgetState = {
 }
 class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, CustomTextAreaWidgetState> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: { options: {editor:MetadataEditor} }
+  static defaultProps: { options: { editor: MetadataEditor } }
   textareaRef: React.RefObject<HTMLTextAreaElement>
 
   constructor(props: CustomTextAreaWidgetProps) {
@@ -62,7 +62,7 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
         <div className="custom-textarea-widget-header" data-testid={`custom-text-area-widget__${kebabCase(label)}--text-area-header`}>
           <span>
             {title}
-            {required ? '*' : ''}
+            {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
           </span>
           {maxLength && (
             <span style={{ float: 'right' }}>

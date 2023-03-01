@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-no-comment-textnodes */
 import { observer } from 'mobx-react'
@@ -40,10 +42,14 @@ class ProgressSection extends React.Component<ProgressSectionProps, never> {
     const {
       section, router, editor
     } = this.props
-    const { navigate, params } = router
+    const { params } = router
     const { id } = params
     const sectionName = section.replace(/\s/g, '_')
-    navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })
+    setTimeout(() => {
+      console.log(`/${editor.documentType}/${id}/edit/${sectionName}`)
+      window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}`
+    }, 50)
+    // navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })
   }
   render() {
     const {
@@ -61,13 +67,12 @@ class ProgressSection extends React.Component<ProgressSectionProps, never> {
         </div>
         <div>
           <div className="section-label">
-            <a
-              href=""
+            <div
               onClick={() => this.navigateTo()}
               data-testid={`progress-section__${_.kebabCase(section)}_link`}
             >
               {section}
-            </a>
+            </div>
           </div>
           <div>
             {rows}

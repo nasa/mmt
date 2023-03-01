@@ -65,7 +65,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           {title && (
             <span>
               {title}
-              {required ? '*' : ''}
+              {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
             </span>
           )}
           {maxLength && (
