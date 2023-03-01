@@ -48,12 +48,14 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
             >
               <div
                 class="row"
+                style="margin-bottom: -5px;"
               >
                 <div
                   class="col-md-12"
                 >
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-6"
@@ -88,7 +90,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             data-testid="custom-text-widget__name--text-input"
                             maxlength="85"
                             name="Name"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="a name"
                           />
@@ -102,6 +104,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -136,7 +139,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             data-testid="custom-text-widget__long-name--text-input"
                             maxlength="1024"
                             name="Long Name"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="a long name #new"
                           />
@@ -150,6 +153,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -184,7 +188,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             data-testid="custom-text-widget__version--text-input"
                             maxlength="20"
                             name="Version"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="1"
                           />
@@ -198,6 +202,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -240,6 +245,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-6"
@@ -386,6 +392,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -432,6 +439,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -462,7 +470,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             data-testid="custom-text-widget__doi--text-input"
                             maxlength="1024"
                             name="DOI"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -476,6 +484,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -488,6 +497,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                         >
                           <div
                             class="row"
+                            style="margin-bottom: -5px;"
                           >
                             <div
                               class="col-md-12"
@@ -498,20 +508,21 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 <span
                                   data-testid="layout-grid-field__col-title-field--url"
                                 >
-                                  <div
-                                    class="my-1"
-                                  >
-                                    <h5>
+                                  <div>
+                                    <h5
+                                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                                    >
                                       URL
+                                      <i
+                                        class="eui-icon eui-required-o"
+                                        style="color: green; padding: 5px;"
+                                      />
                                     </h5>
-                                    <hr
-                                      class="border-0 bg-secondary"
-                                      style="height: 1px;"
-                                    />
                                   </div>
                                 </span>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -554,6 +565,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 </div>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -884,6 +896,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 </div>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -918,7 +931,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                           data-testid="custom-text-widget__url-value--text-input"
                                           maxlength="1024"
                                           name="URL Value"
-                                          style="min-width: 100%;"
+                                          style="min-width: 100%; height: 37px;"
                                           type="text"
                                           value=""
                                         />
@@ -5197,12 +5210,14 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
             >
               <div
                 class="row"
+                style="margin-bottom: -5px;"
               >
                 <div
                   class="col-md-12"
                 >
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-6"
@@ -5237,7 +5252,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             data-testid="custom-text-widget__name--text-input"
                             maxlength="85"
                             name="Name"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -5251,6 +5266,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -5285,7 +5301,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             data-testid="custom-text-widget__long-name--text-input"
                             maxlength="1024"
                             name="Long Name"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -5299,6 +5315,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -5333,7 +5350,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             data-testid="custom-text-widget__version--text-input"
                             maxlength="20"
                             name="Version"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -5347,6 +5364,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -5389,6 +5407,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-6"
@@ -5537,6 +5556,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -5583,6 +5603,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -5613,7 +5634,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             data-testid="custom-text-widget__doi--text-input"
                             maxlength="1024"
                             name="DOI"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -5627,6 +5648,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -5639,6 +5661,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                         >
                           <div
                             class="row"
+                            style="margin-bottom: -5px;"
                           >
                             <div
                               class="col-md-12"
@@ -5649,20 +5672,21 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 <span
                                   data-testid="layout-grid-field__col-title-field--url"
                                 >
-                                  <div
-                                    class="my-1"
-                                  >
-                                    <h5>
+                                  <div>
+                                    <h5
+                                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                                    >
                                       URL
+                                      <i
+                                        class="eui-icon eui-required-o"
+                                        style="color: green; padding: 5px;"
+                                      />
                                     </h5>
-                                    <hr
-                                      class="border-0 bg-secondary"
-                                      style="height: 1px;"
-                                    />
                                   </div>
                                 </span>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -5705,6 +5729,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 </div>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -6035,6 +6060,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 </div>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -6069,7 +6095,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                           data-testid="custom-text-widget__url-value--text-input"
                                           maxlength="1024"
                                           name="URL Value"
-                                          style="min-width: 100%;"
+                                          style="min-width: 100%; height: 37px;"
                                           type="text"
                                           value=""
                                         />
@@ -10432,12 +10458,14 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
             >
               <div
                 class="row"
+                style="margin-bottom: -5px;"
               >
                 <div
                   class="col-md-12"
                 >
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-6"
@@ -10472,7 +10500,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             data-testid="custom-text-widget__name--text-input"
                             maxlength="85"
                             name="Name"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -10486,6 +10514,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -10520,7 +10549,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             data-testid="custom-text-widget__long-name--text-input"
                             maxlength="1024"
                             name="Long Name"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -10534,6 +10563,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -10568,7 +10598,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             data-testid="custom-text-widget__version--text-input"
                             maxlength="20"
                             name="Version"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -10582,6 +10612,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -10624,6 +10655,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-6"
@@ -10772,6 +10804,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -10818,6 +10851,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -10848,7 +10882,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             data-testid="custom-text-widget__doi--text-input"
                             maxlength="1024"
                             name="DOI"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -10862,6 +10896,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -10874,6 +10909,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                         >
                           <div
                             class="row"
+                            style="margin-bottom: -5px;"
                           >
                             <div
                               class="col-md-12"
@@ -10884,20 +10920,21 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 <span
                                   data-testid="layout-grid-field__col-title-field--url"
                                 >
-                                  <div
-                                    class="my-1"
-                                  >
-                                    <h5>
+                                  <div>
+                                    <h5
+                                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                                    >
                                       URL
+                                      <i
+                                        class="eui-icon eui-required-o"
+                                        style="color: green; padding: 5px;"
+                                      />
                                     </h5>
-                                    <hr
-                                      class="border-0 bg-secondary"
-                                      style="height: 1px;"
-                                    />
                                   </div>
                                 </span>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -10940,6 +10977,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 </div>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -11270,6 +11308,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 </div>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -11304,7 +11343,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                           data-testid="custom-text-widget__url-value--text-input"
                                           maxlength="1024"
                                           name="URL Value"
-                                          style="min-width: 100%;"
+                                          style="min-width: 100%; height: 37px;"
                                           type="text"
                                           value=""
                                         />
@@ -15645,12 +15684,14 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
             >
               <div
                 class="row"
+                style="margin-bottom: -5px;"
               >
                 <div
                   class="col-md-12"
                 >
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-6"
@@ -15685,7 +15726,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             data-testid="custom-text-widget__name--text-input"
                             maxlength="85"
                             name="Name"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="a name"
                           />
@@ -15699,6 +15740,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -15733,7 +15775,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             data-testid="custom-text-widget__long-name--text-input"
                             maxlength="1024"
                             name="Long Name"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="a long name #1"
                           />
@@ -15747,6 +15789,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -15781,7 +15824,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             data-testid="custom-text-widget__version--text-input"
                             maxlength="20"
                             name="Version"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="1"
                           />
@@ -15795,6 +15838,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -15837,6 +15881,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-6"
@@ -15983,6 +16028,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -16029,6 +16075,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -16059,7 +16106,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             data-testid="custom-text-widget__doi--text-input"
                             maxlength="1024"
                             name="DOI"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -16073,6 +16120,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -16085,6 +16133,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                         >
                           <div
                             class="row"
+                            style="margin-bottom: -5px;"
                           >
                             <div
                               class="col-md-12"
@@ -16095,20 +16144,21 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 <span
                                   data-testid="layout-grid-field__col-title-field--url"
                                 >
-                                  <div
-                                    class="my-1"
-                                  >
-                                    <h5>
+                                  <div>
+                                    <h5
+                                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                                    >
                                       URL
+                                      <i
+                                        class="eui-icon eui-required-o"
+                                        style="color: green; padding: 5px;"
+                                      />
                                     </h5>
-                                    <hr
-                                      class="border-0 bg-secondary"
-                                      style="height: 1px;"
-                                    />
                                   </div>
                                 </span>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -16151,6 +16201,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 </div>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -16481,6 +16532,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 </div>
                                 <div
                                   class="row"
+                                  style="margin-bottom: -5px;"
                                 >
                                   <div
                                     class="col-md-12"
@@ -16515,7 +16567,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                           data-testid="custom-text-widget__url-value--text-input"
                                           maxlength="1024"
                                           name="URL Value"
-                                          style="min-width: 100%;"
+                                          style="min-width: 100%; height: 37px;"
                                           type="text"
                                           value=""
                                         />

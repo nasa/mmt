@@ -83,7 +83,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           disabled={disabledFlag}
           className="custom-text-widget-input"
           data-testid={`custom-text-widget__${kebabCase(label)}--text-input`}
-          style={{ minWidth: '100%' }}
+          style={{ minWidth: '100%', height: 37 }}
           type="text"
           value={value}
           maxLength={maxLength}

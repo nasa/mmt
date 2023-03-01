@@ -16,12 +16,12 @@ const toolContactsUiSchema = {
               children: [
                 {
                   'ui:row': [
-                    { 'ui:col': { md: 12, children: ['Roles'] } }
+                    { 'ui:col': { md: 12, children: ['GroupName'] } }
                   ]
                 },
                 {
                   'ui:row': [
-                    { 'ui:col': { md: 12, children: ['GroupName'] } }
+                    { 'ui:col': { md: 12, children: ['Roles'] } }
                   ]
                 },
                 {
@@ -38,7 +38,7 @@ const toolContactsUiSchema = {
         'ui:widget': CustomMultiSelectWidget
       },
       GroupName: {
-        'ui:title': 'Group Name',
+        'ui:title': 'Contact Group Name',
         'ui:widget': CustomTextWidget
       },
       ContactInformation: {
@@ -51,6 +51,8 @@ const toolContactsUiSchema = {
                 children: [
                   {
                     'ui:group': 'Contact Information',
+                    style: { borderBottom: 'solid 10px rgb(240,240,240', paddingBottom: 10 },
+                    'ui:group-description': true,
                     'ui:row': [
                       { 'ui:col': { md: 6, children: ['ServiceHours'] } },
                       { 'ui:col': { md: 6, children: ['ContactInstruction'] } }
@@ -114,15 +116,15 @@ const toolContactsUiSchema = {
                     md: 12,
                     children: [
                       {
-                        'ui:group': 'Street Addresses',
-                        'ui:row': [
-                          { 'ui:col': { md: 12, children: ['StreetAddresses'] } }
-                        ]
-                      },
-                      {
                         'ui:row': [
                           { 'ui:col': { md: 6, children: ['Country'] } }
 
+                        ]
+                      },
+                      {
+                        'ui:group': 'Street Addresses',
+                        'ui:row': [
+                          { 'ui:col': { md: 12, children: ['StreetAddresses'] } }
                         ]
                       },
                       {

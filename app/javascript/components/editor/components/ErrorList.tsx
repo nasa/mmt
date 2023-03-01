@@ -96,18 +96,15 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
   displayErrors(error: string) {
     const str = error
     let result = []
-    // console.log('error', error)
 
     if (str.match(/\[[0-9]]/)) {
       result = str.split(/\[[0-9]]/)
-      console.log(result)
       error = result.at(0) + result.at(1)
       // return result
     }
     const words = error.split(' ')
     words.forEach((word: string) => {
       if (this.countCapitals(word) >= 2 && this.countCapitalsTogether(word) === 0) {
-        // console.log('word', word)
         const newWord = word.replace(/([A-Z])/g, ' $1')
         if (newWord !== word) {
           const re = new RegExp(word, 'g')
