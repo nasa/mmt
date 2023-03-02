@@ -137,7 +137,10 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
     const getIndex = /^[^[]+\[(\d+)\].*/
     const title = error.match(getError)
     const index = error.match(getIndex)
-    const filter = this.displayErrors(title.at(0))
+    let filter = this.displayErrors(title.at(0))
+    if (filter.endsWith('s')) {
+      filter = filter.slice(0, filter.length - 1)
+    }
     return (
       <>
         <span>
@@ -155,10 +158,6 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
       </>
     )
   }
-
-  // Given the full path, e.g. ContactGroups[1].ContactInformation.ContactMechanisms[1], it will return the total
-  // number of elements of the last element in the path (in this example, of ContactMechanisms)
-  // This algorithm evaluates the expression and returns the result.
 
   // Takes a map of the error list (see below), will walk the tree and produce
   // JSX markup of how the hierarchy should look.
@@ -189,10 +188,10 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
           {key !== 'root' ? (
             <h6
               style={{
-                fontWeight: 'bold', fontSize: '15px', color: 'rgb(73,80,87)', marginBottom: '0px', marginLeft: '19px'
+                fontWeight: 'bold', fontSize: '15px', color: 'rgb(73,80,87)', marginBottom: '0px'
               }}
             >
-              {length > 0 ? this.displayArrayIndex(key, length) : key}
+              {length > 0 ? this.displayArrayIndex(key, length) : this.displayErrors(key)}
             </h6>
           ) : <span style={{ marginTop: '-50px' }} />}
           <ul style={{ marginBottom: '-2px' }}>
@@ -212,7 +211,6 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
               }}
             >
               <i className="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle" />
-              &nbsp;
               {this.displayErrors(key)}
             </li>
           ) : <span style={{ marginTop: '-50px' }} />}
@@ -228,19 +226,25 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
   // { "ContactGroups[1]" : { "ContactInformation" : { "ContactMechanisms[1]": { "Type is a Required Property": { errorProperty: "{full path of the error}"}, "Value is a Required Property" }}}}
   buildErrorMap(errors: FormError[]): unknown {
     const root = {}
+    const { editor } = this.props
+    const { currentSection } = editor
+    const { displayName } = currentSection
     errors.forEach((error) => {
       const parts = error.stack.split('.')
       let node = root
       let fullPath = ''
-      parts.forEach((part: string) => {
+      parts.forEach((part: string, index:number) => {
         fullPath += part
         if (part !== '') {
-          let value = node[part]
-          if (!value) {
-            value = { errorProperty: fullPath }
+          const name = displayName.replace(/ /g, '')
+          if (!(part === name && index === 1)) {
+            let value = node[part]
+            if (!value) {
+              value = { errorProperty: fullPath }
+            }
+            node[part] = value
+            node = value
           }
-          node[part] = value
-          node = value
         }
         fullPath += '.'
       })

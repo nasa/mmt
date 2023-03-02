@@ -59,11 +59,11 @@ export default class LayoutGridField extends ObjectField<ObjectFieldProps, never
                 />
               ) : null}
             </span>
-            { groupDescription ? (
+            {groupDescription ? (
               <div style={{ paddingBottom: 30 }}>
-                { description }
+                {description}
               </div>
-            ) : null }
+            ) : null}
             <div className="row" key={JSON.stringify(rows)}>{this.renderChildren(rows)}</div>
           </fieldset>
         </div>
@@ -98,12 +98,14 @@ export default class LayoutGridField extends ObjectField<ObjectFieldProps, never
                 />
               ) : null}
             </span>
-            { groupDescription ? (
+            {groupDescription ? (
               <div style={{ paddingBottom: 30 }}>
-                { description }
+                {description}
               </div>
-            ) : null }
-            {this.renderChildren(children)}
+            ) : null}
+            <div style={{ borderLeft: 'solid 5px rgb(240,240,240', paddingLeft: 8 }}>
+              {this.renderChildren(children)}
+            </div>
           </fieldset>
         </Col>
       )

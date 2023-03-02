@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/static-property-placement */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { observer } from 'mobx-react'
 import React, { MouseEventHandler, ReactNode } from 'react'
 import { Row, Col } from 'react-bootstrap'
+import { retrieveSchema } from 'react-jsonschema-form/lib/utils'
 import MetadataEditor from '../MetadataEditor'
 
 type Element = {
@@ -14,13 +16,17 @@ type Element = {
 }
 
 type CustomArrayTemplateProps = {
-  className: string,
   items: Element[]
   canAdd: boolean
   onAddClick: (event: object) => void
   title: string
   schema: {
     description: string
+    items: {
+      default?: string
+      definitions: any
+    },
+    definitions: unknown
   }
   uiSchema: unknown,
   options: {
@@ -33,8 +39,15 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
   private scrollRef: Array<React.RefObject<HTMLDivElement>>
   constructor(props: CustomArrayTemplateProps) {
     super(props)
-    const { items } = this.props
+    const { items, schema, options } = this.props
+    const { editor } = options
     this.scrollRef = []
+    const { definitions } = editor.fullSchema
+    const itemsSchema = retrieveSchema(schema.items, definitions)
+    const { type } = itemsSchema
+    if (type && type === 'string') {
+      schema.items.default = ''
+    }
     items.forEach(() => {
       this.scrollRef.push(React.createRef())
     })
@@ -53,10 +66,11 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
 
   render() {
     const {
-      className, items, canAdd, title, onAddClick, schema, uiSchema, options
+      items, canAdd, title, onAddClick, schema, uiSchema, options
     } = this.props
     const { editor } = options
     const uiTitle = uiSchema['ui:title']
+    const uiClassNames = uiSchema['ui:classNames']
     items.forEach(() => {
       this.scrollRef.push(React.createRef())
     })
@@ -66,18 +80,21 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
       }, 200)
     }
 
-    let titleName = ''
+    let titleName = title
     if (uiTitle) {
       titleName = uiTitle
     } else if (title.charAt(title.length - 1) === 's') {
       titleName = title.slice(0, -1)
     }
-
     return (
-      <div style={{ marginBottom: -20 }} className={className} data-testid="custom-array-template">
-        <h5 style={{ borderBottom: 'solid 2px rgb(240,240,240', paddingBottom: 14, paddingTop: 14 }}>
-          {titleName}
-        </h5>
+      <div data-testid="custom-array-template">
+        {uiClassNames ? (
+          <div className={uiClassNames}>{titleName}</div>
+        ) : (
+          <div className="title" style={{ borderBottom: 'solid 2px rgb(240,240,240', paddingBottom: 14, paddingTop: 14 }}>
+            {titleName}
+          </div>
+        )}
         <p>
           {schema.description}
         </p>
@@ -131,7 +148,10 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
               <button
                 className="btn"
                 type="button"
-                onClick={(e) => { onAddClick(e); editor.setArrayField(items.length) }}
+                onClick={(e) => {
+                  onAddClick(e)
+                  editor.setArrayField(items.length)
+                }}
               >
                 <span style={{ color: 'rgb(31, 107, 162)', marginLeft: '-12px' }}>
                   <i className="fa-solid fa-circle-plus fa-2xl" />

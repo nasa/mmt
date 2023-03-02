@@ -10,12 +10,14 @@ exports[`Layout Grid Field Component renders a basic form 1`] = `
     >
       <div
         class="row"
+        style="margin-bottom: -5px;"
       >
         <div
           class="col-md-12"
         >
           <div
             class="row"
+            style="margin-bottom: -5px;"
           >
             <div
               class="col-md-6"
@@ -76,6 +78,7 @@ exports[`Layout Grid Field Component renders a basic form 1`] = `
           </div>
           <div
             class="row"
+            style="margin-bottom: -5px;"
           >
             <div
               class="col-md-6"
@@ -136,6 +139,7 @@ exports[`Layout Grid Field Component renders a basic form 1`] = `
           </div>
           <div
             class="row"
+            style="margin-bottom: -5px;"
           >
             <div
               class="col-md-12"
@@ -191,6 +195,7 @@ exports[`Layout Grid Field Component renders a custom field 1`] = `
     >
       <div
         class="row"
+        style="margin-bottom: -5px;"
       >
         <span
           data-testid="layout-grid-field__schema-field--password"
@@ -247,6 +252,7 @@ exports[`Layout Grid Field Component renders a group column title 1`] = `
     >
       <div
         class="row"
+        style="margin-bottom: -5px;"
       >
         <div
           class="col-md-12"
@@ -269,30 +275,34 @@ exports[`Layout Grid Field Component renders a group column title 1`] = `
                 />
               </div>
             </span>
-            <span
-              data-testid="layout-grid-field__schema-field--bio"
+            <div
+              style="padding-left: 8px;"
             >
-              <div
-                class="form-group"
+              <span
+                data-testid="layout-grid-field__schema-field--bio"
               >
                 <div
-                  class="mb-0 form-group"
+                  class="form-group"
                 >
-                  <label
-                    class="form-label"
+                  <div
+                    class="mb-0 form-group"
                   >
-                    Bio
-                  </label>
-                  <input
-                    class="form-control"
-                    id="root_bio"
-                    placeholder=""
-                    type="text"
-                    value=""
-                  />
+                    <label
+                      class="form-label"
+                    >
+                      Bio
+                    </label>
+                    <input
+                      class="form-control"
+                      id="root_bio"
+                      placeholder=""
+                      type="text"
+                      value=""
+                    />
+                  </div>
                 </div>
-              </div>
-            </span>
+              </span>
+            </div>
           </fieldset>
         </div>
       </div>
@@ -319,6 +329,7 @@ exports[`Layout Grid Field Component renders a group column title which undefine
     >
       <div
         class="row"
+        style="margin-bottom: -5px;"
       >
         <div
           class="col-md-12"
@@ -329,30 +340,34 @@ exports[`Layout Grid Field Component renders a group column title which undefine
             <span
               data-testid="layout-grid-field__col-title-field--"
             />
-            <span
-              data-testid="layout-grid-field__schema-field--bio"
+            <div
+              style="padding-left: 8px;"
             >
-              <div
-                class="form-group"
+              <span
+                data-testid="layout-grid-field__schema-field--bio"
               >
                 <div
-                  class="mb-0 form-group"
+                  class="form-group"
                 >
-                  <label
-                    class="form-label"
+                  <div
+                    class="mb-0 form-group"
                   >
-                    Bio
-                  </label>
-                  <input
-                    class="form-control"
-                    id="root_bio"
-                    placeholder=""
-                    type="text"
-                    value=""
-                  />
+                    <label
+                      class="form-label"
+                    >
+                      Bio
+                    </label>
+                    <input
+                      class="form-control"
+                      id="root_bio"
+                      placeholder=""
+                      type="text"
+                      value=""
+                    />
+                  </div>
                 </div>
-              </div>
-            </span>
+              </span>
+            </div>
           </fieldset>
         </div>
       </div>
@@ -379,89 +394,94 @@ exports[`Layout Grid Field Component renders a group row title 1`] = `
     >
       <div
         class="row"
+        style="margin-bottom: -5px;"
       >
         <div
           class="col-md-12"
         >
-          <fieldset
-            class="rjsf-layout-grid-group"
+          <div
+            style="margin-bottom: -5px;"
           >
-            <span
-              data-testid="layout-grid-field__row-title-field--full-name"
+            <fieldset
+              class="rjsf-layout-grid-group"
             >
-              <div
-                class="my-1"
+              <span
+                data-testid="layout-grid-field__row-title-field--full-name"
               >
-                <h5>
-                  Full Name
-                </h5>
-                <hr
-                  class="border-0 bg-secondary"
-                  style="height: 1px;"
-                />
-              </div>
-            </span>
-            <div
-              class="row"
-            >
-              <div
-                class="col-md-6"
-              >
-                <span
-                  data-testid="layout-grid-field__schema-field--first-name"
+                <div
+                  class="my-1"
                 >
-                  <div
-                    class="form-group"
+                  <h5>
+                    Full Name
+                  </h5>
+                  <hr
+                    class="border-0 bg-secondary"
+                    style="height: 1px;"
+                  />
+                </div>
+              </span>
+              <div
+                class="row"
+              >
+                <div
+                  class="col-md-6"
+                >
+                  <span
+                    data-testid="layout-grid-field__schema-field--first-name"
                   >
                     <div
-                      class="mb-0 form-group"
+                      class="form-group"
                     >
-                      <label
-                        class="form-label"
+                      <div
+                        class="mb-0 form-group"
                       >
-                        First name
-                      </label>
-                      <input
-                        class="form-control"
-                        id="root_firstName"
-                        placeholder=""
-                        type="text"
-                        value=""
-                      />
+                        <label
+                          class="form-label"
+                        >
+                          First name
+                        </label>
+                        <input
+                          class="form-control"
+                          id="root_firstName"
+                          placeholder=""
+                          type="text"
+                          value=""
+                        />
+                      </div>
                     </div>
-                  </div>
-                </span>
-              </div>
-              <div
-                class="col-md-6"
-              >
-                <span
-                  data-testid="layout-grid-field__schema-field--last-name"
+                  </span>
+                </div>
+                <div
+                  class="col-md-6"
                 >
-                  <div
-                    class="form-group"
+                  <span
+                    data-testid="layout-grid-field__schema-field--last-name"
                   >
                     <div
-                      class="mb-0 form-group"
+                      class="form-group"
                     >
-                      <label
-                        class="form-label"
+                      <div
+                        class="mb-0 form-group"
                       >
-                        Last name
-                      </label>
-                      <input
-                        class="form-control"
-                        id="root_lastName"
-                        placeholder=""
-                        type="text"
-                        value=""
-                      />
+                        <label
+                          class="form-label"
+                        >
+                          Last name
+                        </label>
+                        <input
+                          class="form-control"
+                          id="root_lastName"
+                          placeholder=""
+                          type="text"
+                          value=""
+                        />
+                      </div>
                     </div>
-                  </div>
-                </span>
+                  </span>
+                </div>
               </div>
-            </div>
-          </fieldset>
+            </fieldset>
+          </div>
         </div>
       </div>
     </div>
@@ -487,77 +507,82 @@ exports[`Layout Grid Field Component renders a group row title which is undefine
     >
       <div
         class="row"
+        style="margin-bottom: -5px;"
       >
         <div
           class="col-md-12"
         >
-          <fieldset
-            class="rjsf-layout-grid-group"
+          <div
+            style="margin-bottom: -5px;"
           >
-            <span
-              data-testid="layout-grid-field__row-title-field--"
-            />
-            <div
-              class="row"
+            <fieldset
+              class="rjsf-layout-grid-group"
             >
+              <span
+                data-testid="layout-grid-field__row-title-field--"
+              />
               <div
-                class="col-md-6"
+                class="row"
               >
-                <span
-                  data-testid="layout-grid-field__schema-field--first-name"
+                <div
+                  class="col-md-6"
                 >
-                  <div
-                    class="form-group"
+                  <span
+                    data-testid="layout-grid-field__schema-field--first-name"
                   >
                     <div
-                      class="mb-0 form-group"
+                      class="form-group"
                     >
-                      <label
-                        class="form-label"
+                      <div
+                        class="mb-0 form-group"
                       >
-                        First name
-                      </label>
-                      <input
-                        class="form-control"
-                        id="root_firstName"
-                        placeholder=""
-                        type="text"
-                        value=""
-                      />
+                        <label
+                          class="form-label"
+                        >
+                          First name
+                        </label>
+                        <input
+                          class="form-control"
+                          id="root_firstName"
+                          placeholder=""
+                          type="text"
+                          value=""
+                        />
+                      </div>
                     </div>
-                  </div>
-                </span>
-              </div>
-              <div
-                class="col-md-6"
-              >
-                <span
-                  data-testid="layout-grid-field__schema-field--last-name"
+                  </span>
+                </div>
+                <div
+                  class="col-md-6"
                 >
-                  <div
-                    class="form-group"
+                  <span
+                    data-testid="layout-grid-field__schema-field--last-name"
                   >
                     <div
-                      class="mb-0 form-group"
+                      class="form-group"
                     >
-                      <label
-                        class="form-label"
+                      <div
+                        class="mb-0 form-group"
                       >
-                        Last name
-                      </label>
-                      <input
-                        class="form-control"
-                        id="root_lastName"
-                        placeholder=""
-                        type="text"
-                        value=""
-                      />
+                        <label
+                          class="form-label"
+                        >
+                          Last name
+                        </label>
+                        <input
+                          class="form-control"
+                          id="root_lastName"
+                          placeholder=""
+                          type="text"
+                          value=""
+                        />
+                      </div>
                     </div>
-                  </div>
-                </span>
+                  </span>
+                </div>
               </div>
-            </div>
-          </fieldset>
+            </fieldset>
+          </div>
         </div>
       </div>
     </div>

@@ -43,7 +43,6 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
               <i
                 class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
               />
-               
               Name is a required property
             </li>
           </div>
@@ -57,7 +56,6 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
               <i
                 class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
               />
-               
               Long Name is a required property
             </li>
           </div>
@@ -71,7 +69,6 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
               <i
                 class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
               />
-               
               Type is a required property
             </li>
           </div>
@@ -85,7 +82,6 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
               <i
                 class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
               />
-               
               Version is a required property
             </li>
           </div>
@@ -99,7 +95,6 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
               <i
                 class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
               />
-               
               Description is a required property
             </li>
           </div>
@@ -109,7 +104,7 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
             style="margin-top: 0px; margin-bottom: 3px;"
           >
             <h6
-              style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px; margin-left: 19px;"
+              style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px;"
             >
               URL
             </h6>
@@ -126,7 +121,6 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
                   <i
                     class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                   />
-                   
                   URLContentType is a required property
                 </li>
               </div>
@@ -140,7 +134,6 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
                   <i
                     class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                   />
-                   
                   Type is a required property
                 </li>
               </div>
@@ -154,7 +147,6 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
                   <i
                     class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                   />
-                   
                   URLValue is a required property
                 </li>
               </div>
@@ -210,7 +202,6 @@ exports[`Navigation Item Component hovers over 1`] = `
               <i
                 class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
               />
-               
               Name is a required property
             </li>
           </div>
@@ -224,7 +215,6 @@ exports[`Navigation Item Component hovers over 1`] = `
               <i
                 class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
               />
-               
               Long Name is a required property
             </li>
           </div>
@@ -238,7 +228,6 @@ exports[`Navigation Item Component hovers over 1`] = `
               <i
                 class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
               />
-               
               Type is a required property
             </li>
           </div>
@@ -252,7 +241,6 @@ exports[`Navigation Item Component hovers over 1`] = `
               <i
                 class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
               />
-               
               Version is a required property
             </li>
           </div>
@@ -266,7 +254,6 @@ exports[`Navigation Item Component hovers over 1`] = `
               <i
                 class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
               />
-               
               Description is a required property
             </li>
           </div>
@@ -276,7 +263,7 @@ exports[`Navigation Item Component hovers over 1`] = `
             style="margin-top: 0px; margin-bottom: 3px;"
           >
             <h6
-              style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px; margin-left: 19px;"
+              style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px;"
             >
               URL
             </h6>
@@ -293,7 +280,6 @@ exports[`Navigation Item Component hovers over 1`] = `
                   <i
                     class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                   />
-                   
                   URLContentType is a required property
                 </li>
               </div>
@@ -307,7 +293,6 @@ exports[`Navigation Item Component hovers over 1`] = `
                   <i
                     class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                   />
-                   
                   Type is a required property
                 </li>
               </div>
@@ -321,7 +306,6 @@ exports[`Navigation Item Component hovers over 1`] = `
                   <i
                     class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                   />
-                   
                   URLValue is a required property
                 </li>
               </div>
@@ -4383,7 +4367,6 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
                 <i
                   class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                 />
-                 
                 Name is a required property
               </li>
             </div>
@@ -4397,7 +4380,6 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
                 <i
                   class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                 />
-                 
                 Type is a required property
               </li>
             </div>
@@ -4411,7 +4393,6 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
                 <i
                   class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                 />
-                 
                 Version is a required property
               </li>
             </div>
@@ -4425,7 +4406,6 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
                 <i
                   class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                 />
-                 
                 Description is a required property
               </li>
             </div>
@@ -4435,7 +4415,7 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
               style="margin-top: 0px; margin-bottom: 3px;"
             >
               <h6
-                style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px; margin-left: 19px;"
+                style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px;"
               >
                 URL
               </h6>
@@ -4452,7 +4432,6 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
                     <i
                       class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                     />
-                     
                     URLContentType is a required property
                   </li>
                 </div>
@@ -4466,7 +4445,6 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
                     <i
                       class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                     />
-                     
                     Type is a required property
                   </li>
                 </div>
@@ -4480,7 +4458,6 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
                     <i
                       class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                     />
-                     
                     URLValue is a required property
                   </li>
                 </div>
@@ -8574,7 +8551,6 @@ exports[`Navigation Item Component shows required error 1`] = `
                 <i
                   class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                 />
-                 
                 Name is a required property
               </li>
             </div>
@@ -8588,7 +8564,6 @@ exports[`Navigation Item Component shows required error 1`] = `
                 <i
                   class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                 />
-                 
                 Long Name is a required property
               </li>
             </div>
@@ -8602,7 +8577,6 @@ exports[`Navigation Item Component shows required error 1`] = `
                 <i
                   class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                 />
-                 
                 Type is a required property
               </li>
             </div>
@@ -8616,7 +8590,6 @@ exports[`Navigation Item Component shows required error 1`] = `
                 <i
                   class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                 />
-                 
                 Version is a required property
               </li>
             </div>
@@ -8630,7 +8603,6 @@ exports[`Navigation Item Component shows required error 1`] = `
                 <i
                   class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                 />
-                 
                 Description is a required property
               </li>
             </div>
@@ -8640,7 +8612,7 @@ exports[`Navigation Item Component shows required error 1`] = `
               style="margin-top: 0px; margin-bottom: 3px;"
             >
               <h6
-                style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px; margin-left: 19px;"
+                style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px;"
               >
                 URL
               </h6>
@@ -8657,7 +8629,6 @@ exports[`Navigation Item Component shows required error 1`] = `
                     <i
                       class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                     />
-                     
                     URLContentType is a required property
                   </li>
                 </div>
@@ -8671,7 +8642,6 @@ exports[`Navigation Item Component shows required error 1`] = `
                     <i
                       class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                     />
-                     
                     Type is a required property
                   </li>
                 </div>
@@ -8685,7 +8655,6 @@ exports[`Navigation Item Component shows required error 1`] = `
                     <i
                       class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                     />
-                     
                     URLValue is a required property
                   </li>
                 </div>

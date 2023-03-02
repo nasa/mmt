@@ -26,7 +26,8 @@ const toolsConfiguration: FormSection[] = [
       'SupportedBrowsers',
       'SupportedSoftwareLanguages',
       'Quality',
-      'Constraints'
+      'AccessConstraints',
+      'UseConstraints'
     ]
   },
   {

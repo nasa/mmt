@@ -9,13 +9,14 @@ exports[`Custom Array Template renders the custom array template and adds an arr
       class="form-group"
     >
       <div
-        class="field field-array field-array-of-undefined"
         data-testid="custom-array-template"
-        style="margin-bottom: -20px;"
       >
-        <h5
+        <div
+          class="title"
           style="padding-bottom: 14px; padding-top: 14px;"
-        />
+        >
+          CustomArrayFieldTest
+        </div>
         <p />
         <br />
         <div
@@ -26,12 +27,14 @@ exports[`Custom Array Template renders the custom array template and adds an arr
             class="custom-array-template-remove-btn"
           >
             <div
-              style="display: flex; align-items: center; justify-content: space-between; margin-right: -12px;"
+              style="display: flex; align-items: center; justify-content: space-between; margin-right: -12px; border-bottom: 2px solid rgb(240,240,240); margin-bottom: 10px; padding-bottom: 10px;"
             >
               <h6
                 style="height: 14px;"
               >
-                <b />
+                <b>
+                  CustomArrayFieldTest
+                </b>
                 <span
                   style="color: gray; margin-left: 5px; padding-top: 20px;"
                 >
@@ -189,6 +192,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
             >
               Add another
                
+              CustomArrayFieldTest
             </span>
           </button>
         </div>
@@ -215,13 +219,14 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
       class="form-group"
     >
       <div
-        class="field field-array field-array-of-undefined"
         data-testid="custom-array-template"
-        style="margin-bottom: -20px;"
       >
-        <h5
+        <div
+          class="title"
           style="padding-bottom: 14px; padding-top: 14px;"
-        />
+        >
+          CustomArrayFieldTest
+        </div>
         <p />
         <br />
         <div
@@ -246,6 +251,7 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
             >
               Add
                
+              CustomArrayFieldTest
             </span>
           </button>
         </div>

@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import toolInformationUiSchema from '../data/configuration/uiSchemas/tools/tool_information'
 import relatedUrlsUiSchema from '../data/configuration/uiSchemas/tools/related_urls'
@@ -7,6 +8,7 @@ import UmmModel from './UmmModel'
 import descriptiveKeywordsUiSchema from '../data/configuration/uiSchemas/tools/descriptive_keywords'
 import potentialActionUiSchema from '../data/configuration/uiSchemas/tools/potential_action'
 import toolContactsUISchema from '../data/configuration/uiSchemas/tools/tool_contacts'
+import compatibilityAndUsabilityUiSchema from '../data/configuration/uiSchemas/tools/compatibility_and_usability'
 
 export default class UmmToolsModel extends UmmModel {
   get documentTypeForDisplay() {
@@ -18,7 +20,10 @@ export default class UmmToolsModel extends UmmModel {
   get formSections() {
     return toolsConfiguration
   }
-
+  getFormSchema(): { [key: string]: object } {
+    // use this function to edit schema
+    return super.getFormSchema()
+  }
   get uiSchema() {
     const base = { 'ui:submitButtonOptions': { norender: true, submitText: 'Save' } }
 
@@ -63,6 +68,10 @@ export default class UmmToolsModel extends UmmModel {
       const uiSchema: any = relatedUrlsUiSchema
       const urlUiSchema: any = uiSchema.RelatedURLs.items
       urlUiSchema['ui:service'] = this.service
+      return { ...uiSchema, ...base }
+    }
+    if (this.currentSection.displayName === 'Compatibility And Usability') {
+      const uiSchema: any = compatibilityAndUsabilityUiSchema
       return { ...uiSchema, ...base }
     }
     return { ...base }

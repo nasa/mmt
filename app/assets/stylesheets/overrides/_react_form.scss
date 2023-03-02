@@ -8,7 +8,7 @@
 }
 
 #react-editor-form .col-md-6 {
-  margin-left: 5px;
+  margin-left: 0px !important;
   padding-left: 0px !important;
 }
 
@@ -91,6 +91,13 @@ section .umm-preview {
 }
 .internal fieldset {
   padding-left: 5px;
+  padding-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+
+}
+#metadata-form h6 {
+  margin-left: 0px;
 }
 #search .quick-search #search-submit-button {
   width: auto;

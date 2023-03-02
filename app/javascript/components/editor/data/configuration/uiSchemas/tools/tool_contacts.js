@@ -26,7 +26,15 @@ const toolContactsUiSchema = {
                 },
                 {
                   'ui:row': [
-                    { 'ui:col': { md: 12, children: ['ContactInformation'] } }
+                    {
+                      'ui:col': {
+                        style: {
+                          borderLeft: 'solid 5px rgb(240,240,240', marginLeft: 10, borderBottom: 'solid 5px rgb(240,240,240', paddingBottom: 10
+                        },
+                        md: 12,
+                        children: ['ContactInformation']
+                      }
+                    }
                   ]
                 }
               ]
@@ -51,7 +59,6 @@ const toolContactsUiSchema = {
                 children: [
                   {
                     'ui:group': 'Contact Information',
-                    style: { borderBottom: 'solid 10px rgb(240,240,240', paddingBottom: 10 },
                     'ui:group-description': true,
                     'ui:row': [
                       { 'ui:col': { md: 6, children: ['ServiceHours'] } },
@@ -92,7 +99,7 @@ const toolContactsUiSchema = {
                       {
                         'ui:row': [
                           { 'ui:col': { md: 6, children: ['Type'] } },
-                          { 'ui:col': { md: 6, children: ['Value'] } }
+                          { 'ui:col': { style: { marginTop: '10px' }, md: 6, children: ['Value'] } }
                         ]
                       }
                     ]

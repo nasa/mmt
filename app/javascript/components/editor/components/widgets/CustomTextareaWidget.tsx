@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React from 'react'
 import { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
@@ -17,7 +18,10 @@ type CustomTextAreaWidgetProps = {
   },
   onChange: (value: string) => void,
   value: string,
-  id: string
+  id: string,
+  uiSchema?: {
+    classNames?: string
+  }
 }
 
 type CustomTextAreaWidgetState = {
@@ -41,13 +45,14 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
 
   render() {
     const {
-      label = '', schema, required, onChange, options, id = ''
+      label = '', schema, required, onChange, options, id = '', uiSchema = {}
     } = this.props
     const { minHeight = 100, title = label, editor } = options
     const style = {
       minHeight,
       minWidth: '100%'
     }
+    const classNames = uiSchema['ui:classNames'] ?? ''
     const { maxLength, description } = schema
     const { value, charsUsed } = this.state
     const { focusField = '' } = editor
@@ -61,7 +66,9 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
       <>
         <div className="custom-textarea-widget-header" data-testid={`custom-text-area-widget__${kebabCase(label)}--text-area-header`}>
           <span>
-            {title}
+            <span className={classNames}>
+              {title}
+            </span>
             {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
           </span>
           {maxLength && (
@@ -90,6 +97,7 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
             this.setState({ value, charsUsed: len })
             onChange(value)
           }}
+          onBlur={() => { editor.setFocusField('') }}
         />
         <span style={{ fontStyle: 'italic' }} data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
           {focusField.toLowerCase() === title.toLowerCase() || focusField.toLowerCase() === id.toLowerCase() ? description : ''}

@@ -49,7 +49,7 @@ const toolInformationUiSchema = {
             },
             {
               'ui:row': [
-                { 'ui:col': { style: { borderLeft: 'solid 6px rgb(240,240,240' }, md: 12, children: ['URL'] } }
+                { 'ui:col': { md: 12, children: ['URL'] } }
               ]
             }
           ]

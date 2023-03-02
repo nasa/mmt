@@ -97,6 +97,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
             this.setState({ value, charsUsed: len })
             onChange(value)
           }}
+          onBlur={() => { editor.setFocusField('') }}
         />
         <span style={{ fontStyle: 'italic' }} data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
           {(focusField.toLowerCase() === label.toLowerCase() && label !== '') || focusField.toLowerCase() === id.toLowerCase() ? description : ''}
