@@ -34,7 +34,7 @@ describe('Custom Text Widget Component', () => {
     )
     const headerElement = getByTestId('custom-text-widget__my-test-data-label--text-header')
 
-    expect(headerElement).toHaveTextContent('my title*')
+    expect(headerElement).toHaveTextContent('my title')
     expect(headerElement).toHaveTextContent('0/10')
     expect(container).toMatchSnapshot()
   })
@@ -86,7 +86,7 @@ describe('Custom Text Widget Component', () => {
         <CustomTextWidget {...props} />
       </BrowserRouter>
     )
-    expect(getByTestId('custom-text-widget__my-test-data-label--text-header')).toHaveTextContent('my title*')
+    expect(getByTestId('custom-text-widget__my-test-data-label--text-header')).toHaveTextContent('my title')
     expect(container).toMatchSnapshot()
   })
 
@@ -173,7 +173,7 @@ describe('Custom Text Widget Component', () => {
         </Routes>
       </MemoryRouter>
     )
-    const clickTextField = getByTestId('error-list__Name')
+    const clickTextField = getByTestId('error-list-item__Name is a required property')
     fireEvent.click(await clickTextField)
     expect(container).toHaveTextContent('The name of the downloadable tool or web user interface.')
     expect(container).toMatchSnapshot()

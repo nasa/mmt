@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
 import React from 'react'
 import MetadataEditor from '../MetadataEditor'
@@ -29,36 +30,99 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
     const { editor } = this.props
 
     if (prevState.currentSelect === currentSelect || editor.focusField === currentSelect) {
-      editor.setFocusField(null)
+      editor.setFocusField('')
+      // editor.setArrayField(-1)
       editor.setFocusField(currentSelect)
     }
     if (currentSelect) {
-      this.setState({ currentSelect: null })
+      this.setState({ currentSelect: '' })
     }
   }
-  isRequired(error:FormError):boolean {
-    if (error.name === 'required') {
-      return true
-    }
-    if (error.name === 'minItems') {
-      const { params } = error
-      const { limit } = params
-      if (limit === 1) {
-        return true
+
+  // Given the full path, e.g. ContactGroups[1].ContactInformation.ContactMechanisms, it will return the total
+  // number of elements of the last element in the path (in this example, of ContactMechanisms)
+  // This algorithm dives into the formData until it gets the last element and then grabs the count.
+  getArrayCount(path: string): number {
+    const parts = path.split('.')
+    const { editor } = this.props
+    const { formData } = editor
+    let data: any = formData
+    let length = -1
+    parts.forEach((part: string, index) => {
+      if (part !== '') {
+        part = part.replace('.', '')
+        const regexp = /^(.*[^\\[]+)\[(\d+)\]/
+        const match = part.match(regexp)
+        if (match) {
+          data = data[match[1]].at(match[2])
+        } else {
+          data = data[part]
+        }
+        if (index === parts.length - 1) { // this is the last element in the path
+          length = data.length
+        }
+      }
+    })
+    return length
+  }
+  countCapitalsTogether(word: string) {
+    let count = 0
+    for (let i = 0; i < word.length; i += 1) {
+      let previousLetter = ' '
+      if (i >= 1) {
+        previousLetter = word.charAt(i - 1)
+      }
+      const letter = word.charAt(i)
+      if (previousLetter.match(/[A-Z]/) && letter.match(/[A-Z]/)) {
+        count += 1
       }
     }
-    return false
+    return count
   }
-  progressCircle(error: FormError): React.ReactNode {
-    const icon = `eui-icon eui-fa-circle-o icon-red ${this.isRequired(error) ? 'eui-required-o' : ''}`
-    return (
-      <i style={{ height: 12, fontSize: 14, width: 14 }} className={`${icon}`} />
-    )
+  countCapitals(word: string) {
+    let count = 0
+    for (let i = 0; i < word.length; i += 1) {
+      let previousLetter = ' '
+      if (i >= 1) {
+        previousLetter = word.charAt(i - 1)
+      }
+      const letter = word.charAt(i)
+      if (!previousLetter.match(/[A-Z]/) && letter.match(/[A-Z]/)) {
+        count += 1
+      }
+    }
+    return count
   }
+  displayErrors(error: string) {
+    const str = error
+    let result = []
+
+    if (str.match(/\[[0-9]]/)) {
+      result = str.split(/\[[0-9]]/)
+      error = result.at(0) + result.at(1)
+      // return result
+    }
+    const words = error.split(' ')
+    words.forEach((word: string) => {
+      if (this.countCapitals(word) >= 2 && this.countCapitalsTogether(word) === 0) {
+        const newWord = word.replace(/([A-Z])/g, ' $1')
+        if (newWord !== word) {
+          const re = new RegExp(word, 'g')
+          error = error.replace(re, newWord)
+        }
+      }
+    })
+    if (error.startsWith(' ')) {
+      error = error.slice(1)
+    }
+    return error
+  }
+
   navigateToField(fieldName: string) {
     const { editor } = this.props
-    if (/^[[a-zA-Z]+$/.test(fieldName)) { // Basic Field}
-      editor.setFocusField(fieldName)
+    const errorName = fieldName.split(' ')
+    if (/^[[a-zA-Z]+$/.test(errorName[0])) { // Basic Field}
+      editor.setFocusField(errorName[0])
     } else if (/[0-9]/.test(fieldName)) { // Array case
       const regexp = /^[^[]+\[(\d+)\].*/
       const index = fieldName.match(regexp)
@@ -68,21 +132,155 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
       editor.setFocusField(array.at(0))
     }
   }
+  displayArrayIndex(error: string, length: number) {
+    const getError = /([A-Z])\w+/
+    const getIndex = /^[^[]+\[(\d+)\].*/
+    const title = error.match(getError)
+    const index = error.match(getIndex)
+    let filter = this.displayErrors(title.at(0))
+    if (filter.endsWith('s')) {
+      filter = filter.slice(0, filter.length - 1)
+    }
+    return (
+      <>
+        <span>
+          {filter}
+          &nbsp;
+        </span>
+        {/* Converts the string to an interger and adds 1 to the value */}
+        <span>
+          {index !== null ? (
+            <span className="error-list-total-number-of-arrays">
+              {`(${parseInt(index.at(1), 10) + 1} of ${length})`}
+            </span>
+          ) : ''}
+        </span>
+      </>
+    )
+  }
+
+  // Takes a map of the error list (see below), will walk the tree and produce
+  // JSX markup of how the hierarchy should look.
+  // You should pass in '' for path, but as it recursively walks the tree, it will
+  // build the path for each level in the tree.   Key represents the name of the node,
+  // e.g., ContractGroups and the attributes of the node are considered the children.
+  walkErrorMap([path, key, node], rows) {
+    if (node === null) {
+      return
+    }
+    const { errorProperty = '' } = node
+    delete node.errorProperty
+    const keys = Object.keys(node)
+    const r = []
+    keys.forEach((key: string) => {
+      this.walkErrorMap([`${path}/${key}`, key, node[key]], r)
+    })
+
+    let length = -1
+    const regexp = /^(.*[^\\[]+)\[(\d+)\]/
+    const match = errorProperty.match(regexp)
+    if (match) {
+      length = this.getArrayCount(match[1])
+    }
+    if (keys.length > 0) {
+      rows.push(
+        <div className="error-list" data-testid={`error-list-title__${key}`} style={{ marginTop: '0px', marginBottom: '3px' }} key={key}>
+          {key !== 'root' ? (
+            <h6
+              style={{
+                fontWeight: 'bold', fontSize: '15px', color: 'rgb(73,80,87)', marginBottom: '0px'
+              }}
+            >
+              {length > 0 ? this.displayArrayIndex(key, length) : this.displayErrors(key)}
+            </h6>
+          ) : <span style={{ marginTop: '-50px' }} />}
+          <ul style={{ marginBottom: '-2px' }}>
+            {r}
+          </ul>
+        </div>
+      )
+    } else {
+      rows.push(
+        <div className="error-list-item" onClick={() => { this.navigateToField(errorProperty.substring(1)); this.setState({ currentSelect: errorProperty.substring(1) }) }} key={key} data-testid={`error-list-item__${key}`}>
+          {key !== 'root' ? (
+            <li
+              style={{
+                fontSize: '15px',
+                margin: 0,
+                padding: 0
+              }}
+            >
+              <i className="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle" />
+              {this.displayErrors(key)}
+            </li>
+          ) : <span style={{ marginTop: '-50px' }} />}
+        </div>
+      )
+    }
+  }
+
+  // Builds a map object representing the hierarchy of the errors, i.e.
+  // ContactGroups[1].ContactInformation.ContactMechanisms[1].Type is a Required Property
+  // ContactGroups[1].ContactInformation.ContactMechanisms[1].Value is a Required Property
+  // would build a map like this:
+  // { "ContactGroups[1]" : { "ContactInformation" : { "ContactMechanisms[1]": { "Type is a Required Property": { errorProperty: "{full path of the error}"}, "Value is a Required Property" }}}}
+  buildErrorMap(errors: FormError[]): unknown {
+    const root = {}
+    const { editor } = this.props
+    const { currentSection } = editor
+    const { displayName } = currentSection
+    errors.forEach((error) => {
+      const parts = error.stack.split('.')
+      let node = root
+      let fullPath = ''
+      parts.forEach((part: string, index:number) => {
+        fullPath += part
+        if (part !== '') {
+          const name = displayName.replace(/ /g, '')
+          if (!(part === name && index === 1)) {
+            let value = node[part]
+            if (!value) {
+              value = { errorProperty: fullPath }
+            }
+            node[part] = value
+            node = value
+          }
+        }
+        fullPath += '.'
+      })
+    })
+    return root
+  }
 
   render() {
     const { editor, section } = this.props
     const { fullErrors } = editor
     const errors: FormError[] = fullErrors
     const filteredErrors: FormError[] = errors.filter((error: FormError) => section.properties.some((propertyPrefix) => error.property.startsWith(`.${propertyPrefix}`)))
-    return filteredErrors.map((error: FormError) => (
-      <div className="error-list" data-testid={`errorlist__${kebabCase(error.stack)}`} key={JSON.stringify(error)} style={{ marginLeft: 18, wordWrap: 'break-word', color: 'red' }}>
-        {this.progressCircle(error)}
-        &nbsp;
-        <span className="errorListItem" data-testid={`error-list__${error.property.substring(1)}`} onClick={() => { this.navigateToField(error.property.substring(1)); this.setState({ currentSelect: error.property.substring(1) }) }}>
-          {error.stack.substring(1)}
-        </span>
+
+    const root = {}
+    filteredErrors.forEach((error) => {
+      const parts = error.stack.split('.')
+      let node = root
+      parts.forEach((part: string) => {
+        if (part !== '') {
+          let value = node[part]
+          if (!value) {
+            value = {}
+          }
+          node[part] = value
+          node = value
+        }
+      })
+    })
+    const errorMap = this.buildErrorMap(filteredErrors)
+    const treeMarkup = []
+    this.walkErrorMap(['', 'root', errorMap], treeMarkup)
+    return (
+      <div>
+        {treeMarkup}
       </div>
-    ))
+    )
   }
 }
 export default withRouter(observer(ErrorList))

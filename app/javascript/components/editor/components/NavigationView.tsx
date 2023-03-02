@@ -16,13 +16,11 @@ type ProgressViewProps = {
 }
 type ProgressViewState = {
   saving: boolean
-  status: string
 }
 class ProgressView extends React.Component<ProgressViewProps, ProgressViewState> {
   constructor(props: ProgressViewProps) {
     super(props)
     this.state = {
-      status: null,
       saving: false
     }
   }
@@ -53,16 +51,18 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
     const {
       draft
     } = editor
-    this.setState({ status: null }, () => {
+    this.setState({ saving: true }, () => {
       editor.saveDraft(draft).then((draft) => {
         editor.draft = draft
         editor.publishDraft(draft).then((draft) => {
           editor.draft = draft
           editor.status = new Status('success', `Draft Published! ${draft.conceptId}/${draft.revisionId}`)
           editor.publishErrors = null
+          this.setState({ saving: false })
         }).catch((errors) => {
           editor.status = null
           editor.publishErrors = errors
+          this.setState({ saving: false })
         })
       }).catch((error) => {
         editor.status = new Status('warning', `error saving draft! ${error.message}`)
@@ -105,7 +105,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
       formSections, draft, fullSchema, fullData: draftJson
     } = editor
 
-    const { status, saving } = this.state
+    const { saving } = this.state
 
     const sectionList = formSections.map((section: FormSection) => (
       <NavigationItem key={JSON.stringify(section)} editor={editor} section={section} />
@@ -171,12 +171,14 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
           <button
             data-testid="navigationview--cancel-button"
             onClick={() => {
-              this.setState({ status: null }, () => {
+              this.setState({ saving: true }, () => {
                 editor.fetchDraft(draft.apiId).then((draft) => {
                   editor.draft = draft
-                  this.setState({ status: 'Changes discarded' })
+                  editor.status = new Status('info', 'Changes discarded.')
+                  this.setState({ saving: false })
                 }).catch((error) => {
                   editor.status = new Status('warning', `Error cancelling. ${error.message}`)
+                  this.setState({ saving: false })
                 })
               })
             }}
@@ -188,18 +190,6 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
           &nbsp;&nbsp;
           {saving && (
             <div style={{ width: 24, height: 24 }} className="spinner-border" role="status" />
-          )}
-          {status && (
-            <div
-              className="alert-warning"
-              style={{
-                fontSize: 10, height: 20, display: 'inline'
-              }}
-              key={status}
-              // variant="warning"
-            >
-              {status}
-            </div>
           )}
         </div>
         <ListGroup style={{ height: 400, width: 300, marginTop: 5 }}>

@@ -65,7 +65,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           {title && (
             <span>
               {title}
-              {required ? '*' : ''}
+              {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
             </span>
           )}
           {maxLength && (
@@ -83,7 +83,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           disabled={disabledFlag}
           className="custom-text-widget-input"
           data-testid={`custom-text-widget__${kebabCase(label)}--text-input`}
-          style={{ minWidth: '100%' }}
+          style={{ minWidth: '100%', height: 37 }}
           type="text"
           value={value}
           maxLength={maxLength}
@@ -97,6 +97,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
             this.setState({ value, charsUsed: len })
             onChange(value)
           }}
+          onBlur={() => { editor.setFocusField('') }}
         />
         <span style={{ fontStyle: 'italic' }} data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
           {(focusField.toLowerCase() === label.toLowerCase() && label !== '') || focusField.toLowerCase() === id.toLowerCase() ? description : ''}
