@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
 }
@@ -32,32 +33,12 @@ body {
 }
 
 .shortWidget {
-  width: 220px;
-}
-
-.smallTitle {
-  font-size: 18px;
-}
-
-.smallBoldTitle {
-  font-size: 18px;
-  font-weight: 550;
-}
-
-.mediumTitle {
-  font-size: 20px;
-  font-weight: 550;
-}
-
-.title {
-  font-size: 22px;
-  font-weight: 550;
+  width: 200px;
 }
 
 input[type=text] {
   border-radius: 5px;
 }
-
 textarea {
   border-radius: 5px;
 }

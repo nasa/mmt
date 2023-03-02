@@ -431,37 +431,19 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                         </span>
                       </span>
                       <span
-                        data-testid="progress-field__access-constraints_null"
+                        data-testid="progress-field__constraints_null"
                       >
                         <span
                           class="field-circle"
-                          data-testid="progress-field__access-constraints_null_not-required_not-started"
+                          data-testid="progress-field__constraints_null_not-required_not-started"
                         >
                           <span
                             class="progressField"
-                            data-testid="progress-field__access-constraints_link"
+                            data-testid="progress-field__constraints_link"
                           >
                             <i
                               class="eui-icon eui-fa-circle-o not-started-not-required-circle"
-                              title="AccessConstraints"
-                            />
-                          </span>
-                        </span>
-                      </span>
-                      <span
-                        data-testid="progress-field__use-constraints_null"
-                      >
-                        <span
-                          class="field-circle"
-                          data-testid="progress-field__use-constraints_null_not-required_not-started"
-                        >
-                          <span
-                            class="progressField"
-                            data-testid="progress-field__use-constraints_link"
-                          >
-                            <i
-                              class="eui-icon eui-fa-circle-o not-started-not-required-circle"
-                              title="UseConstraints"
+                              title="Constraints"
                             />
                           </span>
                         </span>
@@ -5732,37 +5714,19 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                         </span>
                       </span>
                       <span
-                        data-testid="progress-field__access-constraints_null"
+                        data-testid="progress-field__constraints_null"
                       >
                         <span
                           class="field-circle"
-                          data-testid="progress-field__access-constraints_null_not-required_not-started"
+                          data-testid="progress-field__constraints_null_not-required_not-started"
                         >
                           <span
                             class="progressField"
-                            data-testid="progress-field__access-constraints_link"
+                            data-testid="progress-field__constraints_link"
                           >
                             <i
                               class="eui-icon eui-fa-circle-o not-started-not-required-circle"
-                              title="AccessConstraints"
-                            />
-                          </span>
-                        </span>
-                      </span>
-                      <span
-                        data-testid="progress-field__use-constraints_null"
-                      >
-                        <span
-                          class="field-circle"
-                          data-testid="progress-field__use-constraints_null_not-required_not-started"
-                        >
-                          <span
-                            class="progressField"
-                            data-testid="progress-field__use-constraints_link"
-                          >
-                            <i
-                              class="eui-icon eui-fa-circle-o not-started-not-required-circle"
-                              title="UseConstraints"
+                              title="Constraints"
                             />
                           </span>
                         </span>

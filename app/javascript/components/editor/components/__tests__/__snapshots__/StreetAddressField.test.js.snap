@@ -32,7 +32,7 @@ exports[`StreetAddressFieldTest basic test 1`] = `
       data-testid="custom-text-widget__address-line-1--text-input"
       maxlength="80"
       name="Address Line 1"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value="my first line"
     />
@@ -65,7 +65,7 @@ exports[`StreetAddressFieldTest basic test 1`] = `
       data-testid="custom-text-widget__address-line-2--text-input"
       maxlength="80"
       name="Address Line 2"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value="my second line"
     />
@@ -98,7 +98,7 @@ exports[`StreetAddressFieldTest basic test 1`] = `
       data-testid="custom-text-widget__address-line-3--text-input"
       maxlength="80"
       name="Address Line 3"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value="my third line"
     />
@@ -142,7 +142,7 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
       data-testid="custom-text-widget__address-line-1--text-input"
       maxlength="80"
       name="Address Line 1"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value=""
     />
@@ -175,7 +175,7 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
       data-testid="custom-text-widget__address-line-2--text-input"
       maxlength="80"
       name="Address Line 2"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value=""
     />
@@ -208,7 +208,7 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
       data-testid="custom-text-widget__address-line-3--text-input"
       maxlength="80"
       name="Address Line 3"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value=""
     />
@@ -252,7 +252,7 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
       data-testid="custom-text-widget__address-line-1--text-input"
       maxlength="80"
       name="Address Line 1"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value=""
     />
@@ -285,7 +285,7 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
       data-testid="custom-text-widget__address-line-2--text-input"
       maxlength="80"
       name="Address Line 2"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value=""
     />
@@ -318,7 +318,7 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
       data-testid="custom-text-widget__address-line-3--text-input"
       maxlength="80"
       name="Address Line 3"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value=""
     />
@@ -362,7 +362,7 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
       data-testid="custom-text-widget__address-line-1--text-input"
       maxlength="80"
       name="Address Line 1"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value="Cloudy day"
     />
@@ -395,7 +395,7 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
       data-testid="custom-text-widget__address-line-2--text-input"
       maxlength="80"
       name="Address Line 2"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value=""
     />
@@ -428,7 +428,7 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
       data-testid="custom-text-widget__address-line-3--text-input"
       maxlength="80"
       name="Address Line 3"
-      style="min-width: 100%; height: 37px;"
+      style="min-width: 100%;"
       type="text"
       value="Sunny day"
     />

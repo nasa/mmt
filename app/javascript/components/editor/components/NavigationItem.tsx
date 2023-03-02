@@ -2,7 +2,6 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { ListGroup } from 'react-bootstrap'
 import { kebabCase } from 'lodash'
-import { toJS } from 'mobx'
 import MetadataEditor from '../MetadataEditor'
 import ErrorList from './ErrorList'
 import './NavigationItem.css'
@@ -15,23 +14,13 @@ type NavigationItemProps = {
   router: RouterType
 }
 type NavigationViewState = {
-  hasFocus: boolean,
-  previousSection: string
-
+  hasFocus: boolean
 }
 class NavigationItem extends React.Component<NavigationItemProps, NavigationViewState> {
   constructor(props: NavigationItemProps) {
     super(props)
     this.state = {
-      hasFocus: false,
-      previousSection: ''
-    }
-  }
-  componentDidUpdate(): void {
-    const { editor } = this.props
-    const { previousSection } = this.state
-    if (editor.currentSection.displayName !== previousSection) {
-      this.setState({ previousSection: toJS(editor.currentSection.displayName) })
+      hasFocus: false
     }
   }
 
@@ -41,31 +30,28 @@ class NavigationItem extends React.Component<NavigationItemProps, NavigationView
 
   circleType(section: FormSection): string {
     const { editor } = this.props
-    const { previousSection } = this.state
     const { fullData, fullErrors } = editor
     const draft = removeEmpty(JSON.parse(JSON.stringify(fullData)))
+
     const hasValues = section.properties.some((propertyPrefix) => {
       const value = draft[propertyPrefix]
       return value !== undefined
     })
     if (!hasValues) {
-      return 'eui-fa-circle-o gray-progress-circle'
+      return 'gray-progress-circle'
     }
     const hasError = fullErrors.some((error: FormError) => {
       const { property } = error
       return section.properties.some((propertyPrefix) => property.startsWith(`.${propertyPrefix}`))
     })
     if (hasError) {
-      if (section.displayName !== previousSection) {
-        return 'eui-fa-times-circle red-progress-circle'
-      }
-      return 'eui-fa-circle-o red-progress-circle'
+      return 'red-progress-circle'
     }
-    return 'eui-check green-progress-circle'
+    return 'green-progress-circle'
   }
 
   progressCircle(section: FormSection): React.ReactNode {
-    const icon = `eui-icon eui-icon--sm ${this.circleType(section)}`
+    const icon = `eui-icon eui-fa-circle ${this.circleType(section)}`
     return (
       <i className={`${icon}`} />
     )
@@ -81,8 +67,7 @@ class NavigationItem extends React.Component<NavigationItemProps, NavigationView
       fontSize: 16,
       border: 'none',
       margin: 0,
-      padding: 0,
-      width: '330px'
+      padding: 0
     }
     return (
       <div

@@ -9,8 +9,7 @@ type CustomMultiSelectWidgetProps = {
     items: {
       $ref: unknown
       enum: string[]
-    },
-    description: string
+    }
   },
   options: {
     title: string
@@ -31,9 +30,7 @@ type SelectOptions = {
 type CustomMultiSelectWidgetState = {
   multiValue: SelectOptions[],
   filterOptions: SelectOptions[],
-  onChange: (value: string[]) => void,
-  setFocus: boolean,
-  isOpen: boolean
+  onChange: (value: string[]) => void
 }
 
 class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetProps, CustomMultiSelectWidgetState> {
@@ -59,9 +56,7 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
     this.state = {
       multiValue: existingValues,
       filterOptions: selectOptions,
-      onChange,
-      setFocus: false,
-      isOpen: undefined
+      onChange
     }
     this.handleMultiChange = this.handleMultiChange.bind(this)
   }
@@ -77,36 +72,24 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
   }
 
   render() {
-    const {
-      multiValue, filterOptions, setFocus, isOpen
-    } = this.state
-    const {
-      label, options, required, schema
-    } = this.props
+    const { multiValue, filterOptions } = this.state
+    const { label, options, required } = this.props
     const { title = label } = options
     return (
       <div className="custom-multi-select-widget" data-testid={`custom-multi-select-widget__${kebabCase(label)}`}>
         <div>
           <span>
             {title ?? 'Values'}
-            {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
-          </span>
-        </div>
-        <div className="custom-select-widget-description" style={{ padding: '5px' }} data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
-          <span style={{ fontStyle: 'italic', fontSize: '.85rem' }}>
-            {setFocus ? schema.description : ''}
+            {required ? '*' : ''}
           </span>
         </div>
         <div data-testid={`custom-multi-select-widget__${kebabCase(label)}--selector`}>
           <Select
             name={`Select-${label}`}
-            placeholder={title ? `Select ${title}` : 'Select Values'}
+            placeholder={`Select ${label}`}
             value={multiValue}
             options={filterOptions}
-            onFocus={() => { this.setState({ isOpen: true, setFocus: true }) }}
-            onBlur={() => { this.setState({ isOpen: false, setFocus: false }) }}
             onChange={this.handleMultiChange}
-            menuIsOpen={isOpen}
             isMulti
           />
         </div>

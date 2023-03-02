@@ -4,156 +4,158 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
 <div>
   <div
     data-testid="navigationitem--tool-information"
-    style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+    style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
   >
     <button
       class="list-group-item list-group-item-action"
       data-testid="navigationitem--listgroup.item__tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <span
         style="font-weight: bold; font-size: 17px;"
       >
         <i
-          class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+          class="eui-icon eui-fa-circle gray-progress-circle"
         />
          
         Tool Information
       </span>
     </button>
-    <div>
-      <div
-        class="error-list"
-        data-testid="error-list-title__root"
-        style="margin-top: 0px; margin-bottom: 3px;"
+    <div
+      class="error-list"
+      data-testid="errorlist__name-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__Name"
       >
-        <span
-          style="margin-top: -50px;"
-        />
-        <ul
-          style="margin-bottom: -2px;"
-        >
-          <div
-            class="error-list-item"
-            data-testid="error-list-item__Name is a required property"
-          >
-            <li
-              style="font-size: 15px; margin: 0px; padding: 0px;"
-            >
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Name is a required property
-            </li>
-          </div>
-          <div
-            class="error-list-item"
-            data-testid="error-list-item__LongName is a required property"
-          >
-            <li
-              style="font-size: 15px; margin: 0px; padding: 0px;"
-            >
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Long Name is a required property
-            </li>
-          </div>
-          <div
-            class="error-list-item"
-            data-testid="error-list-item__Type is a required property"
-          >
-            <li
-              style="font-size: 15px; margin: 0px; padding: 0px;"
-            >
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Type is a required property
-            </li>
-          </div>
-          <div
-            class="error-list-item"
-            data-testid="error-list-item__Version is a required property"
-          >
-            <li
-              style="font-size: 15px; margin: 0px; padding: 0px;"
-            >
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Version is a required property
-            </li>
-          </div>
-          <div
-            class="error-list-item"
-            data-testid="error-list-item__Description is a required property"
-          >
-            <li
-              style="font-size: 15px; margin: 0px; padding: 0px;"
-            >
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Description is a required property
-            </li>
-          </div>
-          <div
-            class="error-list"
-            data-testid="error-list-title__URL"
-            style="margin-top: 0px; margin-bottom: 3px;"
-          >
-            <h6
-              style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px;"
-            >
-              URL
-            </h6>
-            <ul
-              style="margin-bottom: -2px;"
-            >
-              <div
-                class="error-list-item"
-                data-testid="error-list-item__URLContentType is a required property"
-              >
-                <li
-                  style="font-size: 15px; margin: 0px; padding: 0px;"
-                >
-                  <i
-                    class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                  />
-                  URLContentType is a required property
-                </li>
-              </div>
-              <div
-                class="error-list-item"
-                data-testid="error-list-item__Type is a required property"
-              >
-                <li
-                  style="font-size: 15px; margin: 0px; padding: 0px;"
-                >
-                  <i
-                    class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                  />
-                  Type is a required property
-                </li>
-              </div>
-              <div
-                class="error-list-item"
-                data-testid="error-list-item__URLValue is a required property"
-              >
-                <li
-                  style="font-size: 15px; margin: 0px; padding: 0px;"
-                >
-                  <i
-                    class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                  />
-                  URLValue is a required property
-                </li>
-              </div>
-            </ul>
-          </div>
-        </ul>
-      </div>
+        Name is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__long-name-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__LongName"
+      >
+        LongName is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__type-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__Type"
+      >
+        Type is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__version-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__Version"
+      >
+        Version is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__description-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__Description"
+      >
+        Description is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__url-url-content-type-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__URL.URLContentType"
+      >
+        URL.URLContentType is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__url-type-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__URL.Type"
+      >
+        URL.Type is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__url-url-value-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__URL.URLValue"
+      >
+        URL.URLValue is a required property
+      </span>
     </div>
   </div>
 </div>
@@ -163,156 +165,158 @@ exports[`Navigation Item Component hovers over 1`] = `
 <div>
   <div
     data-testid="navigationitem--tool-information"
-    style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+    style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
   >
     <button
       class="list-group-item list-group-item-action"
       data-testid="navigationitem--listgroup.item__tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <span
         style="font-weight: bold; font-size: 17px;"
       >
         <i
-          class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+          class="eui-icon eui-fa-circle gray-progress-circle"
         />
          
         Tool Information
       </span>
     </button>
-    <div>
-      <div
-        class="error-list"
-        data-testid="error-list-title__root"
-        style="margin-top: 0px; margin-bottom: 3px;"
+    <div
+      class="error-list"
+      data-testid="errorlist__name-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__Name"
       >
-        <span
-          style="margin-top: -50px;"
-        />
-        <ul
-          style="margin-bottom: -2px;"
-        >
-          <div
-            class="error-list-item"
-            data-testid="error-list-item__Name is a required property"
-          >
-            <li
-              style="font-size: 15px; margin: 0px; padding: 0px;"
-            >
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Name is a required property
-            </li>
-          </div>
-          <div
-            class="error-list-item"
-            data-testid="error-list-item__LongName is a required property"
-          >
-            <li
-              style="font-size: 15px; margin: 0px; padding: 0px;"
-            >
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Long Name is a required property
-            </li>
-          </div>
-          <div
-            class="error-list-item"
-            data-testid="error-list-item__Type is a required property"
-          >
-            <li
-              style="font-size: 15px; margin: 0px; padding: 0px;"
-            >
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Type is a required property
-            </li>
-          </div>
-          <div
-            class="error-list-item"
-            data-testid="error-list-item__Version is a required property"
-          >
-            <li
-              style="font-size: 15px; margin: 0px; padding: 0px;"
-            >
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Version is a required property
-            </li>
-          </div>
-          <div
-            class="error-list-item"
-            data-testid="error-list-item__Description is a required property"
-          >
-            <li
-              style="font-size: 15px; margin: 0px; padding: 0px;"
-            >
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Description is a required property
-            </li>
-          </div>
-          <div
-            class="error-list"
-            data-testid="error-list-title__URL"
-            style="margin-top: 0px; margin-bottom: 3px;"
-          >
-            <h6
-              style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px;"
-            >
-              URL
-            </h6>
-            <ul
-              style="margin-bottom: -2px;"
-            >
-              <div
-                class="error-list-item"
-                data-testid="error-list-item__URLContentType is a required property"
-              >
-                <li
-                  style="font-size: 15px; margin: 0px; padding: 0px;"
-                >
-                  <i
-                    class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                  />
-                  URLContentType is a required property
-                </li>
-              </div>
-              <div
-                class="error-list-item"
-                data-testid="error-list-item__Type is a required property"
-              >
-                <li
-                  style="font-size: 15px; margin: 0px; padding: 0px;"
-                >
-                  <i
-                    class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                  />
-                  Type is a required property
-                </li>
-              </div>
-              <div
-                class="error-list-item"
-                data-testid="error-list-item__URLValue is a required property"
-              >
-                <li
-                  style="font-size: 15px; margin: 0px; padding: 0px;"
-                >
-                  <i
-                    class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                  />
-                  URLValue is a required property
-                </li>
-              </div>
-            </ul>
-          </div>
-        </ul>
-      </div>
+        Name is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__long-name-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__LongName"
+      >
+        LongName is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__type-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__Type"
+      >
+        Type is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__version-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__Version"
+      >
+        Version is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__description-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__Description"
+      >
+        Description is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__url-url-content-type-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__URL.URLContentType"
+      >
+        URL.URLContentType is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__url-type-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__URL.Type"
+      >
+        URL.Type is a required property
+      </span>
+    </div>
+    <div
+      class="error-list"
+      data-testid="errorlist__url-url-value-is-a-required-property"
+      style="margin-left: 18px; word-wrap: break-word; color: red;"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+        style="height: 12px; font-size: 14px; width: 14px;"
+      />
+       
+      <span
+        class="errorListItem"
+        data-testid="error-list__URL.URLValue"
+      >
+        URL.URLValue is a required property
+      </span>
     </div>
   </div>
 </div>
@@ -322,33 +326,23 @@ exports[`Navigation Item Component renders a navigation item 1`] = `
 <div>
   <div
     data-testid="navigationitem--tool-information"
-    style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+    style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
   >
     <button
       class="list-group-item list-group-item-action"
       data-testid="navigationitem--listgroup.item__tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <span
         style="font-weight: bold; font-size: 17px;"
       >
         <i
-          class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+          class="eui-icon eui-fa-circle gray-progress-circle"
         />
          
         Tool Information
       </span>
     </button>
-    <div>
-      <div
-        class="error-list-item"
-        data-testid="error-list-item__root"
-      >
-        <span
-          style="margin-top: -50px;"
-        />
-      </div>
-    </div>
   </div>
 </div>
 `;
@@ -395,46 +389,36 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
   >
     <div
       data-testid="navigationitem--tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-information"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span
           style="font-weight: bold; font-size: 17px;"
         >
           <i
-            class="eui-icon eui-icon--sm eui-check green-progress-circle"
+            class="eui-icon eui-fa-circle green-progress-circle"
           />
            
           Tool Information
         </span>
       </button>
-      <div>
-        <div
-          class="error-list-item"
-          data-testid="error-list-item__root"
-        >
-          <span
-            style="margin-top: -50px;"
-          />
-        </div>
-      </div>
     </div>
     <div
       data-testid="navigationitem--related-ur-ls"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__related-ur-ls"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Related URLs
@@ -443,16 +427,16 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
     </div>
     <div
       data-testid="navigationitem--compatibility-and-usability"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Compatibility And Usability
@@ -461,16 +445,16 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
     </div>
     <div
       data-testid="navigationitem--descriptive-keywords"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__descriptive-keywords"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Descriptive Keywords
@@ -479,16 +463,16 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
     </div>
     <div
       data-testid="navigationitem--tool-organizations"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-organizations"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Tool Organizations
@@ -497,16 +481,16 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
     </div>
     <div
       data-testid="navigationitem--tool-contacts"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-contacts"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Tool Contacts
@@ -515,16 +499,16 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
     </div>
     <div
       data-testid="navigationitem--potential-action"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__potential-action"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Potential Action
@@ -4328,157 +4312,155 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
   >
     <div
       data-testid="navigationitem--tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-information"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span
           style="font-weight: bold; font-size: 17px;"
         >
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
+            class="eui-icon eui-fa-circle red-progress-circle"
           />
            
           Tool Information
         </span>
       </button>
-      <div>
-        <div
-          class="error-list"
-          data-testid="error-list-title__root"
-          style="margin-top: 0px; margin-bottom: 3px;"
+      <div
+        class="error-list"
+        data-testid="errorlist__name-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__Name"
         >
-          <span
-            style="margin-top: -50px;"
-          />
-          <ul
-            style="margin-bottom: -2px;"
-          >
-            <div
-              class="error-list-item"
-              data-testid="error-list-item__Name is a required property"
-            >
-              <li
-                style="font-size: 15px; margin: 0px; padding: 0px;"
-              >
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Name is a required property
-              </li>
-            </div>
-            <div
-              class="error-list-item"
-              data-testid="error-list-item__Type is a required property"
-            >
-              <li
-                style="font-size: 15px; margin: 0px; padding: 0px;"
-              >
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Type is a required property
-              </li>
-            </div>
-            <div
-              class="error-list-item"
-              data-testid="error-list-item__Version is a required property"
-            >
-              <li
-                style="font-size: 15px; margin: 0px; padding: 0px;"
-              >
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Version is a required property
-              </li>
-            </div>
-            <div
-              class="error-list-item"
-              data-testid="error-list-item__Description is a required property"
-            >
-              <li
-                style="font-size: 15px; margin: 0px; padding: 0px;"
-              >
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Description is a required property
-              </li>
-            </div>
-            <div
-              class="error-list"
-              data-testid="error-list-title__URL"
-              style="margin-top: 0px; margin-bottom: 3px;"
-            >
-              <h6
-                style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px;"
-              >
-                URL
-              </h6>
-              <ul
-                style="margin-bottom: -2px;"
-              >
-                <div
-                  class="error-list-item"
-                  data-testid="error-list-item__URLContentType is a required property"
-                >
-                  <li
-                    style="font-size: 15px; margin: 0px; padding: 0px;"
-                  >
-                    <i
-                      class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                    />
-                    URLContentType is a required property
-                  </li>
-                </div>
-                <div
-                  class="error-list-item"
-                  data-testid="error-list-item__Type is a required property"
-                >
-                  <li
-                    style="font-size: 15px; margin: 0px; padding: 0px;"
-                  >
-                    <i
-                      class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                    />
-                    Type is a required property
-                  </li>
-                </div>
-                <div
-                  class="error-list-item"
-                  data-testid="error-list-item__URLValue is a required property"
-                >
-                  <li
-                    style="font-size: 15px; margin: 0px; padding: 0px;"
-                  >
-                    <i
-                      class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                    />
-                    URLValue is a required property
-                  </li>
-                </div>
-              </ul>
-            </div>
-          </ul>
-        </div>
+          Name is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__type-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__Type"
+        >
+          Type is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__version-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__Version"
+        >
+          Version is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__description-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__Description"
+        >
+          Description is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__url-url-content-type-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__URL.URLContentType"
+        >
+          URL.URLContentType is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__url-type-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__URL.Type"
+        >
+          URL.Type is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__url-url-value-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__URL.URLValue"
+        >
+          URL.URLValue is a required property
+        </span>
       </div>
     </div>
     <div
       data-testid="navigationitem--related-ur-ls"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__related-ur-ls"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Related URLs
@@ -4487,16 +4469,16 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
     </div>
     <div
       data-testid="navigationitem--compatibility-and-usability"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Compatibility And Usability
@@ -4505,16 +4487,16 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
     </div>
     <div
       data-testid="navigationitem--descriptive-keywords"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__descriptive-keywords"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Descriptive Keywords
@@ -4523,16 +4505,16 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
     </div>
     <div
       data-testid="navigationitem--tool-organizations"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-organizations"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Tool Organizations
@@ -4541,16 +4523,16 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
     </div>
     <div
       data-testid="navigationitem--tool-contacts"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-contacts"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Tool Contacts
@@ -4559,16 +4541,16 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
     </div>
     <div
       data-testid="navigationitem--potential-action"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__potential-action"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Potential Action
@@ -8512,170 +8494,172 @@ exports[`Navigation Item Component shows required error 1`] = `
   >
     <div
       data-testid="navigationitem--tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-information"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span
           style="font-weight: bold; font-size: 17px;"
         >
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Tool Information
         </span>
       </button>
-      <div>
-        <div
-          class="error-list"
-          data-testid="error-list-title__root"
-          style="margin-top: 0px; margin-bottom: 3px;"
+      <div
+        class="error-list"
+        data-testid="errorlist__name-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__Name"
         >
-          <span
-            style="margin-top: -50px;"
-          />
-          <ul
-            style="margin-bottom: -2px;"
-          >
-            <div
-              class="error-list-item"
-              data-testid="error-list-item__Name is a required property"
-            >
-              <li
-                style="font-size: 15px; margin: 0px; padding: 0px;"
-              >
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Name is a required property
-              </li>
-            </div>
-            <div
-              class="error-list-item"
-              data-testid="error-list-item__LongName is a required property"
-            >
-              <li
-                style="font-size: 15px; margin: 0px; padding: 0px;"
-              >
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Long Name is a required property
-              </li>
-            </div>
-            <div
-              class="error-list-item"
-              data-testid="error-list-item__Type is a required property"
-            >
-              <li
-                style="font-size: 15px; margin: 0px; padding: 0px;"
-              >
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Type is a required property
-              </li>
-            </div>
-            <div
-              class="error-list-item"
-              data-testid="error-list-item__Version is a required property"
-            >
-              <li
-                style="font-size: 15px; margin: 0px; padding: 0px;"
-              >
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Version is a required property
-              </li>
-            </div>
-            <div
-              class="error-list-item"
-              data-testid="error-list-item__Description is a required property"
-            >
-              <li
-                style="font-size: 15px; margin: 0px; padding: 0px;"
-              >
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Description is a required property
-              </li>
-            </div>
-            <div
-              class="error-list"
-              data-testid="error-list-title__URL"
-              style="margin-top: 0px; margin-bottom: 3px;"
-            >
-              <h6
-                style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px;"
-              >
-                URL
-              </h6>
-              <ul
-                style="margin-bottom: -2px;"
-              >
-                <div
-                  class="error-list-item"
-                  data-testid="error-list-item__URLContentType is a required property"
-                >
-                  <li
-                    style="font-size: 15px; margin: 0px; padding: 0px;"
-                  >
-                    <i
-                      class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                    />
-                    URLContentType is a required property
-                  </li>
-                </div>
-                <div
-                  class="error-list-item"
-                  data-testid="error-list-item__Type is a required property"
-                >
-                  <li
-                    style="font-size: 15px; margin: 0px; padding: 0px;"
-                  >
-                    <i
-                      class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                    />
-                    Type is a required property
-                  </li>
-                </div>
-                <div
-                  class="error-list-item"
-                  data-testid="error-list-item__URLValue is a required property"
-                >
-                  <li
-                    style="font-size: 15px; margin: 0px; padding: 0px;"
-                  >
-                    <i
-                      class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                    />
-                    URLValue is a required property
-                  </li>
-                </div>
-              </ul>
-            </div>
-          </ul>
-        </div>
+          Name is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__long-name-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__LongName"
+        >
+          LongName is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__type-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__Type"
+        >
+          Type is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__version-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__Version"
+        >
+          Version is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__description-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__Description"
+        >
+          Description is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__url-url-content-type-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__URL.URLContentType"
+        >
+          URL.URLContentType is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__url-type-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__URL.Type"
+        >
+          URL.Type is a required property
+        </span>
+      </div>
+      <div
+        class="error-list"
+        data-testid="errorlist__url-url-value-is-a-required-property"
+        style="margin-left: 18px; word-wrap: break-word; color: red;"
+      >
+        <i
+          class="eui-icon eui-fa-circle-o icon-red eui-required-o"
+          style="height: 12px; font-size: 14px; width: 14px;"
+        />
+         
+        <span
+          class="errorListItem"
+          data-testid="error-list__URL.URLValue"
+        >
+          URL.URLValue is a required property
+        </span>
       </div>
     </div>
     <div
       data-testid="navigationitem--related-ur-ls"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__related-ur-ls"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Related URLs
@@ -8684,16 +8668,16 @@ exports[`Navigation Item Component shows required error 1`] = `
     </div>
     <div
       data-testid="navigationitem--compatibility-and-usability"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Compatibility And Usability
@@ -8702,16 +8686,16 @@ exports[`Navigation Item Component shows required error 1`] = `
     </div>
     <div
       data-testid="navigationitem--descriptive-keywords"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__descriptive-keywords"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Descriptive Keywords
@@ -8720,16 +8704,16 @@ exports[`Navigation Item Component shows required error 1`] = `
     </div>
     <div
       data-testid="navigationitem--tool-organizations"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-organizations"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Tool Organizations
@@ -8738,16 +8722,16 @@ exports[`Navigation Item Component shows required error 1`] = `
     </div>
     <div
       data-testid="navigationitem--tool-contacts"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-contacts"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Tool Contacts
@@ -8756,16 +8740,16 @@ exports[`Navigation Item Component shows required error 1`] = `
     </div>
     <div
       data-testid="navigationitem--potential-action"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
     >
       <button
         class="list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__potential-action"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
+        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
       >
         <span>
           <i
-            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+            class="eui-icon eui-fa-circle gray-progress-circle"
           />
            
           Potential Action

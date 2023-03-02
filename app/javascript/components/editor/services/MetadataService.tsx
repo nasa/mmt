@@ -1,7 +1,5 @@
-import { cloneDeep } from 'lodash'
 import uuid from 'react-uuid'
 import Draft from '../model/Draft'
-import { removeEmpty } from '../utils/json_utils'
 
 export class MetadataService {
   token: string
@@ -67,10 +65,9 @@ export class MetadataService {
 
   async publishDraft(draft: Draft): Promise<Draft> {
     const url = `/api/drafts/${draft.apiId}/publish?draft_type=ToolDraft`
-    const draftClone = removeEmpty(cloneDeep(draft))
     const requestOptions = {
       method: 'POST',
-      body: JSON.stringify(draftClone.json),
+      body: JSON.stringify(draft.json),
       headers: {
         Accept: 'application/json',
         Authorization: `${this.token}`,

@@ -46,30 +46,28 @@ export default class LayoutGridField extends ObjectField<ObjectFieldProps, never
 
       const title = group && typeof group === 'string' ? group : null
       return (
-        <div style={{ marginBottom: -5 }}>
-          <fieldset
-            className="rjsf-layout-grid-group"
-          >
-            <span data-testid={`layout-grid-field__row-title-field--${kebabCase(title)}`}>
-              {title ? (
-                <TitleField
-                  title={title}
-                  required={required}
-                  formContext={formContext}
-                />
-              ) : null}
-            </span>
-            {groupDescription ? (
-              <div style={{ paddingBottom: 30 }}>
-                {description}
-              </div>
+        <fieldset
+          className="rjsf-layout-grid-group"
+        >
+          <span data-testid={`layout-grid-field__row-title-field--${kebabCase(title)}`}>
+            {title ? (
+              <TitleField
+                title={title}
+                required={required}
+                formContext={formContext}
+              />
             ) : null}
-            <div className="row" key={JSON.stringify(rows)}>{this.renderChildren(rows)}</div>
-          </fieldset>
-        </div>
+          </span>
+          { groupDescription ? (
+            <div style={{ paddingBottom: 30 }}>
+              { description }
+            </div>
+          ) : null }
+          <div className="row" key={JSON.stringify(rows)}>{this.renderChildren(rows)}</div>
+        </fieldset>
       )
     }
-    return <div style={{ marginBottom: -5 }} className="row" key={JSON.stringify(rows)}>{this.renderChildren(rows)}</div>
+    return <div className="row" key={JSON.stringify(rows)}>{this.renderChildren(rows)}</div>
   }
 
   renderCol(layoutGridSchema: LayoutGridSchemaProps) {
@@ -98,14 +96,12 @@ export default class LayoutGridField extends ObjectField<ObjectFieldProps, never
                 />
               ) : null}
             </span>
-            {groupDescription ? (
+            { groupDescription ? (
               <div style={{ paddingBottom: 30 }}>
-                {description}
+                { description }
               </div>
-            ) : null}
-            <div style={{ borderLeft: 'solid 5px rgb(240,240,240', paddingLeft: 8 }}>
-              {this.renderChildren(children)}
-            </div>
+            ) : null }
+            {this.renderChildren(children)}
           </fieldset>
         </Col>
       )

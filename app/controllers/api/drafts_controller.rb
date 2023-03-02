@@ -55,7 +55,7 @@ class Api::DraftsController < BaseDraftsController
     get_resource.draft = json_params
     if get_resource.save
       if (params[:draft_type] == 'ToolDraft')
-        ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: token)
+        ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
         if ingested_response.success?
           Rails.logger.info("Audit Log: #{user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
           result = ingested_response.body
@@ -77,6 +77,7 @@ class Api::DraftsController < BaseDraftsController
 
   def validate_token
     if Rails.env.development?
+      @token = 'token'
       return
     end
 
@@ -86,22 +87,22 @@ class Api::DraftsController < BaseDraftsController
       render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
       return
     end
-    token = authorization_header
+    @token = authorization_header
 
     # Handle EDL authentication
     if authorization_header.start_with?('Bearer')
-      token = authorization_header.split(' ', 2)[1] || ''
+      @token = authorization_header.split(' ', 2)[1] || ''
       if Rails.configuration.proposal_mode
-        token_response = cmr_client.validate_dmmt_token(token)
+        token_response = cmr_client.validate_dmmt_token(@token)
       else
-        token_response = cmr_client.validate_mmt_token(token)
+        token_response = cmr_client.validate_mmt_token(@token)
       end
       token_info = token_response.body
       token_info = JSON.parse token_info if token_info.class == String # for some reason the mock isn't return hash but json string.
       urs_uid = token_info['uid']
     else
       # Handle Launchpad authentication
-      token_response = cmr_client.validate_launchpad_token(token)
+      token_response = cmr_client.validate_launchpad_token(@token)
       urs_uid = nil
       if token_response.success?
         auid = token_response.body.fetch('auid', nil)

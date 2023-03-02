@@ -21,7 +21,6 @@ import CustomCountrySelectWidget from './widgets/CustomCountrySelectWidget'
 import StreetAddressesField from './StreetAddresseField'
 import CustomTextWidget from './widgets/CustomTextWidget'
 import KeywordsField from './KeywordPicker'
-import CustomTitleFieldTemplate from './CustomTitleFieldTemplate'
 import Status from '../model/Status'
 
 type MetadataEditorFormProps = {
@@ -109,8 +108,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
       layout: LayoutGridField,
       controlled: ControlledFields,
       streetAddresses: StreetAddressesField,
-      keywordPicker: KeywordsField,
-      TitleField: CustomTitleFieldTemplate
+      keywordPicker: KeywordsField
     }
     const widgets = {
       TextWidget: CustomTextWidget,

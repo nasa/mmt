@@ -12,9 +12,9 @@ export default class MetadataEditor {
   model: FormModel
   service: MetadataService
   formProps: FormProperties
-  constructor(model: FormModel, token = 'token') {
+  constructor(model: FormModel, token = 'token', user = 'user', provider = 'MMT_1') {
     this.model = model
-    this.service = new MetadataService(token, model.documentType, 'user', 'MMT_1')
+    this.service = new MetadataService(token, model.documentType, user, provider)
     this.formProps = new FormProperties()
     makeObservable(this, {
       model: observable,
@@ -112,15 +112,15 @@ export default class MetadataEditor {
 
   // Form schema/data
   get formSchema() {
-    return this.model.getFormSchema()
+    return this.model.formSchema
   }
 
   get formData() {
-    return this.model.getFormData()
+    return this.model.formData
   }
 
   set formData(value) {
-    this.model.setFormData(removeNulls(value))
+    this.model.formData = removeNulls(value)
   }
 
   get formErrors() {
@@ -157,7 +157,7 @@ export default class MetadataEditor {
     const section = this.formSections.filter((obj: FormSection) => obj.displayName.toLowerCase() === name.toLowerCase())[0]
     this.navigateTo(section)
   }
-  setFocusField(name: string) {
+  setFocusField(name:string) {
     if (name !== undefined) {
       this.formProps.setFocusField(name)
     }

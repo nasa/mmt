@@ -15,7 +15,7 @@ describe('Error List test', () => {
         <MetadataEditorForm editor={editor} />
       </BrowserRouter>
     )
-    const field = screen.queryByTestId('error-list-item__Name is a required property')
+    const field = screen.queryByTestId('error-list__Name')
     fireEvent.click(await field)
     expect(container).toHaveTextContent('The name of the downloadable tool or web user interface.')
     expect(container).toMatchSnapshot()
@@ -31,7 +31,7 @@ describe('Error List test', () => {
     )
     await act(async () => null)
 
-    const clickField = screen.queryAllByTestId('error-list-item__URLContentType is a required property')[0]
+    const clickField = screen.queryAllByTestId('error-list__URL.URLValue')[0]
     fireEvent.click(clickField)
   })
   it('testing array field', async () => {
@@ -49,7 +49,7 @@ describe('Error List test', () => {
     const addNewField = screen.queryByTestId('custom-array-template-add-btn').querySelector('button[type="button"]')
     fireEvent.click(await addNewField)
 
-    const navigationitem = screen.queryByTestId('error-list-item__URLContentType is a required property')
+    const navigationitem = screen.queryByTestId('error-list__RelatedURLs[0].URL')
     fireEvent.click(await navigationitem)
   })
 })

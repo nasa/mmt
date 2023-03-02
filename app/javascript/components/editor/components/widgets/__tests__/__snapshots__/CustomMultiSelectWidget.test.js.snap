@@ -9,20 +9,8 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     <div>
       <span>
         My Test Data Label
-        <i
-          class="eui-icon eui-required-o"
-          style="color: green; padding: 5px;"
-        />
+        *
       </span>
-    </div>
-    <div
-      class="custom-select-widget-description"
-      data-testid="custom-select-widget__my-test-data-label--description"
-      style="padding: 5px;"
-    >
-      <span
-        style="font-style: italic; font-size: .85rem;"
-      />
     </div>
     <div
       data-testid="custom-multi-select-widget__my-test-data-label--selector"
@@ -194,15 +182,6 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
       </span>
     </div>
     <div
-      class="custom-select-widget-description"
-      data-testid="custom-select-widget__my-test-data-label--description"
-      style="padding: 5px;"
-    >
-      <span
-        style="font-style: italic; font-size: .85rem;"
-      />
-    </div>
-    <div
       data-testid="custom-multi-select-widget__my-test-data-label--selector"
     >
       <div
@@ -369,20 +348,8 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     <div>
       <span>
         MyTestDataLabel
-        <i
-          class="eui-icon eui-required-o"
-          style="color: green; padding: 5px;"
-        />
+        *
       </span>
-    </div>
-    <div
-      class="custom-select-widget-description"
-      data-testid="custom-select-widget__my-test-data-label--description"
-      style="padding: 5px;"
-    >
-      <span
-        style="font-style: italic; font-size: .85rem;"
-      />
     </div>
     <div
       data-testid="custom-multi-select-widget__my-test-data-label--selector"
@@ -551,20 +518,8 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     <div>
       <span>
         My Test Data Label
-        <i
-          class="eui-icon eui-required-o"
-          style="color: green; padding: 5px;"
-        />
+        *
       </span>
-    </div>
-    <div
-      class="custom-select-widget-description"
-      data-testid="custom-select-widget__my-test-data-label--description"
-      style="padding: 5px;"
-    >
-      <span
-        style="font-style: italic; font-size: .85rem;"
-      />
     </div>
     <div
       data-testid="custom-multi-select-widget__my-test-data-label--selector"
@@ -734,15 +689,6 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
       <span />
     </div>
     <div
-      class="custom-select-widget-description"
-      data-testid="custom-select-widget__my-test-data-label--description"
-      style="padding: 5px;"
-    >
-      <span
-        style="font-style: italic; font-size: .85rem;"
-      />
-    </div>
-    <div
       data-testid="custom-multi-select-widget__my-test-data-label--selector"
     >
       <div
@@ -768,7 +714,7 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
               class=" css-14el2xx-placeholder"
               id="react-select-3-placeholder"
             >
-              Select Values
+              Select MyTestDataLabel
             </div>
             <div
               class=" css-6j8wv5-Input"

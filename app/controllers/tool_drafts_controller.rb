@@ -27,6 +27,8 @@ class ToolDraftsController < BaseDraftsController
 
   def set_react_token
     @react_token = prefix_token(token)
+    @react_user = current_user.urs_uid
+    @react_provider = current_user.provider_id
   end
 
   def set_schema

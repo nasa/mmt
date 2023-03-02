@@ -33,7 +33,7 @@ describe('Custom Text Area Widget Component', () => {
         <CustomTextareaWidget {...props} />
       </BrowserRouter>
     )
-    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('my title')
+    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('my title*')
     expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('0/10')
     expect(container).toMatchSnapshot()
   })
@@ -58,7 +58,7 @@ describe('Custom Text Area Widget Component', () => {
         <CustomTextareaWidget {...props} />
       </BrowserRouter>
     )
-    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('my test area data label')
+    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('my test area data label*')
     expect(container).toMatchSnapshot()
   })
 
@@ -167,7 +167,7 @@ describe('Custom Text Area Widget Component', () => {
         </Routes>
       </MemoryRouter>
     )
-    const clickTextAreaField = getByTestId('error-list-item__Description is a required property')
+    const clickTextAreaField = getByTestId('error-list__Description')
     fireEvent.click(await clickTextAreaField)
     expect(container).toHaveTextContent('A brief description of the web user interface or downloadable tool. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved.')
 

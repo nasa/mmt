@@ -243,7 +243,7 @@ describe('Navigation View Component', () => {
       cancelButton.click()
     })
     await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
-    expect(editor.status).toEqual({ message: 'Changes discarded.', type: 'info' })
+    expect(screen.getByText('Changes discarded')).toBeInTheDocument()
     expect(container).toMatchSnapshot()
   })
 
@@ -266,7 +266,7 @@ describe('Navigation View Component', () => {
     await act(async () => {
       cancelButton.click()
     })
-    expect(editor.status).toEqual({ message: 'Error cancelling. 500 error', type: 'warning' })
+    expect(screen.getByText('Error cancelling. 500 error')).toBeInTheDocument()
     expect(container).toMatchSnapshot()
   })
 })
