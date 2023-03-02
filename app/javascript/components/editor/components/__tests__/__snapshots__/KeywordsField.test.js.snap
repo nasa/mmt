@@ -15,7 +15,11 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSoecificTerm and 
           <div
             style="font-size: 1.10rem;"
           >
-            Tool Keyword
+            <span
+              class="title"
+            >
+              Tool Keyword
+            </span>
             <hr
               class="border-0 bg-secondary"
               style="height: 1px;"
@@ -173,7 +177,11 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSpecificTerm 1`] 
           <div
             style="font-size: 1.10rem;"
           >
-            Tool Keyword
+            <span
+              class="title"
+            >
+              Tool Keyword
+            </span>
             <hr
               class="border-0 bg-secondary"
               style="height: 1px;"
@@ -344,7 +352,11 @@ exports[`Tool Keywords Field Adding a science keyword without ToolSpecificTerm 1
           <div
             style="font-size: 1.10rem;"
           >
-            Tool Keyword
+            <span
+              class="title"
+            >
+              Tool Keyword
+            </span>
             <hr
               class="border-0 bg-secondary"
               style="height: 1px;"
@@ -507,7 +519,11 @@ exports[`Tool Keywords Field Search Keyword Test 1`] = `
           <div
             style="font-size: 1.10rem;"
           >
-            Tool Keyword
+            <span
+              class="title"
+            >
+              Tool Keyword
+            </span>
             <hr
               class="border-0 bg-secondary"
               style="height: 1px;"
@@ -711,7 +727,11 @@ exports[`Tool Keywords Field Selecting Previous Section Test 1`] = `
           <div
             style="font-size: 1.10rem;"
           >
-            Tool Keyword
+            <span
+              class="title"
+            >
+              Tool Keyword
+            </span>
             <hr
               class="border-0 bg-secondary"
               style="height: 1px;"
@@ -869,7 +889,11 @@ exports[`Tool Keywords Field Test Adding the Same Keyword with ToolSpecificTerm 
           <div
             style="font-size: 1.10rem;"
           >
-            Tool Keyword
+            <span
+              class="title"
+            >
+              Tool Keyword
+            </span>
             <hr
               class="border-0 bg-secondary"
               style="height: 1px;"
@@ -1040,7 +1064,11 @@ exports[`Tool Keywords Field Test Adding the Same Keyword without ToolSpecificTe
           <div
             style="font-size: 1.10rem;"
           >
-            Tool Keyword
+            <span
+              class="title"
+            >
+              Tool Keyword
+            </span>
             <hr
               class="border-0 bg-secondary"
               style="height: 1px;"

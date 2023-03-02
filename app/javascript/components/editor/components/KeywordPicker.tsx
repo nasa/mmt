@@ -339,7 +339,9 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
       <div id="keyword-picker">
         <div key={JSON.stringify(lastUpdated)}>
           <div style={{ fontSize: '1.10rem' }}>
-            {title}
+            <span className="title">
+              {title}
+            </span>
             <hr className="border-0 bg-secondary" style={{ height: '1px' }} />
             {description}
           </div>

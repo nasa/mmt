@@ -28,7 +28,6 @@ export default class UmmModel implements FormModel {
 
     makeObservable(this, {
       draft: observable,
-      formData: computed,
       fullData: computed,
       fullErrors: observable,
       formErrors: observable,
@@ -46,7 +45,7 @@ export default class UmmModel implements FormModel {
     this.draft.json = newValue
   }
 
-  get formData() {
+  getFormData() {
     const formData: { [key: string]: object } = {}
     const config = this.formSections.filter((obj: FormSection) => obj.displayName === this.currentSection.displayName)[0]
     const { properties } = config
@@ -58,7 +57,7 @@ export default class UmmModel implements FormModel {
     return formData
   }
 
-  set formData(value: { [key: string]: object }) {
+  setFormData(value: { [key: string]: object }) {
     const config = this.formSections.filter((obj: FormSection) => obj.displayName === this.currentSection.displayName)[0]
     const { properties } = config
     properties.forEach((property: string) => {
@@ -70,7 +69,7 @@ export default class UmmModel implements FormModel {
     this.draft.json = JSON.parse(JSON.stringify(toJS(this.draft.json)))
   }
 
-  get formSchema(): { [key: string]: object } {
+  getFormSchema(): { [key: string]: object } {
     const config = this.formSections.filter((obj: FormSection) => obj.displayName === this.currentSection.displayName)[0]
     const { properties } = config
     const formSchema: { [key: string]: object } = {}
@@ -100,7 +99,7 @@ export default class UmmModel implements FormModel {
   get documentType(): string {
     throw new Error('Method documentType() must be implemented.')
   }
-  get documentTypeForDisplay():string {
+  get documentTypeForDisplay(): string {
     throw new Error('Method documentTypeForDisplay() must be implemented.')
   }
   migratedSectionName(sectionName: string): string {

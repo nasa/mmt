@@ -112,15 +112,15 @@ export default class MetadataEditor {
 
   // Form schema/data
   get formSchema() {
-    return this.model.formSchema
+    return this.model.getFormSchema()
   }
 
   get formData() {
-    return this.model.formData
+    return this.model.getFormData()
   }
 
   set formData(value) {
-    this.model.formData = removeNulls(value)
+    this.model.setFormData(removeNulls(value))
   }
 
   get formErrors() {
@@ -157,7 +157,7 @@ export default class MetadataEditor {
     const section = this.formSections.filter((obj: FormSection) => obj.displayName.toLowerCase() === name.toLowerCase())[0]
     this.navigateTo(section)
   }
-  setFocusField(name:string) {
+  setFocusField(name: string) {
     if (name !== undefined) {
       this.formProps.setFocusField(name)
     }

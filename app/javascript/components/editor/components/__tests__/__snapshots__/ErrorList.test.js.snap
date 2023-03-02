@@ -48,12 +48,14 @@ exports[`Error List test testing invalid field onClick 1`] = `
             >
               <div
                 class="row"
+                style="margin-bottom: -5px;"
               >
                 <div
                   class="col-md-12"
                 >
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-6"
@@ -70,7 +72,10 @@ exports[`Error List test testing invalid field onClick 1`] = `
                           >
                             <span>
                               Name
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -85,7 +90,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                             data-testid="custom-text-widget__name--text-input"
                             maxlength="85"
                             name="Name"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -101,6 +106,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -117,7 +123,10 @@ exports[`Error List test testing invalid field onClick 1`] = `
                           >
                             <span>
                               Long Name
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -132,7 +141,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                             data-testid="custom-text-widget__long-name--text-input"
                             maxlength="1024"
                             name="Long Name"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -146,6 +155,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -162,7 +172,10 @@ exports[`Error List test testing invalid field onClick 1`] = `
                           >
                             <span>
                               Version
-                              *
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -177,7 +190,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                             data-testid="custom-text-widget__version--text-input"
                             maxlength="20"
                             name="Version"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -191,6 +204,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -206,7 +220,11 @@ exports[`Error List test testing invalid field onClick 1`] = `
                             data-testid="custom-text-area-widget__version-description--text-area-header"
                           >
                             <span>
-                              Version Description
+                              <span
+                                class=""
+                              >
+                                Version Description
+                              </span>
                             </span>
                             <span
                               style="float: right;"
@@ -233,6 +251,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-6"
@@ -250,8 +269,20 @@ exports[`Error List test testing invalid field onClick 1`] = `
                             <div>
                               <span>
                                 Type
-                                *
+                                <i
+                                  class="eui-icon eui-required-o"
+                                  style="color: green; padding: 5px;"
+                                />
                               </span>
+                            </div>
+                            <div
+                              class="custom-select-widget-description"
+                              data-testid="custom-select-widget__type--description"
+                              style="padding: 5px;"
+                            >
+                              <span
+                                style="font-style: italic; font-size: .85rem;"
+                              />
                             </div>
                             <div
                               data-testid="custom-select-widget__type--selector"
@@ -378,6 +409,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -393,8 +425,15 @@ exports[`Error List test testing invalid field onClick 1`] = `
                             data-testid="custom-text-area-widget__description--text-area-header"
                           >
                             <span>
-                              Description
-                              *
+                              <span
+                                class=""
+                              >
+                                Description
+                              </span>
+                              <i
+                                class="eui-icon eui-required-o"
+                                style="color: green; padding: 5px;"
+                              />
                             </span>
                             <span
                               style="float: right;"
@@ -421,6 +460,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -451,7 +491,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                             data-testid="custom-text-widget__doi--text-input"
                             maxlength="1024"
                             name="DOI"
-                            style="min-width: 100%;"
+                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
@@ -465,6 +505,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                   </div>
                   <div
                     class="row"
+                    style="margin-bottom: -5px;"
                   >
                     <div
                       class="col-md-12"
@@ -477,6 +518,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                         >
                           <div
                             class="row"
+                            style="margin-bottom: -5px;"
                           >
                             <div
                               class="col-md-12"
@@ -487,427 +529,478 @@ exports[`Error List test testing invalid field onClick 1`] = `
                                 <span
                                   data-testid="layout-grid-field__col-title-field--url"
                                 >
-                                  <div
-                                    class="my-1"
-                                  >
-                                    <h5>
-                                      URL
-                                    </h5>
-                                    <hr
-                                      class="border-0 bg-secondary"
-                                      style="height: 1px;"
-                                    />
+                                  <div>
+                                    <div
+                                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                                    >
+                                      <span
+                                        class="title"
+                                      >
+                                        URL
+                                      </span>
+                                      <i
+                                        class="eui-icon eui-required-o"
+                                        style="color: green; padding: 5px;"
+                                      />
+                                    </div>
                                   </div>
                                 </span>
                                 <div
-                                  class="row"
+                                  style="padding-left: 8px;"
                                 >
                                   <div
-                                    class="col-md-12"
+                                    class="row"
+                                    style="margin-bottom: -5px;"
                                   >
-                                    <span
-                                      data-testid="layout-grid-field__schema-field--description"
+                                    <div
+                                      class="col-md-12"
                                     >
-                                      <div
-                                        class="form-group field field-string"
+                                      <span
+                                        data-testid="layout-grid-field__schema-field--description"
                                       >
                                         <div
-                                          class="custom-textarea-widget-header"
-                                          data-testid="custom-text-area-widget__description--text-area-header"
+                                          class="form-group field field-string"
                                         >
-                                          <span>
-                                            URL Description
-                                          </span>
+                                          <div
+                                            class="custom-textarea-widget-header"
+                                            data-testid="custom-text-area-widget__description--text-area-header"
+                                          >
+                                            <span>
+                                              <span
+                                                class=""
+                                              >
+                                                URL Description
+                                              </span>
+                                            </span>
+                                            <span
+                                              style="float: right;"
+                                            >
+                                              0
+                                              /
+                                              4000
+                                            </span>
+                                          </div>
+                                          <textarea
+                                            class="custom-textarea-widget-input"
+                                            data-testid="custom-text-area-widget__description--text-area-input"
+                                            maxlength="4000"
+                                            name="URL Description"
+                                            style="min-height: 100px; min-width: 100%;"
+                                          />
                                           <span
-                                            style="float: right;"
-                                          >
-                                            0
-                                            /
-                                            4000
-                                          </span>
+                                            data-testid="custom-text-widget--description-field__description"
+                                            style="font-style: italic;"
+                                          />
                                         </div>
-                                        <textarea
-                                          class="custom-textarea-widget-input"
-                                          data-testid="custom-text-area-widget__description--text-area-input"
-                                          maxlength="4000"
-                                          name="URL Description"
-                                          style="min-height: 100px; min-width: 100%;"
-                                        />
-                                        <span
-                                          data-testid="custom-text-widget--description-field__description"
-                                          style="font-style: italic;"
-                                        />
-                                      </div>
-                                    </span>
+                                      </span>
+                                    </div>
                                   </div>
-                                </div>
-                                <div
-                                  class="row"
-                                >
                                   <div
-                                    class="col-md-12"
+                                    class="row"
+                                    style="margin-bottom: -5px;"
                                   >
-                                    <span
-                                      data-testid="layout-grid-field__schema-field--url-types"
+                                    <div
+                                      class="col-md-12"
                                     >
-                                      <div
-                                        class="URL"
+                                      <span
+                                        data-testid="layout-grid-field__schema-field--url-types"
                                       >
                                         <div
-                                          class="row"
-                                          data-testid="controlled-fields__row--url-content-type"
-                                          style="margin-top: 5px; margin-bottom: 5px;"
+                                          class="URL"
                                         >
                                           <div
-                                            class="col-md-12"
+                                            class="row"
+                                            data-testid="controlled-fields__row--url-content-type"
+                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
-                                            <span
-                                              data-testid="controlled-fields__custom-select-widget--url-content-type"
+                                            <div
+                                              class="col-md-12"
                                             >
-                                              <div
-                                                class="custom-select-widget"
-                                                data-testid="custom-select-widget__url-content-type"
+                                              <span
+                                                data-testid="controlled-fields__custom-select-widget--url-content-type"
                                               >
-                                                <div>
-                                                  <span>
-                                                    URL Content Type
-                                                    *
-                                                  </span>
-                                                </div>
                                                 <div
-                                                  data-testid="custom-select-widget__url-content-type--selector"
+                                                  class="custom-select-widget"
+                                                  data-testid="custom-select-widget__url-content-type"
                                                 >
+                                                  <div>
+                                                    <span>
+                                                      URL Content Type
+                                                      <i
+                                                        class="eui-icon eui-required-o"
+                                                        style="color: green; padding: 5px;"
+                                                      />
+                                                    </span>
+                                                  </div>
                                                   <div
-                                                    class=" css-b62m3t-container"
+                                                    class="custom-select-widget-description"
+                                                    data-testid="custom-select-widget__url-content-type--description"
+                                                    style="padding: 5px;"
                                                   >
                                                     <span
-                                                      class="css-1f43avz-a11yText-A11yText"
-                                                      id="react-select-3-live-region"
+                                                      style="font-style: italic; font-size: .85rem;"
                                                     />
-                                                    <span
-                                                      aria-atomic="false"
-                                                      aria-live="polite"
-                                                      aria-relevant="additions text"
-                                                      class="css-1f43avz-a11yText-A11yText"
-                                                    />
+                                                  </div>
+                                                  <div
+                                                    data-testid="custom-select-widget__url-content-type--selector"
+                                                  >
                                                     <div
-                                                      class=" css-1s2u09g-control"
+                                                      class=" css-b62m3t-container"
                                                     >
+                                                      <span
+                                                        class="css-1f43avz-a11yText-A11yText"
+                                                        id="react-select-3-live-region"
+                                                      />
+                                                      <span
+                                                        aria-atomic="false"
+                                                        aria-live="polite"
+                                                        aria-relevant="additions text"
+                                                        class="css-1f43avz-a11yText-A11yText"
+                                                      />
                                                       <div
-                                                        class=" css-319lph-ValueContainer"
+                                                        class=" css-1s2u09g-control"
                                                       >
                                                         <div
-                                                          class=" css-14el2xx-placeholder"
-                                                          id="react-select-3-placeholder"
+                                                          class=" css-319lph-ValueContainer"
                                                         >
-                                                          Select URL Content Type
-                                                        </div>
-                                                        <div
-                                                          class=" css-6j8wv5-Input"
-                                                          data-value=""
-                                                        >
-                                                          <input
-                                                            aria-autocomplete="list"
-                                                            aria-describedby="react-select-3-placeholder"
-                                                            aria-expanded="false"
-                                                            aria-haspopup="true"
-                                                            autocapitalize="none"
-                                                            autocomplete="off"
-                                                            autocorrect="off"
-                                                            class=""
-                                                            id="react-select-3-input"
-                                                            role="combobox"
-                                                            spellcheck="false"
-                                                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                            tabindex="0"
-                                                            type="text"
-                                                            value=""
-                                                          />
-                                                        </div>
-                                                      </div>
-                                                      <div
-                                                        class=" css-1hb7zxy-IndicatorsContainer"
-                                                      >
-                                                        <span
-                                                          class=" css-1okebmr-indicatorSeparator"
-                                                        />
-                                                        <div
-                                                          aria-hidden="true"
-                                                          class=" css-tlfecz-indicatorContainer"
-                                                        >
-                                                          <svg
-                                                            aria-hidden="true"
-                                                            class="css-tj5bde-Svg"
-                                                            focusable="false"
-                                                            height="20"
-                                                            viewBox="0 0 20 20"
-                                                            width="20"
+                                                          <div
+                                                            class=" css-14el2xx-placeholder"
+                                                            id="react-select-3-placeholder"
                                                           >
-                                                            <path
-                                                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                            Select URL Content Type
+                                                          </div>
+                                                          <div
+                                                            class=" css-6j8wv5-Input"
+                                                            data-value=""
+                                                          >
+                                                            <input
+                                                              aria-autocomplete="list"
+                                                              aria-describedby="react-select-3-placeholder"
+                                                              aria-expanded="false"
+                                                              aria-haspopup="true"
+                                                              autocapitalize="none"
+                                                              autocomplete="off"
+                                                              autocorrect="off"
+                                                              class=""
+                                                              id="react-select-3-input"
+                                                              role="combobox"
+                                                              spellcheck="false"
+                                                              style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                              tabindex="0"
+                                                              type="text"
+                                                              value=""
                                                             />
-                                                          </svg>
+                                                          </div>
+                                                        </div>
+                                                        <div
+                                                          class=" css-1hb7zxy-IndicatorsContainer"
+                                                        >
+                                                          <span
+                                                            class=" css-1okebmr-indicatorSeparator"
+                                                          />
+                                                          <div
+                                                            aria-hidden="true"
+                                                            class=" css-tlfecz-indicatorContainer"
+                                                          >
+                                                            <svg
+                                                              aria-hidden="true"
+                                                              class="css-tj5bde-Svg"
+                                                              focusable="false"
+                                                              height="20"
+                                                              viewBox="0 0 20 20"
+                                                              width="20"
+                                                            >
+                                                              <path
+                                                                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                              />
+                                                            </svg>
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
                                                   </div>
                                                 </div>
-                                              </div>
-                                            </span>
+                                              </span>
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div
-                                          class="row"
-                                          data-testid="controlled-fields__row--type"
-                                          style="margin-top: 5px; margin-bottom: 5px;"
-                                        >
                                           <div
-                                            class="col-md-12"
+                                            class="row"
+                                            data-testid="controlled-fields__row--type"
+                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
-                                            <span
-                                              data-testid="controlled-fields__custom-select-widget--type"
+                                            <div
+                                              class="col-md-12"
                                             >
-                                              <div
-                                                class="custom-select-widget"
-                                                data-testid="custom-select-widget__url-type"
+                                              <span
+                                                data-testid="controlled-fields__custom-select-widget--type"
                                               >
-                                                <div>
-                                                  <span>
-                                                     URL Type
-                                                    *
-                                                  </span>
-                                                </div>
                                                 <div
-                                                  data-testid="custom-select-widget__url-type--selector"
+                                                  class="custom-select-widget"
+                                                  data-testid="custom-select-widget__url-type"
                                                 >
+                                                  <div>
+                                                    <span>
+                                                       URL Type
+                                                      <i
+                                                        class="eui-icon eui-required-o"
+                                                        style="color: green; padding: 5px;"
+                                                      />
+                                                    </span>
+                                                  </div>
                                                   <div
-                                                    class=" css-b62m3t-container"
+                                                    class="custom-select-widget-description"
+                                                    data-testid="custom-select-widget__url-type--description"
+                                                    style="padding: 5px;"
                                                   >
                                                     <span
-                                                      class="css-1f43avz-a11yText-A11yText"
-                                                      id="react-select-4-live-region"
+                                                      style="font-style: italic; font-size: .85rem;"
                                                     />
-                                                    <span
-                                                      aria-atomic="false"
-                                                      aria-live="polite"
-                                                      aria-relevant="additions text"
-                                                      class="css-1f43avz-a11yText-A11yText"
-                                                    />
+                                                  </div>
+                                                  <div
+                                                    data-testid="custom-select-widget__url-type--selector"
+                                                  >
                                                     <div
-                                                      class=" css-1s2u09g-control"
+                                                      class=" css-b62m3t-container"
                                                     >
+                                                      <span
+                                                        class="css-1f43avz-a11yText-A11yText"
+                                                        id="react-select-4-live-region"
+                                                      />
+                                                      <span
+                                                        aria-atomic="false"
+                                                        aria-live="polite"
+                                                        aria-relevant="additions text"
+                                                        class="css-1f43avz-a11yText-A11yText"
+                                                      />
                                                       <div
-                                                        class=" css-319lph-ValueContainer"
+                                                        class=" css-1s2u09g-control"
                                                       >
                                                         <div
-                                                          class=" css-14el2xx-placeholder"
-                                                          id="react-select-4-placeholder"
+                                                          class=" css-319lph-ValueContainer"
                                                         >
-                                                          Select  URL Type
-                                                        </div>
-                                                        <div
-                                                          class=" css-6j8wv5-Input"
-                                                          data-value=""
-                                                        >
-                                                          <input
-                                                            aria-autocomplete="list"
-                                                            aria-describedby="react-select-4-placeholder"
-                                                            aria-expanded="false"
-                                                            aria-haspopup="true"
-                                                            autocapitalize="none"
-                                                            autocomplete="off"
-                                                            autocorrect="off"
-                                                            class=""
-                                                            id="react-select-4-input"
-                                                            role="combobox"
-                                                            spellcheck="false"
-                                                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                            tabindex="0"
-                                                            type="text"
-                                                            value=""
-                                                          />
-                                                        </div>
-                                                      </div>
-                                                      <div
-                                                        class=" css-1hb7zxy-IndicatorsContainer"
-                                                      >
-                                                        <span
-                                                          class=" css-1okebmr-indicatorSeparator"
-                                                        />
-                                                        <div
-                                                          aria-hidden="true"
-                                                          class=" css-tlfecz-indicatorContainer"
-                                                        >
-                                                          <svg
-                                                            aria-hidden="true"
-                                                            class="css-tj5bde-Svg"
-                                                            focusable="false"
-                                                            height="20"
-                                                            viewBox="0 0 20 20"
-                                                            width="20"
+                                                          <div
+                                                            class=" css-14el2xx-placeholder"
+                                                            id="react-select-4-placeholder"
                                                           >
-                                                            <path
-                                                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                            Select  URL Type
+                                                          </div>
+                                                          <div
+                                                            class=" css-6j8wv5-Input"
+                                                            data-value=""
+                                                          >
+                                                            <input
+                                                              aria-autocomplete="list"
+                                                              aria-describedby="react-select-4-placeholder"
+                                                              aria-expanded="false"
+                                                              aria-haspopup="true"
+                                                              autocapitalize="none"
+                                                              autocomplete="off"
+                                                              autocorrect="off"
+                                                              class=""
+                                                              id="react-select-4-input"
+                                                              role="combobox"
+                                                              spellcheck="false"
+                                                              style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                              tabindex="0"
+                                                              type="text"
+                                                              value=""
                                                             />
-                                                          </svg>
+                                                          </div>
+                                                        </div>
+                                                        <div
+                                                          class=" css-1hb7zxy-IndicatorsContainer"
+                                                        >
+                                                          <span
+                                                            class=" css-1okebmr-indicatorSeparator"
+                                                          />
+                                                          <div
+                                                            aria-hidden="true"
+                                                            class=" css-tlfecz-indicatorContainer"
+                                                          >
+                                                            <svg
+                                                              aria-hidden="true"
+                                                              class="css-tj5bde-Svg"
+                                                              focusable="false"
+                                                              height="20"
+                                                              viewBox="0 0 20 20"
+                                                              width="20"
+                                                            >
+                                                              <path
+                                                                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                              />
+                                                            </svg>
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
                                                   </div>
                                                 </div>
-                                              </div>
-                                            </span>
+                                              </span>
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div
-                                          class="row"
-                                          data-testid="controlled-fields__row--subtype"
-                                          style="margin-top: 5px; margin-bottom: 5px;"
-                                        >
                                           <div
-                                            class="col-md-12"
+                                            class="row"
+                                            data-testid="controlled-fields__row--subtype"
+                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
-                                            <span
-                                              data-testid="controlled-fields__custom-select-widget--subtype"
+                                            <div
+                                              class="col-md-12"
                                             >
-                                              <div
-                                                class="custom-select-widget"
-                                                data-testid="custom-select-widget__subtype"
+                                              <span
+                                                data-testid="controlled-fields__custom-select-widget--subtype"
                                               >
-                                                <div>
-                                                  <span>
-                                                    Subtype
-                                                  </span>
-                                                </div>
                                                 <div
-                                                  data-testid="custom-select-widget__subtype--selector"
+                                                  class="custom-select-widget"
+                                                  data-testid="custom-select-widget__subtype"
                                                 >
+                                                  <div>
+                                                    <span>
+                                                      Subtype
+                                                    </span>
+                                                  </div>
                                                   <div
-                                                    class=" css-b62m3t-container"
+                                                    class="custom-select-widget-description"
+                                                    data-testid="custom-select-widget__subtype--description"
+                                                    style="padding: 5px;"
                                                   >
                                                     <span
-                                                      class="css-1f43avz-a11yText-A11yText"
-                                                      id="react-select-5-live-region"
+                                                      style="font-style: italic; font-size: .85rem;"
                                                     />
-                                                    <span
-                                                      aria-atomic="false"
-                                                      aria-live="polite"
-                                                      aria-relevant="additions text"
-                                                      class="css-1f43avz-a11yText-A11yText"
-                                                    />
+                                                  </div>
+                                                  <div
+                                                    data-testid="custom-select-widget__subtype--selector"
+                                                  >
                                                     <div
-                                                      class=" css-1s2u09g-control"
+                                                      class=" css-b62m3t-container"
                                                     >
+                                                      <span
+                                                        class="css-1f43avz-a11yText-A11yText"
+                                                        id="react-select-5-live-region"
+                                                      />
+                                                      <span
+                                                        aria-atomic="false"
+                                                        aria-live="polite"
+                                                        aria-relevant="additions text"
+                                                        class="css-1f43avz-a11yText-A11yText"
+                                                      />
                                                       <div
-                                                        class=" css-319lph-ValueContainer"
+                                                        class=" css-1s2u09g-control"
                                                       >
                                                         <div
-                                                          class=" css-14el2xx-placeholder"
-                                                          id="react-select-5-placeholder"
+                                                          class=" css-319lph-ValueContainer"
                                                         >
-                                                          Select Subtype
-                                                        </div>
-                                                        <div
-                                                          class=" css-6j8wv5-Input"
-                                                          data-value=""
-                                                        >
-                                                          <input
-                                                            aria-autocomplete="list"
-                                                            aria-describedby="react-select-5-placeholder"
-                                                            aria-expanded="false"
-                                                            aria-haspopup="true"
-                                                            autocapitalize="none"
-                                                            autocomplete="off"
-                                                            autocorrect="off"
-                                                            class=""
-                                                            id="react-select-5-input"
-                                                            role="combobox"
-                                                            spellcheck="false"
-                                                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                            tabindex="0"
-                                                            type="text"
-                                                            value=""
-                                                          />
-                                                        </div>
-                                                      </div>
-                                                      <div
-                                                        class=" css-1hb7zxy-IndicatorsContainer"
-                                                      >
-                                                        <span
-                                                          class=" css-1okebmr-indicatorSeparator"
-                                                        />
-                                                        <div
-                                                          aria-hidden="true"
-                                                          class=" css-tlfecz-indicatorContainer"
-                                                        >
-                                                          <svg
-                                                            aria-hidden="true"
-                                                            class="css-tj5bde-Svg"
-                                                            focusable="false"
-                                                            height="20"
-                                                            viewBox="0 0 20 20"
-                                                            width="20"
+                                                          <div
+                                                            class=" css-14el2xx-placeholder"
+                                                            id="react-select-5-placeholder"
                                                           >
-                                                            <path
-                                                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                            Select Subtype
+                                                          </div>
+                                                          <div
+                                                            class=" css-6j8wv5-Input"
+                                                            data-value=""
+                                                          >
+                                                            <input
+                                                              aria-autocomplete="list"
+                                                              aria-describedby="react-select-5-placeholder"
+                                                              aria-expanded="false"
+                                                              aria-haspopup="true"
+                                                              autocapitalize="none"
+                                                              autocomplete="off"
+                                                              autocorrect="off"
+                                                              class=""
+                                                              id="react-select-5-input"
+                                                              role="combobox"
+                                                              spellcheck="false"
+                                                              style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                              tabindex="0"
+                                                              type="text"
+                                                              value=""
                                                             />
-                                                          </svg>
+                                                          </div>
+                                                        </div>
+                                                        <div
+                                                          class=" css-1hb7zxy-IndicatorsContainer"
+                                                        >
+                                                          <span
+                                                            class=" css-1okebmr-indicatorSeparator"
+                                                          />
+                                                          <div
+                                                            aria-hidden="true"
+                                                            class=" css-tlfecz-indicatorContainer"
+                                                          >
+                                                            <svg
+                                                              aria-hidden="true"
+                                                              class="css-tj5bde-Svg"
+                                                              focusable="false"
+                                                              height="20"
+                                                              viewBox="0 0 20 20"
+                                                              width="20"
+                                                            >
+                                                              <path
+                                                                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                              />
+                                                            </svg>
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
                                                   </div>
                                                 </div>
-                                              </div>
-                                            </span>
+                                              </span>
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    </span>
+                                      </span>
+                                    </div>
                                   </div>
-                                </div>
-                                <div
-                                  class="row"
-                                >
                                   <div
-                                    class="col-md-12"
+                                    class="row"
+                                    style="margin-bottom: -5px;"
                                   >
-                                    <span
-                                      data-testid="layout-grid-field__schema-field--url-value"
+                                    <div
+                                      class="col-md-12"
                                     >
-                                      <div
-                                        class="form-group field field-string"
+                                      <span
+                                        data-testid="layout-grid-field__schema-field--url-value"
                                       >
                                         <div
-                                          class="custom-text-widget-header"
-                                          data-testid="custom-text-widget__url-value--text-header"
+                                          class="form-group field field-string"
                                         >
-                                          <span>
-                                            URL Value
-                                            *
-                                          </span>
+                                          <div
+                                            class="custom-text-widget-header"
+                                            data-testid="custom-text-widget__url-value--text-header"
+                                          >
+                                            <span>
+                                              URL Value
+                                              <i
+                                                class="eui-icon eui-required-o"
+                                                style="color: green; padding: 5px;"
+                                              />
+                                            </span>
+                                            <span
+                                              style="float: right;"
+                                            >
+                                              0
+                                              /
+                                              1024
+                                            </span>
+                                          </div>
+                                          <input
+                                            class="custom-text-widget-input"
+                                            data-testid="custom-text-widget__url-value--text-input"
+                                            maxlength="1024"
+                                            name="URL Value"
+                                            style="min-width: 100%; height: 37px;"
+                                            type="text"
+                                            value=""
+                                          />
                                           <span
-                                            style="float: right;"
-                                          >
-                                            0
-                                            /
-                                            1024
-                                          </span>
+                                            data-testid="custom-text-widget--description-field__url-value"
+                                            style="font-style: italic;"
+                                          />
                                         </div>
-                                        <input
-                                          class="custom-text-widget-input"
-                                          data-testid="custom-text-widget__url-value--text-input"
-                                          maxlength="1024"
-                                          name="URL Value"
-                                          style="min-width: 100%;"
-                                          type="text"
-                                          value=""
-                                        />
-                                        <span
-                                          data-testid="custom-text-widget--description-field__url-value"
-                                          style="font-style: italic;"
-                                        />
-                                      </div>
-                                    </span>
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
                               </fieldset>
@@ -965,172 +1058,170 @@ exports[`Error List test testing invalid field onClick 1`] = `
           >
             <div
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
                   style="font-weight: bold; font-size: 17px;"
                 >
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Information
                 </span>
               </button>
-              <div
-                class="error-list"
-                data-testid="errorlist__name-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Name"
+              <div>
+                <div
+                  class="error-list"
+                  data-testid="error-list-title__root"
+                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
-                  Name is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__long-name-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__LongName"
-                >
-                  LongName is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Type"
-                >
-                  Type is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__version-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Version"
-                >
-                  Version is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__description-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__Description"
-                >
-                  Description is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-url-content-type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.URLContentType"
-                >
-                  URL.URLContentType is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-type-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.Type"
-                >
-                  URL.Type is a required property
-                </span>
-              </div>
-              <div
-                class="error-list"
-                data-testid="errorlist__url-url-value-is-a-required-property"
-                style="margin-left: 18px; word-wrap: break-word; color: red;"
-              >
-                <i
-                  class="eui-icon eui-fa-circle-o icon-red eui-required-o"
-                  style="height: 12px; font-size: 14px; width: 14px;"
-                />
-                 
-                <span
-                  class="errorListItem"
-                  data-testid="error-list__URL.URLValue"
-                >
-                  URL.URLValue is a required property
-                </span>
+                  <span
+                    style="margin-top: -50px;"
+                  />
+                  <ul
+                    style="margin-bottom: -2px;"
+                  >
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Name is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                        Name is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__LongName is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                        Long Name is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Type is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                        Type is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Version is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                        Version is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__Description is a required property"
+                    >
+                      <li
+                        style="font-size: 15px; margin: 0px; padding: 0px;"
+                      >
+                        <i
+                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                        />
+                        Description is a required property
+                      </li>
+                    </div>
+                    <div
+                      class="error-list"
+                      data-testid="error-list-title__URL"
+                      style="margin-top: 0px; margin-bottom: 3px;"
+                    >
+                      <h6
+                        style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px;"
+                      >
+                        URL
+                      </h6>
+                      <ul
+                        style="margin-bottom: -2px;"
+                      >
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__URLContentType is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                            URLContentType is a required property
+                          </li>
+                        </div>
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__Type is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                            Type is a required property
+                          </li>
+                        </div>
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__URLValue is a required property"
+                        >
+                          <li
+                            style="font-size: 15px; margin: 0px; padding: 0px;"
+                          >
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                            URLValue is a required property
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                  </ul>
+                </div>
               </div>
             </div>
             <div
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Related URLs
@@ -1139,16 +1230,16 @@ exports[`Error List test testing invalid field onClick 1`] = `
             </div>
             <div
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Compatibility And Usability
@@ -1157,16 +1248,16 @@ exports[`Error List test testing invalid field onClick 1`] = `
             </div>
             <div
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Descriptive Keywords
@@ -1175,16 +1266,16 @@ exports[`Error List test testing invalid field onClick 1`] = `
             </div>
             <div
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Organizations
@@ -1193,16 +1284,16 @@ exports[`Error List test testing invalid field onClick 1`] = `
             </div>
             <div
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Contacts
@@ -1211,16 +1302,16 @@ exports[`Error List test testing invalid field onClick 1`] = `
             </div>
             <div
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
                 class="list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px;"
+                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span>
                   <i
-                    class="eui-icon eui-fa-circle gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Potential Action
@@ -5165,15 +5256,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                 <pre
                   class="__json-pretty__"
                 >
-                  {
-  "
-                  <span
-                    class="__json-key__"
-                  >
-                    URL
-                  </span>
-                  ": {}
-}
+                  {}
                 </pre>
               </div>
             </div>
