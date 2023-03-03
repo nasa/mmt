@@ -63,19 +63,18 @@ class ProgressField extends React.Component<ProgressFieldProps, never> {
   navigateTo() {
     const { fieldInfo, router, editor } = this.props
     const {
-      name, index, section
+      index, section
     } = fieldInfo
-    const { navigate, params } = router
+    const { params } = router
     const { id } = params
     const sectionName = section.replace(/\s/g, '_')
-    const fieldName = name.replace(/\s/g, '_')
     if (index) {
       editor.setArrayField(index)
-      navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })
-    } else {
-      editor.setFocusField(fieldName)
-      navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })
     }
+    setTimeout(() => {
+      window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}`
+    }, 50)
+    // navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })
   }
   render() {
     const { fieldInfo } = this.props

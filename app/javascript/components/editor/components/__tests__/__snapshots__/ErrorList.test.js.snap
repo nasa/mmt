@@ -254,7 +254,7 @@ exports[`Error List test testing invalid field onClick 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -366,8 +366,13 @@ exports[`Error List test testing invalid field onClick 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"

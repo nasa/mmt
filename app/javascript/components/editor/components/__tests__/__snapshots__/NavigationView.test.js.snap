@@ -274,7 +274,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -384,8 +384,13 @@ exports[`Navigation View Component cancels changes 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -5483,7 +5488,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -5593,8 +5598,13 @@ exports[`Navigation View Component error canceling changes 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -18902,7 +18912,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -19012,8 +19022,13 @@ exports[`Navigation View Component saves and previews 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -24158,7 +24173,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -24268,8 +24283,13 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -29414,7 +29434,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -29524,8 +29544,13 @@ exports[`Navigation View Component saves but receives error 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"

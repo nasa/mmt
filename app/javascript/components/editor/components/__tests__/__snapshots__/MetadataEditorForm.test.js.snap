@@ -252,7 +252,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -362,8 +362,13 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -5461,7 +5466,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -5573,8 +5578,13 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -10751,7 +10761,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -10863,8 +10873,13 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -16019,7 +16034,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -16129,8 +16144,13 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"

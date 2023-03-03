@@ -872,7 +872,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -984,8 +984,13 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
