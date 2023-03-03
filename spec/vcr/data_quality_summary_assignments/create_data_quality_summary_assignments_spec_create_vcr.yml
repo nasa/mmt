@@ -1,0 +1,119 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/search/associate/C1200060160-MMT_2
+    body:
+      encoding: UTF-8
+      string: '[{"concept_id":"DQS1200454301-MMT_2"}]'
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '93'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 03 Mar 2023 16:21:51 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - 68bdf8d5-d4c3-435d-8990-e457cb4c9be1
+      x-request-id:
+      - nVpKjWb5JpRcQkhfXwpHhZAOx7LWRw3UYmpirFpPkpqET0sjVhJgQQ==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 7cbcb3a879b5bef6ea175f5e29d026f4.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW55-C2
+      x-amz-cf-id:
+      - nVpKjWb5JpRcQkhfXwpHhZAOx7LWRw3UYmpirFpPkpqET0sjVhJgQQ==
+    body:
+      encoding: UTF-8
+      string: '{}'
+  recorded_at: Fri, 03 Mar 2023 16:21:51 GMT
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/search/associate/C1200019403-MMT_2
+    body:
+      encoding: UTF-8
+      string: '[{"concept_id":"DQS1200454301-MMT_2"}]'
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '93'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 03 Mar 2023 16:21:51 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - 4f7b3790-1722-4b56-8dab-3245ebe18c27
+      x-request-id:
+      - sN3KKZvo4rO6tMkPzZwfPmi81F_LIkrYP5hbqGzKGNrKOQ9K_I6Wrw==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 7404d5df3bdbe139edee7344c3e99f52.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW55-C2
+      x-amz-cf-id:
+      - sN3KKZvo4rO6tMkPzZwfPmi81F_LIkrYP5hbqGzKGNrKOQ9K_I6Wrw==
+    body:
+      encoding: UTF-8
+      string: '{}'
+  recorded_at: Fri, 03 Mar 2023 16:21:51 GMT
+recorded_with: VCR 6.1.0

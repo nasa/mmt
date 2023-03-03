@@ -1,0 +1,65 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/data-quality-summaries.umm_json?page_size=2000&provider_id=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Client-Id:
+      - MMT
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '35'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 03 Mar 2023 15:45:03 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - 3872e074-567d-49be-9343-add394e86004
+      x-request-id:
+      - CvKZtwbwHWxWx52ruIwIR95PpwEMXDAJ7haHlg7vjVi8Gme8s35YZA==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 e0b4c2be9c748aa43f3011ef33d65f4e.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - LAX50-C1
+      x-amz-cf-id:
+      - CvKZtwbwHWxWx52ruIwIR95PpwEMXDAJ7haHlg7vjVi8Gme8s35YZA==
+    body:
+      encoding: UTF-8
+      string: '{"hits":24,"took":29,"items":[{"meta":{"revision-id":6,"deleted":false,"provider-id":"MMT_2","user-id":"legacy_migration","associations":{"collections":["C1200056652-MMT_2","C1200212313-MMT_2"]},
+      "native-id":"F84AFA0C-8261-6433-493E-D78759D8E3FE","association-details":{"collections":[{"concept-id":"C1200056652-MMT_2"},{"concept-id":"C1200212313-MMT_2"}]},
+      "concept-id":"DQS1200454299-MMT_2","revision-date":"2023-02-07T02:44:31.383Z","concept-type":"data-quality-summary"},"umm":{"Id":"F84AFA0C-8261-6433-493E-D78759D8E3FE","Name":"ABC-DQS-1",
+      "Summary":"\u003cp\u003eABC XYZ 123\u003c/p\u003e","MetadataSpecification":{"Name":"Data Quality Summary","Version":"1.0.0","URL":"https://cdn.earthdata.nasa.gov/generics/data-quality-summary/v1.0.0"}}},
+      {"meta":{"revision-id":6,"deleted":false,"provider-id":"MMT_2","user-id":"legacy_migration","associations":{"collections":["C1200361053-MMT_2"]},"native-id":"036B896D-C4AE-E3C7-7682-30D107BD0350",
+      "association-details":{"collections":[{"concept-id":"C1200361053-MMT_2"}]},"concept-id":"DQS1200454301-MMT_2","revision-date":"2023-02-07T02:44:32.523Z","concept-type":"data-quality-summary"},
+      "umm":{"Id":"036B896D-C4AE-E3C7-7682-30D107BD0350","Name":"bbb test","Summary":"\u003cp\u003ebbb summary\u003c/p\u003e","MetadataSpecification":{"Name":"Data Quality Summary","Version":"1.0.0",
+      "URL":"https://cdn.earthdata.nasa.gov/generics/data-quality-summary/v1.0.0"}}}
+      ]}'
+  recorded_at: Fri, 03 Mar 2023 15:45:02 GMT
+recorded_with: VCR 6.1.0

@@ -211,6 +211,7 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
 
   def set_data_quality_summaries
     response = cmr_client.get_data_quality_summaries(provider_id: current_user.provider_id, token: token)
+    @summaries = []
     if response.error?
       Rails.logger.error("#{request.uuid} - DataQualitySummaryAssignmentsController#set_data_quality_summaries - Set Data Quality Summaries Error: #{response.clean_inspect}")
       err_message = "#{response.error_message}.  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to(Rails.configuration.support_email, 'Earthdata Support')}"
@@ -218,6 +219,6 @@ class DataQualitySummaryAssignmentsController < ManageCmrController
       return
     end
     @summaries = response.body.fetch('items', []) unless response.error?
-    @summaries = @summaries.sort_by{ |summary| summary.fetch('umm', {}).fetch('Name', '').downcase }
+    @summaries = @summaries.sort_by{ |summary| summary.fetch('umm', {}).fetch('Name', '').downcase } unless @summaries.empty?
   end
 end

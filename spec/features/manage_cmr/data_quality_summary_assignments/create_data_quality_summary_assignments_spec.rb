@@ -1,8 +1,6 @@
-require 'rails_helper'
-
 describe 'Creating a Data Quality Summary Assignment', js: true do
   before do
-    collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
+    collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/data_quality_summary_assignments/cmr_search.json'))))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
     login
@@ -10,7 +8,7 @@ describe 'Creating a Data Quality Summary Assignment', js: true do
 
   context 'when viewing the new data quality summary assignment form' do
     before do
-      VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/create', record: :none) do
+      VCR.use_cassette("data_quality_summary_assignments/#{File.basename(__FILE__, '.rb')}_list_vcr", record: :none) do
         visit new_data_quality_summary_assignments_path
       end
     end
@@ -44,7 +42,7 @@ describe 'Creating a Data Quality Summary Assignment', js: true do
 
       context 'with valid values' do
         before do
-          select 'DQS #1', from: 'definition_guid'
+          select 'bbb test', from: 'definition_guid'
 
           within '#catalog_item_guid_fromList' do
             # Mark's Test
@@ -58,7 +56,7 @@ describe 'Creating a Data Quality Summary Assignment', js: true do
             find('.add_button').click
           end
 
-          VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/created', record: :none) do
+          VCR.use_cassette("data_quality_summary_assignments/#{File.basename(__FILE__, '.rb')}_create_vcr", record: :none) do
             within '#data-quality-summary-assignments-form' do
               click_on 'Submit'
             end

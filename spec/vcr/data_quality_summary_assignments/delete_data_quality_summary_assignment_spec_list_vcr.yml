@@ -1,0 +1,147 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/data-quality-summaries.umm_json?concept_id=DQS1200454289-MMT_1&page_size=2000&provider_id=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Client-Id:
+      - MMT
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '35'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 03 Mar 2023 15:33:05 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - 53941dc3-f392-40a3-8f94-7b1bd866ff19
+      x-request-id:
+      - niMHIve8Z_DkHp8K6etTP3qEt1W7wXCLzhd9E8HFHK9NgrzoflPaZQ==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 046fa08c8243e1283464b886d8c3ea1a.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW55-C2
+      x-amz-cf-id:
+      - niMHIve8Z_DkHp8K6etTP3qEt1W7wXCLzhd9E8HFHK9NgrzoflPaZQ==
+    body:
+      encoding: UTF-8
+      string: ' { "hits": 1, "took": 17, "items": [ { "meta": { "revision-id": 1,
+        "deleted": false, "provider-id": "PROV1", "user-id": "exampleuser", "native-id":
+        "samplenativeid12", "concept-id": "DQS1200454289-MMT_1", "revision-date":
+        "2022-10-26T19:17:27.021Z", "concept-type": "data-quality-summary" }, "umm":
+        { "Id": "8EA5CA1F-E339-8065-26D7-53B64074D7CC", "Name": "data-quality-summary-name-v22",
+        "Summary": "Summary", "MetadataSpecification": { "Name": "Data Quality Summary",
+        "Version": "1.0.0", "URL": "https://cdn.earthdata.nasa.gov/generics/data-quality-summary/v1.0.0"
+        } } } ] } '
+  recorded_at: Fri, 03 Mar 2023 15:33:05 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/data-quality-summaries.umm_json?concept_id=DQS1200454233-MMT_1&page_size=2000&provider_id=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Client-Id:
+      - MMT
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '35'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 03 Mar 2023 15:35:35 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - 0c5b3c70-9566-4a63-8817-d5cf01812198
+      x-request-id:
+      - knSqe3M89JgpzO6bryKhj9hD_PrRpfPvIC3jilIjC9tHrPzD1B_w9Q==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 6d857a3bcd9cb23d359c01799b55261a.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW55-C2
+      x-amz-cf-id:
+      - knSqe3M89JgpzO6bryKhj9hD_PrRpfPvIC3jilIjC9tHrPzD1B_w9Q==
+    body:
+      encoding: UTF-8
+      string: '
+      {
+        "hits": 1,
+        "took": 17,
+        "items": [
+            {
+                "meta": {
+                    "revision-id": 1,
+                    "deleted": false,
+                    "provider-id": "PROV1",
+                    "user-id": "exampleuser",
+                    "native-id": "samplenativeid12",
+                    "concept-id": "DQS1200454233-MMT_1",
+                    "revision-date": "2022-10-26T19:17:27.021Z",
+                    "concept-type": "data-quality-summary"
+                },
+                "umm": {
+                    "Id": "8EA5CA1F-E339-8065-26D7-53B64074D7CC",
+                    "Name": "data-quality-summary-name-v1",
+                    "Summary": "Summary",
+                    "MetadataSpecification": {
+                        "Name": "Data Quality Summary",
+                        "Version": "1.0.0",
+                        "URL": "https://cdn.earthdata.nasa.gov/generics/data-quality-summary/v1.0.0"
+                    }
+                }
+            }
+        ]
+    }
+      '
+  recorded_at: Fri, 03 Mar 2023 15:35:34 GMT
+recorded_with: VCR 6.1.0
