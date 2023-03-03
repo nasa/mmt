@@ -58,7 +58,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--name"
@@ -74,7 +74,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                               Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -123,7 +123,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                               Long Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -172,7 +172,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                               Version
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -252,7 +252,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -269,7 +269,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 Type
                                 <i
                                   class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  style="color: green; padding-left: 5px;"
                                 />
                               </span>
                             </div>
@@ -362,9 +362,13 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
-                      style="margin-top: 15px;"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -376,7 +380,9 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             class="custom-date-time-widget"
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
-                            <div>
+                            <div
+                              class="dateTimeWidgetLabel"
+                            >
                               <span>
                                 Last Updated Date
                               </span>
@@ -429,7 +435,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                               </span>
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -625,7 +631,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                       URL Content Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -740,7 +746,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                        URL Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -971,7 +977,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o"
-                                                style="color: green; padding: 5px;"
+                                                style="color: green; padding-left: 5px;"
                                               />
                                             </span>
                                             <span
@@ -5266,7 +5272,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--name"
@@ -5282,7 +5288,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                               Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -5331,7 +5337,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                               Long Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -5380,7 +5386,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                               Version
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -5460,7 +5466,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -5477,7 +5483,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 Type
                                 <i
                                   class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  style="color: green; padding-left: 5px;"
                                 />
                               </span>
                             </div>
@@ -5572,9 +5578,13 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
-                      style="margin-top: 15px;"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -5586,7 +5596,9 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             class="custom-date-time-widget"
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
-                            <div>
+                            <div
+                              class="dateTimeWidgetLabel"
+                            >
                               <span>
                                 Last Updated Date
                               </span>
@@ -5639,7 +5651,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                               </span>
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -5835,7 +5847,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                       URL Content Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -5950,7 +5962,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                        URL Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -6181,7 +6193,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o"
-                                                style="color: green; padding: 5px;"
+                                                style="color: green; padding-left: 5px;"
                                               />
                                             </span>
                                             <span
@@ -10555,7 +10567,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--name"
@@ -10571,7 +10583,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                               Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -10620,7 +10632,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                               Long Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -10669,7 +10681,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                               Version
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -10749,7 +10761,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -10766,7 +10778,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 Type
                                 <i
                                   class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  style="color: green; padding-left: 5px;"
                                 />
                               </span>
                             </div>
@@ -10861,9 +10873,13 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
-                      style="margin-top: 15px;"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -10875,7 +10891,9 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             class="custom-date-time-widget"
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
-                            <div>
+                            <div
+                              class="dateTimeWidgetLabel"
+                            >
                               <span>
                                 Last Updated Date
                               </span>
@@ -10928,7 +10946,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                               </span>
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -11124,7 +11142,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                       URL Content Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -11239,7 +11257,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                        URL Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -11470,7 +11488,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o"
-                                                style="color: green; padding: 5px;"
+                                                style="color: green; padding-left: 5px;"
                                               />
                                             </span>
                                             <span
@@ -15822,7 +15840,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--name"
@@ -15838,7 +15856,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                               Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -15887,7 +15905,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                               Long Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -15936,7 +15954,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                               Version
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -16016,7 +16034,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--type"
@@ -16033,7 +16051,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 Type
                                 <i
                                   class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  style="color: green; padding-left: 5px;"
                                 />
                               </span>
                             </div>
@@ -16126,9 +16144,13 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                         </div>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                    style="margin-bottom: -5px;"
+                  >
                     <div
-                      class="col-md-6"
-                      style="margin-top: 15px;"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -16140,7 +16162,9 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             class="custom-date-time-widget"
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
-                            <div>
+                            <div
+                              class="dateTimeWidgetLabel"
+                            >
                               <span>
                                 Last Updated Date
                               </span>
@@ -16193,7 +16217,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                               </span>
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -16389,7 +16413,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                       URL Content Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -16504,7 +16528,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                        URL Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -16735,7 +16759,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o"
-                                                style="color: green; padding: 5px;"
+                                                style="color: green; padding-left: 5px;"
                                               />
                                             </span>
                                             <span

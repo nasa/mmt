@@ -110,7 +110,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
         <div>
           <span>
             {title}
-            {required && title ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
+            {required && title ? <i className="eui-icon eui-required-o" style={{ color: 'green', paddingLeft: '5px' }} /> : ''}
           </span>
         </div>
         <div className="custom-select-widget-description" style={{ padding: '5px' }} data-testid={`custom-select-widget__${kebabCase(label)}--description`}>

@@ -34,8 +34,7 @@ const potentialActionUiSchema = {
     },
     Type: {
       'ui:widget': CustomSelectWidget,
-      'ui:title': 'Type',
-      classNames: 'shortWidget'
+      'ui:title': 'Type'
     },
     Target: {
       'ui:field': 'layout',
@@ -80,8 +79,7 @@ const potentialActionUiSchema = {
       },
       Type: {
         'ui:widget': CustomSelectWidget,
-        'ui:title': 'Type',
-        classNames: 'shortWidget'
+        'ui:title': 'Type'
       },
       Description: {
         'ui:widget': 'textarea'
@@ -103,8 +101,7 @@ const potentialActionUiSchema = {
         'ui:classNames': 'smallBoldTitle',
         items: {
           'ui:title': 'HTTP Method',
-          'ui:widget': CustomSelectWidget,
-          classNames: 'shortWidget'
+          'ui:widget': CustomSelectWidget
         }
       }
 

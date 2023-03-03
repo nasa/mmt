@@ -6,7 +6,9 @@ exports[`Custom Date Time Widget Component makes sure the correct date is render
     class="custom-date-time-widget"
     data-testid="custom-date-time-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="dateTimeWidgetLabel"
+    >
       <span>
         Date
       </span>
@@ -1750,7 +1752,9 @@ exports[`Custom Date Time Widget Component makes sure the onChange is working wi
     class="custom-date-time-widget"
     data-testid="custom-date-time-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="dateTimeWidgetLabel"
+    >
       <span>
         Date
       </span>
@@ -3494,7 +3498,9 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
     class="custom-date-time-widget"
     data-testid="custom-date-time-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="dateTimeWidgetLabel"
+    >
       <span>
         my test data label
       </span>
@@ -3527,7 +3533,9 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
     class="custom-date-time-widget"
     data-testid="custom-date-time-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="dateTimeWidgetLabel"
+    >
       <span>
         my test data label
         *

@@ -13,7 +13,7 @@ const toolInformationUiSchema = {
           children: [
             {
               'ui:row': [
-                { 'ui:col': { md: 6, children: ['Name'] } }
+                { 'ui:col': { md: 12, children: ['Name'] } }
               ]
             },
             {
@@ -33,8 +33,12 @@ const toolInformationUiSchema = {
             },
             {
               'ui:row': [
-                { 'ui:col': { md: 6, children: ['Type'] } },
-                { 'ui:col': { style: { marginTop: '15px' }, md: 6, children: ['LastUpdatedDate'] } }
+                { 'ui:col': { md: 12, children: ['Type'] } }
+              ]
+            },
+            {
+              'ui:row': [
+                { 'ui:col': { md: 12, children: ['LastUpdatedDate'] } }
               ]
             },
             {

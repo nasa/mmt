@@ -30,9 +30,9 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
     const { editor } = this.props
 
     if (prevState.currentSelect === currentSelect || editor.focusField === currentSelect) {
-      editor.setFocusField('')
-      // editor.setArrayField(-1)
-      editor.setFocusField(currentSelect)
+      // editor.setFocusField('')
+      // // editor.setArrayField(-1)
+      // editor.setFocusField(currentSelect)
     }
     if (currentSelect) {
       this.setState({ currentSelect: '' })
