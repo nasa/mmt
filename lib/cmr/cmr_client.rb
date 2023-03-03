@@ -759,26 +759,6 @@ module Cmr
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
-    def create_collection_association(collection_concept_id:, concept_id:, token:)
-      url = "/search/associate/#{provider_id}/#{collection_concept_id}"
-      payload = []
-      concept = {}
-      concept[:concept_id] = concept_id
-      payload << concept
-      headers = { 'Accept' => 'application/json; charset=utf-8' }
-      post(url, payload.to_json, headers.merge(token_header(token)))
-    end
-
-    def remove_collection_association(collection_concept_id:, concept_id:, token:)
-      url = "/search/associate/#{provider_id}/#{collection_concept_id}"
-      payload = []
-      concept = {}
-      concept[:concept_id] = concept_id
-      payload << concept
-      headers = { 'Accept' => 'application/json; charset=utf-8' }
-      delete(url, payload.to_json, headers.merge(token_header(token)))
-    end
-
     private
 
     def valid_uri?(uri)
