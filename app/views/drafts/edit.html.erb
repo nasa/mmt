@@ -19,7 +19,7 @@
   <% else %>
     <div id="react-editor-form">
       <div class="row row-content">
-          <%= react_component("editor/UmmToolsForm", {heading: "Update Tool Record", token: @react_token}) %>
+          <%= react_component("editor/UmmToolsForm", {heading: "Update Tool Record", token: @react_token, user: @react_user, provider: @react_provider}) %>
         </div>
     </div>
   <% end %>

@@ -364,6 +364,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                     </div>
                     <div
                       class="col-md-6"
+                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -5573,6 +5574,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                     </div>
                     <div
                       class="col-md-6"
+                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -10861,6 +10863,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                     </div>
                     <div
                       class="col-md-6"
+                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -16125,6 +16128,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                     </div>
                     <div
                       class="col-md-6"
+                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"

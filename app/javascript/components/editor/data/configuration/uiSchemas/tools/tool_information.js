@@ -34,7 +34,7 @@ const toolInformationUiSchema = {
             {
               'ui:row': [
                 { 'ui:col': { md: 6, children: ['Type'] } },
-                { 'ui:col': { md: 6, children: ['LastUpdatedDate'] } }
+                { 'ui:col': { style: { marginTop: '15px' }, md: 6, children: ['LastUpdatedDate'] } }
               ]
             },
             {

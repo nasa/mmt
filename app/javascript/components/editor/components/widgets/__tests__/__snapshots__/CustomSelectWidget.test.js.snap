@@ -986,6 +986,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                     </div>
                     <div
                       class="col-md-6"
+                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"

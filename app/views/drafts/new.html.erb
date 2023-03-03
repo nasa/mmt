@@ -5,7 +5,7 @@
 <div class="row row-content">
   <% if resource_name == 'tool_draft' and Rails.configuration.react_forms_enabled %>
     <section id="react-editor-form" class="metadata">
-      <%= react_component("editor/UmmToolsForm", {heading: "Create Tool Record", token: @react_token}) %>
+      <%= react_component("editor/UmmToolsForm", {heading: "Create Tool Record", token: @react_token, user: @react_user, provider: @react_provider}) %>
     </section>
 <% else %>
     <section>

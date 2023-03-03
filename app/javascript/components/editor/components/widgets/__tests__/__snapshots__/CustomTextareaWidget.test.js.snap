@@ -516,6 +516,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                     </div>
                     <div
                       class="col-md-6"
+                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
