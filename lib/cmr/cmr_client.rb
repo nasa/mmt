@@ -712,33 +712,10 @@ module Cmr
       get(url, options, token_header(token))
     end
 
-    def delete_collection_service_association(service_concept_id:, collection_concept_id:, token:)
-      payload = []
-      concept_id = {}
-      concept_id[:concept_id] = collection_concept_id
-      payload << concept_id
-      delete("/search/services/#{service_concept_id}/associations", {}, payload.to_json, token_header(token))
-    end
-
-    def create_collection_service_association(collection_concept_id:, service_concept_id:, order_option_concept_id:, token:)
-      url = "/search/services/#{service_concept_id}/associations"
-      payload = []
-      association = {}
-      association[:concept_id] = collection_concept_id
-      data = {}
-      data[:order_option] = order_option_concept_id
-      association[:data] = data
-      payload << association
-      headers = {
-        'Accept' => 'application/json; charset=utf-8',
-        'Content-Type' => 'application/json'
-      }
-      post(url, payload.to_json, headers.merge(token_header(token)))
-    end
-    
-    def get_order_options(provider_id:, token:, concept_id: nil)
+    def get_order_options(provider_id:, token:, id: nil, concept_id: nil)
       options = {}
       options[:provider_id] = provider_id
+      options[:id] = id if id
       options[:concept_id] = concept_id if concept_id
       options[:page_size] = 2000
       get('/search/order-options.umm_json', options, token_header(token))
@@ -757,6 +734,34 @@ module Cmr
         'Content-Type' => 'application/json'
       }
       post(url, order_option.to_json, headers.merge(token_header(token)))
+    end
+
+    def get_data_quality_summaries(provider_id:, concept_id: nil, token:)
+      options = {}
+      options[:provider_id] = provider_id
+      options[:concept_id] = concept_id if concept_id
+      options[:page_size] = 2000
+      get('/search/data-quality-summaries.umm_json', options, token_header(token))
+    end
+
+    def create_collection_association(collection_concept_id:, concept_id:, token:)
+      url = "/search/associate/#{collection_concept_id}"
+      payload = []
+      concept = {}
+      concept[:concept_id] = concept_id
+      payload << concept
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+      post(url, payload.to_json, headers.merge(token_header(token)))
+    end
+
+    def remove_collection_association(collection_concept_id:, concept_id:, token:)
+      url = "/search/associate/#{collection_concept_id}"
+      payload = []
+      concept = {}
+      concept[:concept_id] = concept_id
+      payload << concept
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+      delete(url, {}, payload.to_json, headers.merge(token_header(token)))
     end
 
     private

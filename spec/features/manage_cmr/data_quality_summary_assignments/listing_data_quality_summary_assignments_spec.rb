@@ -1,7 +1,7 @@
 describe 'Viewing Data Quality Summary Assignments', js: true do
   context 'when viewing the data quality summary assignments page' do
     before do
-      collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
+      collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/data_quality_summary_assignments/cmr_search.json'))))
       allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
       login
@@ -44,9 +44,7 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
 
         context 'when the collections have no assignemnts' do
           before do
-            VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/empty', record: :none) do
-              click_on 'Display Assignments'
-            end
+            click_on 'Display Assignments'
           end
 
           it 'displays no results message' do
@@ -68,17 +66,17 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
           before do
             within '#catalog_item_guid_fromList' do
               # Mark's Test
-              find('option[value="C1200060160-MMT_2"]').select_option
+              find('option[value="C1200189951-MMT_2"]').select_option
 
               # Matthew's Test
-              find('option[value="C1200019403-MMT_2"]').select_option
+              find('option[value="C1200190013-MMT_2"]').select_option
             end
 
             within '.button-container' do
               find('.add_button').click
             end
 
-            VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/list', record: :none) do
+            VCR.use_cassette("data_quality_summary_assignments/#{File.basename(__FILE__, '.rb')}_list_vcr", record: :none) do
               click_on 'Display Assignments'
             end
           end
@@ -93,10 +91,10 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
             end
 
             it 'It sorts the table by Collections in ascending order' do
-              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(2)')
-              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(2)')
-              expect(first_cell).to have_content "Mark's Test"
-              expect(last_cell).to have_content "Matthew's Test"
+              first_cell = find('#assignment-collections > tbody > tr:nth-child(3) > td:nth-child(2) > a')
+              last_cell = find('#assignment-collections > tbody > tr:nth-child(4) > td:nth-child(2) > a')
+              expect(first_cell).to have_content "Test test title 03"
+              expect(last_cell).to have_content "Testy long entry title"
             end
           end
 
@@ -107,10 +105,10 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
             end
 
             it 'It sorts the table by Collections in descending order' do
-              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(2)')
-              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(2)')
-              expect(first_cell).to have_content "Matthew's Test"
-              expect(last_cell).to have_content "Mark's Test"
+              first_cell = find('#assignment-collections > tbody > tr:nth-child(1) > td:nth-child(2) > a')
+              last_cell = find('#assignment-collections > tbody > tr:nth-child(2) > td:nth-child(2) > a')
+              expect(first_cell).to have_content "Testy long entry title"
+              expect(last_cell).to have_content "Test test title 03"
             end
           end
 
@@ -120,10 +118,10 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
             end
 
             it 'It sorts the table by Short Name in ascending order' do
-              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(3)')
-              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(3)')
-              expect(first_cell).to have_content 'ID'
-              expect(last_cell).to have_content "Matthew'sTest"
+              first_cell = find('#assignment-collections > tbody > tr:nth-child(3) > td:nth-child(3)')
+              last_cell = find('#assignment-collections > tbody > tr:nth-child(4) > td:nth-child(3)')
+              expect(first_cell).to have_content 'New Testy Test'
+              expect(last_cell).to have_content "testing 03"
             end
           end
 
@@ -134,10 +132,10 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
             end
 
             it 'It sorts the table by Short Name in descending order' do
-              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(3)')
-              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(3)')
-              expect(first_cell).to have_content "Matthew'sTest"
-              expect(last_cell).to have_content 'ID'
+              first_cell = find('#assignment-collections > tbody > tr:nth-child(1) > td:nth-child(3)')
+              last_cell = find('#assignment-collections > tbody > tr:nth-child(2) > td:nth-child(3)')
+              expect(first_cell).to have_content "testing 03"
+              expect(last_cell).to have_content 'New Testy Test'
             end
           end
 
@@ -147,10 +145,10 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
             end
 
             it 'It sorts the table by Version ID in ascending order' do
-              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(4)')
-              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(4)')
-              expect(first_cell).to have_content '1'
-              expect(last_cell).to have_content '2'
+              first_cell = find('#assignment-collections > tbody > tr:nth-child(1) > td:nth-child(4)')
+              last_cell = find('#assignment-collections > tbody > tr:nth-child(2) > td:nth-child(4)')
+              expect(first_cell).to have_content '002'
+              expect(last_cell).to have_content '02'
             end
           end
 
@@ -161,10 +159,10 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
             end
 
             it 'It sorts the table by Version ID in descending order' do
-              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(4)')
-              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(4)')
-              expect(first_cell).to have_content '2'
-              expect(last_cell).to have_content '1'
+              first_cell = find('#assignment-collections > tbody > tr:nth-child(3) > td:nth-child(4)')
+              last_cell = find('#assignment-collections > tbody > tr:nth-child(4) > td:nth-child(4)')
+              expect(first_cell).to have_content '02'
+              expect(last_cell).to have_content '002'
             end
           end
 
@@ -174,10 +172,10 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
             end
 
             it 'It sorts the table by Data Quality Summary in ascending order' do
-              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(5)')
-              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(5)')
-              expect(first_cell).to have_content 'DQS #1'
-              expect(last_cell).to have_content 'DQS #1'
+              first_cell = find('#assignment-collections > tbody > tr:nth-child(3) > td:nth-child(5) > a')
+              last_cell = find('#assignment-collections > tbody > tr:nth-child(4) > td:nth-child(5) > a')
+              expect(first_cell).to have_content 'data-quality-summary-name-v1'
+              expect(last_cell).to have_content 'data-quality-summary-name-v22'
             end
           end
 
@@ -189,10 +187,10 @@ describe 'Viewing Data Quality Summary Assignments', js: true do
             end
 
             it 'It sorts the table by Data Quality Summary in descending order' do
-              first_cell = find('#assignment-collections tbody tr:first-child td:nth-child(5)')
-              last_cell = find('#assignment-collections tbody tr:last-child td:nth-child(5)')
-              expect(first_cell).to have_content 'DQS #1'
-              expect(last_cell).to have_content 'DQS #1'
+              first_cell = find('#assignment-collections > tbody > tr:nth-child(1) > td:nth-child(5) > a')
+              last_cell = find('#assignment-collections > tbody > tr:nth-child(2) > td:nth-child(5) > a')
+              expect(first_cell).to have_content 'data-quality-summary-name-v22'
+              expect(last_cell).to have_content 'data-quality-summary-name-v1'
             end
           end
         end

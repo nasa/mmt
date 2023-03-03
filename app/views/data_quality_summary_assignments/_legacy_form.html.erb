@@ -2,7 +2,7 @@
   <fieldset>
     <div class="row">
       <label for="definition_guid" class="eui-required-o">Data Quality Summary</label>
-      <%= select_tag('definition_guid', options_for_select(@summaries.map { |s| [s.fetch('umm', {}).fetch('Name', nil), s.fetch('meta', {}).fetch('concept-id', '')] }), class: 'select2-select full-width', prompt: 'Select a Data Quality Summary') %>
+      <%= select_tag('definition_guid', options_for_select(@summaries.map { |s| [s.parsed_body.fetch('Name', nil), s.parsed_body.fetch('Guid', nil)] }), class: 'select2-select full-width', prompt: 'Select a Data Quality Summary') %>
     </div>
   </fieldset>
 <% end %>
