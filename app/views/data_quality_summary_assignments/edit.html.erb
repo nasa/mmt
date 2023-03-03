@@ -5,6 +5,7 @@
     <% if Rails.configuration.use_legacy_order_service %>
       <%= render partial: "legacy_edit" %>
     <% else %>
+      <!-- THIS PAGE IS NOT USING LEGACY SERVICE -->
       <%= form_tag(data_quality_summary_assignments_path, method: :delete, class: "data-quality-summary-form", id: "delete-data-quality-summary-assignments-form") do %>
         <fieldset>
           <%= label_tag(:show_unassigned_collections, class: 'show-unassigned-collections') do %>
