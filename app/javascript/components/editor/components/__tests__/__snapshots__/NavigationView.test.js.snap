@@ -80,7 +80,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--name"
@@ -96,7 +96,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                               Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -145,7 +145,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                               Long Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -194,7 +194,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                               Version
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -291,7 +291,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                 Type
                                 <i
                                   class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  style="color: green; padding-left: 5px;"
                                 />
                               </span>
                             </div>
@@ -386,7 +386,6 @@ exports[`Navigation View Component cancels changes 1`] = `
                     </div>
                     <div
                       class="col-md-6"
-                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -398,7 +397,9 @@ exports[`Navigation View Component cancels changes 1`] = `
                             class="custom-date-time-widget"
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
-                            <div>
+                            <div
+                              class="dateTimeWidgetLabel"
+                            >
                               <span>
                                 Last Updated Date
                               </span>
@@ -451,7 +452,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                               </span>
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -647,7 +648,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                                       URL Content Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -762,7 +763,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                                        URL Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -993,7 +994,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o"
-                                                style="color: green; padding: 5px;"
+                                                style="color: green; padding-left: 5px;"
                                               />
                                             </span>
                                             <span
@@ -5288,7 +5289,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--name"
@@ -5304,7 +5305,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                               Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -5353,7 +5354,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                               Long Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -5402,7 +5403,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                               Version
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -5499,7 +5500,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                 Type
                                 <i
                                   class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  style="color: green; padding-left: 5px;"
                                 />
                               </span>
                             </div>
@@ -5594,7 +5595,6 @@ exports[`Navigation View Component error canceling changes 1`] = `
                     </div>
                     <div
                       class="col-md-6"
-                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -5606,7 +5606,9 @@ exports[`Navigation View Component error canceling changes 1`] = `
                             class="custom-date-time-widget"
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
-                            <div>
+                            <div
+                              class="dateTimeWidgetLabel"
+                            >
                               <span>
                                 Last Updated Date
                               </span>
@@ -5659,7 +5661,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                               </span>
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -5855,7 +5857,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                       URL Content Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -5970,7 +5972,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                        URL Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -6201,7 +6203,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o"
-                                                style="color: green; padding: 5px;"
+                                                style="color: green; padding-left: 5px;"
                                               />
                                             </span>
                                             <span
@@ -18706,7 +18708,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--name"
@@ -18722,7 +18724,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                               Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -18771,7 +18773,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                               Long Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -18820,7 +18822,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                               Version
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -18917,7 +18919,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                                 Type
                                 <i
                                   class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  style="color: green; padding-left: 5px;"
                                 />
                               </span>
                             </div>
@@ -19012,7 +19014,6 @@ exports[`Navigation View Component saves and previews 1`] = `
                     </div>
                     <div
                       class="col-md-6"
-                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -19024,7 +19025,9 @@ exports[`Navigation View Component saves and previews 1`] = `
                             class="custom-date-time-widget"
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
-                            <div>
+                            <div
+                              class="dateTimeWidgetLabel"
+                            >
                               <span>
                                 Last Updated Date
                               </span>
@@ -19077,7 +19080,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                               </span>
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -19273,7 +19276,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                                                       URL Content Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -19388,7 +19391,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                                                        URL Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -19619,7 +19622,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o"
-                                                style="color: green; padding: 5px;"
+                                                style="color: green; padding-left: 5px;"
                                               />
                                             </span>
                                             <span
@@ -23961,7 +23964,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--name"
@@ -23977,7 +23980,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                               Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -24026,7 +24029,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                               Long Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -24075,7 +24078,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                               Version
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -24172,7 +24175,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                 Type
                                 <i
                                   class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  style="color: green; padding-left: 5px;"
                                 />
                               </span>
                             </div>
@@ -24267,7 +24270,6 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                     </div>
                     <div
                       class="col-md-6"
-                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -24279,7 +24281,9 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                             class="custom-date-time-widget"
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
-                            <div>
+                            <div
+                              class="dateTimeWidgetLabel"
+                            >
                               <span>
                                 Last Updated Date
                               </span>
@@ -24332,7 +24336,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                               </span>
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -24528,7 +24532,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                       URL Content Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -24643,7 +24647,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                        URL Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -24874,7 +24878,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o"
-                                                style="color: green; padding: 5px;"
+                                                style="color: green; padding-left: 5px;"
                                               />
                                             </span>
                                             <span
@@ -29216,7 +29220,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--name"
@@ -29232,7 +29236,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                               Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -29281,7 +29285,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                               Long Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -29330,7 +29334,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                               Version
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -29427,7 +29431,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                 Type
                                 <i
                                   class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  style="color: green; padding-left: 5px;"
                                 />
                               </span>
                             </div>
@@ -29522,7 +29526,6 @@ exports[`Navigation View Component saves but receives error 1`] = `
                     </div>
                     <div
                       class="col-md-6"
-                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -29534,7 +29537,9 @@ exports[`Navigation View Component saves but receives error 1`] = `
                             class="custom-date-time-widget"
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
-                            <div>
+                            <div
+                              class="dateTimeWidgetLabel"
+                            >
                               <span>
                                 Last Updated Date
                               </span>
@@ -29587,7 +29592,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                               </span>
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -29783,7 +29788,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                       URL Content Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -29898,7 +29903,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                        URL Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -30129,7 +30134,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o"
-                                                style="color: green; padding: 5px;"
+                                                style="color: green; padding-left: 5px;"
                                               />
                                             </span>
                                             <span

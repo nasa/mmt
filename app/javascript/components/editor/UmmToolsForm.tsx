@@ -10,18 +10,16 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 interface UmmToolsFormProps {
   heading: string,
-  token: string,
-  user: string,
-  provider: string
+  token: string
 }
 class UmmToolsForm extends React.Component<UmmToolsFormProps, never> {
   model: UmmToolsModel
   editor: MetadataEditor
   constructor(props:UmmToolsFormProps) {
     super(props)
-    const { token, user, provider } = this.props
+    const { token } = this.props
     this.model = new UmmToolsModel()
-    this.editor = new MetadataEditor(this.model, token, user, provider)
+    this.editor = new MetadataEditor(this.model, token)
   }
 
   render() {

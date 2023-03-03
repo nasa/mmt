@@ -12,8 +12,13 @@
   padding-left: 0px !important;
 }
 
+#react-editor-form .col-md-3 {
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+}
+
 #react-editor-form .col-md-4 {
-  margin-left: 5px !important;
+  margin-left: 0px !important;
   padding-left: 0px !important;
 }
 
@@ -73,7 +78,6 @@ section .umm-preview {
 
 #react-editor-form .row {
   display: flex;
-  flex-wrap: nowrap;
 }
 
 #react-editor-form #metadata-form {

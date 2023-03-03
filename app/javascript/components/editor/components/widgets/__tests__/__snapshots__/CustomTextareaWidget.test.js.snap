@@ -51,7 +51,7 @@ exports[`Custom Text Area Widget Component renders the custom Text area widget w
       </span>
       <i
         class="eui-icon eui-required-o"
-        style="color: green; padding: 5px;"
+        style="color: green; padding-left: 5px;"
       />
     </span>
     <span
@@ -90,7 +90,7 @@ exports[`Custom Text Area Widget Component renders the custom Text area widget w
       </span>
       <i
         class="eui-icon eui-required-o"
-        style="color: green; padding: 5px;"
+        style="color: green; padding-left: 5px;"
       />
     </span>
     <span
@@ -208,7 +208,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                     style="margin-bottom: -5px;"
                   >
                     <div
-                      class="col-md-6"
+                      class="col-md-12"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--name"
@@ -224,7 +224,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                               Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -273,7 +273,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                               Long Name
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -322,7 +322,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                               Version
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -419,7 +419,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                 Type
                                 <i
                                   class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  style="color: green; padding-left: 5px;"
                                 />
                               </span>
                             </div>
@@ -516,7 +516,6 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                     </div>
                     <div
                       class="col-md-6"
-                      style="margin-top: 15px;"
                     >
                       <span
                         data-testid="layout-grid-field__schema-field--last-updated-date"
@@ -528,7 +527,9 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                             class="custom-date-time-widget"
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
-                            <div>
+                            <div
+                              class="dateTimeWidgetLabel"
+                            >
                               <span>
                                 Last Updated Date
                               </span>
@@ -581,7 +582,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                               </span>
                               <i
                                 class="eui-icon eui-required-o"
-                                style="color: green; padding: 5px;"
+                                style="color: green; padding-left: 5px;"
                               />
                             </span>
                             <span
@@ -779,7 +780,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                                       URL Content Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -894,7 +895,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                                        URL Type
                                                       <i
                                                         class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        style="color: green; padding-left: 5px;"
                                                       />
                                                     </span>
                                                   </div>
@@ -1125,7 +1126,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o"
-                                                style="color: green; padding: 5px;"
+                                                style="color: green; padding-left: 5px;"
                                               />
                                             </span>
                                             <span

@@ -18,7 +18,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     <div
       class="custom-select-widget-description"
       data-testid="custom-select-widget__my-test-data-label--description"
-      style="padding: 5px;"
+      style="padding-left: 5px;"
     >
       <span
         style="font-style: italic; font-size: .85rem;"
@@ -196,7 +196,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     <div
       class="custom-select-widget-description"
       data-testid="custom-select-widget__my-test-data-label--description"
-      style="padding: 5px;"
+      style="padding-left: 5px;"
     >
       <span
         style="font-style: italic; font-size: .85rem;"
@@ -378,7 +378,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     <div
       class="custom-select-widget-description"
       data-testid="custom-select-widget__my-test-data-label--description"
-      style="padding: 5px;"
+      style="padding-left: 5px;"
     >
       <span
         style="font-style: italic; font-size: .85rem;"
@@ -560,7 +560,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     <div
       class="custom-select-widget-description"
       data-testid="custom-select-widget__my-test-data-label--description"
-      style="padding: 5px;"
+      style="padding-left: 5px;"
     >
       <span
         style="font-style: italic; font-size: .85rem;"
@@ -736,7 +736,7 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
     <div
       class="custom-select-widget-description"
       data-testid="custom-select-widget__my-test-data-label--description"
-      style="padding: 5px;"
+      style="padding-left: 5px;"
     >
       <span
         style="font-style: italic; font-size: .85rem;"

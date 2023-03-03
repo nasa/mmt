@@ -92,7 +92,7 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
             {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
           </span>
         </div>
-        <div className="custom-select-widget-description" style={{ padding: '5px' }} data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
+        <div className="custom-select-widget-description" style={{ paddingLeft: '5px' }} data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
           <span style={{ fontStyle: 'italic', fontSize: '.85rem' }}>
             {setFocus ? schema.description : ''}
           </span>

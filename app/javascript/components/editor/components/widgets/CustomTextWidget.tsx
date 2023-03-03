@@ -65,7 +65,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           {title && (
             <span>
               {title}
-              {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
+              {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', paddingLeft: '5px' }} /> : ''}
             </span>
           )}
           {maxLength && (
@@ -91,6 +91,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           // Example of an array element id: id = 'root_0_description'
           // Example of a controlled filed id: id = 'root_description'
           onClick={() => (id && id.split('_').length >= 2 ? editor.setFocusField(id) : editor.setFocusField(label))}
+          onFocus={() => (id && id.split('_').length >= 2 ? editor.setFocusField(id) : editor.setFocusField(label))}
           onChange={(e) => {
             const { value } = e.target
             const len = value.length

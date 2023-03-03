@@ -69,7 +69,7 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
             <span className={classNames}>
               {title}
             </span>
-            {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
+            {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', paddingLeft: '5px' }} /> : ''}
           </span>
           {maxLength && (
             <span style={{ float: 'right' }}>
@@ -91,6 +91,7 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
           // Example of an array element id: id = 'root_0_description'
           // Example of a controlled filed id: id = 'root_description'
           onClick={() => (id.split('_').length >= 3 ? editor.setFocusField(id) : editor.setFocusField(title))}
+          onFocus={() => (id.split('_').length >= 3 ? editor.setFocusField(id) : editor.setFocusField(title))}
           onChange={(e) => {
             const { value } = e.target
             const len = value.length
