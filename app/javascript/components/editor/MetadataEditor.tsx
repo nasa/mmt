@@ -12,9 +12,9 @@ export default class MetadataEditor {
   model: FormModel
   service: MetadataService
   formProps: FormProperties
-  constructor(model: FormModel, token = 'token') {
+  constructor(model: FormModel, token = 'token', user = 'user', provider = 'MMT_1') {
     this.model = model
-    this.service = new MetadataService(token, model.documentType, 'user', 'MMT_1')
+    this.service = new MetadataService(token, model.documentType, user, provider)
     this.formProps = new FormProperties()
     makeObservable(this, {
       model: observable,
