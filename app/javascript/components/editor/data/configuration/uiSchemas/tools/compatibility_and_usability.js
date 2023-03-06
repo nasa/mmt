@@ -12,8 +12,8 @@ const compatibilityAndUsabilityUiSchema = {
             {
               'ui:group': 'Supported Formats',
               'ui:row': [
-                { 'ui:col': { style: { borderLeft: 'solid 5px rgb(240,240,240' }, md: 10, children: ['SupportedInputFormats'] } },
-                { 'ui:col': { style: { borderLeft: 'solid 5px rgb(240,240,240', marginBottom: '30px' }, md: 10, children: ['SupportedOutputFormats'] } }
+                { 'ui:col': { style: { borderLeft: 'solid 5px rgb(240,240,240)' }, md: 10, children: ['SupportedInputFormats'] } },
+                { 'ui:col': { style: { borderLeft: 'solid 5px rgb(240,240,240)', marginBottom: '30px' }, md: 10, children: ['SupportedOutputFormats'] } }
 
               ]
             },
