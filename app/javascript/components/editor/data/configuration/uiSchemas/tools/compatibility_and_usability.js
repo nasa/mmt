@@ -10,7 +10,7 @@ const compatibilityAndUsabilityUiSchema = {
           md: 12,
           children: [
             {
-              'ui:group': 'Supported Format',
+              'ui:group': 'Supported Formats',
               'ui:row': [
                 { 'ui:col': { style: { borderLeft: 'solid 5px rgb(240,240,240' }, md: 10, children: ['SupportedInputFormats'] } },
                 { 'ui:col': { style: { borderLeft: 'solid 5px rgb(240,240,240', marginBottom: '30px' }, md: 10, children: ['SupportedOutputFormats'] } }
@@ -75,7 +75,7 @@ const compatibilityAndUsabilityUiSchema = {
     'ui:widget': CustomMultiSelectWidget
   },
   SupportedOperatingSystems: {
-    'ui:title': 'Supported Operating System',
+    'ui:title': 'Supported Operating Systems',
     items: {
       OperatingSystemName: {
         'ui:title': 'Operating System Name'
@@ -111,6 +111,9 @@ const compatibilityAndUsabilityUiSchema = {
     QualityFlag: {
       'ui:title': 'Quality Flag',
       'ui:widget': CustomSelectWidget
+    },
+    Lineage: {
+      'ui:widget': 'textarea'
     }
   },
   UseConstraints: {
@@ -121,8 +124,8 @@ const compatibilityAndUsabilityUiSchema = {
     LicenseText: {
       'ui:title': 'License Text',
       'ui:widget': 'textarea'
-
     }
+
   },
   AccessConstraints: {
     'ui:title': 'Access Constraints',
