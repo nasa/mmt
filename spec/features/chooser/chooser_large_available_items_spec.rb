@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe 'Chooser Large Available Items', js: true do
   before do
     collections_response = cmr_success_response(build_large_json_response(500))
@@ -10,7 +8,7 @@ describe 'Chooser Large Available Items', js: true do
 
   context 'when viewing the chooser with 500+ collections available' do
     before do
-      VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/create', record: :none) do
+      VCR.use_cassette("data_quality_summary_assignments/create_data_quality_summary_assignments_spec_list_vcr", record: :none) do
         visit new_data_quality_summary_assignments_path
       end
     end
