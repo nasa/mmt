@@ -46,7 +46,6 @@ class ProgressSection extends React.Component<ProgressSectionProps, never> {
     const { id } = params
     const sectionName = section.replace(/\s/g, '_')
     setTimeout(() => {
-      console.log(`/${editor.documentType}/${id}/edit/${sectionName}`)
       window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}`
     }, 50)
     // navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })

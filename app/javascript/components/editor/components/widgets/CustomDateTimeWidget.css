@@ -14,3 +14,6 @@
 .react-datepicker__day--outside-month {
   color: grey;
 }
+.dateTimeWidgetLabel {
+  margin-bottom: 5px;
+}

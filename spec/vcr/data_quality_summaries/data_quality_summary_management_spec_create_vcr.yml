@@ -1,0 +1,116 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/ingest/providers/MMT_2/data-quality-summaries/a_native_id
+    body:
+      encoding: UTF-8
+      string: '{"Name":"DQS #1","Summary":"\u003cp\u003eMaecenas faucibus mollis interdum.\u003c/p\u003e","Id":"3bd2d9d5-bce1-4f7d-9387-7c08248af950","MetadataSpecification":{"Name":"Data
+        Quality Summary","Version":"1.0.0","URL":"https://cdn.earthdata.nasa.gov/generics/data-quality-summary/v1.0.0"}}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '46'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 27 Feb 2023 16:07:12 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - c73f866f-cf8d-4c68-9bfa-66692bd44adb
+      x-request-id:
+      - 3GQb33PmiXYu-tQmFILih4dSXkyRr7SUFy0MJ5B_ZS1D6-i4A2ABmQ==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 43cbacf9993ef52dfb93da65d5631866.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DFW55-C2
+      x-amz-cf-id:
+      - 3GQb33PmiXYu-tQmFILih4dSXkyRr7SUFy0MJ5B_ZS1D6-i4A2ABmQ==
+    body:
+      encoding: UTF-8
+      string: '{"concept-id":"DQS1200459846-EDF_DEV08","revision-id":1,"warnings":null,"existing-errors":null}'
+  recorded_at: Mon, 27 Feb 2023 16:07:12 GMT
+- request:
+    method: get
+    uri: https://cmr.sit.earthdata.nasa.gov/search/data-quality-summaries.umm_json?concept_id=DQS1200459846-EDF_DEV08&page_size=2000&provider_id=MMT_2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Client-Id:
+      - MMT
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '46'
+      connection:
+      - keep-alive
+      date:
+      - Mon, 27 Feb 2023 16:18:14 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - 1b66c30a-b51d-45c4-8387-d665cb7b6dc1
+      x-request-id:
+      - fnNXJohqLeIRqFZP3JHjbzMBk-oE9cDCgUaEEGvadcalwJo8-4ojsQ==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 6ef654a6fd950af1eb6fc4790b972c72.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD89-P2
+      x-amz-cf-id:
+      - fnNXJohqLeIRqFZP3JHjbzMBk-oE9cDCgUaEEGvadcalwJo8-4ojsQ==
+    body:
+      encoding: UTF-8
+      string: '{"hits":1,"took":35,"items":[{"meta":{"revision-id":1,"deleted":false,"provider-id":"MMT_2","user-id":"tester","native-id":"4849b974-ce6a-4c9e-8302-5e0e2f88b30b","concept-id":"DQS1200459847-EDF_DEV08","revision-date":"2023-02-27T16:22:04.219Z","concept-type":"data-quality-summary"},"umm":{"Name":"DQS #1","Summary":"\u003cpre\u003e\r\n\u0026lt;p\u0026gt;Maecenas faucibus mollis interdum.\u0026lt;/p\u0026gt;\u003c/pre\u003e","Id":"fb5bd653-094f-46e0-8da5-20047c26e223","MetadataSpecification":{"Name":"Data Quality Summary","Version":"1.0.0","URL":"https://cdn.earthdata.nasa.gov/generics/data-quality-summary/v1.0.0"}}}]}'
+  recorded_at: Mon, 27 Feb 2023 16:18:14 GMT
+recorded_with: VCR 6.1.0

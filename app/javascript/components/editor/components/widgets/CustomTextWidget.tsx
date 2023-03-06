@@ -65,7 +65,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           {title && (
             <span>
               {title}
-              {required ? '*' : ''}
+              {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', paddingLeft: '5px' }} /> : ''}
             </span>
           )}
           {maxLength && (
@@ -83,20 +83,21 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           disabled={disabledFlag}
           className="custom-text-widget-input"
           data-testid={`custom-text-widget__${kebabCase(label)}--text-input`}
-          style={{ minWidth: '100%' }}
+          style={{ minWidth: '100%', height: 37 }}
           type="text"
           value={value}
           maxLength={maxLength}
           // This onClick determines if a textbox is inside of an array, if yes, then only focus on the selected textbox and display the description
           // Example of an array element id: id = 'root_0_description'
           // Example of a controlled filed id: id = 'root_description'
-          onClick={() => (id && id.split('_').length >= 2 ? editor.setFocusField(id) : editor.setFocusField(label))}
+          onFocus={() => (id && id.split('_').length >= 2 ? editor.setFocusField(id) : editor.setFocusField(label))}
           onChange={(e) => {
             const { value } = e.target
             const len = value.length
             this.setState({ value, charsUsed: len })
             onChange(value)
           }}
+          onBlur={() => { editor.setFocusField('') }}
         />
         <span style={{ fontStyle: 'italic' }} data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
           {(focusField.toLowerCase() === label.toLowerCase() && label !== '') || focusField.toLowerCase() === id.toLowerCase() ? description : ''}

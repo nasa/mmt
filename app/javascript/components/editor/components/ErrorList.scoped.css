@@ -1,11 +1,21 @@
-.errorListItem {
+.error-list-item {
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
 }
-.error-list:hover {
+
+.error-list-item:hover {
     background-color: rgb(245, 245, 245);
 }
-.error-list {
-    font-size: 14px;
-    vertical-align: middle;
+
+li {
+    list-style: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.error-list-total-number-of-arrays {
+    /* font-style: italic; */
+    font-weight: normal;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React from 'react'
 import { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
@@ -17,7 +18,10 @@ type CustomTextAreaWidgetProps = {
   },
   onChange: (value: string) => void,
   value: string,
-  id: string
+  id: string,
+  uiSchema?: {
+    classNames?: string
+  }
 }
 
 type CustomTextAreaWidgetState = {
@@ -26,7 +30,7 @@ type CustomTextAreaWidgetState = {
 }
 class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, CustomTextAreaWidgetState> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: { options: {editor:MetadataEditor} }
+  static defaultProps: { options: { editor: MetadataEditor } }
   textareaRef: React.RefObject<HTMLTextAreaElement>
 
   constructor(props: CustomTextAreaWidgetProps) {
@@ -41,13 +45,14 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
 
   render() {
     const {
-      label = '', schema, required, onChange, options, id = ''
+      label = '', schema, required, onChange, options, id = '', uiSchema = {}
     } = this.props
     const { minHeight = 100, title = label, editor } = options
     const style = {
       minHeight,
       minWidth: '100%'
     }
+    const classNames = uiSchema['ui:classNames'] ?? ''
     const { maxLength, description } = schema
     const { value, charsUsed } = this.state
     const { focusField = '' } = editor
@@ -61,8 +66,10 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
       <>
         <div className="custom-textarea-widget-header" data-testid={`custom-text-area-widget__${kebabCase(label)}--text-area-header`}>
           <span>
-            {title}
-            {required ? '*' : ''}
+            <span className={classNames}>
+              {title}
+            </span>
+            {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', paddingLeft: '5px' }} /> : ''}
           </span>
           {maxLength && (
             <span style={{ float: 'right' }}>
@@ -83,13 +90,14 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
           // This onClick determines if a textbox is inside of an array, if yes, then only focus on the selected textbox and display the description
           // Example of an array element id: id = 'root_0_description'
           // Example of a controlled filed id: id = 'root_description'
-          onClick={() => (id.split('_').length >= 3 ? editor.setFocusField(id) : editor.setFocusField(title))}
+          onFocus={() => (id.split('_').length >= 3 ? editor.setFocusField(id) : editor.setFocusField(title))}
           onChange={(e) => {
             const { value } = e.target
             const len = value.length
             this.setState({ value, charsUsed: len })
             onChange(value)
           }}
+          onBlur={() => { editor.setFocusField('') }}
         />
         <span style={{ fontStyle: 'italic' }} data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
           {focusField.toLowerCase() === title.toLowerCase() || focusField.toLowerCase() === id.toLowerCase() ? description : ''}

@@ -70,7 +70,7 @@ class CustomDateTimeWidget extends React.Component<CustomDateTimeWidgetProps, ne
     const { fieldName } = params
     return (
       <div className="custom-date-time-widget" data-testid={`custom-date-time-widget__${kebabCase(label)}`}>
-        <div>
+        <div className="dateTimeWidgetLabel">
           <span>
             {title}
             {required ? '*' : ''}

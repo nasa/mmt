@@ -32,6 +32,15 @@ exports[`Controlled Fields Layout it clears the next boxes 1`] = `
                   </span>
                 </div>
                 <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-category--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
+                </div>
+                <div
                   data-testid="custom-select-widget__priority-category--selector"
                 >
                   <div
@@ -132,6 +141,15 @@ exports[`Controlled Fields Layout it clears the next boxes 1`] = `
                   </span>
                 </div>
                 <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-1--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
+                </div>
+                <div
                   data-testid="custom-select-widget__priority-1--selector"
                 >
                   <div
@@ -230,6 +248,15 @@ exports[`Controlled Fields Layout it clears the next boxes 1`] = `
                   <span>
                     priority2
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-2--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-2--selector"
@@ -337,7 +364,7 @@ exports[`Controlled Fields Layout it clears the next boxes 1`] = `
                 data-testid="custom-text-widget__the-value--text-input"
                 disabled=""
                 name="the value"
-                style="min-width: 100%;"
+                style="min-width: 100%; height: 37px;"
                 type="text"
                 value=""
               />
@@ -392,6 +419,15 @@ exports[`Controlled Fields Layout renders all fields 1`] = `
                   <span>
                     priorityCategory
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-category--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-category--selector"
@@ -496,6 +532,15 @@ exports[`Controlled Fields Layout renders all fields 1`] = `
                   </span>
                 </div>
                 <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-1--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
+                </div>
+                <div
                   data-testid="custom-select-widget__priority-1--selector"
                 >
                   <div
@@ -596,6 +641,15 @@ exports[`Controlled Fields Layout renders all fields 1`] = `
                   <span>
                     priority2
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-2--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-2--selector"
@@ -703,7 +757,7 @@ exports[`Controlled Fields Layout renders all fields 1`] = `
                 data-testid="custom-text-widget__the-value--text-input"
                 disabled=""
                 name="the value"
-                style="min-width: 100%;"
+                style="min-width: 100%; height: 37px;"
                 type="text"
                 value=""
               />
@@ -758,6 +812,15 @@ exports[`Controlled Fields Layout renders all fields in case of textfields 1`] =
                   <span>
                     priorityCategory
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-category--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-category--selector"
@@ -861,7 +924,7 @@ exports[`Controlled Fields Layout renders all fields in case of textfields 1`] =
                 data-testid="custom-text-widget__--text-input"
                 disabled=""
                 name=""
-                style="min-width: 100%;"
+                style="min-width: 100%; height: 37px;"
                 type="text"
                 value=""
               />
@@ -892,7 +955,7 @@ exports[`Controlled Fields Layout renders all fields in case of textfields 1`] =
                 data-testid="custom-text-widget__--text-input"
                 disabled=""
                 name=""
-                style="min-width: 100%;"
+                style="min-width: 100%; height: 37px;"
                 type="text"
                 value=""
               />
@@ -927,7 +990,7 @@ exports[`Controlled Fields Layout renders all fields in case of textfields 1`] =
                 data-testid="custom-text-widget__the-value--text-input"
                 disabled=""
                 name="the value"
-                style="min-width: 100%;"
+                style="min-width: 100%; height: 37px;"
                 type="text"
                 value=""
               />
@@ -982,6 +1045,15 @@ exports[`Controlled Fields Layout shows values in descendend text fields 1`] = `
                   <span>
                     priorityCategory
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-category--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-category--selector"
@@ -1087,7 +1159,7 @@ exports[`Controlled Fields Layout shows values in descendend text fields 1`] = `
                 data-testid="custom-text-widget__priority-1--text-input"
                 disabled=""
                 name="priority1"
-                style="min-width: 100%;"
+                style="min-width: 100%; height: 37px;"
                 type="text"
                 value="alphaLong"
               />
@@ -1122,7 +1194,7 @@ exports[`Controlled Fields Layout shows values in descendend text fields 1`] = `
                 data-testid="custom-text-widget__priority-2--text-input"
                 disabled=""
                 name="priority2"
-                style="min-width: 100%;"
+                style="min-width: 100%; height: 37px;"
                 type="text"
                 value="alphaUrl"
               />
@@ -1177,6 +1249,15 @@ exports[`Controlled Fields Layout shows values in first select box 1`] = `
                   <span>
                     priorityCategory
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-category--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-category--selector"
@@ -1316,6 +1397,15 @@ exports[`Controlled Fields Layout shows values in first select box 1`] = `
                   </span>
                 </div>
                 <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-1--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
+                </div>
+                <div
                   data-testid="custom-select-widget__priority-1--selector"
                 >
                   <div
@@ -1416,6 +1506,15 @@ exports[`Controlled Fields Layout shows values in first select box 1`] = `
                   <span>
                     priority2
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-2--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-2--selector"
@@ -1523,7 +1622,7 @@ exports[`Controlled Fields Layout shows values in first select box 1`] = `
                 data-testid="custom-text-widget__the-value--text-input"
                 disabled=""
                 name="the value"
-                style="min-width: 100%;"
+                style="min-width: 100%; height: 37px;"
                 type="text"
                 value=""
               />
@@ -1578,6 +1677,15 @@ exports[`Controlled Fields Layout shows values in second select box 1`] = `
                   <span>
                     priorityCategory
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-category--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-category--selector"
@@ -1678,6 +1786,15 @@ exports[`Controlled Fields Layout shows values in second select box 1`] = `
                   <span>
                     priority1
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-1--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-1--selector"
@@ -1817,6 +1934,15 @@ exports[`Controlled Fields Layout shows values in second select box 1`] = `
                   </span>
                 </div>
                 <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-2--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
+                </div>
+                <div
                   data-testid="custom-select-widget__priority-2--selector"
                 >
                   <div
@@ -1922,7 +2048,7 @@ exports[`Controlled Fields Layout shows values in second select box 1`] = `
                 data-testid="custom-text-widget__the-value--text-input"
                 disabled=""
                 name="the value"
-                style="min-width: 100%;"
+                style="min-width: 100%; height: 37px;"
                 type="text"
                 value=""
               />
@@ -1977,6 +2103,15 @@ exports[`Controlled Fields Layout shows values in third, text box 1`] = `
                   <span>
                     priorityCategory
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-category--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-category--selector"
@@ -2079,6 +2214,15 @@ exports[`Controlled Fields Layout shows values in third, text box 1`] = `
                   </span>
                 </div>
                 <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-1--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
+                </div>
+                <div
                   data-testid="custom-select-widget__priority-1--selector"
                 >
                   <div
@@ -2177,6 +2321,15 @@ exports[`Controlled Fields Layout shows values in third, text box 1`] = `
                   <span>
                     priority2
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-2--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-2--selector"
@@ -2282,7 +2435,7 @@ exports[`Controlled Fields Layout shows values in third, text box 1`] = `
                 data-testid="custom-text-widget__the-value--text-input"
                 disabled=""
                 name="the value"
-                style="min-width: 100%;"
+                style="min-width: 100%; height: 37px;"
                 type="text"
                 value="delta"
               />
@@ -2337,6 +2490,15 @@ exports[`Controlled Fields Layout works without a title 1`] = `
                   <span>
                     priorityCategory
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-category--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-category--selector"
@@ -2441,6 +2603,15 @@ exports[`Controlled Fields Layout works without a title 1`] = `
                   </span>
                 </div>
                 <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-1--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
+                </div>
+                <div
                   data-testid="custom-select-widget__priority-1--selector"
                 >
                   <div
@@ -2541,6 +2712,15 @@ exports[`Controlled Fields Layout works without a title 1`] = `
                   <span>
                     priority2
                   </span>
+                </div>
+                <div
+                  class="custom-select-widget-description"
+                  data-testid="custom-select-widget__priority-2--description"
+                  style="padding: 5px;"
+                >
+                  <span
+                    style="font-style: italic; font-size: .85rem;"
+                  />
                 </div>
                 <div
                   data-testid="custom-select-widget__priority-2--selector"

@@ -16,17 +16,25 @@ const toolContactsUiSchema = {
               children: [
                 {
                   'ui:row': [
-                    { 'ui:col': { md: 12, children: ['Roles'] } }
-                  ]
-                },
-                {
-                  'ui:row': [
                     { 'ui:col': { md: 12, children: ['GroupName'] } }
                   ]
                 },
                 {
                   'ui:row': [
-                    { 'ui:col': { md: 12, children: ['ContactInformation'] } }
+                    { 'ui:col': { md: 12, children: ['Roles'] } }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        style: {
+                          borderLeft: 'solid 5px rgb(240,240,240', marginLeft: 10, borderBottom: 'solid 5px rgb(240,240,240', paddingBottom: 10
+                        },
+                        md: 12,
+                        children: ['ContactInformation']
+                      }
+                    }
                   ]
                 }
               ]
@@ -38,7 +46,7 @@ const toolContactsUiSchema = {
         'ui:widget': CustomMultiSelectWidget
       },
       GroupName: {
-        'ui:title': 'Group Name',
+        'ui:title': 'Contact Group Name',
         'ui:widget': CustomTextWidget
       },
       ContactInformation: {
@@ -51,6 +59,7 @@ const toolContactsUiSchema = {
                 children: [
                   {
                     'ui:group': 'Contact Information',
+                    'ui:group-description': true,
                     'ui:row': [
                       { 'ui:col': { md: 6, children: ['ServiceHours'] } },
                       { 'ui:col': { md: 6, children: ['ContactInstruction'] } }
@@ -90,7 +99,7 @@ const toolContactsUiSchema = {
                       {
                         'ui:row': [
                           { 'ui:col': { md: 6, children: ['Type'] } },
-                          { 'ui:col': { md: 6, children: ['Value'] } }
+                          { 'ui:col': { style: { marginTop: '10px' }, md: 6, children: ['Value'] } }
                         ]
                       }
                     ]
@@ -114,15 +123,15 @@ const toolContactsUiSchema = {
                     md: 12,
                     children: [
                       {
-                        'ui:group': 'Street Addresses',
-                        'ui:row': [
-                          { 'ui:col': { md: 12, children: ['StreetAddresses'] } }
-                        ]
-                      },
-                      {
                         'ui:row': [
                           { 'ui:col': { md: 6, children: ['Country'] } }
 
+                        ]
+                      },
+                      {
+                        'ui:group': 'Street Addresses',
+                        'ui:row': [
+                          { 'ui:col': { md: 12, children: ['StreetAddresses'] } }
                         ]
                       },
                       {

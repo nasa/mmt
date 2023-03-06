@@ -12,6 +12,16 @@
   padding-left: 0px !important;
 }
 
+#react-editor-form .col-md-3 {
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+}
+
+#react-editor-form .col-md-4 {
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+}
+
 #react-editor-form .col {
   margin-left: 0px;
   padding-left: 0px;
@@ -74,7 +84,9 @@ section .umm-preview {
   display: flex;
   flex-direction: column;
 }
-
+#react-editor-form .eui-required-o:before{
+  float: none;
+}
 .collection-basics {
   margin-left: 20px;
 }
@@ -83,6 +95,16 @@ section .umm-preview {
 }
 .internal fieldset {
   padding-left: 5px;
+}
+#metadata-form h6 {
+  margin-left: 0px;
+}
+
+#react-editor-form fieldset{
+  margin-bottom: -25px;
+}
+#metadata-form h6 {
+  margin-left: 0px;
 }
 #search .quick-search #search-submit-button {
   width: auto;

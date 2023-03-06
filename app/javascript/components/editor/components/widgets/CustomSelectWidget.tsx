@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import Select from 'react-select'
@@ -11,8 +12,9 @@ type CustomSelectWidgetProps = {
   schema: {
     enum: string[]
     items?: {
-      enum: string[]
+      enum: string[],
     }
+    description?: string
   },
   options: {
     title: string,
@@ -28,18 +30,22 @@ type CustomSelectWidgetProps = {
   onChange: (value: string) => void
 }
 
+type CustomSelectWidgetState = {
+  setFocus: boolean
+}
 type SelectOptions = {
   value: string,
   label: string
 }
 
-class CustomSelectWidget extends React.Component<CustomSelectWidgetProps> {
+class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, CustomSelectWidgetState> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: {options:{editor:MetadataEditor}}
+  static defaultProps: { options: { editor: MetadataEditor } }
   selectRef: React.RefObject<Select>
 
-  constructor(props:CustomSelectWidgetProps) {
+  constructor(props: CustomSelectWidgetProps) {
     super(props)
+    this.state = { setFocus: false }
     this.selectRef = React.createRef()
   }
 
@@ -62,6 +68,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps> {
     const {
       required, label = '', onChange, schema, options, registry, isLoading
     } = this.props
+    const { setFocus } = this.state
     let {
       placeholder
     } = this.props
@@ -84,7 +91,6 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps> {
         selectOptions.push({ value: currentEnum, label: currentEnum })
       }
     })
-
     const existingValue = value != null ? { value, label: value } : {}
     const { focusField = '' } = editor
 
@@ -104,7 +110,12 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps> {
         <div>
           <span>
             {title}
-            {required && title ? '*' : ''}
+            {required && title ? <i className="eui-icon eui-required-o" style={{ color: 'green', paddingLeft: '5px' }} /> : ''}
+          </span>
+        </div>
+        <div className="custom-select-widget-description" style={{ padding: '5px' }} data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
+          <span style={{ fontStyle: 'italic', fontSize: '.85rem' }}>
+            {setFocus ? schema.description : null}
           </span>
         </div>
         <div data-testid={`custom-select-widget__${kebabCase(label)}--selector`}>
@@ -116,6 +127,8 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps> {
             ref={this.selectRef}
             data-testid={`custom-select-widget__${kebabCase(label)}--select`}
             defaultValue={existingValue.value ? existingValue : null}
+            onFocus={() => { this.setState({ setFocus: true }) }}
+            onBlur={() => { this.setState({ setFocus: false }) }}
             options={selectOptions}
             placeholder={placeholder}
             isLoading={isLoading}
