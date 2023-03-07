@@ -112,7 +112,6 @@ describe 'Viewing a list of subscriptions', reset_provider: true do
     it 'redirects to manage CMR' do
       expect(page).to have_content('You are not permitted to perform this action.')
       expect(page).to have_content('Data Quality Summaries')
-      expect(page).to have_content('Service Management')
       expect(page).to have_content('Orders')
       expect(page).to have_content('Provider Information')
       expect(page).to have_content('Subscriptions')
@@ -217,7 +216,6 @@ describe 'when switching providers on the subscription index page', reset_provid
       expect(page).to have_content('Permissions & Groups')
       expect(page).to have_content('Orders')
       expect(page).to have_content('Data Quality Summaries')
-      expect(page).to have_content('Service Management')
       expect(page).to have_content('Subscriptions')
     end
   end
