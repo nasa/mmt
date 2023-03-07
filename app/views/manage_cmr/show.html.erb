@@ -47,21 +47,23 @@
       </div>
     </section>
 
-    <section class="eui-callout-box">
-      <div class="eui-callout-box-content">
-        <h3 class="eui-callout-box__title">Service Management</h3>
-        <p><%= link_to 'View Service Entries', service_entries_path %></p>
-        <% if policy(:service_entry).create? %>
-          <p><%= link_to 'Create a Service Entry', new_service_entry_path %></p>
-        <% end %>
-        <p><%= link_to 'View Service Options', service_options_path %></p>
-        <p><%= link_to 'Create a Service Option', new_service_option_path %></p>
-        <p><%= link_to 'View Service Option Assignments', service_option_assignments_path %></p>
-        <% if policy(:service_option_assignment).create? %>
-          <p><%= link_to 'Create a Service Option Assignment', new_service_option_assignments_path %></p>
-        <% end %>
-      </div>
-    </section>
+    <% if Rails.configuration.use_legacy_order_service %>
+      <section class="eui-callout-box">
+        <div class="eui-callout-box-content">
+          <h3 class="eui-callout-box__title">Service Management</h3>
+          <p><%= link_to 'View Service Entries', service_entries_path %></p>
+          <% if policy(:service_entry).create? %>
+            <p><%= link_to 'Create a Service Entry', new_service_entry_path %></p>
+          <% end %>
+          <p><%= link_to 'View Service Options', service_options_path %></p>
+          <p><%= link_to 'Create a Service Option', new_service_option_path %></p>
+          <p><%= link_to 'View Service Option Assignments', service_option_assignments_path %></p>
+          <% if policy(:service_option_assignment).create? %>
+            <p><%= link_to 'Create a Service Option Assignment', new_service_option_assignments_path %></p>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
 
     <% if Rails.configuration.subscriptions_enabled %>
       <section class="eui-callout-box">

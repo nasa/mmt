@@ -25,10 +25,12 @@ Rails.application.routes.draw do
   resource :data_quality_summary_assignments, except: :show
   get '/data_quality_summary_assignments' => 'data_quality_summary_assignments#index'
 
-  resources :service_entries
-  resources :service_options
-  resource :service_option_assignments, except: :show
-  get '/service_option_assignments' => 'service_option_assignments#index'
+  if Rails.configuration.use_legacy_order_service
+    resources :service_entries
+    resources :service_options
+    resource :service_option_assignments, except: :show
+    get '/service_option_assignments' => 'service_option_assignments#index'
+  end
 
   resources :orders do
     collection do
