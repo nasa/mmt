@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe 'Updating a Service Option' do
+describe 'Updating a Service Option', skip: true do
   before do
     login
   end

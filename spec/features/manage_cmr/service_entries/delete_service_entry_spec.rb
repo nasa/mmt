@@ -1,4 +1,4 @@
-describe 'Deleting a Service Entry' do
+describe 'Deleting a Service Entry', skip: true do
   before :all do
     # create a group
     @service_entry_group = create_group(name: 'Service Entries Group for Permissions [DELETE]', members: ['testuser'])

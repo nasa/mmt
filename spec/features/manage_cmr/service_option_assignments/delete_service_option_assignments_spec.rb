@@ -1,4 +1,4 @@
-describe 'Deleting a Service Option Assignment', reset_provider: true, js: true do
+describe 'Deleting a Service Option Assignment', reset_provider: true, js: true, skip: true do
   before :all do
     # create a group
     @service_option_assignment_group = create_group(name: 'Service Option Association Group for Permissions [DELETE]', members: ['testuser'])

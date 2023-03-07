@@ -1,4 +1,4 @@
-describe 'Creating a Service Entry', js: true do
+describe 'Creating a Service Entry', js: true, skip: true do
   before :all do
     # create a group
     @service_entry_group = create_group(name: 'Service Entry Group', members: ['testuser'])

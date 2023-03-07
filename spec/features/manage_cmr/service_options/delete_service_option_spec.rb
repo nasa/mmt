@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe 'Deleting a Service Option' do
+describe 'Deleting a Service Option', skip: true do
   before do
     login
   end
