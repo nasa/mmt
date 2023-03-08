@@ -1,6 +1,6 @@
 <% always_required = options[:always_required] || false %>
-<div class="row sub-fields">
-  <div class="col-6">
+<div class="grid_row sub-fields">
+  <div class="grid-col-6">
     <!-- Type - Select 'CREATE', 'UPDATE', 'DELETE', 'REVIEW'  -->
     <%= mmt_select(
       name: 'type',
@@ -15,7 +15,7 @@
     ) %>
   </div>
 
-  <div class="col-6">
+  <div class="grid-col-6">
     <!-- Date -->
     <%= mmt_datetime(
       name: 'date',

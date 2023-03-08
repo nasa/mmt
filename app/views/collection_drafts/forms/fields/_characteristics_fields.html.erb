@@ -1,4 +1,4 @@
-<div class="row sub-fields">
+<div class="grid_row sub-fields">
   <!-- Name [r] -->
   <%= mmt_text_area(
     name: 'name',
@@ -22,8 +22,8 @@
     required: true
    ) %>
 
-  <div class="row">
-    <div class="col-4">
+  <div class="grid_row">
+    <div class="grid-col-4">
       <!-- Value [r] -->
       <%= mmt_text_area(
         name: 'value',
@@ -35,7 +35,7 @@
         required: true
        ) %>
     </div>
-    <div class="col-4">
+    <div class="grid-col-4">
       <!-- Unit [r] -->
       <%= mmt_text_area(
         name: 'unit',
@@ -47,7 +47,7 @@
         required: true
        ) %>
     </div>
-    <div class="col-4">
+    <div class="grid-col-4">
       <!-- Data Type [r] -->
       <%= mmt_select(
         name: 'data_type',

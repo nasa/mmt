@@ -99,7 +99,7 @@ const toolContactsUiSchema = {
                       {
                         'ui:row': [
                           { 'ui:col': { md: 6, children: ['Type'] } },
-                          { 'ui:col': { style: { marginTop: '10px' }, md: 6, children: ['Value'] } }
+                          { 'ui:col': { md: 6, children: ['Value'] } }
                         ]
                       }
                     ]

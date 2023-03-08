@@ -31,7 +31,7 @@
     </p>
   </div>
 <% else %>
-  <div class="row row-content">
+  <div class="grid_row row-content">
     <section>
       <h2><%= @permission.fetch('catalog_item_identity', {})['name'] %></h2>
 
@@ -88,8 +88,8 @@
         </tbody>
       </table>
 
-      <div class="row">
-        <div class="col-6" id="collection-constraint-summary">
+      <div class="grid_row">
+        <div class="grid-col-6" id="collection-constraint-summary">
           <label>Collections</label>
           <p><%= collection_constraint_summary(@permission) %></p>
 
@@ -98,7 +98,7 @@
           <% end %>
         </div>
 
-        <div class="col-6" id="granule-constraint-summary">
+        <div class="grid-col-6" id="granule-constraint-summary">
           <label>Granules</label>
           <p><%= granule_constraint_summary(@permission) %></p>
         </div>

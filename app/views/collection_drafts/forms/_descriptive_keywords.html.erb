@@ -13,9 +13,9 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="row taller">
+    <div class="grid_row taller">
       <div class="col-12">
-        <div class="row sub-fields">
+        <div class="grid_row sub-fields">
           <div class="selected-science-keywords science-keywords">
             <% unless @keyword_recommendations.blank? %>
               <div class="eui-info-box">
@@ -117,7 +117,7 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="row taller">
+    <div class="grid_row taller">
       <div class="col-12">
         <%= mmt_label(
           name: 'ancillary_keywords_',
@@ -129,7 +129,7 @@
           help: 'properties/AncillaryKeywords',
           help_url: 'Ancillary+Keywords'
         ) %>
-        <div class="row">
+        <div class="grid_row">
           <% ancillary_keywords = draft.draft['AncillaryKeywords'] || [nil] # [nil] creates at least one field %>
           <div class="multiple simple-multiple ancillary-keywords">
             <% ancillary_keywords.each_with_index do |ancillary_keyword, index| %>
@@ -166,7 +166,7 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="row taller">
+    <div class="grid_row taller">
       <div class="col-12">
         <%= mmt_label(
           name: 'additional_attribute',

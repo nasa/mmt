@@ -1,4 +1,4 @@
-<div class="row row-content">
+<div class="grid_row row-content">
   <section>
     <h2>Manage Orders Items</h2>
 
@@ -19,14 +19,14 @@
         <%= hidden_field_tag 'previous_request_uuid', "#{request.uuid}" %>
 
         <fieldset>
-          <div class="row">
+          <div class="grid_row">
             <label for="catalog_items" class="eui-required-o">Catalog Items</label>
             <%= select_tag 'catalog_items', options_for_select(@provider_order['catalog_items'].select { |item| !['CANCELLED', 'CLOSED'].include? item['status'] }.map { |item| item['item_guid'] }, nil), class: 'full-width', multiple: true %>
           </div>
         </fieldset>
 
         <fieldset>
-          <div class="row">
+          <div class="grid_row">
             <label for="status_message" class="eui-required-o">Status Message</label>
             <%= text_field_tag 'status_message', nil, class: 'full-width' %>
           </div>

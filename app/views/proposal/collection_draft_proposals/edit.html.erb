@@ -9,7 +9,7 @@
 <%= form_tag(collection_draft_proposal_path(get_resource), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
   <%= hidden_field_tag 'commit' %>
 
-  <div class="row row-content proposal-mode">
+  <div class="grid_row row-content proposal-mode">
     <section>
 
       <input type="hidden" name='new_form_name' id="new_form_name" />
@@ -20,13 +20,13 @@
           unpublished_resource_form: @form,
           unpublished_resource_forms: @forms } %>
 
-      <div class="row">
-        <div class="col-6">
+      <div class="grid_row">
+        <div class="grid-col-6">
           <p class="eui-required-o">Indicates required field</p>
         </div>
         <!-- Expand All link -->
         <% unless DraftsHelper::SINGLE_FIELDSET_FORMS.include? @form  %>
-          <div class="col-6">
+          <div class="grid-col-6">
             <p class="align-r">
               <a href="#" class="expand-accordions">Expand All</a>
               <a href="#" class="is-invisible collapse-accordions">Collapse All</a>

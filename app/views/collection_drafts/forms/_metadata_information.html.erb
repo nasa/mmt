@@ -13,7 +13,7 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="row taller">
+    <div class="grid_row taller">
       <div class="col-12">
         <%= mmt_select(
           name: 'metadata_language',
@@ -45,9 +45,9 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="row">
+    <div class="grid_row">
       <div class="col-12">
-        <div class="row sub-fields">
+        <div class="grid_row sub-fields">
           <%= render partial: 'collection_drafts/forms/type', locals: {
               type: 'date',
               values: editable_metadata_dates(draft.draft) || [{}],

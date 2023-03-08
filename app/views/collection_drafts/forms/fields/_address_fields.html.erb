@@ -1,6 +1,6 @@
-<div class="row sub-fields">
-  <div class="row">
-    <div class="col-6">
+<div class="grid_row sub-fields">
+  <div class="grid_row">
+    <div class="grid-col-6">
       <%= mmt_select(
         name: 'country',
         title: 'Country',
@@ -17,7 +17,7 @@
 
   <% street_addresses = address['StreetAddresses'] || [nil, nil] # [nil] creates at least one Street Address field %>
   <fieldset class="multiple addresses-street-addresses">
-    <div class="row">
+    <div class="grid_row">
       <legend class="is-inline is-dark-grey">Street Address</legend>
       <%= mmt_help_icon(
         title: 'Street Address',
@@ -39,8 +39,8 @@
       </div>
     <% end %>
   </fieldset>
-  <div class="row">
-    <div class="col-6">
+  <div class="grid_row">
+    <div class="grid-col-6">
       <%= mmt_text_field(
         name: 'city',
         title: 'City',
@@ -51,7 +51,7 @@
         required_level: options[:required_level]
        ) %>
     </div>
-    <div class="col-3">
+    <div class="grid-col-3">
       <%= mmt_label(
         name: 'state_province',
         title: 'State / Province',
@@ -76,7 +76,7 @@
       <%= text_field_tag name_to_param("#{name_prefix}|state_province|"), address['StateProvince'], class: 'full-width validate state-province-text-field', disabled: !use_text_field, style: "#{'display: none;' if !use_text_field}", data: { level: remove_pipes(name_prefix) } %>
       <%= select_tag name_to_param("#{name_prefix}|state_province|"), options_for_subregion_select(@country, address['StateProvince']), class: 'mmt-fake-enum half-width state-province-select', disabled: use_text_field, style: "#{'display: none;' if use_text_field}", data: { level: remove_pipes(name_prefix) } %>
     </div>
-    <div class="col-3">
+    <div class="grid-col-3">
       <%= mmt_text_field(
         name: 'postal_code',
         title: 'Postal Code',

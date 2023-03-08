@@ -13,9 +13,9 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="row">
+    <div class="grid_row">
       <div class="col-12">
-        <div class="row sub-fields">
+        <div class="grid_row sub-fields">
           <%= render partial: 'collection_drafts/forms/type', locals: {
               type: 'temporal_extent',
               values: draft.draft['TemporalExtents'] || [{}],
@@ -42,7 +42,7 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="row">
+    <div class="grid_row">
       <div class="col-12">
         <%= mmt_select(
           name: 'temporal_keywords',
@@ -73,9 +73,9 @@
   </div>
   <div class="eui-accordion__body">
     <!-- Paleo Temporal Coverages -->
-    <div class="row">
+    <div class="grid_row">
       <div class="col-12">
-        <div class="row sub-fields">
+        <div class="grid_row sub-fields">
           <%= render partial: 'collection_drafts/forms/type', locals: {
               type: 'paleo_temporal_coverage',
               values: draft.draft['PaleoTemporalCoverages'] || [{}],

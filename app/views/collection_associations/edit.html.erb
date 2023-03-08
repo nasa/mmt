@@ -1,4 +1,4 @@
-<div class="row row-content">
+<div class="grid_row row-content">
   <section>
     <h2><%= current_user.provider_id %> <%= resource_name %> Collection Association Search</h2>
     <%= render partial: 'cmr_search/shared/search_form', locals: { submit_path: send("edit_#{lower_resource_name}_collection_association_path", @concept_id) } %>

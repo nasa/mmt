@@ -1,13 +1,13 @@
-<div class="row row-content">
+<div class="grid_row row-content">
   <section>
     <h2>Variable Generation for <%= current_user.provider_id %></h2>
 
-    <div class="row">
+    <div class="grid_row">
       <h4>Statistics</h4>
       <%= render "#{@operation}_statistics" %>
     </div>
 
-    <div class="row">
+    <div class="grid_row">
       <h4><%= display_variables_title(@operation, @collection_id) %></h4>
 
       <p class="uvg-pagination-header"><%= display_single_page_info %></p>
@@ -44,9 +44,9 @@
       <div id="uvg-pagination"></div>
     </div>
 
-    <div class="row">
+    <div class="grid_row">
       <fieldset>
-        <div class="row">
+        <div class="grid_row">
           <%= form_tag(save_variable_drafts_variable_generation_process_path, method: :post, class: 'inline-form-button') do %>
             <%= hidden_field_tag 'variables_json', @variables.to_json %>
             <%= hidden_field_tag 'collection_id', @collection_id %>

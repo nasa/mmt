@@ -1,4 +1,4 @@
-<div class="row sub-fields">
+<div class="grid_row sub-fields">
   <p><a href="javascript:void(0)" class="eui-btn--blue eui-btn--sm global-coverage">Apply global spatial coverage</a></p>
   <label class="eui-required-o">Bounding Coordinates</label>
   <div class="compass-coordinates">
@@ -15,8 +15,8 @@
         classes: 'mmt-number bounding-rectangle-point north'
       ) %>
     </div>
-    <div class="row">
-      <div class="col-6 west">
+    <div class="grid_row">
+      <div class="grid-col-6 west">
         <!-- WestBoundingCoordinate -->
         <%= mmt_text_field(
           name: 'west_bounding_coordinate',
@@ -29,7 +29,7 @@
           classes: 'mmt-number bounding-rectangle-point west full-width'
         ) %>
       </div>
-      <div class="col-6 east">
+      <div class="grid-col-6 east">
         <!-- EastBoundingCoordinate -->
         <%= mmt_text_field(
           name: 'east_bounding_coordinate',

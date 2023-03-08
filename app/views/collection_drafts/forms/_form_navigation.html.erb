@@ -1,19 +1,19 @@
-<div class="row align-c metadata-cta nav-<%= location %>">
-  <div class="col-2">
+<div class="grid_row align-c metadata-cta nav-<%= location %>">
+  <div class="grid-col-2">
     <%= submit_tag 'Previous', class: 'eui-btn save-form' %>
   </div>
 
-  <div class="col-5 form-nav">
+  <div class="grid-col-5 form-nav">
     <label for="next-section-<%= location %>">Save &amp; Jump To: </label>
 
     <%= select_tag 'next_section', options_for_select(unpublished_resource_forms.map{|form| [titleize_form_name(form), form]}, unpublished_resource_form), class: 'next-section', id: "next-section-#{location}" %>
   </div>
 
-  <div class="col-2">
+  <div class="grid-col-2">
     <%= submit_tag 'Next', class: 'eui-btn save-form' %>
   </div>
 
-  <div class="col-3">
+  <div class="grid-col-3">
     <%= submit_tag 'Save', class: 'eui-btn save-form' %>
     <%= submit_tag 'Done', class: 'eui-btn--blue save-form' %>
     <% if unpublished_resource.new_record? %>

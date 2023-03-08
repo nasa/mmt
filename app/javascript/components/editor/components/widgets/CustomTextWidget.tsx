@@ -61,7 +61,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
 
     return (
       <>
-        <div className="custom-text-widget-header" data-testid={`custom-text-widget__${kebabCase(label)}--text-header`}>
+        <div className="widget-header" data-testid={`custom-text-widget__${kebabCase(label)}--text-header`}>
           {title && (
             <span>
               {title}
@@ -69,7 +69,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
             </span>
           )}
           {maxLength && (
-            <span style={{ float: 'right' }}>
+            <span>
               {charsUsed}
               /
               {maxLength}

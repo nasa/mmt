@@ -1,7 +1,7 @@
-<div class="row row-content">
+<div class="grid_row row-content">
   <section>
     <h2><%= @group.fetch('name', 'No Name') %> System Object Permissions</h2>
-    
+
     <%= form_tag(system_identity_permission_path(@group_id), method: :put, class: 'system-permissions-form') %>
       <p>
         Set permissions for the <%= @group.fetch('name', 'No Name') %> group by checking the appropriate boxes below and clicking 'Submit'.

@@ -4,7 +4,7 @@
 <% url_subtype_options = options[:url_subtype_options] || [] %>
 
 
-<div class="row sub-fields">
+<div class="grid_row sub-fields">
   <%= mmt_text_field(
     name: 'description',
     title: 'Description',
@@ -15,8 +15,8 @@
     required_level: options[:required_level],
   ) %>
 
-  <div class="row">
-    <div class="col-6">
+  <div class="grid_row">
+    <div class="grid-col-6">
       <%= mmt_select(
         name: 'url_content_type',
         title: 'URL Content Type',

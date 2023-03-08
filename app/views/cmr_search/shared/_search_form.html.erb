@@ -1,26 +1,26 @@
 <%= form_tag(submit_path, method: :get, id: 'collection-search') do %>
   <% params.fetch('search_criteria', {"#{Time.now.to_i}" => {}}).each do |index, criteria| %>
     <fieldset>
-      <div class="row">
-        <div class="col-5">
+      <div class="grid_row">
+        <div class="grid-col-5">
           <%= label_tag("search_criteria[#{index}][field]", 'Search Field', class: 'eui-required-o') %><br />
         </div>
-        <div class="col-5">
+        <div class="grid-col-5">
           <%= label_tag("search_criteria[#{index}][query]", 'Search Term', class: 'eui-required-o') %><br />
         </div>
-        <div class="col-2">
+        <div class="grid-col-2">
         </div>
       </div>
 
-      <div class="row">
+      <div class="grid_row">
         <!-- Search Field -->
-        <div class="col-5" id="collection-field-container">
+        <div class="grid-col-5" id="collection-field-container">
           <%= select_tag("search_criteria[#{index}][field]", options_for_select(BulkUpdatesHelper::SEARCHABLE_KEYS.map { |option, values| [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]] }.sort_by { |options| options[0] }, criteria[:field]), class: 'full-width required collection-field collection-search-field') %>
           <p class="form-description" id="collection-field-description"></p>
         </div>
 
         <!-- Search Term (Query) -->
-        <div class="col-5" id="collection-query-container">
+        <div class="grid-col-5" id="collection-query-container">
           <!-- Basic Form -->
           <div class="text-query <%= 'is-hidden' if criteria[:query_text].nil? %>">
             <%= text_field_tag("search_criteria[#{index}][query_text]", criteria[:query_text], class: 'full-width required collection-value', data: { 'msg-required' => 'Search Term is required.' } ) %>
@@ -33,11 +33,11 @@
 
           <!-- Double Date Form -->
           <div class="double-date-query <%= 'is-hidden' if criteria[:query_date_start].nil? || criteria[:query_date_end].nil? %>">
-            <div class="col-6">
+            <div class="grid-col-6">
               <%= text_field_tag("search_criteria[#{index}][query_date_start]", criteria[:query_date_start], class: 'full-width collection-value search-datetimepicker temporal-range-picker double-date-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
               <p class="form-description">Range Start</p>
             </div>
-            <div class="col-6">
+            <div class="grid-col-6">
               <%= text_field_tag("search_criteria[#{index}][query_date_end]", criteria[:query_date_end], class: 'full-width collection-value search-datetimepicker temporal-range-picker double-date-picker', placeholder: 'YYYY-MM-DDTHH:MM:SSZ') %>
               <p class="form-description">Range End</p>
             </div>
@@ -46,7 +46,7 @@
           <p class="form-description" id="collection-query-description"></p>
         </div>
 
-        <div class="col-2 align-c">
+        <div class="grid-col-2 align-c">
           <%= link_to 'javascript:;', class: 'eui-btn eui-btn--red remove-search-criteria' do %>
             <span class="fa fa-minus"></span>
           <% end %>
@@ -68,7 +68,7 @@
       <label for="all_providers">Search all collections</label>
     </p>
   </p>
-  
+
   <%= submit_tag 'Submit', name: nil, id: 'collection-search-query', class: 'eui-btn--blue' %>
   <% if local_assigns.fetch(:allow_cancel, false) %>
     <%= link_to 'Cancel', cancel_path, class: 'eui-btn' %>

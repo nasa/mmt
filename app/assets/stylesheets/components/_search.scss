@@ -51,7 +51,7 @@
         float: left;
         width: 100%;
 
-        .row {
+        .grid_row {
           display: inline-flex;
           vertical-align: middle;
           width: 100%;
@@ -81,7 +81,7 @@
 
     #search-submit-button {
       text-align: left;
-      width: 172px; // 11.92em
+      width: 175px; // 11.92em
     }
 
     .search-field-wide {
