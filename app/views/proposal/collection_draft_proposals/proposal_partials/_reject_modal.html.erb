@@ -5,7 +5,7 @@
 
   <%= form_tag(reject_collection_draft_proposal_path(get_resource), method: :put, class: 'reject-proposal-form') %>
     <fieldset>
-      <div class="grid_row">
+      <div class="grid-row">
         <div class="grid-col-4">
           <%= label_tag('rejection[reasons]', 'Reason(s) for Rejection') %>
         </div>
@@ -14,10 +14,10 @@
         </div>
       </div>
 
-      <div class="grid_row">
+      <div class="grid-row">
         <%= label_tag('rejection[note]', 'Note') %>
       </div>
-      <div class="grid_row">
+      <div class="grid-row">
         <%= text_area_tag('rejection[note]', nil) %>
       </div>
     </fieldset>

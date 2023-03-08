@@ -1,10 +1,10 @@
-<div class="grid_row row-content">
+<div class="grid-row row-content">
   <section>
     <h2>New <%= current_user.provider_id %> Service Option Assignments</h2>
 
     <%= form_tag(service_option_assignments_path, method: :post, id: "new-service-option-assignment-form") do %>
       <fieldset>
-        <div class="grid_row">
+        <div class="grid-row">
           <label for="service_entry_guid" class="eui-required-o">Service Implementation</label>
           <% if @service_entries.any? %>
             <%= select_tag('service_entry_guid', options_for_select(@service_entries), class: 'select2-select full-width', prompt: 'Select a Service Implementation') %>
@@ -15,14 +15,14 @@
       </fieldset>
 
       <fieldset>
-        <div class="grid_row">
+        <div class="grid-row">
           <label for="service_option_definition_guid" class="eui-required-o">Service Option</label>
           <%= select_tag('service_option_definition_guid', options_for_select(@service_options), class: 'select2-select full-width', prompt: 'Select an Service Option') %>
         </div>
       </fieldset>
 
       <fieldset>
-        <div class="grid_row checkbox-group">
+        <div class="grid-row checkbox-group">
           <%= label_tag('applies_only_to_granules') do %>
             <%= check_box_tag('applies_only_to_granules', 'true', false) %>
             Granules Only?
@@ -31,7 +31,7 @@
       </fieldset>
 
       <fieldset>
-        <div class="grid_row">
+        <div class="grid-row">
           <% if @service_entries.empty? %>
             <p class="form-description space-bot">Collections require the selection of a Service Implementation.</p>
           <% end %>

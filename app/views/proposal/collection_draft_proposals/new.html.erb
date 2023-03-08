@@ -9,7 +9,7 @@
 <%= form_tag(collection_draft_proposals_path, method: 'post', class: 'metadata-form', enforce_utf8: false) do %>
   <%= hidden_field_tag 'commit' %>
 
-  <div class="grid_row row-content proposal-mode">
+  <div class="grid-row row-content proposal-mode">
     <section>
 
       <input type="hidden" name='new_form_name' id="new_form_name" />
@@ -20,7 +20,7 @@
           unpublished_resource_form: @form,
           unpublished_resource_forms: @forms } %>
 
-      <div class="grid_row">
+      <div class="grid-row">
         <div class="grid-col-6">
           <p class="eui-required-o">Indicates required field</p>
         </div>

@@ -1,6 +1,6 @@
 <!-- THIS PAGE IS USING LEGACY ORDER SERVICE -->
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="grid-col-8">
       <%= label_tag('order_option[name]', 'Name', class: 'required eui-required-o', for: 'order_option_name') %>
 
@@ -18,14 +18,14 @@
 </fieldset>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('order_option[description]', 'Description', class: 'eui-required-o') %>
     <%= text_area_tag('order_option[description]', @order_option['description'], class: 'required') %>
   </div>
 </fieldset>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('order_option[form]', 'Form XML', class: 'eui-required-o') %>
     <%= text_area_tag('order_option[form]', @order_option['form'], class: 'required textarea-tall') %>
   </div>

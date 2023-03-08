@@ -1,4 +1,4 @@
-<div class="grid_row row-content">
+<div class="grid-row row-content">
   <section>
     <h2>Groups</h2>
 
@@ -6,23 +6,23 @@
 
     <%= form_tag(groups_path, method: :get, class: 'group-form') do %>
       <fieldset class="groups-filters">
-        <div class="grid_row space-bot">
+        <div class="grid-row space-bot">
           <h4>Search Groups</h4>
           <p class="form-description space-bot">Use the selections and filters below to refine groups by Provider and/or User</p>
         </div>
 
-        <div class="grid_row space-bot">
+        <div class="grid-row space-bot">
           <div class="col-2" id="groups-provider-segment-filter" class="radio-group">
-            <div class="grid_row">
+            <div class="grid-row">
               <label>Providers</label>
             </div>
-            <div class="grid_row">
+            <div class="grid-row">
               <%= label_tag 'filters[provider_segment_current]' do %>
                 <%= radio_button_tag 'filters[provider_segment]', 'current', @filters['provider_segment'] == 'current' %>
                 Current Provider
                 <% end %>
             </div>
-            <div class="grid_row">
+            <div class="grid-row">
               <%= label_tag 'filters[provider_segment_available]' do %>
                 <%= radio_button_tag 'filters[provider_segment]', 'available', @filters['provider_segment'] == 'available' %>
                 Available Providers
@@ -33,11 +33,11 @@
           <% if policy(:system_group).read? %>
             <%# using width override to allow label to show on one line %>
             <div class="grid-col-2 w15 <%= 'is-hidden' unless @filters['provider_segment'] == 'available' %>" id="groups-show-system-groups-filter">
-              <div class="grid_row">
+              <div class="grid-row">
                 <label>System Groups</label>
               </div>
 
-              <div class="grid_row checkbox-group">
+              <div class="grid-row checkbox-group">
                 <%= label_tag 'filters[show_system_groups]' do %>
                   <%= check_box_tag 'filters[show_system_groups]', 'true', @filters['show_system_groups'] == 'true' %>
                   Show System Groups?
@@ -59,7 +59,7 @@
 
         </div>
 
-        <div class="grid_row space-top">
+        <div class="grid-row space-top">
           <div class="grid-col-2 align-l">
             <%= submit_tag 'Apply Filters', class: 'eui-btn' %>
           </div>

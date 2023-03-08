@@ -2,7 +2,7 @@
   <%= render partial: "legacy_show" %>
 <% else %>
   <!-- THIS PAGE IS NOT USING LEGACY ORDER SERVICE -->
-  <div class="grid_row row-content">
+  <div class="grid-row row-content">
     <% meta = @order_option.fetch('meta', {}) %>
     <% umm = @order_option.fetch('umm', {}) %>
     <section>
@@ -20,7 +20,7 @@
         <%= umm.fetch('Description', '') %>
       </p>
 
-      <div class="grid_row">
+      <div class="grid-row">
         <span class="inline-label">Form XML:</span>
 
         <pre><%= umm.fetch('Form', '') %></pre>

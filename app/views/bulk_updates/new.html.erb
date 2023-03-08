@@ -1,4 +1,4 @@
-<div class="grid_row row-content">
+<div class="grid-row row-content">
   <section>
     <h2>New <%= current_user.provider_id %> Bulk Update</h2>
 
@@ -9,7 +9,7 @@
       <% end %>
 
       <fieldset>
-        <div class="grid_row grid-col-6">
+        <div class="grid-row grid-col-6">
           <%= label_tag('name', 'Name') %>
           <%= text_field_tag('name', @task[:name], id: 'bulk_update_name', class: 'full-width bulk-update-name textcounter', maxlength: 255) %>
         </div>
@@ -27,7 +27,7 @@
       <% end %>
 
       <fieldset>
-        <div class="grid_row">
+        <div class="grid-row">
         <%= submit_tag 'Preview', id: 'bulk-update-preview-button',class: 'eui-btn--blue' %>
         </div>
       </fieldset>

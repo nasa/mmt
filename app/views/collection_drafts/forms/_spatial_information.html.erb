@@ -13,7 +13,7 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'spatial_extent',
@@ -41,7 +41,7 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'tiling_identification_system',
@@ -68,7 +68,7 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="col-12">
         <%= mmt_label(
           name: 'spatial_information',
@@ -104,9 +104,9 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="col-12">
-        <div class="grid_row sub-fields">
+        <div class="grid-row sub-fields">
           <div class="selected-location-keywords location-keywords">
             <ul>
               <% location_keywords = draft.draft['LocationKeywords'] || [] %>

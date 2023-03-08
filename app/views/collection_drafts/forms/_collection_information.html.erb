@@ -3,9 +3,9 @@
     <h3 class="eui-accordion__title eui-required-o always-required">Collection Information</h3>
   </div>
   <div class="eui-accordion__body">
-    <div class="grid_row">
+    <div class="grid-row">
       <% if Rails.configuration.templates_enabled && resource_name == "collection_template" %>
-        <div class="grid_row">
+        <div class="grid-row">
           <div class="col-12">
             <%= mmt_text_field(
               name: 'template_name',
@@ -51,7 +51,7 @@
     </div>
 
     <!-- Version Description -->
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="col-12">
         <%= mmt_text_field(
           name: 'version_description',
@@ -67,7 +67,7 @@
     </div>
 
     <!-- Entry Title [r] -->
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="col-12">
         <%= mmt_text_field(
           name: 'entry_title',
@@ -96,7 +96,7 @@
       help: 'properties/DOI',
       help_url: 'DOI'
     ) %>
-    <div class="grid_row sub-fields">
+    <div class="grid-row sub-fields">
       <%= render partial: 'collection_drafts/forms/type', locals: {
           type: 'doi',
           values: draft.draft['DOI'] || {},
@@ -118,7 +118,7 @@
       help: 'properties/AssociatedDOIs',
       help_url: 'Associated+DOIs'
     ) %>
-    <div class="grid_row sub-fields">
+    <div class="grid-row sub-fields">
       <%= render partial: 'collection_drafts/forms/type', locals: {
           type: 'associated_doi',
           values: draft.draft['AssociatedDOIs'] || [{}],
@@ -129,7 +129,7 @@
 
 
     <!-- Abstract [r] -->
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="col-12">
         <%= mmt_text_area(
           name: 'abstract',
@@ -147,7 +147,7 @@
 
 
     <!-- Purpose -->
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="col-12">
         <%= mmt_text_area(
           name: 'purpose',
@@ -164,7 +164,7 @@
 
 
     <!-- Data language -->
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="col-12">
         <%= mmt_select(
           name: 'data_language',

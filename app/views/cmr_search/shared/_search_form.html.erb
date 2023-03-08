@@ -1,7 +1,7 @@
 <%= form_tag(submit_path, method: :get, id: 'collection-search') do %>
   <% params.fetch('search_criteria', {"#{Time.now.to_i}" => {}}).each do |index, criteria| %>
     <fieldset>
-      <div class="grid_row">
+      <div class="grid-row">
         <div class="grid-col-5">
           <%= label_tag("search_criteria[#{index}][field]", 'Search Field', class: 'eui-required-o') %><br />
         </div>
@@ -12,7 +12,7 @@
         </div>
       </div>
 
-      <div class="grid_row">
+      <div class="grid-row">
         <!-- Search Field -->
         <div class="grid-col-5" id="collection-field-container">
           <%= select_tag("search_criteria[#{index}][field]", options_for_select(BulkUpdatesHelper::SEARCHABLE_KEYS.map { |option, values| [values[:title], option.to_s, Hash[values.fetch(:data_attributes, {}).map { |key, value| ["data-#{key}", value] }]] }.sort_by { |options| options[0] }, criteria[:field]), class: 'full-width required collection-field collection-search-field') %>

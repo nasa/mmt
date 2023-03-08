@@ -1,10 +1,10 @@
-<div class="grid_row row-content">
+<div class="grid-row row-content">
   <section>
     <h2><%= current_user.provider_id %> Orders</h2>
 
     <%= form_tag(search_orders_path, method: :put, class: "order-by-guid-form", id: "order-by-guid-form") do %>
       <fieldset>
-        <div class="grid_row">
+        <div class="grid-row">
           <label for="order_guid" class="eui-required-o">Order GUID</label>
           <%= text_field_tag('order_guid', nil, class: 'full-width') %>
 

@@ -1,10 +1,10 @@
 <% new_form = params[:action] == 'new' || params[:action] == 'create' %>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('group[name]', 'Name', class: 'eui-required-o') %>
   </div>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= text_field_tag('group[name]', @group['name'], class: 'full-width required', readonly: !new_form) %>
     <p class="form-description">Group names cannot be modified after creation.</p>
   </div>
@@ -12,7 +12,7 @@
 
 <% if policy(:system_group).create? %>
   <fieldset>
-    <div class="grid_row checkbox-group">
+    <div class="grid-row checkbox-group">
       <!-- checkbox to ask if user wants to create system level group -->
       <%= check_box_tag(:system_group, true, @is_system_group, class: 'system-group-checkbox', readonly: !new_form) %>
       <%= label_tag(:system_group, 'System Level Group?') %>
@@ -21,16 +21,16 @@
 <% end %>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('group[description]', 'Description', class: 'eui-required-o') %>
   </div>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= text_area_tag('group[description]', @group['description'], cols: 30, rows: 3, class: 'required textcounter', maxlength: 255) %>
   </div>
 </fieldset>
 
 <fieldset>
-  <div class="grid_row space-bot">
+  <div class="grid-row space-bot">
     <%= label_tag('group_members', 'Members') %>
     <%= select_tag 'group[members]', options_for_select(@members), id: 'group_members', class: 'urs_autocomplete', multiple: true %>
   </div>

@@ -1,4 +1,4 @@
-<div class="grid_row row-content">
+<div class="grid-row row-content">
   <section>
     <h2>Variable Generation for <%= current_user.provider_id %></h2>
 
@@ -10,26 +10,26 @@
         to be checkboxes, so the user can choose all the augmentations they want
         in one go -->
         <p class="radio-group">
-          <div class="grid_row">
+          <div class="grid-row">
             <%= label_tag('augmentation_type_keywords') do %>
               <%= radio_button_tag(:augmentation_type, 'keywords', false) %>
               Augment with Science Keywords
             <% end %>
           </div>
-          <div class="grid_row">
+          <div class="grid-row">
             <%= label_tag('augmentation_type_definitions', nil, class: 'disabled') do %>
               <%= radio_button_tag(:augmentation_type, 'definitions', false, disabled: true) %>
               Augment with Definitions
             <% end %>
           </div>
-          <div class="grid_row">
+          <div class="grid-row">
             <%= label_tag('augmentation_type_cfc', nil, class: 'disabled') do %>
               <%= radio_button_tag(:augmentation_type, 'cfc', false, disabled: true) %>
             Augment with Climate Forecast Conventions (CFCs)
             <% end %>
             <!-- write out or explain CFC?  -->
           </div>
-          <div class="grid_row">
+          <div class="grid-row">
             <%= label_tag('augmentation_type_estimates', nil, class: 'disabled') do %>
               <%= radio_button_tag(:augmentation_type, 'estimates', false, disabled: true) %>
             Augment with Estimates

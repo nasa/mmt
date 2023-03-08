@@ -46,13 +46,13 @@
               <% end %>
             </div>
           <% else %>
-            <div class="grid_row">
+            <div class="grid-row">
               <%= link_to 'Create New Record', new_collection_draft_path, class: 'eui-btn--blue submit' %>
             </div>
           <% end %>
         </div>
         <div class="question-group">
-          <div class="grid_row">
+          <div class="grid-row">
             <p><strong>OR</strong> use the <a id="search-focus" href="#">search</a> in the top right corner to find published collections to clone or edit.</p>
           </div>
         </div>
@@ -95,7 +95,7 @@
         <h3 class="eui-callout-box__title"><%= current_user.provider_id %> Bulk Updates</h3>
         <div class="eui-callout-box__list bulk-update-callout">
           <div class="question-group">
-            <div class="grid_row">
+            <div class="grid-row">
               <ul>
                 <% if @bulk_updates.blank? %>
                   No <%= current_user.provider_id %> Bulk Updates found.
@@ -119,7 +119,7 @@
             </div>
           </div>
 
-          <div class="grid_row">
+          <div class="grid-row">
             <%= link_to 'Initiate a Bulk Update', new_bulk_updates_search_path, class: 'eui-btn--blue space-top' %>
           </div>
         </div>

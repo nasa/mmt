@@ -31,7 +31,7 @@
     </p>
   </div>
 <% else %>
-  <div class="grid_row row-content">
+  <div class="grid-row row-content">
     <section>
       <h2><%= @permission.fetch('catalog_item_identity', {})['name'] %></h2>
 
@@ -88,7 +88,7 @@
         </tbody>
       </table>
 
-      <div class="grid_row">
+      <div class="grid-row">
         <div class="grid-col-6" id="collection-constraint-summary">
           <label>Collections</label>
           <p><%= collection_constraint_summary(@permission) %></p>

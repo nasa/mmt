@@ -61,7 +61,7 @@
       <%= hidden_field_tag :search_query, params[:query] %>
 
       <fieldset>
-        <div class="grid_row">
+        <div class="grid-row">
           <%= submit_tag submit_text, class: "eui-btn--blue #{'spinner' if local_assigns.fetch(:use_spinner, false)}" %>
           <% if local_assigns.fetch(:allow_cancel, false) %>
             <%= link_to 'Cancel', cancel_path, class: 'eui-btn' %>

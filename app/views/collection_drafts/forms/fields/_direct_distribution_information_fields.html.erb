@@ -1,5 +1,5 @@
 <div class="sub-fields direct_distribution_information-fields">
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="full-width">
       <!-- Region -->
       <%= mmt_select(
@@ -16,7 +16,7 @@
   </div>
 
   <!-- S3 Bucket and Object Prefix Names -->
-  <div class="grid_row taller">
+  <div class="grid-row taller">
     <div class="col-12">
       <%= mmt_label(
             name: 's3_bucket_and_object_prefix_names',
@@ -27,7 +27,7 @@
             title: 'S3 Bucket and Object Prefix Names',
             help: 'definitions/DirectDistributionInformationType/properties/S3BucketAndObjectPrefixNames'
           ) %>
-      <div class="grid_row sub-fields">
+      <div class="grid-row sub-fields">
         <% prefixes = direct_distribution_information['S3BucketAndObjectPrefixNames'] || [nil] # [nil] creates at least one field %>
         <div class="multiple simple-multiple s3-bucket-and-object-prefix-names">
           <% prefixes.each_with_index do |prefix, index| %>
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="full-width">
       <!-- S3 Credentials API Endpoint -->
       <%= mmt_text_field(
@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="full-width">
       <!-- S3 Credentials API Documentation URL -->
       <%= mmt_text_field(

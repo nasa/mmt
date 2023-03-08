@@ -1,5 +1,5 @@
 <div class="sub-fields file_archive_information-fields">
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="grid-col-6">
       <!-- Format -->
       <%= mmt_text_field(
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="grid-col-6">
       <!-- Format Description -->
       <%= mmt_text_field(
@@ -42,7 +42,7 @@
 
 
 
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="grid-col-6">
       <!-- Average File Size -->
       <%= mmt_text_field(
@@ -80,7 +80,7 @@
       <label for="<%= remove_pipes(name_prefix) %>ByDate">Calculate Total Collection File Size By Start Date</label>
     </p>
 
-    <div class="grid_row total-collection-file-size-fields by-size" style="<%= 'display: none;' unless by_size == true %>">
+    <div class="grid-row total-collection-file-size-fields by-size" style="<%= 'display: none;' unless by_size == true %>">
       <div class="grid-col-6">
         <!-- Total Collection File Size -->
         <%= mmt_text_field(
@@ -107,7 +107,7 @@
       </div>
     </div>
     <!-- Total Collection File Size Begin Date -->
-    <div class="grid_row total-collection-file-size-fields by-date" style="<%= 'display: none;' unless by_size == false %>">
+    <div class="grid-row total-collection-file-size-fields by-date" style="<%= 'display: none;' unless by_size == false %>">
       <div class="col-12">
         <%= mmt_datetime(
               name: 'total_collection_file_size_begin_date',
@@ -121,7 +121,7 @@
     </div>
   </div>
   <!-- Description -->
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="col-12">
       <%= mmt_text_area(
             name: 'description',

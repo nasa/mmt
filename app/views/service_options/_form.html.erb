@@ -1,19 +1,19 @@
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('service_option[name]', 'Name', class: 'required eui-required-o', for: 'service_option_name') %>
     <%= text_field_tag('service_option[name]', @service_option['Name'], class: 'required full-width') %>
   </div>
 </fieldset>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('service_option[description]', 'Description', class: 'eui-required-o') %>
     <%= text_area_tag('service_option[description]', @service_option['Description'], class: 'required') %>
   </div>
 </fieldset>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('service_option[form]', 'Form XML', class: 'eui-required-o') %>
     <%= text_area_tag('service_option[form]', @service_option['Form'], class: 'required textarea-tall') %>
   </div>

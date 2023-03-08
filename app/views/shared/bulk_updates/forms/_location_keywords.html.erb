@@ -8,7 +8,7 @@
   <h4 class="title">Find Location Keyword</h4>
   <p class="form-description space-bot">Update all collections that have location keywords that match the criteria specified below.</p>
 
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="grid-col-6">
       <%= label_tag 'location_category', 'Category' %>
       <%= text_field_tag('find_value[LocationCategory]',
@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <div class="grid_row space-top">
+  <div class="grid-row space-top">
     <h5 class="space-bot">Subregions</h5>
 
     <div class="grid-col-3">
@@ -67,7 +67,7 @@
   <p class="form-description space-bot"></p>
 
   <div id="location-keyword-picker">
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="col-12">
         <div class="eui-nested-item-picker location-keywords-picker">
           <ul class="eui-item-path">
@@ -90,7 +90,7 @@
   </div>
 
   <div id="new-location-keyword-container" class="space-top <%= 'is-hidden' unless show_update_value('location_keywords', @task) %>">
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="grid-col-6">
         <%= label_tag 'location_category', 'Category' %>
         <%= text_field_tag('update_value[LocationCategory]',
@@ -109,7 +109,7 @@
       </div>
     </div>
 
-    <div class="grid_row space-top">
+    <div class="grid-row space-top">
       <h5 class="space-bot">Subregions</h5>
 
       <div class="grid-col-3">

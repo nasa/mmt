@@ -1,5 +1,5 @@
-<div class="grid_row sub-fields">
-  <div class="grid_row">
+<div class="grid-row sub-fields">
+  <div class="grid-row">
     <div class="grid-col-6">
       <%= mmt_select(
         name: 'country',
@@ -17,7 +17,7 @@
 
   <% street_addresses = address['StreetAddresses'] || [nil, nil] # [nil] creates at least one Street Address field %>
   <fieldset class="multiple addresses-street-addresses">
-    <div class="grid_row">
+    <div class="grid-row">
       <legend class="is-inline is-dark-grey">Street Address</legend>
       <%= mmt_help_icon(
         title: 'Street Address',
@@ -39,7 +39,7 @@
       </div>
     <% end %>
   </fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="grid-col-6">
       <%= mmt_text_field(
         name: 'city',

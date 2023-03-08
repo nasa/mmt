@@ -1,13 +1,13 @@
 <!-- THIS PAGE IS USING LEGACY SERVICE -->
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag 'order-options', 'Option Definition'  %>
     <%= select_tag 'order-options', options_for_select(@order_option_select_values, @order_option), id: 'order-options', class: 'select2-select half-width', prompt: 'Select an Order Option' %>
   </div>
 </fieldset>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <div id="chooser-widget"></div>
 
     <%= hidden_field_tag 'chosen-collections', @chosen_collections.to_json %>

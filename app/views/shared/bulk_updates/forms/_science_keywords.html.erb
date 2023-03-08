@@ -8,12 +8,12 @@
   <h4 class="title">Find Science Keyword</h4>
   <p class="form-description space-bot">Update all collections that have science keywords that match the criteria specified below.</p>
 
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="grid-col-4">
-      <div class="grid_row">
+      <div class="grid-row">
         <%= label_tag 'Category' %>
       </div>
-      <div id="category-select" class="grid_row">
+      <div id="category-select" class="grid-row">
         <%= select_tag('find_value[Category]',
                        options_for_select(@science_keyword_facets.fetch('category', []).map { |category| [category[:value], { 'data-parent': category[:parent] }] }.sort_by { |option| option[0] }, repopulate_find_value(@task, 'science_keywords', 'Category')),
                        id: 'Category',
@@ -22,10 +22,10 @@
       </div>
     </div>
     <div class="grid-col-4">
-      <div class="grid_row">
+      <div class="grid-row">
         <%= label_tag 'Topic' %>
       </div>
-      <div id="topic-select" class="grid_row">
+      <div id="topic-select" class="grid-row">
         <%= select_tag('find_value[Topic]',
                        options_for_select(@science_keyword_facets.fetch('topic', []).map { |topic| [topic[:value], { 'data-parent': topic[:parent] }] }.sort_by { |option| option[0] }, repopulate_find_value(@task, 'science_keywords', 'Topic')),
                        id: 'Topic',
@@ -34,10 +34,10 @@
       </div>
     </div>
     <div class="grid-col-4">
-      <div class="grid_row">
+      <div class="grid-row">
         <%= label_tag 'Term' %>
       </div>
-      <div id="term-select" class="grid_row">
+      <div id="term-select" class="grid-row">
         <%= select_tag('find_value[Term]',
                        options_for_select(@science_keyword_facets.fetch('term', []).map { |term| [term[:value], { 'data-parent': term[:parent] }] }.sort_by { |option| option[0] }, repopulate_find_value(@task, 'science_keywords', 'Term')),
                        id: 'Term',
@@ -47,14 +47,14 @@
     </div>
   </div>
 
-  <div class="grid_row space-top">
+  <div class="grid-row space-top">
     <h5 class="space-bot">Variable Levels</h5>
 
     <div class="grid-col-3">
-      <div class="grid_row">
+      <div class="grid-row">
         <%= label_tag 'VariableLevel1', 'Level 1' %>
       </div>
-      <div id="variable_level_1-select" class="grid_row">
+      <div id="variable_level_1-select" class="grid-row">
         <%= select_tag('find_value[VariableLevel1]',
                        options_for_select(@science_keyword_facets.fetch('variable_level_1', []).map { |variable_level_1| [variable_level_1[:value], { 'data-parent': variable_level_1[:parent] }] }.sort_by { |option| option[0] }, repopulate_find_value(@task, 'science_keywords', 'VariableLevel1')),
                        id: 'VariableLevel1',
@@ -64,10 +64,10 @@
     </div>
 
     <div class="grid-col-3">
-      <div class="grid_row">
+      <div class="grid-row">
         <%= label_tag 'VariableLevel2', 'Level 2' %>
       </div>
-      <div id="variable_level_2-select" class="grid_row">
+      <div id="variable_level_2-select" class="grid-row">
         <%= select_tag('find_value[VariableLevel2]',
                        options_for_select(@science_keyword_facets.fetch('variable_level_2', []).map { |variable_level_2| [variable_level_2[:value], { 'data-parent': variable_level_2[:parent] }] }.sort_by { |option| option[0] }, repopulate_find_value(@task, 'science_keywords', 'VariableLevel2')),
                        id: 'VariableLevel2',
@@ -77,10 +77,10 @@
     </div>
 
     <div class="grid-col-3">
-      <div class="grid_row">
+      <div class="grid-row">
         <%= label_tag 'VariableLevel3', 'Level 3' %>
       </div>
-      <div id="variable_level_3-select" class="grid_row">
+      <div id="variable_level_3-select" class="grid-row">
         <%= select_tag('find_value[VariableLevel3]',
                        options_for_select(@science_keyword_facets.fetch('variable_level_3', []).map { |variable_level_3| [variable_level_3[:value], { 'data-parent': variable_level_3[:parent] }] }.sort_by { |option| option[0] }, repopulate_find_value(@task, 'science_keywords', 'VariableLevel3')),
                        id: 'VariableLevel3',
@@ -90,10 +90,10 @@
     </div>
 
     <div class="grid-col-3">
-      <div class="grid_row">
+      <div class="grid-row">
         <%= label_tag 'DetailedVariable', 'Detailed Variable' %>
       </div>
-      <div id="detailed_variable-select" class="grid_row">
+      <div id="detailed_variable-select" class="grid-row">
         <%= select_tag('find_value[DetailedVariable]',
                        options_for_select(@science_keyword_facets.fetch('detailed_variable', []).map { |detailed_variable| [detailed_variable[:value], { 'data-parent': detailed_variable[:parent] }] }.sort_by { |option| option[0] }, repopulate_find_value(@task, 'science_keywords', 'DetailedVariable')),
                        id: 'DetailedVariable',
@@ -110,7 +110,7 @@
   tempor incididunt ut labore et dolore magna aliqua.</p>
 
   <div id="science-keyword-picker">
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="col-12">
         <div class="eui-nested-item-picker science-keywords-picker">
           <ul class="eui-item-path">
@@ -133,7 +133,7 @@
   </div>
 
   <div id="new-science-keyword-container" class="space-top <%= 'is-hidden' unless show_update_value('science_keywords', @task) %>">
-    <div class="grid_row">
+    <div class="grid-row">
       <div class="grid-col-4">
         <%= label_tag 'category', 'Category' %>
         <%= text_field_tag('update_value[Category]',
@@ -160,7 +160,7 @@
       </div>
     </div>
 
-    <div class="grid_row space-top">
+    <div class="grid-row space-top">
       <h5 class="space-bot">Variable Levels</h5>
 
       <div class="grid-col-3">

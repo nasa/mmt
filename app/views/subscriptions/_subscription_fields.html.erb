@@ -1,17 +1,17 @@
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('subscription[Name]', 'Subscription Name', class: 'eui-required-o') %>
   </div>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= text_field_tag('subscription[Name]', @subscription['Name'], cols: 30, rows: 3, class: 'required full-width textcounter', maxlength: 80) %>
   </div>
 </fieldset>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('subscription[CollectionConceptId]', 'Collection Concept ID', class: "eui-required-o #{'disabled' if edit_form}") %>
   </div>
-  <div class="grid_row">
+  <div class="grid-row">
     <p class="form-description <%= "#{'disabled' if edit_form}" %>">Enter a Concept ID for a single collection. (Example: C1234567-PODAAC)</p>
     <%= text_field_tag('subscription[CollectionConceptId]', @subscription['CollectionConceptId'], class: "required full-width #{'disabled' if edit_form}", disabled: edit_form) %>
     <p class="form-description <%= "#{'disabled' if edit_form}" %>">The Collection Concept Id cannot be modified after subscription creation.</p>
@@ -19,17 +19,17 @@
 </fieldset>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('subscription[Query]', 'Query', class: 'eui-required-o') %>
   </div>
-  <div class="grid_row">
+  <div class="grid-row">
     <p class="form-description">Enter the CMR query parameters for the subscription. (Examples: Platform[]=1B&platform[]=2B, or bounding_box=-10,-5,10,5, or attribute[]=float,PERCENTAGE,25.5,30) Note: Do not include the Collection Concept ID in the query as it has already been specified in the field above.</p>
     <%= text_area_tag('subscription[Query]', @subscription['Query'], cols: 30, rows: 3, class: 'required textcounter', maxlength: 40_000) %>
   </div>
 </fieldset>
 
 <fieldset>
-  <div class="grid_row space-bot subscriber-group">
+  <div class="grid-row space-bot subscriber-group">
     <%= label_tag('subscriber', 'Subscriber', class: "eui-required-o #{'disabled' if edit_form}") %>
     <%= select_tag 'subscription[SubscriberId]', options_for_select(@subscriber), id: 'subscriber', class: "urs_autocomplete #{'disabled' if edit_form}", multiple: false, disabled: edit_form %>
     <p class="form-description <%= "#{'disabled' if edit_form}" %>">The Subscriber cannot be modified after subscription creation.</p>

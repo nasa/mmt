@@ -8,7 +8,7 @@
   <h4 class="title">Find Data Center</h4>
   <p class="form-description space-bot">Update all collections that have data centers that match the criteria specified below.</p>
 
-  <div class="grid_row">
+  <div class="grid-row">
     <div class="grid-col-6">
       <%= label_tag 'find_value[ShortName]', 'Short Name' %>
       <%= text_field_tag('find_value[ShortName]',
@@ -22,7 +22,7 @@
   <h4 class="title">New Data Center</h4>
   <p class="form-description space-bot"></p>
 
-  <div class="grid_row">
+  <div class="grid-row">
     <!-- ShortName [r] -->
     <div class="grid-col-6">
       <% # Need to pass unique IDs for select2 to properly generate %>
@@ -51,8 +51,8 @@
     </div>
   </div>
 
-  <div class="grid_row related-url">
-    <div class="grid_row">
+  <div class="grid-row related-url">
+    <div class="grid-row">
       <div class="grid-col-6">
         <%= mmt_select(
           name: 'url_content_type',
@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <div class="grid_row">
+    <div class="grid-row">
       <%= mmt_text_field(
         name: 'url',
         title: 'URL',

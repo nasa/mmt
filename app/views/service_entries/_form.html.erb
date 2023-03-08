@@ -1,26 +1,26 @@
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('service_entry[name]', 'Name', class: 'required eui-required-o', for: 'service_entry_name') %>
     <%= text_field_tag('service_entry[name]', @service_entry['Name'], class: 'required full-width textcounter', maxlength: 255) %>
   </div>
 </fieldset>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('service_entry[url]', 'URL', class: 'required eui-required-o', for: 'service_entry_url') %>
     <%= text_field_tag('service_entry[url]', @service_entry['Url'], class: 'required full-width textcounter', maxlength: 4000) %>
   </div>
 </fieldset>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('service_entry[description]', 'Description', class: 'eui-required-o') %>
     <%= text_area_tag('service_entry[description]', @service_entry['Description'], class: 'required textcounter', maxlength: 4000) %>
   </div>
 </fieldset>
 
 <fieldset>
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('service_entry[entry_type]', 'Type', class: 'eui-required-o') %>
     <%= select_tag('service_entry[entry_type]', options_for_select({ 'Service Interface' => 'SERVICE_INTERFACE', 'Service Implementation' => 'SERVICE_IMPLEMENTATION' }, @service_entry['EntryType']), class: 'required', disabled: !new_form) %>
     <p class="form-description">Type cannot be modified after creation.</p>
@@ -31,7 +31,7 @@
 </fieldset>
 
 <fieldset id="service-implementation-container">
-  <div class="grid_row">
+  <div class="grid-row">
     <%= label_tag('service_entry[service_interface_guid]', 'Service Interface', class: 'eui-required-o') %>
     <%= select_tag('service_entry[service_interface_guid]', options_for_select(service_interface_tags.map { |tag| [tag['Value'], tag['Guid']] }, tag_guids_for_tag_group(@service_entry, 'SERVICE-INTERFACE').first), class: 'required', prompt: 'Select a Service Interface') %>
   </div>

@@ -36,11 +36,11 @@
           <%= button_to 'Launchpad Test Login', acs_path, method: :post, params: { SAMLResponse: ENV['launchpad_saml_response'] }  %>
         <% end %>
       <% else %>
-        <div class="grid_row">
+        <div class="grid-row">
           <%= render partial: 'shared/user_info_dropdown', locals: { hide_provider_context: hide_search } %>
         </div>
         <% unless hide_search %>
-          <div class="grid_row">
+          <div class="grid-row">
             <section id="search">
               <%= render 'shared/search_form' %>
             </section>
