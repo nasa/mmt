@@ -178,7 +178,7 @@ $(document).ready ->
           error.insertAfter($table)
         else if element.hasClass('min-max-value')
           error.addClass('full-width')
-          error.insertAfter(element.closest('.row'))
+          error.insertAfter(element.closest('.grid-row'))
         else if element.hasClass('grouped-field')
           error.addClass('full-width')
           error.insertAfter(element.closest('.grouped-fields-parent'))
