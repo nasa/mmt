@@ -9,7 +9,7 @@
 <%= form_tag(send("#{resource_name}_path", get_resource), method: 'put', class: 'metadata-form', enforce_utf8: false) do %>
   <%= hidden_field_tag 'commit' %>
 
-  <div class="row row-content">
+  <div class="grid-row row-content">
     <section>
       <input type="hidden" name='new_form_name' id="new_form_name" />
 
@@ -23,13 +23,13 @@
         <h1 id="template_reminder">Collection Template</h1>
       <% end %>
 
-      <div class="row">
-        <div class="col-6">
+      <div class="grid-row">
+        <div class="grid-col-6">
           <p class="eui-required-o">Indicates required field</p>
         </div>
         <!-- Expand All link -->
         <% unless DraftsHelper::SINGLE_FIELDSET_FORMS.include? @form  %>
-          <div class="col-6">
+          <div class="grid-col-6">
             <p class="align-r">
               <a href="#" class="expand-accordions">Expand All</a>
               <a href="#" class="is-invisible collapse-accordions">Collapse All</a>

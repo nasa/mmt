@@ -1,38 +1,38 @@
-<div class="row row-content">
+<div class="grid-row row-content">
   <section>
     <h2> <%= @task['name'] %> </h2>
 
-    <div class="row">
+    <div class="grid-row">
       <div class="eui-info-box">
-        <div class="col-4 align-c">
+        <div class="grid-col-4 align-c">
           <h3>Status</h3>
           <p><%= @task.fetch('task-status', '').titleize %></p>
         </div>
-        <div class="col-4 align-c">
+        <div class="grid-col-4 align-c">
           <h3>Field to Update</h3>
           <p><%= @task.fetch('update-field', '').titleize %></p>
         </div>
-        <div class="col-4 align-c">
+        <div class="grid-col-4 align-c">
           <h3>Update Type</h3>
           <p><%= @task.fetch('update-type', '').titleize %></p>
         </div>
       </div>
     </div>
 
-    <div class="row">
+    <div class="grid-row">
       <h4>Created</h4>
       <% unless @task.blank? %>
         <p><%= DateTime.parse(@task['created-at']).to_s %></p>
       <% end %>
     </div>
 
-    <div class="row">
+    <div class="grid-row">
       <h4>Notes</h4>
       <p><%= @task['status-message'] %></p>
     </div>
 
     <% unless @task.blank? %>
-      <div class="row">
+      <div class="grid-row">
         <%= render partial: "shared/bulk_updates/display/#{@task.fetch('request-json-body', {}).fetch('update-field', '').downcase}", locals: { bulk_update: @task } %>
       </div>
     <% end %>

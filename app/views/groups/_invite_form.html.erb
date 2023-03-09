@@ -11,12 +11,12 @@
     <%= hidden_field_tag 'invite[group_name]', @group['name'] %>
 
     <fieldset>
-      <div class="row">
-        <div class="col-6">
+      <div class="grid-row">
+        <div class="grid-col-6">
           <%= label_tag('invite_first_name', 'First Name') %>
           <%= text_field_tag('invite[first_name]', nil, class: 'full-width', placeholder: 'First Name') %>
         </div>
-        <div class="col-6">
+        <div class="grid-col-6">
           <%= label_tag('invite_last_name', 'Last Name') %>
           <%= text_field_tag('invite[last_name]', nil, class: 'full-width', placeholder: 'Last Name') %>
         </div>
@@ -24,7 +24,7 @@
     </fieldset>
 
     <fieldset>
-      <div class="row">
+      <div class="grid-row">
         <div class="col-12">
           <%= label_tag('invite_email', 'Email Address') %>
           <%= text_field_tag('invite[email]', nil, class: 'full-width', placeholder: 'Email') %>

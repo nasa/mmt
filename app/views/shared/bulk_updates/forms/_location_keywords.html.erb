@@ -8,15 +8,15 @@
   <h4 class="title">Find Location Keyword</h4>
   <p class="form-description space-bot">Update all collections that have location keywords that match the criteria specified below.</p>
 
-  <div class="row">
-    <div class="col-6">
+  <div class="grid-row">
+    <div class="grid-col-6">
       <%= label_tag 'location_category', 'Category' %>
       <%= text_field_tag('find_value[LocationCategory]',
                          repopulate_find_value(@task, 'location_keywords', 'Category'),
                          id: 'location_category',
                          class: 'full-width location-keyword-find') %>
     </div>
-    <div class="col-6">
+    <div class="grid-col-6">
       <%= label_tag 'type', 'Type' %>
       <%= text_field_tag('find_value[Type]',
                          repopulate_find_value(@task, 'location_keywords', 'Type'),
@@ -25,10 +25,10 @@
     </div>
   </div>
 
-  <div class="row space-top">
+  <div class="grid-row space-top">
     <h5 class="space-bot">Subregions</h5>
 
-    <div class="col-3">
+    <div class="grid-col-3">
       <%= label_tag 'subregion_1', 'Subregion 1' %>
       <%= text_field_tag('find_value[Subregion1]',
                          repopulate_find_value(@task, 'location_keywords', 'Subregion1'),
@@ -36,7 +36,7 @@
                          class: 'full-width location-keyword-find') %>
     </div>
 
-    <div class="col-3">
+    <div class="grid-col-3">
       <%= label_tag 'subregion_2', 'Subregion 2' %>
       <%= text_field_tag('find_value[Subregion2]',
                          repopulate_find_value(@task, 'location_keywords', 'Subregion2'),
@@ -44,7 +44,7 @@
                          class: 'full-width location-keyword-find') %>
     </div>
 
-    <div class="col-3">
+    <div class="grid-col-3">
       <%= label_tag 'subregion_3', 'Subregion 3' %>
       <%= text_field_tag('find_value[Subregion3]',
                          repopulate_find_value(@task, 'location_keywords', 'Subregion3'),
@@ -52,7 +52,7 @@
                          class: 'full-width location-keyword-find') %>
     </div>
 
-    <div class="col-3">
+    <div class="grid-col-3">
       <%= label_tag 'detailed_location', 'Detailed Location' %>
       <%= text_field_tag('find_value[DetailedLocation]',
                          repopulate_find_value(@task, 'location_keywords', 'DetailedLocation'),
@@ -67,7 +67,7 @@
   <p class="form-description space-bot"></p>
 
   <div id="location-keyword-picker">
-    <div class="row">
+    <div class="grid-row">
       <div class="col-12">
         <div class="eui-nested-item-picker location-keywords-picker">
           <ul class="eui-item-path">
@@ -90,8 +90,8 @@
   </div>
 
   <div id="new-location-keyword-container" class="space-top <%= 'is-hidden' unless show_update_value('location_keywords', @task) %>">
-    <div class="row">
-      <div class="col-6">
+    <div class="grid-row">
+      <div class="grid-col-6">
         <%= label_tag 'location_category', 'Category' %>
         <%= text_field_tag('update_value[LocationCategory]',
                            repopulate_update_value(@task, 'location_keywords', 'Category'),
@@ -99,7 +99,7 @@
                            class: 'full-width location-keyword-value',
                            readonly: true) %>
       </div>
-      <div class="col-6">
+      <div class="grid-col-6">
         <%= label_tag 'type', 'Type' %>
         <%= text_field_tag('update_value[Type]',
                            repopulate_update_value(@task, 'location_keywords', 'Type'),
@@ -109,10 +109,10 @@
       </div>
     </div>
 
-    <div class="row space-top">
+    <div class="grid-row space-top">
       <h5 class="space-bot">Subregions</h5>
 
-      <div class="col-3">
+      <div class="grid-col-3">
         <%= label_tag 'subregion_1', 'Subregion 1' %>
         <%= text_field_tag('update_value[Subregion1]',
                            repopulate_update_value(@task, 'location_keywords', 'Subregion1'),
@@ -121,7 +121,7 @@
                            readonly: true) %>
       </div>
 
-      <div class="col-3">
+      <div class="grid-col-3">
         <%= label_tag 'variablelevel2', 'Subregion 2' %>
         <%= text_field_tag('update_value[Subregion2]',
                            repopulate_update_value(@task, 'location_keywords', 'Subregion2'),
@@ -130,7 +130,7 @@
                            readonly: true) %>
       </div>
 
-      <div class="col-3">
+      <div class="grid-col-3">
         <%= label_tag 'variablelevel3', 'Subregion 3' %>
         <%= text_field_tag('update_value[Subregion3]',
                            repopulate_update_value(@task, 'location_keywords', 'Subregion3'),
@@ -139,7 +139,7 @@
                            readonly: true) %>
       </div>
 
-      <div class="col-3">
+      <div class="grid-col-3">
         <%= label_tag 'detailed_location', 'Detailed Location' %>
         <%= text_field_tag('update_value[DetailedLocation]',
                            repopulate_update_value(@task, 'location_keywords', 'DetailedLocation'),

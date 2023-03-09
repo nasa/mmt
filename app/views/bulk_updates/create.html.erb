@@ -1,4 +1,4 @@
-<div class="row row-content">
+<div class="grid-row row-content">
   <h2>View params sent to Create</h2>
 
   <%= params.select { |key, value| %w(concept_ids update_field update_type find_value update_value).include?(key) } %>

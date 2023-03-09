@@ -1,7 +1,7 @@
-<div class="row row-content">
+<div class="grid-row row-content">
   <section>
     <h2>New <%= current_user.provider_id %> Service Option</h2>
-    
+
     <%= form_tag(service_options_path, method: :post, id: 'service-option-form') do %>
       <%= render partial: 'form', locals: { new_form: true } %>
     <% end %>

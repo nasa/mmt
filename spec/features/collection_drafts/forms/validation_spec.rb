@@ -187,7 +187,7 @@ describe 'Data validation for a collection draft form', js: true do
             fill_in 'Size', with: test
             puts "Number: #{test}" if debug
             find('#draft_related_urls_0_get_data_fees').click
-            within all('.col-6').first do
+            within all('.grid-col-6').first do
               expect(page).to have_no_selector(validation_error)
             end
           end

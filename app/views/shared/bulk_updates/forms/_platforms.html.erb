@@ -8,8 +8,8 @@
   <h4 class="title">Find Platform</h4>
   <p class="form-description space-bot">Update all collections that have platforms that match the criteria specified below.</p>
 
-  <div class="row">
-    <div class="col-6">
+  <div class="grid-row">
+    <div class="grid-col-6">
       <%= label_tag 'find_value[ShortName]', 'Short Name' %>
       <%= text_field_tag('find_value[ShortName]',
                           repopulate_find_value(@task, 'platforms', 'ShortName'),
@@ -22,7 +22,7 @@
   <h4 class="title">New Platform</h4>
   <p class="form-description space-bot"></p>
 
-  <div class="row platform-fields">
+  <div class="grid-row platform-fields">
     <!-- Type -->
     <div style="margin-bottom: 10px;">
       <%= label_tag('Type:') %>
@@ -42,7 +42,7 @@
     </div>
 
     <!-- Short Name [r] -->
-    <div class="col-6">
+    <div class="grid-col-6">
       <% # Need to pass unique IDs for select2 to properly generate %>
       <%= mmt_select(
       name: 'short_name',
@@ -59,7 +59,7 @@
     </div>
 
     <!-- Long Name -->
-    <div class="col-6">
+    <div class="grid-col-6">
       <%= mmt_text_field(
       name: 'long_name',
       title: 'Long Name',

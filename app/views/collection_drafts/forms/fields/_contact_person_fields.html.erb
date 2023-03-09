@@ -1,4 +1,4 @@
-<div class="row sub-fields taller">
+<div class="grid-row sub-fields taller">
   <!-- Roles [r] -->
   <%= mmt_select(
     name: 'roles',
@@ -13,9 +13,9 @@
     required_level: options[:required_level]
   ) %>
 
-  <div class="row">
+  <div class="grid-row">
     <!-- FirstName -->
-    <div class="col-4">
+    <div class="grid-col-4">
       <%= mmt_text_field(
         name: 'first_name',
         title: 'First Name',
@@ -28,7 +28,7 @@
     </div>
 
     <!-- MiddleName -->
-    <div class="col-4">
+    <div class="grid-col-4">
       <%= mmt_text_field(
         name: 'middle_name',
         title: 'Middle Name',
@@ -41,7 +41,7 @@
     </div>
 
     <!-- LastName [r] -->
-    <div class="col-4">
+    <div class="grid-col-4">
       <%= mmt_text_field(
         name: 'last_name',
         title: 'Last Name',
@@ -57,7 +57,7 @@
 
   <% unless options[:data_center_affiliation] %>
     <!-- NonDataCenterAffiliation -->
-    <div class="row">
+    <div class="grid-row">
       <%= mmt_text_field(
       name: 'non_data_center_affiliation',
       title: 'Non Data Center Affiliation',

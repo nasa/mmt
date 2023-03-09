@@ -1,4 +1,4 @@
-<div class="row sub-fields">
+<div class="grid-row sub-fields">
   <!-- Title -->
   <%= mmt_text_area(
     name: 'title',
@@ -31,7 +31,7 @@
     title: 'DOI',
     help: 'definitions/PublicationReferenceType/properties/DOI'
   ) %>
-  <div class="row sub-fields">
+  <div class="grid-row sub-fields">
     <%= render partial: 'collection_drafts/forms/type', locals: {
         type: 'doi',
         values: publication_reference['DOI'] || {},
@@ -87,8 +87,8 @@
     validate: true
    ) %>
 
-  <div class="row">
-    <div class="col-4">
+  <div class="grid-row">
+    <div class="grid-col-4">
       <!-- Volume -->
       <%= mmt_text_field(
         name: 'volume',
@@ -99,7 +99,7 @@
         validate: true
        ) %>
     </div>
-    <div class="col-4">
+    <div class="grid-col-4">
       <!-- Issue -->
       <%= mmt_text_field(
         name: 'issue',
@@ -110,7 +110,7 @@
         validate: true
        ) %>
     </div>
-    <div class="col-4">
+    <div class="grid-col-4">
       <!-- ReportNumber -->
       <%= mmt_text_field(
         name: 'report_number',
@@ -133,8 +133,8 @@
     validate: true
    ) %>
 
-  <div class="row">
-    <div class="col-6">
+  <div class="grid-row">
+    <div class="grid-col-6">
       <!-- Pages -->
       <%= mmt_text_field(
         name: 'pages',
@@ -145,7 +145,7 @@
         validate: true
        ) %>
     </div>
-    <div class="col-6">
+    <div class="grid-col-6">
       <!-- ISBN -->
       <%= mmt_text_field(
         name: 'isbn',

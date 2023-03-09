@@ -14,14 +14,14 @@
     </ul>
   </div>
 
-  <div class="row">
-    <div class="col-6">
+  <div class="grid-row">
+    <div class="grid-col-6">
       <p class="eui-required-o">Indicates required field</p>
     </div>
 
     <!-- TODO This shouldn't show on forms without multiple top level accordions? -->
     <% if json_form.get_form(current_form).expandable? %>
-      <div class="col-6">
+      <div class="grid-col-6">
         <p class="align-r">
           <a href="#" class="expand-accordions">Expand All</a>
           <a href="#" class="is-invisible collapse-accordions">Collapse All</a>

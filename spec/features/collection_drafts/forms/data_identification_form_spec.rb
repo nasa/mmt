@@ -140,7 +140,7 @@ describe 'Data identification form', js: true do
         end
 
         # Access constraints
-        within '.row.access-constraints' do
+        within '.grid-row.access-constraints' do
           expect(page).to have_field('Value', with: '42.0')
           expect(page).to have_field('Description', with: 'Access constraint description')
         end
