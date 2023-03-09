@@ -33,7 +33,7 @@
   display: flex;
   align-items: center;
 
-  .card-header-badge:not(#react-editor-form *, #metadata-preview *) {
+  .card-header-badge {
     color: #fff;
     display: block;
     padding: 0.6em 1em;
@@ -138,7 +138,7 @@
   flex: 0 1 auto;
 }
 
-.preview .card-header-title:not(#react-editor-form *, #metadata-preview *) {
+.preview .card-header-title {
   border-bottom: 1px solid $light-grey;
   padding-left: 0.8em;
   padding-right: 0.8em;
