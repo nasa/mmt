@@ -1,4 +1,4 @@
-describe 'Listing Service Options',js:true, skip: true do
+describe 'Listing Service Options',js:true, skip: !Rails.configuration.use_legacy_order_service do
   let(:timeout_error_html_body) { File.read(File.join(Rails.root, 'spec', 'fixtures', 'service_management', 'timeout.html')) }
 
   context 'when viewing the index page' do

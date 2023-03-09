@@ -1,4 +1,4 @@
-describe 'Viewing a Service Entry', skip: true, reset_provider: true do
+describe 'Viewing a Service Entry', skip: !Rails.configuration.use_legacy_order_service, reset_provider: true do
   before :all do
     # create a group
     @service_entry_group = create_group(name: 'Service Entries Group for Permissions [VIEW]', members: ['testuser'])
