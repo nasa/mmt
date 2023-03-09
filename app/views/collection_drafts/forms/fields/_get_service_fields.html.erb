@@ -1,5 +1,5 @@
-<div class="row sub-fields">
-  <div class="col-6">
+<div class="grid-row sub-fields">
+  <div class="grid-col-6">
     <%= mmt_select(
       name: 'format',
       title: 'Format',
@@ -70,7 +70,7 @@
       title: 'URI',
       help: 'definitions/GetServiceType/properties/URI'
     ) %>
-    <div class="row">
+    <div class="grid-row">
       <% uris = get_service['URI'] || [nil] %>
       <div class="multiple simple-multiple uri">
         <% uris.each_with_index do |uri, index| %>

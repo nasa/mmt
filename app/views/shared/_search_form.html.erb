@@ -7,7 +7,7 @@
       <fieldset class="radio-buttons<%= proposal_mode_button_visibility %>">
         <legend aria-label='Choose Metadata Type for Search' aria-hidden='true'>Choose Metadata Type for Search</legend>
         <!-- legend tags for 508 compliance -->
-        <div class="row">
+        <div class="grid-row">
           <%= radio_button_tag(:record_type, 'collections', resource_type == 'collections') %>
           <%= label_tag(:record_type_collections, 'Collections') %>
 
@@ -26,7 +26,7 @@
       <fieldset class="provider-selection">
         <legend aria-label='Select Provider' aria-hidden='true'>Select Provider for Search</legend>
         <!-- legend tags for 508 compliance -->
-        <div class="row">
+        <div class="grid-row">
           <%= select_tag "provider_id", options_for_select(@provider_ids, @query['provider_id']), class: 'single-select', prompt: 'Search all Providers', 'aria-label': 'Search all Providers' %>
         </div>
       </fieldset>

@@ -115,7 +115,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
     const widgets = {
       TextWidget: CustomTextWidget,
       TextareaWidget: CustomTextareaWidget,
-      // SelectWidget: CustomSelectWidget,
+      SelectWidget: CustomSelectWidget,
       DateTimeWidget: CustomDateTimeWidget,
       CountrySelectWiget: CustomCountrySelectWidget
     }
@@ -205,7 +205,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
               <NavigationView editor={editor} />
             </div>
           </Row>
-          <Row id="metadata-preview" style={{ marginTop: 10, marginBottom: 50 }}>
+          <Row style={{ marginTop: 10, marginBottom: 50 }}>
             <Col sm={8}>
               <JSONView editor={editor} />
             </Col>

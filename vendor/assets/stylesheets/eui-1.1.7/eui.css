@@ -930,23 +930,23 @@ footer {
     display: table-cell;
     width: 50%; }
 
-.col-2 {
+.grid-col-2 {
   width: 100%; }
-  .col-2 .sidebar {
+  .grid-col-2 .sidebar {
     display: table-cell;
     width: 25%;
     margin-right: 0; }
-  .col-2 .content {
+  .grid-col-2 .content {
     display: table-cell;
     width: 75%;
     background-color: white;
     vertical-align: top; }
 
-.col-3 {
+.grid-col-3 {
   display: table;
   width: 100%;
   table-layout: fixed; }
-  .col-3 .col {
+  .grid-col-3 .col {
     display: table-cell;
     width: 33.33333%; }
 

@@ -27,7 +27,7 @@
 <% elsif @unconfirmed_version %>
   <%= render partial: 'drafts/shared/unconfirmed_version' %>
 <% else %>
-  <div class="row row-content">
+  <div class="grid-row row-content">
     <section class="action">
       <% if @json_form.invalid_keys(ignore_required_fields: false).any? || (resource_name == 'variable_draft' && get_resource.collection_concept_id.blank?) %>
         <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
@@ -88,7 +88,7 @@
         <% end %>
         <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
     <% end %>
-      <div class="row content">
+      <div class="grid-row content">
         <% if @preview.sidebars.blank? %>
           <!-- No sidebar -->
           <section class="umm-preview">

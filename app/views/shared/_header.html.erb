@@ -1,7 +1,7 @@
 <header class="mmt-header" role="eui-banner">
   <!-- <div class="content"> -->
   <div class="<%= defined?(wide) && wide ? 'wide-content' : 'content' %>">
-    <div class="col-7">
+    <div class="grid-col-7">
       <% if Rails.configuration.proposal_mode %>
         <div class="eui-masthead-logo eui-masthead-logo-background-draftmmt<%= defined?(wide) && wide ? '-wide' : '' %> eui-application-logo" id="masthead-logo">
       <% else %>
@@ -17,7 +17,7 @@
           <% end %>
         </div>
     </div>
-    <div class="col-5 header-tools">
+    <div class="grid-col-5 header-tools">
       <a href="#" id="help"><i class="fa fa-question-circle"></i>Help</a>
       <% if controller_name.include? 'welcome'%>
         <% if both_login_methods_on? %>
@@ -36,11 +36,11 @@
           <%= button_to 'Launchpad Test Login', acs_path, method: :post, params: { SAMLResponse: ENV['launchpad_saml_response'] }  %>
         <% end %>
       <% else %>
-        <div class="row">
+        <div class="grid-row">
           <%= render partial: 'shared/user_info_dropdown', locals: { hide_provider_context: hide_search } %>
         </div>
         <% unless hide_search %>
-          <div class="row">
+          <div class="grid-row">
             <section id="search">
               <%= render 'shared/search_form' %>
             </section>

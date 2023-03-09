@@ -13,7 +13,7 @@
   </div>
   <div class="eui-accordion__body">
     <!-- DataDates -->
-    <div class="row">
+    <div class="grid-row">
       <div class="col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'date',
@@ -38,7 +38,7 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="row">
+    <div class="grid-row">
       <div class="col-12">
         <!-- Collection Data Type -->
         <%= mmt_select(
@@ -68,7 +68,7 @@
   </div>
   <div class="eui-accordion__body">
     <!-- Standard Product -->
-    <div class="row">
+    <div class="grid-row">
       <div class="col-12">
         <input type='hidden' name='page' value="data-identification" />
         <%= render partial: 'collection_drafts/forms/type', locals: {
@@ -96,10 +96,10 @@
   </div>
   <div class="eui-accordion__body">
     <!-- Processing Level [r] -->
-    <div class="row">
-      <div class="row sub-fields">
+    <div class="grid-row">
+      <div class="grid-row sub-fields">
         <div class="processing-level-fields">
-          <div class="col-6">
+          <div class="grid-col-6">
             <% processing_level = draft.draft['ProcessingLevel'] || {} %>
             <%= mmt_select(
               name: 'id',
@@ -112,7 +112,7 @@
               classes: 'mmt-fake-enum'
             ) %>
           </div>
-          <div class="col-6">
+          <div class="grid-col-6">
             <%= mmt_text_field(
               name: 'processing_level_description',
               title: 'Processing Level Description',
@@ -142,7 +142,7 @@
   </div>
   <div class="eui-accordion__body">
     <!-- Collection Progress -->
-    <div class="row">
+    <div class="grid-row">
       <div class="col-12">
         <%= mmt_select(
           name: 'collection_progress',
@@ -173,7 +173,7 @@
   </div>
   <div class="eui-accordion__body">
     <!-- Quality -->
-    <div class="row">
+    <div class="grid-row">
       <div class="col-12">
         <%= mmt_text_area(
           name: 'quality',
@@ -204,7 +204,7 @@
   </div>
   <div class="eui-accordion__body">
     <!-- Use Constraints -->
-    <div class="row">
+    <div class="grid-row">
       <div class="col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'use_constraints',
@@ -231,9 +231,9 @@
   </div>
   <div class="eui-accordion__body">
     <!-- Access Constraints -->
-    <div class="row access-constraints">
+    <div class="grid-row access-constraints">
       <div class="col-12">
-        <div class="row sub-fields">
+        <div class="grid-row sub-fields">
           <% access_constraints = draft.draft['AccessConstraints'] || {} %>
 
           <!-- Value -->
@@ -276,9 +276,9 @@
   </div>
   <div class="eui-accordion__body">
     <!-- Metadata Association -->
-    <div class="row">
+    <div class="grid-row">
       <div class="col-12">
-        <div class="row sub-fields">
+        <div class="grid-row sub-fields">
           <%= render partial: 'collection_drafts/forms/type', locals: {
               type: 'metadata_association',
               values: draft.draft['MetadataAssociations'] || [{}],
@@ -305,9 +305,9 @@
   </div>
   <div class="eui-accordion__body">
     <!-- Publication Reference -->
-    <div class="row">
+    <div class="grid-row">
       <div class="col-12">
-        <div class="row sub-fields">
+        <div class="grid-row sub-fields">
           <%= render partial: 'collection_drafts/forms/type', locals: {
               type: 'publication_reference',
               values: draft.draft['PublicationReferences'] || [{}],
