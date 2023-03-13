@@ -6,7 +6,7 @@
     <div class="grid-row">
       <% if Rails.configuration.templates_enabled && resource_name == "collection_template" %>
         <div class="grid-row">
-          <div class="col-12">
+          <div class="grid-col-12">
             <%= mmt_text_field(
               name: 'template_name',
               title: 'Template Name',
@@ -52,7 +52,7 @@
 
     <!-- Version Description -->
     <div class="grid-row">
-      <div class="col-12">
+      <div class="grid-col-12">
         <%= mmt_text_field(
           name: 'version_description',
           title: 'Version Description',
@@ -68,7 +68,7 @@
 
     <!-- Entry Title [r] -->
     <div class="grid-row">
-      <div class="col-12">
+      <div class="grid-col-12">
         <%= mmt_text_field(
           name: 'entry_title',
           title: 'Entry Title',
@@ -130,7 +130,7 @@
 
     <!-- Abstract [r] -->
     <div class="grid-row">
-      <div class="col-12">
+      <div class="grid-col-12">
         <%= mmt_text_area(
           name: 'abstract',
           title: 'Abstract',
@@ -148,7 +148,7 @@
 
     <!-- Purpose -->
     <div class="grid-row">
-      <div class="col-12">
+      <div class="grid-col-12">
         <%= mmt_text_area(
           name: 'purpose',
           title: 'Purpose',
@@ -165,7 +165,7 @@
 
     <!-- Data language -->
     <div class="grid-row">
-      <div class="col-12">
+      <div class="grid-col-12">
         <%= mmt_select(
           name: 'data_language',
           title: 'Data Language',
