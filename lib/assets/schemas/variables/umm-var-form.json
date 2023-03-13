@@ -28,7 +28,7 @@
             },
             {
               "type": "section",
-              "htmlClass": "row space-top",
+              "htmlClass": "grid-row space-top",
               "items": [
                 {
                   "type": "section",
@@ -38,7 +38,7 @@
             },
             {
               "type": "section",
-              "htmlClass": "row space-top",
+              "htmlClass": "grid-row space-top",
               "items": [
                 {
                   "type": "section",
@@ -48,7 +48,7 @@
             },
             {
               "type": "section",
-              "htmlClass": "row space-top",
+              "htmlClass": "grid-row space-top",
               "items": [
                 {
                   "type": "UmmMultiItems",
@@ -83,7 +83,7 @@
             },
             {
               "type": "section",
-              "htmlClass": "row space-top",
+              "htmlClass": "grid-row space-top",
               "items": [
                 {
                   "type": "section",
@@ -99,7 +99,7 @@
             },
             {
               "type": "section",
-              "htmlClass": "row space-top",
+              "htmlClass": "grid-row space-top",
               "items": [
                 {
                   "type": "section",
@@ -115,7 +115,7 @@
             },
             {
               "type": "section",
-              "htmlClass": "row space-top",
+              "htmlClass": "grid-row space-top",
               "items": [
                 {
                   "type": "section",
@@ -131,7 +131,7 @@
             },
             {
               "type": "section",
-              "htmlClass": "row space-top",
+              "htmlClass": "grid-row space-top",
               "items": [
                 {
                   "type": "UmmMultiItems",
@@ -158,14 +158,14 @@
                     },
                     {
                       "type": "section",
-                      "htmlClass": "row sub-fields",
+                      "htmlClass": "grid-row sub-fields",
                       "items": [
                         {
                           "type": "UmmMultiItem",
                           "key": "/CodeSystemIdentifierMeaning/items",
                           "label": "Code System Identifier Meaning",
                           "multiType": "CodeSystemIdentifierMeaning",
-                          "htmlClass": "row space-top",
+                          "htmlClass": "grid-row space-top",
                           "field": true,
                           "items": [
                             {
@@ -179,14 +179,14 @@
                     },
                     {
                       "type": "section",
-                      "htmlClass": "row sub-fields",
+                      "htmlClass": "grid-row sub-fields",
                       "items": [
                         {
                           "type": "UmmMultiItem",
                           "key": "/CodeSystemIdentifierValue/items",
                           "label": "Code System Identifier Value",
                           "multiType": "CodeSystemIdentifierValue",
-                          "htmlClass": "row space-top",
+                          "htmlClass": "grid-row space-top",
                           "field": true,
                           "items": [
                             {
@@ -204,7 +204,7 @@
             },
             {
               "type": "section",
-              "htmlClass": "row space-top",
+              "htmlClass": "grid-row space-top",
               "items": [
                 {
                   "type": "section",
@@ -214,7 +214,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "row sub-fields",
+                      "htmlClass": "grid-row sub-fields",
                       "items": [
                         {
                           "type": "UmmSetMultiItem",
@@ -234,7 +234,7 @@
                     },
                     {
                       "type": "section",
-                      "htmlClass": "row sub-fields",
+                      "htmlClass": "grid-row sub-fields",
                       "items": [
                         {
                           "type": "UmmSetMultiItem",
@@ -374,7 +374,7 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row space-top",
+                  "htmlClass": "grid-row space-top",
                   "items": [
                     {
                       "type": "section",
