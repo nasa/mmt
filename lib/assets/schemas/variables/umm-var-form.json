@@ -12,16 +12,16 @@
           "items": [
             {
               "type": "section",
-              "htmlClass": "row",
+              "htmlClass": "grid-row",
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
+                  "htmlClass": "grid-col-6",
                   "items": [{"key": "Name", "field": true}]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
+                  "htmlClass": "grid-col-6",
                   "items": [{"key": "StandardName", "field": true}]
                 }
               ]
@@ -59,7 +59,7 @@
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "row",
+                      "htmlClass": "grid-row",
                       "items": [
                         {
                           "type": "section",
@@ -69,7 +69,7 @@
                     },
                     {
                       "type": "section",
-                      "htmlClass": "row",
+                      "htmlClass": "grid-row",
                       "items": [
                         {
                           "type": "section",
@@ -87,12 +87,12 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
+                  "htmlClass": "grid-col-6",
                   "items": [{"key": "VariableType", "field": true, "type": "UmmSelect"}]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
+                  "htmlClass": "grid-col-6",
                   "items": [{"key": "VariableSubType", "field": true, "type": "UmmSelect"}]
                 }
               ]
@@ -103,12 +103,12 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
+                  "htmlClass": "grid-col-6",
                   "items": [{"key": "Units", "field": true}]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
+                  "htmlClass": "grid-col-6",
                   "items": [{"key": "DataType", "field": true, "type": "UmmSelect"}]
                 }
               ]
@@ -119,12 +119,12 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
+                  "htmlClass": "grid-col-6",
                   "items": [{"key": "Scale", "field": true}]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "col-6",
+                  "htmlClass": "grid-col-6",
                   "items": [{"key": "Offset", "field": true}]
                 }
               ]
@@ -142,16 +142,16 @@
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "row",
+                      "htmlClass": "grid-row",
                       "items": [
                         {
                           "type": "section",
-                          "htmlClass": "col-6",
+                          "htmlClass": "grid-col-6",
                           "items": [{"key": "/Min", "field": true}]
                         },
                         {
                           "type": "section",
-                          "htmlClass": "col-6",
+                          "htmlClass": "grid-col-6",
                           "items": [{"key": "/Max", "field": true}]
                         }
                       ]
@@ -170,7 +170,7 @@
                           "items": [
                             {
                               "type": "section",
-                              "htmlClass": "col-9",
+                              "htmlClass": "grid-col-9",
                               "items": [{"key": "/index_id", "noLabel": true}]
                             }
                           ]
@@ -191,7 +191,7 @@
                           "items": [
                             {
                               "type": "section",
-                              "htmlClass": "col-9",
+                              "htmlClass": "grid-col-9",
                               "items": [{"key": "/index_id", "noLabel": true}]
                             }
                           ]
@@ -279,23 +279,23 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "col-6",
+                      "htmlClass": "grid-col-6",
                       "items": [{"key": "/Value", "field": true}]
                     },
                     {
                       "type": "section",
-                      "htmlClass": "col-6",
+                      "htmlClass": "grid-col-6",
                       "items": [{"key": "/Type", "field": true, "type": "UmmSelect"}]
                     }
                   ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [{"key": "/Description", "field": true, "type": "UmmTextarea"}]
                 }
               ]
@@ -324,27 +324,27 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "col-8",
+                      "htmlClass": "grid-col-8",
                       "items": [{"key": "/Name", "field": true}]
                     },
                     {
                       "type": "section",
-                      "htmlClass": "col-4",
+                      "htmlClass": "grid-col-4",
                       "items": [{"key": "/Size", "field": true}]
                     }
                   ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
-                      //"htmlClass": "col-8",
+                      //"htmlClass": "grid-col-8",
                       "items": [{"key": "/Type", "field": true, "type": "UmmSelect"}]
                     }
                   ]
@@ -391,7 +391,7 @@
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
@@ -401,7 +401,7 @@
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
@@ -418,7 +418,7 @@
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
@@ -438,7 +438,7 @@
                       "items": [
                         {
                           "type": "section",
-                          "htmlClass": "row",
+                          "htmlClass": "grid-row",
                           "items": [
                             {
                               "type": "section",
@@ -455,7 +455,7 @@
                         },
                         {
                           "type": "section",
-                          "htmlClass": "row",
+                          "htmlClass": "grid-row",
                           "items": [
                             {
                               "type": "section",
@@ -491,7 +491,7 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
@@ -501,7 +501,7 @@
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
@@ -511,7 +511,7 @@
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
@@ -563,26 +563,26 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [{"key": "/Name", "field": true}]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [{"key": "/Type", "field": true}]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "col-6",
+                      "htmlClass": "grid-col-6",
                       "items": [{"key": "/Size", "field": true}]
                     },
                     {
                       "type": "section",
-                      "htmlClass": "col-6",
+                      "htmlClass": "grid-col-6",
                       "items": [{"key": "/Index", "field": true}]
                     }
                   ]
@@ -614,77 +614,77 @@
               "items": [
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "row",
+                      "htmlClass": "grid-row",
                       "items": [{"key": "/Description", "type": "UmmTextarea", "field": true}]
                     }
                   ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "row",
+                      "htmlClass": "grid-row",
                       "items": [{"key": "/URLContentType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_var_related_url_content_type", "htmlClass": "related-url-content-type-select", "label": "URL Content Type"}]
                     }
                   ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "row",
+                      "htmlClass": "grid-row",
                       "items": [{"key": "/Type", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_var_related_url_type", "htmlClass": "related-url-type-select"}]
                     }
                   ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "row",
+                      "htmlClass": "grid-row",
                       "items": [{"key": "/Subtype", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "umm_var_related_url_subtype", "htmlClass": "related-url-subtype-select"}]
                     }
                   ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "row",
+                      "htmlClass": "grid-row",
                       "items": [{"key": "/URL", "field": true, "htmlClass": "url", "label": "URL"}]
                     }
                   ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "col-6",
+                      "htmlClass": "grid-col-6",
                       "items": [{"key": "/Format", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "granule_data_format"}]
                     }
                   ]
                 },
                 {
                   "type": "section",
-                  "htmlClass": "row",
+                  "htmlClass": "grid-row",
                   "items": [
                     {
                       "type": "section",
-                      "htmlClass": "col-6",
+                      "htmlClass": "grid-col-6",
                       "items": [{"key": "/MimeType", "field": true, "type": "UmmControlledSelect", "controlledKeyword": "mime_type"}]
                     }
                   ]

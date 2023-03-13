@@ -14,7 +14,7 @@
   </div>
   <div class="eui-accordion__body">
     <div class="grid-row">
-      <div class="col-12">
+      <div class="grid-col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'spatial_extent',
             values: draft.draft['SpatialExtent'] || {},
@@ -42,7 +42,7 @@
   </div>
   <div class="eui-accordion__body">
     <div class="grid-row">
-      <div class="col-12">
+      <div class="grid-col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'tiling_identification_system',
             values: draft.draft['TilingIdentificationSystems'] || [{}],
@@ -69,7 +69,7 @@
   </div>
   <div class="eui-accordion__body">
     <div class="grid-row">
-      <div class="col-12">
+      <div class="grid-col-12">
         <%= mmt_label(
           name: 'spatial_information',
           title: 'Spatial Representation Information',
@@ -105,7 +105,7 @@
   </div>
   <div class="eui-accordion__body">
     <div class="grid-row">
-      <div class="col-12">
+      <div class="grid-col-12">
         <div class="grid-row sub-fields">
           <div class="selected-location-keywords location-keywords">
             <ul>
