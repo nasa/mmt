@@ -70,7 +70,7 @@ class UmmMultiItems < UmmFormElement
 
   def render_accordion_body(value, indexes)
     content_tag(:div, class: 'eui-accordion__body') do
-      concat(content_tag(:div, class: 'row sub-fields') do
+      concat(content_tag(:div, class: 'grid-row sub-fields') do
         form_fragment['items'].each do |property|
           concat UmmForm.new(form_section_json: property, json_form: json_form, schema: schema, options: { 'indexes' => indexes }, key: full_key, field_value: value).render_markup
         end

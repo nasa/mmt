@@ -18,7 +18,7 @@ class UmmCheckboxDependentFields < UmmFormElement
         concat(title)
       end)
 
-      concat(content_tag(:div, class: "row sub-fields checkbox-dependent-fields #{dependent_field_class}-fields #{'is-hidden' if element_value.blank?}", data: { 'dependent-field-class': dependent_field_class }) do
+      concat(content_tag(:div, class: "grid-row sub-fields checkbox-dependent-fields #{dependent_field_class}-fields #{'is-hidden' if element_value.blank?}", data: { 'dependent-field-class': dependent_field_class }) do
         concat(label_tag(keyify_property_name, title, class: 'space-bot'))
         concat(help_icon(help_path))
 

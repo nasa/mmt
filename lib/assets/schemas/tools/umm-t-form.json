@@ -768,7 +768,7 @@
       "type": "section",
       "label": "Contact Information",
       "key": "/ContactInformation/properties",
-      "htmlClass": "row sub-fields contact-information",
+      "htmlClass": "grid-row sub-fields contact-information",
       "items": [
         {
           "type": "section",
