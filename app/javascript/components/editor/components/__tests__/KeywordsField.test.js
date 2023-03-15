@@ -3,6 +3,7 @@ import Form from '@rjsf/bootstrap-4'
 import {
   render, fireEvent, screen
 } from '@testing-library/react'
+import validator from '@rjsf/validator-ajv8'
 import ToolKeywordsField from '../KeywordPicker'
 
 const keywords = [
@@ -76,7 +77,7 @@ describe('Tool Keywords Field', () => {
       require: false,
       formData: [{}]
     }
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
     const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
 
@@ -100,8 +101,7 @@ describe('Tool Keywords Field', () => {
   })
 
   it('Adding a science keyword with ToolSpecificTerm', async () => {
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
-
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
     const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
 
@@ -122,7 +122,7 @@ describe('Tool Keywords Field', () => {
   })
 
   it('Adding a science keyword with ToolSoecificTerm and removing from added keyword', async () => {
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
 
     const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
@@ -148,7 +148,7 @@ describe('Tool Keywords Field', () => {
   })
 
   it('Selecting Previous Section Test', async () => {
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
 
     const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
@@ -181,7 +181,7 @@ describe('Tool Keywords Field', () => {
   })
 
   it('Test Adding the Same Keyword with ToolSpecificTerm', async () => {
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
 
     const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
@@ -208,7 +208,7 @@ describe('Tool Keywords Field', () => {
   })
 
   it('Test Adding the Same Keyword without ToolSpecificTerm', async () => {
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
 
     const clickParent1 = screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')
     fireEvent.click(await clickParent1)
@@ -232,7 +232,7 @@ describe('Tool Keywords Field', () => {
   })
 
   it('Search Keyword Test', async () => {
-    const { getByTestId, container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
+    const { getByTestId, container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} {...props} />)
     const searchField = getByTestId('tool-keyword__search-keyword-field').querySelector('input')
     fireEvent.change(searchField, { target: { value: 'Earth' } })
     fireEvent.keyDown(searchField, { key: 'ArrowDown' })

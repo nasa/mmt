@@ -3,7 +3,6 @@ import {
 } from 'react-bootstrap'
 import React from 'react'
 import { observer } from 'mobx-react'
-import Form from '@rjsf/bootstrap-4'
 import NavigationItem from '../NavigationItem'
 import MetadataEditor from '../../MetadataEditor'
 
@@ -69,7 +68,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
     const { navigate } = router
 
     const {
-      formSections, fullSchema, fullData: draftJson, draft
+      formSections, draft
     } = editor
 
     const { status } = this.state
@@ -77,6 +76,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
     const sectionList = formSections.map((section: FormSection) => (
       <NavigationItem key={JSON.stringify(section)} editor={editor} section={section} />
     ))
+
     return (
       <>
         <div>
@@ -152,18 +152,6 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
         <ListGroup style={{ height: 400, width: 300 }}>
           {sectionList}
         </ListGroup>
-        <div style={{ display: 'none' }}>
-          <Form
-            schema={fullSchema}
-            formData={draftJson}
-            transformErrors={(errors: FormError[]) => {
-              editor.fullErrors = errors
-              return errors
-            }}
-            liveValidate
-            showErrorList
-          />
-        </div>
       </>
     )
   }

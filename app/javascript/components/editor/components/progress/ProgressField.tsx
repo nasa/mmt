@@ -19,9 +19,14 @@ class ProgressField extends React.Component<ProgressFieldProps, never> {
   progressFieldCircle(type: ProgressCircleType, required: boolean) {
     const { fieldInfo } = this.props
     const { name, error } = fieldInfo
+
     let message = name
     if (error) {
       message = `${name} - ${error.stack}`
+    }
+    let messageRequired = `${name} is required`
+    if (error) {
+      messageRequired = `${name} - ${error.stack}`
     }
     let icon: ReactNode
     switch (type) {
@@ -30,14 +35,14 @@ class ProgressField extends React.Component<ProgressFieldProps, never> {
         break
       case ProgressCircleType.NotStarted:
         if (required) {
-          icon = <i title={message} className="eui-icon eui-required-o not-started-required-circle" />
+          icon = <i title={messageRequired} className="eui-icon eui-required-o not-started-required-circle" />
         } else {
           icon = <i title={message} className="eui-icon eui-fa-circle-o not-started-not-required-circle" />
         }
         break
       case ProgressCircleType.Pass:
         if (required) {
-          icon = <i title={message} className="eui-icon eui-required icon-green pass-required-circle" />
+          icon = <i title={messageRequired} className="eui-icon eui-required icon-green pass-required-circle" />
         } else {
           icon = <i title={message} className="eui-icon eui-fa-circle icon-grey pass-not-required-circle" />
         }
@@ -69,7 +74,7 @@ class ProgressField extends React.Component<ProgressFieldProps, never> {
     const { id } = params
     const sectionName = section.replace(/\s/g, '_')
     if (index) {
-      editor.setArrayField(index)
+      // editor.setArrayField(index)
     }
     setTimeout(() => {
       window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}`

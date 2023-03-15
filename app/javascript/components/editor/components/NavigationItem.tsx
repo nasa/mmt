@@ -6,7 +6,7 @@ import { toJS } from 'mobx'
 import MetadataEditor from '../MetadataEditor'
 import ErrorList from './ErrorList'
 import './NavigationItem.css'
-import { removeEmpty } from '../utils/json_utils'
+import { prefixProperty, removeEmpty } from '../utils/json_utils'
 import withRouter from './withRouter'
 
 type NavigationItemProps = {
@@ -53,7 +53,7 @@ class NavigationItem extends React.Component<NavigationItemProps, NavigationView
     }
     const hasError = fullErrors.some((error: FormError) => {
       const { property } = error
-      return section.properties.some((propertyPrefix) => property.startsWith(`.${propertyPrefix}`))
+      return section.properties.some((propertyPrefix) => prefixProperty(property).startsWith(`${prefixProperty(propertyPrefix)}`))
     })
     if (hasError) {
       if (section.displayName !== previousSection) {
@@ -102,8 +102,8 @@ class NavigationItem extends React.Component<NavigationItemProps, NavigationView
           }}
           key={section.displayName}
           onClick={() => {
-            editor.setArrayField(undefined)
-            editor.setFocusField(undefined)
+            editor.setFocusField('')
+            editor.setArrayAutoScroll(null)
             editor.navigateTo(section)
             navigate(`/${editor.documentType}/${id}/edit/${section.displayName.replace(/\s/g, '_')}`, { replace: false })
           }}

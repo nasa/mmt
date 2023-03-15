@@ -211,7 +211,18 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
         <span
           class="css-1f43avz-a11yText-A11yText"
           id="react-select-2-live-region"
-        />
+        >
+          <span
+            id="aria-selection"
+          >
+            options Web,Portal, selected.
+          </span>
+          <span
+            id="aria-context"
+          >
+              Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.
+          </span>
+        </span>
         <span
           aria-atomic="false"
           aria-live="polite"
@@ -219,7 +230,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           class="css-1f43avz-a11yText-A11yText"
         />
         <div
-          class=" css-1s2u09g-control"
+          class=" css-1pahdxg-control"
         >
           <div
             class=" css-g1d714-ValueContainer"
@@ -284,8 +295,11 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
             >
               <input
                 aria-autocomplete="list"
-                aria-expanded="false"
+                aria-controls="react-select-2-listbox"
+                aria-describedby="react-select-2-live-region"
+                aria-expanded="true"
                 aria-haspopup="true"
+                aria-owns="react-select-2-listbox"
                 autocapitalize="none"
                 autocomplete="off"
                 autocorrect="off"
@@ -305,7 +319,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           >
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1gtu0rj-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -325,7 +339,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
             />
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1gtu0rj-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -339,6 +353,20 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
                   d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
                 />
               </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          class=" css-26l3qy-menu"
+          id="react-select-2-listbox"
+        >
+          <div
+            class=" css-4ljt47-MenuList"
+          >
+            <div
+              class=" css-gg45go-NoOptionsMessage"
+            >
+              No options
             </div>
           </div>
         </div>
@@ -393,7 +421,18 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
         <span
           class="css-1f43avz-a11yText-A11yText"
           id="react-select-4-live-region"
-        />
+        >
+          <span
+            id="aria-selection"
+          >
+            options Web,Portal, selected.
+          </span>
+          <span
+            id="aria-context"
+          >
+              Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.
+          </span>
+        </span>
         <span
           aria-atomic="false"
           aria-live="polite"
@@ -401,7 +440,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           class="css-1f43avz-a11yText-A11yText"
         />
         <div
-          class=" css-1s2u09g-control"
+          class=" css-1pahdxg-control"
         >
           <div
             class=" css-g1d714-ValueContainer"
@@ -466,8 +505,11 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
             >
               <input
                 aria-autocomplete="list"
-                aria-expanded="false"
+                aria-controls="react-select-4-listbox"
+                aria-describedby="react-select-4-live-region"
+                aria-expanded="true"
                 aria-haspopup="true"
+                aria-owns="react-select-4-listbox"
                 autocapitalize="none"
                 autocomplete="off"
                 autocorrect="off"
@@ -487,7 +529,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           >
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1gtu0rj-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -507,7 +549,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
             />
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1gtu0rj-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -521,6 +563,20 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
                   d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
                 />
               </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          class=" css-26l3qy-menu"
+          id="react-select-4-listbox"
+        >
+          <div
+            class=" css-4ljt47-MenuList"
+          >
+            <div
+              class=" css-gg45go-NoOptionsMessage"
+            >
+              No options
             </div>
           </div>
         </div>
@@ -575,7 +631,18 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
         <span
           class="css-1f43avz-a11yText-A11yText"
           id="react-select-5-live-region"
-        />
+        >
+          <span
+            id="aria-selection"
+          >
+            options Web,Portal, selected.
+          </span>
+          <span
+            id="aria-context"
+          >
+              Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.
+          </span>
+        </span>
         <span
           aria-atomic="false"
           aria-live="polite"
@@ -583,7 +650,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           class="css-1f43avz-a11yText-A11yText"
         />
         <div
-          class=" css-1s2u09g-control"
+          class=" css-1pahdxg-control"
         >
           <div
             class=" css-g1d714-ValueContainer"
@@ -648,8 +715,11 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
             >
               <input
                 aria-autocomplete="list"
-                aria-expanded="false"
+                aria-controls="react-select-5-listbox"
+                aria-describedby="react-select-5-live-region"
+                aria-expanded="true"
                 aria-haspopup="true"
+                aria-owns="react-select-5-listbox"
                 autocapitalize="none"
                 autocomplete="off"
                 autocorrect="off"
@@ -669,7 +739,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           >
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1gtu0rj-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -689,7 +759,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
             />
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1gtu0rj-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -703,6 +773,20 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
                   d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
                 />
               </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          class=" css-26l3qy-menu"
+          id="react-select-5-listbox"
+        >
+          <div
+            class=" css-4ljt47-MenuList"
+          >
+            <div
+              class=" css-gg45go-NoOptionsMessage"
+            >
+              No options
             </div>
           </div>
         </div>
@@ -751,7 +835,18 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
         <span
           class="css-1f43avz-a11yText-A11yText"
           id="react-select-3-live-region"
-        />
+        >
+          <span
+            id="aria-selection"
+          >
+            option , selected.
+          </span>
+          <span
+            id="aria-context"
+          >
+              Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.
+          </span>
+        </span>
         <span
           aria-atomic="false"
           aria-live="polite"
@@ -759,7 +854,7 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
           class="css-1f43avz-a11yText-A11yText"
         />
         <div
-          class=" css-1s2u09g-control"
+          class=" css-1pahdxg-control"
         >
           <div
             class=" css-319lph-ValueContainer"
@@ -776,9 +871,11 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
             >
               <input
                 aria-autocomplete="list"
+                aria-controls="react-select-3-listbox"
                 aria-describedby="react-select-3-placeholder"
-                aria-expanded="false"
+                aria-expanded="true"
                 aria-haspopup="true"
+                aria-owns="react-select-3-listbox"
                 autocapitalize="none"
                 autocomplete="off"
                 autocorrect="off"
@@ -801,7 +898,7 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
             />
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1gtu0rj-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -815,6 +912,20 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
                   d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
                 />
               </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          class=" css-26l3qy-menu"
+          id="react-select-3-listbox"
+        >
+          <div
+            class=" css-4ljt47-MenuList"
+          >
+            <div
+              class=" css-gg45go-NoOptionsMessage"
+            >
+              No options
             </div>
           </div>
         </div>

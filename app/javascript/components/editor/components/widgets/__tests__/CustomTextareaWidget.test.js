@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, fireEvent
+  render, waitFor, screen
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
@@ -91,6 +91,8 @@ describe('Custom Text Area Widget Component', () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
     const mockedOnChange = jest.fn()
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+
     const props = {
       label: 'my test area data label',
       options: {
@@ -130,8 +132,7 @@ describe('Custom Text Area Widget Component', () => {
         maxLength: 20
       },
       onChange: mockedOnChange,
-      value: 'my initial text',
-      id: ''
+      value: 'my initial text'
     }
 
     const { getByTestId } = render(
@@ -160,15 +161,19 @@ describe('Custom Text Area Widget Component', () => {
   test('testing autofocus for a custom text widget', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
-    const { container, getByTestId } = render(
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+
+    const { container } = render(
       <MemoryRouter initialEntries={['/tool_drafts/2/edit/Tool_Information']}>
         <Routes>
           <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
         </Routes>
       </MemoryRouter>
     )
-    const clickTextAreaField = getByTestId('error-list-item__Description is a required property')
-    fireEvent.click(await clickTextAreaField)
+    await waitFor(async () => {
+      screen.queryByTestId('error-list-item__description').click()
+    })
+
     expect(container).toHaveTextContent('A brief description of the web user interface or downloadable tool. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved.')
 
     expect(container).toMatchSnapshot()

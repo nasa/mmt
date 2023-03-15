@@ -37,7 +37,7 @@ exports[`Progress field navigation test array field navigate to edit a field in 
             >
               <i
                 class="eui-icon eui-required-o not-started-required-circle"
-                title="ContactGroups"
+                title="ContactGroups is required"
               />
             </span>
           </span>

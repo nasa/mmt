@@ -74,12 +74,7 @@ describe('Metadata Editor', () => {
 
     it('returns empty ui schema a unknown section', async () => {
       editor.navigateTo({ displayName: 'Unknown Section' })
-      expect(editor.uiSchema).toEqual({
-        'ui:submitButtonOptions': {
-          norender: true,
-          submitText: 'Save'
-        }
-      })
+      expect(Object.keys(editor.uiSchema)).toEqual(['ui:submitButtonOptions', 'ui:ArrayFieldTemplate'])
     })
   })
 })

@@ -13,3 +13,7 @@
 #keyword-picker {
   font-size: 12px;
 }
+
+a {
+  cursor: pointer;
+}

@@ -5,14 +5,16 @@ import { observer } from 'mobx-react'
 import {
   Row, Container, Col, Alert
 } from 'react-bootstrap'
+import { RegistryFieldsType, RegistryWidgetsType } from '@rjsf/utils'
 import Form from '@rjsf/bootstrap-4'
+import validator from '@rjsf/validator-ajv8'
+import { IChangeEvent } from '@rjsf/core'
 import JSONView from './JSONView'
 import MetadataEditor from '../MetadataEditor'
 import CustomTextareaWidget from './widgets/CustomTextareaWidget'
 import LayoutGridField from './LayoutGridField'
 import CustomDateTimeWidget from './widgets/CustomDateTimeWidget'
-import CustomFieldTemplate from './CustomFieldTemplate'
-import CustomArrayTemplate from './CustomArrayTemplate'
+import CustomArrayFieldTemplate from './CustomArrayFieldTemplate'
 import ControlledFields from './ControlledFields'
 import withRouter from './withRouter'
 import NavigationView from './NavigationView'
@@ -23,6 +25,8 @@ import CustomTextWidget from './widgets/CustomTextWidget'
 import KeywordsField from './KeywordPicker'
 import CustomTitleFieldTemplate from './CustomTitleFieldTemplate'
 import Status from '../model/Status'
+import CustomMultiSelectWidget from './widgets/CustomMultiSelectWidget'
+import CustomFieldTemplate from './CustomFieldTemplate'
 
 type MetadataEditorFormProps = {
   router?: RouterType
@@ -38,7 +42,9 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
     CustomTextareaWidget.defaultProps = { options: { editor } }
     CustomSelectWidget.defaultProps = { options: { editor } }
     ControlledFields.defaultProps = { options: { editor } }
-    CustomArrayTemplate.defaultProps = { options: { editor } }
+    CustomArrayFieldTemplate.defaultProps = { options: { editor } }
+    CustomMultiSelectWidget.defaultProps = { options: { editor } }
+    LayoutGridField.defaultProps = { options: { editor } }
   }
 
   componentDidMount() {
@@ -105,28 +111,27 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
     if (!heading) {
       heading = `Create/Update a ${editor.documentTypeForDisplay}`
     }
-    const fields = {
+    const fields: RegistryFieldsType = {
       layout: LayoutGridField,
       controlled: ControlledFields,
       streetAddresses: StreetAddressesField,
       keywordPicker: KeywordsField,
       TitleField: CustomTitleFieldTemplate
     }
-    const widgets = {
+    const widgets: RegistryWidgetsType = {
       TextWidget: CustomTextWidget,
       TextareaWidget: CustomTextareaWidget,
       SelectWidget: CustomSelectWidget,
       DateTimeWidget: CustomDateTimeWidget,
       CountrySelectWiget: CustomCountrySelectWidget
     }
+    const templates = {
+      ArrayFieldTemplate: CustomArrayFieldTemplate,
+      FieldTemplate: CustomFieldTemplate
+    }
     const {
       formSchema: schema, formData, uiSchema, draft, publishErrors, status
     } = editor
-
-    type OnChangeType = {
-      formData: { [key: string]: object };
-      errors: FormError[];
-    };
 
     // if (loading) {
     //   return (
@@ -157,15 +162,15 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
         <Container id="metadata-form">
           <Row>
             <Col sm={8}>
-              <h1>{ heading }</h1>
+              <h1>{heading}</h1>
             </Col>
           </Row>
           <Row>
             <Col sm={8}>
               {status && (
-              <Alert key={status.type} variant={status.type} onClose={() => { editor.status = null }} dismissible>
-                {status.message}
-              </Alert>
+                <Alert key={status.type} variant={status.type} onClose={() => { editor.status = null }} dismissible>
+                  {status.message}
+                </Alert>
               )}
             </Col>
           </Row>
@@ -173,10 +178,10 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
           <Row>
             <Col sm={8}>
               {publishErrors && publishErrors.length > 0 && (
-              <Alert key={JSON.stringify(status)} variant="warning" onClose={() => { editor.publishErrors = null }} dismissible>
-                <h5>Errors Publishing Record</h5>
-                { publishErrors.map((error) => (<div>{error}</div>)) }
-              </Alert>
+                <Alert key={JSON.stringify(status)} variant="warning" onClose={() => { editor.publishErrors = null }} dismissible>
+                  <h5>Errors Publishing Record</h5>
+                  {publishErrors.map((error) => (<div>{error}</div>))}
+                </Alert>
               )}
             </Col>
           </Row>
@@ -185,19 +190,19 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
             <Col sm={8}>
               <Form
                 key={`${JSON.stringify(draft.key)}`}
+                validator={validator}
                 schema={schema}
                 formData={formData}
                 uiSchema={uiSchema}
                 fields={fields}
-                FieldTemplate={CustomFieldTemplate}
-                ArrayFieldTemplate={CustomArrayTemplate}
+                templates={templates}
+                // FieldTemplate={CustomFieldTemplate}
+                // ArrayFieldTemplate={CustomArrayTemplate}
                 widgets={widgets}
-                onChange={(e: OnChangeType) => {
+                onChange={(e: IChangeEvent) => {
                   editor.formData = e.formData
                   editor.formErrors = e.errors
                 }}
-              // liveValidate = {true}
-                showErrorList
               />
             </Col>
 

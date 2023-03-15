@@ -7,30 +7,30 @@ export default class FormProperties {
   loading: boolean
   status: Status
   focusField: string
-  arrayField: number
+  arrayFieldAutoScroll: number
   constructor() {
     this.loading = false
     this.status = null
     this.focusField = ''
-    this.arrayField = null
+    this.arrayFieldAutoScroll = null
     makeObservable(this, {
       loading: observable,
       status: observable,
       focusField: observable,
-      arrayField: observable,
+      arrayFieldAutoScroll: observable,
+      setArrayAutoScroll: action,
       setFocusField: action,
-      setArrayField: action,
       setStatus: action,
       setLoading: action
     })
   }
-  setFocusField(value:string) {
+  setFocusField(value: string) {
     this.focusField = value
   }
-  setArrayField(value:number) {
-    this.arrayField = value
+  setArrayAutoScroll(value: number) {
+    this.arrayFieldAutoScroll = value
   }
-  setStatus(status:Status) {
+  setStatus(status: Status) {
     this.status = status
   }
   setLoading(loading: boolean) {

@@ -77,10 +77,6 @@ const potentialActionUiSchema = {
           }
         ]
       },
-      Type: {
-        'ui:widget': CustomSelectWidget,
-        'ui:title': 'Type'
-      },
       Description: {
         'ui:widget': 'textarea'
       },

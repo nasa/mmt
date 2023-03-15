@@ -4,15 +4,17 @@ import React from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import './CustomDateTimeWidget.css'
+import { WidgetProps } from '@rjsf/utils'
 import withRouter from '../withRouter'
 
 interface props {
   onFieldChange: (value: string) => void,
   value: string,
-  autoFocus: boolean
+  autoFocus: boolean,
+  id: string
 }
 
-type CustomDateTimeWidgetProps = {
+interface CustomDateTimeWidgetProps extends WidgetProps {
   options: {
     title?: string
   }
@@ -21,10 +23,11 @@ type CustomDateTimeWidgetProps = {
   onChange: (value: string) => void,
   value: string;
   router: RouterType,
-  id: string
 }
 
-const CustomWidget = ({ onFieldChange, value, autoFocus }: props) => {
+const CustomWidget = ({
+  onFieldChange, value, autoFocus, id
+}: props) => {
   const [date, onChange] = React.useState(value ? new Date(value) : null)
   const dateWithZone = moment(date, 'America/New_York').format('YYYY-MM-DDTHH:mm:ss.SSS')
 
@@ -32,6 +35,7 @@ const CustomWidget = ({ onFieldChange, value, autoFocus }: props) => {
 
   return (
     <DatePicker
+      id={id}
       autoFocus={autoFocus}
       placeholderText="YYYY-MM-DDTHH:MM:SSZ"
       dateFormat="yyyy-MM-dd'T'00:00:00.000'Z'"
@@ -63,7 +67,7 @@ class CustomDateTimeWidget extends React.Component<CustomDateTimeWidgetProps, ne
   }
   render() {
     const {
-      required, label, onChange, value, router, options = {}
+      required, label, onChange, value, router, options = {}, id
     } = this.props
     const { title = label } = options
     const { params } = router
@@ -78,6 +82,7 @@ class CustomDateTimeWidget extends React.Component<CustomDateTimeWidgetProps, ne
         </div>
         <div data-testid={`custom-date-time-widget__${kebabCase(label)}--input-field`}>
           <CustomWidget
+            id={id}
             value={value}
             onFieldChange={(value: string) => {
               onChange(value)

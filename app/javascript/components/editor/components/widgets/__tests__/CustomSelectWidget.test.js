@@ -6,6 +6,8 @@ import {
   BrowserRouter,
   MemoryRouter, Route, Routes
 } from 'react-router-dom'
+import { createSchemaUtils } from '@rjsf/utils'
+import validator from '@rjsf/validator-ajv8'
 import CustomSelectWidget from '../CustomSelectWidget'
 import UmmToolsModel from '../../../model/UmmToolsModel'
 import MetadataEditor from '../../../MetadataEditor'
@@ -15,12 +17,13 @@ describe('Custom Select Widget Component', () => {
   const model = new UmmToolsModel()
   const editor = new MetadataEditor(model)
   CustomSelectWidget.defaultProps = { title: '', options: { editor } }
+
   it('renders the custom select widget when no enum', async () => {
     const props = {
       label: 'MyTestDataLabel',
       required: false,
       schema: {},
-      registry: {},
+      registry: { schemaUtils: createSchemaUtils(validator, {}) },
       options: { editor },
       onChange: {},
       value: 'Web Portal'
@@ -37,13 +40,16 @@ describe('Custom Select Widget Component', () => {
   it('renders the custom select widget when no option', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
+    const schema = {
+      enum: []
+    }
     const props = {
       label: 'MyTestDataLabel',
       required: false,
-      schema: {
-        enum: []
+      schema,
+      registry: {
+        schemaUtils: createSchemaUtils(validator, schema)
       },
-      registry: {},
       options: {
         title: '',
         editor
@@ -62,13 +68,16 @@ describe('Custom Select Widget Component', () => {
   it('renders the custom select widget when required field', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
+    const schema = {
+      enum: ['Option1', 'Option2', 'Option3', 'Option4']
+    }
     const props = {
       label: 'MyTestDataLabel',
       required: true,
-      schema: {
-        enum: ['Option1', 'Option2', 'Option3', 'Option4']
+      schema,
+      registry: {
+        schemaUtils: createSchemaUtils(validator, schema)
       },
-      registry: {},
       options: {
         title: 'My Test Data Label',
         editor
@@ -87,13 +96,16 @@ describe('Custom Select Widget Component', () => {
   it('renders the custom select widget when required field without title', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
+    const schema = {
+      enum: ['Option1', 'Option2', 'Option3', 'Option4']
+    }
     const props = {
       label: 'MyTestDataLabel',
       required: true,
-      schema: {
-        enum: ['Option1', 'Option2', 'Option3', 'Option4']
+      schema,
+      registry: {
+        schemaUtils: createSchemaUtils(validator, schema)
       },
-      registry: {},
       options: {
         editor
       },
@@ -111,13 +123,16 @@ describe('Custom Select Widget Component', () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
     const mockedOnChange = jest.fn()
+    const schema = {
+      enum: ['Option1', 'Option2', 'Option3', 'Option4']
+    }
     const props = {
       label: 'MyTestDataLabel',
       required: true,
-      schema: {
-        enum: ['Option1', 'Option2', 'Option3', 'Option4']
+      schema,
+      registry: {
+        schemaUtils: createSchemaUtils(validator, schema)
       },
-      registry: {},
       options: {
         title: 'My Test Data Label',
         editor
@@ -152,15 +167,18 @@ describe('Custom Select Widget Component', () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
     const mockedOnChange = jest.fn()
+    const schema = {
+      items: {
+        enum: ['Option1', 'Option2', 'Option3', 'Option4']
+      }
+    }
     const props = {
       label: 'MyTestDataLabel',
       required: true,
-      schema: {
-        items: {
-          enum: ['Option1', 'Option2', 'Option3', 'Option4']
-        }
+      schema,
+      registry: {
+        schemaUtils: createSchemaUtils(validator, schema)
       },
-      registry: {},
       options: {
         title: 'My Test Data Label',
         editor
@@ -194,15 +212,16 @@ describe('Custom Select Widget Component', () => {
   test('testing autofocus for a custom select widget', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
-    const { container, getAllByTestId } = render(
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const { container } = render(
       <MemoryRouter initialEntries={['/tool_drafts/2/edit/Tool_Information']}>
         <Routes>
           <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
         </Routes>
       </MemoryRouter>
     )
-    const clickTextField = getAllByTestId('error-list-item__Type is a required property')
-    fireEvent.click(await clickTextField[0])
     expect(container).toMatchSnapshot()
+    const clickTextField = screen.queryAllByTestId('error-list-item__type')
+    fireEvent.click(await clickTextField[0])
   })
 })

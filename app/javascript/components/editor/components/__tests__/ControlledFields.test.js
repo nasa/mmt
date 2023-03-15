@@ -5,6 +5,7 @@ import {
 } from '@testing-library/react'
 import Form from '@rjsf/bootstrap-4'
 import { BrowserRouter } from 'react-router-dom'
+import validator from '@rjsf/validator-ajv8'
 import ControlledFields from '../ControlledFields'
 import UmmToolsModel from '../../model/UmmToolsModel'
 import MetadataEditor from '../../MetadataEditor'
@@ -59,7 +60,7 @@ describe('Controlled Fields Layout', () => {
   it('renders all fields', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Form schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
       </BrowserRouter>
     )
 
@@ -84,7 +85,7 @@ describe('Controlled Fields Layout', () => {
     const { container } = render(
 
       <BrowserRouter>
-        <Form schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
       </BrowserRouter>
     )
 
@@ -101,7 +102,7 @@ describe('Controlled Fields Layout', () => {
   it('shows values in second select box', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Form schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
       </BrowserRouter>
     )
 
@@ -124,7 +125,7 @@ describe('Controlled Fields Layout', () => {
   it('shows values in third, text box', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Form schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
       </BrowserRouter>
     )
 
@@ -152,7 +153,7 @@ describe('Controlled Fields Layout', () => {
   it('it clears the next boxes', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Form schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
       </BrowserRouter>
     )
 
@@ -194,7 +195,7 @@ describe('Controlled Fields Layout', () => {
     }
     const { container } = render(
       <BrowserRouter>
-        <Form schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
       </BrowserRouter>
     )
     expect(container).not.toHaveTextContent('Todo')
@@ -208,7 +209,7 @@ describe('Controlled Fields Layout', () => {
 
     const { container } = render(
       <BrowserRouter>
-        <Form schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
       </BrowserRouter>
     )
 
@@ -242,7 +243,7 @@ describe('Controlled Fields Layout', () => {
 
     const { container } = render(
       <BrowserRouter>
-        <Form schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
       </BrowserRouter>
     )
 

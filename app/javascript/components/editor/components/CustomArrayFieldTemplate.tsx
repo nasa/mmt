@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/static-property-placement */
 /* eslint-disable react/jsx-no-useless-fragment */
+import { ArrayFieldTemplateProps } from '@rjsf/utils'
 import { observer } from 'mobx-react'
 import React, { MouseEventHandler, ReactNode } from 'react'
 import { Row, Col } from 'react-bootstrap'
-import { retrieveSchema } from 'react-jsonschema-form/lib/utils'
 import MetadataEditor from '../MetadataEditor'
 
 type Element = {
@@ -12,61 +12,48 @@ type Element = {
   key: string,
   children: ReactNode,
   className: string,
-  onDropIndexClick: (index:number) => MouseEventHandler<HTMLButtonElement>
+  onDropIndexClick: (index: number) => MouseEventHandler<HTMLButtonElement>
 }
 
-type CustomArrayTemplateProps = {
-  items: Element[]
+interface CustomArrayTemplateProps extends ArrayFieldTemplateProps {
+  items: any[]
   canAdd: boolean
   onAddClick: (event: object) => void
   title: string
-  schema: {
-    description: string
-    items: {
-      default?: string
-      definitions: any
-    },
-    definitions: unknown
-  }
-  uiSchema: unknown,
+  uiSchema: any,
   options: {
     editor: MetadataEditor
   }
 }
 
-class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, never> {
-  static defaultProps: { options: { editor: MetadataEditor } }
+class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps, never> {
+  static defaultProps = {}
   private scrollRef: Array<React.RefObject<HTMLDivElement>>
   constructor(props: CustomArrayTemplateProps) {
     super(props)
-    const { items, schema, options } = this.props
-    const { editor } = options
+    const {
+      items
+    } = this.props
     this.scrollRef = []
-    const { definitions } = editor.fullSchema
-    const itemsSchema = retrieveSchema(schema.items, definitions)
-    const { type } = itemsSchema
-    if (type && type === 'string') {
-      schema.items.default = ''
-    }
     items.forEach(() => {
       this.scrollRef.push(React.createRef())
     })
   }
   componentDidUpdate(): void {
-    const { options } = this.props
+    const { options = { editor: null } } = this.props
     const { editor } = options
     // Keep this setTimeout at 200 ms. If it is anything less than 200ms it will set the
     // FocusArrayField to null before the page renders causing a console error.
-    if (editor.focusArrayField) {
+    if (editor.arrayFieldAutoScroll) {
       setTimeout(() => {
-        editor.setArrayField(-1)
-      }, 300)
+        editor.setArrayAutoScroll(-1)
+      }, 200)
     }
   }
 
   render() {
     const {
-      items, canAdd, title, onAddClick, schema, uiSchema, options
+      items, canAdd, title, onAddClick, schema, uiSchema, options = { editor: null }
     } = this.props
     const { editor } = options
     const uiTitle = uiSchema['ui:title']
@@ -74,13 +61,14 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
     items.forEach(() => {
       this.scrollRef.push(React.createRef())
     })
-    if (editor?.focusArrayField >= 0) {
+    if (editor?.arrayFieldAutoScroll) {
       setTimeout(() => {
-        this.scrollRef[editor.focusArrayField]?.current?.scrollIntoView({ behavior: 'smooth' })
+        this.scrollRef[editor.arrayFieldAutoScroll]?.current?.scrollIntoView({ behavior: 'smooth' })
       }, 200)
     }
 
     let titleName = title
+
     if (uiTitle) {
       titleName = uiTitle
     } else if (title.charAt(title.length - 1) === 's') {
@@ -150,7 +138,7 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
                 type="button"
                 onClick={(e) => {
                   onAddClick(e)
-                  editor.setArrayField(items.length)
+                  editor.setArrayAutoScroll(items.length)
                 }}
               >
                 <span style={{ color: 'rgb(31, 107, 162)', marginLeft: '-12px' }}>
@@ -172,7 +160,10 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
               <button
                 className="btn"
                 type="button"
-                onClick={(e) => { onAddClick(e); editor.setArrayField(items.length) }}
+                onClick={(e) => {
+                  onAddClick(e)
+                  editor.setArrayAutoScroll(items.length)
+                }}
               >
                 <span style={{ color: 'rgb(31, 107, 162)', marginLeft: '-12px' }}>
                   <i className="fa-solid fa-circle-plus fa-2xl" />
@@ -191,4 +182,4 @@ class CustomArrayTemplate extends React.Component<CustomArrayTemplateProps, neve
     )
   }
 }
-export default observer(CustomArrayTemplate)
+export default observer(CustomArrayFieldTemplate)

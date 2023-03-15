@@ -29,7 +29,7 @@ const organizationUiSchema = {
                       'ui:col': {
                         children: [
                           {
-                            name: 'providers',
+                            name: 'Organizations',
                             render: (props) => (
                               <ControlledFields {...props} />
                             )
