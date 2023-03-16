@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, fireEvent
+  render, screen, waitFor
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
@@ -105,8 +105,7 @@ describe('Custom Text Widget Component', () => {
         maxLength: 20
       },
       onChange: mockedOnChange,
-      value: 'Tuesday',
-      id: ''
+      value: 'Tuesday'
     }
     const { getByTestId, container } = render(
       <BrowserRouter>
@@ -127,7 +126,7 @@ describe('Custom Text Widget Component', () => {
     expect(container).toMatchSnapshot()
   })
 
-  it('should call onChange on a first character', async () => {
+  test('should call onChange on a first character', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
     const mockedOnChange = jest.fn()
@@ -141,8 +140,7 @@ describe('Custom Text Widget Component', () => {
       schema: {
         maxLength: 20
       },
-      onChange: mockedOnChange,
-      id: ''
+      onChange: mockedOnChange
     }
 
     const { getByTestId } = render(
@@ -163,18 +161,21 @@ describe('Custom Text Widget Component', () => {
     expect(mockedOnChange).toHaveBeenCalledTimes(16)
     expect(headerElement).toHaveTextContent('16/20')
   })
+
   test('testing autofocus for a custom text widget', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
-    const { container, getByTestId } = render(
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const { container } = render(
       <MemoryRouter initialEntries={['/tool_drafts/2/edit/Tool_Information']}>
         <Routes>
           <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
         </Routes>
       </MemoryRouter>
     )
-    const clickTextField = getByTestId('error-list-item__Name is a required property')
-    fireEvent.click(await clickTextField)
+    await waitFor(async () => {
+      screen.queryByTestId('error-list-item__name').click()
+    })
     expect(container).toHaveTextContent('The name of the downloadable tool or web user interface.')
     expect(container).toMatchSnapshot()
   })

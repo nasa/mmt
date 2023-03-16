@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -5,40 +6,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { observer } from 'mobx-react'
 import React from 'react'
+import { cloneDeep, kebabCase } from 'lodash'
 import MetadataEditor from '../MetadataEditor'
 import withRouter from './withRouter'
 import './ErrorList.scoped.css'
+import { createPath, prefixProperty, removeEmpty } from '../utils/json_utils'
 
 type ErrorListProps = {
   editor: MetadataEditor;
   section: FormSection
 };
 
-type ErrorListState = {
-  currentSelect: string
-};
-
-class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
-  constructor(props: ErrorListProps) {
-    super(props)
-    this.state = {
-      currentSelect: ''
-    }
-  }
-  componentDidUpdate(prevProps: Readonly<ErrorListProps>, prevState: Readonly<ErrorListState>) {
-    const { currentSelect } = this.state
-    const { editor } = this.props
-
-    if (prevState.currentSelect === currentSelect || editor.focusField === currentSelect) {
-      // editor.setFocusField('')
-      // // editor.setArrayField(-1)
-      // editor.setFocusField(currentSelect)
-    }
-    if (currentSelect) {
-      this.setState({ currentSelect: '' })
-    }
-  }
-
+class ErrorList extends React.Component<ErrorListProps> {
   // Given the full path, e.g. ContactGroups[1].ContactInformation.ContactMechanisms, it will return the total
   // number of elements of the last element in the path (in this example, of ContactMechanisms)
   // This algorithm dives into the formData until it gets the last element and then grabs the count.
@@ -46,7 +25,7 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
     const parts = path.split('.')
     const { editor } = this.props
     const { formData } = editor
-    let data: any = formData
+    let data: any = removeEmpty(cloneDeep(formData))
     let length = -1
     parts.forEach((part: string, index) => {
       if (part !== '') {
@@ -58,8 +37,10 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
         } else {
           data = data[part]
         }
-        if (index === parts.length - 1) { // this is the last element in the path
-          length = data.length
+        if (data) {
+          if (index === parts.length - 1) { // this is the last element in the path
+            length = data.length
+          }
         }
       }
     })
@@ -93,14 +74,13 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
     }
     return count
   }
+
   displayErrors(error: string) {
     const str = error
     let result = []
-
     if (str.match(/\[[0-9]]/)) {
       result = str.split(/\[[0-9]]/)
       error = result.at(0) + result.at(1)
-      // return result
     }
     const words = error.split(' ')
     words.forEach((word: string) => {
@@ -115,22 +95,18 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
     if (error.startsWith(' ')) {
       error = error.slice(1)
     }
-    return error
+    error = error.replace(/' /g, '\'')
+    return error.charAt(0).toUpperCase() + error.slice(1)
   }
 
-  navigateToField(fieldName: string) {
+  navigateToField(error: string) {
     const { editor } = this.props
-    const errorName = fieldName.split(' ')
-    if (/^[[a-zA-Z]+$/.test(errorName[0])) { // Basic Field}
-      editor.setFocusField(errorName[0])
-    } else if (/[0-9]/.test(fieldName)) { // Array case
-      const regexp = /^[^[]+\[(\d+)\].*/
-      const index = fieldName.match(regexp)
-      editor.setArrayField(parseInt(index[1], 10))
-    } else { // Controlled Field
-      const array = fieldName.split('.')
-      editor.setFocusField(array.at(0))
+
+    if (error.startsWith('.')) {
+      error = error.substring(1)
     }
+
+    editor.setFocusField(error.replace(/\./g, '_'))
   }
   displayArrayIndex(error: string, length: number) {
     const getError = /([A-Z])\w+/
@@ -141,6 +117,7 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
     if (filter.endsWith('s')) {
       filter = filter.slice(0, filter.length - 1)
     }
+
     return (
       <>
         <span>
@@ -168,8 +145,10 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
     if (node === null) {
       return
     }
-    const { errorProperty = '' } = node
+    const { errorProperty = '', path: fullPath = '', message = '' } = node
     delete node.errorProperty
+    delete node.path
+    delete node.message
     const keys = Object.keys(node)
     const r = []
     keys.forEach((key: string) => {
@@ -178,13 +157,14 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
 
     let length = -1
     const regexp = /^(.*[^\\[]+)\[(\d+)\]/
-    const match = errorProperty.match(regexp)
+    const match = fullPath.match(regexp)
     if (match) {
       length = this.getArrayCount(match[1])
     }
+
     if (keys.length > 0) {
       rows.push(
-        <div className="error-list" data-testid={`error-list-title__${key}`} style={{ marginTop: '0px', marginBottom: '3px' }} key={key}>
+        <div className="error-list" data-testid={`error-list-title__${kebabCase(key)}`} style={{ marginTop: '0px', marginBottom: '3px' }} key={key}>
           {key !== 'root' ? (
             <h6
               style={{
@@ -194,31 +174,24 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
               {length > 0 ? this.displayArrayIndex(key, length) : this.displayErrors(key)}
             </h6>
           ) : <span style={{ marginTop: '-50px' }} />}
-          <ul style={{ marginBottom: '-2px' }}>
+          <ul style={{ paddingLeft: 15, marginBottom: '-2px' }}>
             {r}
           </ul>
         </div>
       )
     } else {
       rows.push(
-        <div className="error-list-item" onClick={() => { this.navigateToField(errorProperty.substring(1)); this.setState({ currentSelect: errorProperty.substring(1) }) }} key={key} data-testid={`error-list-item__${key}`}>
+        <div className="error-list-item" onClick={() => { this.navigateToField(errorProperty) }} key={key} data-testid={`error-list-item__${kebabCase(key)}`}>
           {key !== 'root' ? (
-            <li
-              style={{
-                fontSize: '15px',
-                margin: 0,
-                padding: 0
-              }}
-            >
+            <li>
               <i className="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle" />
-              {this.displayErrors(key)}
+              {this.displayErrors(message)}
             </li>
           ) : <span style={{ marginTop: '-50px' }} />}
         </div>
       )
     }
   }
-
   // Builds a map object representing the hierarchy of the errors, i.e.
   // ContactGroups[1].ContactInformation.ContactMechanisms[1].Type is a Required Property
   // ContactGroups[1].ContactInformation.ContactMechanisms[1].Value is a Required Property
@@ -230,17 +203,19 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
     const { currentSection } = editor
     const { displayName } = currentSection
     errors.forEach((error) => {
-      const parts = error.stack.split('.')
+      const path = createPath(error.property)
+      const parts = path.split('.')
+
       let node = root
       let fullPath = ''
-      parts.forEach((part: string, index:number) => {
+      parts.forEach((part: string, index: number) => {
         fullPath += part
         if (part !== '') {
           const name = displayName.replace(/ /g, '')
           if (!(part === name && index === 1)) {
             let value = node[part]
             if (!value) {
-              value = { errorProperty: fullPath }
+              value = { message: error.message, path, errorProperty: error.property }
             }
             node[part] = value
             node = value
@@ -256,7 +231,7 @@ class ErrorList extends React.Component<ErrorListProps, ErrorListState> {
     const { editor, section } = this.props
     const { fullErrors } = editor
     const errors: FormError[] = fullErrors
-    const filteredErrors: FormError[] = errors.filter((error: FormError) => section.properties.some((propertyPrefix) => error.property.startsWith(`.${propertyPrefix}`)))
+    const filteredErrors: FormError[] = errors.filter((error: FormError) => section.properties.some((propertyPrefix) => prefixProperty(error.property).startsWith(prefixProperty(propertyPrefix))))
 
     const root = {}
     filteredErrors.forEach((error) => {

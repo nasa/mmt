@@ -5,7 +5,7 @@ import CustomCountrySelectWidget from '../../../../components/widgets/CustomCoun
 
 const toolContactsUiSchema = {
   ContactGroups: {
-    'ui:title': 'Contact Group',
+    'ui:title': 'Contact Groups',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -43,6 +43,7 @@ const toolContactsUiSchema = {
         ]
       },
       Roles: {
+        'ui:group': 'ContactGroups',
         'ui:widget': CustomMultiSelectWidget
       },
       GroupName: {
@@ -164,7 +165,7 @@ const toolContactsUiSchema = {
     }
   },
   ContactPersons: {
-    'ui:title': 'Contact Person',
+    'ui:title': 'Contact Persons',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -238,9 +239,11 @@ const toolContactsUiSchema = {
           ]
         },
         ServiceHours: {
+          'ui:group': 'ContactPersons',
           'ui:title': 'Service Hours'
         },
         ContactInstruction: {
+          'ui:group': 'ContactPersons',
           'ui:title': 'Contact Instruction'
         },
         ContactMechanisms: {
@@ -270,7 +273,7 @@ const toolContactsUiSchema = {
           }
         },
         Addresses: {
-          'ui:title': 'Address',
+          'ui:title': 'Addresss',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {

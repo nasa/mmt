@@ -79,6 +79,7 @@ const toolInformationUiSchema = {
     'ui:widget': CustomSelectWidget
   },
   URL: {
+    'ui:root': 'URL',
     'ui:title': 'URL',
     'ui:field': 'layout',
     'ui:controlledFields': ['URLContentType', 'Type', 'Subtype'],
@@ -127,7 +128,7 @@ const toolInformationUiSchema = {
     },
     URLContentType: { 'ui:title': 'URL Content Type' },
     URLValue: { 'ui:title': 'URL Value' },
-    Type: { 'ui:title': ' URL Type' }
+    Type: { 'ui:title': ' Type' }
   }
 
 }

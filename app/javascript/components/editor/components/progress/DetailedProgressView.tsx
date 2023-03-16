@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-param-reassign */
 import {
   Alert,
@@ -6,13 +7,15 @@ import {
 import React from 'react'
 import { observer } from 'mobx-react'
 import _ from 'lodash'
-import Form from '@rjsf/bootstrap-4'
+import validator from '@rjsf/validator-ajv8'
+import { RJSFValidationError } from '@rjsf/utils'
 import MetadataEditor from '../../MetadataEditor'
 import withRouter from '../withRouter'
 import ProgressSection from './ProgressSection'
 import { FieldInfo } from './FieldInfo'
 import { ProgressCircleType } from './ProgressCircleType'
-import { removeEmpty } from '../../utils/json_utils'
+import { createPath, prefixProperty, removeEmpty } from '../../utils/json_utils'
+import ReactJsonSchemaForm from '../ReactJsonSchemaForm'
 
 type DetailedProgressViewProps = {
   router: RouterType
@@ -53,20 +56,12 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
 
   sectionCircleType(section: FormSection): ProgressCircleType {
     const { editor } = this.props
-    const { fullData, fullErrors } = editor
-    const draft = JSON.parse(JSON.stringify(fullData))
+    const { fullErrors } = editor
 
-    const hasValues = section.properties.some((propertyPrefix) => {
-      const value = draft[propertyPrefix]
-      return value !== undefined
-    })
-    if (!hasValues) {
-      return ProgressCircleType.NotStarted
-    }
     const hasError = fullErrors.some((error: FormError) => {
       const { property } = error
       return section.properties.some((propertyPrefix) => {
-        if (property.startsWith(`.${propertyPrefix}`)) {
+        if (prefixProperty(property).startsWith(`${prefixProperty(propertyPrefix)}`)) {
           return true
         }
         return false
@@ -102,21 +97,16 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
   }
 
   private addField(fieldValue: object, section: FormSection, propertyPrefix: string, isRequired: boolean, fields: FieldInfo[], fullErrors: FormError[]) {
-    if (!fieldValue) {
-      const fieldInfo = new FieldInfo(section.displayName, propertyPrefix, null, ProgressCircleType.NotStarted, isRequired, null)
+    const errorList = fullErrors.filter((error: FormError) => {
+      const { property } = error
+      return prefixProperty(property).startsWith(prefixProperty(propertyPrefix))
+    })
+    if (errorList.length > 0) {
+      const fieldInfo = new FieldInfo(section.displayName, propertyPrefix, null, fieldValue ? ProgressCircleType.Error : ProgressCircleType.NotStarted, isRequired, fullErrors[0])
       fields.push(fieldInfo)
     } else {
-      const errorList = fullErrors.filter((error: FormError) => {
-        const { property } = error
-        return property.startsWith(`.${propertyPrefix}`)
-      })
-      if (errorList.length > 0) {
-        const fieldInfo = new FieldInfo(section.displayName, propertyPrefix, null, ProgressCircleType.Error, isRequired, errorList[0])
-        fields.push(fieldInfo)
-      } else {
-        const fieldInfo = new FieldInfo(section.displayName, propertyPrefix, null, ProgressCircleType.Pass, isRequired, null)
-        fields.push(fieldInfo)
-      }
+      const fieldInfo = new FieldInfo(section.displayName, propertyPrefix, null, fieldValue ? ProgressCircleType.Pass : ProgressCircleType.NotStarted, isRequired, null)
+      fields.push(fieldInfo)
     }
   }
 
@@ -127,14 +117,15 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
     })
     const hasError = fullErrors.some((error: FormError) => {
       const { property } = error
-      return property.startsWith(`.${propertyPrefix}`)
+      return prefixProperty(property).startsWith(prefixProperty(propertyPrefix))
     })
     if (hasError) { // determine which one in the array has the error
       fullErrors.forEach((error: FormError) => {
         const { property } = error
-        if (property.startsWith(`.${propertyPrefix}`)) {
+        if (prefixProperty(property).startsWith(prefixProperty(propertyPrefix))) {
+          const path = createPath(property)
           const regexp = /^[^[]+\[(\d+)\].*/
-          const match = property.match(regexp)
+          const match = path.match(regexp)
           if (match) {
             const index = Number(match[1])
             fields[index].status = ProgressCircleType.Error
@@ -232,20 +223,20 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
                   {sectionList}
                 </div>
                 <div style={{ display: 'none' }}>
-                  <Form
+                  <ReactJsonSchemaForm
+                    validator={validator}
                     schema={fullSchema}
                     formData={draftJson}
-                    transformErrors={(errors: FormError[]) => {
-                      if (JSON.stringify(editor.fullErrors) !== JSON.stringify(errors)) {
-                        editor.fullErrors = errors
+                    transformErrors={(errors: RJSFValidationError[]) => {
+                      const errorList = errors
+                      if (JSON.stringify(editor.fullErrors) !== JSON.stringify(errorList)) {
+                        editor.fullErrors = errorList
                       }
                       return errors
                     }}
                     liveValidate
-                    showErrorList
                   />
                 </div>
-
               </Col>
             </Row>
           </Col>

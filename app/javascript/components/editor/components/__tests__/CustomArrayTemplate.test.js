@@ -2,9 +2,10 @@ import Form from '@rjsf/bootstrap-4'
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-import CustomArrayTemplate from '../CustomArrayTemplate'
+import validator from '@rjsf/validator-ajv8'
 import UmmToolsModel from '../../model/UmmToolsModel'
 import MetadataEditor from '../../MetadataEditor'
+import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate'
 
 const model = new UmmToolsModel()
 const editor = new MetadataEditor(model)
@@ -29,13 +30,17 @@ const schema = {
   }
 }
 
-CustomArrayTemplate.defaultProps = { options: { editor } }
+CustomArrayFieldTemplate.defaultProps = { options: { editor } }
+
+const templates = {
+  ArrayFieldTemplate: CustomArrayFieldTemplate
+}
 
 describe('Custom Array Template', () => {
   it('renders the custom array template and adds an array', async () => {
     const { getByTestId, container } = render(
       <BrowserRouter>
-        <Form schema={schema} ArrayFieldTemplate={CustomArrayTemplate} />
+        <Form validator={validator} schema={schema} templates={templates} />
       </BrowserRouter>
     )
 
@@ -51,7 +56,7 @@ describe('Custom Array Template', () => {
   it('renders the custom array template. 1.) Adds a field 2.) removes the added field', async () => {
     const { getByTestId, container } = render(
       <BrowserRouter>
-        <Form schema={schema} ArrayFieldTemplate={CustomArrayTemplate} />
+        <Form validator={validator} schema={schema} templates={templates} />
       </BrowserRouter>
     )
     const addNewField = getByTestId('custom-array-template-add-btn').querySelector('button[type="button"]')

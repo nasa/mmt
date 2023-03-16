@@ -8,6 +8,7 @@ const relatedUrlsUiSchema = {
       'ui:keyword_scheme': 'related-urls',
       'ui:keyword_scheme_column_names': ['url_content_type', 'type', 'subtype'],
       'ui:controlledFields': ['URLContentType', 'Type', 'Subtype'],
+      'ui:rootField': 'RelatedURLs',
       'ui:layout_grid': {
         'ui:row': [
           {
@@ -25,7 +26,7 @@ const relatedUrlsUiSchema = {
                       'ui:col': {
                         children: [
                           {
-                            name: 'related-urls',
+                            name: 'RelatedURLs',
                             render: (props) => (
                               <ControlledFields {...props} />
                             )

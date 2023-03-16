@@ -4,11 +4,15 @@ import {
 } from 'react-bootstrap'
 import React from 'react'
 import { observer } from 'mobx-react'
-import Form from '@rjsf/bootstrap-4'
+import { cloneDeep } from 'lodash'
+import validator from '@rjsf/validator-ajv8'
+import { RJSFValidationError } from '@rjsf/utils'
 import NavigationItem from './NavigationItem'
 import MetadataEditor from '../MetadataEditor'
 import withRouter from './withRouter'
 import Status from '../model/Status'
+import { removeEmpty } from '../utils/json_utils'
+import ReactJsonSchemaForm from './ReactJsonSchemaForm'
 
 type ProgressViewProps = {
   router?: RouterType
@@ -102,10 +106,13 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
     } = this.props
 
     const {
-      formSections, draft, fullSchema, fullData: draftJson
+      formSections, draft, fullSchema
     } = editor
 
+    let { fullData: draftJson } = editor
     const { saving } = this.state
+
+    draftJson = removeEmpty(cloneDeep(draftJson))
 
     const sectionList = formSections.map((section: FormSection) => (
       <NavigationItem key={JSON.stringify(section)} editor={editor} section={section} />
@@ -195,17 +202,18 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
         <ListGroup style={{ height: 400, width: 300, marginTop: 5 }}>
           {sectionList}
           <div style={{ display: 'none' }}>
-            <Form
+            <ReactJsonSchemaForm
+              validator={validator}
               schema={fullSchema}
               formData={draftJson}
-              transformErrors={(errors: FormError[]) => {
-                if (JSON.stringify(editor.fullErrors) !== JSON.stringify(errors)) {
-                  editor.fullErrors = errors
+              transformErrors={(errors: RJSFValidationError[]) => {
+                const errorList = errors
+                if (JSON.stringify(editor.fullErrors) !== JSON.stringify(errorList)) {
+                  editor.fullErrors = errorList
                 }
                 return errors
               }}
               liveValidate
-              showErrorList
             />
           </div>
 

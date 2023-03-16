@@ -3,10 +3,11 @@
 import React from 'react'
 import { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
+import { WidgetProps } from '@rjsf/utils'
 import MetadataEditor from '../../MetadataEditor'
 
-type CustomTextWidgetProps = {
-  label?: string,
+interface CustomTextWidgetProps extends WidgetProps {
+  label: string,
   options: {
     title?: string
     editor: MetadataEditor
@@ -24,44 +25,47 @@ type CustomTextWidgetProps = {
 
 type CustomTextWidgetState = {
   value: string,
-  charsUsed: number
+  charsUsed: number,
+  showDescription: boolean
 }
 
 class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomTextWidgetState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps: { options: { editor: MetadataEditor } }
-  inputRef: React.RefObject<HTMLInputElement>
-
+  inputScrollRef: React.RefObject<HTMLDivElement>
   constructor(props: CustomTextWidgetProps) {
     super(props)
     const { value = '' } = this.props
     this.state = {
       value: value == null ? '' : value,
-      charsUsed: value != null ? value.length : 0
+      charsUsed: value != null ? value.length : 0,
+      showDescription: false
     }
-    this.inputRef = React.createRef()
+    this.inputScrollRef = React.createRef()
   }
 
   render() {
     const {
-      label = '', schema, required, onChange, disabled, options, id = ''
+      label = '', schema, required, onChange, disabled, options, id
     } = this.props
     const { title = label, editor } = options
     const { maxLength, description } = schema
-    const { value, charsUsed } = this.state
+    const { value, charsUsed, showDescription } = this.state
     const { focusField = '' } = editor
     const disabledFlag = disabled || false
-    if (editor.focusField) {
-      if (label.toLowerCase() === focusField.toLowerCase()) {
-        setTimeout(() => {
-          this.inputRef.current?.focus()
-        }, 100)
-      }
+    let shouldFocus = false
+
+    if (id === editor.focusField) {
+      shouldFocus = true
+      this.inputScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+
+      // setTimeout(() => {
+      // }, 100)
     }
 
     return (
       <>
-        <div className="widget-header" data-testid={`custom-text-widget__${kebabCase(label)}--text-header`}>
+        <div className="widget-header" data-testid={`custom-text-widget__${kebabCase(label)}--text-header`} ref={this.inputScrollRef}>
           {title && (
             <span>
               {title}
@@ -78,7 +82,9 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
         </div>
 
         <input
-          ref={this.inputRef}
+          autoFocus={shouldFocus}
+          key={`${id}_${focusField}`}
+          id={id}
           name={title}
           disabled={disabledFlag}
           className="custom-text-widget-input"
@@ -87,20 +93,23 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           type="text"
           value={value}
           maxLength={maxLength}
-          // This onClick determines if a textbox is inside of an array, if yes, then only focus on the selected textbox and display the description
-          // Example of an array element id: id = 'root_0_description'
-          // Example of a controlled filed id: id = 'root_description'
-          onFocus={() => (id && id.split('_').length >= 2 ? editor.setFocusField(id) : editor.setFocusField(label))}
+          onFocus={() => {
+            this.setState({ showDescription: true })
+          }}
           onChange={(e) => {
             const { value } = e.target
             const len = value.length
             this.setState({ value, charsUsed: len })
             onChange(value)
           }}
-          onBlur={() => { editor.setFocusField('') }}
+          onBlur={() => {
+            this.setState({ showDescription: false })
+          }}
         />
         <span style={{ fontStyle: 'italic' }} data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
-          {(focusField.toLowerCase() === label.toLowerCase() && label !== '') || focusField.toLowerCase() === id.toLowerCase() ? description : ''}
+          {
+            showDescription ? description : ''
+          }
         </span>
       </>
     )

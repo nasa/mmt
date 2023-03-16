@@ -4,7 +4,6 @@ import {
 import { MetadataService } from './services/MetadataService'
 import FormModel from './model/FormModel'
 import Draft from './model/Draft'
-import { removeNulls } from './utils/json_utils'
 import FormProperties from './model/FormProperties'
 import Status from './model/Status'
 
@@ -39,7 +38,7 @@ export default class MetadataEditor {
   get loading(): boolean {
     return this.formProps.loading
   }
-  set loading(loading:boolean) {
+  set loading(loading: boolean) {
     this.formProps.setLoading(loading)
   }
   get draft() {
@@ -103,7 +102,7 @@ export default class MetadataEditor {
     return this.model.publishErrors
   }
 
-  set status(status:Status) {
+  set status(status: Status) {
     this.formProps.setStatus(status)
   }
   get status() {
@@ -120,7 +119,7 @@ export default class MetadataEditor {
   }
 
   set formData(value) {
-    this.model.setFormData(removeNulls(value))
+    this.model.setFormData(value)
   }
 
   get formErrors() {
@@ -142,8 +141,8 @@ export default class MetadataEditor {
   get focusField() {
     return this.formProps.focusField
   }
-  get focusArrayField() {
-    return this.formProps.arrayField
+  get arrayFieldAutoScroll() {
+    return this.formProps.arrayFieldAutoScroll
   }
   // Intents
   navigateTo(section: FormSection) {
@@ -162,8 +161,8 @@ export default class MetadataEditor {
       this.formProps.setFocusField(name)
     }
   }
-  setArrayField(index: number) {
-    this.formProps.setArrayField(index)
+  setArrayAutoScroll(index: number) {
+    this.formProps.setArrayAutoScroll(index)
   }
   navigateNext() {
     const section = this.formSections.filter((obj: FormSection) => obj.displayName.toLowerCase() === this.currentSection.displayName.toLowerCase())[0]

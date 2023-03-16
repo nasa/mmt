@@ -1,5 +1,6 @@
 /* eslint-disable dot-notation */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { UiSchema } from '@rjsf/utils'
 import toolInformationUiSchema from '../data/configuration/uiSchemas/tools/tool_information'
 import relatedUrlsUiSchema from '../data/configuration/uiSchemas/tools/related_urls'
 import toolsConfiguration from '../data/configuration/uiForms/toolsConfiguration'
@@ -9,6 +10,7 @@ import descriptiveKeywordsUiSchema from '../data/configuration/uiSchemas/tools/d
 import potentialActionUiSchema from '../data/configuration/uiSchemas/tools/potential_action'
 import toolContactsUISchema from '../data/configuration/uiSchemas/tools/tool_contacts'
 import compatibilityAndUsabilityUiSchema from '../data/configuration/uiSchemas/tools/compatibility_and_usability'
+import CustomArrayFieldTemplate from '../components/CustomArrayFieldTemplate'
 
 export default class UmmToolsModel extends UmmModel {
   get documentTypeForDisplay() {
@@ -25,7 +27,10 @@ export default class UmmToolsModel extends UmmModel {
     return super.getFormSchema()
   }
   get uiSchema() {
-    const base = { 'ui:submitButtonOptions': { norender: true, submitText: 'Save' } }
+    const base:UiSchema = {
+      'ui:submitButtonOptions': { norender: true, submitText: 'Save' },
+      'ui:ArrayFieldTemplate': CustomArrayFieldTemplate
+    }
 
     if (this.currentSection.displayName === 'Tool Information') {
       const uiSchema: any = toolInformationUiSchema

@@ -77,6 +77,28 @@ const compatibilityAndUsabilityUiSchema = {
   SupportedOperatingSystems: {
     'ui:title': 'Supported Operating Systems',
     items: {
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    { 'ui:col': { md: 12, children: ['OperatingSystemName'] } }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    { 'ui:col': { md: 12, children: ['OperatingSystemVersion'] } }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
       OperatingSystemName: {
         'ui:title': 'Operating System Name'
       },
@@ -88,6 +110,28 @@ const compatibilityAndUsabilityUiSchema = {
   SupportedBrowsers: {
     'ui:title': 'Supported Browsers',
     items: {
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    { 'ui:col': { md: 12, children: ['BrowserName'] } }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    { 'ui:col': { md: 12, children: ['BrowserVersion'] } }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
       BrowserName: {
         'ui:title': 'Browser Name'
       },
@@ -99,6 +143,28 @@ const compatibilityAndUsabilityUiSchema = {
   SupportedSoftwareLanguages: {
     'ui:title': 'Supported Software Languages',
     items: {
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    { 'ui:col': { md: 12, children: ['SoftwareLanguageName'] } }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    { 'ui:col': { md: 12, children: ['SoftwareLanguageVersion'] } }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
       SoftwareLanguageName: {
         'ui:title': 'Software Language Name'
       },

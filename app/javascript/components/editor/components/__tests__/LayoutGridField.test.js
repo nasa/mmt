@@ -3,7 +3,11 @@ import {
   render, screen
 } from '@testing-library/react'
 import Form from '@rjsf/bootstrap-4'
+import validator from '@rjsf/validator-ajv8'
 import LayoutGridField from '../LayoutGridField'
+import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate'
+import MetadataEditor from '../../MetadataEditor'
+import UmmToolsModel from '../../model/UmmToolsModel'
 
 const schema = {
   title: 'Todo',
@@ -33,9 +37,12 @@ const schema = {
   }
 }
 const fields = {
-  layout_grid: LayoutGridField
+  layout_grid: LayoutGridField,
+  TitleField: CustomTitleFieldTemplate
 }
-
+const model = new UmmToolsModel()
+const editor = new MetadataEditor(model)
+LayoutGridField.defaultProps = { options: { editor } }
 describe('Layout Grid Field Component', () => {
   it('renders a basic form', async () => {
     const uiSchema = {
@@ -70,7 +77,7 @@ describe('Layout Grid Field Component', () => {
       }
     }
 
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
     expect(screen.getByTestId('layout-grid-field__schema-field--first-name')).toHaveTextContent('First name')
     expect(screen.getByTestId('layout-grid-field__schema-field--last-name')).toHaveTextContent('Last name')
     expect(screen.getByTestId('layout-grid-field__schema-field--password')).toHaveTextContent('Password')
@@ -100,7 +107,7 @@ describe('Layout Grid Field Component', () => {
         ]
       }
     }
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
     expect(screen.getByTestId('layout-grid-field__schema-field--first-name')).toHaveTextContent('First name')
     expect(screen.getByTestId('layout-grid-field__schema-field--last-name')).toHaveTextContent('Last name')
     expect(screen.getByTestId('layout-grid-field__row-title-field--full-name')).toHaveTextContent('Full Name')
@@ -128,7 +135,7 @@ describe('Layout Grid Field Component', () => {
         ]
       }
     }
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
     expect(screen.getByTestId('layout-grid-field__schema-field--first-name')).toHaveTextContent('First name')
     expect(screen.getByTestId('layout-grid-field__schema-field--last-name')).toHaveTextContent('Last name')
     expect(screen.queryByTestId('layout-grid-field__schema-field--full-name')).toBeNull()
@@ -147,7 +154,7 @@ describe('Layout Grid Field Component', () => {
         ]
       }
     }
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
     expect(screen.getByTestId('layout-grid-field__col-title-field--biography')).toHaveTextContent('Biography')
     expect(container).toMatchSnapshot()
   })
@@ -164,7 +171,7 @@ describe('Layout Grid Field Component', () => {
         ]
       }
     }
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
     expect(screen.queryByTestId('layout-grid-field__col-title-field--biography')).toBeNull()
     expect(container).toMatchSnapshot()
   })
@@ -184,7 +191,7 @@ describe('Layout Grid Field Component', () => {
         ]
       }
     }
-    const { container } = render(<Form schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
     expect(screen.getByTestId('layout-grid-field__schema-field--password')).toHaveTextContent('My Custom Component')
     expect(container).toMatchSnapshot()
   })

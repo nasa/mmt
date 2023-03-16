@@ -1,9 +1,10 @@
+import { WidgetProps } from '@rjsf/utils'
 import { kebabCase } from 'lodash'
 import React from 'react'
 import Select from 'react-select'
 import countryList from 'react-select-country-list'
 
-type CustomCountrySelectWidgetProps = {
+interface CustomCountrySelectWidgetProps extends WidgetProps {
   label: string,
   options: {
     title: string
@@ -51,7 +52,9 @@ class CustomCountrySelectWidget extends React.Component<CustomCountrySelectWidge
   }
 
   render() {
-    const { label, options, required } = this.props
+    const {
+      label, options, required, id
+    } = this.props
     const { title = label } = options
     const { country, filterOptions } = this.state
 
@@ -66,6 +69,7 @@ class CustomCountrySelectWidget extends React.Component<CustomCountrySelectWidge
         </div>
         <div data-testid={`country-select-widget__${kebabCase(label)}--selector`}>
           <Select
+            id={id}
             data-testid={`country-select-widget__${kebabCase(label)}--select`}
             name={`Select-${label}`}
             placeholder={`Select ${label}`}

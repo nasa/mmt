@@ -1,26 +1,21 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import Select from 'react-select'
 import { kebabCase } from 'lodash'
-import { retrieveSchema } from 'react-jsonschema-form/lib/utils'
+import { observer } from 'mobx-react'
+import { WidgetProps } from '@rjsf/utils'
+import { JSONSchema7 } from 'json-schema'
+import MetadataEditor from '../../MetadataEditor'
 
-type CustomMultiSelectWidgetProps = {
+interface CustomMultiSelectWidgetProps extends WidgetProps {
   label: string,
-  schema: {
-    items: {
-      $ref: unknown
-      enum: string[]
-    },
-    description: string
-  },
   options: {
-    title: string
+    title: string,
+    editor?: MetadataEditor
   }
   value: string[],
   required: boolean,
   onChange: (value: string[]) => void,
-  registry: {
-    definitions: unknown
-  }
 }
 
 type SelectOptions = {
@@ -37,14 +32,18 @@ type CustomMultiSelectWidgetState = {
 }
 
 class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetProps, CustomMultiSelectWidgetState> {
+  // eslint-disable-next-line react/static-property-placement
+  static defaultProps: { options: { editor: MetadataEditor } }
+  multiSelectScrollRef: React.RefObject<HTMLDivElement>
+
   constructor(props: CustomMultiSelectWidgetProps) {
     super(props)
     const {
       schema, registry, value, onChange
     } = props
-    const { definitions } = registry
     const { items = {} } = schema
-    const retrievedSchema = retrieveSchema(items, definitions)
+    const { schemaUtils } = registry
+    const retrievedSchema = schemaUtils.retrieveSchema(items as JSONSchema7)
     const selectOptions: SelectOptions[] = []
     const listOfEnums = retrievedSchema.enum || []
     listOfEnums.forEach((currentEnum: string) => {
@@ -64,6 +63,7 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
       isOpen: undefined
     }
     this.handleMultiChange = this.handleMultiChange.bind(this)
+    this.multiSelectScrollRef = React.createRef()
   }
 
   handleMultiChange(selectedValues: SelectOptions[]) {
@@ -83,9 +83,16 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
     const {
       label, options, required, schema
     } = this.props
-    const { title = label } = options
+    const { id } = this.props
+    const { title = label, editor } = options
+    let shouldFocus = false
+
+    if (editor?.focusField === id) {
+      shouldFocus = true
+      this.multiSelectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
     return (
-      <div className="custom-multi-select-widget" data-testid={`custom-multi-select-widget__${kebabCase(label)}`}>
+      <div className="custom-multi-select-widget" data-testid={`custom-multi-select-widget__${kebabCase(label)}`} ref={this.multiSelectScrollRef}>
         <div>
           <span>
             {title ?? 'Values'}
@@ -99,12 +106,17 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
         </div>
         <div data-testid={`custom-multi-select-widget__${kebabCase(label)}--selector`}>
           <Select
+            key={`${id}_${editor?.focusField}`}
+            autoFocus={shouldFocus}
+            id={id}
             name={`Select-${label}`}
             placeholder={title ? `Select ${title}` : 'Select Values'}
             value={multiValue}
             options={filterOptions}
             onFocus={() => { this.setState({ isOpen: true, setFocus: true }) }}
-            onBlur={() => { this.setState({ isOpen: false, setFocus: false }) }}
+            onBlur={() => {
+              this.setState({ isOpen: false, setFocus: false })
+            }}
             onChange={this.handleMultiChange}
             menuIsOpen={isOpen}
             isMulti
@@ -115,4 +127,4 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
   }
 }
 
-export default CustomMultiSelectWidget
+export default observer(CustomMultiSelectWidget)

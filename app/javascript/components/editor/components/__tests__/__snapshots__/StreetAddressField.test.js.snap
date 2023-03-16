@@ -13,15 +13,13 @@ exports[`StreetAddressFieldTest basic test 1`] = `
     style="margin-left: -15px; margin-bottom: 10px; margin-top: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-1--text-header"
     >
       <span>
         Address Line 1
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         13
         /
         80
@@ -30,6 +28,7 @@ exports[`StreetAddressFieldTest basic test 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-1--text-input"
+      id="undefined_1"
       maxlength="80"
       name="Address Line 1"
       style="min-width: 100%; height: 37px;"
@@ -46,15 +45,13 @@ exports[`StreetAddressFieldTest basic test 1`] = `
     style="margin-left: -15px; margin-bottom: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-2--text-header"
     >
       <span>
         Address Line 2
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         14
         /
         80
@@ -63,6 +60,7 @@ exports[`StreetAddressFieldTest basic test 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-2--text-input"
+      id="undefined_2"
       maxlength="80"
       name="Address Line 2"
       style="min-width: 100%; height: 37px;"
@@ -79,15 +77,13 @@ exports[`StreetAddressFieldTest basic test 1`] = `
     style="margin-left: -15px; margin-bottom: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-3--text-header"
     >
       <span>
         Address Line 3
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         13
         /
         80
@@ -96,6 +92,7 @@ exports[`StreetAddressFieldTest basic test 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-3--text-input"
+      id="undefined_3"
       maxlength="80"
       name="Address Line 3"
       style="min-width: 100%; height: 37px;"
@@ -123,15 +120,13 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
     style="margin-left: -15px; margin-bottom: 10px; margin-top: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-1--text-header"
     >
       <span>
         Address Line 1
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         0
         /
         80
@@ -140,6 +135,7 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-1--text-input"
+      id="undefined_1"
       maxlength="80"
       name="Address Line 1"
       style="min-width: 100%; height: 37px;"
@@ -156,15 +152,13 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
     style="margin-left: -15px; margin-bottom: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-2--text-header"
     >
       <span>
         Address Line 2
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         0
         /
         80
@@ -173,6 +167,7 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-2--text-input"
+      id="undefined_2"
       maxlength="80"
       name="Address Line 2"
       style="min-width: 100%; height: 37px;"
@@ -189,15 +184,13 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
     style="margin-left: -15px; margin-bottom: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-3--text-header"
     >
       <span>
         Address Line 3
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         0
         /
         80
@@ -206,6 +199,7 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-3--text-input"
+      id="undefined_3"
       maxlength="80"
       name="Address Line 3"
       style="min-width: 100%; height: 37px;"
@@ -233,15 +227,13 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
     style="margin-left: -15px; margin-bottom: 10px; margin-top: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-1--text-header"
     >
       <span>
         Address Line 1
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         0
         /
         80
@@ -250,6 +242,7 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-1--text-input"
+      id="undefined_1"
       maxlength="80"
       name="Address Line 1"
       style="min-width: 100%; height: 37px;"
@@ -266,15 +259,13 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
     style="margin-left: -15px; margin-bottom: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-2--text-header"
     >
       <span>
         Address Line 2
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         0
         /
         80
@@ -283,6 +274,7 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-2--text-input"
+      id="undefined_2"
       maxlength="80"
       name="Address Line 2"
       style="min-width: 100%; height: 37px;"
@@ -299,15 +291,13 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
     style="margin-left: -15px; margin-bottom: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-3--text-header"
     >
       <span>
         Address Line 3
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         0
         /
         80
@@ -316,6 +306,7 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-3--text-input"
+      id="undefined_3"
       maxlength="80"
       name="Address Line 3"
       style="min-width: 100%; height: 37px;"
@@ -343,15 +334,13 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
     style="margin-left: -15px; margin-bottom: 10px; margin-top: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-1--text-header"
     >
       <span>
         Address Line 1
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         10
         /
         80
@@ -360,6 +349,7 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-1--text-input"
+      id="undefined_1"
       maxlength="80"
       name="Address Line 1"
       style="min-width: 100%; height: 37px;"
@@ -376,15 +366,13 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
     style="margin-left: -15px; margin-bottom: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-2--text-header"
     >
       <span>
         Address Line 2
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         0
         /
         80
@@ -393,6 +381,7 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-2--text-input"
+      id="undefined_2"
       maxlength="80"
       name="Address Line 2"
       style="min-width: 100%; height: 37px;"
@@ -409,15 +398,13 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
     style="margin-left: -15px; margin-bottom: 10px;"
   >
     <div
-      class="custom-text-widget-header"
+      class="widget-header"
       data-testid="custom-text-widget__address-line-3--text-header"
     >
       <span>
         Address Line 3
       </span>
-      <span
-        style="float: right;"
-      >
+      <span>
         9
         /
         80
@@ -426,6 +413,7 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
     <input
       class="custom-text-widget-input"
       data-testid="custom-text-widget__address-line-3--text-input"
+      id="undefined_3"
       maxlength="80"
       name="Address Line 3"
       style="min-width: 100%; height: 37px;"

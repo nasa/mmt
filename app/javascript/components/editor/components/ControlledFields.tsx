@@ -4,8 +4,9 @@
 import React, { ReactNode } from 'react'
 import _, { cloneDeep, kebabCase } from 'lodash'
 import { Col } from 'react-bootstrap'
-import ObjectField, { ObjectFieldProps } from 'react-jsonschema-form/lib/components/fields/ObjectField'
+import { ObjectFieldProps } from 'react-jsonschema-form/lib/components/fields/ObjectField'
 import { observer } from 'mobx-react'
+import { FieldProps } from '@rjsf/utils'
 import CustomSelectWidget from './widgets/CustomSelectWidget'
 import CustomTextWidget from './widgets/CustomTextWidget'
 import { MetadataService } from '../services/MetadataService'
@@ -21,11 +22,13 @@ type ControlledFieldsState = {
   root: Node,
   lastUpdated: Date
 }
+type ControlledFieldProps = FieldProps
 
-class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsState> {
-  static defaultProps: {options:{editor:MetadataEditor}}
+class ControlledFields extends React.Component<ObjectFieldProps, ControlledFieldsState> {
+  // eslint-disable-next-line react/static-property-placement
+  static defaultProps: { options: { editor: MetadataEditor } }
   private scrollRef: React.RefObject<HTMLDivElement>
-  constructor(props: ObjectFieldProps) {
+  constructor(props: ControlledFieldProps) {
     super(props)
     this.state = {
       loading: false, lastUpdated: Date(), root: {}, ...props.formData
@@ -63,13 +66,16 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
     }
   }
 
-  isTextField(name: string) {
+  executeScroll = () => this.scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+
+  copyFormDataToChanges(formData: any, changes: any) {
     const { uiSchema } = this.props
-    const fieldUiSchema = uiSchema[name]
-    if (fieldUiSchema && (fieldUiSchema['ui:widget'] === CustomTextWidget)) {
-      return true
-    }
-    return false
+    const controlledFields = uiSchema['ui:controlledFields']
+    Object.keys(formData).forEach((key) => {
+      if (!controlledFields.includes(key)) {
+        changes[key] = formData[key]
+      }
+    })
   }
 
   clearDescendents(name: string, value: string) {
@@ -84,14 +90,9 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
     return values
   }
 
-  copyFormDataToChanges(formData: any, changes: any) {
-    const { uiSchema } = this.props
-    const controlledFields = uiSchema['ui:controlledFields']
-    Object.keys(changes).forEach((key) => {
-      if (!controlledFields.includes(key)) {
-        changes[key] = formData[key]
-      }
-    })
+  isRequired(name: string) {
+    const { schema } = this.props
+    return Array.isArray(schema.required) && schema.required.indexOf(name) !== -1
   }
 
   renderField(loading: boolean, name: string, enums: string[]) {
@@ -100,7 +101,8 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
       onChange,
       uiSchema,
       schema,
-      registry
+      registry,
+      idSchema
     } = this.props
 
     const fieldUiSchema = uiSchema[name]
@@ -124,19 +126,30 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
         }
       }
 
+      if (idSchema && idSchema[name]) {
+        const id = idSchema[name].$id ?? ''
+        const { name: parentName } = this.props
+        idSchema[name].$id = id.replace('root', parentName)
+      }
+
       return (
         <span
           key={`controlled-fields__custom-text-widget--${name}-${value}`}
           data-testid={`controlled-fields__custom-text-widget--${kebabCase(name)}`}
         >
           <CustomTextWidget
+            id={idSchema[name].$id}
+            name={name}
             disabled
             required={this.isRequired(name)}
             label={title}
             value={value}
             onChange={() => undefined}
             schema={fieldSchema}
-            id=""
+            onBlur={() => undefined}
+            onFocus={() => undefined}
+            registry={undefined}
+            options={undefined}
           />
         </span>
       )
@@ -149,9 +162,20 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
       if (!this.isRequired(name)) {
         enums.unshift(null)
       }
-      let placeholder = ''
-      if ((value === undefined || value === null) && enums.length > 1) {
-        placeholder = `Select ${title}`
+      let placeholder = `Select ${title}`
+      if (enums.length <= 1 && !this.isRequired(name)) {
+        placeholder = `No available ${title}`
+      }
+
+      let description = ''
+      if (schema.properties[name]) {
+        description = schema.properties[name].description
+      }
+
+      if (idSchema && idSchema[name]) {
+        const { name: parentName } = this.props
+        const id = idSchema[name].$id ?? ''
+        idSchema[name].$id = id.replace('root', parentName)
       }
 
       return (
@@ -160,9 +184,11 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
           data-testid={`controlled-fields__custom-select-widget--${kebabCase(name)}`}
         >
           <CustomSelectWidget
+            name={name}
             required={this.isRequired(name)}
             label={title}
-            schema={{ enum: enums }}
+            schema={{ enum: enums, description }}
+            uiSchema={uiSchema}
             registry={registry}
             value={loading && !value ? 'Fetching Keywords.....' : value}
             isLoading={loading}
@@ -177,14 +203,17 @@ class ControlledFields extends ObjectField<ObjectFieldProps, ControlledFieldsSta
                 onChange(changes, null)
               })
             }}
+            onBlur={() => undefined}
+            onFocus={() => undefined}
+            options={undefined}
+            disabled={enums.length <= 1 && !this.isRequired(name)}
+            id={idSchema[name].$id}
           />
         </span>
       )
     }
     return null
   }
-
-  executeScroll = () => this.scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
 
   render() {
     const {

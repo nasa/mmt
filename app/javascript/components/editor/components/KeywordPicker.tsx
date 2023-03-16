@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/sort-comp */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -7,10 +9,11 @@ import { Button } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import './KeywordPicker.css'
+import { FieldProps } from '@rjsf/utils'
 import { MetadataService } from '../services/MetadataService'
 import { Node, parseCmrResponse } from '../utils/cmr_keywords'
 
-type KeywordPickerProps = {
+interface KeywordPickerProps extends FieldProps {
   formData: any,
   onChange: (value: string,) => void,
   schema: {
@@ -20,7 +23,6 @@ type KeywordPickerProps = {
 }
 
 type KeywordPickerState = {
-  lastUpdated: Date,
   value: any,
   selectedKeywords: any,
   currentList: any,
@@ -38,7 +40,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
   constructor(props: KeywordPickerProps) {
     super(props)
     this.state = {
-      lastUpdated: new Date(),
       value: props.formData,
       selectedKeywords: [],
       currentList: [],
@@ -95,7 +96,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
     })
 
     this.setState({
-      lastUpdated: new Date(),
       value: formData,
       selectedKeywords,
       currentList: currList,
@@ -202,7 +202,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
           <a
             className="final-option-selected"
             data-testid={`tool-keyword__final-option-selected--${kebabCase(item)}`}
-            href="#"
             onClick={() => this.setState({ finalSelectedValue: '', finalSelectedKeywords: [], disableAddKeywordBtn: true })}
           >
             {' '}
@@ -214,7 +213,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
         <a
           className="final-option"
           data-testid={`tool-keyword__final-option--${kebabCase(item)}`}
-          href="#"
           onClick={() => this.createKeywordList(item)}
         >
           {' '}
@@ -226,7 +224,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
       <a
         className="item.parent"
         data-testid={`tool-keyword__parent-item--${item}`}
-        href="#"
         onClick={() => this.selectItem(item)}
       >
         {' '}
@@ -311,7 +308,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
 
   render() {
     const {
-      lastUpdated, selectedKeywords, currentList, marginTop, marginLeft, disableAddKeywordBtn, finalSelectedKeywords, fullPath, showSearchDropdown, value, loading
+      selectedKeywords, currentList, marginTop, marginLeft, disableAddKeywordBtn, finalSelectedKeywords, fullPath, showSearchDropdown, value, loading
     } = this.state
     const {
       formData,
@@ -337,7 +334,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
 
     return (
       <div id="keyword-picker">
-        <div key={JSON.stringify(lastUpdated)}>
+        <div>
           <div style={{ fontSize: '1.10rem' }}>
             <span className="title">
               {title}
@@ -349,10 +346,9 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
           <div className="added-keywords" data-testid="added-tool-keywords" style={{ padding: '20px' }}>
             {
               Object.values(formData).map((item: object, index: number) => (
-                <li key={Object.values(item).toString()}>
+                <li key={JSON.stringify(Object.values(item))}>
                   {Object.values(item).join(' > ')}
                   <a
-                    href="#"
                     onClick={() => this.setState(value.splice(index, 1), () => onChange(value))}
                     data-testid={`tool-keyword__added-keyword--${index}`}
                   >
@@ -370,7 +366,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
                   <li key={item}>
                     <a
                       data-testid={`tool-keyword__select-previous--${kebabCase(item)}`}
-                      href="#"
                       onClick={() => this.selectPrevious(item)}
                     >
                       {item}

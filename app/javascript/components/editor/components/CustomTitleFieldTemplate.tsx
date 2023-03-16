@@ -1,19 +1,20 @@
 /* eslint-disable react/static-property-placement */
 /* eslint-disable react/no-unused-prop-types */
+import { FieldProps } from '@rjsf/utils'
 import { observer } from 'mobx-react'
 import React from 'react'
 import MetadataEditor from '../MetadataEditor'
 
-type CustomTitleFieldTemplateProps = {
-    title: string,
-    required: boolean,
-    schema: unknown,
-    options: {
-      editor: MetadataEditor
-    }
+interface CustomTitleFieldTemplateProps extends FieldProps {
+  title: string,
+  required: boolean,
+  schema: unknown,
+  options: {
+    editor: MetadataEditor
   }
+}
 
-class CustomTitleFieldTemplate extends React.Component <CustomTitleFieldTemplateProps, never> {
+class CustomTitleFieldTemplate extends React.Component<CustomTitleFieldTemplateProps, never> {
   render() {
     const {
       title, required
@@ -26,8 +27,8 @@ class CustomTitleFieldTemplate extends React.Component <CustomTitleFieldTemplate
         >
           <span className="title">
             {title}
+            {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
           </span>
-          {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
         </div>
       </div>
     )

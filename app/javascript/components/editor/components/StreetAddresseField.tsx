@@ -1,13 +1,17 @@
-import { cloneDeep, uniqueId } from 'lodash'
+/* eslint-disable react/require-default-props */
+import { cloneDeep } from 'lodash'
 import React from 'react'
 import { Col } from 'react-bootstrap'
+import {
+  FieldProps
+} from '@rjsf/utils'
 import MetadataEditor from '../MetadataEditor'
 import CustomTextWidget from './widgets/CustomTextWidget'
 
 interface StreetAddressesState {
   lines: { [key: string]: string }
 }
-interface StreetAddressesProp {
+interface StreetAddressesProp extends FieldProps {
   schema: {
     maxLength: number,
     description: string
@@ -59,7 +63,9 @@ export default class StreetAddressesField extends React.Component<StreetAddresse
   }
 
   render() {
-    const { schema, options } = this.props
+    const {
+      schema, options, id
+    } = this.props
     const { lines } = this.state
     const clonedSchema = cloneDeep(schema)
     const headerDescription = schema.description
@@ -70,44 +76,57 @@ export default class StreetAddressesField extends React.Component<StreetAddresse
         <span data-testid="street-address-field__title" style={{ fontStyle: 'italic' }}>{headerDescription}</span>
         <Col md={12} style={{ marginLeft: -15, marginBottom: 10, marginTop: 10 }}>
           <CustomTextWidget
+            name="address_line_1"
             label="Address Line 1"
             schema={clonedSchema}
             value={lines.line1}
             required={false}
-            id={uniqueId()}
+            id={`${id}_1`}
             disabled={false}
             options={options}
             onChange={(value) => {
               this.updateValue(value, 1)
             }}
+            onBlur={() => undefined}
+            onFocus={() => undefined}
+            registry={undefined}
+
           />
         </Col>
         <Col md={12} style={{ marginLeft: -15, marginBottom: 10 }}>
           <CustomTextWidget
+            name="address_line_2"
             label="Address Line 2"
             schema={clonedSchema}
             value={lines.line2}
-            id={uniqueId()}
+            id={`${id}_2`}
             required={false}
             disabled={false}
             options={options}
             onChange={(value) => {
               this.updateValue(value, 2)
             }}
+            onBlur={() => undefined}
+            onFocus={() => undefined}
+            registry={undefined}
           />
         </Col>
         <Col md={12} style={{ marginLeft: -15, marginBottom: 10 }}>
           <CustomTextWidget
+            name="address_line_3"
             label="Address Line 3"
             schema={clonedSchema}
             value={lines.line3}
-            id={uniqueId()}
+            id={`${id}_3`}
             required={false}
             disabled={false}
             options={options}
             onChange={(value) => {
               this.updateValue(value, 3)
             }}
+            onBlur={() => undefined}
+            onFocus={() => undefined}
+            registry={undefined}
           />
         </Col>
       </>

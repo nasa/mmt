@@ -1,18 +1,11 @@
 .error-list-item {
     cursor: pointer;
     font-size: 15px;
+    list-style: none;
 }
 
 .error-list-item:hover {
     background-color: rgb(245, 245, 245);
-}
-
-li {
-    list-style: none;
-}
-
-ul {
-    list-style: none;
 }
 
 .error-list-total-number-of-arrays {

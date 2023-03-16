@@ -6,168 +6,194 @@ exports[`Layout Grid Field Component renders a basic form 1`] = `
     class="rjsf"
   >
     <div
-      class="form-group"
+      class="form-group field field-object"
     >
       <div
-        class="row"
-        style="margin-bottom: -5px;"
+        class="form-group"
       >
         <div
-          class="col-md-12"
+          class="row"
+          style="margin-bottom: -5px;"
         >
           <div
-            class="row"
-            style="margin-bottom: -5px;"
+            class="col-md-12"
           >
+             
             <div
-              class="col-md-6"
+              class="row"
+              style="margin-bottom: -5px;"
             >
-              <span
-                data-testid="layout-grid-field__schema-field--first-name"
+              <div
+                class="col-md-6"
               >
-                <div
-                  class="form-group"
+                 
+                <span
+                  data-testid="layout-grid-field__schema-field--first-name"
                 >
                   <div
-                    class="mb-0 form-group"
+                    class="form-group field field-string"
                   >
-                    <label
-                      class="form-label"
+                    <div
+                      class="form-group"
                     >
-                      First name
-                    </label>
-                    <input
-                      class="form-control"
-                      id="root_firstName"
-                      placeholder=""
-                      type="text"
-                      value=""
-                    />
+                      <label
+                        class="form-label"
+                        for="_firstName"
+                      >
+                        First name
+                      </label>
+                      <input
+                        aria-describedby="_firstName__error _firstName__description _firstName__help"
+                        class="form-control"
+                        id="_firstName"
+                        name="_firstName"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
-                </div>
-              </span>
+                </span>
+              </div>
+              <div
+                class="col-md-6"
+              >
+                 
+                <span
+                  data-testid="layout-grid-field__schema-field--last-name"
+                >
+                  <div
+                    class="form-group field field-string"
+                  >
+                    <div
+                      class="form-group"
+                    >
+                      <label
+                        class="form-label"
+                        for="_lastName"
+                      >
+                        Last name
+                      </label>
+                      <input
+                        aria-describedby="_lastName__error _lastName__description _lastName__help"
+                        class="form-control"
+                        id="_lastName"
+                        name="_lastName"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </span>
+              </div>
             </div>
             <div
-              class="col-md-6"
+              class="row"
+              style="margin-bottom: -5px;"
             >
-              <span
-                data-testid="layout-grid-field__schema-field--last-name"
+              <div
+                class="col-md-6"
               >
-                <div
-                  class="form-group"
+                 
+                <span
+                  data-testid="layout-grid-field__schema-field--password"
                 >
                   <div
-                    class="mb-0 form-group"
+                    class="form-group field field-string"
                   >
-                    <label
-                      class="form-label"
+                    <div
+                      class="form-group"
                     >
-                      Last name
-                    </label>
-                    <input
-                      class="form-control"
-                      id="root_lastName"
-                      placeholder=""
-                      type="text"
-                      value=""
-                    />
+                      <label
+                        class="form-label"
+                        for="_password"
+                      >
+                        Password
+                      </label>
+                      <input
+                        aria-describedby="_password__error _password__description _password__help"
+                        class="form-control"
+                        id="_password"
+                        name="_password"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
-                </div>
-              </span>
+                </span>
+              </div>
+              <div
+                class="col-md-6"
+              >
+                 
+                <span
+                  data-testid="layout-grid-field__schema-field--age"
+                >
+                  <div
+                    class="form-group field field-integer"
+                  >
+                    <div
+                      class="form-group"
+                    >
+                      <label
+                        class="form-label"
+                        for="_age"
+                      >
+                        Age
+                      </label>
+                      <input
+                        aria-describedby="_age__error _age__description _age__help"
+                        class="form-control"
+                        id="_age"
+                        name="_age"
+                        placeholder=""
+                        step="1"
+                        type="number"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </span>
+              </div>
             </div>
-          </div>
-          <div
-            class="row"
-            style="margin-bottom: -5px;"
-          >
             <div
-              class="col-md-6"
+              class="row"
+              style="margin-bottom: -5px;"
             >
-              <span
-                data-testid="layout-grid-field__schema-field--password"
+              <div
+                class="col-md-12"
               >
-                <div
-                  class="form-group"
+                 
+                <span
+                  data-testid="layout-grid-field__schema-field--bio"
                 >
                   <div
-                    class="mb-0 form-group"
+                    class="form-group field field-string"
                   >
-                    <label
-                      class="form-label"
+                    <div
+                      class="form-group"
                     >
-                      Password
-                    </label>
-                    <input
-                      class="form-control"
-                      id="root_password"
-                      placeholder=""
-                      type="text"
-                      value=""
-                    />
+                      <label
+                        class="form-label"
+                        for="_bio"
+                      >
+                        Bio
+                      </label>
+                      <input
+                        aria-describedby="_bio__error _bio__description _bio__help"
+                        class="form-control"
+                        id="_bio"
+                        name="_bio"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
-                </div>
-              </span>
-            </div>
-            <div
-              class="col-md-6"
-            >
-              <span
-                data-testid="layout-grid-field__schema-field--age"
-              >
-                <div
-                  class="form-group"
-                >
-                  <div
-                    class="mb-0 form-group"
-                  >
-                    <label
-                      class="form-label"
-                    >
-                      Age
-                    </label>
-                    <input
-                      class="form-control"
-                      id="root_age"
-                      placeholder=""
-                      type="integer"
-                      value=""
-                    />
-                  </div>
-                </div>
-              </span>
-            </div>
-          </div>
-          <div
-            class="row"
-            style="margin-bottom: -5px;"
-          >
-            <div
-              class="col-md-12"
-            >
-              <span
-                data-testid="layout-grid-field__schema-field--bio"
-              >
-                <div
-                  class="form-group"
-                >
-                  <div
-                    class="mb-0 form-group"
-                  >
-                    <label
-                      class="form-label"
-                    >
-                      Bio
-                    </label>
-                    <input
-                      class="form-control"
-                      id="root_bio"
-                      placeholder=""
-                      type="text"
-                      value=""
-                    />
-                  </div>
-                </div>
-              </span>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -191,43 +217,51 @@ exports[`Layout Grid Field Component renders a custom field 1`] = `
     class="rjsf"
   >
     <div
-      class="form-group"
+      class="form-group field field-object"
     >
       <div
-        class="row"
-        style="margin-bottom: -5px;"
+        class="form-group"
       >
-        <span
-          data-testid="layout-grid-field__schema-field--password"
+        <div
+          class="row"
+          style="margin-bottom: -5px;"
         >
-          <div>
-            My Custom Component
-          </div>
-        </span>
-        <span
-          data-testid="layout-grid-field__schema-field--age"
-        >
-          <div
-            class="form-group"
+          <span
+            data-testid="layout-grid-field__schema-field--password"
+          >
+            <div>
+              My Custom Component
+            </div>
+          </span>
+          <span
+            data-testid="layout-grid-field__schema-field--age"
           >
             <div
-              class="mb-0 form-group"
+              class="form-group field field-integer"
             >
-              <label
-                class="form-label"
+              <div
+                class="form-group"
               >
-                Age
-              </label>
-              <input
-                class="form-control"
-                id="root_age"
-                placeholder=""
-                type="integer"
-                value=""
-              />
+                <label
+                  class="form-label"
+                  for="_age"
+                >
+                  Age
+                </label>
+                <input
+                  aria-describedby="_age__error _age__description _age__help"
+                  class="form-control"
+                  id="_age"
+                  name="_age"
+                  placeholder=""
+                  step="1"
+                  type="number"
+                  value=""
+                />
+              </div>
             </div>
-          </div>
-        </span>
+          </span>
+        </div>
       </div>
     </div>
     <div>
@@ -248,62 +282,69 @@ exports[`Layout Grid Field Component renders a group column title 1`] = `
     class="rjsf"
   >
     <div
-      class="form-group"
+      class="form-group field field-object"
     >
       <div
-        class="row"
-        style="margin-bottom: -5px;"
+        class="form-group"
       >
         <div
-          class="col-md-12"
+          class="row"
+          style="margin-bottom: -5px;"
         >
-          <fieldset
-            class="rjsf-layout-grid-group"
+          <div
+            class="col-md-12"
           >
-            <span
-              data-testid="layout-grid-field__col-title-field--biography"
-            >
-              <div
-                class="my-1"
-              >
-                <h5>
-                  Biography
-                </h5>
-                <hr
-                  class="border-0 bg-secondary"
-                  style="height: 1px;"
-                />
-              </div>
-            </span>
-            <div
-              style="padding-left: 8px;"
+            <fieldset
+              class="rjsf-layout-grid-group"
             >
               <span
-                data-testid="layout-grid-field__schema-field--bio"
+                data-testid="layout-grid-field__col-title-field--biography"
               >
-                <div
-                  class="form-group"
-                >
+                <div>
                   <div
-                    class="mb-0 form-group"
+                    style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
                   >
-                    <label
-                      class="form-label"
+                    <span
+                      class="title"
                     >
-                      Bio
-                    </label>
-                    <input
-                      class="form-control"
-                      id="root_bio"
-                      placeholder=""
-                      type="text"
-                      value=""
-                    />
+                      Biography
+                    </span>
                   </div>
                 </div>
               </span>
-            </div>
-          </fieldset>
+              <div
+                style="padding-left: 8px;"
+              >
+                <span
+                  data-testid="layout-grid-field__schema-field--bio"
+                >
+                  <div
+                    class="form-group field field-string"
+                  >
+                    <div
+                      class="form-group"
+                    >
+                      <label
+                        class="form-label"
+                        for="_bio"
+                      >
+                        Bio
+                      </label>
+                      <input
+                        aria-describedby="_bio__error _bio__description _bio__help"
+                        class="form-control"
+                        id="_bio"
+                        name="_bio"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </span>
+              </div>
+            </fieldset>
+          </div>
         </div>
       </div>
     </div>
@@ -325,50 +366,57 @@ exports[`Layout Grid Field Component renders a group column title which undefine
     class="rjsf"
   >
     <div
-      class="form-group"
+      class="form-group field field-object"
     >
       <div
-        class="row"
-        style="margin-bottom: -5px;"
+        class="form-group"
       >
         <div
-          class="col-md-12"
+          class="row"
+          style="margin-bottom: -5px;"
         >
-          <fieldset
-            class="rjsf-layout-grid-group"
+          <div
+            class="col-md-12"
           >
-            <span
-              data-testid="layout-grid-field__col-title-field--"
-            />
-            <div
-              style="padding-left: 8px;"
+            <fieldset
+              class="rjsf-layout-grid-group"
             >
               <span
-                data-testid="layout-grid-field__schema-field--bio"
+                data-testid="layout-grid-field__col-title-field--"
+              />
+              <div
+                style="padding-left: 8px;"
               >
-                <div
-                  class="form-group"
+                <span
+                  data-testid="layout-grid-field__schema-field--bio"
                 >
                   <div
-                    class="mb-0 form-group"
+                    class="form-group field field-string"
                   >
-                    <label
-                      class="form-label"
+                    <div
+                      class="form-group"
                     >
-                      Bio
-                    </label>
-                    <input
-                      class="form-control"
-                      id="root_bio"
-                      placeholder=""
-                      type="text"
-                      value=""
-                    />
+                      <label
+                        class="form-label"
+                        for="_bio"
+                      >
+                        Bio
+                      </label>
+                      <input
+                        aria-describedby="_bio__error _bio__description _bio__help"
+                        class="form-control"
+                        id="_bio"
+                        name="_bio"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
-                </div>
-              </span>
-            </div>
-          </fieldset>
+                </span>
+              </div>
+            </fieldset>
+          </div>
         </div>
       </div>
     </div>
@@ -390,97 +438,110 @@ exports[`Layout Grid Field Component renders a group row title 1`] = `
     class="rjsf"
   >
     <div
-      class="form-group"
+      class="form-group field field-object"
     >
       <div
-        class="row"
-        style="margin-bottom: -5px;"
+        class="form-group"
       >
         <div
-          class="col-md-12"
+          class="row"
+          style="margin-bottom: -5px;"
         >
           <div
-            style="margin-bottom: -5px;"
+            class="col-md-12"
           >
-            <fieldset
-              class="rjsf-layout-grid-group"
+             
+            <div
+              style="margin-bottom: -5px;"
             >
-              <span
-                data-testid="layout-grid-field__row-title-field--full-name"
+              <fieldset
+                class="rjsf-layout-grid-group"
               >
-                <div
-                  class="my-1"
+                <span
+                  data-testid="layout-grid-field__row-title-field--full-name"
                 >
-                  <h5>
-                    Full Name
-                  </h5>
-                  <hr
-                    class="border-0 bg-secondary"
-                    style="height: 1px;"
-                  />
-                </div>
-              </span>
-              <div
-                class="row"
-              >
-                <div
-                  class="col-md-6"
-                >
-                  <span
-                    data-testid="layout-grid-field__schema-field--first-name"
-                  >
+                  <div>
                     <div
-                      class="form-group"
+                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                    >
+                      <span
+                        class="title"
+                      >
+                        Full Name
+                      </span>
+                    </div>
+                  </div>
+                </span>
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-md-6"
+                  >
+                     
+                    <span
+                      data-testid="layout-grid-field__schema-field--first-name"
                     >
                       <div
-                        class="mb-0 form-group"
+                        class="form-group field field-string"
                       >
-                        <label
-                          class="form-label"
+                        <div
+                          class="form-group"
                         >
-                          First name
-                        </label>
-                        <input
-                          class="form-control"
-                          id="root_firstName"
-                          placeholder=""
-                          type="text"
-                          value=""
-                        />
+                          <label
+                            class="form-label"
+                            for="_firstName"
+                          >
+                            First name
+                          </label>
+                          <input
+                            aria-describedby="_firstName__error _firstName__description _firstName__help"
+                            class="form-control"
+                            id="_firstName"
+                            name="_firstName"
+                            placeholder=""
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </span>
-                </div>
-                <div
-                  class="col-md-6"
-                >
-                  <span
-                    data-testid="layout-grid-field__schema-field--last-name"
+                    </span>
+                  </div>
+                  <div
+                    class="col-md-6"
                   >
-                    <div
-                      class="form-group"
+                     
+                    <span
+                      data-testid="layout-grid-field__schema-field--last-name"
                     >
                       <div
-                        class="mb-0 form-group"
+                        class="form-group field field-string"
                       >
-                        <label
-                          class="form-label"
+                        <div
+                          class="form-group"
                         >
-                          Last name
-                        </label>
-                        <input
-                          class="form-control"
-                          id="root_lastName"
-                          placeholder=""
-                          type="text"
-                          value=""
-                        />
+                          <label
+                            class="form-label"
+                            for="_lastName"
+                          >
+                            Last name
+                          </label>
+                          <input
+                            aria-describedby="_lastName__error _lastName__description _lastName__help"
+                            class="form-control"
+                            id="_lastName"
+                            name="_lastName"
+                            placeholder=""
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </span>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </fieldset>
+              </fieldset>
+            </div>
           </div>
         </div>
       </div>
@@ -503,85 +564,98 @@ exports[`Layout Grid Field Component renders a group row title which is undefine
     class="rjsf"
   >
     <div
-      class="form-group"
+      class="form-group field field-object"
     >
       <div
-        class="row"
-        style="margin-bottom: -5px;"
+        class="form-group"
       >
         <div
-          class="col-md-12"
+          class="row"
+          style="margin-bottom: -5px;"
         >
           <div
-            style="margin-bottom: -5px;"
+            class="col-md-12"
           >
-            <fieldset
-              class="rjsf-layout-grid-group"
+             
+            <div
+              style="margin-bottom: -5px;"
             >
-              <span
-                data-testid="layout-grid-field__row-title-field--"
-              />
-              <div
-                class="row"
+              <fieldset
+                class="rjsf-layout-grid-group"
               >
+                <span
+                  data-testid="layout-grid-field__row-title-field--"
+                />
                 <div
-                  class="col-md-6"
+                  class="row"
                 >
-                  <span
-                    data-testid="layout-grid-field__schema-field--first-name"
+                  <div
+                    class="col-md-6"
                   >
-                    <div
-                      class="form-group"
+                     
+                    <span
+                      data-testid="layout-grid-field__schema-field--first-name"
                     >
                       <div
-                        class="mb-0 form-group"
+                        class="form-group field field-string"
                       >
-                        <label
-                          class="form-label"
+                        <div
+                          class="form-group"
                         >
-                          First name
-                        </label>
-                        <input
-                          class="form-control"
-                          id="root_firstName"
-                          placeholder=""
-                          type="text"
-                          value=""
-                        />
+                          <label
+                            class="form-label"
+                            for="_firstName"
+                          >
+                            First name
+                          </label>
+                          <input
+                            aria-describedby="_firstName__error _firstName__description _firstName__help"
+                            class="form-control"
+                            id="_firstName"
+                            name="_firstName"
+                            placeholder=""
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </span>
-                </div>
-                <div
-                  class="col-md-6"
-                >
-                  <span
-                    data-testid="layout-grid-field__schema-field--last-name"
+                    </span>
+                  </div>
+                  <div
+                    class="col-md-6"
                   >
-                    <div
-                      class="form-group"
+                     
+                    <span
+                      data-testid="layout-grid-field__schema-field--last-name"
                     >
                       <div
-                        class="mb-0 form-group"
+                        class="form-group field field-string"
                       >
-                        <label
-                          class="form-label"
+                        <div
+                          class="form-group"
                         >
-                          Last name
-                        </label>
-                        <input
-                          class="form-control"
-                          id="root_lastName"
-                          placeholder=""
-                          type="text"
-                          value=""
-                        />
+                          <label
+                            class="form-label"
+                            for="_lastName"
+                          >
+                            Last name
+                          </label>
+                          <input
+                            aria-describedby="_lastName__error _lastName__description _lastName__help"
+                            class="form-control"
+                            id="_lastName"
+                            name="_lastName"
+                            placeholder=""
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </span>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </fieldset>
+              </fieldset>
+            </div>
           </div>
         </div>
       </div>

@@ -1,33 +1,26 @@
+/* eslint-disable react/jsx-indent */
 /* eslint-disable react/require-default-props */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import Select from 'react-select'
 import { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
-import { retrieveSchema } from 'react-jsonschema-form/lib/utils'
+import { WidgetProps } from '@rjsf/utils'
+import { JSONSchema7 } from 'json-schema'
 import MetadataEditor from '../../MetadataEditor'
 
-type CustomSelectWidgetProps = {
+interface CustomSelectWidgetProps extends WidgetProps {
   label: string,
-  schema: {
-    enum: string[]
-    items?: {
-      enum: string[],
-    }
-    description?: string
-  },
   options: {
     title: string,
     editor: MetadataEditor
   },
-  registry: {
-    definitions: unknown
-  }
   value: string,
   placeholder: string,
   isLoading: boolean,
   required: boolean,
-  onChange: (value: string) => void
+  onChange: (value: string) => void,
+  disabled: boolean
 }
 
 type CustomSelectWidgetState = {
@@ -36,45 +29,31 @@ type CustomSelectWidgetState = {
 type SelectOptions = {
   value: string,
   label: string
+
 }
 
 class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, CustomSelectWidgetState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps: { options: { editor: MetadataEditor } }
-  selectRef: React.RefObject<Select>
-
+  selectScrollRef: React.RefObject<HTMLDivElement>
   constructor(props: CustomSelectWidgetProps) {
     super(props)
+    this.selectScrollRef = React.createRef()
     this.state = { setFocus: false }
-    this.selectRef = React.createRef()
   }
 
-  componentDidUpdate() {
-    const { label = '', options } = this.props
-    const { title = label, editor } = options
-    const { focusField = '' } = editor
-
-    if (editor?.focusField) {
-      if (title.toLowerCase() === focusField.toLowerCase()) {
-        setTimeout(() => {
-          // @ts-ignore
-          this.selectRef.current?.focus()
-        }, 200)
-      }
-    }
-  }
   render() {
     const selectOptions: SelectOptions[] = []
-    const {
-      required, label = '', onChange, schema, options, registry, isLoading
-    } = this.props
     const { setFocus } = this.state
+    const {
+      required, label = '', onChange, schema, options, registry, isLoading, disabled, id
+    } = this.props
     let {
       placeholder
     } = this.props
-    const { definitions } = registry
+    const { schemaUtils } = registry
     const { items = {} } = schema
-    const retrievedSchema = retrieveSchema(items, definitions)
+    const retrievedSchema = schemaUtils.retrieveSchema(items as JSONSchema7)
 
     const { value } = this.props
     const { title = label, editor } = options
@@ -86,6 +65,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
       })
     }
     selectOptions.push({ value: null, label: '✓' })
+
     listOfEnums.forEach((currentEnum: string) => {
       if (currentEnum) {
         selectOptions.push({ value: currentEnum, label: currentEnum })
@@ -93,24 +73,21 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     })
     const existingValue = value != null ? { value, label: value } : {}
     const { focusField = '' } = editor
-
-    if (editor.focusField) {
-      if (title.toLowerCase() === focusField.toLowerCase()) {
-        setTimeout(() => {
-          // @ts-ignore
-          this.selectRef.current.focus.bind()
-        }, 200)
-      }
+    let shouldFocus = false
+    if (editor.focusField === id) {
+      shouldFocus = true
+      this.selectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
     if (!placeholder) {
       placeholder = `Select ${title}`
     }
+
     return (
-      <div className="custom-select-widget" data-testid={`custom-select-widget__${kebabCase(label)}`}>
+      <div className="custom-select-widget" data-testid={`custom-select-widget__${kebabCase(label)}`} ref={this.selectScrollRef}>
         <div>
           <span>
             {title}
-            {required && title ? <i className="eui-icon eui-required-o" style={{ color: 'green', paddingLeft: '5px' }} /> : ''}
+            {required && title ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
           </span>
         </div>
         <div className="custom-select-widget-description" data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
@@ -119,23 +96,23 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
           </span>
         </div>
         <div data-testid={`custom-select-widget__${kebabCase(label)}--selector`}>
-          {/* Using ts-ignore because since we are using react-select component that does not have
-          ref defined and ref is needed for the autofocus. The program does compiler but with typescript
-          errors and ts-ignore ignores it just for line after @ts-ignore */}
           <Select
-            // @ts-ignore
-            ref={this.selectRef}
+            key={`${id}_${focusField}`}
+            autoFocus={shouldFocus}
+            id={id}
             data-testid={`custom-select-widget__${kebabCase(label)}--select`}
             defaultValue={existingValue.value ? existingValue : null}
-            onFocus={() => { this.setState({ setFocus: true }) }}
-            onBlur={() => { this.setState({ setFocus: false }) }}
+            // @ts-ignore
             options={selectOptions}
             placeholder={placeholder}
             isLoading={isLoading}
+            isDisabled={disabled}
             onChange={(e) => {
               const { value } = e
               onChange(value)
             }}
+            onFocus={() => { this.setState({ setFocus: true }) }}
+            onBlur={() => { this.setState({ setFocus: false }) }}
           />
         </div>
       </div>

@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { FieldTemplateProps } from '@rjsf/utils'
 import React from 'react'
 
-type CustomFieldTemplateProps = {
+interface CustomFieldTemplateProps extends FieldTemplateProps {
     classNames: string,
-    help: string,
-    errors: object,
+    help: any,
+    errors: any,
     children: any
 }
 

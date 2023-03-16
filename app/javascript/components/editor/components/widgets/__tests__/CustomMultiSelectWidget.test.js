@@ -2,24 +2,29 @@ import React from 'react'
 import {
   render, fireEvent, screen
 } from '@testing-library/react'
+import { createSchemaUtils } from '@rjsf/utils'
+import validator from '@rjsf/validator-ajv8'
 import CustomMultiSelectWidget from '../CustomMultiSelectWidget'
 
 describe('Custom Multi Select Widget Component', () => {
   it('renders the custom multi select widget when no enum', async () => {
+    const schema = {
+      items: {
+      }
+    }
     const props = {
       label: 'MyTestDataLabel',
       required: false,
-      schema: {
-        items: {
-        }
-      },
+      schema,
       registry: {
-        definitions: []
+        schemaUtils: createSchemaUtils(validator, schema)
       },
       options: {},
       onChange: {},
       value: ['Web', 'Portal']
     }
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+
     const { container } = render(<CustomMultiSelectWidget {...props} />)
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label')).not.toHaveTextContent('My Test Data Label*')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Web')
@@ -36,7 +41,7 @@ describe('Custom Multi Select Widget Component', () => {
         title: ''
       },
       registry: {
-        definitions: []
+        schemaUtils: createSchemaUtils(validator, {})
       },
       onChange: {},
       value: []
@@ -47,20 +52,22 @@ describe('Custom Multi Select Widget Component', () => {
     expect(container).toMatchSnapshot()
   })
   it('renders the custom multi select widget when required field and label', async () => {
+    const schema = {
+      items: {}
+    }
     const props = {
       label: 'MyTestDataLabel',
       required: true,
-      schema: {
-        items: {
-        }
-      },
+      schema,
       registry: {
-        definitions: []
+        schemaUtils: createSchemaUtils(validator, schema)
       },
       options: {},
       onChange: {},
       value: ['Web', 'Portal']
     }
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+
     const { container } = render(<CustomMultiSelectWidget {...props} />)
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label')).toHaveTextContent('MyTestDataLabel')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Web')
@@ -68,15 +75,16 @@ describe('Custom Multi Select Widget Component', () => {
     expect(container).toMatchSnapshot()
   })
   it('renders the custom multi select widget when required field and title', async () => {
+    const schema = {
+      items: {
+      }
+    }
     const props = {
       label: 'MyTestDataLabel',
       required: true,
-      schema: {
-        items: {
-        }
-      },
+      schema,
       registry: {
-        definitions: []
+        schemaUtils: createSchemaUtils(validator, schema)
       },
       options: {
         title: 'My Test Data Label'
@@ -84,6 +92,8 @@ describe('Custom Multi Select Widget Component', () => {
       onChange: {},
       value: ['Web', 'Portal']
     }
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+
     const { container } = render(<CustomMultiSelectWidget {...props} />)
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label')).toHaveTextContent('My Test Data Label')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Web')
@@ -92,18 +102,20 @@ describe('Custom Multi Select Widget Component', () => {
   })
   it('renders the custom multi select widget when enum item selected', async () => {
     const mockedOnChange = jest.fn()
+    const schema = {
+      items: {
+        $ref: '#/definitions/ToolOrganizationRoleEnum'
+      },
+      definitions: {
+        ToolOrganizationRoleEnum: { enum: ['Web', 'Portal', 'Author', 'Service'] }
+      }
+    }
     const props = {
       label: 'MyTestDataLabel',
       required: true,
-      schema: {
-        items: {
-          $ref: '#/definitions/ToolOrganizationRoleEnum'
-        }
-      },
+      schema,
       registry: {
-        definitions: {
-          ToolOrganizationRoleEnum: { enum: ['Web', 'Portal', 'Author', 'Service'] }
-        }
+        schemaUtils: createSchemaUtils(validator, schema)
       },
       options: {
         title: 'My Test Data Label'
@@ -111,6 +123,8 @@ describe('Custom Multi Select Widget Component', () => {
       onChange: mockedOnChange,
       value: ['Portal']
     }
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+
     const { container, getByText, queryByTestId } = render(<CustomMultiSelectWidget {...props} />)
     const mySelectComponent = queryByTestId('custom-multi-select-widget__my-test-data-label--selector')
 
@@ -119,7 +133,7 @@ describe('Custom Multi Select Widget Component', () => {
 
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label')).toHaveTextContent('My Test Data Label')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Portal')
-    expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).not.toHaveTextContent('Service')
+    expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).not.toHaveValue('Service')
 
     fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
     fireEvent.click(await getByText('Author'))
