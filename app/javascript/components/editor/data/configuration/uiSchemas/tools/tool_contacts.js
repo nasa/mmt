@@ -165,7 +165,7 @@ const toolContactsUiSchema = {
     }
   },
   ContactPersons: {
-    'ui:title': 'Contact Person',
+    'ui:title': 'Contact Persons',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -273,7 +273,7 @@ const toolContactsUiSchema = {
           }
         },
         Addresses: {
-          'ui:title': 'Address',
+          'ui:title': 'Addresss',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {

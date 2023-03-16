@@ -10,7 +10,7 @@ import { cloneDeep, kebabCase } from 'lodash'
 import MetadataEditor from '../MetadataEditor'
 import withRouter from './withRouter'
 import './ErrorList.scoped.css'
-import { prefixProperty, removeEmpty } from '../utils/json_utils'
+import { createPath, prefixProperty, removeEmpty } from '../utils/json_utils'
 
 type ErrorListProps = {
   editor: MetadataEditor;
@@ -37,8 +37,10 @@ class ErrorList extends React.Component<ErrorListProps> {
         } else {
           data = data[part]
         }
-        if (index === parts.length - 1) { // this is the last element in the path
-          length = data.length
+        if (data) {
+          if (index === parts.length - 1) { // this is the last element in the path
+            length = data.length
+          }
         }
       }
     })
@@ -190,11 +192,6 @@ class ErrorList extends React.Component<ErrorListProps> {
       )
     }
   }
-  createPath(property: string) {
-    property = property.replace(/\.(\d)/, '[$1')
-    property = property.replace(/(\d)\./, '$1].')
-    return property
-  }
   // Builds a map object representing the hierarchy of the errors, i.e.
   // ContactGroups[1].ContactInformation.ContactMechanisms[1].Type is a Required Property
   // ContactGroups[1].ContactInformation.ContactMechanisms[1].Value is a Required Property
@@ -206,7 +203,7 @@ class ErrorList extends React.Component<ErrorListProps> {
     const { currentSection } = editor
     const { displayName } = currentSection
     errors.forEach((error) => {
-      const path = this.createPath(error.property)
+      const path = createPath(error.property)
       const parts = path.split('.')
 
       let node = root

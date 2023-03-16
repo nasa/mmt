@@ -27,8 +27,8 @@ class CustomTitleFieldTemplate extends React.Component<CustomTitleFieldTemplateP
         >
           <span className="title">
             {title}
+            {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
           </span>
-          {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
         </div>
       </div>
     )

@@ -20,7 +20,7 @@ interface CustomSelectWidgetProps extends WidgetProps {
   isLoading: boolean,
   required: boolean,
   onChange: (value: string) => void,
-
+  disabled: boolean
 }
 
 type CustomSelectWidgetState = {
@@ -46,7 +46,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const selectOptions: SelectOptions[] = []
     const { setFocus } = this.state
     const {
-      required, label = '', onChange, schema, options, registry, isLoading, id
+      required, label = '', onChange, schema, options, registry, isLoading, disabled, id
     } = this.props
     let {
       placeholder
@@ -106,6 +106,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
             options={selectOptions}
             placeholder={placeholder}
             isLoading={isLoading}
+            isDisabled={disabled}
             onChange={(e) => {
               const { value } = e
               onChange(value)

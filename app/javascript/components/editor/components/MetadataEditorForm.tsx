@@ -45,6 +45,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
     CustomArrayFieldTemplate.defaultProps = { options: { editor } }
     CustomMultiSelectWidget.defaultProps = { options: { editor } }
     LayoutGridField.defaultProps = { options: { editor } }
+    CustomDateTimeWidget.defaultProps = { options: { editor } }
   }
 
   componentDidMount() {

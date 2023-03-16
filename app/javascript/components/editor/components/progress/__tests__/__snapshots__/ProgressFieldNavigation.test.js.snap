@@ -12,7 +12,7 @@ exports[`Progress field navigation test array field navigate to edit a field in 
     >
       <i
         class="eui-icon eui-required icon-green pass-required-circle"
-        title="Related URLs is required"
+        title="Related URLs - Required field complete"
       />
     </span>
   </span>

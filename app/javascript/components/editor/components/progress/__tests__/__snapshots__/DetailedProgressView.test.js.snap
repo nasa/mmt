@@ -77,7 +77,7 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                           >
                             <i
                               class="eui-icon eui-required icon-green pass-required-circle"
-                              title="Name is required"
+                              title="Name - Required field complete"
                             />
                           </span>
                         </span>
@@ -95,7 +95,7 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                           >
                             <i
                               class="eui-icon eui-required icon-green pass-required-circle"
-                              title="LongName is required"
+                              title="LongName - Required field complete"
                             />
                           </span>
                         </span>
@@ -113,7 +113,7 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                           >
                             <i
                               class="eui-icon eui-required icon-green pass-required-circle"
-                              title="Version is required"
+                              title="Version - Required field complete"
                             />
                           </span>
                         </span>
@@ -149,7 +149,7 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                           >
                             <i
                               class="eui-icon eui-required icon-green pass-required-circle"
-                              title="Type is required"
+                              title="Type - Required field complete"
                             />
                           </span>
                         </span>
@@ -185,7 +185,7 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="Description is required"
+                              title="Description - must have required property 'Description'"
                             />
                           </span>
                         </span>
@@ -221,7 +221,7 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="URL is required"
+                              title="URL - must have required property 'Description'"
                             />
                           </span>
                         </span>
@@ -279,15 +279,15 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                       >
                         <span
                           class="field-circle"
-                          data-testid="progress-field__related-ur-ls_1_not-required_pass"
+                          data-testid="progress-field__related-ur-ls_1_not-required_error"
                         >
                           <span
                             class="progressField"
                             data-testid="progress-field__related-ur-ls_link"
                           >
                             <i
-                              class="eui-icon eui-fa-circle icon-grey pass-not-required-circle"
-                              title="RelatedURLs"
+                              class="eui-icon eui-fa-minus-circle error-circle"
+                              title="RelatedURLs - must have required property 'Type'"
                             />
                           </span>
                         </span>
@@ -509,7 +509,7 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="ToolKeywords is required"
+                              title="ToolKeywords - must have required property 'Description'"
                             />
                           </span>
                         </span>
@@ -575,7 +575,7 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="Organizations is required"
+                              title="Organizations - must have required property 'Description'"
                             />
                           </span>
                         </span>
@@ -3774,7 +3774,7 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="Name is required"
+                              title="Name - must have required property 'Name'"
                             />
                           </span>
                         </span>
@@ -3792,7 +3792,7 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="LongName is required"
+                              title="LongName - must have required property 'Name'"
                             />
                           </span>
                         </span>
@@ -3810,7 +3810,7 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="Version is required"
+                              title="Version - must have required property 'Name'"
                             />
                           </span>
                         </span>
@@ -3846,7 +3846,7 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="Type is required"
+                              title="Type - must have required property 'Name'"
                             />
                           </span>
                         </span>
@@ -3882,7 +3882,7 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="Description is required"
+                              title="Description - must have required property 'Name'"
                             />
                           </span>
                         </span>
@@ -3918,7 +3918,7 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="URL is required"
+                              title="URL - must have required property 'Name'"
                             />
                           </span>
                         </span>
@@ -4188,7 +4188,7 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="ToolKeywords is required"
+                              title="ToolKeywords - must have required property 'Name'"
                             />
                           </span>
                         </span>
@@ -4254,7 +4254,7 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                           >
                             <i
                               class="eui-icon eui-required-o not-started-required-circle"
-                              title="Organizations is required"
+                              title="Organizations - must have required property 'Name'"
                             />
                           </span>
                         </span>

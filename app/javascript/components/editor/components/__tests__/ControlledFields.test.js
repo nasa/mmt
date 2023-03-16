@@ -150,6 +150,31 @@ describe('Controlled Fields Layout', () => {
     expect(container).toMatchSnapshot()
   })
 
+  it('shows no value in third select', async () => {
+    const { container } = render(
+      <BrowserRouter>
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
+      </BrowserRouter>
+    )
+
+    const categoryComponent = screen.queryByTestId('custom-select-widget__priority-category--selector').firstChild
+
+    expect(categoryComponent).not.toBeNull()
+    fireEvent.keyDown(categoryComponent, { key: 'ArrowDown' })
+    fireEvent.click(await within(categoryComponent).getByText('alpha'))
+
+    const priority1Component = screen.queryByTestId('custom-select-widget__priority-1--selector').firstChild
+    expect(priority1Component).not.toBeNull()
+    fireEvent.keyDown(priority1Component, { key: 'ArrowDown' })
+    fireEvent.click(await within(priority1Component).getByText('theta'))
+
+    const priority2Component = screen.queryByTestId('custom-select-widget__priority-2--selector').firstChild
+    expect(priority2Component).not.toBeNull()
+    expect(priority2Component).toHaveTextContent('No available priority2')
+
+    expect(container).toMatchSnapshot()
+  })
+
   it('it clears the next boxes', async () => {
     const { container } = render(
       <BrowserRouter>

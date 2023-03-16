@@ -88,7 +88,7 @@ exports[`Progress Field Test renders in case field required and empty 1`] = `
     >
       <i
         class="eui-icon eui-required-o not-started-required-circle"
-        title="Name is required"
+        title="Name"
       />
     </span>
   </span>
@@ -145,7 +145,7 @@ exports[`Progress Field Test renders in case field required and passed 1`] = `
     >
       <i
         class="eui-icon eui-required icon-green pass-required-circle"
-        title="Name is required"
+        title="Name - Required field complete"
       />
     </span>
   </span>
@@ -182,7 +182,7 @@ exports[`Progress field navigation test single field navigate to edit a single f
     >
       <i
         class="eui-icon eui-required icon-green pass-required-circle"
-        title="Name is required"
+        title="Name - Required field complete"
       />
     </span>
   </span>

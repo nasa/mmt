@@ -67,7 +67,7 @@ exports[`Error List test testing array field 1`] = `
                           class="title"
                           style="padding-bottom: 14px; padding-top: 14px;"
                         >
-                          RelatedURL
+                          RelatedURLs
                         </div>
                         <p>
                           A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.
@@ -103,7 +103,7 @@ exports[`Error List test testing array field 1`] = `
                                   style="color: red;"
                                 >
                                   <i
-                                    class="fa-solid fa-circle-minus fa-2xl"
+                                    class="fa-solid fa-circle-minus fa-lg"
                                   />
                                 </span>
                                  
@@ -497,7 +497,7 @@ exports[`Error List test testing array field 1`] = `
                                                         data-testid="custom-select-widget__subtype--selector"
                                                       >
                                                         <div
-                                                          class=" css-b62m3t-container"
+                                                          class=" css-3iigni-container"
                                                           id="RelatedURLs_0_Subtype"
                                                         >
                                                           <span
@@ -511,18 +511,18 @@ exports[`Error List test testing array field 1`] = `
                                                             class="css-1f43avz-a11yText-A11yText"
                                                           />
                                                           <div
-                                                            class=" css-1s2u09g-control"
+                                                            class=" css-1insrsq-control"
                                                           >
                                                             <div
                                                               class=" css-319lph-ValueContainer"
                                                             >
                                                               <div
-                                                                class=" css-qc6sy-singleValue"
+                                                                class=" css-lr9fot-singleValue"
                                                               >
                                                                 Fetching Keywords.....
                                                               </div>
                                                               <div
-                                                                class=" css-6j8wv5-Input"
+                                                                class=" css-jzldcf-Input"
                                                                 data-value=""
                                                               >
                                                                 <input
@@ -533,6 +533,7 @@ exports[`Error List test testing array field 1`] = `
                                                                   autocomplete="off"
                                                                   autocorrect="off"
                                                                   class=""
+                                                                  disabled=""
                                                                   id="react-select-29-input"
                                                                   role="combobox"
                                                                   spellcheck="false"
@@ -561,7 +562,7 @@ exports[`Error List test testing array field 1`] = `
                                                                 />
                                                               </div>
                                                               <span
-                                                                class=" css-1okebmr-indicatorSeparator"
+                                                                class=" css-109onse-indicatorSeparator"
                                                               />
                                                               <div
                                                                 aria-hidden="true"
@@ -661,7 +662,7 @@ exports[`Error List test testing array field 1`] = `
                               style="color: rgb(31, 107, 162); margin-left: -12px;"
                             >
                               <i
-                                class="fa-solid fa-circle-plus fa-2xl"
+                                class="fa-solid fa-circle-plus fa-lg"
                               />
                             </span>
                              
@@ -4145,6 +4146,15 @@ exports[`Error List test testing for controlled Field 1`] = `
                               data-testid="custom-date-time-widget__last-updated-date--input-field"
                             >
                               <div
+                                class="custom-date-time-widget-description"
+                                data-testid="custom-date-time-widget--description"
+                                style="padding-left: 5px;"
+                              >
+                                <span
+                                  style="font-style: italic; font-size: .85rem;"
+                                />
+                              </div>
+                              <div
                                 class="react-datepicker-wrapper"
                               >
                                 <div
@@ -4297,11 +4307,11 @@ exports[`Error List test testing for controlled Field 1`] = `
                                         class="title"
                                       >
                                         URL
+                                        <i
+                                          class="eui-icon eui-required-o"
+                                          style="color: green; padding: 5px;"
+                                        />
                                       </span>
-                                      <i
-                                        class="eui-icon eui-required-o"
-                                        style="color: green; padding: 5px;"
-                                      />
                                     </div>
                                   </div>
                                 </span>
@@ -4632,7 +4642,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                     data-testid="custom-select-widget__subtype--selector"
                                                   >
                                                     <div
-                                                      class=" css-b62m3t-container"
+                                                      class=" css-3iigni-container"
                                                       id="URL_Subtype"
                                                     >
                                                       <span
@@ -4646,7 +4656,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                         class="css-1f43avz-a11yText-A11yText"
                                                       />
                                                       <div
-                                                        class=" css-1s2u09g-control"
+                                                        class=" css-1insrsq-control"
                                                       >
                                                         <div
                                                           class=" css-319lph-ValueContainer"
@@ -4655,10 +4665,10 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                             class=" css-14el2xx-placeholder"
                                                             id="react-select-16-placeholder"
                                                           >
-                                                            Select Subtype
+                                                            No available Subtype
                                                           </div>
                                                           <div
-                                                            class=" css-6j8wv5-Input"
+                                                            class=" css-jzldcf-Input"
                                                             data-value=""
                                                           >
                                                             <input
@@ -4670,6 +4680,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                               autocomplete="off"
                                                               autocorrect="off"
                                                               class=""
+                                                              disabled=""
                                                               id="react-select-16-input"
                                                               role="combobox"
                                                               spellcheck="false"
@@ -4684,7 +4695,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                           class=" css-1hb7zxy-IndicatorsContainer"
                                                         >
                                                           <span
-                                                            class=" css-1okebmr-indicatorSeparator"
+                                                            class=" css-109onse-indicatorSeparator"
                                                           />
                                                           <div
                                                             aria-hidden="true"
@@ -7919,6 +7930,15 @@ exports[`Error List test testing valid field onClick 1`] = `
                               data-testid="custom-date-time-widget__last-updated-date--input-field"
                             >
                               <div
+                                class="custom-date-time-widget-description"
+                                data-testid="custom-date-time-widget--description"
+                                style="padding-left: 5px;"
+                              >
+                                <span
+                                  style="font-style: italic; font-size: .85rem;"
+                                />
+                              </div>
+                              <div
                                 class="react-datepicker-wrapper"
                               >
                                 <div
@@ -8071,11 +8091,11 @@ exports[`Error List test testing valid field onClick 1`] = `
                                         class="title"
                                       >
                                         URL
+                                        <i
+                                          class="eui-icon eui-required-o"
+                                          style="color: green; padding: 5px;"
+                                        />
                                       </span>
-                                      <i
-                                        class="eui-icon eui-required-o"
-                                        style="color: green; padding: 5px;"
-                                      />
                                     </div>
                                   </div>
                                 </span>
@@ -8406,7 +8426,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                                     data-testid="custom-select-widget__subtype--selector"
                                                   >
                                                     <div
-                                                      class=" css-b62m3t-container"
+                                                      class=" css-3iigni-container"
                                                       id="URL_Subtype"
                                                     >
                                                       <span
@@ -8420,7 +8440,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                                         class="css-1f43avz-a11yText-A11yText"
                                                       />
                                                       <div
-                                                        class=" css-1s2u09g-control"
+                                                        class=" css-1insrsq-control"
                                                       >
                                                         <div
                                                           class=" css-319lph-ValueContainer"
@@ -8429,10 +8449,10 @@ exports[`Error List test testing valid field onClick 1`] = `
                                                             class=" css-14el2xx-placeholder"
                                                             id="react-select-9-placeholder"
                                                           >
-                                                            Select Subtype
+                                                            No available Subtype
                                                           </div>
                                                           <div
-                                                            class=" css-6j8wv5-Input"
+                                                            class=" css-jzldcf-Input"
                                                             data-value=""
                                                           >
                                                             <input
@@ -8444,6 +8464,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                                               autocomplete="off"
                                                               autocorrect="off"
                                                               class=""
+                                                              disabled=""
                                                               id="react-select-9-input"
                                                               role="combobox"
                                                               spellcheck="false"
@@ -8458,7 +8479,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                                           class=" css-1hb7zxy-IndicatorsContainer"
                                                         >
                                                           <span
-                                                            class=" css-1okebmr-indicatorSeparator"
+                                                            class=" css-109onse-indicatorSeparator"
                                                           />
                                                           <div
                                                             aria-hidden="true"

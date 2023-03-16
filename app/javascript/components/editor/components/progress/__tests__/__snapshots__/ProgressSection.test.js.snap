@@ -37,7 +37,7 @@ exports[`Progress Section Test renders in case section empty 1`] = `
             >
               <i
                 class="eui-icon eui-required-o not-started-required-circle"
-                title="ContactGroups is required"
+                title="ContactGroups"
               />
             </span>
           </span>
@@ -103,7 +103,7 @@ exports[`Progress Section Test renders in case section not passed 1`] = `
             >
               <i
                 class="eui-icon eui-required icon-green pass-required-circle"
-                title="Name is required"
+                title="Name - Required field complete"
               />
             </span>
           </span>
@@ -139,7 +139,7 @@ exports[`Progress Section Test renders in case section not passed 1`] = `
             >
               <i
                 class="eui-icon eui-required icon-green pass-required-circle"
-                title="Version is required"
+                title="Version - Required field complete"
               />
             </span>
           </span>
@@ -175,7 +175,7 @@ exports[`Progress Section Test renders in case section not passed 1`] = `
             >
               <i
                 class="eui-icon eui-required icon-green pass-required-circle"
-                title="Type is required"
+                title="Type - Required field complete"
               />
             </span>
           </span>
@@ -211,7 +211,7 @@ exports[`Progress Section Test renders in case section not passed 1`] = `
             >
               <i
                 class="eui-icon eui-required icon-green pass-required-circle"
-                title="Description is required"
+                title="Description - Required field complete"
               />
             </span>
           </span>
@@ -247,7 +247,7 @@ exports[`Progress Section Test renders in case section not passed 1`] = `
             >
               <i
                 class="eui-icon eui-required icon-green pass-required-circle"
-                title="URL is required"
+                title="URL - Required field complete"
               />
             </span>
           </span>
@@ -295,7 +295,7 @@ exports[`Progress Section Test renders in case section passed 1`] = `
             >
               <i
                 class="eui-icon eui-required icon-green pass-required-circle"
-                title="Name is required"
+                title="Name - Required field complete"
               />
             </span>
           </span>
@@ -313,7 +313,7 @@ exports[`Progress Section Test renders in case section passed 1`] = `
             >
               <i
                 class="eui-icon eui-required icon-green pass-required-circle"
-                title="LongName is required"
+                title="LongName - Required field complete"
               />
             </span>
           </span>
@@ -331,7 +331,7 @@ exports[`Progress Section Test renders in case section passed 1`] = `
             >
               <i
                 class="eui-icon eui-required icon-green pass-required-circle"
-                title="Version is required"
+                title="Version - Required field complete"
               />
             </span>
           </span>
@@ -367,7 +367,7 @@ exports[`Progress Section Test renders in case section passed 1`] = `
             >
               <i
                 class="eui-icon eui-required icon-green pass-required-circle"
-                title="Type is required"
+                title="Type - Required field complete"
               />
             </span>
           </span>
@@ -403,7 +403,7 @@ exports[`Progress Section Test renders in case section passed 1`] = `
             >
               <i
                 class="eui-icon eui-required icon-green pass-required-circle"
-                title="Description is required"
+                title="Description - Required field complete"
               />
             </span>
           </span>
@@ -439,7 +439,7 @@ exports[`Progress Section Test renders in case section passed 1`] = `
             >
               <i
                 class="eui-icon eui-required icon-green pass-required-circle"
-                title="URL is required"
+                title="URL - Required field complete"
               />
             </span>
           </span>
@@ -487,7 +487,7 @@ exports[`Progress Section Test renders in case section status unknown 1`] = `
             >
               <i
                 class="eui-icon eui-required-o not-started-required-circle"
-                title="ContactGroups is required"
+                title="ContactGroups"
               />
             </span>
           </span>

@@ -14,7 +14,7 @@ import withRouter from '../withRouter'
 import ProgressSection from './ProgressSection'
 import { FieldInfo } from './FieldInfo'
 import { ProgressCircleType } from './ProgressCircleType'
-import { prefixProperty, removeEmpty } from '../../utils/json_utils'
+import { createPath, prefixProperty, removeEmpty } from '../../utils/json_utils'
 import ReactJsonSchemaForm from '../ReactJsonSchemaForm'
 
 type DetailedProgressViewProps = {
@@ -97,21 +97,16 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
   }
 
   private addField(fieldValue: object, section: FormSection, propertyPrefix: string, isRequired: boolean, fields: FieldInfo[], fullErrors: FormError[]) {
-    if (!fieldValue) {
-      const fieldInfo = new FieldInfo(section.displayName, propertyPrefix, null, ProgressCircleType.NotStarted, isRequired, null)
+    const errorList = fullErrors.filter((error: FormError) => {
+      const { property } = error
+      return prefixProperty(property).startsWith(prefixProperty(propertyPrefix))
+    })
+    if (errorList.length > 0) {
+      const fieldInfo = new FieldInfo(section.displayName, propertyPrefix, null, fieldValue ? ProgressCircleType.Error : ProgressCircleType.NotStarted, isRequired, fullErrors[0])
       fields.push(fieldInfo)
     } else {
-      const errorList = fullErrors.filter((error: FormError) => {
-        const { property } = error
-        return prefixProperty(property).startsWith(prefixProperty(propertyPrefix))
-      })
-      if (errorList.length > 0) {
-        const fieldInfo = new FieldInfo(section.displayName, propertyPrefix, null, ProgressCircleType.Error, isRequired, errorList[0])
-        fields.push(fieldInfo)
-      } else {
-        const fieldInfo = new FieldInfo(section.displayName, propertyPrefix, null, ProgressCircleType.Pass, isRequired, null)
-        fields.push(fieldInfo)
-      }
+      const fieldInfo = new FieldInfo(section.displayName, propertyPrefix, null, fieldValue ? ProgressCircleType.Pass : ProgressCircleType.NotStarted, isRequired, null)
+      fields.push(fieldInfo)
     }
   }
 
@@ -128,8 +123,9 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
       fullErrors.forEach((error: FormError) => {
         const { property } = error
         if (prefixProperty(property).startsWith(prefixProperty(propertyPrefix))) {
+          const path = createPath(property)
           const regexp = /^[^[]+\[(\d+)\].*/
-          const match = property.match(regexp)
+          const match = path.match(regexp)
           if (match) {
             const index = Number(match[1])
             fields[index].status = ProgressCircleType.Error
@@ -241,7 +237,6 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
                     liveValidate
                   />
                 </div>
-
               </Col>
             </Row>
           </Col>

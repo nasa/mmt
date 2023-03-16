@@ -33,3 +33,9 @@ export function prefixProperty(prefix: string) {
   }
   return propertyPrefix
 }
+
+export function createPath(property: string) {
+  property = property.replace(/\.(\d)/, '[$1')
+  property = property.replace(/(\d)\./, '$1].')
+  return property
+}

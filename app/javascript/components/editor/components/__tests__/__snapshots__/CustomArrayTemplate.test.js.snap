@@ -52,7 +52,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                     style="color: red;"
                   >
                     <i
-                      class="fa-solid fa-circle-minus fa-2xl"
+                      class="fa-solid fa-circle-minus fa-lg"
                     />
                   </span>
                    
@@ -200,7 +200,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                 style="color: rgb(31, 107, 162); margin-left: -12px;"
               >
                 <i
-                  class="fa-solid fa-circle-plus fa-2xl"
+                  class="fa-solid fa-circle-plus fa-lg"
                 />
               </span>
                
@@ -263,7 +263,7 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
                 style="color: rgb(31, 107, 162); margin-left: -12px;"
               >
                 <i
-                  class="fa-solid fa-circle-plus fa-2xl"
+                  class="fa-solid fa-circle-plus fa-lg"
                 />
               </span>
                

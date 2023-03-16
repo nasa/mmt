@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/static-property-placement */
 /* eslint-disable react/jsx-no-useless-fragment */
@@ -50,11 +51,17 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
       }, 200)
     }
   }
-
+  parseTitle(title: string) {
+    if (title.charAt(title.length - 1) === 's' && title.charAt(title.length - 2) !== 's') {
+      title = title.slice(0, -1)
+    }
+    return title
+  }
   render() {
     const {
-      items, canAdd, title, onAddClick, schema, uiSchema, options = { editor: null }
+      items, canAdd, onAddClick, schema, uiSchema, options = { editor: null }
     } = this.props
+    let { title } = this.props
     const { editor } = options
     const uiTitle = uiSchema['ui:title']
     const uiClassNames = uiSchema['ui:classNames']
@@ -66,21 +73,16 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
         this.scrollRef[editor.arrayFieldAutoScroll]?.current?.scrollIntoView({ behavior: 'smooth' })
       }, 200)
     }
-
-    let titleName = title
-
     if (uiTitle) {
-      titleName = uiTitle
-    } else if (title.charAt(title.length - 1) === 's') {
-      titleName = title.slice(0, -1)
+      title = uiTitle
     }
     return (
       <div data-testid="custom-array-template">
         {uiClassNames ? (
-          <div className={uiClassNames}>{titleName}</div>
+          <div className={uiClassNames}>{this.parseTitle(title)}</div>
         ) : (
           <div className="title" style={{ borderBottom: 'solid 2px rgb(240,240,240', paddingBottom: 14, paddingTop: 14 }}>
-            {titleName}
+            {title}
           </div>
         )}
         <p>
@@ -103,14 +105,14 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
               }}
               >
                 <h6 style={{ height: 14 }}>
-                  <b>{titleName}</b>
+                  <b>{this.parseTitle(title)}</b>
                   <span style={{ color: 'gray', marginLeft: 5, paddingTop: 20 }}>
                     {items.length > 0 && `(${index + 1} of ${items.length})`}
                   </span>
                 </h6>
                 <button className="btn" onClick={element.onDropIndexClick(element.index)} type="button">
                   <span style={{ color: 'red' }}>
-                    <i className="fa-solid fa-circle-minus fa-2xl" />
+                    <i className="fa-solid fa-circle-minus fa-lg" />
                   </span>
                   {' '}
                   <span style={{ color: 'red', fontWeight: 'bold' }}>
@@ -142,13 +144,13 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
                 }}
               >
                 <span style={{ color: 'rgb(31, 107, 162)', marginLeft: '-12px' }}>
-                  <i className="fa-solid fa-circle-plus fa-2xl" />
+                  <i className="fa-solid fa-circle-plus fa-lg" />
                 </span>
                 {' '}
                 <span style={{ color: 'rgb(31, 107, 162)', fontWeight: 'bold' }}>
                   Add
                   {' '}
-                  {titleName}
+                  {this.parseTitle(title)}
                 </span>
               </button>
             </div>
@@ -166,13 +168,13 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
                 }}
               >
                 <span style={{ color: 'rgb(31, 107, 162)', marginLeft: '-12px' }}>
-                  <i className="fa-solid fa-circle-plus fa-2xl" />
+                  <i className="fa-solid fa-circle-plus fa-lg" />
                 </span>
                 {' '}
                 <span style={{ color: 'rgb(31, 107, 162)', fontWeight: 'bold' }}>
                   Add another
                   {' '}
-                  {titleName}
+                  {this.parseTitle(title)}
                 </span>
               </button>
             </div>
