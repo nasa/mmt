@@ -6,7 +6,7 @@
 
 .eui-completed,
 .eui-required,
-.eui-required-o {
+.eui-required-o:not(#react-editor-form *) {
   &:before {
     font-family: "EUI-Icon-Library";
     color: $dark-green;
