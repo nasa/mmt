@@ -780,7 +780,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                     data-testid="custom-select-widget__type--selector"
                                                   >
                                                     <div
-                                                      class=" css-b62m3t-container"
+                                                      class=" css-3iigni-container"
                                                       id="URL_Type"
                                                     >
                                                       <span
@@ -794,7 +794,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                         class="css-1f43avz-a11yText-A11yText"
                                                       />
                                                       <div
-                                                        class=" css-1s2u09g-control"
+                                                        class=" css-1insrsq-control"
                                                       >
                                                         <div
                                                           class=" css-319lph-ValueContainer"
@@ -803,10 +803,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                             class=" css-14el2xx-placeholder"
                                                             id="react-select-16-placeholder"
                                                           >
-                                                            Select  Type
+                                                            No available  Type
                                                           </div>
                                                           <div
-                                                            class=" css-6j8wv5-Input"
+                                                            class=" css-jzldcf-Input"
                                                             data-value=""
                                                           >
                                                             <input
@@ -818,6 +818,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                               autocomplete="off"
                                                               autocorrect="off"
                                                               class=""
+                                                              disabled=""
                                                               id="react-select-16-input"
                                                               role="combobox"
                                                               spellcheck="false"
@@ -832,7 +833,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                           class=" css-1hb7zxy-IndicatorsContainer"
                                                         >
                                                           <span
-                                                            class=" css-1okebmr-indicatorSeparator"
+                                                            class=" css-109onse-indicatorSeparator"
                                                           />
                                                           <div
                                                             aria-hidden="true"
@@ -4525,7 +4526,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                     data-testid="custom-select-widget__type--selector"
                                                   >
                                                     <div
-                                                      class=" css-b62m3t-container"
+                                                      class=" css-3iigni-container"
                                                       id="URL_Type"
                                                     >
                                                       <span
@@ -4539,7 +4540,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                         class="css-1f43avz-a11yText-A11yText"
                                                       />
                                                       <div
-                                                        class=" css-1s2u09g-control"
+                                                        class=" css-1insrsq-control"
                                                       >
                                                         <div
                                                           class=" css-319lph-ValueContainer"
@@ -4548,10 +4549,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                             class=" css-14el2xx-placeholder"
                                                             id="react-select-20-placeholder"
                                                           >
-                                                            Select  Type
+                                                            No available  Type
                                                           </div>
                                                           <div
-                                                            class=" css-6j8wv5-Input"
+                                                            class=" css-jzldcf-Input"
                                                             data-value=""
                                                           >
                                                             <input
@@ -4563,6 +4564,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                               autocomplete="off"
                                                               autocorrect="off"
                                                               class=""
+                                                              disabled=""
                                                               id="react-select-20-input"
                                                               role="combobox"
                                                               spellcheck="false"
@@ -4577,7 +4579,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                           class=" css-1hb7zxy-IndicatorsContainer"
                                                         >
                                                           <span
-                                                            class=" css-1okebmr-indicatorSeparator"
+                                                            class=" css-109onse-indicatorSeparator"
                                                           />
                                                           <div
                                                             aria-hidden="true"
@@ -8329,7 +8331,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                     data-testid="custom-select-widget__type--selector"
                                                   >
                                                     <div
-                                                      class=" css-b62m3t-container"
+                                                      class=" css-3iigni-container"
                                                       id="URL_Type"
                                                     >
                                                       <span
@@ -8343,7 +8345,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                         class="css-1f43avz-a11yText-A11yText"
                                                       />
                                                       <div
-                                                        class=" css-1s2u09g-control"
+                                                        class=" css-1insrsq-control"
                                                       >
                                                         <div
                                                           class=" css-319lph-ValueContainer"
@@ -8352,10 +8354,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                             class=" css-14el2xx-placeholder"
                                                             id="react-select-24-placeholder"
                                                           >
-                                                            Select  Type
+                                                            No available  Type
                                                           </div>
                                                           <div
-                                                            class=" css-6j8wv5-Input"
+                                                            class=" css-jzldcf-Input"
                                                             data-value=""
                                                           >
                                                             <input
@@ -8367,6 +8369,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                               autocomplete="off"
                                                               autocorrect="off"
                                                               class=""
+                                                              disabled=""
                                                               id="react-select-24-input"
                                                               role="combobox"
                                                               spellcheck="false"
@@ -8381,7 +8384,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                           class=" css-1hb7zxy-IndicatorsContainer"
                                                         >
                                                           <span
-                                                            class=" css-1okebmr-indicatorSeparator"
+                                                            class=" css-109onse-indicatorSeparator"
                                                           />
                                                           <div
                                                             aria-hidden="true"
@@ -12109,7 +12112,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                     data-testid="custom-select-widget__type--selector"
                                                   >
                                                     <div
-                                                      class=" css-b62m3t-container"
+                                                      class=" css-3iigni-container"
                                                       id="URL_Type"
                                                     >
                                                       <span
@@ -12123,7 +12126,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                         class="css-1f43avz-a11yText-A11yText"
                                                       />
                                                       <div
-                                                        class=" css-1s2u09g-control"
+                                                        class=" css-1insrsq-control"
                                                       >
                                                         <div
                                                           class=" css-319lph-ValueContainer"
@@ -12132,10 +12135,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                             class=" css-14el2xx-placeholder"
                                                             id="react-select-8-placeholder"
                                                           >
-                                                            Select  Type
+                                                            No available  Type
                                                           </div>
                                                           <div
-                                                            class=" css-6j8wv5-Input"
+                                                            class=" css-jzldcf-Input"
                                                             data-value=""
                                                           >
                                                             <input
@@ -12147,6 +12150,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                               autocomplete="off"
                                                               autocorrect="off"
                                                               class=""
+                                                              disabled=""
                                                               id="react-select-8-input"
                                                               role="combobox"
                                                               spellcheck="false"
@@ -12161,7 +12165,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                           class=" css-1hb7zxy-IndicatorsContainer"
                                                         >
                                                           <span
-                                                            class=" css-1okebmr-indicatorSeparator"
+                                                            class=" css-109onse-indicatorSeparator"
                                                           />
                                                           <div
                                                             aria-hidden="true"

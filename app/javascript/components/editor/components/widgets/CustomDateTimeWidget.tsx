@@ -89,6 +89,13 @@ class CustomDateTimeWidget extends React.Component<CustomDateTimeWidgetProps, Cu
     let focus = false
     if (editor?.focusField === id) {
       focus = true
+    } else if (editor.focusField && id.match(/^\w+_\d+$/)) {
+      if (id !== '' && id.startsWith(editor?.focusField)) {
+        focus = true
+      }
+    }
+    if (focus) {
+      // this.selectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
 
     return (

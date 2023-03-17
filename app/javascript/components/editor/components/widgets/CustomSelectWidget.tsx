@@ -74,10 +74,18 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const existingValue = value != null ? { value, label: value } : {}
     const { focusField = '' } = editor
     let shouldFocus = false
-    if (editor.focusField === id) {
+
+    if (editor?.focusField === id) {
       shouldFocus = true
+    } else if (editor.focusField && id.match(/^\w+_\d+$/)) {
+      if (id !== '' && id.startsWith(editor?.focusField)) {
+        shouldFocus = true
+      }
+    }
+    if (shouldFocus) {
       this.selectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
+
     if (!placeholder) {
       placeholder = `Select ${title}`
     }
@@ -112,7 +120,10 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
               onChange(value)
             }}
             onFocus={() => { this.setState({ setFocus: true }) }}
-            onBlur={() => { this.setState({ setFocus: false }) }}
+            onBlur={() => {
+              editor.setFocusField('')
+              this.setState({ setFocus: false })
+            }}
           />
         </div>
       </div>

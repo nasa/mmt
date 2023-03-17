@@ -60,8 +60,15 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
     const { value, charsUsed, showDescription } = this.state
     const { focusField = '' } = editor
     let shouldFocus = false
-    if (id === focusField) {
+
+    if (editor?.focusField === id) {
       shouldFocus = true
+    } else if (editor.focusField && id.match(/^\w+_\d+$/)) {
+      if (id !== '' && id.startsWith(editor?.focusField)) {
+        shouldFocus = true
+      }
+    }
+    if (shouldFocus) {
       this.textareaScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
 
@@ -98,7 +105,10 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
             this.setState({ value, charsUsed: len })
             onChange(value)
           }}
-          onBlur={() => { this.setState({ showDescription: false }) }}
+          onBlur={() => {
+            editor.setFocusField('')
+            this.setState({ showDescription: false })
+          }}
         />
         <span style={{ fontStyle: 'italic' }} data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
           {showDescription ? description : ''}

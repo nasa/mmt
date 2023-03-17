@@ -55,12 +55,15 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
     const disabledFlag = disabled || false
     let shouldFocus = false
 
-    if (id === editor.focusField) {
+    if (editor?.focusField === id) {
       shouldFocus = true
+    } else if (editor.focusField && id.match(/^\w+_\d+$/)) {
+      if (id !== '' && id.startsWith(editor?.focusField)) {
+        shouldFocus = true
+      }
+    }
+    if (shouldFocus) {
       this.inputScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-
-      // setTimeout(() => {
-      // }, 100)
     }
 
     return (
@@ -103,6 +106,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
             onChange(value)
           }}
           onBlur={() => {
+            editor.setFocusField('')
             this.setState({ showDescription: false })
           }}
         />

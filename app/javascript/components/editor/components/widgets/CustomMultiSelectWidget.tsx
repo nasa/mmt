@@ -89,6 +89,12 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
 
     if (editor?.focusField === id) {
       shouldFocus = true
+    } else if (editor.focusField && id.match(/^\w+_\d+$/)) {
+      if (id !== '' && id.startsWith(editor?.focusField)) {
+        shouldFocus = true
+      }
+    }
+    if (shouldFocus) {
       this.multiSelectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
     return (
@@ -115,6 +121,7 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
             options={filterOptions}
             onFocus={() => { this.setState({ isOpen: true, setFocus: true }) }}
             onBlur={() => {
+              editor.setFocusField('')
               this.setState({ isOpen: false, setFocus: false })
             }}
             onChange={this.handleMultiChange}
