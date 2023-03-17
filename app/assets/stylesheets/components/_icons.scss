@@ -6,8 +6,8 @@
 
 .eui-completed,
 .eui-required,
-.eui-required-o:not(#react-editor-form *) {
-  &:before {
+.eui-required-o {
+  &:before:not(#react-editor-form *) {
     font-family: "EUI-Icon-Library";
     color: $dark-green;
     display: block;
@@ -17,7 +17,7 @@
 }
 
 .eui-required-grey-o {
-  &:before {
+  &:before:not(#react-editor-form *) {
     font-family: "EUI-Icon-Library";
     color: $medium-grey;
     display: block;
@@ -27,14 +27,14 @@
 }
 
 .eui-required {
-  &:before {
+  &:before:not(#react-editor-form *) {
     content: '\f126';
   }
 }
 
 .eui-required-o,
 .eui-required-grey-o {
-  &:before {
+  &:before:not(#react-editor-form *) {
     content: '\f125';
   }
 }
@@ -46,7 +46,7 @@
 // find the appropriate list where the unicode matched up with the expected icon
 
 .eui-completed {
-  &:before {
+  &:before:not(#react-editor-form *) {
     content: '\f111';
   }
 }
@@ -54,7 +54,7 @@
 .compass-coordinates {
   .eui-completed,
   .eui-required {
-    &:before {
+    &:before:not(#react-editor-form *) {
       font-size: 0.85em;
       display: inline-block;
       margin: 0;
