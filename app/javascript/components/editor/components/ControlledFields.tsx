@@ -159,11 +159,13 @@ class ControlledFields extends React.Component<ObjectFieldProps, ControlledField
       const title = fieldUiSchema != null ? fieldUiSchema['ui:title'] : name
       const value = formData[name]
 
+      const { length: enumsLength } = enums
+
       if (!this.isRequired(name)) {
         enums.unshift(null)
       }
       let placeholder = `Select ${title}`
-      if (enums.length <= 1 && !this.isRequired(name)) {
+      if (enumsLength === 0) {
         placeholder = `No available ${title}`
       }
 
@@ -206,7 +208,7 @@ class ControlledFields extends React.Component<ObjectFieldProps, ControlledField
             onBlur={() => undefined}
             onFocus={() => undefined}
             options={undefined}
-            disabled={enums.length <= 1 && !this.isRequired(name)}
+            disabled={enumsLength === 0}
             id={idSchema[name].$id}
           />
         </span>

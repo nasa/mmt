@@ -86,7 +86,6 @@ const potentialActionUiSchema = {
       },
       ResponseContentType: {
         'ui:title': 'Response Content Type',
-        'ui:classNames': 'smallBoldTitle',
         items: {
           'ui:title': 'Response Content Type',
           'ui:widget': CustomTextWidget
@@ -94,7 +93,6 @@ const potentialActionUiSchema = {
       },
       HttpMethod: {
         'ui:title': 'HTTP Method',
-        'ui:classNames': 'smallBoldTitle',
         items: {
           'ui:title': 'HTTP Method',
           'ui:widget': CustomSelectWidget

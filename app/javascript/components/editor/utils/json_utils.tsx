@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 import compactDeep from 'compact-object-deep'
 
-export function removeEmpty(obj:object) {
+export function removeEmpty(obj: object) {
   return compactDeep(obj)
 }
 
@@ -35,7 +35,7 @@ export function prefixProperty(prefix: string) {
 }
 
 export function createPath(property: string) {
-  property = property.replace(/\.(\d)/, '[$1')
-  property = property.replace(/(\d)\./, '$1].')
+  property = property.replace(/\.(\d)/g, '[$1')
+  property = property.replace(/(\d)\./g, '$1].')
   return property
 }

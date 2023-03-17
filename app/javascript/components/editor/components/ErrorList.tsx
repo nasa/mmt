@@ -7,6 +7,7 @@
 import { observer } from 'mobx-react'
 import React from 'react'
 import { cloneDeep, kebabCase } from 'lodash'
+import { toJS } from 'mobx'
 import MetadataEditor from '../MetadataEditor'
 import withRouter from './withRouter'
 import './ErrorList.scoped.css'
@@ -152,6 +153,8 @@ class ErrorList extends React.Component<ErrorListProps> {
     const keys = Object.keys(node)
     const r = []
     keys.forEach((key: string) => {
+      path = createPath(path)
+
       this.walkErrorMap([`${path}/${key}`, key, node[key]], r)
     })
 
